@@ -29,8 +29,7 @@
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
     },
     "step-1": {
-      "name": "Ota Flatpak käyttöön sovellus hallinan kautta",
-      "text": ""
+      "name": "Ota Flatpak käyttöön sovellus hallinan kautta"
     }
   },
   "endless_os": {
@@ -136,25 +135,20 @@
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
     },
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": ""
+    "distroName": "CentOS"
   },
   "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": ""
+    "distroName": "EuroLinux"
   },
   "almalinux": {
-    "distroName": "AlmaLinux",
-    "introduction": ""
+    "distroName": "AlmaLinux"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -167,123 +161,98 @@
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-3": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "alpine": {
     "distroName": "Alpine",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <1>asentaa sovelluksia</1>!</0>"
     },
     "step-3": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-2": {
-      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa",
-      "text": ""
+      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx",
-    "introduction": ""
+    "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     },
     "introduction": "<0>Flatpak-tuki on sisäänrakennettu Pop!_OS:n versioon 20.04 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Asenna sovelluksia",
-      "text": ""
+      "name": "Asenna sovelluksia"
     }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": ""
+      "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": ""
+    "distroName": "Clear Linux"
   },
   "void_linux": {
     "distroName": "Void Linux",
@@ -303,8 +272,7 @@
   "nixos": {
     "distroName": "NixOS",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -316,33 +284,28 @@
     }
   },
   "pureos": {
-    "distroName": "PureOS",
-    "introduction": ""
+    "distroName": "PureOS"
   },
   "turkman_linux": {
     "distroName": "Turkman Linux",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-2": {
-      "name": "Ota palvelut käyttöön",
-      "text": ""
+      "name": "Ota palvelut käyttöön"
     },
     "step-4": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -354,22 +317,19 @@
     }
   },
   "zorin_os": {
-    "distroName": "Zorin OS",
-    "introduction": ""
+    "distroName": "Zorin OS"
   },
   "deepin": {
     "distroName": "Deepin",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Asenna Deepin-teemat",
-      "text": ""
+      "name": "Asenna Deepin-teemat"
     },
     "step-4": {
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>",
@@ -379,8 +339,7 @@
   "pardus": {
     "distroName": "Pardus",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -400,74 +359,61 @@
     "step-2": {
       "name": "Käynnistä uudelleen",
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
-    },
-    "step-1": {
-      "name": "",
-      "text": ""
     }
   },
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "kde_neon": {
     "distroName": "KDE neon",
     "step-1": {
-      "name": "Ota Flatpak käyttöön",
-      "text": ""
+      "name": "Ota Flatpak käyttöön"
     },
     "step-2": {
-      "name": "Tarkista Flatpak-asetukset",
-      "text": ""
+      "name": "Tarkista Flatpak-asetukset"
     },
     "introduction": "<0>Flatpak-tuki on sisäänrakennettu KDE neonin versioon 19 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": ""
+      "name": "Käynnistä uudelleen"
     }
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-1": {
-      "name": "Asenna Flatpak",
-      "text": ""
+      "name": "Asenna Flatpak"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -476,15 +422,12 @@
     "step-3": {
       "name": "Käynnistä uudelleen",
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
-    },
-    "introduction": ""
+    }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS",
-    "introduction": ""
+    "distroName": "Vanilla OS"
   },
   "salix": {
-    "distroName": "Salix",
-    "introduction": ""
+    "distroName": "Salix"
   }
 }

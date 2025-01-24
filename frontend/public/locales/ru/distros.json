@@ -2,374 +2,295 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-3": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-2": {
-      "name": "Установка плагина Flatpak для Software",
-      "text": ""
+      "name": "Установка плагина Flatpak для Software"
     }
   },
   "fedora": {
-    "distroName": "Fedora",
-    "introduction": ""
+    "distroName": "Fedora"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-2": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Включение Flatpak в менеджере программного обеспечения",
-      "text": ""
+      "name": "Включение Flatpak в менеджере программного обеспечения"
     }
   },
   "endless_os": {
-    "distroName": "Endless OS",
-    "introduction": ""
+    "distroName": "Endless OS"
   },
   "alt_linux": {
     "distroName": "Альт Линукс",
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-2": {
-      "name": "Запуск терминала на Linux",
-      "text": ""
+      "name": "Запуск терминала на Linux"
     },
     "step-5": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-3": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-4": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-1": {
-      "name": "Включение поддержки Linux",
-      "text": ""
-    },
-    "introduction": ""
+      "name": "Включение поддержки Linux"
+    }
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux",
-    "introduction": ""
+    "distroName": "Red Hat Enterprise Linux"
   },
   "linux_mint": {
-    "distroName": "Linux Mint",
-    "introduction": ""
+    "distroName": "Linux Mint"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "arch": {
     "distroName": "Arch",
     "step-2": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     }
   },
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-3": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-2": {
-      "name": "Установка плагина Flatpak для Software",
-      "text": ""
+      "name": "Установка плагина Flatpak для Software"
     }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": ""
+    "distroName": "CentOS"
   },
   "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": ""
+    "distroName": "EuroLinux"
   },
   "almalinux": {
-    "distroName": "AlmaLinux",
-    "introduction": ""
+    "distroName": "AlmaLinux"
   },
   "gentoo": {
     "distroName": "Gentoo",
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     }
   },
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-3": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-2": {
-      "name": "Установка модуля параметров системы для управления Flatpak",
-      "text": ""
+      "name": "Установка модуля параметров системы для управления Flatpak"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     }
   },
   "alpine": {
     "distroName": "Alpine",
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-3": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-2": {
-      "name": "Установка плагина Flatpak для Software",
-      "text": ""
+      "name": "Установка плагина Flatpak для Software"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx",
-    "introduction": ""
+    "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
-    },
-    "introduction": ""
+      "name": "Перезагрузка"
+    }
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Установить приложения",
-      "text": ""
+      "name": "Установить приложения"
     }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": ""
+    "distroName": "Clear Linux"
   },
   "void_linux": {
     "distroName": "Void Linux",
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "nixos": {
     "distroName": "NixOS",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     }
   },
   "pureos": {
-    "distroName": "PureOS",
-    "introduction": ""
+    "distroName": "PureOS"
   },
   "turkman_linux": {
     "distroName": "Turkman Linux",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-2": {
-      "name": "Включение служб",
-      "text": ""
+      "name": "Включение служб"
     },
     "step-3": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     }
   },
   "zorin_os": {
-    "distroName": "Zorin OS",
-    "introduction": ""
+    "distroName": "Zorin OS"
   },
   "deepin": {
     "distroName": "Deepin",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-3": {
       "name": "Установка тем Deepin",
@@ -379,112 +300,88 @@
   "pardus": {
     "distroName": "Pardus",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-4": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-3": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-2": {
-      "name": "Установка плагина Flatpak для Software",
-      "text": ""
+      "name": "Установка плагина Flatpak для Software"
     }
   },
   "mx_linux": {
     "distroName": "MX Linux",
     "step-1": {
-      "name": "Включение Flatpak в менеджере программного обеспечения",
-      "text": ""
+      "name": "Включение Flatpak в менеджере программного обеспечения"
     },
     "step-2": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     }
   },
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     }
   },
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     }
   },
   "kde_neon": {
     "distroName": "KDE neon",
     "step-2": {
-      "name": "Проверка настроек Flatpak",
-      "text": ""
+      "name": "Проверка настроек Flatpak"
     },
     "step-1": {
-      "name": "Включение Flatpak",
-      "text": ""
-    },
-    "introduction": ""
+      "name": "Включение Flatpak"
+    }
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
+      "name": "Установка Flatpak"
     },
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     }
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-2": {
-      "name": "Добавление репозитория Flathub",
-      "text": ""
+      "name": "Добавление репозитория Flathub"
     },
     "step-3": {
-      "name": "Перезагрузка",
-      "text": ""
+      "name": "Перезагрузка"
     },
     "step-1": {
-      "name": "Установка Flatpak",
-      "text": ""
-    },
-    "introduction": ""
+      "name": "Установка Flatpak"
+    }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS",
-    "introduction": ""
+    "distroName": "Vanilla OS"
   },
   "salix": {
-    "distroName": "Salix",
-    "introduction": ""
+    "distroName": "Salix"
   }
 }

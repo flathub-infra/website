@@ -1,490 +1,274 @@
 {
   "ubuntu": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "distroName": "",
-    "step-4": {
-      "text": "",
-      "name": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "fedora": {
-    "distroName": "Fedora",
-    "introduction": ""
+    "distroName": "Fedora"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-2": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-1": {
-      "text": "",
-      "name": ""
+      "name": "Ales asenker"
     }
   },
   "endless_os": {
-    "distroName": "Endless OS",
-    "introduction": ""
+    "distroName": "Endless OS"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-5": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-3": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-1": {
-      "text": "",
-      "name": ""
-    },
-    "introduction": "",
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "step-4": {
-      "text": "",
-      "name": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux",
-    "introduction": ""
+    "distroName": "Red Hat Enterprise Linux"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Ales asenker"
     }
   },
   "linux_mint": {
-    "distroName": "Linux Mint",
-    "introduction": ""
+    "distroName": "Linux Mint"
   },
   "arch": {
     "distroName": "Arch",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-2": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": ""
+    "distroName": "CentOS"
   },
   "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": ""
+    "distroName": "EuroLinux"
   },
   "debian": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "distroName": "Debian",
     "step-4": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Ales asenker"
     }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Ales asenker"
     }
   },
   "almalinux": {
-    "distroName": "AlmaLinux",
-    "introduction": ""
+    "distroName": "AlmaLinux"
   },
   "gentoo": {
     "distroName": "Gentoo",
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-4": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "alpine": {
     "step-4": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
-    "distroName": "Alpine",
-    "step-3": {
-      "text": "",
-      "name": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
-    }
+    "distroName": "Alpine"
   },
   "mageia": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "distroName": "Mageia",
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
+      "name": "Ales asenker"
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx",
-    "introduction": ""
+    "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
-    },
-    "introduction": ""
+      "name": "Sbedd Flatpak"
+    }
   },
   "raspberry_pi_os": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "distroName": "Raspberry Pi OS",
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Ales asenker"
     }
   },
   "void_linux": {
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "distroName": "Void Linux",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": ""
+    "distroName": "Clear Linux"
   },
   "nixos": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
-    "distroName": "NixOS",
-    "step-2": {
-      "name": "",
-      "text": ""
-    }
+    "distroName": "NixOS"
   },
   "turkman_linux": {
     "step-4": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
-    "distroName": "Turkman Linux",
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
-    }
+    "distroName": "Turkman Linux"
   },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Ales asenker"
     }
   },
   "deepin": {
     "distroName": "Deepin",
     "step-4": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
-    },
-    "step-3": {
-      "name": "",
-      "text": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "zorin_os": {
-    "distroName": "Zorin OS",
-    "introduction": ""
+    "distroName": "Zorin OS"
   },
   "pardus": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-4": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
-    "distroName": "Pardus",
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
-    }
+    "distroName": "Pardus"
   },
   "mx_linux": {
     "step-2": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
-    "distroName": "MX Linux",
-    "step-1": {
-      "text": "",
-      "name": ""
-    }
+    "distroName": "MX Linux"
   },
   "endeavouros": {
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
-    "distroName": "EndeavourOS",
-    "step-2": {
-      "name": "",
-      "text": ""
-    }
+    "distroName": "EndeavourOS"
   },
   "kde_neon": {
-    "distroName": "KDE neon",
-    "step-2": {
-      "text": "",
-      "name": ""
-    },
-    "step-1": {
-      "text": "",
-      "name": ""
-    },
-    "introduction": ""
+    "distroName": "KDE neon"
   },
   "gnu_guix": {
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
+      "name": "Sbedd Flatpak"
     },
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
-    },
-    "introduction": "",
-    "step-2": {
-      "text": "",
-      "name": ""
+      "name": "Ales asenker"
     }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS",
-    "introduction": ""
+    "distroName": "Vanilla OS"
   },
   "pureos": {
-    "distroName": "PureOS",
-    "introduction": ""
+    "distroName": "PureOS"
   },
   "pisi_gnulinux": {
     "step-3": {
-      "name": "Ales asenker",
-      "text": ""
+      "name": "Ales asenker"
     },
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Sbedd Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Sbedd Flatpak"
     }
   },
   "salix": {
-    "distroName": "Salix",
-    "introduction": ""
+    "distroName": "Salix"
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Sbedd isnasen",
-      "text": ""
+      "name": "Sbedd isnasen"
     }
   }
 }

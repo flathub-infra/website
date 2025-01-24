@@ -2,489 +2,202 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-3": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "step-4": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "manjaro": {
-    "distroName": "Manjaro",
-    "step-1": {
-      "text": "",
-      "name": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
-    }
+    "distroName": "Manjaro"
   },
   "fedora": {
-    "distroName": "Fedora",
-    "introduction": ""
+    "distroName": "Fedora"
   },
   "endless_os": {
-    "distroName": "Endless OS",
-    "introduction": ""
+    "distroName": "Endless OS"
   },
   "alt_linux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "distroName": "ALT Linux",
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "chrome_os": {
     "step-3": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-4": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     },
-    "distroName": "ChromeOS",
-    "step-1": {
-      "text": "",
-      "name": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "introduction": "",
-    "step-5": {
-      "text": "",
-      "name": ""
-    }
+    "distroName": "ChromeOS"
   },
   "opensuse": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "debian": {
     "step-3": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     },
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
-    },
-    "distroName": "",
-    "step-2": {
-      "text": "",
-      "name": ""
-    },
-    "step-4": {
-      "text": "",
-      "name": ""
+      "name": "Installar Flatpak"
     }
   },
   "rocky_linux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "solus": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "text": "",
-      "name": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "alpine": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-3": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "step-4": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "mageia": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "pop_os": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
-    },
-    "distroName": "",
-    "introduction": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "raspberry_pi_os": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "void_linux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "nixos": {
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     },
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
-    },
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
+      "name": "Installar Flatpak"
+    }
   },
   "turkman_linux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-3": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "step-4": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "ataraxia_linux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "deepin": {
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     },
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
-    },
-    "distroName": "",
-    "step-4": {
-      "name": "",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
+      "name": "Installar Flatpak"
     }
   },
   "pardus": {
     "step-3": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     },
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
-    },
-    "step-2": {
-      "text": "",
-      "name": ""
-    },
-    "step-4": {
-      "text": "",
-      "name": ""
-    },
-    "distroName": ""
+      "name": "Installar Flatpak"
+    }
   },
   "pisi_gnulinux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "endeavouros": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "step-3": {
-      "text": "",
-      "name": ""
-    },
-    "distroName": ""
+      "name": "Adder le repositorio de Flathub"
+    }
   },
   "gnu_guix": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "text": "",
-      "name": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "kubuntu": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-3": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-4": {
-      "name": "",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "arch": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
-    },
-    "distroName": "",
-    "step-2": {
-      "name": "",
-      "text": ""
+      "name": "Installar Flatpak"
     }
   },
   "gentoo": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "name": "",
-      "text": ""
+      "name": "Adder le repositorio de Flathub"
     }
   },
   "crystal_linux": {
     "step-1": {
-      "name": "Installar Flatpak",
-      "text": ""
+      "name": "Installar Flatpak"
     },
     "step-2": {
-      "name": "Adder le repositorio de Flathub",
-      "text": ""
-    },
-    "distroName": "",
-    "step-3": {
-      "name": "",
-      "text": ""
-    },
-    "introduction": ""
-  },
-  "openmandriva_lx": {
-    "introduction": "",
-    "distroName": ""
-  },
-  "linux_mint": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "almalinux": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "centos": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "clear_linux": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "pureos": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "zorin_os": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "mx_linux": {
-    "distroName": "",
-    "step-2": {
-      "text": "",
-      "name": ""
-    },
-    "step-1": {
-      "text": "",
-      "name": ""
+      "name": "Adder le repositorio de Flathub"
     }
-  },
-  "kde_neon": {
-    "introduction": "",
-    "step-1": {
-      "name": "",
-      "text": ""
-    },
-    "step-2": {
-      "name": "",
-      "text": ""
-    },
-    "distroName": ""
-  },
-  "salix": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "vanilla_os": {
-    "distroName": "",
-    "introduction": ""
-  },
-  "elementary_os": {
-    "step-1": {
-      "text": "",
-      "name": ""
-    },
-    "distroName": ""
-  },
-  "eurolinux": {
-    "introduction": "",
-    "distroName": ""
-  },
-  "red_hat_enterprise_linux": {
-    "introduction": "",
-    "distroName": ""
   }
 }
