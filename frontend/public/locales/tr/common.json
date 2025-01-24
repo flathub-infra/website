@@ -438,7 +438,8 @@
     "branding-good-primary-brand-colors": "İyi ana marka renkleri",
     "needed-to-pass-x": "{{x}} geçmek için gerekli",
     "hide-branding-preview": "Marka ön izlemesini gizle",
-    "show-branding-preview": "Marka ön izlemesini göster"
+    "show-branding-preview": "Marka ön izlemesini göster",
+    "problems": ""
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {{folder}}",
   "desktop-folder": "Masaüstü klasörü",
@@ -589,5 +590,46 @@
   "flathub-logo": "Flathub Logosu",
   "date": "Tarih",
   "mastodon": "Mastodon",
-  "more-pages": "Daha çok sayfa"
+  "more-pages": "Daha çok sayfa",
+  "quality": {
+    "missing-brand-colors": "",
+    "banner-preview-description": "",
+    "banner-preview": ""
+  },
+  "mobile-apps": "",
+  "microphone-access": "",
+  "carousel": "",
+  "can-access-the-contents-of-the-screen-or-other-windows": "",
+  "flathub-statistics-description": "",
+  "slide": "",
+  "can-listen-using-microphones-without-asking-permission": "",
+  "about-claim": "",
+  "positions": "",
+  "position-short": "",
+  "type": "",
+  "apps-by-tag": "",
+  "all-the-apps-you-want": "",
+  "transparent": "",
+  "action-purchase": "",
+  "platform": {
+    "org-freedesktop-platform": "",
+    "org-kde-platform": "",
+    "org-gnome-platform": ""
+  },
+  "apps-for-you-where-you-are": "",
+  "screen-contents-access": "",
+  "created": "",
+  "integration": "",
+  "kind-donate-app": "",
+  "on-the-go": "",
+  "mobile-apps-description": "",
+  "more-mobile-apps": "",
+  "recipient": "",
+  "amount": "",
+  "zoom": "",
+  "tastefully-curated": "",
+  "transparent-safety": "",
+  "kind-purchase-app": "",
+  "action-donate": "",
+  "total": ""
 }
