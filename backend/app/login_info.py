@@ -107,8 +107,13 @@ def modify_users_only(login=Depends(logged_in)):
 
 
 def moderator_only(login=Depends(logged_in)):
-    if "moderation" not in login.user.permissions():
-        raise HTTPException(status_code=403, detail="not_moderator")
+    with get_db("replica") as db:
+        # Merge the user object with the current session to ensure it's attached
+        user = db.session.merge(login.user)
+        if "moderation" not in user.permissions():
+            raise HTTPException(status_code=403, detail="not_moderator")
+        login.user = user  # Update the login info with the merged user
+        return login
 
 
 def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
@@ -133,8 +138,10 @@ def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
             # Merge the user object with the current session to ensure it's attached
             user = db.session.merge(login.user)
             if "quality-moderation" in user.permissions():
+                login.user = user  # Update the login info with the merged user
                 return login
             if app_id in user.dev_flatpaks(db):
+                login.user = user  # Update the login info with the merged user
                 return login
 
     raise HTTPException(status_code=403, detail="not_quality_moderator_or_app_author")

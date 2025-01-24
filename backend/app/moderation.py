@@ -125,33 +125,33 @@ def get_moderation_apps(
     limit: int = 100,
     offset: int = 0,
     _moderator=Depends(moderator_only),
+    db=Depends(get_db),
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
 
     is_new_submission = func.bool_or(models.ModerationRequest.is_new_submission).label(
         "is_new_submission"
     )
-    with get_db("replica") as db:
-        query = (
-            db.session.query(
-                models.ModerationRequest.appid,
-                is_new_submission,
-                func.max(models.ModerationRequest.created_at).label("updated_at"),
-                func.array_agg(models.ModerationRequest.request_type.distinct()).label(
-                    "request_types"
-                ),
-            )
-            .filter(
-                (
-                    models.ModerationRequest.handled_at.is_(None)
-                    if show_handled is False
-                    else models.ModerationRequest.handled_at.isnot(None)
-                ),
-                models.ModerationRequest.is_outdated.is_(False),
-            )
-            .group_by(models.ModerationRequest.appid)
-            .order_by(func.max(models.ModerationRequest.created_at).desc())
+    query = (
+        db.session.query(
+            models.ModerationRequest.appid,
+            is_new_submission,
+            func.max(models.ModerationRequest.created_at).label("updated_at"),
+            func.array_agg(models.ModerationRequest.request_type.distinct()).label(
+                "request_types"
+            ),
         )
+        .filter(
+            (
+                models.ModerationRequest.handled_at.is_(None)
+                if show_handled is False
+                else models.ModerationRequest.handled_at.isnot(None)
+            ),
+            models.ModerationRequest.is_outdated.is_(False),
+        )
+        .group_by(models.ModerationRequest.appid)
+        .order_by(func.max(models.ModerationRequest.created_at).desc())
+    )
 
     if new_submissions is not None:
         query = query.having(is_new_submission == new_submissions)
