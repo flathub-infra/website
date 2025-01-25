@@ -137,7 +137,7 @@ def parse_summary(summary, sqldb):
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
 
         updated_at_dict[app_id] = timestamp
-        models.Apps.set_last_updated_at(
+        models.App.set_last_updated_at(
             sqldb,
             app_id,
             datetime.datetime.fromtimestamp(

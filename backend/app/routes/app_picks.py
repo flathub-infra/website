@@ -68,7 +68,7 @@ def get_app_of_the_week(
                 AppOfTheWeek(
                     app_id=app.app_id,
                     position=app.position,
-                    isFullscreen=models.Apps.get_fullscreen_app(db, app.app_id),
+                    isFullscreen=models.App.get_fullscreen_app(db, app.app_id),
                 )
                 for app in apps_of_the_week
             ]

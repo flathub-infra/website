@@ -52,11 +52,11 @@ def get_all_appids_for_frontend():
 
     with get_db() as sqldb:
         apps = (
-            sqldb.query(models.Apps.app_id, models.Apps.type)
+            sqldb.query(models.App.app_id, models.App.type)
             .filter(
                 or_(
-                    models.Apps.type == "desktop-application",
-                    models.Apps.type == "console-application",
+                    models.App.type == "desktop-application",
+                    models.App.type == "console-application",
                 )
             )
             .all()
@@ -74,7 +74,7 @@ def get_all_appids_for_frontend():
 def is_appid_for_frontend(app_id: str):
     with get_db() as sqldb:
         app_type = (
-            sqldb.query(models.Apps.type).filter(models.Apps.app_id == app_id).scalar()
+            sqldb.query(models.App.type).filter(models.App.app_id == app_id).scalar()
         )
 
     if app_type == "desktop-application":

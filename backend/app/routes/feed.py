@@ -52,11 +52,11 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
     feed.link(href=link)
     feed.language("en")
 
-    column = getattr(models.Apps, column_name)
+    column = getattr(models.App, column_name)
 
     with get_db("replica") as sqldb:
         appids = (
-            sqldb.query(models.Apps)
+            sqldb.query(models.App)
             .filter(column.isnot(None))
             .order_by(column.desc())
             .limit(10)

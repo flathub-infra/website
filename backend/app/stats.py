@@ -335,7 +335,7 @@ def update(sqldb):
         )
 
     for app_id in stats_apps_dict:
-        models.Apps.set_downloads(
+        models.App.set_downloads(
             sqldb, app_id, stats_apps_dict[app_id].get("installs_last_7_days", 0)
         )
 

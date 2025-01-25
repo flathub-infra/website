@@ -79,8 +79,8 @@ def update():
     for app_id in current_apps:
         with WorkerDB() as sqldb:
             created_at = (
-                sqldb.session.query(models.Apps.initial_release_at)
-                .filter(models.Apps.app_id == app_id)
+                sqldb.session.query(models.App.initial_release_at)
+                .filter(models.App.app_id == app_id)
                 .scalar()
             )
 
@@ -94,7 +94,7 @@ def update():
 
             apps_created_at[app_id] = float(created_at)
             with WorkerDB() as sqldb:
-                models.Apps.set_initial_release_at(
+                models.App.set_initial_release_at(
                     sqldb,
                     app_id,
                     datetime.fromtimestamp(float(created_at)),

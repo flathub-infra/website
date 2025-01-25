@@ -194,7 +194,7 @@ def get_appstream(
 ):
     if value := db.get_json_key(f"apps:{app_id}"):
         with get_db("replica") as db_session:
-            app = models.Apps.by_appid(db_session, app_id)
+            app = models.App.by_appid(db_session, app_id)
 
             if not app:
                 return value
@@ -223,7 +223,7 @@ def get_isFullscreenApp(
     ),
 ) -> bool:
     with get_db("replica") as db_session:
-        return models.Apps.get_fullscreen_app(db_session, app_id)
+        return models.App.get_fullscreen_app(db_session, app_id)
 
 
 @router.post("/search", tags=["app"])

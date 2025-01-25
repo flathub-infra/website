@@ -146,7 +146,7 @@ def load_appstream(sqldb) -> None:
                 }
             )
 
-            models.Apps.set_app(sqldb, app_id, type, apps[app_id]["locales"])
+            models.App.set_app(sqldb, app_id, type, apps[app_id]["locales"])
 
             del apps[app_id]["locales"]
             p.set(redis_key, json.dumps(apps[app_id]))
@@ -167,7 +167,7 @@ def load_appstream(sqldb) -> None:
                 f"app_stats:{app_id}",
             )
             apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
-            models.Apps.delete_app(sqldb, app_id)
+            models.App.delete_app(sqldb, app_id)
 
         search.delete_apps(apps_to_delete_from_search)
 
@@ -187,8 +187,8 @@ def get_appids(type: AppType = AppType.APPS) -> list[str]:
     with database.get_db() as sqldb:
         current_apps = set(
             app.app_id
-            for app in sqldb.query(models.Apps.app_id)
-            .filter(models.Apps.type.in_(filter))
+            for app in sqldb.query(models.App.app_id)
+            .filter(models.App.type.in_(filter))
             .all()
         )
     return list(current_apps)
@@ -209,8 +209,8 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
         with database.get_db() as sqldb:
             addons = set(
                 addon.app_id
-                for addon in sqldb.query(models.Apps.app_id)
-                .filter(models.Apps.type == "addon")
+                for addon in sqldb.query(models.App.app_id)
+                .filter(models.App.type == "addon")
                 .all()
             )
 
