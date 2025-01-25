@@ -1574,66 +1574,6 @@ class UserOwnedApp(Base):
 FlathubUser.TABLES_FOR_DELETE.append(UserOwnedApp)
 
 
-class UserFavoriteApp(Base):
-    __tablename__ = "user_favorite_app"
-
-    id = mapped_column(Integer, server_default=Identity())
-    app_id = mapped_column(String, nullable=False, primary_key=True)
-    account = mapped_column(
-        Integer,
-        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
-        nullable=False,
-        primary_key=True,
-    )
-    created = mapped_column(DateTime, nullable=False)
-
-    __table_args__ = (Index("user_favorite_app_unique", app_id, account, unique=True),)
-
-    @staticmethod
-    def add_app(session: DBSession, user_id: int, app_id: str):
-        app = UserFavoriteApp(app_id=app_id, account=user_id, created=datetime.now())
-        session.add(app)
-        session.flush()
-
-    @staticmethod
-    def remove_app(session: DBSession, user_id: int, app_id: str):
-        session.execute(
-            delete(UserFavoriteApp)
-            .where(UserFavoriteApp.account == user_id)
-            .where(UserFavoriteApp.app_id == app_id)
-        )
-
-    @staticmethod
-    def is_favorited_by_user(session: DBSession, user_id: int, app_id: str):
-        return (
-            session.query(UserFavoriteApp)
-            .filter_by(account=user_id, app_id=app_id)
-            .first()
-            is not None
-        )
-
-    @staticmethod
-    def all_favorited_by_user(db: DBSession, user_id: int):
-        return (
-            db.session.query(UserFavoriteApp.app_id, UserFavoriteApp.created)
-            .filter_by(account=user_id)
-            .order_by(UserFavoriteApp.created.desc())
-            .all()
-        )
-
-    @staticmethod
-    def delete_user(db, user: FlathubUser):
-        """
-        Delete any app ownerships associated with this user
-        """
-        db.session.execute(
-            delete(UserFavoriteApp).where(UserFavoriteApp.account == user.id)
-        )
-
-
-FlathubUser.TABLES_FOR_DELETE.append(UserFavoriteApp)
-
-
 # Vending related tables, including Stripe-only stuff
 
 
@@ -2021,7 +1961,7 @@ class QualityModeration(Base):
     @classmethod
     def by_appid(cls, db, app_id: str) -> list["Any"]:
         return (
-            db.session.query(Guideline, QualityModeration, Apps)
+            db.session.query(Guideline, QualityModeration, App)
             .join(
                 QualityModeration,
                 and_(
@@ -2031,12 +1971,12 @@ class QualityModeration(Base):
                 isouter=True,
             )
             .join(
-                Apps,
+                App,
                 and_(
-                    Apps.app_id == app_id,
+                    App.app_id == app_id,
                     or_(
-                        Apps.is_fullscreen_app == False,  # noqa: E712
-                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
             )
@@ -2060,12 +2000,12 @@ class QualityModeration(Base):
                 isouter=True,
             )
             .join(
-                Apps,
+                App,
                 and_(
-                    Apps.app_id == app_id,
+                    App.app_id == app_id,
                     or_(
-                        Apps.is_fullscreen_app == False,  # noqa: E712
-                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
             )
@@ -2279,7 +2219,7 @@ class AppPickRecommendationsResponse(BaseModel):
     recommendations: list[AppPickRecommendation]
 
 
-class Apps(Base):
+class App(Base):
     """An app"""
 
     __tablename__ = "apps"
@@ -2313,12 +2253,12 @@ class Apps(Base):
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
     @classmethod
-    def by_appid(cls, db, app_id: str) -> Optional["Apps"]:
-        return db.session.query(Apps).filter(Apps.app_id == app_id).first()
+    def by_appid(cls, db, app_id: str) -> Optional["App"]:
+        return db.session.query(App).filter(App.app_id == app_id).first()
 
     @classmethod
-    def set_app(cls, db, app_id: str, type, app_locales) -> Optional["Apps"]:
-        app = Apps.by_appid(db, app_id)
+    def set_app(cls, db, app_id: str, type, app_locales) -> Optional["App"]:
+        app = App.by_appid(db, app_id)
 
         if bool(app_locales) is False:
             app_locales = None
@@ -2331,7 +2271,7 @@ class Apps(Base):
             db.session.commit()
             return app
         else:
-            app = Apps(
+            app = App(
                 app_id=app_id,
                 type=type,
                 localization_json=app_locales,
@@ -2342,26 +2282,26 @@ class Apps(Base):
 
     @classmethod
     def delete_app(cls, db, app_id: str) -> None:
-        db.session.execute(delete(Apps).where(Apps.app_id == app_id))
+        db.session.execute(delete(App).where(App.app_id == app_id))
         db.session.commit()
 
     @classmethod
     def set_downloads(cls, db, app_id: str, downloads: int) -> None:
-        app = Apps.by_appid(db, app_id)
+        app = App.by_appid(db, app_id)
         if app and app.installs_last_7_days != downloads:
             app.installs_last_7_days = downloads
             db.session.commit()
 
     @classmethod
     def get_fullscreen_app(cls, db, app_id: str) -> bool:
-        app = Apps.by_appid(db, app_id)
+        app = App.by_appid(db, app_id)
         if app:
             return app.is_fullscreen_app
         return False
 
     @classmethod
     def set_fullscreen_app(cls, db, app_id: str, is_fullscreen_app: bool) -> None:
-        app = Apps.by_appid(db, app_id)
+        app = App.by_appid(db, app_id)
         if app and app.is_fullscreen_app != is_fullscreen_app:
             db.session.execute(
                 delete(QualityModeration).where(
@@ -2378,7 +2318,7 @@ class Apps(Base):
 
     @classmethod
     def set_last_updated_at(cls, db, app_id: str, last_updated_at: datetime) -> None:
-        app = Apps.by_appid(db, app_id)
+        app = App.by_appid(db, app_id)
         if app and app.last_updated_at != last_updated_at:
             app.last_updated_at = last_updated_at
             db.session.commit()
@@ -2387,7 +2327,7 @@ class Apps(Base):
     def set_initial_release_at(
         cls, db, app_id: str, initial_release_at: datetime
     ) -> None:
-        app = Apps.by_appid(db, app_id)
+        app = App.by_appid(db, app_id)
         if app and app.initial_release_at != initial_release_at:
             app.initial_release_at = initial_release_at
             db.session.commit()
@@ -2401,7 +2341,7 @@ class Apps(Base):
         """
         query = (
             db.session.query(
-                Apps.app_id,
+                App.app_id,
                 func.coalesce(
                     func.count(Guideline.id)
                     == func.sum(func.cast(QualityModeration.passed, Integer)),
@@ -2421,15 +2361,15 @@ class Apps(Base):
                 ),
                 func.coalesce(func.max(QualityModeration.updated_at), datetime.min),
                 func.max(QualityModerationRequest.created_at),
-                Apps.installs_last_7_days,
+                App.installs_last_7_days,
             )
             .join(
                 Guideline,
                 and_(
                     Guideline.needed_to_pass_since <= datetime.now().date(),
                     or_(
-                        Apps.is_fullscreen_app == False,  # noqa: E712
-                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
             )
@@ -2437,23 +2377,23 @@ class Apps(Base):
                 QualityModeration,
                 and_(
                     QualityModeration.guideline_id == Guideline.id,
-                    QualityModeration.app_id == Apps.app_id,
+                    QualityModeration.app_id == App.app_id,
                 ),
                 isouter=True,
             )
             .join(
                 QualityModerationRequest,
-                QualityModerationRequest.app_id == Apps.app_id,
+                QualityModerationRequest.app_id == App.app_id,
                 isouter=True,
             )
             .where(
                 or_(
-                    Apps.type == "desktop-application",
-                    Apps.type == "console-application",
+                    App.type == "desktop-application",
+                    App.type == "console-application",
                 )
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
-            .group_by(Apps.app_id, Apps.installs_last_7_days)
+            .group_by(App.app_id, App.installs_last_7_days)
             # sort by review_requested, passed in percentage, then by weekly downloads
             .order_by(
                 func.max(QualityModerationRequest.created_at).desc().nulls_last(),
@@ -2462,7 +2402,7 @@ class Apps(Base):
                     / func.count(Guideline.id)
                     * (100)
                 ),
-                Apps.installs_last_7_days.desc(),
+                App.installs_last_7_days.desc(),
             )
         )
 
@@ -2563,7 +2503,7 @@ class Apps(Base):
 
         query = (
             db.session.query(
-                Apps.app_id,
+                App.app_id,
                 subquery2.c.lastTimeAppOfTheDay,
                 subquery2.c.numberOfTimesAppOfTheDay,
                 subquery.c.lastTimeAppOfTheWeekYear,
@@ -2572,12 +2512,12 @@ class Apps(Base):
             )
             .join(
                 subquery,
-                subquery.c.app_id == Apps.app_id,
+                subquery.c.app_id == App.app_id,
                 isouter=True,
             )
             .join(
                 subquery2,
-                subquery2.c.app_id == Apps.app_id,
+                subquery2.c.app_id == App.app_id,
                 isouter=True,
             )
             .join(
@@ -2585,8 +2525,8 @@ class Apps(Base):
                 and_(
                     Guideline.needed_to_pass_since <= datetime.now().date(),
                     or_(
-                        Apps.is_fullscreen_app == False,  # noqa: E712
-                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
             )
@@ -2594,19 +2534,19 @@ class Apps(Base):
                 QualityModeration,
                 and_(
                     QualityModeration.guideline_id == Guideline.id,
-                    QualityModeration.app_id == Apps.app_id,
+                    QualityModeration.app_id == App.app_id,
                 ),
                 isouter=True,
             )
             .where(
                 or_(
-                    Apps.type == "desktop-application",
-                    Apps.type == "console-application",
+                    App.type == "desktop-application",
+                    App.type == "console-application",
                 )
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
             .group_by(
-                Apps.app_id,
+                App.app_id,
                 subquery.c.lastTimeAppOfTheWeekYear,
                 subquery.c.lastTimeAppOfTheWeek,
                 subquery.c.numberOfTimesAppOfTheWeek,
@@ -2654,6 +2594,71 @@ class Apps(Base):
                 ) in query.all()
             ],
         )
+
+
+class UserFavoriteApp(Base):
+    __tablename__ = "user_favorite_app"
+
+    id = mapped_column(Integer, server_default=Identity())
+    app_id = mapped_column(
+        String,
+        ForeignKey(App.app_id, ondelete="CASCADE"),
+        nullable=False,
+        primary_key=True,
+    )
+    account = mapped_column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        primary_key=True,
+    )
+    created = mapped_column(DateTime, nullable=False)
+
+    __table_args__ = (Index("user_favorite_app_unique", app_id, account, unique=True),)
+
+    @staticmethod
+    def add_app(session: DBSession, user_id: int, app_id: str):
+        app = UserFavoriteApp(app_id=app_id, account=user_id, created=datetime.now())
+        session.add(app)
+        session.flush()
+
+    @staticmethod
+    def remove_app(session: DBSession, user_id: int, app_id: str):
+        session.execute(
+            delete(UserFavoriteApp)
+            .where(UserFavoriteApp.account == user_id)
+            .where(UserFavoriteApp.app_id == app_id)
+        )
+
+    @staticmethod
+    def is_favorited_by_user(session: DBSession, user_id: int, app_id: str):
+        return (
+            session.query(UserFavoriteApp)
+            .filter_by(account=user_id, app_id=app_id)
+            .first()
+            is not None
+        )
+
+    @staticmethod
+    def all_favorited_by_user(db: DBSession, user_id: int):
+        return (
+            db.session.query(UserFavoriteApp.app_id, UserFavoriteApp.created)
+            .filter_by(account=user_id)
+            .order_by(UserFavoriteApp.created.desc())
+            .all()
+        )
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any app ownerships associated with this user
+        """
+        db.session.execute(
+            delete(UserFavoriteApp).where(UserFavoriteApp.account == user.id)
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(UserFavoriteApp)
 
 
 class Developers(Base):

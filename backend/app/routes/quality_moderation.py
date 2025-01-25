@@ -10,8 +10,8 @@ from ..database import get_db
 from ..db import get_json_key
 from ..login_info import quality_moderator_only, quality_moderator_or_app_author_only
 from ..models import (
+    App,
     AppPickRecommendationsResponse,
-    Apps,
     QualityModeration,
     QualityModerationDashboardResponse,
     QualityModerationRequest,
@@ -70,7 +70,7 @@ def get_quality_moderation_status(
     _moderator=Depends(quality_moderator_only),
 ) -> QualityModerationDashboardResponse:
     with get_db("replica") as db:
-        all_quality_apps = Apps.status_summarized(db, page, page_size, filter)
+        all_quality_apps = App.status_summarized(db, page, page_size, filter)
 
     for app in all_quality_apps.apps:
         app.appstream = get_json_key(f"apps:{app.id}")
@@ -84,7 +84,7 @@ def get_passing_quality_apps(
     page_size: int = 25,
 ) -> SimpleQualityModerationResponse:
     with get_db("replica") as db:
-        passing_quality_apps = Apps.status_summarized(db, page, page_size, "passing")
+        passing_quality_apps = App.status_summarized(db, page, page_size, "passing")
 
     return SimpleQualityModerationResponse(
         apps=[app.id for app in passing_quality_apps.apps],
@@ -98,7 +98,7 @@ def get_app_pick_recommendations(
     _moderator=Depends(quality_moderator_only),
 ) -> AppPickRecommendationsResponse:
     with get_db("replica") as db:
-        return Apps.app_pick_recommendations(db, recommendation_date)
+        return App.app_pick_recommendations(db, recommendation_date)
 
 
 @router.get("/failed-by-guideline", tags=["quality-moderation"])
@@ -134,12 +134,12 @@ def get_quality_moderation_for_app(
                     if item.QualityModeration
                     else None
                 ),
-                passed=item.QualityModeration.passed
-                if item.QualityModeration
-                else None,
-                comment=item.QualityModeration.comment
-                if item.QualityModeration
-                else None,
+                passed=(
+                    item.QualityModeration.passed if item.QualityModeration else None
+                ),
+                comment=(
+                    item.QualityModeration.comment if item.QualityModeration else None
+                ),
                 guideline=Guideline(
                     id=item.Guideline.id,
                     url=item.Guideline.url,
@@ -153,7 +153,7 @@ def get_quality_moderation_for_app(
         ]
 
         review_request = QualityModerationRequest.by_appid(db, app_id)
-        is_fullscreen_app = Apps.get_fullscreen_app(db, app_id)
+        is_fullscreen_app = App.get_fullscreen_app(db, app_id)
 
     return QualityModerationResponse(
         guidelines=items,
@@ -235,4 +235,4 @@ def set_fullscreen_app(
     moderator=Depends(quality_moderator_only),
 ):
     with get_db("writer") as db:
-        Apps.set_fullscreen_app(db, app_id, is_fullscreen_app)
+        App.set_fullscreen_app(db, app_id, is_fullscreen_app)

@@ -16,8 +16,8 @@ def register_to_app(app: FastAPI):
 def get_created_at(key: str):
     with get_db("replica") as sqldb:
         if created_at := (
-            sqldb.query(models.Apps.initial_release_at)
-            .filter(models.Apps.app_id == key)
+            sqldb.query(models.App.initial_release_at)
+            .filter(models.App.app_id == key)
             .scalar()
         ):
             # for backwards compatibility, convert the data to string with the unix timestamp
@@ -47,10 +47,10 @@ def get_short_app(key: str):
 def get_recently_updated():
     with get_db("replica") as sqldb:
         appids = (
-            sqldb.query(models.Apps.app_id)
-            .filter(models.Apps.type == "desktop")
-            .filter(models.Apps.last_updated_at.isnot(None))
-            .order_by(models.Apps.last_updated_at.desc())
+            sqldb.query(models.App.app_id)
+            .filter(models.App.type == "desktop")
+            .filter(models.App.last_updated_at.isnot(None))
+            .order_by(models.App.last_updated_at.desc())
             .limit(25)
             .all()
         )
@@ -65,10 +65,10 @@ def get_recently_updated():
 def get_recently_added():
     with get_db("replica") as sqldb:
         appids = (
-            sqldb.query(models.Apps.app_id)
-            .filter(models.Apps.type == "desktop")
-            .filter(models.Apps.initial_release_at.isnot(None))
-            .order_by(models.Apps.initial_release_at.desc())
+            sqldb.query(models.App.app_id)
+            .filter(models.App.type == "desktop")
+            .filter(models.App.initial_release_at.isnot(None))
+            .order_by(models.App.initial_release_at.desc())
             .limit(25)
             .all()
         )
