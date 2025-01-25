@@ -1,11 +1,14 @@
+import datetime
+from http import HTTPStatus
 from typing import Any, Optional
 
-from fastapi import APIRouter, FastAPI, Path, Query, Response
+from fastapi import APIRouter, Depends, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from . import apps, db, models, schemas, search, stats, utils
 from .database import get_db
+from .login_info import logged_in
 
 router = APIRouter(default_response_class=ORJSONResponse)
 
@@ -455,3 +458,73 @@ def get_addons(app_id: str) -> list[str]:
     addon_ids = apps.get_addons(app_id)
 
     return addon_ids
+
+
+@router.post("/favorites/{app_id}/add", tags=["app"])
+def add_to_favorites(
+    app_id: str,
+    login=Depends(logged_in),
+):
+    """
+    Add an app to a users favorites. The appid is the ID of the app to add.
+    """
+    with get_db("writer") as db_session:
+        try:
+            models.UserFavoriteApp.add_app(db_session, login["user"].id, app_id)
+            db_session.commit()
+
+            return Response(status_code=HTTPStatus.OK)
+        except Exception:
+            db_session.rollback()
+            return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
+
+
+@router.delete("/favorites/{app_id}/remove", tags=["app"])
+def remove_from_favorites(
+    app_id: str,
+    login=Depends(logged_in),
+):
+    """
+    Remove an app from a users favorites. The appid is the ID of the app to remove.
+    """
+    with get_db("writer") as db_session:
+        try:
+            models.UserFavoriteApp.remove_app(db_session, login["user"].id, app_id)
+            db_session.commit()
+
+            return Response(status_code=HTTPStatus.OK)
+        except Exception:
+            db_session.rollback()
+            return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
+
+
+class FavoriteApp(BaseModel):
+    app_id: str
+    created_at: datetime.datetime
+
+
+@router.get("/favorites", tags=["app"])
+def get_favorites(
+    login=Depends(logged_in),
+) -> list[FavoriteApp]:
+    """
+    Get a list of the users favorite apps.
+    """
+    with get_db("replica") as db_session:
+        return [
+            FavoriteApp(app_id=result.app_id, created_at=result.created)
+            for result in models.UserFavoriteApp.all_favorited_by_user(
+                db_session, login["user"].id
+            )
+        ]
+
+
+@router.get("/favorites/{app_id}", tags=["app"])
+def is_favorited(
+    app_id: str,
+    login=Depends(logged_in),
+) -> bool:
+    with get_db("replica") as db_session:
+        return models.UserFavoriteApp.is_favorited_by_user(
+            db_session, login["user"].id, app_id
+        )

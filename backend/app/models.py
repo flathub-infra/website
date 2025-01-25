@@ -14,6 +14,7 @@ from sqlalchemy import (
     DateTime,
     Enum,
     ForeignKey,
+    Identity,
     Index,
     Integer,
     String,
@@ -26,6 +27,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 
 from . import utils
+from .database import DBSession
 
 
 class Pagination(BaseModel):
@@ -1570,6 +1572,66 @@ class UserOwnedApp(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(UserOwnedApp)
+
+
+class UserFavoriteApp(Base):
+    __tablename__ = "user_favorite_app"
+
+    id = mapped_column(Integer, server_default=Identity())
+    app_id = mapped_column(String, nullable=False, primary_key=True)
+    account = mapped_column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        primary_key=True,
+    )
+    created = mapped_column(DateTime, nullable=False)
+
+    __table_args__ = (Index("user_favorite_app_unique", app_id, account, unique=True),)
+
+    @staticmethod
+    def add_app(session: DBSession, user_id: int, app_id: str):
+        app = UserFavoriteApp(app_id=app_id, account=user_id, created=datetime.now())
+        session.add(app)
+        session.flush()
+
+    @staticmethod
+    def remove_app(session: DBSession, user_id: int, app_id: str):
+        session.execute(
+            delete(UserFavoriteApp)
+            .where(UserFavoriteApp.account == user_id)
+            .where(UserFavoriteApp.app_id == app_id)
+        )
+
+    @staticmethod
+    def is_favorited_by_user(session: DBSession, user_id: int, app_id: str):
+        return (
+            session.query(UserFavoriteApp)
+            .filter_by(account=user_id, app_id=app_id)
+            .first()
+            is not None
+        )
+
+    @staticmethod
+    def all_favorited_by_user(db: DBSession, user_id: int):
+        return (
+            db.session.query(UserFavoriteApp.app_id, UserFavoriteApp.created)
+            .filter_by(account=user_id)
+            .order_by(UserFavoriteApp.created.desc())
+            .all()
+        )
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any app ownerships associated with this user
+        """
+        db.session.execute(
+            delete(UserFavoriteApp).where(UserFavoriteApp.account == user.id)
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(UserFavoriteApp)
 
 
 # Vending related tables, including Stripe-only stuff

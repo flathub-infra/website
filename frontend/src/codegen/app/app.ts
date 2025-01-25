@@ -21,6 +21,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
+  FavoriteApp,
   GetAppstreamAppstreamAppIdGetParams,
   GetCategoryCategoryCategoryGetParams,
   GetDeveloperDeveloperDeveloperGetParams,
@@ -4602,6 +4603,450 @@ export function useGetAddonsAddonAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getGetAddonsAddonAppIdGetQueryOptions(appId, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * Add an app to a users favorites. The appid is the ID of the app to add.
+ * @summary Add To Favorites
+ */
+export const addToFavoritesFavoritesAppIdAddPost = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(`/favorites/${appId}/add`, undefined, options)
+}
+
+export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  axios?: AxiosRequestConfig
+}) => {
+  const mutationKey = ["addToFavoritesFavoritesAppIdAddPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+    { appId: string }
+  > = (props) => {
+    const { appId } = props ?? {}
+
+    return addToFavoritesFavoritesAppIdAddPost(appId, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string },
+    TContext
+  >
+}
+
+export type AddToFavoritesFavoritesAppIdAddPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>
+>
+
+export type AddToFavoritesFavoritesAppIdAddPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Add To Favorites
+ */
+export const useAddToFavoritesFavoritesAppIdAddPost = <
+  TData = Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  axios?: AxiosRequestConfig
+}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+  const mutationOptions =
+    getAddToFavoritesFavoritesAppIdAddPostMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+/**
+ * Remove an app from a users favorites. The appid is the ID of the app to remove.
+ * @summary Remove From Favorites
+ */
+export const removeFromFavoritesFavoritesAppIdRemoveDelete = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.delete(`/favorites/${appId}/remove`, options)
+}
+
+export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
+  TData = Awaited<
+    ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  axios?: AxiosRequestConfig
+}) => {
+  const mutationKey = ["removeFromFavoritesFavoritesAppIdRemoveDelete"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
+    { appId: string }
+  > = (props) => {
+    const { appId } = props ?? {}
+
+    return removeFromFavoritesFavoritesAppIdRemoveDelete(appId, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string },
+    TContext
+  >
+}
+
+export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>
+  >
+
+export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Remove From Favorites
+ */
+export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
+  TData = Awaited<
+    ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  axios?: AxiosRequestConfig
+}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+  const mutationOptions =
+    getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+/**
+ * Get a list of the users favorite apps.
+ * @summary Get Favorites
+ */
+export const getFavoritesFavoritesGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<FavoriteApp[]>> => {
+  return axios.get(`/favorites`, options)
+}
+
+export const getGetFavoritesFavoritesGetQueryKey = () => {
+  return [`/favorites`] as const
+}
+
+export const getGetFavoritesFavoritesGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetFavoritesFavoritesGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getFavoritesFavoritesGet>>
+  > = ({ signal }) => getFavoritesFavoritesGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetFavoritesFavoritesGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getFavoritesFavoritesGet>>
+>
+export type GetFavoritesFavoritesGetQueryError = AxiosError<unknown>
+
+export function useGetFavoritesFavoritesGet<
+  TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetFavoritesFavoritesGet<
+  TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetFavoritesFavoritesGet<
+  TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Favorites
+ */
+
+export function useGetFavoritesFavoritesGet<
+  TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetFavoritesFavoritesGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Is Favorited
+ */
+export const isFavoritedFavoritesAppIdGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<boolean>> => {
+  return axios.get(`/favorites/${appId}`, options)
+}
+
+export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId: string) => {
+  return [`/favorites/${appId}`] as const
+}
+
+export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getIsFavoritedFavoritesAppIdGetQueryKey(appId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>
+  > = ({ signal }) =>
+    isFavoritedFavoritesAppIdGet(appId, { signal, ...axiosOptions })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!appId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type IsFavoritedFavoritesAppIdGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>
+>
+export type IsFavoritedFavoritesAppIdGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useIsFavoritedFavoritesAppIdGet<
+  TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useIsFavoritedFavoritesAppIdGet<
+  TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useIsFavoritedFavoritesAppIdGet<
+  TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Is Favorited
+ */
+
+export function useIsFavoritedFavoritesAppIdGet<
+  TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getIsFavoritedFavoritesAppIdGetQueryOptions(
+    appId,
+    options,
+  )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
