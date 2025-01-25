@@ -125,7 +125,6 @@ def get_moderation_apps(
     limit: int = 100,
     offset: int = 0,
     _moderator=Depends(moderator_only),
-    db=Depends(get_db),
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
 
