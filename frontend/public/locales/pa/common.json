@@ -202,7 +202,14 @@
     "passed": "ਪਾਸ ਹੈ",
     "not-passed": "ਪਾਸ ਨਹੀਂ ਹੈ",
     "app-icon": "ਐਪ ਦਾ ਆਈਕਾਨ",
-    "screenshots-take-screenshots-on-linux": "ਲੀਨਕਸ ਉੱਤੇ ਲਏ ਗਏ ਸਕਰੀਨਸ਼ਾਟ"
+    "screenshots-take-screenshots-on-linux": "ਲੀਨਕਸ ਉੱਤੇ ਲਏ ਗਏ ਸਕਰੀਨਸ਼ਾਟ",
+    "app-name-just-the-name": "ਸਿਰਫ਼ ਨਾਂ",
+    "screenshots-good-content": "ਚੰਗੀ ਸਮੱਗਰੀ",
+    "screenshots-up-to-date": "ਅੱਪ ਟੂ ਡੇਟ ਹੈ",
+    "request-review": "ਰੀਵਿਊ ਦੀ ਬੇਨਤੀ",
+    "screenshots-reasonable-window-size": "ਵਾਜਬ ਵਿੰਡੋ ਆਕਾਰ",
+    "needed-to-pass-x": "{{x}} ਪਾਸ ਕਰਨ ਲਈ ਚਾਹੀਦਾ ਹੈ",
+    "request-a-review-question": "ਕੀ ਤੁਸੀਂ ਰੀਵਿਊ ਲਈ ਬੇਨਤੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ?"
   },
   "saved-cards": "ਸੰਭਾਲੇ ਹੋਏ ਕਾਰਡ",
   "select-donation-amount": "ਦਾਨ ਕਰਨ ਲਈ ਰਕਮ ਚੁਣੋ",

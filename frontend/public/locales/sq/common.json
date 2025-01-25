@@ -624,7 +624,8 @@
   "mobile-apps-description": "Aplikacione për telefona dhe tabletet tuaj Linux",
   "quality": {
     "missing-brand-colors": "Mungojnë ngjyra marke",
-    "banner-preview-description": "Që të eksperimentoni kollaj me banderolën tuaj, përdorni <2>paraparjen e banderolës</2>"
+    "banner-preview-description": "Që të eksperimentoni kollaj me banderolën tuaj, përdorni <2>paraparjen e banderolës</2>",
+    "banner-preview": "Paraparje banderole"
   },
   "on-the-go": "Për pajisje celulare"
 }
