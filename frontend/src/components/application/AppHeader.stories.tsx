@@ -1,90 +1,102 @@
 import React from "react"
-import { Meta } from "@storybook/react"
+import { Meta, StoryObj } from "@storybook/react"
 import { faker } from "@faker-js/faker"
 import { AppHeader } from "./AppHeader"
-import { Appstream } from "../../../src/types/Appstream"
-import { VendingSetup } from "../../codegen/model"
+import { UserInfoProvider } from "../../../src/context/user-info"
 
-export default {
-  title: "Components/Application/AppHeader",
+const meta = {
   component: AppHeader,
-} as Meta<typeof AppHeader>
+  title: "Components/Application/AppHeader",
+} satisfies Meta<typeof AppHeader>
 
-export const Install = () => {
-  const app = {
-    id: faker.string.uuid(),
-    icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    name: faker.commerce.product(),
-    developer_name: faker.internet.userName(),
-  }
+export default meta
 
-  return (
-    <AppHeader
-      app={app}
-      vendingSetup={undefined}
-      verificationStatus={{ verified: true, method: "manual" }}
-      isQualityModalOpen={false}
-    />
-  )
+type Story = StoryObj<typeof meta>
+
+export const Install: Story = {
+  args: {
+    app: {
+      id: faker.string.uuid(),
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: faker.commerce.product(),
+      developer_name: faker.internet.userName(),
+    },
+    vendingSetup: undefined,
+    verificationStatus: { verified: true, method: "manual" },
+    isQualityModalOpen: false,
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
 }
 
-export const InstallNotVerified = () => {
-  const app = {
-    id: faker.string.uuid(),
-    icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    name: faker.commerce.product(),
-    developer_name: faker.internet.userName(),
-  }
-
-  return (
-    <AppHeader
-      app={app}
-      vendingSetup={undefined}
-      verificationStatus={{ verified: false }}
-      isQualityModalOpen={false}
-    />
-  )
+export const InstallNotVerified: Story = {
+  args: {
+    app: {
+      id: faker.string.uuid(),
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: faker.commerce.product(),
+      developer_name: faker.internet.userName(),
+    },
+    vendingSetup: undefined,
+    verificationStatus: { verified: false },
+    isQualityModalOpen: false,
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
 }
 
-export const InstallWithDonate = () => {
-  const app: Appstream = {
-    id: faker.string.uuid(),
-    icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    name: faker.commerce.product(),
-    developer_name: faker.internet.userName(),
-    urls: { donation: faker.internet.url() },
-  }
-
-  return (
-    <AppHeader
-      app={app}
-      vendingSetup={undefined}
-      verificationStatus={{ verified: true }}
-      isQualityModalOpen={false}
-    />
-  )
+export const InstallWithDonate: Story = {
+  args: {
+    app: {
+      id: faker.string.uuid(),
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: faker.commerce.product(),
+      developer_name: faker.internet.userName(),
+      urls: { donation: faker.internet.url() },
+    },
+    vendingSetup: undefined,
+    verificationStatus: { verified: true },
+    isQualityModalOpen: false,
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
 }
 
-export const WithVending = () => {
-  const appId = faker.string.uuid()
-  const app: Appstream = {
-    id: appId,
-    icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    name: faker.commerce.product(),
-    developer_name: faker.internet.userName(),
-    urls: { donation: faker.internet.url() },
-  }
-
-  const vending: Pick<VendingSetup, "recommended_donation"> = {
-    recommended_donation: faker.number.int({ min: 1, max: 150 }),
-  }
-
-  return (
-    <AppHeader
-      app={app}
-      vendingSetup={vending}
-      verificationStatus={{ verified: true }}
-      isQualityModalOpen={false}
-    />
-  )
+export const WithVending: Story = {
+  args: {
+    app: {
+      id: faker.string.uuid(),
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: faker.commerce.product(),
+      developer_name: faker.internet.userName(),
+      urls: { donation: faker.internet.url() },
+    },
+    vendingSetup: {
+      recommended_donation: faker.number.int({ min: 1, max: 150 }),
+    },
+    verificationStatus: { verified: true },
+    isQualityModalOpen: false,
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
 }

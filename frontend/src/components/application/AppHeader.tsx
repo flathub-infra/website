@@ -4,12 +4,89 @@ import { Appstream } from "src/types/Appstream"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
+import { useUserContext } from "src/context/user-info"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
-import { VendingSetup } from "src/codegen"
+import {
+  useAddToFavoritesFavoritesAppIdAddPost,
+  useIsFavoritedFavoritesAppIdGet,
+  useRemoveFromFavoritesFavoritesAppIdRemoveDelete,
+  VendingSetup,
+} from "src/codegen"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
+
+const FavoriteButton = ({ appId }: { appId: string }) => {
+  const { t } = useTranslation()
+
+  const [countChanges, setCountChanges] = React.useState(0)
+
+  const isFavoriteQuery = useIsFavoritedFavoritesAppIdGet(appId, {
+    axios: { withCredentials: true },
+  })
+
+  const addToFavoriteMutation = useAddToFavoritesFavoritesAppIdAddPost({
+    axios: { withCredentials: true },
+  })
+
+  const removeFromFavoriteMutation =
+    useRemoveFromFavoritesFavoritesAppIdRemoveDelete({
+      axios: { withCredentials: true },
+    })
+
+  const user = useUserContext()
+
+  if (!user.info || isFavoriteQuery.isLoading || countChanges > 3) {
+    return null
+  }
+
+  if (
+    isFavoriteQuery.isPending ||
+    addToFavoriteMutation.isPending ||
+    removeFromFavoriteMutation.isPending
+  ) {
+    return (
+      <Button variant="ghost" size="icon-lg" disabled>
+        <Loader2 className="animate-spin" />
+      </Button>
+    )
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon-lg"
+      title={t("favorite")}
+      onClick={() => {
+        isFavoriteQuery.data.data
+          ? removeFromFavoriteMutation.mutate(
+              {
+                appId: appId,
+              },
+              {
+                onSuccess: () => {
+                  isFavoriteQuery.refetch()
+                  setCountChanges(countChanges + 1)
+                },
+              },
+            )
+          : addToFavoriteMutation.mutate(
+              { appId: appId },
+              {
+                onSuccess: () => {
+                  isFavoriteQuery.refetch()
+                  setCountChanges(countChanges + 1)
+                },
+              },
+            )
+      }}
+    >
+      {isFavoriteQuery.data.data ? <BookmarkCheck /> : <Bookmark />}
+    </Button>
+  )
+}
 
 export function AppHeader({
   app,
@@ -78,6 +155,7 @@ export function AppHeader({
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ms-auto">
+        <FavoriteButton appId={app.id} />
         <InstallButton appId={app.id} />
         {app.urls?.donation && (
           <Button

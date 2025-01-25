@@ -5,19 +5,44 @@ import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import UserApps from "../src/components/user/UserApps"
 import { IS_PRODUCTION } from "src/env"
-import { HiSparkles } from "react-icons/hi2"
 import Breadcrumbs from "src/components/Breadcrumbs"
+import ApplicationCollection from "src/components/application/Collection"
+import { useGetFavoritesFavoritesGet } from "src/codegen"
+import Spinner from "src/components/Spinner"
+import { getAppsInfo } from "src/asyncs/app"
+import { useQuery } from "@tanstack/react-query"
 
-const Empty = () => {
+const FavoriteApps = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
 
+  const favoritesQuery = useGetFavoritesFavoritesGet({
+    axios: {
+      withCredentials: true,
+    },
+  })
+
+  const appdetailQuery = useQuery({
+    queryKey: ["favorite-apps", locale],
+    queryFn: async () => {
+      const data = await getAppsInfo(
+        favoritesQuery.data.data.map((app) => app.app_id),
+        locale,
+      )
+      return data
+    },
+    enabled: !!favoritesQuery.data,
+  })
+
+  if (appdetailQuery.isLoading || favoritesQuery.isLoading) {
+    return <Spinner size="m" />
+  }
+
   return (
-    <div className="flex flex-col">
-      <div className="bg-flathub-celestial-blue rounded-full m-auto p-3">
-        <HiSparkles />
-      </div>
-      <span className="m-auto">{t("nothing-to-do")}</span>
-    </div>
+    <ApplicationCollection
+      title={t("favorite-apps")}
+      applications={appdetailQuery.data}
+      variant="nested"
+    />
   )
 }
 
@@ -38,9 +63,16 @@ export default function MyFlathub({ locale }: { locale: string }) {
                 <h1 className="text-4xl font-extrabold">{t("my-flathub")}</h1>
                 <div className="space-y-12 w-full">
                   {!IS_PRODUCTION && (
-                    <UserApps variant="owned" locale={locale} />
+                    <>
+                      <UserApps variant="owned" locale={locale} />
+                      <FavoriteApps locale={locale} />
+                    </>
                   )}
-                  {IS_PRODUCTION && <Empty />}
+                  {IS_PRODUCTION && (
+                    <>
+                      <FavoriteApps locale={locale} />
+                    </>
+                  )}
                 </div>
               </>
             </div>

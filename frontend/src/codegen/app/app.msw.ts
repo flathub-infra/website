@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type {
+  FavoriteApp,
   GetEolMessageAppidEolMessageAppIdGet200,
   GetEolMessageEolMessageGet200,
   GetEolRebaseAppidEolRebaseAppIdGet200,
@@ -137,6 +138,18 @@ export const getGetAddonsAddonAppIdGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
     faker.word.sample(),
   )
+
+export const getGetFavoritesFavoritesGetResponseMock = (): FavoriteApp[] =>
+  Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    app_id: faker.string.alpha(20),
+    created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+  }))
+
+export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
+  faker.datatype.boolean()
 
 export const getGetCategoriesCategoriesGetMockHandler = (
   overrideResponse?:
@@ -681,6 +694,84 @@ export const getGetAddonsAddonAppIdGetMockHandler = (
     )
   })
 }
+
+export const getAddToFavoritesFavoritesAppIdAddPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/favorites/:appId/add", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.delete("*/favorites/:appId/remove", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetFavoritesFavoritesGetMockHandler = (
+  overrideResponse?:
+    | FavoriteApp[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<FavoriteApp[]> | FavoriteApp[]),
+) => {
+  return http.get("*/favorites", async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetFavoritesFavoritesGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
+  })
+}
+
+export const getIsFavoritedFavoritesAppIdGetMockHandler = (
+  overrideResponse?:
+    | boolean
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<boolean> | boolean),
+) => {
+  return http.get("*/favorites/:appId", async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getIsFavoritedFavoritesAppIdGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
+  })
+}
 export const getAppMock = () => [
   getGetCategoriesCategoriesGetMockHandler(),
   getGetCategoryCategoryCategoryGetMockHandler(),
@@ -710,4 +801,8 @@ export const getAppMock = () => [
   getGetExceptionsExceptionsGetMockHandler(),
   getGetExceptionsForAppExceptionsAppIdGetMockHandler(),
   getGetAddonsAddonAppIdGetMockHandler(),
+  getAddToFavoritesFavoritesAppIdAddPostMockHandler(),
+  getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler(),
+  getGetFavoritesFavoritesGetMockHandler(),
+  getIsFavoritedFavoritesAppIdGetMockHandler(),
 ]

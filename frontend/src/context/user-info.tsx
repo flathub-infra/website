@@ -15,8 +15,17 @@ export const UserContext = createContext<UserState>(initialState)
 export const UserDispatchContext =
   createContext<Dispatch<UserStateAction>>(null)
 
-export const UserInfoProvider = ({ children }) => {
-  const [user, dispatch] = useReducer(contextReducer, initialState)
+export const UserInfoProvider = ({
+  children,
+  userContext,
+}: {
+  children: React.ReactNode
+  userContext?: UserState
+}) => {
+  const [user, dispatch] = useReducer(
+    contextReducer,
+    userContext ?? initialState,
+  )
 
   // Fetch the user data only the first time the provider is created
   // This works thanks to Next.js Link components, as soon as a new
