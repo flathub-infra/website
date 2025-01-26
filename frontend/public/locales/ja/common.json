@@ -116,8 +116,8 @@
   "kind-purchase": "購入",
   "kind-donation": "寄付",
   "expiry": "有効期限",
-  "transaction-summary-type": "種類: {{type}}",
-  "transaction-summary-status": "状態: {{status}}",
+  "transaction-summary-type": "種類:",
+  "transaction-summary-status": "状態:",
   "delete-account-prompt": "アカウントを削除しますか？",
   "entry-confirmation-prompt": "”{{text}}”と入力してください。",
   "delete-account-entry": "アカウントを削除します",
@@ -148,8 +148,8 @@
   "checkout": "支払う",
   "status-new": "新規",
   "transaction-cancel": "取引をキャンセル",
-  "transaction-summary-created": "取引日時: {{date}}",
-  "transaction-summary-updated": "最終更新日時: {{date}}",
+  "transaction-summary-created": "取引日時:",
+  "transaction-summary-updated": "最終更新日時:",
   "use-new-card": "新しいカードを使用",
   "cancel": "キャンセル",
   "delete": "削除",
@@ -590,5 +590,6 @@
   "get-apps": "アプリを入手",
   "about-claim": "<0>アプリを探がしているユーザーでも、より多くのユーザーにアプリを配布したい開発者でも、<2>FlathubはアプリをLinuxで使うのに最適です。</2></0>",
   "all-the-apps-you-want": "<0>使いたいアプリを全てここに</0> — 大手企業からインディー開発者まで、Flathubはあなたの目的に合わせたアプリがたくさんあります。",
-  "transparent-safety": "<0>透明化された安全性</0> — いつアプリが開発者から<3>認証</3>されたか、どんな許可が必要か、そしてそれがオープンソースで公開されているかどうかも明確に確認できます"
+  "transparent-safety": "<0>透明化された安全性</0> — いつアプリが開発者から<3>認証</3>されたか、どんな許可が必要か、そしてそれがオープンソースで公開されているかどうかも明確に確認できます",
+  "position-short": "位置"
 }

@@ -625,5 +625,15 @@
   "zoom": "Zomi",
   "action-donate": "Donaci",
   "apps-by-tag": "Programoj de etikedo «{{tag}}»",
-  "mobile-apps": "Poŝaparataj programoj"
+  "mobile-apps": "Poŝaparataj programoj",
+  "quality": {
+    "missing-brand-colors": "Mankanta ĉefkoloro",
+    "banner-preview": "Antaŭrigardo de la rubando",
+    "banner-preview-description": "Por pli facile eksperimento pri la rubando, uzu <2>la antaŭrigardon de la rubando</2>"
+  },
+  "on-the-go": "Por poŝaparatoj",
+  "mobile-apps-description": "Programoj por Linux-telefonoj kaj tabulkomputiloj",
+  "favorite-apps": "Ŝatataj",
+  "more-mobile-apps": "Pli da programoj por poŝaparatoj",
+  "favorite": "Ŝatata"
 }
