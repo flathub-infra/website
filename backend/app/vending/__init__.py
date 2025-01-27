@@ -593,7 +593,7 @@ def create_tokens(
                     token=token.token,
                 )
             )
-    with get_db("writer") as db:
+
         db.commit()
     return tokens
 
@@ -676,12 +676,12 @@ def redeem_token(
     with get_db("replica") as db:
         dbtoken = RedeemableAppToken.by_appid_and_token(db, app_id, token)
         if dbtoken is not None and dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
-            if dbtoken.redeem(db, login["user"]):
-                with get_db("writer") as db:
+            with get_db("writer") as db:
+                if dbtoken.redeem(db, login["user"]):
                     db.commit()
                     return RedemptionResult(status="success", reason="redeemed")
-            else:
-                return RedemptionResult(status="failure", reason="already-owned")
+                else:
+                    return RedemptionResult(status="failure", reason="already-owned")
 
     return RedemptionResult(status="failure", reason="invalid")
 
