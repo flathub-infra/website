@@ -49,6 +49,8 @@ def get_db(db_type: Literal["writer", "replica"] = "replica"):
     db = SessionClass()
     try:
         yield DBSession(db)
+        if db_type == "writer":
+            db.commit()
     finally:
         db.close()
 
