@@ -598,5 +598,12 @@
   "mobile-apps": "کاره‌های همراه",
   "mobile-apps-description": "کاره‌هایی برای رایانک‌ها و تلفن‌های گنو/لینوکسیتان",
   "on-the-go": "در مسیر",
-  "more-mobile-apps": "کاره‌های همراه بیش‌تر"
+  "more-mobile-apps": "کاره‌های همراه بیش‌تر",
+  "quality": {
+    "missing-brand-colors": "بدون رنگ‌های ویژند",
+    "banner-preview-description": "استفاده از <2>پیش‌نمایش بیرق</2> برای آزمایش آسان بیرقتان",
+    "banner-preview": "پیش‌نمایش بیرق"
+  },
+  "favorite": "برگزیدن",
+  "favorite-apps": "برگزیده‌ها"
 }
