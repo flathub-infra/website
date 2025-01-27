@@ -629,9 +629,12 @@
   "mobile-apps": "Aplikacje Mobilne",
   "quality": {
     "missing-brand-colors": "Brak kolorów marki",
-    "banner-preview-description": "Aby łatwo eksperymentować z twoim banerem, użyj <2>podglądu banera</2>"
+    "banner-preview-description": "Aby łatwo eksperymentować z twoim banerem, użyj <2>podglądu banera</2>",
+    "banner-preview": "Podgląd baneru"
   },
   "on-the-go": "W drodze",
   "more-mobile-apps": "Więcej aplikacji mobilnych",
-  "mobile-apps-description": "Aplikacje dla twoich Linuksowych telefonów i tabletów"
+  "mobile-apps-description": "Aplikacje dla twoich Linuksowych telefonów i tabletów",
+  "favorite": "Dodaj do ulubionych",
+  "favorite-apps": "Ulubione"
 }
