@@ -21,7 +21,6 @@ from fastapi.responses import JSONResponse
 from github import Github
 from gitlab import Gitlab
 from pydantic import BaseModel
-from sqlalchemy import func
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import apps, config, models, worker
