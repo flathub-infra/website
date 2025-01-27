@@ -8,16 +8,11 @@ import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { VerificationMethod, VerificationStatus } from "src/codegen/model"
 import {
-  AvailableMethods,
-  VerificationMethod,
-  VerificationStatus,
-} from "src/codegen/model"
-import {
-  getAvailableMethodsVerificationAppIdAvailableMethodsGet,
   getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
+  useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -81,31 +76,26 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     enabled: !!app.id,
   })
 
-  const verificationAvailableMethods = useQuery<
-    AxiosResponse<AvailableMethods | undefined>,
-    AxiosError<{ detail: string }>
-  >({
-    queryKey: ["verification-available-methods", app.id],
-    queryFn: async () => {
-      return getAvailableMethodsVerificationAppIdAvailableMethodsGet(
-        app.id,
-        { new_app: isNewApp },
-        {
+  const verificationAvailableMethods =
+    useGetAvailableMethodsVerificationAppIdAvailableMethodsGet(
+      app.id,
+      { new_app: isNewApp },
+      {
+        axios: {
           withCredentials: true,
         },
-      )
-    },
-    retry: false,
-    enabled: query.data && !query.data.data.verified,
-  })
+        query: {
+          retry: false,
+          enabled: query.data && !query.data.data.verified,
+        },
+      },
+    )
 
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
 
   const onChildVerified = useCallback(() => {
-    verificationAvailableMethods.refetch()
-    query.refetch()
     onVerified?.()
-  }, [onVerified, query, verificationAvailableMethods])
+  }, [onVerified])
 
   if (query.isPending || verificationAvailableMethods.isPending) {
     return <Spinner size="m" />
@@ -115,7 +105,10 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   if (query.error) {
     content = <InlineError shown={true} error={query.error.message} />
   } else if (verificationAvailableMethods.error?.response?.data?.detail) {
-    switch (verificationAvailableMethods.error.response.data.detail) {
+    switch (
+      verificationAvailableMethods.error.response.data
+        .detail as unknown as string
+    ) {
       case "app_already_exists":
         content = <InlineError shown={true} error={t("app-already-exists")} />
         break
