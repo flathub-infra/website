@@ -973,7 +973,7 @@ def do_refresh_dev_flatpaks(
 ) -> RefreshDevFlatpaksReturn:
     user = login.user
 
-    with get_db("replica") as db:
+    with get_db("writer") as db:
         account = models.GithubAccount.by_user(db, user)
 
         # We need to have a github account to refresh dev flatpaks
