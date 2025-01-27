@@ -2657,6 +2657,15 @@ class UserFavoriteApp(Base):
             delete(UserFavoriteApp).where(UserFavoriteApp.account == user.id)
         )
 
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        Add a user's favorite apps to hash
+        """
+        apps = [app.appid for app in UserFavoriteApp.all_favorited_by_user(db, user.id)]
+        for app in apps:
+            hasher.add_string(app)
+
 
 FlathubUser.TABLES_FOR_DELETE.append(UserFavoriteApp)
 
