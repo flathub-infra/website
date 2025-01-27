@@ -1071,8 +1071,9 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
-    login.user.accepted_publisher_agreement_at = func.now()
     with get_db("writer") as db:
+        user = db.merge(login.user)
+        user.accepted_publisher_agreement_at = datetime.utcnow()
         db.commit()
 
 
