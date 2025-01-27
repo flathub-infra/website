@@ -6,12 +6,12 @@ import InlineError from "src/components/InlineError"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
 import Spinner from "src/components/Spinner"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { getLoginMethodsAuthLoginGet } from "src/codegen"
+import { useQuery } from "@tanstack/react-query"
 import {
-  requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet,
-  verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost,
+  getLoginMethodsAuthLoginGet,
+  useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost,
 } from "src/codegen"
+import { requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet } from "src/codegen"
 import { AvailableMethod } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 
@@ -53,42 +53,49 @@ const LoginVerification: FunctionComponent<Props> = ({
     method.login_provider,
   )
 
-  const verify = useMutation({
-    mutationKey: ["verify-app", appId, isNewApp ?? false],
-    mutationFn: async () => {
-      setError("")
-
-      return await verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
-        appId,
-        { new_app: isNewApp ?? false },
-        {
-          withCredentials: true,
+  const verify =
+    useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost({
+      axios: {
+        withCredentials: true,
+      },
+      mutation: {
+        onMutate: () => {
+          setError("")
         },
-      )
-    },
-    onSuccess: (result) => {
-      if (result?.data?.detail) {
-        switch (result.data.detail) {
-          case "user_does_not_exist":
-          case "provider_denied_access":
-          case "not_org_member":
-          case "not_org_admin":
-            setError(t("login-provider-verification-failed"))
-            break
-          default:
-            setError(t("error-code", { code: result.data.detail }))
-            break
-        }
-        onReloadNeeded()
-      } else {
-        onVerified()
-      }
-    },
-  })
+        onSuccess: (result) => {
+          if (result?.data?.detail) {
+            switch (result.data.detail) {
+              case "user_does_not_exist":
+              case "provider_denied_access":
+              case "not_org_member":
+              case "not_org_admin":
+                setError(t("login-provider-verification-failed"))
+                break
+              default:
+                setError(t("error-code", { code: result.data.detail }))
+                break
+            }
+            onReloadNeeded()
+          } else {
+            onVerified()
+          }
+        },
+      },
+    })
 
   const try_again = (
     <div>
-      <Button size="lg" onClick={() => verify.mutate()}>
+      <Button
+        size="lg"
+        onClick={() =>
+          verify.mutate({
+            appId: appId,
+            params: {
+              new_app: isNewApp,
+            },
+          })
+        }
+      >
         {t("try-again")}
       </Button>
       {verify.isPending && (
@@ -172,7 +179,17 @@ const LoginVerification: FunctionComponent<Props> = ({
   switch (method.login_status) {
     case "ready":
       content = (
-        <Button size="lg" onClick={() => verify.mutate()}>
+        <Button
+          size="lg"
+          onClick={() =>
+            verify.mutate({
+              appId: appId,
+              params: {
+                new_app: isNewApp,
+              },
+            })
+          }
+        >
           {t("verify-app")}
         </Button>
       )
