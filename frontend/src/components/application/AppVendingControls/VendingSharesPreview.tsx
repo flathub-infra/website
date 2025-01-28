@@ -36,7 +36,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   vendingConfig,
 }) => {
   const { resolvedTheme } = useTheme()
-  const { i18n, t } = useTranslation()
+  const { t } = useTranslation()
 
   // Don't re-run computations unnecessarily
   const shares = useMemo(
@@ -74,14 +74,14 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
     data[0][name] = split / 100
   }
 
-  const lightness = resolvedTheme === "light" ? "55.1%" : "calc(55.1% - 15%)"
+  const lightness = resolvedTheme === "light" ? "70%" : "calc(70% - 20%)"
 
   const chartConfig = Object.values(labels).reduce(
     (red, label, i) => ({
       ...red,
       [label]: {
         label: t(translatePlatformName(label)),
-        color: `hsl(${210.6 - i * 35}, 65.3%, ${lightness})`,
+        color: `oklch(${lightness} 0.2 ${251.57 - i * 50})`,
       },
     }),
     {},

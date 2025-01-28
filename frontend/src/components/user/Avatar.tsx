@@ -9,8 +9,8 @@ interface Props {
   userName: string
 }
 
-const celestialBlue = "#4a90d9"
-const variationTone = "#70dee6"
+const celestialBlue = "oklch(63.85% 0.1314 251.94)"
+const variationTone = "oklch(83.88% 0.1014 201.73)"
 
 const Avatar: FunctionComponent<Props> = (props: Props) => {
   const { t } = useTranslation()

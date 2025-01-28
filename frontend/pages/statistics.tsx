@@ -102,9 +102,9 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
       <div className="flex flex-col gap-5">
         <div className={`flex justify-center ${styles.map}`}>
           <WorldMap
-            color="hsl(var(--color-primary))"
-            backgroundColor="hsl(var(--bg-color-secondary))"
-            borderColor="hsl(var(--text-primary))"
+            color="oklch(var(--color-primary))"
+            backgroundColor="oklch(var(--bg-color-secondary))"
+            borderColor="oklch(var(--text-primary))"
             size="responsive"
             data={country_data}
             tooltipTextFunction={getLocalizedText}
@@ -226,7 +226,7 @@ const FailedByGuideline = () => {
 
   const chartConfig = {
     downloads: {
-      color: "hsl(var(--flathub-celestial-blue))",
+      color: "oklch(var(--flathub-celestial-blue))",
     },
   } satisfies ChartConfig
 
@@ -279,7 +279,7 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
 
   const chartConfig = {
     category: {
-      color: "hsl(var(--flathub-celestial-blue))",
+      color: "oklch(var(--flathub-celestial-blue))",
     },
   } satisfies ChartConfig
 
@@ -400,8 +400,8 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
                   onMouseLeave={() => setHover(null)}
                   fill={
                     hover === props.index
-                      ? "hsl(211, 65%, 47%)"
-                      : "hsl(211, 65%, 57%"
+                      ? "oklch(55.86% 0.1446 253.19)"
+                      : "oklch(63.85% 0.1314 251.94)"
                   }
                 />
               )}

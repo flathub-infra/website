@@ -3,19 +3,19 @@ import { useTheme } from "next-themes"
 
 export function axisStroke(resolvedTheme: string): string {
   return resolvedTheme === "light"
-    ? "rgba(0, 0, 0, 0.8)"
-    : "rgba(255, 255, 255, 0.8)"
+    ? "oklch(0% 0 0 / 80%)"
+    : "oklch(100% 0 0 / 80%)"
 }
 
 export function primaryStroke(resolvedTheme: string): string {
   return resolvedTheme === "light"
-    ? "hsl(210.6, 65.3%, 57.1%)"
-    : "hsl(210.6, 65.3%, calc(57.1% - 15%))"
+    ? "oklch(51.85% 0.1318 252.64)"
+    : "oklch(64.15% 0.1308 251.37)"
 }
 
 export const RotatedAxisTick = (props) => {
   const { resolvedTheme } = useTheme()
-  const { x, y, payload, stroke, tickFormatter } = props
+  const { x, y, payload, tickFormatter } = props
 
   return (
     <g transform={`translate(${x},${y})`}>
@@ -26,8 +26,8 @@ export const RotatedAxisTick = (props) => {
         textAnchor="end"
         fill={
           resolvedTheme === "light"
-            ? "rgba(0, 0, 0, 0.8)"
-            : "rgba(255, 255, 255, 0.8)"
+            ? "oklch(0% 0 0 / 80%)"
+            : "oklch(100% 0 0 / 80%)"
         }
         transform="rotate(-35)"
       >
