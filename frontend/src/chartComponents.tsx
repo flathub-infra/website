@@ -3,14 +3,14 @@ import { useTheme } from "next-themes"
 
 export function axisStroke(resolvedTheme: string): string {
   return resolvedTheme === "light"
-    ? "rgba(0, 0, 0, 0.8)"
-    : "rgba(255, 255, 255, 0.8)"
+    ? "oklch(0% 0 0 0.8)"
+    : "oklch(100%, 0, 0, 0.8)"
 }
 
 export function primaryStroke(resolvedTheme: string): string {
   return resolvedTheme === "light"
-    ? "hsl(210.6, 65.3%, 57.1%)"
-    : "hsl(210.6, 65.3%, calc(57.1% - 15%))"
+    ? "oklch(51.85% 0.1318 252.64)"
+    : "oklch(64.15% 0.1308 251.37)"
 }
 
 export const RotatedAxisTick = (props) => {
@@ -26,8 +26,8 @@ export const RotatedAxisTick = (props) => {
         textAnchor="end"
         fill={
           resolvedTheme === "light"
-            ? "rgba(0, 0, 0, 0.8)"
-            : "rgba(255, 255, 255, 0.8)"
+            ? "oklch(0% 0 0 0.8)"
+            : "oklch(100%, 0, 0, 0.8)"
         }
         transform="rotate(-35)"
       >
