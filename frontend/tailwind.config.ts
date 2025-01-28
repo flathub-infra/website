@@ -38,80 +38,82 @@ export default {
     extend: {
       colors: {
         "flathub-celestial-blue":
-          "hsl(var(--flathub-celestial-blue) / <alpha-value>)",
+          "oklch(var(--flathub-celestial-blue) / <alpha-value>)",
         "flathub-celestial-blue-dark":
-          "hsl(var(--flathub-celestial-blue-dark) / <alpha-value>)",
+          "oklch(var(--flathub-celestial-blue-dark) / <alpha-value>)",
         "flathub-electric-red":
-          "hsl(var(--flathub-electric-red) / <alpha-value>)",
+          "oklch(var(--flathub-electric-red) / <alpha-value>)",
 
         "flathub-status-green":
-          "hsl(var(--flathub-status-green) / <alpha-value>)",
+          "oklch(var(--flathub-status-green) / <alpha-value>)",
         "flathub-status-green-dark":
-          "hsl(var(--flathub-status-green-dark) / <alpha-value>)",
+          "oklch(var(--flathub-status-green-dark) / <alpha-value>)",
         "flathub-status-yellow":
-          "hsl(var(--flathub-status-yellow) / <alpha-value>)",
+          "oklch(var(--flathub-status-yellow) / <alpha-value>)",
         "flathub-status-yellow-dark":
-          "hsl(var(--flathub-status-yellow-dark) / <alpha-value>)",
+          "oklch(var(--flathub-status-yellow-dark) / <alpha-value>)",
         "flathub-status-orange":
-          "hsl(var(--flathub-status-orange) / <alpha-value>)",
+          "oklch(var(--flathub-status-orange) / <alpha-value>)",
         "flathub-status-orange-dark":
-          "hsl(var(--flathub-status-orange-dark) / <alpha-value>)",
-        "flathub-status-red": "hsl(var(--flathub-status-red) / <alpha-value>)",
+          "oklch(var(--flathub-status-orange-dark) / <alpha-value>)",
+        "flathub-status-red":
+          "oklch(var(--flathub-status-red) / <alpha-value>)",
         "flathub-status-red-dark":
-          "hsl(var(--flathub-status-red-dark) / <alpha-value>)",
+          "oklch(var(--flathub-status-red-dark) / <alpha-value>)",
 
-        "flathub-white": "hsl(var(--flathub-white) / <alpha-value>)",
-        "flathub-lotion": "hsl(var(--flathub-lotion) / <alpha-value>)",
-        "flathub-gainsborow": "hsl(var(--flathub-gainsborow) / <alpha-value>)",
-        "flathub-gray-x11": "hsl(var(--flathub-gray-x11) / <alpha-value>)",
+        "flathub-white": "oklch(var(--flathub-white) / <alpha-value>)",
+        "flathub-lotion": "oklch(var(--flathub-lotion) / <alpha-value>)",
+        "flathub-gainsborow":
+          "oklch(var(--flathub-gainsborow) / <alpha-value>)",
+        "flathub-gray-x11": "oklch(var(--flathub-gray-x11) / <alpha-value>)",
         "flathub-spanish-gray":
-          "hsl(var(--flathub-spanish-gray) / <alpha-value>)",
+          "oklch(var(--flathub-spanish-gray) / <alpha-value>)",
         "flathub-sonic-silver":
-          "hsl(var(--flathub-sonic-silver) / <alpha-value>)",
+          "oklch(var(--flathub-sonic-silver) / <alpha-value>)",
         "flathub-granite-gray":
-          "hsl(var(--flathub-granite-gray) / <alpha-value>)",
-        "flathub-arsenic": "hsl(var(--flathub-arsenic) / <alpha-value>)",
+          "oklch(var(--flathub-granite-gray) / <alpha-value>)",
+        "flathub-arsenic": "oklch(var(--flathub-arsenic) / <alpha-value>)",
         "flathub-dark-gunmetal":
-          "hsl(var(--flathub-dark-gunmetal) / <alpha-value>)",
-        "flathub-black": "hsl(var(--flathub-black) / <alpha-value>)",
+          "oklch(var(--flathub-dark-gunmetal) / <alpha-value>)",
+        "flathub-black": "oklch(var(--flathub-black) / <alpha-value>)",
 
         "flathub-vivid-crimson":
-          "hsl(var(--flathub-vivid-crimson) / <alpha-value>)",
+          "oklch(var(--flathub-vivid-crimson) / <alpha-value>)",
         "flathub-dark-candy-apple-red":
-          "hsl(var(--flathub-dark-candy-apple-red) / <alpha-value>)",
+          "oklch(var(--flathub-dark-candy-apple-red) / <alpha-value>)",
 
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        border: "oklch(var(--border))",
+        input: "oklch(var(--input))",
+        ring: "oklch(var(--ring))",
+        background: "oklch(var(--background))",
+        foreground: "oklch(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "oklch(var(--primary))",
+          foreground: "oklch(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "oklch(var(--secondary))",
+          foreground: "oklch(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "oklch(var(--destructive))",
+          foreground: "oklch(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "oklch(var(--muted))",
+          foreground: "oklch(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "oklch(var(--accent))",
+          foreground: "oklch(var(--accent-foreground))",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "oklch(var(--popover))",
+          foreground: "oklch(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "oklch(var(--card))",
+          foreground: "oklch(var(--card-foreground))",
         },
       },
       borderRadius: {
