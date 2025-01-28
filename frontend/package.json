@@ -94,7 +94,7 @@
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.25.0",
     "eslint": "^9.18.0",
-    "eslint-config-next": "15.1.4",
+    "eslint-config-next": "15.1.6",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
     "msw": "^2.6.8",
