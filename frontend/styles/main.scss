@@ -59,46 +59,46 @@
 
 :root {
   // colors used via tailwind
-  --flathub-celestial-blue: 211 65% 57%;
-  --flathub-celestial-blue-dark: 211 65% 40%;
-  --flathub-electric-red: 0 100% 44%;
+  --flathub-celestial-blue: 63.85% 0.1314 251.94;
+  --flathub-celestial-blue-dark: 49.79% 0.127 253.08;
+  --flathub-electric-red: 57.01% 0.2339 29.23;
 
-  --flathub-status-green: 153 55% 43%;
-  --flathub-status-green-dark: 133 75% 75%;
+  --flathub-status-green: 65.83% 0.1334 159.27;
+  --flathub-status-green-dark: 87.4% 0.1381 149.75;
 
-  --flathub-status-yellow: 42 89% 37%;
-  --flathub-status-yellow-dark: 52 92% 67%;
+  --flathub-status-yellow: 63.34% 0.1288 80.24;
+  --flathub-status-yellow-dark: 91.01% 0.1531 100.56;
 
-  --flathub-status-orange: 21 100% 39%;
-  --flathub-status-orange-dark: 21 100% 45%;
+  --flathub-status-orange: 56.67% 0.176 40.5;
+  --flathub-status-orange-dark: 62.94% 0.197 40.11;
 
-  --flathub-status-red: 356 75% 43%;
-  --flathub-status-red-dark: 0 65% 51%;
+  --flathub-status-red: 51.91% 0.196 25.07;
+  --flathub-status-red-dark: 57.01% 0.1989 26.25;
 
   // grays
-  --flathub-white: 0 0% 100%;
+  --flathub-white: 100% 0 106.37;
 
-  --flathub-lotion: 0 0% 98%;
+  --flathub-lotion: 98.48% 0 0;
 
-  --flathub-gainsborow: 45 6% 86%;
+  --flathub-gainsborow: 89.56% 0.0045 91.45;
 
-  --flathub-gray-x11: 45 3% 75%;
+  --flathub-gray-x11: 80.84% 0.0041 91.45;
 
-  --flathub-spanish-gray: 45 2% 60%;
+  --flathub-spanish-gray: 68.62% 0.0046 91.47;
 
-  --flathub-sonic-silver: 252 2% 47%;
+  --flathub-sonic-silver: 56.64% 0.0074 295.34;
 
-  --flathub-granite-gray: 277 4% 38%;
+  --flathub-granite-gray: 48.56% 0.0136 312.8;
 
-  --flathub-arsenic: 261 11% 25%;
+  --flathub-arsenic: 35.42% 0.0248 301.11;
 
-  --flathub-dark-gunmetal: 257 23% 16%;
+  --flathub-dark-gunmetal: 25.61% 0.0354 296.84;
 
-  --flathub-black: 0 0% 0%;
+  --flathub-black: 0% 0% 0;
 
   // reds
-  --flathub-vivid-crimson: 345 100% 40%;
-  --flathub-dark-candy-apple-red: 354 100% 33%;
+  --flathub-vivid-crimson: 53.46% 0.21476703296252692 20.33110990321919;
+  --flathub-dark-candy-apple-red: 46.09% 0.1876 26.75;
 
   --base-border-radius: 12px;
   --button-border-radius: 8px;
@@ -127,11 +127,11 @@
   --secondary: var(--flathub-gainsborow);
   --secondary-foreground: var(--flathub-dark-gunmetal);
 
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
+  --muted: 97.03% 0 0;
+  --muted-foreground: 55.55% 0 0;
 
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
+  --accent: 97.03% 0 0;
+  --accent-foreground: 20.44% 0 0;
 
   --destructive: var(--flathub-dark-candy-apple-red);
   --destructive-foreground: var(--flathub-lotion);
@@ -161,7 +161,7 @@
   --secondary-foreground: var(--flathub-lotion);
 
   --muted: var(--flathub-arsenic);
-  --muted-foreground: 0 0% 63.9%;
+  --muted-foreground: 71.53% 0 0;
 
   --accent: var(--flathub-granite-gray);
   --accent-foreground: var(--flathub-lotion);
@@ -171,7 +171,7 @@
 
   --border: var(--flathub-granite-gray);
   --input: var(--flathub-spanish-gray);
-  --ring: 0 0% 83.1%;
+  --ring: 86.97% 0 0;
 
   // Override react-tostify variable here for easy theme adherence
   --toastify-color-light: var(--toastify-color-dark);
