@@ -627,5 +627,15 @@
   "total": "الإجمالي",
   "kind-donate-app": "تبرَّع لـ {{appName}}",
   "apps-by-tag": "التطبيقات حسب وسم '{{tag}}'",
-  "mobile-apps": "تطبيقات الجوال"
+  "mobile-apps": "تطبيقات الجوال",
+  "favorite": "المفضلة",
+  "favorite-apps": "المفضلات",
+  "mobile-apps-description": "تطبيقات للهواتف والأجهزة اللوحية التي تعمل بنظام لينكس",
+  "on-the-go": "أثناء التنقل",
+  "more-mobile-apps": "مزيد من التطبيقات المحمولة",
+  "quality": {
+    "banner-preview": "معاينة اللافتة",
+    "banner-preview-description": "لتجربة لافتتك بسهولة، استخدم <2>معاينة اللافتة</2>",
+    "missing-brand-colors": "الألوان المفقودة للعلامة التجارية"
+  }
 }

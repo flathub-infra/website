@@ -452,7 +452,7 @@
     "app-icon-contrast": "Buen contraste sobre fondos oscuros",
     "app-summary-not-technical": "Comprensible para una persona sin conocimientos técnicos",
     "app-summary": "Resumen",
-    "app-summary-dont-repeat-app-name": "No repita el nombre de la aplicación",
+    "app-summary-dont-repeat-app-name": "No repite el nombre de la aplicación",
     "app-no-weird-formatting": "Sin formatos raros, puntuación, minúsculas, etc.",
     "app-icon": "Icono de la aplicación",
     "app-icon-no-baked-in-shadows": "Sin sombras integradas",
@@ -461,7 +461,7 @@
     "app-icon-in-line-with-contemporary-styles": "En línea con los estilos contemporáneos",
     "app-name-not-too-long": "Inferior a 20 caracteres",
     "app-icon-size": "SVG o PNG de al menos 256px",
-    "app-summary-dont-start-with-an-article": "No empiece con un artículo",
+    "app-summary-dont-start-with-an-article": "No empieza con un artículo",
     "hide-icon": "Ocultar el icono",
     "screenshots-default-settings": "Configuración predeterminada",
     "screenshots-reasonable-window-size": "Tamaño de la ventana razonable",
@@ -469,7 +469,7 @@
     "screenshots-take-screenshots-on-linux": "Capturas de pantalla tomadas en Linux",
     "show-icon": "Mostrar el icono",
     "screenshots-just-the-app-window": "Solo la ventana de la aplicación",
-    "screenshots-tag-screenshots-with-correct-language": "Etiquete las capturas de pantalla con el idioma correcto",
+    "screenshots-tag-screenshots-with-correct-language": "Capturas de pantalla etiquetadas con el idioma correcto",
     "screenshots-good-content": "Buen contenido",
     "screenshots-include-window-shadow-and-rounded-corners": "Incluir la sombra de la ventana y las esquinas redondeadas",
     "screenshots-up-to-date": "Actualizadas",
@@ -629,5 +629,12 @@
   "mobile-apps": "Aplicaciones móviles",
   "on-the-go": "En movimiento",
   "mobile-apps-description": "Aplicaciones para sus teléfonos y tabletas Linux",
-  "more-mobile-apps": "Más aplicaciones móviles"
+  "more-mobile-apps": "Más aplicaciones móviles",
+  "quality": {
+    "missing-brand-colors": "Colores de marca ausentes",
+    "banner-preview": "Vista previa del banner",
+    "banner-preview-description": "Para experimentar fácilmente con su banner, use <2>la vista previa del banner</2>"
+  },
+  "favorite-apps": "Favoritas",
+  "favorite": "Favorita"
 }
