@@ -10,7 +10,7 @@ strict = ["app/**.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.115.7"
+fastapi = "^0.115.8"
 uvicorn = "^0.34.0"
 sentry-sdk = "^2.20.0"
 lxml = "^5.2.2"
