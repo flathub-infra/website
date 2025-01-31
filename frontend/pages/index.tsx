@@ -28,9 +28,8 @@ import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { MobileDevicesLogo } from "src/components/MobileDevicesLogo"
-import { ApplicationCard } from "src/components/application/ApplicationCard"
-import { cn } from "@/lib/utils"
 import { MainCategory } from "src/codegen"
+import { ApplicationSectionGradient } from "src/components/application/ApplicationSectionGradient"
 
 const categoryOrder = [
   MainCategory.office,
@@ -53,64 +52,16 @@ const MobileSection = ({
   const { t } = useTranslation()
 
   return (
-    <div
-      className={clsx(
-        "flex flex-col lg:flex-row",
-        "bg-gradient-to-r from-[#c6eaf8] to-[#c4f3c9] dark:from-[#2f3d9f] dark:to-[#682889]",
-        "p-4 pb-6 pt-9 md:p-12 md:pe-9 rounded-xl gap-4",
-      )}
-    >
-      <div className="flex flex-col gap-4 items-center lg:items-start justify-center lg:w-1/3">
-        <div className="w-full max-w-64 md:max-w-80">
-          <MobileDevicesLogo />
-        </div>
-        <h1 className="lg:pt-3 text-5xl md:text-6xl font-black">
-          {t("on-the-go")}
-        </h1>
-        <div>{t("mobile-apps-description")}</div>
-        <Button
-          asChild
-          variant="secondary"
-          size="xl"
-          className={cn(
-            "dark:bg-flathub-white/15 bg-flathub-black/10",
-            "transition duration-300 hover:bg-flathub-black/20 dark:hover:bg-flathub-white/25",
-            "active:bg-flathub-black/40 dark:active:bg-flathub-white/50",
-            "rounded-full px-8 hidden lg:flex w-fit",
-          )}
-          aria-label={t("more-mobile-apps")}
-          title={t("more-mobile-apps")}
-        >
-          <Link href="/apps/collection/mobile">{t("more-mobile-apps")}</Link>
-        </Button>
-      </div>
-      <div className="pt-5 lg:pt-0 grid grid-cols-1 md:grid-cols-2 gap-1.5 lg:w-2/3">
-        {mobile.hits.map(mapAppsIndexToAppstreamListItem).map((app) => (
-          <ApplicationCard
-            key={app.id}
-            size="sm"
-            variant="flat"
-            application={app}
-          />
-        ))}
-      </div>
-      <div className="flex justify-center lg:hidden ">
-        <Button
-          asChild
-          variant="secondary"
-          size="xl"
-          className={cn(
-            "dark:bg-flathub-white/15 bg-flathub-black/10",
-            "transition duration-300 hover:bg-flathub-black/20 dark:hover:bg-flathub-white/25",
-            "rounded-full px-8 w-fit",
-          )}
-          aria-label={t("more-mobile-apps")}
-          title={t("more-mobile-apps")}
-        >
-          <Link href="/apps/collection/mobile">{t("more-mobile-apps")}</Link>
-        </Button>
-      </div>
-    </div>
+    <ApplicationSectionGradient
+      mobile={mobile}
+      title={t("on-the-go")}
+      description={t("mobile-apps-description")}
+      logo={<MobileDevicesLogo />}
+      moreLinkLabel={t("more-mobile-apps")}
+      moreLink={
+        <Link href="/apps/collection/mobile">{t("more-mobile-apps")}</Link>
+      }
+    />
   )
 }
 
