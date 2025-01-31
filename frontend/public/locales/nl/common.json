@@ -628,5 +628,11 @@
   "apps-by-tag": "Apps met tag ‘{{tag}}’",
   "more-mobile-apps": "Meer mobiele apps",
   "mobile-apps-description": "Apps voor uw Linux-telefoons en -tablets",
-  "on-the-go": "Onderweg"
+  "on-the-go": "Onderweg",
+  "quality": {
+    "missing-brand-colors": "Ontbrekende merk­kleuren",
+    "banner-preview": "Voor­vertoning van banier",
+    "banner-preview-description": "Om eenvoudig met uw banier te experimenteren, gebruikt u <2>de banier­voorvertoning</2>"
+  },
+  "favorite-apps": "Favorieten"
 }
