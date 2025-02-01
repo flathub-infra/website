@@ -1,8 +1,6 @@
 export const GameControllersLogo = () => {
   return (
     <svg
-      width="102.29273mm"
-      height="30.745001mm"
       viewBox="0 0 102.29273 30.745001"
       version="1.1"
       id="svg1"
