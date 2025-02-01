@@ -63,11 +63,11 @@ export const ApplicationSectionGradientMultiToggle = ({
         customHeader={
           <div className="flex flex-col gap-10 justify-center items-center">
             <div className="flex flex-col gap-4 items-center justify-center">
-              {logo}
-              <h1 className="lg:pt-3 text-5xl md:text-6xl font-black">
+              <div className="w-full max-w-64 md:max-w-80">{logo}</div>
+              <h1 className="text-center pt-3 text-5xl md:text-6xl font-black">
                 {title}
               </h1>
-              {description && <div>{description}</div>}
+              {description && <div className="text-center">{description}</div>}
             </div>
             <MultiToggle
               items={apps.map((section) => ({
