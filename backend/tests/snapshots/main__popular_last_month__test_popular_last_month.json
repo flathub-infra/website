@@ -12,8 +12,10 @@
       "is_free_license": false,
       "app_id": "com.wps.Office",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
-      "categories": ["Office"],
-      "main_categories": ["Office"],
+      "categories": [
+        "Office"
+      ],
+      "main_categories": "Office",
       "sub_categories": [],
       "developer_name": "Kingsoft Office Corporation",
       "verification_verified": false,
@@ -25,7 +27,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973768,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973768,
       "trending": 15.150000000000034,
       "installs_last_month": 971,
@@ -52,8 +56,10 @@
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-      "categories": ["Network"],
-      "main_categories": ["Network"],
+      "categories": [
+        "Network"
+      ],
+      "main_categories": "Network",
       "sub_categories": [],
       "developer_name": "AnyDesk Software GmbH",
       "verification_verified": false,
@@ -65,7 +71,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 13.650000000000034,
       "installs_last_month": 886,
@@ -88,8 +96,10 @@
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-      "categories": ["Game"],
-      "main_categories": ["Game"],
+      "categories": [
+        "Game"
+      ],
+      "main_categories": "Game",
       "sub_categories": [],
       "developer_name": "Sugar Labs Community",
       "verification_verified": false,
@@ -101,7 +111,9 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973680,
       "trending": 5.0,
       "installs_last_month": 567,
