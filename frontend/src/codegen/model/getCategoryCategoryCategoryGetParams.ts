@@ -6,7 +6,7 @@
  */
 
 export type GetCategoryCategoryCategoryGetParams = {
-  filter_subcategories?: string[]
+  exclude_subcategories?: string[]
   page?: number | null
   per_page?: number | null
   locale?: string

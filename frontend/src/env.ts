@@ -144,6 +144,7 @@ export const CATEGORY_URL = (
   page?: number,
   per_page?: number,
   locale?: string,
+  exclude_subcategories?: string[],
 ): string => {
   const result = new URLSearchParams()
 
@@ -157,6 +158,10 @@ export const CATEGORY_URL = (
 
   if (locale) {
     result.append("locale", locale)
+  }
+
+  if (exclude_subcategories) {
+    result.append("exclude_subcategories", exclude_subcategories.join(","))
   }
   return `${BASE_URI}/category/${category}?${result.toString()}`
 }
@@ -167,6 +172,7 @@ export const SUBCATEGORY_URL = (
   page?: number,
   per_page?: number,
   locale?: string,
+  exclude_subcategories?: string[],
 ): string => {
   const result = new URLSearchParams()
 
@@ -180,6 +186,10 @@ export const SUBCATEGORY_URL = (
 
   if (locale) {
     result.append("locale", locale)
+  }
+
+  if (exclude_subcategories) {
+    result.append("exclude_subcategories", exclude_subcategories.join(","))
   }
   return `${BASE_URI}/category/${category}/subcategories/${subcategory}?${result.toString()}`
 }
