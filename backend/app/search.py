@@ -154,12 +154,16 @@ def get_by_selected_categories(
 
 def get_by_selected_category_and_subcategory(
     selected_category: schemas.MainCategory,
-    selected_subcategory: str,
+    selected_subcategory: list[str],
     exclude_subcategories: list[str],
     page: int | None,
     hits_per_page: int | None,
     locale: str,
 ):
+    selected_subcategory_list = [
+        f"sub_categories = {subcategory}" for subcategory in selected_subcategory
+    ]
+
     exclude_subcategories_list = (
         [
             f"sub_categories NOT IN [{exclude_subcategory}]"
@@ -177,7 +181,7 @@ def get_by_selected_category_and_subcategory(
             {
                 "filter": [
                     f"main_categories = {selected_category.value}",
-                    f"sub_categories = {selected_subcategory}",
+                    selected_subcategory_list,
                     exclude_subcategories_list,
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",

@@ -5,7 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams = {
+export type GetSubcategoryCategoryCategorySubcategoriesGetParams = {
+  subcategory?: string[]
   exclude_subcategories?: string[]
   page?: number | null
   per_page?: number | null

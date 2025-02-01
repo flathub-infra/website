@@ -6,6 +6,10 @@ import fetchCollection, {
   fetchAppsOfTheWeek,
   fetchAppstream,
   fetchCategory,
+  fetchGameCategory,
+  fetchGameEmulatorCategory,
+  fetchGamePackageManagerCategory,
+  fetchGameUtilityCategory,
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
@@ -30,6 +34,8 @@ import Link from "next/link"
 import { MobileDevicesLogo } from "src/components/MobileDevicesLogo"
 import { MainCategory } from "src/codegen"
 import { ApplicationSectionGradient } from "src/components/application/ApplicationSectionGradient"
+import { GameControllersLogo } from "src/components/GameControllersLogo"
+import { ApplicationSectionGradientMultiToggle } from "src/components/application/ApplicationSectionGradientMultiToggle"
 
 const categoryOrder = [
   MainCategory.office,
@@ -65,15 +71,66 @@ const MobileSection = ({
   )
 }
 
+const GameSection = ({
+  games,
+  emulators,
+  gameLaunchers,
+  gameTools,
+}: {
+  games: MeilisearchResponse<AppsIndex>
+  emulators: MeilisearchResponse<AppsIndex>
+  gameLaunchers: MeilisearchResponse<AppsIndex>
+  gameTools: MeilisearchResponse<AppsIndex>
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <ApplicationSectionGradientMultiToggle
+      apps={[
+        {
+          apps: games,
+          name: "games",
+          moreLink: "/apps/category/game",
+          moreLinkLabel: "more-game",
+        },
+        {
+          apps: emulators,
+          name: "gameemulator",
+          moreLink: "/apps/category/game/subcategories/Emulator",
+          moreLinkLabel: "more-emulator",
+        },
+        {
+          apps: gameLaunchers,
+          name: "gamelauncher",
+          moreLink: "/apps/category/game/subcategories/Launcher",
+          moreLinkLabel: "more-gamelauncher",
+        },
+        {
+          apps: gameTools,
+          name: "gametool",
+          moreLink: "/apps/category/game/subcategories/Tool",
+          moreLinkLabel: "more-gametool",
+        },
+      ]}
+      sectionKey="games"
+      title={t("we-love-games")}
+      description={t("game-section-description")}
+      logo={<GameControllersLogo />}
+    />
+  )
+}
+
 const CategorySection = ({
   topAppsByCategory,
   mobileSection,
+  gameSection,
 }: {
   topAppsByCategory: {
     category: MainCategory
     apps: MeilisearchResponse<AppsIndex>
   }[]
   mobileSection: ReactElement
+  gameSection: ReactElement
 }) => {
   const { t } = useTranslation()
 
@@ -82,6 +139,7 @@ const CategorySection = ({
       {topAppsByCategory.map((sectionData, i) => (
         <>
           {i === 3 && mobileSection}
+          {i === 5 && gameSection}
           <ApplicationSection
             type="withCustomHeader"
             key={`categorySection${sectionData.category}`}
@@ -190,6 +248,10 @@ export default function Home({
   heroBannerData,
   appOfTheDayAppstream,
   mobile,
+  games,
+  emulators,
+  gameLaunchers,
+  gameTools,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
@@ -205,6 +267,10 @@ export default function Home({
   }[]
   appOfTheDayAppstream: DesktopAppstream
   mobile: MeilisearchResponse<AppsIndex>
+  games: MeilisearchResponse<AppsIndex>
+  emulators: MeilisearchResponse<AppsIndex>
+  gameLaunchers: MeilisearchResponse<AppsIndex>
+  gameTools: MeilisearchResponse<AppsIndex>
 }) {
   const { t } = useTranslation()
 
@@ -305,6 +371,14 @@ export default function Home({
         <CategorySection
           topAppsByCategory={topAppsByCategory}
           mobileSection={<MobileSection mobile={mobile} />}
+          gameSection={
+            <GameSection
+              games={games}
+              emulators={emulators}
+              gameLaunchers={gameLaunchers}
+              gameTools={gameTools}
+            />
+          }
         />
       </div>
     </>
@@ -348,14 +422,14 @@ export const getStaticProps: GetStaticProps = async ({
     apps: MeilisearchResponse<AppsIndex>
   }[] = []
 
-  const categoryPromise = Object.keys(MainCategory).map(
-    async (category: MainCategory) => {
+  const categoryPromise = Object.keys(MainCategory)
+    .filter((category) => category !== "game")
+    .map(async (category: MainCategory) => {
       return {
         category,
         apps: await fetchCategory(category, locale, 1, 6),
       }
-    },
-  )
+    })
 
   topAppsByCategory = await Promise.all(categoryPromise)
 
@@ -390,6 +464,11 @@ export const getStaticProps: GetStaticProps = async ({
 
   const appOfTheDayAppstream = await fetchAppstream(appOfTheDay.app_id, locale)
 
+  const games = await fetchGameCategory(locale, 1, 12)
+  const emulators = await fetchGameEmulatorCategory(locale, 1, 12)
+  const gameLaunchers = await fetchGamePackageManagerCategory(locale, 1, 12)
+  const gameTools = await fetchGameUtilityCategory(locale, 1, 12)
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -401,6 +480,10 @@ export const getStaticProps: GetStaticProps = async ({
       heroBannerData,
       appOfTheDayAppstream,
       mobile,
+      games,
+      emulators,
+      gameLaunchers,
+      gameTools,
     },
     revalidate: 900,
   }

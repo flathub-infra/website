@@ -40,7 +40,7 @@ import type {
   GetRuntimeListRuntimesGet200,
   GetStatsForAppStatsAppIdGetParams,
   GetStatsStatsGet200,
-  GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  GetSubcategoryCategoryCategorySubcategoriesGetParams,
   GetSummarySummaryAppIdGetParams,
   GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
   GetVerifiedCollectionVerifiedGetParams,
@@ -373,126 +373,94 @@ export function useGetCategoryCategoryCategoryGet<
 /**
  * @summary Get Subcategory
  */
-export const getSubcategoryCategoryCategorySubcategoriesSubcategoryGet = (
+export const getSubcategoryCategoryCategorySubcategoriesGet = (
   category: MainCategory,
-  subcategory: string,
-  params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  params?: GetSubcategoryCategoryCategorySubcategoriesGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/category/${category}/subcategories/${subcategory}`, {
+  return axios.get(`/category/${category}/subcategories`, {
     ...options,
     params: { ...params, ...options?.params },
   })
 }
 
-export const getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryKey =
-  (
-    category: MainCategory,
-    subcategory: string,
-    params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
-  ) => {
-    return [
-      `/category/${category}/subcategories/${subcategory}`,
-      ...(params ? [params] : []),
-    ] as const
-  }
+export const getGetSubcategoryCategoryCategorySubcategoriesGetQueryKey = (
+  category: MainCategory,
+  params?: GetSubcategoryCategoryCategorySubcategoriesGetParams,
+) => {
+  return [
+    `/category/${category}/subcategories`,
+    ...(params ? [params] : []),
+  ] as const
+}
 
-export const getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryOptions =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-  >(
-    category: MainCategory,
-    subcategory: string,
-    params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
-    options?: {
-      query?: Partial<
-        UseQueryOptions<
-          Awaited<
-            ReturnType<
-              typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-            >
-          >,
-          TError,
-          TData
-        >
-      >
-      axios?: AxiosRequestConfig
-    },
-  ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
-
-    const queryKey =
-      queryOptions?.queryKey ??
-      getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryKey(
-        category,
-        subcategory,
-        params,
-      )
-
-    const queryFn: QueryFunction<
-      Awaited<
-        ReturnType<
-          typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-        >
-      >
-    > = ({ signal }) =>
-      getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
-        category,
-        subcategory,
-        params,
-        { signal, ...axiosOptions },
-      )
-
-    return {
-      queryKey,
-      queryFn,
-      enabled: !!(category && subcategory),
-      ...queryOptions,
-    } as UseQueryOptions<
-      Awaited<
-        ReturnType<
-          typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-        >
-      >,
-      TError,
-      TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> }
-  }
-
-export type GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-      >
-    >
-  >
-export type GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryError =
-  AxiosError<HTTPValidationError>
-
-export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+export const getGetSubcategoryCategoryCategorySubcategoriesGetQueryOptions = <
   TData = Awaited<
-    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
   >,
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  subcategory: string,
-  params:
-    | undefined
-    | GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  params?: GetSubcategoryCategoryCategorySubcategoriesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetSubcategoryCategoryCategorySubcategoriesGetQueryKey(category, params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>>
+  > = ({ signal }) =>
+    getSubcategoryCategoryCategorySubcategoriesGet(category, params, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!category,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSubcategoryCategoryCategorySubcategoriesGetQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>>
+  >
+export type GetSubcategoryCategoryCategorySubcategoriesGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetSubcategoryCategoryCategorySubcategoriesGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params: undefined | GetSubcategoryCategoryCategorySubcategoriesGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
         Awaited<
-          ReturnType<
-            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-          >
+          ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
         >,
         TError,
         TData
@@ -501,9 +469,7 @@ export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
       Pick<
         DefinedInitialDataOptions<
           Awaited<
-            ReturnType<
-              typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-            >
+            ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
           >,
           TError,
           TData
@@ -515,22 +481,19 @@ export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+export function useGetSubcategoryCategoryCategorySubcategoriesGet<
   TData = Awaited<
-    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
   >,
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  subcategory: string,
-  params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  params?: GetSubcategoryCategoryCategorySubcategoriesGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
         Awaited<
-          ReturnType<
-            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-          >
+          ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
         >,
         TError,
         TData
@@ -539,9 +502,7 @@ export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
       Pick<
         UndefinedInitialDataOptions<
           Awaited<
-            ReturnType<
-              typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-            >
+            ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
           >,
           TError,
           TData
@@ -553,22 +514,19 @@ export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+export function useGetSubcategoryCategoryCategorySubcategoriesGet<
   TData = Awaited<
-    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
   >,
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  subcategory: string,
-  params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  params?: GetSubcategoryCategoryCategorySubcategoriesGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
         Awaited<
-          ReturnType<
-            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-          >
+          ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
         >,
         TError,
         TData
@@ -583,22 +541,19 @@ export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
  * @summary Get Subcategory
  */
 
-export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+export function useGetSubcategoryCategoryCategorySubcategoriesGet<
   TData = Awaited<
-    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
   >,
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  subcategory: string,
-  params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  params?: GetSubcategoryCategoryCategorySubcategoriesGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
         Awaited<
-          ReturnType<
-            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
-          >
+          ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
         >,
         TError,
         TData
@@ -610,9 +565,8 @@ export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
-    getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryOptions(
+    getGetSubcategoryCategoryCategorySubcategoriesGetQueryOptions(
       category,
-      subcategory,
       params,
       options,
     )

@@ -190,25 +190,21 @@ export const getGetCategoryCategoryCategoryGetMockHandler = (
   })
 }
 
-export const getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetMockHandler =
-  (
-    overrideResponse?:
-      | unknown
-      | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
-  ) => {
-    return http.get(
-      "*/category/:category/subcategories/:subcategory",
-      async (info) => {
-        await delay(1000)
-        if (typeof overrideResponse === "function") {
-          await overrideResponse(info)
-        }
-        return new HttpResponse(null, { status: 200 })
-      },
-    )
-  }
+export const getGetSubcategoryCategoryCategorySubcategoriesGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/category/:category/subcategories", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 
 export const getGetDevelopersDeveloperGetMockHandler = (
   overrideResponse?:
@@ -775,7 +771,7 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
 export const getAppMock = () => [
   getGetCategoriesCategoriesGetMockHandler(),
   getGetCategoryCategoryCategoryGetMockHandler(),
-  getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetMockHandler(),
+  getGetSubcategoryCategoryCategorySubcategoriesGetMockHandler(),
   getGetDevelopersDeveloperGetMockHandler(),
   getGetDeveloperDeveloperDeveloperGetMockHandler(),
   getGetKeywordKeywordGetMockHandler(),

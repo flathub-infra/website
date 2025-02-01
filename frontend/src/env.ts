@@ -168,13 +168,17 @@ export const CATEGORY_URL = (
 
 export const SUBCATEGORY_URL = (
   category: keyof typeof MainCategory,
-  subcategory: string,
+  subcategory: string[],
   page?: number,
   per_page?: number,
   locale?: string,
   exclude_subcategories?: string[],
 ): string => {
   const result = new URLSearchParams()
+
+  if (subcategory.length > 0) {
+    subcategory.map((s) => result.append("subcategory", s))
+  }
 
   if (page) {
     result.append("page", page.toString())
@@ -191,7 +195,7 @@ export const SUBCATEGORY_URL = (
   if (exclude_subcategories) {
     result.append("exclude_subcategories", exclude_subcategories.join(","))
   }
-  return `${BASE_URI}/category/${category}/subcategories/${subcategory}?${result.toString()}`
+  return `${BASE_URI}/category/${category}/subcategories?${result.toString()}`
 }
 
 export const ADDONS_URL = (appid: string): string =>

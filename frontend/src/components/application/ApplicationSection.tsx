@@ -6,6 +6,7 @@ import { ApplicationCard, ApplicationCardSkeleton } from "./ApplicationCard"
 import clsx from "clsx"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 interface PropsWithTitle {
   type: "withTitle"
@@ -26,8 +27,18 @@ interface PropsWithCustomHeader {
   numberOfApps?: number
 }
 
+interface PropsWithCustomHeaderAndTransparent {
+  type: "withCustomHeaderAndTransparent"
+  href: string
+  applications: AppstreamListItem[]
+  customHeader: ReactElement
+  showMore: boolean
+  moreText: string
+  numberOfApps?: number
+}
+
 const ApplicationSection: FunctionComponent<
-  PropsWithCustomHeader | PropsWithTitle
+  PropsWithCustomHeader | PropsWithTitle | PropsWithCustomHeaderAndTransparent
 > = (prop) => {
   return (
     <div>
@@ -37,7 +48,8 @@ const ApplicationSection: FunctionComponent<
         </header>
       )}
 
-      {prop.type === "withCustomHeader" && (
+      {(prop.type === "withCustomHeader" ||
+        prop.type === "withCustomHeaderAndTransparent") && (
         <div className="mb-3">{prop.customHeader}</div>
       )}
 
@@ -49,7 +61,14 @@ const ApplicationSection: FunctionComponent<
           ))}
         {prop.applications.map((app) => (
           <div key={app.id}>
-            <ApplicationCard application={app} />
+            <ApplicationCard
+              application={app}
+              variant={
+                prop.type === "withCustomHeaderAndTransparent"
+                  ? "flat"
+                  : "default"
+              }
+            />
           </div>
         ))}
       </div>
@@ -62,7 +81,13 @@ const ApplicationSection: FunctionComponent<
             asChild
             variant="secondary"
             size="xl"
-            className="rounded-full px-8"
+            className={cn(
+              prop.type === "withCustomHeaderAndTransparent" &&
+                "dark:bg-flathub-white/15 bg-flathub-black/10",
+              prop.type === "withCustomHeaderAndTransparent" &&
+                "transition duration-300 hover:bg-flathub-black/20 dark:hover:bg-flathub-white/25",
+              "rounded-full px-8 w-fit",
+            )}
             aria-label={prop.moreText}
             title={prop.moreText}
           >

@@ -185,30 +185,26 @@ export function audioVideoCategoryToName(
   }
 }
 
-export function subcategoryToName(
-  category: MainCategory,
-  subcategory: string,
-  t: TFunction<"translation", undefined>,
-): string {
-  switch (category.toLowerCase()) {
-    case MainCategory.game:
-      return gameCategoryToName(subcategory as GameCategory, t)
-    case MainCategory.audiovideo:
-      return audioVideoCategoryToName(subcategory as AudioVideoCategory, t)
-    default:
-      return subcategory
-  }
-}
-
 function assertUnreachable(_x: never): never {
   throw new Error("Didn't expect to get here")
 }
 
-export function getSubcategory(category: MainCategory): string[] {
+export function getSubcategory(category: string): string[] | undefined {
+  if (!category) {
+    return undefined
+  }
+
   switch (category.toLowerCase()) {
     case MainCategory.game:
-      return Object.keys(GameCategory)
+      return Object.keys(GameCategory).filter((x) => x !== "Emulator")
     case MainCategory.audiovideo:
       return Object.keys(AudioVideoCategory)
   }
 }
+
+export const gameCategoryFilter = [
+  "emulator",
+  "packageManager",
+  "utility",
+  "network",
+]
