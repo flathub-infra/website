@@ -311,7 +311,7 @@
   "find-your-distribution": "Najděte svoji distribuci",
   "no-results-found": "Nebyly nalezeny žádné výsledky",
   "desktop-application": "Desktopová aplikace",
-  "console-application": "Konzolová aplikace",
+  "console-application": "Aplikace příkazového řádku",
   "app-type": "Typ aplikace",
   "new-app": "Nová aplikace",
   "community-repository": "Komunitní repositář",
@@ -624,5 +624,17 @@
   "action-purchase": "Zakoupit",
   "kind-donate-app": "Darovat na {{appName}}",
   "kind-purchase-app": "Zakoupit {{appName}}",
-  "zoom": "Přiblížit"
+  "zoom": "Přiblížit",
+  "mobile-apps": "Mobilní aplikace",
+  "mobile-apps-description": "Aplikace pro vaše linuxové telefony a tablety",
+  "more-mobile-apps": "Více mobilních aplikací",
+  "on-the-go": "Na cestách",
+  "favorite": "Oblíbené",
+  "favorite-apps": "Oblíbené",
+  "quality": {
+    "banner-preview": "Náhled banneru",
+    "missing-brand-colors": "Chybí barvy značky",
+    "banner-preview-description": "Chcete-li s bannerem snadno experimentovat, použijte <2>náhled banneru</2>"
+  },
+  "apps-by-tag": "Aplikace podle štítku '{{tag}}'"
 }
