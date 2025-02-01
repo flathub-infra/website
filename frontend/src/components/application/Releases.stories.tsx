@@ -19,13 +19,15 @@ export const noChangelogProvided = () => {
     timestamp: faker.date.recent().getTime() / 1000,
   }
 
-  return <Releases latestRelease={latestRelease} summary={summary} />
+  return (
+    <Releases latestRelease={latestRelease} summary={summary} expanded={true} />
+  )
 }
 
 export const withChangelog = () => {
   const latestRelease: Release = {
     version: faker.system.semver(),
-    description: faker.lorem.paragraphs(3),
+    description: `<p>${faker.lorem.paragraphs(3)}</p><p><ul><li>${faker.lorem.paragraphs(3)}</li><li>${faker.lorem.paragraphs(3)}</li><li>${faker.lorem.paragraphs(3)}</li></ul></p>`,
     timestamp: faker.date.recent().getTime() / 1000,
   }
 
@@ -33,7 +35,9 @@ export const withChangelog = () => {
     timestamp: faker.date.recent().getTime() / 1000,
   }
 
-  return <Releases latestRelease={latestRelease} summary={summary} />
+  return (
+    <Releases latestRelease={latestRelease} summary={summary} expanded={true} />
+  )
 }
 
 export const withTimestamp = () => {
@@ -47,7 +51,9 @@ export const withTimestamp = () => {
     timestamp: faker.date.recent().getTime() / 1000,
   }
 
-  return <Releases latestRelease={latestRelease} summary={summary} />
+  return (
+    <Releases latestRelease={latestRelease} summary={summary} expanded={true} />
+  )
 }
 
 export const withUrl = () => {
@@ -62,5 +68,7 @@ export const withUrl = () => {
     timestamp: faker.date.recent().getTime() / 1000,
   }
 
-  return <Releases latestRelease={latestRelease} summary={summary} />
+  return (
+    <Releases latestRelease={latestRelease} summary={summary} expanded={true} />
+  )
 }

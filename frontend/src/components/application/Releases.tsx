@@ -13,6 +13,7 @@ import { Summary } from "src/types/Summary"
 interface Props {
   latestRelease: Release | null
   summary: Summary
+  expanded?: boolean
 }
 
 const ReleaseLink = ({
@@ -43,7 +44,11 @@ const ReleaseLink = ({
   )
 }
 
-const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
+const Releases: FunctionComponent<Props> = ({
+  latestRelease,
+  summary,
+  expanded = false,
+}) => {
   const { t, i18n } = useTranslation()
   const collapsedHeight = 46
   const [showCollapseButton, setShowCollapseButton] = useState(false)
@@ -56,6 +61,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
 
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
+    defaultExpanded: expanded,
   })
 
   const latestReleaseTimestamp =
@@ -116,7 +122,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                 <div
                   {...getCollapseProps({ ref })}
                   className={clsx(
-                    `prose prose-p:my-0 prose-ul:my-0 relative transition-all duration-700 dark:prose-invert`,
+                    `prose prose-p:my-0 prose-ul:my-0 relative transition-all duration-700 dark:prose-invert dark:prose-p:text-flathub-lotion`,
                     !isExpanded &&
                       showCollapseButton &&
                       "from-flathub-white before:absolute before:bottom-0 before:start-0 before:h-1/2 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-arsenic",
