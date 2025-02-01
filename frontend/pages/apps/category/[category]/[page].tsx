@@ -6,12 +6,12 @@ import { useRouter } from "next/router"
 import Breadcrumbs from "src/components/Breadcrumbs"
 
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import { fetchCategory } from "../../../../src/fetchers"
+import { fetchCategory, fetchGameCategory } from "../../../../src/fetchers"
 import {
   categoryToName,
   getSubcategory,
-  subcategoryToName,
   stringToCategory,
+  tryParseSubCategory,
 } from "../../../../src/types/Category"
 import {
   AppsIndex,
@@ -62,7 +62,7 @@ const ApplicationCategory = ({
                   passHref
                   legacyBehavior
                 >
-                  <Tile>{subcategoryToName(category, subcategory, t)}</Tile>
+                  <Tile>{tryParseSubCategory(subcategory, t)}</Tile>
                 </Link>
               ))}
             </div>
@@ -98,12 +98,21 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = await fetchCategory(
-    category,
-    locale,
-    params.page as unknown as number,
-    30,
-  )
+  let applications = null
+  if (category === "game") {
+    applications = await fetchGameCategory(
+      locale,
+      params.page as unknown as number,
+      30,
+    )
+  } else {
+    applications = await fetchCategory(
+      category,
+      locale,
+      params.page as unknown as number,
+      30,
+    )
+  }
 
   // If there are no applications in this category, return 404
   if (!applications.totalHits) {

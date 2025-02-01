@@ -6,10 +6,16 @@ import { useRouter } from "next/router"
 import Breadcrumbs from "src/components/Breadcrumbs"
 
 import ApplicationCollection from "../../../../../../src/components/application/Collection"
-import { fetchSubcategory } from "../../../../../../src/fetchers"
 import {
-  categoryToName,
-  subcategoryToName,
+  fetchGameEmulatorCategory,
+  fetchGamePackageManagerCategory,
+  fetchGameUtilityCategory,
+  fetchSubcategory,
+} from "../../../../../../src/fetchers"
+import {
+  gameCategoryFilter,
+  tryParseCategory,
+  tryParseSubCategory,
 } from "../../../../../../src/types/Category"
 import {
   AppsIndex,
@@ -26,9 +32,9 @@ const ApplicationCategory = ({
   const { t } = useTranslation()
   const router = useRouter()
   const category = router.query.category as MainCategory
-  let categoryName = categoryToName(category, t)
+  let categoryName = tryParseCategory(category, t)
   const subcategory = router.query.subcategory as string
-  let subcategoryName = subcategoryToName(category, subcategory, t)
+  let subcategoryName = tryParseSubCategory(subcategory, t) ?? t(subcategory)
 
   const pages = [
     {
@@ -74,13 +80,38 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = await fetchSubcategory(
-    params.category as keyof typeof MainCategory,
-    params.subcategory as string,
-    locale,
-    params.page as unknown as number,
-    30,
-  )
+  const mainCategory = params.category as keyof typeof MainCategory
+  const subcategory = params.subcategory as string
+
+  let applications = null
+  if (subcategory === "Emulator") {
+    applications = await fetchGameEmulatorCategory(
+      locale,
+      params.page as unknown as number,
+      30,
+    )
+  } else if (subcategory === "Launcher") {
+    applications = await fetchGamePackageManagerCategory(
+      locale,
+      params.page as unknown as number,
+      30,
+    )
+  } else if (subcategory === "Tool") {
+    applications = await fetchGameUtilityCategory(
+      locale,
+      params.page as unknown as number,
+      30,
+    )
+  } else {
+    applications = await fetchSubcategory(
+      mainCategory,
+      [subcategory],
+      locale,
+      params.page as unknown as number,
+      30,
+      mainCategory === "game" ? gameCategoryFilter : [],
+    )
+  }
 
   if (applications.page > applications.totalPages) {
     return {

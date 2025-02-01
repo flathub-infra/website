@@ -36,6 +36,7 @@ import {
   VendingConfig,
 } from "./codegen"
 import axios from "axios"
+import { gameCategoryFilter } from "./types/Category"
 
 export async function fetchAppstream(
   appId: string,
@@ -181,9 +182,68 @@ export async function fetchCategory(
   return response
 }
 
+export async function fetchGameCategory(
+  locale: string,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
+  return await fetchCategory(
+    MainCategory.game,
+    locale,
+    page,
+    per_page,
+    gameCategoryFilter,
+  )
+}
+
+export async function fetchGameEmulatorCategory(
+  locale: string,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
+  return await fetchSubcategory(
+    MainCategory.game,
+    ["emulator"],
+    locale,
+    page,
+    per_page,
+    [],
+  )
+}
+
+export async function fetchGamePackageManagerCategory(
+  locale: string,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
+  return await fetchSubcategory(
+    MainCategory.game,
+    ["packageManager"],
+    locale,
+    page,
+    per_page,
+    [],
+  )
+}
+
+export async function fetchGameUtilityCategory(
+  locale: string,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
+  return await fetchSubcategory(
+    MainCategory.game,
+    ["utility", "network"],
+    locale,
+    page,
+    per_page,
+    [],
+  )
+}
+
 export async function fetchSubcategory(
   category: keyof typeof MainCategory,
-  subcategory: string,
+  subcategory: string[],
   locale: string,
   page?: number,
   per_page?: number,

@@ -21,6 +21,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
             "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
           variant === "secondary" &&
             "bg-flathub-gainsborow dark:bg-flathub-arsenic",
+          variant === "flat" && "dark:bg-flathub-white/15 bg-flathub-black/10",
           "py-1 text-center",
           size === "sm" ? "h-[34px]" : "h-14",
         )}
@@ -32,16 +33,26 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
               onClick={item.onClick}
               disabled={item.disabled}
               className={clsx(
-                item.selected
-                  ? variant === "primary"
-                    ? "text-flathub-white"
-                    : "text-flathub-black dark:text-flathub-white"
-                  : clsx(
-                      variant === "primary"
-                        ? "enabled:text-flathub-arsenic enabled:hover:bg-flathub-gray-x11 enabled:hover:text-flathub-white"
-                        : "enabled:text-flathub-arsenic enabled:hover:bg-flathub-white/50",
-                      "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray/40 enabled:dark:hover:text-flathub-lotion",
-                    ),
+                item.selected && variant === "primary" && "text-flathub-white",
+                item.selected &&
+                  variant === "secondary" &&
+                  "text-flathub-black dark:text-flathub-white",
+                item.selected &&
+                  variant === "flat" &&
+                  "text-flathub-black dark:text-flathub-white",
+
+                !item.selected &&
+                  variant === "primary" &&
+                  "enabled:text-flathub-arsenic enabled:hover:bg-flathub-gray-x11 enabled:hover:text-flathub-white",
+                !item.selected &&
+                  variant === "secondary" &&
+                  "enabled:text-flathub-arsenic enabled:hover:bg-flathub-white/50",
+                !item.selected &&
+                  variant === "flat" &&
+                  "enabled:text-flathub-arsenic enabled:hover:bg-flathub-white/50",
+                !item.selected &&
+                  "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-white/10 enabled:dark:hover:text-flathub-lotion",
+
                 item.disabled &&
                   "cursor-not-allowed text-flathub-gainsborow dark:text-flathub-arsenic",
                 "h-full w-full rounded-full transition",
@@ -80,7 +91,7 @@ type Props = {
     color?: string
   }[]
   size: "sm" | "lg"
-  variant?: "primary" | "secondary"
+  variant?: "primary" | "secondary" | "flat"
 } & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
 
 const MultiToggle: FunctionComponent<Props> = forwardRef<
@@ -91,7 +102,7 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
     <>
       <FlathubListbox
         items={items}
-        className={clsx(size === "sm" ? "hidden" : "md:hidden")}
+        className={clsx(size === "sm" ? "hidden" : "md:hidden", "w-full")}
       />
       <MultiToggleBig items={items} variant={variant} size={size} />
     </>

@@ -44,10 +44,10 @@ def get_category(
     return result
 
 
-@router.get("/category/{category}/subcategories/{subcategory}", tags=["app"])
+@router.get("/category/{category}/subcategories", tags=["app"])
 def get_subcategory(
     category: schemas.MainCategory,
-    subcategory: str,
+    subcategory: list[str] = Query(None),
     exclude_subcategories: list[str] = Query(None),
     page: int | None = None,
     per_page: int | None = None,
@@ -57,6 +57,10 @@ def get_subcategory(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
+        response.status_code = 400
+        return response
+
+    if subcategory is None:
         response.status_code = 400
         return response
 
