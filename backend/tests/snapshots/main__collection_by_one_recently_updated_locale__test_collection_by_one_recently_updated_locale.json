@@ -11,8 +11,10 @@
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-      "categories": ["Network"],
-      "main_categories": ["Network"],
+      "categories": [
+        "Network"
+      ],
+      "main_categories": "Network",
       "sub_categories": [],
       "developer_name": "AnyDesk Software GmbH",
       "verification_verified": false,
@@ -24,7 +26,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 13.650000000000034,
       "installs_last_month": 886,
