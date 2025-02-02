@@ -23,7 +23,7 @@ jobs:
     permissions:
       packages: write
     concurrency:
-      group: build_push_docker_frontend_prod
+      group: ${{ matrix.platform }}-build_push_docker_frontend_prod
       cancel-in-progress: true
     steps:
       # 2024-11-16: default-avail: 21G, needs: 20 GB, post-cleanup-avail: 53G

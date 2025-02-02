@@ -22,7 +22,7 @@ jobs:
     permissions:
       packages: write
     concurrency:
-      group: build_push_docker_backend_node_prod
+      group: ${{ matrix.platform }}-build_push_docker_backend_node_prod
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
