@@ -17,7 +17,7 @@ export default function Settings({
 
   return (
     <>
-      <NextSeo title={t("settings")} noindex={true} />
+      <NextSeo title={t("settings")} noindex />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">

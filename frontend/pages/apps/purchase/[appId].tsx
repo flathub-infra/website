@@ -73,6 +73,7 @@ export default function AppPurchasePage({
         title={t(isDonationOnly ? "kind-donate-app" : "kind-purchase-app", {
           appName: app?.name,
         })}
+        noindex
       />
       <LoginGuard>
         <h1 className="my-8 text-4xl font-extrabold">

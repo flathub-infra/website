@@ -34,11 +34,7 @@ export default function Details({
 
   return (
     <>
-      <NextSeo
-        title={`${app?.name} ${t("quality.banner-preview")}`}
-        nofollow={true}
-        noindex={true}
-      />
+      <NextSeo title={`${app?.name} ${t("quality.banner-preview")}`} noindex />
 
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 flex flex-col gap-y-10 2xl:w-[1400px] 2xl:max-w-[1400px] pb-5">
         <div className="flex flex-wrap">

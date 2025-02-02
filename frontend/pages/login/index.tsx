@@ -32,6 +32,7 @@ export default function LoginPortal({ providers, locale }) {
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/login`,
         }}
+        noindex
       />
       <LoginProviders providers={providers} />
     </>

@@ -150,7 +150,7 @@ export default function DeveloperPortal({
 
   return (
     <>
-      <NextSeo title={t("developer-portal")} noindex={true} />
+      <NextSeo title={t("developer-portal")} noindex />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <div className="space-y-12">

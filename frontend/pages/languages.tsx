@@ -7,7 +7,7 @@ import Link from "next/link"
 
 import type { JSX } from "react"
 
-const Languages = (): JSX.Element => {
+const Languages = ({ locale }: { locale: string }): JSX.Element => {
   const { t } = useTranslation()
 
   return (
@@ -18,6 +18,7 @@ const Languages = (): JSX.Element => {
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/languages`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 mt-12 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
         <h1 className="mb-8 text-4xl font-extrabold">{t("languages")}</h1>
@@ -68,6 +69,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
     revalidate: 900,
   }

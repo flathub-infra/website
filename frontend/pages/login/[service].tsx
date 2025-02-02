@@ -92,7 +92,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
   // This is purely a loading page
   return (
     <>
-      <NextSeo title={t("login")} noindex={true}></NextSeo>
+      <NextSeo title={t("login")} noindex nofollow />
       <Spinner size="l" />
     </>
   )

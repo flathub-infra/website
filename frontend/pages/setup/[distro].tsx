@@ -7,7 +7,13 @@ import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { distroMap } from "src/components/setup/Distros"
 import React from "react"
 
-export default function Setup({ distroData }: { distroData: DistroSetup }) {
+export default function Setup({
+  distroData,
+  locale,
+}: {
+  distroData: DistroSetup
+  locale: string
+}) {
   const { t } = useTranslation()
 
   const translatedDistroName = t(distroData.translatedNameKey)
@@ -32,6 +38,7 @@ export default function Setup({ distroData }: { distroData: DistroSetup }) {
           distribution: translatedDistroName,
         })}
         description={t("setup-flathub-description")}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto w-11/12 space-y-10 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="mx-auto max-w-2xl">
@@ -75,6 +82,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       ...(await serverSideTranslations(locale, ["common", "distros"])),
       distroData,
+      locale,
     },
   }
 }

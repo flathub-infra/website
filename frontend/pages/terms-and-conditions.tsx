@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo"
 
 import type { JSX } from "react"
 
-const TermsAndConditions = (): JSX.Element => {
+const TermsAndConditions = ({ locale }: { locale: string }): JSX.Element => {
   const { t } = useTranslation()
 
   return (
@@ -16,6 +16,7 @@ const TermsAndConditions = (): JSX.Element => {
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/terms-and-conditions`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="prose mt-12 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1>Terms Of Service</h1>
@@ -443,6 +444,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
     revalidate: 900,
   }
