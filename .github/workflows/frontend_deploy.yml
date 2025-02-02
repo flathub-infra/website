@@ -11,7 +11,14 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: amd64
+          - os: ubuntu-24.04-arm
+            platform: arm64
+    runs-on: ${{matrix.os}}
     timeout-minutes: 80
     permissions:
       packages: write
@@ -51,7 +58,7 @@ jobs:
           file: frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           no-cache: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/${{ matrix.platform }}
           build-args: |
             NEXT_PUBLIC_IS_PRODUCTION=true
             ENABLE_SENTRY=true

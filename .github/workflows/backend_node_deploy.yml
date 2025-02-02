@@ -11,7 +11,14 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: amd64
+          - os: ubuntu-24.04-arm
+            platform: arm64
+    runs-on: ${{matrix.os}}
     permissions:
       packages: write
     concurrency:
@@ -37,7 +44,7 @@ jobs:
           file: backend-node/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           no-cache: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/${{ matrix.platform }}
           build-args: |
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             GITHUB_SHA=${{ github.sha }}
