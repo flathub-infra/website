@@ -367,5 +367,17 @@
   "archive-app": "Archivar aquesta aplicacion",
   "get-in-touch": "Contactar",
   "read-announcements": "Legir los anoncis",
-  "proprietary-code": "Còdi proprietari"
+  "proprietary-code": "Còdi proprietari",
+  "quality": {
+    "missing-brand-colors": "Colors de marca absenta",
+    "banner-preview": "Apercebut de la bandièra"
+  },
+  "gameemulator": "Emulators",
+  "more-emulator": "Mai d'emulators",
+  "gamelauncher": "Aviadors de jòcs",
+  "more-gamelauncher": "Mai d'aviadors de jòcs",
+  "tool": "Aisinas",
+  "gametool": "Aisinas de jòcs",
+  "more-gametool": "Mai d'aisinas de jòcs",
+  "launcher": "Aviadors"
 }

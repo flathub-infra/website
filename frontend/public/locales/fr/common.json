@@ -491,7 +491,8 @@
     "request-a-review-question": "Voulez-vous requérir un examen ?",
     "hide-branding-preview": "Masquer l'aperçu de la marque",
     "needed-to-pass-x": "Nécessaire pour réussir {{x}}",
-    "branding-has-primary-brand-colors": "Possède les couleurs principales de la marque"
+    "branding-has-primary-brand-colors": "Possède les couleurs principales de la marque",
+    "problems": "Si vous souhaitez nous poser des questions sur des problèmes spécifiques liés aux directives de qualité, n'hésitez pas à ouvrir <2>un problème</2>."
   },
   "app-listing-quality": "Qualité du référencement de l'application",
   "issued-to": "Délivré à",
@@ -620,5 +621,26 @@
   "kind-purchase-app": "Acheter {{appName}}",
   "mastodon": "Mastodon",
   "positions": "Positions",
-  "apps-by-tag": "Applis par '{{tag}}'"
+  "apps-by-tag": "Applis par '{{tag}}'",
+  "mobile-apps-description": "Apps pour vos téléphones et tablettes Linux",
+  "game-section-description": "Jeux et apps pour faire tourner vos jeux rétro préférés",
+  "launcher": "Lanceurs",
+  "quality": {
+    "banner-preview": "Aperçu bannière",
+    "banner-preview-description": "Pour expérimenter facilement votre bannière, utilisez <2>aperçu bannière</2>"
+  },
+  "mobile-apps": "Apps mobiles",
+  "emulator": "Émulateurs",
+  "more-emulator": "Davantage d'émulateurs",
+  "tool": "Outils",
+  "gameemulator": "Émulateurs",
+  "we-love-games": "Nous ♥ les jeux",
+  "gamelauncher": "Lanceurs de jeux",
+  "more-gamelauncher": "Davantage de lanceurs de jeux",
+  "gametool": "Outils de jeux",
+  "more-gametool": "Davantage d'outils de jeux",
+  "on-the-go": "En déplacement",
+  "recipient": "Destinataire",
+  "switch-to-direct-upload": "Basculer l'app vers téléversement direct",
+  "more-mobile-apps": "Davantage d'apps mobiles"
 }

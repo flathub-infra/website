@@ -629,5 +629,16 @@
   },
   "on-the-go": "Për pajisje celulare",
   "favorite-apps": "Të parapëlqyer",
-  "favorite": "I vini shenjë si i parapëlqyer"
+  "favorite": "I vini shenjë si i parapëlqyer",
+  "game-section-description": "Lojëra dhe aplikacione për xhirimin e lojërave tuaja të dikurshme të parapëlqyera",
+  "more-gametool": "Më Tepër Mjete Lojërash",
+  "we-love-games": "Ne ♥ Lojërat",
+  "emulator": "Emulues",
+  "gameemulator": "Emulues",
+  "more-emulator": "Më Tepër Emulues",
+  "launcher": "Nisës",
+  "gamelauncher": "Nisës Lojërash",
+  "more-gamelauncher": "Më Tepër Nisës Lojërash",
+  "tool": "Mjete",
+  "gametool": "Mjete Lojërash"
 }
