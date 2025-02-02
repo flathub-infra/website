@@ -636,5 +636,16 @@
     "missing-brand-colors": "Chybí barvy značky",
     "banner-preview-description": "Chcete-li s bannerem snadno experimentovat, použijte <2>náhled banneru</2>"
   },
-  "apps-by-tag": "Aplikace podle štítku '{{tag}}'"
+  "apps-by-tag": "Aplikace podle štítku '{{tag}}'",
+  "emulator": "Emulátory",
+  "gameemulator": "Emulátory",
+  "game-section-description": "Hry a aplikace pro spuštění vašich oblíbených retro her",
+  "we-love-games": "Máme ♥ hry",
+  "more-gamelauncher": "Více herních spouštěčů",
+  "gametool": "Herní nástroje",
+  "more-emulator": "Více emulátorů",
+  "tool": "Nástroje",
+  "launcher": "Spouštěče",
+  "more-gametool": "Více herních nástrojů",
+  "gamelauncher": "Herní spouštěče"
 }

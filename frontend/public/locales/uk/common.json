@@ -636,5 +636,16 @@
     "banner-preview-description": "Щоб легко експериментувати з банером, використовуйте <2>попередній перегляд банера</2>"
   },
   "favorite": "Обрані",
-  "favorite-apps": "Обрані"
+  "favorite-apps": "Обрані",
+  "game-section-description": "Ігри та програми для запуску улюблених ретро-ігор",
+  "emulator": "Емулятори",
+  "gameemulator": "Емулятори",
+  "more-emulator": "Більше емуляторів",
+  "launcher": "Пускові установки",
+  "gamelauncher": "Запуски ігор",
+  "more-gamelauncher": "Більше програм запуску ігор",
+  "tool": "Інструменти",
+  "gametool": "Ігрові інструменти",
+  "more-gametool": "Більше ігрових інструментів",
+  "we-love-games": "Ми ♥ Ігри"
 }

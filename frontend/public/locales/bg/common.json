@@ -635,5 +635,16 @@
     "banner-preview": "Предварителен преглед на банера"
   },
   "favorite": "Любимо",
-  "favorite-apps": "Любими"
+  "favorite-apps": "Любими",
+  "we-love-games": "Ние ♥ игрите",
+  "emulator": "Емулатори",
+  "gameemulator": "Емулатори",
+  "more-emulator": "Категория „Емулатори“",
+  "launcher": "Стартови програми",
+  "tool": "Инструменти",
+  "gamelauncher": "Игрални стартови програми",
+  "more-gamelauncher": "Категория „Игрални стартови програми“",
+  "gametool": "Игрални инструменти",
+  "more-gametool": "Категория „Игрални инструменти“",
+  "game-section-description": "Приложения за вашите любими ретро игри"
 }
