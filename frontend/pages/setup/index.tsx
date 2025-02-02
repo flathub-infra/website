@@ -12,8 +12,10 @@ import { Input } from "@/components/ui/input"
 
 export default function Setup({
   instructions,
+  locale,
 }: {
   instructions: DistroSetup[]
+  locale: string
 }) {
   const { t } = useTranslation()
 
@@ -60,6 +62,7 @@ export default function Setup({
       <NextSeo
         title={t("setup-flathub")}
         description={t("setup-flathub-description")}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="relative">
@@ -137,6 +140,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       ...(await serverSideTranslations(locale, ["common", "distros"])),
       instructions,
+      locale,
     },
   }
 }

@@ -56,7 +56,7 @@ export default function TransactionPage() {
 
   return (
     <>
-      <NextSeo title={t("transaction-summary")} noindex={true}></NextSeo>
+      <NextSeo title={t("transaction-summary")} noindex />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <Breadcrumbs pages={pages} />

@@ -416,9 +416,11 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
 const Statistics = ({
   stats,
   runtimes,
+  locale,
 }: {
   stats: StatsResult
   runtimes: { [key: string]: number }
+  locale: string
 }): JSX.Element => {
   const { t } = useTranslation()
 
@@ -430,6 +432,7 @@ const Statistics = ({
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/statistics`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="mb-8 text-4xl font-extrabold">{t("statistics")}</h1>
@@ -502,6 +505,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale, ["common"])),
       stats: stats.data,
       runtimes: runtimes.data,
+      locale,
     },
     revalidate: 900,
   }

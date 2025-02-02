@@ -14,7 +14,7 @@ const EolMessage: FunctionComponent<Props> = ({ message }) => {
 
   return (
     <>
-      <NextSeo noindex={true} />
+      <NextSeo noindex />
       <div className="mt-8 flex max-w-full flex-col px-[5%] md:px-[20%] 2xl:px-[30%]">
         <Alert>
           <HiOutlineExclamationTriangle className="h-4 w-4" />

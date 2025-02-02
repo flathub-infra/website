@@ -12,8 +12,10 @@ import fetchCollection from "src/fetchers"
 
 export default function RecentlyUpdatedApps({
   applications,
+  locale,
 }: {
   applications: MeilisearchResponse<AppsIndex>
+  locale: string
 }) {
   const { t } = useTranslation()
   return (
@@ -23,6 +25,7 @@ export default function RecentlyUpdatedApps({
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/collection/recently-updated`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <ApplicationCollection
@@ -62,6 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       applications,
+      locale,
     },
     revalidate: 900,
   }

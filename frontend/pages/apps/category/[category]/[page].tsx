@@ -23,8 +23,10 @@ import Tile from "src/components/Tile"
 
 const ApplicationCategory = ({
   applications,
+  locale,
 }: {
   applications: MeilisearchResponse<AppsIndex>
+  locale: string
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -48,6 +50,7 @@ const ApplicationCategory = ({
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/category/${category}`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <Breadcrumbs pages={pages} />
@@ -133,6 +136,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       applications,
+      locale,
     },
     revalidate: 900,
   }

@@ -252,6 +252,7 @@ export default function Home({
   emulators,
   gameLaunchers,
   gameTools,
+  locale,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
@@ -271,12 +272,16 @@ export default function Home({
   emulators: MeilisearchResponse<AppsIndex>
   gameLaunchers: MeilisearchResponse<AppsIndex>
   gameTools: MeilisearchResponse<AppsIndex>
+  locale: string
 }) {
   const { t } = useTranslation()
 
   return (
     <>
-      <NextSeo description={t("flathub-description")} />
+      <NextSeo
+        description={t("flathub-description")}
+        noindex={locale === "en-GB"}
+      />
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="space-y-4">
           {heroBannerData.length > 0 && (
@@ -484,6 +489,7 @@ export const getStaticProps: GetStaticProps = async ({
       emulators,
       gameLaunchers,
       gameTools,
+      locale,
     },
     revalidate: 900,
   }

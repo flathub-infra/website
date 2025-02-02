@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import type { JSX } from "react"
 
-const Feeds = (): JSX.Element => {
+const Feeds = ({ locale }: { locale: string }): JSX.Element => {
   const { t } = useTranslation()
   return (
     <>
@@ -18,6 +18,7 @@ const Feeds = (): JSX.Element => {
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/feeds`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 mt-12 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
         <h1 className="mb-8 text-4xl font-extrabold">{t("rss-feeds")}</h1>
@@ -62,6 +63,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
     revalidate: 900,
   }

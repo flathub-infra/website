@@ -61,8 +61,7 @@ export default function Search({ locale }) {
     <>
       <NextSeo
         title={t("search-for-query", { query: q })}
-        nofollow={true}
-        noindex={true}
+        noindex
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q=${q}`,
         }}

@@ -13,9 +13,11 @@ import {
 export default function Developer({
   applications,
   developer,
+  locale,
 }: {
   applications: MeilisearchResponse<AppsIndex>
   developer: string
+  locale: string
 }) {
   const { t } = useTranslation()
   return (
@@ -25,6 +27,7 @@ export default function Developer({
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/collection/developer/${developer}`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <ApplicationCollection
@@ -66,6 +69,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
       ...(await serverSideTranslations(locale, ["common"])),
       applications,
       developer: params.developer,
+      locale,
     },
     revalidate: 900,
   }

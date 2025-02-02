@@ -90,7 +90,7 @@ export default function TransactionPage({ stripePublicKey }) {
 
   return (
     <>
-      <NextSeo title={t("payment")} noindex={true}></NextSeo>
+      <NextSeo title={t("payment")} noindex />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <Breadcrumbs pages={pages} />

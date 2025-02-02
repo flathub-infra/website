@@ -114,8 +114,7 @@ export default function Details({
     <>
       <NextSeo
         title={t("install-x", { "app-name": app?.name })}
-        nofollow={app.type === "addon"}
-        noindex={app.type === "addon"}
+        noindex={app.type === "addon" || locale === "en-GB"}
         description={app?.summary}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,

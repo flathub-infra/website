@@ -40,7 +40,7 @@ const BadgePreview = ({ locale, preferred }) => {
   )
 }
 
-const Badges = () => {
+const Badges = ({ applicationLocale }: { applicationLocale: string }) => {
   const { t } = useTranslation()
 
   const [locale, setLocale] = useState("en")
@@ -58,6 +58,7 @@ const Badges = () => {
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/badges`,
         }}
+        noindex={applicationLocale === "en-GB"}
       />
       <div className="flex max-w-full flex-col">
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
@@ -162,6 +163,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      applicationLocale: locale,
     },
     revalidate: 900,
   }

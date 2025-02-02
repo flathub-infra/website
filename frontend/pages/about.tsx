@@ -280,7 +280,7 @@ const GetInTouch = () => {
   )
 }
 
-const About = () => {
+const About = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
 
   return (
@@ -291,6 +291,7 @@ const About = () => {
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/about`,
         }}
+        noindex={locale === "en-GB"}
       />
       <div className="flex max-w-full flex-col">
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
@@ -334,6 +335,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
     revalidate: 900,
   }
