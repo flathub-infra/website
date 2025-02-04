@@ -547,8 +547,8 @@
   "can-read-all-data-in-your-download-folder": "Is féidir na sonraí go léir a léamh i do fhillteán íos",
   "cannot-access-the-internet": "Ní féidir teacht ar an idirlíon",
   "no-permissions-description": "Tá an aip bainisteáilte go hiomlán",
-  "microphone-access": "Rochtain micreafón",
-  "can-listen-using-microphones-without-asking-permission": "Is féidir éisteacht ag úsáid micreafóin gan cead a iarraidh",
+  "microphone-access": "Rochtain micreafón agus athsheinm fuaime",
+  "can-listen-using-microphones-without-asking-permission": "Is féidir éisteacht le micreafóin agus fuaime a sheinm gan cead a iarraidh",
   "screen-contents-access": "Rochtain ar ábhair scáileáin",
   "can-access-the-contents-of-the-screen-or-other-windows": "Is féidir rochtain a fháil ar ábhar an scáileáin nó fuinneoga eile",
   "user-settings": "Socruithe úsáideora",
@@ -638,5 +638,16 @@
     "banner-preview": "Réamhamharc ar an mbratach"
   },
   "favorite": "Is fearr leat",
-  "favorite-apps": "Ceanáin"
+  "favorite-apps": "Ceanáin",
+  "gameemulator": "Aithriseoirí",
+  "more-emulator": "Tuilleadh Aithriseoirí",
+  "launcher": "Lainseálaithe",
+  "gamelauncher": "Tosaitheoirí Cluiche",
+  "tool": "Uirlisí",
+  "gametool": "Uirlisí Cluiche",
+  "game-section-description": "Cluichí agus aipeanna chun na cluichí retro is fearr leat a rith",
+  "emulator": "Aithriseoirí",
+  "more-gamelauncher": "Tuilleadh Seoltóirí Cluiche",
+  "more-gametool": "Tuilleadh Uirlisí Cluiche",
+  "we-love-games": "Táimid ♥ Cluichí"
 }

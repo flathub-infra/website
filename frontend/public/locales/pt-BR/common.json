@@ -603,8 +603,8 @@
   "apps-for-you-where-you-are": "<0>Aplicativos para você, onde quer que esteja</0> — Esteja você usando um Steam Deck, uma poderosa estação de trabalho Linux, um Raspberry Pi ou um raro telefone Linux, o Flathub tem aplicativos para você",
   "docs-guidance": "<0>Documentação e orientações claras</0> — <2>Documentação</2> extensa, milhares de <5>manifestos de aplicativos</5> públicos e uma grande comunidade significam que você sempre poderá obter ajuda",
   "more-popular": "Mais Popular",
-  "microphone-access": "Acesso ao microfone",
-  "can-listen-using-microphones-without-asking-permission": "Pode ouvir usando o microfone sem pedir permissão",
+  "microphone-access": "Acesso ao microfone e reprodução de áudio",
+  "can-listen-using-microphones-without-asking-permission": "Pode ouvir usando o microfone e reproduzir áudio sem pedir permissão",
   "flathub": "Flathub",
   "flathub-logo": "Logotipo de Flathub",
   "mastodon": "Mastodon",
@@ -636,5 +636,16 @@
     "banner-preview": "Prévia de banner"
   },
   "favorite": "Favorito",
-  "favorite-apps": "Favoritos"
+  "favorite-apps": "Favoritos",
+  "emulator": "Emuladores",
+  "gameemulator": "Emuladores",
+  "more-emulator": "Mais emuladores",
+  "launcher": "Lançadores",
+  "gamelauncher": "Lançadores de jogos",
+  "more-gamelauncher": "Mais lançadores de jogos",
+  "tool": "Ferramentas",
+  "more-gametool": "Mais ferramentas de jogos",
+  "we-love-games": "Nós ♥ Jogos",
+  "game-section-description": "Jogos e aplicativos para rodar seus jogos retrôs favoritos",
+  "gametool": "Ferramentas de jogos"
 }
