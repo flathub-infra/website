@@ -29,7 +29,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
         ]}
       />
       <nav className="flex">
-        <ol role="list" className="flex items-center space-x-4">
+        <ol role="list" className="flex items-center gap-x-4">
           <li>
             <div>
               <Link
