@@ -48,7 +48,7 @@ export const ApplicationSectionGradientMultiToggle = ({
     <div
       className={clsx(
         "flex flex-col lg:flex-row",
-        "bg-gradient-to-r from-[#ddf5fa] to-[#fddbe8] dark:from-[#02353d] dark:to-[#580034]",
+        "bg-gradient-to-r from-[#fdcde0] to-[#b0e5f0] dark:from-[#821756] dark:to-[#136673]",
         "p-4 pb-6 pt-9 md:p-12 md:pe-9 rounded-xl gap-4",
       )}
     >
