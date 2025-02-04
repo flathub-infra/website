@@ -10,14 +10,7 @@ on:
 
 jobs:
   docker:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-24.04
-            platform: amd64
-          - os: ubuntu-24.04-arm
-            platform: arm64
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
     permissions:
       packages: write
     concurrency:
@@ -42,7 +35,7 @@ jobs:
           context: nginx
           file: nginx/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/flathub-infra/nginx:${{ github.sha }}
             ghcr.io/flathub-infra/nginx:latest
