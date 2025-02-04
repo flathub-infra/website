@@ -21,10 +21,6 @@
     flex-grow: 1;
   }
 
-  .Toastify__toast {
-    @apply rounded-xl;
-  }
-
   html,
   body {
     @apply bg-background text-foreground;
@@ -60,7 +56,7 @@
 :root {
   // colors used via tailwind
   --flathub-celestial-blue: 63.85% 0.1314 251.94;
-  --flathub-celestial-blue-dark: 49.79% 0.127 253.08;
+  --flathub-celestial-blue-dark: 49.79% 0.1314 251.94;
   --flathub-electric-red: 57.01% 0.2339 29.23;
 
   --flathub-status-green: 65.83% 0.1334 159.27;
@@ -104,8 +100,6 @@
   --button-border-radius: 8px;
   --header-height: 64px;
 
-  --toastify-font-family: inherit;
-
   // for worldmap and below css
   --text-primary: var(--flathub-dark-gunmetal);
   --bg-color-secondary: var(--flathub-white);
@@ -127,11 +121,11 @@
   --secondary: var(--flathub-gainsborow);
   --secondary-foreground: var(--flathub-dark-gunmetal);
 
-  --muted: 97.03% 0 0;
-  --muted-foreground: 55.55% 0 0;
+  --muted: var(--flathub-lotion);
+  --muted-foreground: var(--flathub-sonic-silver);
 
-  --accent: 97.03% 0 0;
-  --accent-foreground: 20.44% 0 0;
+  --accent: var(--flathub-lotion);
+  --accent-foreground: var(--flathub-dark-gunmetal);
 
   --destructive: var(--flathub-dark-candy-apple-red);
   --destructive-foreground: var(--flathub-lotion);
@@ -161,7 +155,7 @@
   --secondary-foreground: var(--flathub-lotion);
 
   --muted: var(--flathub-arsenic);
-  --muted-foreground: 71.53% 0 0;
+  --muted-foreground: var(--flathub-spanish-gray);
 
   --accent: var(--flathub-granite-gray);
   --accent-foreground: var(--flathub-lotion);
@@ -171,11 +165,8 @@
 
   --border: var(--flathub-granite-gray);
   --input: var(--flathub-spanish-gray);
-  --ring: 86.97% 0 0;
+  --ring: var(--flathub-gainsborow);
 
-  // Override react-tostify variable here for easy theme adherence
-  --toastify-color-light: var(--toastify-color-dark);
-  --toastify-text-color-light: var(--flathub-gainsborow);
 
   // for worldmap and below css
   --text-primary: var(--flathub-gainsborow);
