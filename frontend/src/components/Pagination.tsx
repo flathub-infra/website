@@ -72,9 +72,9 @@ const Pagination: FunctionComponent<Props> = ({
                   }}
                   aria-current={isActive ? "page" : undefined}
                   className={clsx(
-                    isActive && `bg-secondary text-accent-foreground`,
+                    isActive && `bg-secondary text-secondary-foreground`,
                     "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer font-bold",
-                    "hover:bg-secondary/50 hover:text-accent-foreground",
+                    "hover:bg-secondary/50 hover:text-secondary-foreground",
                     "text-muted-foreground",
                   )}
                 >
