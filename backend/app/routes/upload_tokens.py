@@ -186,6 +186,7 @@ def create_upload_token(
     with get_db("writer") as db:
         db.session.add(token)
         db.session.commit()
+        token_id = token.id
 
     if app_metadata := get_json_key(f"apps:{app_id}"):
         app_name = app_metadata["name"]
@@ -193,7 +194,7 @@ def create_upload_token(
         app_name = None
 
     payload = {
-        "messageId": f"{app_id}/{token.id}/issued",
+        "messageId": f"{app_id}/{token_id}/issued",
         "creation_timestamp": datetime.datetime.now().timestamp(),
         "subject": "New upload token issued",
         "previewText": "New upload token issued",
