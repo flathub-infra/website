@@ -73,10 +73,7 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
       <h2 className="text-2xl font-bold mb-3">{t("news")}</h2>
       <div className="grid grid-cols-1 gap-x-8 gap-y-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
         {feed.items.slice(0, 3).map((feedItem) => (
-          <article
-            key={feedItem.id}
-            className="flex max-w-xl flex-col items-start justify-between"
-          >
+          <article key={feedItem.id} className="flex max-w-xl flex-col">
             <div className="flex items-center gap-x-4 text-xs">
               <time
                 dateTime={feedItem.date_modified}
@@ -85,7 +82,7 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
                 {format(new Date(feedItem.date_modified), "P")}
               </time>
             </div>
-            <div className="group relative">
+            <div className="grid grid-rows-[auto_1fr] gap-4 h-full">
               <h3 className="mt-3 text-lg font-semibold leading-6">
                 <a
                   href={feedItem.id}
