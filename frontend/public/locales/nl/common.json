@@ -588,8 +588,8 @@
   "setup": "Installatie",
   "carousel": "Carrousel",
   "slide": "Dia",
-  "can-listen-using-microphones-without-asking-permission": "Kan mee­luisteren met microfoons zonder toe­stemming te vragen",
-  "microphone-access": "Toegang tot microfoon",
+  "can-listen-using-microphones-without-asking-permission": "Kan mee­luisteren met microfoons en audio afspelen zonder toe­stemming te vragen",
+  "microphone-access": "Toegang tot microfoon en afspelen van audio",
   "screen-contents-access": "Toegang tot scherm­inhoud",
   "can-access-the-contents-of-the-screen-or-other-windows": "Heeft toegang tot de inhoud van het scherm of andere vensters",
   "transparent-safety": "<0>Transparante veiligheid</0> — Zie duidelĳk wanneer een app <3>geverifieerd</3> is door de ontwikkelaar, welke rechten deze nodig heeft en of deze open source en controleerbaar is",
@@ -635,5 +635,16 @@
     "banner-preview-description": "Om eenvoudig met uw banier te experimenteren, gebruikt u <2>de banier­voorvertoning</2>"
   },
   "favorite-apps": "Favorieten",
-  "favorite": "Opslaan als favoriet"
+  "favorite": "Opslaan als favoriet",
+  "gameemulator": "Emulatoren",
+  "we-love-games": "Wĳ ♥ games",
+  "emulator": "Emulatoren",
+  "game-section-description": "Games en apps om je favoriete retro­games te spelen",
+  "more-emulator": "Meer emulatoren",
+  "launcher": "Launchers",
+  "gamelauncher": "Game-launchers",
+  "more-gamelauncher": "Meer game-launchers",
+  "tool": "Gereedschap",
+  "gametool": "Game­gereedschap",
+  "more-gametool": "Meer game­gereedschap"
 }

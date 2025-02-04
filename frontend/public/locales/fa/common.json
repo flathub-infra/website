@@ -605,5 +605,16 @@
     "banner-preview": "پیش‌نمایش بیرق"
   },
   "favorite": "برگزیدن",
-  "favorite-apps": "برگزیده‌ها"
+  "favorite-apps": "برگزیده‌ها",
+  "tool": "ابزارها",
+  "more-gametool": "ابزارهای بازی بیش‌تر",
+  "we-love-games": "ما ♥ بازی",
+  "gamelauncher": "اجراگرهای بازی",
+  "launcher": "اجراگرها",
+  "more-emulator": "شبیه‌سازهای بیش‌تر",
+  "gameemulator": "شبیه‌سازها",
+  "emulator": "شبیه‌سازها",
+  "game-section-description": "بازی‌ها و کاره‌هایی برای اجرای بازی‌های قدیمی محبوبتان",
+  "gametool": "ابزارهای بازی",
+  "more-gamelauncher": "اجراگرهای بازی بیش‌تر"
 }

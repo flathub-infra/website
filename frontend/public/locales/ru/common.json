@@ -590,8 +590,8 @@
   "carousel": "Карусель",
   "slide": "Слайд",
   "can-access-the-contents-of-the-screen-or-other-windows": "Может получить доступ к содержимому экрана или других окон",
-  "microphone-access": "Доступ к микрофону",
-  "can-listen-using-microphones-without-asking-permission": "Может прослушивать микрофон, не спрашивая разрешения",
+  "microphone-access": "Доступ к микрофону и воспроизведению звуков",
+  "can-listen-using-microphones-without-asking-permission": "Может прослушивать микрофон и проигрывать звук, не спрашивая разрешения",
   "screen-contents-access": "Доступ к содержимому экрана",
   "date": "Дата",
   "get-apps": "Получить приложения",
@@ -636,5 +636,16 @@
     "banner-preview": "Предпросмотр баннера"
   },
   "favorite": "В избранное",
-  "favorite-apps": "Избранное"
+  "favorite-apps": "Избранное",
+  "launcher": "Лаунчеры",
+  "gamelauncher": "Игровые лаунчеры",
+  "we-love-games": "Мы ♥ Игры",
+  "gametool": "Инструменты для игр",
+  "emulator": "Эмуляторы",
+  "gameemulator": "Эмуляторы",
+  "more-emulator": "Больше эмуляторов",
+  "more-gamelauncher": "Больше игровых лаунчеров",
+  "tool": "Инструменты",
+  "more-gametool": "Больше инструментов для игр",
+  "game-section-description": "Игры и приложения для запуска ваших любимых ретро-игр"
 }

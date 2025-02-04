@@ -635,5 +635,16 @@
   "mobile-apps-description": "Programoj por Linux-telefonoj kaj tabulkomputiloj",
   "favorite-apps": "Ŝatataj",
   "more-mobile-apps": "Pli da programoj por poŝaparatoj",
-  "favorite": "Ŝatata"
+  "favorite": "Ŝatata",
+  "emulator": "Imitiloj",
+  "we-love-games": "Ni ♥as Ludojn",
+  "game-section-description": "Ludoj kaj programoj por ruli malnovajn ludojn",
+  "gameemulator": "Imitiloj",
+  "more-emulator": "Pli da imitiloj",
+  "launcher": "Lanĉiloj",
+  "gamelauncher": "Ludlanĉiloj",
+  "more-gamelauncher": "Pli da ludlanĉiloj",
+  "tool": "Iloj",
+  "gametool": "Iloj pri ludoj",
+  "more-gametool": "Pli da iloj pri ludoj"
 }

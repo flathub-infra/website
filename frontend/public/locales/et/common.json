@@ -556,8 +556,8 @@
   "slide": "Slaidid",
   "carousel": "Karussell",
   "screen-contents-access": "Ligipääs ekraani sisule",
-  "microphone-access": "Õigus kasutada mikrofoni",
-  "can-listen-using-microphones-without-asking-permission": "Võib ilma luba küsimata mikrofoni abil kuulata ümbritseva keskkonna helisid",
+  "microphone-access": "Ligipääs mikrofonile ja heli taasesitusele",
+  "can-listen-using-microphones-without-asking-permission": "Võib esitada heli ja ilma luba küsimata mikrofoni abil kuulata ümbritseva keskkonna helisid",
   "can-access-the-contents-of-the-screen-or-other-windows": "Võib lugeda ekraani ja muude akende sisu",
   "revoke": "Tühista",
   "expires": "Aegub",
@@ -635,5 +635,16 @@
     "banner-preview": "Reklaampildi eelvaade"
   },
   "favorite-apps": "Lemmikud",
-  "favorite": "Lemmik"
+  "favorite": "Lemmik",
+  "more-gametool": "Vaata veel mängude tarvikuid",
+  "more-gamelauncher": "Vaata veel mängude käivitajaid",
+  "game-section-description": "Mängud ja tarvikud sinu vanade lemmikmängude jaoks",
+  "we-love-games": "Me ♥ mänge",
+  "emulator": "Emulaatorid",
+  "gameemulator": "Emulaatorid",
+  "more-emulator": "Vaata veel emulaatoreid",
+  "launcher": "Käivitajad",
+  "gamelauncher": "Mängude käivitajad",
+  "tool": "Tarvikud",
+  "gametool": "Mängude tarvikud"
 }
