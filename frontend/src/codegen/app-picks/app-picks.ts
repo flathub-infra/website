@@ -105,7 +105,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>
         >,
         "initialData"
       >
@@ -131,7 +131,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>
         >,
         "initialData"
       >
@@ -283,7 +283,9 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
             ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+          >
         >,
         "initialData"
       >
@@ -313,7 +315,9 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
             ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+          >
         >,
         "initialData"
       >
@@ -390,18 +394,22 @@ export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
 }
 
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
-  TData = Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
     TError,
     { data: UpsertAppOfTheWeek },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
+  TError,
+  { data: UpsertAppOfTheWeek },
+  TContext
+> => {
   const mutationKey = ["setAppOfTheWeekAppPicksAppOfTheWeekPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -420,12 +428,7 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
     return setAppOfTheWeekAppPicksAppOfTheWeekPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: UpsertAppOfTheWeek },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationResult = NonNullable<
@@ -440,19 +443,18 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError =
  * @summary Set App Of The Week
  */
 export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
-  TData = Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
     TError,
     { data: UpsertAppOfTheWeek },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError,
   { data: UpsertAppOfTheWeek },
   TContext
@@ -474,13 +476,22 @@ export const setAppOfTheDayAppPicksAppOfTheDayPost = (
 }
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
-  TData = Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { data: AppOfTheDay }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
+    TError,
+    { data: AppOfTheDay },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
+  TError,
+  { data: AppOfTheDay },
+  TContext
+> => {
   const mutationKey = ["setAppOfTheDayAppPicksAppOfTheDayPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -499,12 +510,7 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
     return setAppOfTheDayAppPicksAppOfTheDayPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: AppOfTheDay },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationResult = NonNullable<
@@ -518,13 +524,22 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError =
  * @summary Set App Of The Day
  */
 export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
-  TData = Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { data: AppOfTheDay }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
+    TError,
+    { data: AppOfTheDay },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, { data: AppOfTheDay }, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
+  TError,
+  { data: AppOfTheDay },
+  TContext
+> => {
   const mutationOptions =
     getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions(options)
 

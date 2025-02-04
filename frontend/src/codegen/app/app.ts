@@ -113,7 +113,7 @@ export function useGetCategoriesCategoriesGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getCategoriesCategoriesGet>>
       >,
       "initialData"
     >
@@ -136,7 +136,7 @@ export function useGetCategoriesCategoriesGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getCategoriesCategoriesGet>>
       >,
       "initialData"
     >
@@ -277,7 +277,7 @@ export function useGetCategoryCategoryCategoryGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>
         >,
         "initialData"
       >
@@ -304,7 +304,7 @@ export function useGetCategoryCategoryCategoryGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>
         >,
         "initialData"
       >
@@ -472,7 +472,9 @@ export function useGetSubcategoryCategoryCategorySubcategoriesGet<
             ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
+          >
         >,
         "initialData"
       >
@@ -505,7 +507,9 @@ export function useGetSubcategoryCategoryCategorySubcategoriesGet<
             ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesGet>
+          >
         >,
         "initialData"
       >
@@ -642,7 +646,7 @@ export function useGetDevelopersDeveloperGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getDevelopersDeveloperGet>>
       >,
       "initialData"
     >
@@ -665,7 +669,7 @@ export function useGetDevelopersDeveloperGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getDevelopersDeveloperGet>>
       >,
       "initialData"
     >
@@ -806,7 +810,7 @@ export function useGetDeveloperDeveloperDeveloperGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>
         >,
         "initialData"
       >
@@ -833,7 +837,7 @@ export function useGetDeveloperDeveloperDeveloperGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>
         >,
         "initialData"
       >
@@ -972,7 +976,7 @@ export function useGetKeywordKeywordGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getKeywordKeywordGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getKeywordKeywordGet>>
         >,
         "initialData"
       >
@@ -998,7 +1002,7 @@ export function useGetKeywordKeywordGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getKeywordKeywordGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getKeywordKeywordGet>>
         >,
         "initialData"
       >
@@ -1120,7 +1124,7 @@ export function useGetEolRebaseEolRebaseGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>
       >,
       "initialData"
     >
@@ -1143,7 +1147,7 @@ export function useGetEolRebaseEolRebaseGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>
       >,
       "initialData"
     >
@@ -1284,7 +1288,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>
         >,
         "initialData"
       >
@@ -1311,7 +1315,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>
         >,
         "initialData"
       >
@@ -1439,7 +1443,7 @@ export function useGetEolMessageEolMessageGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getEolMessageEolMessageGet>>
       >,
       "initialData"
     >
@@ -1462,7 +1466,7 @@ export function useGetEolMessageEolMessageGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getEolMessageEolMessageGet>>
       >,
       "initialData"
     >
@@ -1603,7 +1607,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>
         >,
         "initialData"
       >
@@ -1630,7 +1634,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>
         >,
         "initialData"
       >
@@ -1771,7 +1775,7 @@ export function useListAppstreamAppstreamGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof listAppstreamAppstreamGet>>
         >,
         "initialData"
       >
@@ -1797,7 +1801,7 @@ export function useListAppstreamAppstreamGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof listAppstreamAppstreamGet>>
         >,
         "initialData"
       >
@@ -1942,7 +1946,7 @@ export function useGetAppstreamAppstreamAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>
         >,
         "initialData"
       >
@@ -1969,7 +1973,7 @@ export function useGetAppstreamAppstreamAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>
         >,
         "initialData"
       >
@@ -2116,7 +2120,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>
         >,
         "initialData"
       >
@@ -2142,7 +2146,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>
         >,
         "initialData"
       >
@@ -2220,18 +2224,22 @@ export const postSearchSearchPost = (
 }
 
 export const getPostSearchSearchPostMutationOptions = <
-  TData = Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof postSearchSearchPost>>,
     TError,
     { data: SearchQuery; params?: PostSearchSearchPostParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postSearchSearchPost>>,
+  TError,
+  { data: SearchQuery; params?: PostSearchSearchPostParams },
+  TContext
+> => {
   const mutationKey = ["postSearchSearchPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -2250,12 +2258,7 @@ export const getPostSearchSearchPostMutationOptions = <
     return postSearchSearchPost(data, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: SearchQuery; params?: PostSearchSearchPostParams },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type PostSearchSearchPostMutationResult = NonNullable<
@@ -2268,19 +2271,18 @@ export type PostSearchSearchPostMutationError = AxiosError<HTTPValidationError>
  * @summary Post Search
  */
 export const usePostSearchSearchPost = <
-  TData = Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof postSearchSearchPost>>,
     TError,
     { data: SearchQuery; params?: PostSearchSearchPostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError,
   { data: SearchQuery; params?: PostSearchSearchPostParams },
   TContext
@@ -2351,7 +2353,7 @@ export function useGetRuntimeListRuntimesGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>
       >,
       "initialData"
     >
@@ -2374,7 +2376,7 @@ export function useGetRuntimeListRuntimesGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>
       >,
       "initialData"
     >
@@ -2517,7 +2519,9 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
             ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+          >
         >,
         "initialData"
       >
@@ -2549,7 +2553,9 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
             ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+          >
         >,
         "initialData"
       >
@@ -2706,7 +2712,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
             ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
           >,
           TError,
-          TData
+          Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>
         >,
         "initialData"
       >
@@ -2736,7 +2742,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
             ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
           >,
           TError,
-          TData
+          Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>
         >,
         "initialData"
       >
@@ -2877,7 +2883,7 @@ export function useGetVerifiedCollectionVerifiedGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>
         >,
         "initialData"
       >
@@ -2903,7 +2909,7 @@ export function useGetVerifiedCollectionVerifiedGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>
         >,
         "initialData"
       >
@@ -3041,7 +3047,7 @@ export function useGetMobileCollectionMobileGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
         >,
         "initialData"
       >
@@ -3067,7 +3073,7 @@ export function useGetMobileCollectionMobileGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
         >,
         "initialData"
       >
@@ -3206,7 +3212,7 @@ export function useGetPopularLastMonthPopularLastMonthGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>
         >,
         "initialData"
       >
@@ -3232,7 +3238,7 @@ export function useGetPopularLastMonthPopularLastMonthGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>
         >,
         "initialData"
       >
@@ -3385,7 +3391,9 @@ export function useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet<
             ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+          >
         >,
         "initialData"
       >
@@ -3417,7 +3425,9 @@ export function useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet<
             ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+          >
         >,
         "initialData"
       >
@@ -3542,7 +3552,7 @@ export function useGetStatsStatsGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getStatsStatsGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getStatsStatsGet>>
       >,
       "initialData"
     >
@@ -3561,7 +3571,7 @@ export function useGetStatsStatsGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getStatsStatsGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getStatsStatsGet>>
       >,
       "initialData"
     >
@@ -3691,7 +3701,7 @@ export function useGetStatsForAppStatsAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>
         >,
         "initialData"
       >
@@ -3718,7 +3728,7 @@ export function useGetStatsForAppStatsAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>
         >,
         "initialData"
       >
@@ -3869,7 +3879,7 @@ export function useGetSummarySummaryAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>
         >,
         "initialData"
       >
@@ -3896,7 +3906,7 @@ export function useGetSummarySummaryAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>
         >,
         "initialData"
       >
@@ -4027,7 +4037,7 @@ export function useGetPlatformsPlatformsGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getPlatformsPlatformsGet>>
       >,
       "initialData"
     >
@@ -4050,7 +4060,7 @@ export function useGetPlatformsPlatformsGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getPlatformsPlatformsGet>>
       >,
       "initialData"
     >
@@ -4165,7 +4175,7 @@ export function useGetExceptionsExceptionsGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getExceptionsExceptionsGet>>
       >,
       "initialData"
     >
@@ -4188,7 +4198,7 @@ export function useGetExceptionsExceptionsGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getExceptionsExceptionsGet>>
       >,
       "initialData"
     >
@@ -4319,7 +4329,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>
         >,
         "initialData"
       >
@@ -4345,7 +4355,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>
         >,
         "initialData"
       >
@@ -4481,7 +4491,7 @@ export function useGetAddonsAddonAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
         >,
         "initialData"
       >
@@ -4507,7 +4517,7 @@ export function useGetAddonsAddonAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
         >,
         "initialData"
       >
@@ -4579,13 +4589,22 @@ export const addToFavoritesFavoritesAppIdAddPost = (
 }
 
 export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
-  TData = Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+    TError,
+    { appId: string },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationKey = ["addToFavoritesFavoritesAppIdAddPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -4604,12 +4623,7 @@ export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
     return addToFavoritesFavoritesAppIdAddPost(appId, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { appId: string },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type AddToFavoritesFavoritesAppIdAddPostMutationResult = NonNullable<
@@ -4623,13 +4637,22 @@ export type AddToFavoritesFavoritesAppIdAddPostMutationError =
  * @summary Add To Favorites
  */
 export const useAddToFavoritesFavoritesAppIdAddPost = <
-  TData = Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+    TError,
+    { appId: string },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationOptions =
     getAddToFavoritesFavoritesAppIdAddPostMutationOptions(options)
 
@@ -4647,15 +4670,22 @@ export const removeFromFavoritesFavoritesAppIdRemoveDelete = (
 }
 
 export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
-  TData = Awaited<
-    ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
+    TError,
+    { appId: string },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationKey = ["removeFromFavoritesFavoritesAppIdRemoveDelete"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -4674,12 +4704,7 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
     return removeFromFavoritesFavoritesAppIdRemoveDelete(appId, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { appId: string },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationResult =
@@ -4694,15 +4719,22 @@ export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationError =
  * @summary Remove From Favorites
  */
 export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
-  TData = Awaited<
-    ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
+    TError,
+    { appId: string },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationOptions =
     getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions(options)
 
@@ -4771,7 +4803,7 @@ export function useGetFavoritesFavoritesGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getFavoritesFavoritesGet>>
       >,
       "initialData"
     >
@@ -4794,7 +4826,7 @@ export function useGetFavoritesFavoritesGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getFavoritesFavoritesGet>>
       >,
       "initialData"
     >
@@ -4922,7 +4954,7 @@ export function useIsFavoritedFavoritesAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>
         >,
         "initialData"
       >
@@ -4948,7 +4980,7 @@ export function useIsFavoritedFavoritesAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>
         >,
         "initialData"
       >

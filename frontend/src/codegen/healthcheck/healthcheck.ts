@@ -79,7 +79,7 @@ export function useHealthcheckStatusGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof healthcheckStatusGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof healthcheckStatusGet>>
       >,
       "initialData"
     >
@@ -102,7 +102,7 @@ export function useHealthcheckStatusGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof healthcheckStatusGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof healthcheckStatusGet>>
       >,
       "initialData"
     >

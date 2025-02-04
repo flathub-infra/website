@@ -29,20 +29,22 @@ export const buildNotificationEmailsBuildNotificationPost = (
 }
 
 export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
-  TData = Awaited<
-    ReturnType<typeof buildNotificationEmailsBuildNotificationPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
     TError,
     { data: BuildNotificationRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
+  TError,
+  { data: BuildNotificationRequest },
+  TContext
+> => {
   const mutationKey = ["buildNotificationEmailsBuildNotificationPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -61,12 +63,7 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
     return buildNotificationEmailsBuildNotificationPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: BuildNotificationRequest },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type BuildNotificationEmailsBuildNotificationPostMutationResult =
@@ -82,21 +79,18 @@ export type BuildNotificationEmailsBuildNotificationPostMutationError =
  * @summary Build Notification
  */
 export const useBuildNotificationEmailsBuildNotificationPost = <
-  TData = Awaited<
-    ReturnType<typeof buildNotificationEmailsBuildNotificationPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
     TError,
     { data: BuildNotificationRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
   TError,
   { data: BuildNotificationRequest },
   TContext

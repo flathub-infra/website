@@ -125,7 +125,11 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
+          >
+        >
       >,
       "initialData"
     >
@@ -160,7 +164,11 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
+          >
+        >
       >,
       "initialData"
     >
@@ -333,7 +341,11 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet
+          >
+        >
       >,
       "initialData"
     >
@@ -366,7 +378,11 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet
+          >
+        >
       >,
       "initialData"
     >
@@ -506,7 +522,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
           ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
         >,
         TError,
-        TData
+        Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>
       >,
       "initialData"
     >
@@ -533,7 +549,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
           ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
         >,
         TError,
-        TData
+        Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>
       >,
       "initialData"
     >
@@ -660,7 +676,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>
       >,
       "initialData"
     >
@@ -685,7 +701,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>
       >,
       "initialData"
     >
@@ -819,7 +835,9 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
           ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
+        >
       >,
       "initialData"
     >
@@ -848,7 +866,9 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
           ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
+        >
       >,
       "initialData"
     >
@@ -982,7 +1002,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
           ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
         >,
         TError,
-        TData
+        Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>
       >,
       "initialData"
     >
@@ -1009,7 +1029,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
           ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
         >,
         TError,
-        TData
+        Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>
       >,
       "initialData"
     >
@@ -1155,7 +1175,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>
         >,
         "initialData"
       >
@@ -1182,7 +1202,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>
         >,
         "initialData"
       >
@@ -1323,7 +1343,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>
         >,
         "initialData"
       >
@@ -1349,7 +1369,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>
         >,
         "initialData"
       >

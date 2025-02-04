@@ -23,13 +23,22 @@ export const updateUpdatePost = (
 }
 
 export const getUpdateUpdatePostMutationOptions = <
-  TData = Awaited<ReturnType<typeof updateUpdatePost>>,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateUpdatePost>>,
+    TError,
+    void,
+    TContext
+  >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateUpdatePost>>,
+  TError,
+  void,
+  TContext
+> => {
   const mutationKey = ["updateUpdatePost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -46,12 +55,7 @@ export const getUpdateUpdatePostMutationOptions = <
     return updateUpdatePost(axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    void,
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type UpdateUpdatePostMutationResult = NonNullable<
@@ -64,13 +68,22 @@ export type UpdateUpdatePostMutationError = AxiosError<unknown>
  * @summary Update
  */
 export const useUpdateUpdatePost = <
-  TData = Awaited<ReturnType<typeof updateUpdatePost>>,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateUpdatePost>>,
+    TError,
+    void,
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, void, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateUpdatePost>>,
+  TError,
+  void,
+  TContext
+> => {
   const mutationOptions = getUpdateUpdatePostMutationOptions(options)
 
   return useMutation(mutationOptions)
@@ -85,13 +98,22 @@ export const updateStatsUpdateStatsPost = (
 }
 
 export const getUpdateStatsUpdateStatsPostMutationOptions = <
-  TData = Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
+    TError,
+    void,
+    TContext
+  >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
+  TError,
+  void,
+  TContext
+> => {
   const mutationKey = ["updateStatsUpdateStatsPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -108,12 +130,7 @@ export const getUpdateStatsUpdateStatsPostMutationOptions = <
     return updateStatsUpdateStatsPost(axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    void,
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type UpdateStatsUpdateStatsPostMutationResult = NonNullable<
@@ -126,13 +143,22 @@ export type UpdateStatsUpdateStatsPostMutationError = AxiosError<unknown>
  * @summary Update Stats
  */
 export const useUpdateStatsUpdateStatsPost = <
-  TData = Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
+    TError,
+    void,
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, void, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
+  TError,
+  void,
+  TContext
+> => {
   const mutationOptions = getUpdateStatsUpdateStatsPostMutationOptions(options)
 
   return useMutation(mutationOptions)
@@ -148,16 +174,24 @@ export const processTransfersUpdateProcessPendingTransfersPost = (
 }
 
 export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions =
-  <
-    TData = Awaited<
+  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
+      >,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
       ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
     >,
-    TError = AxiosError<unknown>,
-    TContext = unknown,
-  >(options?: {
-    mutation?: UseMutationOptions<TData, TError, void, TContext>
-    axios?: AxiosRequestConfig
-  }) => {
+    TError,
+    void,
+    TContext
+  > => {
     const mutationKey = ["processTransfersUpdateProcessPendingTransfersPost"]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
@@ -176,12 +210,7 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions
       return processTransfersUpdateProcessPendingTransfersPost(axiosOptions)
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      void,
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type ProcessTransfersUpdateProcessPendingTransfersPostMutationResult =
@@ -198,15 +227,24 @@ export type ProcessTransfersUpdateProcessPendingTransfersPostMutationError =
  * @summary Process Transfers
  */
 export const useProcessTransfersUpdateProcessPendingTransfersPost = <
-  TData = Awaited<
-    ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
-  >,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
+    >,
+    TError,
+    void,
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, void, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>>,
+  TError,
+  void,
+  TContext
+> => {
   const mutationOptions =
     getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions(options)
 
