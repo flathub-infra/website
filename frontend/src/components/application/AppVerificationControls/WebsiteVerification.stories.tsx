@@ -1,47 +1,64 @@
-import React from "react"
-import { Meta } from "@storybook/react"
+import { Meta, StoryObj } from "@storybook/react"
 import { faker } from "@faker-js/faker"
 import WebsiteVerification from "./WebsiteVerification"
-import { AvailableMethod } from "../../../codegen/model"
+import { expect, userEvent, waitFor, within } from "@storybook/test"
 
-export default {
-  title: "Components/Application/AppVerificationControls/WebsiteVerification",
+const meta = {
   component: WebsiteVerification,
-} as Meta<typeof WebsiteVerification>
+  title: "Components/Application/AppVerificationControls/WebsiteVerification",
+} satisfies Meta<typeof WebsiteVerification>
 
-export const NoTokenFirstStep = () => {
-  const method: AvailableMethod = {
-    method: "website",
-    website: faker.internet.url(),
-  }
+export default meta
 
-  return (
-    <div className="space-y-3">
-      <WebsiteVerification
-        appId="my.domain.appId"
-        method={method}
-        onVerified={() => {}}
-        isNewApp={false}
-      />
-    </div>
-  )
+type Story = StoryObj<typeof meta>
+
+export const NoTokenFirstStep: Story = {
+  args: {
+    appId: "io.github.appId",
+    isNewApp: false,
+    method: {
+      method: "website",
+      website: faker.internet.url(),
+    },
+    onVerified: () => {},
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Website verification" }),
+    )
+
+    await waitFor(() => {
+      expect(canvas.getByText("io.github.appId")).toBeInTheDocument()
+      expect(canvas.getByText("Begin")).toBeInTheDocument()
+    })
+  },
 }
 
-export const HasTokenSecondStep = () => {
-  const method: AvailableMethod = {
-    method: "website",
-    website: faker.internet.url(),
-    website_token: faker.string.uuid(),
-  }
+export const HasTokenSecondStep: Story = {
+  args: {
+    appId: "io.github.appId",
+    isNewApp: false,
+    method: {
+      method: "website",
+      website: "test.com/my-app",
+      website_token: faker.string.uuid(),
+    },
+    onVerified: () => {},
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Website verification" }),
+    )
 
-  return (
-    <div className="space-y-3">
-      <WebsiteVerification
-        appId="my.domain.appId"
-        method={method}
-        onVerified={() => {}}
-        isNewApp={false}
-      />
-    </div>
-  )
+    await waitFor(() => {
+      expect(
+        canvas.getByText(
+          "https://test.com/my-app/.well-known/org.flathub.VerifiedApps.txt",
+        ),
+      ).toBeInTheDocument()
+      expect(canvas.getByText("Continue")).toBeInTheDocument()
+    })
+  },
 }
