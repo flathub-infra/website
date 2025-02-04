@@ -10,6 +10,7 @@ import { MotionGlobalConfig } from "framer-motion"
 import isChromatic from "chromatic/isChromatic"
 
 import { initialize, mswLoader } from "msw-storybook-addon"
+import { allModes } from "./modes"
 
 initialize()
 
@@ -61,7 +62,28 @@ const withI18next = (Story, context) => {
 }
 
 export default {
-  parameters: { mockingDate: new Date(2024, 0, 1) },
+  parameters: {
+    mockingDate: new Date(2024, 0, 1),
+    viewport: {
+      viewports: {
+        small: { name: "Small", styles: { width: "640px", height: "800px" } },
+        large: { name: "Large", styles: { width: "1024px", height: "1000px" } },
+      },
+    },
+    backgrounds: {
+      values: [
+        { name: "light", value: "#fafafa" },
+        { name: "dark", value: "#251f32" },
+      ],
+    },
+    chromatic: {
+      modes: {
+        light: allModes["light"],
+        dark: allModes["dark"],
+        mobile: allModes["mobile"],
+      },
+    },
+  },
   loaders: [mswLoader],
   decorators: [
     withI18next,

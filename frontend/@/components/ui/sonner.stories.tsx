@@ -4,6 +4,7 @@ import { Toaster } from "./sonner"
 import { toast } from "sonner"
 import React from "react"
 import { i18n } from "next-i18next"
+import { expect, userEvent, waitFor, within } from "@storybook/test"
 
 const meta = {
   component: Toaster,
@@ -23,6 +24,17 @@ export const Default: Story = {
       />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    const button = canvas.getByRole("button")
+
+    await userEvent.click(button)
+
+    await waitFor(() => {
+      expect(canvas.getByText("Hello world!")).toBeInTheDocument()
+    })
+  },
 }
 
 export const Error: Story = {
@@ -35,6 +47,18 @@ export const Error: Story = {
       />
     </div>
   ),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    const button = canvas.getByRole("button")
+
+    await userEvent.click(button)
+
+    await waitFor(() => {
+      expect(canvas.getByText("Hello world!")).toBeInTheDocument()
+    })
+  },
 }
 
 export const Success: Story = {
@@ -47,6 +71,18 @@ export const Success: Story = {
       />
     </div>
   ),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    const button = canvas.getByRole("button")
+
+    await userEvent.click(button)
+
+    await waitFor(() => {
+      expect(canvas.getByText("Hello world!")).toBeInTheDocument()
+    })
+  },
 }
 
 export const Info: Story = {
@@ -59,4 +95,16 @@ export const Info: Story = {
       />
     </div>
   ),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    const button = canvas.getByRole("button")
+
+    await userEvent.click(button)
+
+    await waitFor(() => {
+      expect(canvas.getByText("Hello world!")).toBeInTheDocument()
+    })
+  },
 }
