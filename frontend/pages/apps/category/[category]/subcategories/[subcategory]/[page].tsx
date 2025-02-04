@@ -36,7 +36,8 @@ const ApplicationCategory = ({
   const category = router.query.category as MainCategory
   let categoryName = tryParseCategory(category, t)
   const subcategory = router.query.subcategory as string
-  let subcategoryName = tryParseSubCategory(subcategory, t) ?? t(subcategory)
+  let subcategoryName =
+    tryParseSubCategory(subcategory, t) ?? t(subcategory.toLowerCase())
 
   const pages = [
     {
