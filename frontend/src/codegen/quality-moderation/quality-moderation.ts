@@ -140,7 +140,11 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatusQualityModerationStatusGet
+            >
+          >
         >,
         "initialData"
       >
@@ -176,7 +180,11 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatusQualityModerationStatusGet
+            >
+          >
         >,
         "initialData"
       >
@@ -360,7 +368,11 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getPassingQualityAppsQualityModerationPassingAppsGet
+            >
+          >
         >,
         "initialData"
       >
@@ -396,7 +408,11 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getPassingQualityAppsQualityModerationPassingAppsGet
+            >
+          >
         >,
         "initialData"
       >
@@ -594,7 +610,11 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+            >
+          >
         >,
         "initialData"
       >
@@ -632,7 +652,11 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+            >
+          >
         >,
         "initialData"
       >
@@ -815,7 +839,11 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
+          >
+        >
       >,
       "initialData"
     >
@@ -850,7 +878,11 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
+          >
+        >
       >,
       "initialData"
     >
@@ -1025,7 +1057,11 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppQualityModerationAppIdGet
+            >
+          >
         >,
         "initialData"
       >
@@ -1059,7 +1095,11 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppQualityModerationAppIdGet
+            >
+          >
         >,
         "initialData"
       >
@@ -1147,21 +1187,24 @@ export const setQualityModerationForAppQualityModerationAppIdPost = (
 }
 
 export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOptions =
-  <
-    TData = Awaited<
-      ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
+      >,
       TError,
       { appId: string; data: UpsertQualityModeration },
       TContext
     >
     axios?: AxiosRequestConfig
-  }) => {
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
+    >,
+    TError,
+    { appId: string; data: UpsertQualityModeration },
+    TContext
+  > => {
     const mutationKey = ["setQualityModerationForAppQualityModerationAppIdPost"]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
@@ -1186,12 +1229,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      { appId: string; data: UpsertQualityModeration },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationResult =
@@ -1209,21 +1247,22 @@ export type SetQualityModerationForAppQualityModerationAppIdPostMutationError =
  * @summary Set Quality Moderation For App
  */
 export const useSetQualityModerationForAppQualityModerationAppIdPost = <
-  TData = Awaited<
-    ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<
+      ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
+    >,
     TError,
     { appId: string; data: UpsertQualityModeration },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<
+    ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
+  >,
   TError,
   { appId: string; data: UpsertQualityModeration },
   TContext
@@ -1351,7 +1390,11 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
+            >
+          >
         >,
         "initialData"
       >
@@ -1389,7 +1432,11 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
+            >
+          >
         >,
         "initialData"
       >
@@ -1484,18 +1531,28 @@ export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
 }
 
 export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions =
-  <
-    TData = Awaited<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof requestReviewForAppQualityModerationAppIdRequestReviewPost
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
       ReturnType<
         typeof requestReviewForAppQualityModerationAppIdRequestReviewPost
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
-    mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
-    axios?: AxiosRequestConfig
-  }) => {
+    TError,
+    { appId: string },
+    TContext
+  > => {
     const mutationKey = [
       "requestReviewForAppQualityModerationAppIdRequestReviewPost",
     ]
@@ -1523,12 +1580,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      { appId: string },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationResult =
@@ -1547,17 +1599,30 @@ export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationEr
  * @summary Request Review For App
  */
 export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
-  TData = Awaited<
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof requestReviewForAppQualityModerationAppIdRequestReviewPost
+      >
+    >,
+    TError,
+    { appId: string },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationResult<
+  Awaited<
     ReturnType<
       typeof requestReviewForAppQualityModerationAppIdRequestReviewPost
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
-  axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationOptions =
     getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions(
       options,
@@ -1577,18 +1642,28 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
   }
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions =
-  <
-    TData = Awaited<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
       ReturnType<
         typeof deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
-    mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
-    axios?: AxiosRequestConfig
-  }) => {
+    TError,
+    { appId: string },
+    TContext
+  > => {
     const mutationKey = [
       "deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete",
     ]
@@ -1616,12 +1691,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      { appId: string },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationResult =
@@ -1640,18 +1710,28 @@ export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMu
  * @summary Delete Review Request For App
  */
 export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
-  <
-    TData = Awaited<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationResult<
+    Awaited<
       ReturnType<
         typeof deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
-    mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
-    axios?: AxiosRequestConfig
-  }): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+    TError,
+    { appId: string },
+    TContext
+  > => {
     const mutationOptions =
       getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions(
         options,
@@ -1674,15 +1754,11 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
 }
 
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions =
-  <
-    TData = Awaited<
-      ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
+      >,
       TError,
       {
         appId: string
@@ -1691,7 +1767,17 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       TContext
     >
     axios?: AxiosRequestConfig
-  }) => {
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
+    >,
+    TError,
+    {
+      appId: string
+      params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
+    },
+    TContext
+  > => {
     const mutationKey = ["setFullscreenAppQualityModerationAppIdFullscreenPost"]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
@@ -1719,15 +1805,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      {
-        appId: string
-        params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
-      },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationResult =
@@ -1744,14 +1822,13 @@ export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationError =
  * @summary Set Fullscreen App
  */
 export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
-  TData = Awaited<
-    ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<
+      ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
+    >,
     TError,
     {
       appId: string
@@ -1761,7 +1838,9 @@ export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<
+    ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
+  >,
   TError,
   {
     appId: string

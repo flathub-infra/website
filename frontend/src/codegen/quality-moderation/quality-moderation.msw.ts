@@ -42,7 +42,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
         ]),
       },
       appstream: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([{}, null]),
+        faker.helpers.arrayElement([null]),
         undefined,
       ]),
       installs_last_7_days: faker.helpers.arrayElement([

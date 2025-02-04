@@ -128,7 +128,9 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
             ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+          >
         >,
         "initialData"
       >
@@ -160,7 +162,9 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
             ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+          >
         >,
         "initialData"
       >
@@ -358,7 +362,11 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+            >
+          >
         >,
         "initialData"
       >
@@ -395,7 +403,11 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
             >
           >,
           TError,
-          TData
+          Awaited<
+            ReturnType<
+              typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+            >
+          >
         >,
         "initialData"
       >
@@ -497,17 +509,13 @@ export const verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost = (
 }
 
 export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationOptions =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<
+          typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
+        >
+      >,
       TError,
       {
         appId: string
@@ -516,7 +524,19 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
       TContext
     >
     axios?: AxiosRequestConfig
-  }) => {
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
+    },
+    TContext
+  > => {
     const mutationKey = [
       "verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost",
     ]
@@ -548,15 +568,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      {
-        appId: string
-        params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-      },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationResult =
@@ -575,17 +587,13 @@ export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutat
  * @summary Verify By Login Provider
  */
 export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<
+          typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
+        >
+      >,
       TError,
       {
         appId: string
@@ -595,7 +603,11 @@ export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost 
     >
     axios?: AxiosRequestConfig
   }): UseMutationResult<
-    TData,
+    Awaited<
+      ReturnType<
+        typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
+      >
+    >,
     TError,
     {
       appId: string
@@ -715,7 +727,11 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+          >
+        >
       >,
       "initialData"
     >
@@ -750,7 +766,11 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
           >
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<
+            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+          >
+        >
       >,
       "initialData"
     >
@@ -843,17 +863,13 @@ export const setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPo
   }
 
 export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationOptions =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<
+          typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
+        >
+      >,
       TError,
       {
         appId: string
@@ -862,7 +878,19 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
       TContext
     >
     axios?: AxiosRequestConfig
-  }) => {
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
+    },
+    TContext
+  > => {
     const mutationKey = [
       "setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost",
     ]
@@ -894,15 +922,7 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      {
-        appId: string
-        params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-      },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationResult =
@@ -921,17 +941,13 @@ export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPos
  * @summary Setup Website Verification
  */
 export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<
+          typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
+        >
+      >,
       TError,
       {
         appId: string
@@ -941,7 +957,11 @@ export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
     >
     axios?: AxiosRequestConfig
   }): UseMutationResult<
-    TData,
+    Awaited<
+      ReturnType<
+        typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
+      >
+    >,
     TError,
     {
       appId: string
@@ -977,17 +997,13 @@ export const confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificati
   }
 
 export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationOptions =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<
+          typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
+        >
+      >,
       TError,
       {
         appId: string
@@ -996,7 +1012,19 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
       TContext
     >
     axios?: AxiosRequestConfig
-  }) => {
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
+    },
+    TContext
+  > => {
     const mutationKey = [
       "confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost",
     ]
@@ -1028,15 +1056,7 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      {
-        appId: string
-        params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-      },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationResult =
@@ -1055,17 +1075,13 @@ export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificatio
  * @summary Confirm Website Verification
  */
 export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
-      >
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<
+          typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
+        >
+      >,
       TError,
       {
         appId: string
@@ -1075,7 +1091,11 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     >
     axios?: AxiosRequestConfig
   }): UseMutationResult<
-    TData,
+    Awaited<
+      ReturnType<
+        typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
+      >
+    >,
     TError,
     {
       appId: string
@@ -1102,13 +1122,22 @@ export const unverifyVerificationAppIdUnverifyPost = (
 }
 
 export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
-  TData = Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
+    TError,
+    { appId: string },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationKey = ["unverifyVerificationAppIdUnverifyPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -1127,12 +1156,7 @@ export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
     return unverifyVerificationAppIdUnverifyPost(appId, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { appId: string },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type UnverifyVerificationAppIdUnverifyPostMutationResult = NonNullable<
@@ -1146,13 +1170,22 @@ export type UnverifyVerificationAppIdUnverifyPostMutationError =
  * @summary Unverify
  */
 export const useUnverifyVerificationAppIdUnverifyPost = <
-  TData = Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
+    TError,
+    { appId: string },
+    TContext
+  >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+}): UseMutationResult<
+  Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
+  TError,
+  { appId: string },
+  TContext
+> => {
   const mutationOptions =
     getUnverifyVerificationAppIdUnverifyPostMutationOptions(options)
 
@@ -1173,18 +1206,28 @@ export const switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost = (
 }
 
 export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationOptions =
-  <
-    TData = Awaited<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
       ReturnType<
         typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
-    mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
-    axios?: AxiosRequestConfig
-  }) => {
+    TError,
+    { appId: string },
+    TContext
+  > => {
     const mutationKey = [
       "switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost",
     ]
@@ -1212,12 +1255,7 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMut
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      { appId: string },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationResult =
@@ -1236,18 +1274,28 @@ export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutatio
  * @summary Switch To Direct Upload
  */
 export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
-  <
-    TData = Awaited<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationResult<
+    Awaited<
       ReturnType<
         typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
-    mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
-    axios?: AxiosRequestConfig
-  }): UseMutationResult<TData, TError, { appId: string }, TContext> => {
+    TError,
+    { appId: string },
+    TContext
+  > => {
     const mutationOptions =
       getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationOptions(
         options,
@@ -1267,18 +1315,22 @@ export const archiveVerificationAppIdArchivePost = (
 }
 
 export const getArchiveVerificationAppIdArchivePostMutationOptions = <
-  TData = Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
     TError,
     { appId: string; data: ArchiveRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
+  TError,
+  { appId: string; data: ArchiveRequest },
+  TContext
+> => {
   const mutationKey = ["archiveVerificationAppIdArchivePost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -1297,12 +1349,7 @@ export const getArchiveVerificationAppIdArchivePostMutationOptions = <
     return archiveVerificationAppIdArchivePost(appId, data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { appId: string; data: ArchiveRequest },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type ArchiveVerificationAppIdArchivePostMutationResult = NonNullable<
@@ -1316,19 +1363,18 @@ export type ArchiveVerificationAppIdArchivePostMutationError =
  * @summary Archive
  */
 export const useArchiveVerificationAppIdArchivePost = <
-  TData = Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
     TError,
     { appId: string; data: ArchiveRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
   TError,
   { appId: string; data: ArchiveRequest },
   TContext

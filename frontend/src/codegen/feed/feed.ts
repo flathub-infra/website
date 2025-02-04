@@ -100,7 +100,9 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
           ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+        >
       >,
       "initialData"
     >
@@ -129,7 +131,9 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
           ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
         >,
         TError,
-        TData
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+        >
       >,
       "initialData"
     >
@@ -253,7 +257,7 @@ export function useGetNewAppsFeedFeedNewGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>
       >,
       "initialData"
     >
@@ -276,7 +280,7 @@ export function useGetNewAppsFeedFeedNewGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>
       >,
       "initialData"
     >

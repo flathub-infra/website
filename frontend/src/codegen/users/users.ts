@@ -93,7 +93,7 @@ export function useUsersUsersGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof usersUsersGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof usersUsersGet>>
         >,
         "initialData"
       >
@@ -115,7 +115,7 @@ export function useUsersUsersGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof usersUsersGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof usersUsersGet>>
         >,
         "initialData"
       >
@@ -229,7 +229,7 @@ export function useRolesUsersRolesGet<
       DefinedInitialDataOptions<
         Awaited<ReturnType<typeof rolesUsersRolesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof rolesUsersRolesGet>>
       >,
       "initialData"
     >
@@ -252,7 +252,7 @@ export function useRolesUsersRolesGet<
       UndefinedInitialDataOptions<
         Awaited<ReturnType<typeof rolesUsersRolesGet>>,
         TError,
-        TData
+        Awaited<ReturnType<typeof rolesUsersRolesGet>>
       >,
       "initialData"
     >
@@ -379,7 +379,7 @@ export function useUserUsersUserIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof userUsersUserIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof userUsersUserIdGet>>
         >,
         "initialData"
       >
@@ -405,7 +405,7 @@ export function useUserUsersUserIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof userUsersUserIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof userUsersUserIdGet>>
         >,
         "initialData"
       >
@@ -481,18 +481,22 @@ export const addUserRoleUsersUserIdRolePost = (
 }
 
 export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
-  TData = Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
     TError,
     { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
+  TError,
+  { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
+  TContext
+> => {
   const mutationKey = ["addUserRoleUsersUserIdRolePost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -511,12 +515,7 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
     return addUserRoleUsersUserIdRolePost(userId, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type AddUserRoleUsersUserIdRolePostMutationResult = NonNullable<
@@ -530,19 +529,18 @@ export type AddUserRoleUsersUserIdRolePostMutationError =
  * @summary Add User Role
  */
 export const useAddUserRoleUsersUserIdRolePost = <
-  TData = Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
     TError,
     { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError,
   { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
   TContext
@@ -568,18 +566,22 @@ export const deleteUserRoleUsersUserIdRoleDelete = (
 }
 
 export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
-  TData = Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
     TError,
     { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+  TError,
+  { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+  TContext
+> => {
   const mutationKey = ["deleteUserRoleUsersUserIdRoleDelete"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -598,12 +600,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
     return deleteUserRoleUsersUserIdRoleDelete(userId, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type DeleteUserRoleUsersUserIdRoleDeleteMutationResult = NonNullable<
@@ -617,19 +614,18 @@ export type DeleteUserRoleUsersUserIdRoleDeleteMutationError =
  * @summary Delete User Role
  */
 export const useDeleteUserRoleUsersUserIdRoleDelete = <
-  TData = Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
     TError,
     { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError,
   { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
   TContext
@@ -718,7 +714,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
         >,
         "initialData"
       >
@@ -744,7 +740,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
         >,
         "initialData"
       >

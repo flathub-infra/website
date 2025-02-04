@@ -109,7 +109,7 @@ export function useGetModerationAppsModerationAppsGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>
         >,
         "initialData"
       >
@@ -135,7 +135,7 @@ export function useGetModerationAppsModerationAppsGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>
         >,
         "initialData"
       >
@@ -287,7 +287,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>
         >,
         "initialData"
       >
@@ -314,7 +314,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
           TError,
-          TData
+          Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>
         >,
         "initialData"
       >
@@ -391,21 +391,24 @@ export const submitReviewRequestModerationSubmitReviewRequestPost = (
 }
 
 export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions =
-  <
-    TData = Awaited<
-      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-    >,
-    TError = AxiosError<HTTPValidationError>,
-    TContext = unknown,
-  >(options?: {
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-      TData,
+      Awaited<
+        ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+      >,
       TError,
       { data: ReviewRequest },
       TContext
     >
     axios?: AxiosRequestConfig
-  }) => {
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+    >,
+    TError,
+    { data: ReviewRequest },
+    TContext
+  > => {
     const mutationKey = ["submitReviewRequestModerationSubmitReviewRequestPost"]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
@@ -429,12 +432,7 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOpti
       )
     }
 
-    return { mutationFn, ...mutationOptions } as UseMutationOptions<
-      TData,
-      TError,
-      { data: ReviewRequest },
-      TContext
-    >
+    return { mutationFn, ...mutationOptions }
   }
 
 export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationResult =
@@ -452,20 +450,26 @@ export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationError =
  * @summary Submit Review Request
  */
 export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
-  TData = Awaited<
-    ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<
+      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+    >,
     TError,
     { data: ReviewRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationResult<TData, TError, { data: ReviewRequest }, TContext> => {
+}): UseMutationResult<
+  Awaited<
+    ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+  >,
+  TError,
+  { data: ReviewRequest },
+  TContext
+> => {
   const mutationOptions =
     getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions(
       options,
@@ -487,20 +491,22 @@ export const submitReviewModerationRequestsIdReviewPost = (
 }
 
 export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
-  TData = Awaited<
-    ReturnType<typeof submitReviewModerationRequestsIdReviewPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
     TError,
     { id: number; data: Review },
     TContext
   >
   axios?: AxiosRequestConfig
-}) => {
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
+  TError,
+  { id: number; data: Review },
+  TContext
+> => {
   const mutationKey = ["submitReviewModerationRequestsIdReviewPost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
@@ -519,12 +525,7 @@ export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
     return submitReviewModerationRequestsIdReviewPost(id, data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { id: number; data: Review },
-    TContext
-  >
+  return { mutationFn, ...mutationOptions }
 }
 
 export type SubmitReviewModerationRequestsIdReviewPostMutationResult =
@@ -539,21 +540,18 @@ export type SubmitReviewModerationRequestsIdReviewPostMutationError =
  * @summary Submit Review
  */
 export const useSubmitReviewModerationRequestsIdReviewPost = <
-  TData = Awaited<
-    ReturnType<typeof submitReviewModerationRequestsIdReviewPost>
-  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    TData,
+    Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
     TError,
     { id: number; data: Review },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  TData,
+  Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
   TError,
   { id: number; data: Review },
   TContext
