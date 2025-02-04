@@ -26,16 +26,17 @@ jobs:
       group: ${{ matrix.platform }}-build_push_docker_frontend_prod
       cancel-in-progress: true
     steps:
-      # 2025-02-02: needs: 20 GB, post-cleanup-avail: 57G
+      # 2024-11-16: default-avail: 21G, needs: 20 GB, post-cleanup-avail: 53G
       - name: Free up space
         run: |
-          sudo du -xh --max-depth=3 / 2>/dev/null | sort -rh | head -40 || true
-          sudo rm -rf /usr/share/swift /usr/lib/jvm /opt/* \
-            /usr/lib/dotnet /usr/share/az_* /usr/local/lib/android \
-            /usr/local/lib/android /usr/share/dotnet \
-            /usr/local/share/boost /usr/local/share/powershell \
-            /usr/lib/google-cloud-sdk /var/lib/apt/lists/*
+          df -h|grep "/dev/root"
+          sudo rm -rf /opt/* /usr/local/.ghcup /swapfile
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet /usr/share/swift
+          sudo rm -rf /usr/local/share/boost /usr/local/share/powershell
+          sudo rm -rf /usr/lib/google-cloud-sdk /usr/lib/jvm
           sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
           df -h|grep "/dev/root"
 
       - uses: actions/checkout@v4
