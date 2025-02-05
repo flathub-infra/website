@@ -11,11 +11,18 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: amd64
+          - os: ubuntu-24.04-arm
+            platform: arm64
+    runs-on: ${{matrix.os}}
     permissions:
       packages: write
     concurrency:
-      group: build_push_docker_backend_node_prod
+      group: ${{matrix.platform}}-build_push_docker_backend_node_prod
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
@@ -37,14 +44,47 @@ jobs:
           file: backend-node/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           no-cache: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/${{ matrix.platform }}
+          provenance: false
           build-args: |
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             GITHUB_SHA=${{ github.sha }}
           tags: |
-            ghcr.io/flathub-infra/backend-node:${{ github.sha }}
-            ghcr.io/flathub-infra/backend-node:latest
+            ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}-${{matrix.platform}}
+            ghcr.io/${{ github.repository_owner }}/backend-node:latest-${{matrix.platform}}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
+
+  docker-manifest:
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs:
+      - docker
+    permissions:
+      packages: write
+    steps:
+      - name: Login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push backend-node manifest
+        run: |
+          docker manifest create \
+            ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }} \
+            --amend ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}-amd64 \
+            --amend ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}-arm64
+
+          docker manifest push ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}
+
+          docker manifest create \
+            ghcr.io/${{ github.repository_owner }}/backend-node:latest \
+            --amend ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}-amd64 \
+            --amend ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}-arm64
+
+          docker manifest push ghcr.io/${{ github.repository_owner }}/backend-node:latest
