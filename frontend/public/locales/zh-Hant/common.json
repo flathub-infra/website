@@ -587,9 +587,9 @@
   "carousel": "輪播",
   "slide": "投影片",
   "setup": "設定",
-  "microphone-access": "麥克風存取權",
+  "microphone-access": "麥克風存取權與音訊播放",
   "screen-contents-access": "螢幕內容存取權",
-  "can-listen-using-microphones-without-asking-permission": "無須徵得許可即可使用麥克風收聽",
+  "can-listen-using-microphones-without-asking-permission": "無須徵得許可即可使用麥克風收聽與播放音訊",
   "can-access-the-contents-of-the-screen-or-other-windows": "可以存取螢幕或其他視窗的內容",
   "transparent-safety": "<0>透明安全</0> — 清楚看到應用程式何時<3>經過驗證</3>（來自開發者）、需要哪些權限，以及是否開放原始碼與可稽核",
   "users": "使用者",
@@ -630,6 +630,20 @@
   "mobile-apps-description": "適用於您 Linux 手機與平板電腦的應用程式",
   "quality": {
     "banner-preview-description": "要輕鬆試用您的橫幅，請使用<2>橫幅預覽</2>",
-    "missing-brand-colors": "缺少品牌色彩"
-  }
+    "missing-brand-colors": "缺少品牌色彩",
+    "banner-preview": "橫幅預覽"
+  },
+  "favorite": "收藏",
+  "favorite-apps": "收藏",
+  "we-love-games": "我們 ♥ 遊戲",
+  "game-section-description": "可執行您最喜愛的復古遊戲的遊戲與應用程式",
+  "emulator": "模擬器",
+  "gameemulator": "模擬器",
+  "more-emulator": "更多模擬器",
+  "launcher": "啟動器",
+  "gamelauncher": "遊戲啟動器",
+  "more-gamelauncher": "更多遊戲啟動器",
+  "tool": "工具",
+  "gametool": "遊戲工具",
+  "more-gametool": "更多遊戲工具"
 }

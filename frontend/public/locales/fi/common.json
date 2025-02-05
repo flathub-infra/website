@@ -589,8 +589,8 @@
   "setup": "Määritys",
   "more-pages": "Lisää sivuja",
   "screen-contents-access": "Näytön sisällön käyttö",
-  "microphone-access": "Mikrofonin käyttö",
-  "can-listen-using-microphones-without-asking-permission": "Voi kuunnella mikrofoneilla kysymättä erikseen lupaa",
+  "microphone-access": "Mikrofonin käyttö ja äänentoisto",
+  "can-listen-using-microphones-without-asking-permission": "Voi kuunnella mikrofoneilla ja toistaa ääntä kysymättä erikseen lupaa",
   "can-access-the-contents-of-the-screen-or-other-windows": "Pääsy näytön tai muiden ikkunoiden sisältöön",
   "get-apps": "Hanki sovelluksia",
   "all-the-apps-you-want": "<0>Kaikki haluamasi sovellukset</0> – Flathubissa on tuhansia sovelluksia tarpeisiisi niin isoilta nimiltä kuin indie-kehittäjiltä.",
@@ -628,5 +628,23 @@
   "apps-by-tag": "Sovellukset '{{tag}}'-tunnisteella",
   "mobile-apps-description": "Sovelluksia Linux-puhelimille ja -tableteille",
   "on-the-go": "Matkassa",
-  "more-mobile-apps": "Lisää mobiilisovelluksia"
+  "more-mobile-apps": "Lisää mobiilisovelluksia",
+  "favorite": "Suosikki",
+  "favorite-apps": "Suosikit",
+  "emulator": "Emulaattorit",
+  "gameemulator": "Emulaattorit",
+  "more-emulator": "Lisää emulaattoreita",
+  "launcher": "Käynnistimet",
+  "gamelauncher": "Pelikäynnistimet",
+  "game-section-description": "Pelejä ja suosikkiretropeliesi pelaamiseen sovelluksia",
+  "we-love-games": "Me ♥ pelejä",
+  "more-gamelauncher": "Lisää pelikäynnistimiä",
+  "quality": {
+    "banner-preview": "Bannerin esikatselu",
+    "banner-preview-description": "Kokeile banneria <2>bannerin esikatselulla</2>",
+    "missing-brand-colors": "Puuttuvat brändivärit"
+  },
+  "tool": "Työkalut",
+  "gametool": "Työkalut pelaamiseen",
+  "more-gametool": "Lisää työkaluja pelaamiseen"
 }
