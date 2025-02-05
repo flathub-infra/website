@@ -114,6 +114,7 @@ def invite_developer(
     app = _get_app(app_id)
     _check_permission(app, login.user, require_primary=True)
 
+    payload = None
     with get_db("writer") as db_session:
         invited_user = FlathubUser.by_invite_code(
             db_session, invite_code.replace("-", "")
@@ -141,30 +142,31 @@ def invite_developer(
         db_session.add(invite)
         db_session.commit()
 
-    if app_metadata := get_json_key(f"apps:{app.app_id}"):
-        app_name = app_metadata["name"]
-        subject = (
-            f"You have been invited to be a developer of {app_name} ({app.app_id})"
-        )
-    else:
-        app_name = None
-        subject = f"You have been invited to be a developer of {app.app_id}"
+        if app_metadata := get_json_key(f"apps:{app.app_id}"):
+            app_name = app_metadata["name"]
+            subject = (
+                f"You have been invited to be a developer of {app_name} ({app.app_id})"
+            )
+        else:
+            app_name = None
+            subject = f"You have been invited to be a developer of {app.app_id}"
 
-    payload = {
-        "messageId": f"{app.app_id}/{invite.id}/invited",
-        "creation_timestamp": datetime.now().timestamp(),
-        "userId": invited_user.id,
-        "subject": subject,
-        "previewText": subject,
-        "messageInfo": {
-            "category": EmailCategory.DEVELOPER_INVITE,
-            "appId": app.app_id,
-            "appName": app_name,
-            "inviter": login.user.display_name,
-        },
-    }
+        payload = {
+            "messageId": f"{app.app_id}/{invite.id}/invited",
+            "creation_timestamp": datetime.now().timestamp(),
+            "userId": invited_user.id,
+            "subject": subject,
+            "previewText": subject,
+            "messageInfo": {
+                "category": EmailCategory.DEVELOPER_INVITE,
+                "appId": app.app_id,
+                "appName": app_name,
+                "inviter": login.user.display_name,
+            },
+        }
 
-    worker.send_email_new.send(payload)
+    if payload:
+        worker.send_email_new.send(payload)
 
 
 @router.post("/{app_id}/accept", status_code=204, tags=["invite"])
@@ -185,6 +187,7 @@ def accept_invite(
         )
 
     app = _get_app(app_id)
+    payload = None
 
     with get_db("writer") as db_session:
         invite = DirectUploadAppInvite.by_developer_and_app(db_session, login.user, app)
@@ -201,28 +204,29 @@ def accept_invite(
         db_session.delete(invite)
         db_session.commit()
 
-    username = login.user.display_name
+        username = login.user.display_name
 
-    if app_metadata := get_json_key(f"apps:{app.app_id}"):
-        app_name = app_metadata["name"]
-    else:
-        app_name = None
+        if app_metadata := get_json_key(f"apps:{app.app_id}"):
+            app_name = app_metadata["name"]
+        else:
+            app_name = None
 
-    payload = {
-        "messageId": f"{app_id}/{invite.id}/success",
-        "creation_timestamp": datetime.now().timestamp(),
-        "subject": f"{username} is now a developer",
-        "previewText": f"{username} is now a developer",
-        "messageInfo": {
-            "category": EmailCategory.DEVELOPER_INVITE_ACCEPTED,
-            "appId": app_id,
-            "appName": app_name,
-            "references": f"{app_id}/{invite.id}/invited",
-            "login": username,
-        },
-    }
+        payload = {
+            "messageId": f"{app_id}/{invite.id}/success",
+            "creation_timestamp": datetime.now().timestamp(),
+            "subject": f"{username} is now a developer",
+            "previewText": f"{username} is now a developer",
+            "messageInfo": {
+                "category": EmailCategory.DEVELOPER_INVITE_ACCEPTED,
+                "appId": app_id,
+                "appName": app_name,
+                "references": f"{app_id}/{invite.id}/invited",
+                "login": username,
+            },
+        }
 
-    worker.send_email_new.send(payload)
+    if payload:
+        worker.send_email_new.send(payload)
 
 
 @router.post("/{app_id}/decline", status_code=204, tags=["invite"])
@@ -236,6 +240,7 @@ def decline_invite(
     ),
 ):
     app = _get_app(app_id)
+    payload = None
 
     with get_db("writer") as db_session:
         invite = DirectUploadAppInvite.by_developer_and_app(db_session, login.user, app)
@@ -247,27 +252,28 @@ def decline_invite(
 
         primary_dev = DirectUploadAppDeveloper.primary_for_app(db_session, app)
 
-    if app_metadata := get_json_key(f"apps:{app.app_id}"):
-        app_name = app_metadata["name"]
-    else:
-        app_name = None
+        if app_metadata := get_json_key(f"apps:{app.app_id}"):
+            app_name = app_metadata["name"]
+        else:
+            app_name = None
 
-    payload = {
-        "messageId": f"{app.app_id}/{invite.id}/decline",
-        "creation_timestamp": datetime.now().timestamp(),
-        "subject": f"{login.user.display_name} declined their invite",
-        "previewText": f"{login.user.display_name} declined their invite",
-        "messageInfo": {
-            "category": EmailCategory.DEVELOPER_INVITE_DECLINED,
-            "userId": primary_dev.developer_id,
-            "appId": app.app_id,
-            "appName": app_name,
-            "references": f"{app_id}/{invite.id}/invited",
-            "login": login.user.display_name,
-        },
-    }
+        payload = {
+            "messageId": f"{app.app_id}/{invite.id}/decline",
+            "creation_timestamp": datetime.now().timestamp(),
+            "subject": f"{login.user.display_name} declined their invite",
+            "previewText": f"{login.user.display_name} declined their invite",
+            "messageInfo": {
+                "category": EmailCategory.DEVELOPER_INVITE_DECLINED,
+                "userId": primary_dev.developer_id,
+                "appId": app.app_id,
+                "appName": app_name,
+                "references": f"{app_id}/{invite.id}/invited",
+                "login": login.user.display_name,
+            },
+        }
 
-    worker.send_email_new.send(payload)
+    if payload:
+        worker.send_email_new.send(payload)
 
 
 @router.post("/{app_id}/leave", status_code=204, tags=["invite"])
@@ -282,30 +288,32 @@ def leave_team(
 ):
     app = _get_app(app_id)
     developer = _check_permission(app, login.user)
+    payload = None
 
     with get_db("writer") as db_session:
         db_session.delete(developer)
         db_session.commit()
 
-    if app_metadata := get_json_key(f"apps:{app.app_id}"):
-        app_name = app_metadata["name"]
-    else:
-        app_name = None
+        if app_metadata := get_json_key(f"apps:{app.app_id}"):
+            app_name = app_metadata["name"]
+        else:
+            app_name = None
 
-    payload = {
-        "messageId": f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
-        "creation_timestamp": datetime.now().timestamp(),
-        "subject": f"{login.user.display_name} left the developer team",
-        "previewText": f"{login.user.display_name} left the developer team",
-        "messageInfo": {
-            "category": EmailCategory.DEVELOPER_LEFT,
-            "appId": app.app_id,
-            "appName": app_name,
-            "login": login.user.display_name,
-        },
-    }
+        payload = {
+            "messageId": f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
+            "creation_timestamp": datetime.now().timestamp(),
+            "subject": f"{login.user.display_name} left the developer team",
+            "previewText": f"{login.user.display_name} left the developer team",
+            "messageInfo": {
+                "category": EmailCategory.DEVELOPER_LEFT,
+                "appId": app.app_id,
+                "appName": app_name,
+                "login": login.user.display_name,
+            },
+        }
 
-    worker.send_email_new.send(payload)
+    if payload:
+        worker.send_email_new.send(payload)
 
 
 class Developer(BaseModel):
