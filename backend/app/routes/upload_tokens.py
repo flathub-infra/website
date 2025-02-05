@@ -186,6 +186,25 @@ def create_upload_token(
     with get_db("writer") as db:
         db.session.add(token)
         db.session.commit()
+
+        encoded = jwt.encode(
+            {
+                "jti": jti(token),
+                "sub": "build",
+                "scope": request.scopes,
+                "repos": request.repos,
+                "prefixes": [app_id],
+                "iat": issued_at,
+                "exp": expires_at,
+                "token_type": "app",
+            },
+            base64.b64decode(config.settings.flat_manager_build_secret),
+            algorithm="HS256",
+        )
+
+        if config.settings.flat_manager_build_token_prefix is not None:
+            encoded = config.settings.flat_manager_build_token_prefix + encoded
+
         token_id = token.id
 
     encoded = jwt.encode(
