@@ -90,7 +90,6 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
                   rel="noreferrer"
                   className="no-underline hover:underline"
                 >
-                  <span className="absolute inset-0" />
                   {feedItem.title}
                 </a>
               </h3>
