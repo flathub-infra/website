@@ -173,7 +173,6 @@ def create_upload_token(
     issued_to = login.user
     expires_at = issued_at + datetime.timedelta(days=180)
 
-    # Create the row in the database
     token = models.UploadToken(
         comment=request.comment,
         app_id=app_id,
@@ -183,10 +182,29 @@ def create_upload_token(
         issued_to=issued_to.id,
         expires_at=expires_at,
     )
+
     with get_db("writer") as db:
         db.session.add(token)
         db.session.commit()
-        token_id = token.id
+        token_details = _token_response(token, issued_to.display_name)
+
+    encoded = jwt.encode(
+        {
+            "jti": f"backend_{token_details.id}",
+            "sub": "build",
+            "scope": request.scopes,
+            "repos": request.repos,
+            "prefixes": [app_id],
+            "iat": issued_at,
+            "exp": expires_at,
+            "token_type": "app",
+        },
+        base64.b64decode(config.settings.flat_manager_build_secret),
+        algorithm="HS256",
+    )
+
+    if config.settings.flat_manager_build_token_prefix is not None:
+        encoded = config.settings.flat_manager_build_token_prefix + encoded
 
     if app_metadata := get_json_key(f"apps:{app_id}"):
         app_name = app_metadata["name"]
@@ -194,7 +212,7 @@ def create_upload_token(
         app_name = None
 
     payload = {
-        "messageId": f"{app_id}/{token_id}/issued",
+        "messageId": f"{app_id}/{token_details.id}/issued",
         "creation_timestamp": datetime.datetime.now().timestamp(),
         "subject": "New upload token issued",
         "previewText": "New upload token issued",
@@ -212,28 +230,9 @@ def create_upload_token(
 
     worker.send_email_new.send(payload)
 
-    # Create the JWT
-    encoded = jwt.encode(
-        {
-            "jti": jti(token),
-            "sub": "build",
-            "scope": request.scopes,
-            "repos": request.repos,
-            "prefixes": [app_id],
-            "iat": issued_at,
-            "exp": expires_at,
-            "token_type": "app",
-        },
-        base64.b64decode(config.settings.flat_manager_build_secret),
-        algorithm="HS256",
-    )
-
-    if config.settings.flat_manager_build_token_prefix is not None:
-        encoded = config.settings.flat_manager_build_token_prefix + encoded
-
     return NewTokenResponse(
         token=encoded,
-        details=_token_response(token, issued_to.display_name),
+        details=token_details,
     )
 
 
