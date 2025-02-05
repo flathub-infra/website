@@ -43,7 +43,7 @@ const MarkDiff = ({
       return (
         <mark
           key={i}
-          className="dark:bg-flathub-status-green bg-flathub-status-green-dark"
+          className="dark:bg-flathub-status-green bg-flathub-status-green-dark dark:text-white"
         >
           {a[1]}
         </mark>
@@ -53,7 +53,7 @@ const MarkDiff = ({
       return (
         <mark
           key={i}
-          className="dark:bg-flathub-status-red bg-flathub-status-red-dark"
+          className="dark:bg-flathub-status-red bg-flathub-status-red-dark text-white"
         >
           {a[1]}
         </mark>
