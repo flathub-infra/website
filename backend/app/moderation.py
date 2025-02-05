@@ -385,10 +385,9 @@ def submit_review_request(
                 if not direct_upload_app.first_seen_at:
                     direct_upload_app.first_seen_at = datetime.utcnow()
                     db.session.commit()
-
-                is_new_submission = True
-                current_values = {"direct upload": False}
-                keys = {"direct upload": True}
+                    is_new_submission = True
+                    current_values = {"direct upload": False}
+                    keys = {"direct upload": True}
 
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
