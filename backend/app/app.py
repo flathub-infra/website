@@ -29,7 +29,7 @@ def get_category(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    sortBy: schemas.SortBy | None = None,
+    sort_by: schemas.SortBy | None = None,
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -39,7 +39,7 @@ def get_category(
         return response
 
     result = search.get_by_selected_categories(
-        [category], exclude_subcategories, page, per_page, locale, sortBy
+        [category], exclude_subcategories, page, per_page, locale, sort_by
     )
 
     return result
@@ -53,7 +53,7 @@ def get_subcategory(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    sortBy: schemas.SortBy | None = None,
+    sort_by: schemas.SortBy | None = None,
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -67,7 +67,7 @@ def get_subcategory(
         return response
 
     result = search.get_by_selected_category_and_subcategory(
-        category, subcategory, exclude_subcategories, page, per_page, locale, sortBy
+        category, subcategory, exclude_subcategories, page, per_page, locale, sort_by
     )
 
     return result
