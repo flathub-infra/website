@@ -26,3 +26,16 @@ class MainCategory(StrEnum):
 
 def get_main_categories():
     return [category.value for category in MainCategory]
+
+
+class SortBy(StrEnum):
+    Trending = auto()
+    InstallsLastMonth = "installs_last_month"  # installs_last_month
+
+    @classmethod
+    def _missing_(cls, value):
+        value = value.lower()
+        for member in cls:
+            if member == value:
+                return member
+        return None
