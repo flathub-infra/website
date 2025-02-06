@@ -122,3 +122,6 @@ flatpak.github.io
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Sentry Config File
+.env.sentry-build-plugin

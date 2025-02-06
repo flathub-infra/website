@@ -232,14 +232,31 @@ const sentryExports = (phase) => {
   return {
     ...nextConfig(phase),
     sentry: {
-      // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
-      // for client-side builds. (This will be the default starting in
-      // `@sentry/nextjs` version 8.0.0.) See
-      // https://webpack.js.org/configuration/devtool/ and
-      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
-      // for more information.
-      hideSourceMaps: true,
+      // For all available options, see:
+      // https://github.com/getsentry/sentry-webpack-plugin#options
+
+      org: "flathub",
+      project: "frontend",
+
+      // Only print logs for uploading source maps in CI
+      silent: !process.env.CI,
+
+      // For all available options, see:
+      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+      // Upload a larger set of source maps for prettier stack traces (increases build time)
       widenClientFileUpload: true,
+
+      // Automatically annotate React components to show their full name in breadcrumbs and session replay
+      reactComponentAnnotation: {
+        enabled: true,
+      },
+
+      // Hides source maps from generated client bundles
+      hideSourceMaps: true,
+
+      // Automatically tree-shake Sentry logger statements to reduce bundle size
+      disableLogger: true,
     },
   }
 }
