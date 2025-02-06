@@ -11347,7 +11347,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.2.1"
     eslint-plugin-react-compiler: "npm:19.0.0-beta-55955c9-20241229"
     fast-diff: "npm:^1.3.0"
-    framer-motion: "npm:^12.0.1"
+    framer-motion: "npm:^12.3.1"
     i18next: "npm:^24.2.2"
     isomorphic-dompurify: "npm:^2.20.0"
     linkify-html: "npm:^4.2.0"
@@ -11487,9 +11487,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.0.1":
-  version: 12.0.1
-  resolution: "framer-motion@npm:12.0.1"
+"framer-motion@npm:^12.3.1":
+  version: 12.3.1
+  resolution: "framer-motion@npm:12.3.1"
   dependencies:
     motion-dom: "npm:^12.0.0"
     motion-utils: "npm:^12.0.0"
@@ -11505,7 +11505,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/2bb16f0c7d4e5f070bc86e1b6e93faeeb9d34abc5765bd64e5ab2d754ce18e04b6ae9ead8d488b04b3de0ef3a83ad9f072acc1f366a9ccac3be41662c8e6fd63
+  checksum: 10c0/4a714c0e3d142a0ab4bfbc591dc1eeecd299a73926593ada7e8d19508aeed45648c676e7289db82a4ef82202607be6a0bbf9852a7db852ebf175b7a33ce2beb3
   languageName: node
   linkType: hard
 
