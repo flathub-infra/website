@@ -119,6 +119,7 @@ def get_by_selected_categories(
     page: int | None,
     hits_per_page: int | None,
     locale: str,
+    sort_by: schemas.SortBy | None = None,
 ):
     category_list = [
         f"categories = {category.value}" for category in selected_categories
@@ -144,7 +145,11 @@ def get_by_selected_categories(
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
-                "sort": ["installs_last_month:desc"],
+                "sort": (
+                    [f"{sort_by.value}:desc"]
+                    if sort_by
+                    else ["installs_last_month:desc"]
+                ),
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
             },
@@ -159,6 +164,7 @@ def get_by_selected_category_and_subcategory(
     page: int | None,
     hits_per_page: int | None,
     locale: str,
+    sort_by: schemas.SortBy | None = None,
 ):
     selected_subcategory_list = [
         f"sub_categories = {subcategory}" for subcategory in selected_subcategory
@@ -186,7 +192,11 @@ def get_by_selected_category_and_subcategory(
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
-                "sort": ["installs_last_month:desc"],
+                "sort": (
+                    [f"{sort_by.value}:desc"]
+                    if sort_by
+                    else ["installs_last_month:desc"]
+                ),
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
             },
