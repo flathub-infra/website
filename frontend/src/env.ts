@@ -1,4 +1,4 @@
-import { MainCategory } from "./codegen"
+import { MainCategory, SortBy } from "./codegen"
 
 const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 
@@ -145,6 +145,7 @@ export const CATEGORY_URL = (
   per_page?: number,
   locale?: string,
   exclude_subcategories?: string[],
+  sort_by?: keyof typeof SortBy,
 ): string => {
   const result = new URLSearchParams()
 
@@ -163,6 +164,11 @@ export const CATEGORY_URL = (
   if (exclude_subcategories) {
     result.append("exclude_subcategories", exclude_subcategories.join(","))
   }
+
+  if (sort_by) {
+    result.append("sort_by", sort_by)
+  }
+
   return `${BASE_URI}/category/${category}?${result.toString()}`
 }
 
@@ -173,6 +179,7 @@ export const SUBCATEGORY_URL = (
   per_page?: number,
   locale?: string,
   exclude_subcategories?: string[],
+  sort_by?: keyof typeof SortBy,
 ): string => {
   const result = new URLSearchParams()
 
@@ -195,6 +202,11 @@ export const SUBCATEGORY_URL = (
   if (exclude_subcategories) {
     result.append("exclude_subcategories", exclude_subcategories.join(","))
   }
+
+  if (sort_by) {
+    result.append("sort_by", sort_by)
+  }
+
   return `${BASE_URI}/category/${category}/subcategories?${result.toString()}`
 }
 
