@@ -33,6 +33,7 @@ import {
   AppOfTheDay,
   AppsOfTheWeek,
   MainCategory,
+  SortBy,
   VendingConfig,
 } from "./codegen"
 import axios from "axios"
@@ -169,9 +170,17 @@ export async function fetchCategory(
   page?: number,
   per_page?: number,
   exclude_subcategories?: string[],
+  sort_by?: keyof typeof SortBy,
 ): Promise<MeilisearchResponse<AppsIndex>> {
   const appListRes = await fetch(
-    CATEGORY_URL(category, page, per_page, locale, exclude_subcategories),
+    CATEGORY_URL(
+      category,
+      page,
+      per_page,
+      locale,
+      exclude_subcategories,
+      sort_by,
+    ),
   )
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
@@ -248,6 +257,7 @@ export async function fetchSubcategory(
   page?: number,
   per_page?: number,
   exclude_subcategories?: string[],
+  sort_by?: keyof typeof SortBy,
 ): Promise<MeilisearchResponse<AppsIndex>> {
   const appListRes = await fetch(
     SUBCATEGORY_URL(
@@ -257,6 +267,7 @@ export async function fetchSubcategory(
       per_page,
       locale,
       exclude_subcategories,
+      sort_by,
     ),
   )
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()

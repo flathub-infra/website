@@ -4,10 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { SortBy } from "./sortBy"
 
 export type GetCategoryCategoryCategoryGetParams = {
   exclude_subcategories?: string[]
   page?: number | null
   per_page?: number | null
   locale?: string
+  sort_by?: SortBy | null
 }

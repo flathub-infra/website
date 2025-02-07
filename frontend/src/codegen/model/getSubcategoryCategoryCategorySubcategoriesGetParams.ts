@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { SortBy } from "./sortBy"
 
 export type GetSubcategoryCategoryCategorySubcategoriesGetParams = {
   subcategory?: string[]
@@ -11,4 +12,5 @@ export type GetSubcategoryCategoryCategorySubcategoriesGetParams = {
   page?: number | null
   per_page?: number | null
   locale?: string
+  sort_by?: SortBy | null
 }
