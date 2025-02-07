@@ -202,6 +202,7 @@ export async function fetchGameCategory(
     page,
     per_page,
     gameCategoryFilter,
+    SortBy.trending,
   )
 }
 
@@ -217,6 +218,7 @@ export async function fetchGameEmulatorCategory(
     page,
     per_page,
     [],
+    SortBy.trending,
   )
 }
 
@@ -232,6 +234,7 @@ export async function fetchGamePackageManagerCategory(
     page,
     per_page,
     [],
+    SortBy.trending,
   )
 }
 
@@ -247,6 +250,7 @@ export async function fetchGameUtilityCategory(
     page,
     per_page,
     [],
+    SortBy.trending,
   )
 }
 

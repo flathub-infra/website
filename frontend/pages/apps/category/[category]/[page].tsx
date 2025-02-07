@@ -20,6 +20,7 @@ import {
 } from "src/meilisearch"
 import Link from "next/link"
 import Tile from "src/components/Tile"
+import { SortBy } from "src/codegen"
 
 const ApplicationCategory = ({
   applications,
@@ -114,6 +115,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
       locale,
       params.page as unknown as number,
       30,
+      [],
+      SortBy.trending,
     )
   }
 
