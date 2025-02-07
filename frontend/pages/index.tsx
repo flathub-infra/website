@@ -32,7 +32,7 @@ import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { MobileDevicesLogo } from "src/components/MobileDevicesLogo"
-import { MainCategory } from "src/codegen"
+import { MainCategory, SortBy } from "src/codegen"
 import { ApplicationSectionGradient } from "src/components/application/ApplicationSectionGradient"
 import { GameControllersLogo } from "src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "src/components/application/ApplicationSectionGradientMultiToggle"
@@ -432,7 +432,7 @@ export const getStaticProps: GetStaticProps = async ({
     .map(async (category: MainCategory) => {
       return {
         category,
-        apps: await fetchCategory(category, locale, 1, 6),
+        apps: await fetchCategory(category, locale, 1, 6, [], SortBy.trending),
       }
     })
 

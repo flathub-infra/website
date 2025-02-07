@@ -22,7 +22,7 @@ import {
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
-import { MainCategory } from "src/codegen"
+import { MainCategory, SortBy } from "src/codegen"
 
 const ApplicationCategory = ({
   applications,
@@ -114,6 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
       params.page as unknown as number,
       30,
       mainCategory === "game" ? gameCategoryFilter : [],
+      SortBy.trending,
     )
   }
 
