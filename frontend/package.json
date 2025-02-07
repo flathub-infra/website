@@ -96,7 +96,7 @@
     "eslint": "^9.19.0",
     "eslint-config-next": "15.1.6",
     "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "msw": "^2.6.8",
     "msw-storybook-addon": "^2.0.4",
     "orval": "^7.5.0",
