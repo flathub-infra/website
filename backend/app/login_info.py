@@ -91,50 +91,55 @@ def logged_in(login: LoginStatusDep):
 
 def quality_moderator_only(login=Depends(logged_in)):
     with get_db("replica") as db:
-        # Merge the user object with the current session to ensure it's attached
         user = db.session.merge(login.user)
         if "quality-moderation" not in user.permissions():
             raise HTTPException(status_code=403, detail="not_quality_moderator")
-        login.user = user  # Update the login info with the merged user
+        login.user = user
         return login
 
 
 def view_users_only(login=Depends(logged_in)):
     with get_db("replica") as db:
-        # Merge the user object with the current session to ensure it's attached
         user = db.session.merge(login.user)
         if "view-users" not in user.permissions():
             raise HTTPException(status_code=403, detail="no_permission_to_view_users")
-        login.user = user  # Update the login info with the merged user
+        login.user = user
         return login
 
 
 def modify_users_only(login=Depends(logged_in)):
-    if "modify-users" not in login.user.permissions():
-        raise HTTPException(status_code=403, detail="no_permission_to_modify_users")
+    with get_db("replica") as db:
+        user = db.session.merge(login.user)
+        if "modify-users" not in user.permissions():
+            raise HTTPException(status_code=403, detail="no_permission_to_modify_users")
+        login.user = user
+        return login
 
 
 def moderator_only(login=Depends(logged_in)):
     with get_db("replica") as db:
-        # Merge the user object with the current session to ensure it's attached
         user = db.session.merge(login.user)
         if "moderation" not in user.permissions():
             raise HTTPException(status_code=403, detail="not_moderator")
-        login.user = user  # Update the login info with the merged user
+        login.user = user
         return login
 
 
 def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
-    if (
-        "moderation" not in login.user.permissions()
-        and app_id not in login.user.dev_flatpaks(get_db("replica"))
-    ):
-        raise HTTPException(status_code=403, detail="not_app_developer")
+    with get_db("replica") as db:
+        user = db.session.merge(login.user)
+        if "moderation" not in user.permissions():
+            if app_id not in user.dev_flatpaks(db):
+                raise HTTPException(status_code=403, detail="not_app_developer")
+        login.user = user
+        return login
 
 
 def app_author_only(app_id: str, login=Depends(logged_in)):
     with get_db("replica") as db:
-        if login.user and app_id in login.user.dev_flatpaks(db):
+        user = db.session.merge(login.user)
+        if app_id in user.dev_flatpaks(db):
+            login.user = user
             return login
 
     raise HTTPException(status_code=403, detail="not_app_author")
@@ -143,13 +148,12 @@ def app_author_only(app_id: str, login=Depends(logged_in)):
 def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
     if login.user:
         with get_db("replica") as db:
-            # Merge the user object with the current session to ensure it's attached
             user = db.session.merge(login.user)
             if "quality-moderation" in user.permissions():
-                login.user = user  # Update the login info with the merged user
+                login.user = user
                 return login
             if app_id in user.dev_flatpaks(db):
-                login.user = user  # Update the login info with the merged user
+                login.user = user
                 return login
 
     raise HTTPException(status_code=403, detail="not_quality_moderator_or_app_author")
