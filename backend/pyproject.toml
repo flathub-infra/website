@@ -29,7 +29,7 @@ meilisearch = "^0.33.1"
 orjson = "^3.10.15"
 python-multipart = "^0.0.20"
 dramatiq = { extras = ["redis", "watch"], version = "^1.17.1" }
-sqlalchemy = "2.0.37"
+sqlalchemy = "2.0.38"
 pydantic-settings = "^2.7.1"
 psycopg2-binary = "^2.9.10"
 publicsuffixlist = "^1.0.2.20240903"
