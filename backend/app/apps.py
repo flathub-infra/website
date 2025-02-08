@@ -152,10 +152,20 @@ def load_appstream(sqldb) -> None:
                 }
             )
 
-            models.App.set_app(sqldb, app_id, type, apps[app_id]["locales"])
+            app_data = apps[app_id].copy()
+            locales = app_data.pop("locales")
 
-            del apps[app_id]["locales"]
-            p.set(redis_key, json.dumps(apps[app_id]))
+            try:
+                app = models.App.set_app(sqldb, app_id, type, locales)
+                if app:
+                    app.appstream = app_data
+                    sqldb.session.add(app)
+                    sqldb.session.commit()
+
+                p.set(redis_key, json.dumps(app_data))
+            except Exception as e:
+                sqldb.session.rollback()
+                print(f"Error updating app {app_id}: {str(e)}")
 
         search.create_or_update_apps(search_apps)
 
