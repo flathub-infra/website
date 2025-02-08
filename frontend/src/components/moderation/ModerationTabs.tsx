@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
-import { getAppsInfo } from "src/asyncs/app"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
@@ -8,8 +7,12 @@ import ApplicationCollection from "../application/Collection"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { setQueryParams } from "src/utils/queryParams"
-import { getModerationAppsModerationAppsGet } from "src/codegen"
+import {
+  getModerationAppsModerationAppsGet,
+  ModerationAppsResponse,
+} from "src/codegen"
 import { Checkbox } from "@/components/ui/checkbox"
+import { getAppsInfo } from "src/asyncs/app"
 
 const ModerationTabs: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -57,15 +60,15 @@ const ModerationTabs: FunctionComponent = () => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       )
 
       return {
-        apps: apps.data,
+        apps: apps.data as ModerationAppsResponse,
         appstream: await getAppsInfo(
-          apps.data.apps.map((app) => app.appid),
+          (apps.data as ModerationAppsResponse).apps.map((app) => app.appid),
           "en",
         ),
       }

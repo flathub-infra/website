@@ -280,7 +280,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   if (!app) {
     eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))
-      .data
+      .data as string
   }
 
   //@ts-ignore

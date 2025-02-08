@@ -13,6 +13,7 @@ import {
   acceptInviteInvitesAppIdAcceptPost,
   declineInviteInvitesAppIdDeclinePost,
   useGetInviteStatusInvitesAppIdGet,
+  InviteStatus,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 
@@ -29,7 +30,7 @@ export default function AcceptInvitePage({ app }) {
   }, [app.id, router, user.info])
 
   const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
     query: { enabled: !!app.id },
   })
 
@@ -37,7 +38,7 @@ export default function AcceptInvitePage({ app }) {
     mutationKey: ["accept-invite", app.id],
     mutationFn: () =>
       acceptInviteInvitesAppIdAcceptPost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -48,7 +49,7 @@ export default function AcceptInvitePage({ app }) {
     mutationKey: ["decline-invite", app.id],
     mutationFn: () =>
       declineInviteInvitesAppIdDeclinePost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -58,7 +59,7 @@ export default function AcceptInvitePage({ app }) {
 
   let content: ReactElement
 
-  if (inviteQuery.data?.data?.is_pending) {
+  if ((inviteQuery.data?.data as InviteStatus)?.is_pending) {
     content = (
       <>
         <div className="flex flex-col items-center justify-center">

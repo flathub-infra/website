@@ -19,9 +19,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
   CheckPurchasesResponseSuccess,
@@ -38,27 +35,81 @@ import type {
 file and commit metadata.
  * @summary Get Storefront Info
  */
-export const getStorefrontInfoPurchasesStorefrontInfoGet = (
+export type getStorefrontInfoPurchasesStorefrontInfoGetResponse200 = {
+  data: StorefrontInfo
+  status: 200
+}
+
+export type getStorefrontInfoPurchasesStorefrontInfoGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getStorefrontInfoPurchasesStorefrontInfoGetResponseComposite =
+  | getStorefrontInfoPurchasesStorefrontInfoGetResponse200
+  | getStorefrontInfoPurchasesStorefrontInfoGetResponse422
+
+export type getStorefrontInfoPurchasesStorefrontInfoGetResponse =
+  getStorefrontInfoPurchasesStorefrontInfoGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetUrl = (
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<StorefrontInfo>> => {
-  return axios.get(`/purchases/storefront-info`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info`
+}
+
+export const getStorefrontInfoPurchasesStorefrontInfoGet = async (
+  params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
+  options?: RequestInit,
+): Promise<getStorefrontInfoPurchasesStorefrontInfoGetResponse> => {
+  const res = await fetch(
+    getGetStorefrontInfoPurchasesStorefrontInfoGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getStorefrontInfoPurchasesStorefrontInfoGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getStorefrontInfoPurchasesStorefrontInfoGetResponse
 }
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryKey = (
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
 ) => {
-  return [`/purchases/storefront-info`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   options?: {
@@ -69,10 +120,10 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -83,7 +134,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions = <
   > = ({ signal }) =>
     getStorefrontInfoPurchasesStorefrontInfoGet(params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -98,13 +149,13 @@ export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryResult =
     Awaited<ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>>
   >
 export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   options: {
@@ -127,7 +178,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -136,7 +187,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   options?: {
@@ -159,7 +210,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -168,7 +219,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   options?: {
@@ -179,7 +230,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -192,7 +243,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   options?: {
@@ -203,7 +254,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -225,20 +276,73 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
 database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
  * @summary Get Is Free Software
  */
-export const getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = (
+export type getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse200 =
+  {
+    data: boolean
+    status: 200
+  }
+
+export type getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse422 =
+  {
+    data: HTTPValidationError
+    status: 422
+  }
+
+export type getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponseComposite =
+
+    | getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse200
+    | getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse422
+
+export type getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse =
+  getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetUrl = (
   params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<boolean>> => {
-  return axios.get(`/purchases/storefront-info/is-free-software`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info/is-free-software?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info/is-free-software`
+}
+
+export const getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = async (
+  params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
+  options?: RequestInit,
+): Promise<getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse> => {
+  const res = await fetch(
+    getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponse
 }
 
 export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryKey =
   (params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams) => {
     return [
-      `/purchases/storefront-info/is-free-software`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info/is-free-software`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -250,7 +354,7 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryOp
         typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
     options?: {
@@ -265,10 +369,10 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryOp
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -285,7 +389,7 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryOp
     > = ({ signal }) =>
       getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(params, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -308,13 +412,13 @@ export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryResult
     >
   >
 export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
   options: {
@@ -345,7 +449,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -354,7 +458,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
   options?: {
@@ -385,7 +489,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -394,7 +498,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
   options?: {
@@ -409,7 +513,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -422,7 +526,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
   options?: {
@@ -437,7 +541,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -463,14 +567,47 @@ already own, but does not grant permission to do anything else. By storing this 
 able to update apps without user interaction.
  * @summary Get Update Token
  */
-export const getUpdateTokenPurchasesGenerateUpdateTokenPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GenerateUpdateTokenResponse>> => {
-  return axios.post(`/purchases/generate-update-token`, undefined, options)
+export type getUpdateTokenPurchasesGenerateUpdateTokenPostResponse200 = {
+  data: GenerateUpdateTokenResponse
+  status: 200
+}
+
+export type getUpdateTokenPurchasesGenerateUpdateTokenPostResponseComposite =
+  getUpdateTokenPurchasesGenerateUpdateTokenPostResponse200
+
+export type getUpdateTokenPurchasesGenerateUpdateTokenPostResponse =
+  getUpdateTokenPurchasesGenerateUpdateTokenPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/generate-update-token`
+}
+
+export const getUpdateTokenPurchasesGenerateUpdateTokenPost = async (
+  options?: RequestInit,
+): Promise<getUpdateTokenPurchasesGenerateUpdateTokenPostResponse> => {
+  const res = await fetch(
+    getGetUpdateTokenPurchasesGenerateUpdateTokenPostUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getUpdateTokenPurchasesGenerateUpdateTokenPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getUpdateTokenPurchasesGenerateUpdateTokenPostResponse
 }
 
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+  <TError = unknown, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>
@@ -479,7 +616,7 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
     TError,
@@ -487,13 +624,13 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
     TContext
   > => {
     const mutationKey = ["getUpdateTokenPurchasesGenerateUpdateTokenPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -501,7 +638,7 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
       >,
       void
     > = () => {
-      return getUpdateTokenPurchasesGenerateUpdateTokenPost(axiosOptions)
+      return getUpdateTokenPurchasesGenerateUpdateTokenPost(fetchOptions)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -513,13 +650,13 @@ export type GetUpdateTokenPurchasesGenerateUpdateTokenPostMutationResult =
   >
 
 export type GetUpdateTokenPurchasesGenerateUpdateTokenPostMutationError =
-  AxiosError<unknown>
+  unknown
 
 /**
  * @summary Get Update Token
  */
 export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -528,7 +665,7 @@ export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
   TError,
@@ -547,19 +684,54 @@ App IDs can be in the form of full refs, e.g. "app/org.gnome.Maps/x86_64/stable"
 "org.gnome.Maps".
  * @summary Check Purchases
  */
-export const checkPurchasesPurchasesCheckPurchasesPost = (
+export type checkPurchasesPurchasesCheckPurchasesPostResponse200 = {
+  data: CheckPurchasesResponseSuccess
+  status: 200
+}
+
+export type checkPurchasesPurchasesCheckPurchasesPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type checkPurchasesPurchasesCheckPurchasesPostResponseComposite =
+  | checkPurchasesPurchasesCheckPurchasesPostResponse200
+  | checkPurchasesPurchasesCheckPurchasesPostResponse422
+
+export type checkPurchasesPurchasesCheckPurchasesPostResponse =
+  checkPurchasesPurchasesCheckPurchasesPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getCheckPurchasesPurchasesCheckPurchasesPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/check-purchases`
+}
+
+export const checkPurchasesPurchasesCheckPurchasesPost = async (
   checkPurchasesPurchasesCheckPurchasesPostBody: string[],
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<CheckPurchasesResponseSuccess>> => {
-  return axios.post(
-    `/purchases/check-purchases`,
-    checkPurchasesPurchasesCheckPurchasesPostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<checkPurchasesPurchasesCheckPurchasesPostResponse> => {
+  const res = await fetch(getCheckPurchasesPurchasesCheckPurchasesPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(checkPurchasesPurchasesCheckPurchasesPostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: checkPurchasesPurchasesCheckPurchasesPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as checkPurchasesPurchasesCheckPurchasesPostResponse
 }
 
 export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -568,7 +740,7 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
     { data: string[] },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError,
@@ -576,13 +748,13 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["checkPurchasesPurchasesCheckPurchasesPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
@@ -590,7 +762,7 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return checkPurchasesPurchasesCheckPurchasesPost(data, axiosOptions)
+    return checkPurchasesPurchasesCheckPurchasesPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -602,13 +774,13 @@ export type CheckPurchasesPurchasesCheckPurchasesPostMutationResult =
   >
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationBody = string[]
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Check Purchases
  */
 export const useCheckPurchasesPurchasesCheckPurchasesPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -617,7 +789,7 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
     { data: string[] },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError,
@@ -634,19 +806,59 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
 "app/org.gnome.Maps/x86_64/stable".
  * @summary Get Download Token
  */
-export const getDownloadTokenPurchasesGenerateDownloadTokenPost = (
+export type getDownloadTokenPurchasesGenerateDownloadTokenPostResponse200 = {
+  data: GetDownloadTokenResponse
+  status: 200
+}
+
+export type getDownloadTokenPurchasesGenerateDownloadTokenPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getDownloadTokenPurchasesGenerateDownloadTokenPostResponseComposite =
+
+    | getDownloadTokenPurchasesGenerateDownloadTokenPostResponse200
+    | getDownloadTokenPurchasesGenerateDownloadTokenPostResponse422
+
+export type getDownloadTokenPurchasesGenerateDownloadTokenPostResponse =
+  getDownloadTokenPurchasesGenerateDownloadTokenPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/generate-download-token`
+}
+
+export const getDownloadTokenPurchasesGenerateDownloadTokenPost = async (
   bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetDownloadTokenResponse>> => {
-  return axios.post(
-    `/purchases/generate-download-token`,
-    bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
-    options,
+  options?: RequestInit,
+): Promise<getDownloadTokenPurchasesGenerateDownloadTokenPostResponse> => {
+  const res = await fetch(
+    getGetDownloadTokenPurchasesGenerateDownloadTokenPostUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(
+        bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
+      ),
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getDownloadTokenPurchasesGenerateDownloadTokenPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDownloadTokenPurchasesGenerateDownloadTokenPostResponse
 }
 
 export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
@@ -655,7 +867,7 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
       { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
@@ -665,13 +877,13 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
     TContext
   > => {
     const mutationKey = ["getDownloadTokenPurchasesGenerateDownloadTokenPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -683,7 +895,7 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
 
       return getDownloadTokenPurchasesGenerateDownloadTokenPost(
         data,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -699,13 +911,13 @@ export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationResult =
 export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationBody =
   BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost
 export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Get Download Token
  */
 export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -716,7 +928,7 @@ export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
     { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<
     ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>

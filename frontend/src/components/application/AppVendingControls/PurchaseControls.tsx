@@ -56,7 +56,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
           amount: amount.settled * 100,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
     },

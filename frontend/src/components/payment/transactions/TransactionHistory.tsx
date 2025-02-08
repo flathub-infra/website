@@ -4,9 +4,11 @@ import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { useUserContext } from "../../../context/user-info"
 import Spinner from "../../Spinner"
-import { AxiosResponse } from "axios"
 import { TransactionSummary } from "src/codegen/model/transactionSummary"
-import { getTransactionsWalletTransactionsGet } from "src/codegen"
+import {
+  getTransactionsWalletTransactionsGet,
+  getTransactionsWalletTransactionsGetResponse,
+} from "src/codegen"
 import { TransactionHistoryTable } from "./TransactionHistoryTable"
 
 const perPage = 10
@@ -23,7 +25,7 @@ const TransactionHistory: FunctionComponent = () => {
   const [error, setError] = useState("")
 
   useEffect(() => {
-    function addNewPage(newPage: AxiosResponse<TransactionSummary[], any>) {
+    function addNewPage(newPage: getTransactionsWalletTransactionsGetResponse) {
       // Upon reaching no more transactions, stop traversing
       if (page > 0 && newPage.data.length === 0) {
         setEndPage(page - 1)
@@ -48,7 +50,7 @@ const TransactionHistory: FunctionComponent = () => {
           limit: perPage,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
         .then(addNewPage)

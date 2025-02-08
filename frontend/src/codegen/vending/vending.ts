@@ -19,9 +19,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   HTTPValidationError,
   ProposedPayment,
@@ -46,19 +43,50 @@ This will return `201` if the logged in user has never begun the onboarding
 flow to be a vendor on Flathub.
  * @summary Status
  */
-export const statusVendingStatusGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingStatus>> => {
-  return axios.get(`/vending/status`, options)
+export type statusVendingStatusGetResponse200 = {
+  data: VendingStatus
+  status: 200
+}
+
+export type statusVendingStatusGetResponseComposite =
+  statusVendingStatusGetResponse200
+
+export type statusVendingStatusGetResponse =
+  statusVendingStatusGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getStatusVendingStatusGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status`
+}
+
+export const statusVendingStatusGet = async (
+  options?: RequestInit,
+): Promise<statusVendingStatusGetResponse> => {
+  const res = await fetch(getStatusVendingStatusGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: statusVendingStatusGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as statusVendingStatusGetResponse
 }
 
 export const getStatusVendingStatusGetQueryKey = () => {
-  return [`/vending/status`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status`] as const
 }
 
 export const getStatusVendingStatusGetQueryOptions = <
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -67,15 +95,15 @@ export const getStatusVendingStatusGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey = queryOptions?.queryKey ?? getStatusVendingStatusGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof statusVendingStatusGet>>
-  > = ({ signal }) => statusVendingStatusGet({ signal, ...axiosOptions })
+  > = ({ signal }) => statusVendingStatusGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof statusVendingStatusGet>>,
@@ -87,11 +115,11 @@ export const getStatusVendingStatusGetQueryOptions = <
 export type StatusVendingStatusGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof statusVendingStatusGet>>
 >
-export type StatusVendingStatusGetQueryError = AxiosError<unknown>
+export type StatusVendingStatusGetQueryError = unknown
 
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
@@ -108,13 +136,13 @@ export function useStatusVendingStatusGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -131,13 +159,13 @@ export function useStatusVendingStatusGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -146,7 +174,7 @@ export function useStatusVendingStatusGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -156,7 +184,7 @@ export function useStatusVendingStatusGet<
 
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -165,7 +193,7 @@ export function useStatusVendingStatusGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -184,19 +212,54 @@ export function useStatusVendingStatusGet<
  * Start or continue the onboarding process.
  * @summary Start Onboarding
  */
-export const startOnboardingVendingStatusOnboardingPost = (
+export type startOnboardingVendingStatusOnboardingPostResponse200 = {
+  data: VendingRedirect
+  status: 200
+}
+
+export type startOnboardingVendingStatusOnboardingPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type startOnboardingVendingStatusOnboardingPostResponseComposite =
+  | startOnboardingVendingStatusOnboardingPostResponse200
+  | startOnboardingVendingStatusOnboardingPostResponse422
+
+export type startOnboardingVendingStatusOnboardingPostResponse =
+  startOnboardingVendingStatusOnboardingPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getStartOnboardingVendingStatusOnboardingPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status/onboarding`
+}
+
+export const startOnboardingVendingStatusOnboardingPost = async (
   vendingOnboardingRequest: VendingOnboardingRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingRedirect>> => {
-  return axios.post(
-    `/vending/status/onboarding`,
-    vendingOnboardingRequest,
-    options,
-  )
+  options?: RequestInit,
+): Promise<startOnboardingVendingStatusOnboardingPostResponse> => {
+  const res = await fetch(getStartOnboardingVendingStatusOnboardingPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(vendingOnboardingRequest),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: startOnboardingVendingStatusOnboardingPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as startOnboardingVendingStatusOnboardingPostResponse
 }
 
 export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -205,7 +268,7 @@ export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
     { data: VendingOnboardingRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
   TError,
@@ -213,13 +276,13 @@ export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["startOnboardingVendingStatusOnboardingPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
@@ -227,7 +290,7 @@ export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return startOnboardingVendingStatusOnboardingPost(data, axiosOptions)
+    return startOnboardingVendingStatusOnboardingPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -240,13 +303,13 @@ export type StartOnboardingVendingStatusOnboardingPostMutationResult =
 export type StartOnboardingVendingStatusOnboardingPostMutationBody =
   VendingOnboardingRequest
 export type StartOnboardingVendingStatusOnboardingPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Start Onboarding
  */
 export const useStartOnboardingVendingStatusOnboardingPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -255,7 +318,7 @@ export const useStartOnboardingVendingStatusOnboardingPost = <
     { data: VendingOnboardingRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
   TError,
@@ -273,21 +336,56 @@ export const useStartOnboardingVendingStatusOnboardingPost = <
 The user must be logged in and must have onboarded.
  * @summary Get Dashboard Link
  */
-export const getDashboardLinkVendingStatusDashboardlinkGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingRedirect>> => {
-  return axios.get(`/vending/status/dashboardlink`, options)
+export type getDashboardLinkVendingStatusDashboardlinkGetResponse200 = {
+  data: VendingRedirect
+  status: 200
+}
+
+export type getDashboardLinkVendingStatusDashboardlinkGetResponseComposite =
+  getDashboardLinkVendingStatusDashboardlinkGetResponse200
+
+export type getDashboardLinkVendingStatusDashboardlinkGetResponse =
+  getDashboardLinkVendingStatusDashboardlinkGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetDashboardLinkVendingStatusDashboardlinkGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status/dashboardlink`
+}
+
+export const getDashboardLinkVendingStatusDashboardlinkGet = async (
+  options?: RequestInit,
+): Promise<getDashboardLinkVendingStatusDashboardlinkGetResponse> => {
+  const res = await fetch(
+    getGetDashboardLinkVendingStatusDashboardlinkGetUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getDashboardLinkVendingStatusDashboardlinkGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDashboardLinkVendingStatusDashboardlinkGetResponse
 }
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryKey = () => {
-  return [`/vending/status/dashboardlink`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status/dashboardlink`,
+  ] as const
 }
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -296,9 +394,9 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -307,7 +405,7 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>>
   > = ({ signal }) =>
-    getDashboardLinkVendingStatusDashboardlinkGet({ signal, ...axiosOptions })
+    getDashboardLinkVendingStatusDashboardlinkGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>>,
@@ -320,14 +418,13 @@ export type GetDashboardLinkVendingStatusDashboardlinkGetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>>
   >
-export type GetDashboardLinkVendingStatusDashboardlinkGetQueryError =
-  AxiosError<unknown>
+export type GetDashboardLinkVendingStatusDashboardlinkGetQueryError = unknown
 
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
@@ -348,7 +445,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -356,7 +453,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -377,7 +474,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -385,7 +482,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -394,7 +491,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -406,7 +503,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -415,7 +512,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -440,19 +537,50 @@ Configuration includes:
 - Platform values
  * @summary Get Global Vending Config
  */
-export const getGlobalVendingConfigVendingConfigGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingConfig>> => {
-  return axios.get(`/vending/config`, options)
+export type getGlobalVendingConfigVendingConfigGetResponse200 = {
+  data: VendingConfig
+  status: 200
+}
+
+export type getGlobalVendingConfigVendingConfigGetResponseComposite =
+  getGlobalVendingConfigVendingConfigGetResponse200
+
+export type getGlobalVendingConfigVendingConfigGetResponse =
+  getGlobalVendingConfigVendingConfigGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetGlobalVendingConfigVendingConfigGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/config`
+}
+
+export const getGlobalVendingConfigVendingConfigGet = async (
+  options?: RequestInit,
+): Promise<getGlobalVendingConfigVendingConfigGetResponse> => {
+  const res = await fetch(getGetGlobalVendingConfigVendingConfigGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getGlobalVendingConfigVendingConfigGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getGlobalVendingConfigVendingConfigGetResponse
 }
 
 export const getGetGlobalVendingConfigVendingConfigGetQueryKey = () => {
-  return [`/vending/config`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/config`] as const
 }
 
 export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -461,9 +589,9 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -472,7 +600,7 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>
   > = ({ signal }) =>
-    getGlobalVendingConfigVendingConfigGet({ signal, ...axiosOptions })
+    getGlobalVendingConfigVendingConfigGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
@@ -484,12 +612,11 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
 export type GetGlobalVendingConfigVendingConfigGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>
 >
-export type GetGlobalVendingConfigVendingConfigGetQueryError =
-  AxiosError<unknown>
+export type GetGlobalVendingConfigVendingConfigGetQueryError = unknown
 
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
@@ -506,13 +633,13 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -529,13 +656,13 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -544,7 +671,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -554,7 +681,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
 
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -563,7 +690,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -583,22 +710,66 @@ export function useGetGlobalVendingConfigVendingConfigGet<
  * Retrieve the vending status for a given application.
  * @summary Get App Vending Setup
  */
-export const getAppVendingSetupVendingappAppIdSetupGet = (
+export type getAppVendingSetupVendingappAppIdSetupGetResponse200 = {
+  data: VendingSetup
+  status: 200
+}
+
+export type getAppVendingSetupVendingappAppIdSetupGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getAppVendingSetupVendingappAppIdSetupGetResponseComposite =
+  | getAppVendingSetupVendingappAppIdSetupGetResponse200
+  | getAppVendingSetupVendingappAppIdSetupGetResponse422
+
+export type getAppVendingSetupVendingappAppIdSetupGetResponse =
+  getAppVendingSetupVendingappAppIdSetupGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAppVendingSetupVendingappAppIdSetupGetUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingSetup>> => {
-  return axios.get(`/vendingapp/${appId}/setup`, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/setup`
+}
+
+export const getAppVendingSetupVendingappAppIdSetupGet = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<getAppVendingSetupVendingappAppIdSetupGetResponse> => {
+  const res = await fetch(
+    getGetAppVendingSetupVendingappAppIdSetupGetUrl(appId),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getAppVendingSetupVendingappAppIdSetupGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getAppVendingSetupVendingappAppIdSetupGetResponse
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryKey = (
   appId: string,
 ) => {
-  return [`/vendingapp/${appId}/setup`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/setup`,
+  ] as const
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -609,10 +780,10 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -623,7 +794,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
   > = ({ signal }) =>
     getAppVendingSetupVendingappAppIdSetupGet(appId, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -642,11 +813,11 @@ export type GetAppVendingSetupVendingappAppIdSetupGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>
 >
 export type GetAppVendingSetupVendingappAppIdSetupGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -665,14 +836,14 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -691,14 +862,14 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -709,7 +880,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -720,7 +891,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
 
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -731,7 +902,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -762,16 +933,60 @@ In addition, if any of the currency or amount values constraints are violated
 then you will get an error
  * @summary Post App Vending Setup
  */
-export const postAppVendingSetupVendingappAppIdSetupPost = (
+export type postAppVendingSetupVendingappAppIdSetupPostResponse200 = {
+  data: VendingSetup
+  status: 200
+}
+
+export type postAppVendingSetupVendingappAppIdSetupPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type postAppVendingSetupVendingappAppIdSetupPostResponseComposite =
+  | postAppVendingSetupVendingappAppIdSetupPostResponse200
+  | postAppVendingSetupVendingappAppIdSetupPostResponse422
+
+export type postAppVendingSetupVendingappAppIdSetupPostResponse =
+  postAppVendingSetupVendingappAppIdSetupPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getPostAppVendingSetupVendingappAppIdSetupPostUrl = (
+  appId: string,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/setup`
+}
+
+export const postAppVendingSetupVendingappAppIdSetupPost = async (
   appId: string,
   vendingSetupRequest: VendingSetupRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingSetup>> => {
-  return axios.post(`/vendingapp/${appId}/setup`, vendingSetupRequest, options)
+  options?: RequestInit,
+): Promise<postAppVendingSetupVendingappAppIdSetupPostResponse> => {
+  const res = await fetch(
+    getPostAppVendingSetupVendingappAppIdSetupPostUrl(appId),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(vendingSetupRequest),
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: postAppVendingSetupVendingappAppIdSetupPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as postAppVendingSetupVendingappAppIdSetupPostResponse
 }
 
 export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -780,7 +995,7 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
     { appId: string; data: VendingSetupRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
   TError,
@@ -788,13 +1003,13 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["postAppVendingSetupVendingappAppIdSetupPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
@@ -805,7 +1020,7 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
     return postAppVendingSetupVendingappAppIdSetupPost(
       appId,
       data,
-      axiosOptions,
+      fetchOptions,
     )
   }
 
@@ -819,13 +1034,13 @@ export type PostAppVendingSetupVendingappAppIdSetupPostMutationResult =
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationBody =
   VendingSetupRequest
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Post App Vending Setup
  */
 export const usePostAppVendingSetupVendingappAppIdSetupPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -834,7 +1049,7 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
     { appId: string; data: VendingSetupRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
   TError,
@@ -855,16 +1070,60 @@ Otherwise a transaction will be created and the information about it will be
 returned in the output of the call.
  * @summary Post App Vending Status
  */
-export const postAppVendingStatusVendingappAppIdPost = (
+export type postAppVendingStatusVendingappAppIdPostResponse200 = {
+  data: VendingOutput
+  status: 200
+}
+
+export type postAppVendingStatusVendingappAppIdPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type postAppVendingStatusVendingappAppIdPostResponseComposite =
+  | postAppVendingStatusVendingappAppIdPostResponse200
+  | postAppVendingStatusVendingappAppIdPostResponse422
+
+export type postAppVendingStatusVendingappAppIdPostResponse =
+  postAppVendingStatusVendingappAppIdPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getPostAppVendingStatusVendingappAppIdPostUrl = (
+  appId: string,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}`
+}
+
+export const postAppVendingStatusVendingappAppIdPost = async (
   appId: string,
   proposedPayment: ProposedPayment,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingOutput>> => {
-  return axios.post(`/vendingapp/${appId}`, proposedPayment, options)
+  options?: RequestInit,
+): Promise<postAppVendingStatusVendingappAppIdPostResponse> => {
+  const res = await fetch(
+    getPostAppVendingStatusVendingappAppIdPostUrl(appId),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(proposedPayment),
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: postAppVendingStatusVendingappAppIdPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as postAppVendingStatusVendingappAppIdPostResponse
 }
 
 export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -873,7 +1132,7 @@ export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
     { appId: string; data: ProposedPayment },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
   TError,
@@ -881,13 +1140,13 @@ export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["postAppVendingStatusVendingappAppIdPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
@@ -895,7 +1154,7 @@ export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
   > = (props) => {
     const { appId, data } = props ?? {}
 
-    return postAppVendingStatusVendingappAppIdPost(appId, data, axiosOptions)
+    return postAppVendingStatusVendingappAppIdPost(appId, data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -907,13 +1166,13 @@ export type PostAppVendingStatusVendingappAppIdPostMutationResult = NonNullable<
 export type PostAppVendingStatusVendingappAppIdPostMutationBody =
   ProposedPayment
 export type PostAppVendingStatusVendingappAppIdPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Post App Vending Status
  */
 export const usePostAppVendingStatusVendingappAppIdPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -922,7 +1181,7 @@ export const usePostAppVendingStatusVendingappAppIdPost = <
     { appId: string; data: ProposedPayment },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
   TError,
@@ -942,24 +1201,68 @@ The caller must have control of the app at some level
 For now, there is no pagination or filtering, all tokens will be returned
  * @summary Get Redeemable Tokens
  */
-export const getRedeemableTokensVendingappAppIdTokensGet = (
+export type getRedeemableTokensVendingappAppIdTokensGetResponse200 = {
+  data: TokenList
+  status: 200
+}
+
+export type getRedeemableTokensVendingappAppIdTokensGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getRedeemableTokensVendingappAppIdTokensGetResponseComposite =
+  | getRedeemableTokensVendingappAppIdTokensGetResponse200
+  | getRedeemableTokensVendingappAppIdTokensGetResponse422
+
+export type getRedeemableTokensVendingappAppIdTokensGetResponse =
+  getRedeemableTokensVendingappAppIdTokensGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRedeemableTokensVendingappAppIdTokensGetUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<TokenList>> => {
-  return axios.get(`/vendingapp/${appId}/tokens`, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens`
+}
+
+export const getRedeemableTokensVendingappAppIdTokensGet = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<getRedeemableTokensVendingappAppIdTokensGetResponse> => {
+  const res = await fetch(
+    getGetRedeemableTokensVendingappAppIdTokensGetUrl(appId),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRedeemableTokensVendingappAppIdTokensGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRedeemableTokensVendingappAppIdTokensGetResponse
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryKey = (
   appId: string,
 ) => {
-  return [`/vendingapp/${appId}/tokens`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens`,
+  ] as const
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -970,10 +1273,10 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -984,7 +1287,7 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
   > = ({ signal }) =>
     getRedeemableTokensVendingappAppIdTokensGet(appId, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -1004,13 +1307,13 @@ export type GetRedeemableTokensVendingappAppIdTokensGetQueryResult =
     Awaited<ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>>
   >
 export type GetRedeemableTokensVendingappAppIdTokensGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1033,7 +1336,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1042,7 +1345,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1065,7 +1368,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1074,7 +1377,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1085,7 +1388,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1098,7 +1401,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1109,7 +1412,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1132,20 +1435,55 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
 The calling user must own the vending config for this application
  * @summary Create Tokens
  */
-export const createTokensVendingappAppIdTokensPost = (
+export type createTokensVendingappAppIdTokensPostResponse200 = {
+  data: TokenModel[]
+  status: 200
+}
+
+export type createTokensVendingappAppIdTokensPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type createTokensVendingappAppIdTokensPostResponseComposite =
+  | createTokensVendingappAppIdTokensPostResponse200
+  | createTokensVendingappAppIdTokensPostResponse422
+
+export type createTokensVendingappAppIdTokensPostResponse =
+  createTokensVendingappAppIdTokensPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getCreateTokensVendingappAppIdTokensPostUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens`
+}
+
+export const createTokensVendingappAppIdTokensPost = async (
   appId: string,
   createTokensVendingappAppIdTokensPostBody: string[],
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<TokenModel[]>> => {
-  return axios.post(
-    `/vendingapp/${appId}/tokens`,
-    createTokensVendingappAppIdTokensPostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<createTokensVendingappAppIdTokensPostResponse> => {
+  const res = await fetch(getCreateTokensVendingappAppIdTokensPostUrl(appId), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createTokensVendingappAppIdTokensPostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: createTokensVendingappAppIdTokensPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as createTokensVendingappAppIdTokensPostResponse
 }
 
 export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1154,7 +1492,7 @@ export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
     { appId: string; data: string[] },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
   TError,
@@ -1162,13 +1500,13 @@ export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["createTokensVendingappAppIdTokensPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
@@ -1176,7 +1514,7 @@ export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
   > = (props) => {
     const { appId, data } = props ?? {}
 
-    return createTokensVendingappAppIdTokensPost(appId, data, axiosOptions)
+    return createTokensVendingappAppIdTokensPost(appId, data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1187,13 +1525,13 @@ export type CreateTokensVendingappAppIdTokensPostMutationResult = NonNullable<
 >
 export type CreateTokensVendingappAppIdTokensPostMutationBody = string[]
 export type CreateTokensVendingappAppIdTokensPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Create Tokens
  */
 export const useCreateTokensVendingappAppIdTokensPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1202,7 +1540,7 @@ export const useCreateTokensVendingappAppIdTokensPost = <
     { appId: string; data: string[] },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
   TError,
@@ -1218,20 +1556,60 @@ export const useCreateTokensVendingappAppIdTokensPost = <
  * Cancel a set of tokens
  * @summary Cancel Tokens
  */
-export const cancelTokensVendingappAppIdTokensCancelPost = (
+export type cancelTokensVendingappAppIdTokensCancelPostResponse200 = {
+  data: TokenCancellation[]
+  status: 200
+}
+
+export type cancelTokensVendingappAppIdTokensCancelPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type cancelTokensVendingappAppIdTokensCancelPostResponseComposite =
+  | cancelTokensVendingappAppIdTokensCancelPostResponse200
+  | cancelTokensVendingappAppIdTokensCancelPostResponse422
+
+export type cancelTokensVendingappAppIdTokensCancelPostResponse =
+  cancelTokensVendingappAppIdTokensCancelPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getCancelTokensVendingappAppIdTokensCancelPostUrl = (
+  appId: string,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens/cancel`
+}
+
+export const cancelTokensVendingappAppIdTokensCancelPost = async (
   appId: string,
   cancelTokensVendingappAppIdTokensCancelPostBody: string[],
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<TokenCancellation[]>> => {
-  return axios.post(
-    `/vendingapp/${appId}/tokens/cancel`,
-    cancelTokensVendingappAppIdTokensCancelPostBody,
-    options,
+  options?: RequestInit,
+): Promise<cancelTokensVendingappAppIdTokensCancelPostResponse> => {
+  const res = await fetch(
+    getCancelTokensVendingappAppIdTokensCancelPostUrl(appId),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(cancelTokensVendingappAppIdTokensCancelPostBody),
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: cancelTokensVendingappAppIdTokensCancelPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as cancelTokensVendingappAppIdTokensCancelPostResponse
 }
 
 export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1240,7 +1618,7 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
     { appId: string; data: string[] },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
   TError,
@@ -1248,13 +1626,13 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["cancelTokensVendingappAppIdTokensCancelPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
@@ -1265,7 +1643,7 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
     return cancelTokensVendingappAppIdTokensCancelPost(
       appId,
       data,
-      axiosOptions,
+      fetchOptions,
     )
   }
 
@@ -1278,13 +1656,13 @@ export type CancelTokensVendingappAppIdTokensCancelPostMutationResult =
   >
 export type CancelTokensVendingappAppIdTokensCancelPostMutationBody = string[]
 export type CancelTokensVendingappAppIdTokensCancelPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Cancel Tokens
  */
 export const useCancelTokensVendingappAppIdTokensCancelPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1293,7 +1671,7 @@ export const useCancelTokensVendingappAppIdTokensCancelPost = <
     { appId: string; data: string[] },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
   TError,
@@ -1311,20 +1689,58 @@ export const useCancelTokensVendingappAppIdTokensCancelPost = <
 If the logged in user already owns the app then the token will not be redeemed
  * @summary Redeem Token
  */
-export const redeemTokenVendingappAppIdTokensRedeemTokenPost = (
+export type redeemTokenVendingappAppIdTokensRedeemTokenPostResponse200 = {
+  data: RedemptionResult
+  status: 200
+}
+
+export type redeemTokenVendingappAppIdTokensRedeemTokenPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type redeemTokenVendingappAppIdTokensRedeemTokenPostResponseComposite =
+  | redeemTokenVendingappAppIdTokensRedeemTokenPostResponse200
+  | redeemTokenVendingappAppIdTokensRedeemTokenPostResponse422
+
+export type redeemTokenVendingappAppIdTokensRedeemTokenPostResponse =
+  redeemTokenVendingappAppIdTokensRedeemTokenPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostUrl = (
   appId: string,
   token: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<RedemptionResult>> => {
-  return axios.post(
-    `/vendingapp/${appId}/tokens/redeem/${token}`,
-    undefined,
-    options,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens/redeem/${token}`
+}
+
+export const redeemTokenVendingappAppIdTokensRedeemTokenPost = async (
+  appId: string,
+  token: string,
+  options?: RequestInit,
+): Promise<redeemTokenVendingappAppIdTokensRedeemTokenPostResponse> => {
+  const res = await fetch(
+    getRedeemTokenVendingappAppIdTokensRedeemTokenPostUrl(appId, token),
+    {
+      ...options,
+      method: "POST",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: redeemTokenVendingappAppIdTokensRedeemTokenPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as redeemTokenVendingappAppIdTokensRedeemTokenPostResponse
 }
 
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
@@ -1333,7 +1749,7 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
       { appId: string; token: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
     TError,
@@ -1341,13 +1757,13 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
     TContext
   > => {
     const mutationKey = ["redeemTokenVendingappAppIdTokensRedeemTokenPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1360,7 +1776,7 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
       return redeemTokenVendingappAppIdTokensRedeemTokenPost(
         appId,
         token,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1373,13 +1789,13 @@ export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationResult =
   >
 
 export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Redeem Token
  */
 export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1388,7 +1804,7 @@ export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
     { appId: string; token: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
   TError,
@@ -1404,20 +1820,59 @@ export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
  * This determines the vending info for the app and returns it
  * @summary App Info
  */
-export const appInfoVendingappAppIdInfoGet = (
+export type appInfoVendingappAppIdInfoGetResponse200 = {
+  data: VendingApplicationInformation
+  status: 200
+}
+
+export type appInfoVendingappAppIdInfoGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type appInfoVendingappAppIdInfoGetResponseComposite =
+  | appInfoVendingappAppIdInfoGetResponse200
+  | appInfoVendingappAppIdInfoGetResponse422
+
+export type appInfoVendingappAppIdInfoGetResponse =
+  appInfoVendingappAppIdInfoGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getAppInfoVendingappAppIdInfoGetUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/info`
+}
+
+export const appInfoVendingappAppIdInfoGet = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingApplicationInformation>> => {
-  return axios.get(`/vendingapp/${appId}/info`, options)
+  options?: RequestInit,
+): Promise<appInfoVendingappAppIdInfoGetResponse> => {
+  const res = await fetch(getAppInfoVendingappAppIdInfoGetUrl(appId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: appInfoVendingappAppIdInfoGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as appInfoVendingappAppIdInfoGetResponse
 }
 
 export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId: string) => {
-  return [`/vendingapp/${appId}/info`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/info`,
+  ] as const
 }
 
 export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1428,10 +1883,10 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getAppInfoVendingappAppIdInfoGetQueryKey(appId)
@@ -1439,7 +1894,7 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>
   > = ({ signal }) =>
-    appInfoVendingappAppIdInfoGet(appId, { signal, ...axiosOptions })
+    appInfoVendingappAppIdInfoGet(appId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -1456,12 +1911,11 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
 export type AppInfoVendingappAppIdInfoGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>
 >
-export type AppInfoVendingappAppIdInfoGetQueryError =
-  AxiosError<HTTPValidationError>
+export type AppInfoVendingappAppIdInfoGetQueryError = HTTPValidationError
 
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1480,14 +1934,14 @@ export function useAppInfoVendingappAppIdInfoGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1506,14 +1960,14 @@ export function useAppInfoVendingappAppIdInfoGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1524,7 +1978,7 @@ export function useAppInfoVendingappAppIdInfoGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1535,7 +1989,7 @@ export function useAppInfoVendingappAppIdInfoGet<
 
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1546,7 +2000,7 @@ export function useAppInfoVendingappAppIdInfoGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>

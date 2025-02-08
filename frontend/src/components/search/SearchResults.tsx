@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios"
 import {
   ApplicationCard,
   ApplicationCardSkeleton,
@@ -9,10 +8,7 @@ import { UseMutationResult } from "@tanstack/react-query"
 import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
 
 interface Props {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
-    unknown
-  >
+  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
 }
 
 export const SearchResults: FunctionComponent<Props> = ({ results }) => {
@@ -27,7 +23,7 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
           )
         })}
       {results.isSuccess &&
-        results.data?.data.hits.map((app) => (
+        results.data?.hits.map((app) => (
           <div key={app.app_id} className={"flex flex-col gap-2"}>
             <ApplicationCard
               application={mapAppsIndexToAppstreamListItem(app)}

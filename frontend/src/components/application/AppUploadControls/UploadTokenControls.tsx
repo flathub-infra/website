@@ -25,7 +25,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
       include_expired: showExpired,
     },
     {
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
       query: {
         enabled: !!app.id,
       },
@@ -37,7 +37,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
   )
 
   const revokeMutation = useRevokeUploadTokenUploadTokensTokenIdRevokePost({
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
   })
 
   let content: ReactElement

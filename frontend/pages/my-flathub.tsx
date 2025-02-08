@@ -16,8 +16,8 @@ const FavoriteApps = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
 
   const favoritesQuery = useGetFavoritesFavoritesGet({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
