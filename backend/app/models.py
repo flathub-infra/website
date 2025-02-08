@@ -24,6 +24,7 @@ from sqlalchemy import (
     func,
     or_,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 
 from . import utils
@@ -2249,6 +2250,8 @@ class App(Base):
     )
     last_updated_at = mapped_column(DateTime, nullable=True)
     localization_json = mapped_column(JSON, nullable=True)
+    summary = mapped_column(JSONB, nullable=True)
+    appstream = mapped_column(JSONB, nullable=True)
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
