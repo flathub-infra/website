@@ -32,7 +32,6 @@ def _configure_meilisearch_index(client):
     )
     client.index("apps").update_filterable_attributes(
         [
-            "categories",
             "main_categories",
             "sub_categories",
             "developer_name",
@@ -122,7 +121,7 @@ def get_by_selected_categories(
     sort_by: schemas.SortBy | None = None,
 ):
     category_list = [
-        f"categories = {category.value}" for category in selected_categories
+        f"main_categories = {category.value}" for category in selected_categories
     ]
 
     exclude_subcategories_list = (

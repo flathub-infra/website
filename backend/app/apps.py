@@ -83,7 +83,6 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
         "app_id": app_id,
         "description": search_description,
         "icon": app["icon"],
-        "categories": categories,
         "main_categories": main_categories,
         "sub_categories": sub_categories,
         "developer_name": app.get("developer_name"),
