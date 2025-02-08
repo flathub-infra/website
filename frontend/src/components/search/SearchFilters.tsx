@@ -48,16 +48,14 @@ const SearchFilterCategories = ({
       {results.isPending &&
         [...new Array(10)].map((a, i) => {
           return (
-            <>
-              <div key={i} className={"blur-sm flex flex-col gap-2"}>
-                <FilterFacette
-                  label={"Loading..."}
-                  count={0}
-                  checked={false}
-                  onCheckedChange={() => {}}
-                />
-              </div>
-            </>
+            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+              <FilterFacette
+                label={"Loading..."}
+                count={0}
+                checked={false}
+                onCheckedChange={() => {}}
+              />
+            </div>
           )
         })}
 
@@ -126,16 +124,14 @@ const SearchFilterFloss = ({
       {results.isPending &&
         [...new Array(2)].map((a, i) => {
           return (
-            <>
-              <div key={i} className={"blur-sm flex flex-col gap-2"}>
-                <FilterFacette
-                  label={"Loading..."}
-                  count={0}
-                  checked={false}
-                  onCheckedChange={() => {}}
-                />
-              </div>
-            </>
+            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+              <FilterFacette
+                label={"Loading..."}
+                count={0}
+                checked={false}
+                onCheckedChange={() => {}}
+              />
+            </div>
           )
         })}
 
@@ -212,16 +208,14 @@ const SearchFilterVerified = ({
       {results.isPending &&
         [...new Array(2)].map((a, i) => {
           return (
-            <>
-              <div key={i} className={"blur-sm flex flex-col gap-2"}>
-                <FilterFacette
-                  label={"Loading..."}
-                  count={0}
-                  checked={false}
-                  onCheckedChange={() => {}}
-                />
-              </div>
-            </>
+            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+              <FilterFacette
+                label={"Loading..."}
+                count={0}
+                checked={false}
+                onCheckedChange={() => {}}
+              />
+            </div>
           )
         })}
 
@@ -300,16 +294,14 @@ const SearchFilterTypes = ({
       {results.isPending &&
         [...new Array(1)].map((a, i) => {
           return (
-            <>
-              <div key={i} className={"blur-sm flex flex-col gap-2"}>
-                <FilterFacette
-                  label={"Loading..."}
-                  count={0}
-                  checked={false}
-                  onCheckedChange={() => {}}
-                />
-              </div>
-            </>
+            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+              <FilterFacette
+                label={"Loading..."}
+                count={0}
+                checked={false}
+                onCheckedChange={() => {}}
+              />
+            </div>
           )
         })}
 
@@ -369,16 +361,14 @@ const SearchFilterArches = ({
       {results.isPending &&
         [...new Array(2)].map((a, i) => {
           return (
-            <>
-              <div key={i} className={"blur-sm flex flex-col gap-2"}>
-                <FilterFacette
-                  label={"Loading..."}
-                  count={0}
-                  checked={false}
-                  onCheckedChange={() => {}}
-                />
-              </div>
-            </>
+            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+              <FilterFacette
+                label={"Loading..."}
+                count={0}
+                checked={false}
+                onCheckedChange={() => {}}
+              />
+            </div>
           )
         })}
 

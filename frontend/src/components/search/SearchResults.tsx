@@ -24,11 +24,9 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
       {results.isLoading &&
         [...new Array(20)].map((a, i) => {
           return (
-            <>
-              <div key={i} className={"flex flex-col gap-2"}>
-                <ApplicationCardSkeleton />
-              </div>
-            </>
+            <div key={i} className={"flex flex-col gap-2"}>
+              <ApplicationCardSkeleton />
+            </div>
           )
         })}
       {results.isSuccess &&
