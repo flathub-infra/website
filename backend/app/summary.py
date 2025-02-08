@@ -266,10 +266,7 @@ def update(sqldb) -> None:
         for app_id, summary_json in apps_to_update.items():
             app = models.App.by_appid(sqldb, app_id)
             if app:
-                appstream_data = app.appstream
                 app.summary = summary_json
-                if appstream_data:
-                    app.appstream = appstream_data
                 sqldb.session.add(app)
             else:
                 app = models.App(
