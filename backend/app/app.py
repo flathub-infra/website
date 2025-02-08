@@ -419,19 +419,19 @@ def get_summary(
     with get_db("replica") as db_session:
         app = models.App.by_appid(db_session, app_id)
         if app and app.summary:
-            value = app.summary
+            summary = app.summary
             if (
-                "metadata" in value
-                and value["metadata"]
-                and "runtime" in value["metadata"]
+                "metadata" in summary
+                and summary["metadata"]
+                and "runtime" in summary["metadata"]
             ):
-                runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split(
+                runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
                     "/"
                 )
-                value["metadata"]["runtimeIsEol"] = bool(
+                summary["metadata"]["runtimeIsEol"] = bool(
                     db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
                 )
-            return value
+            return summary
 
     # Fall back to Redis
     if not branch:
@@ -439,19 +439,19 @@ def get_summary(
 
     if branch:
         key = f"summary:{app_id}:{branch}"
-        if value := db.get_json_key(key):
+        if summary := db.get_json_key(key):
             if (
-                "metadata" in value
-                and value["metadata"]
-                and "runtime" in value["metadata"]
+                "metadata" in summary
+                and summary["metadata"]
+                and "runtime" in summary["metadata"]
             ):
-                runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split(
+                runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
                     "/"
                 )
-                value["metadata"]["runtimeIsEol"] = bool(
+                summary["metadata"]["runtimeIsEol"] = bool(
                     db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
                 )
-            return value
+            return summary
 
     response.status_code = 404
     return None
