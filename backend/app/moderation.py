@@ -389,13 +389,25 @@ def submit_review_request(
                     current_values = {"direct upload": False}
                     keys = {"direct upload": True}
 
-        if current_summary := get_json_key(f"summary:{app_id}:stable"):
-            sentry_context[f"summary:{app_id}:stable"] = current_summary
+        with get_db("replica") as db:
+            current_summary = None
 
-            if current_metadata := current_summary.get("metadata", {}):
-                current_permissions = current_metadata.get("permissions")
-                current_extradata = bool(current_metadata.get("extra-data"))
+            app = models.App.by_appid(db, app_id)
+            if app and app.summary:
+                current_summary = app.summary
+                sentry_context[f"summary:{app_id}:stable"] = current_summary
 
+                if current_metadata := current_summary.get("metadata", {}):
+                    current_permissions = current_metadata.get("permissions")
+                    current_extradata = bool(current_metadata.get("extra-data"))
+            elif current_summary := get_json_key(f"summary:{app_id}:stable"):
+                sentry_context[f"summary:{app_id}:stable"] = current_summary
+
+                if current_metadata := current_summary.get("metadata", {}):
+                    current_permissions = current_metadata.get("permissions")
+                    current_extradata = bool(current_metadata.get("extra-data"))
+
+            if current_summary:
                 build_summary_metadata = build_summary.get(app_id, {}).get(
                     "metadata", {}
                 )
