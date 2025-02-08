@@ -233,8 +233,6 @@ def update(sqldb) -> None:
         ]
     )
 
-    # todo: it seems like we only ever have one branch, so this is fine
-    # but why do we have branches then?
     db.redis_conn.mset(
         {
             f"summary:{app_id}": json.dumps(
@@ -252,6 +250,39 @@ def update(sqldb) -> None:
             for app_id in summary_dict
         }
     )
+
+    # collect all app IDs to update
+    apps_to_update = {}
+    for app_id, data in summary_dict.items():
+        try:
+            summary_json = json.loads(json.dumps(data, cls=JSONSetEncoder))
+            apps_to_update[app_id] = summary_json
+        except Exception as e:
+            print(f"Error encoding summary data for {app_id}: {str(e)}")
+            continue
+
+    # update all apps in a single transaction
+    try:
+        for app_id, summary_json in apps_to_update.items():
+            app = models.App.by_appid(sqldb, app_id)
+            if app:
+                appstream_data = app.appstream
+                app.summary = summary_json
+                if appstream_data:
+                    app.appstream = appstream_data
+                sqldb.session.add(app)
+            else:
+                app = models.App(
+                    app_id=app_id,
+                    type="desktop-application",
+                    summary=summary_json,
+                )
+                sqldb.session.add(app)
+
+        sqldb.session.commit()
+    except Exception as e:
+        sqldb.session.rollback()
+        print(f"Error updating apps: {str(e)}")
 
     eol_rebase: dict[str, str] = {}
     eol_message: dict[str, str] = {}
