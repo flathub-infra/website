@@ -1,6 +1,6 @@
 import random
 import typing as T
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Optional
 
 import dramatiq
@@ -93,8 +93,9 @@ def update():
                     created_at = app.summary["timestamp"]
                 elif metadata := db.get_json_key(f"summary:{app_id}:stable"):
                     created_at = metadata.get("timestamp")
-                else:
-                    created_at = int(datetime.utcnow().timestamp())
+
+                if not created_at:
+                    created_at = int(datetime.now(UTC).timestamp())
 
             apps_created_at[app_id] = float(created_at)
             with WorkerDB() as sqldb:
