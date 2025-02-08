@@ -21,9 +21,6 @@
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-      "categories": [
-        "Network"
-      ],
       "main_categories": "Network",
       "sub_categories": [],
       "developer_name": "AnyDesk Software GmbH",
