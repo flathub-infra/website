@@ -10,26 +10,48 @@ import type {
   UseMutationOptions,
   UseMutationResult,
 } from "@tanstack/react-query"
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type { BuildNotificationRequest, HTTPValidationError } from ".././model"
 
 /**
  * @summary Build Notification
  */
-export const buildNotificationEmailsBuildNotificationPost = (
+export type buildNotificationEmailsBuildNotificationPostResponse = {
+  data: HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getBuildNotificationEmailsBuildNotificationPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/emails/build-notification`
+}
+
+export const buildNotificationEmailsBuildNotificationPost = async (
   buildNotificationRequest: BuildNotificationRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `/emails/build-notification`,
-    buildNotificationRequest,
-    options,
+  options?: RequestInit,
+): Promise<buildNotificationEmailsBuildNotificationPostResponse> => {
+  const res = await fetch(
+    getBuildNotificationEmailsBuildNotificationPostUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(buildNotificationRequest),
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: buildNotificationEmailsBuildNotificationPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as buildNotificationEmailsBuildNotificationPostResponse
 }
 
 export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -38,7 +60,7 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
     { data: BuildNotificationRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
   TError,
@@ -46,13 +68,13 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["buildNotificationEmailsBuildNotificationPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
@@ -60,7 +82,7 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return buildNotificationEmailsBuildNotificationPost(data, axiosOptions)
+    return buildNotificationEmailsBuildNotificationPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -73,13 +95,13 @@ export type BuildNotificationEmailsBuildNotificationPostMutationResult =
 export type BuildNotificationEmailsBuildNotificationPostMutationBody =
   BuildNotificationRequest
 export type BuildNotificationEmailsBuildNotificationPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Build Notification
  */
 export const useBuildNotificationEmailsBuildNotificationPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -88,7 +110,7 @@ export const useBuildNotificationEmailsBuildNotificationPost = <
     { data: BuildNotificationRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
   TError,

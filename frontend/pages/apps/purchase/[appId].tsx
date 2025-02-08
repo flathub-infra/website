@@ -10,6 +10,7 @@ import { ApplicationCard } from "src/components/application/ApplicationCard"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   VendingConfig,
+  VendingSetup,
 } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import { useQuery } from "@tanstack/react-query"
@@ -36,10 +37,11 @@ export default function AppPurchasePage({
     queryKey: ["appVendingSetup", app.id],
     queryFn: async () => {
       const setup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       })
 
-      const decimalValue = setup.data.recommended_donation / 100
+      const decimalValue =
+        (setup.data as VendingSetup).recommended_donation / 100
       setAmount({
         live: decimalValue,
         settled: decimalValue,
@@ -65,7 +67,8 @@ export default function AppPurchasePage({
   }
 
   // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
+  const isDonationOnly =
+    (vendingSetup.data.data as VendingSetup).minimum_payment === 0
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
@@ -97,7 +100,7 @@ export default function AppPurchasePage({
               vendingConfig={vendingConfig}
               amount={amount}
               setAmount={setAmount}
-              vendingSetup={vendingSetup.data.data}
+              vendingSetup={vendingSetup.data.data as VendingSetup}
             />
             <AppVendingControls.OwnershipTokenRedeemDialog app={app} />
           </div>

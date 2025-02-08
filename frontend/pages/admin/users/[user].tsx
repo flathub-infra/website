@@ -13,6 +13,7 @@ import {
   useAddUserRoleUsersUserIdRolePost,
   useDeleteUserRoleUsersUserIdRoleDelete,
   UserInfo,
+  UserResult,
   UserResultConnectedAccountsItem,
   UserResultDefaultAccount,
   useUserUsersUserIdGet,
@@ -66,14 +67,14 @@ const ProviderProfileLink = ({
 
 export default function UserAdmin({ userId }) {
   const query = useUserUsersUserIdGet(userId, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
   const addRoleQuery = useAddUserRoleUsersUserIdRolePost({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     mutation: {
       onSuccess: () => {
@@ -83,8 +84,8 @@ export default function UserAdmin({ userId }) {
   })
 
   const removeRoleQuery = useDeleteUserRoleUsersUserIdRoleDelete({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     mutation: {
       onSuccess: () => {
@@ -93,12 +94,11 @@ export default function UserAdmin({ userId }) {
     },
   })
 
+  const userResult = query.data?.data as UserResult
+
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo
-        title={query?.data?.data?.default_account.login ?? userId}
-        noindex
-      />
+      <NextSeo title={userResult.default_account.login ?? userId} noindex />
       <LoginGuard
         condition={(info: UserInfo) =>
           info.permissions.some((a) => a === Permission["view-users"])
@@ -115,8 +115,8 @@ export default function UserAdmin({ userId }) {
                   current: false,
                 },
                 {
-                  name: query.data.data.default_account.login,
-                  href: `/admin/moderation/${query.data.data.id}`,
+                  name: userResult.default_account.login,
+                  href: `/admin/moderation/${userResult.id}`,
                   current: true,
                 },
               ]}
@@ -124,25 +124,25 @@ export default function UserAdmin({ userId }) {
 
             <div className="space-y-8">
               <h1 className="mt-4 text-4xl font-extrabold">
-                {query.data.data.default_account.login} ({query.data.data.id})
+                {userResult.default_account.login} ({userResult.id})
               </h1>
 
-              {query.data.data.default_account && (
+              {userResult.default_account && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Default Account</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    <AccountCard account={query.data.data.default_account} />
+                    <AccountCard account={userResult.default_account} />
                   </div>
                 </div>
               )}
 
-              {query.data.data.connected_accounts && (
+              {userResult.connected_accounts && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">
                     Connected Accounts
                   </h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    {query.data.data.connected_accounts.map((account) => (
+                    {userResult.connected_accounts.map((account) => (
                       <AccountCard
                         key={`${account.id}-${account.provider}`}
                         account={account}
@@ -152,11 +152,11 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
-              {query.data.data.github_repos.length > 0 && (
+              {userResult.github_repos.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Managed repos</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    {query.data.data.github_repos.map((repo) => (
+                    {userResult.github_repos.map((repo) => (
                       <a
                         key={repo.id}
                         href={`https://github.com/flathub/${repo.reponame}`}
@@ -172,11 +172,11 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
-              {query.data.data.owned_apps.length > 0 && (
+              {userResult.owned_apps.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Owned Apps</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
-                    {query.data.data.owned_apps.map((app) => (
+                    {userResult.owned_apps.map((app) => (
                       <Link key={app.app_id} href={`/apps/${app.app_id}`}>
                         <Card key={app.app_id}>
                           <CardHeader>
@@ -192,11 +192,11 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
-              {query.data.data.roles.length > 0 && (
+              {userResult.roles.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Roles</h2>
                   <div className="space-y-2">
-                    {query.data.data.roles.map((role) => (
+                    {userResult.roles.map((role) => (
                       <div key={role.name} className="flex gap-2 items-center">
                         <Switch
                           checked={role.hasRole}

@@ -18,8 +18,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query"
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
   DevelopersResponse,
   HTTPValidationError,
@@ -32,20 +30,44 @@ import type {
 /**
  * @summary Get Invite Status
  */
-export const getInviteStatusInvitesAppIdGet = (
+export type getInviteStatusInvitesAppIdGetResponse = {
+  data: InviteStatus | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getGetInviteStatusInvitesAppIdGetUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}`
+}
+
+export const getInviteStatusInvitesAppIdGet = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<InviteStatus>> => {
-  return axios.get(`/invites/${appId}`, options)
+  options?: RequestInit,
+): Promise<getInviteStatusInvitesAppIdGetResponse> => {
+  const res = await fetch(getGetInviteStatusInvitesAppIdGetUrl(appId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getInviteStatusInvitesAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getInviteStatusInvitesAppIdGetResponse
 }
 
 export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId: string) => {
-  return [`/invites/${appId}`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}`] as const
 }
 
 export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -56,10 +78,10 @@ export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetInviteStatusInvitesAppIdGetQueryKey(appId)
@@ -67,7 +89,7 @@ export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>
   > = ({ signal }) =>
-    getInviteStatusInvitesAppIdGet(appId, { signal, ...axiosOptions })
+    getInviteStatusInvitesAppIdGet(appId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -84,12 +106,11 @@ export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
 export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>
 >
-export type GetInviteStatusInvitesAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetInviteStatusInvitesAppIdGetQueryError = HTTPValidationError
 
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -108,14 +129,14 @@ export function useGetInviteStatusInvitesAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -134,14 +155,14 @@ export function useGetInviteStatusInvitesAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -152,7 +173,7 @@ export function useGetInviteStatusInvitesAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -163,7 +184,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -174,7 +195,7 @@ export function useGetInviteStatusInvitesAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -196,19 +217,56 @@ export function useGetInviteStatusInvitesAppIdGet<
 /**
  * @summary Invite Developer
  */
-export const inviteDeveloperInvitesAppIdInvitePost = (
+export type inviteDeveloperInvitesAppIdInvitePostResponse = {
+  data: void | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getInviteDeveloperInvitesAppIdInvitePostUrl = (
   appId: string,
   params: InviteDeveloperInvitesAppIdInvitePostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/invites/${appId}/invite`, undefined, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  return normalizedParams.size
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/invite?${normalizedParams.toString()}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/invite`
+}
+
+export const inviteDeveloperInvitesAppIdInvitePost = async (
+  appId: string,
+  params: InviteDeveloperInvitesAppIdInvitePostParams,
+  options?: RequestInit,
+): Promise<inviteDeveloperInvitesAppIdInvitePostResponse> => {
+  const res = await fetch(
+    getInviteDeveloperInvitesAppIdInvitePostUrl(appId, params),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: inviteDeveloperInvitesAppIdInvitePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as inviteDeveloperInvitesAppIdInvitePostResponse
 }
 
 export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -217,7 +275,7 @@ export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
     { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError,
@@ -225,13 +283,13 @@ export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["inviteDeveloperInvitesAppIdInvitePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
@@ -239,7 +297,7 @@ export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
   > = (props) => {
     const { appId, params } = props ?? {}
 
-    return inviteDeveloperInvitesAppIdInvitePost(appId, params, axiosOptions)
+    return inviteDeveloperInvitesAppIdInvitePost(appId, params, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -250,13 +308,13 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationResult = NonNullable<
 >
 
 export type InviteDeveloperInvitesAppIdInvitePostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Invite Developer
  */
 export const useInviteDeveloperInvitesAppIdInvitePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -265,7 +323,7 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
     { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError,
@@ -280,15 +338,39 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
 /**
  * @summary Accept Invite
  */
-export const acceptInviteInvitesAppIdAcceptPost = (
+export type acceptInviteInvitesAppIdAcceptPostResponse = {
+  data: void | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getAcceptInviteInvitesAppIdAcceptPostUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/accept`
+}
+
+export const acceptInviteInvitesAppIdAcceptPost = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/invites/${appId}/accept`, undefined, options)
+  options?: RequestInit,
+): Promise<acceptInviteInvitesAppIdAcceptPostResponse> => {
+  const res = await fetch(getAcceptInviteInvitesAppIdAcceptPostUrl(appId), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: acceptInviteInvitesAppIdAcceptPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as acceptInviteInvitesAppIdAcceptPostResponse
 }
 
 export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -297,7 +379,7 @@ export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError,
@@ -305,13 +387,13 @@ export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["acceptInviteInvitesAppIdAcceptPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
@@ -319,7 +401,7 @@ export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
   > = (props) => {
     const { appId } = props ?? {}
 
-    return acceptInviteInvitesAppIdAcceptPost(appId, axiosOptions)
+    return acceptInviteInvitesAppIdAcceptPost(appId, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -330,13 +412,13 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationResult = NonNullable<
 >
 
 export type AcceptInviteInvitesAppIdAcceptPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Accept Invite
  */
 export const useAcceptInviteInvitesAppIdAcceptPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -345,7 +427,7 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError,
@@ -360,15 +442,39 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
 /**
  * @summary Decline Invite
  */
-export const declineInviteInvitesAppIdDeclinePost = (
+export type declineInviteInvitesAppIdDeclinePostResponse = {
+  data: void | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getDeclineInviteInvitesAppIdDeclinePostUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/decline`
+}
+
+export const declineInviteInvitesAppIdDeclinePost = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/invites/${appId}/decline`, undefined, options)
+  options?: RequestInit,
+): Promise<declineInviteInvitesAppIdDeclinePostResponse> => {
+  const res = await fetch(getDeclineInviteInvitesAppIdDeclinePostUrl(appId), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: declineInviteInvitesAppIdDeclinePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as declineInviteInvitesAppIdDeclinePostResponse
 }
 
 export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -377,7 +483,7 @@ export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError,
@@ -385,13 +491,13 @@ export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["declineInviteInvitesAppIdDeclinePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
@@ -399,7 +505,7 @@ export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
   > = (props) => {
     const { appId } = props ?? {}
 
-    return declineInviteInvitesAppIdDeclinePost(appId, axiosOptions)
+    return declineInviteInvitesAppIdDeclinePost(appId, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -410,13 +516,13 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationResult = NonNullable<
 >
 
 export type DeclineInviteInvitesAppIdDeclinePostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Decline Invite
  */
 export const useDeclineInviteInvitesAppIdDeclinePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -425,7 +531,7 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError,
@@ -440,15 +546,39 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
 /**
  * @summary Leave Team
  */
-export const leaveTeamInvitesAppIdLeavePost = (
+export type leaveTeamInvitesAppIdLeavePostResponse = {
+  data: void | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getLeaveTeamInvitesAppIdLeavePostUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/leave`
+}
+
+export const leaveTeamInvitesAppIdLeavePost = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/invites/${appId}/leave`, undefined, options)
+  options?: RequestInit,
+): Promise<leaveTeamInvitesAppIdLeavePostResponse> => {
+  const res = await fetch(getLeaveTeamInvitesAppIdLeavePostUrl(appId), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: leaveTeamInvitesAppIdLeavePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as leaveTeamInvitesAppIdLeavePostResponse
 }
 
 export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -457,7 +587,7 @@ export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError,
@@ -465,13 +595,13 @@ export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["leaveTeamInvitesAppIdLeavePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
@@ -479,7 +609,7 @@ export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
   > = (props) => {
     const { appId } = props ?? {}
 
-    return leaveTeamInvitesAppIdLeavePost(appId, axiosOptions)
+    return leaveTeamInvitesAppIdLeavePost(appId, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -489,14 +619,13 @@ export type LeaveTeamInvitesAppIdLeavePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>
 >
 
-export type LeaveTeamInvitesAppIdLeavePostMutationError =
-  AxiosError<HTTPValidationError>
+export type LeaveTeamInvitesAppIdLeavePostMutationError = HTTPValidationError
 
 /**
  * @summary Leave Team
  */
 export const useLeaveTeamInvitesAppIdLeavePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -505,7 +634,7 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError,
@@ -520,22 +649,53 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
 /**
  * @summary Get App Developers
  */
-export const getAppDevelopersInvitesAppIdDevelopersGet = (
+export type getAppDevelopersInvitesAppIdDevelopersGetResponse = {
+  data: DevelopersResponse | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getGetAppDevelopersInvitesAppIdDevelopersGetUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DevelopersResponse>> => {
-  return axios.get(`/invites/${appId}/developers`, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/developers`
+}
+
+export const getAppDevelopersInvitesAppIdDevelopersGet = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<getAppDevelopersInvitesAppIdDevelopersGetResponse> => {
+  const res = await fetch(
+    getGetAppDevelopersInvitesAppIdDevelopersGetUrl(appId),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getAppDevelopersInvitesAppIdDevelopersGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getAppDevelopersInvitesAppIdDevelopersGetResponse
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
   appId: string,
 ) => {
-  return [`/invites/${appId}/developers`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/developers`,
+  ] as const
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -546,10 +706,10 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -560,7 +720,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
   > = ({ signal }) =>
     getAppDevelopersInvitesAppIdDevelopersGet(appId, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -579,11 +739,11 @@ export type GetAppDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>
 >
 export type GetAppDevelopersInvitesAppIdDevelopersGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -602,14 +762,14 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -628,14 +788,14 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -646,7 +806,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -657,7 +817,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -668,7 +828,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -690,19 +850,55 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 /**
  * @summary Remove Developer
  */
-export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
+export type removeDeveloperInvitesAppIdRemoveDeveloperPostResponse = {
+  data: void | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostUrl = (
   appId: string,
   params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/invites/${appId}/remove-developer`, undefined, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  return normalizedParams.size
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/remove-developer?${normalizedParams.toString()}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/remove-developer`
+}
+
+export const removeDeveloperInvitesAppIdRemoveDeveloperPost = async (
+  appId: string,
+  params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams,
+  options?: RequestInit,
+): Promise<removeDeveloperInvitesAppIdRemoveDeveloperPostResponse> => {
+  const res = await fetch(
+    getRemoveDeveloperInvitesAppIdRemoveDeveloperPostUrl(appId, params),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: removeDeveloperInvitesAppIdRemoveDeveloperPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as removeDeveloperInvitesAppIdRemoveDeveloperPostResponse
 }
 
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>
@@ -714,7 +910,7 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
       },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
     TError,
@@ -725,13 +921,13 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
     TContext
   > => {
     const mutationKey = ["removeDeveloperInvitesAppIdRemoveDeveloperPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -747,7 +943,7 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
       return removeDeveloperInvitesAppIdRemoveDeveloperPost(
         appId,
         params,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -760,13 +956,13 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationResult =
   >
 
 export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Remove Developer
  */
 export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -778,7 +974,7 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
     },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
   TError,
@@ -796,19 +992,56 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
 /**
  * @summary Revoke Invite
  */
-export const revokeInviteInvitesAppIdRevokePost = (
+export type revokeInviteInvitesAppIdRevokePostResponse = {
+  data: void | HTTPValidationError
+  status: number
+  headers: Headers
+}
+
+export const getRevokeInviteInvitesAppIdRevokePostUrl = (
   appId: string,
   params: RevokeInviteInvitesAppIdRevokePostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/invites/${appId}/revoke`, undefined, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  return normalizedParams.size
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/revoke?${normalizedParams.toString()}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/revoke`
+}
+
+export const revokeInviteInvitesAppIdRevokePost = async (
+  appId: string,
+  params: RevokeInviteInvitesAppIdRevokePostParams,
+  options?: RequestInit,
+): Promise<revokeInviteInvitesAppIdRevokePostResponse> => {
+  const res = await fetch(
+    getRevokeInviteInvitesAppIdRevokePostUrl(appId, params),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: revokeInviteInvitesAppIdRevokePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as revokeInviteInvitesAppIdRevokePostResponse
 }
 
 export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -817,7 +1050,7 @@ export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
     { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
   TError,
@@ -825,13 +1058,13 @@ export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["revokeInviteInvitesAppIdRevokePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
@@ -839,7 +1072,7 @@ export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
   > = (props) => {
     const { appId, params } = props ?? {}
 
-    return revokeInviteInvitesAppIdRevokePost(appId, params, axiosOptions)
+    return revokeInviteInvitesAppIdRevokePost(appId, params, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -850,13 +1083,13 @@ export type RevokeInviteInvitesAppIdRevokePostMutationResult = NonNullable<
 >
 
 export type RevokeInviteInvitesAppIdRevokePostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Revoke Invite
  */
 export const useRevokeInviteInvitesAppIdRevokePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -865,7 +1098,7 @@ export const useRevokeInviteInvitesAppIdRevokePost = <
     { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
   TError,

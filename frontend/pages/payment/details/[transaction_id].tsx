@@ -17,8 +17,8 @@ export default function TransactionPage() {
   const query = useGetTransactionByIdWalletTransactionsTxnGet(
     router.query.transaction_id as string,
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       query: {
         enabled: !!router.query.transaction_id,

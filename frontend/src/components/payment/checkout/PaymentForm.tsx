@@ -4,7 +4,6 @@ import { FormEvent, FunctionComponent, useState } from "react"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError } from "axios"
 import {
   setPendingWalletTransactionsTxnSetpendingPost,
   setSavecardWalletTransactionsTxnSavecardPost,
@@ -43,14 +42,14 @@ const PaymentForm: FunctionComponent<Props> = ({
           transactionId,
           { save_card: "on_session" },
           {
-            withCredentials: true,
+            credentials: "include",
           },
         )
       }
       return await setPendingWalletTransactionsTxnSetpendingPost(
         transactionId,
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
     },
@@ -67,7 +66,7 @@ const PaymentForm: FunctionComponent<Props> = ({
         handleStripeError(result.error)
       }
     },
-    onError: (err: AxiosError) => {
+    onError: (err: Error) => {
       setProcessing(false)
     },
   })

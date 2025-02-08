@@ -60,8 +60,8 @@ export default function UserModeration() {
       filterString: filterString,
     },
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
     },
   )
@@ -87,7 +87,7 @@ export default function UserModeration() {
   }, [filterString])
 
   useEffect(() => {
-    setData(query?.data?.data)
+    setData(query?.data?.data as FlathubUsersResult)
   }, [query?.data])
 
   const pages = Array.from(
@@ -111,7 +111,7 @@ export default function UserModeration() {
                 defaultValue={filterString}
                 onBlur={(e) => setFilterString(e.target.value)}
               />
-              <UserTable data={query.data.data} />
+              <UserTable data={query.data.data as FlathubUsersResult} />
               <Pagination currentPage={page} pages={pages} />
             </div>
           )}

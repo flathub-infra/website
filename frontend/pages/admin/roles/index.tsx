@@ -11,6 +11,7 @@ import {
   UserInfo,
   useRolesUsersRolesGet,
   useRoleUsersUsersRolesRoleNameGet,
+  UserResult,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
 import Spinner from "src/components/Spinner"
@@ -29,8 +30,8 @@ UserModeration.getLayout = function getLayout(page: ReactElement) {
 
 export default function UserModeration() {
   const rolesQuery = useRolesUsersRolesGet({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
@@ -64,8 +65,8 @@ export default function UserModeration() {
 
 const UserList = ({ role }: { role: string }) => {
   const query = useRoleUsersUsersRolesRoleNameGet(role as RoleName, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
@@ -75,7 +76,7 @@ const UserList = ({ role }: { role: string }) => {
 
   return (
     <ul className="space-y-4">
-      {query.data.data.map((user) => (
+      {(query.data.data as UserResult[]).map((user) => (
         <li key={user.id}>
           <Link href={`/admin/users/${user.id}`}>
             {user.display_name ?? user.id}
