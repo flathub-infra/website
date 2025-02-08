@@ -416,20 +416,42 @@ def get_summary(
     ),
     branch: Optional[str] = None,
 ):
+    with get_db("replica") as db_session:
+        app = models.App.by_appid(db_session, app_id)
+        if app and app.summary:
+            value = app.summary
+            if (
+                "metadata" in value
+                and value["metadata"]
+                and "runtime" in value["metadata"]
+            ):
+                runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split(
+                    "/"
+                )
+                value["metadata"]["runtimeIsEol"] = bool(
+                    db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
+                )
+            return value
+
+    # Fall back to Redis
     if not branch:
         branch = db.get_json_key(f"summary:{app_id}")
 
-    key = f"summary:{app_id}:{branch}"
-
-    if value := db.get_json_key(key):
-        if "metadata" in value and value["metadata"] and "runtime" in value["metadata"]:
-            runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split("/")
-
-            value["metadata"]["runtimeIsEol"] = bool(
-                db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
-            )
-
-        return value
+    if branch:
+        key = f"summary:{app_id}:{branch}"
+        if value := db.get_json_key(key):
+            if (
+                "metadata" in value
+                and value["metadata"]
+                and "runtime" in value["metadata"]
+            ):
+                runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split(
+                    "/"
+                )
+                value["metadata"]["runtimeIsEol"] = bool(
+                    db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
+                )
+            return value
 
     response.status_code = 404
     return None
