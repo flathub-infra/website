@@ -420,11 +420,9 @@ def get_summary(
         app = models.App.by_appid(db_session, app_id)
         if app and app.summary:
             summary = app.summary
-            if (
-                "metadata" in summary
-                and summary["metadata"]
-                and "runtime" in summary["metadata"]
-            ):
+            metadata = summary.get("metadata", {})
+
+            if "runtime" in metadata:
                 runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
                     "/"
                 )
@@ -440,11 +438,8 @@ def get_summary(
     if branch:
         key = f"summary:{app_id}:{branch}"
         if summary := db.get_json_key(key):
-            if (
-                "metadata" in summary
-                and summary["metadata"]
-                and "runtime" in summary["metadata"]
-            ):
+            metadata = summary.get("metadata", {})
+            if "runtime" in metadata:
                 runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
                     "/"
                 )
