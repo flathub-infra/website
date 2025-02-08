@@ -213,23 +213,23 @@ def get_appids(type: AppType = AppType.APPS) -> list[str]:
 
 def get_addons(app_id: str, branch: str = "stable") -> list[str]:
     result = []
-    summary = db.get_json_key(f"summary:{app_id}:{branch}")
-    if (
-        summary
-        and "metadata" in summary
-        and summary["metadata"]
-        and "extensions" in summary["metadata"]
-        and summary["metadata"]["extensions"]
-    ):
-        extension_ids = list(summary["metadata"]["extensions"].keys())
 
-        with database.get_db() as sqldb:
-            addons = set(
-                addon.app_id
-                for addon in sqldb.query(models.App.app_id)
-                .filter(models.App.type == "addon")
-                .all()
-            )
+    with database.get_db() as sqldb:
+        app = models.App.by_appid(sqldb, app_id)
+        if not app or not app.summary:
+            return result
+
+        metadata = app.summary.get("metadata", {})
+        if not metadata or "extensions" not in metadata:
+            return result
+
+        extension_ids = list(metadata["extensions"].keys())
+        addons = set(
+            addon.app_id
+            for addon in sqldb.query(models.App.app_id)
+            .filter(models.App.type == "addon")
+            .all()
+        )
 
         for addon in addons:
             for extension_id in extension_ids:
