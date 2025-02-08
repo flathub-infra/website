@@ -87,10 +87,14 @@ def update():
         if created_at:
             apps_created_at[app_id] = created_at.timestamp()
         else:
-            if metadata := db.get_json_key(f"summary:{app_id}:stable"):
-                created_at = metadata.get("timestamp")
-            else:
-                created_at = int(datetime.utcnow().timestamp())
+            with WorkerDB() as sqldb:
+                app = models.App.by_appid(sqldb, app_id)
+                if app and app.summary and "timestamp" in app.summary:
+                    created_at = app.summary["timestamp"]
+                elif metadata := db.get_json_key(f"summary:{app_id}:stable"):
+                    created_at = metadata.get("timestamp")
+                else:
+                    created_at = int(datetime.utcnow().timestamp())
 
             apps_created_at[app_id] = float(created_at)
             with WorkerDB() as sqldb:
