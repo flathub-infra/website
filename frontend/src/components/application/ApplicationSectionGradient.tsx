@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { ApplicationCard } from "./ApplicationCard"
 import { cn } from "@/lib/utils"
 import { JSX } from "react"
+import Link from "next/link"
 
 export const ApplicationSectionGradient = ({
   mobile,
@@ -18,7 +19,7 @@ export const ApplicationSectionGradient = ({
   logo,
 }: {
   mobile: Pick<MeilisearchResponse<AppsIndex>, "hits">
-  moreLink: JSX.Element
+  moreLink: string
   moreLinkLabel: string
   title: string
   description?: string
@@ -49,7 +50,7 @@ export const ApplicationSectionGradient = ({
           aria-label={moreLinkLabel}
           title={moreLinkLabel}
         >
-          {moreLink}
+          <Link href={moreLink}>{moreLinkLabel}</Link>
         </Button>
       </div>
       <div className="pt-5 lg:pt-0 grid grid-cols-1 md:grid-cols-2 gap-1.5 lg:w-2/3">
@@ -75,7 +76,7 @@ export const ApplicationSectionGradient = ({
           aria-label={moreLinkLabel}
           title={moreLinkLabel}
         >
-          {moreLink}
+          <Link href={moreLink}>{moreLinkLabel}</Link>
         </Button>
       </div>
     </div>
