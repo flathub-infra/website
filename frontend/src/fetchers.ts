@@ -20,6 +20,7 @@ import {
   APP_OF_THE_DAY_URL,
   APPS_OF_THE_WEEK_URL,
   MOBILE_APPS_URL,
+  LOGIN_PROVIDERS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -38,6 +39,11 @@ import {
 } from "./codegen"
 import axios from "axios"
 import { gameCategoryFilter } from "./types/Category"
+
+export async function fetchLoginProviders() {
+  const res = await fetch(LOGIN_PROVIDERS_URL)
+  return await res.json()
+}
 
 export async function fetchAppstream(
   appId: string,

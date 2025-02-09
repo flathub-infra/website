@@ -6,7 +6,7 @@ import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import { LoginProvider } from "../src/types/Login"
-import { getLoginMethodsAuthLoginGet } from "src/codegen"
+import { fetchLoginProviders } from "src/fetchers"
 
 export default function Settings({
   providers,
@@ -40,12 +40,12 @@ export const getStaticProps: GetStaticProps = async ({
 }: {
   locale: string
 }) => {
-  const providers = await getLoginMethodsAuthLoginGet()
+  const providers = await fetchLoginProviders()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      providers: providers.data,
+      providers: providers,
     },
     revalidate: 900,
   }
