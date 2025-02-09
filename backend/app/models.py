@@ -2263,29 +2263,30 @@ class App(Base):
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
-    @staticmethod
-    def get_translation(
-        localization: dict[str, dict[str, str]], value: dict[str, Any], locale: str
-    ) -> dict[str, Any]:
-        if not localization:
-            return value
+    def get_translated_appstream(self, locale: str) -> dict[str, Any]:
+        if not self.appstream:
+            return None
 
-        translation = localization.get(locale)
+        if not self.localization:
+            return self.appstream
+
+        translation = self.localization.get(locale)
         if not translation:
             # fallback to base locale (e.g. 'en' from 'en-US')
             base_locale = locale.split("-")[0]
-            translation = localization.get(base_locale)
+            translation = self.localization.get(base_locale)
             if not translation:
-                return value
+                return self.appstream
 
+        result = self.appstream.copy()
         for key in translation:
             if key.startswith("screenshots_caption_"):
                 number = int(key.split("_")[-1])
-                value["screenshots"][number]["caption"] = translation[key]
+                result["screenshots"][number]["caption"] = translation[key]
 
             if key.startswith("release_description_"):
                 number = int(key.split("_")[-1])
-                value["releases"][number]["description"] = translation[key]
+                result["releases"][number]["description"] = translation[key]
 
         translation = {
             k: v
@@ -2294,7 +2295,7 @@ class App(Base):
             and not k.startswith("release_description_")
         }
 
-        return value | translation
+        return result | translation
 
     @classmethod
     def by_appid(cls, db, app_id: str) -> Optional["App"]:
