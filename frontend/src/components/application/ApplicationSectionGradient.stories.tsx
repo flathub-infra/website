@@ -4,6 +4,7 @@ import { ApplicationSectionGradient } from "./ApplicationSectionGradient"
 import { MobileDevicesLogo } from "../../../src/components/MobileDevicesLogo"
 import React from "react"
 import { faker } from "@faker-js/faker"
+import Link from "next/link"
 
 const meta = {
   component: ApplicationSectionGradient,
@@ -59,6 +60,6 @@ export const Default: Story = {
     description: "My description",
     logo: <MobileDevicesLogo />,
     moreLinkLabel: "More link",
-    moreLink: <a href="/apps/collection/mobile">More link</a>,
+    moreLink: "/apps/collection/mobile",
   },
 }

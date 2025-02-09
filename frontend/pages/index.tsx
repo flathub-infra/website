@@ -64,9 +64,7 @@ const MobileSection = ({
       description={t("mobile-apps-description")}
       logo={<MobileDevicesLogo />}
       moreLinkLabel={t("more-mobile-apps")}
-      moreLink={
-        <Link href="/apps/collection/mobile">{t("more-mobile-apps")}</Link>
-      }
+      moreLink="/apps/collection/mobile"
     />
   )
 }
