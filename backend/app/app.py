@@ -1,6 +1,6 @@
 import datetime
 from http import HTTPStatus
-from typing import Any, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
@@ -165,28 +165,6 @@ def list_appstream(filter: apps.AppType = apps.AppType.APPS) -> list[str]:
     return sorted(apps.get_appids(filter))
 
 
-def get_translation(
-    translation: dict[str, str], value: dict[str, Any]
-) -> dict[str, Any]:
-    for key in translation:
-        if key.startswith("screenshots_caption_"):
-            number = int(key.split("_")[-1])
-            value["screenshots"][number]["caption"] = translation[key]
-
-        if key.startswith("release_description_"):
-            number = int(key.split("_")[-1])
-            value["releases"][number]["description"] = translation[key]
-
-    translation = {
-        k: v
-        for k, v in translation.items()
-        if not k.startswith("screenshots_caption_")
-        and not k.startswith("release_description_")
-    }
-
-    return value | translation
-
-
 @router.get("/appstream/{app_id}", status_code=200, tags=["app"])
 def get_appstream(
     response: Response,
@@ -209,15 +187,7 @@ def get_appstream(
             response.status_code = 404
             return None
 
-        if not app.localization_json:
-            return appstream_data
-
-        if translation := app.localization_json.get(locale):
-            return get_translation(translation, appstream_data)
-        elif translation := app.localization_json.get(f"{locale.split('-')[0]}"):
-            return get_translation(translation, appstream_data)
-        else:
-            return appstream_data
+        return models.App.get_translation(app.localization_json, appstream_data, locale)
 
 
 @router.get("/is-fullscreen-app/{app_id}", status_code=200, tags=["app"])

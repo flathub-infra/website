@@ -2264,6 +2264,39 @@ class App(Base):
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
+    @staticmethod
+    def get_translation(
+        localization_json: dict[str, dict[str, str]], value: dict[str, Any], locale: str
+    ) -> dict[str, Any]:
+        if not localization_json:
+            return value
+
+        translation = localization_json.get(locale)
+        if not translation:
+            # fallback to base locale (e.g. 'en' from 'en-US')
+            base_locale = locale.split("-")[0]
+            translation = localization_json.get(base_locale)
+            if not translation:
+                return value
+
+        for key in translation:
+            if key.startswith("screenshots_caption_"):
+                number = int(key.split("_")[-1])
+                value["screenshots"][number]["caption"] = translation[key]
+
+            if key.startswith("release_description_"):
+                number = int(key.split("_")[-1])
+                value["releases"][number]["description"] = translation[key]
+
+        translation = {
+            k: v
+            for k, v in translation.items()
+            if not k.startswith("screenshots_caption_")
+            and not k.startswith("release_description_")
+        }
+
+        return value | translation
+
     @classmethod
     def by_appid(cls, db, app_id: str) -> Optional["App"]:
         return db.session.query(App).filter(App.app_id == app_id).first()
