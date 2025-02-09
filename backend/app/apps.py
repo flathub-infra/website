@@ -236,3 +236,8 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
                     result.append(addon)
 
     return result
+
+
+def get_appstream(app_id: str) -> dict | None:
+    with database.get_db() as sqldb:
+        return models.App.get_appstream(sqldb, app_id)
