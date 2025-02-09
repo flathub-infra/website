@@ -182,12 +182,12 @@ def get_appstream(
             response.status_code = 404
             return None
 
-        appstream_data = app.appstream
-        if not appstream_data:
+        result = app.get_translated_appstream(locale)
+        if not result:
             response.status_code = 404
             return None
 
-        return models.App.get_translation(app.localization, appstream_data, locale)
+        return result
 
 
 @router.get("/is-fullscreen-app/{app_id}", status_code=200, tags=["app"])
