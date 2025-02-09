@@ -198,25 +198,26 @@ def get_appstream(
     ),
     locale: str = "en",
 ):
-    if value := db.get_json_key(f"apps:{app_id}"):
-        with get_db("replica") as db_session:
-            app = models.App.by_appid(db_session, app_id)
+    with get_db("replica") as db_session:
+        app = models.App.by_appid(db_session, app_id)
+        if not app:
+            response.status_code = 404
+            return None
 
-            if not app:
-                return value
+        appstream_data = app.appstream
+        if not appstream_data:
+            response.status_code = 404
+            return None
 
-            if not (app and app.localization_json):
-                return value
+        if not app.localization_json:
+            return appstream_data
 
-            if translation := app.localization_json.get(locale):
-                return get_translation(translation, value)
-            elif translation := app.localization_json.get(f"{locale.split('-')[0]}"):
-                return get_translation(translation, value)
-            else:
-                return value
-
-    response.status_code = 404
-    return None
+        if translation := app.localization_json.get(locale):
+            return get_translation(translation, appstream_data)
+        elif translation := app.localization_json.get(f"{locale.split('-')[0]}"):
+            return get_translation(translation, appstream_data)
+        else:
+            return appstream_data
 
 
 @router.get("/is-fullscreen-app/{app_id}", status_code=200, tags=["app"])
