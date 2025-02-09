@@ -7,7 +7,6 @@ from uuid import uuid4
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import (
-    JSON,
     Boolean,
     CheckConstraint,
     Date,
@@ -2257,7 +2256,7 @@ class App(Base):
         nullable=True,
     )
     last_updated_at = mapped_column(DateTime, nullable=True)
-    localization_json = mapped_column(JSON, nullable=True)
+    localization = mapped_column(JSONB, nullable=True)
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
@@ -2266,16 +2265,16 @@ class App(Base):
 
     @staticmethod
     def get_translation(
-        localization_json: dict[str, dict[str, str]], value: dict[str, Any], locale: str
+        localization: dict[str, dict[str, str]], value: dict[str, Any], locale: str
     ) -> dict[str, Any]:
-        if not localization_json:
+        if not localization:
             return value
 
-        translation = localization_json.get(locale)
+        translation = localization.get(locale)
         if not translation:
             # fallback to base locale (e.g. 'en' from 'en-US')
             base_locale = locale.split("-")[0]
-            translation = localization_json.get(base_locale)
+            translation = localization.get(base_locale)
             if not translation:
                 return value
 
@@ -2314,9 +2313,9 @@ class App(Base):
             app_locales = None
 
         if app:
-            if app.type == type and app.localization_json == app_locales:
+            if app.type == type and app.localization == app_locales:
                 return app
-            app.localization_json = app_locales
+            app.localization = app_locales
             app.type = type
             db.session.commit()
             return app
@@ -2324,7 +2323,7 @@ class App(Base):
             app = App(
                 app_id=app_id,
                 type=type,
-                localization_json=app_locales,
+                localization=app_locales,
             )
             db.session.add(app)
             db.session.commit()
