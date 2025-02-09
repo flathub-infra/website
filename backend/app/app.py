@@ -433,10 +433,7 @@ def get_summary(
                 )
             return summary
 
-    # Fall back to Redis
-    if not branch:
-        branch = db.get_json_key(f"summary:{app_id}")
-
+    # TODO: replace with postgres
     if branch:
         key = f"summary:{app_id}:{branch}"
         if summary := db.get_json_key(key):
