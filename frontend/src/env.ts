@@ -238,9 +238,6 @@ export const DEVELOPER_URL = (
   )}?${result.toString()}`
 }
 
-export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`
-export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
-
 export const APPS_IN_PREVIEW_COUNT: number = 12
 
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
