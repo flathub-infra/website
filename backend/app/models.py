@@ -2269,6 +2269,11 @@ class App(Base):
         return db.session.query(App).filter(App.app_id == app_id).first()
 
     @classmethod
+    def get_appstream(cls, db, app_id: str) -> Optional[dict]:
+        app = db.session.query(App.appstream).filter(App.app_id == app_id).first()
+        return app.appstream if app else None
+
+    @classmethod
     def set_app(cls, db, app_id: str, type, app_locales) -> Optional["App"]:
         app = App.by_appid(db, app_id)
 
