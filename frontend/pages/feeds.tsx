@@ -1,4 +1,3 @@
-import { FEED_NEW_URL, FEED_RECENTLY_UPDATED_URL } from "../src/env"
 import { NextSeo } from "next-seo"
 import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
@@ -27,14 +26,20 @@ const Feeds = ({ locale }: { locale: string }): JSX.Element => {
         <div className="flex flex-col pb-4">
           <p>{t("new-description")}</p>
           <Button className="w-52" asChild size="xl">
-            <Link href={FEED_NEW_URL}>{t("subscribe")}</Link>
+            <Link href={`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/new`}>
+              {t("subscribe")}
+            </Link>
           </Button>
         </div>
         <h2 className="my-4 text-xl font-semibold">{t("updated-apps")}</h2>
         <div className="flex flex-col pb-4">
           <p>{t("updated-description")}</p>
           <Button className="w-52" asChild size="xl">
-            <Link href={FEED_RECENTLY_UPDATED_URL}>{t("subscribe")}</Link>
+            <Link
+              href={`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/recently-updated`}
+            >
+              {t("subscribe")}
+            </Link>
           </Button>
         </div>
 
