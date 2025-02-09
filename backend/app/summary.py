@@ -91,15 +91,14 @@ def parse_metadata(ini: str):
     parser.read_string(ini)
 
     if "Application" not in parser:
-        return None
+        return {}
 
     metadata = dict(parser["Application"])
 
     if "tags" in metadata:
         tags = [x for x in metadata["tags"].split(";") if x]
         metadata["tags"] = tags
-
-    permissions = {}
+    permissions = defaultdict(dict)
 
     if "Context" in parser:
         for key in parser["Context"]:
@@ -195,18 +194,20 @@ def parse_summary(summary, sqldb):
         installed_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
+        parsed_metadata = parse_metadata(xa_cache[ref][2]) or {}
+
         summary_dict[app_id]["branch"] = branch
         summary_dict[app_id]["download_size"] = download_size
         summary_dict[app_id]["installed_size"] = installed_size
-        summary_dict[app_id]["metadata"] = parse_metadata(xa_cache[ref][2])
+
+        summary_dict[app_id]["metadata"] = parsed_metadata
         summary_dict[app_id]["arches"].add(arch)
 
         # flatpak cannot know how much application will weight after
         # apply_extra is executed, so let's estimate it by combining installed
         # and download sizes
-        if (
-            summary_dict[app_id]["metadata"]
-            and "extra-data" in summary_dict[app_id]["metadata"]
+        if summary_dict[app_id]["metadata"] and summary_dict[app_id]["metadata"].get(
+            "extra-data"
         ):
             summary_dict[app_id]["installed_size"] += download_size
 
