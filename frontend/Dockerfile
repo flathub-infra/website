@@ -24,7 +24,8 @@ WORKDIR /app
 COPY --from=dev /app/node_modules ./node_modules
 COPY . .
 
-RUN yarn build && yarn postbuild
+RUN yarn build
+RUN yarn postbuild
 
 FROM node:22-slim AS prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
