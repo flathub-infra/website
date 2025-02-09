@@ -48,6 +48,43 @@ def get_parent_id(app_id: str):
     return None
 
 
+def parse_eol_data(metadata):
+    eol_rebase: dict[str, str] = {}
+    eol_message: dict[str, str] = {}
+    for app, eol_dict in metadata["xa.sparse-cache"].items():
+        flatpak_type, app_id, arch, branch = app.split("/")
+        if (
+            not app_id.endswith(".Debug")
+            and not app_id.endswith(".Locale")
+            and not app_id.endswith(".Sources")
+        ):
+            if "eolr" in eol_dict:
+                new_id = eol_dict["eolr"].split("/")[1]
+                if new_id in eol_rebase:
+                    eol_rebase[new_id].append(app_id)
+                else:
+                    eol_rebase[new_id] = [f"{app_id}:{branch}"]
+            elif "eol" in eol_dict:
+                eol_message[f"{app_id}:{branch}"] = eol_dict["eol"]
+
+    # Support changing of App ID multiple times
+    while True:
+        found = False
+        remove_list = []
+        for app_id, old_id_list in eol_rebase.items():
+            for new_app_id, check_id_list in eol_rebase.items():
+                if app_id in check_id_list:
+                    eol_rebase[new_app_id] += old_id_list
+                    remove_list.append(app_id)
+                    found = True
+        for i in remove_list:
+            del eol_rebase[i]
+        if not found:
+            break
+
+    return eol_rebase, eol_message
+
+
 def parse_metadata(ini: str):
     parser = configParserCustom.ConfigParserMultiOpt()
     parser.optionxform = lambda option: option
@@ -282,38 +319,20 @@ def update(sqldb) -> None:
         sqldb.session.rollback()
         print(f"Error updating apps: {str(e)}")
 
-    eol_rebase: dict[str, str] = {}
-    eol_message: dict[str, str] = {}
-    for app, eol_dict in metadata["xa.sparse-cache"].items():
-        flatpak_type, app_id, arch, branch = app.split("/")
-        if (
-            not app_id.endswith(".Debug")
-            and not app_id.endswith(".Locale")
-            and not app_id.endswith(".Sources")
-        ):
-            if "eolr" in eol_dict:
-                new_id = eol_dict["eolr"].split("/")[1]
-                if new_id in eol_rebase:
-                    eol_rebase[new_id].append(app_id)
-                else:
-                    eol_rebase[new_id] = [f"{app_id}:{branch}"]
-            elif "eol" in eol_dict:
-                eol_message[f"{app_id}:{branch}"] = eol_dict["eol"]
+    eol_rebase, eol_message = parse_eol_data(metadata)
 
-    # Support changing of App ID multiple times
-    while True:
-        found = False
-        remove_list = []
-        for app_id, old_id_list in eol_rebase.items():
-            for new_app_id, check_id_list in eol_rebase.items():
-                if app_id in check_id_list:
-                    eol_rebase[new_app_id] += old_id_list
-                    remove_list.append(app_id)
-                    found = True
-        for i in remove_list:
-            del eol_rebase[i]
-        if not found:
-            break
+    try:
+        for app_id_with_branch, _ in eol_message.items():
+            app_id = app_id_with_branch.split(":")[0]
+            app = models.App.by_appid(sqldb, app_id)
+            if app:
+                app.is_eol = True
+                sqldb.session.add(app)
+
+        sqldb.session.commit()
+    except Exception as e:
+        sqldb.session.rollback()
+        print(f"Error updating eol values of apps: {str(e)}")
 
     db.redis_conn.mset(
         {"eol_rebase": json.dumps(eol_rebase), "eol_message": json.dumps(eol_message)}
