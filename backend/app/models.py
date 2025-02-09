@@ -24,6 +24,7 @@ from sqlalchemy import (
     false,
     func,
     or_,
+    text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
@@ -121,9 +122,11 @@ class FlathubUser(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     display_name: Mapped[str | None]
     default_account: Mapped[str | None]
-    deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    deleted: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=false()
+    )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
-        DateTime, nullable=True, default=None
+        DateTime, nullable=True, server_default=None
     )
 
     invite_code: Mapped[str | None] = mapped_column(
@@ -570,8 +573,8 @@ class GithubAccount(Base):
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
     email: Mapped[str | None]
-    token = mapped_column(String, nullable=True, default=None)
-    last_used = mapped_column(DateTime, nullable=True, default=None)
+    token = mapped_column(String, nullable=True, server_default=None)
+    last_used = mapped_column(DateTime, nullable=True, server_default=None)
 
     def to_result(self: "GithubAccount") -> GithubAccountResult:
         return GithubAccountResult(
@@ -726,10 +729,10 @@ class GitlabAccount(Base):
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
     email: Mapped[str | None]
-    token = mapped_column(String, nullable=True, default=None)
-    token_expiry = mapped_column(DateTime, nullable=True, default=None)
-    refresh_token = mapped_column(String, nullable=True, default=None)
-    last_used = mapped_column(DateTime, nullable=True, default=None)
+    token = mapped_column(String, nullable=True, server_default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, server_default=None)
+    refresh_token = mapped_column(String, nullable=True, server_default=None)
+    last_used = mapped_column(DateTime, nullable=True, server_default=None)
 
     def to_result(self) -> GitlabAccountResult:
         return GitlabAccountResult(
@@ -816,10 +819,10 @@ class GnomeAccount(Base):
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
     email: Mapped[str | None]
-    token = mapped_column(String, nullable=True, default=None)
-    token_expiry = mapped_column(DateTime, nullable=True, default=None)
-    refresh_token = mapped_column(String, nullable=True, default=None)
-    last_used = mapped_column(DateTime, nullable=True, default=None)
+    token = mapped_column(String, nullable=True, server_default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, server_default=None)
+    refresh_token = mapped_column(String, nullable=True, server_default=None)
+    last_used = mapped_column(DateTime, nullable=True, server_default=None)
 
     def to_result(self) -> GnomeAccountResult:
         return GnomeAccountResult(
@@ -906,10 +909,10 @@ class GoogleAccount(Base):
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
     email: Mapped[str | None]
-    token = mapped_column(String, nullable=True, default=None)
-    token_expiry = mapped_column(DateTime, nullable=True, default=None)
-    refresh_token = mapped_column(String, nullable=True, default=None)
-    last_used = mapped_column(DateTime, nullable=True, default=None)
+    token = mapped_column(String, nullable=True, server_default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, server_default=None)
+    refresh_token = mapped_column(String, nullable=True, server_default=None)
+    last_used = mapped_column(DateTime, nullable=True, server_default=None)
 
     def to_result(self) -> GoogleAccountResult:
         return GoogleAccountResult(
@@ -996,10 +999,10 @@ class KdeAccount(Base):
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
     email: Mapped[str | None]
-    token = mapped_column(String, nullable=True, default=None)
-    token_expiry = mapped_column(DateTime, nullable=True, default=None)
-    refresh_token = mapped_column(String, nullable=True, default=None)
-    last_used = mapped_column(DateTime, nullable=True, default=None)
+    token = mapped_column(String, nullable=True, server_default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, server_default=None)
+    refresh_token = mapped_column(String, nullable=True, server_default=None)
+    last_used = mapped_column(DateTime, nullable=True, server_default=None)
 
     def to_result(self) -> KdeAccountResult:
         return KdeAccountResult(
@@ -1144,9 +1147,9 @@ class DirectUploadApp(Base):
 
     id = mapped_column(Integer, primary_key=True)
     app_id = mapped_column(String, nullable=False, unique=True, index=True)
-    archived = mapped_column(Boolean, nullable=False, default=False)
+    archived = mapped_column(Boolean, nullable=False, server_default=false())
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
-    first_seen_at = mapped_column(DateTime, nullable=True, default=None)
+    first_seen_at = mapped_column(DateTime, nullable=True, server_default=None)
 
     @staticmethod
     def by_app_id(db, app_id: str) -> Optional["DirectUploadApp"]:
@@ -1323,7 +1326,7 @@ class UploadToken(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=True, index=True
     )
     expires_at = mapped_column(DateTime, nullable=False)
-    revoked = mapped_column(Boolean, nullable=False, default=False)
+    revoked = mapped_column(Boolean, nullable=False, server_default=false())
 
     @staticmethod
     def by_id(db, token_id: int) -> Optional["UploadToken"]:
@@ -1637,7 +1640,7 @@ class ApplicationVendingConfig(Base):
 
     appshare = mapped_column(Integer, nullable=False)
 
-    currency = mapped_column(String, nullable=False, default="usd")
+    currency = mapped_column(String, nullable=False, server_default="usd")
     recommended_donation = mapped_column(Integer, nullable=False)
     minimum_payment = mapped_column(Integer, nullable=False)
 
@@ -1833,11 +1836,11 @@ class ModerationRequest(Base):
 
     build_id = mapped_column(Integer, nullable=False)
     job_id = mapped_column(Integer, nullable=False, index=True)
-    is_outdated = mapped_column(Boolean, nullable=False, default=False)
+    is_outdated = mapped_column(Boolean, nullable=False, server_default=false())
 
     request_type = mapped_column(String, nullable=False)
     request_data = mapped_column(String)
-    is_new_submission = mapped_column(Boolean, nullable=False, default=False)
+    is_new_submission = mapped_column(Boolean, nullable=False, server_default=false())
 
     handled_by = mapped_column(Integer, ForeignKey(FlathubUser.id), index=True)
     handled_at = mapped_column(DateTime)
@@ -1864,8 +1867,10 @@ class Guideline(Base):
     id = mapped_column(String, primary_key=True)
     url = mapped_column(String, nullable=False)
     needed_to_pass_since = mapped_column(Date, nullable=False)
-    read_only = mapped_column(Boolean, nullable=False, default=False)
-    show_on_fullscreen_app = mapped_column(Boolean, nullable=False, default=False)
+    read_only = mapped_column(Boolean, nullable=False, server_default=false())
+    show_on_fullscreen_app = mapped_column(
+        Boolean, nullable=False, server_default=false()
+    )
     order = mapped_column(Integer, nullable=False)
 
     guideline_category_id = mapped_column(
@@ -2242,8 +2247,10 @@ class App(Base):
         nullable=False,
         index=True,
     )
-    installs_last_7_days = mapped_column(Integer, nullable=False, default=0)
-    is_fullscreen_app = mapped_column(Boolean, nullable=False, default=False)
+    installs_last_7_days = mapped_column(
+        Integer, nullable=False, server_default=text("0")
+    )
+    is_fullscreen_app = mapped_column(Boolean, nullable=False, server_default=false())
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
     initial_release_at = mapped_column(
         DateTime,
