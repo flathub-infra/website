@@ -21,6 +21,7 @@ from sqlalchemy import (
     and_,
     delete,
     desc,
+    false,
     func,
     or_,
 )
@@ -2252,6 +2253,7 @@ class App(Base):
     localization_json = mapped_column(JSON, nullable=True)
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
+    is_eol = mapped_column(Boolean, nullable=False, server_default=false())
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
