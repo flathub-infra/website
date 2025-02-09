@@ -1,7 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseQueryResult } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
 import { useTranslation } from "next-i18next"
 import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
 import { categoryToName, stringToCategory } from "src/types/Category"
@@ -30,10 +29,7 @@ const SearchFilterCategories = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string
@@ -60,14 +56,12 @@ const SearchFilterCategories = ({
         })}
 
       {results.isSuccess &&
-        Object.keys(results?.data?.data.facetDistribution.main_categories).map(
+        Object.keys(results?.data?.facetDistribution.main_categories).map(
           (category) => (
             <FilterFacette
               key={category}
               label={categoryToName(stringToCategory(category), t)}
-              count={
-                results?.data.data.facetDistribution?.main_categories[category]
-              }
+              count={results?.data.facetDistribution?.main_categories[category]}
               checked={selectedFilters.some(
                 (filter) =>
                   filter.filterType === "main_categories" &&
@@ -106,10 +100,7 @@ const SearchFilterFloss = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string
@@ -136,7 +127,7 @@ const SearchFilterFloss = ({
         })}
 
       {results.isSuccess &&
-        Object.keys(results?.data.data.facetDistribution?.is_free_license)
+        Object.keys(results?.data.facetDistribution?.is_free_license)
           .sort((a, b) => {
             if (a === "true") {
               return -1
@@ -150,9 +141,7 @@ const SearchFilterFloss = ({
             <FilterFacette
               key={`${license}-${i}`}
               label={license === "true" ? t("flos") : t("proprietary")}
-              count={
-                results?.data.data.facetDistribution?.is_free_license[license]
-              }
+              count={results?.data.facetDistribution?.is_free_license[license]}
               checked={selectedFilters.some(
                 (filter) =>
                   filter.filterType === "is_free_license" &&
@@ -190,10 +179,7 @@ const SearchFilterVerified = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string
@@ -220,7 +206,7 @@ const SearchFilterVerified = ({
         })}
 
       {results.isSuccess &&
-        Object.keys(results?.data.data.facetDistribution?.verification_verified)
+        Object.keys(results?.data.facetDistribution?.verification_verified)
           .sort((a, b) => {
             if (a === "true") {
               return -1
@@ -235,9 +221,7 @@ const SearchFilterVerified = ({
               key={`${verified}-${i}`}
               label={verified === "true" ? t("verified") : t("not-verified")}
               count={
-                results?.data.data.facetDistribution?.verification_verified[
-                  verified
-                ]
+                results?.data.facetDistribution?.verification_verified[verified]
               }
               checked={selectedFilters.some(
                 (filter) =>
@@ -276,10 +260,7 @@ const SearchFilterTypes = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string
@@ -306,11 +287,11 @@ const SearchFilterTypes = ({
         })}
 
       {results.isSuccess &&
-        Object.keys(results?.data.data.facetDistribution?.type).map((type) => (
+        Object.keys(results?.data.facetDistribution?.type).map((type) => (
           <FilterFacette
             key={type}
             label={t(type)}
-            count={results?.data.data.facetDistribution?.type[type]}
+            count={results?.data.facetDistribution?.type[type]}
             checked={selectedFilters.some(
               (filter) => filter.filterType === "type" && filter.value === type,
             )}
@@ -343,10 +324,7 @@ const SearchFilterArches = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string
@@ -373,40 +351,37 @@ const SearchFilterArches = ({
         })}
 
       {results.isSuccess &&
-        Object.keys(results?.data.data.facetDistribution?.arches).map(
-          (arch) => (
-            <FilterFacette
-              key={arch}
-              label={t(arch)}
-              count={results?.data.data.facetDistribution?.arches[arch]}
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "arches" && filter.value === arch,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "arches",
-                      value: arch,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "arches" &&
-                          filter.value === arch
-                        ),
-                    ),
-                  )
-                }
-              }}
-            />
-          ),
-        )}
+        Object.keys(results?.data.facetDistribution?.arches).map((arch) => (
+          <FilterFacette
+            key={arch}
+            label={t(arch)}
+            count={results?.data.facetDistribution?.arches[arch]}
+            checked={selectedFilters.some(
+              (filter) =>
+                filter.filterType === "arches" && filter.value === arch,
+            )}
+            onCheckedChange={(e) => {
+              if (e) {
+                setSelectedFilters([
+                  ...selectedFilters,
+                  {
+                    filterType: "arches",
+                    value: arch,
+                  },
+                ])
+              } else {
+                setSelectedFilters(
+                  selectedFilters.filter(
+                    (filter) =>
+                      !(
+                        filter.filterType === "arches" && filter.value === arch
+                      ),
+                  ),
+                )
+              }
+            }}
+          />
+        ))}
     </div>
   )
 }
@@ -415,10 +390,7 @@ export const SearchFilters = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string

@@ -77,7 +77,7 @@ export default function QualityModerationDashboard() {
           filter: filteredBy,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       ),
@@ -100,7 +100,11 @@ export default function QualityModerationDashboard() {
   }, [router.query.filter])
 
   const pages = Array.from(
-    { length: query.data?.data?.pagination?.total_pages ?? 1 },
+    {
+      length:
+        (query.data?.data as QualityModerationDashboardResponse)?.pagination
+          ?.total_pages ?? 1,
+    },
     (_, i) => i + 1,
   )
 
@@ -116,7 +120,7 @@ export default function QualityModerationDashboard() {
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <QualityModerationTable
                 currentPage={page}
-                data={query.data.data}
+                data={query.data.data as QualityModerationDashboardResponse}
                 filteredBy={filteredBy}
               />
               <Pagination currentPage={page} pages={pages} />

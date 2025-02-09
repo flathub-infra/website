@@ -35,12 +35,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const appstreamList = await listAppstreamAppstreamGet()
 
+  if (!appstreamList.data) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const data = (appstreamList.data || []) as string[]
+
   //figure out which chunk to render
   const chunk: number = parseInt(
     (dynamic as string).split("-")[2].split(".")[0],
   )
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)
-  const numberOfChunks = Math.ceil(appstreamList.data.length / chunkSize)
+  const numberOfChunks = Math.ceil(data.length / chunkSize)
 
   if (chunk >= numberOfChunks) {
     console.log(`Sitemap chunk ${chunk} not found`)
@@ -51,11 +59,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return getServerSideSitemapLegacy(
     ctx,
-    appstreamList.data
-      .slice(
-        chunk * chunkSize,
-        Math.min(chunk + 1 * chunkSize, appstreamList.data.length),
-      )
+    data
+      .slice(chunk * chunkSize, Math.min(chunk + 1 * chunkSize, data.length))
       .map((appId, i) => ({
         loc: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${appId}`,
         // todo - add more fields here, maybe get lastmod from summary

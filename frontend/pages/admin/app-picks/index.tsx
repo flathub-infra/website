@@ -26,6 +26,8 @@ import {
   setAppOfTheWeekAppPicksAppOfTheWeekPost,
   Permission,
   getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
+  AppPickRecommendation,
+  AppPickRecommendationsResponse,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
 import { DesktopAppstream } from "src/types/Appstream"
@@ -124,7 +126,7 @@ export default function AppPicks() {
           position: app.position,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
 
@@ -199,12 +201,14 @@ export default function AppPicks() {
             recommendation_date: formatISO(date, { representation: "date" }),
           },
           {
-            withCredentials: true,
+            credentials: "include",
           },
         )
 
       const passingApps = await Promise.all(
-        getAppsWithQuality.data.recommendations.map(async (app) => {
+        (
+          getAppsWithQuality.data as AppPickRecommendationsResponse
+        ).recommendations.map(async (app) => {
           return {
             id: app.app_id,
             lastTimeAppOfTheDay: app.lastTimeAppOfTheDay,

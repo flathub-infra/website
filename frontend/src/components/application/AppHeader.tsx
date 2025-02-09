@@ -24,16 +24,22 @@ const FavoriteButton = ({ appId }: { appId: string }) => {
   const [countChanges, setCountChanges] = React.useState(0)
 
   const isFavoriteQuery = useIsFavoritedFavoritesAppIdGet(appId, {
-    axios: { withCredentials: true },
+    fetch: {
+      credentials: "include",
+    },
   })
 
   const addToFavoriteMutation = useAddToFavoritesFavoritesAppIdAddPost({
-    axios: { withCredentials: true },
+    fetch: {
+      credentials: "include",
+    },
   })
 
   const removeFromFavoriteMutation =
     useRemoveFromFavoritesFavoritesAppIdRemoveDelete({
-      axios: { withCredentials: true },
+      fetch: {
+        credentials: "include",
+      },
     })
 
   const user = useUserContext()

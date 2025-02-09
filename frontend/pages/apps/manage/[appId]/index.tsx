@@ -31,6 +31,8 @@ import {
   UserInfo,
   VendingConfig,
   useGetAppVendingSetupVendingappAppIdSetupGet,
+  VendingSetup,
+  InviteStatus,
 } from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
@@ -83,7 +85,7 @@ export default function AppManagementPage({
 
   const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
     query: { enabled: !!app.id },
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
   })
 
   const pages = [
@@ -99,7 +101,7 @@ export default function AppManagementPage({
     queryKey: ["invite-status", app.id],
     queryFn: () =>
       getInviteStatusInvitesAppIdGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     enabled: !!app.id,
   })
@@ -141,13 +143,14 @@ export default function AppManagementPage({
                           vendingConfig={vendingConfig}
                         />
                       </SettingsDisclosure>
-                      {query.isSuccess && query.data?.data?.status === "ok" && (
-                        <SettingsDisclosure
-                          sectionTitle={t("ownership-tokens")}
-                        >
-                          <AppVendingControls.OwnershipTokens app={app} />
-                        </SettingsDisclosure>
-                      )}
+                      {query.isSuccess &&
+                        (query.data?.data as VendingSetup)?.status === "ok" && (
+                          <SettingsDisclosure
+                            sectionTitle={t("ownership-tokens")}
+                          >
+                            <AppVendingControls.OwnershipTokens app={app} />
+                          </SettingsDisclosure>
+                        )}
                     </>
                   )}
                   <SettingsDisclosure
@@ -161,7 +164,8 @@ export default function AppManagementPage({
                       (a) => a === Permission["direct-upload"],
                     )) && (
                     <>
-                      {inviteQuery.data?.data?.is_direct_upload_app && (
+                      {(inviteQuery.data?.data as InviteStatus)
+                        ?.is_direct_upload_app && (
                         <SettingsDisclosure sectionTitle={t("developers")}>
                           <AppDevelopersControls app={app} />
                         </SettingsDisclosure>

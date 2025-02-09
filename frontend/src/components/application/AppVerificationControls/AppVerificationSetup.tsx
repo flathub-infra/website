@@ -8,8 +8,13 @@ import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { VerificationMethod, VerificationStatus } from "src/codegen/model"
 import {
+  AvailableMethods,
+  VerificationMethod,
+  VerificationStatus,
+} from "src/codegen/model"
+import {
+  getAvailableMethodsVerificationAppIdAvailableMethodsGetResponse,
   getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
@@ -81,12 +86,13 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       app.id,
       { new_app: isNewApp },
       {
-        axios: {
-          withCredentials: true,
+        fetch: {
+          credentials: "include",
         },
         query: {
           retry: false,
-          enabled: query.data && !query.data.data.verified,
+          enabled:
+            query.data && !(query.data.data as VerificationStatus).verified,
         },
       },
     )
@@ -121,7 +127,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         } else {
           content = (
             <div>
-              <StatusInfo status={query.data.data} />
+              <StatusInfo status={query.data.data as VerificationStatus} />
 
               <br />
 
@@ -142,7 +148,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                   setConfirmUnverify(false)
 
                   unverifyVerificationAppIdUnverifyPost(app.id, {
-                    withCredentials: true,
+                    credentials: "include",
                   }).then(() => {
                     query.refetch()
                   })
@@ -178,33 +184,33 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         {verificationAvailableMethods.isPending ? (
           <Spinner size="m" />
         ) : (
-          verificationAvailableMethods.data?.data?.methods?.map(
-            (methodType) => {
-              if (methodType.method === "website") {
-                return (
-                  <WebsiteVerification
-                    key={methodType.method}
-                    appId={app.id}
-                    method={methodType}
-                    isNewApp={isNewApp}
-                    onVerified={onChildVerified}
-                  ></WebsiteVerification>
-                )
-              }
-              if (methodType.method === "login_provider") {
-                return (
-                  <LoginVerification
-                    key={methodType.method}
-                    appId={app.id}
-                    method={methodType}
-                    isNewApp={isNewApp}
-                    onVerified={onChildVerified}
-                    onReloadNeeded={query.refetch}
-                  ></LoginVerification>
-                )
-              }
-            },
-          )
+          (
+            verificationAvailableMethods.data?.data as AvailableMethods
+          )?.methods?.map((methodType) => {
+            if (methodType.method === "website") {
+              return (
+                <WebsiteVerification
+                  key={methodType.method}
+                  appId={app.id}
+                  method={methodType}
+                  isNewApp={isNewApp}
+                  onVerified={onChildVerified}
+                ></WebsiteVerification>
+              )
+            }
+            if (methodType.method === "login_provider") {
+              return (
+                <LoginVerification
+                  key={methodType.method}
+                  appId={app.id}
+                  method={methodType}
+                  isNewApp={isNewApp}
+                  onVerified={onChildVerified}
+                  onReloadNeeded={query.refetch}
+                ></LoginVerification>
+              )
+            }
+          })
         )}
       </div>
     )
