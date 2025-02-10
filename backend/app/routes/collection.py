@@ -14,6 +14,40 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
+@router.get("/developer")
+def get_developers() -> set[str]:
+    # Get all unique developer names from Meilisearch
+    result = search.client.index("apps").search(
+        "",
+        {
+            "facets": ["developer_name"],
+            "limit": 0,
+        },
+    )
+    return {
+        facet for facet in result.get("facetDistribution", {}).get("developer_name", {})
+    }
+
+
+@router.get("/developer/{developer:path}")
+def get_developer(
+    developer: str,
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_developer(developer, page, per_page, locale)
+
+    return result
+
+
 @router.get("/recently-updated")
 def get_recently_updated(
     page: int | None = None,
