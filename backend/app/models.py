@@ -2159,7 +2159,9 @@ class AppsOfTheWeek(Base):
     def by_week(cls, db, weekNumber: int, year: int) -> list["AppsOfTheWeek"]:
         return (
             db.session.execute(
-                db.session.query(AppsOfTheWeek)
+                db.session.query(App)
+                .join(AppsOfTheWeek, AppsOfTheWeek.app_id == App.app_id)
+                .filter(App.is_eol == false())
                 .filter_by(weekNumber=weekNumber, year=year)
                 .order_by(AppsOfTheWeek.position)
                 .statement
@@ -2437,10 +2439,11 @@ class App(Base):
                 isouter=True,
             )
             .where(
+                App.is_eol == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",
-                )
+                ),
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
             .group_by(App.app_id, App.installs_last_7_days)
@@ -2589,10 +2592,11 @@ class App(Base):
                 isouter=True,
             )
             .where(
+                App.is_eol == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",
-                )
+                ),
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
             .group_by(
