@@ -1,14 +1,11 @@
-import datetime
-from http import HTTPStatus
 from typing import Optional
 
-from fastapi import APIRouter, Depends, FastAPI, Path, Query, Response
+from fastapi import APIRouter, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from . import apps, db, models, schemas, search, stats, utils
 from .database import get_db
-from .login_info import logged_in
 
 router = APIRouter(default_response_class=ORJSONResponse)
 
@@ -211,78 +208,6 @@ def post_search(query: search.SearchQuery, locale: str = "en"):
 @router.get("/runtimes", tags=["app"])
 def get_runtime_list() -> dict[str, int]:
     return search.get_runtime_list()
-
-
-@router.get("/collection/recently-updated", tags=["app"])
-def get_recently_updated(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_updated_at(page, per_page, locale)
-
-    return result
-
-
-@router.get("/collection/recently-added", tags=["app"])
-def get_recently_added(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_added_at(page, per_page, locale)
-
-    return result
-
-
-@router.get("/collection/verified", tags=["app"])
-def get_verified(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_verified(page, per_page, locale)
-
-    return result
-
-
-@router.get("/collection/mobile", tags=["app"])
-def get_mobile(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_mobile(page, per_page, locale)
-
-    return result
 
 
 @router.get("/popular/last-month", tags=["app"])
