@@ -3432,6 +3432,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:3.5.0":
+  version: 3.5.0
+  resolution: "prettier@npm:3.5.0"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10c0/6c355d74c377f5622953229d92477e8b9779162e848db90fd7e06c431deb73585d31fafc4516cf5868917825b97b9ec7c87c8d8b8e03ccd9fc9c0b7699d1a650
+  languageName: node
+  linkType: hard
+
 "prismjs@npm:1.29.0":
   version: 1.29.0
   resolution: "prismjs@npm:1.29.0"
@@ -3590,7 +3599,7 @@ __metadata:
     eslint: "npm:^9.19.0"
     hono: "npm:^4.6.14"
     nodemailer: "npm:6.10.0"
-    prettier: "npm:3.4.2"
+    prettier: "npm:3.5.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
     react-email: "npm:3.0.6"
