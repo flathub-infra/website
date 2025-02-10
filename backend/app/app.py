@@ -70,30 +70,6 @@ def get_subcategory(
     return result
 
 
-@router.get("/developer", tags=["app"])
-def get_developers() -> set[str]:
-    return db.get_developers()
-
-
-@router.get("/developer/{developer:path}", tags=["app"])
-def get_developer(
-    developer: str,
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_developer(developer, page, per_page, locale)
-
-    return result
-
-
 @router.get("/keyword", tags=["app"])
 def get_keyword(
     keyword: str,
