@@ -23,6 +23,7 @@ from . import (
 )
 from .routes import (
     app_picks,
+    collection,
     compat,
     favorites,
     feed,
@@ -74,6 +75,7 @@ purchases.register_to_app(router)
 invites.register_to_app(router)
 
 app_picks.register_to_app(router)
+collection.register_to_app(router)
 compat.register_to_app(router)
 feed.register_to_app(router)
 quality_moderation.register_to_app(router)
