@@ -1,8 +1,8 @@
 """switch_and_rename_localization_json
 
-Revision ID: 254e86e8061d
-Revises: 71d60844180b
-Create Date: 2025-02-09 21:06:08.301861
+Revision ID: ae8fa1b4f651
+Revises: e02f32f2a8c4
+Create Date: 2025-02-10 11:12:48.237769
 
 """
 from alembic import op
@@ -11,11 +11,10 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 
 # revision identifiers, used by Alembic.
-revision = '254e86e8061d'
-down_revision = '71d60844180b'
+revision = 'ae8fa1b4f651'
+down_revision = 'e02f32f2a8c4'
 branch_labels = None
 depends_on = None
-
 
 def upgrade():
     op.alter_column('apps', 'localization_json',
