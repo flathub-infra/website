@@ -227,7 +227,8 @@
   steps:
     - name: Install Flatpak
       text: "
-        <p>To install Flatpak on Solus, open the Terminal app and run:</p>
+        <p>Flatpak is installed by default on Solus 4.5 and newer. If you are using such a system, you may skip this step.</p>
+        <p>If for some reason Flatpak is not installed, open the Terminal app and run:</p>
         <terminal-command>sudo eopkg install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: '
@@ -236,7 +237,7 @@
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
-        <p>Note: graphical installation of Flatpak apps is not yet possible with Solus, but will be available in the near future.</p>'
+        <p>Note: graphical installation of Flatpak apps is available only through GNOME Software and/or KDE Discover.</p>'
 
 - name: Alpine
   logo: "alpine.svg"
