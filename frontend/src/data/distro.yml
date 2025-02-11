@@ -224,11 +224,13 @@
 
 - name: Solus
   logo: "solus.svg"
+  introduction: >
+    <p>Flatpak support is built into Solus 4.7 and newer—no setup required! Flatpak apps can be installed using GNOME Software and/or KDE Discover.</p>
+    <p>If Flatpak is not installed, follow the instructions below to get started.</p>
   steps:
     - name: Install Flatpak
       text: "
-        <p>Flatpak is installed by default on Solus 4.5 and newer. If you are using such a system, you may skip this step.</p>
-        <p>If for some reason Flatpak is not installed, open the Terminal app and run:</p>
+        <p>To install Flatpak on Solus, open the Terminal app and run:</p>
         <terminal-command>sudo eopkg install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: '
