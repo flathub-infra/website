@@ -1428,6 +1428,18 @@ export const Solus = () => {
           ]}
         />
 
+        <Trans i18nKey="distros:solus.introduction">
+          <p>
+            Flatpak support is built into Solus 4.7 and newer—no setup required!
+            Flatpak apps can be installed using GNOME Software and/or KDE
+            Discover.
+          </p>{" "}
+          <p>
+            If Flatpak is not installed, follow the instructions below to get
+            started.
+          </p>
+        </Trans>
+
         <li>
           <h2>
             <Trans i18nKey="distros:solus.step-1.name">Install Flatpak</Trans>
@@ -1472,8 +1484,8 @@ export const Solus = () => {
               <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
-              Note: graphical installation of Flatpak apps is not yet possible
-              with Solus, but will be available in the near future.
+              Note: graphical installation of Flatpak apps is available only
+              through GNOME Software and/or KDE Discover.
             </p>
           </Trans>
         </li>
