@@ -588,9 +588,9 @@
   "more-pages": "Mehr Seiten",
   "carousel": "Karussell",
   "slide": "Dia",
-  "microphone-access": "Mikrofonzugriff",
+  "microphone-access": "Mikrofonzugriff und Audiowiedergabe",
   "screen-contents-access": "Zugriff auf Bildschirminhalte",
-  "can-listen-using-microphones-without-asking-permission": "Kann über Mikrofone zuhören, ohne um Berechtigung zu fragen",
+  "can-listen-using-microphones-without-asking-permission": "Kann über Mikrofone zuhören und Audio wiedergeben, ohne um Berechtigung zu fragen",
   "can-access-the-contents-of-the-screen-or-other-windows": "Kann auf den Inhalt des Bildschirms oder anderer Fenster zugreifen",
   "users": "Benutzer",
   "transparent": "<0>Unabhängig und transparent</0> — Wir sind eine Open-Source-Gemeinschaft an der Basis, die das Beste, was das Ökosystem zu bieten hat, verwaltet",
@@ -631,6 +631,19 @@
   "mobile-apps-description": "Apps für deine Linux-Handys und Tablets",
   "quality": {
     "missing-brand-colors": "Fehlende Markenfarben",
-    "banner-preview-description": "Verwende <2>die Bannervorschau</2>, um mit deinem Banner zu experimentieren"
-  }
+    "banner-preview-description": "Verwende <2>die Bannervorschau</2>, um mit deinem Banner zu experimentieren",
+    "banner-preview": "Bannervorschau"
+  },
+  "favorite": "Favorit",
+  "favorite-apps": "Favoriten",
+  "we-love-games": "Wir ♥ Spiele",
+  "emulator": "Emulatoren",
+  "gameemulator": "Emulatoren",
+  "more-emulator": "Weitere Emulatoren",
+  "launcher": "Starter",
+  "gamelauncher": "Spielstarter",
+  "gametool": "Werkzeuge für Spiele",
+  "more-gametool": "Weitere Werkzeuge für Spiele",
+  "more-gamelauncher": "Weitere Spielstarter",
+  "tool": "Werkzeuge"
 }
