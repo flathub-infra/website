@@ -379,18 +379,23 @@ export async function fetchAddons(appid: string, locale: string) {
 
   const addonAppStats = await Promise.all(addonList.map(fetchAppStats))
 
-  const combined = addonAppstreams.map((item) => {
-    return {
-      id: item.id,
-      appstream: item,
-      stats: addonAppStats.find((stats) => stats.id === item.id),
-    }
-  })
+  const combined = addonAppstreams
+    .filter((a) => a?.id)
+    .map((item) => {
+      return {
+        id: item.id,
+        appstream: item,
+        stats: addonAppStats.find((stats) => stats.id === item.id),
+      }
+    })
 
   console.log(`\nAddons for ${appid} fetched`)
 
+  console.log(addonList)
+  console.log(combined.map((a) => a.id))
+
   combined.sort((a, b) => {
-    return b.stats.installs_total - a.stats.installs_total
+    return b.stats?.installs_total - a.stats?.installs_total
   })
 
   return combined.map((item) => item.appstream)
