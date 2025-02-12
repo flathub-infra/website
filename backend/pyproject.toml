@@ -36,7 +36,7 @@ publicsuffixlist = "^1.0.2.20240903"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.28.1"
-ruff = "^0.9.5"
+ruff = "^0.9.6"
 pytest = "^8.3.4"
 pytest-insta = "^0.3.0"
 watchgod = "^0.8"
