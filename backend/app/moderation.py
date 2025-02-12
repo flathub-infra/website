@@ -392,6 +392,8 @@ def submit_review_request(
 
         with get_db("replica") as db:
             current_summary = None
+            current_permissions = None
+            current_extradata = False
 
             app = models.App.by_appid(db, app_id)
             if app and app.summary:
