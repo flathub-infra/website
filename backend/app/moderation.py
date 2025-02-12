@@ -372,6 +372,7 @@ def submit_review_request(
             "org.gnome.Sdk",
             "org.kde.Platform",
             "org.kde.Sdk",
+            "org.flatpak.Builder",
         ):
             continue
 
