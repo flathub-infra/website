@@ -15,18 +15,18 @@ def register_to_app(app: FastAPI):
 
 
 @router.get("/developer")
-def get_developers() -> set[str]:
-    # Get all unique developer names from Meilisearch
-    result = search.client.index("apps").search(
-        "",
-        {
-            "facets": ["developer_name"],
-            "limit": 0,
-        },
-    )
-    return {
-        facet for facet in result.get("facetDistribution", {}).get("developer_name", {})
-    }
+def get_developers(
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
+) -> dict[str, object]:
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    return search.get_developers(page, per_page)
 
 
 @router.get("/developer/{developer:path}")
