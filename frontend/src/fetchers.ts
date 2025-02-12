@@ -391,11 +391,8 @@ export async function fetchAddons(appid: string, locale: string) {
 
   console.log(`\nAddons for ${appid} fetched`)
 
-  console.log(addonList)
-  console.log(combined.map((a) => a.id))
-
   combined.sort((a, b) => {
-    return b.stats?.installs_total - a.stats?.installs_total
+    return b.stats.installs_total - a.stats.installs_total
   })
 
   return combined.map((item) => item.appstream)
