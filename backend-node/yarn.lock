@@ -2363,10 +2363,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.6.14":
-  version: 4.6.14
-  resolution: "hono@npm:4.6.14"
-  checksum: 10c0/891e4218a65668d78838187aceadef53abdd159be919a32a07d6af79678102915c5315f589ce252d9405025ac89d6242b1e243ef9e94e8b9080f50b3c6c13eb5
+"hono@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "hono@npm:4.7.0"
+  checksum: 10c0/22f0d421cdf155793b4b0c4f94d0c5b409b879643b4cb42bcb0d8c00288f7682008c07a6995b9cd27566a2daa29e907f0f75ac80290f3eaaaec84cc91ac76360
   languageName: node
   linkType: hard
 
@@ -3365,7 +3365,7 @@ __metadata:
     date-fns: "npm:^4.1.0"
     dotenv: "npm:^16.4.7"
     eslint: "npm:^9.20.1"
-    hono: "npm:^4.6.14"
+    hono: "npm:^4.7.0"
     nodemailer: "npm:6.10.0"
     prettier: "npm:3.5.0"
     react: "npm:^19.0.0"
