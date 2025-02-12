@@ -2437,10 +2437,11 @@ class App(Base):
                 isouter=True,
             )
             .where(
+                App.is_eol == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",
-                )
+                ),
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
             .group_by(App.app_id, App.installs_last_7_days)
@@ -2589,10 +2590,11 @@ class App(Base):
                 isouter=True,
             )
             .where(
+                App.is_eol == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",
-                )
+                ),
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
             .group_by(
