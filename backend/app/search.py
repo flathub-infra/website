@@ -452,3 +452,23 @@ def get_runtime_list():
             "facets": ["runtime"],
         },
     )["facetDistribution"]["runtime"]
+
+
+def get_developers(page: int | None, hits_per_page: int | None):
+    result = client.index("apps").search(
+        "",
+        {
+            "facets": ["developer_name"],
+            "limit": 0,
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+    facet_distribution = result.get("facetDistribution", {}).get("developer_name", {})
+
+    return {
+        "developers": list(facet_distribution.keys()),
+        "total": len(facet_distribution),
+        "page": page or 1,
+        "per_page": hits_per_page or 250,
+    }

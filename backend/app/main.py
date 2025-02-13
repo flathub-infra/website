@@ -21,7 +21,16 @@ from . import (
     verification,
     wallet,
 )
-from .routes import app_picks, compat, feed, invites, quality_moderation, upload_tokens
+from .routes import (
+    app_picks,
+    collection,
+    compat,
+    favorites,
+    feed,
+    invites,
+    quality_moderation,
+    upload_tokens,
+)
 
 if config.settings.sentry_dsn:
     sentry_sdk.init(
@@ -66,12 +75,14 @@ purchases.register_to_app(router)
 invites.register_to_app(router)
 
 app_picks.register_to_app(router)
+collection.register_to_app(router)
 compat.register_to_app(router)
 feed.register_to_app(router)
 quality_moderation.register_to_app(router)
 upload_tokens.register_to_app(router)
 
 users.register_to_app(router)
+favorites.register_to_app(router)
 
 
 @router.on_event("startup")

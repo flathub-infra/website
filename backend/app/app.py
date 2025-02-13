@@ -1,14 +1,11 @@
-import datetime
-from http import HTTPStatus
 from typing import Optional
 
-from fastapi import APIRouter, Depends, FastAPI, Path, Query, Response
+from fastapi import APIRouter, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from . import apps, db, models, schemas, search, stats, utils
 from .database import get_db
-from .login_info import logged_in
 
 router = APIRouter(default_response_class=ORJSONResponse)
 
@@ -69,30 +66,6 @@ def get_subcategory(
     result = search.get_by_selected_category_and_subcategory(
         category, subcategory, exclude_subcategories, page, per_page, locale, sort_by
     )
-
-    return result
-
-
-@router.get("/developer", tags=["app"])
-def get_developers() -> set[str]:
-    return db.get_developers()
-
-
-@router.get("/developer/{developer:path}", tags=["app"])
-def get_developer(
-    developer: str,
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_developer(developer, page, per_page, locale)
 
     return result
 
@@ -211,78 +184,6 @@ def post_search(query: search.SearchQuery, locale: str = "en"):
 @router.get("/runtimes", tags=["app"])
 def get_runtime_list() -> dict[str, int]:
     return search.get_runtime_list()
-
-
-@router.get("/collection/recently-updated", tags=["app"])
-def get_recently_updated(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_updated_at(page, per_page, locale)
-
-    return result
-
-
-@router.get("/collection/recently-added", tags=["app"])
-def get_recently_added(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_added_at(page, per_page, locale)
-
-    return result
-
-
-@router.get("/collection/verified", tags=["app"])
-def get_verified(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_verified(page, per_page, locale)
-
-    return result
-
-
-@router.get("/collection/mobile", tags=["app"])
-def get_mobile(
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_mobile(page, per_page, locale)
-
-    return result
 
 
 @router.get("/popular/last-month", tags=["app"])
@@ -454,73 +355,3 @@ def get_addons(app_id: str) -> list[str]:
     addon_ids = apps.get_addons(app_id)
 
     return addon_ids
-
-
-@router.post("/favorites/{app_id}/add", tags=["app"])
-def add_to_favorites(
-    app_id: str,
-    login=Depends(logged_in),
-):
-    """
-    Add an app to a users favorites. The appid is the ID of the app to add.
-    """
-    with get_db("writer") as db_session:
-        try:
-            models.UserFavoriteApp.add_app(db_session, login["user"].id, app_id)
-            db_session.commit()
-
-            return Response(status_code=HTTPStatus.OK)
-        except Exception:
-            db_session.rollback()
-            return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
-
-
-@router.delete("/favorites/{app_id}/remove", tags=["app"])
-def remove_from_favorites(
-    app_id: str,
-    login=Depends(logged_in),
-):
-    """
-    Remove an app from a users favorites. The appid is the ID of the app to remove.
-    """
-    with get_db("writer") as db_session:
-        try:
-            models.UserFavoriteApp.remove_app(db_session, login["user"].id, app_id)
-            db_session.commit()
-
-            return Response(status_code=HTTPStatus.OK)
-        except Exception:
-            db_session.rollback()
-            return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
-
-
-class FavoriteApp(BaseModel):
-    app_id: str
-    created_at: datetime.datetime
-
-
-@router.get("/favorites", tags=["app"])
-def get_favorites(
-    login=Depends(logged_in),
-) -> list[FavoriteApp]:
-    """
-    Get a list of the users favorite apps.
-    """
-    with get_db("replica") as db_session:
-        return [
-            FavoriteApp(app_id=result.app_id, created_at=result.created)
-            for result in models.UserFavoriteApp.all_favorited_by_user(
-                db_session, login["user"].id
-            )
-        ]
-
-
-@router.get("/favorites/{app_id}", tags=["app"])
-def is_favorited(
-    app_id: str,
-    login=Depends(logged_in),
-) -> bool:
-    with get_db("replica") as db_session:
-        return models.UserFavoriteApp.is_favorited_by_user(
-            db_session, login["user"].id, app_id
-        )

@@ -112,7 +112,7 @@ def test_apps_by_category_with_too_few_per_page_params(client):
 
 
 def test_apps_by_developer(client, snapshot):
-    response = client.get("/developer/Sugar Labs Community")
+    response = client.get("/collection/developer/Sugar Labs Community")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_apps_by_developer.json"
@@ -120,7 +120,7 @@ def test_apps_by_developer(client, snapshot):
 
 
 def test_apps_by_developer_locale(client, snapshot):
-    response = client.get("/developer/Sugar Labs Community?locale=de")
+    response = client.get("/collection/developer/Sugar Labs Community?locale=de")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_apps_by_developer_locale.json"
@@ -128,7 +128,7 @@ def test_apps_by_developer_locale(client, snapshot):
 
 
 def test_apps_by_non_existent_developer(client):
-    response = client.get("/developer/NonExistent")
+    response = client.get("/collection/developer/NonExistent")
     assert response.status_code == 200
     responseJson = response.json()
     responseJson["totalHits"] = 0
