@@ -1,0 +1,35 @@
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "I-install ang Flatpak",
+      "text": "<0>Para i-install ang Flatpak sa <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o bago</strong>, buksan ang Terminal app at patakbuhin:</0> <2></2> <4>Para sa mga mas-lumang bersyon <strong>hanggang sa Ubuntu 18.04 LTS (Bionic Beaver)</strong>, kinakailangan ang opisyal na Flatpak PPA para i-install ang Flatpak at panatilihin itong up-to-date. Para idagdag ang PPA at i-install ang Flatpak, buksan ang Terminal app at patakbuhin:</4> <6></6>"
+    },
+    "step-2": {
+      "name": "I-install ang GNOME Software Flatpak plugin",
+      "text": "<p>Nagbibigay-daan ang GNOME Software plugin ang pag-install ng app nang hindi kinakailangan ang command line. Para i-install, patakbuhin ang:</p> <2></2> <4><strong>Tandaan:</strong> Ipinamamahagi ng Ubuntu ang GNOME Software bilang Snap sa mga bersyon 20.04 hanggang 23.04, at pinalitan ito ng App Center sa 23.10 at mas bago—alinman sa mga ito ay hindi sumusuporta sa pag-install ng mga Flatpak app. Ang pag-install ng Flatpak plugin ay mag-i-install din ng deb na bersyon ng GNOME Software, na magreresulta sa dalawang \"Software\" na app na sabay na na-install sa Ubuntu 20.04 hanggang 23.04, at isang bagong \"Software\" na app sa Ubuntu 23.10 at mas bago.</4>"
+    },
+    "step-3": {
+      "name": "Idagdag ang repositoryo ng Flathub",
+      "text": "<p>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Mag-restart",
+      "text": "<0>Para tapusin ang setup, i-restart ang iyong sistema. Ang kailangan mo na lang gawin ngayon ay <2>mag-install ng mga app</2>!</0>"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora",
+    "introduction": "<0>Naka-install nang default ang Flatpak sa Fedora Workstation, Fedora Silverblue, at Fedora Kinoite. Para magsimula, ang kailangan mo lang gawin ay i-enable ang Flathub, na kung saan ay ang pinakamahusay na paraan para makakuha ng mga Flatpak app. Naka-pre-configure ang Flathub bilang parte ng mga <2>Mga Third Party na Repositoryo</2>. Bilang kahalili, maari mong i-download at i-install ang <5>Flathub repository file</5>.</0> <2>Ang kailangan mo na lang gawin ngayon ay <2>mag-install ng mga app</2>!</2> <p>Ang mga link sa itaas ay maaring gumana sa mga default installation ng GNOME at KDE Fedora, ngunit kung sa ilang kadahilanan ay mabigo ito maari mong idagdag ang Flathub remote repository sa pamamagitan ng pagtakbo ng:</p> <6></6>"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "I-enable ang Flatpak sa pamamagitan ng Software Manager",
+      "text": "<p>Naka-install bilang default ang Flatpak sa Manjaro 20 at mas bago.</p> <2>Para i-enable ang support, mag-navigate sa <strong>Software Manager</strong> (Add/Remove Programs)</2> <p>I-click ang tatlong linyang menu [o mga dot depende sa Desktop Environmeng] sa kanan, sa drop down menu piliin ang \"Preferences\"</p> <p>Mag-navigate sa \"Flatpak\" tab at i-slide ang toggle para I-enable ang Flatpak support (posible rin ang pag-enable ng pagsusuri ng mga update, na lubos na inirerekomenda).</p>"
+    },
+    "step-2": {
+      "name": "Mag-restart"
+    }
+  }
+}
