@@ -37,7 +37,6 @@ import type {
   GetPopularLastMonthPopularLastMonthGetParams,
   GetRecentlyAddedCollectionRecentlyAddedGetParams,
   GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
-  GetRuntimeListRuntimesGet200,
   GetStatsForAppStatsAppIdGetParams,
   GetStatsStatsGet200,
   GetSubcategoryCategoryCategorySubcategoriesGetParams,
@@ -47,6 +46,8 @@ import type {
   HTTPValidationError,
   ListAppstreamAppstreamGetParams,
   MainCategory,
+  MeilisearchResponseAppsIndex,
+  MeilisearchResponseLimitedAppsIndex,
   PostSearchSearchPostParams,
   SearchQuery,
 } from ".././model"
@@ -2216,7 +2217,7 @@ export const postSearchSearchPost = (
   searchQuery: SearchQuery,
   params?: PostSearchSearchPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseLimitedAppsIndex>> => {
   return axios.post(`/search`, searchQuery, {
     ...options,
     params: { ...params, ...options?.params },
@@ -2296,7 +2297,7 @@ export const usePostSearchSearchPost = <
  */
 export const getRuntimeListRuntimesGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetRuntimeListRuntimesGet200>> => {
+): Promise<AxiosResponse<MeilisearchResponseLimitedAppsIndex>> => {
   return axios.get(`/runtimes`, options)
 }
 
@@ -2435,7 +2436,7 @@ export function useGetRuntimeListRuntimesGet<
 export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/recently-updated`, {
     ...options,
     params: { ...params, ...options?.params },

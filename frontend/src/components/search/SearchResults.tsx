@@ -4,16 +4,13 @@ import {
   ApplicationCardSkeleton,
 } from "../application/ApplicationCard"
 import { FunctionComponent } from "react"
-import {
-  AppsIndex,
-  mapAppsIndexToAppstreamListItem,
-  MeilisearchResponseLimited,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { UseQueryResult } from "@tanstack/react-query"
+import { MeilisearchResponseAppsIndex } from "src/codegen"
 
 interface Props {
   results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
 }

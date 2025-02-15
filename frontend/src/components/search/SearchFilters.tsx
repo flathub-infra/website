@@ -416,7 +416,7 @@ export const SearchFilters = ({
   setSelectedFilters,
 }: {
   results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {

@@ -2,7 +2,7 @@ import datetime
 from http import HTTPStatus
 from typing import Optional
 
-from fastapi import APIRouter, Depends, FastAPI, Path, Query, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Query, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
@@ -35,8 +35,9 @@ def get_category(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_selected_categories(
         [category], exclude_subcategories, page, per_page, locale, sort_by
@@ -59,12 +60,14 @@ def get_subcategory(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     if subcategory is None:
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_selected_category_and_subcategory(
         category, subcategory, exclude_subcategories, page, per_page, locale, sort_by
@@ -89,8 +92,9 @@ def get_developer(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_developer(developer, page, per_page, locale)
 
@@ -108,8 +112,9 @@ def get_keyword(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_keyword(keyword, page, per_page, locale)
 
@@ -204,12 +209,15 @@ def get_isFullscreenApp(
 
 
 @router.post("/search", tags=["app"])
-def post_search(query: search.SearchQuery, locale: str = "en"):
+def post_search(
+    query: search.SearchQuery, locale: str = "en"
+) -> search.MeilisearchResponseLimited[search.AppsIndex]:
+
     return search.search_apps_post(query, locale)
 
 
 @router.get("/runtimes", tags=["app"])
-def get_runtime_list() -> dict[str, int]:
+def get_runtime_list():
     return search.get_runtime_list()
 
 
@@ -219,12 +227,13 @@ def get_recently_updated(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_updated_at(page, per_page, locale)
 
@@ -241,8 +250,9 @@ def get_recently_added(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_added_at(page, per_page, locale)
 
@@ -259,8 +269,9 @@ def get_verified(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_verified(page, per_page, locale)
 
@@ -277,8 +288,9 @@ def get_mobile(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_mobile(page, per_page, locale)
 
@@ -295,8 +307,9 @@ def get_popular_last_month(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_installs_last_month(page, per_page, locale)
 
@@ -313,8 +326,9 @@ def get_trending_last_two_weeks(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
-        response.status_code = 400
-        return response
+        raise HTTPException(
+            status_code=400,
+        )
 
     result = search.get_by_trending(page, per_page, locale)
 
