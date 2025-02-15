@@ -176,12 +176,15 @@ async function generateSetupInstructions() {
   const distroMapStatement =
     "export const distroMap = new Map<string, JSX.Element>();\n"
 
+  const jsxImportStatement = "import type { JSX } from 'react';\n"
+
   fs.writeFileSync(
     distrosTsPath,
     distroMapStatement +
       useTranslationStatement +
       nextSeoStatement +
       importStatement +
+      jsxImportStatement +
       fs.readFileSync(distrosTsPath, "utf8"),
   )
 
