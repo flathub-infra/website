@@ -96,6 +96,7 @@ export type Language =
   | "ckb"
   | "ga"
   | "kab"
+  | "fil"
 
 export const languages: Language[] = [
   "en",
@@ -147,6 +148,7 @@ export const languages: Language[] = [
   "ckb",
   "ga",
   "kab",
+  "fil",
 ]
 
 export function getLocale(language?: string): Locale {
@@ -251,6 +253,8 @@ export function getLocale(language?: string): Locale {
       return enUS // date-fns has no Irish locale
     case "kab":
       return enUS // date-fns has no Kurdish locale
+    case "fil":
+      return enUS // date-fns has no Filipino locale
 
     default:
       return enGB
@@ -359,6 +363,8 @@ export function bcpToPosixLocale(language?: string): string {
       return "ga"
     case "kab":
       return "kab"
+    case "fil":
+      return "fil"
 
     default:
       return "en_US"
@@ -467,6 +473,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇮🇪"
     case "kab":
       return ""
+    case "fil":
+      return "🇵🇭"
   }
 }
 
@@ -600,6 +608,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("ga")
     case "kab":
       return new Intl.Locale("kab")
+    case "fil":
+      return new Intl.Locale("fil")
 
     default:
       return new Intl.Locale("en")
