@@ -22,11 +22,6 @@ export const getGetCategoriesCategoriesGetResponseMock = (): string[] =>
     faker.word.sample(),
   )
 
-export const getGetDevelopersDeveloperGetResponseMock = (): string[] =>
-  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
-    faker.word.sample(),
-  )
-
 export const getGetEolRebaseEolRebaseGetResponseMock =
   (): GetEolRebaseEolRebaseGet200 => ({
     [faker.string.alphanumeric(5)]: Array.from(
@@ -198,45 +193,6 @@ export const getGetSubcategoryCategoryCategorySubcategoriesGetMockHandler = (
       ) => Promise<unknown> | unknown),
 ) => {
   return http.get("*/category/:category/subcategories", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetDevelopersDeveloperGetMockHandler = (
-  overrideResponse?:
-    | string[]
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string[]> | string[]),
-) => {
-  return http.get("*/developer", async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetDevelopersDeveloperGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
-}
-
-export const getGetDeveloperDeveloperDeveloperGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/developer/:developer", async (info) => {
     await delay(1000)
     if (typeof overrideResponse === "function") {
       await overrideResponse(info)
@@ -459,70 +415,6 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     )
-  })
-}
-
-export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/collection/recently-updated", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/collection/recently-added", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetVerifiedCollectionVerifiedGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/collection/verified", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetMobileCollectionMobileGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/collection/mobile", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
   })
 }
 
@@ -772,8 +664,6 @@ export const getAppMock = () => [
   getGetCategoriesCategoriesGetMockHandler(),
   getGetCategoryCategoryCategoryGetMockHandler(),
   getGetSubcategoryCategoryCategorySubcategoriesGetMockHandler(),
-  getGetDevelopersDeveloperGetMockHandler(),
-  getGetDeveloperDeveloperDeveloperGetMockHandler(),
   getGetKeywordKeywordGetMockHandler(),
   getGetEolRebaseEolRebaseGetMockHandler(),
   getGetEolRebaseAppidEolRebaseAppIdGetMockHandler(),
@@ -784,10 +674,6 @@ export const getAppMock = () => [
   getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler(),
   getPostSearchSearchPostMockHandler(),
   getGetRuntimeListRuntimesGetMockHandler(),
-  getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler(),
-  getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler(),
-  getGetVerifiedCollectionVerifiedGetMockHandler(),
-  getGetMobileCollectionMobileGetMockHandler(),
   getGetPopularLastMonthPopularLastMonthGetMockHandler(),
   getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler(),
   getGetStatsStatsGetMockHandler(),
