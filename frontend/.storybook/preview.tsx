@@ -80,7 +80,6 @@ export default {
       modes: {
         light: allModes["light"],
         dark: allModes["dark"],
-        mobile: allModes["mobile"],
       },
     },
   },
