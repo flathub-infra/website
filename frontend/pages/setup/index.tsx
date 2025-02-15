@@ -33,10 +33,12 @@ export default function Setup({
   const [distroFilter, setDistroFilter] = useState<string>("")
 
   const instructionsFilteredAndSorted = instructions
-    .filter((instruction) =>
-      t(instruction.translatedNameKey)
-        .toLowerCase()
-        .includes(distroFilter.toLowerCase()),
+    .filter(
+      (instruction) =>
+        t(instruction.translatedNameKey)
+          .toLowerCase()
+          .includes(distroFilter.toLowerCase()) ||
+        instruction.name.toLowerCase().includes(distroFilter.toLowerCase()),
     )
     .sort((a, b) => {
       const aIndex = distroOrder.findIndex((distro) => distro.name === a.name)
