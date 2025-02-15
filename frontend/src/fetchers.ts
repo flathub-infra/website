@@ -6,7 +6,6 @@ import {
   RECENTLY_UPDATED_URL,
   RECENTLY_ADDED_URL,
   CATEGORY_URL,
-  SEARCH_APP,
   SUMMARY_DETAILS,
   STATS_DETAILS,
   DEVELOPER_URL,
@@ -313,28 +312,6 @@ export async function fetchDeveloperApps(
   console.log(`Developer apps for ${developer} fetched`)
 
   return appList
-}
-
-export async function fetchSearchQuery(
-  query: string,
-  locale: string,
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[],
-) {
-  return axios.post<MeilisearchResponseLimited<AppsIndex>>(
-    SEARCH_APP(locale),
-    {
-      query: query,
-      filters: selectedFilters,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  )
 }
 
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {
