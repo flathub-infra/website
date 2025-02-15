@@ -106,7 +106,7 @@ const Details: FunctionComponent<Props> = ({
 
     const children = [<LicenseInfo key={"license-info"} app={app} />]
 
-    if (summary !== null && summary.metadata !== null && app.type !== "addon") {
+    if (summary !== null && summary.metadata !== null) {
       children.unshift(
         <SafetyRating
           key={"safety-rating"}
