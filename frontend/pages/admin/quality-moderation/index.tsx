@@ -1,4 +1,3 @@
-import { QueryObserverSuccessResult, useQuery } from "@tanstack/react-query"
 import {
   ColumnDef,
   flexRender,
@@ -33,7 +32,7 @@ import {
   QualityModerationDashboardResponse,
   QualityModerationDashboardRow,
   UserInfo,
-  getQualityModerationStatusQualityModerationStatusGet,
+  useGetQualityModerationStatusQualityModerationStatusGet,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
 import Spinner from "src/components/Spinner"
@@ -67,25 +66,22 @@ export default function QualityModerationDashboard() {
         "todo",
     )
 
-  const query = useQuery({
-    queryKey: ["quality-moderation-dashboard", page, pageSize, filteredBy],
-    queryFn: ({ signal }) =>
-      getQualityModerationStatusQualityModerationStatusGet(
-        {
-          page: page,
-          page_size: pageSize,
-          filter: filteredBy,
-        },
-        {
-          withCredentials: true,
-          signal,
-        },
-      ),
-    enabled: !!user.info?.permissions.some(
-      (a) => a === Permission["quality-moderation"],
-    ),
-    placeholderData: (previousData) => previousData,
-  })
+  const query = useGetQualityModerationStatusQualityModerationStatusGet(
+    {
+      page: page,
+      page_size: pageSize,
+      filter: filteredBy,
+    },
+    {
+      axios: { withCredentials: true },
+      query: {
+        enabled: !!user.info?.permissions.some(
+          (a) => a === Permission["quality-moderation"],
+        ),
+        placeholderData: (previousData) => previousData,
+      },
+    },
+  )
 
   useEffect(() => {
     setPage(router?.query?.page ? Number(router.query.page) : 1)

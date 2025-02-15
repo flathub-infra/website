@@ -15,13 +15,12 @@ import {
   tryParseSubCategory,
 } from "src/types/Category"
 import { useRouter } from "next/router"
-import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
 import { MainCategory, Permission, StatsResult } from "src/codegen/model"
 import {
-  getQualityModerationStatsQualityModerationFailedByGuidelineGet,
   getRuntimeListRuntimesGet,
   getStatsStatsGet,
+  useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
 } from "src/codegen"
 import { format } from "date-fns"
 import {
@@ -213,16 +212,15 @@ const FailedByGuideline = () => {
 
   const user = useUserContext()
 
-  const query = useQuery({
-    queryKey: ["failed-by-guideline"],
-    queryFn: () =>
-      getQualityModerationStatsQualityModerationFailedByGuidelineGet({
-        withCredentials: true,
-      }),
-    enabled: !!user.info?.permissions.some(
-      (a) => a === Permission["quality-moderation"],
-    ),
-  })
+  const query =
+    useGetQualityModerationStatsQualityModerationFailedByGuidelineGet({
+      axios: { withCredentials: true },
+      query: {
+        enabled: !!user.info?.permissions.some(
+          (a) => a === Permission["quality-moderation"],
+        ),
+      },
+    })
 
   const chartConfig = {
     downloads: {

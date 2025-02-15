@@ -8,11 +8,10 @@ import { Appstream } from "../../../src/types/Appstream"
 import clsx from "clsx"
 import { ApplicationCard } from "src/components/application/ApplicationCard"
 import {
-  getAppVendingSetupVendingappAppIdSetupGet,
+  useGetAppVendingSetupVendingappAppIdSetupGet,
   VendingConfig,
 } from "src/codegen"
 import { useTranslation } from "next-i18next"
-import { useQuery } from "@tanstack/react-query"
 import { NumericInputValue } from "src/types/Input"
 import { useState } from "react"
 import Spinner from "src/components/Spinner"
@@ -32,22 +31,19 @@ export default function AppPurchasePage({
     settled: 0,
   })
 
-  const vendingSetup = useQuery({
-    queryKey: ["appVendingSetup", app.id],
-    queryFn: async () => {
-      const setup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
-      })
-
-      const decimalValue = setup.data.recommended_donation / 100
-      setAmount({
-        live: decimalValue,
-        settled: decimalValue,
-      })
-
-      return setup
+  const vendingSetup = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
+    axios: { withCredentials: true },
+    query: {
+      enabled: !!app.id,
+      select: (setup) => {
+        const decimalValue = setup.data.recommended_donation / 100
+        setAmount({
+          live: decimalValue,
+          settled: decimalValue,
+        })
+        return setup
+      },
     },
-    enabled: !!app.id,
   })
 
   if (vendingSetup.isError) {
