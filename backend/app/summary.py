@@ -91,7 +91,7 @@ def parse_metadata(ini: str):
     parser.read_string(ini)
 
     if "Application" not in parser:
-        return {}
+        return None
 
     metadata = dict(parser["Application"])
 
@@ -194,7 +194,7 @@ def parse_summary(summary, sqldb):
         installed_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
-        parsed_metadata = parse_metadata(xa_cache[ref][2]) or {}
+        parsed_metadata = parse_metadata(xa_cache[ref][2])
 
         summary_dict[app_id]["branch"] = branch
         summary_dict[app_id]["download_size"] = download_size
