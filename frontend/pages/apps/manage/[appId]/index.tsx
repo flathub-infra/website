@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
@@ -27,10 +26,10 @@ import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
 import {
   Permission,
-  getInviteStatusInvitesAppIdGet,
   UserInfo,
   VendingConfig,
   useGetAppVendingSetupVendingappAppIdSetupGet,
+  useGetInviteStatusInvitesAppIdGet,
 } from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
@@ -95,13 +94,9 @@ export default function AppManagementPage({
     },
   ]
 
-  const inviteQuery = useQuery({
-    queryKey: ["invite-status", app.id],
-    queryFn: () =>
-      getInviteStatusInvitesAppIdGet(app.id, {
-        withCredentials: true,
-      }),
-    enabled: !!app.id,
+  const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
+    axios: { withCredentials: true },
+    query: { enabled: !!app.id },
   })
 
   return (

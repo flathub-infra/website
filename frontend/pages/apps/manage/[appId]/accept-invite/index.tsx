@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
@@ -12,7 +12,7 @@ import { getUserData } from "src/asyncs/login"
 import {
   acceptInviteInvitesAppIdAcceptPost,
   declineInviteInvitesAppIdDeclinePost,
-  getInviteStatusInvitesAppIdGet,
+  useGetInviteStatusInvitesAppIdGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 
@@ -28,13 +28,9 @@ export default function AcceptInvitePage({ app }) {
     }
   }, [app.id, router, user.info])
 
-  const inviteQuery = useQuery({
-    queryKey: ["invite-status", app.id],
-    queryFn: () =>
-      getInviteStatusInvitesAppIdGet(app.id, {
-        withCredentials: true,
-      }),
-    enabled: !!app.id,
+  const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
+    axios: { withCredentials: true },
+    query: { enabled: !!app.id },
   })
 
   const acceptInviteMutation = useMutation({
