@@ -9,7 +9,6 @@ import {
   SEARCH_APP,
   SUMMARY_DETAILS,
   STATS_DETAILS,
-  DEVELOPER_URL,
   VENDING_CONFIG_URL,
   EOL_REBASE_URL,
   APP_VERIFICATION_STATUS,
@@ -33,6 +32,7 @@ import {
 import {
   AppOfTheDay,
   AppsOfTheWeek,
+  getDeveloperCollectionDeveloperDeveloperGet,
   MainCategory,
   SortBy,
   VendingConfig,
@@ -300,19 +300,21 @@ export async function fetchDeveloperApps(
     return null
   }
   console.log(`Fetching apps for developer ${developer}`)
-  const appListRes = await fetch(
-    DEVELOPER_URL(developer, page, per_page, locale),
-  )
-  if (!appListRes || appListRes.status === 404) {
+
+  const appList = await getDeveloperCollectionDeveloperDeveloperGet(developer, {
+    page,
+    per_page,
+    locale,
+  })
+
+  if (!appList || appList.status === 404) {
     console.log(`No apps for developer ${developer}`)
     return null
   }
 
-  const appList = await appListRes.json()
-
   console.log(`Developer apps for ${developer} fetched`)
 
-  return appList
+  return appList.data as MeilisearchResponse<AppsIndex>
 }
 
 export async function fetchSearchQuery(

@@ -213,31 +213,6 @@ export const SUBCATEGORY_URL = (
 export const ADDONS_URL = (appid: string): string =>
   `${BASE_URI}/addon/${appid}`
 
-export const DEVELOPER_URL = (
-  developer: string,
-  page?: number,
-  per_page?: number,
-  locale?: string,
-): string => {
-  const result = new URLSearchParams()
-
-  if (page) {
-    result.append("page", page.toString())
-  }
-
-  if (per_page) {
-    result.append("per_page", per_page.toString())
-  }
-
-  if (locale) {
-    result.append("locale", locale)
-  }
-
-  return `${BASE_URI}/developer/${encodeURIComponent(
-    developer,
-  )}?${result.toString()}`
-}
-
 export const APPS_IN_PREVIEW_COUNT: number = 12
 
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
