@@ -49,7 +49,7 @@ def get_parent_id(app_id: str):
 
 
 def parse_eol_data(metadata):
-    eol_rebase: dict[str, str] = {}
+    eol_rebase: dict[str, list[str]] = {}
     eol_message: dict[str, str] = {}
     for app, eol_dict in metadata["xa.sparse-cache"].items():
         flatpak_type, app_id, arch, branch = app.split("/")
@@ -227,7 +227,7 @@ def update(sqldb) -> None:
     # The main summary file contains only x86_64 refs due to ostree file size
     # limitations. Since 2020, aarch64 is the only additional arch supported,
     # so we need to enrich the data by parsing the output of "flatpak
-    # remote-ls", as ostree itself does not expose "sub-sumarries".
+    # remote-ls", as ostree itself does not expose "sub-summaries".
     command = [
         "flatpak",
         "remote-ls",
@@ -322,6 +322,14 @@ def update(sqldb) -> None:
     eol_rebase, eol_message = parse_eol_data(metadata)
 
     try:
+        for _, old_app_ids in eol_rebase.items():
+            for old_app_id_with_branch in old_app_ids:
+                old_app_id = old_app_id_with_branch.split(":")[0]
+                app = models.App.by_appid(sqldb, old_app_id)
+                if app:
+                    app.is_eol = True
+                    sqldb.session.add(app)
+
         for app_id_with_branch, _ in eol_message.items():
             app_id = app_id_with_branch.split(":")[0]
             app = models.App.by_appid(sqldb, app_id)
