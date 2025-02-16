@@ -4,11 +4,13 @@ import meilisearch
 from pydantic import BaseModel
 
 from . import config, schemas
+from .schemas import FilterType
 
 
 class Filter(BaseModel):
-    filterType: str
+    filterType: FilterType
     value: str
+
 
 
 class SearchQuery(BaseModel):
@@ -390,7 +392,7 @@ def search_apps_post(searchquery: SearchQuery, locale: str):
     filteringForDesktopOrConsole = False
 
     for filter in searchquery.filters or []:
-        if filter.filterType == "type":
+        if filter.filterType == FilterType.TYPE:
             filteringForType = True
 
             if filter.value == "desktop-application":
@@ -398,7 +400,14 @@ def search_apps_post(searchquery: SearchQuery, locale: str):
             elif filter.value == "console-application":
                 filteringForDesktopOrConsole = True
 
-        filters.append(f"{filter.filterType} = '{filter.value}'")
+        # Sanitize the value to prevent injection
+        escaped_value = (
+            filter.value.replace("'", "\\'")
+            .replace('"', '\\"')
+            .replace("/", "\\/")
+        )
+        
+        filters.append(f"{filter.filterType.value} = '{escaped_value}'")
 
     if not filteringForType and not filteringForDesktopOrConsole:
         filters.append("type IN [desktop-application, console-application]")
