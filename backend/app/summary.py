@@ -326,14 +326,14 @@ def update(sqldb) -> None:
             for old_app_id_with_branch in old_app_ids:
                 old_app_id = old_app_id_with_branch.split(":")[0]
                 app = models.App.by_appid(sqldb, old_app_id)
-                if app:
+                if app and not app.is_eol:
                     app.is_eol = True
                     sqldb.session.add(app)
 
         for app_id_with_branch, _ in eol_message.items():
             app_id = app_id_with_branch.split(":")[0]
             app = models.App.by_appid(sqldb, app_id)
-            if app:
+            if app and not app.is_eol:
                 app.is_eol = True
                 sqldb.session.add(app)
 
