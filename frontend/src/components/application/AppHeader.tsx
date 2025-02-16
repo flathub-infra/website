@@ -20,11 +20,13 @@ import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
   const { t } = useTranslation()
+  const user = useUserContext()
 
   const [countChanges, setCountChanges] = React.useState(0)
 
   const isFavoriteQuery = useIsFavoritedFavoritesAppIdGet(appId, {
     axios: { withCredentials: true },
+    query: { enabled: !!user.info },
   })
 
   const addToFavoriteMutation = useAddToFavoritesFavoritesAppIdAddPost({
@@ -35,8 +37,6 @@ const FavoriteButton = ({ appId }: { appId: string }) => {
     useRemoveFromFavoritesFavoritesAppIdRemoveDelete({
       axios: { withCredentials: true },
     })
-
-  const user = useUserContext()
 
   if (!user.info || isFavoriteQuery.isLoading || countChanges > 3) {
     return null
