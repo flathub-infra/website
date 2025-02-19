@@ -12,7 +12,7 @@ import { appWithTranslation, i18n, useTranslation } from "next-i18next"
 
 import "../styles/main.scss"
 import { useRouter } from "next/router"
-import { bcpToPosixLocale, getLocale, languages } from "../src/localize"
+import { bcpToPosixLocale, getLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 import { Inter } from "next/font/google"
@@ -75,11 +75,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           titleTemplate={`%s | ${t("flathub")}`}
           defaultTitle={t("flathub-apps-for-linux")}
           description={t("flathub-description")}
-          languageAlternates={languages
+          canonical={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}${router.asPath}`}
+          languageAlternates={router.locales
             .filter((lang) => lang !== router?.locale)
             .map((lang) => ({
               hrefLang: lang,
-              href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}`,
+              href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}${router.asPath}`,
             }))}
           twitter={{
             cardType: "summary_large_image",
