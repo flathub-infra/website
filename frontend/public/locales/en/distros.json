@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<0>To install Flatpak on <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open the Terminal app and run:</0> <2></2> <4>For older versions <strong>up to Ubuntu 18.04 LTS (Bionic Beaver)</strong>, the official Flatpak PPA is required to install Flatpak and keep it up to date. To add the PPA and install Flatpak, open the Terminal app and run:</4> <6></6>"
+      "text": "<0>To install Flatpak on <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open the Terminal app and run:</0> <2></2>"
     },
     "step-2": {
       "name": "Install GNOME Software Flatpak plugin",
@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Flatpak support is built into Endless OS 3.0.0 and newer—no setup required!</0> <2>If you are using an older version, <2>upgrade to Endless OS 3</2>.</2>"
+    "introduction": "<0>Flatpak support is built into Endless OS 3.0.0 and newer—no setup required!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -65,7 +65,7 @@
     },
     "step-3": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak, run the following in the terminal:</p> <2></2> <4>A more up to date flatpak package is available in the <2>Debian backports repository</2>. </4>"
+      "text": "<p>To install Flatpak, run the following in the terminal:</p> <2></2>"
     },
     "step-4": {
       "name": "Add the Flathub repository",
@@ -82,13 +82,13 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Flatpak support is built into Linux Mint 18.3 and newer—no setup required!</0> <2>If you are using an older version, <2>upgrade to Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Flatpak support is built into Linux Mint 18.3 and newer—no setup required!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>Flatpak is available in the default repositories of all currently maintained openSUSE Leap and openSUSE Tumbleweed versions.</p> <2>If you prefer a graphical installation, you can install Flatpak using a \"1-click installer\" from <2>software.opensuse.org</2>. If your distribution version is not shown by default, click <5>Show flatpak for other distributions</5> first and then select from the list.</2> <p>Alternatively, install Flatpak from the command line using Zypper:</p> <6></6>"
+      "text": "<p>Flatpak is available in the default repositories of all currently maintained openSUSE Leap and openSUSE Tumbleweed versions.</p> <2>If you prefer a graphical installation, you can install Flatpak using a \"1-click installer\" from <2>software.opensuse.org</2>. If your distribution version is not shown by default, click <5>Show</5> under Unsupported distributions category and then select from the list.</2> <p>Alternatively, install Flatpak from the command line using Zypper:</p> <6></6>"
     },
     "step-2": {
       "name": "Add the Flathub repository",
@@ -245,19 +245,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!</0> <p>If you are using an older version, you can refer to the instructions below.</p>",
-    "step-1": {
-      "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Pop!_OS 19.10 and earlier, open the Terminal app and run:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Add the Flathub repository",
-      "text": "<0>Flathub is the best place to get Flatpak apps. To enable it, download and install the <2>Flathub repository file</2> or run the following in a terminal:</0> <2></2>"
-    },
-    "step-3": {
-      "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Pop!_OS 19.10 and earlier.</p>"
-    }
+    "introduction": "<0>Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -274,7 +262,7 @@
     },
     "step-2": {
       "name": "Add the Flathub repository",
-      "text": "<p>Flathub is the best place to get Flatpak apps. To enable it, run:</p> <2></2> <4><0>Important note:</0> As of March 2021, Raspberry Pi computers still ship with the 32-bit version of Raspberry Pi OS. However Flathub started phasing out support for that architecture. If you consider Flathub as an important source of applications, it is recommended to use Raspberry Pi OS 64-bit as newer applications are more likely to be available for that platform.</4>"
+      "text": "<p>Flathub is the best place to get Flatpak apps. To enable it, run:</p> <2></2> <4><0>Important note:</0> It is recommended to use Raspberry Pi OS 64-bit as newer applications are more likely to be available for that platform only.</4>"
     },
     "step-3": {
       "name": "Restart",
@@ -380,7 +368,7 @@
     "distroName": "Pardus",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p> <2></2> <4>For Pardus 2017 and older versions, a flatpak package is available in the <2>official backports repository</2>. </4>"
+      "text": "<p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p> <2></2>"
     },
     "step-2": {
       "name": "Install the Software Flatpak plugin",
@@ -438,15 +426,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Flatpak support is built into KDE neon 19 and newer—no setup required!</0> <p>If you are using an older version, you can refer to the instructions below.</p>",
-    "step-1": {
-      "name": "Enable Flatpak",
-      "text": "Open Discover and click on Settings (lower left corner)."
-    },
-    "step-2": {
-      "name": "Check Flatpak settings",
-      "text": "<p>Check that in the Flatpak section the box is checked.</p><p>Note: with this Flathub app search will be integrated in Discover, if you want to limit the app search to Flathub you can mark Flatpak as default by clicking on the star.</p>"
-    }
+    "introduction": "<0>Flatpak support is built into KDE neon 19 and newer—no setup required!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",

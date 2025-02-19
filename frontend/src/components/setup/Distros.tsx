@@ -79,20 +79,7 @@ export const Ubuntu = () => {
               <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open
               the Terminal app and run:
             </p>{" "}
-            <CodeCopy text={`sudo apt install flatpak`} />{" "}
-            <p>
-              For older versions{" "}
-              <strong>up to Ubuntu 18.04 LTS (Bionic Beaver)</strong>, the
-              official Flatpak PPA is required to install Flatpak and keep it up
-              to date. To add the PPA and install Flatpak, open the Terminal app
-              and run:
-            </p>{" "}
-            <CodeCopy
-              text={` sudo add-apt-repository ppa:flatpak/stable
- sudo apt update
- sudo apt install flatpak
- `}
-            />
+            <CodeCopy text={`sudo apt install flatpak`} />
           </Trans>
         </li>
 
@@ -288,14 +275,7 @@ export const Endless_OS = () => {
           <h2>
             Flatpak support is built into Endless OS 3.0.0 and newer—no setup
             required!
-          </h2>{" "}
-          <p>
-            If you are using an older version,{" "}
-            <a href="https://community.endlessos.com/t/upgrade-from-endless-os-2-x-to-endless-os-3/967">
-              upgrade to Endless OS 3
-            </a>
-            .
-          </p>
+          </h2>
         </Trans>
       </ol>
     </>
@@ -544,14 +524,7 @@ export const Chrome_OS = () => {
           </h2>
           <Trans i18nKey="distros:chrome_os.step-3.text">
             <p>To install Flatpak, run the following in the terminal:</p>{" "}
-            <CodeCopy text={`sudo apt install flatpak`} />{" "}
-            <p>
-              A more up to date flatpak package is available in the{" "}
-              <a href="https://backports.debian.org/Instructions/">
-                Debian backports repository
-              </a>
-              .{" "}
-            </p>
+            <CodeCopy text={`sudo apt install flatpak`} />
           </Trans>
         </li>
 
@@ -645,14 +618,7 @@ export const Linux_Mint = () => {
           <h2>
             Flatpak support is built into Linux Mint 18.3 and newer—no setup
             required!
-          </h2>{" "}
-          <p>
-            If you are using an older version,{" "}
-            <a href="https://blog.linuxmint.com/?p=3462">
-              upgrade to Linux Mint 18.3
-            </a>
-            .
-          </p>
+          </h2>
         </Trans>
       </ol>
     </>
@@ -731,7 +697,7 @@ export const OpenSUSE = () => {
                 software.opensuse.org
               </a>
               . If your distribution version is not shown by default, click{" "}
-              <em>Show flatpak for other distributions</em> first and then
+              <em>Show</em> under Unsupported distributions category and then
               select from the list.
             </p>{" "}
             <p>
@@ -1798,116 +1764,12 @@ export const Pop_OS = () => {
     <>
       <h1>{t("distros:pop_os.distroName")}</h1>
       <ol className="distrotut">
-        <HowToJsonLd
-          name={t("distros:pop_os.distroName")}
-          image="https://flathub.org/img/distro/pop-os.svg"
-          estimatedCost={{ currency: "USD", value: "0" }}
-          step={[
-            {
-              url: "https://flathub.org/setup/pop_os",
-              name: t("distros:pop_os.step-1.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:pop_os.step-1.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-            {
-              url: "https://flathub.org/setup/pop_os",
-              name: t("distros:pop_os.step-2.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:pop_os.step-2.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-            {
-              url: "https://flathub.org/setup/pop_os",
-              name: t("distros:pop_os.step-3.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:pop_os.step-3.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-          ]}
-        />
-
         <Trans i18nKey="distros:pop_os.introduction">
           <h2>
             Flatpak support is built into Pop!_OS 20.04 and newer—no setup
             required!
-          </h2>{" "}
-          <p>
-            If you are using an older version, you can refer to the instructions
-            below.
-          </p>
+          </h2>
         </Trans>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:pop_os.step-1.name">Install Flatpak</Trans>
-          </h2>
-          <Trans i18nKey="distros:pop_os.step-1.text">
-            <p>
-              To install Flatpak on Pop!_OS 19.10 and earlier, open the Terminal
-              app and run:
-            </p>{" "}
-            <CodeCopy text={`sudo apt install flatpak`} />
-          </Trans>
-        </li>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:pop_os.step-2.name">
-              Add the Flathub repository
-            </Trans>
-          </h2>
-          <Trans i18nKey="distros:pop_os.step-2.text">
-            <p>
-              Flathub is the best place to get Flatpak apps. To enable it,
-              download and install the{" "}
-              <a
-                className="btn btn-default"
-                href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-              >
-                Flathub repository file
-              </a>{" "}
-              or run the following in a terminal:
-            </p>{" "}
-            <CodeCopy
-              text={`flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`}
-            />
-          </Trans>
-        </li>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:pop_os.step-3.name">Restart</Trans>
-          </h2>
-          <Trans i18nKey="distros:pop_os.step-3.text">
-            <p>
-              To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
-            </p>{" "}
-            <p>
-              Note: graphical installation of Flatpak apps may not be possible
-              with Pop!_OS 19.10 and earlier.
-            </p>
-          </Trans>
-        </li>
       </ol>
     </>
   )
@@ -2051,12 +1913,9 @@ export const Raspberry_Pi_OS = () => {
               text={`flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`}
             />{" "}
             <p>
-              <b>Important note:</b> As of March 2021, Raspberry Pi computers
-              still ship with the 32-bit version of Raspberry Pi OS. However
-              Flathub started phasing out support for that architecture. If you
-              consider Flathub as an important source of applications, it is
-              recommended to use Raspberry Pi OS 64-bit as newer applications
-              are more likely to be available for that platform.
+              <b>Important note:</b> It is recommended to use Raspberry Pi OS
+              64-bit as newer applications are more likely to be available for
+              that platform only.
             </p>
           </Trans>
         </li>
@@ -2802,15 +2661,7 @@ export const Pardus = () => {
               A flatpak package is available in Pardus 2019 and newer. To
               install it, run the following as root:
             </p>{" "}
-            <CodeCopy text={`sudo apt install flatpak`} />{" "}
-            <p>
-              For Pardus 2017 and older versions, a flatpak package is available
-              in the{" "}
-              <a href="https://backports.debian.org/Instructions/">
-                official backports repository
-              </a>
-              .{" "}
-            </p>
+            <CodeCopy text={`sudo apt install flatpak`} />
           </Trans>
         </li>
 
@@ -3156,75 +3007,12 @@ export const KDE_neon = () => {
     <>
       <h1>{t("distros:kde_neon.distroName")}</h1>
       <ol className="distrotut">
-        <HowToJsonLd
-          name={t("distros:kde_neon.distroName")}
-          image="https://flathub.org/img/distro/kdeneon.svg"
-          estimatedCost={{ currency: "USD", value: "0" }}
-          step={[
-            {
-              url: "https://flathub.org/setup/kde_neon",
-              name: t("distros:kde_neon.step-1.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:kde_neon.step-1.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-            {
-              url: "https://flathub.org/setup/kde_neon",
-              name: t("distros:kde_neon.step-2.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:kde_neon.step-2.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-          ]}
-        />
-
         <Trans i18nKey="distros:kde_neon.introduction">
           <h2>
             Flatpak support is built into KDE neon 19 and newer—no setup
             required!
-          </h2>{" "}
-          <p>
-            If you are using an older version, you can refer to the instructions
-            below.
-          </p>
+          </h2>
         </Trans>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:kde_neon.step-1.name">Enable Flatpak</Trans>
-          </h2>
-          <Trans i18nKey="distros:kde_neon.step-1.text">
-            Open Discover and click on Settings (lower left corner).
-          </Trans>
-        </li>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:kde_neon.step-2.name">
-              Check Flatpak settings
-            </Trans>
-          </h2>
-          <Trans i18nKey="distros:kde_neon.step-2.text">
-            <p>Check that in the Flatpak section the box is checked.</p>
-            <p>
-              Note: with this Flathub app search will be integrated in Discover,
-              if you want to limit the app search to Flathub you can mark
-              Flatpak as default by clicking on the star.
-            </p>
-          </Trans>
-        </li>
       </ol>
     </>
   )
