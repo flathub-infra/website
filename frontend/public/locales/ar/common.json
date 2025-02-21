@@ -621,7 +621,7 @@
     "org-kde-platform": "منصة KDE",
     "org-freedesktop-platform": "منصة Freedesktop"
   },
-  "positions": "المناصب",
+  "positions": "المواضع",
   "type": "النوع",
   "amount": "الكمية",
   "total": "الإجمالي",
@@ -648,5 +648,7 @@
   "we-love-games": "نحن ♥ الألعاب",
   "more-gametool": "المزيد من أدوات اللعبة",
   "more-emulator": "المزيد من المحاكيات",
-  "game-section-description": "ألعاب وتطبيقات لتشغيل ألعابك القديمة المفضلة"
+  "game-section-description": "ألعاب وتطبيقات لتشغيل ألعابك القديمة المفضلة",
+  "slide": "زلاّقة",
+  "position-short": "الموضع"
 }
