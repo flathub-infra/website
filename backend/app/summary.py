@@ -309,7 +309,7 @@ def update(sqldb) -> None:
             else:
                 app = models.App(
                     app_id=app_id,
-                    type="desktop-application",
+                    type="generic",
                     summary=summary_json,
                 )
                 sqldb.session.add(app)
