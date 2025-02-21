@@ -23,19 +23,30 @@ export interface Step {
 }
 
 async function generateSetupInstructions() {
+  const skipDownload = false
+
   if (fs.existsSync("flatpak.github.io")) {
     fs.rmSync("flatpak.github.io", { recursive: true })
   }
+  if (!skipDownload) {
+    const git = simpleGit()
 
-  const git = simpleGit()
+    // Clone flatpak.github.io
+    await git.clone("git@github.com:flatpak/flatpak.github.io.git", {
+      "--depth": "1",
+    })
 
-  // Clone flatpak.github.io
-  await git.clone("git@github.com:flatpak/flatpak.github.io.git", {
-    "--depth": "1",
-  })
+    // Copy distro.yml file
+    fs.copyFileSync("flatpak.github.io/data/distro.yml", distroYamlPath)
 
-  // Copy distro.yml file
-  fs.copyFileSync("flatpak.github.io/data/distro.yml", distroYamlPath)
+    // Copy images
+    fs.cpSync("flatpak.github.io/source/img/distro", "public/img/distro", {
+      recursive: true,
+    })
+
+    // Remove flatpak.github.io directory
+    fs.rmSync("flatpak.github.io", { recursive: true })
+  }
 
   // Read distro.yml file
   const distroYaml = fs.readFileSync(distroYamlPath, "utf8")
@@ -204,14 +215,6 @@ async function generateSetupInstructions() {
     JSON.stringify(translations, null, 2),
     "utf8",
   )
-
-  // Copy images
-  fs.cpSync("flatpak.github.io/source/img/distro", "public/img/distro", {
-    recursive: true,
-  })
-
-  // Remove flatpak.github.io directory
-  fs.rmSync("flatpak.github.io", { recursive: true })
 }
 
 generateSetupInstructions()
