@@ -29,7 +29,54 @@
       "text": "<p>Naka-install bilang default ang Flatpak sa Manjaro 20 at mas bago.</p> <2>Para i-enable ang support, mag-navigate sa <strong>Software Manager</strong> (Add/Remove Programs)</2> <p>I-click ang tatlong linyang menu [o mga dot depende sa Desktop Environmeng] sa kanan, sa drop down menu piliin ang \"Preferences\"</p> <p>Mag-navigate sa \"Flatpak\" tab at i-slide ang toggle para I-enable ang Flatpak support (posible rin ang pag-enable ng pagsusuri ng mga update, na lubos na inirerekomenda).</p>"
     },
     "step-2": {
-      "name": "Mag-restart"
+      "name": "Mag-restart",
+      "text": "<0>Para tapusin ang setup, i-restart ang iyong sistema. Ang kailangan mo na lang gawin ngayon ay <2>mag-install ng mga app</2>!</0>"
     }
+  },
+  "chrome_os": {
+    "step-3": {
+      "text": "<p>Para i-install ang Flatpak, patakbuhin ang sumusunod sa terminal:</p> <2></2> <4>Available ang mas napapanahon na Flatpak package sa <2>Debian backports repository</2>. </4>",
+      "name": "I-install ang Flatpak"
+    },
+    "step-5": {
+      "text": "<0>Para tapusin ang setup, i-restart ang Linux. Maari mo ito gawin sa pamamagitan ng pag-right click ng Terminal, at i-click ang \"I-shut down ang Linux\". Ang kailangan mo na kang gawin ay <2>mag-install ng mga app</2>!</0>",
+      "name": "Mag-restart"
+    },
+    "distroName": "ChromeOS",
+    "introduction": "<0>Mai-install ang mga Flatpak application sa ChromeOS gamit ang Crostini Linux compatibility layer. Hindi ito available para sa lahat ng mga ChromeOS device, kaya kailangan mong siguraduhin na compatible ang iyong device bago magpatuloy. Ang listahan ng mga compatible na device ay pinapanatili <2>dito</2>.</0>",
+    "step-1": {
+      "name": "I-enable ang Linux Support",
+      "text": "<0>Pumunta sa <2>chrome://os-settings</2>, at mag-scroll pababa sa <strong>Mga Developer</2> at buksan ang <i>Linux Development Environment</i>. Maaring magtagal ang ChromeOS sa pag-download at pag-install ng Linux.</0>"
+    },
+    "step-2": {
+      "name": "Magsimula ng Linux terminal",
+      "text": "<p>Buksan ang Search/Launcher key, i-type ang \"Terminal\", at buksan ang Terminal app.</p>"
+    },
+    "step-4": {
+      "name": "Idagdag ang Flathub repository",
+      "text": "<p>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</p> <2></2>"
+    }
+  },
+  "alt_linux": {
+    "step-3": {
+      "text": "<0>I-restart ang iyong device para kumpletuhin ang pag-install ng Flatpak. Ngayon ay <1>makaka-install ka na ng mga app</1>!</0>",
+      "name": "Mag-restart"
+    },
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "I-install ang Flatpak",
+      "text": "<p>Para i-install ang Flatpak sa mga operating system ng pamilya ng Alt, buksan ang terminal at patakbuhin:</p><2></2>"
+    },
+    "step-2": {
+      "name": "Idagdag ang Flathub repository",
+      "text": "<p>Ang Flathub ang pinakamandang lugar para kumuha ng mga Flatpak app. Para i-enable ito sa iyong Alt system, patakbuhin ang:</p> <2></2>"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<0>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</0> <2>Kung gumagamit ka ng lumang bersyon, <2>mag-upgrade sa Endless OS 3</2>.</2>"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
   }
 }

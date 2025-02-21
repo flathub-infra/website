@@ -134,13 +134,7 @@
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": "Pop!_OS",
-    "step-3": {
-      "name": "Ales asenker"
-    },
-    "step-1": {
-      "name": "Sbedd Flatpak"
-    }
+    "distroName": "Pop!_OS"
   },
   "raspberry_pi_os": {
     "step-1": {

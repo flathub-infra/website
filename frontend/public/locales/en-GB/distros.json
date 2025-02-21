@@ -90,14 +90,6 @@
     }
   },
   "kde_neon": {
-    "step-1": {
-      "text": "Open Discover and click on Settings (lower left corner).",
-      "name": "Enable Flatpak"
-    },
-    "step-2": {
-      "name": "Check Flatpak settings",
-      "text": "<p>Check that in the Flatpak section the box is checked.</p><p>Note: with this Flathub app search will be integrated in Discover, if you want to limit the app search to Flathub you can mark Flatpak as default by clicking on the star.</p>"
-    },
     "distroName": "KDE neon",
     "introduction": "<0>Flatpak support is built into KDE neon 19 and newer—no setup required!</0> <p>If you are using an older version, you can refer to the instructions below.</p>"
   },
@@ -411,19 +403,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!</0> <p>If you are using an older version, you can refer to the instructions below.</p>",
-    "step-1": {
-      "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Pop!_OS 19.10 and earlier, open the Terminal app and run:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Add the Flathub repository",
-      "text": "<0>Flathub is the best place to get Flatpak apps. To enable it, download and install the <2>Flathub repository file</2> or run the following in a terminal:</0> <2></2>"
-    },
-    "step-3": {
-      "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Pop!_OS 19.10 and earlier.</p>"
-    }
+    "introduction": "<0>Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!</0> <p>If you are using an older version, you can refer to the instructions below.</p>"
   },
   "clear_linux": {
     "distroName": "Clear Linux",

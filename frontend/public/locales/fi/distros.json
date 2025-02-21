@@ -222,15 +222,6 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "step-1": {
-      "name": "Asenna Flatpak"
-    },
-    "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde"
-    },
-    "step-3": {
-      "name": "Käynnistä uudelleen"
-    },
     "introduction": "<0>Flatpak-tuki on sisäänrakennettu Pop!_OS:n versioon 20.04 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
   },
   "elementary_os": {
@@ -389,12 +380,6 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "step-1": {
-      "name": "Ota Flatpak käyttöön"
-    },
-    "step-2": {
-      "name": "Tarkista Flatpak-asetukset"
-    },
     "introduction": "<0>Flatpak-tuki on sisäänrakennettu KDE neonin versioon 19 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
   },
   "gnu_guix": {

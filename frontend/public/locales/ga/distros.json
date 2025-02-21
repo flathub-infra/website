@@ -245,19 +245,7 @@
   },
   "pop_os": {
     "distroName": "Pop! _OS",
-    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i Pop!_OS 20.04 agus níos nuaí - níl aon socrú ag teastáil!</0> <p>Má tá leagan níos sine in úsáid agat, is féidir leat tagairt a dhéanamh do na treoracha thíos.</p>",
-    "step-1": {
-      "name": "Suiteáil Flatpak",
-      "text": "<p>Chun Flatpak a shuiteáil ar Pop!_OS 19.10 agus níos luaithe, oscail an aip Terminal agus rith:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Cuir stór Flathub leis",
-      "text": "<0>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an <2>Comhad stórtha Flathub</2> nó rith an méid seo a leanas i dteirminéal:</0> <2></2>"
-    },
-    "step-3": {
-      "name": "Athosaigh",
-      "text": "<0>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <2>aipeanna a shuiteáil</2>!</0> <p>Tabhair faoi deara: seans nach mbeifear in ann aipeanna Flatpak a shuiteáil go grafach le Pop!_OS 19.10 agus níos luaithe.</p>"
-    }
+    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i Pop!_OS 20.04 agus níos nuaí - níl aon socrú ag teastáil!</0> <p>Má tá leagan níos sine in úsáid agat, is féidir leat tagairt a dhéanamh do na treoracha thíos.</p>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -438,15 +426,7 @@
   },
   "kde_neon": {
     "distroName": "Neon KDE",
-    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i KDE neon 19 agus níos nuaí - níl aon socrú ag teastáil!</0> <p>Má tá leagan níos sine in úsáid agat, is féidir leat tagairt a dhéanamh do na treoracha thíos.</p>",
-    "step-1": {
-      "name": "Cumasaigh Flatpak",
-      "text": "Oscail Discover agus cliceáil ar Socruithe (cúinne íochtarach ar chlé)."
-    },
-    "step-2": {
-      "name": "Seiceáil socruithe Flatpak",
-      "text": "<p>Seiceáil go bhfuil an bosca tic sa rannóg Flatpak.</p><p>Tabhair faoi deara: leis an gcuardach aip Flathub seo déanfar é a chomhtháthú in Discover, más mian leat an cuardach aipeanna a theorannú go Flathub is féidir leat Flatpak a mharcáil mar réamhshocrú trí chliceáil ar an réalta.</p>"
-    }
+    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i KDE neon 19 agus níos nuaí - níl aon socrú ag teastáil!</0> <p>Má tá leagan níos sine in úsáid agat, is féidir leat tagairt a dhéanamh do na treoracha thíos.</p>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",

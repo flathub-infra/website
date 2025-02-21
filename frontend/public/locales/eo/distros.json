@@ -216,19 +216,7 @@
     }
   },
   "pop_os": {
-    "step-3": {
-      "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe versioj de Pop!_OS ne pli novaj ol 19.10.</p>"
-    },
     "distroName": "Pop!_OS",
-    "step-2": {
-      "name": "Aldoni la deponejon Flathub",
-      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
-    },
-    "step-1": {
-      "name": "Instali Flatpak",
-      "text": "<p>Por instali Flatpak sur versioj de Pop!_OS ne pli novaj ol 19.10, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
-    },
     "introduction": "<0>Subteno por Flatpak estas integrita en Pop!_OS versio 20.04 aŭ pli nova — neniu agordado necesas!</0> <p>Se vi uzas pli malnovan version, sekvu la ĉi-subajn instrukciojn.</p>"
   },
   "raspberry_pi_os": {
@@ -417,15 +405,7 @@
     "distroName": "GNU Guix"
   },
   "kde_neon": {
-    "step-1": {
-      "name": "Ŝalti Flatpak",
-      "text": "Lanĉu Discover, kaj alklaku ĉe Agordoj (malsupra maldekstra angulo)."
-    },
     "distroName": "KDE neon",
-    "step-2": {
-      "name": "Kontroli agordojn pri Flatpak",
-      "text": "<p>Kontrolu, ĉu en la sekcio «Flatpak» la elektobutono estas elektita.</p><p>Notu: kun ĉi tio, serĉado de Flathub-programoj estos integrigita al Discover. Se vi deziras limigi la serĉadon al Flathub, alklakante la stelon marku Flatpak kiel la implicitan.</p>"
-    },
     "introduction": "<0>Flatpak funkcias apriore en KDE neon, versio 19 aŭ pli nova — agordado ne necesas!</0> <p>Se vi uzas pli malnovan version, vi povas sekvi la instrukciojn ĉi-subajn.</p>"
   },
   "salix": {

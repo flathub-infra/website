@@ -192,14 +192,6 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "step-1": {
-      "name": "Włącz Flatpak",
-      "text": "Otwórz Discover i kliknij Ustawienia (lewy dolny róg)."
-    },
-    "step-2": {
-      "name": "Sprawdź ustawienia Flatpak",
-      "text": "<p>Sprawdź, czy w sekcji Flatpak pole jest zaznaczone.</p><p>Uwaga: dzięki temu wyszukiwanie aplikacji Flathub zostanie zintegrowane z Discover, jeśli chcesz ograniczyć wyszukiwanie aplikacji do Flathub, możesz oznaczyć Flatpak jako domyślny, klikając gwiazdkę.</p>"
-    },
     "introduction": "<0>Obsługa Flatpak jest wbudowana w KDE neon 19 i nowsze - nie wymaga konfiguracji! </0> <p>Jeśli używasz starszej wersji, możesz zapoznać się z poniższymi instrukcjami.</p>"
   },
   "gnu_guix": {
@@ -378,18 +370,6 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "step-2": {
-      "name": "Dodaj repozytorium Flathub",
-      "text": "<0>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, pobierz i zainstaluj plik repozytorium <2>Flathub</2> lub uruchom następujące polecenie w terminalu:</0> <2></2>"
-    },
-    "step-1": {
-      "name": "Zainstaluj Flatpak",
-      "text": "<p>Aby zainstalować Flatpak na Pop!_OS 19.10 i wcześniejszych, otwórz aplikację Terminal i uruchom:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Uruchom ponownie",
-      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wszystko, co musisz zrobić, to <2>zainstalować aplikacje</2>!</0> <p>Uwaga: graficzna instalacja aplikacji Flatpak może nie być możliwa z Pop!_OS 19.10 i wcześniejszymi.</p>"
-    },
     "introduction": "<0>Obsługa Flatpak jest wbudowana w Pop!_OS 20.04 i nowsze - nie jest wymagana konfiguracja! </0> <p>Jeśli korzystasz ze starszej wersji, możesz zapoznać się z poniższymi instrukcjami.</p>"
   },
   "rocky_linux": {

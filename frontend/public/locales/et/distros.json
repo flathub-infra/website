@@ -245,18 +245,6 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "step-2": {
-      "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<0>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Pop!_OS 19.10 ja varasemate puhul toimida.</p>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak",
-      "text": "<p>Paigaldamaks Flatpakki Pop!_OSi versioonis 19.10 või varasemas, ava terminalirakendus ja käivita:</p> <2></2>"
-    },
     "introduction": "<0>Flatpaki tugi on olemas alates Pop!_OSi versioonist 20.04 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
   },
   "elementary_os": {
@@ -438,15 +426,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>",
-    "step-1": {
-      "name": "Võta Flatpak kasutusele",
-      "text": "Ava Discover ja klõpsi Seadistuste linki (all vasakul nurgas)."
-    },
-    "step-2": {
-      "name": "Kontrolli Flatpaki seadistusi",
-      "text": "<p>Kontrolli, et jaotises Flatpak on märkeruut valitud.</p><p>Märkus: selle toiminguga lisandub Discoverisse rakenduste otsing Flathubist; kui aga soovid piirata otsingut vaid Flathubiga, siis klikates täheikoonile märgi ta vaikimisi allikaks.</p>"
-    }
+    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
