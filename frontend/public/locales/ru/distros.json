@@ -192,16 +192,7 @@
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": "Pop!_OS",
-    "step-1": {
-      "name": "Установка Flatpak"
-    },
-    "step-2": {
-      "name": "Добавление репозитория Flathub"
-    },
-    "step-3": {
-      "name": "Перезагрузка"
-    }
+    "distroName": "Pop!_OS"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -346,13 +337,7 @@
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon",
-    "step-2": {
-      "name": "Проверка настроек Flatpak"
-    },
-    "step-1": {
-      "name": "Включение Flatpak"
-    }
+    "distroName": "KDE neon"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",

@@ -24,19 +24,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "step-1": {
-      "name": "Instalar o Flatpak",
-      "text": "<p>Para instalar o Flatpak no Pop!_OS 19.10 e versões anteriores, abra o aplicativo Terminal e execute:</p> <2></2>"
-    },
-    "introduction": "<0>O suporte ao Flatpak é integrado ao Pop!_OS 20.04 e mais recentes — nenhuma configuração é necessária!</0> <p>Se estiver usando uma versão mais antiga, você pode consultar as instruções abaixo.</p>",
-    "step-2": {
-      "text": "<0>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <2>arquivo de repositório do Flathub</2> ou execute o seguinte em um terminal:</0> <2></2>",
-      "name": "Adicione o repositório Flathub"
-    },
-    "step-3": {
-      "name": "Reiniciar",
-      "text": "<0>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <2>instalar os aplicativos</2>!</0> <p>Observação: a instalação gráfica de aplicativos Flatpak pode não ser possível com o Pop!_OS 19.10 e versões anteriores.</p>"
-    }
+    "introduction": "<0>O suporte ao Flatpak é integrado ao Pop!_OS 20.04 e mais recentes — nenhuma configuração é necessária!</0> <p>Se estiver usando uma versão mais antiga, você pode consultar as instruções abaixo.</p>"
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
@@ -157,14 +145,6 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "step-1": {
-      "name": "Ativar Flatpak",
-      "text": "Abra Descobrir e clique em Configurações ( canto inferior esquerdo)."
-    },
-    "step-2": {
-      "name": "Verifique as configurações do Flatpak",
-      "text": "<p>Verifique se na seção Flatpak a caixa está marcada.</p><p>Observação: com este aplicativo Flathub a pesquisa será integrada ao Discover. Se você quiser limitar a pesquisa do aplicativo ao Flathub, pode marcar o Flatpak como padrão clicando na estrela.</p>"
-    },
     "introduction": "<0>O suporte Flatpak está integrado ao KDE neon 19 e mais recentes — não é necessária configuração!</0> <p>Se estiver usando uma versão mais antiga, consulte as instruções abaixo.</p>"
   },
   "crystal_linux": {

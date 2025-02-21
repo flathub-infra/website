@@ -216,14 +216,6 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "step-1": {
-      "name": "Activar Flatpak",
-      "text": "Abre Discover y haz clic en Configuración (esquina inferior izquierda)."
-    },
-    "step-2": {
-      "name": "Comprobar la configuración de Flatpak",
-      "text": "<p>Compruebe que en la sección Flatpak la casilla está marcada. </p><p>Nota: con esta búsqueda de la aplicación Flathub se integrará en Discover, si desea limitar la búsqueda de la aplicación a Flathub puede marcar Flatpak como predeterminado haciendo clic en la estrella. </p>"
-    },
     "introduction": "<0> El soporte de Flatpak está integrado en KDE neon 19 y versiones posteriores, ¡no requiere configuración!</0> <p>Si está utilizando una versión anterior, puede consultar las instrucciones a continuación.</p>"
   },
   "gnu_guix": {
@@ -397,19 +389,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>El soporte de Flatpak está construido en Pop!_OS 20.04 y posteriores—¡no se requiere configuración!</0> <p>Si estás usando una versión anterior, puedes consultar las instrucciones debajo.</p>",
-    "step-1": {
-      "name": "Instala Flatpak",
-      "text": "<p>Para instalar Flatpak en Pop!_OS 19.10 y anteriores, abre la terminal y ejecuta:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Añade el repositorio de Flathub",
-      "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <2>archivo de repositorio de Flathub</2> o ejecuta lo siguiente en una terminal:</0> <2></2>"
-    },
-    "step-3": {
-      "name": "Reinicia",
-      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak podría no ser posible con Pop!_OS 19.10 y anteriores.</p>"
-    }
+    "introduction": "<0>El soporte de Flatpak está construido en Pop!_OS 20.04 y posteriores—¡no se requiere configuración!</0> <p>Si estás usando una versión anterior, puedes consultar las instrucciones debajo.</p>"
   },
   "arch": {
     "distroName": "Arch",

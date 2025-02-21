@@ -121,15 +121,7 @@
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon",
-    "step-1": {
-      "name": "Activer Flatpak",
-      "text": "Ouvrez Découvrez et cliquez sur Paramètres (angle inférieur gauche)."
-    },
-    "step-2": {
-      "name": "Vérifiez les paramètres Flatpak",
-      "text": "<p>Vérifiez que dans la section Flatpak la case est cochée.</p><p>Remarque : avec cette recherche d'application Flathub sera intégrée dans Discover, si vous souhaitez limiter la recherche d'application à Flathub, vous pouvez marquer Flatpak par défaut en cliquant sur l'étoile.</p>"
-    }
+    "distroName": "KDE neon"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
@@ -296,16 +288,7 @@
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "step-1": {
-      "name": "Installer Flatpak"
-    },
-    "step-3": {
-      "name": "Redémarrer"
-    },
-    "distroName": "Pop!_OS",
-    "step-2": {
-      "name": "Ajouter le dépôt Flathub"
-    }
+    "distroName": "Pop!_OS"
   },
   "elementary_os": {
     "distroName": "elementary OS",

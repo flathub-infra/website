@@ -242,18 +242,6 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "step-3": {
-      "name": "Neustart",
-      "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps mag mit Pop!_OS 19.10 und früher nicht möglich sein.</p>"
-    },
-    "step-2": {
-      "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
-    },
-    "step-1": {
-      "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Pop!_OS 19.10 und früher zu installieren, öffne die Terminal-App und führe aus:</p> <2></2>"
-    },
     "introduction": "<0>Flatpak wird in Pop!_OS 20.04 und neuer unterstützt – kein Setup erforderlich!</0> <p>Wenn du eine ältere Version verwendest, kannst du dich auf die folgenden Anweisungen beziehen.</p>"
   },
   "elementary_os": {
@@ -425,15 +413,7 @@
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon",
-    "step-1": {
-      "name": "Aktivier Flatpak",
-      "text": "Öffne Discover und klicke auf Einstellungen (linke untere Ecke)."
-    },
-    "step-2": {
-      "name": "Flatpak Einstellungen überprüfen",
-      "text": "<p>Überprüfe, dass im Abschnitt Flatpak das Häkchen gesetzt ist.</p><p>Hinweis: Damit wird die Flathub-App-Suche in Discover integriert. Wenn du die App-Suche auf Flathub beschränken willst, kannst du Flatpak als Standard markieren, indem du auf den Stern klickst.</p>"
-    }
+    "distroName": "KDE neon"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
