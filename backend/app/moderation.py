@@ -1,25 +1,22 @@
 import base64
-import itertools
 import json
 from datetime import datetime
 from enum import Enum
 from typing import Optional
 
 import jwt
-import requests as req
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
-from . import config, models, utils, worker
+from . import config, models, worker
 from .database import get_db
 from .db import get_json_key
 from .emails import EmailCategory
 from .login_info import moderator_only
 from .logins import LoginStatusDep
-from .summary import parse_summary
 
 router = APIRouter(prefix="/moderation")
 
@@ -283,239 +280,12 @@ def submit_review_request(
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="invalid_token")
 
-    flat_manager_token = utils.create_flat_manager_token(
-        "process_review_request",
-        ["build"],
-        repos=["stable", "beta", "test"],
+    worker.process_review_request.send(
+        review_request.build_id,
+        review_request.job_id,
     )
-    build_extended_url = f"{config.settings.flat_manager_api}/api/v1/build/{review_request.build_id}/extended"
-    build_extended_headers = {
-        "Authorization": f"{flat_manager_token}",
-        "Content-Type": "application/json",
-    }
-    r = req.get(build_extended_url, headers=build_extended_headers)
-    r.raise_for_status()
 
-    # Skip beta and test builds
-    build_extended = r.json()
-    build_metadata = build_extended.get("build")
-    build_target_repo = build_metadata.get("repo")
-    if build_target_repo in ("beta", "test"):
-        return ReviewRequestResponse(requires_review=False)
-    build_log_url = build_metadata.get("build_log_url")
-
-    build_refs = build_extended.get("build_refs")
-    build_ref_arches = {
-        build_ref.get("ref_name").split("/")[2]
-        for build_ref in build_refs
-        if len(build_ref.get("ref_name").split("/")) == 4
-    }
-
-    new_requests: list[models.ModerationRequest] = []
-
-    try:
-        build_ref_arch = build_ref_arches.pop()
-        build_appstream = utils.appstream2dict(
-            f"https://hub.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arch}/appstream.xml.gz"
-        )
-    except KeyError:
-        # if build_ref_arches has no elements, something went terribly wrong with the build in general
-        raise HTTPException(status_code=500, detail="invalid_build")
-
-    r = req.get(f"https://dl.flathub.org/build-repo/{review_request.build_id}/summary")
-    r.raise_for_status()
-    if not isinstance(r.content, bytes):
-        # If the summary file is not a binary file, something also went wrong
-        raise HTTPException(status_code=500, detail="invalid_summary_file")
-    with get_db("writer") as db:
-        build_summary, _, _ = parse_summary(r.content, db)
-
-    sentry_context = {"build_summary": build_summary}
-
-    for app_id, app_data in build_appstream.items():
-        is_new_submission = True
-
-        keys = {
-            "name": app_data.get("name"),
-            "summary": app_data.get("summary"),
-            "developer_name": app_data.get("developer_name"),
-            "project_license": app_data.get("project_license"),
-        }
-        current_values = {}
-
-        # Check if the app data matches the current appstream
-        if app := get_json_key(f"apps:{app_id}"):
-            is_new_submission = False
-
-            current_values["name"] = app.get("name")
-            current_values["summary"] = app.get("summary")
-            current_values["developer_name"] = app.get("developer_name")
-            current_values["project_license"] = app.get("project_license")
-
-            for key, value in current_values.items():
-                if value == keys[key]:
-                    keys.pop(key, None)
-
-        # Don't consider the first "official" buildbot build as a new submission
-        # as it has been already reviewed manually on GitHub
-        if is_new_submission and build_metadata.get("token_name") in (
-            "default",
-            "flathub-ci",
-            "buildbot",
-        ):
-            continue
-
-        if app_id in (
-            "org.freedesktop.Platform",
-            "org.freedesktop.Sdk",
-            "org.gnome.Platform",
-            "org.gnome.Sdk",
-            "org.kde.Platform",
-            "org.kde.Sdk",
-            "org.flatpak.Builder",
-        ):
-            continue
-
-        if "keys" not in locals():
-            keys = {}
-        if "current_values" not in locals():
-            current_values = {}
-
-        with get_db("writer") as db:
-            if direct_upload_app := models.DirectUploadApp.by_app_id(db, app_id):
-                if not direct_upload_app.first_seen_at:
-                    direct_upload_app.first_seen_at = datetime.utcnow()
-                    db.session.commit()
-                    is_new_submission = True
-                    current_values = {"direct upload": False}
-                    keys = {"direct upload": True}
-
-        with get_db("replica") as db:
-            current_summary = None
-            current_permissions = None
-            current_extradata = False
-
-            app = models.App.by_appid(db, app_id)
-            if app and app.summary:
-                current_summary = app.summary
-                sentry_context[f"summary:{app_id}:stable"] = current_summary
-
-                if current_metadata := current_summary.get("metadata", {}):
-                    current_permissions = current_metadata.get("permissions")
-                    current_extradata = bool(current_metadata.get("extra-data"))
-            elif current_summary := get_json_key(f"summary:{app_id}:stable"):
-                sentry_context[f"summary:{app_id}:stable"] = current_summary
-
-                if current_metadata := current_summary.get("metadata", {}):
-                    current_permissions = current_metadata.get("permissions")
-                    current_extradata = bool(current_metadata.get("extra-data"))
-
-            if current_summary:
-                build_summary_app = build_summary.get(app_id) or {}
-                build_summary_metadata = build_summary_app.get("metadata") or {}
-                build_permissions = build_summary_metadata.get("permissions") or {}
-                build_extradata = bool(build_summary_metadata.get("extra-data", False))
-
-                if current_extradata != build_extradata:
-                    current_values["extra-data"] = current_extradata
-                    keys["extra-data"] = build_extradata
-
-                if current_permissions and build_permissions:
-                    if current_permissions != build_permissions:
-                        for perm in current_permissions:
-                            current_perm = current_permissions[perm]
-                            build_perm = build_permissions.get(perm)
-
-                            if isinstance(current_perm, list):
-                                if current_perm != build_perm:
-                                    current_values[perm] = current_perm
-                                    keys[perm] = build_perm
-
-                            if isinstance(current_perm, dict):
-                                if build_perm is None:
-                                    build_perm = {}
-
-                                dict_keys = current_perm.keys() | build_perm.keys()
-                                for key in dict_keys:
-                                    if current_perm.get(key) != build_perm.get(key):
-                                        current_values[f"{key}-{perm}"] = (
-                                            current_perm.get(key)
-                                        )
-                                        keys[f"{key}-{perm}"] = build_perm.get(key)
-
-        if len(keys) > 0:
-            keys = sort_lists_in_dict(keys)
-            current_values = sort_lists_in_dict(current_values)
-        else:
-            keys = {}
-            current_values = {}
-
-        request = models.ModerationRequest(
-            appid=app_id,
-            request_type=ModerationRequestType.APPDATA,
-            request_data=json.dumps({"keys": keys, "current_values": current_values}),
-            is_new_submission=is_new_submission,
-            is_outdated=False,
-            build_id=review_request.build_id,
-            job_id=review_request.job_id,
-            build_log_url=build_log_url,
-        )
-        new_requests.append(request)
-
-    # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
-    # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
-    with get_db("writer") as db:
-        app_ids = set(request.appid for request in new_requests)
-        for app_id in app_ids:
-            db.session.query(models.ModerationRequest).filter_by(
-                appid=app_id, is_outdated=False
-            ).update({"is_outdated": True})
-
-        if len(new_requests) == 0:
-            return ReviewRequestResponse(requires_review=False)
-        else:
-            for request in new_requests:
-                db.session.add(request)
-            db.session.commit()
-
-        if config.settings.moderation_observe_only:
-            return ReviewRequestResponse(requires_review=False)
-        else:
-            apps = itertools.groupby(new_requests, lambda r: r.appid)
-            for app_id, requests in apps:
-                requests = list(requests)
-
-                if app_metadata := get_json_key(f"apps:{app_id}"):
-                    app_name = app_metadata["name"]
-                else:
-                    app_name = None
-
-                payload = {
-                    "messageId": f"{app_id}/{review_request.build_id}/held",
-                    "creation_timestamp": datetime.now().timestamp(),
-                    "subject": f"Build #{review_request.build_id} held for review",
-                    "previewText": f"Build #{review_request.build_id} held for review",
-                    "inform_moderators": True,
-                    "messageInfo": {
-                        "category": EmailCategory.MODERATION_HELD,
-                        "appId": request.appid,
-                        "appName": app_name,
-                        "buildId": review_request.build_id,
-                        "buildLogUrl": request.build_log_url,
-                        "requests": [
-                            {
-                                "requestType": request.request_type,
-                                "requestData": json.loads(request.request_data),
-                                "isNewSubmission": request.is_new_submission,
-                            }
-                            for request in requests
-                        ],
-                    },
-                }
-
-                worker.send_email_new.send(payload)
-
-            return ReviewRequestResponse(requires_review=True)
+    return ReviewRequestResponse(requires_review=True)
 
 
 class Review(BaseModel):
