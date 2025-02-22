@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<0>Um Flatpak auf <strong>Ubuntu 18.10 (Cosmic Cuttlefish) oder später </strong> zu installieren, öffne die Terminal-App und führe aus:</0> <2></2> <4>Für ältere Versionen <strong> bis zu Ubuntu 18.04 LTS (Bionic Beaver)</strong> ist die offizielle Flatpak PPA erforderlich, um Flatpak zu installieren und um die PPA hinzuzufügen und Flatpak zu installieren, öffne die Terminal-App und führe aus:</4> <6></6>"
+      "text": "<0>Um Flatpak auf <strong>Ubuntu 18.10 (Cosmic Cuttlefish) oder später </strong> zu installieren, öffne die Terminal-App und führe aus:</0> <2></2>"
     },
     "step-4": {
       "name": "Neustart",
@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Flatpak-Unterstützung ist in Endless OS 3.0.0 und neuer eingebaut – kein Setup erforderlich!</0> <2>Wenn du eine ältere Version verwendest, <2>aktualisiere auf Endless OS 3</2>.</2>"
+    "introduction": "<0>Flatpak-Unterstützung ist in Endless OS 3.0.0 und neuer eingebaut – keine Einrichtung erforderlich!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -60,7 +60,7 @@
     },
     "step-3": {
       "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak zu installieren, führe folgendes im Terminal aus:</p> <2></2> <4>Ein aktuelleres Flatpak-Paket ist im <2>Debian backports repository</2> verfügbar. </4>"
+      "text": "<p>Um Flatpak zu installieren, führe folgendes im Terminal aus:</p> <2></2>"
     },
     "step-4": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -82,7 +82,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Flatpak wird in Linux Mint 18.3 und neuer unterstützung – kein Setup erforderlich!</0> <2>Wenn du eine ältere Version verwendest, <2>upgrade zu Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Flatpak-Unterstützung ist in Linux Mint 18.3 und neuer eingebaut – keine Einrichtung erforderlich!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -196,7 +196,7 @@
     },
     "step-3": {
       "name": "Neustart",
-      "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps ist mit Solus bisher nicht möglich, wird aber bald verfügbar werden.</p>"
+      "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Hinweis: Die grafische Installation von Flatpak-Apps ist nur über GNOME Software und/oder KDE Discover möglich.</p>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -206,7 +206,8 @@
   "alpine": {
     "distroName": "Alpine",
     "step-2": {
-      "name": "Installier das Software Flatpak Plugin"
+      "name": "Installier das Software Flatpak Plugin",
+      "text": "<p>Du kannst das Flatpak-Plugin entweder für GNOME Software (seit v3.13) oder für KDE Discover (seit v3.11) installieren, wodurch es möglich ist, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation für GNOME Software führe aus:</p> <2></2> <p>Für KDE Discover führe aus:</p> <6></6>"
     },
     "step-4": {
       "name": "Neustart",
@@ -242,7 +243,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Flatpak wird in Pop!_OS 20.04 und neuer unterstützt – kein Setup erforderlich!</0> <p>Wenn du eine ältere Version verwendest, kannst du dich auf die folgenden Anweisungen beziehen.</p>"
+    "introduction": "<0>Flatpak-Unterstützung ist in Pop!_OS 20.04 und neuer eingebaut – keine Einrichtung erforderlich!</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -413,7 +414,8 @@
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "introduction": "<0>Flatpak-Unterstützung ist in KDE neon 19 und neuer eingebaut – keine Einrichtung erforderlich!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",

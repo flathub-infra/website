@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<0>Paigaldamaks Flatpakki <strong>Ubuntu versioonis 18.10 (Cosmic Cuttlefish) või hilisemas</strong>, ava terminalirakendus ja käivita:</0> <2></2> <4>Vanemate versioonide puhul <strong>kuni Ubuntu versioonini 18.04 LTS (Bionic Beaver)</strong>, on Flatpaki paigaldamiseks ja uuendamiseks vajalik ametlik Flatpaki PPA. Selle lisamiseks ja Flatpaki paigaldamiseks, ava terminalirakendus ja käivita:</4> <6></6>"
+      "text": "<0>Paigaldamaks Flatpakki <strong>Ubuntu versioonis 18.10 (Cosmic Cuttlefish) või hilisemas</strong>, ava terminalirakendus ja käivita:</0> <2></2>"
     },
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Flatpaki tugi on olemas alates Endless OSi versioonist 3.0.0 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis <2>uuenda Endless OS versioonini 3</2>.</p>"
+    "introduction": "<0>Flatpaki tugi on olemas alates Endless OSi versioonist 3.0.0 — lisatoimingud pole vajalikud!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -56,7 +56,7 @@
     "distroName": "ChromeOS",
     "step-3": {
       "name": "Paigalda Flatpak",
-      "text": "<p>Flatpaki paigaldamiseks käivita terminalis:</p> <2></2> <4>Uuem Flatpaki pakett on saadaval <2>Debiani backports-tarkvarahoidlas</2>. </4>"
+      "text": "<p>Flatpaki paigaldamiseks käivita terminalis:</p> <2></2>"
     },
     "step-4": {
       "name": "Lisa Flathubi tarkvarahoidla",
@@ -82,13 +82,13 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Flatpaki tugi on olemas alates Linux Minti versioonist 18.3 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis <2>uuenda Linux Mint versioonini 18.3</2>.</p>"
+    "introduction": "<0>Flatpaki tugi on olemas alates Linux Minti versioonist 18.3 — lisatoimingud pole vajalikud!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<p>Flatpak on saadaval hetkel toetatavate openSUSE Leapi ja openSUSE Tumbleweedi versioonide vaikimisi tarkvarahoidlates.</p> <2>Kui sulle meeldib paigaldamisel graafiline kasutajaliides, siis võid Flatpaki paigaldada „1-klõpsuga paigaldajaga“ tarkvarahoidlast <2>software.opensuse.org</2>. Kui sinu distributsiooni versioon pole vaikimisi näha, siis esmalt klõpsi <5>Näita Flatpakki teiste distributsioonide jaoks</5> ja siis tee loendist õige valik.</2> <p>Alternatiivina saad Flatpaki alati lisada zypperiga käsurealt:</p> <6></6>"
+      "text": "<p>Flatpak on saadaval hetkel toetatavate openSUSE Leapi ja openSUSE Tumbleweedi versioonide vaikimisi tarkvarahoidlates.</p> <2>Kui sulle meeldib paigaldamisel graafiline kasutajaliides, siis võid Flatpaki paigaldada „1-klõpsuga paigaldajaga“ tarkvarahoidlast <2>software.opensuse.org</2>. Kui sinu distributsiooni versioon pole vaikimisi näha, siis esmalt klõpsi <5>Näita</5> mittetoetatud distributsioonide kategoorias ja siis tee loendist õige valik.</2> <p>Alternatiivina saad Flatpaki alati lisada zypperiga käsurealt:</p> <6></6>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -198,12 +198,13 @@
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Soluse puhul toimida, kuid ta saab olema saadaval lähitulevikus.</p>"
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides on saadaval nii GNOME Tarkvara kui KDE Discoveri näol.</p>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
       "text": "<p>Paigaldamaks Flatpakki Soluses, ava terminalirakendus ja käivita:</p> <2></2>"
-    }
+    },
+    "introduction": "<p>Flatpaki tugi on olemas alates Soluse versioonist 4.7 — lisatoimingud pole vajalikud! Flatpaki paigaldamine on võimalik nii GNOME Tarkvara kui KDE Discover rakendustest.</p> <p>Kui Flatpak pole paigaldatud, siis järgi allpool toodud juhendit.</p>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -245,7 +246,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Flatpaki tugi on olemas alates Pop!_OSi versioonist 20.04 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
+    "introduction": "<0>Flatpaki tugi on olemas alates Pop!_OSi versioonist 20.04 — lisatoimingud pole vajalikud!</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -262,7 +263,7 @@
     },
     "step-2": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<p>Flathub on parim kohta Flatpaki rakenduste leidmiseks. Tema kasutuselevõtmiseks käivita terminalis:</p> <2></2> <4><0>Oluline märkus:</0>2021. aasta märtsi seisuga, Raspberry Pi seadmed jätkuvalt tulevad tootmisest Raspberry Pi OSi 32-bitise versiooniga. Flathub aga on alustanud selle arhitektuuri kasutusest eemaldamisega. Kui tahad Flathubi pruukida olulise allikana rakenduse leidmiseks, soovitame, et paigaldad Raspberry Pi OSi 64-bitise versiooni. Enamus uusi rakendusi on tõenäoliselt saadaval vaid selle arhitektuuri jaoks.</4>"
+      "text": "<p>Flathub on parim kohta Flatpaki rakenduste leidmiseks. Tema kasutuselevõtmiseks käivita terminalis:</p> <2></2> <4>Soovitame, et paigaldad Raspberry Pi OSi 64-bitise versiooni. Enamus uusi rakendusi on tõenäoliselt saadaval vaid selle arhitektuuri jaoks.</4>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -368,7 +369,7 @@
     "distroName": "Pardus",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<p>Flatpaki pakett on olemas Pardus 2019 ja uuemate jaoks. Paigaldamiseks käivita juurkasutajana:</p> <2></2> <4>Pardus 2017 ja vanemate versioonide jaoks on Flatpaki pakett saadaval <2>ametlikus tarkvarahoidlas „backports“</2>. </4>"
+      "text": "<p>Flatpaki pakett on olemas Pardus 2019 ja uuemate jaoks. Paigaldamiseks käivita juurkasutajana:</p> <2></2>"
     },
     "step-2": {
       "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
@@ -426,7 +427,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
+    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",

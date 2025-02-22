@@ -11,12 +11,13 @@
     },
     "step-3": {
       "name": "Reiniciar",
-      "text": "<0>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <2>instalar os aplicativos</2>!</0> <p>Nota: a instalação gráfica de aplicativos Flatpak ainda não é possível no Solus, mas estará disponível em um futuro próximo.</p>"
+      "text": "<0>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <2>instalar os aplicativos</2>!</0> <p>Nota: a instalação gráfica de aplicativos Flatpak é possível apenas por meio do GNOME Programas e/ou KDE Discover.</p>"
     },
     "step-2": {
       "text": "<0>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <2>arquivo de repositório do Flathub</2> ou execute o seguinte em um terminal:</0> <2></2>",
       "name": "Adicione o repositório Flathub"
-    }
+    },
+    "introduction": "<p>O suporte do Flatpak é construído em Solus 4.7 e mais recente - nenhuma configuração necessária! Os aplicativos Flatpak podem ser instalados usando o GNOME Programas e/ou KDE Discover.</p> <p>Se Flatpak não está instalado, siga as instruções abaixo para começar.</p>"
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
@@ -24,7 +25,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>O suporte ao Flatpak é integrado ao Pop!_OS 20.04 e mais recentes — nenhuma configuração é necessária!</0> <p>Se estiver usando uma versão mais antiga, você pode consultar as instruções abaixo.</p>"
+    "introduction": "<0>O suporte ao Flatpak é integrado ao Pop!_OS 20.04 e mais recentes — nenhuma configuração é necessária!</0>"
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
@@ -34,7 +35,7 @@
     },
     "step-2": {
       "name": "Adicione o repositório Flathub",
-      "text": "<p>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</p> <2></2> <4><0>Nota importante:</0> Em março de 2021, os computadores Raspberry Pi ainda eram fornecidos com a versão de 32 bits do Raspberry Pi OS. No entanto, o Flathub começou a eliminar o suporte para essa arquitetura. Se você considera o Flathub uma fonte importante de aplicativos, é recomendável usar o Raspberry Pi OS de 64 bits, pois os aplicativos mais novos têm mais probabilidade de estar disponíveis para essa plataforma.</4>"
+      "text": "<p>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</p> <2></2> <4><0>Nota importante:</0> É recomendável usar o Raspberry Pi OS de 64 bits, pois os aplicativos mais novos têm mais probabilidade de estar disponíveis para somente essa plataforma.</4>"
     },
     "step-3": {
       "name": "Reiniciar",
@@ -83,7 +84,7 @@
     "distroName": "Pardus",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<p>Um pacote flatpak está disponível no Pardus 2019 e versões mais recentes. Para instalá-lo, execute o seguinte como root:</p> <2></2> <4>Para o Pardus 2017 e versões mais antigas, um pacote flatpak está disponível no <2>repositório oficial de backports</2>. </4>"
+      "text": "<p>Um pacote flatpak está disponível no Pardus 2019 e versões mais recentes. Para instalá-lo, execute o seguinte como root:</p> <2></2>"
     },
     "step-2": {
       "name": "Instalar o plugin Software Flatpak",
@@ -145,7 +146,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>O suporte Flatpak está integrado ao KDE neon 19 e mais recentes — não é necessária configuração!</0> <p>Se estiver usando uma versão mais antiga, consulte as instruções abaixo.</p>"
+    "introduction": "<0>O suporte Flatpak está integrado ao KDE neon 19 e mais recentes — não é necessária configuração!</0>"
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
@@ -167,7 +168,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<0>Para instalar o Flatpak no <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posterior</strong>, abra o aplicativo Terminal e execute:</0> <2></2> <4>Para versões mais antigas <strong>até o Ubuntu 18.04 LTS (Bionic Beaver)</strong>, o PPA Flatpak oficial é necessário para instalar o Flatpak e mantê-lo atualizado. Para adicionar o PPA e instalar o Flatpak, abra o aplicativo Terminal e execute:</4> <6></6>"
+      "text": "<0>Para instalar o Flatpak no <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posterior</strong>, abra o aplicativo Terminal e execute:</0> <2></2>"
     },
     "step-2": {
       "name": "Instalar o plugin GNOME Software Flatpak",
@@ -208,7 +209,7 @@
       "text": "<p>Pressione a tecla Pesquisar/Iniciar, digite \"Terminal\", e inicie o aplicativo Terminal.</p>"
     },
     "step-3": {
-      "text": "<p>Para instalar o Flatpak, execute o seguinte no terminal:</p> <2></2> <4>Um pacote flatpak mais atualizado está disponível no <2>repositório de backports do Debian</2>. </4>",
+      "text": "<p>Para instalar o Flatpak, execute o seguinte no terminal:</p> <2></2>",
       "name": "Instalar o Flatpak"
     },
     "step-4": {
@@ -223,7 +224,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>O suporte ao Flatpak está integrado ao Endless OS 3.0.0 e versões mais recentes — nenhuma configuração é necessária!</0> <2>Se você estiver usando uma versão mais antiga, <2>atualize para o Endless OS 3</2>.</2>"
+    "introduction": "<0>O suporte ao Flatpak está integrado ao Endless OS 3.0.0 e versões mais recentes — nenhuma configuração é necessária!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -261,13 +262,13 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>O suporte ao Flatpak está integrado ao Linux Mint 18.3 e versões mais recentes — nenhuma configuração é necessária!</0> <2>Se você estiver usando uma versão mais antiga, <2>atualize para o Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>O suporte ao Flatpak está integrado ao Linux Mint 18.3 e versões mais recentes — nenhuma configuração é necessária!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<p>O Flatpak está disponível nos repositórios padrão de todas as versões atualmente mantidas do openSUSE Leap e do openSUSE Tumbleweed.</p> <2>Se você preferir uma instalação gráfica, você pode instalar o Flatpak usando um \"instalador de 1 clique\" de <2>software.opensuse.org</2>. Se a versão da sua distribuição não for mostrada por padrão, clique primeiro em <5>Mostrar flatpak para outras distribuições</5> e então selecione na lista..</2> <p>Como alternativa, instale o Flatpak a partir da linha de comando usando o Zypper:</p> <6></6>"
+      "text": "<p>O Flatpak está disponível nos repositórios padrão de todas as versões atualmente mantidas do openSUSE Leap e do openSUSE Tumbleweed.</p> <2>Se você preferir uma instalação gráfica, você pode instalar o Flatpak usando um \"instalador de 1 clique\" de <2>software.opensuse.org</2>. Se a versão da sua distribuição não for mostrada por padrão, clique primeiro em <5>Mostrar</5> na categoria de Distros não suportadas e então selecione na lista..</2> <p>Como alternativa, instale o Flatpak a partir da linha de comando usando o Zypper:</p> <6></6>"
     },
     "step-3": {
       "name": "Reiniciar",
