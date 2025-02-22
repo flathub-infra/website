@@ -446,21 +446,21 @@ def submit_review_request(
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
+        else:
+            keys = {}
+            current_values = {}
 
-            # Create a moderation request
-            request = models.ModerationRequest(
-                appid=app_id,
-                request_type=ModerationRequestType.APPDATA,
-                request_data=json.dumps(
-                    {"keys": keys, "current_values": current_values}
-                ),
-                is_new_submission=is_new_submission,
-                is_outdated=False,
-                build_id=review_request.build_id,
-                job_id=review_request.job_id,
-                build_log_url=build_log_url,
-            )
-            new_requests.append(request)
+        request = models.ModerationRequest(
+            appid=app_id,
+            request_type=ModerationRequestType.APPDATA,
+            request_data=json.dumps({"keys": keys, "current_values": current_values}),
+            is_new_submission=is_new_submission,
+            is_outdated=False,
+            build_id=review_request.build_id,
+            job_id=review_request.job_id,
+            build_log_url=build_log_url,
+        )
+        new_requests.append(request)
 
     # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
     # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
