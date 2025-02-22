@@ -15,7 +15,7 @@ from . import config, models, worker
 from .database import get_db
 from .db import get_json_key
 from .emails import EmailCategory
-from .login_info import moderator_only, LoginStatusDep
+from .login_info import LoginStatusDep, moderator_only
 
 router = APIRouter(prefix="/moderation")
 
