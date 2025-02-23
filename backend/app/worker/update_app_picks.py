@@ -20,7 +20,7 @@ def update_app_picks():
 
 def pick_app_of_the_day_automatically(db, day):
     # Check if we already have an app of the day
-    if x := models.AppOfTheDay.by_date(db.session, day):
+    if x := models.AppOfTheDay.by_date(db, day):
         print("App of the day already set for day", day)
         return
 
@@ -28,10 +28,10 @@ def pick_app_of_the_day_automatically(db, day):
         {
             "id": appId,
             "quality-moderation-status": models.QualityModeration.by_appid_summarized(
-                db.session, appId
+                db, appId
             ),
             "last-time-app-of-the-day": models.AppOfTheDay.by_appid_last_time_app_of_the_day(
-                db.session, appId
+                db, appId
             ),
         }
         for appId in get_all_appids_for_frontend()
@@ -58,7 +58,7 @@ def pick_app_of_the_day_automatically(db, day):
 
     # Remove apps of the week from the list
     apps_of_the_week = models.AppsOfTheWeek.by_week(
-        db.session, day.isocalendar().week, day.year
+        db, day.isocalendar().week, day.year
     )
 
     for app_of_the_week in apps_of_the_week:
@@ -69,4 +69,4 @@ def pick_app_of_the_day_automatically(db, day):
     random.shuffle(oldest_apps)
 
     if len(oldest_apps) > 0:
-        models.AppOfTheDay.set_app_of_the_day(db.session, oldest_apps[0], day)
+        models.AppOfTheDay.set_app_of_the_day(db, oldest_apps[0], day)
