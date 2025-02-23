@@ -1,7 +1,7 @@
-from fastapi import APIRouter, FastAPI, Response
+from fastapi import APIRouter, FastAPI, Query, Response
 from fastapi.responses import ORJSONResponse
 
-from .. import search
+from .. import schemas, search
 
 router = APIRouter(
     prefix="/collection",
@@ -12,6 +12,81 @@ router = APIRouter(
 
 def register_to_app(app: FastAPI):
     app.include_router(router)
+
+
+@router.get("/category")
+def get_categories() -> list[str]:
+    return [category.value for category in schemas.MainCategory]
+
+
+@router.get("/category/{category}")
+def get_category(
+    category: schemas.MainCategory,
+    exclude_subcategories: list[str] = Query(None),
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    sort_by: schemas.SortBy | None = None,
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_selected_categories(
+        [category], exclude_subcategories, page, per_page, locale, sort_by
+    )
+
+    return result
+
+
+@router.get("/category/{category}/subcategories")
+def get_subcategory(
+    category: schemas.MainCategory,
+    subcategory: list[str] = Query(None),
+    exclude_subcategories: list[str] = Query(None),
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    sort_by: schemas.SortBy | None = None,
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    if subcategory is None:
+        response.status_code = 400
+        return response
+
+    result = search.get_by_selected_category_and_subcategory(
+        category, subcategory, exclude_subcategories, page, per_page, locale, sort_by
+    )
+
+    return result
+
+
+@router.get("/keyword")
+def get_keyword(
+    keyword: str,
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_keyword(keyword, page, per_page, locale)
+
+    return result
 
 
 @router.get("/developer")
