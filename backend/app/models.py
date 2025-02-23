@@ -1152,7 +1152,7 @@ class DirectUploadApp(Base):
 
     @staticmethod
     def by_app_id(db, app_id: str) -> Optional["DirectUploadApp"]:
-        return db.session.query(DirectUploadApp).filter_by(app_id=app_id).first()
+        return db.query(DirectUploadApp).filter_by(app_id=app_id).first()
 
 
 class DirectUploadAppDeveloper(Base):
