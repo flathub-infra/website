@@ -26,7 +26,7 @@ from . import (
     utils,
 )
 from .config import settings
-from .db import get_all_appids_for_frontend
+from .db import get_all_appids_for_frontend, get_json_key
 from .emails import EmailCategory
 from .emails import send_email_new as send_email_impl_new
 from .emails import send_one_email_new as send_one_email_impl_new
@@ -95,7 +95,7 @@ def update():
                 app = models.App.by_appid(sqldb, app_id)
                 if app and app.summary and "timestamp" in app.summary:
                     created_at = app.summary["timestamp"]
-                elif metadata := db.get_json_key(f"summary:{app_id}:stable"):
+                elif metadata := get_json_key(f"summary:{app_id}:stable"):
                     created_at = metadata.get("timestamp")
 
                 if not created_at:
@@ -216,7 +216,7 @@ def update_quality_moderation():
             return
 
         for app_id in appids_for_frontend:
-            if value := db.get_json_key(f"apps:{app_id}"):
+            if value := get_json_key(f"apps:{app_id}"):
                 # Check app name length
                 models.QualityModeration.upsert(
                     sqldb,
@@ -446,7 +446,7 @@ def process_review_request(build_id: int, job_id: int):
             current_values = {}
 
             # Check if the app data matches the current appstream
-            if app := db.get_json_key(f"apps:{app_id}"):
+            if app := get_json_key(f"apps:{app_id}"):
                 is_new_submission = False
 
                 current_values["name"] = app.get("name")
@@ -505,7 +505,7 @@ def process_review_request(build_id: int, job_id: int):
                     if current_metadata := current_summary.get("metadata", {}):
                         current_permissions = current_metadata.get("permissions")
                         current_extradata = bool(current_metadata.get("extra-data"))
-                elif current_summary := db.get_json_key(f"summary:{app_id}:stable"):
+                elif current_summary := get_json_key(f"summary:{app_id}:stable"):
                     sentry_context[f"summary:{app_id}:stable"] = current_summary
 
                     if current_metadata := current_summary.get("metadata", {}):
@@ -588,7 +588,7 @@ def process_review_request(build_id: int, job_id: int):
             for app_id, request_list in apps:
                 request_list = list(request_list)
 
-                if app_metadata := db.get_json_key(f"apps:{app_id}"):
+                if app_metadata := get_json_key(f"apps:{app_id}"):
                     app_name = app_metadata["name"]
                 else:
                     app_name = None
