@@ -1,10 +1,9 @@
 from typing import Optional
 
-from fastapi import APIRouter, FastAPI, Path, Query, Response
+from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
-from pydantic import BaseModel
 
-from . import apps, db, models, schemas, search, stats, utils
+from . import apps, db, models, search, utils
 from .database import get_db
 
 router = APIRouter(default_response_class=ORJSONResponse)
@@ -12,81 +11,6 @@ router = APIRouter(default_response_class=ORJSONResponse)
 
 def register_to_app(app: FastAPI):
     app.include_router(router)
-
-
-@router.get("/categories", tags=["app"])
-def get_categories() -> list[str]:
-    return [category.value for category in schemas.MainCategory]
-
-
-@router.get("/category/{category}", tags=["app"])
-def get_category(
-    category: schemas.MainCategory,
-    exclude_subcategories: list[str] = Query(None),
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    sort_by: schemas.SortBy | None = None,
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_selected_categories(
-        [category], exclude_subcategories, page, per_page, locale, sort_by
-    )
-
-    return result
-
-
-@router.get("/category/{category}/subcategories", tags=["app"])
-def get_subcategory(
-    category: schemas.MainCategory,
-    subcategory: list[str] = Query(None),
-    exclude_subcategories: list[str] = Query(None),
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    sort_by: schemas.SortBy | None = None,
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    if subcategory is None:
-        response.status_code = 400
-        return response
-
-    result = search.get_by_selected_category_and_subcategory(
-        category, subcategory, exclude_subcategories, page, per_page, locale, sort_by
-    )
-
-    return result
-
-
-@router.get("/keyword", tags=["app"])
-def get_keyword(
-    keyword: str,
-    page: int | None = None,
-    per_page: int | None = None,
-    locale: str = "en",
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_keyword(keyword, page, per_page, locale)
-
-    return result
 
 
 @router.get("/eol/rebase", tags=["app"])
