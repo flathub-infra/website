@@ -3,17 +3,19 @@ import json
 import struct
 import subprocess
 from collections import defaultdict
+from typing import Any
 
 import gi
 
-from . import apps, config, configParserCustom, db, models, search, utils
-
+gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree
 
+from . import apps, config, db, models, search, utils
+
 
 class JSONSetEncoder(json.JSONEncoder):
-    def default(self, obj):
+    def default(self, obj: Any) -> list[Any]:
         if isinstance(obj, set):
             return list(obj)
         return json.JSONEncoder.default(self, obj)
@@ -86,65 +88,88 @@ def parse_eol_data(metadata):
 
 
 def parse_metadata(ini: str):
-    parser = configParserCustom.ConfigParserMultiOpt()
-    parser.optionxform = lambda option: option
-    parser.read_string(ini)
-
-    if "Application" not in parser:
+    key_file = GLib.KeyFile.new()
+    try:
+        key_file.load_from_data(ini, len(ini), GLib.KeyFileFlags.NONE)
+    except GLib.Error:
         return None
 
-    metadata = dict(parser["Application"])
+    if key_file.get_start_group() != "Application":
+        return None
 
-    if "tags" in metadata:
-        tags = [x for x in metadata["tags"].split(";") if x]
-        metadata["tags"] = tags
-    permissions = defaultdict(dict)
+    metadata = {}
+    try:
+        keys = key_file.get_keys("Application")[0]
+        for key in keys:
+            value = key_file.get_value("Application", key)
+            metadata[key] = value
 
-    if "Context" in parser:
-        for key in parser["Context"]:
-            permissions[key] = [x for x in parser["Context"][key].split(";") if x]
-        parser.remove_section("Context")
+        if "tags" in metadata:
+            tags = [x for x in metadata["tags"].split(";") if x]
+            metadata["tags"] = tags
 
-    if "Session Bus Policy" in parser:
-        bus_metadata = parser["Session Bus Policy"]
-        bus = defaultdict(list)
+        permissions = defaultdict(dict)
 
-        for busname in bus_metadata:
-            bus_permission = bus_metadata[busname]
-            bus[bus_permission].append(busname)
+        try:
+            context_keys = key_file.get_keys("Context")[0]
+            for key in context_keys:
+                value = key_file.get_value("Context", key)
+                permissions[key] = [x for x in value.split(";") if x]
+        except GLib.Error:
+            pass
 
-        permissions["session-bus"] = bus
+        try:
+            session_bus_keys = key_file.get_keys("Session Bus Policy")[0]
+            bus = defaultdict(list)
+            for busname in session_bus_keys:
+                bus_permission = key_file.get_value("Session Bus Policy", busname)
+                bus[bus_permission].append(busname)
+            permissions["session-bus"] = bus
+        except GLib.Error:
+            pass
 
-    if "System Bus Policy" in parser:
-        bus_metadata = parser["System Bus Policy"]
-        bus = defaultdict(list)
+        try:
+            system_bus_keys = key_file.get_keys("System Bus Policy")[0]
+            bus = defaultdict(list)
+            for busname in system_bus_keys:
+                bus_permission = key_file.get_value("System Bus Policy", busname)
+                bus[bus_permission].append(busname)
+            permissions["system-bus"] = bus
+        except GLib.Error:
+            pass
 
-        for busname in bus_metadata:
-            bus_permission = bus_metadata[busname]
-            bus[bus_permission].append(busname)
+        metadata["permissions"] = permissions
 
-        permissions["system-bus"] = bus
+        extensions = {}
+        groups = key_file.get_groups()[0]
+        for group in groups:
+            if group.startswith("Extension "):
+                extname = group[10:]
+                ext_keys = key_file.get_keys(group)[0]
+                extensions[extname] = {
+                    key: key_file.get_value(group, key) for key in ext_keys
+                }
 
-    metadata["permissions"] = permissions
+        if extensions:
+            metadata["extensions"] = extensions
 
-    extensions = {}
-    for section in parser:
-        if section.startswith("Extension "):
-            extname = section[10:]
-            extensions[extname] = dict(parser[section])
+        try:
+            built_extensions = key_file.get_value("Build", "built-extensions")
+            metadata["built-extensions"] = [x for x in built_extensions.split(";") if x]
+        except GLib.Error:
+            pass
 
-    if extensions:
-        metadata["extensions"] = extensions
+        try:
+            extra_data_keys = key_file.get_keys("Extra Data")[0]
+            metadata["extra-data"] = {
+                key: key_file.get_value("Extra Data", key) for key in extra_data_keys
+            }
+        except GLib.Error:
+            pass
 
-    if "Build" in parser:
-        metadata["built-extensions"] = [
-            x for x in parser.get("Build", "built-extensions").split(";") if x
-        ]
-
-    if "Extra Data" in parser:
-        metadata["extra-data"] = dict(parser["Extra Data"])
-
-    return metadata
+        return metadata
+    except GLib.Error:
+        return None
 
 
 def parse_summary(summary, sqldb):
@@ -359,17 +384,18 @@ def update(sqldb) -> None:
         app_id = ref.split("/")[1]
 
         ini = metadata["xa.cache"][ref][2]
-        parser = configParserCustom.ConfigParserMultiOpt()
-        parser.read_string(ini)
+        key_file = GLib.KeyFile.new()
+        try:
+            key_file.load_from_data(ini, len(ini), GLib.KeyFileFlags.NONE)
 
-        if "Build" in parser:
-            build = parser["Build"]
-            if "built-extensions" in build:
-                if isinstance(build["built-extensions"], tuple):
-                    built_ext = ";".join(build["built-extensions"]).split(";")
-                else:
-                    built_ext = build["built-extensions"].split(";")
-                for ext in filter(len, built_ext):
-                    reverse_lookup[ext] = app_id
+            if "Build" in key_file.get_groups()[0]:
+                try:
+                    built_extensions = key_file.get_value("Build", "built-extensions")
+                    for ext in filter(len, built_extensions.split(";")):
+                        reverse_lookup[ext] = app_id
+                except GLib.Error:
+                    pass
+        except GLib.Error:
+            pass
 
     db.redis_conn.set("summary:reverse_lookup", json.dumps(reverse_lookup))
