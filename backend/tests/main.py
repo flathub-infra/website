@@ -71,7 +71,7 @@ def test_update(client):
 
 
 def test_apps_by_category(client, snapshot):
-    response = client.get("/category/Game")
+    response = client.get("/collection/category/Game")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_apps_by_category.json"
@@ -79,7 +79,7 @@ def test_apps_by_category(client, snapshot):
 
 
 def test_apps_by_category_locale(client, snapshot):
-    response = client.get("/category/Game?locale=de")
+    response = client.get("/collection/category/Game?locale=de")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_apps_by_category_locale.json"
@@ -87,27 +87,27 @@ def test_apps_by_category_locale(client, snapshot):
 
 
 def test_apps_by_category_paginated(client):
-    response = client.get("/category/Game?page=1&per_page=10")
+    response = client.get("/collection/category/Game?page=1&per_page=10")
     assert response.status_code == 200
 
 
 def test_apps_by_category_paginated_lowercase(client):
-    response = client.get("/category/game?page=1&per_page=10")
+    response = client.get("/collection/category/game?page=1&per_page=10")
     assert response.status_code == 200
 
 
 def test_apps_by_non_existent_category(client):
-    response = client.get("/category/NonExistent")
+    response = client.get("/collection/category/NonExistent")
     assert response.status_code == 422
 
 
 def test_apps_by_category_with_too_few_page_params(client):
-    response = client.get("/category/Game?page=2")
+    response = client.get("/collection/category/Game?page=2")
     assert response.status_code == 400
 
 
 def test_apps_by_category_with_too_few_per_page_params(client):
-    response = client.get("/category/Game?per_page=20")
+    response = client.get("/collection/category/Game?per_page=20")
     assert response.status_code == 400
 
 
@@ -299,7 +299,7 @@ def test_collection_by_one_recently_updated_locale(client, snapshot):
 
 
 def test_trending_last_two_weeks(client, snapshot):
-    response = client.get("/trending/last-two-weeks")
+    response = client.get("/collection/trending")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_trending_last_two_weeks.json"
@@ -307,7 +307,7 @@ def test_trending_last_two_weeks(client, snapshot):
 
 
 def test_trending_last_two_weeks_locale(client, snapshot):
-    response = client.get("/trending/last-two-weeks?locale=es")
+    response = client.get("/collection/trending?locale=es")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_trending_last_two_weeks_locale.json"
@@ -315,7 +315,7 @@ def test_trending_last_two_weeks_locale(client, snapshot):
 
 
 def test_popular_last_month(client, snapshot):
-    response = client.get("/popular/last-month")
+    response = client.get("/collection/popular")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_popular_last_month.json"
@@ -323,10 +323,10 @@ def test_popular_last_month(client, snapshot):
 
 
 def test_popular_last_month_locale(client, snapshot):
-    response = client.get("/popular/last-month?locale=es")
+    response = client.get("/collection/popular?locale=es")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
-        snapshot, response, "test_popular_last_month.json"
+        snapshot, response, "test_popular_last_month_locale.json"
     )
 
 
