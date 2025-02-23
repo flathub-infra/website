@@ -9,7 +9,7 @@ import sentry_sdk
 from .. import config, models, summary, utils
 from ..db import get_json_key
 from ..emails import EmailCategory
-from ..moderation import ModerationRequestType
+from ..types import ModerationRequestType
 from .core import WorkerDB
 from .emails import send_email_new
 

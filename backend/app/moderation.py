@@ -1,7 +1,6 @@
 import base64
 import json
 from datetime import datetime
-from enum import Enum
 from typing import Optional
 
 import jwt
@@ -16,12 +15,9 @@ from .database import get_db
 from .db import get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
+from .types import ModerationRequestType
 
 router = APIRouter(prefix="/moderation")
-
-
-class ModerationRequestType(str, Enum):
-    APPDATA = "appdata"
 
 
 class ModerationAppItem(BaseModel):

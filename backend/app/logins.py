@@ -23,7 +23,7 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import apps, config, models, worker
+from . import apps, config, models
 from .database import DBSessionMiddleware, get_db
 from .emails import EmailCategory
 from .login_info import (
@@ -55,29 +55,9 @@ class UserDeleteRequest(BaseModel):
 
 
 def refresh_repo_list(gh_access_token: str, accountId: int):
-    gh = Github(gh_access_token)
-    ghuser = gh.get_user()
-    user_repos = [
-        repo.full_name.removeprefix("flathub/")
-        for repo in ghuser.get_repos(affiliation="collaborator")
-        if repo.full_name.startswith("flathub/")
-        and repo.permissions.push
-        and not repo.archived
-    ]
+    from .worker.refresh_github_repo_list import refresh_github_repo_list
 
-    gh_teams = [
-        team for team in ghuser.get_teams() if team.organization.login == "flathub"
-    ]
-    gh_team_repos = [
-        repo.full_name.removeprefix("flathub/")
-        for team in gh_teams
-        for repo in team.get_repos()
-        if repo.permissions.push and not repo.archived
-    ]
-
-    repos = list(set(user_repos + gh_team_repos))
-    with get_db("writer") as db:
-        models.GithubRepository.unify_repolist(db, accountId, repos)
+    refresh_github_repo_list.send(gh_access_token, accountId)
 
 
 def _refresh_token(
@@ -425,7 +405,9 @@ def continue_github_flow(
         )
 
     def github_postlogin(tokens, account: models.GithubAccount):
-        worker.refresh_github_repo_list.send(tokens["access_token"], account.id)
+        from .worker.refresh_github_repo_list import refresh_github_repo_list
+
+        refresh_github_repo_list.send(tokens["access_token"], account.id)
 
     return continue_oauth_flow(
         request,
@@ -840,7 +822,9 @@ def continue_oauth_flow(
             },
         }
 
-        worker.send_email_new.send(payload)
+        from .worker.emails import send_email_new
+
+        send_email_new.send(payload)
 
         return {
             "status": "ok",
