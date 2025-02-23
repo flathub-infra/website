@@ -7,10 +7,10 @@ import requests
 import sentry_sdk
 
 from .. import config, models, summary, utils
+from ..database import get_db
 from ..db import get_json_key
 from ..emails import EmailCategory
 from ..types import ModerationRequestType
-from .core import WorkerDB
 from .emails import send_email_new
 
 
@@ -65,7 +65,7 @@ def process_review_request(build_id: int, job_id: int):
             # If the summary file is not a binary file, something also went wrong
             return
 
-        with WorkerDB() as db:
+        with get_db("writer") as db:
             build_summary, _, _ = summary.parse_summary(r.content, db)
 
         sentry_context = {"build_summary": build_summary}
@@ -119,8 +119,10 @@ def process_review_request(build_id: int, job_id: int):
             if "current_values" not in locals():
                 current_values = {}
 
-            with WorkerDB() as db:
-                if direct_upload_app := models.DirectUploadApp.by_app_id(db, app_id):
+            with get_db("writer") as db:
+                if direct_upload_app := models.DirectUploadApp.by_app_id(
+                    db.session, app_id
+                ):
                     if not direct_upload_app.first_seen_at:
                         direct_upload_app.first_seen_at = datetime.now(UTC)
                         db.session.commit()
@@ -128,7 +130,7 @@ def process_review_request(build_id: int, job_id: int):
                         current_values = {"direct upload": False}
                         keys = {"direct upload": True}
 
-            with WorkerDB() as db:
+            with get_db("writer") as db:
                 current_summary = None
                 current_permissions = None
                 current_extradata = False
@@ -203,7 +205,7 @@ def process_review_request(build_id: int, job_id: int):
 
         # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
         # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
-        with WorkerDB() as db:
+        with get_db("writer") as db:
             app_ids = set(request.appid for request in new_requests)
             for app_id in app_ids:
                 db.session.query(models.ModerationRequest).filter_by(

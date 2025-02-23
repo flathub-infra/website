@@ -1,13 +1,13 @@
 import dramatiq
 
 from .. import apps, models
+from ..database import get_db
 from ..db import get_json_key
-from .core import WorkerDB
 
 
 @dramatiq.actor
 def update_quality_moderation():
-    with WorkerDB() as sqldb:
+    with get_db("writer") as db:
         appids = apps.get_appids()
 
         if not appids:
@@ -24,7 +24,7 @@ def update_quality_moderation():
             if value := get_json_key(f"apps:{app_id}"):
                 # Check app name length
                 models.QualityModeration.upsert(
-                    sqldb,
+                    db.session,
                     app_id,
                     "app-name-not-too-long",
                     "name" in value and len(value["name"]) <= 20,
@@ -33,7 +33,7 @@ def update_quality_moderation():
 
                 # Check app summary length
                 models.QualityModeration.upsert(
-                    sqldb,
+                    db.session,
                     app_id,
                     "app-summary-not-too-long",
                     "summary" in value and len(value["summary"]) <= 35,
@@ -41,7 +41,7 @@ def update_quality_moderation():
                 )
 
                 models.QualityModeration.upsert(
-                    sqldb,
+                    db.session,
                     app_id,
                     "screenshots-at-least-one-screenshot",
                     "screenshots" in value and len(value["screenshots"]) >= 1,
@@ -49,7 +49,7 @@ def update_quality_moderation():
                 )
 
                 models.QualityModeration.upsert(
-                    sqldb,
+                    db.session,
                     app_id,
                     "branding-has-primary-brand-colors",
                     "branding" in value

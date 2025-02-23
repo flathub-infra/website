@@ -4,23 +4,23 @@ from datetime import datetime, timedelta
 import dramatiq
 
 from .. import models
+from ..database import get_db
 from ..db import get_all_appids_for_frontend
-from .core import WorkerDB
 
 
 @dramatiq.actor
 def update_app_picks():
-    with WorkerDB() as sqldb:
+    with get_db("writer") as db:
         today = datetime.utcnow().date()
-        pick_app_of_the_day_automatically(sqldb, today)
+        pick_app_of_the_day_automatically(db, today)
 
         tomorrow = (datetime.utcnow() + timedelta(days=1)).date()
-        pick_app_of_the_day_automatically(sqldb, tomorrow)
+        pick_app_of_the_day_automatically(db, tomorrow)
 
 
-def pick_app_of_the_day_automatically(sqldb, day):
+def pick_app_of_the_day_automatically(db, day):
     # Check if we already have an app of the day
-    if x := models.AppOfTheDay.by_date(sqldb, day):
+    if x := models.AppOfTheDay.by_date(db.session, day):
         print("App of the day already set for day", day)
         return
 
@@ -28,10 +28,10 @@ def pick_app_of_the_day_automatically(sqldb, day):
         {
             "id": appId,
             "quality-moderation-status": models.QualityModeration.by_appid_summarized(
-                sqldb, appId
+                db.session, appId
             ),
             "last-time-app-of-the-day": models.AppOfTheDay.by_appid_last_time_app_of_the_day(
-                sqldb, appId
+                db.session, appId
             ),
         }
         for appId in get_all_appids_for_frontend()
@@ -58,7 +58,7 @@ def pick_app_of_the_day_automatically(sqldb, day):
 
     # Remove apps of the week from the list
     apps_of_the_week = models.AppsOfTheWeek.by_week(
-        sqldb, day.isocalendar().week, day.year
+        db.session, day.isocalendar().week, day.year
     )
 
     for app_of_the_week in apps_of_the_week:
@@ -69,4 +69,4 @@ def pick_app_of_the_day_automatically(sqldb, day):
     random.shuffle(oldest_apps)
 
     if len(oldest_apps) > 0:
-        models.AppOfTheDay.set_app_of_the_day(sqldb, oldest_apps[0], day)
+        models.AppOfTheDay.set_app_of_the_day(db.session, oldest_apps[0], day)

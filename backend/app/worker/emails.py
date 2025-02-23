@@ -1,12 +1,12 @@
 import dramatiq
 
 from .. import emails
-from .core import WorkerDB
+from ..database import get_db
 
 
 @dramatiq.actor
 def send_email_new(email):
-    with WorkerDB() as db:
+    with get_db("writer") as db:
         emails.send_email_new(dict(**email), db)
 
 
