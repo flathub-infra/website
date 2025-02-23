@@ -2106,7 +2106,7 @@ class AppOfTheDay(Base):
 
     @classmethod
     def by_date(cls, db, date: Date) -> Optional["AppOfTheDay"]:
-        return db.session.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
+        return db.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
 
     @classmethod
     def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
@@ -2118,15 +2118,15 @@ class AppOfTheDay(Base):
                 app_id=app_id,
                 date=date,
             )
-            db.session.add(app)
+            db.add(app)
 
-        db.session.commit()
+        db.commit()
         return app
 
     @classmethod
     def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> Date:
         latest_date = (
-            db.session.query(AppOfTheDay)
+            db.query(AppOfTheDay)
             .filter(AppOfTheDay.app_id == app_id)
             .order_by(AppOfTheDay.date.desc())
             .first()
