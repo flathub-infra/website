@@ -21,7 +21,10 @@ import { ProjectUrl } from "src/types/ProjectUrl"
 
 interface Props {
   app: Pick<Appstream, "id" | "urls"> & {
-    metadata?: Pick<Appstream["metadata"], "flathub::manifest">
+    metadata?: Pick<
+      Appstream["metadata"],
+      "flathub::manifest" | "flathub::verification::verified"
+    >
   }
 }
 
@@ -90,16 +93,18 @@ const Links: FunctionComponent<Props> = ({ app }) => {
     })
   }
 
-  if (app.urls?.bugtracker) {
-    links.push({
-      content: {
-        text: app.urls.bugtracker,
-        trackAsEvent: "Bugtracker",
-      },
-      icon: <HiFlag />,
-      name: t("report-an-issue"),
-    })
-  }
+  links.push({
+    content: {
+      text:
+        app.metadata?.["flathub::verification::verified"] == "true" &&
+        app.urls?.bugtracker
+          ? app.urls.bugtracker
+          : `https://github.com/flathub/${app.id}/issues`,
+      trackAsEvent: "Bugtracker",
+    },
+    icon: <HiFlag />,
+    name: t("report-an-issue"),
+  })
 
   if (app.urls?.vcs_browser) {
     links.push({
