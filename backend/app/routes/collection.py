@@ -193,3 +193,39 @@ def get_mobile(
     result = search.get_by_mobile(page, per_page, locale)
 
     return result
+
+
+@router.get("/popular")
+def get_popular_last_month(
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_installs_last_month(page, per_page, locale)
+
+    return result
+
+
+@router.get("/trending")
+def get_trending_last_two_weeks(
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_trending(page, per_page, locale)
+
+    return result

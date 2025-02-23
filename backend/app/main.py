@@ -29,6 +29,7 @@ from .routes import (
     feed,
     invites,
     quality_moderation,
+    stats,
     upload_tokens,
 )
 
@@ -83,6 +84,7 @@ upload_tokens.register_to_app(router)
 
 users.register_to_app(router)
 favorites.register_to_app(router)
+stats.register_to_app(router)
 
 
 @router.on_event("startup")
