@@ -1413,13 +1413,13 @@ yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
 name = "pygithub"
-version = "2.6.0"
+version = "2.6.1"
 description = "Use the full Github API v3"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "PyGithub-2.6.0-py3-none-any.whl", hash = "sha256:22635b245b885413c607bb86393603cadcfdcb67a9b81ce9a64634e64f308084"},
-    {file = "pygithub-2.6.0.tar.gz", hash = "sha256:04784fd6f4acfcaf91df5d3f08ef14153709395a34e706850f92337d9914548f"},
+    {file = "PyGithub-2.6.1-py3-none-any.whl", hash = "sha256:6f2fa6d076ccae475f9fc392cc6cdbd54db985d4f69b8833a28397de75ed6ca3"},
+    {file = "pygithub-2.6.1.tar.gz", hash = "sha256:b5c035392991cca63959e9453286b41b54d83bf2de2daa7d7ff7e4312cebf3bf"},
 ]
 
 [package.dependencies]
