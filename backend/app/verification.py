@@ -4,8 +4,8 @@ from uuid import uuid4
 
 import github
 import gitlab
+import httpx
 import publicsuffixlist
-import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from github import Github
 from github.GithubException import UnknownObjectException
@@ -188,10 +188,10 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
         repo_name = app_id.split(".")[-1].lower()
 
     try:
-        r = requests.get(
+        r = httpx.get(
             f"https://gitlab.gnome.org/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap"
         )
-    except requests.exceptions.ConnectionError:
+    except httpx.ConnectError:
         return []
 
     if r.status_code != 200:
@@ -265,13 +265,8 @@ class CheckWebsiteVerification:
             )
 
         try:
-            headers = {"User-Agent": "Flathub bot"}
-            r = requests.get(
-                f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt",
-                timeout=5,
-                headers=headers,
-            )
-        except requests.exceptions.ConnectionError:
+            r = httpx.get(f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt")
+        except httpx.ConnectError:
             return WebsiteVerificationResult(
                 verified=False, detail=ErrorDetail.FAILED_TO_CONNECT
             )
@@ -341,7 +336,7 @@ def _is_github_app(app_id: str) -> bool:
             raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
 
         return True
-    except requests.exceptions.RequestException:
+    except httpx.RequestException:
         raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
 
 
@@ -690,7 +685,7 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
             return result
 
         # python-gitlab does not support the userinfo endpoint AFAICT, so we have to do it manually.
-        r = requests.get(
+        r = httpx.get(
             url + "/oauth/userinfo",
             headers={"Authorization": "Bearer " + access_token},
         )
@@ -1032,8 +1027,8 @@ def archive(
         "revoke_upload_token", ["tokenmanagement"], sub=""
     )
     for token in upload_tokens:
-        response = requests.post(
-            config.settings.flat_manager_api + "/api/v1/tokens/revoke",
+        response = httpx.post(
+            f"{config.settings.flat_manager_api}/api/v1/tokens/revoke",
             headers={"Authorization": flat_manager_jwt},
             json={"token_ids": [jti(token)]},
         )

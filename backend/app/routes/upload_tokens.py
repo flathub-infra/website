@@ -2,8 +2,8 @@ import base64
 import datetime
 from enum import Enum
 
+import httpx
 import jwt
-import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -12,7 +12,6 @@ from ..database import get_db
 from ..db import get_json_key
 from ..emails import EmailCategory
 from ..logins import login_state
-from ..utils import jti
 
 router = APIRouter(prefix="/upload-tokens")
 
@@ -248,32 +247,22 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
     with get_db("replica") as db:
-        token = models.UploadToken.by_id(db, token_id)
-    if token is None:
-        raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
+        token = db.session.query(models.UploadToken).get(token_id)
+        if token is None:
+            raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
 
-    with get_db("replica") as db:
         if token.app_id not in login.user.dev_flatpaks(db):
-            raise HTTPException(
-                status_code=403,
-                detail=ErrorDetail.NOT_APP_DEVELOPER,
-            )
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
+    # Revoke the token in flat-manager
     flat_manager_jwt = utils.create_flat_manager_token(
-        "revoke_upload_token", ["tokenmanagement"], sub=""
+        "revoke_token", ["token-revoke"], token_ids=[utils.jti(token)]
     )
-
-    # Tell flat-manager to revoke the token
-    response = requests.post(
-        config.settings.flat_manager_api + "/api/v1/tokens/revoke",
+    httpx.post(
+        f"{config.settings.flat_manager_api}/api/v1/tokens/revoke",
         headers={"Authorization": flat_manager_jwt},
-        json={"token_ids": [jti(token)]},
+        json={"token_ids": [utils.jti(token)]},
     )
-    if not response.ok:
-        raise HTTPException(
-            status_code=500,
-            detail=ErrorDetail.FLAT_MANAGER_ERROR,
-        )
 
     token.revoked = True
     with get_db("writer") as db:

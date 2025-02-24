@@ -3,8 +3,8 @@ import datetime
 from enum import Enum
 from typing import Any
 
+import httpx
 import jwt
-import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
@@ -124,7 +124,7 @@ def send_email_new(payload: dict, db):
 def send_one_email_new(payload: dict, dest: str):
     payload["to"] = dest
 
-    result = requests.post(f"{settings.backend_node_url}/emails", json=payload)
+    result = httpx.post(f"{settings.backend_node_url}/emails", json=payload)
 
     if result.status_code != 200:
         raise Exception(
