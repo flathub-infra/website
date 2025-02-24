@@ -8,8 +8,8 @@ from datetime import datetime, timedelta
 from typing import Any
 
 import gi
+import httpx
 import jwt
-import requests
 from lxml import etree
 from pydantic import BaseModel
 
@@ -65,30 +65,20 @@ def add_translation(apps_locale: dict, language: str, appid: str, key: str, valu
 
 
 def appstream2dict(appstream_url=None) -> dict[str, dict]:
-    if config.settings.appstream_repos:
-        appstream_path = os.path.join(
-            config.settings.appstream_repos,
-            "repo",
-            "appstream",
-            "x86_64",
-            "appstream.xml",
-        )
-        with open(appstream_path, "rb") as file:
-            if appstream_path.endswith(".gz"):
-                appstream = gzip.decompress(file.read())
-            else:
-                appstream = file.read()
-    else:
-        if not appstream_url:
-            appstream_url = (
-                "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
-            )
-        r = requests.get(appstream_url, stream=True)
-        appstream = gzip.decompress(r.raw.data)
-
-    root = etree.fromstring(appstream)
+    if appstream_url is None:
+        appstream_url = config.settings.appstream_repos
 
     apps = {}
+
+    if appstream_url.startswith("http"):
+        r = httpx.get(appstream_url, stream=True)
+        with gzip.open(r.raw) as f:
+            tree = etree.parse(f)
+    else:
+        with gzip.open(appstream_url) as f:
+            tree = etree.parse(f)
+
+    root = tree.getroot()
 
     media_base_url = "https://dl.flathub.org/media"
 
