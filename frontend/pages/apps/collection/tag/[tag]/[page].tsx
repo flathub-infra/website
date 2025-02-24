@@ -8,7 +8,7 @@ import {
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
-import { getKeywordKeywordGet } from "src/codegen"
+import { getKeywordCollectionKeywordGet } from "src/codegen"
 import { AxiosResponse } from "axios"
 
 export default function Tag({
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = (await getKeywordKeywordGet({
+  const applications = (await getKeywordCollectionKeywordGet({
     keyword: params.tag as string,
     locale: locale,
     page: params.page as unknown as number,

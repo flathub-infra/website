@@ -5,8 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetKeywordKeywordGetParams = {
-  keyword: string
+export type GetPopularLastMonthCollectionPopularGetParams = {
   page?: number | null
   per_page?: number | null
   locale?: string

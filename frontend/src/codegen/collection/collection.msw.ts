@@ -4,11 +4,92 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type { GetDevelopersCollectionDeveloperGet200 } from ".././model"
 
+export const getGetCategoriesCollectionCategoryGetResponseMock = (): string[] =>
+  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
+    faker.word.sample(),
+  )
+
 export const getGetDevelopersCollectionDeveloperGetResponseMock =
   (): GetDevelopersCollectionDeveloperGet200 => ({})
+
+export const getGetCategoriesCollectionCategoryGetMockHandler = (
+  overrideResponse?:
+    | string[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<string[]> | string[]),
+) => {
+  return http.get("*/collection/category", async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetCategoriesCollectionCategoryGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
+  })
+}
+
+export const getGetCategoryCollectionCategoryCategoryGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/category/:category", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHandler =
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
+    return http.get(
+      "*/collection/category/:category/subcategories",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+    )
+  }
+
+export const getGetKeywordCollectionKeywordGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/keyword", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 
 export const getGetDevelopersCollectionDeveloperGetMockHandler = (
   overrideResponse?:
@@ -114,11 +195,49 @@ export const getGetMobileCollectionMobileGetMockHandler = (
     return new HttpResponse(null, { status: 200 })
   })
 }
+
+export const getGetPopularLastMonthCollectionPopularGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/popular", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetTrendingLastTwoWeeksCollectionTrendingGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/trending", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 export const getCollectionMock = () => [
+  getGetCategoriesCollectionCategoryGetMockHandler(),
+  getGetCategoryCollectionCategoryCategoryGetMockHandler(),
+  getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHandler(),
+  getGetKeywordCollectionKeywordGetMockHandler(),
   getGetDevelopersCollectionDeveloperGetMockHandler(),
   getGetDeveloperCollectionDeveloperDeveloperGetMockHandler(),
   getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler(),
   getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler(),
   getGetVerifiedCollectionVerifiedGetMockHandler(),
   getGetMobileCollectionMobileGetMockHandler(),
+  getGetPopularLastMonthCollectionPopularGetMockHandler(),
+  getGetTrendingLastTwoWeeksCollectionTrendingGetMockHandler(),
 ]

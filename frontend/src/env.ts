@@ -31,7 +31,7 @@ export const POPULAR_LAST_MONTH_URL = (
   if (locale) {
     result.append("locale", locale)
   }
-  return `${BASE_URI}/popular/last-month?${result.toString()}`
+  return `${BASE_URI}/collection/popular?${result.toString()}`
 }
 
 export const TRENDING_LAST_TWO_WEEKS_URL = (
@@ -52,7 +52,7 @@ export const TRENDING_LAST_TWO_WEEKS_URL = (
   if (locale) {
     result.append("locale", locale)
   }
-  return `${BASE_URI}/trending/last-two-weeks?${result.toString()}`
+  return `${BASE_URI}/collection/trending?${result.toString()}`
 }
 
 export const RECENTLY_UPDATED_URL = (
@@ -169,7 +169,7 @@ export const CATEGORY_URL = (
     result.append("sort_by", sort_by)
   }
 
-  return `${BASE_URI}/category/${category}?${result.toString()}`
+  return `${BASE_URI}/collection/category/${category}?${result.toString()}`
 }
 
 export const SUBCATEGORY_URL = (
@@ -207,7 +207,7 @@ export const SUBCATEGORY_URL = (
     result.append("sort_by", sort_by)
   }
 
-  return `${BASE_URI}/category/${category}/subcategories?${result.toString()}`
+  return `${BASE_URI}/collection/category/${category}/subcategories?${result.toString()}`
 }
 
 export const ADDONS_URL = (appid: string): string =>

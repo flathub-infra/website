@@ -14,13 +14,7 @@ import type {
   GetEolRebaseEolRebaseGet200,
   GetPlatformsPlatformsGet200,
   GetRuntimeListRuntimesGet200,
-  GetStatsStatsGet200,
 } from ".././model"
-
-export const getGetCategoriesCategoriesGetResponseMock = (): string[] =>
-  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
-    faker.word.sample(),
-  )
 
 export const getGetEolRebaseEolRebaseGetResponseMock =
   (): GetEolRebaseEolRebaseGet200 => ({
@@ -59,57 +53,6 @@ export const getGetRuntimeListRuntimesGetResponseMock =
     }),
   })
 
-export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
-  faker.helpers.arrayElement([
-    {
-      totals: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-      },
-      countries: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-      },
-      downloads_per_day: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-      },
-      updates_per_day: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-      },
-      delta_downloads_per_day: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-      },
-      category_totals: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => ({
-        category: faker.string.alpha(20),
-        count: faker.number.int({ min: undefined, max: undefined }),
-        sub_categories: Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => ({
-          sub_category: faker.string.alpha(20),
-          count: faker.number.int({ min: undefined, max: undefined }),
-        })),
-      })),
-    },
-    null,
-  ])
-
 export const getGetPlatformsPlatformsGetResponseMock =
   (): GetPlatformsPlatformsGet200 => ({
     [faker.string.alphanumeric(5)]: {
@@ -145,77 +88,6 @@ export const getGetFavoritesFavoritesGetResponseMock = (): FavoriteApp[] =>
 
 export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
   faker.datatype.boolean()
-
-export const getGetCategoriesCategoriesGetMockHandler = (
-  overrideResponse?:
-    | string[]
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string[]> | string[]),
-) => {
-  return http.get("*/categories", async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetCategoriesCategoriesGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
-}
-
-export const getGetCategoryCategoryCategoryGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/category/:category", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetSubcategoryCategoryCategorySubcategoriesGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/category/:category/subcategories", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetKeywordKeywordGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/keyword", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
 
 export const getGetEolRebaseEolRebaseGetMockHandler = (
   overrideResponse?:
@@ -418,77 +290,6 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
   })
 }
 
-export const getGetPopularLastMonthPopularLastMonthGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/popular/last-month", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/trending/last-two-weeks", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetStatsStatsGetMockHandler = (
-  overrideResponse?:
-    | GetStatsStatsGet200
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<GetStatsStatsGet200> | GetStatsStatsGet200),
-) => {
-  return http.get("*/stats", async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetStatsStatsGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
-}
-
-export const getGetStatsForAppStatsAppIdGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/stats/:appId", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
 export const getGetSummarySummaryAppIdGetMockHandler = (
   overrideResponse?:
     | unknown
@@ -661,10 +462,6 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
   })
 }
 export const getAppMock = () => [
-  getGetCategoriesCategoriesGetMockHandler(),
-  getGetCategoryCategoryCategoryGetMockHandler(),
-  getGetSubcategoryCategoryCategorySubcategoriesGetMockHandler(),
-  getGetKeywordKeywordGetMockHandler(),
   getGetEolRebaseEolRebaseGetMockHandler(),
   getGetEolRebaseAppidEolRebaseAppIdGetMockHandler(),
   getGetEolMessageEolMessageGetMockHandler(),
@@ -674,10 +471,6 @@ export const getAppMock = () => [
   getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler(),
   getPostSearchSearchPostMockHandler(),
   getGetRuntimeListRuntimesGetMockHandler(),
-  getGetPopularLastMonthPopularLastMonthGetMockHandler(),
-  getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler(),
-  getGetStatsStatsGetMockHandler(),
-  getGetStatsForAppStatsAppIdGetMockHandler(),
   getGetSummarySummaryAppIdGetMockHandler(),
   getGetPlatformsPlatformsGetMockHandler(),
   getGetExceptionsExceptionsGetMockHandler(),
