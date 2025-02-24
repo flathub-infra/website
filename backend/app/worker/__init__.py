@@ -1,6 +1,5 @@
 from .core import broker
 from .emails import send_email_new, send_one_email_new
-from .process_review_request import process_review_request
 from .refresh_github_repo_list import refresh_github_repo_list
 from .republish_app import republish_app, review_check
 from .update import update
@@ -10,7 +9,6 @@ from .update_stats import update_stats
 
 __all__ = [
     "broker",
-    "process_review_request",
     "refresh_github_repo_list",
     "republish_app",
     "review_check",
