@@ -75,7 +75,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           titleTemplate={`%s | ${t("flathub")}`}
           defaultTitle={t("flathub-apps-for-linux")}
           description={t("flathub-description")}
-          canonical={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}${router.asPath}`}
+          canonical={
+            ["en-GB"].includes(router.locale)
+              ? `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${router.asPath}`
+              : undefined
+          }
           languageAlternates={router.locales.map((lang) => ({
             hrefLang: lang,
             href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}${router.asPath}`,
