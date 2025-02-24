@@ -18,15 +18,763 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
+  GetCategoryCollectionCategoryCategoryGetParams,
   GetDeveloperCollectionDeveloperDeveloperGetParams,
   GetDevelopersCollectionDeveloperGet200,
   GetDevelopersCollectionDeveloperGetParams,
+  GetKeywordCollectionKeywordGetParams,
   GetMobileCollectionMobileGetParams,
+  GetPopularLastMonthCollectionPopularGetParams,
   GetRecentlyAddedCollectionRecentlyAddedGetParams,
   GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
+  GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   GetVerifiedCollectionVerifiedGetParams,
   HTTPValidationError,
+  MainCategory,
 } from ".././model"
+
+/**
+ * @summary Get Categories
+ */
+export const getCategoriesCollectionCategoryGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<string[]>> => {
+  return axios.get(`/collection/category`, options)
+}
+
+export const getGetCategoriesCollectionCategoryGetQueryKey = () => {
+  return [`/collection/category`] as const
+}
+
+export const getGetCategoriesCollectionCategoryGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCategoriesCollectionCategoryGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
+  > = ({ signal }) =>
+    getCategoriesCollectionCategoryGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCategoriesCollectionCategoryGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
+>
+export type GetCategoriesCollectionCategoryGetQueryError = AxiosError<unknown>
+
+export function useGetCategoriesCollectionCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+        TError,
+        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCategoriesCollectionCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+        TError,
+        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCategoriesCollectionCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Categories
+ */
+
+export function useGetCategoriesCollectionCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetCategoriesCollectionCategoryGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Category
+ */
+export const getCategoryCollectionCategoryCategoryGet = (
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/collection/category/${category}`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+) => {
+  return [
+    `/collection/category/${category}`,
+    ...(params ? [params] : []),
+  ] as const
+}
+
+export const getGetCategoryCollectionCategoryCategoryGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetCategoryCollectionCategoryCategoryGetQueryKey(category, params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>
+  > = ({ signal }) =>
+    getCategoryCollectionCategoryCategoryGet(category, params, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!category,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCategoryCollectionCategoryCategoryGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>
+>
+export type GetCategoryCollectionCategoryCategoryGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetCategoryCollectionCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params: undefined | GetCategoryCollectionCategoryCategoryGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+          TError,
+          Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCategoryCollectionCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+          TError,
+          Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCategoryCollectionCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Category
+ */
+
+export function useGetCategoryCollectionCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetCategoryCollectionCategoryCategoryGetQueryOptions(
+    category,
+    params,
+    options,
+  )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Subcategory
+ */
+export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
+  category: MainCategory,
+  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/collection/category/${category}/subcategories`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
+  (
+    category: MainCategory,
+    params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  ) => {
+    return [
+      `/collection/category/${category}/subcategories`,
+      ...(params ? [params] : []),
+    ] as const
+  }
+
+export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+      >
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    category: MainCategory,
+    params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey(
+        category,
+        params,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+        >
+      >
+    > = ({ signal }) =>
+      getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+        category,
+        params,
+        { signal, ...axiosOptions },
+      )
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: !!category,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+      >
+    >
+  >
+export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params:
+    | undefined
+    | GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Subcategory
+ */
+
+export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOptions(
+      category,
+      params,
+      options,
+    )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Keyword
+ */
+export const getKeywordCollectionKeywordGet = (
+  params: GetKeywordCollectionKeywordGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/collection/keyword`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetKeywordCollectionKeywordGetQueryKey = (
+  params: GetKeywordCollectionKeywordGetParams,
+) => {
+  return [`/collection/keyword`, ...(params ? [params] : [])] as const
+}
+
+export const getGetKeywordCollectionKeywordGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordCollectionKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetKeywordCollectionKeywordGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
+  > = ({ signal }) =>
+    getKeywordCollectionKeywordGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetKeywordCollectionKeywordGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
+>
+export type GetKeywordCollectionKeywordGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetKeywordCollectionKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordCollectionKeywordGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+          TError,
+          Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetKeywordCollectionKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordCollectionKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+          TError,
+          Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetKeywordCollectionKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordCollectionKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Keyword
+ */
+
+export function useGetKeywordCollectionKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordCollectionKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetKeywordCollectionKeywordGetQueryOptions(
+    params,
+    options,
+  )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
 
 /**
  * @summary Get Developers
@@ -1094,6 +1842,366 @@ export function useGetMobileCollectionMobileGet<
     params,
     options,
   )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Popular Last Month
+ */
+export const getPopularLastMonthCollectionPopularGet = (
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/collection/popular`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetPopularLastMonthCollectionPopularGetQueryKey = (
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+) => {
+  return [`/collection/popular`, ...(params ? [params] : [])] as const
+}
+
+export const getGetPopularLastMonthCollectionPopularGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetPopularLastMonthCollectionPopularGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
+  > = ({ signal }) =>
+    getPopularLastMonthCollectionPopularGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPopularLastMonthCollectionPopularGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
+>
+export type GetPopularLastMonthCollectionPopularGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetPopularLastMonthCollectionPopularGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetPopularLastMonthCollectionPopularGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+          TError,
+          Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetPopularLastMonthCollectionPopularGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+          TError,
+          Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetPopularLastMonthCollectionPopularGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Popular Last Month
+ */
+
+export function useGetPopularLastMonthCollectionPopularGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetPopularLastMonthCollectionPopularGetQueryOptions(
+    params,
+    options,
+  )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Trending Last Two Weeks
+ */
+export const getTrendingLastTwoWeeksCollectionTrendingGet = (
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/collection/trending`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryKey = (
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+) => {
+  return [`/collection/trending`, ...(params ? [params] : [])] as const
+}
+
+export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetTrendingLastTwoWeeksCollectionTrendingGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>>
+  > = ({ signal }) =>
+    getTrendingLastTwoWeeksCollectionTrendingGet(params, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>>
+  >
+export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Trending Last Two Weeks
+ */
+
+export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
