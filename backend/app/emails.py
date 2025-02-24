@@ -90,7 +90,7 @@ def send_email_new(payload: dict, db):
                 _get_destination_and_append(payload, db, messages, user)
 
             direct_upload_app = models.DirectUploadApp.by_app_id(
-                db, payload["messageInfo"]["appId"]
+                db.session, payload["messageInfo"]["appId"]
             )
             if direct_upload_app is not None:
                 by_direct_upload = models.DirectUploadAppDeveloper.by_app(
