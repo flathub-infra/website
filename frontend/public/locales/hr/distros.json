@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<0>Za instaliranje Flatpaka na <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ili noviju verziju</strong>, otvori aplikaciju Terminal i pokreni:</0> <2></2> <4>Za starije verzije <strong>do Ubuntu 18.04 LTS (Bionic Beaver)</strong> je za instaliranje i aktualiziranje Flatpaka potreban službeni Flatpak PPA repozitorij. Za dodavanje PPA repozitorija i instaliranje Flatpaka, otvori aplikaciju Terminal i pokreni sljedeće:</4> <6></6>"
+      "text": "<0>Za instaliranje Flatpaka na <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ili noviju verziju</strong>, otvori aplikaciju Terminal i pokreni:</0> <2></2>"
     },
     "step-2": {
       "name": "Instaliraj Flatpak dodatak za GNOME Softver",
@@ -118,7 +118,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Podrška za Flatpak je ugrađena u Endless OS 3.0.0 i novijim verzijama – bez potrebe za postavljanjem!</0> <2>Ako koristiš stariju verziju <2>nadogradi na Endless OS 3</2>.</2>"
+    "introduction": "<0>Podrška za Flatpak je ugrađena u Endless OS 3.0.0 i novijim verzijama – bez potrebe za postavljanjem!</0>"
   },
   "rocky_linux": {
     "step-2": {
@@ -163,7 +163,7 @@
     },
     "step-3": {
       "name": "Instaliraj Flatpak",
-      "text": "<p>Za instaliranje Flatpaka, pokreni sljedeće u terminalu:</p> <2></2> <p>Aktualnija verzija Flatpak paketa je dostupna u <2>Debian backports repozitoriju</2>. </4>"
+      "text": "<p>Za instaliranje Flatpaka, pokreni sljedeće u terminalu:</p> <2></2>"
     },
     "step-4": {
       "name": "Dodaj Flathub repozitorij",
@@ -180,7 +180,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Podrška za Flatpak je ugrađena u Linux Mint 18.3 i novijim verzijama – bez potrebe za postavljanjem!</0> <2>Ako koristiš stariju verziju, <2>nadogradi na Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Podrška za Flatpak je ugrađena u Linux Mint 18.3 i novijim verzijama – bez potrebe za postavljanjem!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
