@@ -1,5 +1,4 @@
 import typing as T
-from typing import Optional
 
 import dramatiq
 import httpx
@@ -11,7 +10,7 @@ from ..vending import VendingError
 
 @dramatiq.actor
 def republish_app(
-    app_id: str, endoflife: Optional[str] = None, endoflife_rebase: Optional[str] = None
+    app_id: str, endoflife: str | None = None, endoflife_rebase: str | None = None
 ):
     if not settings.flat_manager_build_secret or not settings.flat_manager_api:
         return

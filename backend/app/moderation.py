@@ -2,7 +2,6 @@ import base64
 import itertools
 import json
 from datetime import datetime
-from typing import Optional
 
 import httpx
 import jwt
@@ -35,10 +34,8 @@ class ModerationAppsResponse(BaseModel):
 
 
 class RequestData(BaseModel):
-    keys: dict[str, Optional[str] | Optional[list] | Optional[dict] | Optional[bool]]
-    current_values: dict[
-        str, Optional[str] | Optional[list] | Optional[dict] | Optional[bool]
-    ]
+    keys: dict[str, str | None | list | None | dict | None | bool | None]
+    current_values: dict[str, str | None | list | None | dict | None | bool | None]
 
 
 class ModerationRequestResponse(BaseModel):

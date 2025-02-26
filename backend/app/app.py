@@ -1,5 +1,3 @@
-from typing import Optional
-
 from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 
@@ -30,7 +28,7 @@ def get_eol_rebase_appid(
         examples=["org.gnome.Glade"],
     ),
     branch: str = "stable",
-) -> Optional[str]:
+) -> str | None:
     if value := db.get_json_key(f"eol_rebase:{app_id}:{branch}"):
         return value
 
@@ -52,7 +50,7 @@ def get_eol_message_appid(
         examples=["org.gnome.Glade"],
     ),
     branch: str = "stable",
-) -> Optional[str]:
+) -> str | None:
     if value := db.get_json_key(f"eol_message:{app_id}:{branch}"):
         return value
 
@@ -119,7 +117,7 @@ def get_summary(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    branch: Optional[str] = None,
+    branch: str | None = None,
 ):
     with get_db("replica") as db_session:
         app = models.App.by_appid(db_session, app_id)

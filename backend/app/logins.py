@@ -11,7 +11,6 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Optional
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -834,14 +833,14 @@ def continue_oauth_flow(
 
 class AuthInfo(BaseModel):
     login: str
-    avatar: Optional[str] = None
+    avatar: str | None = None
 
 
 class Auths(BaseModel):
-    github: Optional[AuthInfo] = None
-    gitlab: Optional[AuthInfo] = None
-    gnome: Optional[AuthInfo] = None
-    kde: Optional[AuthInfo] = None
+    github: AuthInfo | None = None
+    gitlab: AuthInfo | None = None
+    gnome: AuthInfo | None = None
+    kde: AuthInfo | None = None
 
 
 class Permission(str, Enum):
@@ -854,13 +853,13 @@ class Permission(str, Enum):
 
 
 class UserInfo(BaseModel):
-    displayname: Optional[str] = None
+    displayname: str | None = None
     dev_flatpaks: list[str] = []
     permissions: list[Permission] = []
     owned_flatpaks: list[str] = []
     invited_flatpaks: list[str] = []
     invite_code: str
-    accepted_publisher_agreement_at: Optional[datetime]
+    accepted_publisher_agreement_at: datetime | None
     default_account: AuthInfo
     auths: Auths
 
