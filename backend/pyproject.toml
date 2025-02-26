@@ -1,50 +1,47 @@
-[tool.poetry]
+[project]
 name = "flathub-backend"
 version = "0.1.0"
 description = "Backend for Flathub website"
-authors = ["Bartłomiej Piotrowski <bpiotrowski@gnome.org>"]
-license = "Apache-2.0"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Bartłomiej Piotrowski", email = "bpiotrowski@gnome.org"},
+]
+requires-python = "<4.0,>=3.11"
+dependencies = [
+    "fastapi<1.0.0,>=0.115.8",
+    "uvicorn<1.0.0,>=0.34.0",
+    "sentry-sdk<3.0.0,>=2.22.0",
+    "lxml<6.0.0,>=5.3.1",
+    "requests<3.0.0,>=2.32.3",
+    "redis<6.0.0,>=5.2.1",
+    "feedgen<2.0.0,>=1.0.0",
+    "PyGObject<4.0.0,>=3.50.0",
+    "alembic<2.0.0,>=1.14.1",
+    "itsdangerous<3.0,>=2.2",
+    "PyGithub<3.0,>=2.6",
+    "vcrpy<8.0.0,>=7.0.0",
+    "python-gitlab<6.0,>=5.6",
+    "stripe<12.0,>=11.5",
+    "PyJWT<3.0.0,>=2.10.1",
+    "meilisearch<1.0.0,>=0.34.0",
+    "orjson<4.0.0,>=3.10.15",
+    "python-multipart<1.0.0,>=0.0.20",
+    "dramatiq[redis,watch]<2.0.0,>=1.17.1",
+    "sqlalchemy==2.0.38",
+    "pydantic-settings<3.0.0,>=2.8.0",
+    "psycopg2-binary<3.0.0,>=2.9.10",
+    "publicsuffixlist<2.0.0.0,>=1.0.2.20240903",
+    "httpx<1.0.0,>=0.28.1",
+]
 
-[tool.pyright]
-strict = ["app/**.py"]
-
-[tool.poetry.dependencies]
-python = "^3.11"
-fastapi = "^0.115.8"
-uvicorn = "^0.34.0"
-sentry-sdk = "^2.22.0"
-lxml = "^5.3.1"
-requests = "^2.32.3"
-redis = "^5.2.1"
-feedgen = "^1.0.0"
-PyGObject = "^3.50.0"
-alembic = "^1.14.1"
-itsdangerous = "^2.2"
-PyGithub = "^2.6"
-vcrpy = "^7.0.0"
-python-gitlab = "^5.6"
-stripe = "^11.5"
-PyJWT = "^2.10.1"
-meilisearch = "^0.34.0"
-orjson = "^3.10.15"
-python-multipart = "^0.0.20"
-dramatiq = { extras = ["redis", "watch"], version = "^1.17.1" }
-sqlalchemy = "2.0.38"
-pydantic-settings = "^2.8.0"
-psycopg2-binary = "^2.9.10"
-publicsuffixlist = "^1.0.2.20240903"
-httpx = "^0.28.1"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.9.7"
-pytest = "^8.3.4"
-pytest-insta = "^0.3.0"
-watchgod = "^0.8"
-vcrpy = "^7.0.0"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "ruff<1.0.0,>=0.9.7",
+    "pytest<9.0.0,>=8.3.4",
+    "pytest-insta<1.0.0,>=0.3.0",
+    "watchgod<1.0,>=0.8",
+    "vcrpy<8.0.0,>=7.0.0",
+]
 
 [tool.ruff]
 lint.ignore = ["E501", "E402"]

@@ -1,7 +1,6 @@
-FROM ubuntu:latest AS builder
+FROM debian:testing AS builder
 
-RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
-    && add-apt-repository ppa:flatpak/stable
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -9,20 +8,11 @@ RUN apt-get update && \
     build-essential libpq-dev libcairo2-dev libgirepository1.0-dev \
     gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak
 
-RUN python -m pip install --no-cache-dir --break-system-packages pipx && \
-    pipx install poetry && \
-    pipx inject poetry poetry-plugin-export
+COPY pyproject.toml uv.lock /
+RUN uv venv --python 3.13 && uv sync
 
-COPY pyproject.toml poetry.lock /
-RUN /root/.local/bin/poetry export -f requirements.txt --output requirements.txt && \
-    python -m venv /venv && \
-    /venv/bin/python -m pip install --no-cache-dir -r requirements.txt
-
-FROM ubuntu:latest
+FROM debian:testing-slim
 ARG SENTRY_RELEASE
-
-RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
-    && add-apt-repository ppa:flatpak/stable
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -33,11 +23,11 @@ RUN apt-get update && \
 RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
     flatpak --user remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 
-COPY --from=builder /venv /venv
+COPY --from=builder /.venv /.venv
 COPY . /app
 WORKDIR /app
 
-ENV PATH="/venv/bin:$PATH" \
+ENV PATH="/.venv/bin:$PATH" \
     SENTRY_RELEASE="$SENTRY_RELEASE"
 
 EXPOSE 8000
