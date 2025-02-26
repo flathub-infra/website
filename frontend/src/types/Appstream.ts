@@ -233,12 +233,13 @@ export interface Bundle {
 
 export interface Metadata {
   "flathub::manifest"?: string
-  "flathub::verification::verified": string | undefined
+  "flathub::verification::verified": boolean | undefined
   "flathub::verification::method":
     | undefined
     | "manual"
     | "website"
     | "login_provider"
+    | "none"
   "flathub::verification::login_name": string
   "flathub::verification::login_provider": string
   "flathub::verification::website": string

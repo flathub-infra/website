@@ -34,6 +34,7 @@ import type {
   GetSummarySummaryAppIdGetParams,
   HTTPValidationError,
   ListAppstreamAppstreamGetParams,
+  MeilisearchResponseLimitedAppsIndex,
   PostSearchSearchPostParams,
   SearchQuery,
 } from ".././model"
@@ -1192,7 +1193,7 @@ export const postSearchSearchPost = (
   searchQuery: SearchQuery,
   params?: PostSearchSearchPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseLimitedAppsIndex>> => {
   return axios.post(`/search`, searchQuery, {
     ...options,
     params: { ...params, ...options?.params },

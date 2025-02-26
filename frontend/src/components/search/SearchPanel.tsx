@@ -7,12 +7,12 @@ import {
 import { HiOutlineFunnel } from "react-icons/hi2"
 import clsx from "clsx"
 import { SearchFilters } from "src/components/search/SearchFilters"
-import { UseQueryResult } from "@tanstack/react-query"
-import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
+import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { useTranslation, Trans } from "next-i18next"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
+import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
 
 export const SearchPanel = ({
   searchResult,
@@ -20,8 +20,8 @@ export const SearchPanel = ({
   setSelectedFilters,
   query,
 }: {
-  searchResult: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  searchResult: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -79,7 +79,7 @@ export const SearchPanel = ({
           {
             <span
               className={clsx(
-                searchResult.isFetching && "blur-sm",
+                searchResult.isPending && "blur-sm",
                 "text-sm text-flathub-granite-gray dark:text-flathub-sonic-silver transition",
               )}
             >

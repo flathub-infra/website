@@ -2,12 +2,11 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-import { useQuery } from "@tanstack/react-query"
-import { fetchSearchQuery } from "src/fetchers"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "src/components/search/SearchPanel"
+import { usePostSearchSearchPost } from "src/codegen"
 
 export default function Search({ locale }) {
   const { t } = useTranslation()
@@ -40,11 +39,18 @@ export default function Search({ locale }) {
     }[]
   >(filtersFromQuery)
 
-  const search = useQuery({
-    queryKey: ["search", q, selectedFilters],
-    queryFn: async () => {
-      return fetchSearchQuery(q as string, locale, selectedFilters).then(
-        (res) => {
+  const search = usePostSearchSearchPost()
+
+  useEffect(() => {
+    search.mutate(
+      {
+        data: {
+          query: q,
+          filters: selectedFilters,
+        },
+      },
+      {
+        onSuccess: (res) => {
           if (q.length > 0) {
             trackSiteSearch({
               keyword: q,
@@ -53,9 +59,9 @@ export default function Search({ locale }) {
           }
           return res
         },
-      )
-    },
-  })
+      },
+    )
+  }, [q, selectedFilters])
 
   return (
     <>

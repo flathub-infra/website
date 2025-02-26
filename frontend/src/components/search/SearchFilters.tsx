@@ -1,9 +1,9 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
-import { UseQueryResult } from "@tanstack/react-query"
+import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { useTranslation } from "next-i18next"
-import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
+import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
 
 const FilterFacette = ({
@@ -30,8 +30,8 @@ const SearchFilterCategories = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -60,6 +60,7 @@ const SearchFilterCategories = ({
         })}
 
       {results.isSuccess &&
+        results?.data?.data.facetDistribution.main_categories &&
         Object.keys(results?.data?.data.facetDistribution.main_categories).map(
           (category) => (
             <FilterFacette
@@ -106,8 +107,8 @@ const SearchFilterFloss = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -136,6 +137,7 @@ const SearchFilterFloss = ({
         })}
 
       {results.isSuccess &&
+        results?.data.data.facetDistribution?.is_free_license &&
         Object.keys(results?.data.data.facetDistribution?.is_free_license)
           .sort((a, b) => {
             if (a === "true") {
@@ -190,8 +192,8 @@ const SearchFilterVerified = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -220,6 +222,7 @@ const SearchFilterVerified = ({
         })}
 
       {results.isSuccess &&
+        results?.data.data.facetDistribution?.verification_verified &&
         Object.keys(results?.data.data.facetDistribution?.verification_verified)
           .sort((a, b) => {
             if (a === "true") {
@@ -276,8 +279,8 @@ const SearchFilterTypes = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -306,6 +309,7 @@ const SearchFilterTypes = ({
         })}
 
       {results.isSuccess &&
+        results?.data.data.facetDistribution?.type &&
         Object.keys(results?.data.data.facetDistribution?.type).map((type) => (
           <FilterFacette
             key={type}
@@ -343,8 +347,8 @@ const SearchFilterArches = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -373,6 +377,7 @@ const SearchFilterArches = ({
         })}
 
       {results.isSuccess &&
+        results?.data.data.facetDistribution?.arches &&
         Object.keys(results?.data.data.facetDistribution?.arches).map(
           (arch) => (
             <FilterFacette
@@ -415,8 +420,8 @@ export const SearchFilters = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
   selectedFilters: {
