@@ -83,8 +83,8 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             appstream_url = (
                 "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
             )
-        r = httpx.get(appstream_url, stream=True)
-        appstream = gzip.decompress(r.raw.data)
+        with httpx.stream("GET", appstream_url) as r:
+            appstream = gzip.decompress(r.read())
 
     root = etree.fromstring(appstream)
 
