@@ -46,8 +46,8 @@ https://localhost:8000/docs
 
 ```bash
 uv venv
+uv sync
 source .venv/bin/activate
-uv lock
 ```
 
 This should allow code completion and type checking to work, if you setup the interpreter in your IDE.
@@ -133,7 +133,7 @@ curl -X POST localhost:8000/update
 
 ## Dependency changes
 
-If there's an update in `pyproject.toml`, this means the dependencies have changed and the container needs to be rebuilt.
+If there's an update in `pyproject.toml` or `uv.lock`, this means the dependencies have changed and the container needs to be rebuilt.
 
 To do this, you run:
 
