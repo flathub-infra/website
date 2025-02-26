@@ -44,12 +44,10 @@ https://localhost:8000/docs
 
 ### Development
 
-If you want to work on the code, you should setup a venv and install the dependencies:
-
 ```bash
-poetry config virtualenvs.in-project true
-
-poetry install --no-root
+uv venv
+source .venv/bin/activate
+uv lock
 ```
 
 This should allow code completion and type checking to work, if you setup the interpreter in your IDE.
@@ -133,9 +131,9 @@ After these changes, it's possible that the endpoint will need an update. To do 
 curl -X POST localhost:8000/update
 ```
 
-## Poetry changes
+## Dependency changes
 
-If there's an update in `pyproject.toml` and `poetry.lock`, this means the dependencies have changed and the container needs to be rebuilt.
+If there's an update in `pyproject.toml`, this means the dependencies have changed and the container needs to be rebuilt.
 
 To do this, you run:
 
