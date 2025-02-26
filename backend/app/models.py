@@ -2383,6 +2383,18 @@ class App(Base):
             db.session.commit()
 
     @classmethod
+    def set_eol_data(cls, db, app_id: str, is_eol: bool) -> None:
+        app = App.by_appid(db, app_id)
+        if app and app.is_eol != is_eol:
+            app.is_eol = is_eol
+            db.session.commit()
+
+    @classmethod
+    def get_eol_data(cls, db, app_id: str) -> bool:
+        app = App.by_appid(db, app_id)
+        return app.is_eol if app else False
+
+    @classmethod
     def status_summarized(
         cls, db, page, page_size, filter
     ) -> QualityModerationDashboardResponse:

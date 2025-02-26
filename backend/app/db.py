@@ -36,6 +36,34 @@ def wait_for_redis():
 
 
 def get_json_key(key: str):
+    if key.startswith("apps:"):
+        app_id = key.split(":")[1]
+        with get_db() as sqldb:
+            app_data = models.App.get_appstream(sqldb, app_id)
+            return app_data
+
+    if key.startswith("summary:") and not key.startswith("summary:reverse_lookup"):
+        parts = key.split(":")
+        app_id = parts[1]
+
+        with get_db() as sqldb:
+            app = models.App.by_appid(sqldb, app_id)
+            if app and app.summary:
+                if len(parts) > 2 and app.summary.get("branch") == parts[2]:
+                    return app.summary
+                elif len(parts) == 2:
+                    return app.summary.get("branch", "stable")
+
+    if key.startswith("eol_message:"):
+        parts = key.split(":")
+        if len(parts) > 1:
+            app_id = parts[1]
+            with get_db() as sqldb:
+                is_eol = models.App.get_eol_data(sqldb, app_id)
+                if is_eol:
+                    return "This application is end-of-life."
+                return None
+
     if value := redis_conn.get(key):
         return orjson.loads(value)
 
@@ -68,16 +96,17 @@ def get_all_appids_for_frontend():
 
 def is_appid_for_frontend(app_id: str):
     with get_db() as sqldb:
-        app_type = (
-            sqldb.query(models.App.type).filter(models.App.app_id == app_id).scalar()
-        )
+        app = sqldb.query(models.App).filter(models.App.app_id == app_id).first()
 
-    if app_type == "desktop-application":
-        return True
+        if not app:
+            return False
 
-    if app_type == "console-application":
-        app_data = get_json_key(f"apps:{app_id}")
-        if app_data and app_data.get("icon") and app_data.get("screenshots"):
+        if app.type == "desktop-application":
             return True
+
+        if app.type == "console-application":
+            app_data = app.appstream
+            if app_data and app_data.get("icon") and app_data.get("screenshots"):
+                return True
 
     return False

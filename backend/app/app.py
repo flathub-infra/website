@@ -131,26 +131,9 @@ def get_summary(
                 runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
                     "/"
                 )
-                summary["metadata"]["runtimeIsEol"] = bool(
-                    db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
-                )
-            return summary
+                runtime_is_eol = models.App.get_eol_data(db_session, runtime_appid)
+                summary["metadata"]["runtimeIsEol"] = runtime_is_eol
 
-    # TODO: replace with postgres
-    if branch:
-        key = f"summary:{app_id}:{branch}"
-        if summary := db.get_json_key(key):
-            if (
-                "metadata" in summary
-                and summary["metadata"]
-                and "runtime" in summary["metadata"]
-            ):
-                runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
-                    "/"
-                )
-                summary["metadata"]["runtimeIsEol"] = bool(
-                    db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
-                )
             return summary
 
     response.status_code = 404
