@@ -42,6 +42,15 @@ def get_json_key(key: str):
             app_data = models.App.get_appstream(sqldb, app_id)
             return app_data
 
+    if key == "exc":
+        with get_db() as sqldb:
+            return models.Exceptions.get_all_exceptions(sqldb)
+
+    if key.startswith("exc:"):
+        app_id = key.split(":")[1]
+        with get_db() as sqldb:
+            return models.Exceptions.get_exception(sqldb, app_id)
+
     if key.startswith("summary:") and not key.startswith("summary:reverse_lookup"):
         parts = key.split(":")
         app_id = parts[1]
