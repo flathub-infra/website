@@ -6,7 +6,7 @@ license = {text = "Apache-2.0"}
 authors = [
     {name = "Bartłomiej Piotrowski", email = "bpiotrowski@gnome.org"},
 ]
-requires-python = "<4.0,>=3.11"
+requires-python = "<4.0,>=3.13"
 dependencies = [
     "fastapi<1.0.0,>=0.115.8",
     "uvicorn<1.0.0,>=0.34.0",
