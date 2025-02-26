@@ -9,7 +9,7 @@ RUN apt-get update && \
     gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak
 
 COPY pyproject.toml uv.lock /
-RUN uv venv --python 3.13 && uv sync
+RUN uv venv && uv sync
 
 FROM debian:testing-slim
 ARG SENTRY_RELEASE
