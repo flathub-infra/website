@@ -15,7 +15,7 @@ from typing import Optional
 from urllib.parse import urlencode
 from uuid import uuid4
 
-import requests
+import httpx
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from github import Github
@@ -66,7 +66,7 @@ def _refresh_token(
     if account.token_expiry is None or account.token_expiry > datetime.now():
         return account.token
 
-    response = requests.post(
+    response = httpx.post(
         token_endpoint,
         data={
             "grant_type": "refresh_token",
@@ -585,7 +585,7 @@ def continue_google_flow(
     def google_userdata(tokens) -> ProviderInfo:
         userinfo_endpoint = "https://www.googleapis.com/oauth2/v3/userinfo"
         access_token = tokens["access_token"]
-        gguser = requests.get(
+        gguser = httpx.get(
             userinfo_endpoint, headers={"Authorization": f"Bearer {access_token}"}
         ).json()
         sub = gguser["sub"]
@@ -714,7 +714,7 @@ def continue_oauth_flow(
         args = oauth_args.copy()
         args["code"] = data.code
         args = urlencode(args)
-        login_result = requests.post(
+        login_result = httpx.post(
             token_endpoint,
             data=args,
             headers={
