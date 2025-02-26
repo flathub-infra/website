@@ -48,7 +48,7 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetResponseMock = (
 export const getGetGlobalVendingConfigVendingConfigGetResponseMock = (
   overrideResponse: Partial<VendingConfig> = {},
 ): VendingConfig => ({
-  status: faker.helpers.arrayElement(["ok"] as const),
+  status: "ok",
   platforms: {
     [faker.string.alphanumeric(5)]: {
       depends: faker.helpers.arrayElement([
