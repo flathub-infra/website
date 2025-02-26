@@ -29,6 +29,7 @@ services:
       - DATADIR=${DATADIR-/app/data}
       - FLAT_MANAGER_API=$FLAT_MANAGER_API
       - BACKEND_NODE_URL=${BACKEND_NODE_URL-http://backend-node:8001}
+      - REPO_URL=${REPO_URL-https://flathub.org/repo}
     ports:
       - "8000:8000"
     depends_on:
@@ -78,6 +79,7 @@ services:
       - SMTP_PASSWORD=$SMTP_PASSWORD
       - EMAIL_FROM=$EMAIL_FROM
       - BACKEND_NODE_URL=${BACKEND_NODE_URL-http://backend-node:8001}
+      - REPO_URL=${REPO_URL-https://flathub.org/repo}
     depends_on:
       - redis
       - db

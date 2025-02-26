@@ -8,7 +8,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Settings(BaseSettings):
     app_name: str = "Flathub API"
-    flatpak_user_dir: str = "/root/.local/share/flatpak"
     redis_host: str = "localhost"
     redis_port: int = 6379
     redis_db: int = 0
@@ -23,6 +22,7 @@ class Settings(BaseSettings):
     datadir: str = os.path.join(ROOT_DIR, "data")
     stats_baseurl: str = "https://hub.flathub.org/stats"
     session_secret_key: str = "change-me-for-production"
+    repo_url: str = "https://dl.flathub.org/repo"
 
     frontend_url: str = "http://localhost:3000"
 

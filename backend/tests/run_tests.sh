@@ -19,12 +19,5 @@ cp tests/stats/002-yesterday.json tests/stats/$yesterday
 cp tests/stats/003-today.json tests/stats/$today
 cp tests/stats/004-two-weeks-ago.json tests/stats/$two_weeks_ago
 
-for container in backend worker; do
-    docker compose exec $container flatpak --user remote-delete flathub
-    docker compose exec $container flatpak --user remote-delete flathub-beta
-    docker compose exec $container flatpak --user remote-add flathub --no-gpg-verify /app/tests/ostree/repo
-    docker compose exec $container flatpak --user update
-done
-
 docker compose exec backend /.venv/bin/python -m pip install pytest httpx pytest-insta
 docker compose exec backend /.venv/bin/python -m pytest -vvvv tests/main.py
