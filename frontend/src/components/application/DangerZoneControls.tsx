@@ -2,15 +2,15 @@ import { ReactElement, useState } from "react"
 import { useTranslation } from "next-i18next"
 import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { AxiosError } from "axios"
 import Modal from "../Modal"
 import {
   archiveVerificationAppIdArchivePost,
   switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
+  useGetUploadTokensUploadTokensAppIdGet,
 } from "src/codegen"
-import { getUploadTokensUploadTokensAppIdGet } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Appstream } from "src/types/Appstream"
@@ -122,18 +122,18 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 export default function DangerZoneControls({ app }: { app: { id: string } }) {
   const { t } = useTranslation()
 
-  const query = useQuery({
-    queryKey: ["upload-tokens", app.id, false],
-    queryFn: () =>
-      getUploadTokensUploadTokensAppIdGet(
-        app.id,
-        { include_expired: false },
-        {
-          withCredentials: true,
-        },
-      ),
-    enabled: !!app.id,
-  })
+  const query = useGetUploadTokensUploadTokensAppIdGet(
+    app.id,
+    {
+      include_expired: false,
+    },
+    {
+      axios: { withCredentials: true },
+      query: {
+        enabled: !!app.id,
+      },
+    },
+  )
 
   let content: ReactElement
   if (query.isPending) {

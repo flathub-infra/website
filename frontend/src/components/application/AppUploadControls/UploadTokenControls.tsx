@@ -1,15 +1,14 @@
-import { ReactElement, useCallback, useState } from "react"
+import { ReactElement, useState } from "react"
 import { useTranslation } from "next-i18next"
 import NewTokenDialog from "./NewTokenDialog"
 import Spinner from "src/components/Spinner"
 import { getIntlLocale } from "src/localize"
 import { i18n } from "next-i18next"
 import ConfirmDialog from "src/components/ConfirmDialog"
-import { useQuery } from "@tanstack/react-query"
 import { Repo } from "src/types/UploadTokens"
 import {
-  getUploadTokensUploadTokensAppIdGet,
-  revokeUploadTokenUploadTokensTokenIdRevokePost,
+  useGetUploadTokensUploadTokensAppIdGet,
+  useRevokeUploadTokenUploadTokensTokenIdRevokePost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 
@@ -20,31 +19,26 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const [repo, setRepo] = useState<Repo>("beta")
   const [showExpired, setShowExpired] = useState(false)
 
-  const query = useQuery({
-    queryKey: ["upload-tokens", app.id, showExpired],
-    queryFn: () =>
-      getUploadTokensUploadTokensAppIdGet(
-        app.id,
-        { include_expired: showExpired },
-        {
-          withCredentials: true,
-        },
-      ),
-    enabled: !!app.id,
-  })
+  const query = useGetUploadTokensUploadTokensAppIdGet(
+    app.id,
+    {
+      include_expired: showExpired,
+    },
+    {
+      axios: { withCredentials: true },
+      query: {
+        enabled: !!app.id,
+      },
+    },
+  )
 
   const [tokenToRevoke, setTokenToRevoke] = useState<number | undefined>(
     undefined,
   )
 
-  const revoke = useCallback(() => {
-    revokeUploadTokenUploadTokensTokenIdRevokePost(tokenToRevoke, {
-      withCredentials: true,
-    }).then(() => {
-      setTokenToRevoke(undefined)
-      query.refetch()
-    })
-  }, [tokenToRevoke, query])
+  const revokeMutation = useRevokeUploadTokenUploadTokensTokenIdRevokePost({
+    axios: { withCredentials: true },
+  })
 
   let content: ReactElement
   if (query.isPending) {
@@ -192,7 +186,19 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
         action={t("revoke-token")}
         prompt={t("revoke-token")}
         actionVariant="destructive"
-        onConfirmed={() => revoke()}
+        onConfirmed={() =>
+          revokeMutation.mutate(
+            {
+              tokenId: tokenToRevoke,
+            },
+            {
+              onSuccess: () => {
+                setTokenToRevoke(undefined)
+                query.refetch()
+              },
+            },
+          )
+        }
         onCancelled={() => setTokenToRevoke(undefined)}
       >
         {query?.data &&
