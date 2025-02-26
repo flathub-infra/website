@@ -17,6 +17,7 @@ from .database import get_db
 from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
 from .utils import jti
+from .verification_method import VerificationMethod
 
 
 class ErrorDetail(str, Enum):
@@ -289,17 +290,6 @@ class CheckWebsiteVerification:
             return WebsiteVerificationResult(
                 verified=False, detail=ErrorDetail.TOKEN_NOT_PRESENT
             )
-
-
-class VerificationMethod(Enum):
-    # The app is not verified.
-    NONE = "none"
-    # The app was verified (or blocked from verification) by the admins.
-    MANUAL = "manual"
-    # The app was verified via website.
-    WEBSITE = "website"
-    # The app was verified via a login provider.
-    LOGIN_PROVIDER = "login_provider"
 
 
 class LoginProvider(Enum):

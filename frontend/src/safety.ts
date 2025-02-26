@@ -338,7 +338,7 @@ export function getSafetyRating(
 
   if (
     appstream.metadata &&
-    appstream.metadata["flathub::verification::verified"] === "true"
+    appstream.metadata["flathub::verification::verified"]
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,

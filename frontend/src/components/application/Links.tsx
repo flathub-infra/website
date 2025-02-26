@@ -96,7 +96,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   links.push({
     content: {
       text:
-        app.metadata?.["flathub::verification::verified"] == "true" &&
+        app.metadata?.["flathub::verification::verified"] &&
         app.urls?.bugtracker
           ? app.urls.bugtracker
           : `https://github.com/flathub/${app.id}/issues`,

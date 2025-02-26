@@ -6,6 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
+import { MainCategory, VerificationMethod } from ".././model"
 import type {
   FavoriteApp,
   GetEolMessageAppidEolMessageAppIdGet200,
@@ -14,6 +15,7 @@ import type {
   GetEolRebaseEolRebaseGet200,
   GetPlatformsPlatformsGet200,
   GetRuntimeListRuntimesGet200,
+  MeilisearchResponseLimitedAppsIndex,
 } from ".././model"
 
 export const getGetEolRebaseEolRebaseGetResponseMock =
@@ -44,6 +46,106 @@ export const getListAppstreamAppstreamGetResponseMock = (): string[] =>
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock =
   (): boolean => faker.datatype.boolean()
+
+export const getPostSearchSearchPostResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseLimitedAppsIndex> = {},
+): MeilisearchResponseLimitedAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    id: faker.string.alpha(20),
+    name: faker.string.alpha(20),
+    summary: faker.string.alpha(20),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    app_id: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    icon: faker.string.alpha(20),
+    categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  limit: faker.number.int({ min: undefined, max: undefined }),
+  offset: faker.number.int({ min: undefined, max: undefined }),
+  estimatedTotalHits: faker.number.int({ min: undefined, max: undefined }),
+  facetDistribution: {
+    [faker.string.alphanumeric(5)]: {
+      [faker.string.alphanumeric(5)]: faker.number.int({
+        min: undefined,
+        max: undefined,
+      }),
+    },
+  },
+  ...overrideResponse,
+})
 
 export const getGetRuntimeListRuntimesGetResponseMock =
   (): GetRuntimeListRuntimesGet200 => ({
@@ -251,17 +353,26 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
 
 export const getPostSearchSearchPostMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseLimitedAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseLimitedAppsIndex>
+        | MeilisearchResponseLimitedAppsIndex),
 ) => {
   return http.post("*/search", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getPostSearchSearchPostResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 

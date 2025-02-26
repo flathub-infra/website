@@ -1,9 +1,59 @@
+from typing import Generic, TypeVar
 from urllib.parse import unquote
 
 import meilisearch
 from pydantic import BaseModel
 
 from . import config, schemas
+from .verification_method import VerificationMethod
+
+T = TypeVar("T")
+
+
+class MeilisearchResponse(BaseModel, Generic[T]):
+    hits: list[T]
+    query: str
+    processingTimeMs: int
+    hitsPerPage: int
+    page: int
+    totalPages: int
+    totalHits: int
+
+
+class MeilisearchResponseLimited(BaseModel, Generic[T]):
+    hits: list[T]
+    query: str
+    processingTimeMs: int
+    limit: int
+    offset: int
+    estimatedTotalHits: int
+    facetDistribution: dict[str, dict[str, int]]
+
+
+U = TypeVar("U", MeilisearchResponse, MeilisearchResponseLimited)
+
+
+class AppsIndex(BaseModel):
+    id: str
+    name: str
+    summary: str
+    installs_last_month: int | None = None
+    trending: float | None = None
+    keywords: list[str] | None
+    app_id: str
+    description: str
+    icon: str
+    categories: list[str] | None = None
+    main_categories: schemas.MainCategory | list[schemas.MainCategory]
+    sub_categories: list[str] | None = None
+    developer_name: str | None
+    verification_verified: bool
+    verification_method: VerificationMethod
+    verification_login_name: str | None
+    verification_login_provider: str | None
+    verification_website: str | None
+    verification_timestamp: str | None
+    verification_login_is_organization: str | None
 
 
 class Filter(BaseModel):
@@ -65,10 +115,10 @@ if secondary_client:
     _configure_meilisearch_index(secondary_client)
 
 
-def _translate_name_and_summary(locale: str, searchResults: dict):
+def _translate_name_and_summary(locale: str, searchResults: U):
     fallbackLocale = locale.split("-")[0]
 
-    for searchResult in searchResults["hits"]:
+    for searchResult in searchResults.hits:
         picked_locale = None
 
         if "translations" in searchResult and searchResult["translations"]:
@@ -135,23 +185,25 @@ def get_by_selected_categories(
 
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "filter": [
-                    category_list,
-                    exclude_subcategories_list,
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-                "sort": (
-                    [f"{sort_by.value}:desc"]
-                    if sort_by
-                    else ["installs_last_month:desc"]
-                ),
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        category_list,
+                        exclude_subcategories_list,
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": (
+                        [f"{sort_by.value}:desc"]
+                        if sort_by
+                        else ["installs_last_month:desc"]
+                    ),
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            )
         ),
     )
 
@@ -181,24 +233,26 @@ def get_by_selected_category_and_subcategory(
 
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "filter": [
-                    f"main_categories = {selected_category.value}",
-                    selected_subcategory_list,
-                    exclude_subcategories_list,
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-                "sort": (
-                    [f"{sort_by.value}:desc"]
-                    if sort_by
-                    else ["installs_last_month:desc"]
-                ),
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        f"main_categories = {selected_category.value}",
+                        selected_subcategory_list,
+                        exclude_subcategories_list,
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": (
+                        [f"{sort_by.value}:desc"]
+                        if sort_by
+                        else ["installs_last_month:desc"]
+                    ),
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            ),
         ),
     )
 
@@ -208,17 +262,19 @@ def get_by_installs_last_month(
 ):
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "sort": ["installs_last_month:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-                "filter": [
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "sort": ["installs_last_month:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                    "filter": [
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                },
+            ),
         ),
     )
 
@@ -226,17 +282,19 @@ def get_by_installs_last_month(
 def get_by_trending(page: int | None, hits_per_page: int | None, locale: str):
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "sort": ["trending:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-                "filter": [
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "sort": ["trending:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                    "filter": [
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                },
+            ),
         ),
     )
 
@@ -244,17 +302,19 @@ def get_by_trending(page: int | None, hits_per_page: int | None, locale: str):
 def get_by_added_at(page: int | None, hits_per_page: int | None, locale: str):
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "sort": ["added_at:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-                "filter": [
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "sort": ["added_at:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                    "filter": [
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                },
+            ),
         ),
     )
 
@@ -262,17 +322,19 @@ def get_by_added_at(page: int | None, hits_per_page: int | None, locale: str):
 def get_by_updated_at(page: int | None, hits_per_page: int | None, locale: str):
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "sort": ["updated_at:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-                "filter": [
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "sort": ["updated_at:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                    "filter": [
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                },
+            ),
         ),
     )
 
@@ -280,18 +342,20 @@ def get_by_updated_at(page: int | None, hits_per_page: int | None, locale: str):
 def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "filter": [
-                    "verification_verified = true",
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-                "sort": ["verification_timestamp:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        "verification_verified = true",
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": ["verification_timestamp:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            ),
         ),
     )
 
@@ -299,18 +363,20 @@ def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
 def get_by_mobile(page: int | None, hits_per_page: int | None, locale: str):
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "filter": [
-                    "isMobileFriendly = true",
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-                "sort": ["trending:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        "isMobileFriendly = true",
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": ["trending:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            ),
         ),
     )
 
@@ -324,18 +390,20 @@ def get_by_developer(
 
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "filter": [
-                    f"developer_name = '{escaped_developer}'",
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-                "sort": ["installs_last_month:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        f"developer_name = '{escaped_developer}'",
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": ["installs_last_month:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            ),
         ),
     )
 
@@ -349,18 +417,20 @@ def get_by_keyword(
 
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            "",
-            {
-                "filter": [
-                    f"keywords = '{escaped_keyword}'",
-                    "type IN [console-application, desktop-application]",
-                    "NOT icon IS NULL",
-                ],
-                "sort": ["installs_last_month:desc"],
-                "hitsPerPage": hits_per_page or 250,
-                "page": page or 1,
-            },
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        f"keywords = '{escaped_keyword}'",
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": ["installs_last_month:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            ),
         ),
     )
 
@@ -376,14 +446,18 @@ def search_apps(query: str, locale: str, free_software_only: bool = False):
 
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            query,
-            {"limit": 250, "sort": ["installs_last_month:desc"], "filter": filters},
+        MeilisearchResponseLimited[AppsIndex].model_validate(
+            client.index("apps").search(
+                query,
+                {"limit": 250, "sort": ["installs_last_month:desc"], "filter": filters},
+            ),
         ),
     )
 
 
-def search_apps_post(searchquery: SearchQuery, locale: str):
+def search_apps_post(
+    searchquery: SearchQuery, locale: str
+) -> MeilisearchResponseLimited[AppsIndex]:
     filters = []
 
     filteringForType = False
@@ -410,35 +484,39 @@ def search_apps_post(searchquery: SearchQuery, locale: str):
 
     return _translate_name_and_summary(
         locale,
-        client.index("apps").search(
-            searchquery.query,
-            {
-                "limit": 250,
-                "sort": ["installs_last_month:desc"],
-                "filter": filterString if filterString else None,
-                "facets": [
-                    "verification_verified",
-                    "main_categories",
-                    "is_free_license",
-                    "type",
-                    "arches",
-                ],
-            },
+        MeilisearchResponseLimited[AppsIndex].model_validate(
+            client.index("apps").search(
+                searchquery.query,
+                {
+                    "limit": 250,
+                    "sort": ["installs_last_month:desc"],
+                    "filter": filterString if filterString else None,
+                    "facets": [
+                        "verification_verified",
+                        "main_categories",
+                        "is_free_license",
+                        "type",
+                        "arches",
+                    ],
+                },
+            )
         ),
     )
 
 
 def get_sub_categories(category: str):
     return (
-        client.index("apps").search(
-            "",
-            {
-                "limit": 1,
-                "filter": f"main_categories = '{category}'",
-                "facets": [
-                    "sub_categories",
-                ],
-            },
+        MeilisearchResponseLimited[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "limit": 1,
+                    "filter": f"main_categories = '{category}'",
+                    "facets": [
+                        "sub_categories",
+                    ],
+                },
+            ),
         ),
     )
 

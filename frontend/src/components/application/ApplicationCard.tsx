@@ -67,33 +67,34 @@ export const ApplicationCard = React.forwardRef<HTMLAnchorElement, Props>(
     { className, variant, size, application, link, showId = false, ...props },
     ref,
   ) => {
-    const isVerified =
-      application.metadata?.["flathub::verification::verified"] === "true"
+    const isVerified = application.metadata?.["flathub::verification::verified"]
 
     const linkFunc = link ?? ((appid: string) => `/apps/${appid}`)
 
-    const verificationStatus: VerificationStatus = isVerified
-      ? {
-          method: application.metadata?.["flathub::verification::method"],
-          verified: true,
-          website: application.metadata?.["flathub::verification::website"],
-          login_provider: application.metadata?.[
-            "flathub::verification::login_provider"
-          ] as VerificationProvider,
-          login_name:
-            application.metadata?.["flathub::verification::login_name"],
-          login_is_organization:
-            application.metadata?.[
-              "flathub::verification::login_is_organization"
-            ] === "true",
-          timestamp: 0,
-          detail: "",
-        }
-      : {
-          method: "none",
-          verified: false,
-          detail: "",
-        }
+    const verificationStatus: VerificationStatus =
+      isVerified &&
+      application.metadata?.["flathub::verification::method"] !== "none"
+        ? {
+            method: application.metadata?.["flathub::verification::method"],
+            verified: true,
+            website: application.metadata?.["flathub::verification::website"],
+            login_provider: application.metadata?.[
+              "flathub::verification::login_provider"
+            ] as VerificationProvider,
+            login_name:
+              application.metadata?.["flathub::verification::login_name"],
+            login_is_organization:
+              application.metadata?.[
+                "flathub::verification::login_is_organization"
+              ] === "true",
+            timestamp: 0,
+            detail: "",
+          }
+        : {
+            method: "none",
+            verified: false,
+            detail: "",
+          }
 
     return (
       <Link

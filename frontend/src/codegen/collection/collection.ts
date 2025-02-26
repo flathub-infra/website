@@ -32,6 +32,7 @@ import type {
   GetVerifiedCollectionVerifiedGetParams,
   HTTPValidationError,
   MainCategory,
+  MeilisearchResponseAppsIndex,
 } from ".././model"
 
 /**
@@ -1151,7 +1152,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
 export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/recently-updated`, {
     ...options,
     params: { ...params, ...options?.params },

@@ -10,8 +10,6 @@ export const APP_DETAILS = (id: string, locale: string): string =>
 export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
-export const SEARCH_APP = (locale?: string): string =>
-  locale ? `${BASE_URI}/search?locale=${locale}` : `${BASE_URI}/search`
 
 export const POPULAR_LAST_MONTH_URL = (
   page?: number,

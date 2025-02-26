@@ -99,7 +99,9 @@ def get_isFullscreenApp(
 
 
 @router.post("/search", tags=["app"])
-def post_search(query: search.SearchQuery, locale: str = "en"):
+def post_search(
+    query: search.SearchQuery, locale: str = "en"
+) -> search.MeilisearchResponseLimited[search.AppsIndex]:
     return search.search_apps_post(query, locale)
 
 

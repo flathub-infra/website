@@ -4,16 +4,13 @@ import {
   ApplicationCardSkeleton,
 } from "../application/ApplicationCard"
 import { FunctionComponent } from "react"
-import {
-  AppsIndex,
-  mapAppsIndexToAppstreamListItem,
-  MeilisearchResponseLimited,
-} from "src/meilisearch"
-import { UseQueryResult } from "@tanstack/react-query"
+import { mapAppsIndexToAppstreamListItemNew } from "src/meilisearch"
+import { UseMutationResult } from "@tanstack/react-query"
+import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
 
 interface Props {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
     unknown
   >
 }
@@ -21,7 +18,7 @@ interface Props {
 export const SearchResults: FunctionComponent<Props> = ({ results }) => {
   return (
     <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
-      {results.isLoading &&
+      {results.isPending &&
         [...new Array(20)].map((a, i) => {
           return (
             <div key={i} className={"flex flex-col gap-2"}>
@@ -33,7 +30,7 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
         results.data?.data.hits.map((app) => (
           <div key={app.app_id} className={"flex flex-col gap-2"}>
             <ApplicationCard
-              application={mapAppsIndexToAppstreamListItem(app)}
+              application={mapAppsIndexToAppstreamListItemNew(app)}
             />
           </div>
         ))}
