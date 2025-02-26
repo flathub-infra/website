@@ -1,15 +1,16 @@
 import datetime
+import gzip
 import json
 import struct
-import subprocess
 from collections import defaultdict
 from typing import Any
 
 import gi
+import httpx
 
 gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
-from gi.repository import Gio, GLib, OSTree
+from gi.repository import GLib, OSTree
 
 from . import apps, config, db, models, search, utils
 
@@ -239,36 +240,84 @@ def parse_summary(summary, sqldb):
     return summary_dict, updated_at_dict, metadata
 
 
+def fetch_summary_bytes(url: str) -> bytes | None:
+    if url.startswith("file://"):
+        # Handle local file URLs for tests
+        filepath = url[7:]
+        try:
+            with open(filepath, "rb") as f:
+                data = f.read()
+                return data
+        except FileNotFoundError:
+            return None
+    else:
+        try:
+            response = httpx.get(url, timeout=(120.05, None))
+            if response.status_code == 404:
+                return None
+            response.raise_for_status()
+            return response.content
+        except httpx.HTTPStatusError as e:
+            print(f"HTTP error fetching {url}: {str(e)}")
+            return None
+        except Exception as e:
+            print(f"Error fetching {url}: {str(e)}")
+            raise
+
+
 def update(sqldb) -> None:
     current_apps = set(apps.get_appids())
 
-    repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
-    repo = OSTree.Repo.new(repo_file)
-    repo.open(None)
+    repo_url = config.settings.repo_url
+    summary_url = f"{repo_url}/summary"
 
-    _, summary, _ = repo.remote_fetch_summary("flathub", None)
-    summary_dict, updated_at_dict, metadata = parse_summary(summary, sqldb)
+    summary_bytes = fetch_summary_bytes(summary_url)
+    if summary_bytes:
+        summary = GLib.Bytes.new(summary_bytes)
+        summary_dict, updated_at_dict, metadata = parse_summary(summary, sqldb)
+    else:
+        return
 
-    # The main summary file contains only x86_64 refs due to ostree file size
-    # limitations. Since 2020, aarch64 is the only additional arch supported,
-    # so we need to enrich the data by parsing the output of "flatpak
-    # remote-ls", as ostree itself does not expose "sub-summaries".
-    command = [
-        "flatpak",
-        "remote-ls",
-        "--user",
-        "--arch=*",
-        "--columns=ref",
-        "flathub",
-    ]
-    remote_refs_ret = subprocess.run(command, capture_output=True, text=True)
-    if remote_refs_ret.returncode == 0:
-        for ref in remote_refs_ret.stdout.splitlines():
-            if not (valid_ref := validate_ref(ref)):
-                continue
+    summary_idx_url = f"{repo_url}/summary.idx"
+    idx_bytes = fetch_summary_bytes(summary_idx_url)
 
-            _, app_id, arch, branch = valid_ref
-            summary_dict[app_id]["arches"].add(arch)
+    if isinstance(idx_bytes, bytes):
+        idx_data = GLib.Variant.new_from_bytes(
+            GLib.VariantType.new("(a{s(ayaaya{sv})}a{sv})"),
+            GLib.Bytes.new(idx_bytes),
+            True,
+        )
+
+        aarch64_checksum = None
+        aarch64_value = idx_data.get_child_value(0).lookup_value(
+            "aarch64", GLib.VariantType.new("(ayaaya{sv})")
+        )
+        if aarch64_value:
+            aarch64_checksum = OSTree.checksum_from_bytes(
+                aarch64_value.get_child_value(0)
+            )
+
+        if aarch64_checksum:
+            aarch64_url = f"{repo_url}/summaries/{aarch64_checksum}.gz"
+            gzipped_bytes = fetch_summary_bytes(aarch64_url)
+            if gzipped_bytes:
+                aarch64_summary_bytes = gzip.decompress(gzipped_bytes)
+
+                aarch64_summary = GLib.Bytes.new(aarch64_summary_bytes)
+                aarch64_data = GLib.Variant.new_from_bytes(
+                    GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING),
+                    aarch64_summary,
+                    True,
+                )
+                aarch64_refs, _ = aarch64_data.unpack()
+
+                for ref, _ in aarch64_refs:
+                    if not (valid_ref := validate_ref(ref)):
+                        continue
+
+                    _, app_id, arch, branch = valid_ref
+                    if app_id in summary_dict:
+                        summary_dict[app_id]["arches"].add(arch)
 
     if updated_at_dict:
         updated: list = []
