@@ -8,8 +8,8 @@ from datetime import datetime, timedelta
 from typing import Any
 
 import gi
+import httpx
 import jwt
-import requests
 from lxml import etree
 from pydantic import BaseModel
 
@@ -83,7 +83,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             appstream_url = (
                 "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
             )
-        r = requests.get(appstream_url, stream=True)
+        r = httpx.get(appstream_url, stream=True)
         appstream = gzip.decompress(r.raw.data)
 
     root = etree.fromstring(appstream)

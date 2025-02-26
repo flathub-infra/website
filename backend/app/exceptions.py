@@ -1,12 +1,12 @@
 import json
 
-import requests
+import httpx
 
 from . import db
 
 
 def update():
-    r = requests.get(
+    r = httpx.get(
         "https://raw.githubusercontent.com/barthalion/flatpak-builder-lint/HEAD/flatpak_builder_lint/staticfiles/exceptions.json"
     )
 

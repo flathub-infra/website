@@ -3,8 +3,8 @@ import json
 from collections import defaultdict
 from urllib.parse import urlparse, urlunparse
 
+import httpx
 import orjson
-import requests
 
 from app import utils
 
@@ -16,7 +16,7 @@ POPULAR_DAYS_NUM = 7
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
 
 
-def _get_stats_for_date(date: datetime.date, session: requests.Session):
+def _get_stats_for_date(date: datetime.date, session: httpx.Client):
     stats_json_url = urlparse(
         config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
     )
@@ -48,7 +48,7 @@ def _get_stats_for_date(date: datetime.date, session: requests.Session):
 
 def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
     totals: StatsType = {}
-    with requests.Session() as session:
+    with httpx.Client() as session:
         for i in range((edate - sdate).days + 1):
             date = sdate + datetime.timedelta(days=i)
             stats = _get_stats_for_date(date, session)
@@ -76,7 +76,7 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
 
     app_stats_per_day: dict[str, dict[str, int]] = {}
 
-    with requests.Session() as session:
+    with httpx.Client() as session:
         for i in range((edate - sdate).days + 1):
             date = sdate + datetime.timedelta(days=i)
             stats = _get_stats_for_date(date, session)
@@ -100,7 +100,7 @@ def _get_stats(app_count: int):
     delta_downloads_per_day: dict[str, int] = {}
     updates_per_day: dict[str, int] = {}
     totals_country: dict[str, int] = {}
-    with requests.Session() as session:
+    with httpx.Client() as session:
         for i in range((edate - sdate).days + 1):
             date = sdate + datetime.timedelta(days=i)
             stats = _get_stats_for_date(date, session)

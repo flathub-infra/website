@@ -2,7 +2,7 @@ import typing as T
 from typing import Optional
 
 import dramatiq
-import requests
+import httpx
 
 from .. import utils
 from ..config import settings
@@ -22,7 +22,7 @@ def republish_app(
         "republish_app", ["republish"], apps=[app_id], repos=repos
     )
 
-    with requests.Session() as session:
+    with httpx.Client() as session:
         for repo in repos:
             try:
                 payload = {"app": app_id}
@@ -52,7 +52,7 @@ def review_check(
     build_id: int | None = None,
 ):
     token = utils.create_flat_manager_token("review_check", ["reviewcheck"])
-    r = requests.post(
+    r = httpx.post(
         f"{settings.flat_manager_api}/api/v1/job/{job_id}/check/review",
         json={"new-status": {"status": status, "reason": reason}},
         headers={"Authorization": token},
@@ -63,7 +63,7 @@ def review_check(
         token = utils.create_flat_manager_token(
             "review_check_publish_approved", ["publish"], repos=["stable"]
         )
-        r = requests.post(
+        r = httpx.post(
             f"{settings.flat_manager_api}/api/v1/build/{build_id}/publish",
             json={},
             headers={"Authorization": token},
