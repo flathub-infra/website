@@ -345,24 +345,6 @@ def update(sqldb) -> None:
         ]
     )
 
-    db.redis_conn.mset(
-        {
-            f"summary:{app_id}": json.dumps(
-                summary_dict[app_id]["branch"], cls=JSONSetEncoder
-            )
-            for app_id in summary_dict
-        }
-    )
-
-    db.redis_conn.mset(
-        {
-            f"summary:{app_id}:{summary_dict[app_id]['branch']}": json.dumps(
-                summary_dict[app_id], cls=JSONSetEncoder
-            )
-            for app_id in summary_dict
-        }
-    )
-
     # collect all app IDs to update
     apps_to_update = {}
     for app_id, data in summary_dict.items():
@@ -399,19 +381,11 @@ def update(sqldb) -> None:
         for _, old_app_ids in eol_rebase.items():
             for old_app_id_with_branch in old_app_ids:
                 old_app_id = old_app_id_with_branch.split(":")[0]
-                app = models.App.by_appid(sqldb, old_app_id)
-                if app and not app.is_eol:
-                    app.is_eol = True
-                    sqldb.session.add(app)
+                models.App.set_eol_data(sqldb, old_app_id, True)
 
         for app_id_with_branch, _ in eol_message.items():
             app_id = app_id_with_branch.split(":")[0]
-            app = models.App.by_appid(sqldb, app_id)
-            if app and not app.is_eol:
-                app.is_eol = True
-                sqldb.session.add(app)
-
-        sqldb.session.commit()
+            models.App.set_eol_data(sqldb, app_id, True)
     except Exception as e:
         sqldb.session.rollback()
         print(f"Error updating eol values of apps: {str(e)}")

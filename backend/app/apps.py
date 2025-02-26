@@ -1,4 +1,3 @@
-import json
 import re
 from enum import Enum
 
@@ -116,78 +115,60 @@ def load_appstream(sqldb) -> None:
 
     current_apps = get_appids()
 
-    with db.redis_conn.pipeline() as p:
-        p.delete("developers:index")
+    search_apps = []
+    developers = set()
 
-        search_apps = []
-        postgres_apps = []
-        postgres_developers = set()
-
-        for app_id in apps:
-            redis_key = f"apps:{app_id}"
-
-            search_apps.append(
-                add_to_search(
-                    app_id,
-                    apps[app_id],
-                    apps[app_id]["locales"],
-                )
+    for app_id in apps:
+        search_apps.append(
+            add_to_search(
+                app_id,
+                apps[app_id],
+                apps[app_id]["locales"],
             )
+        )
 
-            if developer_name := apps[app_id].get("developer_name"):
-                models.Developers.create(sqldb, developer_name)
-                postgres_developers.add(apps[app_id].get("developer_name"))
+        if developer_name := apps[app_id].get("developer_name"):
+            models.Developers.create(sqldb, developer_name)
+            developers.add(apps[app_id].get("developer_name"))
 
-            if type := apps[app_id].get("type"):
-                # "desktop" dates back to appstream-glib, need to handle that for backwards compat
-                if type == "desktop":
-                    type = "desktop-application"
-            else:
-                type = None
+        if type := apps[app_id].get("type"):
+            # "desktop" dates back to appstream-glib, need to handle that for backwards compat
+            if type == "desktop":
+                type = "desktop-application"
+        else:
+            type = None
 
-            postgres_apps.append(
-                {
-                    "app_id": app_id,
-                    "type": type,
-                }
-            )
+        app_data = apps[app_id].copy()
+        locales = app_data.pop("locales")
 
-            app_data = apps[app_id].copy()
-            locales = app_data.pop("locales")
+        try:
+            app = models.App.set_app(sqldb, app_id, type, locales)
+            if app:
+                app.appstream = app_data
+                sqldb.session.add(app)
+                sqldb.session.commit()
+        except Exception as e:
+            sqldb.session.rollback()
+            print(f"Error updating app {app_id}: {str(e)}")
 
-            try:
-                app = models.App.set_app(sqldb, app_id, type, locales)
-                if app:
-                    app.appstream = app_data
-                    sqldb.session.add(app)
-                    sqldb.session.commit()
+    search.create_or_update_apps(search_apps)
 
-                p.set(redis_key, json.dumps(app_data))
-            except Exception as e:
-                sqldb.session.rollback()
-                print(f"Error updating app {app_id}: {str(e)}")
+    current_developers = models.Developers.all(sqldb.session)
+    for developer in current_developers:
+        if developer.name not in developers:
+            models.Developers.delete(sqldb, developer.name)
 
-        search.create_or_update_apps(search_apps)
+    apps_to_delete_from_search = []
+    for app_id in set(current_apps) - set(apps):
+        # Preserve app_stats when deleting app
+        app_stats_key = f"app_stats:{app_id}"
+        if db.redis_conn.exists(app_stats_key):
+            continue
 
-        developers = models.Developers.all(sqldb.session)
+        apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
+        models.App.delete_app(sqldb, app_id)
 
-        for developer in developers:
-            if developer.name not in postgres_developers:
-                models.Developers.delete(sqldb, developer.name)
-
-        apps_to_delete_from_search = []
-        for app_id in set(current_apps) - set(apps):
-            p.delete(
-                f"apps:{app_id}",
-                f"summary:{app_id}",
-                f"app_stats:{app_id}",
-            )
-            apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
-            models.App.delete_app(sqldb, app_id)
-
-        search.delete_apps(apps_to_delete_from_search)
-
-        p.execute()
+    search.delete_apps(apps_to_delete_from_search)
 
 
 def get_appids(type: AppType = AppType.APPS) -> list[str]:
