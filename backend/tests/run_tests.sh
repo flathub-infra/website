@@ -26,5 +26,5 @@ for container in backend worker; do
     docker compose exec $container flatpak --user update
 done
 
-docker compose exec backend /venv/bin/python -m pip install pytest httpx pytest-insta
-docker compose exec backend /venv/bin/python -m pytest -vvvv tests/main.py
+docker compose exec backend /.venv/bin/python -m pip install pytest httpx pytest-insta
+docker compose exec backend /.venv/bin/python -m pytest -vvvv tests/main.py
