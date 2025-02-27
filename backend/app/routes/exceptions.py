@@ -16,14 +16,16 @@ def register_to_app(app: FastAPI):
 
 
 @router.get("/", tags=["app"])
-def get_exceptions(db_session=Depends(get_db)):
-    return Exceptions.get_all_exceptions(db_session)
+def get_exceptions():
+    with get_db() as db:
+        return Exceptions.get_all_exceptions(db)
 
 
 @router.get("/{app_id}", tags=["app"])
-def get_exceptions_for_app(app_id: str, response: Response, db_session=Depends(get_db)):
-    if exc := Exceptions.get_exception(db_session, app_id):
-        return exc
+def get_exceptions_for_app(app_id: str, response: Response):
+    with get_db() as db:
+        if exc := Exceptions.get_exception(db, app_id):
+            return exc
 
     response.status_code = 404
     return None
