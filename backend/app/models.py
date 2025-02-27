@@ -1,4 +1,5 @@
 import enum
+import json
 from datetime import date, datetime, timedelta
 from math import ceil
 from typing import Any, Optional, Union
@@ -2394,6 +2395,15 @@ class App(Base):
         if branch:
             eol_branches = app.eol_branches or []
 
+            if isinstance(eol_branches, str):
+                try:
+                    eol_branches = json.loads(eol_branches)
+                except json.JSONDecodeError:
+                    eol_branches = []
+
+            if not isinstance(eol_branches, list):
+                eol_branches = []
+
             if is_eol and branch not in eol_branches:
                 eol_branches.append(branch)
                 app.eol_branches = eol_branches
@@ -2414,7 +2424,18 @@ class App(Base):
             return False
 
         if branch and app.eol_branches:
-            return branch in app.eol_branches
+            eol_branches = app.eol_branches
+
+            if isinstance(eol_branches, str):
+                try:
+                    eol_branches = json.loads(eol_branches)
+                except json.JSONDecodeError:
+                    eol_branches = []
+
+            if not isinstance(eol_branches, list):
+                eol_branches = []
+
+            return branch in eol_branches
 
         return app.is_eol
 
