@@ -67,8 +67,9 @@ def get_json_key(key: str):
         parts = key.split(":")
         if len(parts) > 1:
             app_id = parts[1]
+            branch = parts[2] if len(parts) > 2 else None
             with get_db() as sqldb:
-                is_eol = models.App.get_eol_data(sqldb, app_id)
+                is_eol = models.App.get_eol_data(sqldb, app_id, branch)
                 if is_eol:
                     return "This application is end-of-life."
                 return None

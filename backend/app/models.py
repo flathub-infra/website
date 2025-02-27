@@ -2260,6 +2260,9 @@ class App(Base):
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
+    eol_branches = mapped_column(
+        JSONB, nullable=True
+    )  # Store EOL-ed branches as JSON array
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
@@ -2383,16 +2386,37 @@ class App(Base):
             db.session.commit()
 
     @classmethod
-    def set_eol_data(cls, db, app_id: str, is_eol: bool) -> None:
+    def set_eol_data(cls, db, app_id: str, is_eol: bool, branch: str = None) -> None:
         app = App.by_appid(db, app_id)
-        if app and app.is_eol != is_eol:
-            app.is_eol = is_eol
-            db.session.commit()
+        if not app:
+            return
+
+        if branch:
+            eol_branches = app.eol_branches or []
+
+            if is_eol and branch not in eol_branches:
+                eol_branches.append(branch)
+                app.eol_branches = eol_branches
+                db.session.commit()
+            elif not is_eol and branch in eol_branches:
+                eol_branches.remove(branch)
+                app.eol_branches = eol_branches
+                db.session.commit()
+        else:
+            if app.is_eol != is_eol:
+                app.is_eol = is_eol
+                db.session.commit()
 
     @classmethod
-    def get_eol_data(cls, db, app_id: str) -> bool:
+    def get_eol_data(cls, db, app_id: str, branch: str = None) -> bool:
         app = App.by_appid(db, app_id)
-        return app.is_eol if app else False
+        if not app:
+            return False
+
+        if branch and app.eol_branches:
+            return branch in app.eol_branches
+
+        return app.is_eol
 
     @classmethod
     def status_summarized(

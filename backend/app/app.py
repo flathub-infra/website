@@ -131,7 +131,9 @@ def get_summary(
                 runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
                     "/"
                 )
-                runtime_is_eol = models.App.get_eol_data(db_session, runtime_appid)
+                runtime_is_eol = models.App.get_eol_data(
+                    db_session, runtime_appid, runtime_branch
+                )
                 summary["metadata"]["runtimeIsEol"] = runtime_is_eol
 
             return summary

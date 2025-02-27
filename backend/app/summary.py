@@ -380,12 +380,24 @@ def update(sqldb) -> None:
     try:
         for _, old_app_ids in eol_rebase.items():
             for old_app_id_with_branch in old_app_ids:
-                old_app_id = old_app_id_with_branch.split(":")[0]
-                models.App.set_eol_data(sqldb, old_app_id, True)
+                parts = old_app_id_with_branch.split(":")
+                old_app_id = parts[0]
+                old_branch = parts[1] if len(parts) > 1 else None
+
+                if old_branch:
+                    models.App.set_eol_data(sqldb, old_app_id, True, old_branch)
+                else:
+                    models.App.set_eol_data(sqldb, old_app_id, True)
 
         for app_id_with_branch, _ in eol_message.items():
-            app_id = app_id_with_branch.split(":")[0]
-            models.App.set_eol_data(sqldb, app_id, True)
+            parts = app_id_with_branch.split(":")
+            app_id = parts[0]
+            branch = parts[1] if len(parts) > 1 else None
+
+            if branch:
+                models.App.set_eol_data(sqldb, app_id, True, branch)
+            else:
+                models.App.set_eol_data(sqldb, app_id, True)
     except Exception as e:
         sqldb.session.rollback()
         print(f"Error updating eol values of apps: {str(e)}")
