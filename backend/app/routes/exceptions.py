@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, FastAPI, Response
 from fastapi.responses import ORJSONResponse
 
-from .. import db
 from ..database import get_db
 from ..models import Exceptions
 
@@ -27,4 +26,4 @@ def get_exceptions_for_app(app_id: str, response: Response, db_session=Depends(g
         return exc
 
     response.status_code = 404
-    return None 
+    return None
