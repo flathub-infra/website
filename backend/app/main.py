@@ -82,7 +82,7 @@ compat.register_to_app(router)
 feed.register_to_app(router)
 quality_moderation.register_to_app(router)
 upload_tokens.register_to_app(router)
-exceptions.register_to_app(app)
+exceptions.register_to_app(router)
 
 users.register_to_app(router)
 favorites.register_to_app(router)
