@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, FastAPI, Response
+from fastapi import APIRouter, FastAPI, Response
 from fastapi.responses import ORJSONResponse
 
 from ..database import get_db
