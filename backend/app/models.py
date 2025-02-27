@@ -2767,3 +2767,36 @@ class Developers(Base):
             db.session.commit()
 
         return developer
+
+
+class Exceptions(Base):
+    __tablename__ = "exceptions"
+
+    app_id = mapped_column(String, primary_key=True)
+    value = mapped_column(JSONB, nullable=False)
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    @classmethod
+    def set_exception(cls, db, app_id: str, value: dict) -> "Exceptions":
+        exception = db.query(cls).filter(cls.app_id == app_id).first()
+
+        if exception:
+            exception.value = value
+            exception.updated_at = func.now()
+        else:
+            exception = cls(app_id=app_id, value=value)
+            db.add(exception)
+
+        return exception
+
+    @classmethod
+    def get_exception(cls, db, app_id: str) -> dict | None:
+        exception = db.query(cls).filter(cls.app_id == app_id).first()
+        if exception:
+            return exception.value
+        return None
+
+    @classmethod
+    def get_all_exceptions(cls, db) -> dict:
+        exceptions = db.query(cls).all()
+        return {exception.app_id: exception.value for exception in exceptions}

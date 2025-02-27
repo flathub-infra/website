@@ -150,20 +150,6 @@ def get_platforms() -> dict[str, utils.Platform]:
     return utils.PLATFORMS
 
 
-@router.get("/exceptions", tags=["app"])
-def get_exceptions():
-    return db.get_json_key("exc")
-
-
-@router.get("/exceptions/{app_id}", tags=["app"])
-def get_exceptions_for_app(app_id: str, response: Response):
-    if exc := db.get_json_key(f"exc:{app_id}"):
-        return exc
-
-    response.status_code = 404
-    return None
-
-
 @router.get("/addon/{app_id}", tags=["app"])
 def get_addons(app_id: str) -> list[str]:
     addon_ids = apps.get_addons(app_id)
