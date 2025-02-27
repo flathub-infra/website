@@ -2405,12 +2405,14 @@ class App(Base):
                 eol_branches = []
 
             if is_eol and branch not in eol_branches:
-                eol_branches.append(branch)
-                app.eol_branches = eol_branches
+                new_eol_branches = eol_branches.copy()
+                new_eol_branches.append(branch)
+                app.eol_branches = new_eol_branches
                 db.session.commit()
             elif not is_eol and branch in eol_branches:
-                eol_branches.remove(branch)
-                app.eol_branches = eol_branches
+                new_eol_branches = eol_branches.copy()
+                new_eol_branches.remove(branch)
+                app.eol_branches = new_eol_branches
                 db.session.commit()
         else:
             if app.is_eol != is_eol:

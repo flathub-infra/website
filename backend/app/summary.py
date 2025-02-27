@@ -64,7 +64,9 @@ def parse_eol_data(metadata):
             if "eolr" in eol_dict:
                 new_id = eol_dict["eolr"].split("/")[1]
                 if new_id in eol_rebase:
-                    eol_rebase[new_id].append(app_id)
+                    app_id_with_branch = f"{app_id}:{branch}"
+                    if app_id_with_branch not in eol_rebase[new_id]:
+                        eol_rebase[new_id].append(app_id_with_branch)
                 else:
                     eol_rebase[new_id] = [f"{app_id}:{branch}"]
             elif "eol" in eol_dict:
