@@ -1,7 +1,6 @@
 import httpx
 from sqlalchemy import delete
 
-from . import db
 from .database import get_db
 from .models import Exceptions
 
@@ -27,8 +26,3 @@ def update():
 
             for app_id, exception_data in exceptions.items():
                 Exceptions.set_exception(db_session, app_id, exception_data)
-
-            if app_ids_to_delete:
-                redis_keys_to_delete = [f"exc:{app_id}" for app_id in app_ids_to_delete]
-                if redis_keys_to_delete:
-                    db.redis_conn.delete(*redis_keys_to_delete)
