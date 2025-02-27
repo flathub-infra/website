@@ -63,6 +63,29 @@ def get_json_key(key: str):
                 elif len(parts) == 2:
                     return app.summary.get("branch", "stable")
 
+    if key == "summary:reverse_lookup":
+        with get_db() as sqldb:
+            return models.AppExtensionLookup.get_all_mappings(sqldb)
+
+    if key == "eol_rebase":
+        with get_db() as sqldb:
+            return models.AppEolRebase.get_all_rebases(sqldb)
+
+    if key == "eol_message":
+        with get_db() as sqldb:
+            apps_with_eol_messages = (
+                sqldb.query(models.App.app_id, models.App.eol_message)
+                .filter(models.App.eol_message.isnot(None))
+                .all()
+            )
+            return {app.app_id: app.eol_message for app in apps_with_eol_messages}
+
+    if key.startswith("eol_rebase:"):
+        parts = key.split(":")
+        old_app_id = parts[1]
+        with get_db() as sqldb:
+            return models.AppEolRebase.get_new_app_id(sqldb, old_app_id)
+
     if key.startswith("eol_message:"):
         parts = key.split(":")
         if len(parts) > 1:
@@ -71,7 +94,10 @@ def get_json_key(key: str):
             with get_db() as sqldb:
                 is_eol = models.App.get_eol_data(sqldb, app_id, branch)
                 if is_eol:
-                    return "This application is end-of-life."
+                    return (
+                        models.App.get_eol_message(sqldb, app_id)
+                        or "This application is end-of-life."
+                    )
                 return None
 
     if value := redis_conn.get(key):
