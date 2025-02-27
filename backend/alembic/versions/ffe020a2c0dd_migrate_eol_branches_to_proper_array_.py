@@ -30,7 +30,7 @@ def upgrade():
     )
     
     rows = connection.execute(
-        select([apps_table.c.id, apps_table.c.app_id, apps_table.c.eol_branches])
+        select(apps_table.c.id, apps_table.c.app_id, apps_table.c.eol_branches)
         .where(apps_table.c.eol_branches != None)
     ).fetchall()
     
