@@ -30,7 +30,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 
 from . import utils
-from .database import DBSession
+from .db_session import DBSession
 
 
 class Pagination(BaseModel):
@@ -2261,9 +2261,8 @@ class App(Base):
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
-    eol_branches = mapped_column(
-        JSONB, nullable=True
-    )  # Store EOL-ed branches as JSON array
+    eol_branches = mapped_column(JSONB, nullable=True)
+    eol_message = mapped_column(String, nullable=True)
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
@@ -2440,6 +2439,23 @@ class App(Base):
             return branch in eol_branches
 
         return app.is_eol
+
+    @classmethod
+    def set_eol_message(cls, db, app_id: str, message: str) -> None:
+        app = App.by_appid(db, app_id)
+        if not app:
+            return
+
+        app.eol_message = message
+        db.session.commit()
+
+    @classmethod
+    def get_eol_message(cls, db, app_id: str) -> str | None:
+        app = App.by_appid(db, app_id)
+        if not app:
+            return None
+
+        return app.eol_message
 
     @classmethod
     def status_summarized(
@@ -2847,3 +2863,92 @@ class Exceptions(Base):
     def get_all_exceptions(cls, db) -> dict:
         exceptions = db.query(cls).all()
         return {exception.app_id: exception.value for exception in exceptions}
+
+
+class AppEolRebase(Base):
+    """Maps app IDs to EOL rebased application IDs"""
+
+    __tablename__ = "app_eol_rebase"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True, unique=True)
+    old_app_ids = mapped_column(JSONB, nullable=False)
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    @classmethod
+    def set_rebases(cls, db, app_id: str, old_app_ids: list[str]) -> "AppEolRebase":
+        rebase = db.query(cls).filter(cls.app_id == app_id).first()
+
+        if rebase:
+            rebase.old_app_ids = old_app_ids
+            rebase.updated_at = func.now()
+        else:
+            rebase = cls(app_id=app_id, old_app_ids=old_app_ids)
+            db.add(rebase)
+
+        db.commit()
+        return rebase
+
+    @classmethod
+    def get_new_app_id(cls, db, old_app_id: str) -> str | None:
+        rebase = db.query(cls).filter(cls.old_app_ids.contains([old_app_id])).first()
+
+        return rebase.app_id if rebase else None
+
+    @classmethod
+    def get_old_app_ids(cls, db, app_id: str) -> list[str]:
+        rebase = db.query(cls).filter(cls.app_id == app_id).first()
+        return rebase.old_app_ids if rebase else []
+
+    @classmethod
+    def get_all_rebases(cls, db) -> dict[str, list[str]]:
+        rebases = db.query(cls).all()
+        return {rebase.app_id: rebase.old_app_ids for rebase in rebases}
+
+
+class AppExtensionLookup(Base):
+    """Maps extension IDs to their parent app IDs for flathub-hooks"""
+
+    __tablename__ = "app_extension_lookup"
+
+    id = mapped_column(Integer, primary_key=True)
+    extension_id = mapped_column(String, nullable=False, index=True, unique=True)
+    parent_app_id = mapped_column(String, nullable=False, index=True)
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    @classmethod
+    def set_parent(
+        cls, db, extension_id: str, parent_app_id: str
+    ) -> "AppExtensionLookup":
+        lookup = db.query(cls).filter(cls.extension_id == extension_id).first()
+
+        if lookup:
+            lookup.parent_app_id = parent_app_id
+            lookup.updated_at = func.now()
+        else:
+            lookup = cls(extension_id=extension_id, parent_app_id=parent_app_id)
+            db.add(lookup)
+
+        db.commit()
+        return lookup
+
+    @classmethod
+    def get_parent(cls, db, extension_id: str) -> str | None:
+        lookup = db.query(cls).filter(cls.extension_id == extension_id).first()
+        return lookup.parent_app_id if lookup else None
+
+    @classmethod
+    def get_all_mappings(cls, db) -> dict[str, str]:
+        lookups = db.query(cls).all()
+        return {lookup.extension_id: lookup.parent_app_id for lookup in lookups}
+
+    @classmethod
+    def set_all_mappings(cls, db, mappings: dict[str, str]) -> None:
+        # Consider first deleting all existing mappings
+        db.query(cls).delete()
+
+        # Insert new mappings
+        for extension_id, parent_app_id in mappings.items():
+            db.add(cls(extension_id=extension_id, parent_app_id=parent_app_id))
+
+        db.commit()

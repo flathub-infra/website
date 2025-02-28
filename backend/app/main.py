@@ -10,7 +10,6 @@ from sentry_sdk.integrations.starlette import StarletteIntegration
 from . import (
     app,
     config,
-    db,
     emails,
     logins,
     moderation,
@@ -87,11 +86,6 @@ exceptions.register_to_app(router)
 users.register_to_app(router)
 favorites.register_to_app(router)
 stats.register_to_app(router)
-
-
-@router.on_event("startup")
-def startup_event():
-    db.wait_for_redis()
 
 
 @router.get("/status", status_code=200, tags=["healthcheck"])

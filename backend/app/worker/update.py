@@ -3,8 +3,7 @@ from datetime import UTC, datetime
 import dramatiq
 
 from .. import apps, exceptions, models, search, summary, utils
-from ..database import get_db
-from ..db import get_json_key
+from ..database import get_db, get_json_key
 
 
 @dramatiq.actor

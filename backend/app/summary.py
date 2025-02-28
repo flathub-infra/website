@@ -12,7 +12,7 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import GLib, OSTree
 
-from . import apps, config, db, models, search, utils
+from . import apps, config, database, models, search, utils
 
 
 class JSONSetEncoder(json.JSONEncoder):
@@ -44,7 +44,7 @@ def validate_ref(ref: str):
 
 
 def get_parent_id(app_id: str):
-    if reverse_lookup := db.get_json_key("summary:reverse_lookup"):
+    if reverse_lookup := database.get_json_key("summary:reverse_lookup"):
         if parent := reverse_lookup.get(app_id):
             return parent
 
@@ -72,7 +72,6 @@ def parse_eol_data(metadata):
             elif "eol" in eol_dict:
                 eol_message[f"{app_id}:{branch}"] = eol_dict["eol"]
 
-    # Support changing of App ID multiple times
     while True:
         found = False
         remove_list = []
@@ -380,42 +379,46 @@ def update(sqldb) -> None:
     eol_rebase, eol_message = parse_eol_data(metadata)
 
     try:
-        for _, old_app_ids in eol_rebase.items():
-            for old_app_id_with_branch in old_app_ids:
-                parts = old_app_id_with_branch.split(":")
-                old_app_id = parts[0]
-                old_branch = parts[1] if len(parts) > 1 else None
+        for app_id, old_id_list in eol_rebase.items():
+            for old_id_and_branch in old_id_list:
+                if ":" in old_id_and_branch:
+                    old_id, old_branch = old_id_and_branch.split(":", 1)
+                else:
+                    old_id, old_branch = old_id_and_branch, None
 
                 if old_branch:
-                    models.App.set_eol_data(sqldb, old_app_id, True, old_branch)
+                    models.App.set_eol_data(sqldb, old_id, True, old_branch)
                 else:
-                    models.App.set_eol_data(sqldb, old_app_id, True)
-
-        for app_id_with_branch, _ in eol_message.items():
-            parts = app_id_with_branch.split(":")
-            app_id = parts[0]
-            branch = parts[1] if len(parts) > 1 else None
-
-            if branch:
-                models.App.set_eol_data(sqldb, app_id, True, branch)
-            else:
-                models.App.set_eol_data(sqldb, app_id, True)
+                    models.App.set_eol_data(sqldb, old_id, True)
     except Exception as e:
         sqldb.session.rollback()
         print(f"Error updating eol values of apps: {str(e)}")
 
-    db.redis_conn.mset(
-        {"eol_rebase": json.dumps(eol_rebase), "eol_message": json.dumps(eol_message)}
-    )
-
-    for app_id, old_id_list in eol_rebase.items():
+    processed_rebases = {}
+    for new_app_id, old_id_list in eol_rebase.items():
+        processed_old_ids = []
         for old_id_and_branch in old_id_list:
-            db.redis_conn.mset({f"eol_rebase:{old_id_and_branch}": json.dumps(app_id)})
+            if ":" in old_id_and_branch:
+                old_id = old_id_and_branch.split(":", 1)[0]
+            else:
+                old_id = old_id_and_branch
+
+            if old_id not in processed_old_ids:
+                processed_old_ids.append(old_id)
+
+        processed_rebases[new_app_id] = processed_old_ids
+
+    for new_app_id, old_ids in processed_rebases.items():
+        models.AppEolRebase.set_rebases(sqldb, new_app_id, old_ids)
 
     for appid_and_branch, message in eol_message.items():
-        db.redis_conn.mset({f"eol_message:{appid_and_branch}": json.dumps(message)})
+        if ":" in appid_and_branch:
+            app_id = appid_and_branch.split(":", 1)[0]
+        else:
+            app_id = appid_and_branch
 
-    # Build reverse lookup map for flathub-hooks
+        models.App.set_eol_message(sqldb, app_id, message)
+
     reverse_lookup = {}
     for ref in metadata["xa.cache"]:
         app_id = ref.split("/")[1]
@@ -435,4 +438,4 @@ def update(sqldb) -> None:
         except GLib.Error:
             pass
 
-    db.redis_conn.set("summary:reverse_lookup", json.dumps(reverse_lookup))
+    models.AppExtensionLookup.set_all_mappings(sqldb, reverse_lookup)
