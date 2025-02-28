@@ -8,7 +8,6 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
-    app,
     config,
     emails,
     logins,
@@ -22,6 +21,7 @@ from . import (
 )
 from .routes import (
     app_picks,
+    apps,
     collection,
     compat,
     exceptions,
@@ -62,7 +62,7 @@ router.add_middleware(
     allow_headers=["*"],
 )
 
-app.register_to_app(router)
+apps.register_to_app(router)
 update.register_to_app(router)
 
 emails.register_to_app(router)
