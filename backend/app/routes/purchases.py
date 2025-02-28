@@ -9,9 +9,9 @@ from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
 from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
 
-from . import config, logins, models, summary
-from .database import get_db, get_json_key
-from .verification import VerificationStatus, get_verification_status, is_appid_runtime
+from .. import config, logins, models, summary
+from ..database import get_db, get_json_key
+from ..verification import VerificationStatus, get_verification_status, is_appid_runtime
 
 gi.require_version("AppStream", "1.0")
 
