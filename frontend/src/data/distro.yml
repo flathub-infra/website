@@ -52,17 +52,17 @@
       text: "
         <p>To install Flatpak on operating systems of the Alt family, open the Terminal app and run:</p>
         <terminal-command>
-          su -\n
-          apt-get update\n
-          apt-get install flatpak\n
+        su -\n
+        apt-get update\n
+        apt-get install flatpak\n
         </terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is a great place to get Flatpak apps. To enable it on your Alt system, run:</p>
         <terminal-command>
-          su -\n
-          apt-get update\n
-          apt-get install flatpak-repo-flathub\n
+        su -\n
+        apt-get update\n
+        apt-get install flatpak-repo-flathub\n
         </terminal-command>"
     - name: Restart
       text: '
@@ -80,9 +80,9 @@
       text: '
         <p>Press the Search/Launcher key, type "Terminal", and launch the Terminal app.</p>'
     - name: Install Flatpak
-      text: '
+      text: "
         <p>To install Flatpak, run the following in the terminal:</p>
-        <terminal-command>sudo apt install flatpak</terminal-command>'
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
@@ -365,36 +365,6 @@
     <p>Flatpak is installed by default on PureOS. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
     <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
-- name: Turkman Linux
-  logo: "turkman.svg"
-  steps:
-    - name: Install Flatpak
-      text: '
-        <p>To install Flatpak on Turkman Linux, run the following in a terminal:</p>
-        <p>Emerge way</p>
-        <terminal-command>
-          ymp install build-base --no-emerge\n
-          ymp install flatpak\n
-        </terminal-command>
-        <p>No emerge way</p>
-        <terminal-command>ymp install flatpak --no-emerge</terminal-command>'
-    - name: Enable services
-      text: '
-        <p>To enable services on Turkman Linux, run the following in a terminal:</p>
-        <terminal-command>
-          rc-update add devfs\n
-          rc-update add fuse\n
-          rc-update add hostname\n
-        </terminal-command>'
-    - name: Add the Flathub repository
-      text: "
-        <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
-    - name: Restart
-      text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
-        <p>Note: graphical installation of Flatpak apps may not be possible with Turkman Linux.</p>'
-
 - name: Ataraxia Linux
   logo: "ataraxia.svg"
   logo_dark: "ataraxia-dark.svg"
@@ -432,8 +402,8 @@
       text: '
         <p>To install light and dark themes, run:</p>
         <terminal-command>
-          flatpak install flathub org.gtk.Gtk3theme.deepin\n
-          flatpak install flathub org.gtk.Gtk3theme.deepin-dark\n
+        flatpak install flathub org.gtk.Gtk3theme.deepin\n
+        flatpak install flathub org.gtk.Gtk3theme.deepin-dark\n
         </terminal-command>'
     - name: Restart
       text: '
@@ -443,9 +413,9 @@
   logo: "pardus.svg"
   steps:
     - name: Install Flatpak
-      text: '
+      text: "
         <p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p>
-        <terminal-command>sudo apt install flatpak</terminal-command>'
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Install the Software Flatpak plugin
       text: "
         <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
