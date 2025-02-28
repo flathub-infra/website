@@ -2,7 +2,7 @@ from typing import Generic, TypeVar
 from urllib.parse import unquote
 
 import meilisearch
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from . import config, schemas
 from .verification_method import VerificationMethod
@@ -55,6 +55,13 @@ class AppsIndex(BaseModel):
     verification_website: str | None
     verification_timestamp: str | None
     verification_login_is_organization: str | None
+
+    # Custom validator to map None to the Enum 'NONE'
+    @field_validator("verification_method", mode="before")
+    def map_none_to_enum(cls, v):
+        if v is None:
+            return VerificationMethod.NONE
+        return
 
 
 class Filter(BaseModel):
