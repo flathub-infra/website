@@ -406,25 +406,6 @@
     "distroName": "OpenMandriva Lx",
     "introduction": "<0>El soporte de Flatpak está construido en OpenMandriva para todas las versiones soportadas de forma activa, comenzando desde el lanzamiento estable/corregido 'Rock 5.0', pasando por el lanzamiento de desarrollo 'Cooker', y finalizando con el lanzamiento progresivo 'ROME'.</0> <p> Flatpak viene con el repositorio de Flathub preconfigurado.</p>"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-2": {
-      "name": "Activar servicios",
-      "text": "<p>Para activar servicios en Turkman Linux, ejecute lo siguiente en una terminal:</p> <2></2>"
-    },
-    "step-3": {
-      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>",
-      "name": "Añadir el repositorio Flathub"
-    },
-    "step-4": {
-      "name": "Reiniciar",
-      "text": "<0>Para completar la instalación, reinicie el sistema. Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>.</0> <p>Nota: la instalación gráfica de aplicaciones Flatpak puede no ser posible con Turkman Linux.</p>"
-    },
-    "step-1": {
-      "name": "Instalar Flatpak",
-      "text": "<p>Para instalar Flatpak en Turkman Linux, ejecute lo siguiente en una terminal:</p> <p>Método Emerge</p> <4></4> <p>Sin método Emerge</p> <8></8>"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {

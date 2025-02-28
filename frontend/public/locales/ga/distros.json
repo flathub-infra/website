@@ -308,25 +308,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Tá Flatpak suiteáilte de réir réamhshocraithe ar PureOS. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun apps Flatpak a fháil. Níl le déanamh ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
   },
-  "turkman_linux": {
-    "distroName": "Tuircman Linux",
-    "step-1": {
-      "name": "Suiteáil Flatpak",
-      "text": "<p>Chun Flatpak a shuiteáil ar Turkman Linux, rith an méid seo a leanas i dteirminéal:</p> <p>Bealach chun cinn</p> <4></4> <p>Níl aon bhealach chun cinn</p> <8> </8>"
-    },
-    "step-2": {
-      "name": "Cumasaigh seirbhísí",
-      "text": "<p>Chun seirbhísí ar Turkman Linux a chumasú, rith na rudaí seo a leanas i dteirminéal:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Cuir stór Flathub leis",
-      "text": "<p>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</p> <2></2>"
-    },
-    "step-4": {
-      "name": "Athosaigh",
-      "text": "<0>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <2>aipeanna a shuiteáil</2>!</0> <p>Tabhair faoi deara: seans nach féidir aipeanna Flatpak a shuiteáil go grafach le Turkman Linux.</p>"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {

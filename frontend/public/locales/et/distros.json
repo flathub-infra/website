@@ -308,25 +308,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak on PureOSis vaikimisi olemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigaldada <2>Flathubi tarkvarahoidla seadistusfail</2>.</0> <2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-2": {
-      "name": "Lülita teenused sisse",
-      "text": "<p>Lubamaks Flatpak teenust Turkman Linuxis, ava terminalirakendus ja käivita:</p> <2></2>"
-    },
-    "step-4": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Turkman Linuxi puhul toimida.</p>"
-    },
-    "step-3": {
-      "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak",
-      "text": "<p>Flatpaki paigaldamiseks Turkman Linuxis käivita terminalis:</p> <p>Kui soovid kasutada emerge'i</p> <4></4> <p>Kui ei soovi kasutada emerge'i</p> <8></8>"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-2": {

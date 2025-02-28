@@ -326,17 +326,6 @@
       "name": "Redémarrer"
     }
   },
-  "turkman_linux": {
-    "step-1": {
-      "name": "Installer Flatpak"
-    },
-    "step-3": {
-      "name": "Ajouter le dépôt Flathub"
-    },
-    "step-4": {
-      "name": "Redémarrer"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {

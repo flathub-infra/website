@@ -308,25 +308,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak-u është i instaluar, si parazgjedhje, në PureOS. Që t’ia filloni, krejt çka ju duhet të bëni është të aktivizoni Flathub-in, që është rruga më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <2>kartelën e depos Flathub</2>.</0> <2>Tani, krejt çka ju duhet të bëni, është <2>të instaloni aplikacione</2>!</2>"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-1": {
-      "name": "Instaloni Flatpak-un",
-      "text": "<p>Që të instaloni Flatpak-un në Turkman Linux, ekzekutoni në një terminal sa vijon:</p> <p>Mënyra “Emerge”</p> <4></4> <p>Mënyra “No emerge“</p> <8></8>"
-    },
-    "step-2": {
-      "name": "Aktivizoni shërbime",
-      "text": "<p>Që të aktivizoni shërbime në Turkman Linux, ekzekutoni në një terminal sa vijon:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Shtoni depon Flathub",
-      "text": "<p>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, ekzekutoni:</p> <2></2>"
-    },
-    "step-4": {
-      "name": "Rinise",
-      "text": "<0>Që të plotësoni ujdisjen, rinisni sistemin tuaj. Tani, krejt çka ju duhet të bëni, është <2>të instaloni aplikacione</2>!</0> <p>Shënim: instalimi grafik i aplikacioneve Flatpak mund të mos jetë i mundshëm me Turkman Linux.</p>"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {

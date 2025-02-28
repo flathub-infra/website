@@ -109,25 +109,6 @@
       "text": "<p>Flathub is the best place to get Flatpak apps. To enable it, run:</p> <2></2>"
     }
   },
-  "turkman_linux": {
-    "step-3": {
-      "text": "<p>Flathub is the best place to get Flatpak apps. To enable it, run:</p> <2></2>",
-      "name": "Add the Flathub repository"
-    },
-    "distroName": "Turkman Linux",
-    "step-1": {
-      "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Turkman Linux, run the following in a terminal:</p> <p>Emerge way</p> <4></4> <p>No emerge way</p> <8></8>"
-    },
-    "step-2": {
-      "name": "Enable services",
-      "text": "<p>To enable services on Turkman Linux, run the following in a terminal:</p> <2></2>"
-    },
-    "step-4": {
-      "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Turkman Linux.</p>"
-    }
-  },
   "pardus": {
     "step-4": {
       "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>",

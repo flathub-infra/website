@@ -107,14 +107,6 @@
       "name": "Installar Flatpak"
     }
   },
-  "turkman_linux": {
-    "step-1": {
-      "name": "Installar Flatpak"
-    },
-    "step-3": {
-      "name": "Adder le repositorio de Flathub"
-    }
-  },
   "ataraxia_linux": {
     "step-1": {
       "name": "Installar Flatpak"
