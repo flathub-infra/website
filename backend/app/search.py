@@ -28,6 +28,7 @@ class MeilisearchResponseLimited(BaseModel, Generic[T]):
     offset: int
     estimatedTotalHits: int
     facetDistribution: dict[str, dict[str, int]]
+    facetStats: dict[str, dict[str, int]]
 
 
 U = TypeVar("U", MeilisearchResponse, MeilisearchResponseLimited)
