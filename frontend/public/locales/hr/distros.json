@@ -60,8 +60,9 @@
     "distroName": "Solus",
     "step-3": {
       "name": "Pokreni ponovo",
-      "text": "<0>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <2>instalirati aplikacije</2>!</0> <p>Napomena: grafička instalacija Flatpak aplikacija još nije moguća sa Solus, ali će uskoro biti dostupna.</p>"
-    }
+      "text": "<0>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <2>instalirati aplikacije</2>!</0> <p>Napomena: grafička instalacija Flatpak aplikacija je dostupna samo putem aplikacija GNOME Softver i/ili KDE Discover.</p>"
+    },
+    "introduction": "<p>Podrška za Flatpak je ugrađena u Solus 4.7 i novijim verzijama – bez potrebe za postavljanjem! Flatpak aplikacije se mogu instalirati putem aplikacija GNOME Softver i/ili KDE Discover.</p> <p>Ako FlatPak nije instaliran, slijedite upute u nastavku da biste započeli. </p>"
   },
   "deepin": {
     "step-2": {
@@ -186,7 +187,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<p>Flatpak je dostupan u zadanim repozitorijima svih trenutačno održavanih openSUSE Leap i openSUSE Tumbleweed verzija.</p> <2>Ako preferiraš grafičku instalaciju, instaliraj Flatpak pomoću instalacije jednim klikom (1-click installer) sa <2>software.opensuse.org</2>. Ako tvoja verzija distribucije standardno nije prikazana, najprije klikni <5>Prikaži Flatpak za druge distribucije</5>, a zatim odaberi distribuciju iz popisa.</2> <p>Alternativno, instaliraj Flatpak pomoću naredbenog retka koristeći Zypper:</p> <6></6>"
+      "text": "<p>Flatpak je dostupan u zadanim repozitorijima svih trenutačno održavanih openSUSE Leap i openSUSE Tumbleweed verzija.</p> <2>Ako preferiraš grafičku instalaciju, instaliraj Flatpak pomoću instalacije jednim klikom (1-click installer) sa <2>software.opensuse.org</2>. Ako tvoja verzija distribucije standardno nije prikazana, najprije klikni <5>Prikaži</5> u kategoriji nepodržanih distribucija, a zatim odaberi distribuciju iz popisa.</2> <p>Alternativno, instaliraj Flatpak pomoću naredbenog retka koristeći Zypper:</p> <6></6>"
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
@@ -279,7 +280,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Podrška za Flatpak je ugrađena u Pop!_OS 20.04 i novijim verzijama – bez potrebe za postavljanjem!</0> <p>Ako koristiš stariju verziju, pogledaj upute u nastavku.</p>"
+    "introduction": "<0>Podrška za Flatpak je ugrađena u Pop!_OS 20.04 i novijim verzijama – bez potrebe za postavljanjem!</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -296,7 +297,7 @@
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<p>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</p> <2></2> <4><0>Važna napomena:</0> Od ožujka 2021. godine, Raspberry Pi računala još uvijek dolaze s 32-bitnom verzijom Raspberry Pi OS-a. Međutim, Flathub je počeo postupno ukidati podršku za tu arhitekturu. Ako smatraš da je Flathub važan izvor aplikacija, preporučuje se korištenje 64-bitne verzije Raspberry Pi OS-a, jer je vjerojatnost veća da su novije aplikacije dostupne za tu platformu.</4>"
+      "text": "<p>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</p> <2></2> <4><0>Važna napomena:</0> Preporučuje se korištenje 64-bitne verzije Raspberry Pi OS-a, jer je vjerojatnost veća da su novije aplikacije dostupne za tu platformu.</4>"
     },
     "step-3": {
       "name": "Pokreni ponovo",
@@ -368,7 +369,7 @@
     "distroName": "Pardus",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<p>Dostupan je Flatpak paket u Pardus 2019 i novijoj verziji. Za instaliranje pokreni sljedeće kao administrator:</p><2></2> <4>Za Pardus 2017. i starije verzije, Flatpak paket je dostupan u <2>službenom backports repozitoriju</2>.</4>"
+      "text": "<p>Dostupan je Flatpak paket u Pardus 2019 i novijoj verziji. Za instaliranje pokreni sljedeće kao administrator:</p><2></2>"
     },
     "step-2": {
       "name": "Instaliraj Flatpak dodatak za Softver",
@@ -426,7 +427,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Podrška za Flatpak je ugrađena u KDE neon 19 i novijim verzijama – bez potrebe za postavljanjem!</0> <p>Ako koristiš stariju verziju, pogledaj upute u nastavku.</p>"
+    "introduction": "<0>Podrška za Flatpak je ugrađena u KDE neon 19 i novijim verzijama – bez potrebe za postavljanjem!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",

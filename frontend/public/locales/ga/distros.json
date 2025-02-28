@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<0>Chun Flatpak a shuiteáil ar <strong>Ubuntu 18.10 (Cosmic Cuttlefish) nó níos déanaí</strong>, oscail an aip Terminal agus rith:</0> <2></2> <4>Le haghaidh leaganacha níos sine <strong> suas go dtí Ubuntu 18.04 LTS (Bionic Beaver)</strong>, tá an Flatpak PPA oifigiúil ag teastáil chun Flatpak a shuiteáil agus é a choinneáil cothrom le dáta. Chun an PPA a chur leis agus Flatpak a shuiteáil, oscail an aip Terminal agus rith:</4> <6></6>"
+      "text": "<0>Chun Flatpak a shuiteáil ar <strong>Ubuntu 18.10 (Cosmic Cuttlefish) nó níos déanaí</strong>, oscail an aip Terminal agus rith:</0> <2></2>"
     },
     "step-2": {
       "name": "Suiteáil breiseán Flatpak Bogearraí GNOME",
@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "OS gan deireadh",
-    "introduction": "<0>Tá tacaíocht Flatpak ionsuite in Endless OS 3.0.0 agus níos nuaí - níl aon socrú ag teastáil!</0> <2>Má tá leagan níos sine in úsáid agat, <2>uasghrádaigh go Endless OS 3</2>.</ 2>"
+    "introduction": "<0>Tá tacaíocht Flatpak ionsuite in Endless OS 3.0.0 agus níos nuaí - níl aon socrú ag teastáil!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -65,7 +65,7 @@
     },
     "step-3": {
       "name": "Suiteáil Flatpak",
-      "text": "<p>Chun Flatpak a shuiteáil, rith na rudaí seo a leanas sa teirminéal:</p> <2></2> <4>Tá pacáiste flatpak níos nuashonraithe ar fáil sa <2>stór backports Debian</2>. </4>"
+      "text": "<p>Chun Flatpak a shuiteáil, rith an méid seo a leanas sa teirminéal:</p> <2></2>"
     },
     "step-4": {
       "name": "Cuir stór Flathub leis",
@@ -82,13 +82,13 @@
   },
   "linux_mint": {
     "distroName": "Miontas Linux",
-    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i Linux Mint 18.3 agus níos nuaí - níl aon socrú ag teastáil!</0> <2>Má tá leagan níos sine in úsáid agat, <2>uasghrádaigh go Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i Linux Mint 18.3 agus níos nuaí - níl aon socrú ag teastáil!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<p>Tá Flatpak ar fáil sna stórtha réamhshocraithe de gach leagan openSUSE Leap agus openSUSE Tumbleweed atá á gcothabháil faoi láthair.</p> <2>Más fearr leat suiteáil ghrafach, is féidir leat Flatpak a shuiteáil trí úsáid a bhaint as \"suiteálaí 1-cliceáil\" ó <2 >software.opensuse.org</2>. Mura dtaispeántar do leagan dáileacháin de réir réamhshocraithe, cliceáil ar <5>Taispeáin flatpak le haghaidh dáiltí eile</5> ar dtús agus ansin roghnaigh ón liosta.</2> <p>De rogha air sin, suiteáil Flatpak ón líne ordaithe ag úsáid Zypper:< /p> <6></6>"
+      "text": "<p>Tá Flatpak ar fáil sna stórtha réamhshocraithe de gach leagan openSUSE Leap agus openSUSE Tumbleweed atá á gcoimeád faoi láthair.</p> <2>Más fearr leat suiteáil ghrafach, is féidir leat Flatpak a shuiteáil trí úsáid a bhaint as \"suiteálaí 1-cliceáil\" ó <2>software.opensuse.org</2>. Mura dtaispeántar do leagan dáileacháin de réir réamhshocraithe, cliceáil <5>Taispeáin</5> faoi chatagóir Dáiltí nach dtacaítear leo agus ansin roghnaigh ón liosta.</2> <p>De rogha air sin, suiteáil Flatpak ón líne ordaithe ag úsáid Zypper:</p> <6></6>"
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
@@ -202,8 +202,9 @@
     },
     "step-3": {
       "name": "Athosaigh",
-      "text": "<0>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <2>aipeanna a shuiteáil</2>!</0> <p>Tabhair faoi deara: ní féidir aipeanna Flatpak a shuiteáil go grafach le Solus fós, ach beidh siad ar fáil go luath amach anseo.</p >"
-    }
+      "text": "<0>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <2>aipeanna a shuiteáil</2>!</0> <p>Tabhair faoi deara: tá suiteáil ghrafach aipeanna Flatpak ar fáil trí Bogearraí GNOME agus/nó KDE Discover amháin.</p>"
+    },
+    "introduction": "<p>Tá tacaíocht Flatpak ionsuite i Solus 4.7 agus níos nuaí - níl aon socrú ag teastáil! Is féidir aipeanna Flatpak a shuiteáil trí úsáid a bhaint as Bogearraí GNOME agus/nó KDE Discover.</p> <p>Mura bhfuil Flatpak suiteáilte, lean na treoracha thíos chun tús a chur leis.</p>"
   },
   "alpine": {
     "distroName": "Alpach",
@@ -245,7 +246,7 @@
   },
   "pop_os": {
     "distroName": "Pop! _OS",
-    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i Pop!_OS 20.04 agus níos nuaí - níl aon socrú ag teastáil!</0> <p>Má tá leagan níos sine in úsáid agat, is féidir leat tagairt a dhéanamh do na treoracha thíos.</p>"
+    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i Pop!_OS 20.04 agus níos nuaí - níl aon socrú ag teastáil!</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -262,7 +263,7 @@
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
-      "text": "<p>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</p> <2></2> <4><0>Nóta tábhachtach:</0> Ó Mhárta 2021, tá ríomhairí Raspberry Pi fós ag seoladh leis an leagan 32-giotán de Raspberry Pi OS . Mar sin féin, thosaigh Flathub ag deireadh a chur le tacaíocht don ailtireacht sin. Má mheasann tú gur foinse thábhachtach feidhmchlár é Flathub, moltar duit Raspberry Pi OS 64-giotán a úsáid mar gur mó an seans go mbeidh feidhmchláir níos nuaí ar fáil don ardán sin.</4>"
+      "text": "<p>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</p> <2></2> <4><0>Nóta tábhachtach:</0> Moltar Raspberry Pi OS 64-giotán a úsáid mar is dóichí go mbeidh feidhmchláir níos nuaí ar fáil don ardán sin amháin.</4>"
     },
     "step-3": {
       "name": "Athosaigh",
@@ -368,7 +369,7 @@
     "distroName": "Pardus",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<p>Tá pacáiste flatpak ar fáil in Pardus 2019 agus níos nuaí. Chun é a shuiteáil, rith an méid seo a leanas mar fhréamh:</p> <2></2> <4>I gcás Pardus 2017 agus leaganacha níos sine, tá pacáiste flatpak ar fáil sa <2>stór backports oifigiúil</2>. </4>"
+      "text": "<p>Tá pacáiste flatpak ar fáil in Pardus 2019 agus níos nuaí. Chun é a shuiteáil, rith an méid seo a leanas mar fhréamh:</p> <2></2>"
     },
     "step-2": {
       "name": "Suiteáil an breiseán Bogearraí Flatpak",
@@ -426,7 +427,7 @@
   },
   "kde_neon": {
     "distroName": "Neon KDE",
-    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i KDE neon 19 agus níos nuaí - níl aon socrú ag teastáil!</0> <p>Má tá leagan níos sine in úsáid agat, is féidir leat tagairt a dhéanamh do na treoracha thíos.</p>"
+    "introduction": "<0>Tá tacaíocht Flatpak ionsuite i KDE neon 19 agus níos nuaí - níl aon socrú ag teastáil!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
