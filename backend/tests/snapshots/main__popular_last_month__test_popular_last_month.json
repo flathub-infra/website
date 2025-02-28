@@ -12,7 +12,7 @@
       "is_free_license": false,
       "app_id": "com.wps.Office",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
-      "main_categories": "Office",
+      "main_categories": "office",
       "sub_categories": [],
       "developer_name": "Kingsoft Office Corporation",
       "verification_verified": false,
@@ -45,7 +45,7 @@
           "summary": "Con\u00e9ctese a un ordenador de forma remota"
         },
         "pt-BR": {
-          "description": "A AnyDesk assegura ligações de computador remoto seguras e fiáveis tanto para profissionais de TI como para pessoas em viagem.",
+          "description": "A AnyDesk assegura liga\u00e7\u00f5es de computador remoto seguras e fi\u00e1veis tanto para profissionais de TI como para pessoas em viagem.",
           "summary": "Conectar com um computador remotamente"
         }
       },
@@ -53,7 +53,7 @@
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-      "main_categories": "Network",
+      "main_categories": "network",
       "sub_categories": [],
       "developer_name": "AnyDesk Software GmbH",
       "verification_verified": false,
@@ -90,7 +90,7 @@
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-      "main_categories": "Game",
+      "main_categories": "game",
       "sub_categories": [],
       "developer_name": "Sugar Labs Community",
       "verification_verified": false,
