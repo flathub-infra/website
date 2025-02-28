@@ -25,7 +25,7 @@
       "sub_categories": [],
       "developer_name": "AnyDesk Software GmbH",
       "verification_verified": false,
-      "verification_method": null,
+      "verification_method": "none",
       "verification_login_name": null,
       "verification_login_provider": null,
       "verification_login_is_organization": null,
