@@ -12,8 +12,7 @@ from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
 from . import config, models, summary, utils, worker
-from .database import get_db
-from .db import get_json_key
+from .database import get_db, get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
 from .types import ModerationRequestType

@@ -10,7 +10,7 @@ distribute the share among other parties.  This is to be considered canonical.
 
 from fastapi import HTTPException
 
-from .. import db as appdb
+from .. import database as appdb
 from ..utils import PLATFORMS
 
 FLATHUB_CURRENCY = "usd"

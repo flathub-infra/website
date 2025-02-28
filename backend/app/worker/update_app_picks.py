@@ -4,8 +4,7 @@ from datetime import datetime, timedelta
 import dramatiq
 
 from .. import models
-from ..database import get_db
-from ..db import get_all_appids_for_frontend
+from ..database import get_all_appids_for_frontend, get_db
 
 
 @dramatiq.actor

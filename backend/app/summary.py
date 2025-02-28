@@ -12,7 +12,7 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import GLib, OSTree
 
-from . import apps, config, db, models, search, utils
+from . import apps, config, database, models, search, utils
 
 
 class JSONSetEncoder(json.JSONEncoder):
@@ -44,7 +44,7 @@ def validate_ref(ref: str):
 
 
 def get_parent_id(app_id: str):
-    if reverse_lookup := db.get_json_key("summary:reverse_lookup"):
+    if reverse_lookup := database.get_json_key("summary:reverse_lookup"):
         if parent := reverse_lookup.get(app_id):
             return parent
 

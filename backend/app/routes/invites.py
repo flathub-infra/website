@@ -5,8 +5,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from pydantic import BaseModel
 
 from .. import worker
-from ..database import get_db
-from ..db import get_json_key
+from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import logged_in
 from ..logins import LoginStatusDep

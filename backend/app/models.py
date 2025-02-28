@@ -30,7 +30,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 
 from . import utils
-from .database import DBSession
+from .db_session import DBSession
 
 
 class Pagination(BaseModel):

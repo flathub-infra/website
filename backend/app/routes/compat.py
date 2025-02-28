@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 
-from .. import db, models, search, stats
+from .. import database, models, search, stats
 from ..database import get_db
 
 router = APIRouter(prefix="/compat", default_response_class=ORJSONResponse)
@@ -26,7 +26,7 @@ def get_created_at(key: str):
 
 def get_short_app(key: str):
     compat_app = None
-    if app := db.get_json_key(key):
+    if app := database.get_json_key(key):
         app_id = key[5:]
         compat_app = {
             "flatpakAppId": app_id,
@@ -127,7 +127,7 @@ def get_single_app(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if app := db.get_json_key(f"apps:{app_id}"):
+    if app := database.get_json_key(f"apps:{app_id}"):
         compat_app = {
             "flatpakAppId": app_id,
             "name": app.get("name"),

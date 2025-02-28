@@ -2,7 +2,7 @@ from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
-from .. import db, stats
+from .. import database, stats
 
 router = APIRouter(
     prefix="/stats",
@@ -37,7 +37,7 @@ class StatsResult(BaseModel):
 
 @router.get("/", status_code=200)
 def get_stats(response: Response) -> StatsResult | None:
-    if value := db.get_json_key("stats"):
+    if value := database.get_json_key("stats"):
         return value
 
     response.status_code = 404

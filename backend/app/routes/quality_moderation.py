@@ -6,8 +6,7 @@ from fastapi import APIRouter, Depends, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
-from ..database import get_db
-from ..db import get_json_key
+from ..database import get_db, get_json_key
 from ..login_info import quality_moderator_only, quality_moderator_or_app_author_only
 from ..models import (
     App,

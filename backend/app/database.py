@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import QueuePool
 
 from . import config, models
+from .db_session import DBSession
 
 redis_conn = redis.Redis(
     db=config.settings.redis_db,
@@ -38,18 +39,6 @@ WriterSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=writer
 ReplicaSessionLocal = sessionmaker(
     autocommit=False, autoflush=False, bind=replica_engine
 )
-
-
-class DBSession:
-    def __init__(self, session: Session):
-        self._session = session
-
-    def __getattr__(self, name):
-        return getattr(self._session, name)
-
-    @property
-    def session(self):
-        return self._session
 
 
 @contextmanager

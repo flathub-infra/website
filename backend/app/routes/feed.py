@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from fastapi import APIRouter, FastAPI, Response
 from feedgen.feed import FeedGenerator
 
-from .. import db, models
+from .. import database, models
 from ..database import get_db
 
 if TYPE_CHECKING:
@@ -66,11 +66,12 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
     appids_for_frontend: list[tuple[str, datetime]] = [
         (app.app_id, getattr(app, column_name))
         for app in appids
-        if db.is_appid_for_frontend(app.app_id)
+        if database.is_appid_for_frontend(app.app_id)
     ]
 
     apps = [
-        (db.get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids_for_frontend
+        (database.get_json_key(f"apps:{appid[0]}"), appid[1])
+        for appid in appids_for_frontend
     ]
 
     for app, timestamp in reversed(apps):

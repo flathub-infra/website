@@ -3,7 +3,7 @@ from enum import Enum
 
 import gi
 
-from . import database, db, localize, models, schemas, search, utils
+from . import database, localize, models, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -162,7 +162,7 @@ def load_appstream(sqldb) -> None:
     for app_id in set(current_apps) - set(apps):
         # Preserve app_stats when deleting app
         app_stats_key = f"app_stats:{app_id}"
-        if db.redis_conn.exists(app_stats_key):
+        if database.redis_conn.exists(app_stats_key):
             continue
 
         apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))

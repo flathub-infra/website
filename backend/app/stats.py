@@ -8,7 +8,7 @@ import orjson
 
 from app import utils
 
-from . import config, db, models, search, zscore
+from . import config, database, models, search, zscore
 
 StatsType = dict[str, dict[str, list[int]]]
 POPULAR_DAYS_NUM = 7
@@ -28,7 +28,7 @@ def _get_stats_for_date(date: datetime.date, session: httpx.Client):
             return None
         return stats
     redis_key = f"stats:date:{date.isoformat()}"
-    stats_txt = db.redis_conn.get(redis_key)
+    stats_txt = database.redis_conn.get(redis_key)
     if stats_txt is None:
         response = session.get(urlunparse(stats_json_url))
         if response.status_code == 404:
@@ -40,7 +40,7 @@ def _get_stats_for_date(date: datetime.date, session: httpx.Client):
             if date > datetime.date.today() + datetime.timedelta(days=-7)
             else None
         )
-        db.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
+        database.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
         stats = orjson.loads(stats_txt)
     return stats
@@ -198,7 +198,7 @@ def _remove_architecture_from_id(app_id: str) -> str:
 def get_installs_by_ids(ids: list[str]):
     result = defaultdict()
     for app_id in ids:
-        app_stats = db.get_json_key(f"app_stats:{app_id}")
+        app_stats = database.get_json_key(f"app_stats:{app_id}")
         if app_stats is None:
             continue
 
@@ -217,7 +217,7 @@ def get_popular(days: int | None):
 
     redis_key = f"popular:{sdate}-{edate}"
 
-    if popular := db.get_json_key(redis_key):
+    if popular := database.get_json_key(redis_key):
         return popular
 
     stats = _get_stats_for_period(sdate, edate)
@@ -228,7 +228,7 @@ def get_popular(days: int | None):
     )
 
     popular = [k for k, v in sorted_apps]
-    db.redis_conn.set(redis_key, orjson.dumps(popular), ex=60 * 60)
+    database.redis_conn.set(redis_key, orjson.dumps(popular), ex=60 * 60)
     return popular
 
 
@@ -238,7 +238,7 @@ def update(sqldb):
     edate = datetime.date.today()
     sdate = datetime.date(2018, 4, 29)
 
-    frontend_app_ids = db.get_all_appids_for_frontend()
+    frontend_app_ids = database.get_all_appids_for_frontend()
 
     stats_total = _get_stats_for_period(sdate, edate)
     stats_dict = _get_stats(len(frontend_app_ids))
@@ -356,7 +356,7 @@ def update(sqldb):
 
     new_id: str
     old_id_list: list[str]
-    for new_id, old_id_list in db.get_json_key("eol_rebase").items():
+    for new_id, old_id_list in database.get_json_key("eol_rebase").items():
         if new_id not in stats_apps_dict:
             stats_apps_dict[new_id] = {
                 "installs_total": 0,
@@ -392,8 +392,8 @@ def update(sqldb):
                 sorted_days[day] = stats_apps_dict[new_id]["installs_per_day"][day]
             stats_apps_dict[new_id]["installs_per_day"] = sorted_days
 
-    db.redis_conn.set("stats", orjson.dumps(stats_dict))
-    db.redis_conn.mset(
+    database.redis_conn.set("stats", orjson.dumps(stats_dict))
+    database.redis_conn.mset(
         {
             f"app_stats:{app_id}": orjson.dumps(stats_apps_dict[app_id])
             for app_id in stats_apps_dict

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 
-from . import apps, db, models, search, utils
+from . import apps, database, models, search, utils
 from .database import get_db
 
 router = APIRouter(default_response_class=ORJSONResponse)
@@ -13,7 +13,7 @@ def register_to_app(app: FastAPI):
 
 @router.get("/eol/rebase", tags=["app"])
 def get_eol_rebase() -> dict[str, list[str]]:
-    eol_rebase = db.get_json_key("eol_rebase")
+    eol_rebase = database.get_json_key("eol_rebase")
     if eol_rebase is None:
         return {}
     return eol_rebase
@@ -29,13 +29,13 @@ def get_eol_rebase_appid(
     ),
     branch: str = "stable",
 ) -> str | None:
-    if value := db.get_json_key(f"eol_rebase:{app_id}:{branch}"):
+    if value := database.get_json_key(f"eol_rebase:{app_id}:{branch}"):
         return value
 
 
 @router.get("/eol/message", tags=["app"])
 def get_eol_message() -> dict[str, str]:
-    eol_messages = db.get_json_key("eol_message")
+    eol_messages = database.get_json_key("eol_message")
     if eol_messages is None:
         return {}
     return eol_messages
@@ -51,7 +51,7 @@ def get_eol_message_appid(
     ),
     branch: str = "stable",
 ) -> str | None:
-    if value := db.get_json_key(f"eol_message:{app_id}:{branch}"):
+    if value := database.get_json_key(f"eol_message:{app_id}:{branch}"):
         return value
 
 
