@@ -301,25 +301,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-1": {
-      "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Turkman Linux zu installieren, führe folgendes in einem Terminal aus:</p> <p>Mit Emerge</p> < 4></4> <p>Ohne emerge</p> <8> </8>"
-    },
-    "step-2": {
-      "name": "Dienstprogramm aktivieren",
-      "text": "<p>Um Dienste auf Turkman Linux zu aktivieren, führe folgendes in einem Terminal aus:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
-    },
-    "step-4": {
-      "name": "Neustart",
-      "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps mag mit Turkman Linux nicht möglich sein.</p>"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-3": {

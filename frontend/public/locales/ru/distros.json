@@ -242,21 +242,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-1": {
-      "name": "Установка Flatpak"
-    },
-    "step-4": {
-      "name": "Перезагрузка"
-    },
-    "step-2": {
-      "name": "Включение служб"
-    },
-    "step-3": {
-      "name": "Добавление репозитория Flathub"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-2": {

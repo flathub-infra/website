@@ -392,25 +392,6 @@
       "text": "<0>O elementary OS 5.1 e mais recentes vêm com suporte ao Flatpak pronto para uso. Para aplicativos sem curadoria, vá ao <2>Flathub</2> para instalar qualquer aplicativo usando o grande botão \"Instalar\" e abra o arquivo `.flatpakref` baixado com Sideload.</0> <p>Nota: Depois de instalar um aplicativo de um remoto como Flathub, todos os outros aplicativos desse remoto também aparecerão automaticamente no AppCenter.</p>"
     }
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-1": {
-      "name": "Instalar o Flatpak",
-      "text": "<p>Para instalar o Flatpak no Turkman Linux, execute o seguinte em um terminal:</p> <p>Com Emerge way</p> <4></4> <p>Sem emerge way</p> <8></8>"
-    },
-    "step-3": {
-      "name": "Adicione o repositório Flathub",
-      "text": "<p>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Habilitar serviços",
-      "text": "<p>Para habilitar serviços no Turkman Linux, execute o seguinte em um terminal:</p> <2></2>"
-    },
-    "step-4": {
-      "text": "<0>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <2>instalar os aplicativos</2>!</0> <p>Nota: a instalação gráfica de aplicativos Flatpak pode não ser possível com o Turkman Linux.</p>",
-      "name": "Reiniciar"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {

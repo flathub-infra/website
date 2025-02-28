@@ -142,9 +142,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux"
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux"
   },

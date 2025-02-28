@@ -166,15 +166,6 @@
     },
     "distroName": "NixOS"
   },
-  "turkman_linux": {
-    "step-4": {
-      "name": "Ales asenker"
-    },
-    "step-1": {
-      "name": "Sbedd Flatpak"
-    },
-    "distroName": "Turkman Linux"
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {

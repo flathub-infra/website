@@ -277,22 +277,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-1": {
-      "name": "Asenna Flatpak"
-    },
-    "step-3": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Ota palvelut käyttöön"
-    },
-    "step-4": {
-      "name": "Käynnistä uudelleen"
-    }
-  },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {
