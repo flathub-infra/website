@@ -35,15 +35,16 @@ U = TypeVar("U", MeilisearchResponse, MeilisearchResponseLimited)
 
 
 class AppsIndex(BaseModel):
-    id: str
-    app_id: str
     name: str
-    summary: str
-    installs_last_month: int | None = None
-    trending: float | None = None
     keywords: list[str] | None
-    app_id: str
+    summary: str
     description: str
+    id: str
+    type: str
+    translations: dict[str, dict[str, str]]
+    project_license: str
+    is_free_license: bool
+    app_id: str
     icon: str
     main_categories: schemas.MainCategory | list[schemas.MainCategory]
     sub_categories: list[str] | None = None
@@ -52,19 +53,16 @@ class AppsIndex(BaseModel):
     verification_method: VerificationMethod
     verification_login_name: str | None
     verification_login_provider: str | None
+    verification_login_is_organization: str | None
     verification_website: str | None
     verification_timestamp: str | None
-    verification_login_is_organization: str | None
-    keywords: list[str] | None
     runtime: str | None
-    type: str
+    updated_at: int
     arches: list[str] | None
     added_at: int
-    updated_at: int
+    trending: float | None = None
+    installs_last_month: int | None = None
     isMobileFriendly: bool
-    project_license: str
-    is_free_license: bool
-    translations: dict[str, dict[str, str]]
 
     # Custom validator to map None to the Enum 'NONE'
     @field_validator("verification_method", mode="before")
@@ -139,30 +137,27 @@ def _translate_name_and_summary(locale: str, searchResults: U):
     for searchResult in searchResults.hits:
         picked_locale = None
 
-        if "translations" in searchResult and searchResult["translations"]:
-            if locale in searchResult["translations"].keys():
+        if searchResult.translations:
+            if locale in searchResult.translations.keys():
                 picked_locale = locale
-            elif fallbackLocale in searchResult["translations"].keys():
+            elif fallbackLocale in searchResult.translations.keys():
                 picked_locale = fallbackLocale
 
         if not picked_locale:
             continue
 
-        if "name" in searchResult["translations"][picked_locale]:
-            searchResult["name"] = searchResult["translations"][picked_locale]["name"]
+        if "name" in searchResult.translations[picked_locale]:
+            searchResult.name = searchResult.translations[picked_locale]["name"]
 
-        if "summary" in searchResult["translations"][picked_locale]:
-            searchResult["summary"] = searchResult["translations"][picked_locale][
-                "summary"
-            ]
+        if "summary" in searchResult.translations[picked_locale]:
+            searchResult.summary = searchResult.translations[picked_locale]["summary"]
 
-        if "description" in searchResult["translations"][picked_locale]:
-            searchResult["description"] = searchResult["translations"][picked_locale][
+        if "description" in searchResult.translations[picked_locale]:
+            searchResult.description = searchResult.translations[picked_locale][
                 "description"
             ]
 
-        if "translations" in searchResult:
-            del searchResult["translations"]
+        del searchResult.translations
 
     return searchResults
 
