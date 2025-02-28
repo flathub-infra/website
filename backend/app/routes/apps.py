@@ -1,8 +1,8 @@
 from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 
-from . import apps, database, models, search, utils
-from .database import get_db
+from .. import apps, database, models, search, utils
+from ..database import get_db
 
 router = APIRouter(default_response_class=ORJSONResponse)
 
