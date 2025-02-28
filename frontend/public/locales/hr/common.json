@@ -566,8 +566,8 @@
   "do-you-really-want-to-switch-to-direct-upload": "Sigurno? Nakon što prebaciš aplikaciju na izravni prijenos više nema povratka.",
   "manage-x": "Upravljaj aplikacijom {{app-name}}",
   "install-x": "Instaliraj aplikaciju {{app-name}} na Linux",
-  "microphone-access": "Pristup mikrofonu",
-  "can-listen-using-microphones-without-asking-permission": "Može slušati pomoću mikrofona bez traženja dozvole",
+  "microphone-access": "Pristup mikrofonu i audio reprodukcija",
+  "can-listen-using-microphones-without-asking-permission": "Može slušati pomoću mikrofona i reproducirati audio podatke bez traženja dozvole",
   "uses-eol-runtime-description": "Okruženje koje koristi ova aplikacija više ne prima sigurnosna aktualiziranja",
   "full-file-system-read-write-access": "Potpuni pristup za čitanje/pisanje u sustavu datoteka",
   "cannot-access-the-internet": "Ne može pristupiti internetu",
@@ -626,5 +626,26 @@
   "token-created": "Kopiraj ovaj token i spremi ga na sigurno mjesto, kao što je mjesto tajni u tvom sustavu kontinuirane integracije (CI pipeline). Omogućuje pristup za čitanje i pisanje međuverzijama tvoje aplikacije.",
   "proprietary-explanation": "Ova aplikacija nije javno razvijena, tako da samo njeni programeri znaju kako radi. Može biti nesigurna na načine koje je teško prepoznati i može se neprimjetno promijeniti.",
   "transparent": "<0>Neovisno i transparentno</0> – Mi smo zajednica otvorenog izvornog koda koja upravlja najboljim od onoga što ekosustav može ponuditi",
-  "mobile-apps": "Mobilne aplikacije"
+  "mobile-apps": "Mobilne aplikacije",
+  "quality": {
+    "missing-brand-colors": "Nedostaju boje marke",
+    "banner-preview-description": "Da jednostavno eksperimentiranje s natpisima, koristi <2>pregled natpisa</2>",
+    "banner-preview": "Pregled natpisa"
+  },
+  "favorite": "Favorit",
+  "favorite-apps": "Favoriti",
+  "we-love-games": "Mi ♥ igre",
+  "game-section-description": "Igre i aplikacije za pokretanje omiljenih retro igri",
+  "emulator": "Emulatori",
+  "gameemulator": "Emulatori",
+  "launcher": "Pokretači",
+  "more-emulator": "Više „Emulatori”",
+  "gamelauncher": "Pokretači za igre",
+  "tool": "Alati",
+  "more-gamelauncher": "Više „Pokretači za igre”",
+  "gametool": "Alati za igre",
+  "more-gametool": "Više „Alati za igre”",
+  "on-the-go": "Na putu",
+  "more-mobile-apps": "Još aplikacija za mobilne uređaje",
+  "mobile-apps-description": "Aplikacije za Linux mobitele i tablete"
 }

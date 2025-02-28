@@ -1,7 +1,7 @@
 {
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Obsługa Flatpak jest wbudowana w Endless OS 3.0.0 i nowsze - nie wymaga konfiguracji! </0> <2>Jeśli używasz starszej wersji, <2>zaktualizuj Endless OS do wersji 3</2>.</2>"
+    "introduction": "<0>Obsługa Flatpak jest wbudowana w Endless OS 3.0.0 i nowsze - nie wymaga konfiguracji!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -35,7 +35,7 @@
     },
     "step-3": {
       "name": "Zainstaluj Flatpak",
-      "text": "<p>Aby zainstalować Flatpak, uruchom następujące polecenie w terminalu:</p> <2></2> <4>Bardziej aktualny pakiet flatpak jest dostępny w repozytorium <2>Debian backports</2>. </4>"
+      "text": "<p>Aby zainstalować Flatpak, uruchom następujące polecenie w terminalu:</p> <2></2>"
     },
     "step-4": {
       "text": "<p>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</p> <2></2>",
@@ -52,13 +52,13 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Obsługa Flatpak jest wbudowana w Linux Mint 18.3 i nowszy - nie wymaga konfiguracji! </0> <2>Jeśli używasz starszej wersji, <2>aktualizuj do Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Obsługa Flatpak jest wbudowana w Linux Mint 18.3 i nowszy - nie wymaga konfiguracji!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
       "name": "Zainstaluj Flatpak",
-      "text": "<p>Flatpak jest dostępny w domyślnych repozytoriach wszystkich obecnie utrzymywanych wersji openSUSE Leap i openSUSE Tumbleweed.</p> <2>Jeśli wolisz instalację graficzną, możesz zainstalować Flatpak za pomocą „instalatora 1-kliknięciem” z <2>software.opensuse.org</2>. Jeśli twoja wersja dystrybucji nie jest wyświetlana domyślnie, kliknij najpierw <5>Pokaż flatpak dla innych dystrybucji</5>, a następnie wybierz z listy.</2> <p>Alternatywnie, zainstaluj Flatpak z wiersza poleceń za pomocą Zypper:</p> <6></6>"
+      "text": "<p>Flatpak jest dostępny w domyślnych repozytoriach wszystkich obecnie utrzymywanych wersji openSUSE Leap i openSUSE Tumbleweed.</p> <2>Jeśli wolisz instalację graficzną, możesz zainstalować Flatpak za pomocą „instalatora 1-kliknięciem” z <2>software.opensuse.org</2>. Jeśli twoja wersja dystrybucji nie jest wyświetlana domyślnie, kliknij <5>Pokaż</5> w kategorii Nieobsługiwane dystrybucje, a następnie wybierz z listy.</2> <p>Alternatywnie, zainstaluj Flatpak z wiersza poleceń za pomocą Zypper:</p> <6></6>"
     },
     "step-2": {
       "name": "Dodaj repozytorium Flathub",
@@ -192,7 +192,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Obsługa Flatpak jest wbudowana w KDE neon 19 i nowsze - nie wymaga konfiguracji! </0> <p>Jeśli używasz starszej wersji, możesz zapoznać się z poniższymi instrukcjami.</p>"
+    "introduction": "<0>Obsługa Flatpak jest wbudowana w KDE neon 19 i nowsze - nie wymaga konfiguracji!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
@@ -233,7 +233,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Zainstaluj Flatpak",
-      "text": "<0>Aby zainstalować Flatpak na <strong>Ubuntu 18.10 (Cosmic Cuttlefish) lub nowszym</strong>, wystarczy uruchomić:</0> <2></2> <4>W starszych wersjach <strong>Ubuntu do 18.04 LTS (Bionic Beaver)</strong>, Oficjalne PPA Flatpak jest wymagane do zainstalowania Flatpak i jego aktualizacji. Aby go zainstalować, uruchom następujące polecenie w terminalu:</4> <6></6>"
+      "text": "<0>Aby zainstalować Flatpak na <strong>Ubuntu 18.10 (Cosmic Cuttlefish) lub nowszym</strong>, wystarczy uruchomić:</0> <2></2>"
     },
     "step-2": {
       "name": "Zainstaluj wtyczkę Flatpak do GNOME Software",
@@ -365,12 +365,13 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0> <p>Uwaga: graficzna instalacja aplikacji Flatpak nie jest jeszcze możliwa w Solusie, ale będzie dostępna w najbliższej przyszłości.</p>"
-    }
+      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0> <p>Uwaga: graficzna instalacja aplikacji Flatpak jest możliwa tylko poprzez GNOME Software i/lub KDE Discover.</p>"
+    },
+    "introduction": "<p>Obsługa Flatpak jest wbudowana w Solus 4.7 i nowsze - nie wymaga instalacji! Aplikacje Flatpak można zainstalować za pomocą GNOME Software i/lub KDE Discover.</p> <p>Jeśli Flatpak nie jest zainstalowany, postępuj zgodnie z poniższymi instrukcjami, aby rozpocząć.</p>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Obsługa Flatpak jest wbudowana w Pop!_OS 20.04 i nowsze - nie jest wymagana konfiguracja! </0> <p>Jeśli korzystasz ze starszej wersji, możesz zapoznać się z poniższymi instrukcjami.</p>"
+    "introduction": "<0>Obsługa Flatpak jest wbudowana w Pop!_OS 20.04 i nowsze - nie jest wymagana konfiguracja!</0>"
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
@@ -395,7 +396,7 @@
     "distroName": "Raspberry Pi OS",
     "step-2": {
       "name": "Dodaj repozytorium Flathub",
-      "text": "<p>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</p> <2></2> <4><0>Ważna uwaga:</0> Od marca 2021 r. komputery Raspberry Pi są nadal dostarczane z 32-bitową wersją systemu operacyjnego Raspberry Pi. Jednak Flathub zaczął stopniowo wycofywać wsparcie dla tej architektury. Jeśli uważasz Flathub za ważne źródło aplikacji, zaleca się korzystanie z 64-bitowego systemu Raspberry Pi OS, ponieważ nowsze aplikacje są bardziej dostępne dla tej platformy.</4>"
+      "text": "<p>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</p> <2></2> <4><0>Ważna uwaga:</0> Zaleca się korzystanie z 64-bitowego systemu operacyjnego Raspberry Pi, ponieważ nowsze aplikacje są częściej dostępne tylko dla tej platformy.</4>"
     },
     "step-1": {
       "name": "Zainstaluj Flatpak",
@@ -429,7 +430,7 @@
     "distroName": "Pardus",
     "step-1": {
       "name": "Zainstaluj Flatpak",
-      "text": "<p>Pakiet flatpak jest dostępny w Pardus 2019 i nowszych. Aby go zainstalować, uruchom następujące polecenie jako root:</p> <2></2> <4>Dla Pardus 2017 i starszych wersji, pakiet flatpak jest dostępny w <2>oficjalnym repozytorium backports</2>. </4>"
+      "text": "<p>Pakiet flatpak jest dostępny w Pardus 2019 i nowszych. Aby go zainstalować, uruchom następujące polecenie jako root:</p> <2></2>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
