@@ -36,6 +36,7 @@ U = TypeVar("U", MeilisearchResponse, MeilisearchResponseLimited)
 
 class AppsIndex(BaseModel):
     id: str
+    app_id: str
     name: str
     summary: str
     installs_last_month: int | None = None
@@ -44,7 +45,6 @@ class AppsIndex(BaseModel):
     app_id: str
     description: str
     icon: str
-    categories: list[str] | None = None
     main_categories: schemas.MainCategory | list[schemas.MainCategory]
     sub_categories: list[str] | None = None
     developer_name: str | None
@@ -55,6 +55,16 @@ class AppsIndex(BaseModel):
     verification_website: str | None
     verification_timestamp: str | None
     verification_login_is_organization: str | None
+    keywords: list[str] | None
+    runtime: str | None
+    type: str
+    arches: list[str] | None
+    added_at: int
+    updated_at: int
+    isMobileFriendly: bool
+    project_license: str
+    is_free_license: bool
+    translations: dict[str, dict[str, str]]
 
     # Custom validator to map None to the Enum 'NONE'
     @field_validator("verification_method", mode="before")
