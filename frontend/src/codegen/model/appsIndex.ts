@@ -4,31 +4,34 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
-import type { AppsIndexTrending } from "./appsIndexTrending"
 import type { AppsIndexKeywords } from "./appsIndexKeywords"
-import type { AppsIndexCategories } from "./appsIndexCategories"
+import type { AppsIndexTranslations } from "./appsIndexTranslations"
 import type { AppsIndexMainCategories } from "./appsIndexMainCategories"
 import type { AppsIndexSubCategories } from "./appsIndexSubCategories"
 import type { AppsIndexDeveloperName } from "./appsIndexDeveloperName"
 import type { VerificationMethod } from "./verificationMethod"
 import type { AppsIndexVerificationLoginName } from "./appsIndexVerificationLoginName"
 import type { AppsIndexVerificationLoginProvider } from "./appsIndexVerificationLoginProvider"
+import type { AppsIndexVerificationLoginIsOrganization } from "./appsIndexVerificationLoginIsOrganization"
 import type { AppsIndexVerificationWebsite } from "./appsIndexVerificationWebsite"
 import type { AppsIndexVerificationTimestamp } from "./appsIndexVerificationTimestamp"
-import type { AppsIndexVerificationLoginIsOrganization } from "./appsIndexVerificationLoginIsOrganization"
+import type { AppsIndexRuntime } from "./appsIndexRuntime"
+import type { AppsIndexArches } from "./appsIndexArches"
+import type { AppsIndexTrending } from "./appsIndexTrending"
+import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
 
 export interface AppsIndex {
-  id: string
   name: string
-  summary: string
-  installs_last_month?: AppsIndexInstallsLastMonth
-  trending?: AppsIndexTrending
   keywords: AppsIndexKeywords
-  app_id: string
+  summary: string
   description: string
+  id: string
+  type: string
+  translations?: AppsIndexTranslations
+  project_license: string
+  is_free_license: boolean
+  app_id: string
   icon: string
-  categories?: AppsIndexCategories
   main_categories: AppsIndexMainCategories
   sub_categories?: AppsIndexSubCategories
   developer_name: AppsIndexDeveloperName
@@ -36,7 +39,14 @@ export interface AppsIndex {
   verification_method: VerificationMethod
   verification_login_name: AppsIndexVerificationLoginName
   verification_login_provider: AppsIndexVerificationLoginProvider
+  verification_login_is_organization: AppsIndexVerificationLoginIsOrganization
   verification_website: AppsIndexVerificationWebsite
   verification_timestamp: AppsIndexVerificationTimestamp
-  verification_login_is_organization: AppsIndexVerificationLoginIsOrganization
+  runtime: AppsIndexRuntime
+  updated_at: number
+  arches: AppsIndexArches
+  added_at: number
+  trending?: AppsIndexTrending
+  installs_last_month?: AppsIndexInstallsLastMonth
+  isMobileFriendly: boolean
 }

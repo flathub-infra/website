@@ -6,6 +6,7 @@
  */
 import type { AppsIndex } from "./appsIndex"
 import type { MeilisearchResponseLimitedAppsIndexFacetDistribution } from "./meilisearchResponseLimitedAppsIndexFacetDistribution"
+import type { MeilisearchResponseLimitedAppsIndexFacetStats } from "./meilisearchResponseLimitedAppsIndexFacetStats"
 
 export interface MeilisearchResponseLimitedAppsIndex {
   hits: AppsIndex[]
@@ -15,4 +16,5 @@ export interface MeilisearchResponseLimitedAppsIndex {
   offset: number
   estimatedTotalHits: number
   facetDistribution: MeilisearchResponseLimitedAppsIndexFacetDistribution
+  facetStats: MeilisearchResponseLimitedAppsIndexFacetStats
 }

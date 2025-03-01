@@ -1726,16 +1726,175 @@ export function useGetPlatformsPlatformsGet<
 }
 
 /**
+ * @summary Get Addons
+ */
+export const getAddonsAddonAppIdGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<string[]>> => {
+  return axios.get(`/addon/${appId}`, options)
+}
+
+export const getGetAddonsAddonAppIdGetQueryKey = (appId: string) => {
+  return [`/addon/${appId}`] as const
+}
+
+export const getGetAddonsAddonAppIdGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetAddonsAddonAppIdGetQueryKey(appId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
+  > = ({ signal }) => getAddonsAddonAppIdGet(appId, { signal, ...axiosOptions })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!appId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAddonsAddonAppIdGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
+>
+export type GetAddonsAddonAppIdGetQueryError = AxiosError<HTTPValidationError>
+
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+          TError,
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+          TError,
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Addons
+ */
+
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetAddonsAddonAppIdGetQueryOptions(appId, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
  * @summary Get Exceptions
  */
 export const getExceptionsExceptionsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/exceptions`, options)
+  return axios.get(`/exceptions/`, options)
 }
 
 export const getGetExceptionsExceptionsGetQueryKey = () => {
-  return [`/exceptions`] as const
+  return [`/exceptions/`] as const
 }
 
 export const getGetExceptionsExceptionsGetQueryOptions = <
@@ -2020,165 +2179,6 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
     appId,
     options,
   )
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
-
-  query.queryKey = queryOptions.queryKey
-
-  return query
-}
-
-/**
- * @summary Get Addons
- */
-export const getAddonsAddonAppIdGet = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`/addon/${appId}`, options)
-}
-
-export const getGetAddonsAddonAppIdGetQueryKey = (appId: string) => {
-  return [`/addon/${appId}`] as const
-}
-
-export const getGetAddonsAddonAppIdGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  appId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getGetAddonsAddonAppIdGetQueryKey(appId)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
-  > = ({ signal }) => getAddonsAddonAppIdGet(appId, { signal, ...axiosOptions })
-
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!appId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAddonsAddonAppIdGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
->
-export type GetAddonsAddonAppIdGetQueryError = AxiosError<HTTPValidationError>
-
-export function useGetAddonsAddonAppIdGet<
-  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  appId: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-          TError,
-          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
-        >,
-        "initialData"
-      >
-    axios?: AxiosRequestConfig
-  },
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetAddonsAddonAppIdGet<
-  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  appId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-          TError,
-          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
-        >,
-        "initialData"
-      >
-    axios?: AxiosRequestConfig
-  },
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetAddonsAddonAppIdGet<
-  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  appId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-/**
- * @summary Get Addons
- */
-
-export function useGetAddonsAddonAppIdGet<
-  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  appId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetAddonsAddonAppIdGetQueryOptions(appId, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
