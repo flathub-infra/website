@@ -21,7 +21,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
-  DevelopersResponse,
+  AppRoutesInvitesDevelopersResponse,
   HTTPValidationError,
   InviteDeveloperInvitesAppIdInvitePostParams,
   InviteStatus,
@@ -523,7 +523,7 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
 export const getAppDevelopersInvitesAppIdDevelopersGet = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DevelopersResponse>> => {
+): Promise<AxiosResponse<AppRoutesInvitesDevelopersResponse>> => {
   return axios.get(`/invites/${appId}/developers`, options)
 }
 

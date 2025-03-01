@@ -28,7 +28,7 @@ def get_category(
     locale: str = "en",
     sort_by: schemas.SortBy | None = None,
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -53,7 +53,7 @@ def get_subcategory(
     locale: str = "en",
     sort_by: schemas.SortBy | None = None,
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -80,7 +80,7 @@ def get_keyword(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -98,7 +98,7 @@ def get_developers(
     page: int | None = None,
     per_page: int | None = None,
     response: Response = Response(),
-) -> dict[str, object]:
+) -> search.DevelopersResponse:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -116,7 +116,7 @@ def get_developer(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -154,7 +154,7 @@ def get_recently_added(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -173,7 +173,7 @@ def get_verified(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -192,7 +192,7 @@ def get_mobile(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -211,7 +211,7 @@ def get_popular_last_month(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -230,7 +230,7 @@ def get_trending_last_two_weeks(
     per_page: int | None = None,
     locale: str = "en",
     response: Response = Response(),
-):
+) -> search.MeilisearchResponse[search.AppsIndex]:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):

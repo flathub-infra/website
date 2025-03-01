@@ -15,6 +15,6 @@ export interface MeilisearchResponseLimitedAppsIndex {
   limit: number
   offset: number
   estimatedTotalHits: number
-  facetDistribution: MeilisearchResponseLimitedAppsIndexFacetDistribution
-  facetStats: MeilisearchResponseLimitedAppsIndexFacetStats
+  facetDistribution?: MeilisearchResponseLimitedAppsIndexFacetDistribution
+  facetStats?: MeilisearchResponseLimitedAppsIndexFacetStats
 }

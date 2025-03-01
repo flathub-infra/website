@@ -1,14 +1,11 @@
 import clsx from "clsx"
-import {
-  AppsIndex,
-  mapAppsIndexToAppstreamListItem,
-  MeilisearchResponse,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { Button } from "@/components/ui/button"
 import { ApplicationCard } from "./ApplicationCard"
 import { cn } from "@/lib/utils"
 import { JSX } from "react"
 import Link from "next/link"
+import { MeilisearchResponseAppsIndex } from "src/codegen"
 
 export const ApplicationSectionGradient = ({
   mobile,
@@ -18,7 +15,7 @@ export const ApplicationSectionGradient = ({
   description,
   logo,
 }: {
-  mobile: Pick<MeilisearchResponse<AppsIndex>, "hits">
+  mobile: Pick<MeilisearchResponseAppsIndex, "hits">
   moreLink: string
   moreLinkLabel: string
   title: string

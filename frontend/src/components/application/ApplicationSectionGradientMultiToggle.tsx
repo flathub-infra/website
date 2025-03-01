@@ -1,13 +1,10 @@
 import clsx from "clsx"
-import {
-  AppsIndex,
-  mapAppsIndexToAppstreamListItem,
-  MeilisearchResponse,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { JSX, useEffect, useState } from "react"
 import { useTranslation } from "next-i18next"
 import MultiToggle from "../MultiToggle"
 import ApplicationSection from "./ApplicationSection"
+import { MeilisearchResponseAppsIndex } from "src/codegen"
 
 export const ApplicationSectionGradientMultiToggle = ({
   apps,
@@ -18,7 +15,7 @@ export const ApplicationSectionGradientMultiToggle = ({
 }: {
   apps: {
     name: string
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
     moreLink: string
     moreLinkLabel: string
   }[]
@@ -32,7 +29,7 @@ export const ApplicationSectionGradientMultiToggle = ({
   const [selectedName, setSelectedName] = useState<string>(apps[0].name)
   const [selectedApps, setSelectedApps] = useState<{
     name: string
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
     moreLink: string
     moreLinkLabel: string
   }>(apps.find((x) => x.name === selectedName) || apps[0])

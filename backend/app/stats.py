@@ -157,16 +157,24 @@ def get_category_totals():
         search.SearchQuery(query="", filters=None), "en"
     )
 
+    if category_totals is None or category_totals.facetDistribution is None:
+        return categories
+
     for category, count in category_totals.facetDistribution["main_categories"].items():
+        sub_categories = search.get_sub_categories(category)
+
+        if sub_categories is None or sub_categories.facetDistribution is None:
+            continue
+
         categories.append(
             {
                 "category": category,
                 "count": count,
                 "sub_categories": [
                     {"sub_category": x, "count": y}
-                    for x, y in search.get_sub_categories(category)[0]
-                    .facetDistribution["sub_categories"]
-                    .items()
+                    for x, y in sub_categories.facetDistribution[
+                        "sub_categories"
+                    ].items()
                 ],
             }
         )

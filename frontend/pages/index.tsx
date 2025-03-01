@@ -14,11 +14,7 @@ import fetchCollection, {
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  mapAppsIndexToAppstreamListItem,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
 import { HeroBanner } from "src/components/application/HeroBanner"
@@ -32,7 +28,7 @@ import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { MobileDevicesLogo } from "src/components/MobileDevicesLogo"
-import { MainCategory, SortBy } from "src/codegen"
+import { MainCategory, MeilisearchResponseAppsIndex, SortBy } from "src/codegen"
 import { ApplicationSectionGradient } from "src/components/application/ApplicationSectionGradient"
 import { GameControllersLogo } from "src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "src/components/application/ApplicationSectionGradientMultiToggle"
@@ -53,7 +49,7 @@ const categoryOrder = [
 const MobileSection = ({
   mobile,
 }: {
-  mobile: MeilisearchResponse<AppsIndex>
+  mobile: MeilisearchResponseAppsIndex
 }) => {
   const { t } = useTranslation()
 
@@ -75,10 +71,10 @@ const GameSection = ({
   gameLaunchers,
   gameTools,
 }: {
-  games: MeilisearchResponse<AppsIndex>
-  emulators: MeilisearchResponse<AppsIndex>
-  gameLaunchers: MeilisearchResponse<AppsIndex>
-  gameTools: MeilisearchResponse<AppsIndex>
+  games: MeilisearchResponseAppsIndex
+  emulators: MeilisearchResponseAppsIndex
+  gameLaunchers: MeilisearchResponseAppsIndex
+  gameTools: MeilisearchResponseAppsIndex
 }) => {
   const { t } = useTranslation()
 
@@ -125,7 +121,7 @@ const CategorySection = ({
 }: {
   topAppsByCategory: {
     category: MainCategory
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
   }[]
   mobileSection: ReactElement
   gameSection: ReactElement
@@ -169,7 +165,7 @@ const TopSection = ({
 }: {
   topApps: {
     name: string
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
     moreLink: string
   }[]
 }) => {
@@ -183,7 +179,7 @@ const TopSection = ({
 
   const [selectedApps, setSelectedApps] = useState<{
     name: string
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
     moreLink: string
   }>(topApps.find((x) => x.name === selectedName) || topApps[0])
 
@@ -252,24 +248,24 @@ export default function Home({
   gameTools,
   locale,
 }: {
-  recentlyUpdated: MeilisearchResponse<AppsIndex>
-  recentlyAdded: MeilisearchResponse<AppsIndex>
-  trending: MeilisearchResponse<AppsIndex>
-  popular: MeilisearchResponse<AppsIndex>
+  recentlyUpdated: MeilisearchResponseAppsIndex
+  recentlyAdded: MeilisearchResponseAppsIndex
+  trending: MeilisearchResponseAppsIndex
+  popular: MeilisearchResponseAppsIndex
   topAppsByCategory: {
     category: MainCategory
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
   }[]
   heroBannerData: {
     app: { position: number; app_id: string; isFullscreen: boolean }
     appstream: DesktopAppstream
   }[]
   appOfTheDayAppstream: DesktopAppstream
-  mobile: MeilisearchResponse<AppsIndex>
-  games: MeilisearchResponse<AppsIndex>
-  emulators: MeilisearchResponse<AppsIndex>
-  gameLaunchers: MeilisearchResponse<AppsIndex>
-  gameTools: MeilisearchResponse<AppsIndex>
+  mobile: MeilisearchResponseAppsIndex
+  games: MeilisearchResponseAppsIndex
+  emulators: MeilisearchResponseAppsIndex
+  gameLaunchers: MeilisearchResponseAppsIndex
+  gameTools: MeilisearchResponseAppsIndex
   locale: string
 }) {
   const { t } = useTranslation()
@@ -422,7 +418,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   let topAppsByCategory: {
     category: MainCategory
-    apps: MeilisearchResponse<AppsIndex>
+    apps: MeilisearchResponseAppsIndex
   }[] = []
 
   const categoryPromise = Object.keys(MainCategory)

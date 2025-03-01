@@ -90,14 +90,12 @@ def get_popular_apps():
 def get_search(query: str = Path(min_length=2), locale: str = "en"):
     results = [
         {
-            "id": app["app_id"],
-            "name": app["name"],
-            "summary": app["summary"],
-            "icon": app.get("icon"),
+            "id": app.app_id,
+            "name": app.name,
+            "summary": app.summary,
+            "icon": app.icon,
         }
-        for app in search.search_apps(query, locale)["hits"]
-        if "app_id"  # this might cause hit count to be wrong, but is better then crashing
-        in app
+        for app in search.search_apps(query, locale).hits
     ]
 
     ret = []

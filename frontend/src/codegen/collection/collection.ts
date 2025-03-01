@@ -18,9 +18,9 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
+  AppSearchDevelopersResponse,
   GetCategoryCollectionCategoryCategoryGetParams,
   GetDeveloperCollectionDeveloperDeveloperGetParams,
-  GetDevelopersCollectionDeveloperGet200,
   GetDevelopersCollectionDeveloperGetParams,
   GetKeywordCollectionKeywordGetParams,
   GetMobileCollectionMobileGetParams,
@@ -182,7 +182,7 @@ export const getCategoryCollectionCategoryCategoryGet = (
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/category/${category}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -366,7 +366,7 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
   category: MainCategory,
   params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/category/${category}/subcategories`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -619,7 +619,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
 export const getKeywordCollectionKeywordGet = (
   params: GetKeywordCollectionKeywordGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/keyword`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -783,7 +783,7 @@ export function useGetKeywordCollectionKeywordGet<
 export const getDevelopersCollectionDeveloperGet = (
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetDevelopersCollectionDeveloperGet200>> => {
+): Promise<AxiosResponse<AppSearchDevelopersResponse>> => {
   return axios.get(`/collection/developer`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -949,7 +949,7 @@ export const getDeveloperCollectionDeveloperDeveloperGet = (
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/developer/${developer}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -1350,7 +1350,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
 export const getRecentlyAddedCollectionRecentlyAddedGet = (
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/recently-added`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -1530,7 +1530,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
 export const getVerifiedCollectionVerifiedGet = (
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/verified`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -1695,7 +1695,7 @@ export function useGetVerifiedCollectionVerifiedGet<
 export const getMobileCollectionMobileGet = (
   params?: GetMobileCollectionMobileGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/mobile`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -1859,7 +1859,7 @@ export function useGetMobileCollectionMobileGet<
 export const getPopularLastMonthCollectionPopularGet = (
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/popular`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -2024,7 +2024,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
 export const getTrendingLastTwoWeeksCollectionTrendingGet = (
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/trending`, {
     ...options,
     params: { ...params, ...options?.params },

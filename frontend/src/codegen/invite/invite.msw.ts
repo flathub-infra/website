@@ -6,7 +6,10 @@
  */
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
-import type { DevelopersResponse, InviteStatus } from ".././model"
+import type {
+  AppRoutesInvitesDevelopersResponse,
+  InviteStatus,
+} from ".././model"
 
 export const getGetInviteStatusInvitesAppIdGetResponseMock = (
   overrideResponse: Partial<InviteStatus> = {},
@@ -20,8 +23,8 @@ export const getGetInviteStatusInvitesAppIdGetResponseMock = (
 })
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
-  overrideResponse: Partial<DevelopersResponse> = {},
-): DevelopersResponse => ({
+  overrideResponse: Partial<AppRoutesInvitesDevelopersResponse> = {},
+): AppRoutesInvitesDevelopersResponse => ({
   developers: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -138,10 +141,12 @@ export const getLeaveTeamInvitesAppIdLeavePostMockHandler = (
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler = (
   overrideResponse?:
-    | DevelopersResponse
+    | AppRoutesInvitesDevelopersResponse
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<DevelopersResponse> | DevelopersResponse),
+      ) =>
+        | Promise<AppRoutesInvitesDevelopersResponse>
+        | AppRoutesInvitesDevelopersResponse),
 ) => {
   return http.get("*/invites/:appId/developers", async (info) => {
     await delay(1000)

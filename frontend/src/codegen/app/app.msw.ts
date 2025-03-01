@@ -80,7 +80,7 @@ export const getPostSearchSearchPostResponseMock = (
     project_license: faker.string.alpha(20),
     is_free_license: faker.datatype.boolean(),
     app_id: faker.string.alpha(20),
-    icon: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     main_categories: faker.helpers.arrayElement([
       faker.helpers.arrayElement(Object.values(MainCategory)),
       faker.helpers.arrayElements(Object.values(MainCategory)),
@@ -151,22 +151,34 @@ export const getPostSearchSearchPostResponseMock = (
   limit: faker.number.int({ min: undefined, max: undefined }),
   offset: faker.number.int({ min: undefined, max: undefined }),
   estimatedTotalHits: faker.number.int({ min: undefined, max: undefined }),
-  facetDistribution: {
-    [faker.string.alphanumeric(5)]: {
-      [faker.string.alphanumeric(5)]: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
-    },
-  },
-  facetStats: {
-    [faker.string.alphanumeric(5)]: {
-      [faker.string.alphanumeric(5)]: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
-    },
-  },
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 

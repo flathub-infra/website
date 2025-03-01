@@ -17,18 +17,14 @@ import {
   tryParseCategory,
   tryParseSubCategory,
 } from "../../../../../../src/types/Category"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  mapAppsIndexToAppstreamListItem,
-} from "src/meilisearch"
-import { MainCategory, SortBy } from "src/codegen"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
+import { MainCategory, MeilisearchResponseAppsIndex, SortBy } from "src/codegen"
 
 const ApplicationCategory = ({
   applications,
   locale,
 }: {
-  applications: MeilisearchResponse<AppsIndex>
+  applications: MeilisearchResponseAppsIndex
   locale: string
 }) => {
   const { t } = useTranslation()

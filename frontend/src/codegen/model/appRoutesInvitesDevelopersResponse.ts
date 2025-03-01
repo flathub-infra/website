@@ -6,7 +6,7 @@
  */
 import type { Developer } from "./developer"
 
-export interface DevelopersResponse {
+export interface AppRoutesInvitesDevelopersResponse {
   developers: Developer[]
   invites: Developer[]
 }
