@@ -589,7 +589,7 @@
   "slide": "Slide",
   "carousel": "Carousel",
   "microphone-access": "Microphone access and audio playback",
-  "can-listen-using-microphones-without-asking-permission": "Can listen using microphones and play audio without asking permission",
+  "can-listen-using-microphones-without-asking-permission": "Can listen using microphones and play audio without asking for permission",
   "screen-contents-access": "Screen contents access",
   "can-access-the-contents-of-the-screen-or-other-windows": "Can access the contents of the screen or other windows",
   "apps-for-you-where-you-are": "<0>Apps for you where you are</0> — Whether you're on a Steam Deck, a powerful Linux workstation, a Raspberry Pi, or the rare Linux phone; Flathub has apps for you",

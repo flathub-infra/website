@@ -526,7 +526,7 @@
   "cannot-access-the-internet": "Cannot access the internet",
   "no-permissions-description": "App is fully sandboxed",
   "microphone-access": "Microphone access and audio playback",
-  "can-listen-using-microphones-without-asking-permission": "Can listen using microphones and play audio without asking permission",
+  "can-listen-using-microphones-without-asking-permission": "Can listen using microphones and play audio without asking for permission",
   "screen-contents-access": "Screen contents access",
   "can-access-the-contents-of-the-screen-or-other-windows": "Can access the contents of the screen or other windows",
   "user-settings": "User settings",
