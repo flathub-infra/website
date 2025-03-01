@@ -5,7 +5,9 @@
  * OpenAPI spec version: 0.1.0
  */
 import { faker } from "@faker-js/faker"
+
 import { HttpResponse, delay, http } from "msw"
+
 import {
   AvailableLoginMethodStatus,
   AvailableMethodType,
