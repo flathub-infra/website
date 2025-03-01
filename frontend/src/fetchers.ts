@@ -23,12 +23,12 @@ import {
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { VerificationStatus } from "./types/VerificationStatus"
-import { AppsIndex, MeilisearchResponse } from "./meilisearch"
 import {
   AppOfTheDay,
   AppsOfTheWeek,
   getDeveloperCollectionDeveloperDeveloperGet,
   MainCategory,
+  MeilisearchResponseAppsIndex,
   SortBy,
   VendingConfig,
 } from "./codegen"
@@ -124,7 +124,7 @@ export default async function fetchCollection(
   page?: number,
   per_page?: number,
   locale?: string,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   let collectionURL: string = ""
   switch (collection) {
     case "popular":
@@ -154,7 +154,7 @@ export default async function fetchCollection(
   }
 
   const collectionListRes = await fetch(collectionURL)
-  const collectionList: MeilisearchResponse<AppsIndex> =
+  const collectionList: MeilisearchResponseAppsIndex =
     await collectionListRes.json()
 
   console.log(
@@ -171,7 +171,7 @@ export async function fetchCategory(
   per_page?: number,
   exclude_subcategories?: string[],
   sort_by?: keyof typeof SortBy,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   const appListRes = await fetch(
     CATEGORY_URL(
       category,
@@ -182,7 +182,7 @@ export async function fetchCategory(
       sort_by,
     ),
   )
-  const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
+  const response: MeilisearchResponseAppsIndex = await appListRes.json()
 
   console.log(
     `Category ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
@@ -195,7 +195,7 @@ export async function fetchGameCategory(
   locale: string,
   page?: number,
   per_page?: number,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   return await fetchCategory(
     MainCategory.game,
     locale,
@@ -210,7 +210,7 @@ export async function fetchGameEmulatorCategory(
   locale: string,
   page?: number,
   per_page?: number,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   return await fetchSubcategory(
     MainCategory.game,
     ["emulator"],
@@ -226,7 +226,7 @@ export async function fetchGamePackageManagerCategory(
   locale: string,
   page?: number,
   per_page?: number,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   return await fetchSubcategory(
     MainCategory.game,
     ["packageManager"],
@@ -242,7 +242,7 @@ export async function fetchGameUtilityCategory(
   locale: string,
   page?: number,
   per_page?: number,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   return await fetchSubcategory(
     MainCategory.game,
     ["utility", "network"],
@@ -262,7 +262,7 @@ export async function fetchSubcategory(
   per_page?: number,
   exclude_subcategories?: string[],
   sort_by?: keyof typeof SortBy,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   const appListRes = await fetch(
     SUBCATEGORY_URL(
       category,
@@ -274,7 +274,7 @@ export async function fetchSubcategory(
       sort_by,
     ),
   )
-  const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
+  const response: MeilisearchResponseAppsIndex = await appListRes.json()
 
   console.log(
     `Subcategory ${subcategory} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
@@ -288,7 +288,7 @@ export async function fetchDeveloperApps(
   locale: string,
   page?: number,
   per_page?: number,
-): Promise<MeilisearchResponse<AppsIndex>> {
+): Promise<MeilisearchResponseAppsIndex> {
   if (!developer) {
     console.log("No developer specified")
     return null
@@ -308,7 +308,7 @@ export async function fetchDeveloperApps(
 
   console.log(`Developer apps for ${developer} fetched`)
 
-  return appList.data as MeilisearchResponse<AppsIndex>
+  return appList.data as MeilisearchResponseAppsIndex
 }
 
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {

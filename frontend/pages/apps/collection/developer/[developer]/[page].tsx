@@ -4,18 +4,15 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../../src/components/application/Collection"
 import { fetchDeveloperApps } from "../../../../../src/fetchers"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  mapAppsIndexToAppstreamListItem,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
+import { MeilisearchResponseAppsIndex } from "src/codegen"
 
 export default function Developer({
   applications,
   developer,
   locale,
 }: {
-  applications: MeilisearchResponse<AppsIndex>
+  applications: MeilisearchResponseAppsIndex
   developer: string
   locale: string
 }) {

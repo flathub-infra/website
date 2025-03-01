@@ -15,11 +15,7 @@ import AppStatistics from "./AppStats"
 import ApplicationSection from "./ApplicationSection"
 
 import { VerificationStatus } from "src/types/VerificationStatus"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  mapAppsIndexToAppstreamListItem,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import Tags from "./Tags"
 import SafetyRating from "./SafetyRating"
 import "yet-another-react-lightbox/plugins/captions.css"
@@ -32,13 +28,16 @@ import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
-import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen"
+import {
+  getAppVendingSetupVendingappAppIdSetupGet,
+  MeilisearchResponseAppsIndex,
+} from "src/codegen"
 
 interface Props {
   app?: Appstream
   summary?: Summary
   stats: AppStats
-  developerApps: MeilisearchResponse<AppsIndex>
+  developerApps: MeilisearchResponseAppsIndex
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]
   isQualityModalOpen: boolean

@@ -13,20 +13,16 @@ import {
   stringToCategory,
   tryParseSubCategory,
 } from "../../../../src/types/Category"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  mapAppsIndexToAppstreamListItem,
-} from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import Link from "next/link"
 import Tile from "src/components/Tile"
-import { SortBy } from "src/codegen"
+import { MeilisearchResponseAppsIndex, SortBy } from "src/codegen"
 
 const ApplicationCategory = ({
   applications,
   locale,
 }: {
-  applications: MeilisearchResponse<AppsIndex>
+  applications: MeilisearchResponseAppsIndex
   locale: string
 }) => {
   const { t } = useTranslation()

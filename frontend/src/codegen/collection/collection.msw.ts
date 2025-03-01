@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import { MainCategory, VerificationMethod } from ".././model"
 import type {
-  GetDevelopersCollectionDeveloperGet200,
+  AppSearchDevelopersResponse,
   MeilisearchResponseAppsIndex,
 } from ".././model"
 
@@ -17,8 +17,454 @@ export const getGetCategoriesCollectionCategoryGetResponseMock = (): string[] =>
     faker.word.sample(),
   )
 
-export const getGetDevelopersCollectionDeveloperGetResponseMock =
-  (): GetDevelopersCollectionDeveloperGet200 => ({})
+export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponseMock =
+  (
+    overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  ): MeilisearchResponseAppsIndex => ({
+    hits: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      name: faker.string.alpha(20),
+      keywords: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      summary: faker.string.alpha(20),
+      description: faker.string.alpha(20),
+      id: faker.string.alpha(20),
+      type: faker.string.alpha(20),
+      translations: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          {
+            [faker.string.alphanumeric(5)]: {
+              [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+            },
+          },
+          null,
+        ]),
+        undefined,
+      ]),
+      project_license: faker.string.alpha(20),
+      is_free_license: faker.datatype.boolean(),
+      app_id: faker.string.alpha(20),
+      icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      main_categories: faker.helpers.arrayElement([
+        faker.helpers.arrayElement(Object.values(MainCategory)),
+        faker.helpers.arrayElements(Object.values(MainCategory)),
+      ]),
+      sub_categories: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha(20)),
+          null,
+        ]),
+        undefined,
+      ]),
+      developer_name: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        null,
+      ]),
+      verification_verified: faker.datatype.boolean(),
+      verification_method: faker.helpers.arrayElement(
+        Object.values(VerificationMethod),
+      ),
+      verification_login_name: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        null,
+      ]),
+      verification_login_provider: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        null,
+      ]),
+      verification_login_is_organization: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        null,
+      ]),
+      verification_website: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        null,
+      ]),
+      verification_timestamp: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        null,
+      ]),
+      runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      updated_at: faker.number.int({ min: undefined, max: undefined }),
+      arches: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      added_at: faker.number.int({ min: undefined, max: undefined }),
+      trending: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.number.int({ min: undefined, max: undefined }),
+          null,
+        ]),
+        undefined,
+      ]),
+      installs_last_month: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.number.int({ min: undefined, max: undefined }),
+          null,
+        ]),
+        undefined,
+      ]),
+      isMobileFriendly: faker.datatype.boolean(),
+    })),
+    query: faker.string.alpha(20),
+    processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+    hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+    page: faker.number.int({ min: undefined, max: undefined }),
+    totalPages: faker.number.int({ min: undefined, max: undefined }),
+    totalHits: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+  })
+
+export const getGetKeywordCollectionKeywordGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetDevelopersCollectionDeveloperGetResponseMock = (
+  overrideResponse: Partial<AppSearchDevelopersResponse> = {},
+): AppSearchDevelopersResponse => ({
+  developers: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => faker.string.alpha(20)),
+  total: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  per_page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
 
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
   overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
@@ -53,7 +499,547 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
     project_license: faker.string.alpha(20),
     is_free_license: faker.datatype.boolean(),
     app_id: faker.string.alpha(20),
-    icon: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetVerifiedCollectionVerifiedGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetMobileCollectionMobileGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    main_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(MainCategory)),
+      faker.helpers.arrayElements(Object.values(MainCategory)),
+    ]),
+    sub_categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha(20)),
+        null,
+      ]),
+      undefined,
+    ]),
+    developer_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    verification_verified: faker.datatype.boolean(),
+    verification_method: faker.helpers.arrayElement(
+      Object.values(VerificationMethod),
+    ),
+    verification_login_name: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_provider: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_website: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    verification_timestamp: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
+  })),
+  query: faker.string.alpha(20),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
+
+export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
+  hits: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha(20),
+    keywords: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
+      null,
+    ]),
+    summary: faker.string.alpha(20),
+    description: faker.string.alpha(20),
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     main_categories: faker.helpers.arrayElement([
       faker.helpers.arrayElement(Object.values(MainCategory)),
       faker.helpers.arrayElements(Object.values(MainCategory)),
@@ -153,64 +1139,89 @@ export const getGetCategoriesCollectionCategoryGetMockHandler = (
 
 export const getGetCategoryCollectionCategoryCategoryGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/category/:category", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetCategoryCollectionCategoryCategoryGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHandler =
   (
     overrideResponse?:
-      | unknown
+      | MeilisearchResponseAppsIndex
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
+        ) =>
+          | Promise<MeilisearchResponseAppsIndex>
+          | MeilisearchResponseAppsIndex),
   ) => {
     return http.get(
       "*/collection/category/:category/subcategories",
       async (info) => {
         await delay(1000)
-        if (typeof overrideResponse === "function") {
-          await overrideResponse(info)
-        }
-        return new HttpResponse(null, { status: 200 })
+
+        return new HttpResponse(
+          JSON.stringify(
+            overrideResponse !== undefined
+              ? typeof overrideResponse === "function"
+                ? await overrideResponse(info)
+                : overrideResponse
+              : getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponseMock(),
+          ),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        )
       },
     )
   }
 
 export const getGetKeywordCollectionKeywordGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/keyword", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetKeywordCollectionKeywordGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getGetDevelopersCollectionDeveloperGetMockHandler = (
   overrideResponse?:
-    | GetDevelopersCollectionDeveloperGet200
+    | AppSearchDevelopersResponse
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) =>
-        | Promise<GetDevelopersCollectionDeveloperGet200>
-        | GetDevelopersCollectionDeveloperGet200),
+      ) => Promise<AppSearchDevelopersResponse> | AppSearchDevelopersResponse),
 ) => {
   return http.get("*/collection/developer", async (info) => {
     await delay(1000)
@@ -230,17 +1241,26 @@ export const getGetDevelopersCollectionDeveloperGetMockHandler = (
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/developer/:developer", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetDeveloperCollectionDeveloperDeveloperGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
@@ -271,81 +1291,126 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler = (
 
 export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/recently-added", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getGetVerifiedCollectionVerifiedGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/verified", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetVerifiedCollectionVerifiedGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getGetMobileCollectionMobileGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/mobile", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetMobileCollectionMobileGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getGetPopularLastMonthCollectionPopularGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/popular", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPopularLastMonthCollectionPopularGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.get("*/collection/trending", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 export const getCollectionMock = () => [

@@ -3,12 +3,11 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../../src/components/application/Collection"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import {
-  AppsIndex,
-  MeilisearchResponse,
-  mapAppsIndexToAppstreamListItem,
-} from "src/meilisearch"
-import { getKeywordCollectionKeywordGet } from "src/codegen"
+  getKeywordCollectionKeywordGet,
+  MeilisearchResponseAppsIndex,
+} from "src/codegen"
 import { AxiosResponse } from "axios"
 
 export default function Tag({
@@ -16,7 +15,7 @@ export default function Tag({
   tag: tag,
   locale,
 }: {
-  applications: MeilisearchResponse<AppsIndex>
+  applications: MeilisearchResponseAppsIndex
   tag: string
   locale: string
 }) {
@@ -56,7 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     locale: locale,
     page: params.page as unknown as number,
     per_page: 30,
-  })) as AxiosResponse<MeilisearchResponse<AppsIndex>>
+  })) as AxiosResponse<MeilisearchResponseAppsIndex>
 
   if (applications.data.page > applications.data.totalPages) {
     return {

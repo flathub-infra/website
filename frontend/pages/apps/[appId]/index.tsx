@@ -22,11 +22,7 @@ import {
 import { Summary } from "../../../src/types/Summary"
 import { AppStats } from "../../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  removeAppIdFromSearchResponse,
-} from "src/meilisearch"
+import { removeAppIdFromSearchResponse } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { useTranslation } from "next-i18next"
@@ -35,7 +31,10 @@ import { calculateHumanReadableSize } from "src/size"
 import { formatISO } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { bcpToPosixLocale } from "src/localize"
-import { getEolMessageAppidEolMessageAppIdGet } from "src/codegen"
+import {
+  getEolMessageAppidEolMessageAppIdGet,
+  MeilisearchResponseAppsIndex,
+} from "src/codegen"
 
 function categoryToSeoCategories(categories: string[]) {
   if (!categories) {
@@ -85,7 +84,7 @@ export default function Details({
   app: Appstream
   summary?: Summary
   stats: AppStats
-  developerApps: MeilisearchResponse<AppsIndex>
+  developerApps: MeilisearchResponseAppsIndex
   verificationStatus: VerificationStatus
   eolMessage: string
   addons: AddonAppstream[]

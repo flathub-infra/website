@@ -4,7 +4,7 @@ import {
   ApplicationCardSkeleton,
 } from "../application/ApplicationCard"
 import { FunctionComponent } from "react"
-import { mapAppsIndexToAppstreamListItemNew } from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { UseMutationResult } from "@tanstack/react-query"
 import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
 
@@ -30,7 +30,7 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
         results.data?.data.hits.map((app) => (
           <div key={app.app_id} className={"flex flex-col gap-2"}>
             <ApplicationCard
-              application={mapAppsIndexToAppstreamListItemNew(app)}
+              application={mapAppsIndexToAppstreamListItem(app)}
             />
           </div>
         ))}

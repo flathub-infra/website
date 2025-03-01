@@ -27,8 +27,8 @@ class MeilisearchResponseLimited(BaseModel, Generic[T]):
     limit: int
     offset: int
     estimatedTotalHits: int
-    facetDistribution: dict[str, dict[str, int]]
-    facetStats: dict[str, dict[str, int]]
+    facetDistribution: dict[str, dict[str, int]] | None = None
+    facetStats: dict[str, dict[str, int]] | None = None
 
 
 U = TypeVar("U", MeilisearchResponse, MeilisearchResponseLimited)
@@ -45,7 +45,7 @@ class AppsIndex(BaseModel):
     project_license: str
     is_free_license: bool
     app_id: str
-    icon: str
+    icon: str | None
     main_categories: schemas.MainCategory | list[schemas.MainCategory]
     sub_categories: list[str] | None = None
     developer_name: str | None
@@ -184,7 +184,7 @@ def get_by_selected_categories(
     hits_per_page: int | None,
     locale: str,
     sort_by: schemas.SortBy | None = None,
-):
+) -> MeilisearchResponse[AppsIndex]:
     category_list = [
         f"main_categories = {category.value}" for category in selected_categories
     ]
@@ -231,7 +231,7 @@ def get_by_selected_category_and_subcategory(
     hits_per_page: int | None,
     locale: str,
     sort_by: schemas.SortBy | None = None,
-):
+) -> MeilisearchResponse[AppsIndex]:
     selected_subcategory_list = [
         f"sub_categories = {subcategory}" for subcategory in selected_subcategory
     ]
@@ -274,7 +274,7 @@ def get_by_selected_category_and_subcategory(
 
 def get_by_installs_last_month(
     page: int | None, hits_per_page: int | None, locale: str
-):
+) -> MeilisearchResponse[AppsIndex]:
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
@@ -294,7 +294,9 @@ def get_by_installs_last_month(
     )
 
 
-def get_by_trending(page: int | None, hits_per_page: int | None, locale: str):
+def get_by_trending(
+    page: int | None, hits_per_page: int | None, locale: str
+) -> MeilisearchResponse[AppsIndex]:
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
@@ -314,7 +316,9 @@ def get_by_trending(page: int | None, hits_per_page: int | None, locale: str):
     )
 
 
-def get_by_added_at(page: int | None, hits_per_page: int | None, locale: str):
+def get_by_added_at(
+    page: int | None, hits_per_page: int | None, locale: str
+) -> MeilisearchResponse[AppsIndex]:
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
@@ -334,7 +338,9 @@ def get_by_added_at(page: int | None, hits_per_page: int | None, locale: str):
     )
 
 
-def get_by_updated_at(page: int | None, hits_per_page: int | None, locale: str):
+def get_by_updated_at(
+    page: int | None, hits_per_page: int | None, locale: str
+) -> MeilisearchResponse[AppsIndex]:
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
@@ -354,7 +360,9 @@ def get_by_updated_at(page: int | None, hits_per_page: int | None, locale: str):
     )
 
 
-def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
+def get_by_verified(
+    page: int | None, hits_per_page: int | None, locale: str
+) -> MeilisearchResponse[AppsIndex]:
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
@@ -375,7 +383,9 @@ def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
     )
 
 
-def get_by_mobile(page: int | None, hits_per_page: int | None, locale: str):
+def get_by_mobile(
+    page: int | None, hits_per_page: int | None, locale: str
+) -> MeilisearchResponse[AppsIndex]:
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
@@ -398,7 +408,7 @@ def get_by_mobile(page: int | None, hits_per_page: int | None, locale: str):
 
 def get_by_developer(
     developer: str, page: int | None, hits_per_page: int | None, locale: str
-):
+) -> MeilisearchResponse[AppsIndex]:
     escaped_developer = (
         developer.replace("'", "\\'").replace('"', '\\"').replace("/", "\\/")
     )
@@ -425,7 +435,7 @@ def get_by_developer(
 
 def get_by_keyword(
     keyword: str, page: int | None, hits_per_page: int | None, locale: str
-):
+) -> MeilisearchResponse[AppsIndex]:
     escaped_keyword = (
         keyword.replace("'", "\\'").replace('"', '\\"').replace("/", "\\/")
     )
@@ -451,7 +461,9 @@ def get_by_keyword(
 
 
 ## remove this, when compat get's removed
-def search_apps(query: str, locale: str, free_software_only: bool = False):
+def search_apps(
+    query: str, locale: str, free_software_only: bool = False
+) -> MeilisearchResponseLimited[AppsIndex]:
     query = unquote(query)
 
     filters = ["type IN [desktop-application, console-application]"]
@@ -464,7 +476,11 @@ def search_apps(query: str, locale: str, free_software_only: bool = False):
         MeilisearchResponseLimited[AppsIndex].model_validate(
             client.index("apps").search(
                 query,
-                {"limit": 250, "sort": ["installs_last_month:desc"], "filter": filters},
+                {
+                    "limit": 250,
+                    "sort": ["installs_last_month:desc"],
+                    "filter": filters,
+                },
             ),
         ),
     )
@@ -519,24 +535,22 @@ def search_apps_post(
     )
 
 
-def get_sub_categories(category: str):
-    return (
-        MeilisearchResponseLimited[AppsIndex].model_validate(
-            client.index("apps").search(
-                "",
-                {
-                    "limit": 1,
-                    "filter": f"main_categories = '{category}'",
-                    "facets": [
-                        "sub_categories",
-                    ],
-                },
-            ),
+def get_sub_categories(category: str) -> MeilisearchResponseLimited[AppsIndex]:
+    return MeilisearchResponseLimited[AppsIndex].model_validate(
+        client.index("apps").search(
+            "",
+            {
+                "limit": 1,
+                "filter": f"main_categories = '{category}'",
+                "facets": [
+                    "sub_categories",
+                ],
+            },
         ),
     )
 
 
-def get_runtime_list():
+def get_runtime_list() -> dict[str, int]:
     return client.index("apps").search(
         "",
         {
@@ -547,7 +561,14 @@ def get_runtime_list():
     )["facetDistribution"]["runtime"]
 
 
-def get_developers(page: int | None, hits_per_page: int | None):
+class DevelopersResponse(BaseModel):
+    developers: list[str]
+    total: int
+    page: int
+    per_page: int
+
+
+def get_developers(page: int | None, hits_per_page: int | None) -> DevelopersResponse:
     result = client.index("apps").search(
         "",
         {
@@ -559,9 +580,11 @@ def get_developers(page: int | None, hits_per_page: int | None):
     )
     facet_distribution = result.get("facetDistribution", {}).get("developer_name", {})
 
-    return {
-        "developers": list(facet_distribution.keys()),
-        "total": len(facet_distribution),
-        "page": page or 1,
-        "per_page": hits_per_page or 250,
-    }
+    return DevelopersResponse.model_validate(
+        {
+            "developers": list(facet_distribution.keys()),
+            "total": len(facet_distribution),
+            "page": page or 1,
+            "per_page": hits_per_page or 250,
+        }
+    )

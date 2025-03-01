@@ -6,6 +6,7 @@
  */
 import type { AppsIndexKeywords } from "./appsIndexKeywords"
 import type { AppsIndexTranslations } from "./appsIndexTranslations"
+import type { AppsIndexIcon } from "./appsIndexIcon"
 import type { AppsIndexMainCategories } from "./appsIndexMainCategories"
 import type { AppsIndexSubCategories } from "./appsIndexSubCategories"
 import type { AppsIndexDeveloperName } from "./appsIndexDeveloperName"
@@ -31,7 +32,7 @@ export interface AppsIndex {
   project_license: string
   is_free_license: boolean
   app_id: string
-  icon: string
+  icon: AppsIndexIcon
   main_categories: AppsIndexMainCategories
   sub_categories?: AppsIndexSubCategories
   developer_name: AppsIndexDeveloperName
