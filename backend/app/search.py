@@ -41,7 +41,7 @@ class AppsIndex(BaseModel):
     description: str
     id: str
     type: str
-    translations: dict[str, dict[str, str]]
+    translations: dict[str, dict[str, str]] | None = None
     project_license: str
     is_free_license: bool
     app_id: str
@@ -66,10 +66,12 @@ class AppsIndex(BaseModel):
 
     # Custom validator to map None to the Enum 'NONE'
     @field_validator("verification_method", mode="before")
-    def map_none_to_enum(cls, v):
+    def map_none_to_enum(cls, v: str | None):
         if v is None:
             return VerificationMethod.NONE
-        return
+
+        # map rest to enum - returns a keyerror
+        return VerificationMethod[v.upper()]
 
 
 class Filter(BaseModel):

@@ -54,23 +54,7 @@ export const getPostSearchSearchPostResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.string.alpha(20),
     name: faker.string.alpha(20),
-    summary: faker.string.alpha(20),
-    installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
-      undefined,
-    ]),
-    trending: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
-      undefined,
-    ]),
     keywords: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -78,19 +62,25 @@ export const getPostSearchSearchPostResponseMock = (
       ).map(() => faker.string.alpha(20)),
       null,
     ]),
-    app_id: faker.string.alpha(20),
+    summary: faker.string.alpha(20),
     description: faker.string.alpha(20),
-    icon: faker.string.alpha(20),
-    categories: faker.helpers.arrayElement([
+    id: faker.string.alpha(20),
+    type: faker.string.alpha(20),
+    translations: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => faker.string.alpha(20)),
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.string.alpha(20),
+          },
+        },
         null,
       ]),
       undefined,
     ]),
+    project_license: faker.string.alpha(20),
+    is_free_license: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    icon: faker.string.alpha(20),
     main_categories: faker.helpers.arrayElement([
       faker.helpers.arrayElement(Object.values(MainCategory)),
       faker.helpers.arrayElements(Object.values(MainCategory)),
@@ -118,6 +108,10 @@ export const getPostSearchSearchPostResponseMock = (
       faker.string.alpha(20),
       null,
     ]),
+    verification_login_is_organization: faker.helpers.arrayElement([
+      faker.string.alpha(20),
+      null,
+    ]),
     verification_website: faker.helpers.arrayElement([
       faker.string.alpha(20),
       null,
@@ -126,10 +120,31 @@ export const getPostSearchSearchPostResponseMock = (
       faker.string.alpha(20),
       null,
     ]),
-    verification_login_is_organization: faker.helpers.arrayElement([
-      faker.string.alpha(20),
+    runtime: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    arches: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
       null,
     ]),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
+    trending: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    installs_last_month: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha(20),
   processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
@@ -137,6 +152,14 @@ export const getPostSearchSearchPostResponseMock = (
   offset: faker.number.int({ min: undefined, max: undefined }),
   estimatedTotalHits: faker.number.int({ min: undefined, max: undefined }),
   facetDistribution: {
+    [faker.string.alphanumeric(5)]: {
+      [faker.string.alphanumeric(5)]: faker.number.int({
+        min: undefined,
+        max: undefined,
+      }),
+    },
+  },
+  facetStats: {
     [faker.string.alphanumeric(5)]: {
       [faker.string.alphanumeric(5)]: faker.number.int({
         min: undefined,
@@ -440,6 +463,29 @@ export const getGetPlatformsPlatformsGetMockHandler = (
   })
 }
 
+export const getGetAddonsAddonAppIdGetMockHandler = (
+  overrideResponse?:
+    | string[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<string[]> | string[]),
+) => {
+  return http.get("*/addon/:appId", async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAddonsAddonAppIdGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
+  })
+}
+
 export const getGetExceptionsExceptionsGetMockHandler = (
   overrideResponse?:
     | unknown
@@ -447,7 +493,7 @@ export const getGetExceptionsExceptionsGetMockHandler = (
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
 ) => {
-  return http.get("*/exceptions", async (info) => {
+  return http.get("*/exceptions/", async (info) => {
     await delay(1000)
     if (typeof overrideResponse === "function") {
       await overrideResponse(info)
@@ -469,29 +515,6 @@ export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
       await overrideResponse(info)
     }
     return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetAddonsAddonAppIdGetMockHandler = (
-  overrideResponse?:
-    | string[]
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string[]> | string[]),
-) => {
-  return http.get("*/addon/:appId", async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetAddonsAddonAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
   })
 }
 
@@ -584,9 +607,9 @@ export const getAppMock = () => [
   getGetRuntimeListRuntimesGetMockHandler(),
   getGetSummarySummaryAppIdGetMockHandler(),
   getGetPlatformsPlatformsGetMockHandler(),
+  getGetAddonsAddonAppIdGetMockHandler(),
   getGetExceptionsExceptionsGetMockHandler(),
   getGetExceptionsForAppExceptionsAppIdGetMockHandler(),
-  getGetAddonsAddonAppIdGetMockHandler(),
   getAddToFavoritesFavoritesAppIdAddPostMockHandler(),
   getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler(),
   getGetFavoritesFavoritesGetMockHandler(),
