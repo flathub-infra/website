@@ -16,11 +16,22 @@ updates:
       embla:
         patterns: 
           - embla
+
   - package-ecosystem: "npm"
     directory: "/backend-node"
     schedule:
       interval: "daily"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "uv"
+    directory: "/backend"
+    schedule:
+      interval: "monthly"
+    groups:
+      python:
+        patterns:
+        - "*"
