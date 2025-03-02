@@ -7,17 +7,15 @@ import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
-import { useQuery } from "@tanstack/react-query"
 import {
   AvailableMethods,
   VerificationMethod,
   VerificationStatus,
 } from "src/codegen/model"
 import {
-  getAvailableMethodsVerificationAppIdAvailableMethodsGetResponse,
-  getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
+  useGetVerificationStatusVerificationAppIdStatusGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -73,12 +71,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const query = useQuery({
-    queryKey: ["verification", app.id],
-    queryFn: async () => {
-      return getVerificationStatusVerificationAppIdStatusGet(app.id)
-    },
-    enabled: !!app.id,
+  const query = useGetVerificationStatusVerificationAppIdStatusGet(app.id, {
+    query: { enabled: !!app.id },
   })
 
   const verificationAvailableMethods =
@@ -108,13 +102,11 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   }
 
   let content: ReactElement
-  if (query.error) {
-    content = <InlineError shown={true} error={query.error.message} />
-  } else if (verificationAvailableMethods.error?.response?.data?.detail) {
-    switch (
-      verificationAvailableMethods.error.response.data
-        .detail as unknown as string
-    ) {
+  if (
+    verificationAvailableMethods.data.status !== 200 &&
+    verificationAvailableMethods.error?.detail
+  ) {
+    switch (verificationAvailableMethods.error.detail as unknown as string) {
       case "app_already_exists":
         content = <InlineError shown={true} error={t("app-already-exists")} />
         break
@@ -166,7 +158,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           <InlineError
             shown={true}
             error={t("error-code", {
-              code: verificationAvailableMethods.error?.response.data.detail,
+              code: verificationAvailableMethods.error?.detail,
             })}
           />
         )

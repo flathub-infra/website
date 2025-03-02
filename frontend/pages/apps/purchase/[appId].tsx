@@ -40,7 +40,7 @@ export default function AppPurchasePage({
   })
 
   useEffect(() => {
-    if (vendingSetup.data) {
+    if (vendingSetup.data && vendingSetup.data.status === 200) {
       setAmount({
         live: vendingSetup.data.data.recommended_donation / 100,
         settled: vendingSetup.data.data.recommended_donation / 100,
@@ -52,7 +52,7 @@ export default function AppPurchasePage({
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(vendingSetup.error.message)}</p>
+        <p>{t(vendingSetup.error.detail)}</p>
       </>
     )
   }
