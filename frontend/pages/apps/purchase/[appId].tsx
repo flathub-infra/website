@@ -13,7 +13,7 @@ import {
 } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import { NumericInputValue } from "src/types/Input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Spinner from "src/components/Spinner"
 
 export default function AppPurchasePage({
@@ -35,16 +35,17 @@ export default function AppPurchasePage({
     axios: { withCredentials: true },
     query: {
       enabled: !!app.id,
-      select: (setup) => {
-        const decimalValue = setup.data.recommended_donation / 100
-        setAmount({
-          live: decimalValue,
-          settled: decimalValue,
-        })
-        return setup
-      },
     },
   })
+
+  useEffect(() => {
+    if (vendingSetup.data) {
+      setAmount({
+        live: vendingSetup.data.data.recommended_donation / 100,
+        settled: vendingSetup.data.data.recommended_donation / 100,
+      })
+    }
+  }, [vendingSetup.data])
 
   if (vendingSetup.isError) {
     return (
