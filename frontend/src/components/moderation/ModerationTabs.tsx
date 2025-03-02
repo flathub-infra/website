@@ -66,7 +66,7 @@ const ModerationTabs: FunctionComponent = () => {
       )
 
       if (apps.status !== 200) {
-        throw new Error(apps.data.detail)
+        return null
       }
 
       return {

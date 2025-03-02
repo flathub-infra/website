@@ -98,7 +98,7 @@ export default function QualityModerationDashboard() {
   const pages = Array.from(
     {
       length:
-        query.data.status === 200
+        query.data?.status === 200
           ? query.data?.data?.pagination?.total_pages
           : 1,
     },

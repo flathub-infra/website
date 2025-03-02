@@ -10,7 +10,6 @@ import { ApplicationCard } from "src/components/application/ApplicationCard"
 import {
   useGetAppVendingSetupVendingappAppIdSetupGet,
   VendingConfig,
-  VendingSetup,
 } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import { NumericInputValue } from "src/types/Input"
@@ -48,11 +47,11 @@ export default function AppPurchasePage({
     }
   }, [vendingSetup.data])
 
-  if (vendingSetup.isError || vendingSetup.data.status !== 200) {
+  if (vendingSetup.isError || vendingSetup.data?.status !== 200) {
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(vendingSetup.error.detail)}</p>
+        <p>{t(vendingSetup.error?.message)}</p>
       </>
     )
   }

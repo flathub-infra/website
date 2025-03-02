@@ -160,7 +160,7 @@ export default function AppManagementPage({
                       (a) => a === Permission["direct-upload"],
                     )) && (
                     <>
-                      {inviteQuery.data.status === 200 &&
+                      {inviteQuery.data?.status === 200 &&
                         inviteQuery.data?.data?.is_direct_upload_app && (
                           <SettingsDisclosure sectionTitle={t("developers")}>
                             <AppDevelopersControls app={app} />
