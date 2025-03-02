@@ -479,7 +479,7 @@ def post_app_vending_status(
             txn = Transaction.create_from_split(
                 db, login["user"], vend.minimum_payment > 0, data.currency, shares
             )
-            db.flush()
+            db.commit()
             full_txn = Wallet().transaction(request, login["user"], txn.id)
     except WalletError:
         raise

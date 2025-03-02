@@ -98,7 +98,7 @@ class StripeWallet(WalletBase):
         since: str | None,
         limit: int,
     ) -> list[TransactionSummary]:
-        with get_db("replica") as db:
+        with get_db("writer") as db:
             txns = models.Transaction.by_user(db, user)
             if sort == TransactionSortOrder.RECENT:
                 txns = txns.order_by(models.Transaction.created.desc())
@@ -235,7 +235,7 @@ class StripeWallet(WalletBase):
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
     ) -> Transaction:
-        with get_db("replica") as db:
+        with get_db("writer") as db:
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError(error="not found")
@@ -276,6 +276,8 @@ class StripeWallet(WalletBase):
                 if latest_charge is not None:
                     receipt = latest_charge.get("receipt_url")
             except Exception as stripe_error:
+                print("Whate")
+                print(stripe_error)
                 raise WalletError(error="not found") from stripe_error
 
             return Transaction(
@@ -319,7 +321,7 @@ class StripeWallet(WalletBase):
                         recipient=row.recipient,
                     )
                 )
-            db.session.flush()
+            db.session.commit()
 
             # This will commit for us or error if the payment intent is not created with Stripe
             self._get_transaction(user, txn)
