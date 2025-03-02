@@ -5,10 +5,23 @@ import {
 import { FunctionComponent } from "react"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { UseMutationResult } from "@tanstack/react-query"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import {
+  HTTPValidationError,
+  PostSearchSearchPostParams,
+  postSearchSearchPostResponse,
+  SearchQuery,
+} from "src/codegen"
 
 interface Props {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
 }
 
 export const SearchResults: FunctionComponent<Props> = ({ results }) => {
@@ -23,7 +36,8 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
           )
         })}
       {results.isSuccess &&
-        results.data?.hits.map((app) => (
+        results.data.status === 200 &&
+        results.data?.data.hits.map((app) => (
           <div key={app.app_id} className={"flex flex-col gap-2"}>
             <ApplicationCard
               application={mapAppsIndexToAppstreamListItem(app)}

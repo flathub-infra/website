@@ -301,7 +301,7 @@ export async function fetchDeveloperApps(
     locale,
   })
 
-  if (!appList || appList.status === 404) {
+  if (!appList || appList.status === 422) {
     console.log(`No apps for developer ${developer}`)
     return null
   }

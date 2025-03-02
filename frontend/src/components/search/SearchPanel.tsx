@@ -11,7 +11,13 @@ import { UseMutationResult } from "@tanstack/react-query"
 import { useTranslation, Trans } from "next-i18next"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import {
+  HTTPValidationError,
+  MeilisearchResponseLimitedAppsIndex,
+  PostSearchSearchPostParams,
+  postSearchSearchPostResponse,
+  SearchQuery,
+} from "src/codegen"
 
 export const SearchPanel = ({
   searchResult,
@@ -19,7 +25,15 @@ export const SearchPanel = ({
   setSelectedFilters,
   query,
 }: {
-  searchResult: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  searchResult: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string
@@ -29,7 +43,11 @@ export const SearchPanel = ({
 }) => {
   const { t } = useTranslation()
 
-  if (searchResult.isSuccess && searchResult.data.estimatedTotalHits === 0) {
+  if (
+    searchResult.isSuccess &&
+    searchResult.data.status === 200 &&
+    searchResult.data.data.estimatedTotalHits === 0
+  ) {
     return (
       <div>
         <h1 className="pb-8 text-2xl font-bold">
@@ -77,7 +95,10 @@ export const SearchPanel = ({
               )}
             >
               {t("number-of-results", {
-                number: searchResult.data?.estimatedTotalHits ?? "000",
+                number:
+                  searchResult.data.status === 200
+                    ? searchResult.data?.data?.estimatedTotalHits
+                    : "000",
               })}
             </span>
           }

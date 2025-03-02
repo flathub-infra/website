@@ -29,7 +29,7 @@ const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
       setModalVisible(false)
     },
     onError: (err: Error) => {
-      toast.error(t(err.response.data.detail))
+      toast.error(t(err.message))
     },
   })
 
@@ -74,7 +74,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
       setModalVisible(false)
     },
     onError: (err: Error) => {
-      toast.error(t(err.response.data.detail))
+      toast.error(t(err.message))
     },
   })
 
@@ -137,7 +137,7 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
   let content: ReactElement
   if (query.isPending) {
     content = <Spinner size="m" />
-  } else if (query.isError) {
+  } else if (query.isError || query.data.status !== 200) {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (

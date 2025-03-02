@@ -2,7 +2,13 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseMutationResult } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import {
+  HTTPValidationError,
+  MeilisearchResponseLimitedAppsIndex,
+  PostSearchSearchPostParams,
+  postSearchSearchPostResponse,
+  SearchQuery,
+} from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
 
 const FilterFacette = ({
@@ -29,7 +35,15 @@ const SearchFilterCategories = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string
@@ -56,41 +70,51 @@ const SearchFilterCategories = ({
         })}
 
       {results.isSuccess &&
-        results?.data?.facetDistribution.main_categories &&
-        Object.keys(results?.data?.facetDistribution.main_categories).map(
-          (category) => (
-            <FilterFacette
-              key={category}
-              label={categoryToName(stringToCategory(category), t)}
-              count={results?.data.facetDistribution?.main_categories[category]}
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "main_categories" &&
-                  filter.value === category,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "main_categories",
-                      value: category,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "main_categories" &&
-                          filter.value === category
-                        ),
-                    ),
-                  )
-                }
-              }}
-            />
-          ),
+        results?.data?.status === 200 &&
+        results?.data?.data.facetDistribution.main_categories &&
+        Object.keys(results?.data?.data.facetDistribution.main_categories).map(
+          (category) => {
+            const categoryCount =
+              results?.data?.status === 200
+                ? results?.data?.data.facetDistribution?.main_categories[
+                    category
+                  ]
+                : 0
+
+            return (
+              <FilterFacette
+                key={category}
+                label={categoryToName(stringToCategory(category), t)}
+                count={categoryCount}
+                checked={selectedFilters.some(
+                  (filter) =>
+                    filter.filterType === "main_categories" &&
+                    filter.value === category,
+                )}
+                onCheckedChange={(e) => {
+                  if (e) {
+                    setSelectedFilters([
+                      ...selectedFilters,
+                      {
+                        filterType: "main_categories",
+                        value: category,
+                      },
+                    ])
+                  } else {
+                    setSelectedFilters(
+                      selectedFilters.filter(
+                        (filter) =>
+                          !(
+                            filter.filterType === "main_categories" &&
+                            filter.value === category
+                          ),
+                      ),
+                    )
+                  }
+                }}
+              />
+            )
+          },
         )}
     </div>
   )
@@ -101,7 +125,15 @@ const SearchFilterFloss = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string
@@ -128,8 +160,9 @@ const SearchFilterFloss = ({
         })}
 
       {results.isSuccess &&
-        results?.data.facetDistribution?.is_free_license &&
-        Object.keys(results?.data.facetDistribution?.is_free_license)
+        results?.data?.status === 200 &&
+        results?.data.data.facetDistribution?.is_free_license &&
+        Object.keys(results?.data.data.facetDistribution?.is_free_license)
           .sort((a, b) => {
             if (a === "true") {
               return -1
@@ -139,39 +172,48 @@ const SearchFilterFloss = ({
             }
             return 0
           })
-          .map((license, i) => (
-            <FilterFacette
-              key={`${license}-${i}`}
-              label={license === "true" ? t("flos") : t("proprietary")}
-              count={results?.data.facetDistribution?.is_free_license[license]}
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "is_free_license" &&
-                  filter.value === license,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "is_free_license",
-                      value: license,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "is_free_license" &&
-                          filter.value === license
-                        ),
-                    ),
-                  )
-                }
-              }}
-            />
-          ))}
+          .map((license, i) => {
+            const categoryCount =
+              results?.data?.status === 200
+                ? results?.data?.data.facetDistribution?.is_free_license[
+                    license
+                  ]
+                : 0
+
+            return (
+              <FilterFacette
+                key={`${license}-${i}`}
+                label={license === "true" ? t("flos") : t("proprietary")}
+                count={categoryCount}
+                checked={selectedFilters.some(
+                  (filter) =>
+                    filter.filterType === "is_free_license" &&
+                    filter.value === license,
+                )}
+                onCheckedChange={(e) => {
+                  if (e) {
+                    setSelectedFilters([
+                      ...selectedFilters,
+                      {
+                        filterType: "is_free_license",
+                        value: license,
+                      },
+                    ])
+                  } else {
+                    setSelectedFilters(
+                      selectedFilters.filter(
+                        (filter) =>
+                          !(
+                            filter.filterType === "is_free_license" &&
+                            filter.value === license
+                          ),
+                      ),
+                    )
+                  }
+                }}
+              />
+            )
+          })}
     </div>
   )
 }
@@ -181,7 +223,15 @@ const SearchFilterVerified = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string
@@ -208,8 +258,9 @@ const SearchFilterVerified = ({
         })}
 
       {results.isSuccess &&
-        results?.data.facetDistribution?.verification_verified &&
-        Object.keys(results?.data.facetDistribution?.verification_verified)
+        results?.data?.status === 200 &&
+        results?.data.data.facetDistribution?.verification_verified &&
+        Object.keys(results?.data.data.facetDistribution?.verification_verified)
           .sort((a, b) => {
             if (a === "true") {
               return -1
@@ -219,41 +270,48 @@ const SearchFilterVerified = ({
             }
             return 0
           })
-          .map((verified, i) => (
-            <FilterFacette
-              key={`${verified}-${i}`}
-              label={verified === "true" ? t("verified") : t("not-verified")}
-              count={
-                results?.data.facetDistribution?.verification_verified[verified]
-              }
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "verification_verified" &&
-                  filter.value === verified,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "verification_verified",
-                      value: verified,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "verification_verified" &&
-                          filter.value === verified
-                        ),
-                    ),
-                  )
-                }
-              }}
-            />
-          ))}
+          .map((verified, i) => {
+            const categoryCount =
+              results?.data?.status === 200
+                ? results?.data?.data.facetDistribution?.verification_verified[
+                    verified
+                  ]
+                : 0
+
+            return (
+              <FilterFacette
+                key={`${verified}-${i}`}
+                label={verified === "true" ? t("verified") : t("not-verified")}
+                count={categoryCount}
+                checked={selectedFilters.some(
+                  (filter) =>
+                    filter.filterType === "verification_verified" &&
+                    filter.value === verified,
+                )}
+                onCheckedChange={(e) => {
+                  if (e) {
+                    setSelectedFilters([
+                      ...selectedFilters,
+                      {
+                        filterType: "verification_verified",
+                        value: verified,
+                      },
+                    ])
+                  } else {
+                    setSelectedFilters(
+                      selectedFilters.filter(
+                        (filter) =>
+                          !(
+                            filter.filterType === "verification_verified" &&
+                            filter.value === verified
+                          ),
+                      ),
+                    )
+                  }
+                }}
+              />
+            )
+          })}
     </div>
   )
 }
@@ -263,7 +321,15 @@ const SearchFilterTypes = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string
@@ -290,35 +356,46 @@ const SearchFilterTypes = ({
         })}
 
       {results.isSuccess &&
-        results?.data.facetDistribution?.type &&
-        Object.keys(results?.data.facetDistribution?.type).map((type) => (
-          <FilterFacette
-            key={type}
-            label={t(type)}
-            count={results?.data.facetDistribution?.type[type]}
-            checked={selectedFilters.some(
-              (filter) => filter.filterType === "type" && filter.value === type,
-            )}
-            onCheckedChange={(e) => {
-              if (e) {
-                setSelectedFilters([
-                  ...selectedFilters,
-                  {
-                    filterType: "type",
-                    value: type,
-                  },
-                ])
-              } else {
-                setSelectedFilters(
-                  selectedFilters.filter(
-                    (filter) =>
-                      !(filter.filterType === "type" && filter.value === type),
-                  ),
-                )
-              }
-            }}
-          />
-        ))}
+        results?.data?.status === 200 &&
+        results?.data.data.facetDistribution?.type &&
+        Object.keys(results?.data.data.facetDistribution?.type).map((type) => {
+          const categoryCount =
+            results?.data?.status === 200
+              ? results?.data?.data.facetDistribution?.type[type]
+              : 0
+
+          return (
+            <FilterFacette
+              key={type}
+              label={t(type)}
+              count={categoryCount}
+              checked={selectedFilters.some(
+                (filter) =>
+                  filter.filterType === "type" && filter.value === type,
+              )}
+              onCheckedChange={(e) => {
+                if (e) {
+                  setSelectedFilters([
+                    ...selectedFilters,
+                    {
+                      filterType: "type",
+                      value: type,
+                    },
+                  ])
+                } else {
+                  setSelectedFilters(
+                    selectedFilters.filter(
+                      (filter) =>
+                        !(
+                          filter.filterType === "type" && filter.value === type
+                        ),
+                    ),
+                  )
+                }
+              }}
+            />
+          )
+        })}
     </div>
   )
 }
@@ -328,7 +405,15 @@ const SearchFilterArches = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string
@@ -355,38 +440,49 @@ const SearchFilterArches = ({
         })}
 
       {results.isSuccess &&
-        results?.data.facetDistribution?.arches &&
-        Object.keys(results?.data.facetDistribution?.arches).map((arch) => (
-          <FilterFacette
-            key={arch}
-            label={t(arch)}
-            count={results?.data.facetDistribution?.arches[arch]}
-            checked={selectedFilters.some(
-              (filter) =>
-                filter.filterType === "arches" && filter.value === arch,
-            )}
-            onCheckedChange={(e) => {
-              if (e) {
-                setSelectedFilters([
-                  ...selectedFilters,
-                  {
-                    filterType: "arches",
-                    value: arch,
-                  },
-                ])
-              } else {
-                setSelectedFilters(
-                  selectedFilters.filter(
-                    (filter) =>
-                      !(
-                        filter.filterType === "arches" && filter.value === arch
+        results?.data?.status === 200 &&
+        results?.data.data.facetDistribution?.arches &&
+        Object.keys(results?.data.data.facetDistribution?.arches).map(
+          (arch) => {
+            const categoryCount =
+              results?.data?.status === 200
+                ? results?.data?.data.facetDistribution?.arches[arch]
+                : 0
+
+            return (
+              <FilterFacette
+                key={arch}
+                label={t(arch)}
+                count={categoryCount}
+                checked={selectedFilters.some(
+                  (filter) =>
+                    filter.filterType === "arches" && filter.value === arch,
+                )}
+                onCheckedChange={(e) => {
+                  if (e) {
+                    setSelectedFilters([
+                      ...selectedFilters,
+                      {
+                        filterType: "arches",
+                        value: arch,
+                      },
+                    ])
+                  } else {
+                    setSelectedFilters(
+                      selectedFilters.filter(
+                        (filter) =>
+                          !(
+                            filter.filterType === "arches" &&
+                            filter.value === arch
+                          ),
                       ),
-                  ),
-                )
-              }
-            }}
-          />
-        ))}
+                    )
+                  }
+                }}
+              />
+            )
+          },
+        )}
     </div>
   )
 }
@@ -395,7 +491,15 @@ export const SearchFilters = ({
   selectedFilters,
   setSelectedFilters,
 }: {
-  results: UseMutationResult<MeilisearchResponseLimitedAppsIndex, unknown>
+  results: UseMutationResult<
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
+    unknown
+  >
   selectedFilters: {
     filterType: string
     value: string

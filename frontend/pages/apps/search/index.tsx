@@ -51,7 +51,7 @@ export default function Search({ locale }) {
       },
       {
         onSuccess: (res) => {
-          if (q.length > 0) {
+          if (q.length > 0 && res.status === 200) {
             trackSiteSearch({
               keyword: q,
               count: res.data.estimatedTotalHits,
