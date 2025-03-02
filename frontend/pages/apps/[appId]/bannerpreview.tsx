@@ -136,8 +136,8 @@ export const getStaticProps: GetStaticProps = async ({
   const app = await fetchAppstream(appId as string, locale)
 
   if (!app) {
-    eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))
-      .data as string
+    const response = await getEolMessageAppidEolMessageAppIdGet(appId as string)
+    eolMessage = response.status === 200 ? response.data : null
   }
 
   //@ts-ignore
@@ -148,9 +148,11 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  const isFullscreen = (
-    await getIsFullscreenAppIsFullscreenAppAppIdGet(appId as string)
-  ).data as boolean
+  const fullscreenResponse = await getIsFullscreenAppIsFullscreenAppAppIdGet(
+    appId as string,
+  )
+  const isFullscreen =
+    fullscreenResponse.status === 200 ? fullscreenResponse.data : null
 
   const heroBannerData: {
     app: { position: number; app_id: string; isFullscreen: boolean }

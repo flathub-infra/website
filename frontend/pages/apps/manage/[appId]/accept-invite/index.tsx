@@ -13,7 +13,6 @@ import {
   acceptInviteInvitesAppIdAcceptPost,
   declineInviteInvitesAppIdDeclinePost,
   useGetInviteStatusInvitesAppIdGet,
-  InviteStatus,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 
@@ -59,7 +58,7 @@ export default function AcceptInvitePage({ app }) {
 
   let content: ReactElement
 
-  if ((inviteQuery.data?.data as InviteStatus)?.is_pending) {
+  if (inviteQuery.data.status === 200 && inviteQuery.data?.data?.is_pending) {
     content = (
       <>
         <div className="flex flex-col items-center justify-center">

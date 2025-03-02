@@ -65,10 +65,14 @@ const ModerationTabs: FunctionComponent = () => {
         },
       )
 
+      if (apps.status !== 200) {
+        throw new Error(apps.data.detail)
+      }
+
       return {
-        apps: apps.data as ModerationAppsResponse,
+        apps: apps.data,
         appstream: await getAppsInfo(
-          (apps.data as ModerationAppsResponse).apps.map((app) => app.appid),
+          apps.data.apps.map((app) => app.appid),
           "en",
         ),
       }

@@ -9,22 +9,79 @@ import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import {
   AvailableMethods,
+  HTTPValidationError,
   VerificationMethod,
   VerificationStatus,
 } from "src/codegen/model"
 import {
+  getVerificationStatusVerificationAppIdStatusGetResponse,
   unverifyVerificationAppIdUnverifyPost,
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
   useGetVerificationStatusVerificationAppIdStatusGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { UseQueryResult } from "@tanstack/react-query"
 
 interface Props {
   app: Appstream
   isNewApp: boolean
   onVerified?: () => void
   showHeader?: boolean
+}
+
+const Unverify = ({
+  app,
+  query,
+}: {
+  app: Pick<Appstream, "id">
+  query: UseQueryResult<
+    getVerificationStatusVerificationAppIdStatusGetResponse,
+    HTTPValidationError
+  >
+}) => {
+  const { t } = useTranslation()
+
+  const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
+
+  if (!query.data || query.data.status !== 200) {
+    return null
+  }
+
+  return (
+    <div>
+      <StatusInfo status={query.data.data} />
+
+      <br />
+
+      <Button
+        size="lg"
+        className="mt-3"
+        onClick={() => setConfirmUnverify(true)}
+      >
+        {t("unverify")}
+      </Button>
+
+      <ConfirmDialog
+        isVisible={confirmUnverify}
+        prompt={t("unverify", { appId: app.id })}
+        action={t("unverify")}
+        actionVariant="destructive"
+        onConfirmed={() => {
+          setConfirmUnverify(false)
+
+          unverifyVerificationAppIdUnverifyPost(app.id, {
+            credentials: "include",
+          }).then(() => {
+            query.refetch()
+          })
+        }}
+        onCancelled={() => setConfirmUnverify(false)}
+      >
+        {t("unverify-app-prompt", { appId: app.id })}
+      </ConfirmDialog>
+    </div>
+  )
 }
 
 const StatusInfo = ({ status }: { status: VerificationStatus }) => {
@@ -86,12 +143,12 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         query: {
           retry: false,
           enabled:
-            query.data && !(query.data.data as VerificationStatus).verified,
+            query.data &&
+            query.data.status === 200 &&
+            !query.data.data.verified,
         },
       },
     )
-
-  const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
 
   const onChildVerified = useCallback(() => {
     onVerified?.()
@@ -117,40 +174,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         if (isNewApp) {
           content = <InlineError shown={true} error={t("app-already-exists")} />
         } else {
-          content = (
-            <div>
-              <StatusInfo status={query.data.data as VerificationStatus} />
-
-              <br />
-
-              <Button
-                size="lg"
-                className="mt-3"
-                onClick={() => setConfirmUnverify(true)}
-              >
-                {t("unverify")}
-              </Button>
-
-              <ConfirmDialog
-                isVisible={confirmUnverify}
-                prompt={t("unverify", { appId: app.id })}
-                action={t("unverify")}
-                actionVariant="destructive"
-                onConfirmed={() => {
-                  setConfirmUnverify(false)
-
-                  unverifyVerificationAppIdUnverifyPost(app.id, {
-                    credentials: "include",
-                  }).then(() => {
-                    query.refetch()
-                  })
-                }}
-                onCancelled={() => setConfirmUnverify(false)}
-              >
-                {t("unverify-app-prompt", { appId: app.id })}
-              </ConfirmDialog>
-            </div>
-          )
+          content = <Unverify app={app} query={query} />
         }
         break
       default:
@@ -176,33 +200,34 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         {verificationAvailableMethods.isPending ? (
           <Spinner size="m" />
         ) : (
-          (
-            verificationAvailableMethods.data?.data as AvailableMethods
-          )?.methods?.map((methodType) => {
-            if (methodType.method === "website") {
-              return (
-                <WebsiteVerification
-                  key={methodType.method}
-                  appId={app.id}
-                  method={methodType}
-                  isNewApp={isNewApp}
-                  onVerified={onChildVerified}
-                ></WebsiteVerification>
-              )
-            }
-            if (methodType.method === "login_provider") {
-              return (
-                <LoginVerification
-                  key={methodType.method}
-                  appId={app.id}
-                  method={methodType}
-                  isNewApp={isNewApp}
-                  onVerified={onChildVerified}
-                  onReloadNeeded={query.refetch}
-                ></LoginVerification>
-              )
-            }
-          })
+          verificationAvailableMethods.data.status === 200 &&
+          verificationAvailableMethods.data?.data?.methods?.map(
+            (methodType) => {
+              if (methodType.method === "website") {
+                return (
+                  <WebsiteVerification
+                    key={methodType.method}
+                    appId={app.id}
+                    method={methodType}
+                    isNewApp={isNewApp}
+                    onVerified={onChildVerified}
+                  ></WebsiteVerification>
+                )
+              }
+              if (methodType.method === "login_provider") {
+                return (
+                  <LoginVerification
+                    key={methodType.method}
+                    appId={app.id}
+                    method={methodType}
+                    isNewApp={isNewApp}
+                    onVerified={onChildVerified}
+                    onReloadNeeded={query.refetch}
+                  ></LoginVerification>
+                )
+              }
+            },
+          )
         )}
       </div>
     )

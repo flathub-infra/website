@@ -93,7 +93,8 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   const pages = Array.from(
     {
       length: Math.ceil(
-        ((query.data.data as ModerationApp).requests_count ?? 1) / PAGE_SIZE,
+        (query.data.status === 200 ? query.data.data.requests_count : 1) /
+          PAGE_SIZE,
       ),
     },
     (_, i) => i + 1,
@@ -176,12 +177,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         </div>
       </div>
 
-      {(query.data.data as ModerationApp).requests.length === 0 && (
+      {query.data.status === 200 && query.data.data.requests.length === 0 && (
         <div>No reviews to show for this app.</div>
       )}
 
       <div className="flex flex-col space-y-4">
-        {(query.data.data as ModerationApp).requests.map(getReviewRow)}
+        {(query.data.status === 200 && query.data.data).requests.map(
+          getReviewRow,
+        )}
       </div>
 
       <Pagination currentPage={currentPage} pages={pages} />

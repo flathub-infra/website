@@ -70,13 +70,13 @@ const UserList = ({ role }: { role: string }) => {
     },
   })
 
-  if (query.isLoading) {
+  if (query.isLoading || query.data.status !== 200) {
     return <Spinner size="m" />
   }
 
   return (
     <ul className="space-y-4">
-      {(query.data.data as UserResult[]).map((user) => (
+      {query.data.data.map((user) => (
         <li key={user.id}>
           <Link href={`/admin/users/${user.id}`}>
             {user.display_name ?? user.id}

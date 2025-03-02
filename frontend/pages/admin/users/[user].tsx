@@ -94,18 +94,23 @@ export default function UserAdmin({ userId }) {
     },
   })
 
-  const userResult = query.data?.data as UserResult
-
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={userResult.default_account.login ?? userId} noindex />
+      <NextSeo
+        title={
+          query.data?.status === 200
+            ? query.data?.data.default_account.login
+            : userId
+        }
+        noindex
+      />
       <LoginGuard
         condition={(info: UserInfo) =>
           info.permissions.some((a) => a === Permission["view-users"])
         }
       >
         {query.isLoading && <Spinner size="m" />}
-        {query.isSuccess && (
+        {query.isSuccess && query.data?.status === 200 && (
           <div className="space-y-8">
             <Breadcrumbs
               pages={[
@@ -115,8 +120,8 @@ export default function UserAdmin({ userId }) {
                   current: false,
                 },
                 {
-                  name: userResult.default_account.login,
-                  href: `/admin/moderation/${userResult.id}`,
+                  name: query.data?.data.default_account.login,
+                  href: `/admin/moderation/${query.data?.data.id}`,
                   current: true,
                 },
               ]}
@@ -124,25 +129,25 @@ export default function UserAdmin({ userId }) {
 
             <div className="space-y-8">
               <h1 className="mt-4 text-4xl font-extrabold">
-                {userResult.default_account.login} ({userResult.id})
+                {query.data?.data.default_account.login} ({query.data?.data.id})
               </h1>
 
-              {userResult.default_account && (
+              {query.data?.data.default_account && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Default Account</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    <AccountCard account={userResult.default_account} />
+                    <AccountCard account={query.data?.data.default_account} />
                   </div>
                 </div>
               )}
 
-              {userResult.connected_accounts && (
+              {query.data?.data.connected_accounts && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">
                     Connected Accounts
                   </h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    {userResult.connected_accounts.map((account) => (
+                    {query.data?.data.connected_accounts.map((account) => (
                       <AccountCard
                         key={`${account.id}-${account.provider}`}
                         account={account}
@@ -152,11 +157,11 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
-              {userResult.github_repos.length > 0 && (
+              {query.data?.data.github_repos.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Managed repos</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    {userResult.github_repos.map((repo) => (
+                    {query.data?.data.github_repos.map((repo) => (
                       <a
                         key={repo.id}
                         href={`https://github.com/flathub/${repo.reponame}`}
@@ -172,11 +177,11 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
-              {userResult.owned_apps.length > 0 && (
+              {query.data?.data.owned_apps.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Owned Apps</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
-                    {userResult.owned_apps.map((app) => (
+                    {query.data?.data.owned_apps.map((app) => (
                       <Link key={app.app_id} href={`/apps/${app.app_id}`}>
                         <Card key={app.app_id}>
                           <CardHeader>
@@ -192,11 +197,11 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
-              {userResult.roles.length > 0 && (
+              {query.data?.data.roles.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Roles</h2>
                   <div className="space-y-2">
-                    {userResult.roles.map((role) => (
+                    {query.data?.data.roles.map((role) => (
                       <div key={role.name} className="flex gap-2 items-center">
                         <Switch
                           checked={role.hasRole}

@@ -206,18 +206,17 @@ export default function AppPicks() {
         )
 
       const passingApps = await Promise.all(
-        (
-          getAppsWithQuality.data as AppPickRecommendationsResponse
-        ).recommendations.map(async (app) => {
-          return {
-            id: app.app_id,
-            lastTimeAppOfTheDay: app.lastTimeAppOfTheDay,
-            lastTimeAppOfTheWeek: app.lastTimeAppOfTheWeek,
-            numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
-            numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
-            appstream: await fetchAppstream(app.app_id, "en"),
-          }
-        }),
+        getAppsWithQuality.status === 200 &&
+          getAppsWithQuality.data.recommendations.map(async (app) => {
+            return {
+              id: app.app_id,
+              lastTimeAppOfTheDay: app.lastTimeAppOfTheDay,
+              lastTimeAppOfTheWeek: app.lastTimeAppOfTheWeek,
+              numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
+              numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
+              appstream: await fetchAppstream(app.app_id, "en"),
+            }
+          }),
       )
 
       return passingApps

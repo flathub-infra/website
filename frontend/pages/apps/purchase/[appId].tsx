@@ -48,7 +48,7 @@ export default function AppPurchasePage({
     }
   }, [vendingSetup.data])
 
-  if (vendingSetup.isError) {
+  if (vendingSetup.isError || vendingSetup.data.status !== 200) {
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
@@ -63,8 +63,7 @@ export default function AppPurchasePage({
   }
 
   // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly =
-    (vendingSetup.data.data as VendingSetup).minimum_payment === 0
+  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
@@ -96,7 +95,7 @@ export default function AppPurchasePage({
               vendingConfig={vendingConfig}
               amount={amount}
               setAmount={setAmount}
-              vendingSetup={vendingSetup.data.data as VendingSetup}
+              vendingSetup={vendingSetup.data.data}
             />
             <AppVendingControls.OwnershipTokenRedeemDialog app={app} />
           </div>
