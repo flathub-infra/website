@@ -90,7 +90,7 @@
     "@tanstack/eslint-plugin-query": "^5.64.2",
     "@tanstack/react-query-devtools": "^5.66.9",
     "@types/node": "^22.10.10",
-    "@types/react": "19.0.8",
+    "@types/react": "19.0.10",
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.25.2",
     "eslint": "^9.19.0",
@@ -114,6 +114,6 @@
   "packageManager": "yarn@4.3.1",
   "resolutions": {
     "react-is": "19.0.0",
-    "@types/react": "19.0.8"
+    "@types/react": "19.0.10"
   }
 }
