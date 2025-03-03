@@ -1,13 +1,8 @@
-from typing import TYPE_CHECKING
-
 from fastapi import APIRouter, FastAPI, Response
 from feedgen.feed import FeedGenerator
 
-from .. import database, models
+from .. import models
 from ..database import get_db
-
-if TYPE_CHECKING:
-    from datetime import datetime
 
 router = APIRouter(prefix="/feed")
 
@@ -55,27 +50,37 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
     column = getattr(models.App, column_name)
 
     with get_db("replica") as sqldb:
-        appids = (
+        apps_query = (
             sqldb.query(models.App)
             .filter(column.isnot(None))
             .order_by(column.desc())
-            .limit(10)
-            .all()
+            .limit(20)
         )
 
-    appids_for_frontend: list[tuple[str, datetime]] = [
-        (app.app_id, getattr(app, column_name))
-        for app in appids
-        if database.is_appid_for_frontend(app.app_id)
-    ]
+        apps_data = []
+        batch_size = 0
 
-    apps = [
-        (database.get_json_key(f"apps:{appid[0]}"), appid[1])
-        for appid in appids_for_frontend
-    ]
+        for app in apps_query:
+            # this duplicates is_appid_for_frontend but avoids N+1 queries
+            if app.type == "desktop-application":
+                apps_data.append((app.app_id, getattr(app, column_name), app.appstream))
+                batch_size += 1
+            elif (
+                app.type == "console-application"
+                and app.appstream
+                and app.appstream.get("icon")
+                and app.appstream.get("screenshots")
+            ):
+                apps_data.append((app.app_id, getattr(app, column_name), app.appstream))
+                batch_size += 1
+
+            if batch_size >= 10:
+                break
+
+    apps = [(app_data[2], app_data[1]) for app_data in apps_data]
 
     for app, timestamp in reversed(apps):
-        # sanity check: if index includes an app, but apps:ID is null, skip it
+        # sanity check: if index includes an app, but appstream data is null, skip it
         if not app:
             continue
 
