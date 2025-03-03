@@ -277,7 +277,6 @@ class StripeWallet(WalletBase):
                     if latest_charge is not None:
                         receipt = latest_charge.get("receipt_url")
                 except Exception as stripe_error:
-                    print(stripe_error)
                     raise WalletError(error="not found") from stripe_error
 
             return Transaction(
