@@ -261,24 +261,24 @@ class StripeWallet(WalletBase):
                 )
                 for row in txn.rows(db)
             ]
-            stxn = self._get_transaction(user, txn)
-            card = None
-            receipt = None
-            try:
-                payment_intent = stripe.PaymentIntent.retrieve(
-                    stxn.stripe_pi, expand=["latest_charge"]
-                )
-                payment_method = payment_intent.get("payment_method")
-                if payment_method is not None:
-                    payment_method = stripe.PaymentMethod.retrieve(payment_method)
-                    card = self._cardinfo(payment_method)
-                latest_charge = payment_intent.get("latest_charge")
-                if latest_charge is not None:
-                    receipt = latest_charge.get("receipt_url")
-            except Exception as stripe_error:
-                print("Whate")
-                print(stripe_error)
-                raise WalletError(error="not found") from stripe_error
+            with get_db("replica") as db:
+                stxn = self._get_transaction(user, txn)
+                card = None
+                receipt = None
+                try:
+                    payment_intent = stripe.PaymentIntent.retrieve(
+                        stxn.stripe_pi, expand=["latest_charge"]
+                    )
+                    payment_method = payment_intent.get("payment_method")
+                    if payment_method is not None:
+                        payment_method = stripe.PaymentMethod.retrieve(payment_method)
+                        card = self._cardinfo(payment_method)
+                    latest_charge = payment_intent.get("latest_charge")
+                    if latest_charge is not None:
+                        receipt = latest_charge.get("receipt_url")
+                except Exception as stripe_error:
+                    print(stripe_error)
+                    raise WalletError(error="not found") from stripe_error
 
             return Transaction(
                 summary=summary, card=card, details=details, receipt=receipt
