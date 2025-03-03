@@ -19,9 +19,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   AppOfTheDay,
   AppsOfTheWeek,
@@ -32,22 +29,66 @@ import type {
 /**
  * @summary Get App Of The Day
  */
-export const getAppOfTheDayAppPicksAppOfTheDayDateGet = (
+export type getAppOfTheDayAppPicksAppOfTheDayDateGetResponse200 = {
+  data: AppOfTheDay
+  status: 200
+}
+
+export type getAppOfTheDayAppPicksAppOfTheDayDateGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getAppOfTheDayAppPicksAppOfTheDayDateGetResponseComposite =
+  | getAppOfTheDayAppPicksAppOfTheDayDateGetResponse200
+  | getAppOfTheDayAppPicksAppOfTheDayDateGetResponse422
+
+export type getAppOfTheDayAppPicksAppOfTheDayDateGetResponse =
+  getAppOfTheDayAppPicksAppOfTheDayDateGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetUrl = (
   date: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<AppOfTheDay>> => {
-  return axios.get(`/app-picks/app-of-the-day/${date}`, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-day/${date}`
+}
+
+export const getAppOfTheDayAppPicksAppOfTheDayDateGet = async (
+  date: string,
+  options?: RequestInit,
+): Promise<getAppOfTheDayAppPicksAppOfTheDayDateGetResponse> => {
+  const res = await fetch(
+    getGetAppOfTheDayAppPicksAppOfTheDayDateGetUrl(date),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getAppOfTheDayAppPicksAppOfTheDayDateGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getAppOfTheDayAppPicksAppOfTheDayDateGetResponse
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
   date: string,
 ) => {
-  return [`/app-picks/app-of-the-day/${date}`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-day/${date}`,
+  ] as const
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -58,10 +99,10 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -70,7 +111,7 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>
   > = ({ signal }) =>
-    getAppOfTheDayAppPicksAppOfTheDayDateGet(date, { signal, ...axiosOptions })
+    getAppOfTheDayAppPicksAppOfTheDayDateGet(date, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -88,11 +129,11 @@ export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>
 >
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options: {
@@ -111,14 +152,14 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -137,14 +178,14 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -155,7 +196,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -166,7 +207,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -177,7 +218,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -200,24 +241,68 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
  * Returns apps of the week
  * @summary Get App Of The Week
  */
-export const getAppOfTheWeekAppPicksAppsOfTheWeekDateGet = (
+export type getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse200 = {
+  data: AppsOfTheWeek
+  status: 200
+}
+
+export type getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseComposite =
+  | getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse200
+  | getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse422
+
+export type getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse =
+  getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetUrl = (
   date: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<AppsOfTheWeek>> => {
-  return axios.get(`/app-picks/apps-of-the-week/${date}`, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/apps-of-the-week/${date}`
+}
+
+export const getAppOfTheWeekAppPicksAppsOfTheWeekDateGet = async (
+  date: string,
+  options?: RequestInit,
+): Promise<getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse> => {
+  const res = await fetch(
+    getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetUrl(date),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponse
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryKey = (
   date: string,
 ) => {
-  return [`/app-picks/apps-of-the-week/${date}`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/apps-of-the-week/${date}`,
+  ] as const
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -228,10 +313,10 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -242,7 +327,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
   > = ({ signal }) =>
     getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(date, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -262,13 +347,13 @@ export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
     Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>
   >
 export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options: {
@@ -291,7 +376,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -300,7 +385,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -323,7 +408,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -332,7 +417,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -343,7 +428,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -356,7 +441,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   date: string,
   options?: {
@@ -367,7 +452,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -388,15 +473,54 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
  * Sets an app of the week
  * @summary Set App Of The Week
  */
-export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
+export type setAppOfTheWeekAppPicksAppOfTheWeekPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type setAppOfTheWeekAppPicksAppOfTheWeekPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type setAppOfTheWeekAppPicksAppOfTheWeekPostResponseComposite =
+  | setAppOfTheWeekAppPicksAppOfTheWeekPostResponse200
+  | setAppOfTheWeekAppPicksAppOfTheWeekPostResponse422
+
+export type setAppOfTheWeekAppPicksAppOfTheWeekPostResponse =
+  setAppOfTheWeekAppPicksAppOfTheWeekPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-week`
+}
+
+export const setAppOfTheWeekAppPicksAppOfTheWeekPost = async (
   upsertAppOfTheWeek: UpsertAppOfTheWeek,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/app-picks/app-of-the-week`, upsertAppOfTheWeek, options)
+  options?: RequestInit,
+): Promise<setAppOfTheWeekAppPicksAppOfTheWeekPostResponse> => {
+  const res = await fetch(getSetAppOfTheWeekAppPicksAppOfTheWeekPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(upsertAppOfTheWeek),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: setAppOfTheWeekAppPicksAppOfTheWeekPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as setAppOfTheWeekAppPicksAppOfTheWeekPostResponse
 }
 
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -405,7 +529,7 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
     { data: UpsertAppOfTheWeek },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError,
@@ -413,13 +537,13 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["setAppOfTheWeekAppPicksAppOfTheWeekPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
@@ -427,7 +551,7 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return setAppOfTheWeekAppPicksAppOfTheWeekPost(data, axiosOptions)
+    return setAppOfTheWeekAppPicksAppOfTheWeekPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -439,13 +563,13 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationResult = NonNullable<
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationBody =
   UpsertAppOfTheWeek
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Set App Of The Week
  */
 export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -454,7 +578,7 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
     { data: UpsertAppOfTheWeek },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError,
@@ -470,15 +594,54 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
  * Sets an app of the day
  * @summary Set App Of The Day
  */
-export const setAppOfTheDayAppPicksAppOfTheDayPost = (
+export type setAppOfTheDayAppPicksAppOfTheDayPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type setAppOfTheDayAppPicksAppOfTheDayPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type setAppOfTheDayAppPicksAppOfTheDayPostResponseComposite =
+  | setAppOfTheDayAppPicksAppOfTheDayPostResponse200
+  | setAppOfTheDayAppPicksAppOfTheDayPostResponse422
+
+export type setAppOfTheDayAppPicksAppOfTheDayPostResponse =
+  setAppOfTheDayAppPicksAppOfTheDayPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getSetAppOfTheDayAppPicksAppOfTheDayPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-day`
+}
+
+export const setAppOfTheDayAppPicksAppOfTheDayPost = async (
   appOfTheDay: AppOfTheDay,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/app-picks/app-of-the-day`, appOfTheDay, options)
+  options?: RequestInit,
+): Promise<setAppOfTheDayAppPicksAppOfTheDayPostResponse> => {
+  const res = await fetch(getSetAppOfTheDayAppPicksAppOfTheDayPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(appOfTheDay),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: setAppOfTheDayAppPicksAppOfTheDayPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as setAppOfTheDayAppPicksAppOfTheDayPostResponse
 }
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -487,7 +650,7 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
     { data: AppOfTheDay },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError,
@@ -495,13 +658,13 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["setAppOfTheDayAppPicksAppOfTheDayPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
@@ -509,7 +672,7 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return setAppOfTheDayAppPicksAppOfTheDayPost(data, axiosOptions)
+    return setAppOfTheDayAppPicksAppOfTheDayPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -520,13 +683,13 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationResult = NonNullable<
 >
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationBody = AppOfTheDay
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Set App Of The Day
  */
 export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -535,7 +698,7 @@ export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
     { data: AppOfTheDay },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError,

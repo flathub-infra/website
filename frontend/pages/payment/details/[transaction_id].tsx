@@ -17,8 +17,8 @@ export default function TransactionPage() {
   const query = useGetTransactionByIdWalletTransactionsTxnGet(
     router.query.transaction_id as string,
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       query: {
         enabled: !!router.query.transaction_id,
@@ -30,11 +30,11 @@ export default function TransactionPage() {
 
   if (query.isFetching) {
     content = <Spinner size="l" />
-  } else if (query.isError) {
+  } else if (query.isError || query.data.status !== 200) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(query.error.message)}</p>
+        <p>{t(query.error.detail)}</p>
       </>
     )
   } else {

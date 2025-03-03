@@ -279,8 +279,8 @@ export const getStaticProps: GetStaticProps = async ({
   const app = await fetchAppstream(appId as string, locale)
 
   if (!app) {
-    eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))
-      .data
+    const response = await getEolMessageAppidEolMessageAppIdGet(appId as string)
+    eolMessage = response.status === 200 ? response.data : null
   }
 
   //@ts-ignore

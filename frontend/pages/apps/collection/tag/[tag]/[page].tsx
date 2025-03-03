@@ -8,7 +8,6 @@ import {
   getKeywordCollectionKeywordGet,
   MeilisearchResponseAppsIndex,
 } from "src/codegen"
-import { AxiosResponse } from "axios"
 
 export default function Tag({
   applications,
@@ -50,14 +49,17 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = (await getKeywordCollectionKeywordGet({
+  const applications = await getKeywordCollectionKeywordGet({
     keyword: params.tag as string,
     locale: locale,
     page: params.page as unknown as number,
     per_page: 30,
-  })) as AxiosResponse<MeilisearchResponseAppsIndex>
+  })
 
-  if (applications.data.page > applications.data.totalPages) {
+  if (
+    applications.status !== 200 ||
+    applications.data.page > applications.data.totalPages
+  ) {
     return {
       notFound: true,
       revalidate: 60,
@@ -67,7 +69,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      applications: applications.data,
+      applications: applications,
       tag: params.tag,
       locale,
     },

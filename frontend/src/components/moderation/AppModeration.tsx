@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
-import { getAppsInfo } from "src/asyncs/app"
 import { setQueryParams } from "src/utils/queryParams"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
@@ -11,8 +10,9 @@ import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import Breadcrumbs from "../Breadcrumbs"
 import { getModerationAppModerationAppsAppIdGet } from "src/codegen"
-import { ModerationRequestResponse } from "src/codegen/model"
+import { ModerationApp, ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
+import { getAppsInfo } from "src/asyncs/app"
 
 interface Props {
   appId: string
@@ -72,7 +72,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       ),
@@ -91,7 +91,12 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   }
 
   const pages = Array.from(
-    { length: Math.ceil((query.data.data.requests_count ?? 1) / PAGE_SIZE) },
+    {
+      length: Math.ceil(
+        (query.data.status === 200 ? query.data.data.requests_count : 1) /
+          PAGE_SIZE,
+      ),
+    },
     (_, i) => i + 1,
   )
 
@@ -172,12 +177,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         </div>
       </div>
 
-      {query.data.data.requests.length === 0 && (
+      {query.data.status === 200 && query.data.data.requests.length === 0 && (
         <div>No reviews to show for this app.</div>
       )}
 
       <div className="flex flex-col space-y-4">
-        {query.data.data.requests.map(getReviewRow)}
+        {(query.data.status === 200 && query.data.data).requests.map(
+          getReviewRow,
+        )}
       </div>
 
       <Pagination currentPage={currentPage} pages={pages} />

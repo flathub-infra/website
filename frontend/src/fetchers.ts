@@ -301,14 +301,14 @@ export async function fetchDeveloperApps(
     locale,
   })
 
-  if (!appList || appList.status === 404) {
+  if (!appList || appList.status === 422) {
     console.log(`No apps for developer ${developer}`)
     return null
   }
 
   console.log(`Developer apps for ${developer} fetched`)
 
-  return appList.data as MeilisearchResponseAppsIndex
+  return appList.data
 }
 
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {

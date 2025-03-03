@@ -16,9 +16,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   AppSearchDevelopersResponse,
   GetCategoryCollectionCategoryCategoryGetParams,
@@ -40,19 +37,52 @@ import type {
 /**
  * @summary Get Categories
  */
-export const getCategoriesCollectionCategoryGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`/collection/category`, options)
+export type getCategoriesCollectionCategoryGetResponse200 = {
+  data: string[]
+  status: 200
+}
+
+export type getCategoriesCollectionCategoryGetResponseComposite =
+  getCategoriesCollectionCategoryGetResponse200
+
+export type getCategoriesCollectionCategoryGetResponse =
+  getCategoriesCollectionCategoryGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetCategoriesCollectionCategoryGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category`
+}
+
+export const getCategoriesCollectionCategoryGet = async (
+  options?: RequestInit,
+): Promise<getCategoriesCollectionCategoryGetResponse> => {
+  const res = await fetch(getGetCategoriesCollectionCategoryGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getCategoriesCollectionCategoryGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getCategoriesCollectionCategoryGetResponse
 }
 
 export const getGetCategoriesCollectionCategoryGetQueryKey = () => {
-  return [`/collection/category`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category`,
+  ] as const
 }
 
 export const getGetCategoriesCollectionCategoryGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -61,9 +91,9 @@ export const getGetCategoriesCollectionCategoryGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetCategoriesCollectionCategoryGetQueryKey()
@@ -71,7 +101,7 @@ export const getGetCategoriesCollectionCategoryGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
   > = ({ signal }) =>
-    getCategoriesCollectionCategoryGet({ signal, ...axiosOptions })
+    getCategoriesCollectionCategoryGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
@@ -83,11 +113,11 @@ export const getGetCategoriesCollectionCategoryGetQueryOptions = <
 export type GetCategoriesCollectionCategoryGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
 >
-export type GetCategoriesCollectionCategoryGetQueryError = AxiosError<unknown>
+export type GetCategoriesCollectionCategoryGetQueryError = unknown
 
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
@@ -104,13 +134,13 @@ export function useGetCategoriesCollectionCategoryGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -127,13 +157,13 @@ export function useGetCategoriesCollectionCategoryGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -142,7 +172,7 @@ export function useGetCategoriesCollectionCategoryGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -152,7 +182,7 @@ export function useGetCategoriesCollectionCategoryGet<
 
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -161,7 +191,7 @@ export function useGetCategoriesCollectionCategoryGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -180,15 +210,67 @@ export function useGetCategoriesCollectionCategoryGet<
 /**
  * @summary Get Category
  */
-export const getCategoryCollectionCategoryCategoryGet = (
+export type getCategoryCollectionCategoryCategoryGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getCategoryCollectionCategoryCategoryGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getCategoryCollectionCategoryCategoryGetResponseComposite =
+  | getCategoryCollectionCategoryCategoryGetResponse200
+  | getCategoryCollectionCategoryCategoryGetResponse422
+
+export type getCategoryCollectionCategoryCategoryGetResponse =
+  getCategoryCollectionCategoryCategoryGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetCategoryCollectionCategoryCategoryGetUrl = (
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/category/${category}`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}`
+}
+
+export const getCategoryCollectionCategoryCategoryGet = async (
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+  options?: RequestInit,
+): Promise<getCategoryCollectionCategoryCategoryGetResponse> => {
+  const res = await fetch(
+    getGetCategoryCollectionCategoryCategoryGetUrl(category, params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getCategoryCollectionCategoryCategoryGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getCategoryCollectionCategoryCategoryGetResponse
 }
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
@@ -196,14 +278,14 @@ export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
   params?: GetCategoryCollectionCategoryCategoryGetParams,
 ) => {
   return [
-    `/collection/category/${category}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}`,
     ...(params ? [params] : []),
   ] as const
 }
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -215,10 +297,10 @@ export const getGetCategoryCollectionCategoryCategoryGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -229,7 +311,7 @@ export const getGetCategoryCollectionCategoryCategoryGetQueryOptions = <
   > = ({ signal }) =>
     getCategoryCollectionCategoryCategoryGet(category, params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -248,11 +330,11 @@ export type GetCategoryCollectionCategoryCategoryGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>
 >
 export type GetCategoryCollectionCategoryCategoryGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params: undefined | GetCategoryCollectionCategoryCategoryGetParams,
@@ -272,14 +354,14 @@ export function useGetCategoryCollectionCategoryCategoryGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -299,14 +381,14 @@ export function useGetCategoryCollectionCategoryCategoryGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -318,7 +400,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -329,7 +411,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -341,7 +423,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -364,15 +446,72 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 /**
  * @summary Get Subcategory
  */
-export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
+export type getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse200 =
+  {
+    data: MeilisearchResponseAppsIndex
+    status: 200
+  }
+
+export type getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse422 =
+  {
+    data: HTTPValidationError
+    status: 422
+  }
+
+export type getSubcategoryCollectionCategoryCategorySubcategoriesGetResponseComposite =
+
+    | getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse200
+    | getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse422
+
+export type getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse =
+  getSubcategoryCollectionCategoryCategorySubcategoriesGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetUrl = (
   category: MainCategory,
   params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/category/${category}/subcategories`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}/subcategories?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}/subcategories`
+}
+
+export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = async (
+  category: MainCategory,
+  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  options?: RequestInit,
+): Promise<getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse> => {
+  const res = await fetch(
+    getGetSubcategoryCollectionCategoryCategorySubcategoriesGetUrl(
+      category,
+      params,
+    ),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
 }
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
@@ -381,7 +520,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey
     params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   ) => {
     return [
-      `/collection/category/${category}/subcategories`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}/subcategories`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -393,7 +532,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOpt
         typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     category: MainCategory,
     params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -409,10 +548,10 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOpt
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -431,7 +570,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOpt
       getSubcategoryCollectionCategoryCategorySubcategoriesGet(
         category,
         params,
-        { signal, ...axiosOptions },
+        { signal, ...fetchOptions },
       )
 
     return {
@@ -459,13 +598,13 @@ export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryResult 
     >
   >
 export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params:
@@ -499,7 +638,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -508,7 +647,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -540,7 +679,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -549,7 +688,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -565,7 +704,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -578,7 +717,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   category: MainCategory,
   params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -594,7 +733,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -618,25 +757,76 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
 /**
  * @summary Get Keyword
  */
-export const getKeywordCollectionKeywordGet = (
+export type getKeywordCollectionKeywordGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getKeywordCollectionKeywordGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getKeywordCollectionKeywordGetResponseComposite =
+  | getKeywordCollectionKeywordGetResponse200
+  | getKeywordCollectionKeywordGetResponse422
+
+export type getKeywordCollectionKeywordGetResponse =
+  getKeywordCollectionKeywordGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetKeywordCollectionKeywordGetUrl = (
   params: GetKeywordCollectionKeywordGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/keyword`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/keyword?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/keyword`
+}
+
+export const getKeywordCollectionKeywordGet = async (
+  params: GetKeywordCollectionKeywordGetParams,
+  options?: RequestInit,
+): Promise<getKeywordCollectionKeywordGetResponse> => {
+  const res = await fetch(getGetKeywordCollectionKeywordGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getKeywordCollectionKeywordGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getKeywordCollectionKeywordGetResponse
 }
 
 export const getGetKeywordCollectionKeywordGetQueryKey = (
   params: GetKeywordCollectionKeywordGetParams,
 ) => {
-  return [`/collection/keyword`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/keyword`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetKeywordCollectionKeywordGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -647,10 +837,10 @@ export const getGetKeywordCollectionKeywordGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetKeywordCollectionKeywordGetQueryKey(params)
@@ -658,7 +848,7 @@ export const getGetKeywordCollectionKeywordGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
   > = ({ signal }) =>
-    getKeywordCollectionKeywordGet(params, { signal, ...axiosOptions })
+    getKeywordCollectionKeywordGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
@@ -670,12 +860,11 @@ export const getGetKeywordCollectionKeywordGetQueryOptions = <
 export type GetKeywordCollectionKeywordGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
 >
-export type GetKeywordCollectionKeywordGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetKeywordCollectionKeywordGetQueryError = HTTPValidationError
 
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options: {
@@ -694,14 +883,14 @@ export function useGetKeywordCollectionKeywordGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -720,14 +909,14 @@ export function useGetKeywordCollectionKeywordGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -738,7 +927,7 @@ export function useGetKeywordCollectionKeywordGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -749,7 +938,7 @@ export function useGetKeywordCollectionKeywordGet<
 
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -760,7 +949,7 @@ export function useGetKeywordCollectionKeywordGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -782,25 +971,76 @@ export function useGetKeywordCollectionKeywordGet<
 /**
  * @summary Get Developers
  */
-export const getDevelopersCollectionDeveloperGet = (
+export type getDevelopersCollectionDeveloperGetResponse200 = {
+  data: AppSearchDevelopersResponse
+  status: 200
+}
+
+export type getDevelopersCollectionDeveloperGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getDevelopersCollectionDeveloperGetResponseComposite =
+  | getDevelopersCollectionDeveloperGetResponse200
+  | getDevelopersCollectionDeveloperGetResponse422
+
+export type getDevelopersCollectionDeveloperGetResponse =
+  getDevelopersCollectionDeveloperGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetDevelopersCollectionDeveloperGetUrl = (
   params?: GetDevelopersCollectionDeveloperGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<AppSearchDevelopersResponse>> => {
-  return axios.get(`/collection/developer`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer`
+}
+
+export const getDevelopersCollectionDeveloperGet = async (
+  params?: GetDevelopersCollectionDeveloperGetParams,
+  options?: RequestInit,
+): Promise<getDevelopersCollectionDeveloperGetResponse> => {
+  const res = await fetch(getGetDevelopersCollectionDeveloperGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getDevelopersCollectionDeveloperGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDevelopersCollectionDeveloperGetResponse
 }
 
 export const getGetDevelopersCollectionDeveloperGetQueryKey = (
   params?: GetDevelopersCollectionDeveloperGetParams,
 ) => {
-  return [`/collection/developer`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetDevelopersCollectionDeveloperGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -811,10 +1051,10 @@ export const getGetDevelopersCollectionDeveloperGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -823,7 +1063,7 @@ export const getGetDevelopersCollectionDeveloperGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>
   > = ({ signal }) =>
-    getDevelopersCollectionDeveloperGet(params, { signal, ...axiosOptions })
+    getDevelopersCollectionDeveloperGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
@@ -835,12 +1075,11 @@ export const getGetDevelopersCollectionDeveloperGetQueryOptions = <
 export type GetDevelopersCollectionDeveloperGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>
 >
-export type GetDevelopersCollectionDeveloperGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetDevelopersCollectionDeveloperGetQueryError = HTTPValidationError
 
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetDevelopersCollectionDeveloperGetParams,
   options: {
@@ -859,14 +1098,14 @@ export function useGetDevelopersCollectionDeveloperGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -885,14 +1124,14 @@ export function useGetDevelopersCollectionDeveloperGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -903,7 +1142,7 @@ export function useGetDevelopersCollectionDeveloperGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -914,7 +1153,7 @@ export function useGetDevelopersCollectionDeveloperGet<
 
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -925,7 +1164,7 @@ export function useGetDevelopersCollectionDeveloperGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -947,15 +1186,67 @@ export function useGetDevelopersCollectionDeveloperGet<
 /**
  * @summary Get Developer
  */
-export const getDeveloperCollectionDeveloperDeveloperGet = (
+export type getDeveloperCollectionDeveloperDeveloperGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getDeveloperCollectionDeveloperDeveloperGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getDeveloperCollectionDeveloperDeveloperGetResponseComposite =
+  | getDeveloperCollectionDeveloperDeveloperGetResponse200
+  | getDeveloperCollectionDeveloperDeveloperGetResponse422
+
+export type getDeveloperCollectionDeveloperDeveloperGetResponse =
+  getDeveloperCollectionDeveloperDeveloperGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetDeveloperCollectionDeveloperDeveloperGetUrl = (
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/developer/${developer}`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer/${developer}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer/${developer}`
+}
+
+export const getDeveloperCollectionDeveloperDeveloperGet = async (
+  developer: string,
+  params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
+  options?: RequestInit,
+): Promise<getDeveloperCollectionDeveloperDeveloperGetResponse> => {
+  const res = await fetch(
+    getGetDeveloperCollectionDeveloperDeveloperGetUrl(developer, params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getDeveloperCollectionDeveloperDeveloperGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDeveloperCollectionDeveloperDeveloperGetResponse
 }
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
@@ -963,7 +1254,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
 ) => {
   return [
-    `/collection/developer/${developer}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer/${developer}`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -972,7 +1263,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -984,10 +1275,10 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -998,7 +1289,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetQueryOptions = <
   > = ({ signal }) =>
     getDeveloperCollectionDeveloperDeveloperGet(developer, params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -1018,13 +1309,13 @@ export type GetDeveloperCollectionDeveloperDeveloperGetQueryResult =
     Awaited<ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>>
   >
 export type GetDeveloperCollectionDeveloperDeveloperGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   developer: string,
   params: undefined | GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1048,7 +1339,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1057,7 +1348,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1081,7 +1372,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1090,7 +1381,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1102,7 +1393,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1115,7 +1406,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1127,7 +1418,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1151,27 +1442,80 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
 /**
  * @summary Get Recently Updated
  */
-export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
+export type getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getRecentlyUpdatedCollectionRecentlyUpdatedGetResponseComposite =
+  | getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse200
+  | getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse422
+
+export type getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse =
+  getRecentlyUpdatedCollectionRecentlyUpdatedGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetUrl = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/recently-updated`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-updated?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-updated`
+}
+
+export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = async (
+  params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
+  options?: RequestInit,
+): Promise<getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse> => {
+  const res = await fetch(
+    getGetRecentlyUpdatedCollectionRecentlyUpdatedGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRecentlyUpdatedCollectionRecentlyUpdatedGetResponse
 }
 
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryKey = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
 ) => {
-  return [`/collection/recently-updated`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-updated`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1184,10 +1528,10 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1198,7 +1542,7 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryOptions = <
   > = ({ signal }) =>
     getRecentlyUpdatedCollectionRecentlyUpdatedGet(params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -1213,13 +1557,13 @@ export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryResult =
     Awaited<ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>>
   >
 export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options: {
@@ -1244,7 +1588,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1253,7 +1597,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1278,7 +1622,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1287,7 +1631,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1300,7 +1644,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1313,7 +1657,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1326,7 +1670,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1349,27 +1693,81 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
 /**
  * @summary Get Recently Added
  */
-export const getRecentlyAddedCollectionRecentlyAddedGet = (
+export type getRecentlyAddedCollectionRecentlyAddedGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getRecentlyAddedCollectionRecentlyAddedGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getRecentlyAddedCollectionRecentlyAddedGetResponseComposite =
+  | getRecentlyAddedCollectionRecentlyAddedGetResponse200
+  | getRecentlyAddedCollectionRecentlyAddedGetResponse422
+
+export type getRecentlyAddedCollectionRecentlyAddedGetResponse =
+  getRecentlyAddedCollectionRecentlyAddedGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyAddedCollectionRecentlyAddedGetUrl = (
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/recently-added`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-added?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-added`
+}
+
+export const getRecentlyAddedCollectionRecentlyAddedGet = async (
+  params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
+  options?: RequestInit,
+): Promise<getRecentlyAddedCollectionRecentlyAddedGetResponse> => {
+  const res = await fetch(
+    getGetRecentlyAddedCollectionRecentlyAddedGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRecentlyAddedCollectionRecentlyAddedGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRecentlyAddedCollectionRecentlyAddedGetResponse
 }
 
 export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryKey = (
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
 ) => {
-  return [`/collection/recently-added`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-added`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1380,10 +1778,10 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1394,7 +1792,7 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions = <
   > = ({ signal }) =>
     getRecentlyAddedCollectionRecentlyAddedGet(params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -1408,13 +1806,13 @@ export type GetRecentlyAddedCollectionRecentlyAddedGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>
 >
 export type GetRecentlyAddedCollectionRecentlyAddedGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options: {
@@ -1435,7 +1833,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1444,7 +1842,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1465,7 +1863,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1474,7 +1872,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1485,7 +1883,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1498,7 +1896,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1509,7 +1907,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1529,25 +1927,76 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
 /**
  * @summary Get Verified
  */
-export const getVerifiedCollectionVerifiedGet = (
+export type getVerifiedCollectionVerifiedGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getVerifiedCollectionVerifiedGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getVerifiedCollectionVerifiedGetResponseComposite =
+  | getVerifiedCollectionVerifiedGetResponse200
+  | getVerifiedCollectionVerifiedGetResponse422
+
+export type getVerifiedCollectionVerifiedGetResponse =
+  getVerifiedCollectionVerifiedGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetVerifiedCollectionVerifiedGetUrl = (
   params?: GetVerifiedCollectionVerifiedGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/verified`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/verified?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/verified`
+}
+
+export const getVerifiedCollectionVerifiedGet = async (
+  params?: GetVerifiedCollectionVerifiedGetParams,
+  options?: RequestInit,
+): Promise<getVerifiedCollectionVerifiedGetResponse> => {
+  const res = await fetch(getGetVerifiedCollectionVerifiedGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getVerifiedCollectionVerifiedGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getVerifiedCollectionVerifiedGetResponse
 }
 
 export const getGetVerifiedCollectionVerifiedGetQueryKey = (
   params?: GetVerifiedCollectionVerifiedGetParams,
 ) => {
-  return [`/collection/verified`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/verified`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetVerifiedCollectionVerifiedGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1558,10 +2007,10 @@ export const getGetVerifiedCollectionVerifiedGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1570,7 +2019,7 @@ export const getGetVerifiedCollectionVerifiedGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>
   > = ({ signal }) =>
-    getVerifiedCollectionVerifiedGet(params, { signal, ...axiosOptions })
+    getVerifiedCollectionVerifiedGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
@@ -1582,12 +2031,11 @@ export const getGetVerifiedCollectionVerifiedGetQueryOptions = <
 export type GetVerifiedCollectionVerifiedGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>
 >
-export type GetVerifiedCollectionVerifiedGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetVerifiedCollectionVerifiedGetQueryError = HTTPValidationError
 
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetVerifiedCollectionVerifiedGetParams,
   options: {
@@ -1606,14 +2054,14 @@ export function useGetVerifiedCollectionVerifiedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1632,14 +2080,14 @@ export function useGetVerifiedCollectionVerifiedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1650,7 +2098,7 @@ export function useGetVerifiedCollectionVerifiedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1661,7 +2109,7 @@ export function useGetVerifiedCollectionVerifiedGet<
 
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1672,7 +2120,7 @@ export function useGetVerifiedCollectionVerifiedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1694,25 +2142,76 @@ export function useGetVerifiedCollectionVerifiedGet<
 /**
  * @summary Get Mobile
  */
-export const getMobileCollectionMobileGet = (
+export type getMobileCollectionMobileGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getMobileCollectionMobileGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getMobileCollectionMobileGetResponseComposite =
+  | getMobileCollectionMobileGetResponse200
+  | getMobileCollectionMobileGetResponse422
+
+export type getMobileCollectionMobileGetResponse =
+  getMobileCollectionMobileGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetMobileCollectionMobileGetUrl = (
   params?: GetMobileCollectionMobileGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/mobile`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/mobile?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/mobile`
+}
+
+export const getMobileCollectionMobileGet = async (
+  params?: GetMobileCollectionMobileGetParams,
+  options?: RequestInit,
+): Promise<getMobileCollectionMobileGetResponse> => {
+  const res = await fetch(getGetMobileCollectionMobileGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getMobileCollectionMobileGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getMobileCollectionMobileGetResponse
 }
 
 export const getGetMobileCollectionMobileGetQueryKey = (
   params?: GetMobileCollectionMobileGetParams,
 ) => {
-  return [`/collection/mobile`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/mobile`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetMobileCollectionMobileGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1723,10 +2222,10 @@ export const getGetMobileCollectionMobileGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetMobileCollectionMobileGetQueryKey(params)
@@ -1734,7 +2233,7 @@ export const getGetMobileCollectionMobileGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
   > = ({ signal }) =>
-    getMobileCollectionMobileGet(params, { signal, ...axiosOptions })
+    getMobileCollectionMobileGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
@@ -1746,12 +2245,11 @@ export const getGetMobileCollectionMobileGetQueryOptions = <
 export type GetMobileCollectionMobileGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
 >
-export type GetMobileCollectionMobileGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetMobileCollectionMobileGetQueryError = HTTPValidationError
 
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetMobileCollectionMobileGetParams,
   options: {
@@ -1770,14 +2268,14 @@ export function useGetMobileCollectionMobileGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1796,14 +2294,14 @@ export function useGetMobileCollectionMobileGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1814,7 +2312,7 @@ export function useGetMobileCollectionMobileGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1825,7 +2323,7 @@ export function useGetMobileCollectionMobileGet<
 
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1836,7 +2334,7 @@ export function useGetMobileCollectionMobileGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1858,25 +2356,79 @@ export function useGetMobileCollectionMobileGet<
 /**
  * @summary Get Popular Last Month
  */
-export const getPopularLastMonthCollectionPopularGet = (
+export type getPopularLastMonthCollectionPopularGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getPopularLastMonthCollectionPopularGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getPopularLastMonthCollectionPopularGetResponseComposite =
+  | getPopularLastMonthCollectionPopularGetResponse200
+  | getPopularLastMonthCollectionPopularGetResponse422
+
+export type getPopularLastMonthCollectionPopularGetResponse =
+  getPopularLastMonthCollectionPopularGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPopularLastMonthCollectionPopularGetUrl = (
   params?: GetPopularLastMonthCollectionPopularGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/popular`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/popular?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/popular`
+}
+
+export const getPopularLastMonthCollectionPopularGet = async (
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+  options?: RequestInit,
+): Promise<getPopularLastMonthCollectionPopularGetResponse> => {
+  const res = await fetch(
+    getGetPopularLastMonthCollectionPopularGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPopularLastMonthCollectionPopularGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPopularLastMonthCollectionPopularGetResponse
 }
 
 export const getGetPopularLastMonthCollectionPopularGetQueryKey = (
   params?: GetPopularLastMonthCollectionPopularGetParams,
 ) => {
-  return [`/collection/popular`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/popular`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetPopularLastMonthCollectionPopularGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -1887,10 +2439,10 @@ export const getGetPopularLastMonthCollectionPopularGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1899,7 +2451,7 @@ export const getGetPopularLastMonthCollectionPopularGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
   > = ({ signal }) =>
-    getPopularLastMonthCollectionPopularGet(params, { signal, ...axiosOptions })
+    getPopularLastMonthCollectionPopularGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
@@ -1912,11 +2464,11 @@ export type GetPopularLastMonthCollectionPopularGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
 >
 export type GetPopularLastMonthCollectionPopularGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetPopularLastMonthCollectionPopularGetParams,
   options: {
@@ -1935,14 +2487,14 @@ export function useGetPopularLastMonthCollectionPopularGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -1961,14 +2513,14 @@ export function useGetPopularLastMonthCollectionPopularGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -1979,7 +2531,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1990,7 +2542,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
 
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -2001,7 +2553,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -2023,27 +2575,80 @@ export function useGetPopularLastMonthCollectionPopularGet<
 /**
  * @summary Get Trending Last Two Weeks
  */
-export const getTrendingLastTwoWeeksCollectionTrendingGet = (
+export type getTrendingLastTwoWeeksCollectionTrendingGetResponse200 = {
+  data: MeilisearchResponseAppsIndex
+  status: 200
+}
+
+export type getTrendingLastTwoWeeksCollectionTrendingGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getTrendingLastTwoWeeksCollectionTrendingGetResponseComposite =
+  | getTrendingLastTwoWeeksCollectionTrendingGetResponse200
+  | getTrendingLastTwoWeeksCollectionTrendingGetResponse422
+
+export type getTrendingLastTwoWeeksCollectionTrendingGetResponse =
+  getTrendingLastTwoWeeksCollectionTrendingGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetTrendingLastTwoWeeksCollectionTrendingGetUrl = (
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/trending`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/trending?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/trending`
+}
+
+export const getTrendingLastTwoWeeksCollectionTrendingGet = async (
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+  options?: RequestInit,
+): Promise<getTrendingLastTwoWeeksCollectionTrendingGetResponse> => {
+  const res = await fetch(
+    getGetTrendingLastTwoWeeksCollectionTrendingGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getTrendingLastTwoWeeksCollectionTrendingGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getTrendingLastTwoWeeksCollectionTrendingGetResponse
 }
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryKey = (
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
 ) => {
-  return [`/collection/trending`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/trending`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2056,10 +2661,10 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -2070,7 +2675,7 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions = <
   > = ({ signal }) =>
     getTrendingLastTwoWeeksCollectionTrendingGet(params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -2085,13 +2690,13 @@ export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryResult =
     Awaited<ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>>
   >
 export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options: {
@@ -2116,7 +2721,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -2125,7 +2730,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2150,7 +2755,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -2159,7 +2764,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2172,7 +2777,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -2185,7 +2790,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2198,7 +2803,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>

@@ -60,13 +60,11 @@ export default function UserModeration() {
       filterString: filterString,
     },
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
     },
   )
-
-  const [data, setData] = useState<FlathubUsersResult>()
 
   useEffect(() => {
     setPage(router?.query?.page ? Number(router.query.page) : 1)
@@ -86,12 +84,13 @@ export default function UserModeration() {
     })
   }, [filterString])
 
-  useEffect(() => {
-    setData(query?.data?.data)
-  }, [query?.data])
-
   const pages = Array.from(
-    { length: data?.pagination?.total_pages ?? 1 },
+    {
+      length:
+        query.data.status === 200
+          ? query.data.data?.pagination?.total_pages
+          : 1,
+    },
     (_, i) => i + 1,
   )
 
@@ -103,7 +102,7 @@ export default function UserModeration() {
         <div className="px-4 sm:px-6 lg:px-8">
           {query.isLoading && <Spinner size="m" />}
 
-          {query.isSuccess && (
+          {query.isSuccess && query.data.status === 200 && (
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <Input
                 type="text"

@@ -22,7 +22,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
     queryKey: ["redeemable-tokens", app.id],
     queryFn: () =>
       getRedeemableTokensVendingappAppIdTokensGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     enabled: !!app.id,
   })
@@ -32,7 +32,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
   }
 
   let content: ReactElement
-  if (query.isError) {
+  if (query.isError || query.data.status !== 200) {
     content = <p>{t(query.error.message)}</p>
   } else {
     content = (

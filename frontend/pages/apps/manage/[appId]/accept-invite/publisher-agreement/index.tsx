@@ -21,7 +21,7 @@ const PublisherAgreementPage = ({ appId }: Props) => {
     mutationKey: ["accept-invite", appId],
     mutationFn: () =>
       acceptInviteInvitesAppIdAcceptPost(appId, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)

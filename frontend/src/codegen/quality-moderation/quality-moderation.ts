@@ -19,9 +19,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   AppPickRecommendationsResponse,
   FailedByGuideline,
@@ -40,20 +37,74 @@ import type {
 /**
  * @summary Get Quality Moderation Status
  */
-export const getQualityModerationStatusQualityModerationStatusGet = (
+export type getQualityModerationStatusQualityModerationStatusGetResponse200 = {
+  data: QualityModerationDashboardResponse
+  status: 200
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponseComposite =
+
+    | getQualityModerationStatusQualityModerationStatusGetResponse200
+    | getQualityModerationStatusQualityModerationStatusGetResponse422
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse =
+  getQualityModerationStatusQualityModerationStatusGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationStatusQualityModerationStatusGetUrl = (
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationDashboardResponse>> => {
-  return axios.get(`/quality-moderation/status`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status`
+}
+
+export const getQualityModerationStatusQualityModerationStatusGet = async (
+  params?: GetQualityModerationStatusQualityModerationStatusGetParams,
+  options?: RequestInit,
+): Promise<getQualityModerationStatusQualityModerationStatusGetResponse> => {
+  const res = await fetch(
+    getGetQualityModerationStatusQualityModerationStatusGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getQualityModerationStatusQualityModerationStatusGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getQualityModerationStatusQualityModerationStatusGetResponse
 }
 
 export const getGetQualityModerationStatusQualityModerationStatusGetQueryKey = (
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
 ) => {
-  return [`/quality-moderation/status`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions =
@@ -61,7 +112,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
     TData = Awaited<
       ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     params?: GetQualityModerationStatusQualityModerationStatusGetParams,
     options?: {
@@ -76,10 +127,10 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -92,7 +143,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
     > = ({ signal }) =>
       getQualityModerationStatusQualityModerationStatusGet(params, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -111,13 +162,13 @@ export type GetQualityModerationStatusQualityModerationStatusGetQueryResult =
     >
   >
 export type GetQualityModerationStatusQualityModerationStatusGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params:
     | undefined
@@ -150,7 +201,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -159,7 +210,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -190,7 +241,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -199,7 +250,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -214,7 +265,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -227,7 +278,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -242,7 +293,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -265,21 +316,72 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
 /**
  * @summary Get Passing Quality Apps
  */
-export const getPassingQualityAppsQualityModerationPassingAppsGet = (
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse200 = {
+  data: SimpleQualityModerationResponse
+  status: 200
+}
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponseComposite =
+
+    | getPassingQualityAppsQualityModerationPassingAppsGetResponse200
+    | getPassingQualityAppsQualityModerationPassingAppsGetResponse422
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse =
+  getPassingQualityAppsQualityModerationPassingAppsGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPassingQualityAppsQualityModerationPassingAppsGetUrl = (
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<SimpleQualityModerationResponse>> => {
-  return axios.get(`/quality-moderation/passing-apps`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps`
+}
+
+export const getPassingQualityAppsQualityModerationPassingAppsGet = async (
+  params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
+  options?: RequestInit,
+): Promise<getPassingQualityAppsQualityModerationPassingAppsGetResponse> => {
+  const res = await fetch(
+    getGetPassingQualityAppsQualityModerationPassingAppsGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPassingQualityAppsQualityModerationPassingAppsGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPassingQualityAppsQualityModerationPassingAppsGetResponse
 }
 
 export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryKey = (
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
 ) => {
   return [
-    `/quality-moderation/passing-apps`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -289,7 +391,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
     TData = Awaited<
       ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
     options?: {
@@ -304,10 +406,10 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -320,7 +422,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
     > = ({ signal }) =>
       getPassingQualityAppsQualityModerationPassingAppsGet(params, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -339,13 +441,13 @@ export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryResult =
     >
   >
 export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params:
     | undefined
@@ -378,7 +480,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -387,7 +489,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -418,7 +520,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -427,7 +529,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -442,7 +544,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -455,7 +557,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -470,7 +572,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -493,15 +595,71 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
 /**
  * @summary Get App Pick Recommendations
  */
-export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet =
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse200 =
+  {
+    data: AppPickRecommendationsResponse
+    status: 200
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse422 =
+  {
+    data: HTTPValidationError
+    status: 422
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseComposite =
+
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse200
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse422
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse =
+  getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetUrl =
   (
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
-    options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<AppPickRecommendationsResponse>> => {
-    return axios.get(`/quality-moderation/app-pick-recommendations`, {
-      ...options,
-      params: { ...params, ...options?.params },
+  ) => {
+    const normalizedParams = new URLSearchParams()
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (value !== undefined) {
+        normalizedParams.append(key, value === null ? "null" : value.toString())
+      }
     })
+
+    const stringifiedParams = normalizedParams.toString()
+
+    return stringifiedParams.length > 0
+      ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations?${stringifiedParams}`
+      : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations`
+  }
+
+export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet =
+  async (
+    params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+    options?: RequestInit,
+  ): Promise<getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse> => {
+    const res = await fetch(
+      getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetUrl(
+        params,
+      ),
+      {
+        ...options,
+        method: "GET",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse
   }
 
 export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryKey =
@@ -509,7 +667,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   ) => {
     return [
-      `/quality-moderation/app-pick-recommendations`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -521,7 +679,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
         typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
     options?: {
@@ -536,10 +694,10 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -556,7 +714,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
     > = ({ signal }) =>
       getAppPickRecommendationsQualityModerationAppPickRecommendationsGet(
         params,
-        { signal, ...axiosOptions },
+        { signal, ...fetchOptions },
       )
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -579,7 +737,7 @@ export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQ
     >
   >
 export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
@@ -587,7 +745,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params:
     | undefined
@@ -620,7 +778,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -631,7 +789,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -662,7 +820,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -673,7 +831,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -688,7 +846,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -703,7 +861,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -718,7 +876,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -741,15 +899,53 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
 /**
  * @summary Get Quality Moderation Stats
  */
-export const getQualityModerationStatsQualityModerationFailedByGuidelineGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<FailedByGuideline[]>> => {
-  return axios.get(`/quality-moderation/failed-by-guideline`, options)
-}
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse200 =
+  {
+    data: FailedByGuideline[]
+    status: 200
+  }
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponseComposite =
+  getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse200
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse =
+  getQualityModerationStatsQualityModerationFailedByGuidelineGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetUrl =
+  () => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/failed-by-guideline`
+  }
+
+export const getQualityModerationStatsQualityModerationFailedByGuidelineGet =
+  async (
+    options?: RequestInit,
+  ): Promise<getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse> => {
+    const res = await fetch(
+      getGetQualityModerationStatsQualityModerationFailedByGuidelineGetUrl(),
+      {
+        ...options,
+        method: "GET",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse
+  }
 
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryKey =
   () => {
-    return [`/quality-moderation/failed-by-guideline`] as const
+    return [
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/failed-by-guideline`,
+    ] as const
   }
 
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryOptions =
@@ -759,7 +955,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
         typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = unknown,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -772,9 +968,9 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -789,7 +985,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
     > = ({ signal }) =>
       getQualityModerationStatsQualityModerationFailedByGuidelineGet({
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -812,7 +1008,7 @@ export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryR
     >
   >
 export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryError =
-  AxiosError<unknown>
+  unknown
 
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
@@ -820,7 +1016,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
@@ -849,7 +1045,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -859,7 +1055,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -888,7 +1084,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -898,7 +1094,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -911,7 +1107,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -925,7 +1121,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -938,7 +1134,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -959,17 +1155,61 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
 /**
  * @summary Get Quality Moderation For App
  */
-export const getQualityModerationForAppQualityModerationAppIdGet = (
+export type getQualityModerationForAppQualityModerationAppIdGetResponse200 = {
+  data: QualityModerationResponse
+  status: 200
+}
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponseComposite =
+
+    | getQualityModerationForAppQualityModerationAppIdGetResponse200
+    | getQualityModerationForAppQualityModerationAppIdGetResponse422
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponse =
+  getQualityModerationForAppQualityModerationAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationForAppQualityModerationAppIdGetUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationResponse>> => {
-  return axios.get(`/quality-moderation/${appId}`, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`
+}
+
+export const getQualityModerationForAppQualityModerationAppIdGet = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<getQualityModerationForAppQualityModerationAppIdGetResponse> => {
+  const res = await fetch(
+    getGetQualityModerationForAppQualityModerationAppIdGetUrl(appId),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getQualityModerationForAppQualityModerationAppIdGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getQualityModerationForAppQualityModerationAppIdGetResponse
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
   appId: string,
 ) => {
-  return [`/quality-moderation/${appId}`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`,
+  ] as const
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions =
@@ -977,7 +1217,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
     TData = Awaited<
       ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     appId: string,
     options?: {
@@ -992,10 +1232,10 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -1008,7 +1248,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
     > = ({ signal }) =>
       getQualityModerationForAppQualityModerationAppIdGet(appId, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return {
@@ -1032,13 +1272,13 @@ export type GetQualityModerationForAppQualityModerationAppIdGetQueryResult =
     >
   >
 export type GetQualityModerationForAppQualityModerationAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1067,7 +1307,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1076,7 +1316,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1105,7 +1345,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1114,7 +1354,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1127,7 +1367,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1140,7 +1380,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1153,7 +1393,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1176,20 +1416,60 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
 /**
  * @summary Set Quality Moderation For App
  */
-export const setQualityModerationForAppQualityModerationAppIdPost = (
+export type setQualityModerationForAppQualityModerationAppIdPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponseComposite =
+
+    | setQualityModerationForAppQualityModerationAppIdPostResponse200
+    | setQualityModerationForAppQualityModerationAppIdPostResponse422
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse =
+  setQualityModerationForAppQualityModerationAppIdPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getSetQualityModerationForAppQualityModerationAppIdPostUrl = (
+  appId: string,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`
+}
+
+export const setQualityModerationForAppQualityModerationAppIdPost = async (
   appId: string,
   upsertQualityModeration: UpsertQualityModeration,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `/quality-moderation/${appId}`,
-    upsertQualityModeration,
-    options,
+  options?: RequestInit,
+): Promise<setQualityModerationForAppQualityModerationAppIdPostResponse> => {
+  const res = await fetch(
+    getSetQualityModerationForAppQualityModerationAppIdPostUrl(appId),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(upsertQualityModeration),
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: setQualityModerationForAppQualityModerationAppIdPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as setQualityModerationForAppQualityModerationAppIdPostResponse
 }
 
 export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
@@ -1198,7 +1478,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       { appId: string; data: UpsertQualityModeration },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
@@ -1208,13 +1488,13 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
     TContext
   > => {
     const mutationKey = ["setQualityModerationForAppQualityModerationAppIdPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1227,7 +1507,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       return setQualityModerationForAppQualityModerationAppIdPost(
         appId,
         data,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1243,13 +1523,13 @@ export type SetQualityModerationForAppQualityModerationAppIdPostMutationResult =
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationBody =
   UpsertQualityModeration
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Set Quality Moderation For App
  */
 export const useSetQualityModerationForAppQualityModerationAppIdPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1260,7 +1540,7 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
     { appId: string; data: UpsertQualityModeration },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<
     ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
@@ -1279,16 +1559,64 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
 /**
  * @summary Get Quality Moderation Status For App
  */
-export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationStatus>> => {
-  return axios.get(`/quality-moderation/${appId}/status`, options)
-}
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse200 =
+  {
+    data: QualityModerationStatus
+    status: 200
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse422 =
+  {
+    data: HTTPValidationError
+    status: 422
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseComposite =
+
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse200
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse422
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse =
+  getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetUrl =
+  (appId: string) => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/status`
+  }
+
+export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet =
+  async (
+    appId: string,
+    options?: RequestInit,
+  ): Promise<getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse> => {
+    const res = await fetch(
+      getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetUrl(
+        appId,
+      ),
+      {
+        ...options,
+        method: "GET",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse
+  }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryKey =
   (appId: string) => {
-    return [`/quality-moderation/${appId}/status`] as const
+    return [
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/status`,
+    ] as const
   }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryOptions =
@@ -1298,7 +1626,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
         typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = HTTPValidationError,
   >(
     appId: string,
     options?: {
@@ -1313,10 +1641,10 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -1333,7 +1661,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
     > = ({ signal }) =>
       getQualityModerationStatusForAppQualityModerationAppIdStatusGet(appId, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return {
@@ -1361,7 +1689,7 @@ export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQuery
     >
   >
 export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
@@ -1369,7 +1697,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1400,7 +1728,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1411,7 +1739,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1442,7 +1770,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1453,7 +1781,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1468,7 +1796,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1483,7 +1811,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1498,7 +1826,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -1521,19 +1849,59 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
 /**
  * @summary Request Review For App
  */
-export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `/quality-moderation/${appId}/request-review`,
-    undefined,
-    options,
-  )
-}
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse422 =
+  {
+    data: HTTPValidationError
+    status: 422
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponseComposite =
+
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse200
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse422
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse =
+  requestReviewForAppQualityModerationAppIdRequestReviewPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostUrl =
+  (appId: string) => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`
+  }
+
+export const requestReviewForAppQualityModerationAppIdRequestReviewPost =
+  async (
+    appId: string,
+    options?: RequestInit,
+  ): Promise<requestReviewForAppQualityModerationAppIdRequestReviewPostResponse> => {
+    const res = await fetch(
+      getRequestReviewForAppQualityModerationAppIdRequestReviewPostUrl(appId),
+      {
+        ...options,
+        method: "POST",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: requestReviewForAppQualityModerationAppIdRequestReviewPostResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as requestReviewForAppQualityModerationAppIdRequestReviewPostResponse
+  }
 
 export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1544,7 +1912,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<
@@ -1558,13 +1926,13 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
     const mutationKey = [
       "requestReviewForAppQualityModerationAppIdRequestReviewPost",
     ]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1578,7 +1946,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
 
       return requestReviewForAppQualityModerationAppIdRequestReviewPost(
         appId,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1595,13 +1963,13 @@ export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationRe
   >
 
 export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Request Review For App
  */
 export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1614,7 +1982,7 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<
     ReturnType<
@@ -1635,16 +2003,61 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
 /**
  * @summary Delete Review Request For App
  */
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse422 =
+  {
+    data: HTTPValidationError
+    status: 422
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseComposite =
+
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse200
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse422
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse =
+  deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseComposite & {
+    headers: Headers
+  }
+
+export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteUrl =
+  (appId: string) => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`
+  }
+
 export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
-  (
+  async (
     appId: string,
-    options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<unknown>> => {
-    return axios.delete(`/quality-moderation/${appId}/request-review`, options)
+    options?: RequestInit,
+  ): Promise<deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse> => {
+    const res = await fetch(
+      getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteUrl(
+        appId,
+      ),
+      {
+        ...options,
+        method: "DELETE",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse
   }
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1655,7 +2068,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<
@@ -1669,13 +2082,13 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
     const mutationKey = [
       "deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete",
     ]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1689,7 +2102,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
 
       return deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
         appId,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1706,13 +2119,13 @@ export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMu
   >
 
 export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Delete Review Request For App
  */
 export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1723,7 +2136,7 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationResult<
     Awaited<
       ReturnType<
@@ -1744,19 +2157,71 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
 /**
  * @summary Set Fullscreen App
  */
-export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponseComposite =
+
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse200
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse422
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse =
+  setFullscreenAppQualityModerationAppIdFullscreenPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getSetFullscreenAppQualityModerationAppIdFullscreenPostUrl = (
   appId: string,
   params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/quality-moderation/${appId}/fullscreen`, undefined, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/fullscreen?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/fullscreen`
+}
+
+export const setFullscreenAppQualityModerationAppIdFullscreenPost = async (
+  appId: string,
+  params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
+  options?: RequestInit,
+): Promise<setFullscreenAppQualityModerationAppIdFullscreenPostResponse> => {
+  const res = await fetch(
+    getSetFullscreenAppQualityModerationAppIdFullscreenPostUrl(appId, params),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: setFullscreenAppQualityModerationAppIdFullscreenPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as setFullscreenAppQualityModerationAppIdFullscreenPostResponse
 }
 
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
@@ -1768,7 +2233,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
@@ -1781,13 +2246,13 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
     TContext
   > => {
     const mutationKey = ["setFullscreenAppQualityModerationAppIdFullscreenPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1803,7 +2268,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       return setFullscreenAppQualityModerationAppIdFullscreenPost(
         appId,
         params,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1818,13 +2283,13 @@ export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationResult =
   >
 
 export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Set Fullscreen App
  */
 export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1838,7 +2303,7 @@ export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
     },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<
     ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>

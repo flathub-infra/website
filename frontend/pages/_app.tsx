@@ -24,7 +24,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import cardImage from "../public/img/card.webp"
 import { Fragment, ReactElement, ReactNode, useState } from "react"
 import { setDefaultOptions } from "date-fns"
-import axios from "axios"
 import { NextPage } from "next"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -48,13 +47,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   setDefaultOptions({ locale: getLocale(i18n?.language) })
 
   const [queryClient] = useState(() => new QueryClient({}))
-
-  axios.interceptors.request.use((config) => {
-    return {
-      ...config,
-      baseURL: process.env.NEXT_PUBLIC_API_BASE_URI,
-    }
-  })
 
   const router = useRouter()
   const instance = createInstance({

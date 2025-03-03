@@ -26,15 +26,17 @@ const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
       setText("")
 
       return redeemTokenVendingappAppIdTokensRedeemTokenPost(app.id, token, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: (data) => {
-      if (data.data?.status === "failure") {
-        toast.error(t("token-failed"))
-      }
-      if (data.data?.status === "success") {
-        toast.success(t("token-redeemed"))
+      if (data.status === 200) {
+        if (data.data?.status === "failure") {
+          toast.error(t("token-failed"))
+        }
+        if (data.data?.status === "success") {
+          toast.success(t("token-redeemed"))
+        }
       }
     },
     onError: (error) => {

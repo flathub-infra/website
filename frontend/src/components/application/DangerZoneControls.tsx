@@ -4,7 +4,6 @@ import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { AxiosError } from "axios"
 import Modal from "../Modal"
 import {
   archiveVerificationAppIdArchivePost,
@@ -24,13 +23,13 @@ const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const switchToDirectUploadMutation = useMutation({
     mutationFn: () =>
       switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: () => {
       setModalVisible(false)
     },
-    onError: (err: AxiosError<{ detail: string }>) => {
-      toast.error(t(err.response.data.detail))
+    onError: (err: Error) => {
+      toast.error(t(err.message))
     },
   })
 
@@ -68,14 +67,14 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
           endoflife_rebase: endoflifeRebase,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {
       setModalVisible(false)
     },
-    onError: (err: AxiosError<{ detail: string }>) => {
-      toast.error(t(err.response.data.detail))
+    onError: (err: Error) => {
+      toast.error(t(err.message))
     },
   })
 
@@ -128,7 +127,7 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
       include_expired: false,
     },
     {
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
       query: {
         enabled: !!app.id,
       },
@@ -138,7 +137,7 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
   let content: ReactElement
   if (query.isPending) {
     content = <Spinner size="m" />
-  } else if (query.status === "error") {
+  } else if (query.isError || query.data.status !== 200) {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (

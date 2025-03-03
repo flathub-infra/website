@@ -19,9 +19,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   AddUserRoleUsersUserIdRolePostParams,
   DeleteUserRoleUsersUserIdRoleDeleteParams,
@@ -36,39 +33,85 @@ import type {
  * Return a list of all known users
  * @summary Users
  */
-export const usersUsersGet = (
-  params?: UsersUsersGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<FlathubUsersResult>> => {
-  return axios.get(`/users`, {
-    ...options,
-    params: { ...params, ...options?.params },
+export type usersUsersGetResponse200 = {
+  data: FlathubUsersResult
+  status: 200
+}
+
+export type usersUsersGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type usersUsersGetResponseComposite =
+  | usersUsersGetResponse200
+  | usersUsersGetResponse422
+
+export type usersUsersGetResponse = usersUsersGetResponseComposite & {
+  headers: Headers
+}
+
+export const getUsersUsersGetUrl = (params?: UsersUsersGetParams) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/users?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/users`
+}
+
+export const usersUsersGet = async (
+  params?: UsersUsersGetParams,
+  options?: RequestInit,
+): Promise<usersUsersGetResponse> => {
+  const res = await fetch(getUsersUsersGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: usersUsersGetResponse["data"] = body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as usersUsersGetResponse
 }
 
 export const getUsersUsersGetQueryKey = (params?: UsersUsersGetParams) => {
-  return [`/users`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getUsersUsersGetQueryOptions = <
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: UsersUsersGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof usersUsersGet>>, TError, TData>
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey = queryOptions?.queryKey ?? getUsersUsersGetQueryKey(params)
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof usersUsersGet>>> = ({
     signal,
-  }) => usersUsersGet(params, { signal, ...axiosOptions })
+  }) => usersUsersGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof usersUsersGet>>,
@@ -80,11 +123,11 @@ export const getUsersUsersGetQueryOptions = <
 export type UsersUsersGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof usersUsersGet>>
 >
-export type UsersUsersGetQueryError = AxiosError<HTTPValidationError>
+export type UsersUsersGetQueryError = HTTPValidationError
 
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | UsersUsersGetParams,
   options: {
@@ -99,14 +142,14 @@ export function useUsersUsersGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: UsersUsersGetParams,
   options?: {
@@ -121,21 +164,21 @@ export function useUsersUsersGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: UsersUsersGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof usersUsersGet>>, TError, TData>
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -146,14 +189,14 @@ export function useUsersUsersGet<
 
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: UsersUsersGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof usersUsersGet>>, TError, TData>
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -173,19 +216,46 @@ export function useUsersUsersGet<
  * Return a list of all known role names
  * @summary Roles
  */
-export const rolesUsersRolesGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`/users/roles`, options)
+export type rolesUsersRolesGetResponse200 = {
+  data: string[]
+  status: 200
+}
+
+export type rolesUsersRolesGetResponseComposite = rolesUsersRolesGetResponse200
+
+export type rolesUsersRolesGetResponse = rolesUsersRolesGetResponseComposite & {
+  headers: Headers
+}
+
+export const getRolesUsersRolesGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles`
+}
+
+export const rolesUsersRolesGet = async (
+  options?: RequestInit,
+): Promise<rolesUsersRolesGetResponse> => {
+  const res = await fetch(getRolesUsersRolesGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: rolesUsersRolesGetResponse["data"] = body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as rolesUsersRolesGetResponse
 }
 
 export const getRolesUsersRolesGetQueryKey = () => {
-  return [`/users/roles`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles`] as const
 }
 
 export const getRolesUsersRolesGetQueryOptions = <
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -194,15 +264,15 @@ export const getRolesUsersRolesGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey = queryOptions?.queryKey ?? getRolesUsersRolesGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof rolesUsersRolesGet>>
-  > = ({ signal }) => rolesUsersRolesGet({ signal, ...axiosOptions })
+  > = ({ signal }) => rolesUsersRolesGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof rolesUsersRolesGet>>,
@@ -214,11 +284,11 @@ export const getRolesUsersRolesGetQueryOptions = <
 export type RolesUsersRolesGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof rolesUsersRolesGet>>
 >
-export type RolesUsersRolesGetQueryError = AxiosError<unknown>
+export type RolesUsersRolesGetQueryError = unknown
 
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
@@ -235,13 +305,13 @@ export function useRolesUsersRolesGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -258,13 +328,13 @@ export function useRolesUsersRolesGet<
       >,
       "initialData"
     >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -273,7 +343,7 @@ export function useRolesUsersRolesGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -283,7 +353,7 @@ export function useRolesUsersRolesGet<
 
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -292,7 +362,7 @@ export function useRolesUsersRolesGet<
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -311,20 +381,54 @@ export function useRolesUsersRolesGet<
  * Return the current user
  * @summary User
  */
-export const userUsersUserIdGet = (
+export type userUsersUserIdGetResponse200 = {
+  data: UserResult
+  status: 200
+}
+
+export type userUsersUserIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type userUsersUserIdGetResponseComposite =
+  | userUsersUserIdGetResponse200
+  | userUsersUserIdGetResponse422
+
+export type userUsersUserIdGetResponse = userUsersUserIdGetResponseComposite & {
+  headers: Headers
+}
+
+export const getUserUsersUserIdGetUrl = (userId: number) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}`
+}
+
+export const userUsersUserIdGet = async (
   userId: number,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<UserResult>> => {
-  return axios.get(`/users/${userId}`, options)
+  options?: RequestInit,
+): Promise<userUsersUserIdGetResponse> => {
+  const res = await fetch(getUserUsersUserIdGetUrl(userId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: userUsersUserIdGetResponse["data"] = body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as userUsersUserIdGetResponse
 }
 
 export const getUserUsersUserIdGetQueryKey = (userId: number) => {
-  return [`/users/${userId}`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}`] as const
 }
 
 export const getUserUsersUserIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   userId: number,
   options?: {
@@ -335,17 +439,17 @@ export const getUserUsersUserIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getUserUsersUserIdGetQueryKey(userId)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof userUsersUserIdGet>>
-  > = ({ signal }) => userUsersUserIdGet(userId, { signal, ...axiosOptions })
+  > = ({ signal }) => userUsersUserIdGet(userId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -362,11 +466,11 @@ export const getUserUsersUserIdGetQueryOptions = <
 export type UserUsersUserIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof userUsersUserIdGet>>
 >
-export type UserUsersUserIdGetQueryError = AxiosError<HTTPValidationError>
+export type UserUsersUserIdGetQueryError = HTTPValidationError
 
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   userId: number,
   options: {
@@ -385,14 +489,14 @@ export function useUserUsersUserIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   userId: number,
   options?: {
@@ -411,14 +515,14 @@ export function useUserUsersUserIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   userId: number,
   options?: {
@@ -429,7 +533,7 @@ export function useUserUsersUserIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -440,7 +544,7 @@ export function useUserUsersUserIdGet<
 
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   userId: number,
   options?: {
@@ -451,7 +555,7 @@ export function useUserUsersUserIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -471,19 +575,71 @@ export function useUserUsersUserIdGet<
  * Add a role to a user
  * @summary Add User Role
  */
-export const addUserRoleUsersUserIdRolePost = (
+export type addUserRoleUsersUserIdRolePostResponse200 = {
+  data: UserResult
+  status: 200
+}
+
+export type addUserRoleUsersUserIdRolePostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type addUserRoleUsersUserIdRolePostResponseComposite =
+  | addUserRoleUsersUserIdRolePostResponse200
+  | addUserRoleUsersUserIdRolePostResponse422
+
+export type addUserRoleUsersUserIdRolePostResponse =
+  addUserRoleUsersUserIdRolePostResponseComposite & {
+    headers: Headers
+  }
+
+export const getAddUserRoleUsersUserIdRolePostUrl = (
   userId: number,
   params: AddUserRoleUsersUserIdRolePostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<UserResult>> => {
-  return axios.post(`/users/${userId}/role`, undefined, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}/role?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}/role`
+}
+
+export const addUserRoleUsersUserIdRolePost = async (
+  userId: number,
+  params: AddUserRoleUsersUserIdRolePostParams,
+  options?: RequestInit,
+): Promise<addUserRoleUsersUserIdRolePostResponse> => {
+  const res = await fetch(
+    getAddUserRoleUsersUserIdRolePostUrl(userId, params),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: addUserRoleUsersUserIdRolePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as addUserRoleUsersUserIdRolePostResponse
 }
 
 export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -492,7 +648,7 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
     { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError,
@@ -500,13 +656,13 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["addUserRoleUsersUserIdRolePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
@@ -514,7 +670,7 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
   > = (props) => {
     const { userId, params } = props ?? {}
 
-    return addUserRoleUsersUserIdRolePost(userId, params, axiosOptions)
+    return addUserRoleUsersUserIdRolePost(userId, params, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -524,14 +680,13 @@ export type AddUserRoleUsersUserIdRolePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>
 >
 
-export type AddUserRoleUsersUserIdRolePostMutationError =
-  AxiosError<HTTPValidationError>
+export type AddUserRoleUsersUserIdRolePostMutationError = HTTPValidationError
 
 /**
  * @summary Add User Role
  */
 export const useAddUserRoleUsersUserIdRolePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -540,7 +695,7 @@ export const useAddUserRoleUsersUserIdRolePost = <
     { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError,
@@ -556,19 +711,71 @@ export const useAddUserRoleUsersUserIdRolePost = <
  * Remove a role from a user
  * @summary Delete User Role
  */
-export const deleteUserRoleUsersUserIdRoleDelete = (
+export type deleteUserRoleUsersUserIdRoleDeleteResponse200 = {
+  data: UserResult
+  status: 200
+}
+
+export type deleteUserRoleUsersUserIdRoleDeleteResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type deleteUserRoleUsersUserIdRoleDeleteResponseComposite =
+  | deleteUserRoleUsersUserIdRoleDeleteResponse200
+  | deleteUserRoleUsersUserIdRoleDeleteResponse422
+
+export type deleteUserRoleUsersUserIdRoleDeleteResponse =
+  deleteUserRoleUsersUserIdRoleDeleteResponseComposite & {
+    headers: Headers
+  }
+
+export const getDeleteUserRoleUsersUserIdRoleDeleteUrl = (
   userId: number,
   params: DeleteUserRoleUsersUserIdRoleDeleteParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<UserResult>> => {
-  return axios.delete(`/users/${userId}/role`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}/role?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}/role`
+}
+
+export const deleteUserRoleUsersUserIdRoleDelete = async (
+  userId: number,
+  params: DeleteUserRoleUsersUserIdRoleDeleteParams,
+  options?: RequestInit,
+): Promise<deleteUserRoleUsersUserIdRoleDeleteResponse> => {
+  const res = await fetch(
+    getDeleteUserRoleUsersUserIdRoleDeleteUrl(userId, params),
+    {
+      ...options,
+      method: "DELETE",
+    },
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: deleteUserRoleUsersUserIdRoleDeleteResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as deleteUserRoleUsersUserIdRoleDeleteResponse
 }
 
 export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -577,7 +784,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
     { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError,
@@ -585,13 +792,13 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
   TContext
 > => {
   const mutationKey = ["deleteUserRoleUsersUserIdRoleDelete"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
@@ -599,7 +806,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
   > = (props) => {
     const { userId, params } = props ?? {}
 
-    return deleteUserRoleUsersUserIdRoleDelete(userId, params, axiosOptions)
+    return deleteUserRoleUsersUserIdRoleDelete(userId, params, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -610,13 +817,13 @@ export type DeleteUserRoleUsersUserIdRoleDeleteMutationResult = NonNullable<
 >
 
 export type DeleteUserRoleUsersUserIdRoleDeleteMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Delete User Role
  */
 export const useDeleteUserRoleUsersUserIdRoleDelete = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -625,7 +832,7 @@ export const useDeleteUserRoleUsersUserIdRoleDelete = <
     { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError,
@@ -641,22 +848,61 @@ export const useDeleteUserRoleUsersUserIdRoleDelete = <
  * Return all users with a specific role
  * @summary Role Users
  */
-export const roleUsersUsersRolesRoleNameGet = (
+export type roleUsersUsersRolesRoleNameGetResponse200 = {
+  data: UserResult[]
+  status: 200
+}
+
+export type roleUsersUsersRolesRoleNameGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type roleUsersUsersRolesRoleNameGetResponseComposite =
+  | roleUsersUsersRolesRoleNameGetResponse200
+  | roleUsersUsersRolesRoleNameGetResponse422
+
+export type roleUsersUsersRolesRoleNameGetResponse =
+  roleUsersUsersRolesRoleNameGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getRoleUsersUsersRolesRoleNameGetUrl = (roleName: RoleName) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles/${roleName}`
+}
+
+export const roleUsersUsersRolesRoleNameGet = async (
   roleName: RoleName,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<UserResult[]>> => {
-  return axios.get(`/users/roles/${roleName}`, options)
+  options?: RequestInit,
+): Promise<roleUsersUsersRolesRoleNameGetResponse> => {
+  const res = await fetch(getRoleUsersUsersRolesRoleNameGetUrl(roleName), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: roleUsersUsersRolesRoleNameGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as roleUsersUsersRolesRoleNameGetResponse
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryKey = (
   roleName: RoleName,
 ) => {
-  return [`/users/roles/${roleName}`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles/${roleName}`,
+  ] as const
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   roleName: RoleName,
   options?: {
@@ -667,10 +913,10 @@ export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -679,7 +925,7 @@ export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
   > = ({ signal }) =>
-    roleUsersUsersRolesRoleNameGet(roleName, { signal, ...axiosOptions })
+    roleUsersUsersRolesRoleNameGet(roleName, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -696,12 +942,11 @@ export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
 export type RoleUsersUsersRolesRoleNameGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
 >
-export type RoleUsersUsersRolesRoleNameGetQueryError =
-  AxiosError<HTTPValidationError>
+export type RoleUsersUsersRolesRoleNameGetQueryError = HTTPValidationError
 
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   roleName: RoleName,
   options: {
@@ -720,14 +965,14 @@ export function useRoleUsersUsersRolesRoleNameGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   roleName: RoleName,
   options?: {
@@ -746,14 +991,14 @@ export function useRoleUsersUsersRolesRoleNameGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   roleName: RoleName,
   options?: {
@@ -764,7 +1009,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
@@ -775,7 +1020,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
 
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   roleName: RoleName,
   options?: {
@@ -786,7 +1031,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
