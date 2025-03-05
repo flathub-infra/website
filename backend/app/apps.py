@@ -185,7 +185,7 @@ def get_appids(type: AppType = AppType.APPS, include_eol: bool = False) -> list[
         query = sqldb.query(models.App.app_id).filter(models.App.type.in_(filter))
 
         if not include_eol:
-            query = query.filter(models.App.is_eol is False)
+            query = query.filter(models.App.is_eol == False)
 
         current_apps = set(app.app_id for app in query.all())
     return list(current_apps)
@@ -208,7 +208,7 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
             addon.app_id
             for addon in sqldb.query(models.App.app_id)
             .filter(models.App.type == "addon")
-            .filter(models.App.is_eol is False)
+            .filter(models.App.is_eol == False)
             .all()
         )
 
