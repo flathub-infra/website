@@ -13,10 +13,11 @@ def update():
         summary.update(db)
     exceptions.update()
 
-    current_apps = apps.get_appids(include_eol=True)
+    all_apps = apps.get_appids(include_eol=True)
+    non_eol_apps = apps.get_appids(include_eol=False)
     apps_created_at = {}
 
-    for app_id in current_apps:
+    for app_id in all_apps:
         with get_db("writer") as db:
             created_at = (
                 db.session.query(models.App.initial_release_at)
@@ -48,7 +49,7 @@ def update():
     if apps_created_at:
         search_added_at = []
         for app_id, value in apps_created_at.items():
-            if app_id not in current_apps:
+            if app_id not in non_eol_apps:
                 continue
 
             search_added_at.append(

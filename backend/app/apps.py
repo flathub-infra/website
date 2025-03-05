@@ -113,19 +113,21 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
 def load_appstream(sqldb) -> None:
     apps = utils.appstream2dict()
 
-    current_apps = get_appids(include_eol=True)
+    all_apps = get_appids(include_eol=True)
+    non_eol_apps = get_appids(include_eol=False)
 
     search_apps = []
     developers = set()
 
     for app_id in apps:
-        search_apps.append(
-            add_to_search(
-                app_id,
-                apps[app_id],
-                apps[app_id]["locales"],
+        if app_id in non_eol_apps:
+            search_apps.append(
+                add_to_search(
+                    app_id,
+                    apps[app_id],
+                    apps[app_id]["locales"],
+                )
             )
-        )
 
         if developer_name := apps[app_id].get("developer_name"):
             models.Developers.create(sqldb, developer_name)
@@ -159,7 +161,7 @@ def load_appstream(sqldb) -> None:
             models.Developers.delete(sqldb, developer.name)
 
     apps_to_delete_from_search = []
-    for app_id in set(current_apps) - set(apps):
+    for app_id in set(all_apps) - set(apps):
         # Preserve app_stats when deleting app
         app_stats_key = f"app_stats:{app_id}"
         if database.redis_conn.exists(app_stats_key):
