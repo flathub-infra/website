@@ -60,3 +60,8 @@ def update():
             )
 
         search.create_or_update_apps(search_added_at)
+
+    eol_apps = set(all_apps) - set(non_eol_apps)
+    if eol_apps:
+        eol_app_ids = [utils.get_clean_app_id(app_id) for app_id in eol_apps]
+        search.delete_apps(eol_app_ids)
