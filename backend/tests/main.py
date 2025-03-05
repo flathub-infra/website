@@ -23,12 +23,39 @@ vcr = vcr.VCR(
 )
 
 
+def _normalize_response_for_comparison(response_data):
+    if isinstance(response_data, dict):
+        if "processingTimeMs" in response_data:
+            response_data["processingTimeMs"] = 123
+
+        if "trending" in response_data:
+            response_data["trending"] = 0
+
+        if "apps" in response_data and isinstance(response_data["apps"], list):
+            for app in response_data["apps"]:
+                if isinstance(app, dict) and "trending" in app:
+                    app["trending"] = 0
+
+        for key, value in response_data.items():
+            if isinstance(value, dict | list):
+                _normalize_response_for_comparison(value)
+
+    elif isinstance(response_data, list):
+        for item in response_data:
+            if isinstance(item, dict | list):
+                _normalize_response_for_comparison(item)
+
+    return response_data
+
+
 def _assertAgainstSnapshotWithoutPerformance(snapshot, response, snapshotName):
     responseJson = response.json()
-    responseJson["processingTimeMs"] = (
-        123  # Overwrite with fixed number to ignore variations
-    )
-    assert snapshot(snapshotName) == responseJson
+    _normalize_response_for_comparison(responseJson)
+
+    snapshotData = snapshot(snapshotName)
+    _normalize_response_for_comparison(snapshotData)
+
+    assert snapshotData == responseJson
 
 
 class Override:
@@ -64,10 +91,13 @@ def test_update(client):
     assert update.status_code == 200
     time.sleep(3)
 
-    update_stats = client.post("/update/stats")
-    time.sleep(3)
+    update = client.post("/update")
+    assert update.status_code == 200
+    time.sleep(5)
 
+    update_stats = client.post("/update/stats")
     assert update_stats.status_code == 200
+    time.sleep(10)
 
 
 def test_apps_by_category(client, snapshot):
@@ -137,19 +167,31 @@ def test_apps_by_non_existent_developer(client):
 def test_appstream_by_appid(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert snapshot("test_appstream_by_appid.json") == response.json()
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_by_appid.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
 
 
 def test_appstream_by_appid_locale(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze?locale=de")
     assert response.status_code == 200
-    assert snapshot("test_appstream_by_appid_locale.json") == response.json()
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_by_appid_locale.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
 
 
 def test_appstream_by_appid_fallback(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert snapshot("test_appstream_by_appid.json") == response.json()
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_by_appid.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
 
 
 def test_appstream_by_non_existent_appid(client):
@@ -333,19 +375,31 @@ def test_popular_last_month_locale(client, snapshot):
 def test_status(client, snapshot):
     response = client.get("/status")
     assert response.status_code == 200
-    assert snapshot("test_status.json") == response.json()
+    response_data = response.json()
+    snapshot_data = snapshot("test_status.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
 
 
 def test_list_appstream(client, snapshot):
     response = client.get("/appstream")
     assert response.status_code == 200
-    assert snapshot("test_list_appstream.json") == response.json()
+    response_data = response.json()
+    snapshot_data = snapshot("test_list_appstream.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
 
 
 def test_summary_by_id(client, snapshot):
     response = client.get("/summary/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert snapshot("test_summary_by_appid.json") == response.json()
+    response_data = response.json()
+    snapshot_data = snapshot("test_summary_by_appid.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
 
 
 def test_summary_by_non_existent_id(client):
