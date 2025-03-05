@@ -2,6 +2,7 @@ import re
 from enum import Enum
 
 import gi
+from sqlalchemy import false
 
 from . import database, localize, models, schemas, search, utils
 
@@ -185,6 +186,7 @@ def get_appids(type: AppType = AppType.APPS) -> list[str]:
         current_apps = set(
             app.app_id
             for app in sqldb.query(models.App.app_id)
+            .filter(models.App.is_eol.is_(false))
             .filter(models.App.type.in_(filter))
             .all()
         )
