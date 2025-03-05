@@ -7,7 +7,7 @@ from ..database import get_db, get_json_key
 @dramatiq.actor
 def update_quality_moderation():
     with get_db("writer") as db:
-        appids = apps.get_appids()
+        appids = apps.get_appids(include_eol=True)
 
         if not appids:
             return

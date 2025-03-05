@@ -267,7 +267,7 @@ def fetch_summary_bytes(url: str) -> bytes | None:
 
 
 def update(sqldb) -> None:
-    current_apps = set(apps.get_appids())
+    current_apps = set(apps.get_appids(include_eol=True))
 
     repo_url = config.settings.repo_url
     summary_url = f"{repo_url}/summary"

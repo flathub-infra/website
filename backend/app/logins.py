@@ -889,7 +889,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=204, detail="Not logged in")
 
-    appstream = apps.get_appids()
+    appstream = apps.get_appids(include_eol=True)
 
     with get_db("writer") as db:
         user = db.merge(login.user)  # Reattach user to current session

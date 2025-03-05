@@ -13,7 +13,7 @@ def update():
         summary.update(db)
     exceptions.update()
 
-    current_apps = apps.get_appids()
+    current_apps = apps.get_appids(include_eol=True)
     apps_created_at = {}
 
     for app_id in current_apps:
