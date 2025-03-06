@@ -535,21 +535,6 @@ def search_apps_post(
     )
 
 
-def get_sub_categories(category: str) -> MeilisearchResponseLimited[AppsIndex]:
-    return MeilisearchResponseLimited[AppsIndex].model_validate(
-        client.index("apps").search(
-            "",
-            {
-                "limit": 1,
-                "filter": f"main_categories = '{category}'",
-                "facets": [
-                    "sub_categories",
-                ],
-            },
-        ),
-    )
-
-
 def get_runtime_list() -> dict[str, int]:
     return client.index("apps").search(
         "",

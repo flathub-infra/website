@@ -368,9 +368,9 @@ def test_stats(client):
             "number_of_apps": 3,
         },
         "category_totals": [
-            {"category": "Game", "count": 1, "sub_categories": []},
-            {"category": "Network", "count": 1, "sub_categories": []},
-            {"category": "Office", "count": 1, "sub_categories": []},
+            {"category": "Game", "count": 1},
+            {"category": "Network", "count": 1},
+            {"category": "Office", "count": 1},
         ],
         "countries": {"AD": 55, "BR": 87},
         "downloads_per_day": {},

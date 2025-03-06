@@ -9,14 +9,10 @@ import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
-import {
-  categoryToName,
-  tryParseCategory,
-  tryParseSubCategory,
-} from "src/types/Category"
+import { tryParseCategory, tryParseSubCategory } from "src/types/Category"
 import { useRouter } from "next/router"
 import { useUserContext } from "src/context/user-info"
-import { MainCategory, Permission, StatsResult } from "src/codegen/model"
+import { Permission, StatsResult } from "src/codegen/model"
 import {
   getRuntimeListRuntimesGet,
   getStatsStatsGet,
@@ -284,10 +280,6 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
   let category_data = stats.category_totals.map((category) => ({
     name: category.category,
     value: category.count,
-    children: category.sub_categories.map((y) => ({
-      name: y.sub_category,
-      value: y.count,
-    })),
   }))
 
   return (
@@ -295,38 +287,6 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
       <h2 className="mb-6 mt-12 text-2xl font-bold">
         {t("category-distribution")}
       </h2>
-      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic mb-6">
-        <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
-          <BarChart
-            accessibilityLayer
-            layout="vertical"
-            data={category_data.map((x) => ({
-              category: x.name,
-              value: x.value,
-            }))}
-          >
-            <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
-            <YAxis
-              stroke={axisStroke(resolvedTheme)}
-              dataKey="category"
-              tickFormatter={(x) =>
-                categoryToName(x.toLowerCase() as MainCategory, t)
-              }
-              type="category"
-              width={180}
-              tickLine={false}
-            />
-            <Tooltip
-              labelFormatter={(x) =>
-                categoryToName(x.toLowerCase() as MainCategory, t)
-              }
-              cursor={false}
-              content={<FlathubTooltip />}
-            />
-            <Bar dataKey="value" fill="var(--color-category)" />
-          </BarChart>
-        </ChartContainer>
-      </div>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
         <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
           <Treemap data={category_data} dataKey="value" nameKey={"name"}>
