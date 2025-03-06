@@ -267,7 +267,8 @@ def fetch_summary_bytes(url: str) -> bytes | None:
 
 
 def update(sqldb) -> None:
-    current_apps = set(apps.get_appids())
+    all_apps = set(apps.get_appids(include_eol=True))
+    non_eol_apps = set(apps.get_appids(include_eol=False))
 
     repo_url = config.settings.repo_url
     summary_url = f"{repo_url}/summary"
@@ -324,7 +325,10 @@ def update(sqldb) -> None:
         updated: list = []
 
         for app_id in updated_at_dict:
-            if app_id not in current_apps:
+            if app_id not in all_apps:
+                continue
+
+            if app_id not in non_eol_apps:
                 continue
 
             updated.append(
@@ -343,6 +347,7 @@ def update(sqldb) -> None:
                 "arches": list(summary_dict[app_id]["arches"]),
             }
             for app_id in summary_dict
+            if app_id in non_eol_apps
         ]
     )
 

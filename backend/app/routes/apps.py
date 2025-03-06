@@ -77,6 +77,10 @@ def get_appstream(
             response.status_code = 404
             return None
 
+        if app.is_eol:
+            response.status_code = 404
+            return None
+
         result = app.get_translated_appstream(locale)
         if not result:
             response.status_code = 404
@@ -123,7 +127,15 @@ def get_summary(
 ):
     with get_db("replica") as db_session:
         app = models.App.by_appid(db_session, app_id)
-        if app and app.summary:
+        if not app:
+            response.status_code = 404
+            return None
+
+        if app.is_eol:
+            response.status_code = 404
+            return None
+
+        if app.summary:
             summary = app.summary
             if (
                 "metadata" in summary
