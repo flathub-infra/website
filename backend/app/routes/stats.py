@@ -23,7 +23,6 @@ class StatsResultCategoryTotalsSubCategories(BaseModel):
 class StatsResultCategoryTotals(BaseModel):
     category: str
     count: int
-    sub_categories: list[StatsResultCategoryTotalsSubCategories]
 
 
 class StatsResult(BaseModel):

@@ -49,13 +49,6 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
       ).map(() => ({
         category: faker.string.alpha(20),
         count: faker.number.int({ min: undefined, max: undefined }),
-        sub_categories: Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => ({
-          sub_category: faker.string.alpha(20),
-          count: faker.number.int({ min: undefined, max: undefined }),
-        })),
       })),
     },
     null,
