@@ -5,7 +5,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>El soporte de Flatpak está integrado en Linux Mint 18.3 y versiones más recientes, ¡no se requiere configuración! </0> <2>Si está utilizando una versión anterior, <2>actualice a Linux Mint 18.3</2>. </2>"
+    "introduction": "<0>El soporte de Flatpak está integrado en Linux Mint 18.3 y versiones más recientes, ¡no se requiere configuración!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -170,7 +170,7 @@
     },
     "step-1": {
       "name": "Instalar Flatpak",
-      "text": "<p>Hay un paquete flatpak disponible en Pardus 2019 y versiones posteriores. Para instalarlo, ejecute lo siguiente como root:</p> <2></2> <4>Para Pardus 2017 y versiones anteriores, hay un paquete flatpak disponible en el <2>repositorio oficial de backports</2>. </4>"
+      "text": "<p>Hay un paquete flatpak disponible en Pardus 2019 y versiones posteriores. Para instalarlo, ejecute lo siguiente como root:</p> <2></2>"
     }
   },
   "mx_linux": {
@@ -216,7 +216,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0> El soporte de Flatpak está integrado en KDE neon 19 y versiones posteriores, ¡no requiere configuración!</0> <p>Si está utilizando una versión anterior, puede consultar las instrucciones a continuación.</p>"
+    "introduction": "<0> El soporte de Flatpak está integrado en KDE neon 19 y versiones posteriores, ¡no requiere configuración!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
@@ -263,7 +263,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Flatpak soporte está construido en Endless OS 3.0.0 y más reciente-no hay configuración requerida! </0> <2>Si está usando una versión anterior, <2>actualice a Endless OS 3</2>. </2>"
+    "introduction": "<0>La compatibilidad con Flatpak está integrada en Endless OS 3.0.0 y versiones posteriores, ¡sin necesidad de configuración!</0>"
   },
   "kubuntu": {
     "distroName": "Kubuntu",
@@ -288,7 +288,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Instalar Flatpak",
-      "text": "<0>Para instalar Flatpak en <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o posterior</strong>, abra la aplicación Terminal y ejecute:</0> <2></2> <4>Para versiones anteriores <strong>hasta Ubuntu 18.04 LTS (Bionic Beaver)</strong>, el PPA oficial de Flatpak es necesario para instalar Flatpak y mantenerlo actualizado. Para agregar el PPA e instalar Flatpak, abra la aplicación Terminal y ejecute:</4> <6></6>"
+      "text": "<0>Para instalar Flatpak en <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o posterior</strong>, abra la aplicación Terminal y ejecute:</0> <2></2>"
     },
     "step-2": {
       "name": "Instalar el complemento Flatpak de GNOME Software",
@@ -348,7 +348,7 @@
     "distroName": "ChromeOS",
     "step-3": {
       "name": "Instalar Flatpak",
-      "text": "<p>Para instalar Flatpak, ejecute lo siguiente en la terminal:</p> <2></2> <4>Hay un paquete flatpak más actualizado disponible en el <2>repositorio de backports de Debian</2>. </4>"
+      "text": "<p>Para instalar Flatpak, ejecute lo siguiente en la terminal:</p> <2></2>"
     },
     "step-5": {
       "name": "Reiniciar",
@@ -389,7 +389,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>El soporte de Flatpak está construido en Pop!_OS 20.04 y posteriores—¡no se requiere configuración!</0> <p>Si estás usando una versión anterior, puedes consultar las instrucciones debajo.</p>"
+    "introduction": "<0>El soporte de Flatpak está construido en Pop!_OS 20.04 y posteriores—¡no se requiere configuración!</0>"
   },
   "arch": {
     "distroName": "Arch",
