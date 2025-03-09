@@ -112,7 +112,7 @@
   "status": "Tila",
   "status-cancelled": "Peruttu",
   "stripe-error-incorrect_cvc": "Kortin turvakoodi on virheellinen. Tarkista kortin turvakoodi tai käytä toista korttia.",
-  "status-retry": "Uudelleen",
+  "status-retry": "Yritä uudelleen",
   "status-pending": "Odottaa",
   "transaction-summary-type": "Tyyppi:",
   "stripe-receipt": "Stripe-kuitti",
