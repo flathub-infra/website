@@ -16,7 +16,8 @@ import spdxLicenseList from "spdx-license-list"
 import { Appstream } from "src/types/Appstream"
 import { IconType } from "react-icons"
 
-const licenseRefRegex = /LicenseRef-proprietary=(.*)/i
+const licenseRefProprietaryRegex = /LicenseRef-proprietary=(.*)/i
+const licenseRefRegex = /LicenseRef-scancode-(.*)=(.*)/i
 
 function getLicense(
   project_license: string | undefined,
@@ -29,6 +30,11 @@ function getLicense(
   const match = project_license.match(licenseRefRegex)
   if (match) {
     return match[1]
+  }
+
+  const matchProprietary = project_license.match(licenseRefProprietaryRegex)
+  if (matchProprietary) {
+    return matchProprietary[1]
   }
 
   const splitLicense = project_license.split(/\(|\)| /)
@@ -124,12 +130,13 @@ const LicenseLink = ({
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
 
-  const licenseIsLink = app.project_license?.match(licenseRefRegex)?.length > 0
+  const licenseProprietaryIsLink =
+    app.project_license?.match(licenseRefProprietaryRegex)?.length > 0
 
   const linkClicked = () => {
     trackEvent({
       category: "App",
-      action: licenseIsLink ? "License" : "Homepage",
+      action: licenseProprietaryIsLink ? "License" : "Homepage",
       name: app.id ?? "unknown",
     })
   }
@@ -139,13 +146,15 @@ const LicenseLink = ({
   }
 
   return (
-    ((licenseType === "proprietary" && licenseIsLink) ||
+    ((licenseType === "proprietary" && licenseProprietaryIsLink) ||
       (licenseType === "floss" &&
         (app.urls?.homepage || app.urls?.contribute))) && (
       <a
         className="flex gap-1 items-center"
         href={
-          licenseIsLink ? license : (app.urls?.contribute ?? app.urls?.homepage)
+          licenseProprietaryIsLink
+            ? license
+            : (app.urls?.contribute ?? app.urls?.homepage)
         }
         target="_blank"
         rel="noreferrer"
