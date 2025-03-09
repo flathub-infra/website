@@ -2407,11 +2407,40 @@ class App(Base):
                 new_eol_branches = eol_branches.copy()
                 new_eol_branches.append(branch)
                 app.eol_branches = new_eol_branches
+
+                # Check if app should be completely EOL
+                # Get all refs for this app and see if all are now EOL
+                if app.type == "app":
+                    try:
+                        # Execute a raw SQL query to get all refs for this app
+                        result = db.execute(
+                            text(
+                                "SELECT DISTINCT ref FROM refs WHERE app_id = :app_id"
+                            ),
+                            {"app_id": app_id},
+                        ).fetchall()
+
+                        all_refs = [row[0] for row in result]
+
+                        # If all refs are in eol_branches, mark the entire app as EOL
+                        if all_refs and all(
+                            ref in new_eol_branches for ref in all_refs
+                        ):
+                            app.is_eol = True
+                    except Exception:
+                        # If table doesn't exist or query fails, skip this check
+                        pass
+
                 db.session.commit()
             elif not is_eol and branch in eol_branches:
                 new_eol_branches = eol_branches.copy()
                 new_eol_branches.remove(branch)
                 app.eol_branches = new_eol_branches
+
+                # If any branch is being un-EOL-ed, the app cannot be fully EOL
+                if app.is_eol:
+                    app.is_eol = False
+
                 db.session.commit()
         else:
             if app.is_eol != is_eol:
