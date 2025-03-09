@@ -115,33 +115,36 @@ def refresh_oauth_token(account) -> str:
     """Makes sure the account has an up to date access token, refreshing it with the refresh token if needed.
     If the token is updated, db.session.commit() is called to save the change."""
 
-    match account:
-        case models.GitlabAccount():
-            return _refresh_token(
-                account,
-                "gitlab",
-                "https://gitlab.com/oauth/token",
-                config.settings.gitlab_client_id,
-                config.settings.gitlab_client_secret,
-            )
-        case models.GnomeAccount():
-            return _refresh_token(
-                account,
-                "gnome",
-                "https://gitlab.gnome.org/oauth/token",
-                config.settings.gnome_client_id,
-                config.settings.gnome_client_secret,
-            )
-        case models.KdeAccount():
-            return _refresh_token(
-                account,
-                "gnome",
-                "https://invent.kde.org/oauth/token",
-                config.settings.kde_client_id,
-                config.settings.kde_client_secret,
-            )
-        case _:
-            raise ValueError(f"Unsupported account type: {type(account)}")
+    with get_db("writer") as db:
+        account = db.merge(account)
+
+        match account:
+            case models.GitlabAccount():
+                return _refresh_token(
+                    account,
+                    "gitlab",
+                    "https://gitlab.com/oauth/token",
+                    config.settings.gitlab_client_id,
+                    config.settings.gitlab_client_secret,
+                )
+            case models.GnomeAccount():
+                return _refresh_token(
+                    account,
+                    "gnome",
+                    "https://gitlab.gnome.org/oauth/token",
+                    config.settings.gnome_client_id,
+                    config.settings.gnome_client_secret,
+                )
+            case models.KdeAccount():
+                return _refresh_token(
+                    account,
+                    "gnome",
+                    "https://invent.kde.org/oauth/token",
+                    config.settings.kde_client_id,
+                    config.settings.kde_client_secret,
+                )
+            case _:
+                raise ValueError(f"Unsupported account type: {type(account)}")
 
 
 router = APIRouter(prefix="/auth")
