@@ -7,7 +7,7 @@ from .models import Exceptions
 
 def update():
     r = httpx.get(
-        "https://raw.githubusercontent.com/barthalion/flatpak-builder-lint/HEAD/flatpak_builder_lint/staticfiles/exceptions.json"
+        "https://raw.githubusercontent.com/flathub-infra/flatpak-builder-lint/HEAD/flatpak_builder_lint/staticfiles/exceptions.json"
     )
 
     if r.status_code == 200:
