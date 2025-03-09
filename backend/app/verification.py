@@ -190,7 +190,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
 
     try:
         r = httpx.get(
-            f"https://gitlab.gnome.org/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap"
+            f"https://gitlab.gnome.org/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap",
+            follow_redirects=True,
         )
     except httpx.HTTPError:
         return []
@@ -271,6 +272,7 @@ class CheckWebsiteVerification:
                 f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt",
                 timeout=5,
                 headers=headers,
+                follow_redirects=True,
             )
         except httpx.HTTPError:
             return WebsiteVerificationResult(
