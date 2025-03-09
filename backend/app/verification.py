@@ -147,7 +147,7 @@ def _get_domain_name(app_id: str) -> str | None:
         return f"{domain}.{tld}".lower()
 
 
-def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
+def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
     match app_id:
         case "org.gnome.World.PikaBackup":
             repo_name = "pika-backup"
