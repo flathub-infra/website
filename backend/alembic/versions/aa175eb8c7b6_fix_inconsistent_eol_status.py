@@ -27,9 +27,8 @@ def upgrade():
         jsonb_array_length(eol_branches) > 0 AND
         app_id IN (
             SELECT app_id FROM apps
-            WHERE type = 'desktop-application' AND
-                (SELECT COUNT(DISTINCT ref) FROM refs WHERE app_id = apps.app_id) = 1 AND
-                (SELECT COUNT(DISTINCT ref) FROM refs WHERE app_id = apps.app_id AND ref = ANY(apps.eol_branches::text[])) = 1
+            WHERE type = 'desktop' AND
+                jsonb_array_length(eol_branches) > 0
         )
     """)
 
