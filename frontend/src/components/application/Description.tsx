@@ -59,7 +59,7 @@ export const Description = ({
               `prose relative transition-all dark:prose-invert xl:max-w-[75%]`,
               !isExpanded &&
                 scrollHeight > collapsedHeight &&
-                "from-flathub-lotion before:absolute before:bottom-0 before:start-0 before:h-1/3 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-dark-gunmetal",
+                "from-flathub-lotion before:absolute before:bottom-0 before:start-0 before:h-1/3 before:w-full before:bg-linear-to-t before:content-[''] dark:from-flathub-dark-gunmetal",
             )}
             dangerouslySetInnerHTML={{
               __html: description,
@@ -79,7 +79,7 @@ export const Description = ({
 
       {scrollHeight > collapsedHeight && (
         <button {...getToggleProps()}>
-          <span className="m-0 w-full rounded-xl bg-flathub-white px-6 py-2 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 hover:dark:bg-flathub-arsenic">
+          <span className="m-0 w-full rounded-xl bg-flathub-white px-6 py-2 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 dark:hover:bg-flathub-arsenic">
             {isExpanded ? t(`show-less`) : t(`show-more`)}
           </span>
         </button>

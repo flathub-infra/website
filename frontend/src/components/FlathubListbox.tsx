@@ -13,7 +13,6 @@ import {
   FunctionComponent,
   HTMLAttributes,
   ReactNode,
-  forwardRef,
 } from "react"
 import { HiChevronDown } from "react-icons/hi2"
 
@@ -29,10 +28,13 @@ type Props = {
   className?: string
 } & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
 
-const FlathubListbox: FunctionComponent<Props> = forwardRef<
-  HTMLUListElement,
-  Props
->(({ items, className }, ref) => {
+const FlathubListbox: FunctionComponent<Props> = ({
+  ref,
+  items,
+  className,
+}: Props & {
+  ref: React.RefObject<HTMLUListElement>
+}) => {
   const selectedItem = items.find((item) => item.selected) ?? undefined
 
   return (
@@ -93,7 +95,7 @@ const FlathubListbox: FunctionComponent<Props> = forwardRef<
       </Transition>
     </Listbox>
   )
-})
+}
 
 FlathubListbox.displayName = "FlathubListbox"
 

@@ -1,4 +1,4 @@
-import "../styles/main.scss"
+import "../styles/main.css"
 import i18n from "./i18next"
 import { languages, getLanguageName, getLanguageFlag } from "../src/localize"
 import { withThemeByClassName } from "@storybook/addon-themes"
