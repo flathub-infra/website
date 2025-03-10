@@ -89,8 +89,8 @@ const Modal: FunctionComponent<Props> = ({
                         "transition",
                         "rounded-full",
                         "bg-flathub-gainsborow hover:bg-flathub-gray-x11",
-                        "focus:outline-none focus:ring-2 focus:ring-flathub-celestial-blue",
-                        "hover:dark:bg-flathub-sonic-silver dark:bg-flathub-granite-gray",
+                        "focus:outline-hidden focus:ring-2 focus:ring-flathub-celestial-blue",
+                        "dark:hover:bg-flathub-sonic-silver dark:bg-flathub-granite-gray",
                       )}
                       onClick={() => onClose()}
                     >

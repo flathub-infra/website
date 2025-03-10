@@ -5,7 +5,6 @@ import {
   FunctionComponent,
   HTMLAttributes,
   ReactNode,
-  forwardRef,
 } from "react"
 import { cn } from "@/lib/utils"
 import FlathubListbox from "./FlathubListbox"
@@ -51,7 +50,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                   variant === "flat" &&
                   "enabled:text-flathub-arsenic enabled:hover:bg-flathub-white/50",
                 !item.selected &&
-                  "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-white/10 enabled:dark:hover:text-flathub-lotion",
+                  "dark:enabled:text-flathub-lotion dark:enabled:hover:bg-flathub-white/10 dark:enabled:hover:text-flathub-lotion",
 
                 item.disabled &&
                   "cursor-not-allowed text-flathub-gainsborow dark:text-flathub-arsenic",
@@ -94,10 +93,14 @@ type Props = {
   variant?: "primary" | "secondary" | "flat"
 } & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
 
-const MultiToggle: FunctionComponent<Props> = forwardRef<
-  HTMLUListElement,
-  Props
->(({ items, size = "lg", variant = "primary" }, ref) => {
+const MultiToggle: FunctionComponent<Props> = ({
+  ref,
+  items,
+  size = "lg",
+  variant = "primary",
+}: Props & {
+  ref: React.RefObject<HTMLUListElement>
+}) => {
   return (
     <>
       <FlathubListbox
@@ -107,7 +110,7 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
       <MultiToggleBig items={items} variant={variant} size={size} />
     </>
   )
-})
+}
 
 MultiToggle.displayName = "MultiToggle"
 

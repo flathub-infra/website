@@ -172,7 +172,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                     link.icon.type,
                     {
                       className: clsx(
-                        "flex-shrink-0 w-6 h-6 text-flathub-granite-gray dark:text-flathub-spanish-gray",
+                        "shrink-0 w-6 h-6 text-flathub-granite-gray dark:text-flathub-spanish-gray",
                       ),
                     },
                     null,
@@ -189,7 +189,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                       {link.content.text}
                     </span>
                   </div>
-                  <HiMiniArrowTopRightOnSquare className="flex-shrink-0 w-5 h-5 ms-auto text-flathub-granite-gray dark:text-flathub-spanish-gray" />
+                  <HiMiniArrowTopRightOnSquare className="shrink-0 w-5 h-5 ms-auto text-flathub-granite-gray dark:text-flathub-spanish-gray" />
                 </a>
               )
             })}

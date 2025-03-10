@@ -42,7 +42,7 @@ export default function InstallButton({ appId }: { appId: string }) {
   }
 
   return (
-    <div className="inline-flex w-52 basis-1/2 rounded-md shadow-sm sm:w-32 md:w-40">
+    <div className="inline-flex w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
       <Link
         href={`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`}
         onClick={installClicked}

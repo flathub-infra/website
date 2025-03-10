@@ -57,14 +57,14 @@ export const FlathubCombobox = <
         <ComboboxInput
           className={clsx(
             "w-full rounded-md border-0 bg-flathub-white dark:bg-flathub-arsenic py-1.5 ps-3 pe-10",
-            "text-gray-900 dark:text-flathub-lotion shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-0 focus:ring-2 focus:ring-inset",
+            "text-gray-900 dark:text-flathub-lotion shadow-xs ring-1 ring-inset ring-gray-300 dark:ring-0 focus:ring-2 focus:ring-inset",
             "focus:ring-flathub-celestial-blue sm:text-sm sm:leading-6",
             disabled && "bg-flathub-gainsborow dark:bg-flathub-granite-gray",
           )}
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(item: T) => item?.name}
         />
-        <ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+        <ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
           <HiChevronUpDown
             className="size-5 text-gray-400"
             aria-hidden="true"
@@ -75,7 +75,7 @@ export const FlathubCombobox = <
           <ComboboxOptions
             className={clsx(
               "absolute z-10 mt-1 w-full min-w-min max-h-[540px] overflow-auto rounded-md bg-flathub-white dark:bg-flathub-arsenic",
-              "py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm",
+              "py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden sm:text-sm",
             )}
           >
             {filtered.map((item) => (
