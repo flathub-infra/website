@@ -68,53 +68,57 @@ export const CarouselStrip = ({
           />
         </>
       )}
-      <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
-        {slides && slides?.length > 0 && (
-          <button
-            className="absolute bottom-3 end-3 size-12 !bg-transparent px-3 py-3 text-2xl z-10"
-            onClick={() => setShowLightbox(true)}
-            aria-label={t("zoom")}
-          >
-            <HiMagnifyingGlassPlus />
-          </button>
-        )}
-        <div className="aspect-video max-h-[500px] w-full">
-          <Lightbox
-            controller={{ ref }}
-            plugins={[Inline]}
-            slides={slides}
-            index={slides?.length > currentIndex ? currentIndex : 0}
-            carousel={{
-              finite: slides?.length === 1,
-            }}
-            styles={{
-              button: { filter: "none" },
-              container: {
-                backgroundColor: "transparent",
-                width: "100%",
-                maxHeight: "500px",
-              },
-            }}
-            on={{
-              click: () => setShowLightbox(true),
-              view: (index) => setCurrentIndex(index.index),
-            }}
-            render={{
-              iconPrev: () => (
-                <div className="control-arrow control-prev text-3xl text-flathub-dark-gunmetal opacity-90 transition hover:opacity-50 dark:text-flathub-gainsborow">
-                  <HiChevronLeft />
-                </div>
-              ),
-              iconNext: () => (
-                <div className="control-arrow control-prev text-3xl text-flathub-dark-gunmetal opacity-90 transition hover:opacity-50 dark:text-flathub-gainsborow">
-                  <HiChevronRight />
-                </div>
-              ),
-              buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
-              buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
-              slide: CarouselNextJsImage,
-            }}
-          />
+      <div className="relative">
+        <div className="my-0 mx-auto 2xl:max-w-[1400px]">
+          {slides && slides?.length > 0 && (
+            <button
+              className="absolute bottom-3 end-3 size-12 bg-transparent! px-3 py-3 text-2xl z-10"
+              onClick={() => setShowLightbox(true)}
+              aria-label={t("zoom")}
+            >
+              <HiMagnifyingGlassPlus />
+            </button>
+          )}
+          <div className="aspect-video max-h-[500px] w-full">
+            <Lightbox
+              controller={{ ref }}
+              plugins={[Inline]}
+              slides={slides}
+              index={slides?.length > currentIndex ? currentIndex : 0}
+              carousel={{
+                finite: slides?.length === 1,
+              }}
+              styles={{
+                button: { filter: "none" },
+                container: {
+                  backgroundColor: "transparent",
+                  width: "100%",
+                  maxHeight: "500px",
+                },
+              }}
+              on={{
+                click: () => setShowLightbox(true),
+                view: (index) => setCurrentIndex(index.index),
+              }}
+              render={{
+                iconPrev: () => (
+                  <div className="control-arrow control-prev text-3xl text-flathub-dark-gunmetal opacity-90 transition hover:opacity-50 dark:text-flathub-gainsborow">
+                    <HiChevronLeft />
+                  </div>
+                ),
+                iconNext: () => (
+                  <div className="control-arrow control-prev text-3xl text-flathub-dark-gunmetal opacity-90 transition hover:opacity-50 dark:text-flathub-gainsborow">
+                    <HiChevronRight />
+                  </div>
+                ),
+                buttonPrev:
+                  app.screenshots.length <= 1 ? () => null : undefined,
+                buttonNext:
+                  app.screenshots.length <= 1 ? () => null : undefined,
+                slide: CarouselNextJsImage,
+              }}
+            />
+          </div>
         </div>
         {slides?.length > 0 && slides[currentIndex]?.title && (
           <div className="flex justify-center text-center pb-4">

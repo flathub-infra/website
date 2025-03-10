@@ -1,7 +1,6 @@
 import {
   DetailedHTMLProps,
   FormEvent,
-  forwardRef,
   FunctionComponent,
   InputHTMLAttributes,
   useCallback,
@@ -26,10 +25,15 @@ type Props = {
  * This is expected to be used as a controlled component, the state of which is lifted to the parent component.
  * The parent component must apply any further constraint or feedback desired (e.g. disable form submission).
  */
-const CurrencyInput: FunctionComponent<Props> = forwardRef<
-  HTMLInputElement,
-  Props
->(({ inputValue, setValue, maximum, ...inputProps }, ref) => {
+const CurrencyInput: FunctionComponent<Props> = ({
+  ref,
+  inputValue,
+  setValue,
+  maximum,
+  ...inputProps
+}: Props & {
+  ref: React.RefObject<HTMLInputElement>
+}) => {
   // String state used to allow temporary invalid numeric states (e.g. entering leading decimal)
   const [userInput, setUserInput] = useState(inputValue.live.toFixed(2))
 
@@ -89,7 +93,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
       />
     </div>
   )
-})
+}
 
 CurrencyInput.displayName = "CurrencyInput"
 

@@ -124,7 +124,7 @@ const BrandingPreview = ({
       )}
     >
       <div className="flex flex-col justify-center items-center h-auto w-full">
-        <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
+        <div className="relative flex shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
           <LogoImage iconUrl={app.icon} appName={app.name} quality={100} />
         </div>
         <div className="flex pt-3">

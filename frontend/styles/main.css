@@ -1,6 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@config '../tailwind.config.ts';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @layer base {
   * {
@@ -54,7 +79,7 @@
 }
 
 :root {
-  // colors used via tailwind
+  /* // colors used via tailwind */
   --flathub-celestial-blue: 63.85% 0.1314 251.94;
   --flathub-celestial-blue-dark: 49.79% 0.1314 251.94;
   --flathub-electric-red: 57.01% 0.2339 29.23;
@@ -71,7 +96,7 @@
   --flathub-status-red: 51.91% 0.196 25.07;
   --flathub-status-red-dark: 57.01% 0.1989 26.25;
 
-  // grays
+  /* // grays */
   --flathub-white: 100% 0 106.37;
 
   --flathub-lotion: 98.48% 0 0;
@@ -92,7 +117,7 @@
 
   --flathub-black: 0% 0% 0;
 
-  // reds
+  /* // reds */
   --flathub-vivid-crimson: 53.46% 0.21476703296252692 20.33110990321919;
   --flathub-dark-candy-apple-red: 46.09% 0.1876 26.75;
 
@@ -100,12 +125,12 @@
   --button-border-radius: 8px;
   --header-height: 64px;
 
-  // for worldmap and below css
+  /* // for worldmap and below css */
   --text-primary: var(--flathub-dark-gunmetal);
   --bg-color-secondary: var(--flathub-white);
   --color-primary: var(--flathub-celestial-blue);
 
-  // shad/cn theme
+  /* // shad/cn theme */
   --background: var(--flathub-white);
   --foreground: var(--flathub-dark-gunmetal);
 
@@ -137,7 +162,7 @@
   --radius: 0.5rem;
 }
 
-// shad/cn theme
+/* // shad/cn theme */
 .dark {
   --background: var(--flathub-arsenic);
   --foreground: var(--flathub-gainsborow);
@@ -167,13 +192,12 @@
   --input: var(--flathub-spanish-gray);
   --ring: var(--flathub-gainsborow);
 
-
-  // for worldmap and below css
+  /* // for worldmap and below css */
   --text-primary: var(--flathub-gainsborow);
   --bg-color-secondary: var(--flathub-arsenic);
   --color-primary: var(--flathub-celestial-blue);
 
-  // for chart colors
+  /* // for chart colors */
   :root {
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;

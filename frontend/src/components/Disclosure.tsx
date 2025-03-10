@@ -17,7 +17,7 @@ export const FlathubDisclosure: FunctionComponent<{
       <DisclosureButton className="group flex w-full items-center gap-3 px-4 py-3">
         <HiChevronRight
           className={clsx(
-            "group-data-[open]:rotate-90",
+            "group-data-open:rotate-90",
             "size-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",
           )}
         />
