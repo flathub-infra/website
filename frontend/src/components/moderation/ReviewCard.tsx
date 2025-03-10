@@ -184,7 +184,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
 
       <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
         <span className="flex">
-          <h2 className="m-0 flex-grow pb-4 text-2xl font-bold">
+          <h2 className="m-0 grow pb-4 text-2xl font-bold">
             {title}
             {request.is_outdated && (
               <span className="ms-2">

@@ -10,7 +10,7 @@ import { UserInfoProvider } from "../src/context/user-info"
 import { IS_PRODUCTION } from "../src/env"
 import { appWithTranslation, i18n, useTranslation } from "next-i18next"
 
-import "../styles/main.scss"
+import "../styles/main.css"
 import { useRouter } from "next/router"
 import { bcpToPosixLocale, getLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"

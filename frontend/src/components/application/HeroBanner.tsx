@@ -117,7 +117,7 @@ export const HeroBanner = ({
               >
                 <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
                   <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
-                    <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
+                    <div className="relative flex shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
                       <LogoImage
                         priority={aboveTheFold && i === 0}
                         iconUrl={data.appstream.icon}
@@ -167,7 +167,7 @@ export const HeroBanner = ({
       <CarouselPrevious
         className={clsx(
           "text-flathub-black dark:text-flathub-white",
-          "hover:text-flathub-black hover:dark:text-flathub-white",
+          "hover:text-flathub-black dark:hover:text-flathub-white",
           "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
           "absolute left-4 top-1/2 size-11",
           forceTheme && "hidden",
@@ -177,7 +177,7 @@ export const HeroBanner = ({
       <CarouselNext
         className={clsx(
           "text-flathub-black dark:text-flathub-white",
-          "hover:text-flathub-black hover:dark:text-flathub-white",
+          "hover:text-flathub-black dark:hover:text-flathub-white",
           "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
           "absolute right-4 top-1/2 size-11",
           forceTheme && "hidden",

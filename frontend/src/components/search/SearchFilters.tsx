@@ -48,7 +48,7 @@ const SearchFilterCategories = ({
       {results.isPending &&
         [...new Array(10)].map((a, i) => {
           return (
-            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+            <div key={i} className={"blur-xs flex flex-col gap-2"}>
               <FilterFacette
                 label={"Loading..."}
                 count={0}
@@ -125,7 +125,7 @@ const SearchFilterFloss = ({
       {results.isPending &&
         [...new Array(2)].map((a, i) => {
           return (
-            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+            <div key={i} className={"blur-xs flex flex-col gap-2"}>
               <FilterFacette
                 label={"Loading..."}
                 count={0}
@@ -210,7 +210,7 @@ const SearchFilterVerified = ({
       {results.isPending &&
         [...new Array(2)].map((a, i) => {
           return (
-            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+            <div key={i} className={"blur-xs flex flex-col gap-2"}>
               <FilterFacette
                 label={"Loading..."}
                 count={0}
@@ -297,7 +297,7 @@ const SearchFilterTypes = ({
       {results.isPending &&
         [...new Array(1)].map((a, i) => {
           return (
-            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+            <div key={i} className={"blur-xs flex flex-col gap-2"}>
               <FilterFacette
                 label={"Loading..."}
                 count={0}
@@ -365,7 +365,7 @@ const SearchFilterArches = ({
       {results.isPending &&
         [...new Array(2)].map((a, i) => {
           return (
-            <div key={i} className={"blur-sm flex flex-col gap-2"}>
+            <div key={i} className={"blur-xs flex flex-col gap-2"}>
               <FilterFacette
                 label={"Loading..."}
                 count={0}

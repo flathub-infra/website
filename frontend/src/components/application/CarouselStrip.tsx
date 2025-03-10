@@ -71,7 +71,7 @@ export const CarouselStrip = ({
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
         {slides && slides?.length > 0 && (
           <button
-            className="absolute bottom-3 end-3 size-12 !bg-transparent px-3 py-3 text-2xl z-10"
+            className="absolute bottom-3 end-3 size-12 bg-transparent! px-3 py-3 text-2xl z-10"
             onClick={() => setShowLightbox(true)}
             aria-label={t("zoom")}
           >

@@ -63,7 +63,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summaryMetadata }) => {
       <button
         className={clsx(
           "flex w-full flex-col items-center gap-1 p-4 duration-500 hover:bg-flathub-gainsborow/20 justify-center",
-          "active:bg-flathub-gainsborow/40 active:shadow-sm hover:dark:bg-flathub-dark-gunmetal/20 active:dark:bg-flathub-arsenic",
+          "active:bg-flathub-gainsborow/40 active:shadow-xs dark:hover:bg-flathub-dark-gunmetal/20 dark:active:bg-flathub-arsenic",
           "text-flathub-arsenic dark:text-flathub-gainsborow",
         )}
         onClick={() => setIsOpen(true)}
