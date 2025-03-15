@@ -31,7 +31,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
                 className={clsx(
                   "relative",
                   "flex whitespace-nowrap px-1 py-4 text-sm font-medium transition",
-                  "focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-flathub-celestial-blue",
+                  "focus:outline-hidden  data-focus:outline-1 data-focus:outline-flathub-celestial-blue",
                 )}
               >
                 {({ selected }) => (
@@ -64,7 +64,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
               className={clsx(
                 tab.replacePadding ?? "p-4",
                 "rounded-b-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic",
-                "focus:outline-none data-[focus]:outline-1 data-[focus]:outline-flathub-celestial-blue",
+                "focus:outline-hidden data-focus:outline-1 data-focus:outline-flathub-celestial-blue",
               )}
             >
               {tab.content}

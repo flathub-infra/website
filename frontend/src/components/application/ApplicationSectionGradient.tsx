@@ -26,7 +26,7 @@ export const ApplicationSectionGradient = ({
     <div
       className={clsx(
         "flex flex-col lg:flex-row",
-        "bg-gradient-to-r from-[#c6eaf8] to-[#c4f3c9] dark:from-[#2f3d9f] dark:to-[#682889]",
+        "bg-linear-to-r from-[#c6eaf8] to-[#c4f3c9] dark:from-[#2f3d9f] dark:to-[#682889]",
         "p-4 pb-6 pt-9 md:p-12 md:pe-9 rounded-xl gap-4",
       )}
     >
