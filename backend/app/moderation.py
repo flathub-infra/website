@@ -315,7 +315,7 @@ def submit_review_request(
     try:
         build_ref_arch = build_ref_arches.pop()
         build_appstream = utils.appstream2dict(
-            f"https://hub.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arch}/appstream.xml.gz"
+            f"https://dl.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arch}/appstream.xml.gz"
         )
     except KeyError:
         # if build_ref_arches has no elements, something went terribly wrong with the build in general
