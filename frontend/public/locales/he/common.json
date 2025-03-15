@@ -9,7 +9,7 @@
   "search-apps": "חיפוש יישומים",
   "go-home": "בית",
   "publish": "פרסום",
-  "about-description": "Flathub מכוון להיות המקום להשיג ולהפיץ יישומים עבור לינוקס. הוא מופעל על ידיי Flatpak מה שמאפשר ליישומי Flathub לרוץ כמעט בכל הפצת לינוקס.",
+  "about-description": "Flathub הוא המקום להשיג ולהפיץ יישומים עבור לינוקס. הוא מופעל על ידיי Flatpak מה שמאפשר ליישומי Flathub לרוץ כמעט בכל הפצת לינוקס.",
   "developers": "מפתחים",
   "publish-your-app": "פרסמו את היישום שלכם",
   "documentation": "תיעוד",
@@ -361,7 +361,8 @@
     "app-name-just-the-name": "רק השם",
     "screenshots-up-to-date": "עדכני",
     "pending": "בהמתנה",
-    "screenshots-tag-screenshots-with-correct-language": "תיוג צילומי מסך עם השפה הנכונה"
+    "screenshots-tag-screenshots-with-correct-language": "תיוג צילומי מסך עם השפה הנכונה",
+    "review-requested": "דורש בדיקה"
   },
   "no-network-access": "אין גישה לרשת",
   "system-folder-x": "תיקיית המערכת {{folder}}",
