@@ -1162,9 +1162,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.0.33":
-  version: 0.0.33
-  resolution: "@react-email/components@npm:0.0.33"
+"@react-email/components@npm:0.0.34":
+  version: 0.0.34
+  resolution: "@react-email/components@npm:0.0.34"
   dependencies:
     "@react-email/body": "npm:0.0.11"
     "@react-email/button": "npm:0.0.19"
@@ -1185,10 +1185,10 @@ __metadata:
     "@react-email/row": "npm:0.0.12"
     "@react-email/section": "npm:0.0.16"
     "@react-email/tailwind": "npm:1.0.4"
-    "@react-email/text": "npm:0.0.11"
+    "@react-email/text": "npm:0.1.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/5b9d215b592fa92663d32db3b183d87b6cfd542e6d00aab7e3a7722ee2c79a183d824d8d33627082a086666bf6b28edd6aa27311051063c29449f1430a375bd2
+  checksum: 10c0/0776c407193e6b64050097b1d96b99d1220d97156628cfb220eb00946c6dab3146e1684b506d8dcd7a9afa3a2d857611db00ad98196d36f67840372534919a7b
   languageName: node
   linkType: hard
 
@@ -1325,12 +1325,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/text@npm:0.0.11":
-  version: 0.0.11
-  resolution: "@react-email/text@npm:0.0.11"
+"@react-email/text@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@react-email/text@npm:0.1.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/b79545cebe067bbfa7d32d02cc5911bc4f85c939f4f64b2bf181fcba59627ea950d14bb3cfc344641ce8f66876847ddeb3796d8da81a6019b6fe341e1b656db1
+  checksum: 10c0/cc31f5d037a74da8c4c32046a4ce39b586ae9db094a150e8b5a7afa20592b7a318721454dfbd0043e2f76708d3d0af273a6f1530b95f3ba4fb442c3623e7d4aa
   languageName: node
   linkType: hard
 
@@ -3615,7 +3615,7 @@ __metadata:
     "@hono/sentry": "npm:^1.1.0"
     "@hono/swagger-ui": "npm:0.5.1"
     "@hono/zod-openapi": "npm:^0.18.1"
-    "@react-email/components": "npm:0.0.33"
+    "@react-email/components": "npm:0.0.34"
     "@react-email/render": "npm:1.0.5"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.17"
