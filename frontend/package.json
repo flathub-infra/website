@@ -111,7 +111,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   },
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.7.0",
   "resolutions": {
     "react-is": "19.0.0",
     "@types/react": "19.0.10"
