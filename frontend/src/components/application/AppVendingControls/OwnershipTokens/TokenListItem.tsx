@@ -21,7 +21,7 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
 
   return (
     <>
-      <DisclosureButton className="flex justify-between rounded-lg border p-2 hover:opacity-80 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
+      <DisclosureButton className="flex justify-between rounded-lg border p-2 hover:opacity-80 focus:outline-hidden focus-visible:ring-3 focus-visible:ring-opacity-75">
         <div className="flex w-full">
           <div>{token.name}</div>
           <div className="ms-auto pe-8">{t(`status-${state}`)}</div>

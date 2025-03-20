@@ -199,7 +199,7 @@ const Header = () => {
             open &&
               "fixed inset-0 overflow-y-auto bg-flathub-white dark:bg-flathub-arsenic",
             "fixed z-30 w-full lg:overflow-y-visible transition ease-in-out",
-            isScrolled && "bg-flathub-white dark:bg-flathub-arsenic shadow",
+            isScrolled && "bg-flathub-white dark:bg-flathub-arsenic shadow-sm",
           )
         }
       >
@@ -208,7 +208,7 @@ const Header = () => {
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
-                  <div className="flex h-full w-full flex-shrink-0 items-center">
+                  <div className="flex h-full w-full shrink-0 items-center">
                     <OrganizationJsonLd
                       name={t("flathub")}
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
@@ -289,7 +289,7 @@ const Header = () => {
                             className={clsx(
                               "peer",
                               "block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-granite-gray/70",
-                              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-flathub-sonic-silver dark:focus:placeholder-flathub-spanish-gray dark:focus:outline-none",
+                              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-hidden dark:placeholder-flathub-sonic-silver dark:focus:placeholder-flathub-spanish-gray dark:focus:outline-hidden",
                               "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
                               "dark:focus:text-white dark:focus:ring-flathub-gainsborow sm:text-sm",
                               "pe-2",
@@ -377,7 +377,7 @@ const Header = () => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <MenuItems className="absolute end-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
+                        <MenuItems className="absolute end-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
                           {userNavigation
                             .filter(
                               (nav) =>
@@ -491,7 +491,7 @@ const Header = () => {
                   {user.info && (
                     <div className="border-t border-gray-200 pb-3 pt-4 dark:border-zinc-600">
                       <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                           <Image
                             className="rounded-full"
                             src={user.info.default_account.avatar}

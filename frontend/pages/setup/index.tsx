@@ -96,7 +96,7 @@ export default function Setup({
               className={clsx(
                 "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
                 "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
-                "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
+                "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
                 "px-8 py-6",
               )}
             >

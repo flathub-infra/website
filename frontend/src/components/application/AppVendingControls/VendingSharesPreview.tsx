@@ -108,7 +108,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
                 formatter={(value, name) => (
                   <>
                     <div
-                      className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                      className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--color-bg)"
                       style={
                         {
                           "--color-bg": `var(--color-${name})`,

@@ -1,7 +1,6 @@
 import {
   DetailedHTMLProps,
   FormEvent,
-  forwardRef,
   FunctionComponent,
   InputHTMLAttributes,
   useCallback,
@@ -16,10 +15,14 @@ type Props = {
  *
  * This is expected to be used as a controlled component, the state of which is lifted to the parent component.
  */
-const AppShareSlider: FunctionComponent<Props> = forwardRef<
-  HTMLInputElement,
-  Props
->(({ value, setValue, ...sliderProps }, ref) => {
+const AppShareSlider: FunctionComponent<Props> = ({
+  ref,
+  value,
+  setValue,
+  ...sliderProps
+}: Props & {
+  ref: React.RefObject<HTMLInputElement>
+}) => {
   const handleChange = useCallback(
     (event: FormEvent<HTMLInputElement>) => {
       const value = event.currentTarget.valueAsNumber
@@ -43,7 +46,7 @@ const AppShareSlider: FunctionComponent<Props> = forwardRef<
       <label>{value}%</label>
     </div>
   )
-})
+}
 
 AppShareSlider.displayName = "AppShareSlider"
 

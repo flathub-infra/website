@@ -79,7 +79,7 @@ export const SearchPanel = ({
           {
             <span
               className={clsx(
-                searchResult.isPending && "blur-sm",
+                searchResult.isPending && "blur-xs",
                 "text-sm text-flathub-granite-gray dark:text-flathub-sonic-silver transition",
               )}
             >
