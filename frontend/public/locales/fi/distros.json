@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Asenna Flatpak",
-      "text": "<0>Asenna Flatpak <strong>Ubuntun versioon 18.10 (Cosmic Cuttlefish) tai uudempaan</strong> avaamalla pääte ja suorittamalla:</0> <2></2> <4>Vanhemmat versiot aina <strong>Ubuntu 18.04 LTS:ään (Bionic Beaver)</strong> asti tarvitsevat virallisen Flatpak PPA -ohjelmistolähteen, jotta Flatpak on mahdollista asentaa ja pitää ajan tasalla. Lisää PPA ja asenna Flatpak avaamalla pääte ja suorittamalla:</4> <6></6>"
+      "text": "<0>Asenna Flatpak <strong>Ubuntun versioon 18.10 (Cosmic Cuttlefish) tai uudempaan</strong> avaamalla pääte ja suorittamalla:</0> <2></2>"
     },
     "step-2": {
       "name": "Asenna Gnomen Ohjelmistot-sovelluksen Flatpak-lisäosa",
@@ -34,7 +34,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Flatpak on sisäänrakennettu Endless OS 3.0.0 -versioon ja uudempiin — määritystä ei tarvita!</0> <2>Jos käytät vanhempaa versiota, <2>päivitä Endless OS 3 -versioon</2>.</2>"
+    "introduction": "<0>Flatpak on sisäänrakennettu Endless OS 3.0.0 -versioon ja uudempiin — määritystä ei tarvita!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -63,7 +63,7 @@
     },
     "step-3": {
       "name": "Asenna Flatpak",
-      "text": "<p>Asenna Flatpak suorittamlla seuraava komento päätteessä:</p> <2></2> <4>Ajantasaisempi flatpak-paketti on saatavilla <2>Debianin backports-ohjelmistolähteestä</2>. </4>"
+      "text": "<p>Asenna Flatpak suorittamlla seuraava komento päätteessä:</p> <2></2>"
     },
     "step-4": {
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>",
@@ -81,7 +81,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Flatpak-tuki on sisäänrakennettu Linux Mint 18.3 -versioon ja uudempiin — määritystä ei tarvita!</0> <2>Jos käytät vanhempaa versiota, <2>päivitä Linux Mint versioon 18.3</2>.</2>"
+    "introduction": "<0>Flatpak-tuki on sisäänrakennettu Linux Mint 18.3 -versioon ja uudempiin — määritystä ei tarvita!</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -180,7 +180,8 @@
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<p>Asenna Flatpak Solusiin avaamalla pääte ja suorittamalla:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde"
@@ -222,7 +223,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Flatpak-tuki on sisäänrakennettu Pop!_OS:n versioon 20.04 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
+    "introduction": "<0>Flatpak-tuki on sisäänrakennettu Pop!_OS:n versioon 20.04 ja uudempiin — määritystä ei tarvita!</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -280,7 +281,8 @@
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<p>Asenna Flatpak Ataraxia Linuxiin avaamalla pääte ja suorittamalla:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -297,7 +299,8 @@
   "deepin": {
     "distroName": "Deepin",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<p>Asenna Flatpak Deepiniin avaamalla pääte ja suorittamalla:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -364,12 +367,13 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Flatpak-tuki on sisäänrakennettu KDE neonin versioon 19 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
+    "introduction": "<0>Flatpak-tuki on sisäänrakennettu KDE neonin versioon 19 ja uudempiin — määritystä ei tarvita!</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<p>Asenna Flatpak GNU Guixiin avaamalla pääte ja suorittamalla:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",

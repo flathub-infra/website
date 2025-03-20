@@ -593,7 +593,7 @@
   "date": "Date",
   "get-apps": "Obtenir apps",
   "all-the-apps-you-want": "<0>Toutes les applications que vous voulez</0> — Depuis les grands noms auxquels on s’attend jusqu'aux nouveaux développeurs indépendants, Flathub a des milliers d’applications pour répondre à vos besoins.",
-  "tastefully-curated": "<0>Avec goût</0> — Découvrez des applications intéressantes et de qualité dans tout Flathub grâce à notre curation qui met en valeur les meilleures offres",
+  "tastefully-curated": "<0>Avec goût</0> — Découvrez des applications intéressantes et de qualité dans tout Flathub grâce à notre de sélection qui présente le meilleur de l'offre",
   "apps-for-you-where-you-are": "<0>Des applications pour vous là où vous êtes</0> — Que vous soyez sur un Steam Deck, une puissante station de travail Linux, un Raspberry Pi ou le rare téléphone Linux, Flathub a des applications pour vous",
   "docs-guidance": "<0>Des documents clairs et des conseils</0> — Une <2>documentation</2> exhaustive, des milliers de <5>manifestes d’applications</5> publics et une grande communauté vous permettent de toujours obtenir de l’aide",
   "millions-users": "<0>Atteindre des millions d’utilisateurs</0> — Flathub est prêt à l’emploi sur plusieurs distros Linux, il est <2>facile à installer</2> sur le reste, et compte plus d’un million d’utilisateurs actifs",
@@ -601,7 +601,7 @@
   "users": "Utilisateurs",
   "about-claim": "<0>Que vous soyez un utilisateur à la recherche d’applications ou un développeur cherchant à atteindre plus d’utilisateurs, <2>Flathub est le meilleur choix pour les applications sous Linux.</2></0>",
   "transparent-safety": "<0>Sécurité transparente</0> — Voir clairement quand une application est <3>vérifiée</3> comme provenant de son développeur, quelles autorisations elle nécessite et si elle est open source et auditable ou pas",
-  "transparent": "<0>Indépendant et transparent</0> — Nous sommes une communauté de base open source qui gère le meilleur de l’écosystème",
+  "transparent": "<0>Indépendant et transparent</0> — Nous sommes une communauté de base open source qui gère le meilleur de ce que l'écosystème a à offrir",
   "slide": "Diapositive",
   "created": "Créé",
   "zoom": "Zoom",
@@ -627,7 +627,8 @@
   "launcher": "Lanceurs",
   "quality": {
     "banner-preview": "Aperçu bannière",
-    "banner-preview-description": "Pour expérimenter facilement votre bannière, utilisez <2>aperçu bannière</2>"
+    "banner-preview-description": "Pour expérimenter facilement votre bannière, utilisez <2>aperçu bannière</2>",
+    "missing-brand-colors": "Couleur de marque manquante"
   },
   "mobile-apps": "Apps mobiles",
   "emulator": "Émulateurs",
@@ -642,5 +643,7 @@
   "on-the-go": "En déplacement",
   "recipient": "Destinataire",
   "switch-to-direct-upload": "Basculer l'app vers téléversement direct",
-  "more-mobile-apps": "Davantage d'apps mobiles"
+  "more-mobile-apps": "Davantage d'apps mobiles",
+  "favorite": "Favoris",
+  "favorite-apps": "Favoris"
 }
