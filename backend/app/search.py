@@ -272,6 +272,26 @@ def get_by_selected_category_and_subcategory(
     )
 
 
+def get_subcategories() -> dict[str, list[str]]:
+    return {
+        category.value: list(
+            client.index("apps")
+            .search(
+                "",
+                {
+                    "limit": 1,
+                    "filter": f"main_categories = '{category.value}'",
+                    "facets": ["sub_categories"],
+                },
+            )
+            .get("facetDistribution", {})
+            .get("sub_categories", {})
+            .keys()
+        )
+        for category in schemas.MainCategory
+    }
+
+
 def get_by_installs_last_month(
     page: int | None, hits_per_page: int | None, locale: str
 ) -> MeilisearchResponse[AppsIndex]:
