@@ -7,6 +7,7 @@ import { i18n } from "next-i18next"
 import { expect, userEvent, waitFor, within } from "@storybook/test"
 
 const meta = {
+  title: "Components/UI/Toaster",
   component: Toaster,
 } satisfies Meta<typeof Toaster>
 
