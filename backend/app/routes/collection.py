@@ -46,7 +46,7 @@ def get_category(
 @router.get("/category/{category}/subcategories")
 def get_subcategory(
     category: schemas.MainCategory,
-    subcategory: list[str] = Query(None),
+    subcategory: list[str] = Query(),
     exclude_subcategories: list[str] = Query(None),
     page: int | None = None,
     per_page: int | None = None,
