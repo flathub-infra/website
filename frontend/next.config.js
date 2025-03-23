@@ -46,6 +46,7 @@ const nextConfig = (phase) => ({
   experimental: {
     scrollRestoration: true,
   },
+  serverExternalPackages: ["@resvg/resvg-js"],
   i18n,
   cacheHandler:
     process.env.NODE_ENV === "production"
