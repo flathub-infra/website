@@ -12,7 +12,10 @@
       "app_id": "org.sugarlabs.Maze",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
       "main_categories": "game",
-      "sub_categories": [],
+      "sub_categories": [
+        "ActionGame",
+        "AdventureGame"
+      ],
       "developer_name": "Sugar Labs Community",
       "verification_verified": false,
       "verification_method": "none",
