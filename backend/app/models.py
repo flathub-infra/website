@@ -2445,6 +2445,11 @@ class App(Base):
         else:
             if app.is_eol != is_eol:
                 app.is_eol = is_eol
+
+                if not is_eol:
+                    app.eol_branches = None
+                    app.eol_message = None
+
                 db.session.commit()
 
     @classmethod
@@ -2485,6 +2490,11 @@ class App(Base):
             return None
 
         return app.eol_message
+
+    @classmethod
+    def get_eol_apps(cls, db) -> list[str]:
+        eol_apps = db.session.query(App.app_id).filter(App.is_eol).all()
+        return [app.app_id for app in eol_apps]
 
     @classmethod
     def status_summarized(

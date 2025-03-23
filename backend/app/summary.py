@@ -384,6 +384,10 @@ def update(sqldb) -> None:
     eol_rebase, eol_message = parse_eol_data(metadata)
 
     try:
+        for appId in models.App.get_eol_apps(sqldb):
+            if appId not in eol_rebase:
+                models.App.set_eol_data(sqldb, appId, False)
+
         for app_id, old_id_list in eol_rebase.items():
             for old_id_and_branch in old_id_list:
                 if ":" in old_id_and_branch:
