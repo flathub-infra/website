@@ -7,6 +7,13 @@ import { Trans, useTranslation } from "next-i18next"
 import { getLanguageName, languages } from "src/localize"
 import { useState } from "react"
 import Image from "next/image"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const BadgePreview = ({ locale, preferred }) => {
   const { t } = useTranslation()
@@ -71,19 +78,23 @@ const Badges = ({ applicationLocale }: { applicationLocale: string }) => {
             <label htmlFor="language" className="w-48 font-semibold">
               {t("switch-language")}
             </label>
-            <select
-              id="language"
-              className="p-2 rounded-sm w-full sm:max-w-[240px]"
-              onChange={(e) => setLocale(e.target.value)}
+            <Select
+              defaultValue="en"
+              onValueChange={(value) => setLocale(value)}
             >
-              {languages
-                .filter((language) => !["ar", "fa"].includes(language))
-                .map((language) => (
-                  <option key={language} value={language}>
-                    {getLanguageName(language)}
-                  </option>
-                ))}
-            </select>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {languages
+                  .filter((language) => !["ar", "fa"].includes(language))
+                  .map((language) => (
+                    <SelectItem key={language} value={language}>
+                      {getLanguageName(language)}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="flex w-full flex-wrap justify-around pb-8 gap-6">
