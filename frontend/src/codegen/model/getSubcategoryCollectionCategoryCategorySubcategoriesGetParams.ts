@@ -7,7 +7,7 @@
 import type { SortBy } from "./sortBy"
 
 export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams = {
-  subcategory?: string[]
+  subcategory: string[]
   exclude_subcategories?: string[]
   page?: number | null
   per_page?: number | null

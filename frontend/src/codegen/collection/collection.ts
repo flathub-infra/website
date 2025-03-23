@@ -366,7 +366,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
  */
 export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
   category: MainCategory,
-  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
   return axios.get(`/collection/category/${category}/subcategories`, {
@@ -378,7 +378,7 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
   (
     category: MainCategory,
-    params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+    params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   ) => {
     return [
       `/collection/category/${category}/subcategories`,
@@ -396,7 +396,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOpt
     TError = AxiosError<HTTPValidationError>,
   >(
     category: MainCategory,
-    params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+    params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
     options?: {
       query?: Partial<
         UseQueryOptions<
@@ -468,9 +468,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  params:
-    | undefined
-    | GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -511,7 +509,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -552,7 +550,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -581,7 +579,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TError = AxiosError<HTTPValidationError>,
 >(
   category: MainCategory,
-  params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+  params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
