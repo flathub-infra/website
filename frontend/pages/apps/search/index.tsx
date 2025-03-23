@@ -48,6 +48,9 @@ export default function Search({ locale }) {
           query: q,
           filters: selectedFilters,
         },
+        params: {
+          locale: locale,
+        },
       },
       {
         onSuccess: (res) => {
