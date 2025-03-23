@@ -1,21 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from "next"
-import { promises as fs } from "fs"
-import path from "path"
+import { promises as fs } from "node:fs"
+import path from "node:path"
 
-import { Resvg } from "@resvg/resvg-js"
 import i18next from "i18next"
 import { languages } from "src/localize"
 import satori from "satori"
+import { NextRequest } from "next/server"
+import { Resvg } from "@resvg/resvg-js"
 
 function getTranslationsForKey(key: string) {
   return languages.reduce((messages, currentLang) => {
     messages[currentLang] = i18next.t(key, { lng: currentLang })
     return messages
   }, {})
-}
-
-type ResponseData = {
-  message: string
 }
 
 async function createInterSemiBold() {
@@ -138,10 +134,7 @@ async function createNotoTamilSemiBold() {
   }
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>,
-) {
+export async function GET(request: NextRequest) {
   const ns = ["common"]
   const supportedLngs = languages
   const resources = ns.reduce((acc, n) => {
@@ -149,7 +142,7 @@ export default async function handler(
       if (!acc[lng]) acc[lng] = {}
       acc[lng] = {
         ...acc[lng],
-        [n]: require(`../../public/locales/${lng}/${n}.json`),
+        [n]: require(`../../../public/locales/${lng}/${n}.json`),
       }
     })
     return acc
@@ -163,9 +156,10 @@ export default async function handler(
     resources,
   })
 
-  const locale = req.query.locale || "en"
-  const light = req.query.light === "" || false
-  const asSvg = req.query.svg === "" || false
+  const searchParams = request.nextUrl.searchParams
+  const locale = searchParams.get("locale") || "en"
+  const light = searchParams.get("light") === "" || false
+  const asSvg = searchParams.get("svg") === "" || false
 
   const flathubArray = getTranslationsForKey("flathub")
   const flathub = flathubArray[locale as string]
@@ -265,11 +259,14 @@ export default async function handler(
     },
   )
 
-  res.setHeader("Cache-Control", "public, max-age=31536000, immutable")
   if (asSvg) {
-    res.setHeader("Content-Type", "image/svg+xml")
-    res.end(svg)
-    return
+    return new Response(svg, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/svg+xml",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    })
   }
 
   const renderer = new Resvg(svg, {
@@ -282,6 +279,11 @@ export default async function handler(
 
   const pngBuffer = image.asPng()
 
-  res.setHeader("Content-Type", "image/png")
-  res.end(pngBuffer)
+  return new Response(pngBuffer, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/png",
+      "Cache-Control": "public, max-age=31536000, immutable",
+    },
+  })
 }
