@@ -3721,12 +3721,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:15.2.1":
-  version: 15.2.1
-  resolution: "@next/eslint-plugin-next@npm:15.2.1"
+"@next/eslint-plugin-next@npm:15.2.4":
+  version: 15.2.4
+  resolution: "@next/eslint-plugin-next@npm:15.2.4"
   dependencies:
     fast-glob: "npm:3.3.1"
-  checksum: 10c0/c1008997e0bdb64db029341ef94df7df224c1cc2d5e107d274ce95b42aed74229af51773031859bf262d670ada362bd85184ba4dd2ef3d98e2de5bb56086a62d
+  checksum: 10c0/13fb1da543d1f930fca4b4b26b5e26bd173ffada4128bb8606f16f6466b8db145e1d5892bb69e337832784476ae33255dfc3a553a6036bbf75ec38717975749c
   languageName: node
   linkType: hard
 
@@ -10578,11 +10578,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:15.2.1":
-  version: 15.2.1
-  resolution: "eslint-config-next@npm:15.2.1"
+"eslint-config-next@npm:15.2.4":
+  version: 15.2.4
+  resolution: "eslint-config-next@npm:15.2.4"
   dependencies:
-    "@next/eslint-plugin-next": "npm:15.2.1"
+    "@next/eslint-plugin-next": "npm:15.2.4"
     "@rushstack/eslint-patch": "npm:^1.10.3"
     "@typescript-eslint/eslint-plugin": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
     "@typescript-eslint/parser": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
@@ -10598,7 +10598,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/9f4be9dde0b64592f72955a7b295ac7698f3a95d6804895e45f79d4defa786beaf1988b63698ac0d4735f4073eff27dce39268895523d5ecca622af748428818
+  checksum: 10c0/c1d76f3372521f00ef5212139864deb2d2fee0545f34e14bd3bffa1551baf75ec0f5b0bcc9c613c64f93cb591a60a974f6f1dfd42378850e167a0394e3cfb153
   languageName: node
   linkType: hard
 
@@ -11272,7 +11272,7 @@ __metadata:
     embla-carousel-react: "npm:^8.5.2"
     embla-carousel-wheel-gestures: "npm:^8.0.1"
     eslint: "npm:^9.19.0"
-    eslint-config-next: "npm:15.2.1"
+    eslint-config-next: "npm:15.2.4"
     eslint-config-prettier: "npm:^10.0.1"
     eslint-plugin-prettier: "npm:^5.2.3"
     eslint-plugin-react-compiler: "npm:19.0.0-beta-714736e-20250131"
