@@ -1,6 +1,9 @@
 {
   "manjaro": {
-    "distroName": "Manjaro"
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Reiniciar"
+    }
   },
   "endless_os": {
     "distroName": "Endless OS"
@@ -15,7 +18,10 @@
     "distroName": "Red Hat Enterprise Linux"
   },
   "ubuntu": {
-    "distroName": "Ubuntu"
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instalar Flatpak"
+    }
   },
   "fedora": {
     "distroName": "Fedora"

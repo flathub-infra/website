@@ -403,12 +403,12 @@
     }
   },
   "fedora": {
-    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a Fedora Workstation, a Fedora Silverblue és a Fedora Kinoite rendszereken. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. A Flathub előre be van állítva a <2>harmadik féltől származó adattárak</2> részeként. Ellenkező esetben letöltheti és telepítheti a <5>Flathub tárolófájlt</5>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2> <p>A fenti hivatkozásoknak működniük kell az alapértelmezett GNOME és KDE Fedora telepítéseken, de ha valamilyen oknál fogva nem sikerül, manuálisan is hozzáadhatja a Flathub <6 távirányítót a következő futtatásával:</p>",
+    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a Fedora Workstation, a Fedora Silverblue és a Fedora Kinoite rendszereken. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. A Flathub előre be van állítva a <2>harmadik féltől származó adattárak</2> részeként. Ellenkező esetben letöltheti és telepítheti a <5>Flathub tárolófájlt</5>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2> <p>A fenti hivatkozásoknak működniük kell az alapértelmezett GNOME és KDE Fedora telepítéseken, de ha valamilyen oknál fogva nem sikerül, manuálisan is hozzáadhatja a Flathub <6 tárolót a következő futtatásával:</p>",
     "distroName": "Fedora"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a Red Hat Enterprise Linux for Workstations 9-es és újabb verzióira. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. Töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <p>A Flatpak telepítéséhez Red Hat Enterprise Linux for Workstations 8-as vagy régebbi verziójára futtassa a következőt egy terminálon:</p>  <5></5> <7>Ezután nincs más dolgod, mint <2>telepíteni az alkalmazásokat</2>!</7> <p>A fenti hivatkozásoknak működniük kell az alapértelmezett Red Hat Enterprise Linux for Workstations 9-es verziójú telepítésen, de ha valamilyen okból meghiúsulnak, manuálisan is hozzáadhatja a Flathub távirányítót a következő futtatásával:</p> <11></11>"
+    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a Red Hat Enterprise Linux for Workstations 9-es és újabb verzióira. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. Töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <p>A Flatpak telepítéséhez Red Hat Enterprise Linux for Workstations 8-as vagy régebbi verziójára futtassa a következőt egy terminálon:</p>  <5></5> <7>Ezután nincs más dolgod, mint <2>telepíteni az alkalmazásokat</2>!</7> <p>A fenti hivatkozásoknak működniük kell az alapértelmezett Red Hat Enterprise Linux for Workstations 9-es verziójú telepítésen, de ha valamilyen okból meghiúsulnak, manuálisan is hozzáadhatja a Flathub tárolót a következő futtatásával:</p> <11></11>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
@@ -422,7 +422,7 @@
     "distroName": "elementary OS",
     "step-1": {
       "name": "Alkalmazások telepítése",
-      "text": "<0>Az elementary OS operációs rendszer 5.1-es és újabb verziói már készen állnak a Flatpak támogatással. A nem válogatott alkalmazások esetén lépjen a <2>Flathub</2> oldalra, és telepítse bármelyik alkalmazást a nagy \"Telepítés\" gombbal, és nyissa meg a letöltött `.flatpakref` fájlt oldalbetöltéssel.</0> <p>Megjegyzés: Miután telepített egy alkalmazást egy távirányítóról, például a Flathubról, a távirányítóról származó összes többi alkalmazás is automatikusan megjelenik az alkalmazásközpontban.</p>"
+      "text": "<0>Az elementary OS operációs rendszer 5.1-es és újabb verziói már készen állnak a Flatpak támogatással. A nem válogatott alkalmazások esetén lépjen a <2>Flathub</2> oldalra, és telepítse bármelyik alkalmazást a nagy \"Telepítés\" gombbal, és nyissa meg a letöltött `.flatpakref` fájlt oldalbetöltéssel.</0> <p>Megjegyzés: Miután telepített egy alkalmazást egy tárolóról, például a Flathubról, a tárolóról származó összes többi alkalmazás is automatikusan megjelenik az alkalmazásközpontban.</p>"
     }
   },
   "zorin_os": {
