@@ -80,8 +80,9 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     mention = ""
     try:
         last_commit = repo.get_commits()[0]
-        if last_commit.committer.login:
-            mention = f"cc: @{last_commit.committer.login}\n\n"
+        cm_login = last_commit.committer.login if last_commit.committer else ""
+        if cm_login and cm_login not in ("web-flow", "flathubbot"):
+            mention = f"cc: @{cm_login}\n\n"
     except GithubException:
         pass
 
