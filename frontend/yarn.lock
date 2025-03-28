@@ -11317,7 +11317,7 @@ __metadata:
     sass: "npm:^1.86.0"
     satori: "npm:^0.12.1"
     simple-git: "npm:^3.27.0"
-    sonner: "npm:^1.7.1"
+    sonner: "npm:^2.0.2"
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^8.6.10"
     storybook-addon-mock-date: "npm:^0.6.0"
@@ -16545,13 +16545,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sonner@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "sonner@npm:1.7.1"
+"sonner@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "sonner@npm:2.0.2"
   peerDependencies:
     react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
     react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
-  checksum: 10c0/f934fc30305a1b9ae562cd1b7980127bca65a41dce34b3b8aa8ceed8e1ca04b37daf2a0c0bb5e2b3ef9769b2438aa6799eff1880653d75e709538afe7fe70e05
+  checksum: 10c0/c391e8ef85382b77c3255c2d0ccd1aa37fd3a9a50c750b98e3eae62a7a896fe79452a2363a5150ceae5f51e18e0126c05845ce2466c7c2ce5662ee13d223a516
   languageName: node
   linkType: hard
 
