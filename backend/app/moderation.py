@@ -7,7 +7,7 @@ import httpx
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from github import Github, GithubException
+from github import Github
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
@@ -77,18 +77,8 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     if not repo:
         return
 
-    mention = ""
-    try:
-        last_commit = repo.get_commits()[0]
-        cm_login = last_commit.committer.login if last_commit.committer else ""
-        if cm_login and cm_login not in ("web-flow", "flathubbot"):
-            mention = f"cc: @{cm_login}\n\n"
-    except GithubException:
-        pass
-
     title = f"Change in build {build_id} rejected"
     body = (
-        f"{mention}"
         f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team (@flathub/build-moderation), and rejected for the following reason:\n"
         "\n"
         f"> {comment}"
