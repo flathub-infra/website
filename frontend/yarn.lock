@@ -11291,7 +11291,7 @@ __metadata:
     isomorphic-dompurify: "npm:^2.20.0"
     linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.2.0"
-    lucide-react: "npm:^0.479.0"
+    lucide-react: "npm:^0.485.0"
     msw: "npm:^2.7.3"
     msw-storybook-addon: "npm:^2.0.4"
     new-github-issue-url: "npm:^1.1.0"
@@ -13421,12 +13421,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.479.0":
-  version: 0.479.0
-  resolution: "lucide-react@npm:0.479.0"
+"lucide-react@npm:^0.485.0":
+  version: 0.485.0
+  resolution: "lucide-react@npm:0.485.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/a0a13aea535cfcd85a38f66bcc931110af28f232457334a6ed0cd1393f565be28139495864831d835c57bd071b5ddd3036b66eda3a2e8c5d401ece71ee29d970
+  checksum: 10c0/d983cc22968efb13f3d15806a30f32d7bf3a6dc2e950fbe0916fd05447fc05431fc29eebffd468767b0678a18d0f7e5a225f811e1cff5ef75607872290c32633
   languageName: node
   linkType: hard
 
@@ -17024,14 +17024,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:4.0.17":
-  version: 4.0.17
-  resolution: "tailwindcss@npm:4.0.17"
-  checksum: 10c0/740c0a1c0df5bfa1aff1ff6e197493e503b068f38a8f78f77e9ea7364441fafae4b554e4d6de727758ba60d0fb52d862ce6f1524c82beb00d8789580d25c995e
-  languageName: node
-  linkType: hard
-
-"tailwindcss@npm:^4.0.17":
+"tailwindcss@npm:4.0.17, tailwindcss@npm:^4.0.17":
   version: 4.0.17
   resolution: "tailwindcss@npm:4.0.17"
   checksum: 10c0/740c0a1c0df5bfa1aff1ff6e197493e503b068f38a8f78f77e9ea7364441fafae4b554e4d6de727758ba60d0fb52d862ce6f1524c82beb00d8789580d25c995e
