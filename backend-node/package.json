@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
-    "@hono/sentry": "^1.1.0",
+    "@hono/sentry": "^1.2.1",
     "@hono/swagger-ui": "0.5.1",
     "@hono/zod-openapi": "^0.18.1",
     "@react-email/components": "0.0.34",
