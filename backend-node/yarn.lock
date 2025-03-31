@@ -604,14 +604,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/sentry@npm:^1.1.0":
-  version: 1.2.0
-  resolution: "@hono/sentry@npm:1.2.0"
+"@hono/sentry@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@hono/sentry@npm:1.2.1"
   dependencies:
     toucan-js: "npm:^4.0.0"
   peerDependencies:
     hono: ">=3.*"
-  checksum: 10c0/b5013ce0967711219be55f59a64878ef22a4e9c2fecbe74a3750126275c31fe0a1f81b63bb2f533d8e7819b73ce798126b24657f6e4f3d1b5600b0bef20294e1
+  checksum: 10c0/fd33e6947cfd98138a958ae1666c1005f8c31a59ce2498c719a895f48f8698b5c6c6cfdc5c96bd281ec0953c269c022ed53b1329d5c58424bcf6e7c6ea1fd296
   languageName: node
   linkType: hard
 
@@ -3438,7 +3438,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@hono/node-server": "npm:^1.14.0"
-    "@hono/sentry": "npm:^1.1.0"
+    "@hono/sentry": "npm:^1.2.1"
     "@hono/swagger-ui": "npm:0.5.1"
     "@hono/zod-openapi": "npm:^0.18.1"
     "@react-email/components": "npm:0.0.34"
