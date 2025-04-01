@@ -142,6 +142,7 @@ def _get_stats(app_count: int):
         "totals": {
             "downloads": sum(downloads_per_day.values()),
             "number_of_apps": app_count,
+            "verified_apps": search.get_number_of_verified_apps(),
         },
         "countries": totals_country,
         "downloads_per_day": downloads_per_day,
