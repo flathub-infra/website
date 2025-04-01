@@ -581,7 +581,11 @@ def get_number_of_verified_apps() -> int:
         .search(
             "",
             {
-                "filter": ["verification_verified = true"],
+                "filter": [
+                    "verification_verified = true",
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
                 "limit": 1,
                 "facets": [
                     "verification_verified",
