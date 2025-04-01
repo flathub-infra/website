@@ -38,7 +38,7 @@ export const CarouselStrip = ({
     return {
       ...screenshot,
       title: screenshot.caption,
-      alt: screenshot.caption || t("screenshot"),
+      alt: screenshot.caption || t("lightbox.screenshot"),
       caption: undefined,
     }
   })
@@ -65,6 +65,13 @@ export const CarouselStrip = ({
               buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
               slide: CarouselNextJsImage,
             }}
+            labels={{
+              Previous: t("lightbox.previous"),
+              Next: t("lightbox.next"),
+              Close: t("lightbox.close"),
+              "Zoom in": t("lightbox.zoom-in"),
+              "Zoom out": t("lightbox.zoom-out"),
+            }}
           />
         </>
       )}
@@ -74,7 +81,8 @@ export const CarouselStrip = ({
             <button
               className="absolute bottom-3 end-3 size-12 bg-transparent! px-3 py-3 text-2xl z-10"
               onClick={() => setShowLightbox(true)}
-              aria-label={t("zoom")}
+              aria-label={t("lightbox.zoom")}
+              title={t("lightbox.zoom")}
             >
               <HiMagnifyingGlassPlus />
             </button>
@@ -137,7 +145,8 @@ export const CarouselStrip = ({
                       "hover:opacity-100",
                     )}
                     aria-label={
-                      screenshot.caption ?? t("screenshot") + " " + index
+                      screenshot.caption ??
+                      t("lightbox.screenshot") + " " + index
                     }
                     onClick={() => {
                       if (index > currentIndex) {
