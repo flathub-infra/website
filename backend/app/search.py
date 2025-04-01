@@ -573,3 +573,22 @@ def get_developers(page: int | None, hits_per_page: int | None) -> DevelopersRes
             "per_page": hits_per_page or 250,
         }
     )
+
+
+def get_number_of_verified_apps() -> int:
+    return (
+        client.index("apps")
+        .search(
+            "",
+            {
+                "filter": ["verification_verified = true"],
+                "limit": 1,
+                "facets": [
+                    "verification_verified",
+                ],
+            },
+        )
+        .get("facetDistribution", {})
+        .get("verification_verified", {})
+        .get("true", 0)
+    )

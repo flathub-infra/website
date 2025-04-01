@@ -420,6 +420,7 @@ def test_stats(client):
         "totals": {
             "downloads": 4504,
             "number_of_apps": 3,
+            "verified_apps": 0,
         },
         "category_totals": [
             {"category": "Game", "count": 1},
