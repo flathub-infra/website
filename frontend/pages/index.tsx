@@ -219,6 +219,7 @@ const TopSection = ({
                 newQuery.category = x.name
                 router.push({ query: newQuery }, undefined, {
                   scroll: false,
+                  shallow: true,
                 })
               },
             }))}
