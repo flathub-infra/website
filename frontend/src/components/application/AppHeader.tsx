@@ -126,7 +126,7 @@ export function AppHeader({
 
       <div className="flex flex-col my-auto gap-1">
         <div className="flex items-center justify-center space-x-3 sm:justify-start">
-          <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start">
+          <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start truncate">
             {app.name.length > 20 && isQualityModalOpen ? (
               <>
                 <span>{app.name.slice(0, 20)}</span>{" "}
