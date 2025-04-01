@@ -134,7 +134,6 @@
   "login-with-provider": "Log in with {{provider}}",
   "by": "by {{developer}}",
   "install": "Install",
-  "screenshot": "Screenshot",
   "donate": "Donate",
   "donate-to": "Donate to {{project}}",
   "purchase-apps-title": "Purchase apps",
@@ -172,7 +171,6 @@
   "kind-purchase-app": "Purchase {{appName}}",
   "kind-donate-app": "Donate to {{appName}}",
   "payment": "Payment",
-  "zoom": "Zoom",
   "make-donation": "Make donation",
   "no-saved-payment-methods": "No saved payment methods to show.",
   "no-transactions": "No transactions",
@@ -646,5 +644,14 @@
     "failing-x-checks_other": "Failing {{count}} checks",
     "hide-branding-preview": "Hide branding preview",
     "show-branding-preview": "Show branding preview"
+  },
+  "lightbox": {
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "zoom-in": "Zoom In",
+    "zoom-out": "Zoom Out",
+    "zoom": "Zoom",
+    "screenshot": "Screenshot"
   }
 }
