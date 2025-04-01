@@ -67,6 +67,7 @@
   "flathub-statistics-description": "Overview of the usage and distribution of apps available on the platform.",
   "count-downloads": "Total downloads",
   "count-desktop-apps": "Total desktop apps",
+  "count-verified-desktop-apps": "Verified desktop apps",
   "since": "Since",
   "downloads-per-country": "Downloads per Country",
   "downloads-over-time": "Downloads over time",

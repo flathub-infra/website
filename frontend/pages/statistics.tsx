@@ -3,7 +3,12 @@ import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import styles from "./statistics.module.scss"
-import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
+import {
+  HiCloudArrowDown,
+  HiCalendar,
+  HiListBullet,
+  HiCheckBadge,
+} from "react-icons/hi2"
 
 import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
@@ -417,6 +422,20 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: stats.totals.number_of_apps?.toLocaleString(
+                    getIntlLocale(i18n.language),
+                  ),
+                },
+              },
+            ]}
+          />
+          <ListBox
+            items={[
+              {
+                icon: <HiCheckBadge />,
+                header: t("count-verified-desktop-apps"),
+                content: {
+                  type: "text",
+                  text: stats.totals.verified_apps?.toLocaleString(
                     getIntlLocale(i18n.language),
                   ),
                 },
