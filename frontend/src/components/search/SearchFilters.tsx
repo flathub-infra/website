@@ -236,7 +236,7 @@ const SearchFilterVerified = ({
           .map((verified, i) => (
             <FilterFacette
               key={`${verified}-${i}`}
-              label={verified === "true" ? t("verified") : t("not-verified")}
+              label={verified === "true" ? t("verified") : t("unverified")}
               count={
                 results?.data.data.facetDistribution?.verification_verified[
                   verified
