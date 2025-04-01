@@ -6763,10 +6763,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^5.6.0":
-  version: 5.6.0
-  resolution: "@stripe/stripe-js@npm:5.6.0"
-  checksum: 10c0/56aa804ed2946aae4622b56c1736b7fa69e640d293d1ba6d465732851f313234c00d29006e2270bbdceee93222b5c62d8aa92791373ec56bfc4bd214a0b950c3
+"@stripe/stripe-js@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@stripe/stripe-js@npm:6.1.0"
+  checksum: 10c0/6e9f995945aebb615240d9571b646cec400ce46bc7440e01fc54f3d0d5329c3776b94639c6a77fc208e52df545c696c051cc7ac07b336fc1695871443803a570
   languageName: node
   linkType: hard
 
@@ -11264,7 +11264,7 @@ __metadata:
     "@storybook/react": "npm:^8.6.11"
     "@storybook/test": "npm:^8.6.11"
     "@stripe/react-stripe-js": "npm:^3.3.0"
-    "@stripe/stripe-js": "npm:^5.6.0"
+    "@stripe/stripe-js": "npm:^6.1.0"
     "@tailwindcss/postcss": "npm:^4.0.17"
     "@tailwindcss/typography": "npm:^0.5.16"
     "@tanstack/eslint-plugin-query": "npm:^5.68.0"
