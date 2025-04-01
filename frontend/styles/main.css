@@ -152,7 +152,7 @@
   --accent: var(--flathub-lotion);
   --accent-foreground: var(--flathub-dark-gunmetal);
 
-  --destructive: var(--flathub-dark-candy-apple-red);
+  --destructive: var(--flathub-vivid-crimson);
   --destructive-foreground: var(--flathub-lotion);
 
   --border: var(--flathub-gainsborow);
@@ -185,7 +185,7 @@
   --accent: var(--flathub-granite-gray);
   --accent-foreground: var(--flathub-lotion);
 
-  --destructive: var(--flathub-vivid-crimson);
+  --destructive: var(--flathub-dark-candy-apple-red);
   --destructive-foreground: var(--flathub-lotion);
 
   --border: var(--flathub-granite-gray);

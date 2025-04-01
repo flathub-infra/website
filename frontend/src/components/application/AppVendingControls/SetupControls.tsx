@@ -143,16 +143,13 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     content = <p>{t(vendingSetup.error.message)}</p>
   } else {
     content = (
-      <form
-        className="flex flex-col gap-6 rounded-xl bg-flathub-white dark:bg-flathub-arsenic"
-        onSubmit={handleSubmit}
-      >
-        <div className="flex gap-3 border-b border-slate-400/20 pb-3">
-          <label>{t("enable-app-vending")}</label>
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        <div className="flex items-center gap-3 border-b border-slate-400/20 pb-3">
           <Switch
             checked={vendingEnabled}
             onCheckedChange={setVendingEnabled}
           />
+          <label>{t("enable-app-vending")}</label>
         </div>
         <div>
           <label>{t("recommended-payment")}</label>
@@ -189,12 +186,12 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             />
           </div>
         )}
-        <div className="flex gap-3 border-t border-slate-400/20 pt-3">
-          <label>{t("require-payment")}</label>
+        <div className="flex items-center gap-3 border-t border-slate-400/20 pt-3">
           <Switch
             checked={requirePayment}
             onCheckedChange={setRequirePayment}
           />
+          <label>{t("require-payment")}</label>
         </div>
         <div>
           <label>{t("minimum-payment")}</label>
