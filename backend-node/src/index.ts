@@ -202,7 +202,7 @@ const route = createRoute({
     },
   },
   responses: {
-    204: {
+    200: {
       content: {},
       description: "",
     },
@@ -337,7 +337,7 @@ app.openapi(route, async (c) => {
   })
 
   // c.status(204)
-  return c.json({})
+  return c.json({}, 200)
 })
 
 // The OpenAPI documentation will be available at /doc
