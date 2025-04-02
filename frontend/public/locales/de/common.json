@@ -643,5 +643,15 @@
   "more-gametool": "Weitere Werkzeuge für Spiele",
   "more-gamelauncher": "Weitere Spielstarter",
   "tool": "Werkzeuge",
-  "game-section-description": "Spiele und Anwendungen zum Ausführen deiner Lieblingstitel"
+  "game-section-description": "Spiele und Anwendungen zum Ausführen deiner Lieblingstitel",
+  "lightbox": {
+    "close": "Schließen",
+    "next": "Nächste",
+    "previous": "Vorherige",
+    "zoom-out": "Verkleinern",
+    "zoom-in": "Vergrößern",
+    "screenshot": "Bildschirmaufnahme",
+    "zoom": "Vergrößern"
+  },
+  "count-verified-desktop-apps": "Verifizierte Desktop-Apps"
 }
