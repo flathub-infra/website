@@ -58,7 +58,6 @@
   "delete-account-prompt": "حسابتان حذف شود؟",
   "delete-account-entry": "من می‌خواهم حسابم حذف شود",
   "install": "نصب",
-  "screenshot": "نماگرفت",
   "donate": "اهدا",
   "donate-to": "اهدا به {{project}}",
   "could-not-find-match-for-search": "کاره‌ای مطابق با جست‌وجویان پیدا نشد.",
@@ -328,7 +327,6 @@
   "redeem-token": "بازخرید ژتون",
   "token-cancelled": "ژتون با موفّقیت لغو شد",
   "error": "خطا",
-  "not-verified": "تآیید نشده",
   "flathub-apps-for-linux": "فلت‌هاب - کاره‌هایی برای گنو/لینوکس",
   "checkout": "وارسی",
   "blocks": "آجری",
@@ -579,7 +577,6 @@
     "org-gnome-platform": "بن‌سازهٔ گنوم",
     "org-kde-platform": "بن‌سازهٔ کی‌دی‌ای"
   },
-  "zoom": "بزرگ‌نمایی",
   "kind-donate-app": "اعانه به {{appName}}",
   "kind-purchase-app": "خرید {{appName}}",
   "action-purchase": "خرید",

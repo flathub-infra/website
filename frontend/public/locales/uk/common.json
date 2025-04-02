@@ -46,7 +46,6 @@
   "audio-and-video": "Аудіо та відео",
   "developer-tools": "Інструменти розробників",
   "productivity": "Продуктивність",
-  "screenshot": "Знімок екрана",
   "next-page": "Наступна сторінка",
   "project-website": "Вебсайт проєкту",
   "log-out": "Вийти",
@@ -303,7 +302,6 @@
   "moderation-outdated": "Застаріле",
   "moderation-rejected-by": "Відхилено {{handledBy}} {{handledAt}} ({{handledAtRel}})",
   "flos": "Вільне/відкрите програмне забезпечення",
-  "not-verified": "Не підтверджено",
   "runtime-distribution": "Розподіл середовища виконання",
   "flathub-index-description": "Завантажуйте найновіші версії улюблених застосунків для будь-якого дистрибутиву Linux",
   "app-eol": "Цей застосунок більше недоступний на Flathub",
@@ -611,7 +609,6 @@
   "recipient": "Одержувач",
   "type": "Тип",
   "kind-purchase-app": "Придбати {{appName}}",
-  "zoom": "Масштаб",
   "positions": "Позиції",
   "platform": {
     "org-kde-platform": "Платформа KDE",
@@ -647,5 +644,14 @@
   "tool": "Інструменти",
   "gametool": "Ігрові інструменти",
   "more-gametool": "Більше ігрових інструментів",
-  "we-love-games": "Ми ♥ Ігри"
+  "we-love-games": "Ми ♥ Ігри",
+  "lightbox": {
+    "close": "Закрити",
+    "previous": "Попередній",
+    "zoom": "Зум",
+    "screenshot": "Скріншот",
+    "next": "Далі",
+    "zoom-in": "Збільшити масштаб",
+    "zoom-out": "Зменшити масштаб"
+  }
 }

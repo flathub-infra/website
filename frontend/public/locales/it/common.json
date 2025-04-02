@@ -68,7 +68,6 @@
   "login-with-provider": "Accedi con {{provider}}",
   "by": "da {{developer}}",
   "install": "Installa",
-  "screenshot": "Schermata",
   "donate": "Dona",
   "other-apps-by-developer": "Altre app di {{developer}}",
   "loading": "Caricamento…",
@@ -311,7 +310,6 @@
   "invite-developer-description": "Inserisci il codice di invito dello sviluppatore per invitarlo a diventare sviluppatore di questa app. Può trovare il codice sulla scheda {{developersTab}} della pagina del suo account.",
   "leave-confirmation": "Vuoi davvero abbandonare {{app}}?",
   "begin": "Inizia",
-  "not-verified": "Non verificata",
   "blocks": "Blocchi",
   "app-eol": "L'applicazione non è più disponibile su Flathub",
   "upload-tokens": "Carica Token",
@@ -614,7 +612,6 @@
   "amount": "Importo",
   "total": "Totale",
   "kind-donate-app": "Fai una donazione a {{appName}}",
-  "zoom": "Zoom",
   "platform": {
     "org-kde-platform": "Piattaforma KDE",
     "org-freedesktop-platform": "Piattaforma Freedesktop",
@@ -634,7 +631,7 @@
     "banner-preview-description": "Per sperimentare facilmente il tuo banner, usa <2>l'anteprima del banner</2>",
     "missing-brand-colors": "Colori mancanti del marchio"
   },
-  "game-section-description": "Giochi e app per eseguire i tuoi giochi retrò preferiti",
+  "game-section-description": "Giochi ed app per eseguire i tuoi titoli preferiti",
   "emulator": "Emulatori",
   "more-emulator": "Altri emulatori",
   "launcher": "Lanciatori",

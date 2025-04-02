@@ -11,7 +11,7 @@
   "badges": "الشارات",
   "statistics": "الإحصائيات",
   "user-avatar": "الصورة الرمزية ل‍ {{user}}",
-  "more": "المزيد",
+  "more": "أكثر",
   "number-of-results": "{{number}} نتيجة",
   "installed-size": "حجمه بعد تثبيته",
   "download-size": "حجم التنزيل",
@@ -52,7 +52,6 @@
   "delete-account": "احذف الحساب",
   "by": "طوَّره {{developer}}",
   "install": "ثبِّت",
-  "screenshot": "لقطة شاشة",
   "donate": "تبرَّع",
   "other-apps-by-developer": "تطبيقات أخرى طوَّرها {{developer}}",
   "loading": "يحمل…",
@@ -302,7 +301,6 @@
   "moderation-key": "المفتاح",
   "moderation-pending-reviews": "المراجعات المعلَّقة",
   "filters": "التصفيات",
-  "not-verified": "ليس مؤكَّدًا",
   "moderation-rejected-by": "رفضه {{handledBy}} في {{handledAt}} ({{handledAtRel}})",
   "runtime-distribution": "توزيعة بيئة العمل",
   "flathub-index-description": "هنا تجد أحدث إصدارات التطبيقات لكلِّ توزيعات لينكس",
@@ -615,7 +613,6 @@
   "action-donate": "تبرَّع",
   "kind-purchase-app": "اشترِ {{appName}}",
   "recipient": "المستلم",
-  "zoom": "كبّر",
   "platform": {
     "org-gnome-platform": "منصة GNOME",
     "org-kde-platform": "منصة KDE",
@@ -650,5 +647,14 @@
   "more-emulator": "المزيد من المحاكيات",
   "game-section-description": "ألعاب وتطبيقات لتشغيل ألقابك المفضلة",
   "slide": "زلاّقة",
-  "position-short": "الموضع"
+  "position-short": "الموضع",
+  "lightbox": {
+    "previous": "السابق",
+    "zoom-out": "بعِّد",
+    "screenshot": "لقطة الشاشة",
+    "close": "أغلِق",
+    "zoom": "البُعد",
+    "zoom-in": "قرِّب",
+    "next": "التالي"
+  }
 }

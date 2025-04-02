@@ -53,7 +53,6 @@
   "strategy": "Straitéis",
   "audio-video-editing": "Eagarthóireacht Fuaime & Físe",
   "flos": "Foinse Oscailte Saor in Aisce/",
-  "not-verified": "Gan fíorú",
   "filters": "Scagairí",
   "runtime-distribution": "Dáileadh Ríomhthaíochta",
   "app-id-instructions": "Úsáideann Aitheantais Aipe nodaireacht ainm fearainn droim ar ais (RDNN). Mar shampla, úsáideann GNOME Maps 'org.gnome.Maps'. Roghnaigh fearann a bhfuil smacht agat air, mar shuíomh Gréasáin an tionscadail (nó, má tá tú ag uaslódáil mar dhuine aonair, do shuíomh Gréasáin féin). Mura bhfuil suíomh Gréasáin ar fáil, is féidir leat fearann a bhaineann le cuntas óstála an chóid foinse a úsáid freisin, mar 'io.github.<your_username>.<app_name>'.",
@@ -264,7 +263,6 @@
   "login-with-provider": "Logáil isteach le {{provider}}",
   "by": "le {{developer}}",
   "install": "Suiteáil",
-  "screenshot": "Scáileán",
   "donate": "Deontas",
   "donate-to": "Deonaigh do {{project}}",
   "purchase-apps-title": "Aipeanna a cheannach",
@@ -619,7 +617,6 @@
   "action-purchase": "Ceannach",
   "kind-purchase-app": "Ceannaigh {{appName}}",
   "kind-donate-app": "Deonaigh do {{appName}}",
-  "zoom": "Súmáil",
   "recipient": "Faighteoir",
   "created": "Cruthaithe",
   "platform": {

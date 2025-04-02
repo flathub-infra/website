@@ -109,7 +109,6 @@
   "login-with-provider": "Entrar com {{provider}}",
   "by": "de {{developer}}",
   "install": "Instalar",
-  "screenshot": "Captura de ecrã",
   "donate": "Doar",
   "donate-to": "Doar para {{project}}",
   "purchase-apps-title": "Adquirir aplicações",
@@ -301,7 +300,6 @@
   "midi": "Midi",
   "tv": "TV",
   "audio-video-editing": "Edição de áudio e vídeo",
-  "not-verified": "Não verificado",
   "moderation-dev-description": "Algumas alterações aos metadados de uma aplicação, como o seu nome ou descrição, têm de ser revistas pela equipa do Flathub. Pode ver o estado dos pedidos de revisão atuais e passados aqui.",
   "apps-by-developer": "Apps de {{developer}}",
   "runtime-distribution": "Distribuição Runtime",
@@ -618,7 +616,6 @@
     "org-kde-platform": "Plataforma KDE",
     "org-gnome-platform": "Plataforma GNOME"
   },
-  "zoom": "Zoom",
   "position-short": "Pos.",
   "type": "Tipo",
   "action-purchase": "Comprar",
