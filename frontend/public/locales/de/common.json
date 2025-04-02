@@ -87,7 +87,6 @@
   "login-with-provider": "Mit {{provider}} anmelden",
   "by": "von {{developer}}",
   "install": "Installieren",
-  "screenshot": "Bildschirmfoto",
   "donate": "Spenden",
   "other-apps-by-developer": "Weitere Apps von {{developer}}",
   "loading": "Wird geladen…",
@@ -289,7 +288,6 @@
   "sports": "Sportspiele",
   "sequencer": "Sequenzer",
   "strategy": "Strategie",
-  "not-verified": "Nicht verifiziert",
   "filters": "Filter",
   "flos": "Kostenlos und quelloffen",
   "moderation-appstream-changes": "Appstream-Änderungen",
@@ -614,7 +612,6 @@
   "total": "Summe",
   "action-donate": "Spenden",
   "action-purchase": "Kaufen",
-  "zoom": "Vergrössern",
   "created": "Erstellt",
   "kind-donate-app": "An {{appName}} spenden",
   "platform": {

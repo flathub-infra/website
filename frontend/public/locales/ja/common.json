@@ -75,7 +75,6 @@
   "by": "開発者: {{developer}}",
   "popular-apps": "人気のアプリ",
   "install": "インストール",
-  "screenshot": "スクリーンショット",
   "donate": "寄付",
   "other-apps-by-developer": "{{developer}} の他のアプリ",
   "could-not-find-match-for-search": "検索に一致するアプリは見つかりませんでした。",
@@ -228,7 +227,6 @@
   "rss-apps": "RSS用のアプリをお探しですか？<2>Flathub</2>で見つけましょう。",
   "apps-by-developer": "{{developer}} によるアプリ",
   "tags-colon": "タグ:",
-  "not-verified": "未認証",
   "flos": "オープンソース",
   "desktop-application": "デスクトップアプリ",
   "new-app": "新しいアプリ",
@@ -600,7 +598,6 @@
     "org-kde-platform": "KDEプラットフォーム"
   },
   "kind-donate-app": "{{appName}} に寄付",
-  "zoom": "拡大",
   "apps-for-you-where-you-are": "<0>どんな場所にもアプリを</0> - パワフルなLinuxワークステーションやSteam Deck、Raspberry Piでも、珍しいLinux製携帯電話でも、Flathubにはあなたのためのアプリがあります",
   "type": "種類",
   "quality": {

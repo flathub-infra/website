@@ -47,7 +47,6 @@
   "developer-tools": "Narzędzia programisty",
   "login-with-provider": "Zaloguj się za pomocą {{provider}}",
   "install": "Zainstaluj",
-  "screenshot": "Zrzut ekranu",
   "switch-language": "Zmień język",
   "checkout": "Do kasy",
   "confirm-selection": "Potwierdź wybór",
@@ -294,7 +293,6 @@
   "moderation-appstream": "Appstream",
   "moderation-outdated": "Nieaktualne",
   "flos": "Wolne i otwarte oprogramowanie",
-  "not-verified": "Niezweryfikowane",
   "filters": "Filtry",
   "moderation-key": "Klucz",
   "moderation-no-review-requests": "Brak recenzji do wyświetlenia dla tej aplikacji.",
@@ -616,7 +614,6 @@
   "recipient": "Odbiorca",
   "created": "Utworzono",
   "action-donate": "Wesprzyj",
-  "zoom": "Powiększ",
   "platform": {
     "org-kde-platform": "Platforma KDE",
     "org-gnome-platform": "Platforma GNOME",

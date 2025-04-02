@@ -96,7 +96,6 @@
   "login-with-provider": "Prijava s {{provider}} računom",
   "by": "od {{developer}}",
   "install": "Instaliraj",
-  "screenshot": "Slika ekrana",
   "donate": "Doniraj",
   "donate-to": "Doniraj projektu {{project}}",
   "purchase-apps-title": "Kupi aplikacije",
@@ -291,7 +290,6 @@
   "kids": "Djeca",
   "flos": "Free/Libre Open Source",
   "filters": "Filtri",
-  "not-verified": "Nepotvrđeno",
   "moderation-appstream-changes": "Appstream promjene",
   "moderation-pending-reviews": "Neobavljene provjere",
   "moderation-key": "Ključ",
@@ -440,7 +438,6 @@
   "action-purchase": "Kupi",
   "kind-purchase-app": "Kupi {{appName}}",
   "kind-donate-app": "Doniraj aplikaciji {{appName}}",
-  "zoom": "Zumiraj",
   "platform": {
     "org-kde-platform": "KDE platforma",
     "org-gnome-platform": "GNOME platforma",

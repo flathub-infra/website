@@ -302,7 +302,6 @@
   "login-with-provider": "Hyni me {{provider}}",
   "by": "nga {{developer}}",
   "install": "Instaloje",
-  "screenshot": "Foto ekrani",
   "donate": "Dhuroni",
   "donate-to": "Dhuroni për {{project}}",
   "thank-you-for-your-purchase": "Faleminderit për blerjen tuaj!",
@@ -411,7 +410,6 @@
   "setup-flathub-description": "Ujdiseni Flathub-in të instalojë dhe përditësojë aplikacione në sistemin tuaj.",
   "tags-colon": "Etiketa:",
   "flos": "I lirë/Libre Me Burim të Hapët",
-  "not-verified": "I paverifikuar",
   "filters": "Filtra",
   "flathub-index-description": "Merrni versionet më të reja të krejt aplikacioneve tuaja të parapëlqyera, për çfarëdo shpërndarje Linux",
   "app-eol": "Ky aplikacion s’mund të kihet më nga Flathub",
@@ -605,7 +603,6 @@
   "amount": "Sasi",
   "total": "Gjithsej",
   "system-device-access": "Përdorim pajisjesh sistemi",
-  "zoom": "Zoom",
   "action-purchase": "Blini",
   "kind-purchase-app": "Blijeni {{appName}}",
   "kind-donate-app": "Dhuroni për {{appName}}",
@@ -640,5 +637,11 @@
   "gamelauncher": "Nisës Lojërash",
   "more-gamelauncher": "Më Tepër Nisës Lojërash",
   "tool": "Mjete",
-  "gametool": "Mjete Lojërash"
+  "gametool": "Mjete Lojërash",
+  "lightbox": {
+    "next": "Pasuesja",
+    "screenshot": "Foto ekrani",
+    "previous": "E mëparshmja",
+    "close": "Mbylle"
+  }
 }

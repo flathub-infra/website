@@ -62,7 +62,6 @@
   "loading": "Laadime andmeid…",
   "could-not-find-match-for-search": "Sinu otsingusõna alusel ei leidu ühtegi rakendust.",
   "manifest": "Rakenduse kontrollfail",
-  "screenshot": "Ekraanitõmmis",
   "donate": "Toeta arendajat",
   "donate-to": "Toeta {{project}} arendajat",
   "switch-language": "Vaheta keelt",
@@ -108,7 +107,6 @@
   "use-new-card": "Kasuta uut kaarti",
   "find-your-distribution": "Leia loendist oma distributsioon",
   "flathub-index-description": "Kasuta kõikides Linuxi distributsioonides oma lemmikrakenduste viimaseid versioone",
-  "not-verified": "Verifitseerimata",
   "recorder": "Salvesti",
   "tuner": "Tuuner",
   "mixer": "Mikser",
@@ -621,7 +619,6 @@
     "org-gnome-platform": "GNOME Platform",
     "org-freedesktop-platform": "Freedesktop Platform"
   },
-  "zoom": "Suum",
   "recipient": "Saaja",
   "created": "Loodud",
   "apps-by-tag": "„{{tag}}“ sildiga märgitud rakendused",

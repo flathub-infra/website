@@ -66,7 +66,6 @@
   "entry-confirmation-prompt": "輸入「{{text}}」繼續。",
   "login-with-provider": "使用 {{provider}} 登入",
   "by": "開發者為 {{developer}}",
-  "screenshot": "螢幕截圖",
   "donate": "捐款",
   "donate-to": "捐款給 {{project}}",
   "thank-you-for-your-purchase": "感謝您的購買！",
@@ -300,7 +299,6 @@
   "moderation-dev-description": "Flathub 團隊必須審核應用程式詮釋資料的某些變更，例如其名稱或描述。您可以在此處檢視目前與過去的審核請求的狀態。",
   "moderation-approved-by": "由 {{handledBy}} 於 {{handledAt}}（{{handledAtRel}}）批准",
   "moderation-rejected-by": "由 {{handledBy}} 於 {{handledAt}}（{{handledAtRel}}）回絕",
-  "not-verified": "未驗證",
   "flos": "自由與開放原始碼",
   "filters": "過濾條件",
   "moderation-outdated": "過期",
@@ -622,7 +620,6 @@
   "action-purchase": "購買",
   "recipient": "收款者",
   "created": "已建立",
-  "zoom": "縮放",
   "apps-by-tag": "標籤為「{{tag}}」的應用程式",
   "mobile-apps": "行動應用程式",
   "on-the-go": "隨時隨地",
@@ -645,5 +642,14 @@
   "more-gamelauncher": "更多遊戲啟動器",
   "tool": "工具",
   "gametool": "遊戲工具",
-  "more-gametool": "更多遊戲工具"
+  "more-gametool": "更多遊戲工具",
+  "lightbox": {
+    "close": "關閉",
+    "zoom-in": "放大",
+    "zoom": "縮放",
+    "zoom-out": "縮小",
+    "next": "下一個",
+    "previous": "上一個",
+    "screenshot": "螢幕截圖"
+  }
 }

@@ -32,7 +32,6 @@
   "productivity": "Офис",
   "utilities": "Разни",
   "donate-to": "Допринесете за „{{project}}“",
-  "screenshot": "Снимка",
   "loading": "Зареждане…",
   "kind-donation": "Дарение",
   "transaction-cancel": "Отказване на транзакцията",
@@ -298,7 +297,6 @@
   "moderation-approved-by": "Одобрено от {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
   "moderation-rejected-by": "Отхвърлено от {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
   "flos": "Свободен с отворен код",
-  "not-verified": "Непроверени",
   "moderation-new-value": "Нова стойност",
   "moderation-value": "Стойност",
   "moderation-old-value": "Стара стойност",
@@ -461,7 +459,7 @@
     "app-icon-in-line-with-contemporary-styles": "Има съвременен стил",
     "app-name-not-too-long": "По-кратко от 20 символа",
     "app-icon-size": "SVG или PNG файл от поне 256 пиксела",
-    "app-summary-dont-start-with-an-article": "Не започва като статия",
+    "app-summary-dont-start-with-an-article": "Не започва с определителен или неопределителен член",
     "hide-icon": "Скриване на иконата",
     "screenshots-default-settings": "Настройки по подразбиране",
     "screenshots-reasonable-window-size": "Подходящ размер на прозореца",
@@ -614,7 +612,6 @@
   "amount": "Сума",
   "recipient": "Получател",
   "created": "Създадено",
-  "zoom": "Мащабиране",
   "platform": {
     "org-gnome-platform": "Платформа на „GNOME“",
     "org-freedesktop-platform": "Платформа на „Freedesktop“",
@@ -646,5 +643,14 @@
   "more-gamelauncher": "Категория „Платформи“",
   "gametool": "Принадлежности",
   "more-gametool": "Категория „Принадлежности“",
-  "game-section-description": "Приложения за вашите любими игри"
+  "game-section-description": "Приложения за вашите любими игри",
+  "lightbox": {
+    "close": "Затваряне",
+    "zoom": "Мащабиране",
+    "zoom-in": "Приближаване",
+    "zoom-out": "Отдалечаване",
+    "next": "Следваща",
+    "screenshot": "Снимка",
+    "previous": "Предишна"
+  }
 }

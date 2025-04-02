@@ -149,7 +149,6 @@
   "delete-account": "অ্যাকাউন্ট মুছে ফেলুন",
   "delete-account-entry": "আমি আমার অ্যাকাউন্ট মুছে ফেলতে চাই",
   "donate-to": "{{project}} এ অনুদান দিন",
-  "screenshot": "স্ক্রিনশট",
   "delete-account-prompt": "আপনার অ্যাকাউন্ট মুছে ফেলবেন?",
   "login-with-provider": "{{provider}} দিয়ে লগইন করুন",
   "donate": "অনুদান",
@@ -299,7 +298,6 @@
   "setup-flathub-description": "আপনার সিস্টেমে অ্যাপ সমূহ ইনস্টল ও আপডেট করতে ফ্ল্যাটহাব সেটাপ করুন।",
   "tags-colon": "ট্যাগ সমূহ:",
   "flos": "মুক্ত/স্বাধীন ওপেন সোর্স",
-  "not-verified": "যাচাইকৃত নয়",
   "app-share": "অ্যাপ শেয়ার",
   "no-apps": "প্রদর্শনযোগ্য কোনো অ্যাপ নেই।",
   "moderation-no-review-requests": "এই অ্যাপের জন্য কোনো পর্যালোচনা নেই।",
@@ -348,6 +346,5 @@
   "positions": "অবস্থান",
   "type": "ধরণ",
   "created": "তৈরি হয়েছে",
-  "zoom": "বিবর্ধন",
   "news": "সংবাদ"
 }

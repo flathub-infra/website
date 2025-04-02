@@ -168,7 +168,6 @@
   "login-with-provider": "Prisijungti su {{provider}}",
   "by": "pateikė {{developer}}",
   "request-new-app": "Jei ieškote konkrečios programėlės, praneškite bendruomenei, kad jos norite, naudodami Flathub <1>čia</1>.",
-  "screenshot": "Ekrano nuotrauka",
   "donate-to": "Paaukoti {{project}}",
   "entry-confirmation-prompt": "Norėdami tęsti, įveskite „{{text}}“.",
   "could-not-find-match-for-search": "Nepavyko rasti paieškos atitikmens.",

@@ -87,7 +87,6 @@
   "login-with-provider": "Logg inn med {{provider}}",
   "by": "{{developer}}",
   "install": "Installer",
-  "screenshot": "Skjermbilde",
   "donate": "Doner",
   "other-apps-by-developer": "Andre apper fra {{developer}}",
   "loading": "Laster inn…",
@@ -238,7 +237,6 @@
   "arcade": "Arkade",
   "strategy": "Strategi",
   "emulators": "Emulator",
-  "not-verified": "Ikke verifisert",
   "midi": "MIDI",
   "desktop-application": "App",
   "mixer": "Miksing",
@@ -614,7 +612,6 @@
     "org-gnome-platform": "GNOME-plattformen"
   },
   "total": "Sum",
-  "zoom": "Forstørr",
   "action-purchase": "Kjøp",
   "recipient": "Mottaker",
   "amount": "Beløp",
