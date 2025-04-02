@@ -644,5 +644,15 @@
   "tool": "Nástroje",
   "launcher": "Spouštěče",
   "more-gametool": "Více z Herních nástrojů",
-  "gamelauncher": "Herní spouštěče"
+  "gamelauncher": "Herní spouštěče",
+  "lightbox": {
+    "screenshot": "Snímek obrazovky",
+    "next": "Další",
+    "previous": "Předchozí",
+    "zoom-in": "Přiblížit",
+    "zoom": "Přiblížení",
+    "zoom-out": "Oddálit",
+    "close": "Zavřít"
+  },
+  "count-verified-desktop-apps": "Ověřené desktopové aplikace"
 }

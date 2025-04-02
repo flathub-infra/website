@@ -643,5 +643,15 @@
   "launcher": "Käivitajad",
   "gamelauncher": "Mängude käivitajad",
   "tool": "Tarvikud",
-  "gametool": "Mängude tarvikud"
+  "gametool": "Mängude tarvikud",
+  "lightbox": {
+    "close": "Sulge",
+    "next": "Edasi",
+    "previous": "Eelmine",
+    "zoom-in": "Suumi sisse",
+    "zoom-out": "Suumi välja",
+    "zoom": "Suumimine",
+    "screenshot": "Ekraanitõmmis"
+  },
+  "count-verified-desktop-apps": "Verifitseeritud töölauarakendused"
 }

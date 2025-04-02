@@ -652,5 +652,6 @@
     "next": "Следваща",
     "screenshot": "Снимка",
     "previous": "Предишна"
-  }
+  },
+  "count-verified-desktop-apps": "Общо проверени приложения"
 }

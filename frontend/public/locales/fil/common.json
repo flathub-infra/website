@@ -643,5 +643,15 @@
   "can-access-some-specific-files": "Maa-access ang ilang tiyak na file",
   "can-acquire-arbitrary-permissions": "Makakakuha ng mga arbitraryong pahintulot",
   "full-file-system-read-access": "Punong accsss sa pagbasa ng file system",
-  "get-apps": "Kumuha ng mga app"
+  "get-apps": "Kumuha ng mga app",
+  "lightbox": {
+    "next": "Susunod",
+    "zoom-in": "Mag-zoom in",
+    "zoom-out": "Mag-zoom out",
+    "zoom": "I-zoom",
+    "previous": "Nakaraan",
+    "screenshot": "Screenshot",
+    "close": "Isara"
+  },
+  "count-verified-desktop-apps": "Mga naka-verify na desktop app"
 }
