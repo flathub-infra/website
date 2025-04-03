@@ -1,7 +1,7 @@
 import {
   HiChevronRight,
   HiChevronLeft,
-  HiMagnifyingGlassPlus,
+  HiArrowsPointingOut,
 } from "react-icons/hi2"
 import { DesktopAppstream, mapScreenshot } from "../../types/Appstream"
 
@@ -81,10 +81,10 @@ export const CarouselStrip = ({
             <button
               className="absolute bottom-3 end-3 size-12 bg-transparent! px-3 py-3 text-2xl z-10"
               onClick={() => setShowLightbox(true)}
-              aria-label={t("lightbox.zoom")}
-              title={t("lightbox.zoom")}
+              aria-label={t("lightbox.show-screenshot-fullscreen")}
+              title={t("lightbox.show-screenshot-fullscreen")}
             >
-              <HiMagnifyingGlassPlus />
+              <HiArrowsPointingOut />
             </button>
           )}
           <div className="aspect-video max-h-[500px] w-full">
