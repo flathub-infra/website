@@ -642,6 +642,8 @@
     "next": "Pasuesja",
     "screenshot": "Foto ekrani",
     "previous": "E mëparshmja",
-    "close": "Mbylle"
-  }
+    "close": "Mbylle",
+    "show-screenshot-fullscreen": "Shfaqe foton e ekranit sa tërë ekrani"
+  },
+  "count-verified-desktop-apps": "Aplikacione desktop të verifikuar"
 }

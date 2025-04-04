@@ -376,5 +376,9 @@
   "tool": "Aisinas",
   "gametool": "Aisinas de jòcs",
   "more-gametool": "Mai d'aisinas de jòcs",
-  "launcher": "Aviadors"
+  "launcher": "Aviadors",
+  "lightbox": {
+    "show-screenshot-fullscreen": "Afichar la captura d'ecran en plen ecran",
+    "screenshot": "Captura d'ecran"
+  }
 }

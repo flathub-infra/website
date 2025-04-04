@@ -631,7 +631,7 @@
     "banner-preview-description": "A szalaghirdetés egyszerű kísérletezéséhez használja a <2>szalaghirdetés előnézetét</2>"
   },
   "we-love-games": "Mi ♥ játékokat",
-  "game-section-description": "Játékok és alkalmazások kedvenc retro játékainak futtatásához",
+  "game-section-description": "Játékok és alkalmazások kedvenc játékai futtatásához",
   "emulator": "Emulátorok",
   "gameemulator": "Emulátorok",
   "more-emulator": "További emulátorok",
@@ -643,5 +643,15 @@
   "more-gametool": "További játékeszközök",
   "on-the-go": "Útközben",
   "more-mobile-apps": "További mobilalkalmazások",
-  "mobile-apps-description": "Alkalmazások Linux-telefonjaihoz és táblagépeihez"
+  "mobile-apps-description": "Alkalmazások Linux-telefonjaihoz és táblagépeihez",
+  "lightbox": {
+    "close": "Bezárás",
+    "next": "Következő",
+    "previous": "Előző",
+    "zoom-out": "Kicsinyítés",
+    "screenshot": "Képernyőkép",
+    "zoom-in": "Nagyítás",
+    "show-screenshot-fullscreen": "Képernyőkép teljes képernyős megjelenítése"
+  },
+  "count-verified-desktop-apps": "Ellenőrzött asztali alkalmazások"
 }

@@ -650,8 +650,8 @@
     "previous": "Eelmine",
     "zoom-in": "Suumi sisse",
     "zoom-out": "Suumi välja",
-    "zoom": "Suumimine",
-    "screenshot": "Ekraanitõmmis"
+    "screenshot": "Ekraanitõmmis",
+    "show-screenshot-fullscreen": "Näita ekraanitõmmist täisekraanivaates"
   },
   "count-verified-desktop-apps": "Verifitseeritud töölauarakendused"
 }
