@@ -1,6 +1,7 @@
 import datetime
 import json
 from collections import defaultdict
+from typing import TypedDict
 from urllib.parse import urlparse, urlunparse
 
 import httpx
@@ -11,12 +12,28 @@ from app import utils
 from . import config, database, models, search, zscore
 
 StatsType = dict[str, dict[str, list[int]]]
+
+
+class StatsFromServer(TypedDict):
+    countries: dict[str, int]
+    date: datetime.date
+    delta_downloads: int
+    downloads: int
+    updates: int
+    flatpak_versions: dict[str, int]
+    ostree_versions: dict[str, int]
+    ref_by_country: dict[str, dict[str, list[int]]]
+    refs: dict[str, dict[str, list[int]]]
+
+
 POPULAR_DAYS_NUM = 7
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
 
 
-def _get_stats_for_date(date: datetime.date, session: httpx.Client):
+def _get_stats_for_date(
+    date: datetime.date, session: httpx.Client
+) -> StatsFromServer | None:
     stats_json_url = urlparse(
         config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
     )
