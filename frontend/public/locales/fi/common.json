@@ -643,5 +643,14 @@
   },
   "tool": "Työkalut",
   "gametool": "Työkalut pelaamiseen",
-  "more-gametool": "Lisää työkaluja pelaamiseen"
+  "more-gametool": "Lisää työkaluja pelaamiseen",
+  "lightbox": {
+    "screenshot": "Kuvakaappaus",
+    "next": "Seuraava",
+    "zoom-out": "Loitonna",
+    "zoom-in": "Lähennä",
+    "close": "Sulje",
+    "previous": "Edellinen"
+  },
+  "count-verified-desktop-apps": "Vahvistetut työpöytäsovellukset"
 }
