@@ -360,7 +360,9 @@
     "screenshots-up-to-date": "עדכני",
     "pending": "בהמתנה",
     "screenshots-tag-screenshots-with-correct-language": "תיוג צילומי מסך עם השפה הנכונה",
-    "review-requested": "דורש בדיקה"
+    "review-requested": "דורש בדיקה",
+    "screenshots-take-screenshots-on-linux": "צילומי מסך שצולמו בלינוקס",
+    "screenshots-default-settings": "הגדרות ברירת מחדל"
   },
   "no-network-access": "אין גישה לרשת",
   "system-folder-x": "תיקיית המערכת {{folder}}",
@@ -441,5 +443,14 @@
   "date": "תאריך",
   "scope-upload": "העלאת קבצים לבנייה",
   "token-name": "שם האסימון",
-  "apps-by-tag": "יישומים לפי התגית ‚{{tag}}’"
+  "apps-by-tag": "יישומים לפי התגית ‚{{tag}}’",
+  "lightbox": {
+    "screenshot": "צילום מסך",
+    "show-screenshot-fullscreen": "הצגת צילום מסך במסך מלא"
+  },
+  "install-x": "התקנת {{app-name}} על לינוקס",
+  "flathub": "Flathub",
+  "manage-x": "ניהול {{app-name}}",
+  "press": "עתונאים",
+  "confirm": "אישור"
 }

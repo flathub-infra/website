@@ -646,12 +646,12 @@
   "game-section-description": "Приложения за вашите любими игри",
   "lightbox": {
     "close": "Затваряне",
-    "zoom": "Мащабиране",
     "zoom-in": "Приближаване",
     "zoom-out": "Отдалечаване",
     "next": "Следваща",
     "screenshot": "Снимка",
-    "previous": "Предишна"
+    "previous": "Предишна",
+    "show-screenshot-fullscreen": "Показване на снимката на цял екран"
   },
   "count-verified-desktop-apps": "Общо проверени приложения"
 }

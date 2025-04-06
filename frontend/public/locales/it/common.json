@@ -644,5 +644,15 @@
   "we-love-games": "Noi ♥ i giochi",
   "gameemulator": "Emulatori",
   "mobile-apps-description": "App per i tuoi telefoni e tablet Linux",
-  "on-the-go": "On the go"
+  "on-the-go": "On the go",
+  "lightbox": {
+    "close": "Chiudi",
+    "next": "Prossima",
+    "zoom-in": "Ingrandisci",
+    "zoom-out": "Rimpicciolisci",
+    "show-screenshot-fullscreen": "Mostra schermata a schermo intero",
+    "screenshot": "Screenshot",
+    "previous": "Anteprima"
+  },
+  "count-verified-desktop-apps": "App desktop verificate"
 }

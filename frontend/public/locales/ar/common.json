@@ -653,8 +653,9 @@
     "zoom-out": "بعِّد",
     "screenshot": "لقطة الشاشة",
     "close": "أغلِق",
-    "zoom": "البُعد",
     "zoom-in": "قرِّب",
-    "next": "التالي"
-  }
+    "next": "التالي",
+    "show-screenshot-fullscreen": "اعرض لقطة شاشة ملء الشاشة"
+  },
+  "count-verified-desktop-apps": "تطبيقات سطح المكتب المؤكَّدة"
 }
