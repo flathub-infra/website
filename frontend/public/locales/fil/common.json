@@ -648,10 +648,10 @@
     "next": "Susunod",
     "zoom-in": "Mag-zoom in",
     "zoom-out": "Mag-zoom out",
-    "zoom": "I-zoom",
     "previous": "Nakaraan",
     "screenshot": "Screenshot",
-    "close": "Isara"
+    "close": "Isara",
+    "show-screenshot-fullscreen": "Ipakita ang screenshot nang fullscreen"
   },
   "count-verified-desktop-apps": "Mga naka-verify na desktop app"
 }

@@ -646,12 +646,12 @@
   "game-section-description": "Spiele und Anwendungen zum Ausführen deiner Lieblingstitel",
   "lightbox": {
     "close": "Schließen",
-    "next": "Nächste",
-    "previous": "Vorherige",
+    "next": "Weiter",
+    "previous": "Zurück",
     "zoom-out": "Verkleinern",
     "zoom-in": "Vergrößern",
     "screenshot": "Bildschirmaufnahme",
-    "zoom": "Vergrößern"
+    "show-screenshot-fullscreen": "Zeige Bildschirmfoto im Vollbild"
   },
   "count-verified-desktop-apps": "Verifizierte Desktop-Apps"
 }

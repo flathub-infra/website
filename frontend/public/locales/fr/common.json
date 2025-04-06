@@ -552,7 +552,7 @@
   "news": "Nouveautés",
   "developer-portal": "Portail Développeur",
   "trending": "Tendance",
-  "special-license-explanation": "Cette application est développée sous la licence spéciale <1>{{ licence }}></1>.",
+  "special-license-explanation": "Cette application est développée sous la licence spéciale <1>{{ license }}></1>.",
   "do-you-really-want-to-switch-to-direct-upload": "Es-tu sûr ? Une fois que vous aurez basculé une application vers le téléchargement direct, vous ne pouvez plus revenir en arrière.",
   "enter-end-of-life-message": "Saisir le message de fin de vie",
   "special-license": "Licence spéciale",
@@ -643,5 +643,15 @@
   "switch-to-direct-upload": "Basculer l'app vers téléversement direct",
   "more-mobile-apps": "Davantage d'apps mobiles",
   "favorite": "Favoris",
-  "favorite-apps": "Favoris"
+  "favorite-apps": "Favoris",
+  "lightbox": {
+    "zoom-out": "Zoom arrière",
+    "close": "Fermer",
+    "previous": "Précédent",
+    "zoom-in": "Zoom avant",
+    "screenshot": "Capture d’écran",
+    "show-screenshot-fullscreen": "Afficher capture d’écran en plein écran",
+    "next": "Suivant"
+  },
+  "count-verified-desktop-apps": "Apps de bureau vérifiées"
 }

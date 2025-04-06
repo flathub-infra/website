@@ -644,5 +644,15 @@
   "more-gamelauncher": "Więcej Platform Do Gier",
   "launcher": "Programy uruchamiające",
   "tool": "Narzędzia",
-  "more-gametool": "Więcej narzędzi do gier"
+  "more-gametool": "Więcej narzędzi do gier",
+  "count-verified-desktop-apps": "Zweryfikowane aplikacje desktopowe",
+  "lightbox": {
+    "close": "Zamknij",
+    "zoom-out": "Pomniejszenie",
+    "screenshot": "Zrzut ekranu",
+    "next": "Następny",
+    "previous": "Poprzedni",
+    "show-screenshot-fullscreen": "Pokaż zrzut ekranu na pełnym ekranie",
+    "zoom-in": "Powiększenie"
+  }
 }

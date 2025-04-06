@@ -142,13 +142,16 @@
     }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<0>Flatpak on oletusarvoisesti asennettu CentOS:n versioon 7 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <2>Flathub-ohjelmistovarastotiedosto</2>.</0> <2>Sen jälkeen voit aloittaa <2>sovellusten asentamisen</2>!</2>"
   },
   "eurolinux": {
-    "distroName": "EuroLinux"
+    "distroName": "EuroLinux",
+    "introduction": "<0>Flatpak on oletusarvoisesti asennettu EuroLinuxin versioon 8 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <2>Flathub-ohjelmistovarastotiedosto</2>.</0> <2>Sen jälkeen voit aloittaa <2>sovellusten asentamisen</2>!</2>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<0>Flatpak on oletusarvoisesti asennettu AlmaLinuxin versioon 8 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <2>Flathub-ohjelmistovarastotiedosto</2>.</0> <2>Sen jälkeen voit aloittaa <2>sovellusten asentamisen</2>!</2>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -161,7 +164,8 @@
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista Gentoossa.</p>"
     }
   },
   "kubuntu": {
@@ -215,7 +219,8 @@
       "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista Mageiassa.</p>"
     }
   },
   "openmandriva_lx": {
@@ -240,7 +245,8 @@
       "name": "Lisää Flathub-ohjelmistolähde"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista Raspberry Pi OS:iä käyttäessä.</p>"
     }
   },
   "clear_linux": {
@@ -342,14 +348,16 @@
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<p>Flatpak-paketti on saatavilla Pisin versioon 2.1 ja uudempiin. Asenna se suorittamalla root-oikeuksin:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista Pisi GNU/Linuxissa.</p>"
     }
   },
   "endeavouros": {
@@ -362,7 +370,8 @@
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista EndeavourOS:ää käyttäessä.</p>"
     }
   },
   "kde_neon": {
@@ -380,7 +389,8 @@
       "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista GNU Guixissa.</p>"
     }
   },
   "crystal_linux": {

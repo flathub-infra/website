@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Installer Flatpak",
-      "text": "<0>Pour installer Flatpak sur <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou version ultérieure</strong>, ouvrez l'application Terminal et exécutez :</0> <2></2> <4>Pour les versions antérieures <strong>jusqu'à Ubuntu 18.04 LTS (Bionic Beaver)</strong>, le PPA officiel de Flatpak est requis pour installer Flatpak et le maintenir à jour. Pour ajouter le PPA et installer Flatpak, ouvrez l'application Terminal et exécutez :</4> <6></6>"
+      "text": "<0>Pour installer Flatpak sur <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou version ultérieure</strong>, ouvrez l'application Terminal et exécutez :</0> <2></2>"
     },
     "step-2": {
       "name": "Installer le plugin Flatpak dans GNOME Logiciel",
@@ -65,14 +65,16 @@
     "distroName": "ChromeOS",
     "introduction": "<0>Les applications Flatpak peuvent être installées sur ChromeOS avec la couche de compatibilité Crostini Linux. Cette option n'est pas disponible pour tous les appareils ChromeOS. Vous devez donc vous assurer que votre appareil est compatible avant de continuer. Une liste des appareils compatibles est conservée <2>ici</2>.</0>",
     "step-3": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<p>Pour installer Flatpak, exécutez ce qui suit dans le terminal :</p> <2></2>"
     },
     "step-2": {
       "name": "Démarrer un terminal Linux",
       "text": "<p>Appuyez sur la touche Search/Launcher, tapez \"Terminal\", et lancez l'application Terminal.</p>"
     },
     "step-5": {
-      "name": "Redémarrer"
+      "name": "Redémarrer",
+      "text": "<0>Pour terminer l'installation, redémarrez Linux. Vous pouvez le faire en cliquant avec le bouton droit de la souris sur le terminal, puis en cliquant sur « Arrêter Linux ». Il ne vous reste plus qu'à <2>installer des apps</2> !</0>"
     },
     "step-4": {
       "name": "Ajouter le dépôt Flathub",
@@ -86,7 +88,8 @@
     },
     "distroName": "Mageia",
     "step-2": {
-      "name": "Ajouter le dépôt Flathub"
+      "name": "Ajouter le dépôt Flathub",
+      "text": "<0>Flathub est le meilleur endroit pour obtenir des apps Flatpak. Pour l’activer, télécharger et installer le <2>fichier de dépôt Flathub</2> ou exécuter les opérations suivantes dans un terminal :</0> <2></2>"
     },
     "step-3": {
       "name": "Redémarrer",
@@ -163,7 +166,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>La prise en charge de Flatpak est intégrée à Endless OS 3.0.0 et aux versions plus récentes : aucune configuration n'est requise !</0> <2>Si vous utilisez une version plus ancienne, <2>effectuez une mise à niveau vers Endless OS 3</2>.</2>"
+    "introduction": "<0>La prise en charge de Flatpak est intégrée à Endless OS 3.0.0 et aux versions plus récentes : aucune configuration n'est requise !</0>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux"
@@ -263,8 +266,9 @@
     },
     "step-3": {
       "name": "Redémarrer",
-      "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0> <p>Remarque : l'installation graphique des applications Flatpak n'est pas encore possible avec Solus, mais sera disponible dans un avenir proche.</p>"
-    }
+      "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0> <p>Remarque : l'installation graphique des applications Flatpak n'est possible qu'avec GNOME Logiciel et/ou KDE Discover.</p>"
+    },
+    "introduction": "<p>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide du logiciel GNOME et/ou de KDE Discover.</p> <p>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </p>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -273,7 +277,8 @@
       "text": "<p>Flatpak est installable à partir du dépôt communautaire. Exécutez la commande suivante dans un terminal :</p> <2></2>"
     },
     "step-2": {
-      "name": "Installez le plugin Logiciel Flatpak"
+      "name": "Installez le plugin Logiciel Flatpak",
+      "text": "<p>Vous pouvez installer le plugin Flatpak pour le logiciel GNOME (depuis v3.13) ou KDE Discover (depuis v3.11), ce qui permet d’installer des applications sans avoir besoin de la ligne de commande. Pour installer, concernant GNOME Logiciel exécuter :</p> <2></2> <p>Concernant KDE Discover exécuter :</p> <6></6>"
     },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
@@ -285,27 +290,33 @@
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<0>Le support de Flatpak est intégré dans OpenMandriva pour toutes les versions activement supportées, à partir de la version stable/fixe \"Rock 5.0\", jusqu’à la version de développement \"Cooker\" et se terminant par la version continue \"ROME\". </0> <p>Flatpak est fourni avec le référentiel Flathub préconfiguré. </p>"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<0>La prise en charge de Flatpak est intégrée à Pop! _OS 20.04 et versions ultérieures ; aucune configuration requise !</0>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Installer des applications"
+      "name": "Installer des applications",
+      "text": "<0>Elementary OS 5.1 et versions ultérieures est livré avec le support Flatpak. Pour les applications non sélectionnées, aller à <2>Flathub</2> pour installer n’importe quelle application en utilisant le gros bouton \"Install\" et ouvrir le fichier \".flatpakref\"téléchargé avec Sideload.</0> <p>Remarque : après avoir installé une application à distance comme Flathub, toutes les autres applications de cette distante apparaîtront également automatiquement dans l’AppCenter.</p>"
     }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<p>Un paquetage Flatpak est disponible dans Raspberry Pi OS (précédemment appelé Raspbian) Stretch et les versions plus récentes. Pour l’installer, exécutez les éléments suivants en tant que root :</p> <2></2>"
     },
     "step-2": {
-      "name": "Ajouter le dépôt Flathub"
+      "name": "Ajouter le dépôt Flathub",
+      "text": "<p>Un paquetage Flatpak est disponible dans le Raspberry Pi OS (précédemment appelé Raspbian) Stretch et les versions plus récentes. Pour l’installer, exécutez les éléments suivants en tant que root :</p> <2></2>"
     },
     "step-3": {
-      "name": "Redémarrer"
+      "name": "Redémarrer",
+      "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0> <p>Remarque : l'installation graphique des applications Flatpak risque de ne pas être possible avec Raspberry Pi OS.</p>"
     }
   },
   "void_linux": {
@@ -315,6 +326,11 @@
     },
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "distroName": "Void Linux",
+    "step-2": {
+      "name": "Ajouter le dépôt Flathub",
+      "text": "<p>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l’activer, exécutez :</p> <2></2>"
     }
   },
   "nixos": {
@@ -324,7 +340,8 @@
     "step-3": {
       "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0>",
       "name": "Redémarrer"
-    }
+    },
+    "distroName": "NixOS"
   },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
@@ -390,7 +407,10 @@
     "distroName": "Salix"
   },
   "linux_mint": {
-    "introduction": "<0>La prise en charge de Flatpak est intégrée à Linux Mint 18.3 et aux versions plus récentes : aucune configuration n'est requise !</0> <2>Si vous utilisez une version plus ancienne, <2>effectuez une mise à niveau vers Linux Mint 18.3</2>.</2>",
+    "introduction": "<0>La prise en charge de Flatpak est intégrée à Linux Mint 18.3 et aux versions plus récentes : aucune configuration n'est requise !</0>",
     "distroName": "Linux Mint"
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
   }
 }
