@@ -69,7 +69,7 @@
     "sass": "^1.86.3",
     "satori": "^0.12.2",
     "sonner": "^2.0.3",
-    "spdx-license-list": "^6.9.0",
+    "spdx-license-list": "^6.10.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "yaml": "^2.7.0",

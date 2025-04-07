@@ -11311,7 +11311,7 @@ __metadata:
     satori: "npm:^0.12.2"
     simple-git: "npm:^3.27.0"
     sonner: "npm:^2.0.3"
-    spdx-license-list: "npm:^6.9.0"
+    spdx-license-list: "npm:^6.10.0"
     storybook: "npm:^8.6.12"
     storybook-addon-mock-date: "npm:^0.6.0"
     tailwind-merge: "npm:^3.0.2"
@@ -16574,10 +16574,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spdx-license-list@npm:^6.9.0":
-  version: 6.9.0
-  resolution: "spdx-license-list@npm:6.9.0"
-  checksum: 10c0/d9123a9eca9b403b8ac201b89057df9b052caba26dbec6acbdfe6593b6054b9eb0ac14520d0c2541930d2f6be033b0f74683bc979ae6391f72ab4406f0cfe619
+"spdx-license-list@npm:^6.10.0":
+  version: 6.10.0
+  resolution: "spdx-license-list@npm:6.10.0"
+  checksum: 10c0/6cb6b2e6753134ea2f8f8e42afc8fe94ddc9e15433bf235bc782f26ee297eae0e670a6481d09b111cd84782374b079f9d5858767ef7a07bcbff51939b4cac58a
   languageName: node
   linkType: hard
 
