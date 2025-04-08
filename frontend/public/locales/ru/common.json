@@ -644,5 +644,15 @@
   "more-gamelauncher": "Больше игровых лаунчеров",
   "tool": "Инструменты",
   "more-gametool": "Больше инструментов для игр",
-  "game-section-description": "Игры и приложения для запуска ваших любимых тайтлов"
+  "game-section-description": "Игры и приложения для запуска ваших любимых тайтлов",
+  "count-verified-desktop-apps": "Проверенных приложений",
+  "lightbox": {
+    "close": "Закрыть",
+    "next": "Следующий",
+    "previous": "Предыдущий",
+    "zoom-in": "Приблизить",
+    "zoom-out": "Отдалить",
+    "screenshot": "Снимок экрана",
+    "show-screenshot-fullscreen": "Показать во весь экран"
+  }
 }
