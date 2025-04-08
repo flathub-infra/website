@@ -272,9 +272,9 @@ requires-dist = [
     { name = "itsdangerous", specifier = "==2.2.0" },
     { name = "lxml", specifier = "==5.3.1" },
     { name = "meilisearch", specifier = "==0.34.0" },
-    { name = "orjson", specifier = ">=3.10.15,<4.0.0" },
+    { name = "orjson", specifier = "==3.10.16" },
     { name = "psycopg2-binary", specifier = "==2.9.10" },
-    { name = "publicsuffixlist", specifier = "==1.0.2.20250228" },
+    { name = "publicsuffixlist", specifier = ">=1.0.2.20240903,<2.0.0.0" },
     { name = "pydantic-settings", specifier = "==2.8.1" },
     { name = "pygithub", specifier = "==2.6.1" },
     { name = "pygobject", specifier = "==3.50.0" },
@@ -622,11 +622,11 @@ wheels = [
 
 [[package]]
 name = "publicsuffixlist"
-version = "1.0.2.20250228"
+version = "1.0.2.20250408"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/2e/c5/a575468319a7fbc02ec7203f0e4a538f4596e51d840ec29ee5c14470aef9/publicsuffixlist-1.0.2.20250228.tar.gz", hash = "sha256:a3fb42b6eb75e025018f6477b88d0bc5cbf38a5bb4a756e9b0aa8823a5b32d66", size = 104831 }
+sdist = { url = "https://files.pythonhosted.org/packages/91/dc/64ea557909549a3273717fd6fec3116ac3a0c5ce12f3e3aab0064c86f458/publicsuffixlist-1.0.2.20250408.tar.gz", hash = "sha256:2c36d48261dba30e88448d08dacd9ec91bfd97f854a47f6e6ccc5ccf5ae9e2e2", size = 105097 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/09/82/66a56555529008ffb5f932507248649653f054ea4fa1f1119a6e28f1bec3/publicsuffixlist-1.0.2.20250228-py2.py3-none-any.whl", hash = "sha256:859d6bf6935df7df6470fb1e2f33520ab8e55c181dad49a0b4b6a3a4fbee9f24", size = 104510 },
+    { url = "https://files.pythonhosted.org/packages/dd/f1/809e7fef75bef33ea089bb83fb8360d05759cdbfd8fcaf1954ed062df11a/publicsuffixlist-1.0.2.20250408-py2.py3-none-any.whl", hash = "sha256:61e8f80394d9a4dbf8d73b0e282753debff4bce548679f1fb5a9923b4919bbb2", size = 104799 },
 ]
 
 [[package]]
