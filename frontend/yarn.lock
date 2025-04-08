@@ -10040,14 +10040,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel-wheel-gestures@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "embla-carousel-wheel-gestures@npm:8.0.1"
+"embla-carousel-wheel-gestures@npm:^8.0.2":
+  version: 8.0.2
+  resolution: "embla-carousel-wheel-gestures@npm:8.0.2"
   dependencies:
     wheel-gestures: "npm:^2.2.5"
   peerDependencies:
     embla-carousel: ^8.0.0 || ~8.0.0-rc03
-  checksum: 10c0/ce687d1d63177812eebdd1436dbeb6d5f79cbe5a880e102bf4222ecbcffa2d9b89c9e7454c3485e112825f7dac7ad6c73022ac8f5c4166607e0d3de8946af89b
+  checksum: 10c0/9094ab22378d2ca32d819929fb0d5ba43dd6265f23279351669fbd97e624ce52b0b09bcd98b0fbf4ae79d7a52b75464ef6e29092dc1d7c9b0c79999a6512a1a7
   languageName: node
   linkType: hard
 
@@ -11282,7 +11282,7 @@ __metadata:
     date-fns: "npm:^4.1.0"
     embla-carousel-autoplay: "npm:^8.5.2"
     embla-carousel-react: "npm:^8.5.2"
-    embla-carousel-wheel-gestures: "npm:^8.0.1"
+    embla-carousel-wheel-gestures: "npm:^8.0.2"
     eslint: "npm:^9.19.0"
     eslint-config-next: "npm:15.2.4"
     eslint-config-prettier: "npm:^10.1.1"
