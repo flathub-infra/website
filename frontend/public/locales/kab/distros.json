@@ -2,7 +2,14 @@
   "ubuntu": {
     "step-1": {
       "name": "Sbedd Flatpak"
-    }
+    },
+    "step-3": {
+      "name": "Rnu akufi-a n Flathub"
+    },
+    "step-4": {
+      "name": "Ales askker"
+    },
+    "distroName": "Ubuntu"
   },
   "fedora": {
     "distroName": "Fedora"
@@ -23,6 +30,9 @@
     },
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "chrome_os": {
@@ -32,6 +42,9 @@
     },
     "step-3": {
       "name": "Sbedd Flatpak"
+    },
+    "step-4": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "red_hat_enterprise_linux": {
@@ -44,6 +57,9 @@
     },
     "step-3": {
       "name": "Ales asenker"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "linux_mint": {
@@ -71,6 +87,9 @@
     "distroName": "Debian",
     "step-4": {
       "name": "Ales asenker"
+    },
+    "step-3": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "rocky_linux": {
@@ -80,6 +99,9 @@
     },
     "step-3": {
       "name": "Ales asenker"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "almalinux": {
@@ -92,6 +114,9 @@
     },
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "kubuntu": {
@@ -101,6 +126,9 @@
     },
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-3": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "solus": {
@@ -110,6 +138,9 @@
     },
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "alpine": {
@@ -119,7 +150,10 @@
     "step-1": {
       "name": "Sbedd Flatpak"
     },
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "step-3": {
+      "name": "Rnu akufi-a n Flathub"
+    }
   },
   "mageia": {
     "step-1": {
@@ -128,6 +162,9 @@
     "distroName": "Mageia",
     "step-3": {
       "name": "Ales asenker"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "openmandriva_lx": {
@@ -143,6 +180,9 @@
     "distroName": "Raspberry Pi OS",
     "step-3": {
       "name": "Ales asenker"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "void_linux": {
@@ -152,6 +192,9 @@
     "distroName": "Void Linux",
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "clear_linux": {
@@ -164,7 +207,10 @@
     "step-3": {
       "name": "Ales asenker"
     },
-    "distroName": "NixOS"
+    "distroName": "NixOS",
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
+    }
   },
   "ataraxia_linux": {
     "distroName": "Ataraxia Linux",
@@ -173,6 +219,9 @@
     },
     "step-3": {
       "name": "Ales asenker"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "deepin": {
@@ -182,6 +231,9 @@
     },
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "zorin_os": {
@@ -194,7 +246,10 @@
     "step-4": {
       "name": "Ales asenker"
     },
-    "distroName": "Pardus"
+    "distroName": "Pardus",
+    "step-3": {
+      "name": "Rnu akufi-a n Flathub"
+    }
   },
   "mx_linux": {
     "step-2": {
@@ -209,7 +264,10 @@
     "step-3": {
       "name": "Ales asenker"
     },
-    "distroName": "EndeavourOS"
+    "distroName": "EndeavourOS",
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
+    }
   },
   "kde_neon": {
     "distroName": "KDE neon"
@@ -221,6 +279,9 @@
     "distroName": "GNU Guix",
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "crystal_linux": {
@@ -230,6 +291,9 @@
     },
     "step-3": {
       "name": "Ales asenker"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "vanilla_os": {
@@ -245,6 +309,9 @@
     "distroName": "Pisi GNU/Linux",
     "step-1": {
       "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
     }
   },
   "salix": {

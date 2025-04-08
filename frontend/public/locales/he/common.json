@@ -362,7 +362,10 @@
     "screenshots-tag-screenshots-with-correct-language": "תיוג צילומי מסך עם השפה הנכונה",
     "review-requested": "דורש בדיקה",
     "screenshots-take-screenshots-on-linux": "צילומי מסך שצולמו בלינוקס",
-    "screenshots-default-settings": "הגדרות ברירת מחדל"
+    "screenshots-default-settings": "הגדרות ברירת מחדל",
+    "request-review-description": "הצוות שלנו יסקור את היישום שלך כדי לנסות לאתר תקלות. נא לחזור לכאן כדי לבדוק מה השתנה בעוד כמה ימים.",
+    "request-a-review-question": "לבקש חוות דעת?",
+    "request-review": "בקשת חוות דעת"
   },
   "no-network-access": "אין גישה לרשת",
   "system-folder-x": "תיקיית המערכת {{folder}}",

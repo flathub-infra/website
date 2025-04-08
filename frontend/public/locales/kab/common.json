@@ -234,5 +234,23 @@
   "press": "Taɣamsa",
   "installed-size": "Tiddi yettwasbedden",
   "moderation-outdated": "Aqbuṛ",
-  "status-redeemed": "Yettwaseqdec"
+  "status-redeemed": "Yettwaseqdec",
+  "mobile-apps": "Isnasen n tiliɣri",
+  "error-code": "Tanglat n tuccḍa: {{code}}",
+  "search-for-query": "Nadi ɣef '{{query}}'",
+  "networking": "Aẓeṭṭa",
+  "frequently-asked-questions": "Isteqsiyen i d-yettuɣalen s waṭas",
+  "kind-purchase-app": "Aɣ-d {{appName}}",
+  "platform": {
+    "org-gnome-platform": "Tiɣerɣert n GNOME",
+    "org-kde-platform": "Tiɣerɣert n KDE"
+  },
+  "lightbox": {
+    "zoom-in": "Semɣer",
+    "zoom-out": "Simẓi"
+  },
+  "gametool": "Ifecka n wuraren",
+  "system-folder-x": "Akaram n unagraw {{folder}}",
+  "setup-flathub": "Swel Flathub",
+  "open-user-menu": "Ldi umuɣ n useqdac"
 }
