@@ -31,8 +31,4 @@ updates:
   - package-ecosystem: "uv"
     directory: "/backend"
     schedule:
-      interval: "monthly"
-    groups:
-      python:
-        patterns:
-        - "*"
+      interval: "weekly"
