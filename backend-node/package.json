@@ -21,7 +21,7 @@
     "nodemailer": "6.10.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-email": "4.0.3",
+    "react-email": "4.0.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {
