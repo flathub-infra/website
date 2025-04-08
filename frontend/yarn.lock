@@ -6960,14 +6960,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.68.0":
-  version: 5.68.0
-  resolution: "@tanstack/eslint-plugin-query@npm:5.68.0"
+"@tanstack/eslint-plugin-query@npm:^5.72.1":
+  version: 5.72.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.72.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.18.1"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/4ed8e4842a513c1940c3626268ba28d3d7859970b4e5ff74f6358b064ddc9ddd76d4d18dd90ef3b85d5c95c72309747ea5e1de93504860e579da22cf414c7e8a
+  checksum: 10c0/993d7f25ff5dd40619641ba2dcd936a6f486273fdbc94054902bb6b2f3a1eb307ae4a2a39102a80ce111257622dbcf1747b46a8a292f36437357ea460ae9a032
   languageName: node
   linkType: hard
 
@@ -11268,7 +11268,7 @@ __metadata:
     "@stripe/stripe-js": "npm:^6.1.0"
     "@tailwindcss/postcss": "npm:^4.0.17"
     "@tailwindcss/typography": "npm:^0.5.16"
-    "@tanstack/eslint-plugin-query": "npm:^5.68.0"
+    "@tanstack/eslint-plugin-query": "npm:^5.72.1"
     "@tanstack/react-query": "npm:^5.72.0"
     "@tanstack/react-query-devtools": "npm:^5.66.9"
     "@tanstack/react-table": "npm:^8.21.2"
