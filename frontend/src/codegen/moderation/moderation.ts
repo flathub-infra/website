@@ -10,6 +10,7 @@ import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -117,6 +118,7 @@ export function useGetModerationAppsModerationAppsGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -143,6 +145,7 @@ export function useGetModerationAppsModerationAppsGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -161,6 +164,7 @@ export function useGetModerationAppsModerationAppsGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -183,6 +187,7 @@ export function useGetModerationAppsModerationAppsGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -191,9 +196,10 @@ export function useGetModerationAppsModerationAppsGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -295,6 +301,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -322,6 +329,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -341,6 +349,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -364,6 +373,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -373,9 +383,10 @@ export function useGetModerationAppModerationAppsAppIdGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -454,17 +465,20 @@ export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationError =
 export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-    >,
-    TError,
-    { data: ReviewRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+      >,
+      TError,
+      { data: ReviewRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<
     ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
   >,
@@ -477,7 +491,7 @@ export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
       options,
     )
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
@@ -544,15 +558,18 @@ export type SubmitReviewModerationRequestsIdReviewPostMutationError =
 export const useSubmitReviewModerationRequestsIdReviewPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
-    TError,
-    { id: number; data: Review },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
+      TError,
+      { id: number; data: Review },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
   TError,
   { id: number; data: Review },
@@ -561,5 +578,5 @@ export const useSubmitReviewModerationRequestsIdReviewPost = <
   const mutationOptions =
     getSubmitReviewModerationRequestsIdReviewPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }

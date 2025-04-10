@@ -7,6 +7,7 @@
 import { useMutation } from "@tanstack/react-query"
 import type {
   MutationFunction,
+  QueryClient,
   UseMutationOptions,
   UseMutationResult,
 } from "@tanstack/react-query"
@@ -83,15 +84,18 @@ export type BuildNotificationEmailsBuildNotificationPostMutationError =
 export const useBuildNotificationEmailsBuildNotificationPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
-    TError,
-    { data: BuildNotificationRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
+      TError,
+      { data: BuildNotificationRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
   TError,
   { data: BuildNotificationRequest },
@@ -100,5 +104,5 @@ export const useBuildNotificationEmailsBuildNotificationPost = <
   const mutationOptions =
     getBuildNotificationEmailsBuildNotificationPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }

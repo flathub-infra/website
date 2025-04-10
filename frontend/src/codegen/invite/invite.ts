@@ -10,6 +10,7 @@ import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -112,6 +113,7 @@ export function useGetInviteStatusInvitesAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -138,6 +140,7 @@ export function useGetInviteStatusInvitesAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -156,6 +159,7 @@ export function useGetInviteStatusInvitesAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -178,6 +182,7 @@ export function useGetInviteStatusInvitesAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -186,9 +191,10 @@ export function useGetInviteStatusInvitesAppIdGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -260,15 +266,18 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationError =
 export const useInviteDeveloperInvitesAppIdInvitePost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
-    TError,
-    { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
+      TError,
+      { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError,
   { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
@@ -277,7 +286,7 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
   const mutationOptions =
     getInviteDeveloperInvitesAppIdInvitePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Accept Invite
@@ -340,15 +349,18 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationError =
 export const useAcceptInviteInvitesAppIdAcceptPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError,
   { appId: string },
@@ -357,7 +369,7 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
   const mutationOptions =
     getAcceptInviteInvitesAppIdAcceptPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Decline Invite
@@ -420,15 +432,18 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationError =
 export const useDeclineInviteInvitesAppIdDeclinePost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError,
   { appId: string },
@@ -437,7 +452,7 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
   const mutationOptions =
     getDeclineInviteInvitesAppIdDeclinePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Leave Team
@@ -500,15 +515,18 @@ export type LeaveTeamInvitesAppIdLeavePostMutationError =
 export const useLeaveTeamInvitesAppIdLeavePost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError,
   { appId: string },
@@ -517,7 +535,7 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
   const mutationOptions =
     getLeaveTeamInvitesAppIdLeavePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Get App Developers
@@ -606,6 +624,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -632,6 +651,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -650,6 +670,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -672,6 +693,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -680,9 +702,10 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -770,18 +793,23 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationError =
 export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
-    TError,
-    {
-      appId: string
-      params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams
-    },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>
+      >,
+      TError,
+      {
+        appId: string
+        params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
   TError,
   {
@@ -793,7 +821,7 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
   const mutationOptions =
     getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Revoke Invite
@@ -860,15 +888,18 @@ export type RevokeInviteInvitesAppIdRevokePostMutationError =
 export const useRevokeInviteInvitesAppIdRevokePost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
-    TError,
-    { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
+      TError,
+      { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
   TError,
   { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
@@ -877,5 +908,5 @@ export const useRevokeInviteInvitesAppIdRevokePost = <
   const mutationOptions =
     getRevokeInviteInvitesAppIdRevokePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
