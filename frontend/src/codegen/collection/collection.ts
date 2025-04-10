@@ -9,6 +9,7 @@ import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -88,62 +89,71 @@ export type GetCategoriesCollectionCategoryGetQueryError = AxiosError<unknown>
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
         TError,
-        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+          TError,
+          Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
         TError,
-        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+          TError,
+          Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
@@ -153,24 +163,28 @@ export function useGetCategoriesCollectionCategoryGet<
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
     getGetCategoriesCollectionCategoryGetQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -274,6 +288,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -301,6 +316,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -320,6 +336,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -343,6 +360,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -352,9 +370,10 @@ export function useGetCategoryCollectionCategoryCategoryGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -499,6 +518,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -540,6 +560,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -565,6 +586,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -594,6 +616,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -604,9 +627,10 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -694,6 +718,7 @@ export function useGetKeywordCollectionKeywordGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -720,6 +745,7 @@ export function useGetKeywordCollectionKeywordGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -738,6 +764,7 @@ export function useGetKeywordCollectionKeywordGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -760,6 +787,7 @@ export function useGetKeywordCollectionKeywordGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -768,9 +796,10 @@ export function useGetKeywordCollectionKeywordGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -859,6 +888,7 @@ export function useGetDevelopersCollectionDeveloperGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -885,6 +915,7 @@ export function useGetDevelopersCollectionDeveloperGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -903,6 +934,7 @@ export function useGetDevelopersCollectionDeveloperGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -925,6 +957,7 @@ export function useGetDevelopersCollectionDeveloperGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -933,9 +966,10 @@ export function useGetDevelopersCollectionDeveloperGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1048,6 +1082,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1081,6 +1116,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1102,6 +1138,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1127,6 +1164,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -1137,9 +1175,10 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1244,6 +1283,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1278,6 +1318,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1300,6 +1341,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1326,6 +1368,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -1335,9 +1378,10 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1435,6 +1479,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1465,6 +1510,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1485,6 +1531,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1509,15 +1556,17 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
     getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions(params, options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1606,6 +1655,7 @@ export function useGetVerifiedCollectionVerifiedGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1632,6 +1682,7 @@ export function useGetVerifiedCollectionVerifiedGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1650,6 +1701,7 @@ export function useGetVerifiedCollectionVerifiedGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1672,6 +1724,7 @@ export function useGetVerifiedCollectionVerifiedGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -1680,9 +1733,10 @@ export function useGetVerifiedCollectionVerifiedGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1770,6 +1824,7 @@ export function useGetMobileCollectionMobileGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1796,6 +1851,7 @@ export function useGetMobileCollectionMobileGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1814,6 +1870,7 @@ export function useGetMobileCollectionMobileGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1836,6 +1893,7 @@ export function useGetMobileCollectionMobileGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -1844,9 +1902,10 @@ export function useGetMobileCollectionMobileGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1935,6 +1994,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1961,6 +2021,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1979,6 +2040,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -2001,6 +2063,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -2009,9 +2072,10 @@ export function useGetPopularLastMonthCollectionPopularGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -2116,6 +2180,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -2150,6 +2215,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -2172,6 +2238,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -2198,15 +2265,17 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
     getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions(params, options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 

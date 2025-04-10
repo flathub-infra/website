@@ -9,6 +9,7 @@ import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -70,50 +71,71 @@ export type GetStatsStatsGetQueryError = AxiosError<unknown>
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<unknown>,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getStatsStatsGet>>,
         TError,
-        Awaited<ReturnType<typeof getStatsStatsGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getStatsStatsGet>>,
+          TError,
+          Awaited<ReturnType<typeof getStatsStatsGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getStatsStatsGet>>,
         TError,
-        Awaited<ReturnType<typeof getStatsStatsGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getStatsStatsGet>>,
+          TError,
+          Awaited<ReturnType<typeof getStatsStatsGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStatsStatsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
@@ -123,19 +145,27 @@ export function useGetStatsStatsGet<
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStatsStatsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getGetStatsStatsGetQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -233,6 +263,7 @@ export function useGetStatsForAppStatsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -260,6 +291,7 @@ export function useGetStatsForAppStatsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -279,6 +311,7 @@ export function useGetStatsForAppStatsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -302,6 +335,7 @@ export function useGetStatsForAppStatsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -311,9 +345,10 @@ export function useGetStatsForAppStatsAppIdGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
