@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Flatpak-støtte er bygge inn i Endless OS 3.0.0 og nyere—igen oppsett er nødvendig!</0> <2>Hvis du bruker en gamlere versjon må du <2>oppgradere til Endless OS 3</2>.</2>"
+    "introduction": "<0>Flatpak-støtte er bygge inn i Endless OS 3.0.0 og nyere—igen oppsett er nødvendig!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
