@@ -300,7 +300,7 @@ export const getStaticProps: GetStaticProps = async ({
   const verificationStatus = await fetchVerificationStatus(appId as string)
   const addons = await fetchAddons(appId as string, locale)
 
-  const datePublished = formatISO(new UTCDate(summary.timestamp * 1000))
+  const datePublished = formatISO(new UTCDate(summary?.timestamp ?? 0 * 1000))
 
   return {
     props: {
