@@ -1,0 +1,350 @@
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flatpak-plug-in voor GNOME-Software installeren"
+    },
+    "step-3": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-4": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Flatpak inschakelen via de software-beheerder"
+    },
+    "step-2": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-1": {
+      "name": "Linux-ondersteuning inschakelen"
+    },
+    "step-2": {
+      "name": "Een Linux-terminal starten"
+    },
+    "step-3": {
+      "name": "Flatpak installeren"
+    },
+    "step-4": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-5": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "arch": {
+    "distroName": "Arch Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flatpak-plug-in voor Software installeren"
+    },
+    "step-3": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-4": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "eurolinux": {
+    "distroName": "EuroLinux"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-3": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-4": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flatpak-plug-in voor Software installeren"
+    },
+    "step-3": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-4": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "mageia": {
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Apps installeren"
+    }
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "nixos": {
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "ataraxia_linux": {
+    "distroName": "Ataraxia Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "De Deepin-thema's installeren"
+    },
+    "step-4": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flatpak-plug-in voor Software installeren"
+    },
+    "step-3": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-4": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-2": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Flatpak installeren"
+    },
+    "step-2": {
+      "name": "De Flathub-pakket­bron toe­voegen"
+    },
+    "step-3": {
+      "name": "Opnieuw opstarten"
+    }
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "distroName": "Salix"
+  }
+}

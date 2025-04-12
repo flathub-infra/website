@@ -649,6 +649,8 @@
     "zoom-out": "縮小",
     "next": "下一個",
     "previous": "上一個",
-    "screenshot": "螢幕截圖"
-  }
+    "screenshot": "螢幕截圖",
+    "show-screenshot-fullscreen": "全螢幕顯示螢幕截圖"
+  },
+  "count-verified-desktop-apps": "已驗證的桌面應用程式"
 }
