@@ -621,5 +621,6 @@
   "positions": "Posisjoner",
   "apps-by-tag": "Apper med nøkkelord «{{tag}}»",
   "created": "Opprettet",
-  "kind-purchase-app": "Kjøp {{appName}}"
+  "kind-purchase-app": "Kjøp {{appName}}",
+  "count-verified-desktop-apps": "Verifiserte skrivebordsapper"
 }

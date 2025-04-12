@@ -64,5 +64,14 @@
   "an-error-occurred-server": "{{errorCode}} - Προέκυψε σφάλμα στον διακομιστή.",
   "login": "Σύνδεση",
   "retry-or-go-home": "Ίσως θέλετε να ξαναπροσπαθήσετε ή να πάτε πίσω <2>home</2>.",
-  "acknowledgements": "Ευχαριστίες"
+  "acknowledgements": "Ευχαριστίες",
+  "setup": "Ρύθμιση",
+  "carousel": "Καρουζέλ",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub Λογότυπο",
+  "more-pages": "Περισσότερες σελίδες",
+  "slide": "Διαφάνεια",
+  "users": "Χρήστες",
+  "mastodon": "Mastodon",
+  "close": "Κλείσιμο"
 }
