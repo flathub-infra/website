@@ -519,7 +519,7 @@
   "new-stable-token": "Novo token estável",
   "expires": "Expira",
   "revoked": "Revogado",
-  "flathub-the-linux-app-store": "O Flathub é a Loja de Aplicativos para o Linux",
+  "flathub-the-linux-app-store": "O Flathub é a Loja de Aplicativos para Linux",
   "can-access-input-devices": "Pode acessar dispositivos de entrada como teclados, mouses ou controles de jogos",
   "get-it-on": "Obtenha no",
   "app-of-the-day": "Aplicativo do Dia",
@@ -644,5 +644,15 @@
   "more-gametool": "Mais ferramentas de jogos",
   "we-love-games": "Nós ♥ Jogos",
   "game-section-description": "Jogos e aplicativos para rodar seus títulos favoritos",
-  "gametool": "Ferramentas de jogos"
+  "gametool": "Ferramentas de jogos",
+  "lightbox": {
+    "zoom-out": "Diminuir zoom",
+    "close": "Fechar",
+    "previous": "Anterior",
+    "screenshot": "Captura de tela",
+    "show-screenshot-fullscreen": "Mostrar captura de tela em tela cheia",
+    "next": "Próximo",
+    "zoom-in": "Aumentar zoom"
+  },
+  "count-verified-desktop-apps": "Aplicativos de desktop verificados"
 }
