@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
-    "@faker-js/faker": "^9.5.1",
+    "@faker-js/faker": "^9.7.0",
     "@neshca/cache-handler": "^1.8.1",
     "@storybook/addon-a11y": "^8.6.12",
     "@storybook/addon-actions": "^8.6.12",
