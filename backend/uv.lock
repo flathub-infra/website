@@ -200,16 +200,16 @@ watch = [
 
 [[package]]
 name = "fastapi"
-version = "0.115.9"
+version = "0.115.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ab/dd/d854f85e70f7341b29e3fda754f2833aec197bd355f805238758e3bcd8ed/fastapi-0.115.9.tar.gz", hash = "sha256:9d7da3b196c5eed049bc769f9475cd55509a112fbe031c0ef2f53768ae68d13f", size = 293774 }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/55/ae499352d82338331ca1e28c7f4a63bfd09479b16395dce38cf50a39e2c2/fastapi-0.115.12.tar.gz", hash = "sha256:1e2c2a2646905f9e83d32f04a3f86aff4a286669c6c950ca95b5fd68c2602681", size = 295236 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/32/b6/7517af5234378518f27ad35a7b24af9591bc500b8c1780929c1295999eb6/fastapi-0.115.9-py3-none-any.whl", hash = "sha256:4a439d7923e4de796bcc88b64e9754340fcd1574673cbd865ba8a99fe0d28c56", size = 94919 },
+    { url = "https://files.pythonhosted.org/packages/50/b3/b51f09c2ba432a576fe63758bddc81f78f0c6309d9e5c10d194313bf021e/fastapi-0.115.12-py3-none-any.whl", hash = "sha256:e94613d6c05e27be7ffebdd6ea5f388112e5e430c8f7d6494a9d1d88d43e814d", size = 95164 },
 ]
 
 [[package]]
@@ -264,30 +264,30 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "alembic", specifier = "==1.14.1" },
-    { name = "dramatiq", extras = ["redis", "watch"], specifier = "==1.17.1" },
-    { name = "fastapi", specifier = "==0.115.9" },
-    { name = "feedgen", specifier = "==1.0.0" },
-    { name = "httpx", specifier = "==0.28.1" },
-    { name = "itsdangerous", specifier = "==2.2.0" },
-    { name = "lxml", specifier = "==5.3.1" },
-    { name = "meilisearch", specifier = "==0.34.1" },
-    { name = "orjson", specifier = "==3.10.16" },
-    { name = "psycopg2-binary", specifier = "==2.9.10" },
-    { name = "publicsuffixlist", specifier = "==1.0.2.20250408" },
-    { name = "pydantic-settings", specifier = "==2.8.1" },
-    { name = "pygithub", specifier = "==2.6.1" },
-    { name = "pygobject", specifier = "==3.50.0" },
-    { name = "pyjwt", specifier = "==2.10.1" },
-    { name = "python-gitlab", specifier = "==5.6.0" },
-    { name = "python-multipart", specifier = "==0.0.20" },
-    { name = "redis", specifier = "==5.2.1" },
-    { name = "requests", specifier = "==2.32.3" },
-    { name = "sentry-sdk", extras = ["httpx"], specifier = "==2.22.0" },
+    { name = "alembic", specifier = ">=1.14.1,<2.0.0" },
+    { name = "dramatiq", extras = ["redis", "watch"], specifier = ">=1.17.1,<2.0.0" },
+    { name = "fastapi", specifier = ">=0.115.8,<1.0.0" },
+    { name = "feedgen", specifier = ">=1.0.0,<2.0.0" },
+    { name = "httpx", specifier = ">=0.28.1,<1.0.0" },
+    { name = "itsdangerous", specifier = ">=2.2,<3.0" },
+    { name = "lxml", specifier = ">=5.3.1,<6.0.0" },
+    { name = "meilisearch", specifier = ">=0.34.0,<1.0.0" },
+    { name = "orjson", specifier = ">=3.10.15,<4.0.0" },
+    { name = "psycopg2-binary", specifier = ">=2.9.10,<3.0.0" },
+    { name = "publicsuffixlist", specifier = ">=1.0.2.20240903,<2.0.0.0" },
+    { name = "pydantic-settings", specifier = ">=2.8.0,<3.0.0" },
+    { name = "pygithub", specifier = ">=2.6,<3.0" },
+    { name = "pygobject", specifier = ">=3.50.0,<4.0.0" },
+    { name = "pyjwt", specifier = ">=2.10.1,<3.0.0" },
+    { name = "python-gitlab", specifier = ">=5.6,<6.0" },
+    { name = "python-multipart", specifier = ">=0.0.20,<1.0.0" },
+    { name = "redis", specifier = ">=5.2.1,<6.0.0" },
+    { name = "requests", specifier = ">=2.32.3,<3.0.0" },
+    { name = "sentry-sdk", extras = ["httpx"], specifier = ">=2.22.0,<3.0.0" },
     { name = "sqlalchemy", specifier = "==2.0.40" },
-    { name = "stripe", specifier = "==11.6.0" },
-    { name = "uvicorn", specifier = "==0.34.0" },
-    { name = "vcrpy", specifier = "==7.0.0" },
+    { name = "stripe", specifier = ">=11.5,<12.0" },
+    { name = "uvicorn", specifier = ">=0.34.0,<1.0.0" },
+    { name = "vcrpy", specifier = ">=7.0.0,<8.0.0" },
 ]
 
 [package.metadata.requires-dev]
