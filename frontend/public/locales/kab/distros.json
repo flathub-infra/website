@@ -77,9 +77,6 @@
   "centos": {
     "distroName": "CentOS"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux"
-  },
   "debian": {
     "step-1": {
       "name": "Sbedd Flatpak"

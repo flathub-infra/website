@@ -1,8 +1,4 @@
 {
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>O Flatpak é instalado por padrão no EuroLinux 8 e mais recentes, ao usar o GNOME. Para começar, tudo o que você precisa fazer é habilitar o Flathub, que é a melhor maneira de obter aplicativos Flatpak. Basta baixar e instalar o <2>arquivo de repositório do Flathub</2>.</0> <2>Agora, tudo o que você precisa fazer é <2>instalar os aplicativos</2>!</2>"
-  },
   "solus": {
     "distroName": "Solus",
     "step-1": {

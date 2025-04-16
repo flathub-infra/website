@@ -414,10 +414,6 @@
     "distroName": "AlmaLinux",
     "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van az AlmaLinux 8-as és újabb verzióira, ha GNOME-ot használ. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2>"
   },
-  "eurolinux": {
-    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van az EuroLinux 8-as és újabb verzióira, ha GNOME-ot használ. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2>",
-    "distroName": "EuroLinux"
-  },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
