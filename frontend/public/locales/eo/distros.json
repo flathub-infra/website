@@ -421,10 +421,6 @@
     "distroName": "Red Hat Enterprise Linux",
     "introduction": "<0>Flatpak estas apriore instalita sur Red Hat Enterprise Linux Workstation, versio 9 aŭ pli nova. Por eki, vi ŝaltu Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejan dosieron</2>.</0> <p>Por instali Flatpak sur Red Hat Enterprise Linux Workstation, versio 8 aŭ pli malnova, rulu la jenon en terminalo:</p>  <5></5> <7>Nun povas <2>instali programojn</2>!</7> <p>La ĉi-supraj ligoj supozeble funkcios sur la apriora instalaĵo de Red Hat Enterprise Linux Workstation 9, sed se tiuj ial ne funkcias, vi povas malaŭtomate agordi Flathub rulante la jenon:</p> <11></11>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak estas apriore instalita sur EuroLinux versio 8 aŭ pli nova, kiam oni uzas GNOME. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
-  },
   "linux_mint": {
     "distroName": "Linux Mint",
     "introduction": "<0>Versioj de Linux Mint ne malpli novaj ol 18.3 subtenas Flatpak — neniu agordado necesas!</0> <2>Se vi uzas malpli novan version, <2>ĝisdatigu al Linux Mint 18.3</2>.</2>"

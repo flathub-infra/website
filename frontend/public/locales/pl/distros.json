@@ -80,10 +80,6 @@
       "text": "<p>Aby zainstalować Flatpak na systemie Arch, otwórz aplikację terminal i uruchom:</p> <2></2>"
     }
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak jest instalowany domyślnie w systemie EuroLinux 8 i nowszych, gdy używane jest środowisko GNOME. Aby rozpocząć, wystarczy włączyć Flathub, który jest najlepszym sposobem na uzyskanie aplikacji Flatpak. Wystarczy pobrać i zainstalować plik <2>repozytorium Flathub</2>.</0> <2>Teraz wystarczy <2>zainstalować aplikacje</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Flatpak jest domyślnie instalowany w systemie AlmaLinux 8 i nowszych, gdy używane jest środowisko GNOME. Aby rozpocząć, wystarczy włączyć Flathub, który jest najlepszym sposobem na uzyskanie aplikacji Flatpak. Wystarczy pobrać i zainstalować plik <2>repozytorium Flathub</2>.</0> <2>Teraz wystarczy <2>zainstalować aplikacje</2>!</2>"

@@ -116,9 +116,6 @@
   "centos": {
     "distroName": "CentOS"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux"
-  },
   "almalinux": {
     "distroName": "AlmaLinux"
   },

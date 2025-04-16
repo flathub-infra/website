@@ -235,10 +235,6 @@
       "text": "<0>Flathub is the best place to get Flatpak apps. To enable it, download and install the <2>Flathub repository file</2> or run the following in a terminal:</0> <2></2>"
     }
   },
-  "eurolinux": {
-    "introduction": "<0>Flatpak is installed by default on EuroLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>",
-    "distroName": "EuroLinux"
-  },
   "almalinux": {
     "introduction": "<0>Flatpak is installed by default on AlmaLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>",
     "distroName": "AlmaLinux"

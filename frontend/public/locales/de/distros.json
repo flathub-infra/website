@@ -146,10 +146,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Flatpak wird standardmäßig auf CentOS 7 und neuer installiert, wenn GNOME verwendet wird. Du musst nur Flathub aktivieren, den besten Weg, um Flatpak Apps zu bekommen. Einfach die <2>Flathub Repository-Datei</2> herunterladen und installieren.</0> <2>Nun musst du nur noch <2>Apps installieren</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak wird standardmäßig auf EuroLinux 8 und neuer installiert, wenn GNOME verwendet wird. Du musst nur Flathub aktivieren, den besten Weg, um Flatpak Apps zu bekommen. Einfach die <2>Flathub Repository-Datei</2> herunterladen und installieren.</0> <2>Nun musst du nur noch <2>Apps installieren</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Flatpak wird standardmäßig auf AlmaLinux 8 und neuer installiert, wenn GNOME verwendet wird. Du musst nur Flathub aktivieren, den besten Weg, um Flatpak Apps zu bekommen. Einfach die <2>Flathub Repository-Datei</2> herunterladen und installieren.</0> <2>Nun musst du nur noch <2>Apps installieren</2>!</2>"

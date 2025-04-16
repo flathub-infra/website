@@ -229,9 +229,6 @@
       "text": "<p>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, exécutez :</p> <2></2>"
     }
   },
-  "eurolinux": {
-    "distroName": "EuroLinux"
-  },
   "almalinux": {
     "distroName": "AlmaLinux"
   },

@@ -145,10 +145,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Flatpak on oletusarvoisesti asennettu CentOS:n versioon 7 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <2>Flathub-ohjelmistovarastotiedosto</2>.</0> <2>Sen jälkeen voit aloittaa <2>sovellusten asentamisen</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak on oletusarvoisesti asennettu EuroLinuxin versioon 8 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <2>Flathub-ohjelmistovarastotiedosto</2>.</0> <2>Sen jälkeen voit aloittaa <2>sovellusten asentamisen</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Flatpak on oletusarvoisesti asennettu AlmaLinuxin versioon 8 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <2>Flathub-ohjelmistovarastotiedosto</2>.</0> <2>Sen jälkeen voit aloittaa <2>sovellusten asentamisen</2>!</2>"

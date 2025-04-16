@@ -148,10 +148,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud CentOS 7's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud EuroLinux 8's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud AlmaLinux 8's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"

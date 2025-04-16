@@ -232,10 +232,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Flatpak je standardno instaliran na CentOS 7 i novijim verzijama kada se koristi GNOME. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak je standardno instaliran na EuroLinux 8 i novijim verzijama kada se koristi GNOME. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Flatpak je standardno instaliran na AlmaLinux 8 i novijim verzijama. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
