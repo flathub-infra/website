@@ -59,7 +59,7 @@ export const Description = ({
               `prose relative transition-all dark:prose-invert xl:max-w-[75%]`,
               !isExpanded &&
                 scrollHeight > collapsedHeight &&
-                "from-flathub-lotion before:absolute before:bottom-0 before:start-0 before:h-1/3 before:w-full before:bg-linear-to-t before:content-[''] dark:from-flathub-dark-gunmetal",
+                "before:from-flathub-lotion before:absolute before:bottom-0 before:start-0 before:h-1/3 before:w-full before:bg-linear-to-t before:content-[''] dark:before:from-flathub-dark-gunmetal",
             )}
             dangerouslySetInnerHTML={{
               __html: description,
