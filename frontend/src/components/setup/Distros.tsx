@@ -1091,36 +1091,6 @@ export const CentOS = () => {
 }
 distroMap.set("CentOS", <CentOS />)
 
-export const EuroLinux = () => {
-  const { t } = useTranslation()
-  return (
-    <>
-      <h1>{t("distros:eurolinux.distroName")}</h1>
-      <ol className="distrotut">
-        <Trans i18nKey="distros:eurolinux.introduction">
-          <p>
-            Flatpak is installed by default on EuroLinux 8 and newer, when using
-            GNOME. To get started, all you need to do is enable Flathub, which
-            is the best way to get Flatpak apps. Just download and install the{" "}
-            <a
-              className="btn btn-default"
-              href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-            >
-              Flathub repository file
-            </a>
-            .
-          </p>{" "}
-          <p>
-            Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
-          </p>
-        </Trans>
-      </ol>
-    </>
-  )
-}
-distroMap.set("EuroLinux", <EuroLinux />)
-
 export const AlmaLinux = () => {
   const { t } = useTranslation()
   return (
