@@ -2,7 +2,8 @@
   "ubuntu": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "أوبونتو"
   },
   "fedora": {
     "distroName": "فيدورا",
@@ -11,21 +12,24 @@
   "alt_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "ألت لينكس"
   },
   "chrome_os": {
     "step-3": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "كروم أو إس"
   },
   "opensuse": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "أوبن سوزا"
   },
   "linux_mint": {
     "distroName": "لينكس منت",
-    "introduction": "<0>دعم فلاتباك مضمّن في Linux Mint 18.3 وأحدث - لا يحتاج إعداد!</0> <2>إذا كنت تستخدم إصدارًا قديمًا، <2>رقي إلى Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>دعم فلاتباك مضمّن في Linux Mint 18.3 والإصدارات الأحدث - لا يلزم الإعداد!</0> <2>إذا كنت تستخدم إصدارًا قديمًا، <2>رقي إلى Linux Mint 18.3</2>.</2>"
   },
   "arch": {
     "step-1": {
@@ -35,32 +39,51 @@
     "step-2": {
       "name": "أعد التشغيل",
       "text": "<0>لإكمال الإعداد، أعد تشغيل نظامك. الآن كل ما عليك فعله هو <2>تثبيت التطبيقات</2>!</0>"
-    }
+    },
+    "distroName": "آرتش"
   },
   "debian": {
     "step-1": {
-      "name": "ثبّت فلاتباك"
+      "name": "ثبّت فلاتباك",
+      "text": "<p>تتوفر حزمة flatpak في Debian 10 (Buster) والإصدارات الأحدث. لتثبيته، شغّل ما يلي كجذر (root):</p> <2></2>"
+    },
+    "step-2": {
+      "text": "إذا كنت تشغّل GNOME، فمن الجيد أيضا تثبيت امتدادة Flatpak لبرنامج GNOME Software. للقيام بذلك، شغّل:</p> <2></2> <p>إذا كنت تشغّل KDE، فيجب عليك بدلاً من ذلك تثبيت الواجهة الخلفية ل Plasma Discover Flatpak:</p> <6></6>",
+      "name": "ثبّت امتدادة Software Flatpak"
+    },
+    "distroName": "دبيان",
+    "step-3": {
+      "name": "أضف مستودع Flathub",
+      "text": "<0>فلاتهب (Flathub) هو أفضل مكان للحصول على تطبيقات Flatpak. لتفعيله، نزّل وثبّت <2>ملف مستودع Flathub</2> أو شغّل ما يلي في الطرفية:</0> <2></2>"
+    },
+    "step-4": {
+      "name": "أعد التشغيل",
+      "text": "لإكمال الإعداد، أعد تشغيل النظام. الآن كل ما عليك فعله هو <2>تثبيت التطبيقات</2>!</0>"
     }
   },
   "gentoo": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "جنتو"
   },
   "rocky_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "روكي لينكس"
   },
   "kubuntu": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "كوبونتو"
   },
   "alpine": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "ألباين"
   },
   "mageia": {
     "step-1": {
@@ -85,41 +108,96 @@
   "endeavouros": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "إنديفور أو إس"
   },
   "gnu_guix": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "جنو جيكس"
   },
   "deepin": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "ديبين"
   },
   "raspberry_pi_os": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "راسبيري باي أو إس"
   },
   "nixos": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "نكس أو إس"
   },
   "void_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "فويد لينكس"
   },
   "solus": {
     "step-1": {
       "name": "ثبّت فلاتباك"
-    }
+    },
+    "distroName": "سولس"
   },
   "crystal_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
+    },
+    "distroName": "كريستال لينكس"
+  },
+  "pop_os": {
+    "distroName": "بوب!_أو إس",
+    "introduction": "<0>دعم Flatpak مضمّن في Pop!_OS 20.04 والإصدارات الأحدث - لا يلزم الإعداد!</0>"
+  },
+  "elementary_os": {
+    "distroName": "إلمنتري أو إس"
+  },
+  "vanilla_os": {
+    "distroName": "فانيليا أو إس"
+  },
+  "salix": {
+    "distroName": "ساليكس"
+  },
+  "zorin_os": {
+    "distroName": "زورن أو إس",
+    "introduction": "<0>دعم Flatpak مضمّن في Zorin OS</0> <p> يمكنك استخدام تطبيق Software Store لتنزيل تطبيقات Flatpak.</p>"
+  },
+  "clear_linux": {
+    "distroName": "كلير لينكس"
+  },
+  "pureos": {
+    "distroName": "بيور أو إس"
+  },
+  "kde_neon": {
+    "distroName": "كِيدِي نيون"
+  },
+  "manjaro": {
+    "distroName": "مانجارو",
+    "step-1": {
+      "name": "فعّل Flatpak من خلال Software Manager"
     }
+  },
+  "endless_os": {
+    "distroName": "إندلس أو إس"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "ريد هات إنتربرايز لينكس"
+  },
+  "centos": {
+    "distroName": "سينت أو إس"
+  },
+  "almalinux": {
+    "distroName": "ألما لينكس"
+  },
+  "mx_linux": {
+    "distroName": "إم إكس لينكس"
   }
 }
