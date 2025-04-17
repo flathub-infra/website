@@ -148,10 +148,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud CentOS 7's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud EuroLinux 8's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud AlmaLinux 8's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
@@ -307,21 +303,6 @@
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<0>Flatpak on PureOSis vaikimisi olemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigaldada <2>Flathubi tarkvarahoidla seadistusfail</2>.</0> <2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
-  },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-2": {
-      "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak",
-      "text": "<p>Paigaldamaks Flatpakki Ataraxias, ava terminalirakendus ja käivita:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    }
   },
   "zorin_os": {
     "distroName": "Zorin OS",

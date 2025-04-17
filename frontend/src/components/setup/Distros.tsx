@@ -1091,36 +1091,6 @@ export const CentOS = () => {
 }
 distroMap.set("CentOS", <CentOS />)
 
-export const EuroLinux = () => {
-  const { t } = useTranslation()
-  return (
-    <>
-      <h1>{t("distros:eurolinux.distroName")}</h1>
-      <ol className="distrotut">
-        <Trans i18nKey="distros:eurolinux.introduction">
-          <p>
-            Flatpak is installed by default on EuroLinux 8 and newer, when using
-            GNOME. To get started, all you need to do is enable Flathub, which
-            is the best way to get Flatpak apps. Just download and install the{" "}
-            <a
-              className="btn btn-default"
-              href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-            >
-              Flathub repository file
-            </a>
-            .
-          </p>{" "}
-          <p>
-            Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
-          </p>
-        </Trans>
-      </ol>
-    </>
-  )
-}
-distroMap.set("EuroLinux", <EuroLinux />)
-
 export const AlmaLinux = () => {
   const { t } = useTranslation()
   return (
@@ -2216,107 +2186,6 @@ export const PureOS = () => {
 }
 distroMap.set("PureOS", <PureOS />)
 
-export const Ataraxia_Linux = () => {
-  const { t } = useTranslation()
-  return (
-    <>
-      <h1>{t("distros:ataraxia_linux.distroName")}</h1>
-      <ol className="distrotut">
-        <HowToJsonLd
-          name={t("distros:ataraxia_linux.distroName")}
-          image="https://flathub.org/img/distro/ataraxia.svg"
-          estimatedCost={{ currency: "USD", value: "0" }}
-          step={[
-            {
-              url: "https://flathub.org/setup/ataraxia_linux",
-              name: t("distros:ataraxia_linux.step-1.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:ataraxia_linux.step-1.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-            {
-              url: "https://flathub.org/setup/ataraxia_linux",
-              name: t("distros:ataraxia_linux.step-2.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:ataraxia_linux.step-2.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-            {
-              url: "https://flathub.org/setup/ataraxia_linux",
-              name: t("distros:ataraxia_linux.step-3.name"),
-              itemListElement: [
-                {
-                  type: "HowToDirection",
-                  text: t("distros:ataraxia_linux.step-3.text")
-                    .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
-                    .trim(),
-                },
-              ],
-            },
-          ]}
-        />
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:ataraxia_linux.step-1.name">
-              Install Flatpak
-            </Trans>
-          </h2>
-          <Trans i18nKey="distros:ataraxia_linux.step-1.text">
-            <p>
-              To install Flatpak on Ataraxia Linux, run the following in a
-              terminal:
-            </p>{" "}
-            <CodeCopy text={`sudo neko em flatpak`} />
-          </Trans>
-        </li>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:ataraxia_linux.step-2.name">
-              Add the Flathub repository
-            </Trans>
-          </h2>
-          <Trans i18nKey="distros:ataraxia_linux.step-2.text">
-            <p>
-              Flathub is the best place to get Flatpak apps. To enable it, run:
-            </p>{" "}
-            <CodeCopy
-              text={`flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`}
-            />
-          </Trans>
-        </li>
-
-        <li>
-          <h2>
-            <Trans i18nKey="distros:ataraxia_linux.step-3.name">Restart</Trans>
-          </h2>
-          <Trans i18nKey="distros:ataraxia_linux.step-3.text">
-            <p>
-              To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
-            </p>
-          </Trans>
-        </li>
-      </ol>
-    </>
-  )
-}
-distroMap.set("Ataraxia Linux", <Ataraxia_Linux />)
-
 export const Zorin_OS = () => {
   const { t } = useTranslation()
   return (
@@ -2325,7 +2194,7 @@ export const Zorin_OS = () => {
       <ol className="distrotut">
         <Trans i18nKey="distros:zorin_os.introduction">
           <h2>Flatpak support is built into Zorin OS</h2>{" "}
-          <p>You can use the Software Store app to download flatpak apps.</p>
+          <p>You can use the Software Store app to download Flatpak apps.</p>
         </Trans>
       </ol>
     </>

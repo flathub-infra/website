@@ -10,6 +10,7 @@ import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -90,62 +91,71 @@ export type GetWalletinfoWalletWalletinfoGetQueryError = AxiosError<unknown>
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
         TError,
-        Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+          TError,
+          Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
         TError,
-        Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+          TError,
+          Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
@@ -155,23 +165,27 @@ export function useGetWalletinfoWalletWalletinfoGet<
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getGetWalletinfoWalletWalletinfoGetQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -243,15 +257,18 @@ export type PostRemovecardWalletRemovecardPostMutationError =
 export const usePostRemovecardWalletRemovecardPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
-    TError,
-    { data: PaymentCardInfo },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
+      TError,
+      { data: PaymentCardInfo },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
   TError,
   { data: PaymentCardInfo },
@@ -260,7 +277,7 @@ export const usePostRemovecardWalletRemovecardPost = <
   const mutationOptions =
     getPostRemovecardWalletRemovecardPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Return a list of transactions associated with this user.
@@ -348,6 +365,7 @@ export function useGetTransactionsWalletTransactionsGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -374,6 +392,7 @@ export function useGetTransactionsWalletTransactionsGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -392,6 +411,7 @@ export function useGetTransactionsWalletTransactionsGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -414,6 +434,7 @@ export function useGetTransactionsWalletTransactionsGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -422,9 +443,10 @@ export function useGetTransactionsWalletTransactionsGet<
     options,
   )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -497,15 +519,18 @@ export type CreateTransactionWalletTransactionsPostMutationError =
 export const useCreateTransactionWalletTransactionsPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
-    TError,
-    { data: NascentTransaction },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
+      TError,
+      { data: NascentTransaction },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
   TError,
   { data: NascentTransaction },
@@ -514,7 +539,7 @@ export const useCreateTransactionWalletTransactionsPost = <
   const mutationOptions =
     getCreateTransactionWalletTransactionsPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Retrieve a transaction by its ID
@@ -611,6 +636,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -641,6 +667,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -661,6 +688,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -685,15 +713,17 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
     getGetTransactionByIdWalletTransactionsTxnGetQueryOptions(txn, options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -782,17 +812,20 @@ export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationError =
 export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
-    >,
-    TError,
-    { txn: string; data: PaymentCardInfo },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
+      >,
+      TError,
+      { txn: string; data: PaymentCardInfo },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<
     ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
   >,
@@ -805,7 +838,7 @@ export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
       options,
     )
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Cancel a transaction in the `new` or `retry` states.
@@ -878,17 +911,20 @@ export type CancelTransactionWalletTransactionsTxnCancelPostMutationError =
 export const useCancelTransactionWalletTransactionsTxnCancelPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
-    >,
-    TError,
-    { txn: string },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
+      >,
+      TError,
+      { txn: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>>,
   TError,
   { txn: string },
@@ -897,7 +933,7 @@ export const useCancelTransactionWalletTransactionsTxnCancelPost = <
   const mutationOptions =
     getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Return the stripe public key to use in the frontend.  Since this is not
@@ -952,62 +988,71 @@ export type GetStripedataWalletStripedataGetQueryError = AxiosError<unknown>
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
         TError,
-        Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+          TError,
+          Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
         TError,
-        Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+          TError,
+          Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
@@ -1017,23 +1062,27 @@ export function useGetStripedataWalletStripedataGet<
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getGetStripedataWalletStripedataGetQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1144,6 +1193,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1178,6 +1228,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1200,6 +1251,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -1226,15 +1278,17 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
     getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions(txn, options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -1318,15 +1372,18 @@ export type SetSavecardWalletTransactionsTxnSavecardPostMutationError =
 export const useSetSavecardWalletTransactionsTxnSavecardPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
-    TError,
-    { txn: string; data: TransactionSaveCard },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
+      TError,
+      { txn: string; data: TransactionSaveCard },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
   TError,
   { txn: string; data: TransactionSaveCard },
@@ -1335,7 +1392,7 @@ export const useSetSavecardWalletTransactionsTxnSavecardPost = <
   const mutationOptions =
     getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Set the transaction as 'pending' so that we can recover if Stripe
@@ -1405,15 +1462,18 @@ export type SetPendingWalletTransactionsTxnSetpendingPostMutationError =
 export const useSetPendingWalletTransactionsTxnSetpendingPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
-    TError,
-    { txn: string },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
+      TError,
+      { txn: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
   TError,
   { txn: string },
@@ -1422,7 +1482,7 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
   const mutationOptions =
     getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * This endpoint is intended to deal with webhooks coming back from payment
@@ -1487,15 +1547,18 @@ export type WebhookWalletWebhookStripePostMutationError = AxiosError<unknown>
 export const useWebhookWalletWebhookStripePost = <
   TError = AxiosError<unknown>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
   TError,
   void,
@@ -1504,5 +1567,5 @@ export const useWebhookWalletWebhookStripePost = <
   const mutationOptions =
     getWebhookWalletWebhookStripePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }

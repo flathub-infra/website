@@ -7,6 +7,7 @@
 import { useMutation } from "@tanstack/react-query"
 import type {
   MutationFunction,
+  QueryClient,
   UseMutationOptions,
   UseMutationResult,
 } from "@tanstack/react-query"
@@ -71,15 +72,18 @@ export type UpdateUpdatePostMutationError = AxiosError<unknown>
 export const useUpdateUpdatePost = <
   TError = AxiosError<unknown>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateUpdatePost>>,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateUpdatePost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof updateUpdatePost>>,
   TError,
   void,
@@ -87,7 +91,7 @@ export const useUpdateUpdatePost = <
 > => {
   const mutationOptions = getUpdateUpdatePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Update Stats
@@ -146,15 +150,18 @@ export type UpdateStatsUpdateStatsPostMutationError = AxiosError<unknown>
 export const useUpdateStatsUpdateStatsPost = <
   TError = AxiosError<unknown>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
   TError,
   void,
@@ -162,7 +169,7 @@ export const useUpdateStatsUpdateStatsPost = <
 > => {
   const mutationOptions = getUpdateStatsUpdateStatsPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Process any pending transfers which may be in the system
@@ -230,17 +237,20 @@ export type ProcessTransfersUpdateProcessPendingTransfersPostMutationError =
 export const useProcessTransfersUpdateProcessPendingTransfersPost = <
   TError = AxiosError<unknown>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
-    >,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
+      >,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>>,
   TError,
   void,
@@ -249,5 +259,5 @@ export const useProcessTransfersUpdateProcessPendingTransfersPost = <
   const mutationOptions =
     getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }

@@ -10,6 +10,7 @@ import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -138,6 +139,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -172,6 +174,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -194,6 +197,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -220,6 +224,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -229,9 +234,10 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -374,6 +380,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -415,6 +422,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -440,6 +448,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -469,6 +478,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -479,9 +489,10 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -589,22 +600,25 @@ export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutat
  * @summary Verify By Login Provider
  */
 export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<
-          typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
-        >
-      >,
-      TError,
-      {
-        appId: string
-        params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-      },
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  }): UseMutationResult<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
+          >
+        >,
+        TError,
+        {
+          appId: string
+          params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
     Awaited<
       ReturnType<
         typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
@@ -622,7 +636,7 @@ export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost 
         options,
       )
 
-    return useMutation(mutationOptions)
+    return useMutation(mutationOptions, queryClient)
   }
 /**
  * Returns the URL to request access to the organization so we can verify the user's membership.
@@ -709,36 +723,39 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     >
   >,
   TError = AxiosError<unknown>,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<
-        ReturnType<
-          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
-        >
-      >,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<
           ReturnType<
             typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
           >
         >,
         TError,
-        Awaited<
-          ReturnType<
-            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+            >
           >
-        >
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & {
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
@@ -748,36 +765,39 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     >
   >,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<
-        ReturnType<
-          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
-        >
-      >,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<
           ReturnType<
             typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
           >
         >,
         TError,
-        Awaited<
-          ReturnType<
-            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+            >
           >
-        >
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
@@ -787,20 +807,23 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     >
   >,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<
-        ReturnType<
-          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
-        >
-      >,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+          >
+        >,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
@@ -814,20 +837,23 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     >
   >,
   TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<
-        ReturnType<
-          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
-        >
-      >,
-      TError,
-      TData
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+          >
+        >,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & {
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
@@ -835,9 +861,10 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -943,22 +970,25 @@ export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPos
  * @summary Setup Website Verification
  */
 export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<
-          typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
-        >
-      >,
-      TError,
-      {
-        appId: string
-        params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-      },
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  }): UseMutationResult<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
+          >
+        >,
+        TError,
+        {
+          appId: string
+          params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
     Awaited<
       ReturnType<
         typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
@@ -976,7 +1006,7 @@ export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
         options,
       )
 
-    return useMutation(mutationOptions)
+    return useMutation(mutationOptions, queryClient)
   }
 /**
  * Checks website verification, and if it succeeds, marks the app as verified for the current account.
@@ -1077,22 +1107,25 @@ export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificatio
  * @summary Confirm Website Verification
  */
 export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<
-          typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
-        >
-      >,
-      TError,
-      {
-        appId: string
-        params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-      },
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  }): UseMutationResult<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
+          >
+        >,
+        TError,
+        {
+          appId: string
+          params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
     Awaited<
       ReturnType<
         typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
@@ -1110,7 +1143,7 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
         options,
       )
 
-    return useMutation(mutationOptions)
+    return useMutation(mutationOptions, queryClient)
   }
 /**
  * If the current account has verified the given app, mark it as no longer verified.
@@ -1174,15 +1207,18 @@ export type UnverifyVerificationAppIdUnverifyPostMutationError =
 export const useUnverifyVerificationAppIdUnverifyPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
   TError,
   { appId: string },
@@ -1191,7 +1227,7 @@ export const useUnverifyVerificationAppIdUnverifyPost = <
   const mutationOptions =
     getUnverifyVerificationAppIdUnverifyPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * @summary Switch To Direct Upload
@@ -1276,19 +1312,22 @@ export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutatio
  * @summary Switch To Direct Upload
  */
 export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<
-          typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
-        >
-      >,
-      TError,
-      { appId: string },
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  }): UseMutationResult<
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
+          >
+        >,
+        TError,
+        { appId: string },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
     Awaited<
       ReturnType<
         typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
@@ -1303,7 +1342,7 @@ export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
         options,
       )
 
-    return useMutation(mutationOptions)
+    return useMutation(mutationOptions, queryClient)
   }
 /**
  * @summary Archive
@@ -1367,15 +1406,18 @@ export type ArchiveVerificationAppIdArchivePostMutationError =
 export const useArchiveVerificationAppIdArchivePost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
-    TError,
-    { appId: string; data: ArchiveRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
+      TError,
+      { appId: string; data: ArchiveRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
   TError,
   { appId: string; data: ArchiveRequest },
@@ -1384,5 +1426,5 @@ export const useArchiveVerificationAppIdArchivePost = <
   const mutationOptions =
     getArchiveVerificationAppIdArchivePostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }

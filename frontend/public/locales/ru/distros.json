@@ -116,9 +116,6 @@
   "centos": {
     "distroName": "CentOS"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux"
-  },
   "almalinux": {
     "distroName": "AlmaLinux"
   },
@@ -241,18 +238,6 @@
   },
   "pureos": {
     "distroName": "PureOS"
-  },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-2": {
-      "name": "Добавление репозитория Flathub"
-    },
-    "step-3": {
-      "name": "Перезагрузка"
-    },
-    "step-1": {
-      "name": "Установка Flatpak"
-    }
   },
   "zorin_os": {
     "distroName": "Zorin OS"

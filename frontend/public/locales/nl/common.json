@@ -643,5 +643,15 @@
   "more-gamelauncher": "Meer game-launchers",
   "tool": "Gereedschap",
   "gametool": "Game­gereedschap",
-  "more-gametool": "Meer game­gereedschap"
+  "more-gametool": "Meer game­gereedschap",
+  "count-verified-desktop-apps": "Geverifieerde bureaublad-apps",
+  "lightbox": {
+    "close": "Sluiten",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "zoom-in": "Inzoomen",
+    "zoom-out": "Uitzoomen",
+    "screenshot": "Scherm­afdruk",
+    "show-screenshot-fullscreen": "Scherm­afdruk in volledig scherm tonen"
+  }
 }

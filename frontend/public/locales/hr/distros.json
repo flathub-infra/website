@@ -232,10 +232,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Flatpak je standardno instaliran na CentOS 7 i novijim verzijama kada se koristi GNOME. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak je standardno instaliran na EuroLinux 8 i novijim verzijama kada se koristi GNOME. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Flatpak je standardno instaliran na AlmaLinux 8 i novijim verzijama. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
@@ -326,21 +322,6 @@
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<0>Flatpak je standardno instaliran na PureOS. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
-  },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Instaliraj Flatpak",
-      "text": "<p>Za instaliranje Flatpaka na Ataraxia Linux, pokreni sljedeće u terminalu:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Dodaj Flathub repozitorij",
-      "text": "<p>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Pokreni ponovo",
-      "text": "<0>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <2>instalirati aplikacije</2>!</0>"
-    }
   },
   "zorin_os": {
     "distroName": "Zorin OS",

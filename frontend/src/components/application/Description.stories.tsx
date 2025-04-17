@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     app: {
-      description: faker.lorem.paragraphs(3),
+      description: faker.lorem.paragraphs(10),
       summary: "This is a summary, that's way too long",
     },
     isQualityModalOpen: false,

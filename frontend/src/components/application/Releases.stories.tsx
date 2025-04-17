@@ -40,6 +40,26 @@ export const withChangelog = () => {
   )
 }
 
+export const notExpanded = () => {
+  const latestRelease: Release = {
+    version: faker.system.semver(),
+    description: `<p>${faker.lorem.paragraphs(3)}</p><p><ul><li>${faker.lorem.paragraphs(3)}</li><li>${faker.lorem.paragraphs(3)}</li><li>${faker.lorem.paragraphs(3)}</li></ul></p>`,
+    timestamp: faker.date.recent().getTime() / 1000,
+  }
+
+  const summary = {
+    timestamp: faker.date.recent().getTime() / 1000,
+  }
+
+  return (
+    <Releases
+      latestRelease={latestRelease}
+      summary={summary}
+      expanded={false}
+    />
+  )
+}
+
 export const withTimestamp = () => {
   const latestRelease: Release = {
     version: faker.system.semver(),

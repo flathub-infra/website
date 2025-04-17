@@ -148,10 +148,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Tá Flatpak suiteáilte de réir réamhshocraithe ar CentOS 7 agus níos nuaí, agus GNOME á úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun apps Flatpak a fháil. Níl le déanamh ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
   },
-  "eurolinux": {
-    "distroName": "EuroLinux",
-    "introduction": "<0>Tá Flatpak suiteáilte de réir réamhshocraithe ar EuroLinux 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun apps Flatpak a fháil. Níl le déanamh ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
-  },
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<0>Tá Flatpak suiteáilte de réir réamhshocraithe ar AlmaLinux 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun apps Flatpak a fháil. Níl le déanamh ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
@@ -307,21 +303,6 @@
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<0>Tá Flatpak suiteáilte de réir réamhshocraithe ar PureOS. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun apps Flatpak a fháil. Níl le déanamh ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
-  },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Suiteáil Flatpak",
-      "text": "<p>Chun Flatpak a shuiteáil ar Ataraxia Linux, rith an méid seo a leanas i dteirminéal:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Cuir stór Flathub leis",
-      "text": "<p>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Athosaigh",
-      "text": "<0>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <2>aipeanna a shuiteáil</2>!</0>"
-    }
   },
   "zorin_os": {
     "distroName": "OS Zorin",

@@ -10,6 +10,7 @@ import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
@@ -129,6 +130,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -161,6 +163,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -181,6 +184,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -205,15 +209,17 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
     getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions(params, options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -347,6 +353,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -387,6 +394,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
       >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -411,6 +419,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
@@ -439,6 +448,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     >
     axios?: AxiosRequestConfig
   },
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
@@ -448,9 +458,10 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
       options,
     )
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-  }
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
   query.queryKey = queryOptions.queryKey
 
@@ -521,15 +532,20 @@ export type GetUpdateTokenPurchasesGenerateUpdateTokenPostMutationError =
 export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
   TError = AxiosError<unknown>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>
+      >,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
   TError,
   void,
@@ -538,7 +554,7 @@ export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
   const mutationOptions =
     getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Checks whether the logged in user is able to download all of the given app refs.
@@ -610,15 +626,18 @@ export type CheckPurchasesPurchasesCheckPurchasesPostMutationError =
 export const useCheckPurchasesPurchasesCheckPurchasesPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
-    TError,
-    { data: string[] },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
+      TError,
+      { data: string[] },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError,
   { data: string[] },
@@ -627,7 +646,7 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
   const mutationOptions =
     getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions(options)
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }
 /**
  * Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
@@ -707,17 +726,20 @@ export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationError =
 export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
-    >,
-    TError,
-    { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
+      >,
+      TError,
+      { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<
     ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
   >,
@@ -730,5 +752,5 @@ export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
       options,
     )
 
-  return useMutation(mutationOptions)
+  return useMutation(mutationOptions, queryClient)
 }

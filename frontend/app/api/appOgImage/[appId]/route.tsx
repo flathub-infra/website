@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-import type { NextApiRequest, NextApiResponse } from "next"
 import { promises as fs } from "fs"
 import path from "path"
 
@@ -11,10 +9,8 @@ import { fetchAppstream } from "src/fetchers"
 import { getContrastColor } from "@/lib/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
-
-type ResponseData = {
-  message: string
-}
+import { NextRequest } from "next/server"
+import axios from "axios"
 
 async function createInterRegular() {
   const fontPath = path.join(
@@ -61,10 +57,19 @@ async function createInterBlack() {
   }
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>,
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ appId: string }> },
 ) {
+  const { appId } = await params
+
+  axios.interceptors.request.use((config) => {
+    return {
+      ...config,
+      baseURL: process.env.NEXT_PUBLIC_API_BASE_URI,
+    }
+  })
+
   const ns = ["common"]
   const supportedLngs = languages
   const resources = ns.reduce((acc, n) => {
@@ -86,10 +91,9 @@ export default async function handler(
     resources,
   })
 
-  const locale = req.query.locale || "en"
-  const asSvg = req.query.svg === "" || false
-
-  const appId = req.query.appId as string
+  const searchParams = request.nextUrl.searchParams
+  const locale = searchParams.get("locale") || "en"
+  const asSvg = searchParams.get("svg") === "" || false
 
   const app: DesktopAppstream = (await fetchAppstream(
     appId as string,
@@ -97,7 +101,10 @@ export default async function handler(
   )) as DesktopAppstream
 
   if (!app) {
-    return res.status(404).json({ message: "App not found" })
+    return new Response("App not found", {
+      status: 404,
+      statusText: "App not found",
+    })
   }
 
   const isFullscreenApp = (
@@ -295,11 +302,14 @@ export default async function handler(
     },
   )
 
-  res.setHeader("Cache-Control", "public, max-age=31536000, immutable")
   if (asSvg) {
-    res.setHeader("Content-Type", "image/svg+xml")
-    res.end(svg)
-    return
+    return new Response(svg, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/svg+xml",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    })
   }
 
   const renderer = new Resvg(svg, {
@@ -313,6 +323,11 @@ export default async function handler(
 
   const pngBuffer = image.asPng()
 
-  res.setHeader("Content-Type", "image/png")
-  res.end(pngBuffer)
+  return new Response(pngBuffer, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/png",
+      "Cache-Control": "public, max-age=31536000, immutable",
+    },
+  })
 }

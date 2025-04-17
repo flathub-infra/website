@@ -135,7 +135,7 @@ export const CarouselStrip = ({
         )}
         {slides?.length > 1 && (
           <div>
-            <ul className="flex list-none justify-center gap-4 pb-8">
+            <ul className="flex flex-wrap list-none justify-center gap-4 pb-8 px-16">
               {slides?.map((screenshot, index) => (
                 <li key={index} value={index}>
                   <button
