@@ -107,14 +107,6 @@
       "name": "Installar Flatpak"
     }
   },
-  "ataraxia_linux": {
-    "step-1": {
-      "name": "Installar Flatpak"
-    },
-    "step-2": {
-      "name": "Adder le repositorio de Flathub"
-    }
-  },
   "deepin": {
     "step-2": {
       "name": "Adder le repositorio de Flathub"

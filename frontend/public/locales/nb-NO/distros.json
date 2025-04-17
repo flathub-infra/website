@@ -139,9 +139,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux"
-  },
   "zorin_os": {
     "distroName": "Zorin OS"
   },

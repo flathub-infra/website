@@ -402,21 +402,6 @@
     "distroName": "OpenMandriva Lx",
     "introduction": "<0>El soporte de Flatpak está construido en OpenMandriva para todas las versiones soportadas de forma activa, comenzando desde el lanzamiento estable/corregido 'Rock 5.0', pasando por el lanzamiento de desarrollo 'Cooker', y finalizando con el lanzamiento progresivo 'ROME'.</0> <p> Flatpak viene con el repositorio de Flathub preconfigurado.</p>"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Instalar Flatpak",
-      "text": "<p>Para instalar Flatpak en Ataraxia Linux, ejecute lo siguiente en una terminal:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Reiniciar",
-      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
-    },
-    "step-2": {
-      "name": "Añadir el repositorio Flathub",
-      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>"
-    }
-  },
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<0> Flatpak se instala de forma predeterminada en PureOS. Para comenzar, todo lo que necesitas hacer es habilitar Flathub , que es la mejor manera de obtener aplicaciones de Flatpak . Simplemente descarga e instala el <2> archivo de repositorio de Flathub </2>.</0> <2>¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</2>"

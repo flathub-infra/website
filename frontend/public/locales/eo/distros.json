@@ -272,21 +272,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak estas apriore instalita sur PureOS. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
   },
-  "ataraxia_linux": {
-    "step-3": {
-      "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
-    },
-    "step-2": {
-      "name": "Aldoni la deponejon Flathub",
-      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
-    },
-    "step-1": {
-      "name": "Instali Flatpak",
-      "text": "<p>Por instali Flatpak sur Ataraxia Linux, rulu la jenon en terminalo:</p> <2></2>"
-    },
-    "distroName": "Ataraxia Linux"
-  },
   "deepin": {
     "step-4": {
       "name": "Restartigi",

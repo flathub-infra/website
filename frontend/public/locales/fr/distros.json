@@ -340,19 +340,6 @@
     },
     "distroName": "NixOS"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Installer Flatpak"
-    },
-    "step-3": {
-      "name": "Redémarrer",
-      "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0>"
-    },
-    "step-2": {
-      "name": "Ajouter le dépôt Flathub"
-    }
-  },
   "deepin": {
     "step-1": {
       "name": "Installer Flatpak"

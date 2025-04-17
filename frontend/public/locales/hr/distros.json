@@ -323,21 +323,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak je standardno instaliran na PureOS. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <2>datoteku Flathub repozitorija</2>.</0> <2>Sada moraš još samo <2>instalirati aplikacije</2>!</2>"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Instaliraj Flatpak",
-      "text": "<p>Za instaliranje Flatpaka na Ataraxia Linux, pokreni sljedeće u terminalu:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Dodaj Flathub repozitorij",
-      "text": "<p>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Pokreni ponovo",
-      "text": "<0>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <2>instalirati aplikacije</2>!</0>"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS",
     "introduction": "<0>Podrška za Flatpak je ugrađena u Zorin OS</0> <p>Za preuzimanje flatpak aplikacija možeš koristiti aplikaciju Softver.</p>"

@@ -304,21 +304,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak-u është i instaluar, si parazgjedhje, në PureOS. Që t’ia filloni, krejt çka ju duhet të bëni është të aktivizoni Flathub-in, që është rruga më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <2>kartelën e depos Flathub</2>.</0> <2>Tani, krejt çka ju duhet të bëni, është <2>të instaloni aplikacione</2>!</2>"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Instaloni Flatpak-un",
-      "text": "<p>Që të instaloni Flatpak-un në Ataraxia Linuxn, ekzekutoni në një terminal sa vijon:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Shtoni depon Flathub",
-      "text": "<p>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, ekzekutoni:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Rinise",
-      "text": "<0>Që të plotësoni ujdisjen, rinisni sistemin tuaj. Tanimë krejt çka ju duhet të bëni, është <2>të instaloni aplikacione</2>!</0>"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS",
     "introduction": "<0>Zorin OS e mbulon së brendshmi Flatpak-un</0> <p>Që të shkarkoni aplikacione flatpak, mund të përdorni aplikacionin Software Store.</p>"
