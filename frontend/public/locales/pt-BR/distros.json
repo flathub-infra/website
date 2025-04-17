@@ -388,21 +388,6 @@
       "text": "<0>O elementary OS 5.1 e mais recentes vêm com suporte ao Flatpak pronto para uso. Para aplicativos sem curadoria, vá ao <2>Flathub</2> para instalar qualquer aplicativo usando o grande botão \"Instalar\" e abra o arquivo `.flatpakref` baixado com Sideload.</0> <p>Nota: Depois de instalar um aplicativo de um remoto como Flathub, todos os outros aplicativos desse remoto também aparecerão automaticamente no AppCenter.</p>"
     }
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Instalar o Flatpak",
-      "text": "<p>Para instalar o Flatpak no Ataraxia Linux, execute o seguinte em um terminal:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Adicione o repositório Flathub",
-      "text": "<p>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Reiniciar",
-      "text": "<0>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <2>instalar os aplicativos</2>!</0>"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS",
     "introduction": "<0>O suporte ao Flatpak é integrado ao Zorin OS</0> <p>Você pode usar o aplicativo Software Store para baixar aplicativos flatpak.</p>"

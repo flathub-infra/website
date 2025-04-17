@@ -297,21 +297,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-3": {
-      "name": "Neustart",
-      "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
-    },
-    "step-1": {
-      "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Ataraxia Linux zu installieren, führe folgendes in einem Terminal aus:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS",
     "introduction": "<0>Flatpak-Unterstützung ist in Zorin OS eingebaut</0> <p>Du kannst die Software Store-App verwenden, um Flatpak-Apps herunterzuladen.</p>"

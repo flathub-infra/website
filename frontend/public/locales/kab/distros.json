@@ -209,18 +209,6 @@
       "name": "Rnu akufi-a n Flathub"
     }
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Sbedd Flatpak"
-    },
-    "step-3": {
-      "name": "Ales asenker"
-    },
-    "step-2": {
-      "name": "Rnu akufi-a n Flathub"
-    }
-  },
   "deepin": {
     "distroName": "Deepin",
     "step-4": {

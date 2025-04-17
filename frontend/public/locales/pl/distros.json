@@ -111,21 +111,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak jest domyślnie zainstalowany na PureOS. Aby rozpocząć, wystarczy włączyć Flathub, który jest najlepszym sposobem na uzyskanie aplikacji Flatpak. Wystarczy pobrać i zainstalować plik <2>repozytorium Flathub</2>.</0> <2>Teraz wystarczy <2>zainstalować aplikacje</2>!</2>"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Zainstaluj Flatpak",
-      "text": "<p>Aby zainstalować Flatpak na Ataraxia Linux, uruchom następujące polecenie w terminalu:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Dodaj repozytorium Flathub",
-      "text": "<p>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Uruchom ponownie",
-      "text": "<0>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0>"
-    }
-  },
   "mx_linux": {
     "distroName": "MX Linux",
     "step-1": {

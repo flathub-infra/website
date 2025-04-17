@@ -285,21 +285,6 @@
     "distroName": "Crystal Linux",
     "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a Crystal Linuxon.</0> <p>Ha nem a „jade_gui”-t használtad a Crystal telepítéséhez, vagy úgy döntöttél, hogy nem telepíted, a következő lépésekkel állíthatod be a Flatpak-ot.</p>"
   },
-  "ataraxia_linux": {
-    "step-3": {
-      "name": "Újraindítás",
-      "text": "<0>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <2>alkalmazásokat kell telepítenie</2>!</0>"
-    },
-    "step-1": {
-      "name": "A Flatpak telepítése",
-      "text": "<p>A Flatpak Ataraxia Linux rendszerre történő telepítéséhez futtassa a következőt egy terminálon:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "A Flathub-adattár hozzáadása",
-      "text": "<p>A Flathub a legjobb hely a Flatpak-alkalmazások beszerzésére. Az engedélyezéséhez futtassa:</p> <2></2>"
-    },
-    "distroName": "Ataraxia Linux"
-  },
   "salix": {
     "introduction": "<0>A Flatpak támogatás be van építve a Salix operációs rendszer 15.0-s és újabb verzióiba—nincs szükség beállításra!</0> <p>A Flatpak előre beállítva van a Flathub tárhellyel, és az asztali integrációs eszközök a Flathubból egy kattintással történő telepítést tesznek lehetővé.</p> <4>Mindössze annyit kell tennie, hogy <2>telepítse az alkalmazásokat</2>!</4>",
     "distroName": "Salix"

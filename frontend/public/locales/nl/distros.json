@@ -236,18 +236,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Flatpak installeren"
-    },
-    "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
-    },
-    "step-3": {
-      "name": "Opnieuw opstarten"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS"
   },

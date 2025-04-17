@@ -281,21 +281,6 @@
     "introduction": "<0>Flatpak is installed by default on PureOS. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>",
     "distroName": "PureOS"
   },
-  "ataraxia_linux": {
-    "step-2": {
-      "name": "Add the Flathub repository",
-      "text": "<p>Flathub is the best place to get Flatpak apps. To enable it, run:</p> <2></2>"
-    },
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Ataraxia Linux, run the following in a terminal:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
-    }
-  },
   "zorin_os": {
     "introduction": "<0>Flatpak support is built into Zorin OS</0> <p>You can use the Software Store app to download flatpak apps.</p>",
     "distroName": "Zorin OS"

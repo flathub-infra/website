@@ -304,21 +304,6 @@
     "distroName": "PureOS",
     "introduction": "<0>Flatpak on PureOSis vaikimisi olemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigaldada <2>Flathubi tarkvarahoidla seadistusfail</2>.</0> <2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-2": {
-      "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak",
-      "text": "<p>Paigaldamaks Flatpakki Ataraxias, ava terminalirakendus ja käivita:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS",
     "introduction": "<0>Flatpaki tugi on Zorin OSis vaikimisi olemas</0> <p>Flatpaki rakenduste allalaadimiseks ja paigaldamiseks võid kasutada rakendust Software Store.</p>"

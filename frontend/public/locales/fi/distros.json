@@ -280,21 +280,6 @@
   "pureos": {
     "distroName": "PureOS"
   },
-  "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-1": {
-      "name": "Asenna Flatpak",
-      "text": "<p>Asenna Flatpak Ataraxia Linuxiin avaamalla pääte ja suorittamalla:</p> <2></2>"
-    },
-    "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde",
-      "text": "<p>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</p> <2></2>"
-    },
-    "step-3": {
-      "name": "Käynnistä uudelleen",
-      "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
-    }
-  },
   "zorin_os": {
     "distroName": "Zorin OS"
   },
