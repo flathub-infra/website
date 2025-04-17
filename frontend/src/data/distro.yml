@@ -379,7 +379,7 @@
   logo: "zorin-os.svg"
   introduction: >
     <h2>Flatpak support is built into Zorin OS</h2>
-    <p>You can use the Software Store app to download flatpak apps.</p>
+    <p>You can use the Software Store app to download Flatpak apps.</p>
 
 - name: Deepin
   logo: "deepin.svg"

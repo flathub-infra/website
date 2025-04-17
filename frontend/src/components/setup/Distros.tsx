@@ -2295,7 +2295,7 @@ export const Zorin_OS = () => {
       <ol className="distrotut">
         <Trans i18nKey="distros:zorin_os.introduction">
           <h2>Flatpak support is built into Zorin OS</h2>{" "}
-          <p>You can use the Software Store app to download flatpak apps.</p>
+          <p>You can use the Software Store app to download Flatpak apps.</p>
         </Trans>
       </ol>
     </>
