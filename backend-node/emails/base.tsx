@@ -87,37 +87,35 @@ export const Base = ({
             {children}
             <Hr />
 
-            <Container>
-              <Text className="text-black text-[14px] leading-[24px]">
-                {footerMode === "developer_invite" && (
-                  <Text>
-                    You are receiving this email because someone has invited you
-                    to become a developer of the app{" "}
-                    <Link href={`https://flathub.org/apps/${appId}`}>
-                      {appNameAndId}
-                    </Link>{" "}
-                    on Flathub.
-                  </Text>
-                )}
+            <Container className="text-black text-[14px] leading-[24px]">
+              {footerMode === "developer_invite" && (
+                <Text>
+                  You are receiving this email because someone has invited you
+                  to become a developer of the app{" "}
+                  <Link href={`https://flathub.org/apps/${appId}`}>
+                    {appNameAndId}
+                  </Link>{" "}
+                  on Flathub.
+                </Text>
+              )}
 
-                {footerMode === "developer_app" && (
-                  <Text>
-                    You are receiving this email because you are a maintainer of
-                    the app{" "}
-                    <Link href={`https://flathub.org/apps/${appId}`}>
-                      {appNameAndId}
-                    </Link>{" "}
-                    on Flathub.
-                  </Text>
-                )}
+              {footerMode === "developer_app" && (
+                <Text>
+                  You are receiving this email because you are a maintainer of
+                  the app{" "}
+                  <Link href={`https://flathub.org/apps/${appId}`}>
+                    {appNameAndId}
+                  </Link>{" "}
+                  on Flathub.
+                </Text>
+              )}
 
-                {footerMode === "default" && (
-                  <Text>
-                    You are receiving this email because you have an account on
-                    Flathub.
-                  </Text>
-                )}
-              </Text>
+              {footerMode === "default" && (
+                <Text>
+                  You are receiving this email because you have an account on
+                  Flathub.
+                </Text>
+              )}
             </Container>
             {/* this ensures Gmail doesn't trim the email */}
             <Container id={new Date().getTime().toString()}></Container>
