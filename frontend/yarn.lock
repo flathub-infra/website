@@ -11930,7 +11930,7 @@ __metadata:
     eslint-plugin-react-compiler: "npm:19.0.0-beta-714736e-20250131"
     fast-diff: "npm:^1.3.0"
     framer-motion: "npm:^12.5.0"
-    i18next: "npm:^24.2.3"
+    i18next: "npm:^25.0.0"
     isomorphic-dompurify: "npm:^2.23.0"
     linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.2.0"
@@ -12734,9 +12734,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^24.2.3":
-  version: 24.2.3
-  resolution: "i18next@npm:24.2.3"
+"i18next@npm:^25.0.0":
+  version: 25.0.0
+  resolution: "i18next@npm:25.0.0"
   dependencies:
     "@babel/runtime": "npm:^7.26.10"
   peerDependencies:
@@ -12744,7 +12744,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/7ac11a67d618ec714beef303aa497c1249bf5f1977dd3ebe9ca2673dfa6cadbba9e2d39ec1337688903ae3866ce9c1bc22cd6b265e66cce54c5db3a9bbedd390
+  checksum: 10c0/b219a1f6ce4accc3ddf0ffc0af391c5bfd4438b5f56b7f9fcbadac092253ecd7639d2c0dd34cfb7a590cd98cce042aef4a053ac96900cf474b154dfd5b9d970d
   languageName: node
   linkType: hard
 
