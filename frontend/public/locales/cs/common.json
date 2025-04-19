@@ -651,7 +651,8 @@
     "previous": "Předchozí",
     "zoom-in": "Přiblížit",
     "zoom-out": "Oddálit",
-    "close": "Zavřít"
+    "close": "Zavřít",
+    "show-screenshot-fullscreen": "Zobrazit snímek na celou obrazovku"
   },
   "count-verified-desktop-apps": "Ověřené desktopové aplikace"
 }
