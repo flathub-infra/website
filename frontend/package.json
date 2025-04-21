@@ -90,7 +90,7 @@
     "@tailwindcss/postcss": "^4.1.4",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/eslint-plugin-query": "^5.73.3",
-    "@tanstack/react-query-devtools": "^5.74.3",
+    "@tanstack/react-query-devtools": "^5.74.4",
     "@types/node": "^22.14.1",
     "@types/react": "19.1.2",
     "chromatic": "^11.25.2",
