@@ -687,7 +687,7 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
             headers={"Authorization": "Bearer " + access_token},
         )
 
-        if not r.ok:
+        if r.status_code != 200:
             raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
 
         userinfo = r.json()
