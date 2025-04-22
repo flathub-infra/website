@@ -306,7 +306,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>Zorin OS e mbulon së brendshmi Flatpak-un</0> <p>Që të shkarkoni aplikacione flatpak, mund të përdorni aplikacionin Software Store.</p>"
+    "introduction": "<0>Zorin OS e mbulon së brendshmi Flatpak-un</0> <p>Që të shkarkoni aplikacione Flatpak, mund të përdorni aplikacionin Software Store.</p>"
   },
   "deepin": {
     "distroName": "Deepin",
