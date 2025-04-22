@@ -306,7 +306,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>Підтримка Flatpak вбудована в Zorin OS</0> <p>Ви можете використовувати програму Software Store, щоб завантажити програми Flatpak.</p>"
+    "introduction": "<0>Підтримка Flatpak вбудована в Zorin OS</0> <p>Ви можете використовувати застосунок Програми, щоб завантажити застосунки Flatpak.</p>"
   },
   "deepin": {
     "distroName": "Deepin",
