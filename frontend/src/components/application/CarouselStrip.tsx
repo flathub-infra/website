@@ -125,6 +125,10 @@ export const CarouselStrip = ({
                   app.screenshots.length <= 1 ? () => null : undefined,
                 slide: CarouselNextJsImage,
               }}
+              labels={{
+                Previous: t("lightbox.previous"),
+                Next: t("lightbox.next"),
+              }}
             />
           </div>
         </div>
