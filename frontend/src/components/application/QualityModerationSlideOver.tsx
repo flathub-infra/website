@@ -407,7 +407,7 @@ const QualityItem = ({
       <div className={clsx("flex items-center gap-1")}>
         <div>{t(`quality-guideline.${qualityGuideline.id}`)}</div>
         <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
-          <HiArrowTopRightOnSquare />
+          <HiArrowTopRightOnSquare className="rtl:-rotate-90" />
         </a>
         <div className="ms-auto">
           {qualityGuideline.read_only || mode === "developer" ? (

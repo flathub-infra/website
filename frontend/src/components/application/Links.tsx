@@ -189,7 +189,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                       {link.content.text}
                     </span>
                   </div>
-                  <HiMiniArrowTopRightOnSquare className="shrink-0 w-5 h-5 ms-auto text-flathub-granite-gray dark:text-flathub-spanish-gray" />
+                  <HiMiniArrowTopRightOnSquare className="rtl:-rotate-90 shrink-0 w-5 h-5 ms-auto text-flathub-granite-gray dark:text-flathub-spanish-gray" />
                 </a>
               )
             })}
