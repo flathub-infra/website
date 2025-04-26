@@ -38,7 +38,7 @@ const ReleaseLink = ({
     >
       {t(noChangeLogProvided ? "release-link-no-changelog" : "release-link")}
       <div className="self-center justify-self-end text-flathub-black opacity-60 dark:text-flathub-gainsborow">
-        <HiArrowTopRightOnSquare />
+        <HiArrowTopRightOnSquare className="rtl:-rotate-90" />
       </div>
     </a>
   )

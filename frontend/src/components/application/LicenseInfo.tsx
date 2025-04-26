@@ -162,7 +162,7 @@ const LicenseLink = ({
         title={t("open-in-new-tab")}
       >
         {t(licenseType === "proprietary" ? "learn-more" : "get-involved")}
-        <HiArrowTopRightOnSquare />
+        <HiArrowTopRightOnSquare className="rtl:-rotate-90" />
       </a>
     )
   )
