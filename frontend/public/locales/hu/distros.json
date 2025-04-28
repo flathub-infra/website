@@ -408,7 +408,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>A Flatpak támogatás be van építve a Zorin OS-be</0> <p>A szoftveráruház alkalmazás segítségével tölthet le flatpak-alkalmazásokat.</p>"
+    "introduction": "<0>A Flatpak támogatás be van építve a Zorin OS-be</0> <p>A szoftveráruház alkalmazás segítségével tölthet le Flatpak-alkalmazásokat.</p>"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
