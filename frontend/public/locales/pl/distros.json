@@ -386,7 +386,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>Obsługa flatpak jest wbudowana w Zorin OS</0> <p>Możesz użyć aplikacji Software Store do pobierania aplikacji flatpak.</p>"
+    "introduction": "<0>Obsługa flatpak jest wbudowana w Zorin OS</0> <p>Możesz użyć aplikacji Software Store do pobierania aplikacji Flatpak.</p>"
   },
   "pardus": {
     "distroName": "Pardus",

@@ -455,5 +455,9 @@
   "flathub": "Flathub",
   "manage-x": "ניהול {{app-name}}",
   "press": "עתונאים",
-  "confirm": "אישור"
+  "confirm": "אישור",
+  "revoked": "נשלל",
+  "mobile-apps": "יישומונים לניידים",
+  "safe": "בטוח",
+  "mobile-apps-description": "יישומונים לטלפונים ולמחשבי הלוח שלך המבוססים על לינוקס"
 }

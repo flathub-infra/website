@@ -348,7 +348,7 @@
   "invite-developer-description": "أدخل رمز دعوة المطور تدعُه يصبح مطورًا لهذا التطبيق. يمكنه العثور على الرمز في لسان {{developersTab}}بصفحة حسابهم.",
   "invite-code-hint": "أعطِ مطورًا هذا الرمز تُتِح له دعوتك لتطبيقه.",
   "safe": "آمن",
-  "probably-safe": "غالب الظن أنه آمن",
+  "probably-safe": "غالب الظنِّ أنه آمن",
   "unsafe": "خطر",
   "potentially-unsafe": "قد يكون خطرًا",
   "no-permissions": "لا أذونات",
@@ -365,7 +365,7 @@
   "appname-is-safety-rating-1": "{{appName}} آمن",
   "no-file-system-access": "لا يصل لنظام الملفات",
   "no-user-device-access": "لا يصل لأجهزة المستخدم",
-  "appname-is-safety-rating-2": "غالب الظن أن {{appName}} آمن",
+  "appname-is-safety-rating-2": "غالب الظنِّ أن {{appName}} آمن",
   "can-read-write-your-downloads": "إمكانية قراءة و كتابة كلَّ البيانات في مجلَّد التنزيلات",
   "appname-is-safety-rating-3": "قد يكون {{appName}} خطرًا",
   "appname-is-safety-rating-4": "{{appName}} خطر",
@@ -655,7 +655,7 @@
     "close": "أغلِق",
     "zoom-in": "قرِّب",
     "next": "التالي",
-    "show-screenshot-fullscreen": "اعرض لقطة شاشة ملء الشاشة"
+    "show-screenshot-fullscreen": "اعرض لقطة شاشة بملء الشاشة"
   },
   "count-verified-desktop-apps": "تطبيقات سطح المكتب المؤكَّدة"
 }
