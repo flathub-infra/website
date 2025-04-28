@@ -11775,7 +11775,7 @@ __metadata:
     linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.2.0"
     lucide-react: "npm:^0.488.0"
-    msw: "npm:^2.7.3"
+    msw: "npm:^2.7.5"
     msw-storybook-addon: "npm:^2.0.4"
     new-github-issue-url: "npm:^1.1.0"
     next: "npm:15.3.1"
@@ -14321,9 +14321,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.7.3":
-  version: 2.7.3
-  resolution: "msw@npm:2.7.3"
+"msw@npm:^2.7.5":
+  version: 2.7.5
+  resolution: "msw@npm:2.7.5"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.1"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
@@ -14350,7 +14350,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/47cad1c4b4615b312477c8977fddfda3e90becd8efc2d81d73be8fb860e45ad0d3f7bca6d4f70ae7ed21894e93975bda66d609aafc3a1c99cb923c5ef67f8686
+  checksum: 10c0/6de0e3d610c1786a00cd9abe76eb31755fcaaab4a29f5299b82c509328deaaf86dd79447f184a036965c13813eb6a425153e8c62f56747feffca597e46955204
   languageName: node
   linkType: hard
 
