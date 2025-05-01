@@ -2,7 +2,7 @@ import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
 import { AddonAppstream, Appstream } from "../../types/Appstream"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 import { Summary } from "../../types/Summary"
 
@@ -54,7 +54,7 @@ const Details: FunctionComponent<Props> = ({
   isQualityModalOpen,
   keywords,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const { data: vendingSetup } = useQuery({
     queryKey: ["appVendingSetup", app.id],

@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import NewTokenDialog from "./NewTokenDialog"
 import Spinner from "src/components/Spinner"
 import { getIntlLocale } from "src/localize"
@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 export default function UploadTokenControls({ app }: { app: { id: string } }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [modalVisible, setModalVisible] = useState(false)
   const [repo, setRepo] = useState<Repo>("beta")

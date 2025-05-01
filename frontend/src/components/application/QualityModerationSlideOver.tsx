@@ -20,7 +20,7 @@ import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
 import { IconGridOverlay } from "./IconGridOverlay"
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
@@ -45,7 +45,7 @@ import {
 import Link from "next/link"
 
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
   return (
@@ -165,7 +165,7 @@ const ShowBrandingButton = ({
 }: {
   app: Pick<DesktopAppstream, "branding" | "icon" | "name" | "summary">
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
   if (!app.branding || app.branding?.length === 0) {
@@ -216,7 +216,7 @@ const QualityCategories = ({
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
   mode: "developer" | "moderator"
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const passAllMutation = useMutation({
     mutationFn: () => {
@@ -377,7 +377,7 @@ const QualityItem = ({
   qualityGuideline: Guideline | undefined
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [toggle, setToggle] = useState<boolean | null>(
     qualityModeration?.passed,
   )
@@ -470,7 +470,7 @@ const ScreenShotTypeItem = ({
   is_fullscreen_app: boolean
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [toggle, setToggle] = useState<boolean>(is_fullscreen_app)
 
   useEffect(() => {
@@ -535,7 +535,7 @@ const ScreenShotTypeItem = ({
 }
 
 const ReadOnlyItem = ({ toggle }: { toggle: boolean }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const status =
     toggle === null ? "pending" : toggle === true ? "passed" : "not-passed"
@@ -586,7 +586,7 @@ export const QualityModerationSlideOver = ({
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const query = useQuery({
     queryKey: ["qualityModeration", { appId: app.id }],

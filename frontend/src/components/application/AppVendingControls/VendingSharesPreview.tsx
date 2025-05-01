@@ -4,7 +4,7 @@ import { Appstream } from "../../../types/Appstream"
 import { computeAppShares, computeShares } from "../../../utils/vending"
 import { axisStroke } from "src/chartComponents"
 import { formatCurrency } from "src/utils/localize"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { VendingConfig } from "src/codegen"
 import { translatePlatformName } from "@/lib/helpers"
 import {
@@ -36,7 +36,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   vendingConfig,
 }) => {
   const { resolvedTheme } = useTheme()
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   // Don't re-run computations unnecessarily
   const shares = useMemo(

@@ -8,8 +8,7 @@ import {
   startOfISOWeek,
 } from "date-fns"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { Trans } from "next-i18next"
 import { NextSeo } from "next-seo"
 import { ReactElement, useEffect, useState } from "react"
 import { FlathubCombobox } from "src/components/Combobox"
@@ -31,6 +30,7 @@ import AdminLayout from "src/components/AdminLayout"
 import { DesktopAppstream } from "src/types/Appstream"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
+import { useTranslations } from "next-intl"
 
 AppPicks.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -45,7 +45,7 @@ AppPicks.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default function AppPicks() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   const [date, setDate] = useState(new Date())
@@ -480,7 +480,8 @@ export default function AppPicks() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
     },
     revalidate: 900,
   }

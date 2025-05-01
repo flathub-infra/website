@@ -1,7 +1,7 @@
 import React from "react"
 import { Meta } from "@storybook/react"
 import Breadcrumbs from "./Breadcrumbs"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 export default {
   title: "Components/Breadcrumbs",
@@ -9,7 +9,7 @@ export default {
 } as Meta<typeof Breadcrumbs>
 
 export const Generated = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const pages = [
     { name: t("user-wallet"), href: "/wallet", current: false },

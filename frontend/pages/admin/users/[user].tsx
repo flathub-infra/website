@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch"
 import { ConditionalWrapper } from "@/lib/helpers"
 import { format, formatDistanceToNow } from "date-fns"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 import {
@@ -234,7 +234,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       userId: user,
     },
     revalidate: 900,

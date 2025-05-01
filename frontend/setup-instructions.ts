@@ -176,9 +176,8 @@ async function generateSetupInstructions() {
   const importStatement =
     'import CodeCopy from "src/components/application/CodeCopy";\n'
 
-  // Prefix with import { useTranslation } from "next-i18next";
-  const useTranslationStatement =
-    'import { Trans, useTranslation } from "next-i18next";\n'
+  // Prefix with import { useTranslations } from "next-intl";
+  const useTranslationStatement = 'import { Trans } from "next-i18next";\n'
 
   // Prefix with import { HowToJsonLd } from "next-seo";
   const nextSeoStatement = 'import { HowToJsonLd } from "next-seo";\n'

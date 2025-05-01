@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState, type JSX } from "react"
 import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
@@ -19,7 +19,7 @@ const UserApps: FunctionComponent<Props> = ({
   customButtons,
   locale,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
   const userDispatch = useUserDispatch()
 

@@ -1,11 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import EolMessageDetails from "../../../src/components/application/EolMessage"
 import { fetchAppstream, fetchEolRebase } from "../../../src/fetchers"
 import { NextSeo } from "next-seo"
 import { Appstream, DesktopAppstream } from "../../../src/types/Appstream"
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { isValidAppId } from "@/lib/helpers"
 import {
   getEolMessageAppidEolMessageAppIdGet,
@@ -13,6 +12,7 @@ import {
 } from "src/codegen"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { Alert } from "@/components/ui/alert"
+import { useTranslations } from "next-intl"
 
 export default function Details({
   app,
@@ -26,7 +26,7 @@ export default function Details({
     appstream: DesktopAppstream
   }[]
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (eolMessage) {
     return <EolMessageDetails message={eolMessage} />
@@ -164,7 +164,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       app,
       eolMessage,
       heroBannerData,

@@ -2,8 +2,8 @@ import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
 import cc0 from "../public/img/CC0.png"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { Trans, useTranslation } from "next-i18next"
+
+import { Trans } from "next-i18next"
 import { getLanguageName, languages } from "src/localize"
 import { useState } from "react"
 import Image from "next/image"
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select"
 
 const BadgePreview = ({ locale, preferred }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const lightPostfix = preferred ? "" : "&light"
 
@@ -48,7 +48,7 @@ const BadgePreview = ({ locale, preferred }) => {
 }
 
 const Badges = ({ applicationLocale }: { applicationLocale: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [locale, setLocale] = useState("en")
 
@@ -173,7 +173,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       applicationLocale: locale,
     },
     revalidate: 900,

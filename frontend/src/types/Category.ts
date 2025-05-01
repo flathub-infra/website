@@ -28,10 +28,7 @@ export function stringToCategory(category: string): MainCategory | undefined {
   }
 }
 
-export function tryParseCategory(
-  category: string,
-  t: TFunction<"translation", undefined>,
-): string | undefined {
+export function tryParseCategory(category: string, t): string | undefined {
   try {
     return categoryToName(stringToCategory(category), t)
   } catch {
@@ -41,7 +38,7 @@ export function tryParseCategory(
 
 export function tryParseSubCategory(
   subcategory: string,
-  t: TFunction<"translation", undefined>,
+  t,
 ): string | undefined {
   try {
     return gameCategoryToName(subcategory as GameCategory, t)
@@ -54,10 +51,7 @@ export function tryParseSubCategory(
   }
 }
 
-export function categoryToName(
-  category: MainCategory,
-  t: TFunction<"translation", undefined>,
-): string {
+export function categoryToName(category: MainCategory, t): string {
   switch (category) {
     case MainCategory.audiovideo:
       return t("audio-and-video")
@@ -101,10 +95,7 @@ export enum GameCategory {
   StrategyGame = "StrategyGame",
 }
 
-export function gameCategoryToName(
-  category: GameCategory,
-  t: TFunction<"translation", undefined>,
-): string {
+export function gameCategoryToName(category: GameCategory, t): string {
   switch (category) {
     case GameCategory.ActionGame:
       return t("action")
@@ -155,7 +146,7 @@ export enum AudioVideoCategory {
 
 export function audioVideoCategoryToName(
   category: AudioVideoCategory,
-  t: TFunction<"translation", undefined>,
+  t,
 ): string {
   switch (category) {
     // case AudioVideoCategory.Database:

@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import SavedCards from "../src/components/payment/cards/SavedCards"
@@ -9,7 +9,7 @@ import TransactionHistory from "../src/components/payment/transactions/Transacti
 // This is a proof of concept page, ideally this information will be
 // integrated into the user page as a tab or similar
 export default function Wallet() {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -32,7 +32,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
     },
   }
 }

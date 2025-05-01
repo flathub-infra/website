@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { BreadcrumbJsonLd } from "next-seo"
 import Link from "next/link"
 import { FunctionComponent } from "react"
@@ -10,7 +10,7 @@ interface Props {
 
 /** A link placed at the top of a page's main container to return to some other page */
 const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>

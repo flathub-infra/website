@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { TransactionCancelButtonPrep } from "./Checkout"
@@ -13,7 +13,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
   onConfirm,
   transactionId,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [checked, setChecked] = useState(false)
 

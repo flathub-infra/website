@@ -3,7 +3,7 @@ import { FunctionComponent, type JSX } from "react"
 
 import { Appstream, AppstreamListItem } from "../../types/Appstream"
 
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Pagination from "../Pagination"
 import { ApplicationCard } from "./ApplicationCard"
 import { Button } from "@/components/ui/button"
@@ -32,7 +32,7 @@ const Header = ({
   totalHits?: number
   customButtons?: JSX.Element
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <span className="gap-2 flex sm:flex-row flex-col sm:items-center justify-between pb-2">
@@ -68,7 +68,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showId = false,
   customButtons,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const refresh = onRefresh ? (
