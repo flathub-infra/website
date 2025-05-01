@@ -646,5 +646,15 @@
   "emulator": "Aithriseoirí",
   "more-gamelauncher": "Tuilleadh Seoltóirí Cluiche",
   "more-gametool": "Tuilleadh Uirlisí Cluiche",
-  "we-love-games": "Táimid ♥ Cluichí"
+  "we-love-games": "Táimid ♥ Cluichí",
+  "lightbox": {
+    "zoom-in": "Zúmáil Isteach",
+    "close": "Dún",
+    "zoom-out": "Zúmáil Amach",
+    "screenshot": "Seat scáileáin",
+    "show-screenshot-fullscreen": "Taispeáin an scáileán lánscáileáin",
+    "next": "Ar Aghaidh",
+    "previous": "Roimhe Seo"
+  },
+  "count-verified-desktop-apps": "Aipeanna deisce fíoraithe"
 }
