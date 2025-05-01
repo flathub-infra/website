@@ -3,7 +3,13 @@
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "أوبونتو"
+    "distroName": "أوبونتو",
+    "step-3": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-4": {
+      "name": "أعد التشغيل"
+    }
   },
   "fedora": {
     "distroName": "فيدورا",
@@ -13,19 +19,37 @@
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "ألت لينكس"
+    "distroName": "ألت لينكس",
+    "step-3": {
+      "name": "أعد التشغيل"
+    },
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    }
   },
   "chrome_os": {
     "step-3": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "كروم أو إس"
+    "distroName": "كروم أو إس",
+    "step-4": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-5": {
+      "name": "أعد التشغيل"
+    }
   },
   "opensuse": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "أوبن سوزا"
+    "distroName": "أوبن سوزا",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "linux_mint": {
     "distroName": "لينكس منت",
@@ -40,7 +64,7 @@
       "name": "أعد التشغيل",
       "text": "<0>لإكمال الإعداد، أعد تشغيل نظامك. الآن كل ما عليك فعله هو <2>تثبيت التطبيقات</2>!</0>"
     },
-    "distroName": "آرتش"
+    "distroName": "آرش"
   },
   "debian": {
     "step-1": {
@@ -65,88 +89,178 @@
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "جنتو"
+    "distroName": "جنتو",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "rocky_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "روكي لينكس"
+    "distroName": "روكي لينكس",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "kubuntu": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "كوبونتو"
+    "distroName": "كوبونتو",
+    "step-3": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-4": {
+      "name": "أعد التشغيل"
+    }
   },
   "alpine": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "ألباين"
+    "distroName": "ألباين",
+    "step-3": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-4": {
+      "name": "أعد التشغيل"
+    }
   },
   "mageia": {
     "step-1": {
       "name": "ثبّت فلاتباك"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    },
+    "step-2": {
+      "name": "أضف مستودع Flathub"
     }
   },
   "pardus": {
     "step-1": {
       "name": "ثبّت فلاتباك"
+    },
+    "step-3": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-4": {
+      "name": "أعد التشغيل"
     }
   },
   "pisi_gnulinux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
+    },
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
     }
   },
   "endeavouros": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "إنديفور أو إس"
+    "distroName": "إنديفور أو إس",
+    "step-3": {
+      "name": "أعد التشغيل"
+    },
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    }
   },
   "gnu_guix": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "جنو جيكس"
+    "distroName": "جنو جيكس",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "deepin": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "ديبين"
+    "distroName": "ديبين",
+    "step-4": {
+      "name": "أعد التشغيل"
+    },
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    }
   },
   "raspberry_pi_os": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "راسبيري باي أو إس"
+    "distroName": "راسبيري باي أو إس",
+    "step-3": {
+      "name": "أعد التشغيل"
+    },
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    }
   },
   "nixos": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "نكس أو إس"
+    "distroName": "نكس أو إس",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "void_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "فويد لينكس"
+    "distroName": "فويد لينكس",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "solus": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "سولس"
+    "distroName": "سولس",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "crystal_linux": {
     "step-1": {
       "name": "ثبّت فلاتباك"
     },
-    "distroName": "كريستال لينكس"
+    "distroName": "كريستال لينكس",
+    "step-2": {
+      "name": "أضف مستودع Flathub"
+    },
+    "step-3": {
+      "name": "أعد التشغيل"
+    }
   },
   "pop_os": {
     "distroName": "بوب!_أو إس",
@@ -178,6 +292,9 @@
     "distroName": "مانجارو",
     "step-1": {
       "name": "فعّل Flatpak من خلال Software Manager"
+    },
+    "step-2": {
+      "name": "أعد التشغيل"
     }
   },
   "endless_os": {
@@ -193,6 +310,9 @@
     "distroName": "ألما لينكس"
   },
   "mx_linux": {
-    "distroName": "إم إكس لينكس"
+    "distroName": "إم إكس لينكس",
+    "step-2": {
+      "name": "أعد التشغيل"
+    }
   }
 }
