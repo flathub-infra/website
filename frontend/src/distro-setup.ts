@@ -23,7 +23,7 @@ export async function fetchSetupInstructions() {
       logo_dark: instruction.logo_dark
         ? `img/distro/${instruction.logo_dark}`
         : null,
-      translatedNameKey: `distros:${instruction.name
+      translatedNameKey: `distros.${instruction.name
         .replaceAll(" ", "_")
         .replaceAll("!", "")
         .replaceAll("/", "")

@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import * as AppVendingControls from "../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../src/components/login/LoginGuard"
@@ -11,7 +11,7 @@ import {
   useGetAppVendingSetupVendingappAppIdSetupGet,
   VendingConfig,
 } from "src/codegen"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { NumericInputValue } from "src/types/Input"
 import { useEffect, useState } from "react"
 import Spinner from "src/components/Spinner"
@@ -23,7 +23,7 @@ export default function AppPurchasePage({
   app: Appstream
   vendingConfig: VendingConfig
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   // Need app vending configuration to initialize payment value
   const [amount, setAmount] = useState<NumericInputValue>({
@@ -119,7 +119,8 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     notFound: !app,
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       app,
       vendingConfig,
     },

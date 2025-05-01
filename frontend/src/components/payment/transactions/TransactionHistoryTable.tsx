@@ -18,7 +18,7 @@ import {
   HiChevronRight,
   HiExclamationTriangle,
 } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { TransactionSummary } from "src/codegen"
 import { Dispatch, SetStateAction } from "react"
 

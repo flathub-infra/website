@@ -2,7 +2,7 @@ import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
 import { AddonAppstream, Appstream } from "../../types/Appstream"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 import { Summary } from "../../types/Summary"
 
@@ -44,6 +44,7 @@ import { HiMiniInformationCircle } from "react-icons/hi2"
 import clsx from "clsx"
 import { UTCDate } from "@date-fns/utc"
 import { getIntlLocale } from "src/localize"
+import { useRouter } from "next/router"
 
 interface Props {
   app?: Appstream
@@ -66,7 +67,10 @@ const Details: FunctionComponent<Props> = ({
   isQualityModalOpen,
   keywords,
 }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
+
+  const i18n = getIntlLocale(router.locale)
 
   const countryStatisticsStartDate = new UTCDate(2024, 3, 15)
 

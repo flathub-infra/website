@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useRouter } from "next/router"
 import { FunctionComponent } from "react"
 import { toast } from "sonner"
@@ -40,7 +40,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
   setAmount,
   vendingSetup,
 }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const { handleSubmit, control } = useForm<FormData>()
@@ -73,11 +73,11 @@ const PurchaseControls: FunctionComponent<Props> = ({
   // Obtain currency values for display
   const prettyMinimum = formatCurrency(
     vendingSetup.minimum_payment / 100,
-    i18n.language,
+    router.locale,
   )
   const prettyRecommended = formatCurrency(
     vendingSetup.recommended_donation / 100,
-    i18n.language,
+    router.locale,
   )
 
   const canSubmit =

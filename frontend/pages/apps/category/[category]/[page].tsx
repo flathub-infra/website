@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import Breadcrumbs from "src/components/Breadcrumbs"
@@ -25,7 +25,7 @@ const ApplicationCategory = ({
   applications: MeilisearchResponseAppsIndex
   locale: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
   const category = stringToCategory(router.query.category as string)
   let title = categoryToName(category, t)
@@ -133,7 +133,9 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (
+        await import(`../../../../public/locales/${locale}/common.json`)
+      ).default,
       applications,
       locale,
     },

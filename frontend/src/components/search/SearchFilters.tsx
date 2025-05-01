@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
 
@@ -40,7 +40,7 @@ const SearchFilterCategories = ({
   }[]
   setSelectedFilters
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="flex flex-col gap-2">
@@ -117,7 +117,7 @@ const SearchFilterFloss = ({
   }[]
   setSelectedFilters
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="flex flex-col gap-2">
@@ -202,7 +202,7 @@ const SearchFilterVerified = ({
   }[]
   setSelectedFilters
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="flex flex-col gap-2">
@@ -289,7 +289,7 @@ const SearchFilterTypes = ({
   }[]
   setSelectedFilters
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="flex flex-col gap-2">
@@ -357,7 +357,7 @@ const SearchFilterArches = ({
   }[]
   setSelectedFilters
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="flex flex-col gap-2">

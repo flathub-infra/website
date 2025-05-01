@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, createElement, useState } from "react"
 import {
   getSafetyRating,
@@ -49,7 +49,7 @@ const SafetyRatingIcon = ({
 }
 
 const SafetyRating: FunctionComponent<Props> = ({ data, summaryMetadata }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [isOpen, setIsOpen] = useState(false)
 
   const safetyRating = getSafetyRating(data, summaryMetadata)

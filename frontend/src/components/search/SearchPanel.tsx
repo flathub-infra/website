@@ -9,10 +9,11 @@ import clsx from "clsx"
 import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
-import { useTranslation, Trans } from "next-i18next"
+import { Trans } from "next-i18next"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
 import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import { useTranslations } from "next-intl"
 
 export const SearchPanel = ({
   searchResult,
@@ -31,7 +32,7 @@ export const SearchPanel = ({
   setSelectedFilters
   query: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (
     searchResult.isSuccess &&

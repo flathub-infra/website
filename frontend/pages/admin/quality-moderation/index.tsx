@@ -9,8 +9,8 @@ import clsx from "clsx"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -133,8 +133,6 @@ const QualityModerationTable = ({
   filteredBy: GetQualityModerationStatusQualityModerationStatusGetFilter
   currentPage: number
 }) => {
-  const { i18n } = useTranslation()
-
   const router = useRouter()
 
   const columns: ColumnDef<QualityModerationDashboardRow>[] = [
@@ -206,7 +204,7 @@ const QualityModerationTable = ({
           row.original.quality_moderation_status.last_updated + "Z",
         )
         return (
-          <span title={date.toLocaleString(i18n.language)}>
+          <span title={date.toLocaleString(router.locale)}>
             {formatDistanceToNow(date, {
               addSuffix: true,
             })}
@@ -232,7 +230,7 @@ const QualityModerationTable = ({
           row.original.quality_moderation_status.review_requested_at + "Z",
         )
         return (
-          <span title={date.toLocaleString(i18n.language)}>
+          <span title={date.toLocaleString(router.locale)}>
             {formatDistanceToNow(date, {
               addSuffix: true,
             })}
@@ -406,7 +404,8 @@ const QualityModerationTable = ({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
     },
   }
 }

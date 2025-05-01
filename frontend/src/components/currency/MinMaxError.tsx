@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useCallback } from "react"
 import { NumericInputValue } from "../../types/Input"
 import { formatCurrency } from "../../utils/localize"

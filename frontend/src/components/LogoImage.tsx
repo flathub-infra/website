@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import Image from "next/image"
 
@@ -17,7 +17,7 @@ const LogoImage: FunctionComponent<Props> = ({
   size = "128",
   ...props
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>

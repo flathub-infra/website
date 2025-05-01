@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement, useState } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Spinner from "src/components/Spinner"
 import CodeCopy from "../CodeCopy"
 import Modal from "src/components/Modal"
@@ -25,7 +25,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
   cancel,
   created,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [state, setState] = useState<"new" | "pending" | "copy-token">("new")
 
