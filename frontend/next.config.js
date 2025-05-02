@@ -9,7 +9,7 @@ const CONTENT_SECURITY_POLICY = `
   script-src 'self' 'sha256-cd+HpnSsLaEz1lKWBNn+k+xOe1m2p5ZgfjoyNvHy9eU=' https://webstats.gnome.org https://js.stripe.com https://js.stripe.com https://maps.googleapis.com;
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self';
-  connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com https://maps.googleapis.com https://o467221.ingest.sentry.io/api/6610580/;
+  connect-src 'self' https://flathub.org https://flathub-vorarbeiter.apps.openshift.gnome.org/api/ https://webstats.gnome.org https://api.stripe.com https://maps.googleapis.com https://o467221.ingest.sentry.io/api/6610580/;
   img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com https://invent.kde.org data:;
   frame-ancestors 'none';
   frame-src 'self' https://*.js.stripe.com https://js.stripe.com https://hooks.stripe.com;
