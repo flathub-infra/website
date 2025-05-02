@@ -472,5 +472,10 @@
   "get-apps": "Obtenir aplicacions",
   "flathub": "Flathub",
   "flathub-logo": "Logotip de Flathub",
-  "flathub-statistics-description": "Visió general de l'ús i distribució de les aplicacions disponibles a la plataforma."
+  "flathub-statistics-description": "Visió general de l'ús i distribució de les aplicacions disponibles a la plataforma.",
+  "count-verified-desktop-apps": "Aplicacions d'escriptori verificades",
+  "about-claim": "<0> Tant si sou un usuari que busca aplicacions o un desenvolupador que vol arribar a més usuaris, <2>Flathub és la millor opció per a aplicacions a Linux. </2></0>",
+  "all-the-apps-you-want": "<0> Totes les aplicacions que voleu</0> — Des dels grans noms que esperaríeu fins a nous petits desenvolupadors, Flathub té milers d'aplicacions per a satisfer les vostres necessitats.",
+  "transparent-safety": "<0>Seguretat transparent</0> — Veieu clarament quan una aplicació està <3>verificada</3> com procedent del seu desenvolupador, quins permisos requereix i si és o no de codi lliure i auditable",
+  "apps-by-tag": "Aplicacions per etiqueta '{{tag}}'"
 }
