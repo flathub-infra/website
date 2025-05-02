@@ -55,7 +55,7 @@ function TooltipContent({
         {...props}
       >
         {children as React.ReactNode}
-        <TooltipPrimitive.Arrow className="bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
+        <TooltipPrimitive.Arrow className="bg-flathub-white dark:bg-flathub-granite-gray fill-flathub-white dark:fill-flathub-granite-gray z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   )

@@ -1,0 +1,115 @@
+import { cn } from "@/lib/utils"
+import {
+  CheckCircle,
+  CircleChevronRight,
+  CircleDashed,
+  CircleSlash,
+  Clock,
+  Package,
+  XCircle,
+} from "lucide-react"
+import { PipelineSummary } from "src/codegen-pipeline"
+import { PipelineStatus as PipelineStatusType } from "./pipeline-filter"
+
+interface PipelineStatusProps {
+  pipelineSummary: PipelineSummary
+}
+
+export interface PipelineStep {
+  id: string
+  name: string
+  status: PipelineStatusType
+}
+
+export function PipelineStatus({ pipelineSummary }: PipelineStatusProps) {
+  const steps: PipelineStep[] = []
+
+  if (["stable", "beta"].includes(pipelineSummary.repo)) {
+    steps.push({
+      id: `${pipelineSummary.id}-build`,
+      name: "Build",
+      status: ["cancelled", "running"].includes(pipelineSummary.status)
+        ? (pipelineSummary.status as PipelineStatusType)
+        : "succeeded",
+    })
+    steps.push({
+      id: `${pipelineSummary.id}-publish`,
+      name: "Publish",
+      status: ["published", "superseded", "cancelled"].includes(
+        pipelineSummary.status,
+      )
+        ? (pipelineSummary.status as PipelineStatusType)
+        : "pending",
+    })
+  } else {
+    steps.push({
+      id: `${pipelineSummary.id}-build`,
+      name: "Build",
+      status: pipelineSummary.status as PipelineStatusType,
+    })
+  }
+
+  if (pipelineSummary.created_at)
+    return (
+      <div className="mt-4">
+        <div className="flex justify-between">
+          {steps.map((step, index) => (
+            <div
+              className={cn(
+                "flex items-start",
+                index < steps.length - 1 && "flex-1",
+              )}
+            >
+              <div className="flex flex-col items-center">
+                <div key={step.id} className={"flex flex-1 items-center"}>
+                  <StepIcon step={step} />
+                </div>
+                <span className="truncate max-w-[80px]">{step.name}</span>
+              </div>
+              {index < steps.length - 1 && (
+                <div
+                  className={cn(
+                    "mt-3 h-1 flex-1 mx-1",
+                    "bg-flathub-sonic-silver",
+                  )}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-between mt-2 text-xs flathub-sonic-silver"></div>
+      </div>
+    )
+}
+
+function StepIcon({ step }: { step: PipelineStep }) {
+  return (
+    <div className={cn("rounded-full p-1", getStepColor(step.status, "text-"))}>
+      {step.status === "succeeded" && <CheckCircle className="size-5" />}
+      {step.status === "running" && <Clock className="size-5" />}
+      {step.status === "failed" && <XCircle className="size-5" />}
+      {step.status === "pending" && <CircleDashed className="size-5" />}
+      {step.status === "cancelled" && <CircleSlash className="size-5" />}
+      {step.status === "published" && <Package className="size-5" />}
+      {step.status === "superseded" && (
+        <CircleChevronRight className="size-5" />
+      )}
+    </div>
+  )
+}
+
+function getStepColor(status: PipelineStatusType, prefix = ""): string {
+  switch (status) {
+    case "succeeded":
+      return `${prefix}flathub-status-green`
+    case "published":
+      return `${prefix}flathub-status-green`
+    case "running":
+      return `${prefix}primary`
+    case "failed":
+      return `${prefix}flathub-status-red`
+    default:
+      return `${prefix}flathub-sonic-silver`
+  }
+}
