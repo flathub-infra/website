@@ -23,6 +23,7 @@ export default {
     "bg-flathub-status-red-dark/25",
     "text-flathub-status-orange-dark",
     "bg-flathub-status-orange-dark/25",
+    "bg-flathub-sonic-silver",
   ],
   prefix: "",
   theme: {
