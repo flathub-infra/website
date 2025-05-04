@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Clock } from "lucide-react"
-import { formatDistanceToNow } from "date-fns"
+import { Clock, Flag, PackageCheck, PlayCircle, PlusCircle } from "lucide-react"
+import { formatDistance, formatDistanceToNow } from "date-fns"
 import { PipelineSummary } from "src/codegen-pipeline"
 import Link from "next/link"
 import { PipelineStatus } from "./pipeline-status"
@@ -23,7 +23,7 @@ export function PipelineCard({ pipelineSummary }: PipelineCardProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-start w-full">
+        <div className="flex justify-between items-start w-full truncate">
           <CardTitle className="text-lg truncate">{app_id}</CardTitle>
           {repo && <Badge variant={getRepoBadgeVariant(repo)}>{repo}</Badge>}
         </div>
@@ -48,32 +48,45 @@ export const PipelineCardContent = ({ pipelineSummary }) => {
   return (
     <>
       <PipelineStatus pipelineSummary={pipelineSummary} />
-      {created_at && !started_at && (
-        <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
-          <Clock className="size-4 mr-1" />
-          <span>Created {formatDistanceToNow(new Date(created_at))} ago</span>
-        </div>
-      )}
-      {started_at && !finished_at && (
-        <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
-          <Clock className="size-4 mr-1" />
-          <span>Started {formatDistanceToNow(new Date(started_at))} ago</span>
-        </div>
-      )}
-      {finished_at && (
-        <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
-          <Clock className="size-4 mr-1" />
-          <span>Finished {formatDistanceToNow(new Date(finished_at))} ago</span>
-        </div>
-      )}
-      {published_at && (
-        <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
-          <Clock className="size-4 mr-1" />
-          <span>
-            Published {formatDistanceToNow(new Date(published_at))} ago
-          </span>
-        </div>
-      )}
+      <div>
+        {created_at && !started_at && !finished_at && (
+          <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4 pb-9">
+            <PlusCircle className="size-4 mr-1" />
+            <span>Created {formatDistanceToNow(new Date(created_at))} ago</span>
+          </div>
+        )}
+        {started_at && !finished_at && (
+          <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4 pb-9">
+            <PlayCircle className="size-4 mr-1" />
+            <span>Started {formatDistanceToNow(new Date(started_at))} ago</span>
+          </div>
+        )}
+        {started_at && finished_at && (
+          <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
+            <Clock className="size-4 mr-1" />
+            <span>
+              Build in{" "}
+              {formatDistance(new Date(started_at), new Date(finished_at))}
+            </span>
+          </div>
+        )}
+        {finished_at && !published_at && (
+          <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
+            <Flag className="size-4 mr-1" />
+            <span>
+              Finished {formatDistanceToNow(new Date(finished_at))} ago
+            </span>
+          </div>
+        )}
+        {published_at && (
+          <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
+            <PackageCheck className="size-4 mr-1" />
+            <span>
+              Published {formatDistanceToNow(new Date(published_at))} ago
+            </span>
+          </div>
+        )}
+      </div>
     </>
   )
 }

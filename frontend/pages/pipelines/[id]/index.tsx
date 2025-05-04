@@ -75,15 +75,22 @@ export default function ApplicationPage({
           </CardContent>
 
           <CardFooter className="pt-2">
-            <Button variant="outline" size="sm" className="w-full mt-6" asChild>
-              <a
-                href={query.data.data.log_url}
-                className="size-4 mr-2"
-                target="_blank"
+            {query.data.data.log_url && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full mt-6"
+                asChild
               >
-                View Log
-              </a>
-            </Button>
+                <a
+                  href={query.data.data.log_url}
+                  className="size-4 mr-2"
+                  target="_blank"
+                >
+                  View Log
+                </a>
+              </Button>
+            )}
           </CardFooter>
         </Card>
       </div>
