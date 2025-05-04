@@ -635,7 +635,7 @@
   "favorite": "Ŝatata",
   "emulator": "Imitiloj",
   "we-love-games": "Ni ♥as Ludojn",
-  "game-section-description": "Ludoj kaj programoj por ruli malnovajn ludojn",
+  "game-section-description": "Ludoj kaj programoj por ruli favoratajn ludojn",
   "gameemulator": "Imitiloj",
   "more-emulator": "Pli da imitiloj",
   "launcher": "Lanĉiloj",
@@ -643,5 +643,15 @@
   "more-gamelauncher": "Pli da ludlanĉiloj",
   "tool": "Iloj",
   "gametool": "Iloj pri ludoj",
-  "more-gametool": "Pli da iloj pri ludoj"
+  "more-gametool": "Pli da iloj pri ludoj",
+  "lightbox": {
+    "previous": "Antaŭen",
+    "close": "Fermi",
+    "next": "Sekven",
+    "zoom-in": "Enzomi",
+    "screenshot": "Ekrankopio",
+    "zoom-out": "Elzomi",
+    "show-screenshot-fullscreen": "Montri ekrankopion plenekrane"
+  },
+  "count-verified-desktop-apps": "Konfirmitaj labortablaj programoj"
 }

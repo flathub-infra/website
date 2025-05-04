@@ -420,5 +420,7 @@
   "system-folder-x": "ਸਿਸਟਮ ਫੋਲਡਰ {{folder}}",
   "host-system-folders": "ਹੋਸਟ ਸਿਸਟਮ ਫੋਲਡਰ",
   "stripe-error-incorrect_number": "ਕਾਰਡ ਦਾ ਨੰਬਰ ਗਲਤ ਹੈ। ਕਾਰਡ ਦੇ ਨੰਬਰ ਦੀ ਜਾਂਚ ਕਰੋ ਜਾਂ ਵੱਖਰੇ ਕਾਰਡ ਨੂੰ ਵਰਤੋਂ।",
-  "read-announcements": "ਐਲਾਨ ਨੂੰ ਪੜ੍ਹੋ"
+  "read-announcements": "ਐਲਾਨ ਨੂੰ ਪੜ੍ਹੋ",
+  "count-verified-desktop-apps": "ਪ੍ਰਮਾਣਿਤ ਡੈਸਕਟਾਪ ਐਪਸ",
+  "flathub-statistics-description": "ਪਲੇਟਫਾਰਮ 'ਤੇ ਉਪਲਬਧ ਐਪਸ ਦੀ ਵਰਤੋਂ ਅਤੇ ਵੰਡ ਦਾ ਸੰਖੇਪ ਜਾਣਕਾਰੀ।"
 }

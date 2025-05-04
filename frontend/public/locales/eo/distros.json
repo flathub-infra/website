@@ -22,7 +22,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Instali Flatpak",
-      "text": "<0>Por instali Flatpak sur <strong>Ubuntu versio 18.10 (Cosmic Cuttlefish) aŭ pli nova</strong>, malfermu Terminalon kaj rulu la jenon:</0> <2></2> <4>Pli malnovaj versioj <strong>ĝis Ubuntu 18.04 LTS (Bionic Beaver)</strong> postulas la oficialan Flatpak-PPA por instali Flatpak kaj teni ĝin ĝisdata. Por aldoni la PPA kaj instali Flatpak, malfermu Terminalon kaj rulu la jenon:</4> <6></6>"
+      "text": "<0>Por instali Flatpak sur <strong>Ubuntu versio 18.10 (Cosmic Cuttlefish) aŭ pli nova</strong>, malfermu Terminalon kaj rulu la jenon:</0> <2></2>"
     },
     "step-2": {
       "name": "Instalu la Flatpak-kromprogramon por la GNOME-programvendejo",
@@ -31,7 +31,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Versioj de Endless OS ne malpli novaj ol 3.0.0 subtenas Flatpak — neniu agordado necesas!</0> <2>Se vi uzas malpli novan version, <2>ĝisdatigu al Endless OS 3</2>.</2>"
+    "introduction": "<0>Versioj de Endless OS ne malpli novaj ol 3.0.0 subtenas Flatpak — neniu agordado necesas!</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -63,7 +63,7 @@
     },
     "step-3": {
       "name": "Instali Flatpak",
-      "text": "<p>Por instali Flatpak, rulu la jenon en la terminalo:</p> <2><2> <4>Pli ĝisdata pako por Flatpak estas disponebla ĉe la <2>deponejo «backports» de Debiano</2>. <4>"
+      "text": "<p>Por instali Flatpak, rulu la jenon en la terminalo:</p> <2><2>"
     },
     "distroName": "ChromeOS",
     "step-5": {
@@ -75,7 +75,7 @@
   "opensuse": {
     "step-1": {
       "name": "Instali Flatpak",
-      "text": "<p>Flatpak estas disponebla ĉe la aprioraj deponejoj de ĉiuj aktuale subtenataj versioj de openSUSE Leap kaj openSUSE Tumbleweed.</p> <2>Se vi preferas grafikan instaladon, vi povas instali Flatpak per «unu-alklaka instalilo» ĉe <2>software.opensuse.org</2>. Se via mastrumasistema versio ne troviĝas, unue alklaku <5>Montri Flatpak por aliaj distribuoj</5> kaj poste elektu el la listo.</2> <p>Alternative, instalu Flatpak per la terminalo uzante Zypper:</p> <6></6>"
+      "text": "<p>Flatpak estas disponebla ĉe la aprioraj deponejoj de ĉiuj aktuale subtenataj versioj de openSUSE Leap kaj openSUSE Tumbleweed.</p> <2>Se vi preferas grafikan instaladon, vi povas instali Flatpak per «unu-alklaka instalilo» ĉe <2>software.opensuse.org</2>. Se via mastrumasistema versio ne troviĝas, unue alklaku <5>Montri Flatpak</5> sub la kategorio de nesubtenataj distribuoj, kaj poste elektu el la listo.</2> <p>Alternative, instalu Flatpak per la terminalo uzante Zypper:</p> <6></6>"
     },
     "step-3": {
       "name": "Restartigi",
@@ -158,13 +158,14 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ankoraŭ ne eblas ĉe Solus, sed tio eblos baldaŭ.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj nur eblas per GNOME Software kaj/aŭ KDE Discover.</p>"
     },
     "distroName": "Solus",
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
-    }
+    },
+    "introduction": "<p>Versioj de Solus ne malpli novaj ol 4.7 subtenas Flatpak — neniu agordado necesas! Oni instalas Flatpak-programojn per GNOME Software kaj/aŭ KDE Discover.</p> <p>Se Flatpak ne estas instalita, sekvu la jenajn instrukciojn por instali ĝin.</p>"
   },
   "alpine": {
     "step-1": {
@@ -217,7 +218,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Subteno por Flatpak estas integrita en Pop!_OS versio 20.04 aŭ pli nova — neniu agordado necesas!</0> <p>Se vi uzas pli malnovan version, sekvu la ĉi-subajn instrukciojn.</p>"
+    "introduction": "<0>Subteno por Flatpak estas integrita en Pop!_OS versio 20.04 aŭ pli nova — neniu agordado necesas!</0>"
   },
   "raspberry_pi_os": {
     "step-3": {
@@ -226,7 +227,7 @@
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
-      "text": "<p>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2> <4><0>Averto:</0> Je la Marto de 2021, sur komputiloj Rasberry Pi estas apriore instalita la 32-bita versio de Raspberry Pi OS. Tamen Flathub estas malsubtenanta tiun arĥitekturon. Se vi rigardas Flathub grava, oni uzu la 64-bitan version de Raspberry Pi OS, ĉar pli novaj programoj estos pli probable disponeblaj por tiu platformo.</4>"
+      "text": "<p>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2> <4><0>Notu:</0> Oni uzu la 64-bitan version de Raspberry Pi OS, ĉar pli novaj programoj estos pli probable disponeblaj nur por tiu platformo.</4>"
     },
     "distroName": "Raspberry Pi OS",
     "step-1": {
@@ -299,7 +300,7 @@
     },
     "step-1": {
       "name": "Instali Flatpak",
-      "text": "<p>Pako por Flatpak estas disponebla ĉe Pardus versio 2019 aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</p> <2></2> <4>Por Pardus versio 2017 kaj pli malnovaj versioj, pako por Flatpak estas disponebla ĉe la <2>oficiala retroportitaĵa deponejo</2>. </4>"
+      "text": "<p>Pako por Flatpak estas disponebla ĉe Pardus versio 2019 aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</p> <2></2>"
     },
     "step-3": {
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>",
@@ -372,7 +373,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Flatpak funkcias apriore en KDE neon, versio 19 aŭ pli nova — agordado ne necesas!</0> <p>Se vi uzas pli malnovan version, vi povas sekvi la instrukciojn ĉi-subajn.</p>"
+    "introduction": "<0>Flatpak funkcias apriore en KDE neon, versio 19 aŭ pli nova — agordado ne necesas!</0>"
   },
   "salix": {
     "distroName": "Salix",
@@ -408,7 +409,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Versioj de Linux Mint ne malpli novaj ol 18.3 subtenas Flatpak — neniu agordado necesas!</0> <2>Se vi uzas malpli novan version, <2>ĝisdatigu al Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Versioj de Linux Mint ne malpli novaj ol 18.3 subtenas Flatpak — neniu agordado necesas!</0>"
   },
   "centos": {
     "distroName": "CentOS",
