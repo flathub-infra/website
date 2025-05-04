@@ -7,13 +7,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import Spinner from "src/components/Spinner"
 import {
   getRepoBadgeVariant,
-  PipelineCardContent,
-} from "@/components/pipeline/pipeline-card"
+  BuildCardContent,
+} from "@/components/build/build-card"
 import { Badge } from "@/components/ui/badge"
 import { NextSeo } from "next-seo"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 
-export default function ApplicationPage({
+export default function BuildPage({
   pipelineId,
   locale,
 }: {
@@ -44,12 +44,12 @@ export default function ApplicationPage({
         title={`${query.data.data.app_id} build`}
         description={`A build pipeline for ${query.data.data.app_id}`}
         openGraph={{
-          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/pipelines/${query.data.data.id}`,
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/builds/${query.data.data.id}`,
         }}
         noindex={locale === "en-GB"}
       />
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <Link href="/pipelines">
+        <Link href="/builds">
           <Button variant="ghost" className="mb-6">
             <ArrowLeftIcon className="h-4 w-4 mr-2" />
             Back to Dashboard
@@ -71,7 +71,7 @@ export default function ApplicationPage({
           </CardHeader>
 
           <CardContent className="pb-2">
-            <PipelineCardContent pipelineSummary={query.data.data} />
+            <BuildCardContent pipelineSummary={query.data.data} />
           </CardContent>
 
           <CardFooter className="pt-2">

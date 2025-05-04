@@ -32,7 +32,7 @@ const statuses: PipelineStatus[] = [
   "superseded",
 ]
 
-export function PipelineFilter({
+export function BuildFilter({
   selectedStatus,
   setSelectedStatus,
 }: {

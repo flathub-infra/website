@@ -11,13 +11,13 @@ import { Clock, Flag, PackageCheck, PlayCircle, PlusCircle } from "lucide-react"
 import { formatDistance, formatDistanceToNow } from "date-fns"
 import { PipelineSummary } from "src/codegen-pipeline"
 import Link from "next/link"
-import { PipelineStatus } from "./pipeline-status"
+import { BuildStatus as BuildStatus } from "./build-status"
 
 interface PipelineCardProps {
   pipelineSummary: PipelineSummary
 }
 
-export function PipelineCard({ pipelineSummary }: PipelineCardProps) {
+export function BuildCard({ pipelineSummary }: PipelineCardProps) {
   const { app_id, id, repo } = pipelineSummary
 
   return (
@@ -29,11 +29,11 @@ export function PipelineCard({ pipelineSummary }: PipelineCardProps) {
         </div>
       </CardHeader>
       <CardContent className="pb-2">
-        <PipelineCardContent pipelineSummary={pipelineSummary} />
+        <BuildCardContent pipelineSummary={pipelineSummary} />
       </CardContent>
       <CardFooter className="pt-2">
         <Button variant="outline" size="sm" className="w-full" asChild>
-          <Link href={`/pipelines/${id}`} className="size-4 mr-2">
+          <Link href={`/builds/${id}`} className="size-4 mr-2">
             View Details
           </Link>
         </Button>
@@ -42,12 +42,16 @@ export function PipelineCard({ pipelineSummary }: PipelineCardProps) {
   )
 }
 
-export const PipelineCardContent = ({ pipelineSummary }) => {
+export const BuildCardContent = ({
+  pipelineSummary,
+}: {
+  pipelineSummary: PipelineSummary
+}) => {
   const { published_at, created_at, started_at, finished_at } = pipelineSummary
 
   return (
     <>
-      <PipelineStatus pipelineSummary={pipelineSummary} />
+      <BuildStatus pipelineSummary={pipelineSummary} />
       <div>
         {created_at && !started_at && !finished_at && (
           <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4 pb-9">
