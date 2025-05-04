@@ -9,20 +9,20 @@ import {
   XCircle,
 } from "lucide-react"
 import { PipelineSummary } from "src/codegen-pipeline"
-import { PipelineStatus as PipelineStatusType } from "./pipeline-filter"
+import { PipelineStatus as PipelineStatusType } from "./build-filter"
 
-interface PipelineStatusProps {
+interface BuildStatusProps {
   pipelineSummary: PipelineSummary
 }
 
-export interface PipelineStep {
+export interface BuildStep {
   id: string
   name: string
   status: PipelineStatusType
 }
 
-export function PipelineStatus({ pipelineSummary }: PipelineStatusProps) {
-  const steps: PipelineStep[] = []
+export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
+  const steps: BuildStep[] = []
 
   if (["stable", "beta"].includes(pipelineSummary.repo)) {
     steps.push({
@@ -83,7 +83,7 @@ export function PipelineStatus({ pipelineSummary }: PipelineStatusProps) {
     )
 }
 
-function StepIcon({ step }: { step: PipelineStep }) {
+function StepIcon({ step }: { step: BuildStep }) {
   return (
     <div className={cn("rounded-full p-1", getStepColor(step.status, "text-"))}>
       {step.status === "succeeded" && <CheckCircle className="size-5" />}

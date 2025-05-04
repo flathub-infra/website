@@ -145,6 +145,16 @@ const nextConfig = (phase) => ({
         destination: "/apps/collection/mobile/1",
         permanent: true,
       },
+      {
+        source: "/pipelines",
+        destination: "/builds",
+        permanent: true,
+      },
+      {
+        source: "/pipelines/:buildId",
+        destination: "/builds/:buildId",
+        permanent: true,
+      },
     ]
   },
   async headers() {
