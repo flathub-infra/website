@@ -11869,7 +11869,7 @@ __metadata:
     isomorphic-dompurify: "npm:^2.24.0"
     linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.2.0"
-    lucide-react: "npm:^0.488.0"
+    lucide-react: "npm:^0.507.0"
     msw: "npm:^2.7.5"
     msw-storybook-addon: "npm:^2.0.4"
     new-github-issue-url: "npm:^1.1.0"
@@ -13986,12 +13986,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.488.0":
-  version: 0.488.0
-  resolution: "lucide-react@npm:0.488.0"
+"lucide-react@npm:^0.507.0":
+  version: 0.507.0
+  resolution: "lucide-react@npm:0.507.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/076eab8084a2febdab792cfd9511702643d6af506f7b46e7be2997ccc3a8f5a9c95b03f8e9dcecfbb75822811ff7d425b90aa6d0cf3d86b9994a18ca4d45a146
+  checksum: 10c0/a1ef4228512f9c4df87f48c3e38c63a23cfbf6d501d9b55e77cf76a7930f0aefdee84982109a0fdf049a2efb34f41adc7f966e683590c20321e70cb9969d1906
   languageName: node
   linkType: hard
 
