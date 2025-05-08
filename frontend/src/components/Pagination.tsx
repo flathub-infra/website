@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { clsx } from "clsx"
 import { HiEllipsisHorizontal } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 interface Props {
   currentPage: number
@@ -17,7 +17,7 @@ const Pagination: FunctionComponent<Props> = ({
   onClick,
 }) => {
   const router = useRouter()
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (pages.length < 2) {
     return null

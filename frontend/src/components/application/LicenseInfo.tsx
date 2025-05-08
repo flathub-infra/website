@@ -1,6 +1,6 @@
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { clsx } from "clsx"
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { TFunction } from "i18next"
 import { createElement } from "react"
 import {
@@ -15,13 +15,14 @@ import {
 import spdxLicenseList from "spdx-license-list"
 import { Appstream } from "src/types/Appstream"
 import { IconType } from "react-icons"
+import { useTranslations } from "next-intl"
 
 const licenseRefProprietaryRegex = /LicenseRef-proprietary=(.*)/i
 const licenseRefRegex = /LicenseRef-scancode-(.*)=(.*)/i
 
 function getLicense(
   project_license: string | undefined,
-  t: TFunction<"translation", undefined>,
+  t,
 ): string | undefined {
   if (!project_license) {
     return undefined
@@ -97,7 +98,7 @@ const LicenseDescription = ({
   licenseType: "proprietary" | "floss" | "special"
   license: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (licenseType === "proprietary") {
     return t("proprietary-explanation")
@@ -127,7 +128,7 @@ const LicenseLink = ({
   app: Pick<Appstream, "id" | "project_license" | "urls">
   license: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { trackEvent } = useMatomo()
 
   const licenseProprietaryIsLink =
@@ -173,7 +174,7 @@ const LicenseInfo = ({
 }: {
   app: Pick<Appstream, "id" | "is_free_license" | "project_license" | "urls">
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   let licenseType: "proprietary" | "floss" | "special" = app.is_free_license
     ? "floss"

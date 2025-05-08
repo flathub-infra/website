@@ -8,11 +8,10 @@ import type { AppProps } from "next/app"
 
 import { UserInfoProvider } from "../src/context/user-info"
 import { IS_PRODUCTION } from "../src/env"
-import { appWithTranslation, i18n, useTranslation } from "next-i18next"
 
 import "../styles/main.css"
 import { useRouter } from "next/router"
-import { bcpToPosixLocale, getLocale } from "../src/localize"
+import { bcpToPosixLocale, getDateFnsLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 import { Inter } from "next/font/google"
@@ -27,6 +26,8 @@ import { setDefaultOptions } from "date-fns"
 import axios from "axios"
 import { NextPage } from "next"
 import { Toaster } from "@/components/ui/sonner"
+import { NextIntlClientProvider, useTranslations } from "next-intl"
+import { getLangDir } from "rtl-detect"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,10 +43,13 @@ type AppPropsWithLayout = AppProps & {
 }
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
+  const locale = router.locale
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  setDefaultOptions({ locale: getLocale(i18n?.language) })
+  setDefaultOptions({ locale: getDateFnsLocale(locale) })
+  const direction = getLangDir(locale)
 
   const [queryClient] = useState(() => new QueryClient({}))
 
@@ -56,7 +60,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
   })
 
-  const router = useRouter()
   const instance = createInstance({
     urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
     siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
@@ -110,8 +113,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
               <Main>{getLayout(<Component {...pageProps} />)}</Main>
             </UserInfoProvider>
             <Toaster
-              position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-              dir={i18n?.dir()}
+              position={direction === "rtl" ? "bottom-left" : "bottom-right"}
+              dir={direction}
             />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
@@ -121,7 +124,18 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 }
 
-export default Sentry.withErrorBoundary(appWithTranslation(App), {
+const localizedApp = ({ Component, pageProps, router }: AppPropsWithLayout) => {
+  return (
+    <NextIntlClientProvider
+      locale={router.locale}
+      messages={pageProps.messages}
+    >
+      <App pageProps={pageProps} Component={Component} router={router} />
+    </NextIntlClientProvider>
+  )
+}
+
+export default Sentry.withErrorBoundary(localizedApp, {
   fallback: ({ error, componentStack, resetError }) => (
     <Fragment>
       <h3>You have encountered an error</h3>

@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import DonationInput from "../src/components/payment/DonationInput"
@@ -8,7 +8,7 @@ import { Permission, UserInfo } from "src/codegen"
 import clsx from "clsx"
 
 export default function Donate() {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -91,7 +91,8 @@ export default function Donate() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
     },
     revalidate: 900,
   }

@@ -3,7 +3,7 @@ import { DesktopAppstream } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
 import { HiMiniStar } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
@@ -19,7 +19,7 @@ export const AppOfTheDay = ({
   >
   className?: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { resolvedTheme } = useTheme()
 
   if (!appOfTheDay) {

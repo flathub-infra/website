@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button"
 import clsx from "clsx"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { Trans } from "next-i18next"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 
 const Acknowledgments = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div>
@@ -70,7 +71,7 @@ const Acknowledgments = () => {
 }
 
 const Users = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="basis-1/2">
@@ -128,7 +129,7 @@ const Users = () => {
 }
 
 const Developers = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="basis-1/2">
@@ -201,7 +202,7 @@ const Developers = () => {
 }
 
 const GetInTouch = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div>
@@ -281,7 +282,7 @@ const GetInTouch = () => {
 }
 
 const About = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -334,7 +335,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       locale,
     },
     revalidate: 900,

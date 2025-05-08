@@ -1,9 +1,9 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { VerificationStatus } from "./types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "./verificationProvider"
 
 export const VerificationText = (verificationStatus: VerificationStatus) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   switch (verificationStatus.method) {
     case "manual":

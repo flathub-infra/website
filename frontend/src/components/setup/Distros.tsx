@@ -1,10 +1,10 @@
 export const distroMap = new Map<string, JSX.Element>()
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { HowToJsonLd } from "next-seo"
 import CodeCopy from "src/components/application/CodeCopy"
 import type { JSX } from "react"
 export const Ubuntu = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:ubuntu.distroName")}</h1>
@@ -141,7 +141,7 @@ export const Ubuntu = () => {
 distroMap.set("Ubuntu", <Ubuntu />)
 
 export const Fedora = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:fedora.distroName")}</h1>
@@ -184,7 +184,7 @@ export const Fedora = () => {
 distroMap.set("Fedora", <Fedora />)
 
 export const Manjaro = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:manjaro.distroName")}</h1>
@@ -266,7 +266,7 @@ export const Manjaro = () => {
 distroMap.set("Manjaro", <Manjaro />)
 
 export const Endless_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:endless_os.distroName")}</h1>
@@ -284,7 +284,7 @@ export const Endless_OS = () => {
 distroMap.set("Endless OS", <Endless_OS />)
 
 export const ALT_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:alt_linux.distroName")}</h1>
@@ -394,7 +394,7 @@ export const ALT_Linux = () => {
 distroMap.set("ALT Linux", <ALT_Linux />)
 
 export const Chrome_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:chrome_os.distroName")}</h1>
@@ -564,7 +564,7 @@ export const Chrome_OS = () => {
 distroMap.set("Chrome OS", <Chrome_OS />)
 
 export const Red_Hat_Enterprise_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:red_hat_enterprise_linux.distroName")}</h1>
@@ -609,7 +609,7 @@ export const Red_Hat_Enterprise_Linux = () => {
 distroMap.set("Red Hat Enterprise Linux", <Red_Hat_Enterprise_Linux />)
 
 export const Linux_Mint = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:linux_mint.distroName")}</h1>
@@ -627,7 +627,7 @@ export const Linux_Mint = () => {
 distroMap.set("Linux Mint", <Linux_Mint />)
 
 export const OpenSUSE = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:opensuse.distroName")}</h1>
@@ -741,7 +741,7 @@ export const OpenSUSE = () => {
 distroMap.set("openSUSE", <OpenSUSE />)
 
 export const Arch = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:arch.distroName")}</h1>
@@ -808,7 +808,7 @@ export const Arch = () => {
 distroMap.set("Arch", <Arch />)
 
 export const Debian = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:debian.distroName")}</h1>
@@ -950,7 +950,7 @@ export const Debian = () => {
 distroMap.set("Debian", <Debian />)
 
 export const Rocky_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:rocky_linux.distroName")}</h1>
@@ -1062,7 +1062,7 @@ export const Rocky_Linux = () => {
 distroMap.set("Rocky Linux", <Rocky_Linux />)
 
 export const CentOS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:centos.distroName")}</h1>
@@ -1092,7 +1092,7 @@ export const CentOS = () => {
 distroMap.set("CentOS", <CentOS />)
 
 export const AlmaLinux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:almalinux.distroName")}</h1>
@@ -1122,7 +1122,7 @@ export const AlmaLinux = () => {
 distroMap.set("AlmaLinux", <AlmaLinux />)
 
 export const Gentoo = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:gentoo.distroName")}</h1>
@@ -1222,7 +1222,7 @@ export const Gentoo = () => {
 distroMap.set("Gentoo", <Gentoo />)
 
 export const Kubuntu = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:kubuntu.distroName")}</h1>
@@ -1346,7 +1346,7 @@ export const Kubuntu = () => {
 distroMap.set("Kubuntu", <Kubuntu />)
 
 export const Solus = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:solus.distroName")}</h1>
@@ -1466,7 +1466,7 @@ export const Solus = () => {
 distroMap.set("Solus", <Solus />)
 
 export const Alpine = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:alpine.distroName")}</h1>
@@ -1605,7 +1605,7 @@ export const Alpine = () => {
 distroMap.set("Alpine", <Alpine />)
 
 export const Mageia = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:mageia.distroName")}</h1>
@@ -1720,7 +1720,7 @@ export const Mageia = () => {
 distroMap.set("Mageia", <Mageia />)
 
 export const OpenMandriva_Lx = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:openmandriva_lx.distroName")}</h1>
@@ -1741,7 +1741,7 @@ export const OpenMandriva_Lx = () => {
 distroMap.set("OpenMandriva Lx", <OpenMandriva_Lx />)
 
 export const Pop_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:pop_os.distroName")}</h1>
@@ -1759,7 +1759,7 @@ export const Pop_OS = () => {
 distroMap.set("Pop!_OS", <Pop_OS />)
 
 export const Elementary_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:elementary_os.distroName")}</h1>
@@ -1813,7 +1813,7 @@ export const Elementary_OS = () => {
 distroMap.set("elementary OS", <Elementary_OS />)
 
 export const Raspberry_Pi_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:raspberry_pi_os.distroName")}</h1>
@@ -1924,7 +1924,7 @@ export const Raspberry_Pi_OS = () => {
 distroMap.set("Raspberry Pi OS", <Raspberry_Pi_OS />)
 
 export const Clear_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:clear_linux.distroName")}</h1>
@@ -1947,7 +1947,7 @@ export const Clear_Linux = () => {
 distroMap.set("Clear Linux", <Clear_Linux />)
 
 export const Void_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:void_linux.distroName")}</h1>
@@ -2047,7 +2047,7 @@ export const Void_Linux = () => {
 distroMap.set("Void Linux", <Void_Linux />)
 
 export const NixOS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:nixos.distroName")}</h1>
@@ -2157,7 +2157,7 @@ export const NixOS = () => {
 distroMap.set("NixOS", <NixOS />)
 
 export const PureOS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:pureos.distroName")}</h1>
@@ -2187,7 +2187,7 @@ export const PureOS = () => {
 distroMap.set("PureOS", <PureOS />)
 
 export const Zorin_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:zorin_os.distroName")}</h1>
@@ -2203,7 +2203,7 @@ export const Zorin_OS = () => {
 distroMap.set("Zorin OS", <Zorin_OS />)
 
 export const Deepin = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:deepin.distroName")}</h1>
@@ -2328,7 +2328,7 @@ export const Deepin = () => {
 distroMap.set("Deepin", <Deepin />)
 
 export const Pardus = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:pardus.distroName")}</h1>
@@ -2455,7 +2455,7 @@ export const Pardus = () => {
 distroMap.set("Pardus", <Pardus />)
 
 export const MX_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:mx_linux.distroName")}</h1>
@@ -2532,7 +2532,7 @@ export const MX_Linux = () => {
 distroMap.set("MX Linux", <MX_Linux />)
 
 export const Pisi_GNULinux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:pisi_gnulinux.distroName")}</h1>
@@ -2637,7 +2637,7 @@ export const Pisi_GNULinux = () => {
 distroMap.set("Pisi GNULinux", <Pisi_GNULinux />)
 
 export const EndeavourOS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:endeavouros.distroName")}</h1>
@@ -2743,7 +2743,7 @@ export const EndeavourOS = () => {
 distroMap.set("EndeavourOS", <EndeavourOS />)
 
 export const KDE_neon = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:kde_neon.distroName")}</h1>
@@ -2761,7 +2761,7 @@ export const KDE_neon = () => {
 distroMap.set("KDE neon", <KDE_neon />)
 
 export const GNU_Guix = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:gnu_guix.distroName")}</h1>
@@ -2865,7 +2865,7 @@ export const GNU_Guix = () => {
 distroMap.set("GNU Guix", <GNU_Guix />)
 
 export const Crystal_Linux = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:crystal_linux.distroName")}</h1>
@@ -2975,7 +2975,7 @@ export const Crystal_Linux = () => {
 distroMap.set("Crystal Linux", <Crystal_Linux />)
 
 export const Vanilla_OS = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:vanilla_os.distroName")}</h1>
@@ -3001,7 +3001,7 @@ export const Vanilla_OS = () => {
 distroMap.set("Vanilla OS", <Vanilla_OS />)
 
 export const Salix = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <h1>{t("distros:salix.distroName")}</h1>

@@ -9,12 +9,13 @@ import { HiChevronDown } from "react-icons/hi2"
 import { clsx } from "clsx"
 import Link from "next/link"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import CodeCopy from "./CodeCopy"
 import { useRouter } from "next/router"
+import { useTranslations } from "next-intl"
 
 export default function InstallButton({ appId }: { appId: string }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const { trackEvent } = useMatomo()
   const { push } = useRouter()

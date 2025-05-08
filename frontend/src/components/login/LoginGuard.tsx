@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useUserContext } from "../../context/user-info"
 import Spinner from "../Spinner"
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { UserInfo } from "src/codegen"
 
 /**
@@ -19,7 +19,7 @@ const LoginGuard = ({
   children: React.ReactNode
   condition?: (user: UserInfo) => boolean | undefined
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
   const router = useRouter()
 

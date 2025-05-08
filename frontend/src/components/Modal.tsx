@@ -7,7 +7,7 @@ import {
   TransitionChild,
 } from "@headlessui/react"
 import { FunctionComponent, useRef } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { HiMiniXMark } from "react-icons/hi2"
 import clsx from "clsx"
 import { Button } from "@/components/ui/button"
@@ -44,7 +44,7 @@ const Modal: FunctionComponent<Props> = ({
   cancelButton,
   submitButton,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const ref = useRef(null)
 
   return (

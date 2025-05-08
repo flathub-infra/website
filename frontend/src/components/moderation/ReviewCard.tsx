@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { getIntlLocale } from "src/localize"
 import InlineError from "../InlineError"

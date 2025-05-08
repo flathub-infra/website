@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Router from "next/router"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "sonner"

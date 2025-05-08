@@ -1,12 +1,12 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 
 import type { JSX } from "react"
 
 const Consultants = ({ locale }: { locale: string }): JSX.Element => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -102,7 +102,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       locale,
     },
     revalidate: 900,

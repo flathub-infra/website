@@ -1,4 +1,4 @@
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
@@ -30,7 +30,7 @@ const LoginVerification: FunctionComponent<Props> = ({
   onVerified,
   onReloadNeeded,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const user = useUserContext()
   const auth = user.info?.auths[method.login_provider]

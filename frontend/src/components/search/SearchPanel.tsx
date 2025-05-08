@@ -31,7 +31,7 @@ export const SearchPanel = ({
   setSelectedFilters
   query: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (
     searchResult.isSuccess &&

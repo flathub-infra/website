@@ -1,4 +1,4 @@
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
 import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
@@ -24,7 +24,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
   isNewApp,
   onVerified,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [returnedToken, setReturnedToken] = useState<string>(null)
   const [confirmResult, setConfirmResult] =

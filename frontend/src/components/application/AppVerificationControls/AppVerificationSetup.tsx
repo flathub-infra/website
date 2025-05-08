@@ -1,4 +1,4 @@
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import { Appstream } from "src/types/Appstream"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const StatusInfo = ({ status }: { status: VerificationStatus }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   switch (status.method) {
     case VerificationMethod.none || !status.verified:
@@ -66,7 +66,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   onVerified,
   showHeader = true,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const query = useQuery({
     queryKey: ["verification", app.id],
