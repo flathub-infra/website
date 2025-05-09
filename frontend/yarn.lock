@@ -11370,9 +11370,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^5.2.6":
-  version: 5.2.6
-  resolution: "eslint-plugin-prettier@npm:5.2.6"
+"eslint-plugin-prettier@npm:^5.4.0":
+  version: 5.4.0
+  resolution: "eslint-plugin-prettier@npm:5.4.0"
   dependencies:
     prettier-linter-helpers: "npm:^1.0.0"
     synckit: "npm:^0.11.0"
@@ -11386,7 +11386,7 @@ __metadata:
       optional: true
     eslint-config-prettier:
       optional: true
-  checksum: 10c0/9911740a5edac7933d92671381908671c61ffa32a3cee7aed667ebab89831ee2c0b69eb9530f68dbe172ca9d4b3fa3d47350762dc1eb096a3ce125fa31c0e616
+  checksum: 10c0/50718d16266dfbe6909697f9d7c9188d2664f5be50fa1de4decc0c8236565570823fdf5973f89cd51254af5551b6160650e092716002a62aaa0f0b2c18e8fc3e
   languageName: node
   linkType: hard
 
@@ -11924,7 +11924,7 @@ __metadata:
     eslint: "npm:^9.19.0"
     eslint-config-next: "npm:15.3.1"
     eslint-config-prettier: "npm:^10.1.2"
-    eslint-plugin-prettier: "npm:^5.2.6"
+    eslint-plugin-prettier: "npm:^5.4.0"
     eslint-plugin-react-compiler: "npm:19.0.0-beta-714736e-20250131"
     fast-diff: "npm:^1.3.0"
     framer-motion: "npm:^12.9.4"
