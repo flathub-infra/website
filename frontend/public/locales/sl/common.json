@@ -1,1 +1,13 @@
-{}
+{
+  "publish": "Objavi",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub Logotip",
+  "close": "Zapri",
+  "search-apps": "Iskanje aplikacij",
+  "setup": "Nastavitev",
+  "carousel": "Vrtiljak",
+  "go-home": "Pojdi Domov",
+  "forum": "Forum",
+  "more-pages": "Več strani",
+  "slide": "Drsnik"
+}
