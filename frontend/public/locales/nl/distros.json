@@ -2,7 +2,8 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<0>Om Flatpak te installeren op <strong>Ubuntu 18.10 (Cosmic Cuttlefish) of nieuwer</strong>, opent u de terminal-app en voert u het volgende uit:</0> <2></2>"
     },
     "step-2": {
       "name": "De Flatpak-plug-in voor GNOME-Software installeren"
