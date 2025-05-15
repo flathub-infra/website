@@ -205,10 +205,24 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
         if not metadata or "extensions" not in metadata:
             return result
 
-        extension_ids = list(metadata["extensions"].keys())
+        extension_ids: list[str] = []
+        for ext_id, ext_data in metadata["extensions"].items():
+            has_version = False
+            if "version" in ext_data:
+                has_version = True
+                extension_ids.append(f"{ext_id}//{ext_data['version']}")
+            if "versions" in ext_data:
+                has_version = True
+                versions = (
+                    v.strip() for v in ext_data["versions"].split(";") if v.strip()
+                )
+                extension_ids.extend(f"{ext_id}//{version}" for version in versions)
+            if not has_version:
+                extension_ids.append(f"{ext_id}//{branch}")
+
         addons = set(
-            addon.app_id
-            for addon in sqldb.query(models.App.app_id)
+            f"{addon.app_id}//{addon.summary.get('branch', branch) if addon.summary else branch}"
+            for addon in sqldb.query(models.App)
             .filter(models.App.type == "addon")
             .filter(~models.App.is_eol)
             .all()
@@ -216,7 +230,8 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
 
         for addon in addons:
             for extension_id in extension_ids:
-                if addon.startswith(extension_id):
+                id_part, branch_part = extension_id.split("//", 1)
+                if addon.startswith(id_part) and addon.endswith(branch_part):
                     result.append(addon)
 
     return result

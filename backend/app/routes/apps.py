@@ -168,6 +168,4 @@ def get_platforms() -> dict[str, utils.Platform]:
 
 @router.get("/addon/{app_id}", tags=["app"])
 def get_addons(app_id: str) -> list[str]:
-    addon_ids = apps.get_addons(app_id)
-
-    return addon_ids
+    return [addon_id.split("//", 1)[0] for addon_id in apps.get_addons(app_id)]
