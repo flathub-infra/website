@@ -1,1 +1,388 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<0>要在 <strong>Ubuntu 18.10（Cosmic Cuttlefish）或更高版本</strong>上安装 Flatpak，请打开终端应用并运行：</0> <2></2>"
+    },
+    "step-2": {
+      "name": "安装 GNOME Software Flatpak 插件"
+    },
+    "step-3": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-4": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "通过软件管理器启用 Flatpak"
+    },
+    "step-2": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-3": {
+      "name": "安装 Flatpak",
+      "text": "<p>要安装 Flatpak，请在终端中运行以下命令：</p> <2></2>"
+    },
+    "step-1": {
+      "name": "启用 Linux 支持"
+    },
+    "step-2": {
+      "name": "启动 Linux 终端",
+      "text": "<p>按搜索/启动键，输入“Terminal”，然后启动终端应用。</p>"
+    },
+    "step-4": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-5": {
+      "name": "重启"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<0>Endless OS 3.0.0 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Alt 系列操作系统上安装 Flatpak，请打开终端应用并运行：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的理想平台。要在您的 Alt 系统上启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<0>重启设备以完成 Flatpak 安装。现在您可以<1>安装应用</1>了！</0>"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "安装 Software Flatpak 插件"
+    },
+    "step-3": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-4": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint",
+    "introduction": "<0>Linux Mint 18.3 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "opensuse": {
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "distroName": "openSUSE"
+  },
+  "arch": {
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Arch 上安装 Flatpak，请打开终端应用并运行：</p> <2></2>"
+    },
+    "distroName": "Arch",
+    "step-2": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Gentoo 上安装 Flatpak，请打开终端应用并运行：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Kubuntu 上安装 Flatpak，请打开 Discover，转到“设置”，安装 Flatpak 后端并重启 Discover。</p>"
+    },
+    "step-2": {
+      "name": "安装 Flatpak 系统设置附加组件",
+      "text": "<p>要将 Flatpak 支持集成到 Plasma 系统设置中，请打开终端应用并运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-4": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Solus 上安装 Flatpak，请打开终端应用并运行：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "alpine": {
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>Flatpak 可以从社区仓库安装。请在终端中运行以下命令：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "安装 Software Flatpak 插件"
+    },
+    "step-3": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-4": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<1>安装应用</1>！</0>"
+    },
+    "distroName": "Alpine"
+  },
+  "mageia": {
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS",
+    "introduction": "<0>Pop!_OS 20.04 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "安装应用"
+    }
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Void Linux 上安装 Flatpak，请在终端中运行以下命令：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "nixos": {
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Deepin 上安装 Flatpak，请在终端中运行以下命令：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "安装 Deepin 主题",
+      "text": "<p>要安装浅色和深色主题，请运行：</p> <2></2>"
+    },
+    "step-4": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS",
+    "introduction": "<0>Zorin OS 内置 Flatpak 支持</0> <p>您可以使用软件商店应用下载 Flatpak 应用。</p>"
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "安装 Software Flatpak 插件"
+    },
+    "step-3": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-4": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-1": {
+      "name": "通过软件管理器启用 Flatpak"
+    },
+    "step-2": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon",
+    "introduction": "<0>KDE neon 19 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<p>要在 GNU Guix 上安装 Flatpak，请在终端中运行以下命令：</p> <2></2>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启"
+    }
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "安装 Flatpak"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
+    }
+  },
+  "salix": {
+    "distroName": "Salix"
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  }
+}
