@@ -623,11 +623,11 @@ wheels = [
 
 [[package]]
 name = "publicsuffixlist"
-version = "1.0.2.20250503"
+version = "1.0.2.20250514"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8a/fb/9b51e0ce8019ce79a1afaa1634998a65bb09c07d481c0bd435806539ee1e/publicsuffixlist-1.0.2.20250503.tar.gz", hash = "sha256:4476f2d91fe210aef350ae252aafb34d62951c2959f3ecc9f842b65b1093f46c", size = 105223, upload-time = "2025-05-03T03:40:12.1Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ab/f7/44e529038f432bcd0930e56e362f915788968a883c691fd7241d6de44de7/publicsuffixlist-1.0.2.20250514.tar.gz", hash = "sha256:9a1415410185245af7b387f7a87a00cd4a3474c7b41c43ae1d6d8823432b0f7a", size = 105137, upload-time = "2025-05-14T03:46:39.525Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/aa/31ab4a400923b1727f89c35d0fe882b1cee9a4e49c5b45a66353ab1add5a/publicsuffixlist-1.0.2.20250503-py2.py3-none-any.whl", hash = "sha256:61b864a9154574e8bf1d761791c81896d8f8de6c21bbaac070baf091b64d5f32", size = 104948, upload-time = "2025-05-03T03:40:10.397Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/52/6c39a74cd56be781d0b9326ee32b668db0dce75aebb2d692f6b99c7cef66/publicsuffixlist-1.0.2.20250514-py2.py3-none-any.whl", hash = "sha256:33fe971e578651b6e1f9c92e53be1fbc2281067d3574597a8afa3ec897a56fac", size = 104867, upload-time = "2025-05-14T03:46:37.865Z" },
 ]
 
 [[package]]
