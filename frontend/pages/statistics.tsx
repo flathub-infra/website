@@ -283,7 +283,9 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
   } satisfies ChartConfig
 
   let category_data = stats.category_totals.map((category) => ({
-    name: category.category,
+    name:
+      tryParseCategory(category.category, t) ??
+      tryParseCategory(category.category, t),
     value: category.count,
   }))
 
@@ -295,14 +297,7 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
         <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
           <Treemap data={category_data} dataKey="value" nameKey={"name"}>
-            <Tooltip
-              cursor={false}
-              content={<FlathubTooltip />}
-              labelFormatter={(x) =>
-                tryParseSubCategory(x, t) ??
-                tryParseCategory(x.toLowerCase(), t)
-              }
-            />
+            <Tooltip cursor={false} content={<FlathubTooltip />} />
           </Treemap>
         </ChartContainer>
       </div>
