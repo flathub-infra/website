@@ -11977,7 +11977,7 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     tsx: "npm:^4.19.3"
     typescript: "npm:^5.8.3"
-    yaml: "npm:^2.7.1"
+    yaml: "npm:^2.8.0"
     yet-another-react-lightbox: "npm:^3.23.0"
   languageName: unknown
   linkType: soft
@@ -19079,6 +19079,15 @@ __metadata:
   bin:
     yaml: bin.mjs
   checksum: 10c0/ee2126398ab7d1fdde566b4013b68e36930b9e6d8e68b6db356875c99614c10d678b6f45597a145ff6d63814961221fc305bf9242af8bf7450177f8a68537590
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "yaml@npm:2.8.0"
+  bin:
+    yaml: bin.mjs
+  checksum: 10c0/f6f7310cf7264a8107e72c1376f4de37389945d2fb4656f8060eca83f01d2d703f9d1b925dd8f39852a57034fafefde6225409ddd9f22aebfda16c6141b71858
   languageName: node
   linkType: hard
 
