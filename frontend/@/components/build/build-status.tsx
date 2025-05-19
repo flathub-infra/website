@@ -8,8 +8,7 @@ import {
   Package,
   XCircle,
 } from "lucide-react"
-import { PipelineSummary } from "src/codegen-pipeline"
-import { PipelineStatus as PipelineStatusType } from "./build-filter"
+import { PipelineStatus, PipelineSummary } from "src/codegen-pipeline"
 
 interface BuildStatusProps {
   pipelineSummary: PipelineSummary
@@ -18,7 +17,7 @@ interface BuildStatusProps {
 export interface BuildStep {
   id: string
   name: string
-  status: PipelineStatusType
+  status: PipelineStatus
 }
 
 export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
@@ -28,8 +27,10 @@ export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
     steps.push({
       id: `${pipelineSummary.id}-build`,
       name: "Build",
-      status: ["cancelled", "running"].includes(pipelineSummary.status)
-        ? (pipelineSummary.status as PipelineStatusType)
+      status: (["cancelled", "running", "failed"] as PipelineStatus[]).includes(
+        pipelineSummary.status,
+      )
+        ? pipelineSummary.status
         : "succeeded",
     })
     steps.push({
@@ -38,14 +39,14 @@ export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
       status: ["published", "superseded", "cancelled"].includes(
         pipelineSummary.status,
       )
-        ? (pipelineSummary.status as PipelineStatusType)
+        ? pipelineSummary.status
         : "pending",
     })
   } else {
     steps.push({
       id: `${pipelineSummary.id}-build`,
       name: "Build",
-      status: pipelineSummary.status as PipelineStatusType,
+      status: pipelineSummary.status,
     })
   }
 
@@ -99,10 +100,9 @@ function StepIcon({ step }: { step: BuildStep }) {
   )
 }
 
-function getStepColor(status: PipelineStatusType, prefix = ""): string {
+function getStepColor(status: PipelineStatus, prefix = ""): string {
   switch (status) {
     case "succeeded":
-      return `${prefix}flathub-status-green`
     case "published":
       return `${prefix}flathub-status-green`
     case "running":
