@@ -109,7 +109,7 @@
     "simple-git": "^3.27.0",
     "storybook": "^8.6.13",
     "storybook-addon-mock-date": "^0.6.0",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.7",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   },

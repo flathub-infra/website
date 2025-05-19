@@ -11973,7 +11973,7 @@ __metadata:
     storybook: "npm:^8.6.13"
     storybook-addon-mock-date: "npm:^0.6.0"
     tailwind-merge: "npm:^3.2.0"
-    tailwindcss: "npm:^4.1.4"
+    tailwindcss: "npm:^4.1.7"
     tailwindcss-animate: "npm:^1.0.7"
     tsx: "npm:^4.19.3"
     typescript: "npm:^5.8.3"
@@ -17800,10 +17800,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^4.1.4":
-  version: 4.1.4
-  resolution: "tailwindcss@npm:4.1.4"
-  checksum: 10c0/4927653b740861f0279b6b465c87e188652d3c0e311c633b4efe5d72bbb4dce12b9dddc674a386a3d0454ef4dd4951aac6fd7346dcd9b2b2b06952e431c1835d
+"tailwindcss@npm:^4.1.7":
+  version: 4.1.7
+  resolution: "tailwindcss@npm:4.1.7"
+  checksum: 10c0/abe56f990bd4b03e0b332a2a39063e7f0f7359e6591282ba4e56ac18e5c58baca6b271072221253fcab7d9534d50f384f13fc41b66b06e0e427ef3f0ab2035bf
   languageName: node
   linkType: hard
 
