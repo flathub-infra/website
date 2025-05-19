@@ -8,6 +8,7 @@ import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
 
+import { PipelineStatus, PipelineTrigger, ProviderType } from ".././model"
 import type {
   PipelineResponse,
   PipelineSummary,
@@ -26,12 +27,16 @@ export const getListPipelinesApiPipelinesGetResponseMock =
     ).map(() => ({
       id: faker.string.alpha(20),
       app_id: faker.string.alpha(20),
-      status: faker.string.alpha(20),
+      status: faker.helpers.arrayElement(Object.values(PipelineStatus)),
       repo: faker.helpers.arrayElement([
         faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
-      triggered_by: faker.string.alpha(20),
+      triggered_by: faker.helpers.arrayElement(Object.values(PipelineTrigger)),
+      build_id: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined,
+      ]),
       created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
       started_at: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -61,15 +66,18 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
 ): PipelineResponse => ({
   id: faker.string.alpha(20),
   app_id: faker.string.alpha(20),
-  status: faker.string.alpha(20),
+  status: faker.helpers.arrayElement(Object.values(PipelineStatus)),
   repo: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
   params: {},
-  triggered_by: faker.string.alpha(20),
+  triggered_by: faker.helpers.arrayElement(Object.values(PipelineTrigger)),
   provider: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(ProviderType)),
+      null,
+    ]),
     undefined,
   ]),
   log_url: faker.helpers.arrayElement([
