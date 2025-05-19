@@ -106,7 +106,11 @@ export const CarouselStrip = ({
               }}
               on={{
                 click: () => setShowLightbox(true),
-                view: (index) => setCurrentIndex(index.index),
+                view: ({ index }) => {
+                  if (!showLightbox) {
+                    setCurrentIndex(index)
+                  }
+                },
               }}
               render={{
                 iconPrev: () => (
