@@ -4,5 +4,6 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { ProviderType } from "./providerType"
 
-export type PipelineResponseProvider = string | null
+export type PipelineResponseProvider = ProviderType | null

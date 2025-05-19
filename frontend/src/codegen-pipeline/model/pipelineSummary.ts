@@ -4,7 +4,10 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
+import type { PipelineTrigger } from "./pipelineTrigger"
+import type { PipelineSummaryBuildId } from "./pipelineSummaryBuildId"
 import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
 import type { PipelineSummaryFinishedAt } from "./pipelineSummaryFinishedAt"
 import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
@@ -12,9 +15,10 @@ import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
 export interface PipelineSummary {
   id: string
   app_id: string
-  status: string
+  status: PipelineStatus
   repo?: PipelineSummaryRepo
-  triggered_by: string
+  triggered_by: PipelineTrigger
+  build_id?: PipelineSummaryBuildId
   created_at: string
   started_at?: PipelineSummaryStartedAt
   finished_at?: PipelineSummaryFinishedAt

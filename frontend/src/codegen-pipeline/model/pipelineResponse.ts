@@ -4,8 +4,10 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineResponseRepo } from "./pipelineResponseRepo"
 import type { PipelineResponseParams } from "./pipelineResponseParams"
+import type { PipelineTrigger } from "./pipelineTrigger"
 import type { PipelineResponseProvider } from "./pipelineResponseProvider"
 import type { PipelineResponseLogUrl } from "./pipelineResponseLogUrl"
 import type { PipelineResponseBuildId } from "./pipelineResponseBuildId"
@@ -16,10 +18,10 @@ import type { PipelineResponsePublishedAt } from "./pipelineResponsePublishedAt"
 export interface PipelineResponse {
   id: string
   app_id: string
-  status: string
+  status: PipelineStatus
   repo?: PipelineResponseRepo
   params: PipelineResponseParams
-  triggered_by: string
+  triggered_by: PipelineTrigger
   provider?: PipelineResponseProvider
   log_url?: PipelineResponseLogUrl
   build_id?: PipelineResponseBuildId
