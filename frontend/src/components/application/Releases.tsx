@@ -9,6 +9,7 @@ import { clsx } from "clsx"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
+import { UTCDate } from "@date-fns/utc"
 
 interface Props {
   latestRelease: Release | null
@@ -66,9 +67,9 @@ const Releases: FunctionComponent<Props> = ({
 
   const latestReleaseTimestamp =
     !latestRelease.timestamp ||
-    new Date(latestRelease.timestamp * 1000).getUTCFullYear() < 1990
+    new UTCDate(latestRelease.timestamp * 1000).getUTCFullYear() < 1990
       ? undefined
-      : new Date(latestRelease.timestamp * 1000)
+      : new UTCDate(latestRelease.timestamp * 1000)
 
   const descriptionSanitized = sanitizeAppstreamDescription(
     latestRelease.description,
@@ -102,14 +103,14 @@ const Releases: FunctionComponent<Props> = ({
                   {summary.timestamp && (
                     <div
                       className="text-sm"
-                      title={new Date(
+                      title={new UTCDate(
                         summary.timestamp * 1000,
                       ).toLocaleDateString(getIntlLocale(i18n.language))}
                     >
                       (
                       {t("build-x", {
                         "build-ago": formatDistanceToNow(
-                          new Date(summary.timestamp * 1000),
+                          new UTCDate(summary.timestamp * 1000),
                           { addSuffix: true },
                         ),
                       })}

@@ -12,6 +12,7 @@ import { formatDistance, formatDistanceToNow } from "date-fns"
 import { PipelineSummary } from "src/codegen-pipeline"
 import Link from "next/link"
 import { BuildStatus as BuildStatus } from "./build-status"
+import { UTCDate } from "@date-fns/utc"
 
 interface PipelineCardProps {
   pipelineSummary: PipelineSummary
@@ -56,13 +57,17 @@ export const BuildCardContent = ({
         {created_at && !started_at && !finished_at && (
           <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4 pb-9">
             <PlusCircle className="size-4 mr-1" />
-            <span>Created {formatDistanceToNow(new Date(created_at))} ago</span>
+            <span>
+              Created {formatDistanceToNow(new UTCDate(created_at))} ago
+            </span>
           </div>
         )}
         {started_at && !finished_at && (
           <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4 pb-9">
             <PlayCircle className="size-4 mr-1" />
-            <span>Started {formatDistanceToNow(new Date(started_at))} ago</span>
+            <span>
+              Started {formatDistanceToNow(new UTCDate(started_at))} ago
+            </span>
           </div>
         )}
         {started_at && finished_at && (
@@ -70,7 +75,10 @@ export const BuildCardContent = ({
             <Clock className="size-4 mr-1" />
             <span>
               Build in{" "}
-              {formatDistance(new Date(started_at), new Date(finished_at))}
+              {formatDistance(
+                new UTCDate(started_at),
+                new UTCDate(finished_at),
+              )}
             </span>
           </div>
         )}
@@ -78,7 +86,7 @@ export const BuildCardContent = ({
           <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
             <Flag className="size-4 mr-1" />
             <span>
-              Finished {formatDistanceToNow(new Date(finished_at))} ago
+              Finished {formatDistanceToNow(new UTCDate(finished_at))} ago
             </span>
           </div>
         )}
@@ -86,7 +94,7 @@ export const BuildCardContent = ({
           <div className="flex items-center text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray mt-4">
             <PackageCheck className="size-4 mr-1" />
             <span>
-              Published {formatDistanceToNow(new Date(published_at))} ago
+              Published {formatDistanceToNow(new UTCDate(published_at))} ago
             </span>
           </div>
         )}

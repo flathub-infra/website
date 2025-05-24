@@ -11,6 +11,7 @@ import {
   useRevokeUploadTokenUploadTokensTokenIdRevokePost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { UTCDate } from "@date-fns/utc"
 
 export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const { t } = useTranslation()
@@ -115,22 +116,22 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
                     <td className="pe-5">{token.scopes.join(", ")}</td>
                     <td
                       className="pe-5"
-                      title={new Date(token.issued_at * 1000).toLocaleString(
+                      title={new UTCDate(token.issued_at * 1000).toLocaleString(
                         getIntlLocale(i18n.language),
                       )}
                     >
-                      {new Date(token.issued_at * 1000).toLocaleDateString(
+                      {new UTCDate(token.issued_at * 1000).toLocaleDateString(
                         getIntlLocale(i18n.language),
                       )}
                     </td>
                     <td className="pe-5">{token.issued_to}</td>
                     <td
                       className="pe-5"
-                      title={new Date(token.expires_at * 1000).toLocaleString(
-                        getIntlLocale(i18n.language),
-                      )}
+                      title={new UTCDate(
+                        token.expires_at * 1000,
+                      ).toLocaleString(getIntlLocale(i18n.language))}
                     >
-                      {new Date(token.expires_at * 1000).toLocaleDateString(
+                      {new UTCDate(token.expires_at * 1000).toLocaleDateString(
                         getIntlLocale(i18n.language),
                       )}
                     </td>

@@ -14,6 +14,7 @@ import { format } from "date-fns"
 import { Permission } from "src/codegen"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { UTCDate } from "@date-fns/utc"
 
 const InviteCode = ({ locale }) => {
   const { t } = useTranslation()
@@ -79,7 +80,7 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
                 dateTime={feedItem.date_modified}
                 className="text-flathub-sonic-silver dark:text-flathub-sonic-silver"
               >
-                {format(new Date(feedItem.date_modified), "P")}
+                {format(new UTCDate(feedItem.date_modified), "P")}
               </time>
             </div>
             <div className="grid grid-rows-[auto_1fr] gap-4 h-full">
