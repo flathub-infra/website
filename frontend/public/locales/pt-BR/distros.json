@@ -390,7 +390,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>O suporte ao Flatpak é integrado ao Zorin OS</0> <p>Você pode usar o aplicativo Software Store para baixar aplicativos flatpak.</p>"
+    "introduction": "<0>O suporte ao Flatpak é integrado ao Zorin OS</0> <p>Você pode usar o aplicativo Software Store para baixar aplicativos Flatpak.</p>"
   },
   "deepin": {
     "distroName": "Deepin",
