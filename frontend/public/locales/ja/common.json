@@ -621,7 +621,7 @@
   "millions-users": "<0>百万ユーザーに届く</0> — Flathub だけで複数の Linux ディストリビューションに対応し、 <2>簡単にインストールでき</2>、また百万以上のアクティブユーザーを獲得しています",
   "docs-guidance": "<0>明解な解説と案内</0> — 広範な<2>解説文書</2>、何千もの<5>アプリのマニフェスト</5>の公開、また大規模なコミュニティからいつでも助けが得られます",
   "more-mobile-apps": "モバイルアプリを見る",
-  "on-the-go": "外出時の",
+  "on-the-go": "外出用",
   "mobile-apps-description": "Linux携帯電話とタブレット用アプリ",
   "emulator": "エミュレータ",
   "we-love-games": "ゲーム♥大好き",
@@ -633,5 +633,15 @@
   "more-gametool": "ゲームツールをもっと表示",
   "game-section-description": "ゲームと好きだった懐かしゲームを動かすアプリ",
   "gametool": "ゲームツール",
-  "tool": "ツール"
+  "tool": "ツール",
+  "lightbox": {
+    "close": "閉じる",
+    "next": "次へ",
+    "zoom-in": "拡大",
+    "zoom-out": "縮小",
+    "screenshot": "スクリーンショット",
+    "previous": "前へ",
+    "show-screenshot-fullscreen": "全画面でスクリーンショットを表示"
+  },
+  "count-verified-desktop-apps": "認証済みデスクトップアプリ数"
 }

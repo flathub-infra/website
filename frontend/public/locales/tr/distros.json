@@ -1,1 +1,48 @@
-{}
+{
+  "endless_os": {
+    "introduction": "<0>Flatpak desteği Endless OS 3.0.0 ve daha yeni sürümlerine entegre edilmiştir—kurulum gerekmez!</0>",
+    "distroName": "Endless OS"
+  },
+  "ubuntu": {
+    "step-4": {
+      "name": "Yeniden başlat",
+      "text": "<0>Kurulumu bitirmek için, sisteminizi yeniden önyükleyin. Artık tek yapmanız gereken <2>uygulamalar yüklemek</2>!</0>"
+    },
+    "step-1": {
+      "name": "Flatpak'ı İndir",
+      "text": "<0>Flatpak'ı <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ve daha sonrasında</strong> yüklemek için, Terminal uygulamasını açın ve komutu çalıştırın:</0> <2></2>"
+    },
+    "step-2": {
+      "name": "GNOME Yazılımı Flatpak eklentisini indirin",
+      "text": "<p>GNOME Yazılımı eklentisi, komut satırına gerek duymadan uygulama yüklemenizi sağlar. İndirmek için bunu çalıştırın:</p> <2></2> <4><strong>Not:</strong> Ubuntu, GNOME Yazılımı'nı 20.04 sürümünden 23.04'e kadar Snap olarak dağıtmıştır, ayrıca 23.10 ve daha yeni sürümlerde Uygulama Merkezi ile değiştirmiştir —ki ikiside Flatpak uygulamaları yüklemeyi desteklemez. Flatpak eklentisini yüklemek aynı zamanda GNOME Yazılımı'nın deb halini yükler, bu, Ubuntu 20.04'ten 23.04'e kadar iki ve 23.10'dan sonrasında bir adet \"Yazılım\" uygulamalarının yüklenmesi ile sonuçlanacaktır.</4>"
+    },
+    "step-3": {
+      "name": "Flathub deposunu ekle",
+      "text": "<p>Flathub, Flatpak uygulamalarını yüklemek için en iyi yerdir. Aktifleştirmek için çalıştırın:</p> <2></2>"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora",
+    "introduction": "<0>Flatpak, Fedora Workstation, Fedora Silverblue ve Fedora Kinoite sürümlerinde otomatik olarak yüklüdür. Başlamak için Flathub'u aktifleştirmelisiniz, ki bu Flatpak uygulamalarını almak için en iyi yoldur. Flathub, <2>Üçüncü Parti Depolar</2>'ın bir parçası olarak otomatik olarak ayarlanmıştır. Onun yerine, <5>Flathub depo dosyalarını</5> yükleyerek indirebilirsiniz.</0> <2>Şimdi tek yapmanız gereken <2>uygulamalar yüklemek</2>!</2> <p>Yukarıdaki bağlantılar varsayılan GNOME ve KDE Fedora sürümlerinde çalışmalıdır, olur da hata alırsanız elle Flathub uzak deposunu çalıştırmak için bu komutu girebilirsiniz:</p> <6></6>"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Flatpak'ı Yazılım Yöneticisi ayrıcalığıyla etkinleştir"
+    },
+    "step-2": {
+      "name": "Yeniden başlat",
+      "text": "<0>Kurulumu bitirmek için, sisteminizi yeniden önyükleyin. Artık tek yapmanız gereken <2>uygulamalar yüklemek</2>!</0>"
+    }
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Flatpak'ı yükle",
+      "text": "<p>Flatpak'ı Alt ailesinin işletim sistemlerinde indirmek için Terminal uygulamasını açın ve çalıştırın:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekle"
+    }
+  }
+}

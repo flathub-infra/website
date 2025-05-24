@@ -6,7 +6,8 @@
       "text": "<0>要在 <strong>Ubuntu 18.10（Cosmic Cuttlefish）或更高版本</strong>上安装 Flatpak，请打开终端应用并运行：</0> <2></2>"
     },
     "step-2": {
-      "name": "安装 GNOME Software Flatpak 插件"
+      "name": "安装 GNOME Software Flatpak 插件",
+      "text": "<p>GNOME Software 插件让您无需命令行即可安装应用。要安装，请运行：</p> <2></2> <4><strong>注意：</strong>Ubuntu 在 20.04 至 23.04 版本中将 GNOME Software 以 Snap 形式分发，并在 23.10 及更新版本中将其替换为 App Center——二者都不支持安装 Flatpak 应用。安装 Flatpak 插件还会安装 GNOME Software 的 deb 版本，导致在 Ubuntu 20.04 至 23.04 版本中同时安装两个“Software”应用，而在 Ubuntu 23.10 及更新版本中会安装一个新的“Software”应用。</4>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
@@ -34,7 +35,8 @@
       "text": "<p>要安装 Flatpak，请在终端中运行以下命令：</p> <2></2>"
     },
     "step-1": {
-      "name": "启用 Linux 支持"
+      "name": "启用 Linux 支持",
+      "text": "<0>导航至 <2>chrome://os-settings</2>，然后向下滚动至 <strong>Developers</strong> 并启用 <i>Linux 开发环境</i>。ChromeOS 需要一些时间下载和安装 Linux。</0>"
     },
     "step-2": {
       "name": "启动 Linux 终端",
@@ -45,8 +47,10 @@
       "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
     },
     "step-5": {
-      "name": "重启"
-    }
+      "name": "重启",
+      "text": "<0>要完成设置，请重启 Linux。您可以右键单击终端，然后点击“关闭 Linux”。现在您要做的就是<2>安装应用</2>！</0>"
+    },
+    "introduction": "<0>Flatpak 应用可以通过 Crostini Linux 兼容层安装在 ChromeOS 上。并非所有 ChromeOS 设备都支持此功能，因此在继续操作之前，请确保您的设备兼容。<2>此处</2>维护了兼容设备的列表。</0>"
   },
   "endless_os": {
     "distroName": "Endless OS",
@@ -70,13 +74,16 @@
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Debian 10（Buster）及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</p> <2></2>"
     },
     "step-2": {
-      "name": "安装 Software Flatpak 插件"
+      "name": "安装 Software Flatpak 插件",
+      "text": "<p>如果您运行的是 GNOME，最好也为 GNOME Software 安装 Flatpak 插件。请运行以下命令进行安装：</p> <2></2> <p>如果您运行的是 KDE，您应该安装 Plasma Discover Flatpak 后端：</p> <6></6>"
     },
     "step-3": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<0>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <2>Flathub 仓库文件</2>，或在终端中运行以下命令：</0> <2></2>"
     },
     "step-4": {
       "name": "重启",
@@ -124,7 +131,8 @@
       "name": "安装 Flatpak"
     },
     "step-2": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<0>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <2>Flathub 仓库文件</2>，或在终端中运行以下命令：</0> <2></2>"
     },
     "step-3": {
       "name": "重启",
@@ -142,7 +150,8 @@
       "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
     },
     "step-3": {
-      "name": "重启"
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：Gentoo 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
   "kubuntu": {
@@ -156,7 +165,8 @@
       "text": "<p>要将 Flatpak 支持集成到 Plasma 系统设置中，请打开终端应用并运行：</p> <2></2>"
     },
     "step-3": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请打开“Discover”，转到“设置”，然后添加 Flathub 仓库。</p>"
     },
     "step-4": {
       "name": "重启",
@@ -170,7 +180,8 @@
       "text": "<p>要在 Solus 上安装 Flatpak，请打开终端应用并运行：</p> <2></2>"
     },
     "step-2": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<0>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <2>Flathub 仓库文件</2>，或在终端中运行以下命令：</0> <2></2>"
     },
     "step-3": {
       "name": "重启"
@@ -185,7 +196,8 @@
       "name": "安装 Software Flatpak 插件"
     },
     "step-3": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<0>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <2>Flathub 仓库文件</2>，或在终端中运行以下命令：</0> <2></2>"
     },
     "step-4": {
       "name": "重启",
@@ -196,13 +208,16 @@
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Mageia 6 及更新版本提供了 flatpak 安装包。要使用 DNF 安装，请以 root 身份运行以下命令：</p> <2></2> <4>或者，要使用 <1>urpmi</1> 安装，请运行：</4> <6></6>"
     },
     "step-2": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<0>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <2>Flathub 仓库文件</2>，或在终端中运行以下命令：</0> <2></2>"
     },
     "step-3": {
-      "name": "重启"
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：Mageia 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
   "pop_os": {
@@ -221,13 +236,15 @@
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Raspberry Pi OS（以前称为 Raspbian）Stretch 及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</p> <2></2>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库"
     },
     "step-3": {
-      "name": "重启"
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：Raspberry Pi OS 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
   "clear_linux": {
@@ -291,10 +308,12 @@
   "pardus": {
     "distroName": "Pardus",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Pardus 2019 及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</p> <2></2>"
     },
     "step-2": {
-      "name": "安装 Software Flatpak 插件"
+      "name": "安装 Software Flatpak 插件",
+      "text": "<p>如果您运行的是 GNOME，最好也为 GNOME Software 安装 Flatpak 插件。请运行以下命令进行安装：</p> <2></2>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
@@ -318,27 +337,31 @@
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Pisi 2.1 及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</p> <2></2>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
       "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
     },
     "step-3": {
-      "name": "重启"
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：Pisi GNU/Linux 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>要在 EndeavorOS 上安装 Flatpak，您必须首先确保您的安装是最新的，在终端中运行以下命令：</p> <2></2> <p>然后安装 Flatpak：</p> <6></6>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
       "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
     },
     "step-3": {
-      "name": "重启"
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：EndeavourOS 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
   "kde_neon": {
@@ -356,7 +379,8 @@
       "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2>"
     },
     "step-3": {
-      "name": "重启"
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：GNU Guix 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
   "crystal_linux": {
@@ -380,7 +404,8 @@
     "distroName": "Vanilla OS"
   },
   "fedora": {
-    "distroName": "Fedora"
+    "distroName": "Fedora",
+    "introduction": "<0>Flatpak 默认安装在 Fedora Workstation、Fedora Silverblue 和 Fedora Kinoite 上。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。Flathub 已预先配置为<2>第三方仓库</2>的一部分。或者，您可以下载并安装 <5>Flathub 仓库文件</5>。</0> <2>现在您要做的就是<2>安装应用</2>！</2> <p>上述链接应该适用于默认的 GNOME 和 KDE Fedora 安装，但如果由于某种原因失败，您可以通过运行以下命令手动添加 Flathub 远程：</p> <6></6>"
   },
   "almalinux": {
     "distroName": "AlmaLinux"
