@@ -203,8 +203,12 @@ const route = createRoute({
   },
   responses: {
     200: {
-      content: {},
-      description: "",
+      content: {
+        "application/json": {
+          schema: z.object({}),
+        },
+      },
+      description: "Email sent successfully",
     },
   },
 })
