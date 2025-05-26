@@ -11961,7 +11961,7 @@ __metadata:
     i18next: "npm:^25.1.3"
     isomorphic-dompurify: "npm:^2.25.0"
     linkify-html: "npm:^4.3.1"
-    linkifyjs: "npm:^4.2.0"
+    linkifyjs: "npm:^4.3.1"
     lucide-react: "npm:^0.507.0"
     msw: "npm:^2.7.5"
     msw-storybook-addon: "npm:^2.0.4"
@@ -13854,10 +13854,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linkifyjs@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "linkifyjs@npm:4.2.0"
-  checksum: 10c0/fda4fe3e98df94400fbc70ba38798094c6852e7f41e8cc9b8a2fcd3cb122daa20502aedfd1ecb996cf9d829f6fdddd9813858ca070f9cb246389a5b161c6ac8d
+"linkifyjs@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "linkifyjs@npm:4.3.1"
+  checksum: 10c0/fcd7d36ce1b03adb19dcc84b3b375f0b9d6e88d8885461bc69e5d5cbf1cd666cd740e175f015ac5ce600154a4f2bc68f4aed3920b1254aa4c6e9b42f49b3de79
   languageName: node
   linkType: hard
 
