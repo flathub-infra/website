@@ -502,13 +502,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         apps[appid] = app
 
         if "content_rating" in app:
+            content_rating = {}
             for lang in localize.LOCALES:
-                print(
-                    "result",
-                    appid,
-                    lang,
-                    get_content_rating_details(app["content_rating"], lang),
+                content_rating[lang] = get_content_rating_details(
+                    app["content_rating"], lang
                 )
+
+            apps[appid]["content_rating_details"] = content_rating
 
     return apps
 

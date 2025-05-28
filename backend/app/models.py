@@ -2292,6 +2292,7 @@ class App(Base):
     )
     last_updated_at = mapped_column(DateTime, nullable=True)
     localization = mapped_column(JSONB, nullable=True)
+    content_rating_details = mapped_column(JSONB, nullable=True)
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
@@ -2351,16 +2352,26 @@ class App(Base):
         return app.appstream if app else None
 
     @classmethod
-    def set_app(cls, db, app_id: str, type, app_locales) -> Optional["App"]:
+    def set_app(
+        cls, db, app_id: str, type, app_locales, content_rating_details
+    ) -> Optional["App"]:
         app = App.by_appid(db, app_id)
 
         if bool(app_locales) is False:
             app_locales = None
 
+        if bool(content_rating_details) is False:
+            content_rating_details = None
+
         if app:
-            if app.type == type and app.localization == app_locales:
+            if (
+                app.type == type
+                and app.localization == app_locales
+                and app.content_rating_details == content_rating_details
+            ):
                 return app
             app.localization = app_locales
+            app.content_rating_details = content_rating_details
             app.type = type
             db.session.commit()
             return app
@@ -2369,6 +2380,7 @@ class App(Base):
                 app_id=app_id,
                 type=type,
                 localization=app_locales,
+                content_rating_details=content_rating_details,
             )
             db.session.add(app)
             db.session.commit()
