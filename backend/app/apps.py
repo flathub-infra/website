@@ -50,7 +50,7 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
 
     translations = {}
     for key, apps in apps_locale.items():
-        if key in localize.LOCALES:
+        if key in localize.LANGUAGES:
             filtered_translations = dict(
                 filter(
                     lambda x: (
