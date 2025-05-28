@@ -111,7 +111,7 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
         if developer_name := app.get("developer_name"):
             content.append(f"<li>Developer: {developer_name}</li>")
 
-        if license := app.get("license"):
+        if license := app.get("project_license"):
             content.append(f"<li>License: {license}</li>")
 
         if app_releases := app.get("releases"):
