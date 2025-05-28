@@ -14,7 +14,7 @@ import jwt
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config, models
+from . import config, localize, models
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -502,7 +502,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         apps[appid] = app
 
         if "content_rating" in app:
-            print(get_content_rating_details(app["content_rating"], "de_DE"))
+            for lang in localize.LOCALES:
+                print(
+                    "result",
+                    appid,
+                    lang,
+                    get_content_rating_details(app["content_rating"], lang),
+                )
 
     return apps
 
@@ -514,34 +520,35 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     rating = AppStream.ContentRating()
 
     rating.set_kind(content_rating["type"])
-    details_list = []
+    contentRatingResult: dict[str, Any] = {"details": []}
 
     for attr, level in content_rating.items():
-        if attr == "kind":
+        if attr == "kind" or attr == "type" or attr == "none":
             continue
         c_level = AppStream.ContentRatingValue.from_string(level)
         rating.add_attribute(attr, c_level)
         description = AppStream.ContentRating.attribute_get_description(attr, c_level)
-        details_list.append({
-            "id": attr,
-            "level": level,
-            "description": description,
-        })
+        contentRatingResult["details"].append(
+            {
+                "id": attr,
+                "level": level,
+                "description": description,
+            }
+        )
 
     min_age = AppStream.ContentRating.get_minimum_age(rating)
     # Maxint is used for no details available
+    contentRatingResult["contentRatingSystem"] = (
+        AppStream.ContentRatingSystem.to_string(system)
+    )
     if min_age == MAXUINT:
-        minimum_age = None
+        contentRatingResult["minimumAge"] = None
     else:
-        minimum_age = AppStream.ContentRatingSystem.format_age(system, min_age)
+        contentRatingResult["minimumAge"] = AppStream.ContentRatingSystem.format_age(
+            system, min_age
+        )
 
-    content_rating_system = AppStream.ContentRatingSystem.to_string(system)
-
-    return {
-        "details": details_list,
-        "minimumAge": minimum_age,
-        "contentRatingSystem": content_rating_system,
-    }
+    return contentRatingResult
 
 
 def display_length_supports_mobile(display_lengths: list[etree.Element]) -> bool:
