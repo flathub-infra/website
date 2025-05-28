@@ -7986,12 +7986,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.14.1":
-  version: 22.14.1
-  resolution: "@types/node@npm:22.14.1"
+"@types/node@npm:^22.15.23":
+  version: 22.15.23
+  resolution: "@types/node@npm:22.15.23"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/d49c4d00403b1c2348cf0701b505fd636d80aabe18102105998dc62fdd36dcaf911e73c7a868c48c21c1022b825c67b475b65b1222d84b704d8244d152bb7f86
+  checksum: 10c0/e3ae0629dfb4357dad2a7838c481656abf089d852d83f0d0f14368f03ad21ce276cbecfdf62be2276ef39920db6b114e5bc8d87c37714bbab9aefb0ce1eb1473
   languageName: node
   linkType: hard
 
@@ -11955,7 +11955,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.76.2"
     "@tanstack/react-query-devtools": "npm:^5.74.7"
     "@tanstack/react-table": "npm:^8.21.3"
-    "@types/node": "npm:^22.14.1"
+    "@types/node": "npm:^22.15.23"
     "@types/react": "npm:19.1.2"
     axios: "npm:^1.9.0"
     boring-avatars: "npm:^1.11.2"
