@@ -96,7 +96,14 @@ def _configure_meilisearch_index(client):
         ]
     )
     client.index("apps").update_searchable_attributes(
-        ["name", "keywords", "summary", "description", "id"]
+        [
+            "name",
+            "keywords",
+            "summary",
+            "description",
+            "translations",
+            "id",
+        ]
     )
     client.index("apps").update_filterable_attributes(
         [
