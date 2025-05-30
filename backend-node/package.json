@@ -22,7 +22,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-email": "4.0.15",
-    "zod": "^3.25.30"
+    "zod": "^3.25.41"
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
