@@ -644,5 +644,15 @@
   "gamelauncher": "Lanzadores de juegos",
   "more-gamelauncher": "Más lanzadores de juegos",
   "gametool": "Herramientas de juego",
-  "more-gametool": "Más herramientas de juego"
+  "more-gametool": "Más herramientas de juego",
+  "count-verified-desktop-apps": "Aplicaciones de escritorio verificadas",
+  "lightbox": {
+    "close": "Cerrar",
+    "next": "Siguiente",
+    "zoom-in": "Acercar",
+    "zoom-out": "Alejar",
+    "screenshot": "Captura de pantalla",
+    "show-screenshot-fullscreen": "Mostrar captura de pantalla en pantalla completa",
+    "previous": "Anterior"
+  }
 }

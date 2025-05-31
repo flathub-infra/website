@@ -73,7 +73,8 @@
     "step-2": {
       "name": "Añade el repositorio de Flathub",
       "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <2>archivo de repositorio de Flathub</2> o ejecuta lo siguiente en una terminal:</0> <2></2>"
-    }
+    },
+    "introduction": "<p>La compatibilidad con Flatpak está integrada en Solus 4.7 y versiones posteriores, ¡no requiere instalación! Las aplicaciones Flatpak pueden ser instaladas usando GNOME Software y/o KDE Discover.</p> <p>Si Flatpak no está instalado, siga las instrucciones de abajo para empezar.</p>"
   },
   "alpine": {
     "distroName": "Alpine",
