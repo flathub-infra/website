@@ -21,7 +21,8 @@
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
-      "name": "通过软件管理器启用 Flatpak"
+      "name": "通过软件管理器启用 Flatpak",
+      "text": "<p>Flatpak 默认安装在 Manjaro 20 或更高版本上。</p> <2>要启用其支持，请导航到 <strong>Software Manager</strong>（添加/删除程序）</2> <p>点击右侧的三条横线菜单[或点，具体取决于桌面环境]，在下拉菜单中选择“首选项”</p> <p>导航到“Flatpak”标签页，将‌切换开关滑动至启用 Flatpak 支持（推荐同时启用更新检查）。</p>"
     },
     "step-2": {
       "name": "重启",
@@ -95,11 +96,13 @@
     "introduction": "<0>Linux Mint 18.3 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<0>Flatpak 默认安装在 Red Hat Enterprise Linux Workstation 9 及更新版本上。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <2>Flathub 仓库文件</2>即可。</0> <p>要在 Red Hat Enterprise Linux Workstation 8 或更早版本上安装 Flatpak，请在终端中运行以下命令：</p>  <5></5> <7>现在您要做的就是<2>安装应用</2>！</7> <p>上述链接应该适用于默认的 Red Hat Enterprise Linux Workstation 9 安装，但如果由于某种原因失败，您可以通过运行以下命令手动添加 Flathub 远程：</p> <11></11>"
   },
   "opensuse": {
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Flatpak 在所有当前维护的 openSUSE Leap 和 openSUSE Tumbleweed 版本的默认仓库中可用。</p> <2>如果您更喜欢通过图形界面安装，可以使用 <2>software.opensuse.org</2> 提供的“一键安装程序”安装 Flatpak。如果您的发行版版本未默认显示，请点击不支持的发行版类别下的<5>显示</5>，然后从列表中选择。</2> <p>或者，使用 Zypper 从命令行安装 Flatpak：</p> <6></6>"
     },
     "step-3": {
       "name": "重启",
@@ -123,12 +126,14 @@
     }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<0>在 CentOS 7 及更新版本中，Flatpak 在使用 GNOME 时默认安装。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <2>Flathub 仓库文件</2>即可。</0> <2>现在您要做的就是<2>安装应用</2>！</2>"
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>Flatpak 默认安装在 Rocky Linux 8 及更新版本上，前提是安装时选择了包括 GNOME（带 GUI 的服务器、工作站）的软件。如果您使用的是这样的系统，可以跳过此步骤。要在 Rocky Linux 上安装 Flatpak，请在终端中运行以下命令：</p> <2></2>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
@@ -184,8 +189,10 @@
       "text": "<0>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <2>Flathub 仓库文件</2>，或在终端中运行以下命令：</0> <2></2>"
     },
     "step-3": {
-      "name": "重启"
-    }
+      "name": "重启",
+      "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：只能通过 GNOME Software 和/或 KDE Discover 进行 Flatpak 应用的图形界面安装。</p>"
+    },
+    "introduction": "<p>Solus 4.7 及更新版本内置 Flatpak 支持 — 无需设置！可以使用 GNOME Software 和/或 KDE Discover 安装 Flatpak 应用。</p> <p>如果未安装 Flatpak，请按照以下说明开始安装。</p>"
   },
   "alpine": {
     "step-1": {
@@ -193,7 +200,8 @@
       "text": "<p>Flatpak 可以从社区仓库安装。请在终端中运行以下命令：</p> <2></2>"
     },
     "step-2": {
-      "name": "安装 Software Flatpak 插件"
+      "name": "安装 Software Flatpak 插件",
+      "text": "<p>您可以为 GNOME Software（自 v3.13 起）或 KDE Discover（自 v3.11 起）安装 Flatpak 插件，从而无需命令行即可安装应用。要安装插件，对于 GNOME Software，请运行：</p> <2></2> <p>对于 KDE Discover，请运行：</p> <6></6>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
@@ -225,7 +233,8 @@
     "introduction": "<0>Pop!_OS 20.04 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<0>OpenMandriva 的所有活跃支持版本都内置 Flatpak 支持，从稳定/固定版本“Rock 5.0”开始，到开发版本“Cooker”，最后到滚动版本“ROME”。</0> <p>Flatpak 附带预配置的 Flathub 仓库。</p>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -408,6 +417,7 @@
     "introduction": "<0>Flatpak 默认安装在 Fedora Workstation、Fedora Silverblue 和 Fedora Kinoite 上。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。Flathub 已预先配置为<2>第三方仓库</2>的一部分。或者，您可以下载并安装 <5>Flathub 仓库文件</5>。</0> <2>现在您要做的就是<2>安装应用</2>！</2> <p>上述链接应该适用于默认的 GNOME 和 KDE Fedora 安装，但如果由于某种原因失败，您可以通过运行以下命令手动添加 Flathub 远程：</p> <6></6>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<0>在 AlmaLinux 8 及更新版本中，Flatpak 在使用 GNOME 时默认安装。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <2>Flathub 仓库文件</2>即可。</0> <2>现在您要做的就是<2>安装应用</2>！</2>"
   }
 }

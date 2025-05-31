@@ -385,5 +385,8 @@
   "can-access-system-devices": "Kan tilgå systemenheder",
   "can-read-all-data-on-file-system": "Kan læse alle data på filsystemet",
   "desktop-folder": "Skrivebordsmappe",
-  "no-network-access": "Ingen netværksadgang"
+  "no-network-access": "Ingen netværksadgang",
+  "setup": "Opsætning",
+  "more-pages": "Flere sider",
+  "users": "Brugere"
 }
