@@ -3411,7 +3411,7 @@ __metadata:
     react-email: "npm:4.0.15"
     tsx: "npm:^4.19.4"
     typescript: "npm:^5.8.3"
-    zod: "npm:^3.25.47"
+    zod: "npm:^3.25.49"
   languageName: unknown
   linkType: soft
 
@@ -3964,9 +3964,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.25.47":
-  version: 3.25.47
-  resolution: "zod@npm:3.25.47"
-  checksum: 10c0/932fd9dc37f0af65b9ce6c514904e1dea92fb7e7e0b75ddba393f7245cf73aa30c03c4ec9d2d7b35f2d825b49b3ceb96ba6e47401d801d90d5c989de27e94f7a
+"zod@npm:^3.25.49":
+  version: 3.25.49
+  resolution: "zod@npm:3.25.49"
+  checksum: 10c0/2b70269b18abcd9b8d282ed6361a327a71d9a91433d3add02c4ab69750a271d97675145b393ccc968b5d61360d8d4000180fbc8a347dc186320b9e118c7a1df9
   languageName: node
   linkType: hard
