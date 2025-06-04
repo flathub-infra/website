@@ -365,6 +365,7 @@ def submit_review_request(
             "org.kde.Platform",
             "org.kde.Sdk",
             "org.flatpak.Builder",
+            "com.riverbankcomputing.PyQt.BaseApp",
         ):
             continue
 
