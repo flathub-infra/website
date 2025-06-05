@@ -87,7 +87,8 @@
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Flatpak ist in den Standard-Repositories aller derzeit gepflegten openSUSE Leap- und openSUSE Tumbleweed-Versionen verfügbar.</p> <2>Wenn Sie eine grafische Installation bevorzugen, können Sie Flatpak mit einem \"1-Klick-Installer\" von <2>software.opensuse.org</2> installieren. Wenn Ihre Distributionsversion nicht standardmäßig angezeigt wird, klicken Sie auf <5>Anzeigen</5> unter der Kategorie Nicht unterstützte Distributionen und wählen Sie dann aus der Liste aus.</2> <p>Alternativ können Sie Flatpak von der Kommandozeile mit Zypper installieren:</p> <6></6>"
     },
     "step-3": {
       "name": "Neustart",
@@ -116,7 +117,8 @@
       "text": "<p>Ein Flatpak Paket ist in Debian 10 (Buster) und neuer verfügbar. Um dieses zu installieren, führe folgendes als root aus:</p> <2></2>"
     },
     "step-2": {
-      "name": "Installier das Software Flatpak Plugin"
+      "name": "Installier das Software Flatpak Plugin",
+      "text": "<p>Wenn Sie GNOME verwenden, ist es auch ratsam, das Flatpak-Plugin für GNOME Software zu installieren. Um dies zu tun, starten Sie:</p> <2></2> <p>Wenn Sie KDE verwenden, sollten Sie stattdessen das Plasma Discover Flatpak Backend installieren:</p> <6></6>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -197,7 +199,8 @@
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
-    }
+    },
+    "introduction": "<p>Flatpak-Unterstützung ist ab Solus 4.7 integriert - es ist keine Installation erforderlich! Flatpak-Anwendungen können mit GNOME Software und/oder KDE Discover installiert werden.</p> <p>Wenn Flatpak nicht installiert ist, folgen Sie den folgenden Anweisungen, um loszulegen.</p>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -244,7 +247,8 @@
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Apps installieren"
+      "name": "Apps installieren",
+      "text": "<0>Elementary OS ab Version 5.1 unterstützt Flatpak bereits standardmäßig. Für nicht-kompilierte Apps können Sie <2>Flathub</2> besuchen, um eine App über die große Schaltfläche \"Installieren\" zu installieren und die heruntergeladene `.flatpakref`-Datei mit Sideload zu öffnen.</0> <p>Hinweis: Nach der Installation einer App von einem externen Anbieter wie Flathub werden alle anderen Apps von diesem Anbieter automatisch auch im AppCenter angezeigt.</p>"
     }
   },
   "raspberry_pi_os": {
@@ -258,7 +262,8 @@
       "text": "<p>Ein Flatpak Paket ist in Raspberry Pi OS (früher Raspbian) Stretch und neuer erhältlich. Um dieses zu installieren, führe folgendes als root aus:</p> <2></2>"
     },
     "step-2": {
-      "name": "Das Flathub-Repository hinzufügen"
+      "name": "Das Flathub-Repository hinzufügen",
+      "text": "<p>Flathub ist der beste Ort, um Flatpak-Anwendungen zu bekommen. Um es zu aktivieren, starten Sie:</p> <2></2> <4><0>Wichtiger Hinweis:</0> Es wird empfohlen, Raspberry Pi OS 64-bit zu verwenden, da neuere Anwendungen nur für diese Plattform verfügbar sind.</4>"
     }
   },
   "clear_linux": {
@@ -291,11 +296,13 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<0>Um Flatpak zu installieren, setzen Sie die NixOS-Option <2>services.flatpak.enable</2> auf <4>true</4>, indem Sie Folgendes in Ihre <7>/etc/nixos/configuration.nix</7> eintragen:</0> <2></2> <p>Dann bauen Sie die neue Konfiguration mit:</p> <6></6> <8>Für weitere Details siehe die <2>NixOS Dokumentation</2>.</8>"
     }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": "<0>Flatpak ist standardmäßig auf PureOS installiert. Um loszulegen, müssen Sie nur Flathub aktivieren, was der beste Weg ist, um Flatpak-Apps zu erhalten. Laden Sie einfach die <2>Flathub Repository-Datei</2> herunter und installieren Sie sie.</0> <2>Jetzt müssen Sie nur noch <2>Apps installieren</2>!</2>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",
@@ -327,10 +334,12 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Ein Flatpak-Paket ist ab Pardus 2019 und neuer verfügbar. Um es zu installieren, führen Sie das Folgende als root aus:</p> <2></2>"
     },
     "step-2": {
-      "name": "Installier das Software Flatpak Plugin"
+      "name": "Installier das Software Flatpak Plugin",
+      "text": "<p>Wenn Sie GNOME verwenden, ist es auch ratsam, das Flatpak-Plugin für GNOME Software zu installieren. Führen Sie dazu Folgendes aus:</p> <2></2>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
