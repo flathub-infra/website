@@ -8067,12 +8067,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:19.1.2":
-  version: 19.1.2
-  resolution: "@types/react@npm:19.1.2"
+"@types/react@npm:19.1.6":
+  version: 19.1.6
+  resolution: "@types/react@npm:19.1.6"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10c0/76ffe71395c713d4adc3c759465012d3c956db00af35ab7c6d0d91bd07b274b7ce69caa0478c0760311587bd1e38c78ffc9688ebc629f2b266682a19d8750947
+  checksum: 10c0/8b10b198e28997b3c57559750f8bcf5ae7b33c554b16b6f4fe2ece1d4de6a2fc8cb53e7effe08ec9cb939d2f479eb97c5e08aac2cf83b10a90164fe451cc8ea2
   languageName: node
   linkType: hard
 
@@ -11990,7 +11990,7 @@ __metadata:
     "@tanstack/react-query-devtools": "npm:^5.74.7"
     "@tanstack/react-table": "npm:^8.21.3"
     "@types/node": "npm:^22.15.23"
-    "@types/react": "npm:19.1.2"
+    "@types/react": "npm:19.1.6"
     axios: "npm:^1.9.0"
     boring-avatars: "npm:^1.11.2"
     chromatic: "npm:^11.28.2"
