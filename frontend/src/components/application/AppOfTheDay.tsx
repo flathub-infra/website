@@ -8,6 +8,7 @@ import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import clsx from "clsx"
+import { useEffect, useState } from "react"
 
 export const AppOfTheDay = ({
   appOfTheDay,
@@ -20,9 +21,14 @@ export const AppOfTheDay = ({
   className?: string
 }) => {
   const { t } = useTranslation()
+  const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
 
-  if (!appOfTheDay) {
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!appOfTheDay || !mounted) {
     return null
   }
 

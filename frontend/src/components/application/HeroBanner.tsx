@@ -39,10 +39,15 @@ export const HeroBanner = ({
   aboveTheFold?: boolean
   forceTheme?: "light" | "dark"
 }) => {
+  const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
 
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (!api) {
@@ -70,6 +75,10 @@ export const HeroBanner = ({
       autoPlay.play()
     })
   }, [api, currentIndex])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <Carousel
