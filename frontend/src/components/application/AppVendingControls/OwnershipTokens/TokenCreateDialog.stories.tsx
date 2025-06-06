@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 import TokenCreateDialog from "./TokenCreateDialog"
-import { expect, userEvent, waitFor, within } from "@storybook/test"
+import { expect, userEvent, waitFor, within } from "storybook/test"
 import React from "react"
 
 const meta = {

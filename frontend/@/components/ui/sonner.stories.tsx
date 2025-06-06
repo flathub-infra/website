@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 import { Toaster } from "./sonner"
 import { toast } from "sonner"
 import React from "react"
 import { i18n } from "next-i18next"
-import { expect, userEvent, waitFor, within } from "@storybook/test"
+import { expect, userEvent, waitFor, within } from "storybook/test"
 
 const meta = {
   title: "Components/UI/Toaster",

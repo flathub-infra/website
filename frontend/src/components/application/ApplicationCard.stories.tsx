@@ -1,7 +1,7 @@
 import { ApplicationCard } from "./ApplicationCard"
 import { faker } from "@faker-js/faker"
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 const meta: Meta<typeof ApplicationCard> = {
   title: "Components/ApplicationCard",

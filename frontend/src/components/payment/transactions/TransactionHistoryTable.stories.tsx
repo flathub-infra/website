@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 import { TransactionHistoryTable } from "./TransactionHistoryTable"
 import { TransactionSummary } from "../../../codegen/model"

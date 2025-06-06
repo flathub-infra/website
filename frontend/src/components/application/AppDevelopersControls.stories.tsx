@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/react"
+import { Meta } from "@storybook/nextjs"
 import { faker } from "@faker-js/faker"
 import AppDevelopersControls from "./AppDevelopersControls"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"

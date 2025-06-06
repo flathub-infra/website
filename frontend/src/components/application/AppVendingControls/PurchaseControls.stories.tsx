@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 import PurchaseControls from "./PurchaseControls"
 import { VendingConfig, VendingSetup } from "../../../codegen/model"

@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker"
-import { Meta, StoryObj } from "@storybook/react"
+import { Meta, StoryObj } from "@storybook/nextjs"
 import LoginVerification from "./LoginVerification"
-import { expect, userEvent, waitFor, within } from "@storybook/test"
+import { expect, userEvent, waitFor, within } from "storybook/test"
 
 const meta = {
   component: LoginVerification,

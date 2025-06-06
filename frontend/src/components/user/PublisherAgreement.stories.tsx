@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 import PublisherAgreement from "./PublisherAgreement"
 import { UserState } from "../../types/Login"
 import { Permission } from "../../codegen/model"
 import { UserContext } from "../../context/user-info"
 import React from "react"
-import { expect, within } from "@storybook/test"
+import { expect, within } from "storybook/test"
 
 const meta = {
   component: PublisherAgreement,
