@@ -3307,9 +3307,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:4.0.15":
-  version: 4.0.15
-  resolution: "react-email@npm:4.0.15"
+"react-email@npm:4.0.16":
+  version: 4.0.16
+  resolution: "react-email@npm:4.0.16"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -3327,7 +3327,7 @@ __metadata:
     socket.io: "npm:^4.8.1"
   bin:
     email: dist/cli/index.mjs
-  checksum: 10c0/cebf96c248b2a3290996cb659f932eeb1cf76a4dd5ee4b1e9d89678b156318cc2c4e4e64bb002d067aa61688eb8945482dee5dc303d22088eea7c399cd1cf165
+  checksum: 10c0/b019c3c3afe14d6f898fd3085a4dfbc42d994ac6ef860d54984bb89283aef972eb54be99e9e44a66b122c4d6a352e02b54a506f011ab8d2d4d31fe70f3ba9bc7
   languageName: node
   linkType: hard
 
@@ -3408,7 +3408,7 @@ __metadata:
     prettier: "npm:3.5.3"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
-    react-email: "npm:4.0.15"
+    react-email: "npm:4.0.16"
     tsx: "npm:^4.19.4"
     typescript: "npm:^5.8.3"
     zod: "npm:^3.25.53"
