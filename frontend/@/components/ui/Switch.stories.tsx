@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs"
 
 import { Switch } from "./switch"
-import { expect, within } from "@storybook/test"
-import { useArgs } from "@storybook/preview-api"
+import { expect, within } from "storybook/test"
+import { useArgs } from "storybook/preview-api"
 import React from "react"
 
 const meta = {

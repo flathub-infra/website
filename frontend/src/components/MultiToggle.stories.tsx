@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react"
+import { Meta } from "@storybook/nextjs"
 import React from "react"
 import MultiToggle from "./MultiToggle"
 import { HiCheck, HiQuestionMarkCircle, HiXMark } from "react-icons/hi2"

@@ -96,4 +96,5 @@ export default {
       defaultTheme: "dark",
     }),
   ],
+  tags: ["autodocs"],
 }

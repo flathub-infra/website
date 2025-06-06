@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react"
+import { Meta, StoryObj } from "@storybook/nextjs"
 import ApplicationSection from "./ApplicationSection"
 import { faker } from "@faker-js/faker"
 import React from "react"

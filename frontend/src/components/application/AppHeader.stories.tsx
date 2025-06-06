@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta, StoryObj } from "@storybook/react"
+import { Meta, StoryObj } from "@storybook/nextjs"
 import { faker } from "@faker-js/faker"
 import { AppHeader } from "./AppHeader"
 import { UserInfoProvider } from "../../../src/context/user-info"
