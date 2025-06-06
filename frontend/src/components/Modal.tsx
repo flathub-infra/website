@@ -66,7 +66,7 @@ const Modal: FunctionComponent<Props> = ({
           >
             <div
               aria-hidden
-              className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+              className="fixed inset-0 bg-gray-500/75 transition-opacity"
             />
           </TransitionChild>
 
