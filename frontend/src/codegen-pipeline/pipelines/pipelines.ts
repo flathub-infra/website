@@ -891,3 +891,88 @@ export const usePublishPipelinesApiPipelinesPublishPost = <
 
   return useMutation(mutationOptions, queryClient)
 }
+/**
+ * @summary Check Pipeline Jobs
+ */
+export const checkPipelineJobsApiPipelinesCheckJobsPost = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/check-jobs`,
+    undefined,
+    options,
+  )
+}
+
+export const getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
+    TError,
+    void,
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["checkPipelineJobsApiPipelinesCheckJobsPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
+    void
+  > = () => {
+    return checkPipelineJobsApiPipelinesCheckJobsPost(axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type CheckPipelineJobsApiPipelinesCheckJobsPostMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>
+  >
+
+export type CheckPipelineJobsApiPipelinesCheckJobsPostMutationError =
+  AxiosError<unknown>
+
+/**
+ * @summary Check Pipeline Jobs
+ */
+export const useCheckPipelineJobsApiPipelinesCheckJobsPost = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions =
+    getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions(options)
+
+  return useMutation(mutationOptions, queryClient)
+}

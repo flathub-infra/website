@@ -8,9 +8,11 @@ import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineResponseRepo } from "./pipelineResponseRepo"
 import type { PipelineResponseParams } from "./pipelineResponseParams"
 import type { PipelineTrigger } from "./pipelineTrigger"
-import type { PipelineResponseProvider } from "./pipelineResponseProvider"
 import type { PipelineResponseLogUrl } from "./pipelineResponseLogUrl"
 import type { PipelineResponseBuildId } from "./pipelineResponseBuildId"
+import type { PipelineResponseCommitJobId } from "./pipelineResponseCommitJobId"
+import type { PipelineResponsePublishJobId } from "./pipelineResponsePublishJobId"
+import type { PipelineResponseUpdateRepoJobId } from "./pipelineResponseUpdateRepoJobId"
 import type { PipelineResponseStartedAt } from "./pipelineResponseStartedAt"
 import type { PipelineResponseFinishedAt } from "./pipelineResponseFinishedAt"
 import type { PipelineResponsePublishedAt } from "./pipelineResponsePublishedAt"
@@ -22,9 +24,11 @@ export interface PipelineResponse {
   repo?: PipelineResponseRepo
   params: PipelineResponseParams
   triggered_by: PipelineTrigger
-  provider?: PipelineResponseProvider
   log_url?: PipelineResponseLogUrl
   build_id?: PipelineResponseBuildId
+  commit_job_id?: PipelineResponseCommitJobId
+  publish_job_id?: PipelineResponsePublishJobId
+  update_repo_job_id?: PipelineResponseUpdateRepoJobId
   created_at: string
   started_at?: PipelineResponseStartedAt
   finished_at?: PipelineResponseFinishedAt

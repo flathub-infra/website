@@ -5,4 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type PipelineResponseBuildId = string | null
+export type PipelineResponseBuildId = number | null
