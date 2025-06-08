@@ -36,7 +36,7 @@ export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
     steps.push({
       id: `${pipelineSummary.id}-publish`,
       name: "Publish",
-      status: ["published", "superseded", "cancelled"].includes(
+      status: ["published", "publishing", "superseded", "cancelled"].includes(
         pipelineSummary.status,
       )
         ? pipelineSummary.status
@@ -46,7 +46,20 @@ export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
     steps.push({
       id: `${pipelineSummary.id}-build`,
       name: "Build",
-      status: pipelineSummary.status,
+      status: (["cancelled", "running", "failed"] as PipelineStatus[]).includes(
+        pipelineSummary.status,
+      )
+        ? pipelineSummary.status
+        : "succeeded",
+    })
+    steps.push({
+      id: `${pipelineSummary.id}-test-publish`,
+      name: "Upload",
+      status: ["committed", "superseded", "cancelled"].includes(
+        pipelineSummary.status,
+      )
+        ? pipelineSummary.status
+        : "pending",
     })
   }
 
@@ -87,11 +100,13 @@ export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
 function StepIcon({ step }: { step: BuildStep }) {
   return (
     <div className={cn("rounded-full p-1", getStepColor(step.status, "text-"))}>
-      {step.status === "succeeded" && <CheckCircle className="size-5" />}
-      {step.status === "running" && <Clock className="size-5" />}
-      {step.status === "failed" && <XCircle className="size-5" />}
       {step.status === "pending" && <CircleDashed className="size-5" />}
+      {step.status === "running" && <Clock className="size-5" />}
+      {step.status === "succeeded" && <CheckCircle className="size-5" />}
+      {step.status === "committed" && <Package className="size-5" />}
+      {step.status === "failed" && <XCircle className="size-5" />}
       {step.status === "cancelled" && <CircleSlash className="size-5" />}
+      {step.status === "publishing" && <Package className="size-5" />}
       {step.status === "published" && <Package className="size-5" />}
       {step.status === "superseded" && (
         <CircleChevronRight className="size-5" />
@@ -104,8 +119,10 @@ function getStepColor(status: PipelineStatus, prefix = ""): string {
   switch (status) {
     case "succeeded":
     case "published":
+    case "committed":
       return `${prefix}flathub-status-green`
     case "running":
+    case "publishing":
       return `${prefix}primary`
     case "failed":
       return `${prefix}flathub-status-red`
