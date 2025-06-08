@@ -1,5 +1,6 @@
 import { BuildDashboard } from "@/components/build/build-dashboard"
-import { PipelineStatus } from "@/components/build/build-filter"
+import { PipelineRepoWithAll } from "@/components/build/build-repo-filter"
+import { PipelineStatusWithAll } from "@/components/build/build-status-filter"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
@@ -10,7 +11,8 @@ export default function Builds() {
   const router = useRouter()
 
   const [appId, setAppId] = useState<string>(undefined)
-  const [statusFilter, setStatusFilter] = useState<PipelineStatus>("all")
+  const [statusFilter, setStatusFilter] = useState<PipelineStatusWithAll>("all")
+  const [repoFilter, setRepoFilter] = useState<PipelineRepoWithAll>("all")
 
   useEffect(() => {
     if (router?.query?.appId) {
@@ -38,6 +40,8 @@ export default function Builds() {
           appId={appId}
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
+          repoFilter={repoFilter}
+          setRepoFilter={setRepoFilter}
         />
       </div>
     </>

@@ -11,50 +11,33 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Filter } from "lucide-react"
 
-export type PipelineStatus =
-  | "all"
-  | "pending"
-  | "running"
-  | "failed"
-  | "cancelled"
-  | "published"
-  | "succeeded"
-  | "superseded"
+export type PipelineRepoWithAll = "all" | "stable" | "test" | "beta"
 
-const statuses: PipelineStatus[] = [
-  "all",
-  "pending",
-  "running",
-  "failed",
-  "cancelled",
-  "published",
-  "succeeded",
-  "superseded",
-]
+const repos: PipelineRepoWithAll[] = ["all", "stable", "test", "beta"]
 
-export function BuildFilter({
-  selectedStatus,
-  setSelectedStatus,
+export function BuildRepoFilter({
+  selectedRepoStatus,
+  setSelectedRepoStatus,
 }: {
-  selectedStatus: PipelineStatus
-  setSelectedStatus: (status: PipelineStatus) => void
+  selectedRepoStatus: PipelineRepoWithAll
+  setSelectedRepoStatus: (status: PipelineRepoWithAll) => void
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="flex gap-2">
           <Filter className="h-4 w-4" />
-          <span>Filter</span>
+          <span>Repo Filter</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+        <DropdownMenuLabel>Filter by Repo</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {statuses.map((status) => (
+        {repos.map((status) => (
           <DropdownMenuCheckboxItem
             key={status}
-            checked={selectedStatus === status}
-            onCheckedChange={() => setSelectedStatus(status)}
+            checked={selectedRepoStatus === status}
+            onCheckedChange={() => setSelectedRepoStatus(status)}
             className="capitalize"
           >
             {status}

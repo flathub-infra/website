@@ -1,27 +1,43 @@
 import { BuildCard } from "./build-card"
-import { BuildFilter } from "./build-filter"
+import { BuildStatusFilter } from "./build-status-filter"
 import { useListPipelinesApiPipelinesGet } from "src/codegen-pipeline"
 import { LoadingDashboard } from "./loading-dashboard"
+import { BuildRepoFilter } from "./build-repo-filter"
 
-export function BuildDashboard({ appId, statusFilter, setStatusFilter }) {
+export function BuildDashboard({
+  appId,
+  statusFilter,
+  setStatusFilter,
+  repoFilter,
+  setRepoFilter,
+}) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row gap-4 justify-between">
-        <BuildFilter
+        <BuildStatusFilter
           selectedStatus={statusFilter}
           setSelectedStatus={setStatusFilter}
         />
+        <BuildRepoFilter
+          selectedRepoStatus={repoFilter}
+          setSelectedRepoStatus={setRepoFilter}
+        />
       </div>
 
-      <Builds appId={appId} statusFilter={statusFilter} />
+      <Builds
+        appId={appId}
+        statusFilter={statusFilter}
+        repoFilter={repoFilter}
+      />
     </div>
   )
 }
 
-const Builds = ({ appId, statusFilter }) => {
+const Builds = ({ appId, statusFilter, repoFilter }) => {
   const query = useListPipelinesApiPipelinesGet({
     app_id: appId,
     status_filter: statusFilter === "all" ? undefined : statusFilter,
+    target_repo: repoFilter === "all" ? undefined : repoFilter,
     limit: 51,
   })
 
