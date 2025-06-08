@@ -8,6 +8,9 @@ import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
 import type { PipelineTrigger } from "./pipelineTrigger"
 import type { PipelineSummaryBuildId } from "./pipelineSummaryBuildId"
+import type { PipelineSummaryCommitJobId } from "./pipelineSummaryCommitJobId"
+import type { PipelineSummaryPublishJobId } from "./pipelineSummaryPublishJobId"
+import type { PipelineSummaryUpdateRepoJobId } from "./pipelineSummaryUpdateRepoJobId"
 import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
 import type { PipelineSummaryFinishedAt } from "./pipelineSummaryFinishedAt"
 import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
@@ -19,6 +22,9 @@ export interface PipelineSummary {
   repo?: PipelineSummaryRepo
   triggered_by: PipelineTrigger
   build_id?: PipelineSummaryBuildId
+  commit_job_id?: PipelineSummaryCommitJobId
+  publish_job_id?: PipelineSummaryPublishJobId
+  update_repo_job_id?: PipelineSummaryUpdateRepoJobId
   created_at: string
   started_at?: PipelineSummaryStartedAt
   finished_at?: PipelineSummaryFinishedAt
