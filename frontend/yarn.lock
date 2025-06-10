@@ -11489,7 +11489,7 @@ __metadata:
     react-svg-worldmap: "npm:2.0.0-alpha.16"
     recharts: "npm:^2.15.3"
     redis: "npm:^4.7.0"
-    sass: "npm:^1.87.0"
+    sass: "npm:^1.89.2"
     satori: "npm:^0.12.2"
     simple-git: "npm:^3.27.0"
     sonner: "npm:^2.0.3"
@@ -16262,9 +16262,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.87.0":
-  version: 1.87.0
-  resolution: "sass@npm:1.87.0"
+"sass@npm:^1.89.2":
+  version: 1.89.2
+  resolution: "sass@npm:1.89.2"
   dependencies:
     "@parcel/watcher": "npm:^2.4.1"
     chokidar: "npm:^4.0.0"
@@ -16275,7 +16275,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 10c0/bd245faf14e4783dc547765350cf05817edaac0d6d6f6e4da8ab751f3eb3cc3873afd563c0ce416a24aa6c9c4e9023b05096447fc006660a01f76adffb54fbc6
+  checksum: 10c0/752ccc7581b0c6395f63918116c20924e99943a86d79e94f5c4a0d41b1e981fe1f0ecd1ee82fff21496f81dbc91f68fb35a498166562ec8ec53e7aad7c3dbd9d
   languageName: node
   linkType: hard
 
