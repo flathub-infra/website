@@ -1,137 +1,15 @@
-import { promises as fs } from "node:fs"
-import path from "node:path"
-
 import i18next from "i18next"
 import { languages } from "src/localize"
 import satori from "satori"
 import { NextRequest } from "next/server"
 import { Resvg } from "@resvg/resvg-js"
+import { fonts } from "../fontManager"
 
 function getTranslationsForKey(key: string) {
   return languages.reduce((messages, currentLang) => {
     messages[currentLang] = i18next.t(key, { lng: currentLang })
     return messages
   }, {})
-}
-
-async function createInterSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/Inter-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "Inter-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoTCSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSansTC-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSansTC-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoSCSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSansSC-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSansSC-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoKRSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSansKR-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSansKR-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoGurmukhiSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSansGurmukhi-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSansGurmukhi-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoHebrewSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSansHebrew-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSansHebrew-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSans-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSans-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createNotoTamilSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/NotoSansTamil-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "NotoSansTamil-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
 }
 
 export async function GET(request: NextRequest) {
@@ -246,16 +124,7 @@ export async function GET(request: NextRequest) {
     {
       width: 240,
       height: 80,
-      fonts: [
-        (await createInterSemiBold()) as any,
-        (await createNotoTCSemiBold()) as any,
-        (await createNotoTamilSemiBold()) as any,
-        (await createNotoSCSemiBold()) as any,
-        (await createNotoSemiBold()) as any,
-        (await createNotoHebrewSemiBold()) as any,
-        (await createNotoKRSemiBold()) as any,
-        (await createNotoGurmukhiSemiBold()) as any,
-      ],
+      fonts: fonts,
     },
   )
 
