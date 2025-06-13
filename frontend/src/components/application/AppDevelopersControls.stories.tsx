@@ -13,7 +13,7 @@ const app = {
   id: faker.string.uuid(),
   icon: faker.image.url(),
   name: faker.commerce.product(),
-  developer_name: faker.internet.userName(),
+  developer_name: faker.internet.username(),
 }
 
 export default {
