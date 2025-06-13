@@ -18,8 +18,8 @@ export const Install: Story = {
     app: {
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-      name: faker.commerce.product(),
-      developer_name: faker.internet.userName(),
+      name: "App name that's too long",
+      developer_name: faker.internet.username(),
     },
     vendingSetup: undefined,
     verificationStatus: { verified: true, method: "manual" },
@@ -40,7 +40,7 @@ export const InstallNotVerified: Story = {
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
       name: faker.commerce.product(),
-      developer_name: faker.internet.userName(),
+      developer_name: faker.internet.username(),
     },
     vendingSetup: undefined,
     verificationStatus: { verified: false },
@@ -61,7 +61,7 @@ export const InstallWithDonate: Story = {
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
       name: faker.commerce.product(),
-      developer_name: faker.internet.userName(),
+      developer_name: faker.internet.username(),
       urls: { donation: faker.internet.url() },
     },
     vendingSetup: undefined,
@@ -83,7 +83,7 @@ export const WithVending: Story = {
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
       name: faker.commerce.product(),
-      developer_name: faker.internet.userName(),
+      developer_name: faker.internet.username(),
       urls: { donation: faker.internet.url() },
     },
     vendingSetup: {
@@ -91,6 +91,51 @@ export const WithVending: Story = {
     },
     verificationStatus: { verified: true },
     isQualityModalOpen: false,
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
+}
+
+export const WithQualityModalOpen: Story = {
+  args: {
+    app: {
+      id: faker.string.uuid(),
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: faker.commerce.product(),
+      developer_name: faker.internet.username(),
+    },
+    vendingSetup: {
+      recommended_donation: faker.number.int({ min: 1, max: 150 }),
+    },
+    verificationStatus: { verified: true },
+    isQualityModalOpen: true,
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
+}
+export const WithQualityModalOpenAndTooLongAppName: Story = {
+  args: {
+    app: {
+      id: faker.string.uuid(),
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: "App name that's too long",
+      developer_name: faker.internet.username(),
+    },
+    vendingSetup: {
+      recommended_donation: faker.number.int({ min: 1, max: 150 }),
+    },
+    verificationStatus: { verified: true },
+    isQualityModalOpen: true,
   },
   decorators: [
     (Story) => (

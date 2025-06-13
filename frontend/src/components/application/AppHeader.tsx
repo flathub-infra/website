@@ -17,6 +17,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
+import clsx from "clsx"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
   const { t } = useTranslation()
@@ -124,7 +125,12 @@ export function AppHeader({
         </div>
       )}
 
-      <div className="flex flex-col my-auto gap-1">
+      <div
+        className={clsx(
+          "flex flex-col my-auto gap-1",
+          !isQualityModalOpen && "overflow-hidden",
+        )}
+      >
         <div className="flex items-center justify-center space-x-3 sm:justify-start">
           <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start truncate">
             {app.name.length > 20 && isQualityModalOpen ? (
