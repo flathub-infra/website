@@ -79,6 +79,7 @@
 }
 
 :root {
+  --text-4xl--line-height: calc(2.5 / 2);
   /* // colors used via tailwind */
   --flathub-celestial-blue: 63.85% 0.1314 251.94;
   --flathub-celestial-blue-dark: 49.79% 0.1314 251.94;
