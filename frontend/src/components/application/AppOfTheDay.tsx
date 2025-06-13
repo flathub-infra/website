@@ -28,16 +28,18 @@ export const AppOfTheDay = ({
     setMounted(true)
   }, [])
 
-  if (!appOfTheDay || !mounted) {
+  if (!appOfTheDay) {
     return null
   }
+
+  const fallbackColor = chooseBrandingColor(appOfTheDay.branding, "dark")
 
   const brandingColor = chooseBrandingColor(
     appOfTheDay.branding,
     resolvedTheme as "light" | "dark",
   )
 
-  const textColor = brandingColor
+  const textColor = mounted
     ? getContrastColor(brandingColor.value) === "black"
       ? "text-flathub-dark-gunmetal"
       : "text-flathub-lotion"
@@ -48,7 +50,8 @@ export const AppOfTheDay = ({
       href={`/apps/${appOfTheDay.id}`}
       passHref
       style={{
-        backgroundColor: brandingColor && brandingColor.value,
+        backgroundColor:
+          (mounted ? brandingColor.value : fallbackColor.value) ?? "#FF00DC",
       }}
       className={cn(
         "rounded-xl",
