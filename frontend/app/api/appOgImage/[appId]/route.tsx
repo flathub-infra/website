@@ -1,6 +1,3 @@
-import { promises as fs } from "fs"
-import path from "path"
-
 import { Resvg } from "@resvg/resvg-js"
 import i18next from "i18next"
 import { languages } from "src/localize"
@@ -11,51 +8,7 @@ import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
 import axios from "axios"
-
-async function createInterRegular() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/Inter-Regular.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "Inter-Regular",
-    data: font,
-    weight: 400,
-    style: "normal",
-  }
-}
-
-async function createInterSemiBold() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/Inter-SemiBold.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "Inter-SemiBold",
-    data: font,
-    weight: 600,
-    style: "normal",
-  }
-}
-
-async function createInterBlack() {
-  const fontPath = path.join(
-    process.cwd(),
-    "public/assets/fonts/Inter-Black.ttf",
-  )
-  const font = await fs.readFile(fontPath)
-
-  return {
-    name: "Inter-Black",
-    data: font,
-    weight: 900,
-    style: "normal",
-  }
-}
+import { fonts } from "app/api/fontManager"
 
 export async function GET(
   request: NextRequest,
@@ -294,11 +247,7 @@ export async function GET(
     {
       width: 1200,
       height: 628,
-      fonts: [
-        (await createInterRegular()) as any,
-        (await createInterSemiBold()) as any,
-        (await createInterBlack()) as any,
-      ],
+      fonts: fonts,
     },
   )
 
