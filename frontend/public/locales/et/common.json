@@ -221,7 +221,6 @@
   "previous-page": "Eelmine leht",
   "no-more-transactions": "Rohkem makseid ei leidu.",
   "view-wallet": "Näita rahakotti",
-  "app-share": "Rakenduse jaotumine",
   "no-apps": "Ei leidu rakendusi, mida kuvada.",
   "x-downloads": "{{x}} allalaadimist",
   "app-is-verified": "See rakendus on verifitseeritud",
@@ -614,11 +613,6 @@
   "action-purchase": "Osta",
   "kind-purchase-app": "Osta {{appName}}",
   "kind-donate-app": "Anneta rakendusele {{appName}}",
-  "platform": {
-    "org-kde-platform": "KDE Platform",
-    "org-gnome-platform": "GNOME Platform",
-    "org-freedesktop-platform": "Freedesktop Platform"
-  },
   "recipient": "Saaja",
   "created": "Loodud",
   "apps-by-tag": "„{{tag}}“ sildiga märgitud rakendused",

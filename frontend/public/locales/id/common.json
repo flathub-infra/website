@@ -280,7 +280,6 @@
   "consultants-description": "Layanan konsultasi untuk mengirimkan aplikasi ke Flathub.",
   "action": "Aksi",
   "shooter": "Penembak",
-  "app-share": "Berbagi aplikasi",
   "no-apps": "Tidak ada aplikasi untuk ditampilkan.",
   "app-eol": "Aplikasi ini tidak lagi tersedia di Flathub",
   "flathub-index-description": "Dapatkan versi terbaru dari semua aplikasi favorit Anda, untuk semua distribusi Linux",
@@ -615,11 +614,6 @@
   "amount": "Jumlah",
   "total": "Total",
   "created": "Dibuat",
-  "platform": {
-    "org-kde-platform": "Platform KDE",
-    "org-gnome-platform": "Rencana kerja GNOME",
-    "org-freedesktop-platform": "Rencana Kerja Freedesktop"
-  },
   "apps-by-tag": "Apk berdasar tag '{{tag}}'",
   "quality": {
     "missing-brand-colors": "Warna brand hilang",

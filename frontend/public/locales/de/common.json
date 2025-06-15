@@ -259,7 +259,6 @@
   "apps": "Apps",
   "count-desktop-apps": "Desktop-Apps insgesamt",
   "apps-by-developer": "Apps von {{developer}}",
-  "app-share": "App-Anteil",
   "no-apps": "Keine Apps anzuzeigen.",
   "rss-apps": "Auf der Suche nach einer RSS-App? Wir haben ein paar ausgezeichnete <2>hier auf Flathub</2>.",
   "consultants": "Berater",
@@ -614,11 +613,6 @@
   "action-purchase": "Kaufen",
   "created": "Erstellt",
   "kind-donate-app": "An {{appName}} spenden",
-  "platform": {
-    "org-kde-platform": "KDE-Plattform",
-    "org-gnome-platform": "GNOME-Plattform",
-    "org-freedesktop-platform": "Freedesktop-Plattform"
-  },
   "kind-purchase-app": "{{appName}} kaufen",
   "recipient": "Empfänger",
   "apps-by-tag": "Apps nach Tag '{{tag}}'",

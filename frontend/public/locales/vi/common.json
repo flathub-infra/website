@@ -302,7 +302,6 @@
   "could-not-find-page": "Chúng tôi không thể tìm thấy trang bạn đang cần.",
   "moderation-dev-description": "Những thay đổi đến siêu dữ liệu của ứng dụng, chẳng hạn như tên hoặc miêu tả, cần được phê duyệt bởi đội Flathub. Bạn có thể xem trạng thái của các yêu cầu phê duyệt hiện tại và trong quá khứ ở đây.",
   "token-creation-placeholder": "Nhập danh sách tên trên các dòng riêng biệt, từng dòng sẽ xác định một mã sở hữu mới.",
-  "app-share": "Ứng dụng chia sẻ",
   "distribution-flathub-setup": "{{distribution}} Thiết lập Flathub",
   "can-request-data-from-system-services": "Có thể yêu cầu dữ liệu từ dịch vụ hệ thống",
   "status": "Trạng thái",
@@ -601,11 +600,6 @@
   "integration": "<0>Tích hợp với của hàng ứng dụng gốc</0> — Hãy quên đi bản tải xuống qua web; Flathub vận chuyển các ứng dụng và các <3>bản cập nhật tự động</3> đến người dùng qua cửa hàng ứng dụng gốc mà họ quen thuộc",
   "can-access-the-contents-of-the-screen-or-other-windows": "Có thể truy cập nội dụng của màn hình và các cửa sổ khác",
   "kind-donate-app": "Quyên góp cho {{appName}}",
-  "platform": {
-    "org-kde-platform": "Nền tảng KDE",
-    "org-freedesktop-platform": "Nền tảng Freedesktop",
-    "org-gnome-platform": "Nền tảng GNOME"
-  },
   "flathub": "Flathub",
   "action-donate": "Quyên góp",
   "action-purchase": "Mua",

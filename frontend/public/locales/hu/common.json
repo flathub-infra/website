@@ -260,7 +260,6 @@
   "count-desktop-apps": "Összes asztali alkalmazás",
   "rss-apps": "Szüksége van egy RSS-alkalmazásra? Keressen kiválóakat a <2>Flathubon</2>.",
   "apps-by-developer": "Alkalmazások a következőtől: {{developer}}",
-  "app-share": "Alkalmazás megosztása",
   "no-apps": "Nincsenek megjelenítendő alkalmazások.",
   "consultants": "Tanácsadók",
   "consultants-description": "Tanácsadó szolgáltatások alkalmazások Flathubba való beküldéséhez.",
@@ -613,11 +612,6 @@
   "amount": "Összeg",
   "total": "Összesen",
   "created": "Létrehozva",
-  "platform": {
-    "org-kde-platform": "KDE platform",
-    "org-freedesktop-platform": "Freedesktop platform",
-    "org-gnome-platform": "GNOME platform"
-  },
   "positions": "Helyek",
   "position-short": "Hely",
   "type": "Típus",

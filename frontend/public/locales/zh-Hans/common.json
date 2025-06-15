@@ -281,7 +281,6 @@
   "moderation-new-value": "新值",
   "moderation-approved-by": "由 {{handledBy}} 于 {{handledAt}} ({{handledAtRel}}) 审核通过",
   "moderation-rejected-by": "于 {{handledAt}} ({{handledAtRel}}) 被 {{handledBy}} 拒绝",
-  "app-share": "应用分享",
   "no-apps": "没有可显示的应用。",
   "arcade": "游乐中心",
   "kids": "儿童",
@@ -602,11 +601,6 @@
     "missing-brand-colors": "缺少品牌颜色",
     "banner-preview-description": "要轻松尝试横幅，请使用<2>横幅预览</2>",
     "banner-preview": "横幅预览"
-  },
-  "platform": {
-    "org-freedesktop-platform": "Freedesktop 平台",
-    "org-kde-platform": "KDE 平台",
-    "org-gnome-platform": "GNOME 平台"
   },
   "type": "类型",
   "favorite": "收藏",

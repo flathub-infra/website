@@ -251,7 +251,6 @@
   "rss-apps": "Trebaš RSS aplikaciju? Pronađi izvrsne aplikacije na <2>Flathubu</2>.",
   "apps-by-developer": "Aplikacije od {{developer}}",
   "no-apps": "Nema aplikacija za prikaz.",
-  "app-share": "Dijeljenje aplikacije",
   "verification-instructions": "Potvrdi ID tvoje aplikacije kako bi se naznačilo da je programer aplikacije odobrio tvoj prijenos na Flathub. Morat ćeš dokazati da imaš kontrolu nad aplikacijom putem web-mjesta na domeni aplikacije ili provjerom pristupa računu aplikacije na web-mjestu za hosting izvornog koda. Značka potrvrđivanja će se prikazati uz ime aplikacije, ime izdavača i način na koji je ID aplikacije potvrđen.",
   "login-provider-verification-main-instruction-unknown-is-organization": "Potvrdi pravo korištenja ID-a aplikacije <1>{{id}}</1> prijavom na račun <3>{{login_name}}</3> (ili ako je <5>{{login_name}}</5> organizacija, račun s pristupom) na <7>{{login_provider}}</7>.",
   "my-flathub": "Moj Flathub",
@@ -438,11 +437,6 @@
   "action-purchase": "Kupi",
   "kind-purchase-app": "Kupi {{appName}}",
   "kind-donate-app": "Doniraj aplikaciji {{appName}}",
-  "platform": {
-    "org-kde-platform": "KDE platforma",
-    "org-gnome-platform": "GNOME platforma",
-    "org-freedesktop-platform": "Freedesktop platforma"
-  },
   "can-read-write-all-data-on-file-system": "Može čitati i pisati sve podatke u datotečnom sustavu",
   "links": "Poveznice",
   "upload-tokens": "Prenesi tokene",

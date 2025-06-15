@@ -260,7 +260,6 @@
   "count-desktop-apps": "桌面應用程式總數",
   "rss-apps": "您需要 RSS 應用程式嗎？在 <2>Flathub</2> 上尋找超棒的應用程式。",
   "apps-by-developer": "由 {{developer}} 開發的應用程式",
-  "app-share": "應用程式分享",
   "no-apps": "沒有要顯示的應用程式。",
   "consultants-description": "遞交應用程式至 Flathub 的顧問服務。",
   "tags-colon": "標籤：",
@@ -611,11 +610,6 @@
   "total": "總計",
   "kind-purchase-app": "購買 {{appName}}",
   "kind-donate-app": "捐款給 {{appName}}",
-  "platform": {
-    "org-freedesktop-platform": "Freedesktop 平台",
-    "org-kde-platform": "KDE 平台",
-    "org-gnome-platform": "GNOME 平台"
-  },
   "action-donate": "捐款",
   "action-purchase": "購買",
   "recipient": "收款者",

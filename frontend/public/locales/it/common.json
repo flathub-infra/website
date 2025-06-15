@@ -279,7 +279,6 @@
   "invite-pending": "Invito in sospeso",
   "accept-invite": "Accetta Invito",
   "moderation-dev-description": "Alcune modifiche ai metadati di un app, come nome o descrizione, necessitano di essere revisionate dal team di Flathub. Puoi vedere lo stato delle richieste attuali e passate qui.",
-  "app-share": "Condividi app",
   "moderation-old-value": "Vecchio Valore",
   "invite-code-hint": "Condividi questo codice con un altro sviluppatore per permettergli di invitarti nella sua app.",
   "app-vending-settings-confirmed": "Confermate le impostazione di vendita dell'app",
@@ -612,11 +611,6 @@
   "amount": "Importo",
   "total": "Totale",
   "kind-donate-app": "Fai una donazione a {{appName}}",
-  "platform": {
-    "org-kde-platform": "Piattaforma KDE",
-    "org-freedesktop-platform": "Piattaforma Freedesktop",
-    "org-gnome-platform": "Piattaforma GNOME"
-  },
   "action-donate": "Donazione",
   "action-purchase": "Acquisto",
   "recipient": "Destinatario",

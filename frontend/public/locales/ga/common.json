@@ -338,7 +338,6 @@
   "developer-settings": "Socruithe Forbróra",
   "minimum-payment": "Íocaíocht Íosta",
   "recommended-payment": "Íocaíocht Molta",
-  "app-share": "Comhroinnt aipeanna",
   "app-vending-settings-confirmed": "Deimhnithe socruithe díola aipeanna",
   "confirm-settings": "Deimhnigh socruithe",
   "value-at-least": "Ní mór duit luach de {{value}} ar a laghad a iontráil",
@@ -619,11 +618,6 @@
   "kind-donate-app": "Deonaigh do {{appName}}",
   "recipient": "Faighteoir",
   "created": "Cruthaithe",
-  "platform": {
-    "org-kde-platform": "Ardán KDE",
-    "org-gnome-platform": "Ardán GNOME",
-    "org-freedesktop-platform": "Ardán Freedesk"
-  },
   "apps-by-tag": "Aipeanna le clib '{{tag}}'",
   "mobile-apps": "Aipeanna Soghluaiste",
   "on-the-go": "Ar an dul",

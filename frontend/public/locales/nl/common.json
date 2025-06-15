@@ -260,7 +260,6 @@
   "count-desktop-apps": "Totaal aantal apps",
   "rss-apps": "Op zoek naar een RSS-app? Er zĳn uit­stekende te vinden op <2>Flathub</2>.",
   "apps-by-developer": "Apps door {{developer}}",
-  "app-share": "App-aandeel",
   "no-apps": "Geen apps om te tonen.",
   "consultants-description": "Advies­diensten voor het indienen van apps bĳ Flathub.",
   "consultants": "Adviseurs",
@@ -611,11 +610,6 @@
   "integration": "<0>App-store-integratie</0> — Vergeet web­downloads; Flathub levert apps en <3>automatische updates</3> aan gebruikers in hun inheemse app-store, waar ze dat zouden verwachten",
   "recipient": "Ontvanger",
   "created": "Aangemaakt",
-  "platform": {
-    "org-kde-platform": "KDE-platform",
-    "org-gnome-platform": "GNOME-platform",
-    "org-freedesktop-platform": "Freedesktop-platform"
-  },
   "action-donate": "Doneren",
   "action-purchase": "Kopen",
   "kind-purchase-app": "{{appName}} kopen",
