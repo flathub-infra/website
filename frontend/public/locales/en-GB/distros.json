@@ -282,7 +282,7 @@
     "distroName": "PureOS"
   },
   "zorin_os": {
-    "introduction": "<0>Flatpak support is built into Zorin OS</0> <p>You can use the Software Store app to download flatpak apps.</p>",
+    "introduction": "<0>Flatpak support is built into Zorin OS</0> <p>You can use the Software Store app to download Flatpak apps.</p>",
     "distroName": "Zorin OS"
   },
   "mx_linux": {

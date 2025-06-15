@@ -259,7 +259,6 @@
   "count-desktop-apps": "Общо приложения",
   "apps-by-developer": "Приложения от {{developer}}",
   "rss-apps": "Имате ли нужда от RSS приложение? Във <2>„Flathub“</2> има за всеки по нещо.",
-  "app-share": "Дял на приложението",
   "no-apps": "Няма приложения.",
   "apps": "Приложения",
   "consultants": "Консултанти",
@@ -612,11 +611,6 @@
   "amount": "Сума",
   "recipient": "Получател",
   "created": "Създадено",
-  "platform": {
-    "org-gnome-platform": "Платформа на „GNOME“",
-    "org-freedesktop-platform": "Платформа на „Freedesktop“",
-    "org-kde-platform": "Платформа на „KDE“"
-  },
   "action-donate": "Допринесете",
   "kind-purchase-app": "Купете „{{appName}}“",
   "action-purchase": "Купете",

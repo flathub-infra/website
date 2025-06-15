@@ -257,7 +257,6 @@
   "rss-apps": "Você precisa de um aplicativo RSS? Encontre excelentes no <2>Flathub</2>.",
   "apps-by-developer": "Aplicativos de {{developer}}",
   "no-apps": "Nenhum aplicativo para mostrar.",
-  "app-share": "Compartilhamento de aplicativos",
   "consultants": "Consultores",
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifique seu direito de usar o ID de aplicativo <1>{{id}}</1> autenticando-se na conta <3>{{login_name}}</3> (ou, se <5>{{login_name}}</5> for uma organização, uma conta com acesso a ela) em <7>{{login_provider}}</7>.",
   "browse": "Navegar",
@@ -615,11 +614,6 @@
   "position-short": "Pos.",
   "type": "Tipo",
   "recipient": "Recebedor",
-  "platform": {
-    "org-kde-platform": "Plataforma KDE",
-    "org-gnome-platform": "Plataforma GNOME",
-    "org-freedesktop-platform": "Plataforma Freedesktop"
-  },
   "kind-donate-app": "Doar para {{appName}}",
   "total": "Total",
   "apps-by-tag": "Aplicativos por tag '{{tag}}'",

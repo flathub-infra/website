@@ -375,7 +375,6 @@
   "publisher-agreement-accept": "Jeg godtar publiseringsvilkårene",
   "consultants-description": "Konsulenttjenester for publisering av apper på Flathub.",
   "contribute-languages": "Alle disse oversettelsene har blitt gjort av fellesskapet. Hvis du ønsker å hjelpe til med å oversette Flathub, bli med i <1>Flathub sin oversettelsesgruppe</1>.",
-  "app-share": "Appdeling",
   "ownership-tokens": "Eierskapsnøkler",
   "runtime-distribution": "Basefordeling",
   "safe": "Trygg",
@@ -606,11 +605,6 @@
   "flathub-logo": "Flathub-logo",
   "mastodon": "Mastodon",
   "type": "Type",
-  "platform": {
-    "org-freedesktop-platform": "Freedesktop-plattformen",
-    "org-kde-platform": "KDE-plattformen",
-    "org-gnome-platform": "GNOME-plattformen"
-  },
   "total": "Sum",
   "action-purchase": "Kjøp",
   "recipient": "Mottaker",

@@ -246,7 +246,6 @@
   "terms-and-conditions": "ਨਿਯਮ ਤੇ ਸ਼ਰਤਾਂ",
   "continue": "ਜਾਰੀ ਰੱਖੋ",
   "recommended-payment": "ਸਿਫਾਰਸ਼ੀ ਭੁਗਤਾਨ",
-  "app-share": "ਐਪ ਸ਼ੇਅਰ",
   "developer-settings": "ਡਿਵੈਲਪਰ ਸੈਟਿੰਗਾਂ",
   "minimum-payment": "ਘੱਟੋ-ਘੱਟ ਭੁਗਤਾਨ",
   "confirm-settings": "ਸੈਟਿੰਗਾਂ ਦੀ ਤਸਦੀਕ",
@@ -324,11 +323,6 @@
   "type": "ਕਿਸਮ",
   "recipient": "ਪ੍ਰਾਪਤ ਕਰਤਾ",
   "amount": "ਮਾਤਰਾ",
-  "platform": {
-    "org-kde-platform": "KDE ਪਲੇਟਫਾਰਮ",
-    "org-gnome-platform": "ਗਨੋਮ ਪਲੇਟਫਾਰਮ",
-    "org-freedesktop-platform": "ਫਰੀ-ਡੈਸਕਟਾਪ ਪਲੇਟਫਾਰਮ"
-  },
   "kind-purchase-app": "{{appName}} ਨੂੰ ਖਰੀਦੋ",
   "kind-donate-app": "{{appName}} ਨੂੰ ਦਾਨ ਦਿਓ",
   "transaction-cancelled": "ਟਰਾਂਜ਼ੈਕਸ਼ਨ ਰੱਦ ਕੀਤੀ ਗਈ",

@@ -261,7 +261,6 @@
   "apps-by-developer": "Programoj fare de {{developer}}",
   "rss-apps": "Ĉu vi bezonas RSS-abonilon? Trovu bonegajn RSS-abonilojn ĉe <2>Flathub</2>.",
   "no-apps": "Neniu programo.",
-  "app-share": "Kunhavigi programon",
   "tags-colon": "Etikedoj:",
   "consultants-description": "Konsultaj servoj por submeti programojn al Flathub.",
   "consultants": "Konsultejoj",
@@ -612,11 +611,6 @@
   "position-short": "Poz.",
   "created": "Kreita",
   "recipient": "Ricevanto",
-  "platform": {
-    "org-kde-platform": "KDE-Platformo",
-    "org-gnome-platform": "GNOME-Platformo",
-    "org-freedesktop-platform": "Freedesktop-Platformo"
-  },
   "action-purchase": "Aĉeti",
   "kind-purchase-app": "Aĉeti la programon {{appName}}",
   "kind-donate-app": "Donaci al {{appName}}",

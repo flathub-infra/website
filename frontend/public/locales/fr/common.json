@@ -264,7 +264,6 @@
   "moderation-dev-description": "Certaines modifications des métadonnées d'une application, comme son nom ou sa description, doivent être examinées par l'équipe de Flathub. Vous pouvez consulter le statut des demandes de révision actuelles et passées ici.",
   "moderation-outdated": "Obsolètes",
   "moderation-rejected-by": "Rejeté par {{handledBy}} le {{handledAt}} ({{handledAtRel}})",
-  "app-share": "Partage du logiciel",
   "login-provider-verification-user-does-not-exist": "Le compte <1>@{{required_name}}</1> n'existe pas sur <3>{{login_provider}}</3>. Vous devez revendiquer ce nom de compte et l'utiliser pour vérifier votre application, ou idéalement, choisir un identifiant d'application sur lequel vous avez le contrôle. Voir <5>la documentation Flatpak</5> pour des informations sur les bons identifiants d'application.",
   "simulation": "Simulation",
   "sports": "Sports",
@@ -606,11 +605,6 @@
   "type": "Type",
   "action-purchase": "Acheter",
   "kind-donate-app": "Faire un don à {{appName}}",
-  "platform": {
-    "org-gnome-platform": "Plateforme GNOME",
-    "org-freedesktop-platform": "Plateforme Freedesktop",
-    "org-kde-platform": "Plateforme KDE"
-  },
   "flathub-logo": "Logo Flathub",
   "flathub": "Flathub",
   "total": "Total",

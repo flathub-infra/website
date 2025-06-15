@@ -260,7 +260,6 @@
   "count-desktop-apps": "Усього застосунків для комп'ютерів",
   "rss-apps": "Вам потрібен застосунок для RSS? Знайдіть чудові на <2>Flathub</2>.",
   "apps-by-developer": "Застосунки від {{developer}}",
-  "app-share": "Поділитися застосунком",
   "no-apps": "Немає застосунків.",
   "consultants-description": "Консультаційні послуги щодо подання застосунків до Flathub.",
   "consultants": "Консультанти",
@@ -610,11 +609,6 @@
   "type": "Тип",
   "kind-purchase-app": "Придбати {{appName}}",
   "positions": "Позиції",
-  "platform": {
-    "org-kde-platform": "Платформа KDE",
-    "org-gnome-platform": "Платформа GNOME",
-    "org-freedesktop-platform": "Платформа Freedesktop"
-  },
   "action-purchase": "Придбати",
   "kind-donate-app": "Підтримати {{appName}}",
   "amount": "Сума",

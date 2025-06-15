@@ -182,7 +182,6 @@
   "consultants-description": "Mga serbisyo ng pagkonsulta para sa pag-sumite ng mga app sa Flathub.",
   "continue": "Magpatuloy",
   "contribute-languages": "Ang lahat ng mga pagsasalin na ito ay naiambag ng komunidad. Kung gusto mong tumulong sa pagsasalin ng Flathub, mangyaring <1>sumali sa Flathub translation team</1>.",
-  "app-share": "Bahagi ng App",
   "app-vending-settings-confirmed": "Kinumpirma ang mga setting ng pagbebenta ng App",
   "confirm-settings": "Kumpirmahin ang mga setting",
   "select-purchase-amount": "Ilagay ang bilang na nais mong bayaran",
@@ -555,11 +554,6 @@
     "missing-brand-colors": "Mga nawawalang brand color",
     "banner-preview": "Preview ng banner",
     "banner-preview-description": "Para madaling mag-eksperimento sa iyong banner, gamitin ang <2>banner preview</2>"
-  },
-  "platform": {
-    "org-kde-platform": "Platform ng KDE",
-    "org-gnome-platform": "Platform ng GNOME",
-    "org-freedesktop-platform": "Platform ng Freedesktop"
   },
   "quality-guideline": {
     "problems": "Kung gusto mong magtanong tungkol sa mga tiyak na problema sa patnubay ng kalidad, huwag mag-atubiling magbukas <2>ng isyu</2>.",

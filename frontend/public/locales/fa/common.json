@@ -295,7 +295,6 @@
   "privacy-policy-description": "با استفاده از این پایگاه وب سیاست محرمانگی را می‌پذیرید.",
   "browse": "مرور",
   "could-not-find-page": "صفحه‌ای که دنبالش بودید را نیافتیم.",
-  "app-share": "هم‌رسانی کاره",
   "distribution-flathub-setup": "برپایی فلت هاب روی {{distribution}}",
   "remove-saved-card": "برداشتن کارت ذخیره شده",
   "strategy": "راهبردی",
@@ -572,11 +571,6 @@
   "press-description": "همواره خوشجال خواهیم شد که به پرسش‌ها پاسخ داده و مصاحبه‌هایی با روزنامه‌نگاران و نویسندگان فناوری ترتیب دهیم",
   "developers-and-users-block": "برای پرسش و هم‌رسانی تجربیاتتان به گروه و دیگر اعضای اجتماع وصل شوید",
   "contact-for-press-inquiries": "تماس برای ضروریت‌های رسانه‌ای",
-  "platform": {
-    "org-freedesktop-platform": "بن‌سازهٔ Freedesktop",
-    "org-gnome-platform": "بن‌سازهٔ گنوم",
-    "org-kde-platform": "بن‌سازهٔ کی‌دی‌ای"
-  },
   "kind-donate-app": "اعانه به {{appName}}",
   "kind-purchase-app": "خرید {{appName}}",
   "action-purchase": "خرید",

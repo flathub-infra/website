@@ -267,7 +267,6 @@
   "moderation-appstream-changes": "アップストリームの変更",
   "moderation-appstream": "AppStream",
   "moderation-no-review-requests": "このアプリには審査はありません。",
-  "app-share": "アプリの共有",
   "token-cancelled": "トークンは正常にキャンセルされました",
   "token-redeem-placeholder": "所有権トークンを入力",
   "app-is-currently-verified-manually": "あなたのアプリはFlathubチームにより認証済みです",
@@ -592,11 +591,6 @@
   "all-the-apps-you-want": "<0>ほしいアプリのすべて</0> — 期待を集める有名なものから、駆け出しの開発者のアプリまで、Flathubにはあなたの望みを叶える数千のアプリがあります。",
   "transparent-safety": "<0>透明性のある安全性</0> — 開発者がいつアプリを<3>認証</3>したか、どんな許可が必要か、また監査可能なオープンソースで公開されているかが明確",
   "favorite": "お気に入り",
-  "platform": {
-    "org-freedesktop-platform": "Freedesktopプラットフォーム",
-    "org-gnome-platform": "GNOMEプラットフォーム",
-    "org-kde-platform": "KDEプラットフォーム"
-  },
   "kind-donate-app": "{{appName}} に寄付",
   "apps-for-you-where-you-are": "<0>どんな場所にもアプリを</0> - パワフルなLinuxワークステーションやSteam Deck、Raspberry Piでも、珍しいLinux製携帯電話でも、Flathubにはあなたのためのアプリがあります",
   "type": "種類",

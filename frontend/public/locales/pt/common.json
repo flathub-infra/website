@@ -252,7 +252,6 @@
   "apps": "Aplicações",
   "count-desktop-apps": "Total de aplicações de ambiente de trabalho",
   "rss-apps": "Precisa de uma aplicação RSS? Encontre excelentes aplicações no <2>Flathub</2>.",
-  "app-share": "Partilha de aplicações",
   "adventure": "Aventura",
   "action": "Ação",
   "arcade": "Arcada",
@@ -611,11 +610,6 @@
   "action-donate": "Doar",
   "kind-purchase-app": "Comprar {{appName}}",
   "kind-donate-app": "Doar para {{appName}}",
-  "platform": {
-    "org-freedesktop-platform": "Plataforma Freedesktop",
-    "org-kde-platform": "Plataforma KDE",
-    "org-gnome-platform": "Plataforma GNOME"
-  },
   "position-short": "Pos.",
   "type": "Tipo",
   "action-purchase": "Comprar",

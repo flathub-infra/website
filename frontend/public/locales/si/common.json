@@ -257,7 +257,6 @@
   "moderation-outdated": "යල් පැනගිය",
   "productivity": "නිෂ්පාද්‍යතාව",
   "transaction-went-wrong": "මෙම ගනුදෙනුවට අදාළව යමක් වැරදී ඇත.",
-  "app-share": "යෙදුම් බෙදාගැනීම",
   "login-provider-verification-main-instruction-unknown-is-organization": "<7>{{login_provider}}</7> හි <3>@{{login_name}}</3> (හෝ <5>@{{login_name}}</5> සංවිධානයක් නම්, එයට ප්‍රවේශය සහිත ගිණුමකින්) ගිණුමට පිවිසීමෙන් <1>{{id}}</1> යෙදුම් හැඳුනුම භාවිතයට තිබෙන අයිතිය සත්‍යාපනය කරන්න.",
   "unverify": "අසත්‍යාපනය",
   "arcade": "සාප්පුවල ක්‍රීඩා",

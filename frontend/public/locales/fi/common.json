@@ -259,7 +259,6 @@
   "count-desktop-apps": "Työpöytäsovelluksia yhteensä",
   "rss-apps": "Tarvitsetko RSS-sovelluksen? Löydä erinomaisia vaihtoehtoja <2>Flathub</2>ista.",
   "apps-by-developer": "Kehittäjän {{developer}} sovellukset",
-  "app-share": "Sovelluksen osuus",
   "no-apps": "Ei sovelluksia näytettäväksi.",
   "consultants": "Konsultit",
   "consultants-description": "Konsultointipalvelut sovellusten lähettämiseksi Flathubiin.",
@@ -613,11 +612,6 @@
   "kind-purchase-app": "Osta {{appName}}",
   "type": "Tyyppi",
   "recipient": "Saaja",
-  "platform": {
-    "org-kde-platform": "KDE-alusta",
-    "org-gnome-platform": "GNOME-alusta",
-    "org-freedesktop-platform": "Freedesktop-alusta"
-  },
   "created": "Luotu",
   "mobile-apps": "Mobiilisovellukset",
   "position-short": "Sijainti",

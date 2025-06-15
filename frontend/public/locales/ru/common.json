@@ -253,7 +253,6 @@
   "count-desktop-apps": "Всего приложений",
   "rss-apps": "Вам нужно приложение для RSS? Найдите его на <2>Flathub</2>.",
   "apps-by-developer": "Приложения от {{developer}}",
-  "app-share": "Общий доступ к приложению",
   "no-apps": "Нет приложений.",
   "setup-flathub": "Установить Flathub",
   "tags-colon": "Метки:",
@@ -615,11 +614,6 @@
   "created": "Создано",
   "action-donate": "Пожертвовать",
   "kind-donate-app": "Пожертвовать для {{appName}}",
-  "platform": {
-    "org-gnome-platform": "Платформа GNOME",
-    "org-freedesktop-platform": "Платформа Freedesktop",
-    "org-kde-platform": "Платформа KDE"
-  },
   "action-purchase": "Купить",
   "kind-purchase-app": "Купить {{appName}}",
   "apps-by-tag": "Приложения с меткой «{{tag}}»",

@@ -259,7 +259,6 @@
   "apps": "Aplikace",
   "count-desktop-apps": "Celkem desktopových aplikací",
   "apps-by-developer": "Aplikace od {{developer}}",
-  "app-share": "Sdílení aplikací",
   "no-apps": "Žádné aplikace k zobrazení.",
   "rss-apps": "Potřebujete RSS čtečku? Najděte tu správnou na <2>Flathub</2>.",
   "consultants": "Konzultanti",
@@ -611,11 +610,6 @@
   "action-donate": "Podpořit vývoj darem",
   "recipient": "Příjemce",
   "amount": "Částka",
-  "platform": {
-    "org-gnome-platform": "Platforma GNOME",
-    "org-freedesktop-platform": "Platforma Freedesktop",
-    "org-kde-platform": "Platforma KDE"
-  },
   "positions": "Pozice",
   "position-short": "Poz.",
   "total": "Celkem",

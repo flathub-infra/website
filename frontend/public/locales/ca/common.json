@@ -304,7 +304,6 @@
   "accept-invite": "Accepta la invitació",
   "moderation-dev-description": "Alguns canvis a les metadades d'una aplicació, com ara el seu nom o descripció, han de ser revisats per l'equip de Flathub. Podeu veure l'estat de les sol·licituds de revisió actuals i anteriors aquí.",
   "token-creation-placeholder": "Introduïu una llista de noms en línies separades, cadascun identificarà un nou testimoni de propietat.",
-  "app-share": "Compartir l'aplicació",
   "invite-code-hint": "Doneu aquest codi a un altre desenvolupador perquè pugui convidar-vos a la seva aplicació.",
   "developer-invited": "Heu estat convidat a convertir-vos en desenvolupador",
   "redeem-token": "Bescanvia el testimoni",

@@ -258,7 +258,6 @@
   "setup-flathub-description": "Set up Flathub to install and update apps on your system.",
   "apps": "Apps",
   "apps-by-developer": "Apps by {{developer}}",
-  "app-share": "App share",
   "no-apps": "No apps to show.",
   "count-desktop-apps": "Total desktop apps",
   "rss-apps": "Do you need an RSS app? Find excellent ones on <2>Flathub</2>.",
@@ -600,11 +599,6 @@
   "recipient": "Recipient",
   "amount": "Amount",
   "created": "Created",
-  "platform": {
-    "org-kde-platform": "KDE Platform",
-    "org-gnome-platform": "GNOME Platform",
-    "org-freedesktop-platform": "Freedesktop Platform"
-  },
   "date": "Date",
   "get-apps": "Get apps",
   "flathub": "Flathub",
@@ -643,5 +637,15 @@
   "more-mobile-apps": "More mobile apps",
   "on-the-go": "On the go",
   "emulator": "Emulators",
-  "tool": "Tools"
+  "tool": "Tools",
+  "lightbox": {
+    "close": "Close",
+    "zoom-out": "Zoom Out",
+    "screenshot": "Screenshot",
+    "next": "Next",
+    "previous": "Previous",
+    "zoom-in": "Zoom In",
+    "show-screenshot-fullscreen": "Show screenshot fullscreen"
+  },
+  "count-verified-desktop-apps": "Verified desktop apps"
 }

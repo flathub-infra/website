@@ -289,7 +289,6 @@
   "type": "Tipe",
   "an-error-occurred-server": "{{errorCode}} – Una error s'es producha sul servidor.",
   "retry-or-go-home": "Volètz benlèu tornar ensajar o tornar a la pagina d’<2>acuèlh</2>.",
-  "app-share": "Partejar l'aplicacion",
   "more-development": "Mai d'aisinas de desvolopament",
   "flathub-statistics-description": "Apercebut de l'utilizacion e de la distribucion de las aplicacions disponiblas sus la platafòrma.",
   "mastodon": "Mastodon",
@@ -315,11 +314,6 @@
   "flathub-description": "Trobatz e installatz centenats d'aplicacions per Linux. Profechatz de Firefox, Telegram, RetroArch, GIMP e encara mai !",
   "reporting-issues-description": "Prenèm al seriós los rapòrts de seguretat e las questions legalas",
   "no-apps": "I a pas d'aplicacion per mostrar.",
-  "platform": {
-    "org-kde-platform": "Platafòrma KDE",
-    "org-freedesktop-platform": "Platafòrma Freedesktop",
-    "org-gnome-platform": "Platafòrma GNOME"
-  },
   "install-x": "Installar {{app-name}} sus Linux",
   "has-network-access": "A accès al ret",
   "uses-system-services": "Utiliza los servicis del sistèma",
