@@ -53,7 +53,6 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   const sdkPercentage = (breakdown[1][1] / price) * 100
   const flathubShare = breakdown[2][1] / 100
   const flathubPercentage = (breakdown[2][1] / price) * 100
-  const maxPercentage = 100 - vendingConfig.fee_cost_percent
 
   return (
     <div>
@@ -74,9 +73,6 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
             className="relative flex items-center select-none touch-none w-full h-3"
             value={[appPercentage]}
             onValueChange={(value) => {
-              if (value[0] > maxPercentage) {
-                value[0] = maxPercentage
-              }
               setAppShare(value[0])
             }}
             max={100}
