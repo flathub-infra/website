@@ -16,22 +16,6 @@ export const isValidAppId = (appId: string) => {
   return appIdPattern.test(appId)
 }
 
-export const translatePlatformName = (platform: string) => {
-  switch (platform) {
-    case "org.freedesktop.Platform":
-    case "org-freedesktop-Platform":
-      return "platform.org-freedesktop-platform"
-    case "org.gnome.Platform":
-    case "org-gnome-Platform":
-      return "platform.org-gnome-platform"
-    case "org.kde.Platform":
-    case "org-kde-Platform":
-      return "platform.org-kde-platform"
-    default:
-      return platform
-  }
-}
-
 export const sanitizeAppstreamDescription = (str: string) => {
   return sanitize(str, {
     ALLOWED_TAGS: ["p", "ul", "li", "ol", "em", "code"],

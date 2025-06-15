@@ -38,7 +38,7 @@ export function computeShares(
 
   let platform = app.bundle?.runtime
 
-  while (remaining > 0 && platform) {
+  while (remaining >= 0 && platform) {
     if (platform.includes("/")) {
       ;[platform] = platform.split("/", 1)
     }
@@ -46,7 +46,7 @@ export function computeShares(
     const platformConfig = vendingConfig.platforms[platform]
     const share = Math.floor((remaining * platformConfig.keep) / 100)
 
-    if (share > 0) {
+    if (share >= 0) {
       shares.push([platform, share])
     }
 
@@ -54,7 +54,7 @@ export function computeShares(
     platform = platformConfig.depends
   }
 
-  if (remaining != 0) {
+  if (remaining !== 0) {
     shares[0] = [app.id, appShare + remaining]
   }
 
@@ -89,7 +89,7 @@ export function computeAppShares(
   // Preserve total to apply percentages
   const toSplit = remaining
 
-  while (remaining > 0 && sharesCopy.length > 0) {
+  while (remaining >= 0 && sharesCopy.length > 0) {
     const [appId, share] = sharesCopy.shift()
     const split = Math.floor((toSplit * share) / 100)
     splits.push([appId, split])
@@ -97,7 +97,7 @@ export function computeAppShares(
   }
 
   // Add leftovers to application fee
-  if (remaining > 0) {
+  if (remaining >= 0) {
     splits[0] = [splits[0][0], splits[0][1] + remaining]
   }
 

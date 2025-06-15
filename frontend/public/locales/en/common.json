@@ -240,7 +240,6 @@
   "developer-settings": "Developer Settings",
   "minimum-payment": "Minimum Payment",
   "recommended-payment": "Recommended Payment",
-  "app-share": "App share",
   "app-vending-settings-confirmed": "App vending settings confirmed",
   "confirm-settings": "Confirm settings",
   "select-purchase-amount": "Enter the amount you wish to pay",
@@ -588,10 +587,15 @@
     "banner-preview": "Banner preview",
     "banner-preview-description": "To easily experiment with your banner, use <2>the banner preview</2>"
   },
-  "platform": {
-    "org-kde-platform": "KDE Platform",
-    "org-gnome-platform": "GNOME Platform",
-    "org-freedesktop-platform": "Freedesktop Platform"
+  "vendingSharesPreview": {
+    "sliderLabel": "Share distribution slider",
+    "sliderThumbLabel": "App share distribution: {{percentage}}",
+    "app": "App",
+    "sdk": "SDK",
+    "appShare": "App share: {{percentage}}",
+    "sdkShare": "SDK share: {{percentage}}",
+    "flathubShare": "Flathub share: {{percentage}}",
+    "screenReaderBreakdown": "Share breakdown slider. Use arrow keys to adjust the distribution between App, SDK, and Flathub. Current distribution: App: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Total cost: {{totalCost}}."
   },
   "quality-guideline": {
     "problems": "If you would like to ask us about specific quality guideline problems, feel free to open <2>an issue</2>.",
