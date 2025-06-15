@@ -50,7 +50,7 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
 
     translations = {}
     for key, apps in apps_locale.items():
-        if key in localize.LOCALES:
+        if key in localize.LANGUAGES:
             filtered_translations = dict(
                 filter(
                     lambda x: (
@@ -142,9 +142,12 @@ def load_appstream(sqldb) -> None:
 
         app_data = apps[app_id].copy()
         locales = app_data.pop("locales")
+        content_rating_details = app_data.pop("content_rating_details", None)
 
         try:
-            app = models.App.set_app(sqldb, app_id, type, locales)
+            app = models.App.set_app(
+                sqldb, app_id, type, locales, content_rating_details
+            )
             if app:
                 app.appstream = app_data
                 sqldb.session.add(app)
