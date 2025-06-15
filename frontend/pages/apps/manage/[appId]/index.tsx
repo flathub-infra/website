@@ -85,6 +85,12 @@ export default function AppManagementPage({
     axios: { withCredentials: true },
   })
 
+  const isAnApp = [
+    "desktop",
+    "console-application",
+    "desktop-application",
+  ].includes(app.type)
+
   const pages = [
     { name: t("developer-portal"), current: false, href: "/developer-portal" },
     {
@@ -118,33 +124,39 @@ export default function AppManagementPage({
                   <h1 className="text-4xl font-extrabold">{app.name}</h1>
                 </Link>
                 <div className="*:py-3 divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
-                  <SettingsDisclosure sectionTitle={t("verification")}>
-                    <AppVerificationControls.AppVerificationSetup
-                      app={app}
-                      isNewApp={false}
-                      showHeader={false}
-                    />
-                  </SettingsDisclosure>
+                  {isAnApp && (
+                    <SettingsDisclosure sectionTitle={t("verification")}>
+                      <AppVerificationControls.AppVerificationSetup
+                        app={app}
+                        isNewApp={false}
+                        showHeader={false}
+                      />
+                    </SettingsDisclosure>
+                  )}
                   {(!IS_PRODUCTION ||
                     user.info?.permissions?.some(
                       (a) => a === Permission.moderation,
-                    )) && (
-                    <>
-                      <SettingsDisclosure sectionTitle={t("accepting-payment")}>
-                        <AppVendingControls.SetupControls
-                          app={app}
-                          vendingConfig={vendingConfig}
-                        />
-                      </SettingsDisclosure>
-                      {query.isSuccess && query.data?.data?.status === "ok" && (
+                    )) &&
+                    isAnApp && (
+                      <>
                         <SettingsDisclosure
-                          sectionTitle={t("ownership-tokens")}
+                          sectionTitle={t("accepting-payment")}
                         >
-                          <AppVendingControls.OwnershipTokens app={app} />
+                          <AppVendingControls.SetupControls
+                            app={app}
+                            vendingConfig={vendingConfig}
+                          />
                         </SettingsDisclosure>
-                      )}
-                    </>
-                  )}
+                        {query.isSuccess &&
+                          query.data?.data?.status === "ok" && (
+                            <SettingsDisclosure
+                              sectionTitle={t("ownership-tokens")}
+                            >
+                              <AppVendingControls.OwnershipTokens app={app} />
+                            </SettingsDisclosure>
+                          )}
+                      </>
+                    )}
                   <SettingsDisclosure
                     sectionTitle={t("moderation-pending-reviews")}
                   >
@@ -154,21 +166,22 @@ export default function AppManagementPage({
                   {(!IS_PRODUCTION ||
                     user.info?.permissions?.some(
                       (a) => a === Permission["direct-upload"],
-                    )) && (
-                    <>
-                      {inviteQuery.data?.data?.is_direct_upload_app && (
-                        <SettingsDisclosure sectionTitle={t("developers")}>
-                          <AppDevelopersControls app={app} />
+                    )) &&
+                    isAnApp && (
+                      <>
+                        {inviteQuery.data?.data?.is_direct_upload_app && (
+                          <SettingsDisclosure sectionTitle={t("developers")}>
+                            <AppDevelopersControls app={app} />
+                          </SettingsDisclosure>
+                        )}
+                        <SettingsDisclosure sectionTitle={t("upload-tokens")}>
+                          <UploadTokenControls app={app} />
                         </SettingsDisclosure>
-                      )}
-                      <SettingsDisclosure sectionTitle={t("upload-tokens")}>
-                        <UploadTokenControls app={app} />
-                      </SettingsDisclosure>
-                      <SettingsDisclosure sectionTitle={t("danger-zone")}>
-                        <DangerZoneControls app={app} />
-                      </SettingsDisclosure>
-                    </>
-                  )}
+                        <SettingsDisclosure sectionTitle={t("danger-zone")}>
+                          <DangerZoneControls app={app} />
+                        </SettingsDisclosure>
+                      </>
+                    )}
                 </div>
               </div>
             </>
