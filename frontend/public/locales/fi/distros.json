@@ -40,7 +40,7 @@
     "distroName": "ALT Linux",
     "step-1": {
       "name": "Asenna Flatpak",
-      "text": "<p>Asentaaksesi Flatpakin käyttäjärjestelmälle, joka on osa Alt perhettä, avaa terminaali sovellus ja suorita:</p> <2></2>"
+      "text": "<p>Asentaaksesi Flatpakin Alt-perheen käyttöjärjestelmille, avaa päätesovellus ja suorita:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",

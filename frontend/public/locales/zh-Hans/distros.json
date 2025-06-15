@@ -55,7 +55,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Endless OS 3.0.0 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+    "introduction": "<0>Endless OS 3.0.0 及更新版本内置 Flatpak 支持——无需设置！</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -93,7 +93,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Linux Mint 18.3 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+    "introduction": "<0>Linux Mint 18.3 及更新版本内置 Flatpak 支持——无需设置！</0>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
@@ -192,7 +192,7 @@
       "name": "重启",
       "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：只能通过 GNOME Software 和/或 KDE Discover 进行 Flatpak 应用的图形界面安装。</p>"
     },
-    "introduction": "<p>Solus 4.7 及更新版本内置 Flatpak 支持 — 无需设置！可以使用 GNOME Software 和/或 KDE Discover 安装 Flatpak 应用。</p> <p>如果未安装 Flatpak，请按照以下说明开始安装。</p>"
+    "introduction": "<p>Solus 4.7 及更新版本内置 Flatpak 支持——无需设置！可以使用 GNOME Software 和/或 KDE Discover 安装 Flatpak 应用。</p> <p>如果未安装 Flatpak，请按照以下说明开始安装。</p>"
   },
   "alpine": {
     "step-1": {
@@ -230,7 +230,7 @@
   },
   "pop_os": {
     "distroName": "Pop!_OS",
-    "introduction": "<0>Pop!_OS 20.04 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+    "introduction": "<0>Pop!_OS 20.04 及更新版本内置 Flatpak 支持——无需设置！</0>"
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
@@ -239,7 +239,8 @@
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "安装应用"
+      "name": "安装应用",
+      "text": "<0>elementary OS 5.1 及更新版本开箱即用地支持 Flatpak。对于非精选应用，请前往 <2>Flathub</2> 使用“安装”按钮安装任何应用，然后使用 Sideload 打开下载的 `.flatpakref` 文件。</0> <p>注意：从 Flathub 等远程安装应用后，该远程中的所有其他应用也会自动显示在 AppCenter 中。</p>"
     }
   },
   "raspberry_pi_os": {
@@ -249,7 +250,8 @@
       "text": "<p>Raspberry Pi OS（以前称为 Raspbian）Stretch 及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</p> <2></2>"
     },
     "step-2": {
-      "name": "添加 Flathub 仓库"
+      "name": "添加 Flathub 仓库",
+      "text": "<p>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</p> <2></2> <4><0>重要提示：</0>建议使用 Raspberry Pi OS 64 位，因为较新的应用程序很可能仅适用于该平台。</4>"
     },
     "step-3": {
       "name": "重启",
@@ -257,7 +259,8 @@
     }
   },
   "clear_linux": {
-    "distroName": "Clear Linux"
+    "distroName": "Clear Linux",
+    "introduction": "<p>在 Clear Linux 中安装桌面套件时，‌Flatpak 已默认安装且 Flathub 仓库已预先配置。</p> <2></2> <4>现在您要做的就是<2>安装应用</2>！</4>"
   },
   "void_linux": {
     "distroName": "Void Linux",
@@ -277,7 +280,8 @@
   "nixos": {
     "distroName": "NixOS",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<0>要安装 Flatpak，请将 NixOS 选项 <2>services.flatpak.enable</2> 设置为 <4>true</4>，方法是将以下内容放入 <7>/etc/nixos/configuration.nix</7> 中：</0> <2></2> <p>然后，使用以下命令重建并切换到新配置：</p> <6></6> <8>如需了解详情，请参阅 <2>NixOS 文档</2>。</8>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
@@ -289,7 +293,8 @@
     }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": "<0>Flatpak 默认安装在 PureOS 上。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <2>Flathub 仓库文件</2>即可。</0> <2>现在您要做的就是<2>安装应用</2>！</2>"
   },
   "deepin": {
     "distroName": "Deepin",
@@ -336,7 +341,8 @@
   "mx_linux": {
     "distroName": "MX Linux",
     "step-1": {
-      "name": "通过软件管理器启用 Flatpak"
+      "name": "通过软件管理器启用 Flatpak",
+      "text": "<p>MX 18 及更高版本内置 Flatpak 支持。只需按照以下说明激活 Flathub 仓库即可：</p> <2>打开 <strong>MX Package Installer</strong>（打开菜单并在 MX Tools 中查找），选择“Flatpaks”标签页，要激活仓库，您需要输入 root 密码。</2>"
     },
     "step-2": {
       "name": "重启",
@@ -375,7 +381,7 @@
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>KDE neon 19 及更新版本内置 Flatpak 支持 — 无需设置！</0>"
+    "introduction": "<0>KDE neon 19 及更新版本内置 Flatpak 支持——无需设置！</0>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
@@ -395,7 +401,8 @@
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-1": {
-      "name": "安装 Flatpak"
+      "name": "安装 Flatpak",
+      "text": "<p>要在 Crystal Linux 中安装 Flatpak，您必须首先确保您的软件包是最新的。在终端中运行以下命令：</p> <2></2> <p>然后安装 Flatpak：</p> <6></6>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
@@ -404,13 +411,16 @@
     "step-3": {
       "name": "重启",
       "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0>"
-    }
+    },
+    "introduction": "<0>Flatpak 默认安装在 Crystal Linux 上。</0> <p>如果您没有使用 jade_gui 安装 Crystal，或者选择不安装它，您可以按照以下步骤设置 Flatpak。</p>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<0>从 15.0 版本开始，Flatpak 默认安装在 Salix 上——无需设置！</0> <p>Flatpak 预先配置了 Flathub 仓库，并包括桌面集成工具，允许从 Flathub 一键安装。</p> <4>您要做的就是<2>安装应用</2>！</4>"
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<0>Flatpak 默认安装在 Vanilla OS 上。</0> <2>您可以使用 Software 应用或浏览 <2>Flathub</2> 来安装应用。</2> <p>如果由于某种原因 Flathub 不可用，您可以使用以下命令手动配置：</p> <6></6>"
   },
   "fedora": {
     "distroName": "Fedora",
