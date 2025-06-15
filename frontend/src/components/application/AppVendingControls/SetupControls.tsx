@@ -13,7 +13,6 @@ import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
-import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
@@ -168,21 +167,15 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             maximum={STRIPE_MAX_PAYMENT}
           />
         </div>
-        <div>
-          <label>{t("app-share")}</label>
-          <AppShareSlider
-            value={appShare}
-            setValue={setAppShare}
-            disabled={!vendingEnabled}
-          />
-        </div>
         {vendingEnabled && (
           <div>
             <VendingSharesPreview
               price={recommendedDonation.live * 100}
               app={app}
               appShare={appShare}
+              setAppShare={setAppShare}
               vendingConfig={vendingConfig}
+              interactive
             />
           </div>
         )}
@@ -213,6 +206,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
               price={minPayment.live * 100}
               app={app}
               appShare={appShare}
+              setAppShare={() => {}}
               vendingConfig={vendingConfig}
             />
           </div>

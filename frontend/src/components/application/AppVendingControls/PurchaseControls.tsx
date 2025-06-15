@@ -123,6 +123,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
         price={amount.live * 100}
         app={app}
         appShare={vendingSetup.appshare}
+        setAppShare={() => {}}
         vendingConfig={vendingConfig}
       />
       <div className="flex justify-end">
