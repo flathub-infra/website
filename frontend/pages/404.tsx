@@ -3,14 +3,14 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 
-export default function Custom404() {
+export default function Custom404({ locale }: { locale: string }) {
   const { t } = useTranslation()
   return (
     <>
       <NextSeo
         title={t("page-not-found", { errorCode: "404" })}
         openGraph={{
-          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/404`,
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/404`,
         }}
         noindex
       />
@@ -22,7 +22,7 @@ export default function Custom404() {
         <p>
           <Trans i18nKey={"common:retry-or-go-home"}>
             You might want to retry or go back{" "}
-            <a className="no-underline hover:underline" href=".">
+            <a className="no-underline hover:underline" href={`/${locale}`}>
               home
             </a>
             .
@@ -41,6 +41,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
   }
 }
