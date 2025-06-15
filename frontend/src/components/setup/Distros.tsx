@@ -1,9 +1,53 @@
-export const distroMap = new Map<string, JSX.Element>()
 import { Trans, useTranslation } from "next-i18next"
 import { HowToJsonLd } from "next-seo"
 import CodeCopy from "src/components/application/CodeCopy"
 import type { JSX } from "react"
-export const Ubuntu = () => {
+import Link from "next/link"
+
+export const distroMap = (locale: string) => {
+  return new Map<string, JSX.Element>([
+    ["Ubuntu", <Ubuntu locale={locale} />],
+    ["Fedora", <Fedora locale={locale} />],
+    ["Manjaro", <Manjaro locale={locale} />],
+    ["Endless OS", <Endless_OS locale={locale} />],
+    ["ALT Linux", <ALT_Linux locale={locale} />],
+    ["Chrome OS", <Chrome_OS locale={locale} />],
+    ["Red Hat Enterprise Linux", <Red_Hat_Enterprise_Linux locale={locale} />],
+    ["Linux Mint", <Linux_Mint locale={locale} />],
+    ["openSUSE", <OpenSUSE locale={locale} />],
+    ["Arch", <Arch locale={locale} />],
+    ["Debian", <Debian locale={locale} />],
+    ["Rocky Linux", <Rocky_Linux locale={locale} />],
+    ["CentOS", <CentOS locale={locale} />],
+    ["AlmaLinux", <AlmaLinux locale={locale} />],
+    ["Gentoo", <Gentoo locale={locale} />],
+    ["Kubuntu", <Kubuntu locale={locale} />],
+    ["Solus", <Solus locale={locale} />],
+    ["Alpine", <Alpine locale={locale} />],
+    ["Mageia", <Mageia locale={locale} />],
+    ["OpenMandriva Lx", <OpenMandriva_Lx locale={locale} />],
+    ["Pop!_OS", <Pop_OS locale={locale} />],
+    ["elementary OS", <Elementary_OS locale={locale} />],
+    ["Raspberry Pi OS", <Raspberry_Pi_OS locale={locale} />],
+    ["Clear Linux", <Clear_Linux locale={locale} />],
+    ["Void Linux", <Void_Linux locale={locale} />],
+    ["NixOS", <NixOS locale={locale} />],
+    ["PureOS", <PureOS locale={locale} />],
+    ["Zorin OS", <Zorin_OS locale={locale} />],
+    ["Deepin", <Deepin locale={locale} />],
+    ["Pardus", <Pardus locale={locale} />],
+    ["MX Linux", <MX_Linux locale={locale} />],
+    ["Pisi GNULinux", <Pisi_GNULinux locale={locale} />],
+    ["EndeavourOS", <EndeavourOS locale={locale} />],
+    ["KDE neon", <KDE_neon locale={locale} />],
+    ["GNU Guix", <GNU_Guix locale={locale} />],
+    ["Crystal Linux", <Crystal_Linux locale={locale} />],
+    ["Vanilla OS", <Vanilla_OS locale={locale} />],
+    ["Salix", <Salix locale={locale} />],
+  ])
+}
+
+const Ubuntu = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -130,7 +174,7 @@ export const Ubuntu = () => {
           <Trans i18nKey="distros:ubuntu.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -138,9 +182,8 @@ export const Ubuntu = () => {
     </>
   )
 }
-distroMap.set("Ubuntu", <Ubuntu />)
 
-export const Fedora = () => {
+const Fedora = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -166,7 +209,7 @@ export const Fedora = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>{" "}
           <p>
             The above links should work on the default GNOME and KDE Fedora
@@ -181,9 +224,8 @@ export const Fedora = () => {
     </>
   )
 }
-distroMap.set("Fedora", <Fedora />)
 
-export const Manjaro = () => {
+const Manjaro = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -255,7 +297,7 @@ export const Manjaro = () => {
           <Trans i18nKey="distros:manjaro.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -263,9 +305,8 @@ export const Manjaro = () => {
     </>
   )
 }
-distroMap.set("Manjaro", <Manjaro />)
 
-export const Endless_OS = () => {
+const Endless_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -281,9 +322,8 @@ export const Endless_OS = () => {
     </>
   )
 }
-distroMap.set("Endless OS", <Endless_OS />)
 
-export const ALT_Linux = () => {
+const ALT_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -383,7 +423,7 @@ export const ALT_Linux = () => {
           <Trans i18nKey="distros:alt_linux.step-3.text">
             <p>
               Restart your device to complete the Flatpak installation. Now you
-              can <a href="https://flathub.org/">install apps</a>!
+              can <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -391,9 +431,8 @@ export const ALT_Linux = () => {
     </>
   )
 }
-distroMap.set("ALT Linux", <ALT_Linux />)
 
-export const Chrome_OS = () => {
+const Chrome_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -553,7 +592,7 @@ export const Chrome_OS = () => {
               To complete setup, restart Linux. You can do this by
               right-clicking terminal, and then clicking "Shut down Linux". Now
               all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -561,9 +600,8 @@ export const Chrome_OS = () => {
     </>
   )
 }
-distroMap.set("Chrome OS", <Chrome_OS />)
 
-export const Red_Hat_Enterprise_Linux = () => {
+const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -591,7 +629,7 @@ export const Red_Hat_Enterprise_Linux = () => {
           <CodeCopy text={`sudo yum install flatpak`} />{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>{" "}
           <p>
             The above links should work on the default Red Hat Enterprise Linux
@@ -606,9 +644,8 @@ export const Red_Hat_Enterprise_Linux = () => {
     </>
   )
 }
-distroMap.set("Red Hat Enterprise Linux", <Red_Hat_Enterprise_Linux />)
 
-export const Linux_Mint = () => {
+const Linux_Mint = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -624,9 +661,8 @@ export const Linux_Mint = () => {
     </>
   )
 }
-distroMap.set("Linux Mint", <Linux_Mint />)
 
-export const OpenSUSE = () => {
+const OpenSUSE = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -730,7 +766,7 @@ export const OpenSUSE = () => {
           <Trans i18nKey="distros:opensuse.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -738,9 +774,8 @@ export const OpenSUSE = () => {
     </>
   )
 }
-distroMap.set("openSUSE", <OpenSUSE />)
 
-export const Arch = () => {
+const Arch = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -797,7 +832,7 @@ export const Arch = () => {
           <Trans i18nKey="distros:arch.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -805,9 +840,8 @@ export const Arch = () => {
     </>
   )
 }
-distroMap.set("Arch", <Arch />)
 
-export const Debian = () => {
+const Debian = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -939,7 +973,7 @@ export const Debian = () => {
           <Trans i18nKey="distros:debian.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -947,9 +981,8 @@ export const Debian = () => {
     </>
   )
 }
-distroMap.set("Debian", <Debian />)
 
-export const Rocky_Linux = () => {
+const Rocky_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1051,7 +1084,7 @@ export const Rocky_Linux = () => {
           <Trans i18nKey="distros:rocky_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -1059,9 +1092,8 @@ export const Rocky_Linux = () => {
     </>
   )
 }
-distroMap.set("Rocky Linux", <Rocky_Linux />)
 
-export const CentOS = () => {
+const CentOS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1082,16 +1114,15 @@ export const CentOS = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>
         </Trans>
       </ol>
     </>
   )
 }
-distroMap.set("CentOS", <CentOS />)
 
-export const AlmaLinux = () => {
+const AlmaLinux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1112,16 +1143,15 @@ export const AlmaLinux = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>
         </Trans>
       </ol>
     </>
   )
 }
-distroMap.set("AlmaLinux", <AlmaLinux />)
 
-export const Gentoo = () => {
+const Gentoo = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1207,7 +1237,7 @@ export const Gentoo = () => {
           <Trans i18nKey="distros:gentoo.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -1219,9 +1249,8 @@ export const Gentoo = () => {
     </>
   )
 }
-distroMap.set("Gentoo", <Gentoo />)
 
-export const Kubuntu = () => {
+const Kubuntu = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1335,7 +1364,7 @@ export const Kubuntu = () => {
           <Trans i18nKey="distros:kubuntu.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -1343,9 +1372,8 @@ export const Kubuntu = () => {
     </>
   )
 }
-distroMap.set("Kubuntu", <Kubuntu />)
 
-export const Solus = () => {
+const Solus = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1451,7 +1479,7 @@ export const Solus = () => {
           <Trans i18nKey="distros:solus.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps is available only
@@ -1463,9 +1491,8 @@ export const Solus = () => {
     </>
   )
 }
-distroMap.set("Solus", <Solus />)
 
-export const Alpine = () => {
+const Alpine = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1594,7 +1621,7 @@ export const Alpine = () => {
           <Trans i18nKey="distros:alpine.step-4.text">
             <p>
               To complete the setup, restart your system. Now all you have to do
-              is <a href="https://flathub.org/">install apps</a>!
+              is <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -1602,9 +1629,8 @@ export const Alpine = () => {
     </>
   )
 }
-distroMap.set("Alpine", <Alpine />)
 
-export const Mageia = () => {
+const Mageia = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1705,7 +1731,7 @@ export const Mageia = () => {
           <Trans i18nKey="distros:mageia.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -1717,9 +1743,8 @@ export const Mageia = () => {
     </>
   )
 }
-distroMap.set("Mageia", <Mageia />)
 
-export const OpenMandriva_Lx = () => {
+const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1738,9 +1763,8 @@ export const OpenMandriva_Lx = () => {
     </>
   )
 }
-distroMap.set("OpenMandriva Lx", <OpenMandriva_Lx />)
 
-export const Pop_OS = () => {
+const Pop_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1756,9 +1780,8 @@ export const Pop_OS = () => {
     </>
   )
 }
-distroMap.set("Pop!_OS", <Pop_OS />)
 
-export const Elementary_OS = () => {
+const Elementary_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1795,9 +1818,9 @@ export const Elementary_OS = () => {
             <p>
               elementary OS 5.1 and newer comes with Flatpak support out of the
               box. For non-curated apps, head to{" "}
-              <a href="https://flathub.org/">Flathub</a> to install any app
-              using the big "Install" button, and open the downloaded
-              `.flatpakref` file with Sideload.
+              <Link href={`/${locale}`}>Flathub</Link> to install any app using
+              the big "Install" button, and open the downloaded `.flatpakref`
+              file with Sideload.
             </p>{" "}
             <p>
               Note: After installing one app from a remote like Flathub, all
@@ -1810,9 +1833,8 @@ export const Elementary_OS = () => {
     </>
   )
 }
-distroMap.set("elementary OS", <Elementary_OS />)
 
-export const Raspberry_Pi_OS = () => {
+const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1909,7 +1931,7 @@ export const Raspberry_Pi_OS = () => {
           <Trans i18nKey="distros:raspberry_pi_os.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -1921,9 +1943,8 @@ export const Raspberry_Pi_OS = () => {
     </>
   )
 }
-distroMap.set("Raspberry Pi OS", <Raspberry_Pi_OS />)
 
-export const Clear_Linux = () => {
+const Clear_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1937,16 +1958,15 @@ export const Clear_Linux = () => {
           <CodeCopy text={`sudo swupd bundle-add desktop`} />{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>
         </Trans>
       </ol>
     </>
   )
 }
-distroMap.set("Clear Linux", <Clear_Linux />)
 
-export const Void_Linux = () => {
+const Void_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2036,7 +2056,7 @@ export const Void_Linux = () => {
           <Trans i18nKey="distros:void_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -2044,9 +2064,8 @@ export const Void_Linux = () => {
     </>
   )
 }
-distroMap.set("Void Linux", <Void_Linux />)
 
-export const NixOS = () => {
+const NixOS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2146,7 +2165,7 @@ export const NixOS = () => {
           <Trans i18nKey="distros:nixos.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -2154,9 +2173,8 @@ export const NixOS = () => {
     </>
   )
 }
-distroMap.set("NixOS", <NixOS />)
 
-export const PureOS = () => {
+const PureOS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2177,16 +2195,15 @@ export const PureOS = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>
         </Trans>
       </ol>
     </>
   )
 }
-distroMap.set("PureOS", <PureOS />)
 
-export const Zorin_OS = () => {
+const Zorin_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2200,9 +2217,8 @@ export const Zorin_OS = () => {
     </>
   )
 }
-distroMap.set("Zorin OS", <Zorin_OS />)
 
-export const Deepin = () => {
+const Deepin = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2317,7 +2333,7 @@ export const Deepin = () => {
           <Trans i18nKey="distros:deepin.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -2325,9 +2341,8 @@ export const Deepin = () => {
     </>
   )
 }
-distroMap.set("Deepin", <Deepin />)
 
-export const Pardus = () => {
+const Pardus = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2444,7 +2459,7 @@ export const Pardus = () => {
           <Trans i18nKey="distros:pardus.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -2452,9 +2467,8 @@ export const Pardus = () => {
     </>
   )
 }
-distroMap.set("Pardus", <Pardus />)
 
-export const MX_Linux = () => {
+const MX_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2521,7 +2535,7 @@ export const MX_Linux = () => {
           <Trans i18nKey="distros:mx_linux.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -2529,9 +2543,8 @@ export const MX_Linux = () => {
     </>
   )
 }
-distroMap.set("MX Linux", <MX_Linux />)
 
-export const Pisi_GNULinux = () => {
+const Pisi_GNULinux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2622,7 +2635,7 @@ export const Pisi_GNULinux = () => {
           <Trans i18nKey="distros:pisi_gnulinux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -2634,9 +2647,8 @@ export const Pisi_GNULinux = () => {
     </>
   )
 }
-distroMap.set("Pisi GNULinux", <Pisi_GNULinux />)
 
-export const EndeavourOS = () => {
+const EndeavourOS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2728,7 +2740,7 @@ export const EndeavourOS = () => {
           <Trans i18nKey="distros:endeavouros.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -2740,9 +2752,8 @@ export const EndeavourOS = () => {
     </>
   )
 }
-distroMap.set("EndeavourOS", <EndeavourOS />)
 
-export const KDE_neon = () => {
+const KDE_neon = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2758,9 +2769,8 @@ export const KDE_neon = () => {
     </>
   )
 }
-distroMap.set("KDE neon", <KDE_neon />)
 
-export const GNU_Guix = () => {
+const GNU_Guix = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2850,7 +2860,7 @@ export const GNU_Guix = () => {
           <Trans i18nKey="distros:gnu_guix.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -2862,9 +2872,8 @@ export const GNU_Guix = () => {
     </>
   )
 }
-distroMap.set("GNU Guix", <GNU_Guix />)
 
-export const Crystal_Linux = () => {
+const Crystal_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2964,7 +2973,7 @@ export const Crystal_Linux = () => {
           <Trans i18nKey="distros:crystal_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install apps</a>!
+              <Link href={`/${locale}`}>install apps</Link>!
             </p>
           </Trans>
         </li>
@@ -2972,9 +2981,8 @@ export const Crystal_Linux = () => {
     </>
   )
 }
-distroMap.set("Crystal Linux", <Crystal_Linux />)
 
-export const Vanilla_OS = () => {
+const Vanilla_OS = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -2984,7 +2992,7 @@ export const Vanilla_OS = () => {
           <h2>Flatpak is installed by default on Vanilla OS.</h2>{" "}
           <p>
             You can use the Software app or browse{" "}
-            <a href="https://flathub.org/">Flathub</a> to install apps.
+            <Link href={`/${locale}`}>Flathub</Link> to install apps.
           </p>{" "}
           <p>
             If for some reason Flathub is not available, you can configure it
@@ -2998,9 +3006,8 @@ export const Vanilla_OS = () => {
     </>
   )
 }
-distroMap.set("Vanilla OS", <Vanilla_OS />)
 
-export const Salix = () => {
+const Salix = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -3018,11 +3025,10 @@ export const Salix = () => {
           </p>{" "}
           <p>
             All you have to do is{" "}
-            <a href="https://flathub.org/">install apps</a>!
+            <Link href={`/${locale}`}>install apps</Link>!
           </p>
         </Trans>
       </ol>
     </>
   )
 }
-distroMap.set("Salix", <Salix />)

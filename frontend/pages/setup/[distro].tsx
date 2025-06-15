@@ -47,7 +47,7 @@ export default function Setup({
 
         <div className="prose mx-auto dark:prose-invert prose-pre:rounded-xl">
           <div key={distroData.name} className="space-y-4">
-            {distroMap.get(distroData.name.replaceAll("/", ""))}
+            {distroMap(locale).get(distroData.name.replaceAll("/", ""))}
           </div>
         </div>
       </div>
