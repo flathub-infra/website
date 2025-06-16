@@ -13,9 +13,9 @@ from . import config, database, models, search, zscore
 
 StatsType = dict[str, dict[str, list[int]]]
 
-
 class StatsFromServer(TypedDict):
-    countries: dict[str, int]
+    # dict[country_name, (number_downloads, population)]
+    countries: dict[str, (int, int)]
     date: datetime.date
     delta_downloads: int
     downloads: int
