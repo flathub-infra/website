@@ -657,5 +657,9 @@
     "zoom-out": "Zoom Out",
     "show-screenshot-fullscreen": "Show screenshot fullscreen",
     "screenshot": "Screenshot"
+  },
+  "download": {
+    "download-x": "Download {{x}}",
+    "fallback-instructions": "<0>You can now switch to your systems native package manager.</0><1>If it did not notify you, you can do the following, as your system does not support <i>flatpak+https</i> urls:</1><2><0>Download the <2>.flatpakref file</2></0><1>Run it from your file manager</1></2>"
   }
 }

@@ -22,7 +22,7 @@ export default function InstallButton({ appId }: { appId: string }) {
   const installClicked = (e) => {
     e.preventDefault()
     trackEvent({ category: "App", action: "Install", name: appId })
-    push(`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`)
+    push(`${appId}/install`)
   }
 
   const flatpakInstallCopied = () => {
@@ -43,8 +43,8 @@ export default function InstallButton({ appId }: { appId: string }) {
 
   return (
     <div className="inline-flex w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
-      <Link
-        href={`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`}
+      <a
+        href={`apps/${appId}/install`}
         onClick={installClicked}
         className={clsx(
           "hover:opacity-75 active:opacity-50",
@@ -55,7 +55,7 @@ export default function InstallButton({ appId }: { appId: string }) {
         role="button"
       >
         {t("install")}
-      </Link>
+      </a>
       <Popover as="div" className={clsx("block", "sm:relative")}>
         <PopoverBackdrop className="fixed inset-0 z-10 bg-black opacity-30" />
         <PopoverButton
