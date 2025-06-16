@@ -56,7 +56,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <div className="w-full max-w-md mx-auto pt-8 px-4 pb-4">
+      <div className="w-full max-w-md pt-8 px-4 pb-4">
         <div className="relative mb-4">
           <div
             className="absolute -top-10 transform -translate-x-1/2 transition-all duration-100"
