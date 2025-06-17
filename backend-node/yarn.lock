@@ -1010,23 +1010,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/button@npm:0.0.19":
-  version: 0.0.19
-  resolution: "@react-email/button@npm:0.0.19"
+"@react-email/button@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@react-email/button@npm:0.1.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/e96fe15cb4307c36add3ebaf382cf5f408c29fbbc433ef09b347a4d6488eecdaa23424880f8bdad18f773c91e8c0b2d24ec74c9010608f55100c5625c9c0be56
+  checksum: 10c0/968ff0b149969d6d2663b93150118e72afe9db8b6a5adab409944b329583ca024a010334fca2b469a5a9e6b8cf2136df0cfc87180cca6c3e3bbe2e84d3c7683f
   languageName: node
   linkType: hard
 
-"@react-email/code-block@npm:0.0.13":
-  version: 0.0.13
-  resolution: "@react-email/code-block@npm:0.0.13"
+"@react-email/code-block@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@react-email/code-block@npm:0.1.0"
   dependencies:
     prismjs: "npm:^1.30.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/100a9b694391991a6e984bc49953fa6e881629b4f6ebd6bc61910ddc40d01192e9126151dd4273f5cd742e8068aae5145ab3d4b770d077940ad8f5142e53340d
+  checksum: 10c0/55d84654cbf593e49102a11d1615e3beefb6943a82842ab1e51f435c6130a62f4ea2ebc034b127ebcc96822789b58cf352df340823278c9759bb3f031d8a796e
   languageName: node
   linkType: hard
 
@@ -1048,13 +1048,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.0.42":
-  version: 0.0.42
-  resolution: "@react-email/components@npm:0.0.42"
+"@react-email/components@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@react-email/components@npm:0.1.0"
   dependencies:
     "@react-email/body": "npm:0.0.11"
-    "@react-email/button": "npm:0.0.19"
-    "@react-email/code-block": "npm:0.0.13"
+    "@react-email/button": "npm:0.1.0"
+    "@react-email/code-block": "npm:0.1.0"
     "@react-email/code-inline": "npm:0.0.5"
     "@react-email/column": "npm:0.0.13"
     "@react-email/container": "npm:0.0.15"
@@ -1074,7 +1074,7 @@ __metadata:
     "@react-email/text": "npm:0.1.5"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/ba5eba9969ca80797024dce499f97bd7e4c2dcf799f1c187f58c2b1a51a74998fae29c9db68232f05b93ad978c4673a4ef60ff3699f8cdd3c3be4d5bc9d462c2
+  checksum: 10c0/5ce929f34282322ed153dc91cc3f2ad8ad468772178dafe4d28c28ca2f846d8381a5e4cd8aff419a2b4bc1f0b2756992a752920df762107a8d8e1c544da8411a
   languageName: node
   linkType: hard
 
@@ -3393,7 +3393,7 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
     "@hono/zod-openapi": "npm:^0.19.8"
-    "@react-email/components": "npm:0.0.42"
+    "@react-email/components": "npm:0.1.0"
     "@react-email/render": "npm:1.1.2"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.17"
