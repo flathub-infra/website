@@ -651,5 +651,15 @@
     "next": "التالي",
     "show-screenshot-fullscreen": "اعرض لقطة شاشة بملء الشاشة"
   },
-  "count-verified-desktop-apps": "تطبيقات سطح المكتب المؤكَّدة"
+  "count-verified-desktop-apps": "تطبيقات سطح المكتب المؤكَّدة",
+  "vendingSharesPreview": {
+    "app": "التطبيق",
+    "appShare": "حصة التطبيق: {{percentage}}",
+    "sdkShare": "حصة SDK: {{percentage}}",
+    "flathubShare": "حصة فلاتهب: {{percentage}}",
+    "sdk": "SDK",
+    "sliderLabel": "شريط تمرير توزيع الحصة",
+    "sliderThumbLabel": "توزيع حصة التطبيق: {{percentage}}",
+    "screenReaderBreakdown": "تقسيم شريط تمرير الحصة. استخدم مفاتيح الأسهم لضبط التوزيع بين التطبيق وSDK وفلاتهب. التوزيع الحالي: التطبيق: {{appPercentage}}، SDK: {{sdkPercentage}}، فلاتهب: {{flathubPercentage}}. التكلفة الإجمالية: {{totalCost}}."
+  }
 }

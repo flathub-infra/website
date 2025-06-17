@@ -647,5 +647,15 @@
     "zoom-in": "Zoom In",
     "show-screenshot-fullscreen": "Show screenshot fullscreen"
   },
-  "count-verified-desktop-apps": "Verified desktop apps"
+  "count-verified-desktop-apps": "Verified desktop apps",
+  "vendingSharesPreview": {
+    "sliderLabel": "Share distribution slider",
+    "app": "App",
+    "sdk": "SDK",
+    "appShare": "App share: {{percentage}}",
+    "sliderThumbLabel": "App share distribution: {{percentage}}",
+    "sdkShare": "SDK share: {{percentage}}",
+    "flathubShare": "Flathub share: {{percentage}}",
+    "screenReaderBreakdown": "Share breakdown slider. Use arrow keys to adjust the distribution between App, SDK, and Flathub. Current distribution: App: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Total cost: {{totalCost}}."
+  }
 }

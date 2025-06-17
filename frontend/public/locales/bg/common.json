@@ -647,5 +647,15 @@
     "previous": "Предишна",
     "show-screenshot-fullscreen": "Показване на снимката на цял екран"
   },
-  "count-verified-desktop-apps": "Общо проверени приложения"
+  "count-verified-desktop-apps": "Общо проверени приложения",
+  "vendingSharesPreview": {
+    "sdk": "SDK",
+    "appShare": "Дял на приложението: {{percentage}}",
+    "app": "Приложение",
+    "flathubShare": "Дял на „Flathub“: {{percentage}}",
+    "sliderThumbLabel": "Разпределение на дяловете на приложението: {{percentage}}",
+    "sliderLabel": "Плъзгач за разпределение на дяловете",
+    "sdkShare": "Дял на SDK: {{percentage}}",
+    "screenReaderBreakdown": "Плъзгач за разбивка на дяловете. Използвайте стрелките, за да регулирате разпределението на приложението, SDK, и „Flathub“. Текущо разпределение: приложение: {{appPercentage}}, SDK: {{sdkPercentage}}, „Flathub“: {{flathubPercentage}}. Обща сума: {{totalCost}}."
+  }
 }
