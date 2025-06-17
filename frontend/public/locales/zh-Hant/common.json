@@ -102,7 +102,7 @@
   "link-more-accounts": "連結更多帳號",
   "games": "遊戲",
   "graphics-and-photography": "影像與攝影",
-  "manual-install-instructions": "請確保在安裝前遵循<2>您 Linux 散佈版設定指南</2>",
+  "manual-install-instructions": "請確保在安裝前遵循<2>您的 Linux 散佈版設定指南</2>",
   "popular-apps": "熱門應用程式",
   "purchase-apps-title": "購買應用程式",
   "install": "安裝",
@@ -646,5 +646,15 @@
     "screenshot": "螢幕截圖",
     "show-screenshot-fullscreen": "全螢幕顯示螢幕截圖"
   },
-  "count-verified-desktop-apps": "已驗證的桌面應用程式"
+  "count-verified-desktop-apps": "已驗證的桌面應用程式",
+  "vendingSharesPreview": {
+    "sliderLabel": "分享分佈滑桿",
+    "sdk": "SDK",
+    "appShare": "應用程式分享：{{percentage}}",
+    "sdkShare": "SDK 分享：{{percentage}}",
+    "flathubShare": "Flathub 分享：{{percentage}}",
+    "sliderThumbLabel": "應用程式分享分佈：{{percentage}}",
+    "app": "應用程式",
+    "screenReaderBreakdown": "分享細分滑桿。使用箭頭鍵調整應用程式、SDK 與 Flathub 之間的分佈。目前的分佈： App：{{appPercentage}}，SDK：{{sdkPercentage}}，Flathub：{{flathubPercentage}}。總花費：{{totalCost}}。"
+  }
 }

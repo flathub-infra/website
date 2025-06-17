@@ -639,5 +639,9 @@
     "close": "Mbylle",
     "show-screenshot-fullscreen": "Shfaqe foton e ekranit sa tërë ekrani"
   },
-  "count-verified-desktop-apps": "Aplikacione desktop të verifikuar"
+  "count-verified-desktop-apps": "Aplikacione desktop të verifikuar",
+  "vendingSharesPreview": {
+    "app": "Aplikacion",
+    "sdk": "SDK"
+  }
 }
