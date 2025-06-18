@@ -648,5 +648,15 @@
     "next": "Suivant"
   },
   "count-verified-desktop-apps": "Apps de bureau vérifiées",
-  "position-short": "Posit."
+  "position-short": "Posit.",
+  "vendingSharesPreview": {
+    "app": "App",
+    "sdk": "SDK",
+    "sliderThumbLabel": "Distribution des parts de l'app : {{percentage}}",
+    "sdkShare": "Parts du SDK : {{percentage}}",
+    "sliderLabel": "Curseur de distribution des parts",
+    "screenReaderBreakdown": "Curseur de distribution des parts. Utilisez les touches fléchées pour ajuster la distribution des parts entre l'app, le SDK et Flathub. Distribution actuelle : App : {{appPercentage}}, SDK : {{sdkPercentage}}, Flathub : {{flathubPercentage}}. Coût total : {{totalCost}}.",
+    "flathubShare": "Parts de Flathub : {{percentage}}",
+    "appShare": "Parts de l'app : {{percentage}}"
+  }
 }

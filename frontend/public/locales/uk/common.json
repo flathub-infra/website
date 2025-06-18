@@ -648,5 +648,15 @@
     "zoom-out": "Зменшити масштаб",
     "show-screenshot-fullscreen": "Показати знімок екрана на весь екран"
   },
-  "count-verified-desktop-apps": "Перевірені застосунки для комп'ютерів"
+  "count-verified-desktop-apps": "Перевірені застосунки для комп'ютерів",
+  "vendingSharesPreview": {
+    "sliderThumbLabel": "Розподіл спільних ресурсів програми: {{percentage}}",
+    "sdkShare": "Спільний доступ до SDK: {{percentage}}",
+    "flathubShare": "Поділитися Flathub: {{percentage}}",
+    "screenReaderBreakdown": "Повзунок розподілу. Використовуйте клавіші зі стрілками, щоб налаштувати розподіл між додатком, SDK та Flathub. Поточний розподіл: додаток: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Загальна вартість: {{totalCost}}.",
+    "app": "Додаток",
+    "sdk": "SDK",
+    "sliderLabel": "Повзунок розподілу спільних ресурсів",
+    "appShare": "Спільний доступ до додатка: {{percentage}}"
+  }
 }

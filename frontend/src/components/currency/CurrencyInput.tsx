@@ -75,7 +75,7 @@ const CurrencyInput: FunctionComponent<Props> = ({
   )
 
   return (
-    <div>
+    <div className="max-w-full md:max-w-40">
       <label className="absolute ms-1 mt-3.5 text-lg">
         <DollarSign className="size-5" />
       </label>

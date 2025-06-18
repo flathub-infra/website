@@ -648,5 +648,15 @@
     "previous": "Poprzedni",
     "show-screenshot-fullscreen": "Pokaż zrzut ekranu na pełnym ekranie",
     "zoom-in": "Powiększenie"
+  },
+  "vendingSharesPreview": {
+    "app": "Aplikacja",
+    "sliderLabel": "Suwak dystrybucji udziału",
+    "sliderThumbLabel": "Dystrybucja udziału aplikacji: {{percentage}}",
+    "sdkShare": "Udział SDK: {{percentage}}",
+    "flathubShare": "Udział Flathub: {{percentage}}",
+    "appShare": "Udział aplikacji: {{percentage}}",
+    "sdk": "SDK",
+    "screenReaderBreakdown": "Suwak podziału udostępniania. Użyj klawiszy strzałek, aby dostosować udział między aplikacją, SDK i Flathub. Bieżąca dystrybucja: Aplikacja: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Całkowity koszt: {{totalCost}}."
   }
 }
