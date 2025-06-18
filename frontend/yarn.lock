@@ -9269,9 +9269,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^11.28.2":
-  version: 11.28.2
-  resolution: "chromatic@npm:11.28.2"
+"chromatic@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "chromatic@npm:13.0.0"
   peerDependencies:
     "@chromatic-com/cypress": ^0.*.* || ^1.0.0
     "@chromatic-com/playwright": ^0.*.* || ^1.0.0
@@ -9284,7 +9284,7 @@ __metadata:
     chroma: dist/bin.js
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
-  checksum: 10c0/0e30c01adae08708b871c5e27462af14a8426e0fe443d0c42afb2477326703504b02fa96a02e64c858072f535d149b96f207c43b147ba1492de83bb5f505e59e
+  checksum: 10c0/30c697eb84d5b3b8cdab989df0e4fed0bf51f4bfefb616873f68fc00337978b9b38b84e52af22861769176181bd98525d467baeb22daa712a0f7a58bd61bf336
   languageName: node
   linkType: hard
 
@@ -11609,7 +11609,7 @@ __metadata:
     "@types/react": "npm:19.1.6"
     axios: "npm:^1.9.0"
     boring-avatars: "npm:^1.11.2"
-    chromatic: "npm:^11.28.2"
+    chromatic: "npm:^13.0.0"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     date-fns: "npm:^4.1.0"
