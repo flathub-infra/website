@@ -108,12 +108,12 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     return app_stats_per_day
 
 country_population : dict[str, int] = None
-def get_population_country(country : str):
+def get_population_country(country : str) -> int:
     # Lazy import the first time the data is needed
-    if population == None :
+    if country_population == None :
         with open("../data/country_population.json") as f:
             country_population = json.load(f)
-    return population[country]
+    return country_population[country]
 
 def _get_stats(app_count: int):
     edate = datetime.date.today()
