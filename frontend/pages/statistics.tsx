@@ -90,7 +90,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
     return translation
   }
 
-  const refs = (country_data.reduce((acc, value) => {
+  const refs = country_data.reduce((acc, value) => {
     acc[value.country] = createRef()
     return acc
   }, {})
