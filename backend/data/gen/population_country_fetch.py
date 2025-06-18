@@ -334,7 +334,7 @@ output_filename = sys.argv[2]
 
 '''
     This script should be called like this :
-    > python3 population_count_fetch 2023 ../country_population.json
+    > python3 population_country_fetch 2023 ../country_population.json
 
     requirements : the `requests` python package.
 '''
