@@ -52,8 +52,8 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
   const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
 
   let country_data: {
-    country: string;
-    downloads: number;
+    country: string
+    downloads: number
     population: number
   }[] = []
   if (stats.countries) {
@@ -126,9 +126,9 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
             "rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic",
           )}
         >
-          {country_data.toSorted(
-              (a, b) => b.downloads_per_people - a.downloads_per_people
-            ).map(({ country, downloads_per_people }, i) => {
+          {country_data
+            .toSorted((a, b) => b.downloads_per_people - a.downloads_per_people)
+            .map(({ country, downloads_per_people }, i) => {
               return (
                 <div
                   key={country}
@@ -144,7 +144,9 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
                         t("unknown")}
                     </div>
                   </div>
-                  <div>{downloads_per_people.toLocaleString(i18n.language)}</div>
+                  <div>
+                    {downloads_per_people.toLocaleString(i18n.language)}
+                  </div>
                 </div>
               )
             })}
