@@ -468,7 +468,7 @@ export function getLanguageFlag(language: Language): string {
     case "ia":
       return ""
     case "ckb":
-      return "🇮🇷"
+      return ""
     case "ga":
       return "🇮🇪"
     case "kab":
