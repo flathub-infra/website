@@ -648,5 +648,9 @@
     "zoom-out": "Отдалить",
     "screenshot": "Снимок экрана",
     "show-screenshot-fullscreen": "Показать во весь экран"
+  },
+  "vendingSharesPreview": {
+    "app": "Приложение",
+    "sdk": "SDK"
   }
 }

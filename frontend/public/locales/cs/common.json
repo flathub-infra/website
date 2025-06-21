@@ -648,5 +648,15 @@
     "close": "Zavřít",
     "show-screenshot-fullscreen": "Zobrazit snímek na celou obrazovku"
   },
-  "count-verified-desktop-apps": "Ověřené desktopové aplikace"
+  "count-verified-desktop-apps": "Ověřené desktopové aplikace",
+  "vendingSharesPreview": {
+    "app": "Aplikace",
+    "appShare": "Podíl aplikace: {{percentage}}",
+    "flathubShare": "Podíl Flathubu: {{percentage}}",
+    "sdk": "SDK",
+    "sliderLabel": "Posuvník rozdělení akcií",
+    "sdkShare": "Podíl SDK: {{percentage}}",
+    "sliderThumbLabel": "Distribuce podílů aplikací: {{percentage}}",
+    "screenReaderBreakdown": "Sdílet členění jezdce. Pomocí šipek upravte rozdělení mezi aplikace, SDK a Flathub. Aktuální rozdělení: Aplikace: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}, Celkové náklady: {{totalCost}}."
+  }
 }
