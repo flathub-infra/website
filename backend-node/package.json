@@ -29,7 +29,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/swagger-ui-dist": "^3.30.5",
+    "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^9.29.0",
     "prettier": "3.5.3",
     "tsx": "^4.20.3",
