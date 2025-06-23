@@ -1352,10 +1352,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/swagger-ui-dist@npm:^3.30.5":
-  version: 3.30.5
-  resolution: "@types/swagger-ui-dist@npm:3.30.5"
-  checksum: 10c0/0e6ea1b6add4fb9cfd82dcdbd8156b3d0921a6bd2d511b92c05fc6d76e94a78d89eab81ffd6bb34c0c52e97b5e4a61eea77fab502698e9cf170aabf5d2c09510
+"@types/swagger-ui-dist@npm:^3.30.6":
+  version: 3.30.6
+  resolution: "@types/swagger-ui-dist@npm:3.30.6"
+  checksum: 10c0/1c7d2605c62593f4bc95725e313c614c5f69b6b37c4b5ab17197167fe00ea332de9edb475c3ab1f52f150a9820a476e28d3507c55e6c7c9eeb79d62a80edfa9d
   languageName: node
   linkType: hard
 
@@ -3399,7 +3399,7 @@ __metadata:
     "@types/nodemailer": "npm:^6.4.17"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
-    "@types/swagger-ui-dist": "npm:^3.30.5"
+    "@types/swagger-ui-dist": "npm:^3.30.6"
     date-fns: "npm:^4.1.0"
     dotenv: "npm:^16.5.0"
     eslint: "npm:^9.29.0"
