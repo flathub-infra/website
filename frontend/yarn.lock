@@ -11668,7 +11668,7 @@ __metadata:
     spdx-license-list: "npm:^6.10.0"
     storybook: "npm:^9.0.12"
     storybook-addon-mock-date: "npm:^0.10.0"
-    tailwind-merge: "npm:^3.2.0"
+    tailwind-merge: "npm:^3.3.1"
     tailwindcss: "npm:^4.1.7"
     tailwindcss-animate: "npm:^1.0.7"
     tsx: "npm:^4.19.4"
@@ -17318,10 +17318,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwind-merge@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "tailwind-merge@npm:3.2.0"
-  checksum: 10c0/294f6c2db0df74405bff126107107426c3126a70a1717d78e8d6811db65546c9bb3d61282bdb8d9fbded23f6bc8ec3e8e61031a4f53265f90b7f3dba558f88f4
+"tailwind-merge@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "tailwind-merge@npm:3.3.1"
+  checksum: 10c0/b84c6a78d4669fa12bf5ab8f0cdc4400a3ce0a7c006511af4af4be70bb664a27466dbe13ee9e3b31f50ddf6c51d380e8192ce0ec9effce23ca729d71a9f63818
   languageName: node
   linkType: hard
 
