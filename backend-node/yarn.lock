@@ -2670,6 +2670,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json5@npm:^2.2.2":
+  version: 2.2.3
+  resolution: "json5@npm:2.2.3"
+  bin:
+    json5: lib/cli.js
+  checksum: 10c0/5a04eed94810fa55c5ea138b2f7a5c12b97c3750bc63d11e511dcecbfef758003861522a070c2272764ee0f4e3e323862f386945aeb5b85b87ee43f084ba586c
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.5.4":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -2849,6 +2858,13 @@ __metadata:
   dependencies:
     brace-expansion: "npm:^2.0.1"
   checksum: 10c0/de96cf5e35bdf0eab3e2c853522f98ffbe9a36c37797778d2665231ec1f20a9447a7e567cb640901f89e4daaa95ae5d70c65a9e8aa2bb0019b6facbc3c0575ed
+  languageName: node
+  linkType: hard
+
+"minimist@npm:^1.2.6":
+  version: 1.2.8
+  resolution: "minimist@npm:1.2.8"
+  checksum: 10c0/19d3fcdca050087b84c2029841a093691a91259a47def2f18222f41e7645a0b7c44ef4b40e88a1e58a40c84d2ef0ee6047c55594d298146d0eb3f6b737c20ce6
   languageName: node
   linkType: hard
 
@@ -3321,9 +3337,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:4.0.16":
-  version: 4.0.16
-  resolution: "react-email@npm:4.0.16"
+"react-email@npm:4.0.17":
+  version: 4.0.17
+  resolution: "react-email@npm:4.0.17"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -3339,9 +3355,10 @@ __metadata:
     normalize-path: "npm:^3.0.0"
     ora: "npm:^8.0.0"
     socket.io: "npm:^4.8.1"
+    tsconfig-paths: "npm:4.2.0"
   bin:
     email: dist/cli/index.mjs
-  checksum: 10c0/b019c3c3afe14d6f898fd3085a4dfbc42d994ac6ef860d54984bb89283aef972eb54be99e9e44a66b122c4d6a352e02b54a506f011ab8d2d4d31fe70f3ba9bc7
+  checksum: 10c0/1377fec3f00533763a10ce6caa92e8eb95dc6fbe004946cd3695ba8501d90fb07eee5674b7889472351f85654400a5fe0c892f319c542dff7b45afa396d815ea
   languageName: node
   linkType: hard
 
@@ -3422,7 +3439,7 @@ __metadata:
     prettier: "npm:3.5.3"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
-    react-email: "npm:4.0.16"
+    react-email: "npm:4.0.17"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
     zod: "npm:^3.25.67"
@@ -3725,6 +3742,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"strip-bom@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "strip-bom@npm:3.0.0"
+  checksum: 10c0/51201f50e021ef16672593d7434ca239441b7b760e905d9f33df6e4f3954ff54ec0e0a06f100d028af0982d6f25c35cd5cda2ce34eaebccd0250b8befb90d8f1
+  languageName: node
+  linkType: hard
+
 "strip-json-comments@npm:^3.1.1":
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
@@ -3779,6 +3803,17 @@ __metadata:
     "@sentry/types": "npm:8.9.2"
     "@sentry/utils": "npm:8.9.2"
   checksum: 10c0/a5b03f47ee8be153a1f1b46b778646c1893933555702ed68a01dba5ec9148930f791e71c8618c9616ace2b08489724e4019b64a987f1a3edee06b18a78f9d37e
+  languageName: node
+  linkType: hard
+
+"tsconfig-paths@npm:4.2.0":
+  version: 4.2.0
+  resolution: "tsconfig-paths@npm:4.2.0"
+  dependencies:
+    json5: "npm:^2.2.2"
+    minimist: "npm:^1.2.6"
+    strip-bom: "npm:^3.0.0"
+  checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
   languageName: node
   linkType: hard
 
