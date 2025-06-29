@@ -648,5 +648,9 @@
     "screenshot": "Screenshot",
     "previous": "Anteprima"
   },
-  "count-verified-desktop-apps": "App desktop verificate"
+  "count-verified-desktop-apps": "App desktop verificate",
+  "vendingSharesPreview": {
+    "app": "App",
+    "sdk": "SDK"
+  }
 }

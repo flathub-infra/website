@@ -553,8 +553,8 @@
   "all-the-apps-you-want": "<0>Semua aplikasi yang Anda inginkan</0> - Dari nama-nama besar yang Anda kenal hingga pengembang indie baru, Flathub memiliki ribuan aplikasi untuk memenuhi kebutuhan Anda.",
   "more-office": "Lebih Banyak Produktivitas",
   "more-education": "Lebih Banyak Pendidikan",
-  "microphone-access": "Akses mikrofon",
-  "can-listen-using-microphones-without-asking-permission": "Dapat mendengarkan melalui mikrofon tanpa meminta izin",
+  "microphone-access": "Akses mikrofon dan pemutaran audio",
+  "can-listen-using-microphones-without-asking-permission": "Dapat mendengarkan melalui mikrofon dan memutar audio tanpa meminta izin.",
   "can-access-the-contents-of-the-screen-or-other-windows": "Dapat mengakses tampilan layar atau jendela lain",
   "read-announcements": "Baca pengumuman",
   "get-it-on": "Dapatkan di",
@@ -625,5 +625,29 @@
   "favorite-apps": "Terfavorit",
   "mobile-apps-description": "Aplikasi untuk ponsel dan tablet Linux",
   "on-the-go": "On the go",
-  "more-mobile-apps": "Lebih banyak aplikasi mobile"
+  "more-mobile-apps": "Lebih banyak aplikasi mobile",
+  "count-verified-desktop-apps": "Apl desktop terverifikasi",
+  "lightbox": {
+    "previous": "Kembali",
+    "zoom-in": "Perbesar",
+    "screenshot": "Cuplikan layar",
+    "close": "Tutup",
+    "next": "Lanjut",
+    "zoom-out": "Perkecil",
+    "show-screenshot-fullscreen": "Tampilkan cuplikan layar dalam layar penuh"
+  },
+  "emulator": "Emulator",
+  "more-gamelauncher": "Lebih Banyak Peluncur Game",
+  "tool": "Alat",
+  "gametool": "Alat Game",
+  "more-gametool": "Lebih Banyak Alat Game",
+  "we-love-games": "Kami ♥ Game",
+  "game-section-description": "Game dan apl untuk menjalankan judul favorit Anda",
+  "gameemulator": "Emulator",
+  "more-emulator": "Lebih Banyak Emulator",
+  "launcher": "Peluncur",
+  "gamelauncher": "Peluncur Game",
+  "vendingSharesPreview": {
+    "sdk": "SDK"
+  }
 }

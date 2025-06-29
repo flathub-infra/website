@@ -647,5 +647,15 @@
     "zoom-out": "Elzomi",
     "show-screenshot-fullscreen": "Montri ekrankopion plenekrane"
   },
-  "count-verified-desktop-apps": "Konfirmitaj labortablaj programoj"
+  "count-verified-desktop-apps": "Konfirmitaj labortablaj programoj",
+  "vendingSharesPreview": {
+    "app": "Programo",
+    "appShare": "Elcento de programo: {{percentage}}",
+    "sdkShare": "Elcento de programdisvolva ilaro: {{percentage}}",
+    "sliderThumbLabel": "Distribuo de elcentoj de programo: {{percentage}}",
+    "flathubShare": "Elcento de Flathub: {{percentage}}",
+    "sliderLabel": "Ŝovbutono pri elcentoj",
+    "screenReaderBreakdown": "Ŝovbutono pri elcentoj. Uzu sagoklavojn por modifi la distribuon inter Programo, Programdisvolva Ilaro, kaj Flathub. Aktuala distribuo: Programo: {{appPercentage}}, Programdisvolva Ilaro: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Totala kosto: {{totalCost}}.",
+    "sdk": "Programdisvolva ilaro"
+  }
 }
