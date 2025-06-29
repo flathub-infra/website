@@ -19,6 +19,11 @@ def get_categories() -> list[str]:
     return [category.value for category in schemas.MainCategory]
 
 
+@router.get("/subcategories")
+def get_subcategories() -> dict[str, list[str]]:
+    return search.get_subcategories()
+
+
 @router.get("/category/{category}")
 def get_category(
     category: schemas.MainCategory,
