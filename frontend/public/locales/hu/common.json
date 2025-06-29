@@ -647,5 +647,15 @@
     "zoom-in": "Nagyítás",
     "show-screenshot-fullscreen": "Képernyőkép teljes képernyős megjelenítése"
   },
-  "count-verified-desktop-apps": "Ellenőrzött asztali alkalmazások"
+  "count-verified-desktop-apps": "Ellenőrzött asztali alkalmazások",
+  "vendingSharesPreview": {
+    "sliderLabel": "Részesedés megosztása csúszka",
+    "sliderThumbLabel": "Alkalmazás részesedése: {{percentage}}",
+    "sdkShare": "SDK részesedése: {{percentage}}",
+    "flathubShare": "Flathub részesedése: {{percentage}}",
+    "app": "Alkalmazás",
+    "sdk": "SDK",
+    "appShare": "Alkalmazás részesedése: {{percentage}}",
+    "screenReaderBreakdown": "Részesedés megosztásának csúszkája. Használja a nyílbillentyűket az alkalmazás, az SDK és a Flathub közötti elosztás módosításához. Jelenlegi elosztás: Alkalmazás: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Teljes költség: {{totalCost}}."
+  }
 }

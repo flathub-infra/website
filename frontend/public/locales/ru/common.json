@@ -651,6 +651,12 @@
   },
   "vendingSharesPreview": {
     "app": "Приложение",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "sliderLabel": "Ползунок долей распределения",
+    "sliderThumbLabel": "Доля распределения на приложение: {{percentage}}",
+    "screenReaderBreakdown": "Ползунок долей распределения. Используйте клавиши-стрелки для изменения распределения между приложением, SDK и Flathub. Текущее распределение: Приложение: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Итоговая стоимость: {{totalCost}}.",
+    "appShare": "Доля приложения: {{percentage}}",
+    "flathubShare": "Доля Flathub: {{percentage}}",
+    "sdkShare": "Доля SDK: {{percentage}}"
   }
 }
