@@ -3058,10 +3058,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:7.0.3":
-  version: 7.0.3
-  resolution: "nodemailer@npm:7.0.3"
-  checksum: 10c0/835492262328471b94a080cea43ea20f4232e19a915400cd71c7f4f4ab93a7d361775154eebe30a8fc40379eecf11a0bbc73e6cf4bbee9dccb6dd1cf7a1dc792
+"nodemailer@npm:7.0.4":
+  version: 7.0.4
+  resolution: "nodemailer@npm:7.0.4"
+  checksum: 10c0/ea6e1ed581f9f5519017430105eb37077e8a028805c6227166aefcaa1fd035063fd4dec84f535408b52bdf7a952e79ade66f14d1cf2fbf98790050d8161934d6
   languageName: node
   linkType: hard
 
@@ -3421,7 +3421,7 @@ __metadata:
     dotenv: "npm:^16.5.0"
     eslint: "npm:^9.30.0"
     hono: "npm:^4.7.11"
-    nodemailer: "npm:7.0.3"
+    nodemailer: "npm:7.0.4"
     prettier: "npm:3.5.3"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
