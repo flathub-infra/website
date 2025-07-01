@@ -610,16 +610,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/zod-openapi@npm:^0.19.8":
-  version: 0.19.8
-  resolution: "@hono/zod-openapi@npm:0.19.8"
+"@hono/zod-openapi@npm:^0.19.9":
+  version: 0.19.9
+  resolution: "@hono/zod-openapi@npm:0.19.9"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^7.3.0"
     "@hono/zod-validator": "npm:^0.7.0"
+    openapi3-ts: "npm:^4.5.0"
   peerDependencies:
     hono: ">=4.3.6"
     zod: 3.*
-  checksum: 10c0/f2af759a18d784908ff220685f1eafb4aaaf8933dbd1aa268dc0a42aa3f104a32865d46d0e01f8511cd47d224c509de2d03254539b1f9de5a5886610cf0f86ca
+  checksum: 10c0/1b63cac47d3b4307280600843d9d8f79eecee57e4840cae9744d3a9a482e1c6bfe0587c0989d4e9afc2c821c971afd49c8542f0fdc2e190c0410ea31df7401c0
   languageName: node
   linkType: hard
 
@@ -3108,6 +3109,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"openapi3-ts@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "openapi3-ts@npm:4.5.0"
+  dependencies:
+    yaml: "npm:^2.8.0"
+  checksum: 10c0/97de2d24e9ceffb89e1388e137e4a6e17ee57a02dce0c938a5e98b1338ac72b31e8b2ce8dd28945ad43fae8bee2a145892cb548ba5ae60b0930f1b6b79b0747d
+  languageName: node
+  linkType: hard
+
 "optionator@npm:^0.9.3":
   version: 0.9.4
   resolution: "optionator@npm:0.9.4"
@@ -3409,7 +3419,7 @@ __metadata:
     "@hono/node-server": "npm:^1.14.4"
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
-    "@hono/zod-openapi": "npm:^0.19.8"
+    "@hono/zod-openapi": "npm:^0.19.9"
     "@react-email/components": "npm:0.1.1"
     "@react-email/render": "npm:1.1.3"
     "@types/html-to-text": "npm:^9.0.4"
@@ -3982,6 +3992,15 @@ __metadata:
   bin:
     yaml: bin.mjs
   checksum: 10c0/e1ee78b381e5c710f715cc4082fd10fc82f7f5c92bd6f075771d20559e175616f56abf1c411f545ea0e9e16e4f84a83a50b42764af5f16ec006328ba9476bb31
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "yaml@npm:2.8.0"
+  bin:
+    yaml: bin.mjs
+  checksum: 10c0/f6f7310cf7264a8107e72c1376f4de37389945d2fb4656f8060eca83f01d2d703f9d1b925dd8f39852a57034fafefde6225409ddd9f22aebfda16c6141b71858
   languageName: node
   linkType: hard
 
