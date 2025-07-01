@@ -647,5 +647,15 @@
     "zoom-out": "Uitzoomen",
     "screenshot": "Scherm­afdruk",
     "show-screenshot-fullscreen": "Scherm­afdruk in volledig scherm tonen"
+  },
+  "vendingSharesPreview": {
+    "sliderLabel": "Schuif­regelaar aandelen­verdeling",
+    "sliderThumbLabel": "App-aandelen­verdeling: {{percentage}}",
+    "sdkShare": "SDK-aandeel: {{percentage}}",
+    "flathubShare": "Flathub-aandeel: {{percentage}}",
+    "sdk": "SDK",
+    "appShare": "App-aandeel: {{percentage}}",
+    "app": "App",
+    "screenReaderBreakdown": "Schuif­regelaar voor aandelen­verdeling. Gebruik de pĳltjes­toetsen om de verdeling tussen App, SDK en Flathub aan te passen. Huidige verdeling: App: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Totale kosten: {{totalCost}}."
   }
 }

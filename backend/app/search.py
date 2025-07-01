@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar
+from typing import TypeVar
 from urllib.parse import unquote
 
 import meilisearch
@@ -10,7 +10,7 @@ from .verification_method import VerificationMethod
 T = TypeVar("T")
 
 
-class MeilisearchResponse(BaseModel, Generic[T]):
+class MeilisearchResponse[T](BaseModel):
     hits: list[T]
     query: str
     processingTimeMs: int
@@ -20,7 +20,7 @@ class MeilisearchResponse(BaseModel, Generic[T]):
     totalHits: int
 
 
-class MeilisearchResponseLimited(BaseModel, Generic[T]):
+class MeilisearchResponseLimited[T](BaseModel):
     hits: list[T]
     query: str
     processingTimeMs: int
@@ -29,9 +29,6 @@ class MeilisearchResponseLimited(BaseModel, Generic[T]):
     estimatedTotalHits: int
     facetDistribution: dict[str, dict[str, int]] | None = None
     facetStats: dict[str, dict[str, int]] | None = None
-
-
-U = TypeVar("U", MeilisearchResponse, MeilisearchResponseLimited)
 
 
 class AppsIndex(BaseModel):
@@ -140,7 +137,9 @@ if secondary_client:
     _configure_meilisearch_index(secondary_client)
 
 
-def _translate_name_and_summary(locale: str, searchResults: U):
+def _translate_name_and_summary[U: (MeilisearchResponse, MeilisearchResponseLimited)](
+    locale: str, searchResults: U
+):
     fallbackLocale = locale.split("-")[0]
 
     for searchResult in searchResults.hits:

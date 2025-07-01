@@ -647,5 +647,8 @@
   "tool": "Verktøy",
   "gametool": "Spillverktøy",
   "more-mobile-apps": "Flere mobilapper",
-  "mobile-apps-description": "Apper til Linux-telefoner og nettbrett"
+  "mobile-apps-description": "Apper til Linux-telefoner og nettbrett",
+  "vendingSharesPreview": {
+    "sdk": "SDK"
+  }
 }

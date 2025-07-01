@@ -650,5 +650,15 @@
     "next": "Ar Aghaidh",
     "previous": "Roimhe Seo"
   },
-  "count-verified-desktop-apps": "Aipeanna deisce fíoraithe"
+  "count-verified-desktop-apps": "Aipeanna deisce fíoraithe",
+  "vendingSharesPreview": {
+    "sliderThumbLabel": "Dáileadh scaireanna aipeanna: {{percentage}}",
+    "appShare": "Sciar aipeanna: {{percentage}}",
+    "sdkShare": "Sciar SDK: {{percentage}}",
+    "flathubShare": "Sciar Flathub: {{percentage}}",
+    "app": "Aip",
+    "screenReaderBreakdown": "Sleamhnán miondealaithe comhroinnte. Úsáid na heochracha saigheada chun an dáileadh idir an Aip, an SDK, agus Flathub a choigeartú. Dáileadh reatha: Aip: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Costas iomlán: {{totalCost}}.",
+    "sliderLabel": "Sleamhnán dáilte scaireanna",
+    "sdk": "SDK"
+  }
 }

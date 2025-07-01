@@ -91,7 +91,7 @@
   "donate": "Doar",
   "other-apps-by-developer": "Outros aplicativos de {{developer}}",
   "loading": "Carregando…",
-  "could-not-find-match-for-search": "Não foi possível encontrar um aplicativo correspondendo a sua pesquisa.",
+  "could-not-find-match-for-search": "Não foi possível encontrar um aplicativo correspondendo à sua pesquisa.",
   "request-new-app": "Se você estiver procurando por um aplicativo específico, informe à comunidade que você o quer no Flathub <1>aqui</1>.",
   "manifest": "Manifesto",
   "switch-language": "Alterar idioma",
@@ -648,5 +648,15 @@
     "next": "Próximo",
     "zoom-in": "Aumentar zoom"
   },
-  "count-verified-desktop-apps": "Aplicativos de desktop verificados"
+  "count-verified-desktop-apps": "Aplicativos de desktop verificados",
+  "vendingSharesPreview": {
+    "sliderThumbLabel": "Distribuição da participação do aplicativo: {{percentage}}",
+    "app": "Aplicativo",
+    "sdk": "SDK",
+    "appShare": "Participação do aplicativo: {{percentage}}",
+    "sdkShare": "Participação do SDK: {{percentage}}",
+    "sliderLabel": "Controle deslizante da distribuição de participação",
+    "flathubShare": "Participação do Flathub: {{percentage}}",
+    "screenReaderBreakdown": "Controle deslizante de detalhamento da participação. Use as teclas de seta para ajustar a distribuição entre aplicativo, SDK e Flathub. Distribuição atual: Aplicativo: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Custo total: {{totalCost}}."
+  }
 }
