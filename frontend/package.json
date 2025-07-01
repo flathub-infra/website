@@ -41,7 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "embla-carousel-autoplay": "^8.5.2",
+    "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "embla-carousel-wheel-gestures": "^8.0.2",
     "eslint-plugin-react-compiler": "19.0.0-beta-714736e-20250131",
