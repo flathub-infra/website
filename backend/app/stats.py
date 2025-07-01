@@ -13,6 +13,7 @@ from . import config, database, models, search, zscore
 
 StatsType = dict[str, dict[str, list[int]]]
 
+
 class StatsFromServer(TypedDict):
     countries: dict[str, dict[str, int]]
     date: datetime.date
@@ -136,13 +137,15 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                     )
     return app_stats_per_day
 
-country_population : dict[str, int] = None
-def get_population_country(country : str) -> int:
+
+def get_population_country(country: str) -> int:
+    country_population: dict[str, int] = {}
     # Lazy import the first time the data is needed
-    if country_population == None :
+    if len(country_population) == 0:
         with open("../data/country_population.json") as f:
             country_population = json.load(f)
     return country_population[country]
+
 
 def _get_stats(app_count: int):
     edate = datetime.date.today()
@@ -187,7 +190,9 @@ def _get_stats(app_count: int):
                     totals_country[country] = {}
                     if country not in totals_country:
                         totals_country[country].dowloads = 0
-                    totals_country[country].dowloads = totals_country[country] + downloads
+                    totals_country[country].dowloads = (
+                        totals_country[country] + downloads
+                    )
                 for country, _ in totals_country:
                     totals_country[country].population = get_population_country(country)
 
