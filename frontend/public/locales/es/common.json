@@ -594,7 +594,7 @@
   "get-apps": "Obtener aplicaciones",
   "all-the-apps-you-want": "<0>Todas las aplicaciones que quieras</0> - Desde los grandes nombres que esperas hasta los nuevos desarrolladores independientes, Flathub tiene miles de aplicaciones para satisfacer tus necesidades.",
   "apps-for-you-where-you-are": "<0>Aplicaciones para ti donde quiera que estés</0> - Tanto si estás en un Steam Deck, una potente estación de trabajo Linux, una Raspberry Pi, o el raro teléfono Linux; Flathub tiene aplicaciones para ti",
-  "millions-users": "<0>Llegar a millones de usuarios</0> - Flathub viene de fábrica en múltiples distribuciones Linux, es <2>fácilmente instalable</2> en el resto, y tiene más de un millón de usuarios activos",
+  "millions-users": "<0>Llegar a millones de usuarios</0> - Flathub viene de fábrica en múltiples distribuciones Linux, es <3>fácilmente instalable</3> en el resto, y tiene más de un millón de usuarios activos",
   "integration": "<0>Integración nativa de la tienda de aplicaciones</0> - Olvídate de las descargas web; Flathub ofrece aplicaciones y <3>actualizaciones automáticas</3> a los usuarios en su cliente nativo de la tienda de aplicaciones, donde esperaban",
   "users": "Usuarios",
   "about-claim": "<0>Ya seas un usuario que busca aplicaciones o un desarrollador que quiere llegar a más usuarios, <2>Flathub es la mejor opción para aplicaciones en Linux.</2></0>",
@@ -648,5 +648,8 @@
     "screenshot": "Captura de pantalla",
     "show-screenshot-fullscreen": "Mostrar captura de pantalla en pantalla completa",
     "previous": "Anterior"
+  },
+  "vendingSharesPreview": {
+    "app": "Aplicación"
   }
 }
