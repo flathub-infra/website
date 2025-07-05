@@ -1,6 +1,7 @@
 import base64
 import itertools
 import json
+import logging
 from datetime import datetime
 
 import httpx
@@ -18,6 +19,7 @@ from .login_info import LoginStatusDep, moderator_only
 from .types import ModerationRequestType
 
 router = APIRouter(prefix="/moderation")
+logger = logging.getLogger(__name__)
 
 
 class ModerationAppItem(BaseModel):
@@ -536,6 +538,10 @@ def submit_review(
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
     marked as successful in flat-manager."""
 
+    logger.info(
+        f"Processing moderation review for request {id}, approval: {review.approve}"
+    )
+
     with get_db("writer") as db:
         request = (
             db.session.query(models.ModerationRequest)
@@ -554,7 +560,6 @@ def submit_review(
         request.handled_at = func.now()
         request.comment = review.comment
 
-        # Store values we need after session close
         job_id = request.job_id
         build_id = request.build_id
         is_approved = review.approve
@@ -564,27 +569,48 @@ def submit_review(
         request_data = request.request_data
         is_new_submission = request.is_new_submission
         comment = review.comment
-
-        db.session.commit()
-
-    if is_approved:
-        # Check if all requests for the job are approved
-        with get_db("replica") as db:
+        worker_should_be_triggered = False
+        if is_approved:
             remaining = (
                 db.session.query(models.ModerationRequest)
                 .filter_by(job_id=job_id)
                 .filter(models.ModerationRequest.is_approved.is_(None))
+                .filter(models.ModerationRequest.id != id)
                 .count()
             )
-        if remaining == 0:
-            # Tell flat-manager that the job is approved
-            worker.review_check.send(job_id, "Passed", None, build_id)
-    else:
-        # If any request is rejected, the job is rejected
-        worker.review_check.send(
-            job_id, "Failed", "The review was rejected by a moderator."
+            worker_should_be_triggered = remaining == 0
+            logger.info(
+                f"Approval for job {job_id}: remaining unapproved requests: {remaining}, will trigger worker: {worker_should_be_triggered}"
+            )
+
+        db.session.commit()
+        logger.info(f"Moderation request {id} updated successfully")
+
+    try:
+        if is_approved:
+            if worker_should_be_triggered:
+                logger.info(
+                    f"Triggering worker for job {job_id}, build {build_id} - all requests approved"
+                )
+                worker.review_check.send(job_id, "Passed", None, build_id)
+                logger.info(f"Worker successfully queued for job {job_id}")
+            else:
+                logger.info(
+                    f"Worker not triggered for job {job_id} - still has pending requests"
+                )
+        else:
+            logger.info(f"Triggering worker for job {job_id} - request rejected")
+            worker.review_check.send(
+                job_id, "Failed", "The review was rejected by a moderator."
+            )
+            logger.info(f"Worker successfully queued for rejected job {job_id}")
+    except Exception as e:
+        logger.error(f"Failed to dispatch worker for job {job_id}: {e}")
+        raise HTTPException(
+            status_code=500, detail="Failed to trigger publication workflow"
         )
 
+    logger.info(f"Moderation review completed for request {id}, job {job_id}")
     inform_only_moderators = False
 
     issue = None
