@@ -91,7 +91,7 @@
     "@tanstack/react-query-devtools": "^5.81.5",
     "@types/node": "^22.15.23",
     "@types/react": "19.1.6",
-    "chromatic": "^13.0.0",
+    "chromatic": "^13.1.2",
     "eslint": "^9.29.0",
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.2",
