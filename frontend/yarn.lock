@@ -11624,7 +11624,7 @@ __metadata:
     react-copy-to-clipboard: "npm:^5.1.0"
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:19.1.0"
-    react-hook-form: "npm:^7.57.0"
+    react-hook-form: "npm:^7.60.0"
     react-i18next: "npm:^15.5.1"
     react-icons: "npm:^5.5.0"
     react-svg-worldmap: "npm:2.0.0-alpha.16"
@@ -15756,12 +15756,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.57.0":
-  version: 7.57.0
-  resolution: "react-hook-form@npm:7.57.0"
+"react-hook-form@npm:^7.60.0":
+  version: 7.60.0
+  resolution: "react-hook-form@npm:7.60.0"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/6db0b44b2e88d4db541514e96557723e39381ce9f71b3787bf041635f829143dbd0ae46a1f6c16dee23afe3413fd25539484ba02bf2a35d90aaa1b7483193ea9
+  checksum: 10c0/eb8518d42a074d9e115d4b414bac18ae72708b2d047a9453dcc7588b00df300b32cebf6ecb7f2c8aa534808b3dc54bde4124af95c1e432b6691f9aba07c93b11
   languageName: node
   linkType: hard
 
