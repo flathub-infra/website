@@ -107,7 +107,7 @@
     "storybook": "^9.0.15",
     "storybook-addon-mock-date": "^0.10.0",
     "tailwindcss": "^4.1.7",
-    "tsx": "^4.19.4",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
   "packageManager": "yarn@4.7.0",
