@@ -57,11 +57,14 @@ export const FlathubWorldMap = ({
     country: string
     downloads: number
     population: number
+    downloads_per_people: number
   }[] = []
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
       country_data.push({
         country: key,
+        downloads: value.downloads,
+        population: value.downloads,
         downloads_per_people: value.downloads / value.population,
       })
     }
