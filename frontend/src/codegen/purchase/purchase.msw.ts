@@ -24,7 +24,10 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
       {
         verified: faker.datatype.boolean(),
         timestamp: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           undefined,
         ]),
         method: faker.helpers.arrayElement([
@@ -35,7 +38,10 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
           undefined,
         ]),
         website: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           undefined,
         ]),
         login_provider: faker.helpers.arrayElement([
@@ -46,7 +52,10 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
           undefined,
         ]),
         login_name: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           undefined,
         ]),
         login_is_organization: faker.helpers.arrayElement([
@@ -54,7 +63,10 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
           undefined,
         ]),
         detail: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           undefined,
         ]),
       },
@@ -67,14 +79,22 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
       {
         recommended_donation: faker.helpers.arrayElement([
           faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
+            faker.number.int({
+              min: undefined,
+              max: undefined,
+              multipleOf: undefined,
+            }),
             null,
           ]),
           undefined,
         ]),
         minimum_payment: faker.helpers.arrayElement([
           faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
+            faker.number.int({
+              min: undefined,
+              max: undefined,
+              multipleOf: undefined,
+            }),
             null,
           ]),
           undefined,
@@ -97,14 +117,17 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetRespons
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostResponseMock = (
   overrideResponse: Partial<GenerateUpdateTokenResponse> = {},
 ): GenerateUpdateTokenResponse => ({
-  token: faker.string.alpha(20),
+  token: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getCheckPurchasesPurchasesCheckPurchasesPostResponseMock = (
   overrideResponse: Partial<CheckPurchasesResponseSuccess> = {},
 ): CheckPurchasesResponseSuccess => ({
-  status: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  status: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -112,8 +135,8 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock =
   (
     overrideResponse: Partial<GetDownloadTokenResponse> = {},
   ): GetDownloadTokenResponse => ({
-    token: faker.string.alpha(20),
-    update_token: faker.string.alpha(20),
+    token: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    update_token: faker.string.alpha({ length: { min: 10, max: 20 } }),
     ...overrideResponse,
   })
 

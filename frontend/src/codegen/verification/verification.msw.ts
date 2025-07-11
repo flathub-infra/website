@@ -29,7 +29,10 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
 ): VerificationStatus => ({
   verified: faker.datatype.boolean(),
   timestamp: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   method: faker.helpers.arrayElement([
@@ -40,7 +43,10 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
     undefined,
   ]),
   website: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   login_provider: faker.helpers.arrayElement([
@@ -51,7 +57,10 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
     undefined,
   ]),
   login_name: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   login_is_organization: faker.helpers.arrayElement([
@@ -59,7 +68,10 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
     undefined,
   ]),
   detail: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   ...overrideResponse,
@@ -77,11 +89,17 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
             Object.values(AvailableMethodType),
           ),
           website: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
           website_token: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
           login_provider: faker.helpers.arrayElement([
@@ -92,7 +110,10 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
             undefined,
           ]),
           login_name: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
           login_is_organization: faker.helpers.arrayElement([
@@ -114,7 +135,10 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
       undefined,
     ]),
     detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
     ...overrideResponse,
@@ -129,7 +153,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostR
 
 export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetResponseMock =
   (overrideResponse: Partial<LinkResponse> = {}): LinkResponse => ({
-    link: faker.string.alpha(20),
+    link: faker.string.alpha({ length: { min: 10, max: 20 } }),
     ...overrideResponse,
   })
 
@@ -137,8 +161,8 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
   (
     overrideResponse: Partial<WebsiteVerificationToken> = {},
   ): WebsiteVerificationToken => ({
-    domain: faker.string.alpha(20),
-    token: faker.string.alpha(20),
+    domain: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    token: faker.string.alpha({ length: { min: 10, max: 20 } }),
     ...overrideResponse,
   })
 
@@ -156,7 +180,11 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     ]),
     status_code: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
+        faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
         null,
       ]),
       undefined,

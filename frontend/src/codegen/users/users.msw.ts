@@ -18,22 +18,43 @@ export const getUsersUsersGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
-    display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    display_name: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     default_account: faker.helpers.arrayElement([
       {
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        github_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        github_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -43,15 +64,29 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gitlab_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -61,15 +96,29 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gnome_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -79,15 +128,29 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        google_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        google_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -97,15 +160,29 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        kde_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        kde_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -122,18 +199,29 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          github_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          github_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -143,18 +231,29 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          gitlab_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -164,18 +263,29 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          gnome_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -185,18 +295,29 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          google_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          google_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -206,18 +327,29 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          kde_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          kde_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -233,7 +365,7 @@ export const getUsersUsersGetResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      name: faker.string.alpha(20),
+      name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       hasRole: faker.datatype.boolean(),
     })),
     github_repos: faker.helpers.arrayElement([
@@ -241,8 +373,12 @@ export const getUsersUsersGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        id: faker.number.int({ min: undefined, max: undefined }),
-        reponame: faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
       })),
       null,
     ]),
@@ -251,17 +387,33 @@ export const getUsersUsersGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        app_id: faker.string.alpha(20),
+        app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         created: `${faker.date.past().toISOString().split(".")[0]}Z`,
       })),
       null,
     ]),
   })),
   pagination: {
-    page: faker.number.int({ min: undefined, max: undefined }),
-    page_size: faker.number.int({ min: undefined, max: undefined }),
-    total: faker.number.int({ min: undefined, max: undefined }),
-    total_pages: faker.number.int({ min: undefined, max: undefined }),
+    page: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    page_size: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    total: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    total_pages: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
   },
   ...overrideResponse,
 })
@@ -274,19 +426,43 @@ export const getRolesUsersRolesGetResponseMock = (): string[] =>
 export const getUserUsersUserIdGetResponseMock = (
   overrideResponse: Partial<UserResult> = {},
 ): UserResult => ({
-  id: faker.number.int({ min: undefined, max: undefined }),
-  display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+  id: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  display_name: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ]),
   default_account: faker.helpers.arrayElement([
     {
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      github_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      github_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -296,12 +472,29 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      gitlab_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -311,12 +504,29 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      gnome_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -326,12 +536,29 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      google_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      google_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -341,12 +568,29 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      kde_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      kde_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -363,15 +607,29 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        github_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        github_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -381,15 +639,29 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gitlab_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -399,15 +671,29 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gnome_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -417,15 +703,29 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        google_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        google_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -435,15 +735,29 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        kde_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        kde_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -459,7 +773,7 @@ export const getUserUsersUserIdGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    name: faker.string.alpha(20),
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     hasRole: faker.datatype.boolean(),
   })),
   github_repos: faker.helpers.arrayElement([
@@ -467,8 +781,12 @@ export const getUserUsersUserIdGetResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.number.int({ min: undefined, max: undefined }),
-      reponame: faker.string.alpha(20),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     null,
   ]),
@@ -477,7 +795,7 @@ export const getUserUsersUserIdGetResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      app_id: faker.string.alpha(20),
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       created: `${faker.date.past().toISOString().split(".")[0]}Z`,
     })),
     null,
@@ -488,19 +806,43 @@ export const getUserUsersUserIdGetResponseMock = (
 export const getAddUserRoleUsersUserIdRolePostResponseMock = (
   overrideResponse: Partial<UserResult> = {},
 ): UserResult => ({
-  id: faker.number.int({ min: undefined, max: undefined }),
-  display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+  id: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  display_name: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ]),
   default_account: faker.helpers.arrayElement([
     {
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      github_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      github_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -510,12 +852,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      gitlab_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -525,12 +884,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      gnome_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -540,12 +916,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      google_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      google_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -555,12 +948,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      kde_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      kde_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -577,15 +987,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        github_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        github_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -595,15 +1019,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gitlab_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -613,15 +1051,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gnome_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -631,15 +1083,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        google_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        google_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -649,15 +1115,29 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        kde_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        kde_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -673,7 +1153,7 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    name: faker.string.alpha(20),
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     hasRole: faker.datatype.boolean(),
   })),
   github_repos: faker.helpers.arrayElement([
@@ -681,8 +1161,12 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.number.int({ min: undefined, max: undefined }),
-      reponame: faker.string.alpha(20),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     null,
   ]),
@@ -691,7 +1175,7 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      app_id: faker.string.alpha(20),
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       created: `${faker.date.past().toISOString().split(".")[0]}Z`,
     })),
     null,
@@ -702,19 +1186,43 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
 export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
   overrideResponse: Partial<UserResult> = {},
 ): UserResult => ({
-  id: faker.number.int({ min: undefined, max: undefined }),
-  display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+  id: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  display_name: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ]),
   default_account: faker.helpers.arrayElement([
     {
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      github_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      github_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -724,12 +1232,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      gitlab_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -739,12 +1264,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      gnome_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -754,12 +1296,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      google_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      google_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -769,12 +1328,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      kde_userid: faker.number.int({ min: undefined, max: undefined }),
-      login: faker.string.alpha(20),
-      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      kde_userid: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
@@ -791,15 +1367,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        github_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        github_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -809,15 +1399,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gitlab_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -827,15 +1431,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gnome_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -845,15 +1463,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        google_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        google_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -863,15 +1495,29 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        kde_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        kde_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -887,7 +1533,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    name: faker.string.alpha(20),
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     hasRole: faker.datatype.boolean(),
   })),
   github_repos: faker.helpers.arrayElement([
@@ -895,8 +1541,12 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.number.int({ min: undefined, max: undefined }),
-      reponame: faker.string.alpha(20),
+      id: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     null,
   ]),
@@ -905,7 +1555,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      app_id: faker.string.alpha(20),
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       created: `${faker.date.past().toISOString().split(".")[0]}Z`,
     })),
     null,
@@ -918,22 +1568,43 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
-    display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    display_name: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     default_account: faker.helpers.arrayElement([
       {
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        github_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        github_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -943,15 +1614,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gitlab_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -961,15 +1646,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        gnome_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -979,15 +1678,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        google_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        google_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -997,15 +1710,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({ min: undefined, max: undefined }),
-        kde_userid: faker.number.int({ min: undefined, max: undefined }),
-        login: faker.string.alpha(20),
-        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        display_name: faker.helpers.arrayElement([
-          faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        kde_userid: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
           null,
         ]),
-        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
@@ -1022,18 +1749,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          github_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          github_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -1043,18 +1781,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          gitlab_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -1064,18 +1813,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          gnome_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          gnome_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -1085,18 +1845,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          google_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          google_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -1106,18 +1877,29 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({ min: undefined, max: undefined }),
-          kde_userid: faker.number.int({ min: undefined, max: undefined }),
-          login: faker.string.alpha(20),
+          id: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          kde_userid: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           display_name: faker.helpers.arrayElement([
-            faker.string.alpha(20),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
-          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          email: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           last_used: faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
             null,
@@ -1133,7 +1915,7 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      name: faker.string.alpha(20),
+      name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       hasRole: faker.datatype.boolean(),
     })),
     github_repos: faker.helpers.arrayElement([
@@ -1141,8 +1923,12 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        id: faker.number.int({ min: undefined, max: undefined }),
-        reponame: faker.string.alpha(20),
+        id: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
       })),
       null,
     ]),
@@ -1151,7 +1937,7 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        app_id: faker.string.alpha(20),
+        app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         created: `${faker.date.past().toISOString().split(".")[0]}Z`,
       })),
       null,

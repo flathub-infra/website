@@ -17,20 +17,35 @@ export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
-    comment: faker.string.alpha(20),
-    app_id: faker.string.alpha(20),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    comment: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     scopes: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     repos: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
-    issued_at: faker.number.int({ min: undefined, max: undefined }),
-    issued_to: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-    expires_at: faker.number.int({ min: undefined, max: undefined }),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    issued_at: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    issued_to: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    expires_at: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
     revoked: faker.datatype.boolean(),
   })),
   is_direct_upload_app: faker.datatype.boolean(),
@@ -40,22 +55,37 @@ export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
 export const getCreateUploadTokenUploadTokensAppIdPostResponseMock = (
   overrideResponse: Partial<NewTokenResponse> = {},
 ): NewTokenResponse => ({
-  token: faker.string.alpha(20),
+  token: faker.string.alpha({ length: { min: 10, max: 20 } }),
   details: {
-    id: faker.number.int({ min: undefined, max: undefined }),
-    comment: faker.string.alpha(20),
-    app_id: faker.string.alpha(20),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    comment: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     scopes: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     repos: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
-    issued_at: faker.number.int({ min: undefined, max: undefined }),
-    issued_to: faker.helpers.arrayElement([faker.string.alpha(20), null]),
-    expires_at: faker.number.int({ min: undefined, max: undefined }),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    issued_at: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    issued_to: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    expires_at: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
     revoked: faker.datatype.boolean(),
   },
   ...overrideResponse,

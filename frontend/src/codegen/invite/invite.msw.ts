@@ -31,9 +31,16 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
     is_self: faker.datatype.boolean(),
-    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    name: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     is_primary: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       undefined,
@@ -43,9 +50,16 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
     is_self: faker.datatype.boolean(),
-    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    name: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     is_primary: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       undefined,

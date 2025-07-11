@@ -17,38 +17,47 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
+          multipleOf: undefined,
         }),
       },
       countries: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
+          multipleOf: undefined,
         }),
       },
       downloads_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
+          multipleOf: undefined,
         }),
       },
       updates_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
+          multipleOf: undefined,
         }),
       },
       delta_downloads_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
+          multipleOf: undefined,
         }),
       },
       category_totals: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        category: faker.string.alpha(20),
-        count: faker.number.int({ min: undefined, max: undefined }),
+        category: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        count: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
       })),
     },
     null,
