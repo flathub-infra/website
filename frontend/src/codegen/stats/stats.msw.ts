@@ -20,10 +20,10 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
         }),
       },
       countries: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        [faker.string.alphanumeric(5)]: {
+          population: faker.number.int({ min: undefined, max: undefined }),
+          downloads: faker.number.int({ min: undefined, max: undefined }),
+        },
       },
       downloads_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({

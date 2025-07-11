@@ -27,7 +27,7 @@ class StatsResultCategoryTotals(BaseModel):
 
 class StatsResult(BaseModel):
     totals: dict[str, int]
-    countries: dict[str, int]
+    countries: dict[str, stats.CountryData]
     downloads_per_day: dict[str, int]
     updates_per_day: dict[str, int]
     delta_downloads_per_day: dict[str, int]
