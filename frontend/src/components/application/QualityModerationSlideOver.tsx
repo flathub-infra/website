@@ -105,9 +105,11 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
 const BrandingPreview = ({
   app,
   color,
+  name,
 }: {
   app: Pick<DesktopAppstream, "icon" | "name" | "summary">
   color: Branding
+  name: string
 }) => {
   const textColor = color
     ? getContrastColor(color.value) === "black"
@@ -116,44 +118,47 @@ const BrandingPreview = ({
     : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
 
   return (
-    <div
-      style={{ backgroundColor: color && color.value }}
-      className={clsx(
-        "relative m-2 flex h-[256px] min-w-[256px] self-center border",
-        "text-flathub-white",
-      )}
-    >
-      <div className="flex flex-col justify-center items-center h-auto w-full">
-        <div className="relative flex shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
-          <LogoImage iconUrl={app.icon} appName={app.name} quality={100} />
-        </div>
-        <div className="flex pt-3">
-          <span
+    <div className="flex flex-col pt-4 text-center">
+      {name}
+      <div
+        style={{ backgroundColor: color && color.value }}
+        className={clsx(
+          "relative m-2 flex h-[256px] min-w-[256px] self-center border",
+          "text-flathub-white",
+        )}
+      >
+        <div className="flex flex-col justify-center items-center h-auto w-full">
+          <div className="relative flex shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
+            <LogoImage iconUrl={app.icon} appName={app.name} quality={100} />
+          </div>
+          <div className="flex pt-3">
+            <span
+              className={clsx(
+                "truncate whitespace-nowrap text-2xl font-black",
+                textColor,
+              )}
+            >
+              {app.name}
+            </span>
+          </div>
+          <div
             className={clsx(
-              "truncate whitespace-nowrap text-2xl font-black",
+              "line-clamp-2 text-sm text-center",
               textColor,
+              "lg:line-clamp-3 pb-8",
             )}
           >
-            {app.name}
-          </span>
-        </div>
-        <div
-          className={clsx(
-            "line-clamp-2 text-sm text-center",
-            textColor,
-            "lg:line-clamp-3 pb-8",
-          )}
-        >
-          {app.summary}
-        </div>
-        <div
-          className={clsx(
-            "line-clamp-2 text-sm text-center",
-            textColor,
-            "lg:line-clamp-3 pb-8",
-          )}
-        >
-          {color.value}
+            {app.summary}
+          </div>
+          <div
+            className={clsx(
+              "line-clamp-2 text-sm text-center",
+              textColor,
+              "lg:line-clamp-3 pb-8",
+            )}
+          >
+            {color.value}
+          </div>
         </div>
       </div>
     </div>
@@ -198,9 +203,17 @@ const ShowBrandingButton = ({
         />
       </Button>
       <section {...getCollapseProps()}>
-        <div className="flex">
-          <BrandingPreview app={app} color={primaryLight} />
-          <BrandingPreview app={app} color={primaryDark} />
+        <div className="flex flex-col sm:flex-row ">
+          <BrandingPreview
+            app={app}
+            color={primaryLight}
+            name={t("quality-guideline.light")}
+          />
+          <BrandingPreview
+            app={app}
+            color={primaryDark}
+            name={t("quality-guideline.dark")}
+          />
         </div>
       </section>
     </div>

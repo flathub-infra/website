@@ -647,7 +647,9 @@
     "failing-x-checks_one": "Failing {{count}} check",
     "failing-x-checks_other": "Failing {{count}} checks",
     "hide-branding-preview": "Hide branding preview",
-    "show-branding-preview": "Show branding preview"
+    "show-branding-preview": "Show branding preview",
+    "light": "Light",
+    "dark": "Dark"
   },
   "lightbox": {
     "close": "Close",
