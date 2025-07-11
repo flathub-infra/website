@@ -13,7 +13,7 @@ import type { AppOfTheDay, AppsOfTheWeek } from ".././model"
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetResponseMock = (
   overrideResponse: Partial<AppOfTheDay> = {},
 ): AppOfTheDay => ({
-  app_id: faker.string.alpha(20),
+  app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
   day: faker.date.past().toISOString().split("T")[0],
   ...overrideResponse,
 })
@@ -25,8 +25,12 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    app_id: faker.string.alpha(20),
-    position: faker.number.int({ min: undefined, max: undefined }),
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    position: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
     isFullscreen: faker.datatype.boolean(),
   })),
   ...overrideResponse,

@@ -24,7 +24,7 @@ import type {
 export const getStatusVendingStatusGetResponseMock = (
   overrideResponse: Partial<VendingStatus> = {},
 ): VendingStatus => ({
-  status: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   can_take_payments: faker.datatype.boolean(),
   needs_attention: faker.datatype.boolean(),
   details_submitted: faker.datatype.boolean(),
@@ -34,16 +34,16 @@ export const getStatusVendingStatusGetResponseMock = (
 export const getStartOnboardingVendingStatusOnboardingPostResponseMock = (
   overrideResponse: Partial<VendingRedirect> = {},
 ): VendingRedirect => ({
-  status: faker.string.alpha(20),
-  target_url: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  target_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetResponseMock = (
   overrideResponse: Partial<VendingRedirect> = {},
 ): VendingRedirect => ({
-  status: faker.string.alpha(20),
-  target_url: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  target_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
@@ -54,23 +54,45 @@ export const getGetGlobalVendingConfigVendingConfigGetResponseMock = (
   platforms: {
     [faker.string.alphanumeric(5)]: {
       depends: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         undefined,
       ]),
       aliases: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
-      ).map(() => faker.string.alpha(20)),
-      keep: faker.number.int({ min: undefined, max: undefined }),
+      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+      keep: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
       stripe_account: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         undefined,
       ]),
     },
   },
-  fee_fixed_cost: faker.number.int({ min: undefined, max: undefined }),
-  fee_cost_percent: faker.number.int({ min: undefined, max: undefined }),
-  fee_prefer_percent: faker.number.int({ min: undefined, max: undefined }),
+  fee_fixed_cost: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  fee_cost_percent: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  fee_prefer_percent: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
   ...overrideResponse,
 })
 
@@ -78,10 +100,22 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetResponseMock = (
   overrideResponse: Partial<VendingSetup> = {},
 ): VendingSetup => ({
   status: faker.helpers.arrayElement(["ok", "no-config"] as const),
-  currency: faker.string.alpha(20),
-  appshare: faker.number.int({ min: undefined, max: undefined }),
-  recommended_donation: faker.number.int({ min: undefined, max: undefined }),
-  minimum_payment: faker.number.int({ min: undefined, max: undefined }),
+  currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  appshare: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  recommended_donation: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  minimum_payment: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
   ...overrideResponse,
 })
 
@@ -89,39 +123,58 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostResponseMock = (
   overrideResponse: Partial<VendingSetup> = {},
 ): VendingSetup => ({
   status: faker.helpers.arrayElement(["ok", "no-config"] as const),
-  currency: faker.string.alpha(20),
-  appshare: faker.number.int({ min: undefined, max: undefined }),
-  recommended_donation: faker.number.int({ min: undefined, max: undefined }),
-  minimum_payment: faker.number.int({ min: undefined, max: undefined }),
+  currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  appshare: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  recommended_donation: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  minimum_payment: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
   ...overrideResponse,
 })
 
 export const getPostAppVendingStatusVendingappAppIdPostResponseMock = (
   overrideResponse: Partial<VendingOutput> = {},
 ): VendingOutput => ({
-  status: faker.string.alpha(20),
-  transaction: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  transaction: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetResponseMock = (
   overrideResponse: Partial<TokenList> = {},
 ): TokenList => ({
-  status: faker.string.alpha(20),
-  total: faker.number.int({ min: undefined, max: undefined }),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  total: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
   tokens: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.string.alpha(20),
+    id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     state: faker.helpers.arrayElement([
       "unredeemed",
       "redeemed",
       "cancelled",
     ] as const),
-    name: faker.string.alpha(20),
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     token: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
     created: `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -136,15 +189,18 @@ export const getCreateTokensVendingappAppIdTokensPostResponseMock =
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.string.alpha(20),
+      id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       state: faker.helpers.arrayElement([
         "unredeemed",
         "redeemed",
         "cancelled",
       ] as const),
-      name: faker.string.alpha(20),
+      name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       token: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         undefined,
       ]),
       created: `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -157,7 +213,7 @@ export const getCancelTokensVendingappAppIdTokensCancelPostResponseMock =
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      token: faker.string.alpha(20),
+      token: faker.string.alpha({ length: { min: 10, max: 20 } }),
       status: faker.helpers.arrayElement([
         "invalid",
         "cancelled",
@@ -168,23 +224,23 @@ export const getCancelTokensVendingappAppIdTokensCancelPostResponseMock =
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostResponseMock = (
   overrideResponse: Partial<RedemptionResult> = {},
 ): RedemptionResult => ({
-  status: faker.string.alpha(20),
-  reason: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getAppInfoVendingappAppIdInfoGetResponseMock = (
   overrideResponse: Partial<VendingApplicationInformation> = {},
 ): VendingApplicationInformation => ({
-  app_id: faker.string.alpha(20),
+  app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
   kind: faker.helpers.arrayElement([
     "GAME",
     "PRODUCTIVITY",
     "GENERIC",
   ] as const),
-  kind_reason: faker.string.alpha(20),
+  kind_reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
   foss: faker.datatype.boolean(),
-  foss_reason: faker.string.alpha(20),
+  foss_reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 

@@ -23,7 +23,7 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    appid: faker.string.alpha(20),
+    appid: faker.string.alpha({ length: { min: 10, max: 20 } }),
     is_new_submission: faker.datatype.boolean(),
     updated_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
@@ -36,7 +36,11 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
       Object.values(ModerationRequestType),
     ),
   })),
-  apps_count: faker.number.int({ min: undefined, max: undefined }),
+  apps_count: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
   ...overrideResponse,
 })
 
@@ -47,11 +51,23 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
-    app_id: faker.string.alpha(20),
+    id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
-    build_id: faker.number.int({ min: undefined, max: undefined }),
-    job_id: faker.number.int({ min: undefined, max: undefined }),
+    build_id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    job_id: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
     is_outdated: faker.datatype.boolean(),
     request_type: faker.helpers.arrayElement(
       Object.values(ModerationRequestType),
@@ -61,7 +77,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
         {
           keys: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.string.alpha(20),
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
               Array.from(
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1,
@@ -72,7 +88,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
           },
           current_values: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.string.alpha(20),
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
               Array.from(
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1,
@@ -88,7 +104,10 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
     ]),
     is_new_submission: faker.datatype.boolean(),
     handled_by: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
     handled_at: faker.helpers.arrayElement([
@@ -103,11 +122,18 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       undefined,
     ]),
     comment: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
   })),
-  requests_count: faker.number.int({ min: undefined, max: undefined }),
+  requests_count: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
   ...overrideResponse,
 })
 
@@ -122,7 +148,9 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock
 export const getSubmitReviewModerationRequestsIdReviewPostResponseMock =
   (): SubmitReviewModerationRequestsIdReviewPost200 =>
     faker.helpers.arrayElement([
-      { github_issue_url: faker.string.alpha(20) },
+      {
+        github_issue_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      },
       null,
     ])
 

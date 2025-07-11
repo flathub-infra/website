@@ -22,22 +22,25 @@ export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    method: faker.string.alpha(20),
-    name: faker.string.alpha(20),
+    method: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
   }))
 
 export const getGetUserinfoAuthUserinfoGetResponseMock = (
   overrideResponse: Partial<UserInfo> = {},
 ): UserInfo => ({
   displayname: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   dev_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     undefined,
   ]),
   permissions: faker.helpers.arrayElement([
@@ -48,25 +51,28 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     undefined,
   ]),
   invited_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     undefined,
   ]),
-  invite_code: faker.string.alpha(20),
+  invite_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
   accepted_publisher_agreement_at: faker.helpers.arrayElement([
     `${faker.date.past().toISOString().split(".")[0]}Z`,
     null,
   ]),
   default_account: {
-    login: faker.string.alpha(20),
+    login: faker.string.alpha({ length: { min: 10, max: 20 } }),
     avatar: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
   },
@@ -74,9 +80,12 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     github: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
-          login: faker.string.alpha(20),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
         },
@@ -87,9 +96,12 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     gitlab: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
-          login: faker.string.alpha(20),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
         },
@@ -100,9 +112,12 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     gnome: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
-          login: faker.string.alpha(20),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
         },
@@ -113,9 +128,12 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     kde: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
-          login: faker.string.alpha(20),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
             undefined,
           ]),
         },
@@ -133,24 +151,27 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock = (
   dev_flatpaks: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
-  ).map(() => faker.string.alpha(20)),
+  ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   ...overrideResponse,
 })
 
 export const getGetDeleteuserAuthDeleteuserGetResponseMock = (
   overrideResponse: Partial<GetDeleteUserResult> = {},
 ): GetDeleteUserResult => ({
-  status: faker.string.alpha(20),
-  token: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  token: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getDoDeleteuserAuthDeleteuserPostResponseMock = (
   overrideResponse: Partial<DeleteUserResult> = {},
 ): DeleteUserResult => ({
-  status: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   message: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   ...overrideResponse,
