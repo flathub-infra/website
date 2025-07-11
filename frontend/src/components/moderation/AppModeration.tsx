@@ -10,12 +10,64 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import Breadcrumbs from "../Breadcrumbs"
-import { getModerationAppModerationAppsAppIdGet } from "src/codegen"
+import {
+  getModerationAppModerationAppsAppIdGet,
+  getModerationAppsModerationAppsGet,
+} from "src/codegen"
 import { ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
   appId: string
+}
+
+const NavigatePreviousNext = ({ appId }) => {
+  const [nextAppId, setNextAppId] = useState<string | undefined>()
+  const [previousAppId, setPreviousAppId] = useState<string | undefined>()
+
+  const listQuery = useQuery({
+    queryKey: ["moderation", 9999],
+    queryFn: async ({ signal }) => {
+      const apps = await getModerationAppsModerationAppsGet(
+        {
+          limit: 9999,
+        },
+        {
+          withCredentials: true,
+          signal,
+        },
+      )
+
+      return apps.data
+    },
+  })
+
+  if (listQuery.isLoading) {
+    return null
+  }
+
+  const currentIndex = listQuery.data.apps.findIndex((a) => a.appid === appId)
+
+  if (currentIndex === 0) {
+    setPreviousAppId(undefined)
+  } else {
+    setPreviousAppId(listQuery.data.apps[currentIndex - 1].appid)
+  }
+
+  if (currentIndex === listQuery.data.apps.length) {
+    setNextAppId(undefined)
+  } else {
+    setNextAppId(listQuery.data.apps[currentIndex + 1].appid)
+  }
+
+  return (
+    <div className="flex gap-3">
+      {previousAppId && (
+        <Link href={`/admin/moderation/${previousAppId}`}>Previous</Link>
+      )}
+      {nextAppId && <Link href={`/admin/moderation/${nextAppId}`}>Next</Link>}
+    </div>
+  )
 }
 
 const AppModeration: FunctionComponent<Props> = ({ appId }) => {
@@ -126,6 +178,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         >
           {t("manifest")}
         </a>
+        <NavigatePreviousNext appId={appId} />
       </div>
 
       <div className="flex space-x-8">
