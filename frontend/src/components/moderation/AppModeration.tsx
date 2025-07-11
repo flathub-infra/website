@@ -42,22 +42,25 @@ const NavigatePreviousNext = ({ appId }) => {
     },
   })
 
+  useEffect(() => {
+    const currentIndex = listQuery.data?.apps?.findIndex(
+      (a) => a.appid === appId,
+    )
+    if (currentIndex <= 0) {
+      setPreviousAppId(undefined)
+    } else {
+      setPreviousAppId(listQuery.data?.apps[currentIndex - 1].appid)
+    }
+
+    if (currentIndex >= listQuery.data?.apps?.length - 1) {
+      setNextAppId(undefined)
+    } else {
+      setNextAppId(listQuery.data?.apps[currentIndex + 1].appid)
+    }
+  }, [setNextAppId, setPreviousAppId, listQuery])
+
   if (listQuery.isLoading || listQuery.data.apps.length === 0) {
     return null
-  }
-
-  const currentIndex = listQuery.data.apps.findIndex((a) => a.appid === appId)
-
-  if (currentIndex <= 0) {
-    setPreviousAppId(undefined)
-  } else {
-    setPreviousAppId(listQuery.data.apps[currentIndex - 1].appid)
-  }
-
-  if (currentIndex >= listQuery.data.apps.length) {
-    setNextAppId(undefined)
-  } else {
-    setNextAppId(listQuery.data.apps[currentIndex + 1].appid)
   }
 
   return (
