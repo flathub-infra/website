@@ -75,7 +75,7 @@ export const AppOfTheDay = ({
             {appOfTheDay.summary}
           </span>
         </div>
-        <div className="pb-8 col-start-2 row-start-1 row-span-2 relative items-center sm:items-start justify-center flex overflow-hidden">
+        <div className="col-start-2 row-start-1 row-span-2 relative h-[128px] justify-center flex overflow-hidden">
           <div className="absolute drop-shadow-md">
             <LogoImage
               size="128"
