@@ -488,7 +488,9 @@
     "needed-to-pass-x": "Tulee läpäistä {{x}}",
     "hide-branding-preview": "Piilota tuotemerikin esikatselu",
     "show-branding-preview": "Näytä tuotemerkin esikatselu",
-    "problems": "Jos haluat kysyä meiltä tietyistä laatuohjeisiin liittyvistä ongelmista, voit avata <2>kysymyksen</2>."
+    "problems": "Jos haluat kysyä meiltä tietyistä laatuohjeisiin liittyvistä ongelmista, voit avata <2>kysymyksen</2>.",
+    "light": "Vaalea",
+    "dark": "Tumma"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä.",
@@ -647,5 +649,8 @@
     "previous": "Edellinen",
     "show-screenshot-fullscreen": "Näytä kuvakaappaus koko näytössä"
   },
-  "count-verified-desktop-apps": "Vahvistetut työpöytäsovellukset"
+  "count-verified-desktop-apps": "Vahvistetut työpöytäsovellukset",
+  "vendingSharesPreview": {
+    "app": "Sovellus"
+  }
 }

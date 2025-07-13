@@ -289,8 +289,8 @@
   "music": "Zene",
   "flos": "Szabad és nyílt forráskódú",
   "moderation-pending-reviews": "Függőben lévő vélemények",
-  "moderation-appstream-changes": "Alkalmazásfolyam módosításai",
-  "moderation-appstream": "Alkalmazásfolyam",
+  "moderation-appstream-changes": "Appstream módosítások",
+  "moderation-appstream": "Appstream",
   "moderation-key": "Kulcs",
   "moderation-old-value": "Régi érték",
   "moderation-new-value": "Új érték",
@@ -489,7 +489,9 @@
     "needed-to-pass-x": "Átmenni kell: {{x}}",
     "hide-branding-preview": "Márkaépítés előnézetének elrejtése",
     "show-branding-preview": "Márkaépítés előnézetének megjelenítése",
-    "problems": "Ha konkrét minőségi irányelvvel kapcsolatos problémákról szeretne érdeklődni, nyisson meg egy <2>jegyet</2>."
+    "problems": "Ha konkrét minőségi irányelvvel kapcsolatos problémákról szeretne érdeklődni, nyisson meg egy <2>jegyet</2>.",
+    "light": "Világos",
+    "dark": "Sötét"
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító",
