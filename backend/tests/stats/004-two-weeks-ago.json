@@ -6,6 +6,34 @@
   "delta_downloads": 15,
   "downloads": 819,
   "updates": 5,
+  "ref_by_country": {
+    "com.anydesk.Anydesk": {
+      "DE": [
+        2,
+        0
+      ],
+      "FI": [
+        42,
+        4
+      ]
+    },
+    "org.sugarlabs.Maze": {
+      "FI": [
+        516,
+        56
+      ]
+    },
+    "com.wps.Office": {
+      "NL": [
+        15,
+        0
+      ],
+      "FI": [
+        11,
+        16
+      ]
+    }
+  },
   "refs": {
     "com.anydesk.Anydesk": {
       "x86_64": [
