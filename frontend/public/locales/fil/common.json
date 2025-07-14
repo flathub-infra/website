@@ -383,7 +383,7 @@
   "about-claim": "<0>Kung ikaw ay isang user na naghahanap ng mga app o isang developer na naghahanap upang maabot ang higit pang mga user, <2>ang Flathub ay ang pinakamahusay na pagpipilian para sa mga app sa Linux.</2></0>",
   "transparent-safety": "<0>Transparent na kaligtasan</0> — Malinaw na makita kung kailan <3>na-verify</3> ang isang app bilang nagmumula sa developer nito, anong mga pahintulot ang kailangan nito, at kung ito ay open source at auditable o hindi",
   "tastefully-curated": "<0>Masarap na na-curate</0> — Tumuklas ng mga kawili-wili, de-kalidad na app sa buong Flathub gamit ang aming staff curation na nagpapakita ng pinakamahusay na inaalok",
-  "millions-users": "<0>Makaabot sa mga milyon-milyong user</0> — Ang Flathub ay kasama sa mga maraming Linux distribution, ay <2>madaling i-install</2>, at may milyon-milyong mga aktibong user",
+  "millions-users": "<0>Makaabot sa mga milyon-milyong user</0> — Ang Flathub ay kasama sa mga maraming Linux distribution, ay <3>madaling i-install</3>, at may milyon-milyong mga aktibong user",
   "transparent": "<0>Independent at transparent</0> — Kami ay isang grassroots open source na komunidad na nangangasiwa ng pinakamahusay sa kung ano ang inaalok ng ecosystem",
   "integration": "<0>Native na app store integration</0> — Kalimutan ang mga web download; naghahatid ang Flathub ng mga app at <3>mga awtomatikong update</3> sa mga user sa kanilang native na app store client kung saan nilang inaasahan",
   "could-not-find-match-for-search": "Hindi makahanap ng anumang mga app na tumutugma sa iyong paghahanap.",
@@ -647,5 +647,13 @@
     "close": "Isara",
     "show-screenshot-fullscreen": "Ipakita ang screenshot nang fullscreen"
   },
-  "count-verified-desktop-apps": "Mga naka-verify na desktop app"
+  "count-verified-desktop-apps": "Mga naka-verify na desktop app",
+  "vendingSharesPreview": {
+    "sliderLabel": "Ibahagi ang distribution slider",
+    "sliderThumbLabel": "Pamamahagi ng app share: {{percentage}}",
+    "app": "App",
+    "sdk": "SDK",
+    "appShare": "App share: {{percentage}}",
+    "sdkShare": "SDK share: {{percentage}}"
+  }
 }

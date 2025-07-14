@@ -406,7 +406,9 @@
     "branding-has-primary-brand-colors": "メインブランドカラーあり",
     "needed-to-pass-x": "{{x}}に合格する必要あり",
     "branding-good-primary-brand-colors": "良好なメインブランドカラー",
-    "problems": "具体的な品質ガイドラインの問題について質問があれば、自由に<2>issue</2>を投稿してください。"
+    "problems": "具体的な品質ガイドラインの問題について質問があれば、自由に<2>issue</2>を投稿してください。",
+    "light": "ライト",
+    "dark": "ダーク"
   },
   "user-data-subfolder-x": "ユーザーデータサブフォルダー {{folder}}",
   "can-acquire-arbitrary-permissions": "任意の権限を取得可能",
@@ -612,7 +614,7 @@
   "kind-purchase-app": "{{appName}} を購入",
   "apps-by-tag": "タグ「{{tag}}」のアプリ",
   "mobile-apps": "モバイルアプリ",
-  "millions-users": "<0>百万ユーザーに届く</0> — Flathub だけで複数の Linux ディストリビューションに対応し、 <2>簡単にインストールでき</2>、また百万以上のアクティブユーザーを獲得しています",
+  "millions-users": "<0>百万ユーザーに届く</0> — Flathub だけで複数の Linux ディストリビューションに対応し、 <3>簡単にインストールでき</3>、また百万以上のアクティブユーザーを獲得しています",
   "docs-guidance": "<0>明解な解説と案内</0> — 広範な<2>解説文書</2>、何千もの<5>アプリのマニフェスト</5>の公開、また大規模なコミュニティからいつでも助けが得られます",
   "more-mobile-apps": "モバイルアプリを見る",
   "on-the-go": "外出用",
@@ -637,5 +639,8 @@
     "previous": "前へ",
     "show-screenshot-fullscreen": "全画面でスクリーンショットを表示"
   },
-  "count-verified-desktop-apps": "認証済みデスクトップアプリ数"
+  "count-verified-desktop-apps": "認証済みデスクトップアプリ数",
+  "vendingSharesPreview": {
+    "sdk": "SDK"
+  }
 }
