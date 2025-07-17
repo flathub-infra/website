@@ -119,7 +119,9 @@ const Diagnostic = ({
               screenshots branch:
             </Text>
             <ul>
-              {diagnostic.data?.urls.map((url) => <li key={url}>{url}</li>)}
+              {diagnostic.data?.urls.map((url) => (
+                <li key={url}>{url}</li>
+              ))}
             </ul>
           </Section>
         )}
@@ -133,7 +135,9 @@ const Diagnostic = ({
               branch:
             </Text>
             <ul>
-              {diagnostic.data?.urls.map((url) => <li key={url}>{url}</li>)}
+              {diagnostic.data?.urls.map((url) => (
+                <li key={url}>{url}</li>
+              ))}
             </ul>
           </Section>
         )}
