@@ -99,8 +99,8 @@
   "rss-description": "Subscribe to RSS feeds from Flathub",
   "rss-apps": "Do you need an RSS app? Find excellent ones on <2>Flathub</2>.",
   "apps-by-developer": "Apps by {{developer}}",
-  "apps-by-tag": "Apps by tag '{{tag}}'",
-  "search-for-query": "Search for '{{query}}'",
+  "apps-by-tag": "Apps by tag “{{tag}}”",
+  "search-for-query": "Search for “{{query}}”",
   "moderation-pending-reviews": "Pending Reviews",
   "moderation-appstream-changes": "Appstream Changes",
   "moderation-appstream": "Appstream",
@@ -131,7 +131,7 @@
   "delete-account": "Delete Account",
   "delete-account-prompt": "Delete your account?",
   "delete-account-entry": "I wish to delete my account",
-  "entry-confirmation-prompt": "Enter \"{{text}}\" to continue.",
+  "entry-confirmation-prompt": "Enter “{{text}}” to continue.",
   "login-with-provider": "Log in with {{provider}}",
   "by": "by {{developer}}",
   "install": "Install",
@@ -364,7 +364,7 @@
   "revoked": "Revoked",
   "revoke": "Revoke",
   "revoke-token": "Revoke Token",
-  "revoke-token-description": "Are you sure you want to revoke the token '{{name}}'?",
+  "revoke-token-description": "Are you sure you want to revoke the token “{{name}}”?",
   "repo": "Repo",
   "show-expired-tokens": "Show expired tokens",
   "category-distribution": "Category Distribution",
@@ -661,7 +661,7 @@
     "screenshot": "Screenshot"
   },
   "download": {
-    "install-x": "Install \"{{x}}\"",
-    "fallback-instructions": "<0>Opening \"{{name}}\" in your software manager...</0><1>If nothing happens, maybe your system does not support <i>flatpak+https</i> urls.</1><2>In that case you can:</2><3><0>Download the <2>.flatpakref file</2></0><1>Then run it from your file manager</1></3><4><0>Instructions to install Flatpak</0></4>"
+    "install-x": "Install “{{x}}”",
+    "fallback-instructions": "<0>Opening “{{name}}” in your software manager...</0><1>If nothing happens, maybe your system does not support <i>flatpak+https</i> urls.</1><2>In that case you can:</2><3><0>Download the <2>.flatpakref file</2></0><1>Then run it from your file manager</1></3><4><0>Instructions to install Flatpak</0></4>"
   }
 }
