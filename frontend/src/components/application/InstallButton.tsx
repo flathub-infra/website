@@ -22,7 +22,7 @@ export default function InstallButton({ appId }: { appId: string }) {
   const installClicked = (e) => {
     e.preventDefault()
     trackEvent({ category: "App", action: "Install", name: appId })
-    push(`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`)
+    push(`${appId}/install`)
   }
 
   const flatpakInstallCopied = () => {
@@ -44,7 +44,7 @@ export default function InstallButton({ appId }: { appId: string }) {
   return (
     <div className="inline-flex w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
       <Link
-        href={`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`}
+        href={`apps/${appId}/install`}
         onClick={installClicked}
         className={clsx(
           "hover:opacity-75 active:opacity-50",
