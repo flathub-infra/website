@@ -499,7 +499,9 @@
     "failing-x-checks_one": "{{count}} kontroll ei õnnestunud",
     "failing-x-checks_other": "{{count}} kontrolli ei õnnestunud",
     "high-quality-app-data": "Rakenduse andmed on kõrgekvaliteedilised",
-    "problems": "Kui soovid küsida meil nõu konkreetses kvaliteedikontrolli kontekstis, siis palun tee seda <2>meie arenduse haldusliideses</2>."
+    "problems": "Kui soovid küsida meil nõu konkreetses kvaliteedikontrolli kontekstis, siis palun tee seda <2>meie arenduse haldusliideses</2>.",
+    "light": "Hele",
+    "dark": "Tume"
   },
   "rebase-onto-other-app": "Sisesta rakenduse tunnus, mida nüüd soovid kasutama hakata",
   "unverified": "Verifitseerimata",
@@ -647,5 +649,15 @@
     "screenshot": "Ekraanitõmmis",
     "show-screenshot-fullscreen": "Näita ekraanitõmmist täisekraanivaates"
   },
-  "count-verified-desktop-apps": "Verifitseeritud töölauarakendused"
+  "count-verified-desktop-apps": "Verifitseeritud töölauarakendused",
+  "vendingSharesPreview": {
+    "sdk": "SDK",
+    "app": "Rakendus",
+    "sliderThumbLabel": "Rakenduse jagamise osakaal: {{percentage}}",
+    "sliderLabel": "Jagunemine",
+    "appShare": "Rakenduse osakaal: {{percentage}}",
+    "sdkShare": "SDK osakaal: {{percentage}}",
+    "flathubShare": "Flathubi osakaal: {{percentage}}",
+    "screenReaderBreakdown": "Jagunemise vaade. Kasuta nooleklahve ja kohenda jagunemist rakenduse, SDK ja Flathubi vahel. Jagunemine hetkel: Rakendus: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Kulud kokku: {{totalCost}}."
+  }
 }

@@ -146,7 +146,9 @@
     "details": "Sonraí",
     "high-quality-app-data": "Sonraí aip ar ardchaighdeán",
     "app-data-review-pending": "Athbhreithniú sonraí aipeanna",
-    "problems": "Más mian leat ceist a chur orainn faoi fhadhbanna ar leith le treoirlínte cáilíochta, ná bíodh aon leisce ort <2>ceist a tharraingt anuas</2>."
+    "problems": "Más mian leat ceist a chur orainn faoi fhadhbanna ar leith le treoirlínte cáilíochta, ná bíodh aon leisce ort <2>ceist a tharraingt anuas</2>.",
+    "light": "Solas",
+    "dark": "Dorcha"
   },
   "special-license-explanation": "Forbraítear an aip seo faoin gceadúnas speisialta <1>{{ license }}</1>.",
   "more-pages": "Tuilleadh leathanaigh",
