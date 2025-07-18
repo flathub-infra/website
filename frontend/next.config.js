@@ -111,6 +111,12 @@ const nextConfig = (phase) => ({
         permanent: true,
       },
       {
+        source: "/apps/:path*/flatpakhttps",
+        destination:
+          "flatpak+https://dl.flathub.org/repo/appstream/:path*.flatpakref",
+        permanent: false,
+      },
+      {
         source: "/apps/details/:path*",
         destination: "/apps/:path*",
         permanent: true,
