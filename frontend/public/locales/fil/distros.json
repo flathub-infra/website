@@ -35,7 +35,7 @@
   },
   "chrome_os": {
     "step-3": {
-      "text": "<p>Para i-install ang Flatpak, patakbuhin ang sumusunod sa terminal:</p> <2></2> <4>Available ang mas napapanahon na Flatpak package sa <2>Debian backports repository</2>. </4>",
+      "text": "<p>Para i-install ang Flatpak, patakbuhin ang sumusunod sa terminal:</p> <2></2>",
       "name": "I-install ang Flatpak"
     },
     "step-5": {
@@ -74,9 +74,10 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</0> <2>Kung gumagamit ka ng lumang bersyon, <2>mag-upgrade sa Endless OS 3</2>.</2>"
+    "introduction": "<0>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</0>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<0>Naka-install bilang default ang Flatpak sa Red Hat Enterprise Linux Workstation 9 at mas bago. Para magsimula, ang kailangan mo lang gawin ay i-enable ang Flathub, kung saan ay ang pinakamahusay na paraan upang makakuha ng Flatpak apps. I-download at i-install ang <2>Flathub repository file</2>.</0>"
   }
 }

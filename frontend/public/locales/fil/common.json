@@ -605,7 +605,9 @@
     "failing-x-checks_one": "{{count}} nabibigong pagsusuri",
     "failing-x-checks_other": "{{count}} na nabibigong pagsusuri",
     "hide-branding-preview": "Itago ang preview ng branding",
-    "show-branding-preview": "Ipakita ang preview ng branding"
+    "show-branding-preview": "Ipakita ang preview ng branding",
+    "light": "Maliwanag",
+    "dark": "Madilim"
   },
   "delete-account-prompt": "Burahin ang iyong account?",
   "moderation-approved-by": "Inaprubahan ni/ng {{handledBy}} sa {{handledAt}} ({{handledAtRel}})",
@@ -649,11 +651,13 @@
   },
   "count-verified-desktop-apps": "Mga naka-verify na desktop app",
   "vendingSharesPreview": {
-    "sliderLabel": "Ibahagi ang distribution slider",
+    "sliderLabel": "Share ng distribution slider",
     "sliderThumbLabel": "Pamamahagi ng app share: {{percentage}}",
     "app": "App",
     "sdk": "SDK",
     "appShare": "App share: {{percentage}}",
-    "sdkShare": "SDK share: {{percentage}}"
+    "sdkShare": "SDK share: {{percentage}}",
+    "flathubShare": "Flathub share: {{percentage}}",
+    "screenReaderBreakdown": "Share breakdown slider. Gamitin ang arrow keys para i-adjust ang pamamahagi sa pagitan ng App, SDK at Flathub. Kasalukuyang distribution: App: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Kabuuang bayad: {{totalCost}}."
   }
 }

@@ -488,7 +488,9 @@
     "show-branding-preview": "顯示品牌預覽",
     "hide-branding-preview": "隱藏品牌預覽",
     "needed-to-pass-x": "必須通過 {{x}}",
-    "problems": "若您想詢問我們具體的品質指引問題，請不吝開啟<2>問題</2>。"
+    "problems": "若您想詢問我們具體的品質指引問題，請不吝開啟<2>問題</2>。",
+    "light": "淺色",
+    "dark": "深色"
   },
   "app-listing-quality": "應用程式清單品質",
   "moderation-build-id": "建構 ID",

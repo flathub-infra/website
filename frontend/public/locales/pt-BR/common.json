@@ -427,7 +427,9 @@
     "show-branding-preview": "Mostrar visualização da marca",
     "needed-to-pass-x": "Necessário passar {{x}}",
     "request-a-review-question": "Deseja solicitar uma revisão?",
-    "problems": "Se você quiser nos perguntar sobre problemas específicos de diretrizes de qualidade, sinta-se à vontade para abrir <2>um problema</2>."
+    "problems": "Se você quiser nos perguntar sobre problemas específicos de diretrizes de qualidade, sinta-se à vontade para abrir <2>um problema</2>.",
+    "light": "Clara",
+    "dark": "Escura"
   },
   "user-data-subfolder-x": "Subpasta de dados do usuário {{folder}}",
   "new-community-repository": "Novo aplicativo de repositório comunitário",
