@@ -53,7 +53,7 @@
     "linkifyjs": "^4.3.1",
     "lucide-react": "^0.514.0",
     "new-github-issue-url": "^1.1.0",
-    "next": "15.3.3",
+    "next": "15.4.1",
     "next-i18next": "^15.4.2",
     "next-seo": "^6.7.1",
     "next-sitemap": "^4.2.3",
@@ -90,10 +90,10 @@
     "@tanstack/eslint-plugin-query": "^5.78.0",
     "@tanstack/react-query-devtools": "^5.81.5",
     "@types/node": "^22.15.23",
-    "@types/react": "19.1.6",
+    "@types/react": "19.1.8",
     "chromatic": "^13.1.2",
     "eslint": "^9.29.0",
-    "eslint-config-next": "15.3.3",
+    "eslint-config-next": "15.4.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.5.0",
     "msw": "^2.7.5",
@@ -113,6 +113,6 @@
   "packageManager": "yarn@4.7.0",
   "resolutions": {
     "react-is": "19.0.0",
-    "@types/react": "19.1.6"
+    "@types/react": "19.1.8"
   }
 }
