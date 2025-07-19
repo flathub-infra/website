@@ -167,10 +167,30 @@ async function generateSetupInstructions() {
     // Replace class= with className=
     const modifiedContent3 = modifiedContent2.replace(/class=/g, "className=")
 
+    const darkSource = distro.logo_dark
+      ? `<source
+                  srcSet={"img/distro/${distro.logo_dark}"}
+                  media="(prefers-color-scheme: dark)"
+                />`
+      : ""
+
     // Use sed to replace <terminal-command> tags with <CodeCopy text={...} />
     const modifiedContent4 =
       `const ${name} = ({ locale }: { locale: string }) => {const {t} = useTranslation()
-      return <><h1>{t("distros:${slugName}.distroName")}</h1><ol className='distrotut'>
+      return <>
+            <div className="flex flex-col items-center">
+              <picture>
+                ${darkSource}
+                <Image
+                  width={96}
+                  height={96}
+                  src={"img/distro/${distro.logo}"}
+                  alt="${distro.name}"
+                />
+              </picture>
+              <h1>{t("distros:${slugName}.distroName")}</h1>
+            </div>
+              <ol className='distrotut'>
       ` + modifiedContent3.replace(/<terminal-command>/g, "<CodeCopy text={`")
     const modifiedContent5 = modifiedContent4.replace(
       /<\/terminal-command>/g,
@@ -198,7 +218,8 @@ async function generateSetupInstructions() {
     'import { Trans, useTranslation } from "next-i18next";\n'
 
   // Prefix with import Link from "next/link"
-  const linkStatement = 'import Link from "next/link";\n\n'
+  const nextImportStatements =
+    'import Link from "next/link";\nimport Image from "next/image";\n\n'
 
   // Prefix with import { HowToJsonLd } from "next-seo";
   const nextSeoStatement = 'import { HowToJsonLd } from "next-seo";\n'
@@ -211,7 +232,7 @@ async function generateSetupInstructions() {
       nextSeoStatement +
       importStatement +
       jsxImportStatement +
-      linkStatement +
+      nextImportStatements +
       fs.readFileSync(distrosTsPath, "utf8"),
   )
 
