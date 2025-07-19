@@ -266,10 +266,6 @@
       "text": "<0>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <2>instal aplikasi</2>!</0> <p>Catatan: instalasi grafis aplikasi Flatpak mungkin tidak dapat dilakukan dengan Raspberry Pi OS.</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak telah diinstal dan repositori Flathub telah dikonfigurasi secara default pada Clear Linux saat menginstal paket desktop.</p> <2></2> <4>Sekarang yang perlu Anda lakukan hanyalah <2>instal aplikasi</2>!</4>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

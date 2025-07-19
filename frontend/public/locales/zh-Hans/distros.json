@@ -258,10 +258,6 @@
       "text": "<0>要完成设置，请重启系统。现在您要做的就是<2>安装应用</2>！</0> <p>注意：Raspberry Pi OS 可能无法通过图形界面安装 Flatpak 应用。</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>在 Clear Linux 中安装桌面套件时，‌Flatpak 已默认安装且 Flathub 仓库已预先配置。</p> <2></2> <4>现在您要做的就是<2>安装应用</2>！</4>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

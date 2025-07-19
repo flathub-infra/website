@@ -117,10 +117,6 @@
       "name": "Reiniciar"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p> Flatpak está instalado y el repositorio Flathub está preconfigurado de manera predeterminada en Clear Linux al instalar el paquete de escritorio.</p> <2></2> <4>¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</4>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

@@ -257,9 +257,6 @@
       "name": "Добавление репозитория Flathub"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-3": {

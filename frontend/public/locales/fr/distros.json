@@ -422,10 +422,6 @@
     "introduction": "<0>La prise en charge de Flatpak est intégrée à Linux Mint 18.3 et aux versions plus récentes : aucune configuration n'est requise !</0>",
     "distroName": "Linux Mint"
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Sur Clear Linux avec le bundle de bureau, Flatpak est installé par défaut et le dépôt Flathub est préconfiguré.</p> <2></2> <4>Tout ce qu'il vous reste à faire est <2>d'installer des apps</2> !</4>"
-  },
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<0>Flatpak est installé par défaut sur PureOS. Pour commencer, il vous faut simplement activer Flathub, la meilleure manière d'obtenir des apps Flatpak. Téléchargez simplement le <2>fichier de dépôt Flathub</2> et installez-le.</0> <2>Tout ce qu'il vous reste à faire est <2>d'installer des apps</2> !</2>"
