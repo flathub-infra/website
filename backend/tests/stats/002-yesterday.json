@@ -6,17 +6,56 @@
   "delta_downloads": 15,
   "downloads": 1964,
   "updates": 5,
-  "refs": {
+  "ref_by_country": {
     "com.anydesk.Anydesk": {
-      "i386": [7, 5],
-      "x86_64": [1511, 1234]
+      "DE": [
+        5,
+        4
+      ],
+      "FI": [
+        8,
+        4
+      ]
     },
     "org.sugarlabs.Maze": {
-      "x86_64": [1, 0]
+      "FI": [
+        51,
+        56
+      ]
     },
     "com.wps.Office": {
-      "i386": [6, 6],
-      "x86_64": [439, 234]
+      "FI": [
+        161,
+        16
+      ]
+    }
+  },
+  "refs": {
+    "com.anydesk.Anydesk": {
+      "i386": [
+        7,
+        5
+      ],
+      "x86_64": [
+        1511,
+        1234
+      ]
+    },
+    "org.sugarlabs.Maze": {
+      "x86_64": [
+        1,
+        0
+      ]
+    },
+    "com.wps.Office": {
+      "i386": [
+        6,
+        6
+      ],
+      "x86_64": [
+        439,
+        234
+      ]
     }
   }
 }
