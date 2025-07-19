@@ -311,6 +311,22 @@
         '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Raspberry Pi OS.</p>'
 
+- name: Void Linux
+  logo: "void.svg"
+  logo_dark: "void-dark.svg"
+  steps:
+    - name: Install Flatpak
+      text: "
+        <p>To install Flatpak on Void Linux, run the following in a terminal:</p>
+        <terminal-command>sudo xbps-install -S flatpak</terminal-command>"
+    - name: Add the Flathub repository
+      text: "
+        <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
+    - name: Restart
+      text: '
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
+
 - name: NixOS
   logo: "nixos.svg"
   steps:
