@@ -145,8 +145,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>Flatpak is installed by default on CentOS 7 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>"
+    "distroName": "CentOS Stream",
+    "introduction": "<0>Flatpak is installed by default on CentOS Stream 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
