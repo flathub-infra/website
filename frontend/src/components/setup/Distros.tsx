@@ -18,7 +18,7 @@ export const distroMap = (locale: string) => {
     ["Arch", <Arch locale={locale} />],
     ["Debian", <Debian locale={locale} />],
     ["Rocky Linux", <Rocky_Linux locale={locale} />],
-    ["CentOS", <CentOS locale={locale} />],
+    ["CentOS", <CentOS_Stream locale={locale} />],
     ["AlmaLinux", <AlmaLinux locale={locale} />],
     ["Gentoo", <Gentoo locale={locale} />],
     ["Kubuntu", <Kubuntu locale={locale} />],
@@ -1092,7 +1092,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const CentOS = ({ locale }: { locale: string }) => {
+const CentOS_Stream = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -1100,9 +1100,10 @@ const CentOS = ({ locale }: { locale: string }) => {
       <ol className="distrotut">
         <Trans i18nKey="distros:centos.introduction">
           <p>
-            Flatpak is installed by default on CentOS 7 and newer, when using
-            GNOME. To get started, all you need to do is enable Flathub, which
-            is the best way to get Flatpak apps. Just download and install the{" "}
+            Flatpak is installed by default on CentOS Stream 8 and newer, when
+            using GNOME. To get started, all you need to do is enable Flathub,
+            which is the best way to get Flatpak apps. Just download and install
+            the{" "}
             <a
               className="btn btn-default"
               href="https://dl.flathub.org/repo/flathub.flatpakrepo"
