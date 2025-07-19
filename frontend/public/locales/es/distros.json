@@ -11,7 +11,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Instalar Flatpak",
-      "text": "<p>Flatpak está disponible en los repositorios por defecto de todas las versiones actuales de openSUSE Leap y openSUSE Tumbleweed. </p> <2>Si prefiere una instalación gráfica, puede instalar Flatpak utilizando un \"instalador de 1 clic\" de <2>software.opensuse.org</2>. Si su versión de distribución no se muestra por defecto, haga clic en <5>Mostrar flatpak para otras distribuciones</5> primero y luego seleccione de la lista. </2> <p>Como alternativa, instale Flatpak desde la línea de comandos usando Zypper:</p> <6></6>"
+      "text": "<p>Flatpak está disponible en los repositorios predeterminados de todas las versiones actuales de openSUSE Leap y openSUSE Tumbleweed. </p> <2>Si prefiere una instalación gráfica, puede instalar Flatpak usando un \"instalador de 1 clic\" de <2>software.opensuse.org</2>. Si su versión de distribución no se muestra por defecto, haga clic en <5>Mostrar</5> en la categoría Distribuciones no compatibles y luego seleccione de la lista. </2> <p>Como alternativa, instale Flatpak desde la línea de comandos usando Zypper:</p> <6></6>"
     },
     "step-2": {
       "name": "Añadir el repositorio de Flathub",
@@ -68,7 +68,7 @@
     },
     "step-3": {
       "name": "Reinicia",
-      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak aún no es posible con Solus, pero estará disponible en un futuro cercano.</p>"
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones Flatpak solo está disponible a través de GNOME Software y/o KDE Discover.</p>"
     },
     "step-2": {
       "name": "Añade el repositorio de Flathub",
@@ -110,7 +110,7 @@
     },
     "step-2": {
       "name": "Añade el repositorio de Flathub",
-      "text": "<p> Flathub es el mejor lugar para obtener aplicaciones Flatpak . Para habilitarlo, ejecute:</p> <2></2> <4><0>Nota importante:</0> A partir de marzo de 2021, las Raspberry Pi todavía se envían con la versión de 32 bits del sistema operativo Raspberry Pi. Sin embargo, Flathub comenzó a eliminar gradualmente el soporte para esa arquitectura. Si considera que Flathub es una fuente importante de aplicaciones, se recomienda utilizar el sistema operativo Raspberry Pi de 64 bits, ya que es más probable que haya aplicaciones más nuevas disponibles para esa plataforma.</4>"
+      "text": "<p> Flathub es el mejor lugar para obtener aplicaciones Flatpak . Para activarlo, ejecute:</p> <2></2> <4><0>Nota importante:</0> Se recomienda usar el sistema operativo Raspberry Pi de 64 bits, ya que es más probable que las aplicaciones más nuevas estén solo para esa plataforma.</4>"
     },
     "step-3": {
       "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak podría no ser posible con Raspberry Pi OS.</p>",
@@ -409,7 +409,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0> El soporte de Flatpak está integrado en Zorin OS</0> <p>Puedes usar la aplicación Software Store para descargar aplicaciones Flatpak .</p>"
+    "introduction": "<0>El soporte de Flatpak está integrado en Zorin OS</0> <p>Puede usar la aplicación Software Store para descargar aplicaciones Flatpak .</p>"
   },
   "deepin": {
     "distroName": "Deepin",

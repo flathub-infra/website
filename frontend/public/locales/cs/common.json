@@ -85,7 +85,7 @@
   "link-more-accounts": "Propojit více účtů",
   "audio-and-video": "Audio a video",
   "donate": "Podpořit",
-  "search-for-query": "Hledat '{{query}}'",
+  "search-for-query": "Vyhledávání “{{query}}”",
   "linked-accounts": "Propojené účty",
   "install": "Nainstalovat",
   "retry-or-go-home": "Můžete to zkusit znovu nebo se vrátit na <2>domovskou stránku</2>.",
@@ -97,7 +97,7 @@
   "switch-language": "Přepnout jazyk",
   "delete-account-prompt": "Opravdu chcete odstranit svůj účet?",
   "payment": "Platba",
-  "entry-confirmation-prompt": "Zadejte \"{{text}}\" pro pokračování.",
+  "entry-confirmation-prompt": "Zadejte “{{text}}” pro pokračování.",
   "expiry": "Vyprší",
   "stripe-error-payment_intent_authentication_failure": "Nastaly problémy s ověřením vaší platební metody. Zkuste zvolit jinou a nebo to zkuste znovu.",
   "installs-over-time": "Počet instalací v průběhu času",
@@ -510,7 +510,7 @@
   "create-token": "Vytvořit token",
   "scope-publish": "Publikovat sestavení",
   "no-tokens-to-show": "Žádné tokeny k zobrazení.",
-  "revoke-token-description": "Jste si jisti, že chcete zrušit token '{{name}}'?",
+  "revoke-token-description": "Jste si jisti, že chcete zrušit token “{{name}}”?",
   "revoke": "Zrušit",
   "show-expired-tokens": "Zobrazit prošlé tokeny",
   "scope-upload": "Nahrát soubory k sestavení",
@@ -629,7 +629,7 @@
     "missing-brand-colors": "Chybí barvy značky",
     "banner-preview-description": "Chcete-li s bannerem snadno experimentovat, použijte <2>náhled banneru</2>"
   },
-  "apps-by-tag": "Aplikace podle štítku '{{tag}}'",
+  "apps-by-tag": "Aplikace podle štítku “{{tag}}”",
   "emulator": "Emulátory",
   "gameemulator": "Emulátory",
   "game-section-description": "Hry a aplikace pro spuštění vašich oblíbených titulů",
@@ -660,5 +660,9 @@
     "sdkShare": "Podíl SDK: {{percentage}}",
     "sliderThumbLabel": "Distribuce podílů aplikací: {{percentage}}",
     "screenReaderBreakdown": "Sdílet členění jezdce. Pomocí šipek upravte rozdělení mezi aplikace, SDK a Flathub. Aktuální rozdělení: Aplikace: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}, Celkové náklady: {{totalCost}}."
+  },
+  "download": {
+    "install-x": "Nainstalovat “{{x}}”",
+    "fallback-instructions": "<0>Otevírání “{{name}}” ve vašem správci softwaru...</0><1>Pokud se nic nestane, možná váš systém nepodporuje <i>flatpak+https</i> urls.</1><2>V takovém případě můžete:</2><3><0>Stáhnout soubor <2>.flatpakref</2></0><1>Poté jej spustit z vašeho správce souborů</1></3><4><0>Pokyny pro instalaci Flatpaku</0></4>"
   }
 }
