@@ -470,6 +470,10 @@ def test_app_stats_by_id(client):
         },
         "installs_last_month": 567,
         "installs_last_7_days": 467,
+        "installs_per_country": {
+            "FI": 920,
+            "US": 1,
+        },
     }
 
     assert response.status_code == 200

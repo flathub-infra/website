@@ -47,7 +47,7 @@ def _get_stats_for_date(
     redis_key = f"stats:date:{date.isoformat()}"
     stats_txt = database.redis_conn.get(redis_key)
     if stats_txt is None:
-        response = session.get(urlunparse(stats_json_url))
+        response = session.get(urlunparse(stats_json_url), timeout=30.0)
         if response.status_code == 404:
             return None
         response.raise_for_status()
@@ -84,6 +84,35 @@ def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
                     app_totals[arch][1] += downloads[1]
                     app_totals[arch][2] += downloads[0] - downloads[1]
     return totals
+
+
+def _get_app_stats_per_country() -> dict[str, dict[str, int]]:
+    # Skip last two days as flathub-stats publishes partial statistics
+    edate = datetime.date.today() - datetime.timedelta(days=2)
+    sdate = FIRST_STATS_DATE
+
+    app_stats_per_country: dict[str, dict[str, int]] = {}
+
+    with httpx.Client() as session:
+        for i in range((edate - sdate).days + 1):
+            date = sdate + datetime.timedelta(days=i)
+            stats = _get_stats_for_date(date, session)
+
+            if (
+                stats is not None
+                and "ref_by_country" in stats
+                and stats["ref_by_country"] is not None
+            ):
+                for app_id, app_stats in stats["ref_by_country"].items():
+                    if app_id not in app_stats_per_country:
+                        app_stats_per_country[app_id] = {}
+                    for country, downloads in app_stats.items():
+                        if country not in app_stats_per_country[app_id]:
+                            app_stats_per_country[app_id][country] = 0
+                        app_stats_per_country[app_id][country] += (
+                            downloads[0] - downloads[1]
+                        )
+    return app_stats_per_country
 
 
 def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
@@ -257,6 +286,7 @@ def update(sqldb):
     stats_dict = _get_stats(len(frontend_app_ids))
 
     app_stats_per_day = _get_app_stats_per_day()
+    app_stats_per_country = _get_app_stats_per_country()
 
     trending_apps: list = []
     for app_id, dict in app_stats_per_day.items():
@@ -319,6 +349,11 @@ def update(sqldb):
         if app_id in app_stats_per_day:
             stats_apps_dict[app_id]["installs_per_day"] = app_stats_per_day[app_id]
 
+        if app_id in app_stats_per_country:
+            stats_apps_dict[app_id]["installs_per_country"] = app_stats_per_country[
+                app_id
+            ]
+
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
@@ -366,6 +401,9 @@ def update(sqldb):
         stats_apps_dict[app_id]["installs_per_day"] = stats_apps_dict[app_id].get(
             "installs_per_day", {}
         )
+        stats_apps_dict[app_id]["installs_per_country"] = stats_apps_dict[app_id].get(
+            "installs_per_country", {}
+        )
 
     new_id: str
     old_id_list: list[str]
@@ -376,6 +414,7 @@ def update(sqldb):
                 "installs_last_month": 0,
                 "installs_last_7_days": 0,
                 "installs_per_day": {},
+                "installs_per_country": {},
             }
 
         for old_id in old_id_list:
@@ -404,6 +443,14 @@ def update(sqldb):
             for day in sorted(stats_apps_dict[new_id]["installs_per_day"]):
                 sorted_days[day] = stats_apps_dict[new_id]["installs_per_day"][day]
             stats_apps_dict[new_id]["installs_per_day"] = sorted_days
+
+            for country, count in stats_apps_dict[old_id][
+                "installs_per_country"
+            ].items():
+                if country in stats_apps_dict[new_id]["installs_per_country"]:
+                    stats_apps_dict[new_id]["installs_per_country"][country] += count
+                else:
+                    stats_apps_dict[new_id]["installs_per_country"][country] = count
 
     database.redis_conn.set("stats", orjson.dumps(stats_dict))
     database.redis_conn.mset(
