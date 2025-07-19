@@ -54,13 +54,13 @@ const Ubuntu = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/ubuntu.svg"}
             alt="Ubuntu"
           />
         </picture>
-      <h1>{t("distros:ubuntu.distroName")}</h1>
+        <h1>{t("distros:ubuntu.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -200,13 +200,13 @@ const Fedora = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/fedora.svg"}
             alt="Fedora"
           />
         </picture>
-      <h1>{t("distros:fedora.distroName")}</h1>
+        <h1>{t("distros:fedora.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:fedora.introduction">
@@ -252,13 +252,13 @@ const Manjaro = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/manjaro.svg"}
             alt="Manjaro"
           />
         </picture>
-      <h1>{t("distros:manjaro.distroName")}</h1>
+        <h1>{t("distros:manjaro.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -343,13 +343,13 @@ const Endless_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/endless.svg"}
             alt="Endless OS"
           />
         </picture>
-      <h1>{t("distros:endless_os.distroName")}</h1>
+        <h1>{t("distros:endless_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:endless_os.introduction">
@@ -374,13 +374,13 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/altlinux.svg"}
             alt="ALT Linux"
           />
         </picture>
-      <h1>{t("distros:alt_linux.distroName")}</h1>
+        <h1>{t("distros:alt_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -493,13 +493,13 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/chrome-os.svg"}
             alt="Chrome OS"
           />
         </picture>
-      <h1>{t("distros:chrome_os.distroName")}</h1>
+        <h1>{t("distros:chrome_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -672,13 +672,13 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/redhat.svg"}
             alt="Red Hat Enterprise Linux"
           />
         </picture>
-      <h1>{t("distros:red_hat_enterprise_linux.distroName")}</h1>
+        <h1>{t("distros:red_hat_enterprise_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:red_hat_enterprise_linux.introduction">
@@ -726,13 +726,13 @@ const Linux_Mint = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/mint.svg"}
             alt="Linux Mint"
           />
         </picture>
-      <h1>{t("distros:linux_mint.distroName")}</h1>
+        <h1>{t("distros:linux_mint.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:linux_mint.introduction">
@@ -753,13 +753,13 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/opensuse.svg"}
             alt="openSUSE"
           />
         </picture>
-      <h1>{t("distros:opensuse.distroName")}</h1>
+        <h1>{t("distros:opensuse.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -876,13 +876,13 @@ const Arch = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/arch.svg"}
             alt="Arch"
           />
         </picture>
-      <h1>{t("distros:arch.distroName")}</h1>
+        <h1>{t("distros:arch.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -952,13 +952,13 @@ const Debian = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/debian.svg"}
             alt="Debian"
           />
         </picture>
-      <h1>{t("distros:debian.distroName")}</h1>
+        <h1>{t("distros:debian.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1103,13 +1103,13 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/rockylinux.svg"}
             alt="Rocky Linux"
           />
         </picture>
-      <h1>{t("distros:rocky_linux.distroName")}</h1>
+        <h1>{t("distros:rocky_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1224,13 +1224,13 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/centos.svg"}
             alt="CentOS Stream"
           />
         </picture>
-      <h1>{t("distros:centos.distroName")}</h1>
+        <h1>{t("distros:centos.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:centos.introduction">
@@ -1264,13 +1264,13 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/almalinux.svg"}
             alt="AlmaLinux"
           />
         </picture>
-      <h1>{t("distros:almalinux.distroName")}</h1>
+        <h1>{t("distros:almalinux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:almalinux.introduction">
@@ -1303,13 +1303,13 @@ const Gentoo = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/gentoo.svg"}
             alt="Gentoo"
           />
         </picture>
-      <h1>{t("distros:gentoo.distroName")}</h1>
+        <h1>{t("distros:gentoo.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1412,13 +1412,13 @@ const Kubuntu = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/kubuntu.svg"}
             alt="Kubuntu"
           />
         </picture>
-      <h1>{t("distros:kubuntu.distroName")}</h1>
+        <h1>{t("distros:kubuntu.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1545,13 +1545,13 @@ const Solus = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/solus.svg"}
             alt="Solus"
           />
         </picture>
-      <h1>{t("distros:solus.distroName")}</h1>
+        <h1>{t("distros:solus.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1674,13 +1674,13 @@ const Alpine = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/alpine.svg"}
             alt="Alpine"
           />
         </picture>
-      <h1>{t("distros:alpine.distroName")}</h1>
+        <h1>{t("distros:alpine.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1822,13 +1822,13 @@ const Mageia = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/mageia.svg"}
             alt="Mageia"
           />
         </picture>
-      <h1>{t("distros:mageia.distroName")}</h1>
+        <h1>{t("distros:mageia.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -1946,13 +1946,13 @@ const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/openmandriva.svg"}
             alt="OpenMandriva Lx"
           />
         </picture>
-      <h1>{t("distros:openmandriva_lx.distroName")}</h1>
+        <h1>{t("distros:openmandriva_lx.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:openmandriva_lx.introduction">
@@ -1976,13 +1976,13 @@ const Pop_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/pop-os.svg"}
             alt="Pop!_OS"
           />
         </picture>
-      <h1>{t("distros:pop_os.distroName")}</h1>
+        <h1>{t("distros:pop_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:pop_os.introduction">
@@ -2007,13 +2007,13 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/elementary-os.svg"}
             alt="elementary OS"
           />
         </picture>
-      <h1>{t("distros:elementary_os.distroName")}</h1>
+        <h1>{t("distros:elementary_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2070,13 +2070,13 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/raspberry-pi-os.svg"}
             alt="Raspberry Pi OS"
           />
         </picture>
-      <h1>{t("distros:raspberry_pi_os.distroName")}</h1>
+        <h1>{t("distros:raspberry_pi_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2194,13 +2194,13 @@ const Void_Linux = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/void.svg"}
             alt="Void Linux"
           />
         </picture>
-      <h1>{t("distros:void_linux.distroName")}</h1>
+        <h1>{t("distros:void_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2303,13 +2303,13 @@ const NixOS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/nixos.svg"}
             alt="NixOS"
           />
         </picture>
-      <h1>{t("distros:nixos.distroName")}</h1>
+        <h1>{t("distros:nixos.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2426,13 +2426,13 @@ const PureOS = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/pureos.svg"}
             alt="PureOS"
           />
         </picture>
-      <h1>{t("distros:pureos.distroName")}</h1>
+        <h1>{t("distros:pureos.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:pureos.introduction">
@@ -2465,13 +2465,13 @@ const Zorin_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/zorin-os.svg"}
             alt="Zorin OS"
           />
         </picture>
-      <h1>{t("distros:zorin_os.distroName")}</h1>
+        <h1>{t("distros:zorin_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:zorin_os.introduction">
@@ -2490,13 +2490,13 @@ const Deepin = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/deepin.svg"}
             alt="Deepin"
           />
         </picture>
-      <h1>{t("distros:deepin.distroName")}</h1>
+        <h1>{t("distros:deepin.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2624,13 +2624,13 @@ const Pardus = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/pardus.svg"}
             alt="Pardus"
           />
         </picture>
-      <h1>{t("distros:pardus.distroName")}</h1>
+        <h1>{t("distros:pardus.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2760,13 +2760,13 @@ const MX_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/mxlinux.svg"}
             alt="MX Linux"
           />
         </picture>
-      <h1>{t("distros:mx_linux.distroName")}</h1>
+        <h1>{t("distros:mx_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2850,13 +2850,13 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/pisi.svg"}
             alt="Pisi GNU/Linux"
           />
         </picture>
-      <h1>{t("distros:pisi_gnulinux.distroName")}</h1>
+        <h1>{t("distros:pisi_gnulinux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -2968,13 +2968,13 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/endeavouros.svg"}
             alt="EndeavourOS"
           />
         </picture>
-      <h1>{t("distros:endeavouros.distroName")}</h1>
+        <h1>{t("distros:endeavouros.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -3083,13 +3083,13 @@ const KDE_neon = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/kdeneon.svg"}
             alt="KDE neon"
           />
         </picture>
-      <h1>{t("distros:kde_neon.distroName")}</h1>
+        <h1>{t("distros:kde_neon.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:kde_neon.introduction">
@@ -3114,13 +3114,13 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
             media="(prefers-color-scheme: dark)"
           />
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/guix.svg"}
             alt="GNU Guix"
           />
         </picture>
-      <h1>{t("distros:gnu_guix.distroName")}</h1>
+        <h1>{t("distros:gnu_guix.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -3227,13 +3227,13 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/crystallinux.svg"}
             alt="Crystal Linux"
           />
         </picture>
-      <h1>{t("distros:crystal_linux.distroName")}</h1>
+        <h1>{t("distros:crystal_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
@@ -3346,13 +3346,13 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/vanillaos.svg"}
             alt="Vanilla OS"
           />
         </picture>
-      <h1>{t("distros:vanilla_os.distroName")}</h1>
+        <h1>{t("distros:vanilla_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:vanilla_os.introduction">
@@ -3381,13 +3381,13 @@ const Salix = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <Image
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             src={"img/distro/salix.svg"}
             alt="Salix"
           />
         </picture>
-      <h1>{t("distros:salix.distroName")}</h1>
+        <h1>{t("distros:salix.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <Trans i18nKey="distros:salix.introduction">

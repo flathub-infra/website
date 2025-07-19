@@ -182,8 +182,8 @@ async function generateSetupInstructions() {
               <picture>
                 ${darkSource}
                 <Image
-                  width={96}
-                  height={96}
+                  width={128}
+                  height={128}
                   src={"img/distro/${distro.logo}"}
                   alt="${distro.name}"
                 />
