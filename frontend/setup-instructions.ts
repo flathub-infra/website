@@ -56,7 +56,28 @@ async function generateSetupInstructions() {
 
   const translations = {}
 
+  fs.appendFileSync(
+    distrosTsPath,
+    "export const distroMap = (locale: string) => {return new Map<string, JSX.Element>([",
+  )
+
   // Iterate over each distro
+  for (const distro of parsedDistros) {
+    const originalName = distro.name.replaceAll("/", "")
+    let name = distro.name
+      .replaceAll("/", "")
+      .replaceAll(" ", "_")
+      .replaceAll("!", "")
+    name = name.charAt(0).toUpperCase() + name.slice(1)
+
+    // Postfix with distroMap.set("Fedora", <Fedora />)
+    const distroMapStatement = `["${originalName}", <${name} locale={locale} />],`
+
+    fs.appendFileSync(distrosTsPath, distroMapStatement + "\n")
+  }
+
+  fs.appendFileSync(distrosTsPath, "])};\n")
+
   for (const distro of parsedDistros) {
     const originalName = distro.name.replaceAll("/", "")
     let name = distro.name
@@ -148,7 +169,7 @@ async function generateSetupInstructions() {
 
     // Use sed to replace <terminal-command> tags with <CodeCopy text={...} />
     const modifiedContent4 =
-      `export const ${name} = () => {const {t} = useTranslation()
+      `const ${name} = ({ locale }: { locale: string }) => {const {t} = useTranslation()
       return <><h1>{t("distros:${slugName}.distroName")}</h1><ol className='distrotut'>
       ` + modifiedContent3.replace(/<terminal-command>/g, "<CodeCopy text={`")
     const modifiedContent5 = modifiedContent4.replace(
@@ -159,10 +180,6 @@ async function generateSetupInstructions() {
     const modifiedContent6 = modifiedContent5 + `</ol></>}\n`
 
     fs.writeFileSync(tempFilePath, modifiedContent6)
-
-    // Postfix with distroMap.set("Fedora", <Fedora />)
-    const distroMapStatement = `distroMap.set("${originalName}", <${name} />);`
-    fs.appendFileSync(tempFilePath, distroMapStatement)
 
     // Concat to shared file and a newline
     fs.appendFileSync(distrosTsPath, fs.readFileSync(tempFilePath, "utf8"))
@@ -180,22 +197,21 @@ async function generateSetupInstructions() {
   const useTranslationStatement =
     'import { Trans, useTranslation } from "next-i18next";\n'
 
+  // Prefix with import Link from "next/link"
+  const linkStatement = 'import Link from "next/link";\n\n'
+
   // Prefix with import { HowToJsonLd } from "next-seo";
   const nextSeoStatement = 'import { HowToJsonLd } from "next-seo";\n'
-
-  // Prefix with export const distroMap = new Map<string, JSX.Element>()
-  const distroMapStatement =
-    "export const distroMap = new Map<string, JSX.Element>();\n"
 
   const jsxImportStatement = "import type { JSX } from 'react';\n"
 
   fs.writeFileSync(
     distrosTsPath,
-    distroMapStatement +
-      useTranslationStatement +
+    useTranslationStatement +
       nextSeoStatement +
       importStatement +
       jsxImportStatement +
+      linkStatement +
       fs.readFileSync(distrosTsPath, "utf8"),
   )
 
