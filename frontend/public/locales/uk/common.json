@@ -50,7 +50,7 @@
   "project-website": "Вебсайт проєкту",
   "log-out": "Вийти",
   "delete-account-entry": "Я хочу видалити свій обліковий запис",
-  "entry-confirmation-prompt": "Уведіть «{{text}}», щоби продовжити.",
+  "entry-confirmation-prompt": "Уведіть \"{{text}}\", щоби продовжити.",
   "categories": "Категорії",
   "games": "Ігри",
   "frequently-asked-questions": "Часті запитання",
@@ -119,7 +119,7 @@
   "code-examples": "Приклади коду",
   "also-available-as-svg": "Також доступно у <2>форматі SVG</2>",
   "rss-description": "Підписатися на RSS-стрічки від Flathub",
-  "search-for-query": "Пошук '{{query}}'",
+  "search-for-query": "Пошук \"{{query}}\"",
   "linked-accounts": "Пов’язані облікові записи",
   "link-more-accounts": "Пов'язати більше облікових записів",
   "popular-apps": "Популярні застосунки",
@@ -510,7 +510,7 @@
   "create-token": "Створити токен",
   "scope-publish": "Опублікувати збірку",
   "no-tokens-to-show": "Немає токенів.",
-  "revoke-token-description": "Ви впевнені, що хочете відкликати токен '{{name}}'?",
+  "revoke-token-description": "Ви впевнені, що хочете відкликати токен \"{{name}}\"?",
   "revoke": "Відкликати",
   "show-expired-tokens": "Показати нечинні токени",
   "scope-upload": "Вивантажити файли до збірки",
@@ -619,7 +619,7 @@
   "action-donate": "Підтримати",
   "created": "Створено",
   "mobile-apps": "Мобільні застосунки",
-  "apps-by-tag": "Застосунки за міткою '{{tag}}'",
+  "apps-by-tag": "Програми за тегом “{{tag}}”",
   "on-the-go": "Завжди напохваті",
   "mobile-apps-description": "Застосунки для телефонів та планшетів на базі Linux",
   "more-mobile-apps": "Інші мобільні застосунки",
@@ -660,5 +660,9 @@
     "sdk": "SDK",
     "sliderLabel": "Повзунок розподілу спільних ресурсів",
     "appShare": "Спільний доступ до додатка: {{percentage}}"
+  },
+  "download": {
+    "install-x": "Встановити “{{x}}”",
+    "fallback-instructions": "<0>Відкриття “{{name}}” у вашому менеджері програмного забезпечення...</0><1>Якщо нічого не відбувається, можливо, ваша система не підтримує URL-адреси <i>flatpak+https</i>.</1><2>У такому разі ви можете:</2><3><0>Завантажити файл <2>.flatpakref</2></0><1>Потім запустити його з вашого файлового менеджера</1></3><4><0>Інструкції щодо встановлення Flatpak</0></4>"
   }
 }

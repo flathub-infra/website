@@ -91,7 +91,7 @@
   "failed-to-load-refresh": "资源无法加载。请尝试刷新。",
   "whoops": "糟糕！",
   "an-error-occurred-server": "{{errorCode}} - 在服务器上发生了错误。",
-  "entry-confirmation-prompt": "输入“{{text}}”以继续。",
+  "entry-confirmation-prompt": "输入“{{text}}”继续。",
   "rss-feeds-description": "现在可以订阅我们的 RSS 源，在阅读器中获取 Flathub 的最新消息！",
   "retry-or-go-home": "您可能想要重试或返回<2>主页</2>。",
   "also-available-as-svg": "还提供 <2>SVG 格式</2>",

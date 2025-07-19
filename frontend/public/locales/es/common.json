@@ -68,7 +68,7 @@
   "code-examples": "Ejemplos de código",
   "also-available-as-svg": "También disponible en formato <2>SVG</2>",
   "rss-description": "Suscribirse a los canales RSS de Flathub",
-  "search-for-query": "Buscar '{{query}}'",
+  "search-for-query": "Buscar «{{query}}»",
   "categories": "Categorías",
   "linked-accounts": "Cuentas vinculadas",
   "link-more-accounts": "Vincular más cuentas",
@@ -146,7 +146,7 @@
   "stripe-error-expired_card": "La tarjeta ha caducado. Compruebe la fecha de caducidad o use otra tarjeta.",
   "stripe-error-incorrect_cvc": "El código de seguridad de la tarjeta es incorrecto. Compruebe el código de seguridad de la tarjeta o use otra tarjeta.",
   "delete-account-prompt": "¿Eliminar su cuenta?",
-  "entry-confirmation-prompt": "Introduzca \"{{text}}\" para continuar.",
+  "entry-confirmation-prompt": "Introduzca «{{text}}» para continuar.",
   "delete-account-entry": "Deseo eliminar mi cuenta",
   "payment": "Formas de pago",
   "make-donation": "Hacer donación",
@@ -490,7 +490,9 @@
     "hide-branding-preview": "Ocultar la vista previa de la marca",
     "show-branding-preview": "Vista previa de la marca",
     "needed-to-pass-x": "Necesario para aprobar {{x}}",
-    "problems": "Si le gustaría preguntarnos acerca de problemas específicos en la guía de calidad, siéntase libre de abrir <2>una incidencia</2>."
+    "problems": "Si le gustaría preguntarnos acerca de problemas específicos en la guía de calidad, siéntase libre de abrir <2>una incidencia</2>.",
+    "light": "Claro",
+    "dark": "Oscuro"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación",
@@ -509,7 +511,7 @@
   "create-token": "Crear testigo",
   "scope-publish": "Publicar la compilación",
   "no-tokens-to-show": "No hay testigos que mostrar.",
-  "revoke-token-description": "¿Está seguro de que quiere revocar el testigo '{{name}}'?",
+  "revoke-token-description": "¿Está seguro de que quiere revocar el testigo «{{name}}»?",
   "revoke": "Revocar",
   "show-expired-tokens": "Mostrar los testigos expirados",
   "scope-upload": "Subir archivos a la compilación",
@@ -616,7 +618,7 @@
   "action-donate": "Donar",
   "action-purchase": "Comprar",
   "kind-donate-app": "Donar a {{appName}}",
-  "apps-by-tag": "Aplicaciones por etiqueta '{{tag}}'",
+  "apps-by-tag": "Aplicaciones por etiqueta «{{tag}}»",
   "mobile-apps": "Aplicaciones móviles",
   "on-the-go": "En movimiento",
   "mobile-apps-description": "Aplicaciones para sus teléfonos y tabletas Linux",
@@ -650,6 +652,15 @@
     "previous": "Anterior"
   },
   "vendingSharesPreview": {
-    "app": "Aplicación"
+    "app": "Aplicación",
+    "sliderThumbLabel": "Distribución de la cuota de la aplicación: {{percentage}}",
+    "sdk": "SDK",
+    "appShare": "Cuota de la aplicación: {{percentage}}",
+    "sdkShare": "Cuota del SDK: {{percentage}}",
+    "flathubShare": "Cuota de Flathub: {{percentage}}"
+  },
+  "download": {
+    "install-x": "Instalar «{{x}}»",
+    "fallback-instructions": "<0>Abriendo «{{name}}» en su gestor de software...</0><1>Si no ocurre nada, puede que su sistema no soporte URLs <i>flatpak+https</i> .</1><2>En ese caso puede:</2><3><0>Descargar el archivo <2>.flatpakref</2></0><1>Después, ejecutarlo desde su gestor de archivos</1></3><4><0>Instrucciones para instalar Flatpak</0></4>"
   }
 }

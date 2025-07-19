@@ -36,7 +36,7 @@
   "forum": "المنتدى",
   "open-in-new-tab": "افتح في لسان جديد",
   "go-home": "انتقل إلى الصفحة الرئيسة",
-  "search-for-query": "ابحث عن ‹{{query}}›",
+  "search-for-query": "ابحث عن «{{query}}»",
   "categories": "الفئات",
   "linked-accounts": "الحسابات المرتبطة",
   "link-more-accounts": "اربط مزيدًا من الحسابات",
@@ -90,7 +90,7 @@
   "networking": "شبكات",
   "purchase-terms-confirmation": "أؤكِّد قراءتي لشروط وأحكام فلاتهب وأوافق على التنازل عن فترة 14 يوم تسكين لهذا التنزيل الرقميِّ.",
   "code-examples": "أمثلة للرمز",
-  "entry-confirmation-prompt": "أدخل ‌«{{text}}» لتكمل.",
+  "entry-confirmation-prompt": "أدخل ‌«{{text}}» للمتابعة.",
   "app-install-error-try-again": "تعذَّر تثبيت التطبيق. جرِّب أن تعود لمتجر التطبيقات وتحاول مرَّةً أخرى.",
   "saved-cards": "البطاقات المحفوظة",
   "delete-account-prompt": "احذف حسابك؟",
@@ -513,7 +513,7 @@
   "create-token": "أنشئ رمزًا",
   "scope-publish": "انشر التصريفة",
   "no-tokens-to-show": "لا رموز.",
-  "revoke-token-description": "أتطلب نقض الرمز ‹{{name}}›؟",
+  "revoke-token-description": "أتطلب نقض الرمز «{{name}}»؟",
   "revoke": "انقض",
   "show-expired-tokens": "أظهِر الرموز المنتهية",
   "scope-upload": "حمِّل ملفات للتصريفة",
@@ -619,7 +619,7 @@
   "amount": "الكمية",
   "total": "الإجمالي",
   "kind-donate-app": "تبرَّع لـ {{appName}}",
-  "apps-by-tag": "التطبيقات حسب وسم '{{tag}}'",
+  "apps-by-tag": "التطبيقات حسب وسم «{{tag}}»",
   "mobile-apps": "تطبيقات الجوال",
   "favorite": "المفضلة",
   "favorite-apps": "المفضلات",
@@ -663,5 +663,9 @@
     "sliderLabel": "شريط تمرير توزيع الحصة",
     "sliderThumbLabel": "توزيع حصة التطبيق: {{percentage}}",
     "screenReaderBreakdown": "تقسيم شريط تمرير الحصة. استخدم مفاتيح الأسهم لضبط التوزيع بين التطبيق وSDK وفلاتهب. التوزيع الحالي: التطبيق: {{appPercentage}}، SDK: {{sdkPercentage}}، فلاتهب: {{flathubPercentage}}. التكلفة الإجمالية: {{totalCost}}."
+  },
+  "download": {
+    "install-x": "ثبِّت «{{x}}»",
+    "fallback-instructions": "<0>جارٍ فتح «{{name}}» في مدير برامجك...</0><1>إذا لم يحدُث شيء، فربما لا يدعم نظامك عناوين URL من نوع <i>flatpak+https</i>.</1><2>في هذه الحالة يمكنك:</2><3><0>تنزيل <2>ملف .flatpakref</2></0><1>ثم تشغيله من مدير ملفاتك</1></3><4><0>تعليمات تثبيت Flatpak</0></4>"
   }
 }
