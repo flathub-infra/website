@@ -88,10 +88,6 @@
     "distroName": "OpenMandriva Lx",
     "introduction": "<0>Obsługa Flatpak jest wbudowana w OpenMandriva dla wszystkich aktywnie wspieranych wersji, począwszy od stabilnego/poprawionego wydania 'Rock 5.0', poprzez wydanie rozwojowe 'Cooker', a skończywszy na wydaniu rolling release 'ROME'.</0> <p>Flatpak jest dostarczany ze wstępnie skonfigurowanym repozytorium Flathub.</p>"
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak jest zainstalowany, a repozytorium Flathub jest domyślnie wstępnie skonfigurowane w systemie Clear Linux podczas instalacji pakietu pulpitu.</p> <2></2> <4>Teraz wszystko, co musisz zrobić, to <2>zainstalować aplikacje</2>!</4>"
-  },
   "nixos": {
     "distroName": "NixOS",
     "step-1": {

@@ -201,9 +201,6 @@
       "name": "Rnu akufi-a n Flathub"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux"
-  },
   "nixos": {
     "step-1": {
       "name": "Sbedd Flatpak"
