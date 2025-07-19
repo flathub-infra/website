@@ -266,10 +266,6 @@
       "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Raspberry Pi OS.</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak is installed and Flathub repository is pre-configured by default on Clear Linux when installing the desktop bundle.</p> <2></2> <4>Now all you have to do is <2>install apps</2>!</4>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

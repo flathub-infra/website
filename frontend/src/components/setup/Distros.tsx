@@ -29,7 +29,6 @@ export const distroMap = (locale: string) => {
     ["Pop!_OS", <Pop_OS locale={locale} />],
     ["elementary OS", <Elementary_OS locale={locale} />],
     ["Raspberry Pi OS", <Raspberry_Pi_OS locale={locale} />],
-    ["Clear Linux", <Clear_Linux locale={locale} />],
     ["Void Linux", <Void_Linux locale={locale} />],
     ["NixOS", <NixOS locale={locale} />],
     ["PureOS", <PureOS locale={locale} />],
@@ -1944,28 +1943,6 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Clear_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
-  return (
-    <>
-      <h1>{t("distros:clear_linux.distroName")}</h1>
-      <ol className="distrotut">
-        <Trans i18nKey="distros:clear_linux.introduction">
-          <p>
-            Flatpak is installed and Flathub repository is pre-configured by
-            default on Clear Linux when installing the desktop bundle.
-          </p>{" "}
-          <CodeCopy text={`sudo swupd bundle-add desktop`} />{" "}
-          <p>
-            Now all you have to do is{" "}
-            <Link href={`/${locale}`}>install apps</Link>!
-          </p>
-        </Trans>
-      </ol>
-    </>
-  )
-}
-
 const Void_Linux = ({ locale }: { locale: string }) => {
   const { t } = useTranslation()
   return (
@@ -3024,8 +3001,7 @@ const Salix = ({ locale }: { locale: string }) => {
             Flathub.
           </p>{" "}
           <p>
-            All you have to do is{" "}
-            <Link href={`/${locale}`}>install apps</Link>!
+            All you have to do is <Link href={`/${locale}`}>install apps</Link>!
           </p>
         </Trans>
       </ol>
