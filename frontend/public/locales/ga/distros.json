@@ -266,10 +266,6 @@
       "text": "<0>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <2>aipeanna a shuiteáil</2>!</0> <p>Tabhair faoi deara: seans nach féidir aipeanna Flatpak a shuiteáil go grafach le Raspberry Pi OS.</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Soiléir Linux",
-    "introduction": "<p>Tá Flatpak suiteáilte agus tá stór Flathub réamhchumraithe de réir réamhshocraithe ar Clear Linux agus an beart deisce á shuiteáil.</p> <2></2> <4>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil </2>!</4>"
-  },
   "void_linux": {
     "distroName": "Linux ar neamhní",
     "step-1": {

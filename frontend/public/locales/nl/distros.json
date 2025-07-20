@@ -211,9 +211,6 @@
       "name": "Opnieuw opstarten"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

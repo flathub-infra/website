@@ -368,10 +368,6 @@
     "distroName": "Pop!_OS",
     "introduction": "<0>Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!</0>"
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak is installed and Flathub repository is pre-configured by default on Clear Linux when installing the desktop bundle.</p> <2></2> <4>Now all you have to do is <2>install apps</2>!</4>"
-  },
   "deepin": {
     "distroName": "Deepin",
     "step-1": {

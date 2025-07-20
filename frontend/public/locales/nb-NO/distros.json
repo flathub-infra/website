@@ -127,9 +127,6 @@
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS"
   },
-  "clear_linux": {
-    "distroName": "Clear Linux"
-  },
   "void_linux": {
     "distroName": "Void Linux"
   },

@@ -266,10 +266,6 @@
       "text": "<p>Flathub ist der beste Ort, um Flatpak-Anwendungen zu bekommen. Um es zu aktivieren, starten Sie:</p> <2></2> <4><0>Wichtiger Hinweis:</0> Es wird empfohlen, Raspberry Pi OS 64-bit zu verwenden, da neuere Anwendungen nur für diese Plattform verfügbar sind.</4>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak ist installiert und das Flathub-Repository wird standardmäßig auf Clear Linux bei der Installation des Desktop-Pakets vorkonfiguriert.</p> <2></2> <4>Alles, was du tun musst, ist <2> Apps installieren</2>!</4>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-3": {
