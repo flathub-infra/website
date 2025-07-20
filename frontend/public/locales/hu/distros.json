@@ -418,10 +418,6 @@
     "distroName": "OpenMandriva Lx",
     "introduction": "<0>A Flatpak támogatás be van építve az OpenMandrivába az összes aktívan támogatott verzióhoz, kezdve a stabil/fix kiadástól, a „Rock 5.0”-tól a „Cooker” fejlesztői kiadáson át a „ROME” gördülő kiadásig.</0> <p>A Flathub előre konfigurált Flathub-tárral érkezik.</p>"
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>A Flatpak telepítve van, a Flathub adattár pedig alapértelmezés szerint előre be van állítva a Clear Linux rendszeren az asztali csomag telepítésekor.</p> <2></2> <4>Most már csak <2>alkalmazásokat kell telepítenie</2>!</4>"
-  },
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a PureOS rendszeren. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2>"

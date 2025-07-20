@@ -415,10 +415,6 @@
     "distroName": "CentOS",
     "introduction": "<0>Flatpak estas apriore instalita sur CentOS versio 7 aŭ pli nova, kiam oni uzas GNOME. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak estas apriore instalita kaj la deponejo Flathub estas apriore agordita ĉe Clear Linux dum instalado de la labortabla medio.</p> <2></2> <4>Nun vi pretas <2>instali programojn</2>!</4>"
-  },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {

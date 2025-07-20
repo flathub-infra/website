@@ -145,8 +145,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud CentOS 7's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
+    "distroName": "CentOS Stream",
+    "introduction": "<0>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud CentOS 8 Streamis ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2>.</0><2>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</2>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
@@ -265,10 +265,6 @@
       "name": "Käivita arvuti uuesti",
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Raspberry Pi OSi puhul toimida.</p>"
     }
-  },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Kui paigaldad Clear Linuxi töölauaversiooni, siis Flatpak on vaikimisi kohe kaasatud ja Flathubi tarkvarahoidla eelseadistatud.</p> <2></2> <4>Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</4>"
   },
   "void_linux": {
     "distroName": "Void Linux",

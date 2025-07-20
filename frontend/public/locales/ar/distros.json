@@ -288,9 +288,6 @@
     "distroName": "زورن أو إس",
     "introduction": "<0>دعم Flatpak مضمّن في Zorin OS</0> <p> يمكنك استخدام تطبيق Software Store لتنزيل تطبيقات Flatpak.</p>"
   },
-  "clear_linux": {
-    "distroName": "كلير لينكس"
-  },
   "pureos": {
     "distroName": "بيور أو إس"
   },

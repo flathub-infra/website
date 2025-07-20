@@ -266,10 +266,6 @@
       "text": "<0>Që të plotësoni ujdisjen, rinisni sistemin tuaj. Tani krejt çka ju duhet të bëni, është <2>të instaloni aplikacione</2>!</0> <p>Shënim: instalimi grafik i aplikacioneve Flatpak mund të mos jetë i mundshëm me Raspberry Pi OS.</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak-u është i instaluar dhe depoja Flathub është e formësuar paraprakisht, si parazgjedhje, në Clear Linux, kur instalohet paketimi Desktop.</p> <2></2> <4>Tani, krejt çka ju duhet të bëni, është <2>të instaloni aplikacione</2>!</4>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

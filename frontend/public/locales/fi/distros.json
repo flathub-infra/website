@@ -245,9 +245,6 @@
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0> <p>Huomio: Flatpak-sovellusten graafinen asennus ei välttämättä ole mahdollista Raspberry Pi OS:iä käyttäessä.</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {

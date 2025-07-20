@@ -300,10 +300,6 @@
       "text": "<0>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <2>instalirati aplikacije</2>!</0> <p>Napomena: grafička instalacija Flatpak aplikacija možda neće biti moguća s Raspberry Pi OS.</p>"
     }
   },
-  "clear_linux": {
-    "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak je instaliran, a Flathub repozitorij je unaprijed konfiguriran na Clear Linuxu prilikom instaliranja desktop paketa.</p><2></2> <4>Sada moraš još samo <2>instalirati aplikacije</2>!</0>"
-  },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {
