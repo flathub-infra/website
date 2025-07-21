@@ -804,9 +804,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.3.1":
-  version: 0.3.1
-  resolution: "@react-email/components@npm:0.3.1"
+"@react-email/components@npm:0.3.2":
+  version: 0.3.2
+  resolution: "@react-email/components@npm:0.3.2"
   dependencies:
     "@react-email/body": "npm:0.0.11"
     "@react-email/button": "npm:0.2.0"
@@ -826,11 +826,11 @@ __metadata:
     "@react-email/render": "npm:1.1.3"
     "@react-email/row": "npm:0.0.12"
     "@react-email/section": "npm:0.0.16"
-    "@react-email/tailwind": "npm:1.2.1"
+    "@react-email/tailwind": "npm:1.2.2"
     "@react-email/text": "npm:0.1.5"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/84d36062015bf40c569d0244a5a1df8e85229c3921f78fde421632b21a61020fb2b1c741de573db91cc7480e08bec882d94c807b5e8891d9eb14b75c10bd2b0c
+  checksum: 10c0/8175a31f60f049f3d3babf952f318530e1807b31d002e1dea2d63e64503bcea6553524fa0ca67d9ecf9ea0f6e298934e61e83383b672adacef200e8d3d3d2e94
   languageName: node
   linkType: hard
 
@@ -958,12 +958,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/tailwind@npm:1.2.1":
-  version: 1.2.1
-  resolution: "@react-email/tailwind@npm:1.2.1"
+"@react-email/tailwind@npm:1.2.2":
+  version: 1.2.2
+  resolution: "@react-email/tailwind@npm:1.2.2"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/747f51d7cc146e3868b70cbca35290068e528a519b1394fdd18248bf338d05b4d4e54a53b6137482bce313ff48705d706af3c3e4d8aa6316a70e9e30466d74f2
+  checksum: 10c0/fa7d0a4d518a77cf0ec26c57aeac8a24509344225a19d6f3c1320a4357d88b2d48e592f312286ec59ef17333d875e3f3437cd09102d793896229e3f5502d079e
   languageName: node
   linkType: hard
 
@@ -3114,7 +3114,7 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
     "@hono/zod-openapi": "npm:^0.19.10"
-    "@react-email/components": "npm:0.3.1"
+    "@react-email/components": "npm:0.3.2"
     "@react-email/render": "npm:1.1.3"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.17"
