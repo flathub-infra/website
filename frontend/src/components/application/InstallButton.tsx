@@ -73,7 +73,7 @@ export default function InstallButton({
             <PopoverPanel
               anchor="bottom end"
               className={clsx(
-                "absolute end-0 z-20 mx-2 mt-2 w-fit origin-top-right rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:mx-0 sm:w-[450px]",
+                "z-20 mt-2 rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:w-[450px]",
               )}
             >
               <h3 className="my-4 text-xl font-semibold">
@@ -140,8 +140,9 @@ export default function InstallButton({
           leaveTo="transform opacity-0 scale-95"
         >
           <PopoverPanel
+            anchor="bottom end"
             className={clsx(
-              "absolute end-0 z-20 mx-2 mt-2 w-fit origin-top-right rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:mx-0 sm:w-[450px]",
+              "z-20 mt-2 rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:w-[450px]",
             )}
           >
             <h3 className="my-4 text-xl font-semibold">

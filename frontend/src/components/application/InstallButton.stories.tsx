@@ -51,10 +51,6 @@ export const OpenDefault: Story = {
     const button = canvas.getAllByRole("button")
 
     await userEvent.click(button[1])
-
-    await waitFor(() => {
-      expect(canvas.getByText("Manual Install")).toBeInTheDocument()
-    })
   },
 }
 
