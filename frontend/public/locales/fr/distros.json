@@ -7,7 +7,7 @@
     },
     "step-2": {
       "name": "Installer le plugin Flatpak dans GNOME Logiciels",
-      "text": "<p>Le plugin GNOME Software permet d'installer des applications sans avoir besoin de la ligne de commande. Pour l'installer, exécutez :</p> <2></2> <4><strong>Remarque :</strong> Ubuntu distribue GNOME Software sous forme de Snap dans les versions 20.04 à 23.04, et l'a remplacé par App Center dans les versions 23.10 et ultérieures, qui ne prennent pas en charge l'installation d'applications Flatpak. L'installation du plugin Flatpak installera également une version Deb de GNOME Software, ce qui entraînera l'installation simultanée de deux applications « Logiciels » sur Ubuntu 20.04 à 23.04, et d'une seule nouvelle application « Logiciels » sur Ubuntu 23.10 et ultérieures.</4>"
+      "text": "<p>Le plugin GNOME Logiciels permet d'installer des applications sans avoir besoin de la ligne de commande. Pour l'installer, exécutez :</p> <2></2> <4><strong>Remarque :</strong> Ubuntu distribue GNOME Logiciels sous forme de Snap dans les versions 20.04 à 23.04, et l'a remplacé par App Center dans les versions 23.10 et ultérieures, qui ne prennent pas en charge l'installation d'applications Flatpak. L'installation du plugin Flatpak installera également une version Deb de GNOME Logiciels, ce qui entraînera l'installation simultanée de deux applications « Logiciels » sur Ubuntu 20.04 à 23.04, et d'une seule nouvelle application « Logiciels » sur Ubuntu 23.10 et ultérieures.</4>"
     },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
@@ -224,8 +224,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>Flatpak est installé par défaut sur CentOS 7 et plus récentes, lorsque vous utilisez GNOME. Pour commencer, il vous suffit d'activer Flathub, qui est le meilleur moyen d'obtenir des applications Flatpak. Il vous suffit de télécharger et d'installer le <2>fichier de dépôt Flathub</2>.</0> <2>Il ne vous reste plus qu'à <2>installer des applications</2> !</2>"
+    "distroName": "CentOS Stream",
+    "introduction": "<0>Flatpak est installé par défaut sur CentOS Stream 8 et ultérieur, lorsque vous utilisez GNOME. Pour commencer, il vous suffit d'activer Flathub, qui est le meilleur moyen d'obtenir des applications Flatpak. Il vous suffit de télécharger et d'installer le <2>fichier de dépôt Flathub</2>.</0> <2>Il ne vous reste plus qu'à <2>installer des applications</2> !</2>"
   },
   "gentoo": {
     "step-1": {
@@ -279,7 +279,7 @@
       "name": "Redémarrer",
       "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0> <p>Remarque : l'installation graphique des applications Flatpak n'est possible qu'avec GNOME Logiciels et/ou KDE Discover.</p>"
     },
-    "introduction": "<p>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide du logiciel GNOME et/ou de KDE Discover.</p> <p>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </p>"
+    "introduction": "<p>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide de GNOME Logiciels et/ou de KDE Discover.</p> <p>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </p>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -289,7 +289,7 @@
     },
     "step-2": {
       "name": "Installez le plugin Logiciel Flatpak",
-      "text": "<p>Vous pouvez installer le plugin Flatpak pour le logiciel GNOME (depuis v3.13) ou KDE Discover (depuis v3.11), ce qui permet d’installer des applications sans avoir besoin de la ligne de commande. Pour installer, concernant GNOME Logiciels exécuter :</p> <2></2> <p>Concernant KDE Discover exécuter :</p> <6></6>"
+      "text": "<p>Vous pouvez installer le plugin Flatpak pour le GNOME Logiciels (depuis v3.13) ou KDE Discover (depuis v3.11), ce qui permet d’installer des applications sans avoir besoin de la ligne de commande. Pour installer, concernant GNOME Logiciels exécuter :</p> <2></2> <p>Concernant KDE Discover exécuter :</p> <6></6>"
     },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",

@@ -139,7 +139,7 @@
   "donate": "Darowizna",
   "project-website": "Strona projektu",
   "badges-block": "Możesz użyć tych emblematów do promocji Twojej aplikacji dostępnej na Flathub",
-  "search-for-query": "Wynik wyszukiwania '{{query}}'",
+  "search-for-query": "Wynik wyszukiwania “{{query}}”",
   "categories": "Kategorie",
   "linked-accounts": "Powiązane konta",
   "link-more-accounts": "Powiąż więcej kont",
@@ -152,7 +152,7 @@
   "status-new": "Nowe",
   "delete-account-prompt": "Usunąć Twoje konto?",
   "delete-account-entry": "Chcę usunąć moje konto",
-  "entry-confirmation-prompt": "Wprowadź \"{{text}}\" by kontynować.",
+  "entry-confirmation-prompt": "Wprowadź “{{text}}” by kontynować.",
   "loading": "Wczytywanie…",
   "could-not-find-match-for-search": "Nie znaleziono żadnych aplikacji pasujących do wyszukiwania.",
   "manifest": "Manifest aplikacji",
@@ -490,7 +490,9 @@
     "hide-branding-preview": "Ukryj podgląd identyfikacji wizualnej",
     "show-branding-preview": "Pokaż podgląd identyfikacji wizualnej",
     "needed-to-pass-x": "Niezbędne do zaliczenia {{x}}",
-    "problems": "Jeśli chcesz zapytać nas o konkretne problemy związane z wytycznymi dotyczącymi jakości, możesz śmiało otworzyć <2>zgłoszenie</2>."
+    "problems": "Jeśli chcesz zapytać nas o konkretne problemy związane z wytycznymi dotyczącymi jakości, możesz śmiało otworzyć <2>zgłoszenie</2>.",
+    "light": "Jasny",
+    "dark": "Ciemny"
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",
@@ -508,7 +510,7 @@
   "create-token": "Utwórz token",
   "scope-publish": "Opublikuj kompilację",
   "no-tokens-to-show": "Brak tokenów do pokazania.",
-  "revoke-token-description": "Czy na pewno chcesz wycofać token \"{{name}}\"?",
+  "revoke-token-description": "Czy na pewno chcesz wycofać token “{{name}}”?",
   "revoke": "Wycofaj",
   "show-expired-tokens": "Pokaż wygasłe tokeny",
   "scope-upload": "Przesyłanie plików do kompilacji",
@@ -616,7 +618,7 @@
   "kind-purchase-app": "Kup {{appName}}",
   "action-purchase": "Kup",
   "kind-donate-app": "Przekaż darowiznę {{appName}}",
-  "apps-by-tag": "Aplikacje według tagu '{{tag}}'",
+  "apps-by-tag": "Aplikacje według tagu “{{tag}}”",
   "mobile-apps": "Aplikacje Mobilne",
   "quality": {
     "missing-brand-colors": "Brak kolorów marki",
@@ -658,5 +660,9 @@
     "appShare": "Udział aplikacji: {{percentage}}",
     "sdk": "SDK",
     "screenReaderBreakdown": "Suwak podziału udostępniania. Użyj klawiszy strzałek, aby dostosować udział między aplikacją, SDK i Flathub. Bieżąca dystrybucja: Aplikacja: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Całkowity koszt: {{totalCost}}."
+  },
+  "download": {
+    "install-x": "Zainstaluj “{{x}}”",
+    "fallback-instructions": "<0>Otwierając „{{name}}” w menedżerze oprogramowania...</0><1>Jeśli nic się nie dzieje, być może twój system nie obsługuje adresów <i>flatpak+https</i>.</1><2>W takim przypadku możesz:</2><3><0>Pobrać plik <2>.flatpakref</2></0><1>Następnie uruchomić go z menedżera plików</1></3><4><0>Instrukcje instalacji Flatpak</0></4>"
   }
 }

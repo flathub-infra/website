@@ -109,5 +109,26 @@
       "name": "Restartujte",
       "text": "<0>Pro dokončení nastavení restartujte systém. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
     }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Nainstalujte Flatpak",
+      "text": "<p>Balíček flatpak je k dispozici v Debian 10 (Buster) a novějších. Nainstalujete ho spuštěním následujícího (jako root):</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Nainstalujte zásuvný modul pro Flatpak do Software"
+    },
+    "step-3": {
+      "name": "Přidejte repozitář Flathub",
+      "text": "<0>Flathub je nejlepším místem, odkud získávat Flatpak aplikace. Povolíte ho tak, že si stáhnete a nainstalujete <2>soubor Flathub repozitáře</2> nebo spustíte následující v terminálu:</0> <2></2>"
+    },
+    "step-4": {
+      "name": "Restartujte",
+      "text": "<0>Pro dokončení nastavování systém zrestartujte. Nyní už stačí jen <2>nainstalovat aplikace</2>!</0>"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux"
   }
 }
