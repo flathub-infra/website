@@ -14,7 +14,7 @@ import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
-import { tryParseCategory, tryParseSubCategory } from "src/types/Category"
+import { tryParseCategory } from "src/types/Category"
 import { useRouter } from "next/router"
 import { useUserContext } from "src/context/user-info"
 import { Permission, StatsResult } from "src/codegen/model"
@@ -45,18 +45,14 @@ import { ChartContainer, ChartConfig } from "@/components/ui/chart"
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 
-const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
+export const FlathubWorldMap = ({
+  country_data,
+  refs,
+}: {
+  country_data: { country: string; value: number }[]
+  refs?: { [key: string]: React.RefObject<HTMLDivElement> }
+}) => {
   const { t } = useTranslation()
-
-  const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
-  const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
-
-  let country_data: { country: string; value: number }[] = []
-  if (stats.countries) {
-    for (const [key, value] of Object.entries(stats.countries)) {
-      country_data.push({ country: key, value: value })
-    }
-  }
 
   const getLocalizedText = ({
     countryCode,
@@ -83,16 +79,45 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
     return translation
   }
 
+  const handleClick = (id) =>
+    refs?.[id]?.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    })
+
+  return (
+    <div className={`flex justify-center ${styles.map}`}>
+      <WorldMap
+        color="oklch(var(--color-primary))"
+        backgroundColor="oklch(var(--bg-color-secondary))"
+        borderColor="oklch(var(--text-primary))"
+        size="responsive"
+        data={country_data}
+        tooltipTextFunction={getLocalizedText}
+        rtl={i18n.dir() === "rtl"}
+        onClickFunction={(context) => handleClick(context.countryCode)}
+      />
+    </div>
+  )
+}
+
+const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
+  const { t } = useTranslation()
+
+  const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
+  const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
+
+  let country_data: { country: string; value: number }[] = []
+  if (stats.countries) {
+    for (const [key, value] of Object.entries(stats.countries)) {
+      country_data.push({ country: key, value: value })
+    }
+  }
+
   const refs = country_data.reduce((acc, value) => {
     acc[value.country] = createRef()
     return acc
   }, {})
-
-  const handleClick = (id) =>
-    refs[id].current.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    })
 
   return (
     <>
@@ -100,18 +125,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
         {t("downloads-per-country")}
       </h2>
       <div className="flex flex-col gap-5">
-        <div className={`flex justify-center ${styles.map}`}>
-          <WorldMap
-            color="oklch(var(--color-primary))"
-            backgroundColor="oklch(var(--bg-color-secondary))"
-            borderColor="oklch(var(--text-primary))"
-            size="responsive"
-            data={country_data}
-            tooltipTextFunction={getLocalizedText}
-            rtl={i18n.dir() === "rtl"}
-            onClickFunction={(context) => handleClick(context.countryCode)}
-          />
-        </div>
+        <FlathubWorldMap country_data={country_data} refs={refs} />
         <div
           className={clsx(
             "overflow-y-auto max-h-[500px]",

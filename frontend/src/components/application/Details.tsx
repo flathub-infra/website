@@ -32,6 +32,7 @@ import {
   MeilisearchResponseAppsIndex,
   StatsResultApp,
 } from "src/codegen"
+import { FlathubWorldMap } from "pages/statistics"
 
 interface Props {
   app?: Appstream
@@ -99,6 +100,22 @@ const Details: FunctionComponent<Props> = ({
       tabs.push({
         name: t("statistics"),
         content: <AppStatistics stats={stats}></AppStatistics>,
+        replacePadding: "p-0",
+      })
+    }
+
+    const countryData = Object.entries(stats.installs_per_country).map(
+      ([key, value]) => {
+        return {
+          country: key,
+          value: value,
+        }
+      },
+    )
+    if (countryData?.length > 0) {
+      tabs.push({
+        name: t("country-statistics"),
+        content: <FlathubWorldMap country_data={countryData} />,
         replacePadding: "p-0",
       })
     }
