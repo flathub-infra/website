@@ -20,17 +20,25 @@ import type {
 export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
   overrideResponse: Partial<WalletInfo> = {},
 ): WalletInfo => ({
-  status: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   cards: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.string.alpha(20),
-    brand: faker.string.alpha(20),
-    country: faker.string.alpha(20),
-    exp_month: faker.number.int({ min: undefined, max: undefined }),
-    exp_year: faker.number.int({ min: undefined, max: undefined }),
-    last4: faker.string.alpha(20),
+    id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    country: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    exp_month: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    exp_year: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
   })),
   ...overrideResponse,
 })
@@ -41,9 +49,13 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.string.alpha(20),
-      value: faker.number.int({ min: undefined, max: undefined }),
-      currency: faker.string.alpha(20),
+      id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      value: faker.number.int({
+        min: undefined,
+        max: undefined,
+        multipleOf: undefined,
+      }),
+      currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
       kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
       status: faker.helpers.arrayElement([
         "new",
@@ -53,19 +65,30 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         "cancelled",
       ] as const),
       reason: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
         undefined,
       ]),
       created: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
+          faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
           null,
         ]),
         undefined,
       ]),
       updated: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
+          faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
           null,
         ]),
         undefined,
@@ -75,8 +98,8 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
 export const getCreateTransactionWalletTransactionsPostResponseMock = (
   overrideResponse: Partial<PostTransactionResponse> = {},
 ): PostTransactionResponse => ({
-  status: faker.string.alpha(20),
-  id: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  id: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
@@ -84,9 +107,13 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
   overrideResponse: Partial<Transaction> = {},
 ): Transaction => ({
   summary: {
-    id: faker.string.alpha(20),
-    value: faker.number.int({ min: undefined, max: undefined }),
-    currency: faker.string.alpha(20),
+    id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    value: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
     status: faker.helpers.arrayElement([
       "new",
@@ -96,19 +123,30 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
       "cancelled",
     ] as const),
     reason: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
     created: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
+        faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
         null,
       ]),
       undefined,
     ]),
     updated: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
+        faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
         null,
       ]),
       undefined,
@@ -117,12 +155,20 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
   card: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
-        id: faker.string.alpha(20),
-        brand: faker.string.alpha(20),
-        country: faker.string.alpha(20),
-        exp_month: faker.number.int({ min: undefined, max: undefined }),
-        exp_year: faker.number.int({ min: undefined, max: undefined }),
-        last4: faker.string.alpha(20),
+        id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        country: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        exp_month: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        exp_year: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
       },
       null,
     ]),
@@ -132,13 +178,20 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    recipient: faker.string.alpha(20),
-    amount: faker.number.int({ min: undefined, max: undefined }),
-    currency: faker.string.alpha(20),
+    recipient: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    amount: faker.number.int({
+      min: undefined,
+      max: undefined,
+      multipleOf: undefined,
+    }),
+    currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
   })),
   receipt: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.alpha(20), null]),
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     undefined,
   ]),
   ...overrideResponse,
@@ -147,25 +200,33 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
 export const getGetStripedataWalletStripedataGetResponseMock = (
   overrideResponse: Partial<StripeKeys> = {},
 ): StripeKeys => ({
-  status: faker.string.alpha(20),
-  public_key: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  public_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   overrideResponse: Partial<TransactionStripeData> = {},
 ): TransactionStripeData => ({
-  status: faker.string.alpha(20),
-  client_secret: faker.string.alpha(20),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  client_secret: faker.string.alpha({ length: { min: 10, max: 20 } }),
   card: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
-        id: faker.string.alpha(20),
-        brand: faker.string.alpha(20),
-        country: faker.string.alpha(20),
-        exp_month: faker.number.int({ min: undefined, max: undefined }),
-        exp_year: faker.number.int({ min: undefined, max: undefined }),
-        last4: faker.string.alpha(20),
+        id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        country: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        exp_month: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        exp_year: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
       },
       null,
     ]),

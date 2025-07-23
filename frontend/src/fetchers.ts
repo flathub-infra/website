@@ -21,7 +21,6 @@ import {
   LOGIN_PROVIDERS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
-import { AppStats } from "./types/AppStats"
 import { VerificationStatus } from "./types/VerificationStatus"
 import {
   AppOfTheDay,
@@ -30,6 +29,7 @@ import {
   MainCategory,
   MeilisearchResponseAppsIndex,
   SortBy,
+  StatsResultApp,
   VendingConfig,
 } from "./codegen"
 import { gameCategoryFilter } from "./types/Category"
@@ -91,8 +91,8 @@ export async function fetchSummary(appId: string): Promise<Summary> {
   return summaryJson
 }
 
-export async function fetchAppStats(appId: string): Promise<AppStats> {
-  let statsJson: AppStats
+export async function fetchAppStats(appId: string): Promise<StatsResultApp> {
+  let statsJson: StatsResultApp
   try {
     const statsData = await fetch(`${STATS_DETAILS(appId)}`)
     statsJson = await statsData.json()
@@ -108,6 +108,7 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
       installs_last_7_days: 0,
       installs_last_month: 0,
       installs_total: 0,
+      installs_per_country: {},
     }
   }
   return statsJson

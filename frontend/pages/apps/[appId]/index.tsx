@@ -20,7 +20,6 @@ import {
   pickScreenshotSize,
 } from "../../../src/types/Appstream"
 import { Summary } from "../../../src/types/Summary"
-import { AppStats } from "../../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { removeAppIdFromSearchResponse } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
@@ -34,6 +33,7 @@ import { bcpToPosixLocale } from "src/localize"
 import {
   getEolMessageAppidEolMessageAppIdGet,
   MeilisearchResponseAppsIndex,
+  StatsResultApp,
 } from "src/codegen"
 
 function categoryToSeoCategories(categories: string[]) {
@@ -83,7 +83,7 @@ export default function Details({
 }: {
   app: Appstream
   summary?: Summary
-  stats: AppStats
+  stats: StatsResultApp
   developerApps: MeilisearchResponseAppsIndex
   verificationStatus: VerificationStatus
   eolMessage: string

@@ -34,6 +34,15 @@ class StatsResult(BaseModel):
     category_totals: list[StatsResultCategoryTotals]
 
 
+class StatsResultApp(BaseModel):
+    installs_total: int
+    installs_per_day: dict[str, int]
+    installs_per_country: dict[str, int]
+    installs_last_month: int
+    installs_last_7_days: int
+    id: str
+
+
 @router.get("/", status_code=200)
 def get_stats(response: Response) -> StatsResult | None:
     if value := database.get_json_key("stats"):
@@ -54,7 +63,7 @@ def get_stats_for_app(
     ),
     all: bool = False,
     days: int = 180,
-):
+) -> StatsResultApp | None:
     if value := stats.get_installs_by_ids([app_id]).get(app_id, None):
         if all:
             return value
