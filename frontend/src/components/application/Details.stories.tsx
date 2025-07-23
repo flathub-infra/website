@@ -1,8 +1,7 @@
-import React from "react"
 import { Meta } from "@storybook/nextjs"
 import Details from "./Details"
 import { faker } from "@faker-js/faker"
-import { AppStats } from "../../types/AppStats"
+import { StatsResultApp } from "../../codegen"
 import { Appstream } from "../../types/Appstream"
 import { Summary } from "../../types/Summary"
 
@@ -21,7 +20,7 @@ export const Generated = () => {
     }),
   )
 
-  const stats: AppStats = {
+  const stats: StatsResultApp = {
     id: faker.string.uuid(),
     installs_last_7_days: faker.number.int({ min: 0, max: 100 }),
     installs_last_month: faker.number.int({ min: 0, max: 100 }),
@@ -32,6 +31,12 @@ export const Generated = () => {
       }),
     },
     installs_total: faker.number.int({ min: 0, max: 100 }),
+    installs_per_country: {
+      [faker.location.countryCode()]: faker.number.int({
+        min: 0,
+        max: 100,
+      }),
+    },
   }
 
   const app: Appstream = {

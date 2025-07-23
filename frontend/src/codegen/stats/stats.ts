@@ -21,6 +21,7 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
+  GetStatsForAppStatsAppIdGet200,
   GetStatsForAppStatsAppIdGetParams,
   GetStatsStatsGet200,
   HTTPValidationError,
@@ -179,7 +180,7 @@ export const getStatsForAppStatsAppIdGet = (
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<GetStatsForAppStatsAppIdGet200>> => {
   return axios.get(`/stats/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },

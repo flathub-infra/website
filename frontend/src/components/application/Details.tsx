@@ -9,7 +9,6 @@ import { Summary } from "../../types/Summary"
 import Releases from "./Releases"
 
 import AdditionalInfo from "./AdditionalInfo"
-import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
 
 import ApplicationSection from "./ApplicationSection"
@@ -31,12 +30,13 @@ import Links from "./Links"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   MeilisearchResponseAppsIndex,
+  StatsResultApp,
 } from "src/codegen"
 
 interface Props {
   app?: Appstream
   summary?: Summary
-  stats: AppStats
+  stats: StatsResultApp
   developerApps: MeilisearchResponseAppsIndex
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]

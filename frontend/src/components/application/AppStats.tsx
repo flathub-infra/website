@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react"
-import { AppStats } from "../../types/AppStats"
 
 import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
@@ -12,9 +11,10 @@ import {
   RotatedAxisTick,
 } from "src/chartComponents"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { StatsResultApp } from "src/codegen"
 
 interface Props {
-  stats: Pick<AppStats, "installs_per_day">
+  stats: Pick<StatsResultApp, "installs_per_day">
 }
 
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {

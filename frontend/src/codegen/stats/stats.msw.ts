@@ -8,7 +8,10 @@ import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
 
-import type { GetStatsStatsGet200 } from ".././model"
+import type {
+  GetStatsForAppStatsAppIdGet200,
+  GetStatsStatsGet200,
+} from ".././model"
 
 export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
   faker.helpers.arrayElement([
@@ -63,6 +66,44 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
     null,
   ])
 
+export const getGetStatsForAppStatsAppIdGetResponseMock =
+  (): GetStatsForAppStatsAppIdGet200 =>
+    faker.helpers.arrayElement([
+      {
+        installs_total: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        installs_per_day: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+        installs_per_country: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+        installs_last_month: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        installs_last_7_days: faker.number.int({
+          min: undefined,
+          max: undefined,
+          multipleOf: undefined,
+        }),
+        id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      },
+      null,
+    ])
+
 export const getGetStatsStatsGetMockHandler = (
   overrideResponse?:
     | GetStatsStatsGet200
@@ -88,17 +129,26 @@ export const getGetStatsStatsGetMockHandler = (
 
 export const getGetStatsForAppStatsAppIdGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | GetStatsForAppStatsAppIdGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<GetStatsForAppStatsAppIdGet200>
+        | GetStatsForAppStatsAppIdGet200),
 ) => {
   return http.get("*/stats/:appId", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetStatsForAppStatsAppIdGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 export const getStatsMock = () => [
