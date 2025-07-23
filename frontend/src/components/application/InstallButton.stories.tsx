@@ -1,19 +1,98 @@
-import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta, StoryObj } from "@storybook/nextjs"
 import InstallButton from "./InstallButton"
-export default {
+import {
+  expect,
+  queryByAttribute,
+  userEvent,
+  waitFor,
+  within,
+} from "storybook/internal/test"
+
+const meta = {
   title: "Components/InstallButton",
   component: InstallButton,
-} as Meta<typeof InstallButton>
+} satisfies Meta<typeof InstallButton>
 
-export const Generated = () => {
-  const appId = "tv.kodi.Kodi"
+export default meta
 
-  return (
-    <div className="flex">
-      <div className="ms-auto">
-        <InstallButton appId={appId} />
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  decorators: [
+    (Story) => (
+      <div className="flex">
+        <div className="ms-auto">
+          <Story />
+        </div>
       </div>
-    </div>
-  )
+    ),
+  ],
+  args: {
+    appId: "tv.abc.TestApp",
+  },
+}
+
+export const OpenDefault: Story = {
+  decorators: [
+    (Story) => (
+      <div className="flex">
+        <div className="ms-auto">
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
+  args: {
+    appId: "tv.abc.TestApp",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    const button = canvas.getAllByRole("button")
+
+    await userEvent.click(button[1])
+
+    await waitFor(() => {
+      expect(canvas.getByText("Manual Install")).toBeInTheDocument()
+    })
+  },
+}
+
+export const Addon: Story = {
+  decorators: [
+    (Story) => (
+      <div className="flex">
+        <div className="ms-auto">
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
+  args: {
+    appId: "tv.abc.TestApp",
+    type: "addon",
+  },
+}
+
+export const OpenAddon: Story = {
+  decorators: [
+    (Story) => (
+      <div className="flex">
+        <div className="ms-auto">
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
+  args: {
+    appId: "tv.abc.TestApp",
+    type: "addon",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    const button = canvas.getByText("Install")
+
+    await userEvent.click(button)
+  },
 }

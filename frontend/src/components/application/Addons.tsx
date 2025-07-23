@@ -2,18 +2,36 @@ import { FunctionComponent, useState } from "react"
 
 import { AddonAppstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
-import { HiMiniInformationCircle } from "react-icons/hi2"
 import clsx from "clsx"
 import Modal from "../Modal"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import InstallButton from "./InstallButton"
 
 interface Props {
   addons: Pick<AddonAppstream, "id" | "name" | "summary">[]
+}
+
+const AddonRow: FunctionComponent<{
+  addon: Pick<AddonAppstream, "id" | "name" | "summary">
+}> = ({ addon }) => {
+  return (
+    <div className="flex items-center">
+      <div className="flex flex-col px-4 py-3">
+        <div>
+          <h3 className="font-semibold">{addon.name}</h3>
+        </div>
+        <span
+          className={clsx(
+            "text-sm dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
+          )}
+        >
+          {addon.summary}
+        </span>
+      </div>
+      <div className="ms-auto pe-4">
+        <InstallButton appId={addon.id} type={"addon"} />
+      </div>
+    </div>
+  )
 }
 
 const Addons: FunctionComponent<Props> = ({ addons }) => {
@@ -25,43 +43,10 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
     <>
       {addons && addons.length > 0 && (
         <>
-          <div className="flex gap-2 relative">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    className="absolute top-0 end-0 mt-1 me-1"
-                    aria-label={t("addon-install-info")}
-                  >
-                    <HiMiniInformationCircle
-                      className="size-5"
-                      aria-label={t("addon-install-info")}
-                    />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="left" className={clsx("max-w-xs")}>
-                  {t("addon-install-info-text")}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
           <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
-            {addons.slice(0, 5).map((addon) => {
-              return (
-                <div className="flex flex-col px-4 py-3" key={addon.id}>
-                  <div>
-                    <h3 className="font-semibold">{addon.name}</h3>
-                  </div>
-                  <span
-                    className={clsx(
-                      "text-sm dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
-                    )}
-                  >
-                    {addon.summary}
-                  </span>
-                </div>
-              )
-            })}
+            {addons.slice(0, 5).map((addon) => (
+              <AddonRow key={addon.id} addon={addon} />
+            ))}
             {addons.length > 5 ? (
               <button
                 className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 dark:border-zinc-600"
@@ -86,22 +71,9 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
             )}
           >
             <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
-              {addons.map((addon) => {
-                return (
-                  <div className="flex flex-col px-4 py-3" key={addon.id}>
-                    <div>
-                      <h3 className="font-semibold">{addon.name}</h3>
-                    </div>
-                    <span
-                      className={clsx(
-                        "text-sm dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
-                      )}
-                    >
-                      {addon.summary}
-                    </span>
-                  </div>
-                )
-              })}
+              {addons.map((addon) => (
+                <AddonRow key={addon.id} addon={addon} />
+              ))}
             </div>
           </div>
         </div>
