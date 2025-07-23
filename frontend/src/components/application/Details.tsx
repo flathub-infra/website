@@ -89,7 +89,7 @@ const Details: FunctionComponent<Props> = ({
     if (addons?.length > 0) {
       tabs.push({
         name: t("add-ons"),
-        content: <Addons addons={addons}></Addons>,
+        content: <Addons addons={addons} />,
         replacePadding: "p-0",
       })
     }
