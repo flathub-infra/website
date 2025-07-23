@@ -400,7 +400,7 @@
     "app-no-weird-formatting": "无奇怪格式，标点符号，小写字母等",
     "app-icon": "应用图标",
     "app-icon-no-baked-in-shadows": "没有内置阴影",
-    "general": "通用",
+    "general": "常规",
     "app-name-just-the-name": "只是名称",
     "app-icon-in-line-with-contemporary-styles": "符合当代风格",
     "app-name-not-too-long": "少于 20 个字符",
@@ -434,7 +434,9 @@
     "branding-good-primary-brand-colors": "商标主色调良好",
     "needed-to-pass-x": "通过 {{x}} 需要",
     "hide-branding-preview": "隐藏商标预览",
-    "show-branding-preview": "显示商标预览"
+    "show-branding-preview": "显示商标预览",
+    "light": "浅色",
+    "dark": "深色"
   },
   "user-data-subfolder-x": "用户数据子文件夹 {{folder}}",
   "desktop-folder": "桌面文件夹",
@@ -637,5 +639,18 @@
   "amount": "金额",
   "positions": "项目",
   "position-short": "项",
-  "recipient": "收款方"
+  "recipient": "收款方",
+  "vendingSharesPreview": {
+    "app": "应用",
+    "sdk": "SDK",
+    "sliderLabel": "份额分配滑块",
+    "sliderThumbLabel": "应用份额分配：{{percentage}}",
+    "appShare": "应用份额：{{percentage}}",
+    "sdkShare": "SDK 份额：{{percentage}}",
+    "flathubShare": "Flathub 份额：{{percentage}}",
+    "screenReaderBreakdown": "份额细分滑块。使用箭头键调整应用、SDK 和 Flathub 之间的分配比例。当前分配比例：应用 {{appPercentage}}、SDK {{sdkPercentage}}、Flathub {{flathubPercentage}}。总成本：{{totalCost}}。"
+  },
+  "download": {
+    "install-x": "安装“{{x}}”"
+  }
 }

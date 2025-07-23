@@ -70,7 +70,7 @@
   "also-available-as-svg": "Também disponível em <2>formato SVG</2>",
   "badge-copyright": "Na medida do possível por lei, <2>Jakub Steiner</2> renunciou a todos os direitos autorais e direitos relacionados ou adjacentes aos <5>Emblemas do Flathub</5>. Este trabalho foi publicado na República Tcheca.",
   "rss-description": "Inscreva-se nos feeds RSS do Flathub",
-  "search-for-query": "Procurar por \"{{query}}\"",
+  "search-for-query": "Procurar por “{{query}}”",
   "categories": "Categorias",
   "linked-accounts": "Contas conectadas",
   "link-more-accounts": "Conectar mais contas",
@@ -146,7 +146,7 @@
   "status-retry": "Tentar novamente",
   "stripe-error-processing_error": "Ocorreu um erro ao processar o cartão. Tente novamente mais tarde ou com outra forma de pagamento.",
   "delete-account-entry": "Eu gostaria de excluir minha conta",
-  "entry-confirmation-prompt": "Digite \"{{text}}\" para continuar.",
+  "entry-confirmation-prompt": "Digite “{{text}}” para continuar.",
   "delete-account-prompt": "Excluir sua conta?",
   "expiry": "Expira em",
   "safe-to-close-page": "É seguro fechar esta página.",
@@ -510,7 +510,7 @@
   "create-token": "Criar token",
   "scope-publish": "Publicar a compilação",
   "no-tokens-to-show": "Sem tokens para mostrar.",
-  "revoke-token-description": "Você tem certeza de que deseja revogar o token \"{{name}}\"?",
+  "revoke-token-description": "Você tem certeza de que deseja revogar o token “{{name}}”?",
   "revoke": "Revogar",
   "show-expired-tokens": "Mostrar os tokens expirados",
   "scope-upload": "Carregar arquivos para a compilação",
@@ -618,7 +618,7 @@
   "recipient": "Recebedor",
   "kind-donate-app": "Doar para {{appName}}",
   "total": "Total",
-  "apps-by-tag": "Aplicativos por tag '{{tag}}'",
+  "apps-by-tag": "Aplicativos por tag “{{tag}}”",
   "mobile-apps": "Aplicativos móveis",
   "mobile-apps-description": "Aplicativos para seus telefones e tablets Linux",
   "on-the-go": "Em movimento",
@@ -660,5 +660,9 @@
     "sliderLabel": "Controle deslizante da distribuição de participação",
     "flathubShare": "Participação do Flathub: {{percentage}}",
     "screenReaderBreakdown": "Controle deslizante de detalhamento da participação. Use as teclas de seta para ajustar a distribuição entre aplicativo, SDK e Flathub. Distribuição atual: Aplicativo: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Custo total: {{totalCost}}."
+  },
+  "download": {
+    "install-x": "Instalar “{{x}}”",
+    "fallback-instructions": "<0>Abrindo “{{name}}” no seu gerenciador de software...</0><1>Se nada acontecer, talvez seu sistema não ofereça suporte a URLs <i>flatpak+https</i>.</1><2>Nesse caso, você pode:</2><3><0>Baixar o arquivo <2>.flatpakref</2></0><1>Em seguida, executá-lo no seu gerenciador de arquivos</1></3><4><0>Instruções para instalar o Flatpak</0></4>"
   }
 }

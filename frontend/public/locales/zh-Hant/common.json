@@ -658,5 +658,9 @@
     "sliderThumbLabel": "應用程式分享分佈：{{percentage}}",
     "app": "應用程式",
     "screenReaderBreakdown": "分享細分滑桿。使用箭頭鍵調整應用程式、SDK 與 Flathub 之間的分佈。目前的分佈： App：{{appPercentage}}，SDK：{{sdkPercentage}}，Flathub：{{flathubPercentage}}。總花費：{{totalCost}}。"
+  },
+  "download": {
+    "install-x": "安裝「{{x}}」",
+    "fallback-instructions": "<0>正於您的軟體管理程式開啟「{{name}}」……</0><1>若沒有反應，代表您的系統可能不支援 <i>flatpak+https</i> URL。</1><2>在這種情況下，您可以：</2><3><0>下載 <2>.flatpakref 檔案</2></0><1>然後在您的檔案管理程式中執行該檔案</1></3><4><0>安裝 Flatpak 的說明</0></4>"
   }
 }

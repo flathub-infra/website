@@ -70,7 +70,7 @@
   "also-available-as-svg": "Juga tersedia dalam <2>format SVG</2>",
   "badge-copyright": "Sejauh dimungkinkan oleh hukum, <2>Jakub Steiner</2> telah melepaskan semua hak cipta dan hak terkait atau terkait dengan <5>Lencana Flathub</5>. Karya ini diterbitkan dari Ceko.",
   "rss-description": "Berlangganan umpan RSS dari Flathub",
-  "search-for-query": "Telusuri '{{query}}'",
+  "search-for-query": "Cari untuk “{{query}}”",
   "categories": "Kategori",
   "linked-accounts": "Akun Tertaut",
   "link-more-accounts": "Tautkan Lebih Banyak Akun",
@@ -152,7 +152,7 @@
   "cancel": "Batal",
   "delete-account-prompt": "Hapus akun Anda?",
   "delete-account-entry": "Saya ingin menghapus akun saya",
-  "entry-confirmation-prompt": "Masukkan \"{{text}}\" untuk melanjutkan.",
+  "entry-confirmation-prompt": "Masukkan “{{text}}” untuk melanjutkan.",
   "donate-to": "Donasi ke {{project}}",
   "transaction-summary-updated": "Pembaharuan terakhir:",
   "transaction-summary-status": "Status:",
@@ -440,7 +440,9 @@
     "branding-good-primary-brand-colors": "Warna merek utama yang bagus",
     "request-review-description": "Tim kami akan meninjau aplikasi Anda untuk mengetahui masalah kualitas. Silakan periksa kembali dalam beberapa hari.",
     "request-a-review-question": "Apakah Anda ingin meminta peninjauan?",
-    "problems": "Jika Anda ingin bertanya kepada kami tentang masalah pedoman kualitas tertentu, silakan laporkan <2>masalah</2>."
+    "problems": "Jika Anda ingin bertanya kepada kami tentang masalah pedoman kualitas tertentu, silakan laporkan <2>masalah</2>.",
+    "light": "Terang",
+    "dark": "Gelap"
   },
   "user-data-subfolder-x": "Subfolder data pengguna {{folder}}",
   "desktop-folder": "Folder desktop",
@@ -506,7 +508,7 @@
   "create-token": "Buat Token",
   "scope-publish": "Publikasikan build",
   "no-tokens-to-show": "Tidak ada token yang bisa ditampilkan.",
-  "revoke-token-description": "Apakah Anda yakin ingin mencabut token '{{name}}'?",
+  "revoke-token-description": "Apakah Anda yakin ingin mencabut token “{{name}}”?",
   "revoke": "Cabut",
   "show-expired-tokens": "Tampilkan token kedaluwarsa",
   "scope-upload": "Unggah file ke build",
@@ -614,7 +616,7 @@
   "amount": "Jumlah",
   "total": "Total",
   "created": "Dibuat",
-  "apps-by-tag": "Apk berdasar tag '{{tag}}'",
+  "apps-by-tag": "Apl berdasarkan tag “{{tag}}”",
   "quality": {
     "missing-brand-colors": "Warna brand hilang",
     "banner-preview-description": "Untuk memudahkan eksperimen dengan spanduk, gunakan<2>the banner preview</2>",
@@ -648,6 +650,17 @@
   "launcher": "Peluncur",
   "gamelauncher": "Peluncur Game",
   "vendingSharesPreview": {
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "sliderLabel": "Penggeser distribusi",
+    "sliderThumbLabel": "Distribusi pangsa apl: {{percentage}}",
+    "app": "Apl",
+    "appShare": "Pangsa apl: {{percentage}}",
+    "sdkShare": "Pangsa SDK: {{percentage}}",
+    "flathubShare": "Pangsa Flathub: {{percentage}}",
+    "screenReaderBreakdown": "Penggeser distribusi. Gunakan tombol panah untuk mengatur porsi antara Apl, SDK, dan Flathub.\nPorsi saat ini: Apl: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Biaya total: {{totalCost}}."
+  },
+  "download": {
+    "install-x": "Instal “{{x}}”",
+    "fallback-instructions": "<0>Membuka “{{name}}” di pengelola perangkat lunak Anda...</0><1>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</1><2>Dalam hal itu, Anda dapat:</2><3><0>Mengunduh <2>berkas .flatpakref</2></0><1>Kemudian jalankan dari pengelola berkas Anda</1></3><4><0>Petunjuk untuk menginstal Flatpak</0></4>"
   }
 }

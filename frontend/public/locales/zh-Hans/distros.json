@@ -126,8 +126,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>在 CentOS 7 及更新版本中，Flatpak 在使用 GNOME 时默认安装。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <2>Flathub 仓库文件</2>即可。</0> <2>现在您要做的就是<2>安装应用</2>！</2>"
+    "distroName": "CentOS Stream",
+    "introduction": "<0>在 CentOS Stream 8 及更新版本中，Flatpak 在使用 GNOME 时默认安装。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <2>Flathub 仓库文件</2>即可。</0> <2>现在您要做的就是<2>安装应用</2>！</2>"
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",

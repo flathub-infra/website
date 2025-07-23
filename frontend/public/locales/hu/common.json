@@ -73,7 +73,7 @@
   "code-examples": "Kódpéldák",
   "also-available-as-svg": "<2>SVG-formátumban</2> is elérhető",
   "rss-description": "Feliratkozás a Flathub RSS-hírcsatornáira",
-  "search-for-query": "A(z) „{{query}}” keresése",
+  "search-for-query": "Találatok erre: „{{query}}”",
   "categories": "Kategóriák",
   "linked-accounts": "Összekapcsolt fiókok",
   "link-more-accounts": "További fiókok összekapcsolása",
@@ -659,5 +659,9 @@
     "sdk": "SDK",
     "appShare": "Alkalmazás részesedése: {{percentage}}",
     "screenReaderBreakdown": "Részesedés megosztásának csúszkája. Használja a nyílbillentyűket az alkalmazás, az SDK és a Flathub közötti elosztás módosításához. Jelenlegi elosztás: Alkalmazás: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Teljes költség: {{totalCost}}."
+  },
+  "download": {
+    "install-x": "A(z) „{{x}}” telepítése",
+    "fallback-instructions": "<0>A(z) „{{name}}” megnyitása a szoftverkezelőben...</0><1>Ha semmi sem történik, lehet, hogy a rendszere nem támogatja a <i>flatpak+https</i> URL-eket.</1><2>Ebben az esetben az alábbi lehetőségek állnak rendelkezésére:</2><3><0>Töltse le a <2>.flatpakref fájlt</2></0><1>Majd futtassa azt a fájlkezelő segítségével</1></3><4><0>Útmutató a Flatpak telepítéséhez</0></4>"
   }
 }

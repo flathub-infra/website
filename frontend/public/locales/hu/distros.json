@@ -423,7 +423,7 @@
     "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a PureOS rendszeren. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2>"
   },
   "centos": {
-    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a CentOS 7-es és újabb verzióira, ha GNOME-ot használ. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2>",
-    "distroName": "CentOS"
+    "introduction": "<0>A Flatpak alapértelmezés szerint telepítve van a CentOS Stream 8-as és újabb verzióira, ha GNOME-ot használ. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <2>Flathub tárolófájlt</2>.</0> <2>Most már csak <2>alkalmazásokat kell telepítenie</2>!</2>",
+    "distroName": "CentOS Stream"
   }
 }
