@@ -145,8 +145,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>Flatpak diinstal secara default pada CentOS 7 dan versi yang lebih baru, saat menggunakan GNOME. Untuk memulai, yang perlu Anda lakukan hanyalah mengaktifkan Flathub, yang merupakan cara terbaik untuk mendapatkan aplikasi Flatpak. Cukup unduh dan instal <2>berkas repositori Flathub</2>.</0> <2>Sekarang yang perlu Anda lakukan hanyalah <2>menginstal aplikasi</2>!</2>"
+    "distroName": "CentOS Stream",
+    "introduction": "<0>Flatpak diinstal secara default pada CentOS Stream 8 dan versi yang lebih baru, saat menggunakan GNOME. Untuk memulai, yang perlu Anda lakukan hanyalah mengaktifkan Flathub, yang merupakan cara terbaik untuk mendapatkan aplikasi Flatpak. Cukup unduh dan instal <2>berkas repositori Flathub</2>.</0> <2>Sekarang yang perlu Anda lakukan hanyalah <2>menginstal aplikasi</2>!</2>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",

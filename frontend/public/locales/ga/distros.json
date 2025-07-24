@@ -145,8 +145,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>Tá Flatpak suiteáilte de réir réamhshocraithe ar CentOS 7 agus níos nuaí, agus GNOME á úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun apps Flatpak a fháil. Níl le déanamh ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
+    "distroName": "Sruth CentOS",
+    "introduction": "<0>Suiteáiltear Flatpak de réir réamhshocraithe ar CentOS Stream 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an <2>comhad stórtha Flathub</2> a íoslódáil agus a shuiteáil.</0> <2>Anois níl le déanamh agat ach <2>aipeanna a shuiteáil</2>!</2>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",

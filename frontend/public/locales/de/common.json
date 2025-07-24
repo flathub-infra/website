@@ -489,7 +489,9 @@
     "hide-branding-preview": "Brandingvorschau ausblenden",
     "show-branding-preview": "Brandingvorschau anzeigen",
     "branding": "Branding",
-    "problems": "Wenn du uns Fragen zu bestimmten Qualitätsrichtlinienproblemen stellen möchtest, öffne bitte <2>ein Issue</2>."
+    "problems": "Wenn du uns Fragen zu bestimmten Qualitätsrichtlinienproblemen stellen möchtest, öffne bitte <2>ein Issue</2>.",
+    "light": "Hell",
+    "dark": "Dunkel"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build-ID",
@@ -508,7 +510,7 @@
   "create-token": "Token erstellen",
   "scope-publish": "Build veröffentlichen",
   "no-tokens-to-show": "Keine Token zu zeigen.",
-  "revoke-token-description": "Bist du sicher, dass du den Token '{{name}}' widerrufen willst?",
+  "revoke-token-description": "Bist du sicher, dass du den Token „{{name}}“ widerrufen willst?",
   "revoke": "Widerrufen",
   "show-expired-tokens": "Abgelaufene Tokens anzeigen",
   "scope-upload": "Dateien zum Build hochladen",
@@ -598,7 +600,7 @@
   "transparent-safety": "<0>Transparente Sicherheit</0> — Es ist klar ersichtlich, ob eine App <3>verifiziert</3> ist und von ihrem Entwickler kommt, welche Berechtigungen sie benötigt und ob sie quelloffen und auditierbar ist oder nicht",
   "tastefully-curated": "<0>Geschmackvoll kuratiert</0> — Entdecke interessante, hochwertige Apps auf Flathub, die von unseren Mitarbeitern kuratiert werden und die besten Angebote präsentieren",
   "apps-for-you-where-you-are": "<0>Apps für dich, wo immer du bist</0> — Egal, ob du auf einem Steam Deck, einer leistungsstarken Linux-Workstation, einem Raspberry Pi oder dem seltenen Linux-Telefon bist; Flathub hat Apps für dich",
-  "millions-users": "<0>Millionen von Nutzern erreichen</0> — Flathub ist standardmäßig auf mehreren Linux-Distributionen verfügbar, lässt sich auf den übrigen <2>leicht installieren</2> und hat über eine Million aktive Nutzer",
+  "millions-users": "<0>Millionen von Nutzern erreichen</0> — Flathub ist standardmäßig auf mehreren Linux-Distributionen verfügbar, lässt sich auf den übrigen <3>leicht installieren</3> und hat über eine Million aktive Nutzer",
   "integration": "<0>Native App-Store-Integration</0> — Vergiss Web-Downloads; Flathub liefert Apps und <3>automatische Aktualisierungen</3> an die Benutzer in ihrem nativen App-Store-Client, wo sie es erwarten würden",
   "get-apps": "Apps bekommen",
   "flathub": "Flathub",
@@ -615,7 +617,7 @@
   "kind-donate-app": "An {{appName}} spenden",
   "kind-purchase-app": "{{appName}} kaufen",
   "recipient": "Empfänger",
-  "apps-by-tag": "Apps nach Tag '{{tag}}'",
+  "apps-by-tag": "Apps nach Tag „{{tag}}“",
   "mobile-apps": "Mobile Apps",
   "on-the-go": "Unterwegs",
   "more-mobile-apps": "Mehr mobile Apps",
@@ -647,5 +649,18 @@
     "screenshot": "Bildschirmaufnahme",
     "show-screenshot-fullscreen": "Zeige Bildschirmfoto im Vollbild"
   },
-  "count-verified-desktop-apps": "Verifizierte Desktop-Apps"
+  "count-verified-desktop-apps": "Verifizierte Desktop-Apps",
+  "vendingSharesPreview": {
+    "sliderLabel": "Anteil Aufteilungs-Schieber",
+    "sliderThumbLabel": "App Anteil: {{percentage}}",
+    "app": "App",
+    "sdk": "SDK",
+    "appShare": "App Anteil: {{percentage}}",
+    "sdkShare": "SDK Anteil: {{percentage}}",
+    "flathubShare": "Flathub Anteil: {{percentage}}"
+  },
+  "download": {
+    "install-x": "Installier „{{x}}“",
+    "fallback-instructions": "<0>„{{name}}“ wird in deinem Software manager geöffnet...</0><1>Wenn nichts passiert, unterstützt dein System vielleicht <i>flatpak+https</i>-Urls noch nicht.</1><2>In diesem Fall kannst du:</2><3><0>Die <2>.flatpakref Datei</2> herunterladen</0><1>Führe diese aus deinem Dateimanager aus</1></3><4><0>Anleitung um Flatpak zu installieren</0></4>"
+  }
 }

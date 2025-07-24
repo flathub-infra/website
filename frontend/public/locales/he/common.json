@@ -44,7 +44,7 @@
   "rss-description": "הירשמו לפידי RSS מFlathub",
   "rss-apps": "צריכים יישום RSS? אפשר למצוא מצויינים ב<2>Flathub</2>.",
   "apps-by-developer": "יישומים על ידי {{developer}}",
-  "search-for-query": "חיפוש עבור '{{query}}'",
+  "search-for-query": "חיפוש אחר „{{query}}”",
   "moderation-pending-reviews": "ביקורות ממתינות",
   "moderation-appstream-changes": "שינויים בAppstream",
   "moderation-appstream": "Appstream",
@@ -71,7 +71,7 @@
   "delete-account": "למחוק את החשבון",
   "delete-account-prompt": "למחוק את החשבון שלך?",
   "delete-account-entry": "אני רוצה למחוק את החשבון שלי",
-  "entry-confirmation-prompt": "יש להקליד \"{{text}}\" כדי להמשיך.",
+  "entry-confirmation-prompt": "נא להקליד „{{text}}” כדי להמשיך.",
   "login-with-provider": "כניסה עם {{provider}}",
   "by": "על ידי {{developer}}",
   "install": "להתקין",
@@ -445,7 +445,7 @@
   "date": "תאריך",
   "scope-upload": "העלאת קבצים לבנייה",
   "token-name": "שם האסימון",
-  "apps-by-tag": "יישומים לפי התגית ‚{{tag}}’",
+  "apps-by-tag": "יישומים לפי התגית „{{tag}}”",
   "lightbox": {
     "screenshot": "צילום מסך",
     "show-screenshot-fullscreen": "הצגת צילום מסך במסך מלא"
