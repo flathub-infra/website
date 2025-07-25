@@ -102,15 +102,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         isMobileFriendly = False
         hasTouch = False
 
-        requires = component.find("requires")
-        if requires is not None:
-            if display_lengths := requires.findall("display_length"):
-                if any(
-                    display_length_supports_mobile(display_length)
-                    for display_length in display_lengths
-                    if display_length.attrib.get("side", "shortest") != "longest"
-                ):
-                    isMobileFriendly = True
+        for tag_name in ("requires", "recommends"):
+            if (tag := component.find(tag_name)) is not None and (
+                display_lengths := tag.findall("display_length")
+            ):
+                isMobileFriendly = display_length_supports_mobile(display_lengths)
+                if isMobileFriendly:
+                    break
 
         for requirement in ("supports", "recommends"):
             element = component.find(requirement)
