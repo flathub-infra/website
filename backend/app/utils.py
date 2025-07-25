@@ -455,24 +455,26 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     return apps
 
 
-def display_length_supports_mobile(display_length: etree.Element) -> bool:
+def display_length_supports_mobile(display_lengths: list[etree.Element]) -> bool:
     conditions = {
         "ge": lambda value: value <= mobile_min_size,
         "gt": lambda value: value <= (mobile_min_size - 1),
         "le": lambda value: mobile_max_size <= value,
         "lt": lambda value: (mobile_max_size + 1) <= value,
     }
-    compare = display_length.attrib.get("compare", "ge")
-    displaylen_value = display_length.text
-    if displaylen_value is None:
-        return False
-
-    try:
-        value = int(displaylen_value)
-        return conditions.get(compare, lambda x: False)(value)
-    except ValueError:
-        pass
-
+    for display_length in display_lengths:
+        if display_length.attrib.get("side", "shortest") == "longest":
+            continue
+        compare = display_length.attrib.get("compare", "ge")
+        displaylen_value = display_length.text
+        if displaylen_value is None:
+            continue
+        try:
+            value = int(displaylen_value)
+            if conditions.get(compare, lambda x: False)(value):
+                return True
+        except ValueError:
+            continue
     return False
 
 
