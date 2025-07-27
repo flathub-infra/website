@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import { CardInfo } from "./CardInfo"
 import { faker } from "@faker-js/faker"
 import { PaymentCardInfo } from "../../../codegen"

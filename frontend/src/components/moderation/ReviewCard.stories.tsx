@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import ReviewCard from "./ReviewCard"
 import { t } from "i18next"
 import { faker } from "@faker-js/faker"

@@ -1,6 +1,6 @@
 import { ApplicationCardSkeleton } from "./ApplicationCard"
 
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 const meta: Meta<typeof ApplicationCardSkeleton> = {
   title: "Components/ApplicationCardSkeleton",

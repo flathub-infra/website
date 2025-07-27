@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useArgs } from "storybook/internal/preview-api"

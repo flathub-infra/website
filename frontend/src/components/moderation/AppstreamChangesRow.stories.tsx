@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import { faker } from "@faker-js/faker"
 import { ModerationRequestResponse } from "../../codegen/model"
