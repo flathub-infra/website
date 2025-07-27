@@ -102,7 +102,7 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-storybook": "^9.0.18",
-    "msw": "^2.7.5",
+    "msw": "^2.10.4",
     "msw-storybook-addon": "^2.0.5",
     "orval": "^7.10.0",
     "playwright": "^1.54.1",
