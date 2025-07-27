@@ -663,6 +663,6 @@
   },
   "download": {
     "install-x": "Nainstalovat “{{x}}”",
-    "fallback-instructions": "<0>Otevírání “{{name}}” ve vašem správci softwaru...</0><1>Pokud se nic nestane, možná váš systém nepodporuje <i>flatpak+https</i> urls.</1><2>V takovém případě můžete:</2><3><0>Stáhnout soubor <2>.flatpakref</2></0><1>Poté jej spustit z vašeho správce souborů</1></3><4><0>Pokyny pro instalaci Flatpaku</0></4>"
+    "fallback-instructions": "<0>Otevírání “{{name}}” ve vašem správci softwaru...</0><1>Pokud se nic nestane, možná váš systém nepodporuje <i>flatpak+https</i> odkazy.</1><2>V takovém případě můžete:</2><3><0>Stáhnout soubor <2>.flatpakref</2></0><1>Poté jej spustit z vašeho správce souborů</1></3><4><0>Pokyny pro instalaci Flatpaku</0></4>"
   }
 }

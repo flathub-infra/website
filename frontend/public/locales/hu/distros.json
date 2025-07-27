@@ -105,11 +105,11 @@
   "kubuntu": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<p>A Flatpak Kubuntu telepítéséhez nyissa meg a Felfedezést, lépjen a Beállításokba, telepítse a Flatpak háttérprogramot, és indítsa újra a Felfedezést.</p>"
+      "text": "<p>A Flatpak Kubuntu telepítéséhez nyissa meg a Discover-t, lépjen a Beállításokba, telepítse a Flatpak háttérprogramot, majd indítsa újra a Discover-t.</p>"
     },
     "step-3": {
       "name": "A Flathub-adattár hozzáadása",
-      "text": "<p>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez nyissa meg a Felfedezést, lépjen a Beállításokba, és adja hozzá a Flathub-tárat.</p>"
+      "text": "<p>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez nyissa meg a Discover-t, lépjen a Beállításokba, és adja hozzá a Flathub-tárat.</p>"
     },
     "step-4": {
       "name": "Újraindítás",
@@ -124,7 +124,7 @@
   "solus": {
     "step-3": {
       "name": "Újraindítás",
-      "text": "<0>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <2>alkalmazásokat kell telepítenie</2>!</0> <p>Megjegyzés: a Flatpak-alkalmazások grafikus telepítése csak a GNOME-szoftveren és/vagy a KDE-felfedezésen keresztül érhető el.</p>"
+      "text": "<0>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <2>alkalmazásokat kell telepítenie</2>!</0> <p>Megjegyzés: a Flatpak-alkalmazások grafikus telepítése csak a GNOME Szoftveren és/vagy a KDE Discoveren keresztül érhető el.</p>"
     },
     "step-1": {
       "name": "A Flatpak telepítése",
@@ -134,7 +134,7 @@
       "name": "A Flathub-adattár hozzáadása",
       "text": "<0>A Flathub a legjobb hely a Flatpak-alkalmazások beszerzésére. Az engedélyezéséhez töltse le és telepítse a <2>Flathub tárolófájlt</2>, vagy futtassa a következőket egy terminálon:</0> <2></2>"
     },
-    "introduction": "<p>A Flatpak támogatás be van építve a Solus 4.7-es és újabb operációs rendszerébe—nincs szükség beállításra! A Flatpak-alkalmazások telepíthetők a GNOME-szoftver és/vagy a KDE-felfedezés segítségével.</p> <p>Ha a Flatpak nincs telepítve, kövesse az alábbi utasításokat a kezdéshez.</p>",
+    "introduction": "<p>A Flatpak támogatás be van építve a Solus 4.7-es és újabb operációs rendszerébe—nincs szükség beállításra! A Flatpak-alkalmazások telepíthetők a GNOME Szoftver és/vagy a KDE Discover segítségével.</p> <p>Ha a Flatpak nincs telepítve, kövesse az alábbi utasításokat a kezdéshez.</p>",
     "distroName": "Solus"
   },
   "alpine": {
@@ -148,7 +148,7 @@
     },
     "step-2": {
       "name": "A Flatpak-szoftverbővítmény telepítése",
-      "text": "<p>A Flatpak beépülő modult a GNOME szoftverhez (v3.13 óta) vagy a KDE Felfedezéshez (v3.11 óta) telepítheti, lehetővé téve az alkalmazások telepítését a parancssor nélkül. A telepítéshez a GNOME szoftver futtatásához:</p> <2></2> <p>KDE Felfedezés esetén futtassa:</p> <6></6>"
+      "text": "<p>A Flatpak beépülő modult a GNOME Szoftverhez (v3.13 óta) vagy a KDE Discoverhez (v3.11 óta) telepítheti, lehetővé téve az alkalmazások telepítését a parancssor nélkül. A telepítéshez a GNOME Szoftver futtatásához:</p> <2></2> <p>KDE Discover esetén futtassa:</p> <6></6>"
     },
     "step-3": {
       "name": "A Flathub-adattár hozzáadása",
@@ -227,7 +227,7 @@
     },
     "step-2": {
       "name": "A Flatpak-szoftverbővítmény telepítése",
-      "text": "<p>Ha GNOME-ot használ, érdemes a Flatpak beépülő modult is telepíteni a GNOME szoftverhez. Ehhez futtassa a következőt:</p> <2></2>"
+      "text": "<p>Ha GNOME-ot használ, érdemes a Flatpak beépülő modult is telepíteni a GNOME Szoftverhez. Ehhez futtassa a következőt:</p> <2></2>"
     },
     "step-3": {
       "name": "A Flathub-adattár hozzáadása",
@@ -375,8 +375,8 @@
     },
     "distroName": "Ubuntu",
     "step-2": {
-      "name": "GNOME szoftver Flatpak beépülő modul telepítése",
-      "text": "<p>A GNOME szoftver beépülő modulja lehetővé teszi alkalmazások telepítését parancssor nélkül. A telepítéshez futtassa:</p> <2></2> <4><strong>Megjegyzés:</strong> Az Ubuntu a GNOME szoftvert Snap-ként terjeszti a 20.04–23.04-es verziókban, és lecserélte az Alkalmazásközpontre a 23.10-es és újabb verziókban—egyik sem támogatja a Flatpak-alkalmazások telepítését. A Flatpak beépülő modul telepítése a GNOME szoftver deb verzióját is telepíti, aminek eredményeként egyszerre két „Szoftver” alkalmazás kerül telepítésre az Ubuntu 20.04–23.04-es verzióiban, és egyetlen új „Szoftver” alkalmazás az Ubuntu 23.10-es és újabb verzióiban.</4>"
+      "name": "GNOME Szoftver Flatpak beépülő modul telepítése",
+      "text": "<p>A GNOME Szoftver beépülő modulja lehetővé teszi alkalmazások telepítését parancssor nélkül. A telepítéshez futtassa:</p> <2></2> <4><strong>Megjegyzés:</strong> Az Ubuntu a GNOME szoftvert Snap-ként terjeszti a 20.04–23.04-es verziókban, és lecserélte az Alkalmazásközpontre a 23.10-es és újabb verziókban—egyik sem támogatja a Flatpak-alkalmazások telepítését. A Flatpak beépülő modul telepítése a GNOME szoftver deb verzióját is telepíti, aminek eredményeként egyszerre két „Szoftver” alkalmazás kerül telepítésre az Ubuntu 20.04–23.04-es verzióiban, és egyetlen új „Szoftver” alkalmazás az Ubuntu 23.10-es és újabb verzióiban.</4>"
     },
     "step-4": {
       "name": "Újraindítás",
@@ -408,7 +408,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>A Flatpak támogatás be van építve a Zorin OS-be</0> <p>A szoftveráruház alkalmazás segítségével tölthet le Flatpak-alkalmazásokat.</p>"
+    "introduction": "<0>A Flatpak támogatás be van építve a Zorin OS-be</0> <p>A Szoftveráruház alkalmazás segítségével tölthet le Flatpak-alkalmazásokat.</p>"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
