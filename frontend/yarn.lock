@@ -2703,9 +2703,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.37.0":
-  version: 0.37.3
-  resolution: "@mswjs/interceptors@npm:0.37.3"
+"@mswjs/interceptors@npm:^0.39.1":
+  version: 0.39.4
+  resolution: "@mswjs/interceptors@npm:0.39.4"
   dependencies:
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/logger": "npm:^0.3.0"
@@ -2713,7 +2713,7 @@ __metadata:
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.4.3"
     strict-event-emitter: "npm:^0.5.1"
-  checksum: 10c0/5a8d9ab7c491d14dff996f23bda0fa7b7059f68a1d4981b804b6114f1c0c0490bc35860df135ed36da1720984323878b1a9d13dbc80936bbfa67b3d3c3476f6c
+  checksum: 10c0/349fd4cbfe231dc5da8047d9122b2ce40e2118585c1bf48c1a5ba677581e9f2ea8b68724d39c4e2998ed1eef6ac3824037fd2877e8502bf476dcd23c16af2cf4
   languageName: node
   linkType: hard
 
@@ -9747,7 +9747,7 @@ __metadata:
     linkify-html: "npm:^4.3.1"
     linkifyjs: "npm:^4.3.1"
     lucide-react: "npm:^0.526.0"
-    msw: "npm:^2.7.5"
+    msw: "npm:^2.10.4"
     msw-storybook-addon: "npm:^2.0.5"
     new-github-issue-url: "npm:^1.1.0"
     next: "npm:15.4.4"
@@ -12075,15 +12075,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.7.5":
-  version: 2.7.5
-  resolution: "msw@npm:2.7.5"
+"msw@npm:^2.10.4":
+  version: 2.10.4
+  resolution: "msw@npm:2.10.4"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.1"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
     "@bundled-es-modules/tough-cookie": "npm:^0.1.6"
     "@inquirer/confirm": "npm:^5.0.0"
-    "@mswjs/interceptors": "npm:^0.37.0"
+    "@mswjs/interceptors": "npm:^0.39.1"
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
@@ -12104,7 +12104,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/6de0e3d610c1786a00cd9abe76eb31755fcaaab4a29f5299b82c509328deaaf86dd79447f184a036965c13813eb6a425153e8c62f56747feffca597e46955204
+  checksum: 10c0/48dff36c7cf8ad504bb8f8a2ff6946cf5727752c140681eb68da00991d9fe56224bace970476771a9fffae136256c389c591d71368a6967d053dbad6b6df3346
   languageName: node
   linkType: hard
 
