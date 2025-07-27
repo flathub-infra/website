@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { ApplicationSectionGradientMultiToggle } from "./ApplicationSectionGradientMultiToggle"
 import { faker } from "@faker-js/faker"

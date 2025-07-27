@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { Switch } from "./switch"
 import { expect, within } from "storybook/test"

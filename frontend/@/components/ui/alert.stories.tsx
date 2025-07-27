@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { HiMiniExclamationTriangle } from "react-icons/hi2"

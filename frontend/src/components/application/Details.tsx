@@ -2,7 +2,7 @@ import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
 import { AddonAppstream, Appstream } from "../../types/Appstream"
-import { i18n, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
 
@@ -66,7 +66,7 @@ const Details: FunctionComponent<Props> = ({
   isQualityModalOpen,
   keywords,
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const countryStatisticsStartDate = new UTCDate(2024, 3, 15)
 
@@ -112,7 +112,7 @@ const Details: FunctionComponent<Props> = ({
     if (Object.keys(stats.installs_per_day).length > 10) {
       tabs.push({
         name: t("statistics"),
-        content: <AppStatistics stats={stats}></AppStatistics>,
+        content: <AppStatistics stats={stats} />,
         replacePadding: "p-0",
       })
     }

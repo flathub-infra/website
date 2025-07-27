@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import CardSelect from "./CardSelect"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"

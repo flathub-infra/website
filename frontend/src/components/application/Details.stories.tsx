@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import Details from "./Details"
 import { faker } from "@faker-js/faker"
 import { StatsResultApp } from "../../codegen"

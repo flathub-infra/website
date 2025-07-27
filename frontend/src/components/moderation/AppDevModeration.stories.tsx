@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import { AppDevModeration } from "./AppDevModeration"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 

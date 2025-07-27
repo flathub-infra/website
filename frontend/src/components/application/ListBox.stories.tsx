@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import ListBox from "./ListBox"
 import { faker } from "@faker-js/faker"
 import { HiCodeBracket } from "react-icons/hi2"

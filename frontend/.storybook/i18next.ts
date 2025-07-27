@@ -5,11 +5,13 @@ import { languages } from "../src/localize"
 const ns = ["common"]
 const supportedLngs = languages
 const resources = ns.reduce((acc, n) => {
-  supportedLngs.forEach((lng) => {
+  supportedLngs.forEach(async (lng) => {
     if (!acc[lng]) acc[lng] = {}
     acc[lng] = {
       ...acc[lng],
-      [n]: require(`../public/locales/${lng}/${n}.json`),
+      [n]: await import(`../public/locales/${lng}/${n}.json`).then(
+        (mod) => mod.default,
+      ),
     }
   })
   return acc

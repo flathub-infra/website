@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/nextjs"
+import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
 import WebsiteVerification from "./WebsiteVerification"
 import { expect, userEvent, waitFor, within } from "storybook/test"

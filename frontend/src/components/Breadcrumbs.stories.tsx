@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import Breadcrumbs from "./Breadcrumbs"
 import { useTranslation } from "next-i18next"
 

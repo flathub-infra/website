@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { StackedListBox } from "./StackedListBox"
 import { HiCodeBracket } from "react-icons/hi2"

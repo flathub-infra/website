@@ -1,5 +1,5 @@
 import React from "react"
-import { Meta } from "@storybook/nextjs"
+import { Meta } from "@storybook/nextjs-vite"
 import Verification from "./Verification"
 import {
   VerificationStatusLoginProvider,

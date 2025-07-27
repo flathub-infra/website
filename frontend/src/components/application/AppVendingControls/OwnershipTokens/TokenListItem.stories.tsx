@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import TokenListItem from "./TokenListItem"
 import { faker } from "@faker-js/faker"
