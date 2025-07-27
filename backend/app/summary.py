@@ -421,10 +421,7 @@ def update(sqldb) -> None:
         models.AppEolRebase.set_rebases(sqldb, new_app_id, old_ids)
 
     for appid_and_branch, message in eol_message.items():
-        if ":" in appid_and_branch:
-            app_id = appid_and_branch.split(":", 1)[0]
-        else:
-            app_id = appid_and_branch
+        app_id, _, branch = appid_and_branch.partition(":")
 
         models.App.set_eol_message(sqldb, app_id, message)
 
