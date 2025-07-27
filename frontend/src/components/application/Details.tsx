@@ -2,7 +2,7 @@ import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
 import { AddonAppstream, Appstream } from "../../types/Appstream"
-import { useTranslation } from "next-i18next"
+import { i18n, useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
 
@@ -33,6 +33,17 @@ import {
   StatsResultApp,
 } from "src/codegen"
 import { FlathubWorldMap } from "pages/statistics"
+import { Info } from "lucide-react"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { HiMiniInformationCircle } from "react-icons/hi2"
+import clsx from "clsx"
+import { UTCDate } from "@date-fns/utc"
+import { getIntlLocale } from "src/localize"
 
 interface Props {
   app?: Appstream
@@ -56,6 +67,8 @@ const Details: FunctionComponent<Props> = ({
   keywords,
 }) => {
   const { t } = useTranslation()
+
+  const countryStatisticsStartDate = new UTCDate(2024, 3, 15)
 
   const { data: vendingSetup } = useQuery({
     queryKey: ["appVendingSetup", app.id],
@@ -115,7 +128,41 @@ const Details: FunctionComponent<Props> = ({
     if (countryData?.length > 0) {
       tabs.push({
         name: t("country-statistics"),
-        content: <FlathubWorldMap country_data={countryData} />,
+        content: (
+          <div className="relative flex flex-col items-center">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className="absolute top-0 end-0 mt-1 me-1"
+                    aria-label={t("since-x", {
+                      date: countryStatisticsStartDate.toLocaleDateString(
+                        getIntlLocale(i18n.language),
+                      ),
+                    })}
+                  >
+                    <HiMiniInformationCircle
+                      className="size-5"
+                      aria-label={t("since-x", {
+                        date: countryStatisticsStartDate.toLocaleDateString(
+                          getIntlLocale(i18n.language),
+                        ),
+                      })}
+                    />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className={clsx("max-w-xs")}>
+                  {t("since-x", {
+                    date: countryStatisticsStartDate.toLocaleDateString(
+                      getIntlLocale(i18n.language),
+                    ),
+                  })}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <FlathubWorldMap country_data={countryData} />
+          </div>
+        ),
         replacePadding: "p-0",
       })
     }
