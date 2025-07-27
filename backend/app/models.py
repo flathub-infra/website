@@ -2266,7 +2266,7 @@ class App(Base):
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
-    def get_translated_appstream(self, locale: str) -> dict[str, Any]:
+    def get_translated_appstream(self, locale: str) -> dict[str, Any] | None:
         if not self.appstream:
             return None
 
@@ -2386,7 +2386,9 @@ class App(Base):
             db.session.commit()
 
     @classmethod
-    def set_eol_data(cls, db, app_id: str, is_eol: bool, branch: str = None) -> None:
+    def set_eol_data(
+        cls, db, app_id: str, is_eol: bool, branch: str | None = None
+    ) -> None:
         app = App.by_appid(db, app_id)
         if not app:
             return
@@ -2453,7 +2455,7 @@ class App(Base):
                 db.session.commit()
 
     @classmethod
-    def get_eol_data(cls, db, app_id: str, branch: str = None) -> bool:
+    def get_eol_data(cls, db, app_id: str, branch: str | None = None) -> bool:
         app = App.by_appid(db, app_id)
         if not app:
             return False

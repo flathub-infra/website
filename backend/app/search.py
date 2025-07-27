@@ -177,7 +177,7 @@ def create_or_update_apps(apps_to_update: list[dict]):
         secondary_client.index("apps").update_documents(apps_to_update)
 
 
-def delete_apps(app_id_list):
+def delete_apps(app_id_list: list[str]) -> None:
     if len(app_id_list) > 0:
         return client.index("apps").delete_documents(app_id_list)
     return None
