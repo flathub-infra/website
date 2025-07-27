@@ -70,6 +70,7 @@
   "count-desktop-apps": "Total desktop apps",
   "count-verified-desktop-apps": "Verified desktop apps",
   "since": "Since",
+  "since-x": "Since {{date}}",
   "downloads-per-country": "Downloads per Country",
   "downloads-over-time": "Downloads over time",
   "home": "Home",
