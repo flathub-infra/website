@@ -424,6 +424,7 @@ def update(sqldb) -> None:
         app_id, _, branch = appid_and_branch.partition(":")
 
         models.App.set_eol_message(sqldb, app_id, message)
+        models.App.set_eol_data(sqldb, app_id, True, branch if branch else None)
 
     reverse_lookup = {}
     for ref in metadata["xa.cache"]:
