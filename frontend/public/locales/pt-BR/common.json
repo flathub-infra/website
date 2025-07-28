@@ -664,5 +664,7 @@
   "download": {
     "install-x": "Instalar “{{x}}”",
     "fallback-instructions": "<0>Abrindo “{{name}}” no seu gerenciador de software...</0><1>Se nada acontecer, talvez seu sistema não ofereça suporte a URLs <i>flatpak+https</i>.</1><2>Nesse caso, você pode:</2><3><0>Baixar o arquivo <2>.flatpakref</2></0><1>Em seguida, executá-lo no seu gerenciador de arquivos</1></3><4><0>Instruções para instalar o Flatpak</0></4>"
-  }
+  },
+  "country-statistics": "Estatísticas por país",
+  "since-x": "Desde {{date}}"
 }
