@@ -466,7 +466,7 @@
     "screenshots-default-settings": "Paramètres par défaut",
     "screenshots-up-to-date": "À jour",
     "app-summary-dont-repeat-app-name": "Ne répète pas le nom de l'app",
-    "app-no-weird-formatting": "Formatage, ponctuation, minuscule, etc. corrects",
+    "app-no-weird-formatting": "Pas de formatage étranges, de ponctuation, de minuscules, etc.",
     "screenshots-reasonable-window-size": "Taille de fenêtre raisonnable",
     "screenshots": "Captures d'écran",
     "screenshots-take-screenshots-on-linux": "Captures d'écran prises sur Linux",
@@ -664,5 +664,7 @@
   "download": {
     "install-x": "Installer \"{{x}}\"",
     "fallback-instructions": "<0>Ouverture de \"{{name}}\" dans votre gestionnaire de logiciels...</0><1>Si rien ne se passe, votre système ne prend peut-être pas en charge les URL <i>flatpak+https</i>.</1><2>Si c'est le cas, vous pouvez :</2><3><0>Télécharger le <2>fichier .flatpakref</2></0><1>Puis l'exécuter depuis votre gestionnaire de fichiers</1></3><4><0>Instructions d'installation de Flatpak</0></4>"
-  }
+  },
+  "since-x": "Depuis{{date}}",
+  "country-statistics": "Statistiques du pays"
 }

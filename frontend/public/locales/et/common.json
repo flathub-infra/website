@@ -663,5 +663,7 @@
   "download": {
     "install-x": "Paigalda „{{x}}“",
     "fallback-instructions": "<0>Sa avad „{{name}}“ oma pakihaldusest...</0><1>Kui mitte midagi ei juhtu, siis võib-olla sinu seade ei toeta <i>flatpak+https</i>võrguaadresse.</1><2>Sel juhul võid sa:</2><3><0>laadida alla <2>.flatpakref faili</2></0><1>ja käivitada ta oma failihalduriga</1></3><4><0>Lisateave Flatpaki paigalduse kohta</0></4>"
-  }
+  },
+  "country-statistics": "Statistika riikide kaupa",
+  "since-x": "Alates {{date}}"
 }

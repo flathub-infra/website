@@ -666,5 +666,7 @@
   "download": {
     "install-x": "Suiteáil “{{x}}”",
     "fallback-instructions": "<0>Ag oscailt “{{name}}” i do bhainisteoir bogearraí...</0><1>Mura dtarlaíonn aon rud, b'fhéidir nach dtacaíonn do chóras le URLanna <i>flatpak+https</i>.</1><2>Sa chás sin is féidir leat:</2><3><0>An comhad <2>.flatpakref a íoslódáil</2></0><1>Ansin é a rith ó do bhainisteoir comhad</1></3><4><0>Treoracha chun Flatpak a shuiteáil</0></4>"
-  }
+  },
+  "country-statistics": "Staitisticí Tíre",
+  "since-x": "Ó {{date}}"
 }
