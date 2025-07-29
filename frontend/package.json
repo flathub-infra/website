@@ -50,7 +50,7 @@
     "i18next": "^25.3.2",
     "isomorphic-dompurify": "^2.25.0",
     "linkify-html": "^4.3.1",
-    "linkifyjs": "^4.3.1",
+    "linkifyjs": "^4.3.2",
     "lucide-react": "^0.526.0",
     "new-github-issue-url": "^1.1.0",
     "next": "15.4.4",
