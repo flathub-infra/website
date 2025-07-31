@@ -9719,7 +9719,7 @@ __metadata:
     typescript: "npm:^5.8.3"
     vitest: "npm:^3.2.4"
     yaml: "npm:^2.8.0"
-    yet-another-react-lightbox: "npm:^3.23.0"
+    yet-another-react-lightbox: "npm:^3.25.0"
   languageName: unknown
   linkType: soft
 
@@ -16007,9 +16007,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yet-another-react-lightbox@npm:^3.23.0":
-  version: 3.23.0
-  resolution: "yet-another-react-lightbox@npm:3.23.0"
+"yet-another-react-lightbox@npm:^3.25.0":
+  version: 3.25.0
+  resolution: "yet-another-react-lightbox@npm:3.25.0"
   peerDependencies:
     "@types/react": ^16 || ^17 || ^18 || ^19
     "@types/react-dom": ^16 || ^17 || ^18 || ^19
@@ -16020,7 +16020,7 @@ __metadata:
       optional: true
     "@types/react-dom":
       optional: true
-  checksum: 10c0/78e935faf920fb03858d862ec8bf4ba89fe9ce61ca2760c6833c869261202efeb98eeac597ae489153dc19564bc8e3a2103c883c0e46583667bc3bd3059ff250
+  checksum: 10c0/c2e41c19e4cf3bd1d762c8f135e2f72fc0e6355628e6e2604d11f19286c03f44bac44fee3fc9fd42ff7105f464b28c147979bb5e9cd445999bf7417f6d55d39d
   languageName: node
   linkType: hard
 
