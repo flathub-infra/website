@@ -748,12 +748,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/body@npm:0.0.11":
-  version: 0.0.11
-  resolution: "@react-email/body@npm:0.0.11"
+"@react-email/body@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@react-email/body@npm:0.1.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/4a86ea8041bf94992acde12efd79cd91f980b3c40a86792f98bd546e0b49f19fbdca1fc87d5d3e472a70535a3195f2738bbec1f9dec862d48c4bc625f599d3d6
+  checksum: 10c0/deeee52e0326eed20b3267dfe970649705298efae9ff580009ee7f48c201cbca6cd200be163865178ccdab04fc8e44384c6dd7ab130557b93f421d3b263b33c8
   languageName: node
   linkType: hard
 
@@ -795,11 +795,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.3.3":
-  version: 0.3.3
-  resolution: "@react-email/components@npm:0.3.3"
+"@react-email/components@npm:0.4.0":
+  version: 0.4.0
+  resolution: "@react-email/components@npm:0.4.0"
   dependencies:
-    "@react-email/body": "npm:0.0.11"
+    "@react-email/body": "npm:0.1.0"
     "@react-email/button": "npm:0.2.0"
     "@react-email/code-block": "npm:0.1.0"
     "@react-email/code-inline": "npm:0.0.5"
@@ -821,7 +821,7 @@ __metadata:
     "@react-email/text": "npm:0.1.5"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/54a42a206a1b80ced67e5350b56dd71c03f01eaa2e51d44392e8cff856db7cc03d351940bb0fdef6faff99c75f29e39cc5536c4dbf9ae47b3535488415d464a9
+  checksum: 10c0/d843564470a3d223e3e112d13b41e1a9de82ba1c9dbcc49a5b974f2d445925c4a585f859998c713d3cc80dd3cb6f7140cb86ee1af99b428a7be3e5fbe1655d2a
   languageName: node
   linkType: hard
 
@@ -3105,7 +3105,7 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
     "@hono/zod-openapi": "npm:^0.19.10"
-    "@react-email/components": "npm:0.3.3"
+    "@react-email/components": "npm:0.4.0"
     "@react-email/render": "npm:1.1.4"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.17"
