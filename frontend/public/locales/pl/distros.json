@@ -347,8 +347,8 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
-    "introduction": "<0>Flatpak jest instalowany domyślnie w systemie CentOS 7 i nowszych, gdy używane jest środowisko GNOME. Aby rozpocząć, wystarczy włączyć Flathub, który jest najlepszym sposobem na uzyskanie aplikacji Flatpak. Wystarczy pobrać i zainstalować plik <2>repozytorium Flathub</2>.</0> <2>Teraz wystarczy <2>zainstalować aplikacje</2>!</2>"
+    "distroName": "CentOS Stream",
+    "introduction": "<0>Flatpak jest instalowany domyślnie w systemie CentOS Stream 8 i nowszych, gdy używane jest środowisko GNOME. Aby rozpocząć, wystarczy włączyć Flathub, który jest najlepszym sposobem na uzyskanie aplikacji Flatpak. Wystarczy pobrać i zainstalować plik <2>repozytorium Flathub</2>.</0> <2>Teraz wystarczy <2>zainstalować aplikacje</2>!</2>"
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",

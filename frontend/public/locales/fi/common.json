@@ -57,7 +57,7 @@
   "badges-description": "Viralliset merkit, joilla promotoida Flathubissa olevaa sovellusta",
   "alternative-badge": "Vaihtoehtoinen merkki",
   "code-examples": "Koodiesimerkit",
-  "search-for-query": "Hae '{{query}}'",
+  "search-for-query": "Hae “{{query}}”",
   "link-more-accounts": "Linkitä lisää tilejä",
   "developer-tools": "Kehittäjän työkalut",
   "games": "Pelit",
@@ -147,7 +147,7 @@
   "less": "Vähemmän",
   "delete-account-prompt": "Haluatko poistaa tilisi?",
   "delete-account-entry": "Haluan poistaa tilini",
-  "entry-confirmation-prompt": "Kirjoita \"{{text}}\" jatkaaksesi.",
+  "entry-confirmation-prompt": "Kirjoita “{{text}}” jatkaaksesi.",
   "expiry": "Vanhenee",
   "purchase-apps-title": "Osta sovelluksia",
   "thank-you-for-your-purchase": "Kiitos ostoksestasi!",
@@ -504,7 +504,7 @@
   "name": "Nimi",
   "create-token": "Luo poletti",
   "no-tokens-to-show": "Ei poletteja näytettäväksi.",
-  "revoke-token-description": "Haluatko varmasti mitätöidä poletin '{{name}}'?",
+  "revoke-token-description": "Haluatko varmasti mitätöidä poletin “{{name}}”?",
   "revoke": "Mitätöi",
   "show-expired-tokens": "Näytä vanhentuneet poletit",
   "upload-tokens": "Lähetä poletit",
@@ -618,7 +618,7 @@
   "mobile-apps": "Mobiilisovellukset",
   "position-short": "Sijainti",
   "positions": "Sijainnit",
-  "apps-by-tag": "Sovellukset '{{tag}}'-tunnisteella",
+  "apps-by-tag": "Sovellukset “{{tag}}”-tunnisteella",
   "mobile-apps-description": "Sovelluksia Linux-puhelimille ja -tableteille",
   "on-the-go": "Matkassa",
   "more-mobile-apps": "Lisää mobiilisovelluksia",
@@ -652,5 +652,10 @@
   "count-verified-desktop-apps": "Vahvistetut työpöytäsovellukset",
   "vendingSharesPreview": {
     "app": "Sovellus"
+  },
+  "country-statistics": "Maatilastot",
+  "since-x": "Alkaen {{date}}",
+  "download": {
+    "install-x": "Asenna “{{x}}”"
   }
 }
