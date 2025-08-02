@@ -663,5 +663,6 @@
     "install-x": "安裝「{{x}}」",
     "fallback-instructions": "<0>正於您的軟體管理程式開啟「{{name}}」……</0><1>若沒有反應，代表您的系統可能不支援 <i>flatpak+https</i> URL。</1><2>在這種情況下，您可以：</2><3><0>下載 <2>.flatpakref 檔案</2></0><1>然後在您的檔案管理程式中執行該檔案</1></3><4><0>安裝 Flatpak 的說明</0></4>"
   },
-  "country-statistics": "國家統計"
+  "country-statistics": "國家統計",
+  "since-x": "從 {{date}} 開始"
 }

@@ -467,7 +467,9 @@
     "needed-to-pass-x": "Benodigd om te voldoen aan {{x}}",
     "hide-branding-preview": "Branding-voorvertoning verbergen",
     "show-branding-preview": "Branding-voorvertoning tonen",
-    "problems": "Als u ons vragen wilt stellen over specifieke problemen met de kwaliteits­richtlĳnen, kunt u gerust <2>een issue</2> openen."
+    "problems": "Als u ons vragen wilt stellen over specifieke problemen met de kwaliteits­richtlĳnen, kunt u gerust <2>een issue</2> openen.",
+    "light": "Licht",
+    "dark": "Donker"
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -657,5 +659,11 @@
     "appShare": "App-aandeel: {{percentage}}",
     "app": "App",
     "screenReaderBreakdown": "Schuif­regelaar voor aandelen­verdeling. Gebruik de pĳltjes­toetsen om de verdeling tussen App, SDK en Flathub aan te passen. Huidige verdeling: App: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Totale kosten: {{totalCost}}."
+  },
+  "country-statistics": "Landelĳke statistieken",
+  "since-x": "Sinds {{date}}",
+  "download": {
+    "install-x": "‘{{x}}’ installeren",
+    "fallback-instructions": "<0>‘{{name}}’ wordt geopend in uw softwarebeheerder…</0><1>Als er niets gebeurt, ondersteunt uw systeem mogelĳk geen <i>flatpak+https</i>-url's.</1><2>In dat geval kunt u:</2><3><0>Het <2>.flatpakref-bestand downloaden</2></0><1>Deze vervolgens uitvoeren vanuit uw bestandsbeheerder</1></3><4><0>Instructies voor het installeren van Flatpak</0></4>"
   }
 }
