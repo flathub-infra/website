@@ -137,9 +137,12 @@ if secondary_client:
     _configure_meilisearch_index(secondary_client)
 
 
-def _translate_name_and_summary[U: (MeilisearchResponse, MeilisearchResponseLimited)](
-    locale: str, searchResults: U
-):
+def _translate_name_and_summary[
+    U: (
+        MeilisearchResponse,
+        MeilisearchResponseLimited,
+    )
+](locale: str, searchResults: U):
     fallbackLocale = locale.split("-")[0]
 
     for searchResult in searchResults.hits:
@@ -545,6 +548,10 @@ def get_runtime_list() -> dict[str, int]:
     return client.index("apps").search(
         "",
         {
+            "filter": [
+                "type IN [console-application, desktop-application]",
+                "NOT icon IS NULL",
+            ],
             "limit": 0,
             "sort": ["installs_last_month:desc"],
             "facets": ["runtime"],
