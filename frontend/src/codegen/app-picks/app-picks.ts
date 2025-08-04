@@ -41,7 +41,7 @@ export const getAppOfTheDayAppPicksAppOfTheDayDateGet = (
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
-  date: string,
+  date?: string,
 ) => {
   return [`/app-picks/app-of-the-day/${date}`] as const
 }
@@ -214,7 +214,7 @@ export const getAppOfTheWeekAppPicksAppsOfTheWeekDateGet = (
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryKey = (
-  date: string,
+  date?: string,
 ) => {
   return [`/app-picks/apps-of-the-week/${date}`] as const
 }

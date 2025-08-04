@@ -93,10 +93,10 @@ export const getGetInviteStatusInvitesAppIdGetMockHandler = (
 
 export const getInviteDeveloperInvitesAppIdInvitePostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/invites/:appId/invite", async (info) => {
     await delay(1000)
@@ -109,10 +109,10 @@ export const getInviteDeveloperInvitesAppIdInvitePostMockHandler = (
 
 export const getAcceptInviteInvitesAppIdAcceptPostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/invites/:appId/accept", async (info) => {
     await delay(1000)
@@ -125,10 +125,10 @@ export const getAcceptInviteInvitesAppIdAcceptPostMockHandler = (
 
 export const getDeclineInviteInvitesAppIdDeclinePostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/invites/:appId/decline", async (info) => {
     await delay(1000)
@@ -141,10 +141,10 @@ export const getDeclineInviteInvitesAppIdDeclinePostMockHandler = (
 
 export const getLeaveTeamInvitesAppIdLeavePostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/invites/:appId/leave", async (info) => {
     await delay(1000)
@@ -182,10 +182,10 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler = (
 
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/invites/:appId/remove-developer", async (info) => {
     await delay(1000)
@@ -198,10 +198,10 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMockHandler = (
 
 export const getRevokeInviteInvitesAppIdRevokePostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/invites/:appId/revoke", async (info) => {
     await delay(1000)

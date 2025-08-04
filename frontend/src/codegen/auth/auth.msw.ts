@@ -472,10 +472,10 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockH
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler =
   (
     overrideResponse?:
-      | void
+      | null
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<void> | void),
+        ) => Promise<null> | null),
   ) => {
     return http.post("*/auth/change-default-account", async (info) => {
       await delay(1000)

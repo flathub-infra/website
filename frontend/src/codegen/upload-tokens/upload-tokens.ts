@@ -47,7 +47,7 @@ export const getUploadTokensUploadTokensAppIdGet = (
 }
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
 ) => {
   return [`/upload-tokens/${appId}`, ...(params ? [params] : [])] as const
@@ -309,7 +309,7 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
 export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
   tokenId: number,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/upload-tokens/${tokenId}/revoke`, undefined, options)
 }
 

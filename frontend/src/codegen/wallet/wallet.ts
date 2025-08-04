@@ -557,7 +557,7 @@ export const getTransactionByIdWalletTransactionsTxnGet = (
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryKey = (
-  txn: string,
+  txn?: string,
 ) => {
   return [`/wallet/transactions/${txn}`] as const
 }
@@ -1104,7 +1104,7 @@ export const getTxnStripedataWalletTransactionsTxnStripeGet = (
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryKey = (
-  txn: string,
+  txn?: string,
 ) => {
   return [`/wallet/transactions/${txn}/stripe`] as const
 }

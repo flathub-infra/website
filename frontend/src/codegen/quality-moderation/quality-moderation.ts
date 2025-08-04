@@ -996,7 +996,7 @@ export const getQualityModerationForAppQualityModerationAppIdGet = (
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/quality-moderation/${appId}`] as const
 }
@@ -1324,7 +1324,7 @@ export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet = (
 }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryKey =
-  (appId: string) => {
+  (appId?: string) => {
     return [`/quality-moderation/${appId}/status`] as const
   }
 

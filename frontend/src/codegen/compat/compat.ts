@@ -1211,7 +1211,7 @@ export const getSearchCompatAppsSearchQueryGet = (
 }
 
 export const getGetSearchCompatAppsSearchQueryGetQueryKey = (
-  query: string,
+  query?: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
 ) => {
   return [`/compat/apps/search/${query}`, ...(params ? [params] : [])] as const
@@ -1392,7 +1392,7 @@ export const getSingleAppCompatAppsAppIdGet = (
   return axios.get(`/compat/apps/${appId}`, options)
 }
 
-export const getGetSingleAppCompatAppsAppIdGetQueryKey = (appId: string) => {
+export const getGetSingleAppCompatAppsAppIdGetQueryKey = (appId?: string) => {
   return [`/compat/apps/${appId}`] as const
 }
 

@@ -642,7 +642,7 @@ export const getAppVendingSetupVendingappAppIdSetupGet = (
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/vendingapp/${appId}/setup`] as const
 }
@@ -1012,7 +1012,7 @@ export const getRedeemableTokensVendingappAppIdTokensGet = (
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/vendingapp/${appId}/tokens`] as const
 }
@@ -1489,7 +1489,7 @@ export const appInfoVendingappAppIdInfoGet = (
   return axios.get(`/vendingapp/${appId}/info`, options)
 }
 
-export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId: string) => {
+export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId?: string) => {
   return [`/vendingapp/${appId}/info`] as const
 }
 

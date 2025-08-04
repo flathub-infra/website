@@ -139,10 +139,10 @@ export const getCreateUploadTokenUploadTokensAppIdPostMockHandler = (
 
 export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/upload-tokens/:tokenId/revoke", async (info) => {
     await delay(1000)

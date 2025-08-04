@@ -13,6 +13,7 @@ import type { PipelineResponseBuildId } from "./pipelineResponseBuildId"
 import type { PipelineResponseCommitJobId } from "./pipelineResponseCommitJobId"
 import type { PipelineResponsePublishJobId } from "./pipelineResponsePublishJobId"
 import type { PipelineResponseUpdateRepoJobId } from "./pipelineResponseUpdateRepoJobId"
+import type { PipelineResponseReproPipelineId } from "./pipelineResponseReproPipelineId"
 import type { PipelineResponseStartedAt } from "./pipelineResponseStartedAt"
 import type { PipelineResponseFinishedAt } from "./pipelineResponseFinishedAt"
 import type { PipelineResponsePublishedAt } from "./pipelineResponsePublishedAt"
@@ -29,6 +30,7 @@ export interface PipelineResponse {
   commit_job_id?: PipelineResponseCommitJobId
   publish_job_id?: PipelineResponsePublishJobId
   update_repo_job_id?: PipelineResponseUpdateRepoJobId
+  repro_pipeline_id?: PipelineResponseReproPipelineId
   created_at: string
   started_at?: PipelineResponseStartedAt
   finished_at?: PipelineResponseFinishedAt

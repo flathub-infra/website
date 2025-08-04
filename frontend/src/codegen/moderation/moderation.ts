@@ -222,7 +222,7 @@ export const getModerationAppModerationAppsAppIdGet = (
 }
 
 export const getGetModerationAppModerationAppsAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
 ) => {
   return [`/moderation/apps/${appId}`, ...(params ? [params] : [])] as const

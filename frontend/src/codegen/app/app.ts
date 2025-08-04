@@ -208,7 +208,7 @@ export const getEolRebaseAppidEolRebaseAppIdGet = (
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
 ) => {
   return [`/eol/rebase/${appId}`, ...(params ? [params] : [])] as const
@@ -545,7 +545,7 @@ export const getEolMessageAppidEolMessageAppIdGet = (
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
 ) => {
   return [`/eol/message/${appId}`, ...(params ? [params] : [])] as const
@@ -897,7 +897,7 @@ export const getAppstreamAppstreamAppIdGet = (
 }
 
 export const getGetAppstreamAppstreamAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
 ) => {
   return [`/appstream/${appId}`, ...(params ? [params] : [])] as const
@@ -1076,7 +1076,7 @@ export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/is-fullscreen-app/${appId}`] as const
 }
@@ -1491,7 +1491,7 @@ export const getSummarySummaryAppIdGet = (
 }
 
 export const getGetSummarySummaryAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetSummarySummaryAppIdGetParams,
 ) => {
   return [`/summary/${appId}`, ...(params ? [params] : [])] as const
@@ -1823,7 +1823,7 @@ export const getAddonsAddonAppIdGet = (
   return axios.get(`/addon/${appId}`, options)
 }
 
-export const getGetAddonsAddonAppIdGetQueryKey = (appId: string) => {
+export const getGetAddonsAddonAppIdGetQueryKey = (appId?: string) => {
   return [`/addon/${appId}`] as const
 }
 
@@ -2139,7 +2139,7 @@ export const getExceptionsForAppExceptionsAppIdGet = (
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/exceptions/${appId}`] as const
 }
@@ -2631,7 +2631,7 @@ export const isFavoritedFavoritesAppIdGet = (
   return axios.get(`/favorites/${appId}`, options)
 }
 
-export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId: string) => {
+export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId?: string) => {
   return [`/favorites/${appId}`] as const
 }
 

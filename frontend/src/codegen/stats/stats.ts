@@ -188,7 +188,7 @@ export const getStatsForAppStatsAppIdGet = (
 }
 
 export const getGetStatsForAppStatsAppIdGetQueryKey = (
-  appId: string,
+  appId?: string,
   params?: GetStatsForAppStatsAppIdGetParams,
 ) => {
   return [`/stats/${appId}`, ...(params ? [params] : [])] as const

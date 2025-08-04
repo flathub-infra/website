@@ -206,7 +206,7 @@ export const getCategoryCollectionCategoryCategoryGet = (
 }
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
-  category: MainCategory,
+  category?: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
 ) => {
   return [
@@ -396,8 +396,8 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
   (
-    category: MainCategory,
-    params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+    category?: MainCategory,
+    params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   ) => {
     return [
       `/collection/category/${category}/subcategories`,
@@ -651,7 +651,7 @@ export const getKeywordCollectionKeywordGet = (
 }
 
 export const getGetKeywordCollectionKeywordGetQueryKey = (
-  params: GetKeywordCollectionKeywordGetParams,
+  params?: GetKeywordCollectionKeywordGetParams,
 ) => {
   return [`/collection/keyword`, ...(params ? [params] : [])] as const
 }
@@ -991,7 +991,7 @@ export const getDeveloperCollectionDeveloperDeveloperGet = (
 }
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
-  developer: string,
+  developer?: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
 ) => {
   return [
