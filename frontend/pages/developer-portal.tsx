@@ -60,7 +60,9 @@ const AcceptingPayment = ({}) => {
 
   return (
     <div className="my-auto">
-      <h3 className="my-4 text-xl font-semibold">{t("accepting-payment")}</h3>
+      <h3 className="my-4 text-xl font-semibold" id="accepting-payment">
+        {t("accepting-payment")}
+      </h3>
       <VendingLink />
     </div>
   )
@@ -71,7 +73,9 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-3">{t("news")}</h2>
+      <h2 className="text-2xl font-bold mb-3" id="news">
+        {t("news")}
+      </h2>
       <div className="grid grid-cols-1 gap-x-8 gap-y-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
         {feed.items.slice(0, 3).map((feedItem) => (
           <article key={feedItem.id} className="flex max-w-xl flex-col">

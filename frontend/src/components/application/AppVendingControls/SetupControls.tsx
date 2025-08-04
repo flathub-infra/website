@@ -19,10 +19,12 @@ import { AxiosError } from "axios"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
+  statusVendingStatusGet,
   VendingConfig,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
+import Link from "next/link"
 
 interface Props {
   app: Appstream
@@ -38,6 +40,14 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   const [vendingEnabled, setVendingEnabled] = useState(false)
   const [requirePayment, setRequirePayment] = useState(false)
+
+  const statusQuery = useQuery({
+    queryKey: ["/vending/status"],
+    queryFn: () =>
+      statusVendingStatusGet({
+        withCredentials: true,
+      }),
+  })
 
   // Need existing app vending configuration to initialise controls
   const vendingSetup = useQuery({
@@ -133,94 +143,99 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     isValidRecommended &&
     (!requirePayment || minPayment.live >= FLATHUB_MIN_PAYMENT)
 
-  if (vendingSetup.isPending || setAppVendingSetupMutation.isPending) {
+  if (
+    statusQuery.isPending ||
+    vendingSetup.isPending ||
+    setAppVendingSetupMutation.isPending
+  ) {
     return <Spinner size="m" />
   }
 
-  let content: ReactElement
-  if (vendingSetup.isError) {
-    content = <p>{t(vendingSetup.error.message)}</p>
-  } else {
-    content = (
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-        <div className="flex items-center gap-3 border-b border-slate-400/20 pb-3">
-          <Switch
-            checked={vendingEnabled}
-            onCheckedChange={setVendingEnabled}
-          />
-          <label>{t("enable-app-vending")}</label>
-        </div>
-        <div>
-          <label>{t("recommended-payment")}</label>
-          <Currency.Input
-            inputValue={recommendedDonation}
-            setValue={setRecommendedDonation}
-            disabled={!vendingEnabled}
-            maximum={STRIPE_MAX_PAYMENT}
-          />
-          <Currency.MinMaxError
-            value={recommendedDonation}
-            minimum={Math.max(
-              FLATHUB_MIN_PAYMENT,
-              requirePayment ? minPayment.settled : 0,
-            )}
-            maximum={STRIPE_MAX_PAYMENT}
-          />
-        </div>
-        {vendingEnabled && (
-          <div>
-            <VendingSharesPreview
-              price={recommendedDonation.live * 100}
-              app={app}
-              appShare={appShare}
-              setAppShare={setAppShare}
-              vendingConfig={vendingConfig}
-              interactive
-            />
-          </div>
-        )}
-        <div className="flex items-center gap-3 border-t border-slate-400/20 pt-3">
-          <Switch
-            checked={requirePayment}
-            onCheckedChange={setRequirePayment}
-          />
-          <label>{t("require-payment")}</label>
-        </div>
-        <div>
-          <label>{t("minimum-payment")}</label>
-          <Currency.Input
-            inputValue={minPayment}
-            setValue={setMinPayment}
-            disabled={!vendingEnabled || !requirePayment}
-            maximum={STRIPE_MAX_PAYMENT}
-          />
-          <Currency.MinMaxError
-            value={minPayment}
-            minimum={FLATHUB_MIN_PAYMENT}
-            maximum={STRIPE_MAX_PAYMENT}
-          />
-        </div>
-        {vendingEnabled && requirePayment && (
-          <div>
-            <VendingSharesPreview
-              price={minPayment.live * 100}
-              app={app}
-              appShare={appShare}
-              setAppShare={() => {}}
-              vendingConfig={vendingConfig}
-            />
-          </div>
-        )}
-        <div className="border-t border-slate-400/20 pt-3">
-          <Button size="lg" disabled={!isValidState} type="submit">
-            {t("confirm-settings")}
-          </Button>
-        </div>
-      </form>
+  if (!statusQuery.data.data || !statusQuery.data.data.details_submitted) {
+    return (
+      <p>
+        <Link href="/developer-portal#accepting-payment">
+          {t("vending-onboard")}
+        </Link>
+      </p>
     )
   }
 
-  return <>{content}</>
+  if (vendingSetup.isError) {
+    return <p>{t(vendingSetup.error.message)}</p>
+  }
+
+  return (
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+      <div className="flex items-center gap-3 border-b border-slate-400/20 pb-3">
+        <Switch checked={vendingEnabled} onCheckedChange={setVendingEnabled} />
+        <label>{t("enable-app-vending")}</label>
+      </div>
+      <div>
+        <label>{t("recommended-payment")}</label>
+        <Currency.Input
+          inputValue={recommendedDonation}
+          setValue={setRecommendedDonation}
+          disabled={!vendingEnabled}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
+        <Currency.MinMaxError
+          value={recommendedDonation}
+          minimum={Math.max(
+            FLATHUB_MIN_PAYMENT,
+            requirePayment ? minPayment.settled : 0,
+          )}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
+      </div>
+      {vendingEnabled && (
+        <div>
+          <VendingSharesPreview
+            price={recommendedDonation.live * 100}
+            app={app}
+            appShare={appShare}
+            setAppShare={setAppShare}
+            vendingConfig={vendingConfig}
+            interactive
+          />
+        </div>
+      )}
+      <div className="flex items-center gap-3 border-t border-slate-400/20 pt-3">
+        <Switch checked={requirePayment} onCheckedChange={setRequirePayment} />
+        <label>{t("require-payment")}</label>
+      </div>
+      <div>
+        <label>{t("minimum-payment")}</label>
+        <Currency.Input
+          inputValue={minPayment}
+          setValue={setMinPayment}
+          disabled={!vendingEnabled || !requirePayment}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
+        <Currency.MinMaxError
+          value={minPayment}
+          minimum={FLATHUB_MIN_PAYMENT}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
+      </div>
+      {vendingEnabled && requirePayment && (
+        <div>
+          <VendingSharesPreview
+            price={minPayment.live * 100}
+            app={app}
+            appShare={appShare}
+            setAppShare={() => {}}
+            vendingConfig={vendingConfig}
+          />
+        </div>
+      )}
+      <div className="border-t border-slate-400/20 pt-3">
+        <Button size="lg" disabled={!isValidState} type="submit">
+          {t("confirm-settings")}
+        </Button>
+      </div>
+    </form>
+  )
 }
 
 export default SetupControls
