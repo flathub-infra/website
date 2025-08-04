@@ -24,16 +24,7 @@ import {
   useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
 } from "src/codegen"
 import { format } from "date-fns"
-import {
-  LineChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Line,
-  BarChart,
-  Bar,
-  Treemap,
-} from "recharts"
+import { LineChart, XAxis, YAxis, Line, BarChart, Treemap, Bar } from "recharts"
 import {
   primaryStroke,
   axisStroke,
@@ -41,7 +32,12 @@ import {
   FlathubTooltip,
 } from "src/chartComponents"
 import { createRef, useState, type JSX } from "react"
-import { ChartContainer, ChartConfig } from "@/components/ui/chart"
+import {
+  ChartContainer,
+  ChartConfig,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 
@@ -210,8 +206,8 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
               stroke={axisStroke(resolvedTheme)}
               width={80}
             />
-            <Tooltip
-              content={<FlathubTooltip />}
+            <ChartTooltip
+              content={<FlathubTooltip hideIndicator />}
               labelFormatter={(x) => format(x, "MMM yyyy")}
             />
           </LineChart>
@@ -271,7 +267,10 @@ const FailedByGuideline = () => {
                   tick={{ fontSize: 12 }}
                   tickLine={false}
                 />
-                <Tooltip cursor={false} content={<FlathubTooltip />} />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideIndicator />}
+                />
                 <Bar
                   dataKey="not_passed"
                   name={t("quality-guideline.not-passed")}
@@ -288,7 +287,6 @@ const FailedByGuideline = () => {
 
 const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
   const { t } = useTranslation()
-  const { resolvedTheme } = useTheme()
 
   const chartConfig = {
     category: {
@@ -310,8 +308,11 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
       </h2>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
         <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
-          <Treemap data={category_data} dataKey="value" nameKey={"name"}>
-            <Tooltip cursor={false} content={<FlathubTooltip />} />
+          <Treemap data={category_data} dataKey="value" nameKey="name">
+            <ChartTooltip
+              cursor={false}
+              content={<FlathubTooltip hideIndicator />}
+            />
           </Treemap>
         </ChartContainer>
       </div>
@@ -351,7 +352,7 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
               tickLine={false}
               stroke={axisStroke(resolvedTheme)}
             />
-            <Tooltip cursor={false} content={<FlathubTooltip />} />
+            <ChartTooltip content={<ChartTooltipContent hideIndicator />} />
             <Bar
               onClick={(event: any) =>
                 router.push(
@@ -365,6 +366,7 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
                 setHover(null)
               }}
               dataKey="value"
+              name={t("count")}
               shape={(props: any) => (
                 <rect
                   {...props}
