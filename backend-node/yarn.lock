@@ -3016,9 +3016,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:4.2.6":
-  version: 4.2.6
-  resolution: "react-email@npm:4.2.6"
+"react-email@npm:4.2.7":
+  version: 4.2.7
+  resolution: "react-email@npm:4.2.7"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -3039,7 +3039,7 @@ __metadata:
     tsconfig-paths: "npm:4.2.0"
   bin:
     email: dist/index.js
-  checksum: 10c0/6104028660b8f4658ec4fee5d9b3d5183f30354706385fbf6da3bb3b9bffcd0ea708fd32c561b783c0d18378d120ef790582b7a8604d93bb8644dc575529c918
+  checksum: 10c0/1dc57ff7568a007c20d98664610916a9a70988f67bb895ba87ba03c8412e918481653387fd9ca58c74e89ed353c133d19f185ed960a71ecf1376d9dfa4edb8bb
   languageName: node
   linkType: hard
 
@@ -3120,7 +3120,7 @@ __metadata:
     prettier: "npm:3.6.2"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
-    react-email: "npm:4.2.6"
+    react-email: "npm:4.2.7"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.9.2"
     zod: "npm:^3.25.75"
