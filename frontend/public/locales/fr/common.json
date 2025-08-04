@@ -240,7 +240,7 @@
   "settings": "Paramètres",
   "verification": "Validation",
   "apps": "Apps",
-  "count-desktop-apps": "Nombre total de logiciel",
+  "count-desktop-apps": "Nombre total d'apps de bureau",
   "setup-flathub-description": "Configurez Flathub pour installer et mettre à jour les logiciels sur votre système.",
   "rss-apps": "Vous avez besoin d'une application RSS ? Vous en trouverez d'excellentes sur <2>Flathub</2>.",
   "no-apps": "Aucune app à afficher.",
@@ -629,7 +629,7 @@
   "more-emulator": "Plus d'émulateurs",
   "tool": "Outils",
   "gameemulator": "Émulateurs",
-  "we-love-games": "Nous ♥ les jeux",
+  "we-love-games": "Nous + jeux = ♥",
   "gamelauncher": "Lanceurs de jeux",
   "more-gamelauncher": "Plus de lanceurs de jeux",
   "gametool": "Outils de jeux",
@@ -665,6 +665,7 @@
     "install-x": "Installer \"{{x}}\"",
     "fallback-instructions": "<0>Ouverture de \"{{name}}\" dans votre gestionnaire de logiciels...</0><1>Si rien ne se passe, votre système ne prend peut-être pas en charge les URL <i>flatpak+https</i>.</1><2>Si c'est le cas, vous pouvez :</2><3><0>Télécharger le <2>fichier .flatpakref</2></0><1>Puis l'exécuter depuis votre gestionnaire de fichiers</1></3><4><0>Instructions d'installation de Flatpak</0></4>"
   },
-  "since-x": "Depuis{{date}}",
-  "country-statistics": "Statistiques du pays"
+  "since-x": "Depuis {{date}}",
+  "country-statistics": "Statistiques par pays",
+  "count": "Total"
 }

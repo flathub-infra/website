@@ -436,7 +436,8 @@
     "hide-branding-preview": "隐藏商标预览",
     "show-branding-preview": "显示商标预览",
     "light": "浅色",
-    "dark": "深色"
+    "dark": "深色",
+    "problems": "如果您想向我们询问具体的质量指南问题，请随时打开<2>问题</2>。"
   },
   "user-data-subfolder-x": "用户数据子文件夹 {{folder}}",
   "desktop-folder": "桌面文件夹",
@@ -651,6 +652,18 @@
     "screenReaderBreakdown": "份额细分滑块。使用箭头键调整应用、SDK 和 Flathub 之间的分配比例。当前分配比例：应用 {{appPercentage}}、SDK {{sdkPercentage}}、Flathub {{flathubPercentage}}。总成本：{{totalCost}}。"
   },
   "download": {
-    "install-x": "安装“{{x}}”"
-  }
+    "install-x": "安装“{{x}}”",
+    "fallback-instructions": "<0>正在您的软件管理器中打开“{{name}}”……</0><1>如果没有任何反应，有可能您的系统不支持 <i>flatpak+https</i> 链接。</1><2>这种情况下，您可以：</2><3><0>下载 <2>.flatpakref 文件</2></0><1>然后在您的文件管理器中运行该文件</1></3><4><0>Flatpak 安装指南</0></4>"
+  },
+  "country-statistics": "国家/地区统计数据",
+  "all-the-apps-you-want": "<0>海量应用，随心选择</0> — 从您熟悉的大厂应用，到新兴的独立开发者佳作，Flathub 拥有数千款应用满足您的所需。",
+  "apps-for-you-where-you-are": "<0>‌随处可用，设备无界</0> — 无论您使用 Steam Deck、强大的 Linux 工作站、树莓派，还是罕见的 Linux 手机，Flathub 都能为您提供合适的应用",
+  "millions-users": "<0>触达数百万用户</0> — Flathub 在多个 Linux 发行版中开箱即用，在其他发行版上也<3>易于安装</3>，拥有超过一百万活跃用户",
+  "integration": "<0>原生应用商店集成</0> — 告别网页下载；Flathub 在用户期望的原生应用商店客户端中提供应用和<3>自动更新</3>",
+  "since-x": "始于 {{date}}",
+  "transparent-safety": "<0>透明安全</0> — 清晰可见应用是否已通过开发者<3>验证</3>、所需权限，以及是否开源并可审计",
+  "tastefully-curated": "<0>精心策划</0> — 通过我们的精选推荐，在 Flathub 上发现有趣且优质的应用，尽览平台精选之作",
+  "transparent": "<0>独立透明</0> — 我们是一个草根开源社区，致力于提供生态系统中的精华之作",
+  "docs-guidance": "<0>清晰的文档和指南</0> — 详尽的<2>文档</2>、数千公开的<5>应用清单</5>以及庞大的社区，确保您随时都能获得帮助",
+  "count": "计数"
 }

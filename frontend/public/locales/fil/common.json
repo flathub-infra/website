@@ -152,7 +152,7 @@
   "also-available-as-svg": "Available rin sa <2>SVG format</2>",
   "rss-apps": "Kailangan mo ng RSS app? Maghanap ng mga mahuhusay sa <2>Flathub</2>.",
   "apps-by-developer": "Mga app mula sa/kay {{developer}}",
-  "apps-by-tag": "Mga app sa tag '{{tag}}'",
+  "apps-by-tag": "Mga app sa tag na \"{{tag}}\"",
   "position-short": "Pos.",
   "type": "Uri",
   "recipient": "Tatanggap",
@@ -341,10 +341,10 @@
   "login-provider-verification-switch-account": "Kasalukuyan kang naka-log in sa <1>{{login_provider}}</1> bilang <3>{{current_name}}</3>. Mag-log in bilang <5>{{required_name}}</5> upang i-verify ang <7>{{appId}}</7> sa pamamagitan ng login provider, o pumili ng ibang paraan kung may available.",
   "leave": "Umalis",
   "new-beta-token": "Bagong beta token",
-  "revoke-token-description": "Sigurado ka ba gusto mong bawiin ang token na '{{name}}'?",
+  "revoke-token-description": "Sigurado ka ba gusto mong bawiin ang token na\"{{name}}\"?",
   "app-id-instructions": "Ginagamit ng mga App ID ang reverse domain name notation (RDNN). Halimbawa, ang GNOME Maps ay gumagamit ng 'org.gnome.Maps'. Pumili ng domain na may kontrol ka sa, tulad ng website ng iyong proyekto (o, kung maga-upload ka bilang indibidwal, ang iyong sariling website). Kung walang available na website, maari kang gumamit ng domain na nauugnay sa iyong source code hosting na account, tulad ng 'io.github.<iyong_username>.<pangalan_ng_app>'.",
   "authored-apps": "Mga na-awtor na app",
-  "search-for-query": "Paghahanap para sa '{{query}}'",
+  "search-for-query": "Paghahanap para sa \"{{query}}\"",
   "moderation-pending-reviews": "Mga Nakabinbin na Review",
   "moderation-appstream-changes": "Mga Pagbabago sa Appstream",
   "moderation-appstream": "Appstream",
@@ -367,7 +367,7 @@
   "popular-apps": "Mga Popular na App",
   "delete-account": "Burahin ang Account",
   "delete-account-entry": "Nais kong burahin ang aking account",
-  "entry-confirmation-prompt": "Ilagay ang \"{{text}}\" para magpatuloy.",
+  "entry-confirmation-prompt": "Ilagay ang “{{text}}” para magpatuloy.",
   "by": "ni/ng {{developer}}",
   "install": "I-install",
   "donate": "Mag-abuloy",
@@ -659,5 +659,11 @@
     "sdkShare": "SDK share: {{percentage}}",
     "flathubShare": "Flathub share: {{percentage}}",
     "screenReaderBreakdown": "Share breakdown slider. Gamitin ang arrow keys para i-adjust ang pamamahagi sa pagitan ng App, SDK at Flathub. Kasalukuyang distribution: App: {{appPercentage}}, SDK: {{sdkPercentage}}, Flathub: {{flathubPercentage}}. Kabuuang bayad: {{totalCost}}."
+  },
+  "country-statistics": "Mga Istatistika sa Bansa",
+  "since-x": "Noong {{date}}",
+  "download": {
+    "install-x": "I-install ang \"{{x}}\"",
+    "fallback-instructions": "<0>Binubuksan ang \"{{name}}\" sa iyong tagapamahala ng software…</0><1>Kung walang nangyayari, baka hindi sinusuportahan ng iyong sistema ang mga <i>flatpak+https</i> na url.</1><2>Sa kasong ito, maaari mong:</2><3><0>I-download ang <2>.flatpakref file</2></0><1>At patakbuhin ito sa iyong file manager</1></3><4><0>Mga tagubilin kung paano i-install ang Flatpak</0></4>"
   }
 }
