@@ -2,15 +2,15 @@ import { FunctionComponent } from "react"
 
 import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import { LineChart, Line, Tooltip, XAxis, YAxis } from "recharts"
+import { LineChart, Line, XAxis, YAxis } from "recharts"
 import { format } from "date-fns"
+import { axisStroke, primaryStroke, RotatedAxisTick } from "src/chartComponents"
 import {
-  axisStroke,
-  FlathubTooltip,
-  primaryStroke,
-  RotatedAxisTick,
-} from "src/chartComponents"
-import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 import { StatsResultApp } from "src/codegen"
 
 interface Props {
@@ -60,8 +60,8 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
             height={60}
           />
           <YAxis stroke={axisStroke(resolvedTheme)} />
-          <Tooltip
-            content={<FlathubTooltip />}
+          <ChartTooltip
+            content={<ChartTooltipContent />}
             labelFormatter={(t) => format(t, "P")}
           />
         </LineChart>
