@@ -523,7 +523,7 @@
   "install-x": "{{app-name}} uygulamasını Linux'ta kur",
   "cannot-abandon-app": "Uygulama terk edilemiyor",
   "invalid-appid": "Geçersiz uygulama kimliği",
-  "not-onboarded": "Lütfen önce giriş yapınız",
+  "stripe-not-onboarded": "Lütfen önce giriş yapınız",
   "switch-to-direct-upload": "Uygulamayı doğrudan yüklemeye değiştir",
   "danger-zone": "Tehlikeli bölge",
   "confirm": "Doğrula",

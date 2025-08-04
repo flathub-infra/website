@@ -507,7 +507,7 @@
   "user-data-subfolder-x": "Sottocartella dati utente {{folder}}",
   "user-runtime-subfolder-x": "Sottocartella di runtime dell'utente {{folder}}",
   "runtime-distribution": "Distribuzione runtime",
-  "not-onboarded": "Completa prima il processo di onboarding",
+  "stripe-not-onboarded": "Completa prima il processo di onboarding",
   "app-type": "Tipo di App",
   "new-app": "Nuova app",
   "community-repository": "Repository della Comunità",

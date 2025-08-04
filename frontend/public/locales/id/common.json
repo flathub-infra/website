@@ -564,7 +564,7 @@
   "cannot-abandon-app": "Tidak dapat meninggalkan aplikasi",
   "archive-app": "Mengarsipkan aplikasi ini",
   "invalid-appid": "ID aplikasi tidak valid",
-  "not-onboarded": "Silakan masuk terlebih dahulu",
+  "stripe-not-onboarded": "Silakan masuk terlebih dahulu",
   "not-logged-in": "Anda tidak masuk",
   "do-you-really-want-to-archive-app": "Apakah Anda yakin? Ini akan membatalkan token unggahan dan mengarsipkan aplikasi.",
   "enter-end-of-life-message": "Masukkan pesan akhir masa pakai",

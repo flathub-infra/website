@@ -504,7 +504,7 @@
   "install-x": "在 Linux 上安装 {{app-name}}",
   "cannot-abandon-app": "无法放弃应用",
   "invalid-appid": "应用 ID 无效",
-  "not-onboarded": "请先登录",
+  "stripe-not-onboarded": "请先登录",
   "danger-zone": "危险区",
   "switch-to-direct-upload": "将应用切换为直接上传",
   "confirm": "确认",

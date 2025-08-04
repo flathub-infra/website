@@ -526,7 +526,7 @@
   "app-of-the-day": "Aplicativo do Dia",
   "cannot-abandon-app": "Não se pode abandonar o aplicativo",
   "invalid-appid": "O id de aplicativo é inválido",
-  "not-onboarded": "Por favor, embarque primeiro",
+  "stripe-not-onboarded": "Por favor, embarque primeiro",
   "install-x": "Instalar {{app-name}} no Linux",
   "not-logged-in": "Você não está autenticado",
   "danger-zone": "Zona perigosa",

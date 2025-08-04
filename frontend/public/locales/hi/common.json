@@ -420,7 +420,7 @@
   "install-x": "Linux पर {{app-name}} इंस्टॉल करें",
   "cannot-abandon-app": "ऐप को नहीं छोड़ा जा सकता",
   "invalid-appid": "अमान्य ऐप ID",
-  "not-onboarded": "कृपया पहले शामिल हों",
+  "stripe-not-onboarded": "कृपया पहले शामिल हों",
   "not-logged-in": "आप लॉगिन नहीं हैं",
   "flos": "मुक्त/लिबरे खुला स्रोत",
   "filters": "फिल्टर",

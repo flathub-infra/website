@@ -507,7 +507,7 @@
   "cannot-abandon-app": "Không thể bỏ ứng dụng",
   "invalid-appid": "Định danh ứng dụng không hợp lệ",
   "flathub-apps-for-linux": "Flathub - Ứng dụng cho Linux",
-  "not-onboarded": "Vui lòng qua quy trình onboarding trước",
+  "stripe-not-onboarded": "Vui lòng qua quy trình onboarding trước",
   "not-logged-in": "Bạn chưa đăng nhập",
   "switch-to-direct-upload": "Chuyển ứng dụng sang tải lên trực tiếp",
   "danger-zone": "Vùng nguy hiểm",

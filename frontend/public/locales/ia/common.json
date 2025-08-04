@@ -523,7 +523,7 @@
   "enable-app-vending": "Habilitar vendita de applicationes",
   "enter-end-of-life-message": "Entra message de fin de vita",
   "app-listing-quality": "Qualitate del listato del application",
-  "not-onboarded": "Incorpora te prime",
+  "stripe-not-onboarded": "Incorpora te prime",
   "moderation-dev-description": "Alicun cambiamentos al metadata de un application, como su nomine o description, debe esser revisite per le equipa de Flathub. Tu pote vider le stato de requestas de revision actual e passate hic.",
   "purchase-terms-confirmation": "Io confirma que io ha legite le Conditiones e Terminos de Flathub e consenti a renuntiar al periodo de reflexion de 14 dies associate con iste discarga digital.",
   "app-payment-information": "Le disveloppator del application ha fixate un pagamento minime de {{minvalue}} e un pagamento preferite de {{recvalue}}.",

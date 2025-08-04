@@ -524,7 +524,7 @@
   "get-it-on": "Ontdek het op",
   "cannot-abandon-app": "Kan app niet verlaten",
   "invalid-appid": "Ongeldige app-id",
-  "not-onboarded": "Volg eerst de onboarding",
+  "stripe-not-onboarded": "Volg eerst de onboarding",
   "not-logged-in": "U bent niet ingelogd",
   "danger-zone": "Gevarenzone",
   "switch-to-direct-upload": "App wisselen naar directe upload",

@@ -525,7 +525,7 @@
   "get-it-on": "Získat na",
   "cannot-abandon-app": "Aplikaci nelze opustit",
   "invalid-appid": "Nesprávné ID aplikace",
-  "not-onboarded": "Nejprve se prosím přihlaste",
+  "stripe-not-onboarded": "Nejprve se prosím přihlaste",
   "not-logged-in": "Nejste přihlášeni",
   "danger-zone": "Nebezpečná zóna",
   "confirm": "Potvrdit",

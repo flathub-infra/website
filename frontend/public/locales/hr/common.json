@@ -482,7 +482,7 @@
   "music-subfolder-x": "Podmapa glazbe {{folder}}",
   "no-file-system-access-description": "Ne može uopće pristupiti sustavu datoteka",
   "can-read-write-all-data": "Može čitati i pisati sve podatke u direktoriju",
-  "not-onboarded": "Najprije se prijavi",
+  "stripe-not-onboarded": "Najprije se prijavi",
   "not-logged-in": "Nisi prijavljen/a",
   "rebase-onto-other-app": "Upiši ID aplikacije u koji će se tvoja aplikacija premjestiti",
   "enter-end-of-life-message": "Upiši poruku za kraj životnog ciklusa",

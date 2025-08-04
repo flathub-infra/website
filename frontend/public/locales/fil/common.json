@@ -505,7 +505,7 @@
   "app-of-the-day": "App para sa Araw",
   "cannot-abandon-app": "Hindi mapabayaan ang app",
   "invalid-appid": "Hindi wastong app id",
-  "not-onboarded": "Mangyaring mag-onboard mula",
+  "stripe-not-onboarded": "Mangyaring mag-onboard mula",
   "not-logged-in": "Hindi ka naka-log in",
   "danger-zone": "Mapanganib na lugar",
   "switch-to-direct-upload": "Palitan ang app sa direktang pag-upload",

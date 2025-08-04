@@ -536,7 +536,7 @@
   "rebase-onto-other-app": "Anna sovellus-id, johon hakemuksesi perustetaan uudelleen",
   "do-you-really-want-to-switch-to-direct-upload": "Oletko varma? Kun vaihdat suoralataukseen, paluuta ei ole.",
   "enter-end-of-life-message": "Anna elinkaaren päättymisviesti",
-  "not-onboarded": "Perehdy ensin",
+  "stripe-not-onboarded": "Perehdy ensin",
   "get-it-on": "Lataa:",
   "news": "Uutiset",
   "developer-portal": "Kehittäjäportaali",

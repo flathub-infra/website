@@ -525,7 +525,7 @@
   "get-it-on": "Pobierz z",
   "cannot-abandon-app": "Nie można porzucić aplikacji",
   "invalid-appid": "Nieprawidłowy identyfikator aplikacji",
-  "not-onboarded": "Najpierw należy przejść przez proces rejestracji",
+  "stripe-not-onboarded": "Najpierw należy przejść przez proces rejestracji",
   "not-logged-in": "Nie jesteś zalogowany",
   "danger-zone": "Strefa zagrożenia",
   "switch-to-direct-upload": "Przełącz aplikację na bezpośrednie przesyłanie",

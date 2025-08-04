@@ -499,7 +499,7 @@
   "cannot-abandon-app": "نمی‌توان کاره را رها کرد",
   "switch-to-direct-upload": "تغییر کاره به بارگذاری مستقیم",
   "new-direct-upload": "کارهٔ بارگذاری مستقیم جدید",
-  "not-onboarded": "لطفاً نخست آشنا شوید",
+  "stripe-not-onboarded": "لطفاً نخست آشنا شوید",
   "news": "اخبار",
   "flathub-the-linux-app-store": "فلت‌هاب فروشگاه کارهٔ گنو/لینوکس است",
   "rebase-onto-other-app": "شناسهٔ کاره‌ای که برنامه‌تان بر پایهٔ آن خواهد شد را وارد کنید",

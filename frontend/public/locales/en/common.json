@@ -539,7 +539,7 @@
   "app-of-the-day": "App of the Day",
   "cannot-abandon-app": "Cannot abandon app",
   "invalid-appid": "Invalid app id",
-  "not-onboarded": "Please onboard first",
+  "stripe-not-onboarded": "Please onboard to Stripe first",
   "not-logged-in": "You are not logged in",
   "danger-zone": "Danger zone",
   "switch-to-direct-upload": "Switch app to direct upload",

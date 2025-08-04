@@ -299,7 +299,7 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
     with get_db("replica") as db:
         account = StripeExpressAccount.by_user(db, login["user"])
         if account is None:
-            raise VendingError("not-onboarded")
+            raise VendingError("stripe-not-onboarded")
 
         try:
             link = stripe.Account.create_login_link(account.stripe_account)
@@ -402,7 +402,7 @@ def post_app_vending_setup(
 
         stripe_account = StripeExpressAccount.by_user(db, login["user"])
         if not stripe_account:
-            raise VendingError(error="not-onboarded")
+            raise VendingError(error="stripe-not-onboarded")
 
         vend = ApplicationVendingConfig.by_appid(db, app_id)
         if not vend and setup.recommended_donation > 0:

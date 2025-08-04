@@ -523,7 +523,7 @@
   "app-of-the-day": "每日應用程式",
   "cannot-abandon-app": "無法放棄應用程式",
   "invalid-appid": "無效的應用程式 ID",
-  "not-onboarded": "請先登入",
+  "stripe-not-onboarded": "請先登入",
   "not-logged-in": "您尚未登入",
   "danger-zone": "危險區域",
   "switch-to-direct-upload": "將應用程式切換為直接上傳",

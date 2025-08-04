@@ -585,7 +585,7 @@
   "more-graphics": "Plus d'apps de graphisme et photographie",
   "flathub-statistics-description": "Aperçu de l'utilisation et de la distribution des applications disponibles sur la plateforme.",
   "danger-zone": "Zone de danger",
-  "not-onboarded": "Veuillez commencer par vous inscrire",
+  "stripe-not-onboarded": "Veuillez commencer par vous inscrire",
   "microphone-access": "Accès au microphone et lecture audio",
   "screen-contents-access": "Accès au contenu de l'écran",
   "can-listen-using-microphones-without-asking-permission": "Peut vous écouter à l'aide de microphones et lire des sons sans demander votre autorisation",

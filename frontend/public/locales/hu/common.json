@@ -523,7 +523,7 @@
   "app-of-the-day": "A nap alkalmazása",
   "can-access-input-devices": "Hozzáférhet beviteli eszközökhöz, például billentyűzethez, egérhez vagy játékvezérlőhöz",
   "invalid-appid": "Érvénytelen alkalmazásazonosító",
-  "not-onboarded": "Kérjük, először lépjen be a fedélzetre",
+  "stripe-not-onboarded": "Kérjük, először lépjen be a fedélzetre",
   "not-logged-in": "Nem vagy bejelentkezve",
   "cannot-abandon-app": "Nem lehet elhagyni az alkalmazást",
   "flathub-the-linux-app-store": "A Flathub a Linux alkalmazásáruháza",

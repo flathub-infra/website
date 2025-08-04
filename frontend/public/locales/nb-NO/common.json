@@ -368,7 +368,7 @@
   "revoke-token-description": "Inndra «{{name}}»?",
   "show-expired-tokens": "Vis utløpte nøkler",
   "system-device-access": "Systemtilgang",
-  "not-onboarded": "Fullfør oppsettet først",
+  "stripe-not-onboarded": "Fullfør oppsettet først",
   "individual-contributors": "Individuelle bidragsytere",
   "get-in-touch": "Kontakt oss",
   "direct-upload-description": "Bygg appen på egen infrastruktur og last den opp direkte til Flathub.",

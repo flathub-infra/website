@@ -523,7 +523,7 @@
   "not-logged-in": "Vi ne estas salutinta",
   "invalid-appid": "Nevalida programidentigilo",
   "cannot-abandon-app": "Ne povas forlasi programon",
-  "not-onboarded": "Bonvolu enkondukiĝi unue",
+  "stripe-not-onboarded": "Bonvolu enkondukiĝi unue",
   "confirm": "Konfirmi",
   "archive": "Enarĥivigi",
   "archive-app": "Enarĥivigi ĉi tiun programon",

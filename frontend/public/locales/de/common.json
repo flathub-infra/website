@@ -524,7 +524,7 @@
   "get-it-on": "Jetzt auf",
   "cannot-abandon-app": "Kann die App nicht verlassen",
   "invalid-appid": "Invalide App-Id",
-  "not-onboarded": "Bitte zuerst das Onboarding durchführen",
+  "stripe-not-onboarded": "Bitte zuerst das Onboarding durchführen",
   "not-logged-in": "Du bist nicht angemeldet",
   "danger-zone": "Gefahrenbereich",
   "switch-to-direct-upload": "App auf Direkt Hochladen wechseln",

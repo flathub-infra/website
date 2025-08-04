@@ -522,7 +522,7 @@
   "app-of-the-day": "Aplicação do dia",
   "cannot-abandon-app": "Não é possível abandonar a aplicação",
   "invalid-appid": "ID de aplicação inválida",
-  "not-onboarded": "Por favor, embarque primeiro",
+  "stripe-not-onboarded": "Por favor, embarque primeiro",
   "not-logged-in": "Não tem sessão iniciada",
   "updated-apps": "Apps atualizadas",
   "do-you-really-want-to-switch-to-direct-upload": "Tem certeza? Depois de mudar uma app para envio direto, não pode voltar atrás.",

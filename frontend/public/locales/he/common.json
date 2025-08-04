@@ -393,7 +393,7 @@
   "templates-subfolder-x": "תת־תיקיית התבניות {{folder}}",
   "system-device-access": "גישה להתקני המערכת",
   "get-it-on": "להשיג דרך",
-  "not-onboarded": "נא להיקלט קודם",
+  "stripe-not-onboarded": "נא להיקלט קודם",
   "community-repository": "מאגר קהילתי",
   "enter-end-of-life-message": "נא למלא הודעת סוף חיים",
   "chat-on-matrix": "התכתבות ב־Matrix",

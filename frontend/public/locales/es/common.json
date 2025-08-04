@@ -524,7 +524,7 @@
   "get-it-on": "Consígalo en",
   "app-of-the-day": "Aplicación del día",
   "invalid-appid": "Id de aplicación no válido",
-  "not-onboarded": "Por favor, regístrese primero",
+  "stripe-not-onboarded": "Por favor, regístrese primero",
   "not-logged-in": "No ha iniciado sesión",
   "cannot-abandon-app": "No se puede abandonar la aplicación",
   "confirm": "Confirmar",

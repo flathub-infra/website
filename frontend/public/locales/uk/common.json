@@ -524,7 +524,7 @@
   "app-of-the-day": "Застосунок дня",
   "get-it-on": "Отримати на",
   "invalid-appid": "Недійсний id застосунку",
-  "not-onboarded": "Спочатку зареєструйтеся",
+  "stripe-not-onboarded": "Спочатку зареєструйтеся",
   "not-logged-in": "Ви не ввійшли",
   "danger-zone": "Небезпечна зона",
   "switch-to-direct-upload": "Перемкніть застосунок на пряме вивантаження",
