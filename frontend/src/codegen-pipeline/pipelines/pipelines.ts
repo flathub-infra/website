@@ -310,7 +310,7 @@ export const getPipelineApiPipelinesPipelineIdGet = (
 }
 
 export const getGetPipelineApiPipelinesPipelineIdGetQueryKey = (
-  pipelineId: string,
+  pipelineId?: string,
 ) => {
   return [
     `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}`,
@@ -611,7 +611,7 @@ export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = (
 }
 
 export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryKey = (
-  pipelineId: string,
+  pipelineId?: string,
 ) => {
   return [
     `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/log_url`,

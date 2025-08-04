@@ -42,7 +42,7 @@ export const getInviteStatusInvitesAppIdGet = (
   return axios.get(`/invites/${appId}`, options)
 }
 
-export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId: string) => {
+export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId?: string) => {
   return [`/invites/${appId}`] as const
 }
 
@@ -208,7 +208,7 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
   appId: string,
   params: InviteDeveloperInvitesAppIdInvitePostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/invites/${appId}/invite`, undefined, {
     ...options,
     params: { ...params, ...options?.params },
@@ -294,7 +294,7 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
 export const acceptInviteInvitesAppIdAcceptPost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/invites/${appId}/accept`, undefined, options)
 }
 
@@ -377,7 +377,7 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
 export const declineInviteInvitesAppIdDeclinePost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/invites/${appId}/decline`, undefined, options)
 }
 
@@ -460,7 +460,7 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
 export const leaveTeamInvitesAppIdLeavePost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/invites/${appId}/leave`, undefined, options)
 }
 
@@ -548,7 +548,7 @@ export const getAppDevelopersInvitesAppIdDevelopersGet = (
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/invites/${appId}/developers`] as const
 }
@@ -719,7 +719,7 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
   appId: string,
   params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/invites/${appId}/remove-developer`, undefined, {
     ...options,
     params: { ...params, ...options?.params },
@@ -830,7 +830,7 @@ export const revokeInviteInvitesAppIdRevokePost = (
   appId: string,
   params: RevokeInviteInvitesAppIdRevokePostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/invites/${appId}/revoke`, undefined, {
     ...options,
     params: { ...params, ...options?.params },

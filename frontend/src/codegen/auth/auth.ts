@@ -2067,7 +2067,7 @@ export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
 export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
   params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/auth/change-default-account`, undefined, {
     ...options,
     params: { ...params, ...options?.params },

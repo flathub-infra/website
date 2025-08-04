@@ -351,10 +351,10 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
 
 export const getUnverifyVerificationAppIdUnverifyPostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/verification/:appId/unverify", async (info) => {
     await delay(1000)
@@ -368,10 +368,10 @@ export const getUnverifyVerificationAppIdUnverifyPostMockHandler = (
 export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMockHandler =
   (
     overrideResponse?:
-      | void
+      | null
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<void> | void),
+        ) => Promise<null> | null),
   ) => {
     return http.post(
       "*/verification/:appId/switch_to_direct_upload",
@@ -387,10 +387,10 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMoc
 
 export const getArchiveVerificationAppIdArchivePostMockHandler = (
   overrideResponse?:
-    | void
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<void> | void),
+      ) => Promise<null> | null),
 ) => {
   return http.post("*/verification/:appId/archive", async (info) => {
     await delay(1000)

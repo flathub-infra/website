@@ -337,7 +337,7 @@ export const userUsersUserIdGet = (
   return axios.get(`/users/${userId}`, options)
 }
 
-export const getUserUsersUserIdGetQueryKey = (userId: number) => {
+export const getUserUsersUserIdGetQueryKey = (userId?: number) => {
   return [`/users/${userId}`] as const
 }
 
@@ -679,7 +679,7 @@ export const roleUsersUsersRolesRoleNameGet = (
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryKey = (
-  roleName: RoleName,
+  roleName?: RoleName,
 ) => {
   return [`/users/roles/${roleName}`] as const
 }

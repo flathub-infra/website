@@ -80,6 +80,10 @@ export const getListPipelinesApiPipelinesGetResponseMock =
         ]),
         undefined,
       ]),
+      repro_pipeline_id: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+      ]),
       created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
       started_at: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -168,6 +172,10 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
       }),
       null,
     ]),
+    undefined,
+  ]),
+  repro_pipeline_id: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.string.uuid(), null]),
     undefined,
   ]),
   created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,

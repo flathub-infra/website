@@ -11,6 +11,7 @@ import type { PipelineSummaryBuildId } from "./pipelineSummaryBuildId"
 import type { PipelineSummaryCommitJobId } from "./pipelineSummaryCommitJobId"
 import type { PipelineSummaryPublishJobId } from "./pipelineSummaryPublishJobId"
 import type { PipelineSummaryUpdateRepoJobId } from "./pipelineSummaryUpdateRepoJobId"
+import type { PipelineSummaryReproPipelineId } from "./pipelineSummaryReproPipelineId"
 import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
 import type { PipelineSummaryFinishedAt } from "./pipelineSummaryFinishedAt"
 import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
@@ -25,6 +26,7 @@ export interface PipelineSummary {
   commit_job_id?: PipelineSummaryCommitJobId
   publish_job_id?: PipelineSummaryPublishJobId
   update_repo_job_id?: PipelineSummaryUpdateRepoJobId
+  repro_pipeline_id?: PipelineSummaryReproPipelineId
   created_at: string
   started_at?: PipelineSummaryStartedAt
   finished_at?: PipelineSummaryFinishedAt

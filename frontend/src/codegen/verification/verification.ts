@@ -50,7 +50,7 @@ export const getVerificationStatusVerificationAppIdStatusGet = (
 }
 
 export const getGetVerificationStatusVerificationAppIdStatusGetQueryKey = (
-  appId: string,
+  appId?: string,
 ) => {
   return [`/verification/${appId}/status`] as const
 }
@@ -261,7 +261,7 @@ export const getAvailableMethodsVerificationAppIdAvailableMethodsGet = (
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryKey =
   (
-    appId: string,
+    appId?: string,
     params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
   ) => {
     return [
@@ -1152,7 +1152,7 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
 export const unverifyVerificationAppIdUnverifyPost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/verification/${appId}/unverify`, undefined, options)
 }
 
@@ -1235,7 +1235,7 @@ export const useUnverifyVerificationAppIdUnverifyPost = <
 export const switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(
     `/verification/${appId}/switch_to_direct_upload`,
     undefined,
@@ -1351,7 +1351,7 @@ export const archiveVerificationAppIdArchivePost = (
   appId: string,
   archiveRequest: ArchiveRequest,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
+): Promise<AxiosResponse<null>> => {
   return axios.post(`/verification/${appId}/archive`, archiveRequest, options)
 }
 

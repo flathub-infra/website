@@ -50,7 +50,7 @@ export const getStorefrontInfoPurchasesStorefrontInfoGet = (
 }
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryKey = (
-  params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
+  params?: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
 ) => {
   return [`/purchases/storefront-info`, ...(params ? [params] : [])] as const
 }
@@ -242,7 +242,9 @@ export const getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = (
 }
 
 export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryKey =
-  (params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams) => {
+  (
+    params?: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
+  ) => {
     return [
       `/purchases/storefront-info/is-free-software`,
       ...(params ? [params] : []),
