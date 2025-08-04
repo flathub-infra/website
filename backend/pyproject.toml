@@ -27,7 +27,7 @@ dependencies = [
     "orjson<4.0.0,>=3.10.15",
     "python-multipart<1.0.0,>=0.0.20",
     "dramatiq[redis,watch]<2.0.0,>=1.17.1",
-    "sqlalchemy==2.0.41",
+    "sqlalchemy==2.0.42",
     "pydantic-settings<3.0.0,>=2.8.0",
     "psycopg2-binary<3.0.0,>=2.9.10",
     "publicsuffixlist<2.0.0.0,>=1.0.2.20240903",
