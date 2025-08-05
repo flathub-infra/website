@@ -194,7 +194,7 @@ async def vendingerror_exception_handler(_request: Request, exc: VendingError):
     the JSONResponse needed.
     """
     if exc.__cause__ is not None:
-        print("Wallet Error caused by:")
+        print("Vending Error caused by:")
         print(exc.__cause__)
     return exc.as_jsonresponse()
 
