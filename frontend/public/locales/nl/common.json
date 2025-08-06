@@ -665,5 +665,6 @@
   "download": {
     "install-x": "‘{{x}}’ installeren",
     "fallback-instructions": "<0>‘{{name}}’ wordt geopend in uw softwarebeheerder…</0><1>Als er niets gebeurt, ondersteunt uw systeem mogelĳk geen <i>flatpak+https</i>-url's.</1><2>In dat geval kunt u:</2><3><0>Het <2>.flatpakref-bestand downloaden</2></0><1>Deze vervolgens uitvoeren vanuit uw bestandsbeheerder</1></3><4><0>Instructies voor het installeren van Flatpak</0></4>"
-  }
+  },
+  "count": "Aantal"
 }
