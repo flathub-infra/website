@@ -657,5 +657,6 @@
   "since-x": "Alkaen {{date}}",
   "download": {
     "install-x": "Asenna “{{x}}”"
-  }
+  },
+  "count": "Lukumäärä"
 }

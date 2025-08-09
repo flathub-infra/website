@@ -1,0 +1,308 @@
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-3": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-4": {
+      "name": "Adlañsañ"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Adlansañ"
+    }
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlañsañ"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-2": {
+      "name": "Lañsañ ur termenell Linux"
+    },
+    "step-3": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-4": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-5": {
+      "name": "Adlañsañ"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlañsañ"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Adlañsañ"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-3": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-4": {
+      "name": "Adlansañ"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS Stream"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-3": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-4": {
+      "name": "Adlansañ"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-3": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-4": {
+      "name": "Adlansañ"
+    }
+  },
+  "mageia": {
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Staliañ arloadoù"
+    }
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "nixos": {
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-4": {
+      "name": "Adlansañ"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-3": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-4": {
+      "name": "Adlansañ"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-2": {
+      "name": "Adlansañ"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    },
+    "step-3": {
+      "name": "Adlansañ"
+    }
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "distroName": "Salix"
+  }
+}
