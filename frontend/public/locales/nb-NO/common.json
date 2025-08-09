@@ -353,7 +353,9 @@
     "screenshots-good-content": "Tilstrekkelig med eksempelinnhold",
     "pending": "Venter",
     "request-review": "Be om kontroll",
-    "problems": "Hvis du har spørsmål om spesifikke retningslinjer, åpne gjerne en <2>sak</2> i arbeidsområdet vårt."
+    "problems": "Hvis du har spørsmål om spesifikke retningslinjer, åpne gjerne en <2>sak</2> i arbeidsområdet vårt.",
+    "light": "Lys",
+    "dark": "Mørk"
   },
   "updated-apps": "Oppdaterte apper",
   "stripe-error-payment_intent_authentication_failure": "Autentisering av betalingsmåte mislyktes. Velg en annen betalingsmåte og prøv igjen.",
@@ -365,7 +367,7 @@
   "upload-tokens": "Last opp nøkler",
   "revoke": "Inndra",
   "revoke-token": "Inndra nøkkel",
-  "revoke-token-description": "Inndra «{{name}}»?",
+  "revoke-token-description": "Er du sikker på at du vil Inndra «{{name}}»?",
   "show-expired-tokens": "Vis utløpte nøkler",
   "system-device-access": "Systemtilgang",
   "not-onboarded": "Fullfør oppsettet først",
@@ -592,7 +594,7 @@
   "users": "Brukere",
   "date": "Dato",
   "get-apps": "Installer apper",
-  "millions-users": "<0>Nå ut til millioner av brukere</0> — Flathub er tilgjengelig på en rekke Linux-systemer, er <2>lett å sette opp</2> på resten, og har over en million aktive brukere",
+  "millions-users": "<0>Nå ut til millioner av brukere</0> — Flathub er tilgjengelig på en rekke Linux-systemer, er <3>lett å sette opp</3> på resten, og har over en million aktive brukere",
   "all-the-apps-you-want": "<0>Alle appene du trenger</0> — Flathub har tusenvis av apper klare til installering, fra store navn du allerede kjenner til nye prosjekter fra fremadstormende utviklere.",
   "transparent-safety": "<0>Sikkerhet i sentrum</0> — Se lett om en app er <3>verifisert</3> som utgitt av sin opprinnelige utvikler, hvilke tillatelser den trenger og om den er fri og åpen",
   "transparent": "<0>Åpent og selvstendig</0> — Flathub bygges og drives på dugnad av et fellesskap, med mål om å være et godt hjem til apper av alle slag",
@@ -649,6 +651,13 @@
   "more-mobile-apps": "Flere mobilapper",
   "mobile-apps-description": "Apper til Linux-telefoner og nettbrett",
   "vendingSharesPreview": {
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "app": "App"
+  },
+  "count": "Antall",
+  "country-statistics": "Statistikk per land",
+  "since-x": "Siden {{date}}",
+  "download": {
+    "install-x": "Installer «{{x}}»"
   }
 }
