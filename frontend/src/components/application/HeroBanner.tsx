@@ -105,7 +105,7 @@ export const HeroBanner = ({
           )
 
           const textColor = mounted
-            ? getContrastColor(brandingColor.value) === "black"
+            ? brandingColor && getContrastColor(brandingColor.value) === "black"
               ? "text-flathub-dark-gunmetal"
               : "text-flathub-lotion"
             : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
@@ -117,8 +117,9 @@ export const HeroBanner = ({
                 passHref
                 style={{
                   backgroundColor:
-                    (mounted ? brandingColor.value : fallbackColor.value) ??
-                    "#FF00DC",
+                    (mounted
+                      ? brandingColor && brandingColor.value
+                      : fallbackColor && fallbackColor.value) ?? "#FF00DC",
                 }}
                 className={clsx(
                   "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
