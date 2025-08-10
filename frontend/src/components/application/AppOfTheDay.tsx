@@ -51,7 +51,9 @@ export const AppOfTheDay = ({
       passHref
       style={{
         backgroundColor:
-          (mounted ? brandingColor.value : fallbackColor.value) ?? "#FF00DC",
+          (mounted
+            ? brandingColor && brandingColor.value
+            : fallbackColor && fallbackColor.value) ?? "#FF00DC",
       }}
       className={cn(
         "rounded-xl",
