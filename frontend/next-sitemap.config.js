@@ -58,6 +58,7 @@ module.exports = {
       "ga",
       "kab",
       "fil",
+      "br",
     ].map((language) => ({
       href: `https://flathub.org/${language}`,
       hreflang: language,
