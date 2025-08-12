@@ -24,7 +24,7 @@ jobs:
       group: ${{matrix.platform}}-build_push_docker_nginx
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
