@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react"
 
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { LineChart, Line, XAxis, YAxis } from "recharts"
 import { format } from "date-fns"
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const { resolvedTheme } = useTheme()
 

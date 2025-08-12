@@ -2,7 +2,7 @@ import { FunctionComponent } from "react"
 import React from "react"
 
 import { HiMiniCheckBadge } from "react-icons/hi2"
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import {
@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useTranslations } from "next-intl"
 
 interface Props {
   appId: string
@@ -21,7 +22,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
   appId,
   verificationStatus,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (verificationStatus?.verified == true) {
     return (

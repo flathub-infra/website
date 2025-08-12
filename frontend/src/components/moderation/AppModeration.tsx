@@ -8,7 +8,7 @@ import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Breadcrumbs from "../Breadcrumbs"
 import {
   getModerationAppModerationAppsAppIdGet,
@@ -74,7 +74,7 @@ const NavigatePreviousNext = ({ appId }) => {
 }
 
 const AppModeration: FunctionComponent<Props> = ({ appId }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const [includeOutdatedQuery, setIncludeOutdatedQuery] = useState<boolean>(

@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import React from "react"
 import { Appstream } from "src/types/Appstream"
 import { VerificationStatus } from "src/types/VerificationStatus"
@@ -20,7 +20,7 @@ import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
 import clsx from "clsx"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   const [countChanges, setCountChanges] = React.useState(0)
@@ -100,7 +100,7 @@ export function AppHeader({
   verificationStatus: VerificationStatus
   isQualityModalOpen: boolean
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { trackEvent } = useMatomo()
   const { push } = useRouter()
 

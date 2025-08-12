@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import UserApps from "../src/components/user/UserApps"
@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
 
 const InviteCode = ({ locale }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   if (user.loading) {
@@ -47,7 +47,7 @@ const InviteCode = ({ locale }) => {
 }
 
 const AcceptingPayment = ({}) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   if (user.loading) {
@@ -69,7 +69,7 @@ const AcceptingPayment = ({}) => {
 }
 
 const News = ({ feed }: { feed: DocusaurusFeed }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div>
@@ -110,7 +110,7 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
 }
 
 const DeveloperApps = ({ locale }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   if (user.loading) {
@@ -143,7 +143,7 @@ export default function DeveloperPortal({
   feed: DocusaurusFeed
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const pages = [
     { name: t("developer-portal"), current: true, href: "/developer-portal" },
@@ -202,7 +202,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       feed,
       locale,
     },

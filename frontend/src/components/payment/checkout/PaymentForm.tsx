@@ -1,5 +1,5 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FormEvent, FunctionComponent, useState } from "react"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
@@ -26,7 +26,7 @@ const PaymentForm: FunctionComponent<Props> = ({
   canGoBack,
   goBack,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const stripe = useStripe()
   const elements = useElements()
 

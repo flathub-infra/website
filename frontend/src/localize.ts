@@ -154,7 +154,7 @@ export const languages: Language[] = [
   "br",
 ]
 
-export function getLocale(language?: string): Locale {
+export function getDateFnsLocale(language?: string): Locale {
   switch (language) {
     case "en":
       return enUS

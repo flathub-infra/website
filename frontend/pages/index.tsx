@@ -1,5 +1,4 @@
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import fetchCollection, {
   fetchAppOfTheDay,
@@ -13,7 +12,7 @@ import fetchCollection, {
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
@@ -51,7 +50,7 @@ const MobileSection = ({
 }: {
   mobile: MeilisearchResponseAppsIndex
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <ApplicationSectionGradient
@@ -76,7 +75,7 @@ const GameSection = ({
   gameLaunchers: MeilisearchResponseAppsIndex
   gameTools: MeilisearchResponseAppsIndex
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <ApplicationSectionGradientMultiToggle
@@ -126,7 +125,7 @@ const CategorySection = ({
   mobileSection: ReactElement
   gameSection: ReactElement
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -169,7 +168,7 @@ const TopSection = ({
     moreLink: string
   }[]
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const router = useRouter()
 
@@ -269,7 +268,7 @@ export default function Home({
   gameTools: MeilisearchResponseAppsIndex
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -471,7 +470,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       recentlyUpdated,
       recentlyAdded,
       trending,

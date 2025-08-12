@@ -1,10 +1,11 @@
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { Trans } from "next-i18next"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 
 export default function Custom404({ locale }: { locale: string }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -40,8 +41,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      locale,
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
     },
   }
 }

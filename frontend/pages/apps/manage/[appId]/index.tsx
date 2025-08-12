@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
@@ -77,7 +77,7 @@ export default function AppManagementPage({
   app: Appstream
   vendingConfig: VendingConfig
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
@@ -206,7 +206,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       app: app ?? { id: appId, name: appId },
       vendingConfig,
     },

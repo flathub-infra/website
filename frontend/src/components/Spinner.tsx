@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 
 interface Props {
@@ -13,7 +13,7 @@ const Spinner: FunctionComponent<Props> = ({
   text = undefined,
   orientation = "col",
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   if (!text) {
     text = t("loading")
   }

@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 
 import ApplicationDetails from "../../../src/components/application/Details"
@@ -24,7 +24,7 @@ import { VerificationStatus } from "src/types/VerificationStatus"
 import { removeAppIdFromSearchResponse } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { getKeywords, isValidAppId } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "src/size"
 import { formatISO } from "date-fns"
@@ -91,7 +91,7 @@ export default function Details({
   locale: string
   datePublished: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
 
   if (eolMessage) {
@@ -304,7 +304,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../../../public/locales/${locale}/common.json`))
+        .default,
       app,
       summary,
       stats,

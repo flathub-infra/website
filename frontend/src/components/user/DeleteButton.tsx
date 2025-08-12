@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useState } from "react"
 import { toast } from "sonner"
 import { useUserDispatch } from "../../context/user-info"
@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 const DeleteButton: FunctionComponent = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const dispatch = useUserDispatch()
 
   const [token, setToken] = useState<string>()

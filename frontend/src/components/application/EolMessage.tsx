@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { NextSeo } from "next-seo"
 import React from "react"
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const EolMessage: FunctionComponent<Props> = ({ message }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>

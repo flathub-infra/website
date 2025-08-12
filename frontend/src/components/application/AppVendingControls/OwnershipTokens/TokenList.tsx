@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
@@ -16,7 +16,7 @@ interface Props {
  * The control elements to view and add/cancel ownership tokens for an app.
  */
 const TokenList: FunctionComponent<Props> = ({ app }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const query = useQuery({
     queryKey: ["redeemable-tokens", app.id],

@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import {
   FormEvent,
   FunctionComponent,
@@ -36,7 +36,7 @@ interface Props {
  * It is assumed that parent will check whether to render these to the logged in user.
  */
 const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [vendingEnabled, setVendingEnabled] = useState(false)
   const [requirePayment, setRequirePayment] = useState(false)

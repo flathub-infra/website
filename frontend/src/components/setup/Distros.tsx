@@ -1,4 +1,5 @@
-import { Trans, useTranslation } from "next-i18next"
+import { Trans } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { HowToJsonLd } from "next-seo"
 import CodeCopy from "src/components/application/CodeCopy"
 import type { JSX } from "react"
@@ -48,7 +49,7 @@ export const distroMap = (locale: string) => {
 }
 
 const Ubuntu = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -60,21 +61,21 @@ const Ubuntu = ({ locale }: { locale: string }) => {
             alt="Ubuntu"
           />
         </picture>
-        <h1>{t("distros:ubuntu.distroName")}</h1>
+        <h1>{t("distros.ubuntu.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:ubuntu.distroName")}
+          name={t("distros.ubuntu.distroName")}
           image="https://flathub.org/img/distro/ubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/ubuntu",
-              name: t("distros:ubuntu.step-1.name"),
+              name: t("distros.ubuntu.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:ubuntu.step-1.text")
+                  text: t("distros.ubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -83,11 +84,11 @@ const Ubuntu = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/ubuntu",
-              name: t("distros:ubuntu.step-2.name"),
+              name: t("distros.ubuntu.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:ubuntu.step-2.text")
+                  text: t("distros.ubuntu.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -96,11 +97,11 @@ const Ubuntu = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/ubuntu",
-              name: t("distros:ubuntu.step-3.name"),
+              name: t("distros.ubuntu.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:ubuntu.step-3.text")
+                  text: t("distros.ubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -109,11 +110,11 @@ const Ubuntu = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/ubuntu",
-              name: t("distros:ubuntu.step-4.name"),
+              name: t("distros.ubuntu.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:ubuntu.step-4.text")
+                  text: t("distros.ubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -125,9 +126,9 @@ const Ubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:ubuntu.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.ubuntu.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:ubuntu.step-1.text">
+          <Trans i18nKey="distros.ubuntu.step-1.text">
             <p>
               To install Flatpak on{" "}
               <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open
@@ -139,11 +140,11 @@ const Ubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:ubuntu.step-2.name">
+            <Trans i18nKey="distros.ubuntu.step-2.name">
               Install GNOME Software Flatpak plugin
             </Trans>
           </h2>
-          <Trans i18nKey="distros:ubuntu.step-2.text">
+          <Trans i18nKey="distros.ubuntu.step-2.text">
             <p>
               The GNOME Software plugin makes it possible to install apps
               without needing the command line. To install, run:
@@ -163,11 +164,11 @@ const Ubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:ubuntu.step-3.name">
+            <Trans i18nKey="distros.ubuntu.step-3.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:ubuntu.step-3.text">
+          <Trans i18nKey="distros.ubuntu.step-3.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -179,9 +180,9 @@ const Ubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:ubuntu.step-4.name">Restart</Trans>
+            <Trans i18nKey="distros.ubuntu.step-4.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:ubuntu.step-4.text">
+          <Trans i18nKey="distros.ubuntu.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -193,8 +194,8 @@ const Ubuntu = ({ locale }: { locale: string }) => {
   )
 }
 
-const Fedora = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Fedora = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -206,10 +207,10 @@ const Fedora = ({ locale }: { locale: string }) => {
             alt="Fedora"
           />
         </picture>
-        <h1>{t("distros:fedora.distroName")}</h1>
+        <h1>{t("distros.fedora.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:fedora.introduction">
+        <Trans i18nKey="distros.fedora.introduction">
           <p>
             Flatpak is installed by default on Fedora Workstation, Fedora
             Silverblue, and Fedora Kinoite. To get started, all you need to do
@@ -245,8 +246,8 @@ const Fedora = ({ locale }: { locale: string }) => {
   )
 }
 
-const Manjaro = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Manjaro = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -258,21 +259,21 @@ const Manjaro = ({ locale }: { locale: string }) => {
             alt="Manjaro"
           />
         </picture>
-        <h1>{t("distros:manjaro.distroName")}</h1>
+        <h1>{t("distros.manjaro.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:manjaro.distroName")}
+          name={t("distros.manjaro.distroName")}
           image="https://flathub.org/img/distro/manjaro.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/manjaro",
-              name: t("distros:manjaro.step-1.name"),
+              name: t("distros.manjaro.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:manjaro.step-1.text")
+                  text: t("distros.manjaro.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -281,11 +282,11 @@ const Manjaro = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/manjaro",
-              name: t("distros:manjaro.step-2.name"),
+              name: t("distros.manjaro.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:manjaro.step-2.text")
+                  text: t("distros.manjaro.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -297,11 +298,11 @@ const Manjaro = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:manjaro.step-1.name">
+            <Trans i18nKey="distros.manjaro.step-1.name">
               Enable Flatpak through the Software Manager
             </Trans>
           </h2>
-          <Trans i18nKey="distros:manjaro.step-1.text">
+          <Trans i18nKey="distros.manjaro.step-1.text">
             <p>Flatpak is installed by default on Manjaro 20 or higher.</p>{" "}
             <p>
               To enable its support, navigate to the{" "}
@@ -322,9 +323,9 @@ const Manjaro = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:manjaro.step-2.name">Restart</Trans>
+            <Trans i18nKey="distros.manjaro.step-2.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:manjaro.step-2.text">
+          <Trans i18nKey="distros.manjaro.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -336,8 +337,8 @@ const Manjaro = ({ locale }: { locale: string }) => {
   )
 }
 
-const Endless_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Endless_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -349,10 +350,10 @@ const Endless_OS = ({ locale }: { locale: string }) => {
             alt="Endless OS"
           />
         </picture>
-        <h1>{t("distros:endless_os.distroName")}</h1>
+        <h1>{t("distros.endless_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:endless_os.introduction">
+        <Trans i18nKey="distros.endless_os.introduction">
           <h2>
             Flatpak support is built into Endless OS 3.0.0 and newer—no setup
             required!
@@ -363,8 +364,8 @@ const Endless_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const ALT_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const ALT_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -380,21 +381,21 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
             alt="ALT Linux"
           />
         </picture>
-        <h1>{t("distros:alt_linux.distroName")}</h1>
+        <h1>{t("distros.alt_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:alt_linux.distroName")}
+          name={t("distros.alt_linux.distroName")}
           image="https://flathub.org/img/distro/altlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/alt_linux",
-              name: t("distros:alt_linux.step-1.name"),
+              name: t("distros.alt_linux.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alt_linux.step-1.text")
+                  text: t("distros.alt_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -403,11 +404,11 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/alt_linux",
-              name: t("distros:alt_linux.step-2.name"),
+              name: t("distros.alt_linux.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alt_linux.step-2.text")
+                  text: t("distros.alt_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -416,11 +417,11 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/alt_linux",
-              name: t("distros:alt_linux.step-3.name"),
+              name: t("distros.alt_linux.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alt_linux.step-3.text")
+                  text: t("distros.alt_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -432,11 +433,11 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alt_linux.step-1.name">
+            <Trans i18nKey="distros.alt_linux.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:alt_linux.step-1.text">
+          <Trans i18nKey="distros.alt_linux.step-1.text">
             <p>
               To install Flatpak on operating systems of the Alt family, open
               the Terminal app and run:
@@ -452,11 +453,11 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alt_linux.step-2.name">
+            <Trans i18nKey="distros.alt_linux.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:alt_linux.step-2.text">
+          <Trans i18nKey="distros.alt_linux.step-2.text">
             <p>
               Flathub is a great place to get Flatpak apps. To enable it on your
               Alt system, run:
@@ -472,9 +473,9 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alt_linux.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.alt_linux.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:alt_linux.step-3.text">
+          <Trans i18nKey="distros.alt_linux.step-3.text">
             <p>
               Restart your device to complete the Flatpak installation. Now you
               can <Link href={`/${locale}`}>install apps</Link>!
@@ -486,8 +487,8 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const Chrome_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Chrome_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -499,21 +500,21 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
             alt="Chrome OS"
           />
         </picture>
-        <h1>{t("distros:chrome_os.distroName")}</h1>
+        <h1>{t("distros.chrome_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:chrome_os.distroName")}
+          name={t("distros.chrome_os.distroName")}
           image="https://flathub.org/img/distro/chrome-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/chrome_os",
-              name: t("distros:chrome_os.step-1.name"),
+              name: t("distros.chrome_os.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:chrome_os.step-1.text")
+                  text: t("distros.chrome_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -522,11 +523,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/chrome_os",
-              name: t("distros:chrome_os.step-2.name"),
+              name: t("distros.chrome_os.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:chrome_os.step-2.text")
+                  text: t("distros.chrome_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -535,11 +536,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/chrome_os",
-              name: t("distros:chrome_os.step-3.name"),
+              name: t("distros.chrome_os.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:chrome_os.step-3.text")
+                  text: t("distros.chrome_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -548,11 +549,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/chrome_os",
-              name: t("distros:chrome_os.step-4.name"),
+              name: t("distros.chrome_os.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:chrome_os.step-4.text")
+                  text: t("distros.chrome_os.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -561,11 +562,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/chrome_os",
-              name: t("distros:chrome_os.step-5.name"),
+              name: t("distros.chrome_os.step-5.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:chrome_os.step-5.text")
+                  text: t("distros.chrome_os.step-5.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -575,7 +576,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
           ]}
         />
 
-        <Trans i18nKey="distros:chrome_os.introduction">
+        <Trans i18nKey="distros.chrome_os.introduction">
           <p>
             Flatpak applications can be installed on ChromeOS with the Crostini
             Linux compatibility layer. This is not available for all ChromeOS
@@ -590,11 +591,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:chrome_os.step-1.name">
+            <Trans i18nKey="distros.chrome_os.step-1.name">
               Enable Linux support
             </Trans>
           </h2>
-          <Trans i18nKey="distros:chrome_os.step-1.text">
+          <Trans i18nKey="distros.chrome_os.step-1.text">
             <p>
               Navigate to{" "}
               <a href="chrome://os-settings">chrome://os-settings</a>, and
@@ -607,11 +608,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:chrome_os.step-2.name">
+            <Trans i18nKey="distros.chrome_os.step-2.name">
               Start a Linux terminal
             </Trans>
           </h2>
-          <Trans i18nKey="distros:chrome_os.step-2.text">
+          <Trans i18nKey="distros.chrome_os.step-2.text">
             <p>
               Press the Search/Launcher key, type "Terminal", and launch the
               Terminal app.
@@ -621,11 +622,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:chrome_os.step-3.name">
+            <Trans i18nKey="distros.chrome_os.step-3.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:chrome_os.step-3.text">
+          <Trans i18nKey="distros.chrome_os.step-3.text">
             <p>To install Flatpak, run the following in the terminal:</p>{" "}
             <CodeCopy text={`sudo apt install flatpak`} />
           </Trans>
@@ -633,11 +634,11 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:chrome_os.step-4.name">
+            <Trans i18nKey="distros.chrome_os.step-4.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:chrome_os.step-4.text">
+          <Trans i18nKey="distros.chrome_os.step-4.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -649,9 +650,9 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:chrome_os.step-5.name">Restart</Trans>
+            <Trans i18nKey="distros.chrome_os.step-5.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:chrome_os.step-5.text">
+          <Trans i18nKey="distros.chrome_os.step-5.text">
             <p>
               To complete setup, restart Linux. You can do this by
               right-clicking terminal, and then clicking "Shut down Linux". Now
@@ -665,8 +666,8 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -678,10 +679,10 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
             alt="Red Hat Enterprise Linux"
           />
         </picture>
-        <h1>{t("distros:red_hat_enterprise_linux.distroName")}</h1>
+        <h1>{t("distros.red_hat_enterprise_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:red_hat_enterprise_linux.introduction">
+        <Trans i18nKey="distros.red_hat_enterprise_linux.introduction">
           <p>
             Flatpak is installed by default on Red Hat Enterprise Linux
             Workstation 9 and newer. To get started, all you need to do is
@@ -719,8 +720,8 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const Linux_Mint = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Linux_Mint = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -732,10 +733,10 @@ const Linux_Mint = ({ locale }: { locale: string }) => {
             alt="Linux Mint"
           />
         </picture>
-        <h1>{t("distros:linux_mint.distroName")}</h1>
+        <h1>{t("distros.linux_mint.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:linux_mint.introduction">
+        <Trans i18nKey="distros.linux_mint.introduction">
           <h2>
             Flatpak support is built into Linux Mint 18.3 and newer—no setup
             required!
@@ -746,8 +747,8 @@ const Linux_Mint = ({ locale }: { locale: string }) => {
   )
 }
 
-const OpenSUSE = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const OpenSUSE = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -759,21 +760,21 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
             alt="openSUSE"
           />
         </picture>
-        <h1>{t("distros:opensuse.distroName")}</h1>
+        <h1>{t("distros.opensuse.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:opensuse.distroName")}
+          name={t("distros.opensuse.distroName")}
           image="https://flathub.org/img/distro/opensuse.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/opensuse",
-              name: t("distros:opensuse.step-1.name"),
+              name: t("distros.opensuse.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:opensuse.step-1.text")
+                  text: t("distros.opensuse.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -782,11 +783,11 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/opensuse",
-              name: t("distros:opensuse.step-2.name"),
+              name: t("distros.opensuse.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:opensuse.step-2.text")
+                  text: t("distros.opensuse.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -795,11 +796,11 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/opensuse",
-              name: t("distros:opensuse.step-3.name"),
+              name: t("distros.opensuse.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:opensuse.step-3.text")
+                  text: t("distros.opensuse.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -811,11 +812,11 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:opensuse.step-1.name">
+            <Trans i18nKey="distros.opensuse.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:opensuse.step-1.text">
+          <Trans i18nKey="distros.opensuse.step-1.text">
             <p>
               Flatpak is available in the default repositories of all currently
               maintained openSUSE Leap and openSUSE Tumbleweed versions.
@@ -839,11 +840,11 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:opensuse.step-2.name">
+            <Trans i18nKey="distros.opensuse.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:opensuse.step-2.text">
+          <Trans i18nKey="distros.opensuse.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -855,9 +856,9 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:opensuse.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.opensuse.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:opensuse.step-3.text">
+          <Trans i18nKey="distros.opensuse.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -869,8 +870,8 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
   )
 }
 
-const Arch = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Arch = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -882,21 +883,21 @@ const Arch = ({ locale }: { locale: string }) => {
             alt="Arch"
           />
         </picture>
-        <h1>{t("distros:arch.distroName")}</h1>
+        <h1>{t("distros.arch.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:arch.distroName")}
+          name={t("distros.arch.distroName")}
           image="https://flathub.org/img/distro/arch.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/arch",
-              name: t("distros:arch.step-1.name"),
+              name: t("distros.arch.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:arch.step-1.text")
+                  text: t("distros.arch.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -905,11 +906,11 @@ const Arch = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/arch",
-              name: t("distros:arch.step-2.name"),
+              name: t("distros.arch.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:arch.step-2.text")
+                  text: t("distros.arch.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -921,9 +922,9 @@ const Arch = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:arch.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.arch.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:arch.step-1.text">
+          <Trans i18nKey="distros.arch.step-1.text">
             <p>To install Flatpak on Arch, open the Terminal app and run:</p>{" "}
             <CodeCopy text={`sudo pacman -S flatpak`} />
           </Trans>
@@ -931,9 +932,9 @@ const Arch = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:arch.step-2.name">Restart</Trans>
+            <Trans i18nKey="distros.arch.step-2.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:arch.step-2.text">
+          <Trans i18nKey="distros.arch.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -945,8 +946,8 @@ const Arch = ({ locale }: { locale: string }) => {
   )
 }
 
-const Debian = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Debian = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -958,21 +959,21 @@ const Debian = ({ locale }: { locale: string }) => {
             alt="Debian"
           />
         </picture>
-        <h1>{t("distros:debian.distroName")}</h1>
+        <h1>{t("distros.debian.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:debian.distroName")}
+          name={t("distros.debian.distroName")}
           image="https://flathub.org/img/distro/debian.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/debian",
-              name: t("distros:debian.step-1.name"),
+              name: t("distros.debian.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:debian.step-1.text")
+                  text: t("distros.debian.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -981,11 +982,11 @@ const Debian = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/debian",
-              name: t("distros:debian.step-2.name"),
+              name: t("distros.debian.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:debian.step-2.text")
+                  text: t("distros.debian.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -994,11 +995,11 @@ const Debian = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/debian",
-              name: t("distros:debian.step-3.name"),
+              name: t("distros.debian.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:debian.step-3.text")
+                  text: t("distros.debian.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1007,11 +1008,11 @@ const Debian = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/debian",
-              name: t("distros:debian.step-4.name"),
+              name: t("distros.debian.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:debian.step-4.text")
+                  text: t("distros.debian.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1023,9 +1024,9 @@ const Debian = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:debian.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.debian.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:debian.step-1.text">
+          <Trans i18nKey="distros.debian.step-1.text">
             <p>
               A flatpak package is available in Debian 10 (Buster) and newer. To
               install it, run the following as root:
@@ -1036,11 +1037,11 @@ const Debian = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:debian.step-2.name">
+            <Trans i18nKey="distros.debian.step-2.name">
               Install the Software Flatpak plugin
             </Trans>
           </h2>
-          <Trans i18nKey="distros:debian.step-2.text">
+          <Trans i18nKey="distros.debian.step-2.text">
             <p>
               If you are running GNOME, it is also a good idea to install the
               Flatpak plugin for GNOME Software. To do this, run:
@@ -1058,11 +1059,11 @@ const Debian = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:debian.step-3.name">
+            <Trans i18nKey="distros.debian.step-3.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:debian.step-3.text">
+          <Trans i18nKey="distros.debian.step-3.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it,
               download and install the{" "}
@@ -1082,9 +1083,9 @@ const Debian = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:debian.step-4.name">Restart</Trans>
+            <Trans i18nKey="distros.debian.step-4.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:debian.step-4.text">
+          <Trans i18nKey="distros.debian.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -1096,8 +1097,8 @@ const Debian = ({ locale }: { locale: string }) => {
   )
 }
 
-const Rocky_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Rocky_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1109,21 +1110,21 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
             alt="Rocky Linux"
           />
         </picture>
-        <h1>{t("distros:rocky_linux.distroName")}</h1>
+        <h1>{t("distros.rocky_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:rocky_linux.distroName")}
+          name={t("distros.rocky_linux.distroName")}
           image="https://flathub.org/img/distro/rockylinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/rocky_linux",
-              name: t("distros:rocky_linux.step-1.name"),
+              name: t("distros.rocky_linux.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:rocky_linux.step-1.text")
+                  text: t("distros.rocky_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1132,11 +1133,11 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/rocky_linux",
-              name: t("distros:rocky_linux.step-2.name"),
+              name: t("distros.rocky_linux.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:rocky_linux.step-2.text")
+                  text: t("distros.rocky_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1145,11 +1146,11 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/rocky_linux",
-              name: t("distros:rocky_linux.step-3.name"),
+              name: t("distros.rocky_linux.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:rocky_linux.step-3.text")
+                  text: t("distros.rocky_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1161,11 +1162,11 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:rocky_linux.step-1.name">
+            <Trans i18nKey="distros.rocky_linux.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:rocky_linux.step-1.text">
+          <Trans i18nKey="distros.rocky_linux.step-1.text">
             <p>
               Flatpak is installed by default on Rocky Linux 8 and newer, when
               installed with a software selection that includes GNOME (Server
@@ -1179,11 +1180,11 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:rocky_linux.step-2.name">
+            <Trans i18nKey="distros.rocky_linux.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:rocky_linux.step-2.text">
+          <Trans i18nKey="distros.rocky_linux.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it,
               download and install the{" "}
@@ -1203,9 +1204,9 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:rocky_linux.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.rocky_linux.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:rocky_linux.step-3.text">
+          <Trans i18nKey="distros.rocky_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -1217,8 +1218,8 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const CentOS_Stream = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const CentOS_Stream = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1230,10 +1231,10 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
             alt="CentOS Stream"
           />
         </picture>
-        <h1>{t("distros:centos.distroName")}</h1>
+        <h1>{t("distros.centos.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:centos.introduction">
+        <Trans i18nKey="distros.centos.introduction">
           <p>
             Flatpak is installed by default on CentOS Stream 8 and newer, when
             using GNOME. To get started, all you need to do is enable Flathub,
@@ -1257,8 +1258,8 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
   )
 }
 
-const AlmaLinux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const AlmaLinux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1270,10 +1271,10 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
             alt="AlmaLinux"
           />
         </picture>
-        <h1>{t("distros:almalinux.distroName")}</h1>
+        <h1>{t("distros.almalinux.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:almalinux.introduction">
+        <Trans i18nKey="distros.almalinux.introduction">
           <p>
             Flatpak is installed by default on AlmaLinux 8 and newer, when using
             GNOME. To get started, all you need to do is enable Flathub, which
@@ -1296,8 +1297,8 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
   )
 }
 
-const Gentoo = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Gentoo = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1309,21 +1310,21 @@ const Gentoo = ({ locale }: { locale: string }) => {
             alt="Gentoo"
           />
         </picture>
-        <h1>{t("distros:gentoo.distroName")}</h1>
+        <h1>{t("distros.gentoo.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:gentoo.distroName")}
+          name={t("distros.gentoo.distroName")}
           image="https://flathub.org/img/distro/gentoo.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/gentoo",
-              name: t("distros:gentoo.step-1.name"),
+              name: t("distros.gentoo.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:gentoo.step-1.text")
+                  text: t("distros.gentoo.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1332,11 +1333,11 @@ const Gentoo = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/gentoo",
-              name: t("distros:gentoo.step-2.name"),
+              name: t("distros.gentoo.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:gentoo.step-2.text")
+                  text: t("distros.gentoo.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1345,11 +1346,11 @@ const Gentoo = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/gentoo",
-              name: t("distros:gentoo.step-3.name"),
+              name: t("distros.gentoo.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:gentoo.step-3.text")
+                  text: t("distros.gentoo.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1361,9 +1362,9 @@ const Gentoo = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:gentoo.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.gentoo.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:gentoo.step-1.text">
+          <Trans i18nKey="distros.gentoo.step-1.text">
             <p>To install Flatpak on Gentoo, open the Terminal app and run:</p>{" "}
             <CodeCopy text={`emerge --ask --verbose sys-apps/flatpak`} />
           </Trans>
@@ -1371,11 +1372,11 @@ const Gentoo = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:gentoo.step-2.name">
+            <Trans i18nKey="distros.gentoo.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:gentoo.step-2.text">
+          <Trans i18nKey="distros.gentoo.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -1387,9 +1388,9 @@ const Gentoo = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:gentoo.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.gentoo.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:gentoo.step-3.text">
+          <Trans i18nKey="distros.gentoo.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -1405,8 +1406,8 @@ const Gentoo = ({ locale }: { locale: string }) => {
   )
 }
 
-const Kubuntu = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Kubuntu = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1418,21 +1419,21 @@ const Kubuntu = ({ locale }: { locale: string }) => {
             alt="Kubuntu"
           />
         </picture>
-        <h1>{t("distros:kubuntu.distroName")}</h1>
+        <h1>{t("distros.kubuntu.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:kubuntu.distroName")}
+          name={t("distros.kubuntu.distroName")}
           image="https://flathub.org/img/distro/kubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/kubuntu",
-              name: t("distros:kubuntu.step-1.name"),
+              name: t("distros.kubuntu.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:kubuntu.step-1.text")
+                  text: t("distros.kubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1441,11 +1442,11 @@ const Kubuntu = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/kubuntu",
-              name: t("distros:kubuntu.step-2.name"),
+              name: t("distros.kubuntu.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:kubuntu.step-2.text")
+                  text: t("distros.kubuntu.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1454,11 +1455,11 @@ const Kubuntu = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/kubuntu",
-              name: t("distros:kubuntu.step-3.name"),
+              name: t("distros.kubuntu.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:kubuntu.step-3.text")
+                  text: t("distros.kubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1467,11 +1468,11 @@ const Kubuntu = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/kubuntu",
-              name: t("distros:kubuntu.step-4.name"),
+              name: t("distros.kubuntu.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:kubuntu.step-4.text")
+                  text: t("distros.kubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1483,9 +1484,9 @@ const Kubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:kubuntu.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.kubuntu.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:kubuntu.step-1.text">
+          <Trans i18nKey="distros.kubuntu.step-1.text">
             <p>
               To install Flatpak on Kubuntu, open Discover, go to Settings,
               install the Flatpak backend and restart Discover.
@@ -1495,11 +1496,11 @@ const Kubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:kubuntu.step-2.name">
+            <Trans i18nKey="distros.kubuntu.step-2.name">
               Install the Flatpak system settings add-on
             </Trans>
           </h2>
-          <Trans i18nKey="distros:kubuntu.step-2.text">
+          <Trans i18nKey="distros.kubuntu.step-2.text">
             <p>
               To integrate Flatpak support into the Plasma System Settings, open
               the Terminal app and run:
@@ -1510,11 +1511,11 @@ const Kubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:kubuntu.step-3.name">
+            <Trans i18nKey="distros.kubuntu.step-3.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:kubuntu.step-3.text">
+          <Trans i18nKey="distros.kubuntu.step-3.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, open
               Discover, go to Settings and add the Flathub repository.
@@ -1524,9 +1525,9 @@ const Kubuntu = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:kubuntu.step-4.name">Restart</Trans>
+            <Trans i18nKey="distros.kubuntu.step-4.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:kubuntu.step-4.text">
+          <Trans i18nKey="distros.kubuntu.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -1538,8 +1539,8 @@ const Kubuntu = ({ locale }: { locale: string }) => {
   )
 }
 
-const Solus = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Solus = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1551,21 +1552,21 @@ const Solus = ({ locale }: { locale: string }) => {
             alt="Solus"
           />
         </picture>
-        <h1>{t("distros:solus.distroName")}</h1>
+        <h1>{t("distros.solus.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:solus.distroName")}
+          name={t("distros.solus.distroName")}
           image="https://flathub.org/img/distro/solus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/solus",
-              name: t("distros:solus.step-1.name"),
+              name: t("distros.solus.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:solus.step-1.text")
+                  text: t("distros.solus.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1574,11 +1575,11 @@ const Solus = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/solus",
-              name: t("distros:solus.step-2.name"),
+              name: t("distros.solus.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:solus.step-2.text")
+                  text: t("distros.solus.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1587,11 +1588,11 @@ const Solus = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/solus",
-              name: t("distros:solus.step-3.name"),
+              name: t("distros.solus.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:solus.step-3.text")
+                  text: t("distros.solus.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1601,7 +1602,7 @@ const Solus = ({ locale }: { locale: string }) => {
           ]}
         />
 
-        <Trans i18nKey="distros:solus.introduction">
+        <Trans i18nKey="distros.solus.introduction">
           <p>
             Flatpak support is built into Solus 4.7 and newer—no setup required!
             Flatpak apps can be installed using GNOME Software and/or KDE
@@ -1615,9 +1616,9 @@ const Solus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:solus.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.solus.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:solus.step-1.text">
+          <Trans i18nKey="distros.solus.step-1.text">
             <p>To install Flatpak on Solus, open the Terminal app and run:</p>{" "}
             <CodeCopy text={`sudo eopkg install flatpak`} />
           </Trans>
@@ -1625,11 +1626,11 @@ const Solus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:solus.step-2.name">
+            <Trans i18nKey="distros.solus.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:solus.step-2.text">
+          <Trans i18nKey="distros.solus.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it,
               download and install the{" "}
@@ -1649,9 +1650,9 @@ const Solus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:solus.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.solus.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:solus.step-3.text">
+          <Trans i18nKey="distros.solus.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -1667,8 +1668,8 @@ const Solus = ({ locale }: { locale: string }) => {
   )
 }
 
-const Alpine = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Alpine = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1680,21 +1681,21 @@ const Alpine = ({ locale }: { locale: string }) => {
             alt="Alpine"
           />
         </picture>
-        <h1>{t("distros:alpine.distroName")}</h1>
+        <h1>{t("distros.alpine.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:alpine.distroName")}
+          name={t("distros.alpine.distroName")}
           image="https://flathub.org/img/distro/alpine.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/alpine",
-              name: t("distros:alpine.step-1.name"),
+              name: t("distros.alpine.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alpine.step-1.text")
+                  text: t("distros.alpine.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1703,11 +1704,11 @@ const Alpine = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/alpine",
-              name: t("distros:alpine.step-2.name"),
+              name: t("distros.alpine.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alpine.step-2.text")
+                  text: t("distros.alpine.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1716,11 +1717,11 @@ const Alpine = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/alpine",
-              name: t("distros:alpine.step-3.name"),
+              name: t("distros.alpine.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alpine.step-3.text")
+                  text: t("distros.alpine.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1729,11 +1730,11 @@ const Alpine = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/alpine",
-              name: t("distros:alpine.step-4.name"),
+              name: t("distros.alpine.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:alpine.step-4.text")
+                  text: t("distros.alpine.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1745,9 +1746,9 @@ const Alpine = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alpine.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.alpine.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:alpine.step-1.text">
+          <Trans i18nKey="distros.alpine.step-1.text">
             <p>
               Flatpak can be installed from the community repository. Run the
               following in a terminal:
@@ -1758,11 +1759,11 @@ const Alpine = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alpine.step-2.name">
+            <Trans i18nKey="distros.alpine.step-2.name">
               Install the Software Flatpak plugin
             </Trans>
           </h2>
-          <Trans i18nKey="distros:alpine.step-2.text">
+          <Trans i18nKey="distros.alpine.step-2.text">
             <p>
               You can install the Flatpak plugin for either the GNOME Software
               (since v3.13) or KDE Discover (since v3.11), making it possible to
@@ -1777,11 +1778,11 @@ const Alpine = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alpine.step-3.name">
+            <Trans i18nKey="distros.alpine.step-3.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:alpine.step-3.text">
+          <Trans i18nKey="distros.alpine.step-3.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it,
               download and install the{" "}
@@ -1801,9 +1802,9 @@ const Alpine = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:alpine.step-4.name">Restart</Trans>
+            <Trans i18nKey="distros.alpine.step-4.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:alpine.step-4.text">
+          <Trans i18nKey="distros.alpine.step-4.text">
             <p>
               To complete the setup, restart your system. Now all you have to do
               is <Link href={`/${locale}`}>install apps</Link>!
@@ -1815,8 +1816,8 @@ const Alpine = ({ locale }: { locale: string }) => {
   )
 }
 
-const Mageia = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Mageia = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1828,21 +1829,21 @@ const Mageia = ({ locale }: { locale: string }) => {
             alt="Mageia"
           />
         </picture>
-        <h1>{t("distros:mageia.distroName")}</h1>
+        <h1>{t("distros.mageia.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:mageia.distroName")}
+          name={t("distros.mageia.distroName")}
           image="https://flathub.org/img/distro/mageia.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/mageia",
-              name: t("distros:mageia.step-1.name"),
+              name: t("distros.mageia.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:mageia.step-1.text")
+                  text: t("distros.mageia.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1851,11 +1852,11 @@ const Mageia = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/mageia",
-              name: t("distros:mageia.step-2.name"),
+              name: t("distros.mageia.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:mageia.step-2.text")
+                  text: t("distros.mageia.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1864,11 +1865,11 @@ const Mageia = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/mageia",
-              name: t("distros:mageia.step-3.name"),
+              name: t("distros.mageia.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:mageia.step-3.text")
+                  text: t("distros.mageia.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1880,9 +1881,9 @@ const Mageia = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:mageia.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.mageia.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:mageia.step-1.text">
+          <Trans i18nKey="distros.mageia.step-1.text">
             <p>
               A flatpak package is available for Mageia 6 and newer. To install
               with DNF, run the following as root:
@@ -1897,11 +1898,11 @@ const Mageia = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:mageia.step-2.name">
+            <Trans i18nKey="distros.mageia.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:mageia.step-2.text">
+          <Trans i18nKey="distros.mageia.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it,
               download and install the{" "}
@@ -1921,9 +1922,9 @@ const Mageia = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:mageia.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.mageia.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:mageia.step-3.text">
+          <Trans i18nKey="distros.mageia.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -1939,8 +1940,8 @@ const Mageia = ({ locale }: { locale: string }) => {
   )
 }
 
-const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1952,10 +1953,10 @@ const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
             alt="OpenMandriva Lx"
           />
         </picture>
-        <h1>{t("distros:openmandriva_lx.distroName")}</h1>
+        <h1>{t("distros.openmandriva_lx.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:openmandriva_lx.introduction">
+        <Trans i18nKey="distros.openmandriva_lx.introduction">
           <h2>
             Flatpak support is built into OpenMandriva for all actively
             supported versions, starting from the stable/fixed release 'Rock
@@ -1969,8 +1970,8 @@ const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
   )
 }
 
-const Pop_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Pop_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -1982,10 +1983,10 @@ const Pop_OS = ({ locale }: { locale: string }) => {
             alt="Pop!_OS"
           />
         </picture>
-        <h1>{t("distros:pop_os.distroName")}</h1>
+        <h1>{t("distros.pop_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:pop_os.introduction">
+        <Trans i18nKey="distros.pop_os.introduction">
           <h2>
             Flatpak support is built into Pop!_OS 20.04 and newer—no setup
             required!
@@ -1996,8 +1997,8 @@ const Pop_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Elementary_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Elementary_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2013,21 +2014,21 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
             alt="elementary OS"
           />
         </picture>
-        <h1>{t("distros:elementary_os.distroName")}</h1>
+        <h1>{t("distros.elementary_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:elementary_os.distroName")}
+          name={t("distros.elementary_os.distroName")}
           image="https://flathub.org/img/distro/elementary-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/elementary_os",
-              name: t("distros:elementary_os.step-1.name"),
+              name: t("distros.elementary_os.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:elementary_os.step-1.text")
+                  text: t("distros.elementary_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2039,11 +2040,11 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:elementary_os.step-1.name">
+            <Trans i18nKey="distros.elementary_os.step-1.name">
               Install Apps
             </Trans>
           </h2>
-          <Trans i18nKey="distros:elementary_os.step-1.text">
+          <Trans i18nKey="distros.elementary_os.step-1.text">
             <p>
               elementary OS 5.1 and newer comes with Flatpak support out of the
               box. For non-curated apps, head to{" "}
@@ -2063,8 +2064,8 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2076,21 +2077,21 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
             alt="Raspberry Pi OS"
           />
         </picture>
-        <h1>{t("distros:raspberry_pi_os.distroName")}</h1>
+        <h1>{t("distros.raspberry_pi_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:raspberry_pi_os.distroName")}
+          name={t("distros.raspberry_pi_os.distroName")}
           image="https://flathub.org/img/distro/raspberry-pi-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/raspberry_pi_os",
-              name: t("distros:raspberry_pi_os.step-1.name"),
+              name: t("distros.raspberry_pi_os.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:raspberry_pi_os.step-1.text")
+                  text: t("distros.raspberry_pi_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2099,11 +2100,11 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/raspberry_pi_os",
-              name: t("distros:raspberry_pi_os.step-2.name"),
+              name: t("distros.raspberry_pi_os.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:raspberry_pi_os.step-2.text")
+                  text: t("distros.raspberry_pi_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2112,11 +2113,11 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/raspberry_pi_os",
-              name: t("distros:raspberry_pi_os.step-3.name"),
+              name: t("distros.raspberry_pi_os.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:raspberry_pi_os.step-3.text")
+                  text: t("distros.raspberry_pi_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2128,11 +2129,11 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:raspberry_pi_os.step-1.name">
+            <Trans i18nKey="distros.raspberry_pi_os.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:raspberry_pi_os.step-1.text">
+          <Trans i18nKey="distros.raspberry_pi_os.step-1.text">
             <p>
               A flatpak package is available in Raspberry Pi OS (previously
               called Raspbian) Stretch and newer. To install it, run the
@@ -2144,11 +2145,11 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:raspberry_pi_os.step-2.name">
+            <Trans i18nKey="distros.raspberry_pi_os.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:raspberry_pi_os.step-2.text">
+          <Trans i18nKey="distros.raspberry_pi_os.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -2165,9 +2166,9 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:raspberry_pi_os.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.raspberry_pi_os.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:raspberry_pi_os.step-3.text">
+          <Trans i18nKey="distros.raspberry_pi_os.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2183,38 +2184,46 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Void_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Clear_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
-      <div className="flex flex-col items-center">
-        <picture>
-          <source
-            srcSet={"img/distro/void-dark.svg"}
-            media="(prefers-color-scheme: dark)"
-          />
-          <Image
-            width={128}
-            height={128}
-            src={"img/distro/void.svg"}
-            alt="Void Linux"
-          />
-        </picture>
-        <h1>{t("distros:void_linux.distroName")}</h1>
-      </div>
+      <h1>{t("distros.clear_linux.distroName")}</h1>
+      <ol className="distrotut">
+        <Trans i18nKey="distros.clear_linux.introduction">
+          <p>
+            Flatpak is installed and Flathub repository is pre-configured by
+            default on Clear Linux when installing the desktop bundle.
+          </p>{" "}
+          <CodeCopy text={`sudo swupd bundle-add desktop`} />{" "}
+          <p>
+            Now all you have to do is{" "}
+            <a href="https://flathub.org/">install apps</a>!
+          </p>
+        </Trans>
+      </ol>
+    </>
+  )
+}
+
+export const Void_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
+  return (
+    <>
+      <h1>{t("distros.void_linux.distroName")}</h1>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:void_linux.distroName")}
+          name={t("distros.void_linux.distroName")}
           image="https://flathub.org/img/distro/void.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/void_linux",
-              name: t("distros:void_linux.step-1.name"),
+              name: t("distros.void_linux.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:void_linux.step-1.text")
+                  text: t("distros.void_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2223,11 +2232,11 @@ const Void_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/void_linux",
-              name: t("distros:void_linux.step-2.name"),
+              name: t("distros.void_linux.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:void_linux.step-2.text")
+                  text: t("distros.void_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2236,11 +2245,11 @@ const Void_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/void_linux",
-              name: t("distros:void_linux.step-3.name"),
+              name: t("distros.void_linux.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:void_linux.step-3.text")
+                  text: t("distros.void_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2252,11 +2261,11 @@ const Void_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:void_linux.step-1.name">
+            <Trans i18nKey="distros.void_linux.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:void_linux.step-1.text">
+          <Trans i18nKey="distros.void_linux.step-1.text">
             <p>
               To install Flatpak on Void Linux, run the following in a terminal:
             </p>{" "}
@@ -2266,11 +2275,11 @@ const Void_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:void_linux.step-2.name">
+            <Trans i18nKey="distros.void_linux.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:void_linux.step-2.text">
+          <Trans i18nKey="distros.void_linux.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -2282,9 +2291,9 @@ const Void_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:void_linux.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.void_linux.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:void_linux.step-3.text">
+          <Trans i18nKey="distros.void_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2296,8 +2305,8 @@ const Void_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const NixOS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const NixOS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2309,21 +2318,21 @@ const NixOS = ({ locale }: { locale: string }) => {
             alt="NixOS"
           />
         </picture>
-        <h1>{t("distros:nixos.distroName")}</h1>
+        <h1>{t("distros.nixos.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:nixos.distroName")}
+          name={t("distros.nixos.distroName")}
           image="https://flathub.org/img/distro/nixos.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/nixos",
-              name: t("distros:nixos.step-1.name"),
+              name: t("distros.nixos.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:nixos.step-1.text")
+                  text: t("distros.nixos.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2332,11 +2341,11 @@ const NixOS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/nixos",
-              name: t("distros:nixos.step-2.name"),
+              name: t("distros.nixos.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:nixos.step-2.text")
+                  text: t("distros.nixos.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2345,11 +2354,11 @@ const NixOS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/nixos",
-              name: t("distros:nixos.step-3.name"),
+              name: t("distros.nixos.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:nixos.step-3.text")
+                  text: t("distros.nixos.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2361,9 +2370,9 @@ const NixOS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:nixos.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.nixos.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:nixos.step-1.text">
+          <Trans i18nKey="distros.nixos.step-1.text">
             <p>
               To install Flatpak, set NixOS option{" "}
               <code>services.flatpak.enable</code> to <code>true</code> by
@@ -2385,11 +2394,11 @@ const NixOS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:nixos.step-2.name">
+            <Trans i18nKey="distros.nixos.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:nixos.step-2.text">
+          <Trans i18nKey="distros.nixos.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -2401,9 +2410,9 @@ const NixOS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:nixos.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.nixos.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:nixos.step-3.text">
+          <Trans i18nKey="distros.nixos.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2415,8 +2424,8 @@ const NixOS = ({ locale }: { locale: string }) => {
   )
 }
 
-const PureOS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const PureOS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2432,10 +2441,10 @@ const PureOS = ({ locale }: { locale: string }) => {
             alt="PureOS"
           />
         </picture>
-        <h1>{t("distros:pureos.distroName")}</h1>
+        <h1>{t("distros.pureos.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:pureos.introduction">
+        <Trans i18nKey="distros.pureos.introduction">
           <p>
             Flatpak is installed by default on PureOS. To get started, all you
             need to do is enable Flathub, which is the best way to get Flatpak
@@ -2458,8 +2467,8 @@ const PureOS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Zorin_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Zorin_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2471,10 +2480,10 @@ const Zorin_OS = ({ locale }: { locale: string }) => {
             alt="Zorin OS"
           />
         </picture>
-        <h1>{t("distros:zorin_os.distroName")}</h1>
+        <h1>{t("distros.zorin_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:zorin_os.introduction">
+        <Trans i18nKey="distros.zorin_os.introduction">
           <h2>Flatpak support is built into Zorin OS</h2>{" "}
           <p>You can use the Software Store app to download Flatpak apps.</p>
         </Trans>
@@ -2483,8 +2492,8 @@ const Zorin_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Deepin = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Deepin = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2496,21 +2505,21 @@ const Deepin = ({ locale }: { locale: string }) => {
             alt="Deepin"
           />
         </picture>
-        <h1>{t("distros:deepin.distroName")}</h1>
+        <h1>{t("distros.deepin.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:deepin.distroName")}
+          name={t("distros.deepin.distroName")}
           image="https://flathub.org/img/distro/deepin.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/deepin",
-              name: t("distros:deepin.step-1.name"),
+              name: t("distros.deepin.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:deepin.step-1.text")
+                  text: t("distros.deepin.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2519,11 +2528,11 @@ const Deepin = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/deepin",
-              name: t("distros:deepin.step-2.name"),
+              name: t("distros.deepin.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:deepin.step-2.text")
+                  text: t("distros.deepin.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2532,11 +2541,11 @@ const Deepin = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/deepin",
-              name: t("distros:deepin.step-3.name"),
+              name: t("distros.deepin.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:deepin.step-3.text")
+                  text: t("distros.deepin.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2545,11 +2554,11 @@ const Deepin = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/deepin",
-              name: t("distros:deepin.step-4.name"),
+              name: t("distros.deepin.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:deepin.step-4.text")
+                  text: t("distros.deepin.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2561,9 +2570,9 @@ const Deepin = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:deepin.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.deepin.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:deepin.step-1.text">
+          <Trans i18nKey="distros.deepin.step-1.text">
             <p>
               To install Flatpak on Deepin, run the following in a terminal:
             </p>{" "}
@@ -2573,11 +2582,11 @@ const Deepin = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:deepin.step-2.name">
+            <Trans i18nKey="distros.deepin.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:deepin.step-2.text">
+          <Trans i18nKey="distros.deepin.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -2589,11 +2598,11 @@ const Deepin = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:deepin.step-3.name">
+            <Trans i18nKey="distros.deepin.step-3.name">
               Install the Deepin themes
             </Trans>
           </h2>
-          <Trans i18nKey="distros:deepin.step-3.text">
+          <Trans i18nKey="distros.deepin.step-3.text">
             <p>To install light and dark themes, run:</p>{" "}
             <CodeCopy
               text={` flatpak install flathub org.gtk.Gtk3theme.deepin\n flatpak install flathub org.gtk.Gtk3theme.deepin-dark\n `}
@@ -2603,9 +2612,9 @@ const Deepin = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:deepin.step-4.name">Restart</Trans>
+            <Trans i18nKey="distros.deepin.step-4.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:deepin.step-4.text">
+          <Trans i18nKey="distros.deepin.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2617,8 +2626,8 @@ const Deepin = ({ locale }: { locale: string }) => {
   )
 }
 
-const Pardus = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Pardus = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2630,21 +2639,21 @@ const Pardus = ({ locale }: { locale: string }) => {
             alt="Pardus"
           />
         </picture>
-        <h1>{t("distros:pardus.distroName")}</h1>
+        <h1>{t("distros.pardus.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:pardus.distroName")}
+          name={t("distros.pardus.distroName")}
           image="https://flathub.org/img/distro/pardus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/pardus",
-              name: t("distros:pardus.step-1.name"),
+              name: t("distros.pardus.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pardus.step-1.text")
+                  text: t("distros.pardus.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2653,11 +2662,11 @@ const Pardus = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/pardus",
-              name: t("distros:pardus.step-2.name"),
+              name: t("distros.pardus.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pardus.step-2.text")
+                  text: t("distros.pardus.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2666,11 +2675,11 @@ const Pardus = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/pardus",
-              name: t("distros:pardus.step-3.name"),
+              name: t("distros.pardus.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pardus.step-3.text")
+                  text: t("distros.pardus.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2679,11 +2688,11 @@ const Pardus = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/pardus",
-              name: t("distros:pardus.step-4.name"),
+              name: t("distros.pardus.step-4.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pardus.step-4.text")
+                  text: t("distros.pardus.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2695,9 +2704,9 @@ const Pardus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pardus.step-1.name">Install Flatpak</Trans>
+            <Trans i18nKey="distros.pardus.step-1.name">Install Flatpak</Trans>
           </h2>
-          <Trans i18nKey="distros:pardus.step-1.text">
+          <Trans i18nKey="distros.pardus.step-1.text">
             <p>
               A flatpak package is available in Pardus 2019 and newer. To
               install it, run the following as root:
@@ -2708,11 +2717,11 @@ const Pardus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pardus.step-2.name">
+            <Trans i18nKey="distros.pardus.step-2.name">
               Install the Software Flatpak plugin
             </Trans>
           </h2>
-          <Trans i18nKey="distros:pardus.step-2.text">
+          <Trans i18nKey="distros.pardus.step-2.text">
             <p>
               If you are running GNOME, it is also a good idea to install the
               Flatpak plugin for GNOME Software. To do this, run:
@@ -2723,11 +2732,11 @@ const Pardus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pardus.step-3.name">
+            <Trans i18nKey="distros.pardus.step-3.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:pardus.step-3.text">
+          <Trans i18nKey="distros.pardus.step-3.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -2739,9 +2748,9 @@ const Pardus = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pardus.step-4.name">Restart</Trans>
+            <Trans i18nKey="distros.pardus.step-4.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:pardus.step-4.text">
+          <Trans i18nKey="distros.pardus.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2753,8 +2762,8 @@ const Pardus = ({ locale }: { locale: string }) => {
   )
 }
 
-const MX_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const MX_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2766,21 +2775,21 @@ const MX_Linux = ({ locale }: { locale: string }) => {
             alt="MX Linux"
           />
         </picture>
-        <h1>{t("distros:mx_linux.distroName")}</h1>
+        <h1>{t("distros.mx_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:mx_linux.distroName")}
+          name={t("distros.mx_linux.distroName")}
           image="https://flathub.org/img/distro/mxlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/mx_linux",
-              name: t("distros:mx_linux.step-1.name"),
+              name: t("distros.mx_linux.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:mx_linux.step-1.text")
+                  text: t("distros.mx_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2789,11 +2798,11 @@ const MX_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/mx_linux",
-              name: t("distros:mx_linux.step-2.name"),
+              name: t("distros.mx_linux.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:mx_linux.step-2.text")
+                  text: t("distros.mx_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2805,11 +2814,11 @@ const MX_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:mx_linux.step-1.name">
+            <Trans i18nKey="distros.mx_linux.step-1.name">
               Enable Flatpak through the Software Manager
             </Trans>
           </h2>
-          <Trans i18nKey="distros:mx_linux.step-1.text">
+          <Trans i18nKey="distros.mx_linux.step-1.text">
             <p>
               Flatpak support is built in from MX 18 and later. It is only
               required to activate the Flathub repository following these
@@ -2825,9 +2834,9 @@ const MX_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:mx_linux.step-2.name">Restart</Trans>
+            <Trans i18nKey="distros.mx_linux.step-2.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:mx_linux.step-2.text">
+          <Trans i18nKey="distros.mx_linux.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2839,8 +2848,8 @@ const MX_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const Pisi_GNULinux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Pisi_GNULinux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2856,21 +2865,21 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
             alt="Pisi GNU/Linux"
           />
         </picture>
-        <h1>{t("distros:pisi_gnulinux.distroName")}</h1>
+        <h1>{t("distros.pisi_gnulinux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:pisi_gnulinux.distroName")}
+          name={t("distros.pisi_gnulinux.distroName")}
           image="https://flathub.org/img/distro/pisi.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/pisi_gnulinux",
-              name: t("distros:pisi_gnulinux.step-1.name"),
+              name: t("distros.pisi_gnulinux.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pisi_gnulinux.step-1.text")
+                  text: t("distros.pisi_gnulinux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2879,11 +2888,11 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/pisi_gnulinux",
-              name: t("distros:pisi_gnulinux.step-2.name"),
+              name: t("distros.pisi_gnulinux.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pisi_gnulinux.step-2.text")
+                  text: t("distros.pisi_gnulinux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2892,11 +2901,11 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/pisi_gnulinux",
-              name: t("distros:pisi_gnulinux.step-3.name"),
+              name: t("distros.pisi_gnulinux.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:pisi_gnulinux.step-3.text")
+                  text: t("distros.pisi_gnulinux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2908,11 +2917,11 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pisi_gnulinux.step-1.name">
+            <Trans i18nKey="distros.pisi_gnulinux.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:pisi_gnulinux.step-1.text">
+          <Trans i18nKey="distros.pisi_gnulinux.step-1.text">
             <p>
               A flatpak package is available in Pisi 2.1 and newer. To install
               it, run the following as root:
@@ -2923,11 +2932,11 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pisi_gnulinux.step-2.name">
+            <Trans i18nKey="distros.pisi_gnulinux.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:pisi_gnulinux.step-2.text">
+          <Trans i18nKey="distros.pisi_gnulinux.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -2939,9 +2948,9 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:pisi_gnulinux.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.pisi_gnulinux.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:pisi_gnulinux.step-3.text">
+          <Trans i18nKey="distros.pisi_gnulinux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -2957,8 +2966,8 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
   )
 }
 
-const EndeavourOS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const EndeavourOS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -2974,21 +2983,21 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
             alt="EndeavourOS"
           />
         </picture>
-        <h1>{t("distros:endeavouros.distroName")}</h1>
+        <h1>{t("distros.endeavouros.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:endeavouros.distroName")}
+          name={t("distros.endeavouros.distroName")}
           image="https://flathub.org/img/distro/endeavouros.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/endeavouros",
-              name: t("distros:endeavouros.step-1.name"),
+              name: t("distros.endeavouros.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:endeavouros.step-1.text")
+                  text: t("distros.endeavouros.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2997,11 +3006,11 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/endeavouros",
-              name: t("distros:endeavouros.step-2.name"),
+              name: t("distros.endeavouros.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:endeavouros.step-2.text")
+                  text: t("distros.endeavouros.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3010,11 +3019,11 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/endeavouros",
-              name: t("distros:endeavouros.step-3.name"),
+              name: t("distros.endeavouros.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:endeavouros.step-3.text")
+                  text: t("distros.endeavouros.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3026,11 +3035,11 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:endeavouros.step-1.name">
+            <Trans i18nKey="distros.endeavouros.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:endeavouros.step-1.text">
+          <Trans i18nKey="distros.endeavouros.step-1.text">
             <p>
               To install Flatpak on EndeavorOS, you must first make sure your
               installation is up to date, run the following in a terminal:
@@ -3042,11 +3051,11 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:endeavouros.step-2.name">
+            <Trans i18nKey="distros.endeavouros.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:endeavouros.step-2.text">
+          <Trans i18nKey="distros.endeavouros.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -3058,9 +3067,9 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:endeavouros.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.endeavouros.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:endeavouros.step-3.text">
+          <Trans i18nKey="distros.endeavouros.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -3076,8 +3085,8 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
   )
 }
 
-const KDE_neon = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const KDE_neon = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -3089,10 +3098,10 @@ const KDE_neon = ({ locale }: { locale: string }) => {
             alt="KDE neon"
           />
         </picture>
-        <h1>{t("distros:kde_neon.distroName")}</h1>
+        <h1>{t("distros.kde_neon.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:kde_neon.introduction">
+        <Trans i18nKey="distros.kde_neon.introduction">
           <h2>
             Flatpak support is built into KDE neon 19 and newer—no setup
             required!
@@ -3103,8 +3112,8 @@ const KDE_neon = ({ locale }: { locale: string }) => {
   )
 }
 
-const GNU_Guix = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const GNU_Guix = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -3120,21 +3129,21 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
             alt="GNU Guix"
           />
         </picture>
-        <h1>{t("distros:gnu_guix.distroName")}</h1>
+        <h1>{t("distros.gnu_guix.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:gnu_guix.distroName")}
+          name={t("distros.gnu_guix.distroName")}
           image="https://flathub.org/img/distro/guix.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/gnu_guix",
-              name: t("distros:gnu_guix.step-1.name"),
+              name: t("distros.gnu_guix.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:gnu_guix.step-1.text")
+                  text: t("distros.gnu_guix.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3143,11 +3152,11 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/gnu_guix",
-              name: t("distros:gnu_guix.step-2.name"),
+              name: t("distros.gnu_guix.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:gnu_guix.step-2.text")
+                  text: t("distros.gnu_guix.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3156,11 +3165,11 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/gnu_guix",
-              name: t("distros:gnu_guix.step-3.name"),
+              name: t("distros.gnu_guix.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:gnu_guix.step-3.text")
+                  text: t("distros.gnu_guix.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3172,11 +3181,11 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:gnu_guix.step-1.name">
+            <Trans i18nKey="distros.gnu_guix.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:gnu_guix.step-1.text">
+          <Trans i18nKey="distros.gnu_guix.step-1.text">
             <p>
               To install Flatpak on GNU Guix, run the following in a terminal:
             </p>{" "}
@@ -3186,11 +3195,11 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:gnu_guix.step-2.name">
+            <Trans i18nKey="distros.gnu_guix.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:gnu_guix.step-2.text">
+          <Trans i18nKey="distros.gnu_guix.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -3202,9 +3211,9 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:gnu_guix.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.gnu_guix.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:gnu_guix.step-3.text">
+          <Trans i18nKey="distros.gnu_guix.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -3220,8 +3229,8 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
   )
 }
 
-const Crystal_Linux = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Crystal_Linux = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -3233,21 +3242,21 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
             alt="Crystal Linux"
           />
         </picture>
-        <h1>{t("distros:crystal_linux.distroName")}</h1>
+        <h1>{t("distros.crystal_linux.distroName")}</h1>
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          name={t("distros:crystal_linux.distroName")}
+          name={t("distros.crystal_linux.distroName")}
           image="https://flathub.org/img/distro/crystallinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
               url: "https://flathub.org/setup/crystal_linux",
-              name: t("distros:crystal_linux.step-1.name"),
+              name: t("distros.crystal_linux.step-1.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:crystal_linux.step-1.text")
+                  text: t("distros.crystal_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3256,11 +3265,11 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/crystal_linux",
-              name: t("distros:crystal_linux.step-2.name"),
+              name: t("distros.crystal_linux.step-2.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:crystal_linux.step-2.text")
+                  text: t("distros.crystal_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3269,11 +3278,11 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
             },
             {
               url: "https://flathub.org/setup/crystal_linux",
-              name: t("distros:crystal_linux.step-3.name"),
+              name: t("distros.crystal_linux.step-3.name"),
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros:crystal_linux.step-3.text")
+                  text: t("distros.crystal_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -3283,7 +3292,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
           ]}
         />
 
-        <Trans i18nKey="distros:crystal_linux.introduction">
+        <Trans i18nKey="distros.crystal_linux.introduction">
           <h2>Flatpak is installed by default on Crystal Linux.</h2>{" "}
           <p>
             If you didn't use jade_gui to install crystal or selected not to
@@ -3293,11 +3302,11 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:crystal_linux.step-1.name">
+            <Trans i18nKey="distros.crystal_linux.step-1.name">
               Install Flatpak
             </Trans>
           </h2>
-          <Trans i18nKey="distros:crystal_linux.step-1.text">
+          <Trans i18nKey="distros.crystal_linux.step-1.text">
             <p>
               To install Flatpak in Crystal Linux, you must first make sure your
               packages are up to date. Run the following in a terminal:
@@ -3309,11 +3318,11 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:crystal_linux.step-2.name">
+            <Trans i18nKey="distros.crystal_linux.step-2.name">
               Add the Flathub repository
             </Trans>
           </h2>
-          <Trans i18nKey="distros:crystal_linux.step-2.text">
+          <Trans i18nKey="distros.crystal_linux.step-2.text">
             <p>
               Flathub is the best place to get Flatpak apps. To enable it, run:
             </p>{" "}
@@ -3325,9 +3334,9 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
 
         <li>
           <h2>
-            <Trans i18nKey="distros:crystal_linux.step-3.name">Restart</Trans>
+            <Trans i18nKey="distros.crystal_linux.step-3.name">Restart</Trans>
           </h2>
-          <Trans i18nKey="distros:crystal_linux.step-3.text">
+          <Trans i18nKey="distros.crystal_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
               <Link href={`/${locale}`}>install apps</Link>!
@@ -3339,8 +3348,8 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
   )
 }
 
-const Vanilla_OS = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Vanilla_OS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -3352,10 +3361,10 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
             alt="Vanilla OS"
           />
         </picture>
-        <h1>{t("distros:vanilla_os.distroName")}</h1>
+        <h1>{t("distros.vanilla_os.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:vanilla_os.introduction">
+        <Trans i18nKey="distros.vanilla_os.introduction">
           <h2>Flatpak is installed by default on Vanilla OS.</h2>{" "}
           <p>
             You can use the Software app or browse{" "}
@@ -3374,8 +3383,8 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
   )
 }
 
-const Salix = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+export const Salix = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
@@ -3387,10 +3396,10 @@ const Salix = ({ locale }: { locale: string }) => {
             alt="Salix"
           />
         </picture>
-        <h1>{t("distros:salix.distroName")}</h1>
+        <h1>{t("distros.salix.distroName")}</h1>
       </div>
       <ol className="distrotut">
-        <Trans i18nKey="distros:salix.introduction">
+        <Trans i18nKey="distros.salix.introduction">
           <h2>
             Flatpak is installed by default on Salix since version 15.0—no setup
             required!

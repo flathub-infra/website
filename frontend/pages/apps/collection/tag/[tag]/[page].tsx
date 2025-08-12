@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../../src/components/application/Collection"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
@@ -19,7 +19,7 @@ export default function Tag({
   tag: string
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -66,7 +66,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: (await import(`../public/locales/${locale}/common.json`))
+        .default,
       applications: applications.data,
       tag: params.tag,
       locale,
