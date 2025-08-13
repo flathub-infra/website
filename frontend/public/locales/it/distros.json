@@ -8,5 +8,10 @@
   "zorin_os": {
     "distroName": "Zorin OS",
     "introduction": "<0>Il supporto Flatpak è integrato in Zorin OS</0> <p>È possibile utilizzare l'app Software Store per scaricare le app flatpak.</p>"
+  },
+  "void_linux": {
+    "step-1": {
+      "name": "Installa Flatpak"
+    }
   }
 }

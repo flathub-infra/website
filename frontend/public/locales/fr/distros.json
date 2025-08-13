@@ -31,7 +31,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<0>Flatpak est installé par défaut sur Fedora Workstation, Fedora Silverblue et Fedora Kinoite. Pour commencer, il vous suffit d'activer Flathub, qui est le meilleur moyen d'obtenir des applications Flatpak. Flathub est préconfiguré dans le cadre des <2>Dépôts tiers</2>. Vous pouvez également télécharger et installer le <5>fichier de dépôt Flathub</5>.</0> <2>Maintenant, il ne vous reste plus qu'à <2>installer des applications</2> !</2> <p>Les liens ci-dessus devraient fonctionner sur les installations par défaut de GNOME et KDE Fedora, mais s'ils échouent pour une raison quelconque, vous pouvez ajouter manuellement la télécommande Flathub en exécutant :</p> <6></6>"
+    "introduction": "<0>Flatpak est installé par défaut sur Fedora Workstation, Fedora Silverblue et Fedora Kinoite. Pour commencer, il vous suffit d'activer Flathub, le meilleur moyen d'obtenir des applications Flatpak. Flathub est préconfiguré dans le cadre des <2>Dépôts tiers</2>. Sinon, vous pouvez également télécharger et installer le <5>fichier de dépôt Flathub</5>.</0> <2>Maintenant, il ne vous reste plus qu'à <2>installer des applications</2> !</2> <p>Les liens ci-dessus devraient fonctionner sur les installations Fedora par défaut dotées de GNOME ou KDE, mais s'ils venaient à ne pas fonctionner, vous pouvez ajouter manuellement le dépôt distant Flathub en exécutant :</p> <6></6>"
   },
   "pardus": {
     "step-3": {

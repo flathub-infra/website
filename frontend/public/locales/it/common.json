@@ -50,7 +50,7 @@
   "whoops": "Ops!",
   "login": "Accedi",
   "reporting-issues": "Segnalazione di problemi",
-  "search-for-query": "Ricerca per '{{query}}'",
+  "search-for-query": "Cerca per “{{query}}”",
   "categories": "Categorie",
   "linked-accounts": "Account Collegati",
   "link-more-accounts": "Collega Altri Account",
@@ -115,7 +115,7 @@
   "stripe-error-expired_card": "La carta è scaduta. Controlla la data di scadenza o usa un'altra carta.",
   "acknowledgements-block": "<p>Flathub non sarebbe stato possibile senza il generoso supporto delle seguenti organizzazioni e individui.</p>",
   "vcs_browser": "Sfoglia il codice sorgente",
-  "entry-confirmation-prompt": "Inserisci \"{{text}}\" per continuare.",
+  "entry-confirmation-prompt": "Inserisci “{{text}}” per continuare.",
   "transaction-summary-type": "Tipo:",
   "kind-purchase": "Acquista",
   "make-donation": "Fai una donazione",
@@ -326,7 +326,7 @@
   "revoked": "Revocato",
   "revoke": "Revoca",
   "revoke-token": "Revoca Token",
-  "revoke-token-description": "Sei sicuro di voler revocare il token '{{name}}'?",
+  "revoke-token-description": "Sei sicuro di voler revocare il token “{{name}}”?",
   "show-expired-tokens": "Mostra token scaduti",
   "flathub-index-description": "Ottieni le ultime versioni di tutte le tue applicazioni preferite, per qualsiasi distribuzione Linux",
   "card": "Carte",
@@ -616,7 +616,7 @@
   "recipient": "Destinatario",
   "created": "Creato",
   "kind-purchase-app": "Acquista {{appName}}",
-  "apps-by-tag": "App per tag '{{tag}}'",
+  "apps-by-tag": "App per tag “{{tag}}”",
   "mobile-apps": "App mobile",
   "favorite": "Preferito",
   "favorite-apps": "Preferiti",
@@ -652,5 +652,6 @@
   "vendingSharesPreview": {
     "app": "App",
     "sdk": "SDK"
-  }
+  },
+  "since-x": "Dal {{date}}"
 }
