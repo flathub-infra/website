@@ -2,8 +2,8 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Nainstalovat Flatpak",
-      "text": "Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </0> <2></2> <4>Pro starší verze <strong>do Ubuntu 18.04 LTS (Bionický bobr)</strong>, je vyžadováno Flatpak PPA pro instalaci Flatpaku a zajištění jeho aktuálnosti. Pro přidání PPA a instalaci Flatpaku, otevřete aplikaci Terminál a spusťte:</4> <6></6>"
+      "name": "Nainstalujte Flatpak",
+      "text": "Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </0> <2></2>"
     },
     "step-2": {
       "name": "Nainstalujte plugin Flatpaku pro GNOME Software",
@@ -28,14 +28,14 @@
       "text": "<p>Flatpak je nainstalován již ve výchozím nastavení na Manjaro 20 nebo vyšším.</p> <2>Pro povolení jeho podpory, přejděte do <strong>Správce softwaru</strong> (Nainstalovat/Odstranit software)</2> <p>Klikněte na tříčárkovanou nabídku [nebo tečky v závislosti na desktopovém prostředí] vpravo, v rolovací nabídce zvolte \"Předvolby\"</p> <p>Přejděte na kartu \"Flatpak\" a posuňte přepínač pro Povolení podpory Flatpak (je také možné povolit kontrolu aktualizací, což je doporučováno).</p>"
     },
     "step-2": {
-      "name": "Restartovat",
+      "name": "Restartujte",
       "text": "<0>Pro dokončení nastavení, restartujte váš systém. Teď už jen stačí <2>nainstalovat aplikace</2>!</0>"
     },
     "distroName": "Manjaro"
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Podpora Flatpaku je zabudována v Endless OS 3.0.0 nebo novější–žádné nastavování není potřeba</0> <2>Pokud používáte starší verzi, <2>proveďte povýšení na Endless OS 3</2>.</2>"
+    "introduction": "<0>Podpora Flatpaku je zabudována v Endless OS 3.0.0 nebo novější–žádné nastavování není potřeba</0>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -48,7 +48,7 @@
       "text": "<p>Flathub je skvělým místem pro získávání aplikací Flatpak. Pro jeho povolení na systému Alt, spusťte:</p> <2></2>"
     },
     "step-3": {
-      "name": "Restartovat",
+      "name": "Restartujte",
       "text": "<0>Restartujte vaše zařízení pro dokončení instalace Flatpaku. Teď už jen stačí <1>nainstalovat aplikace</1>!</0>"
     }
   },
@@ -64,14 +64,14 @@
     },
     "step-3": {
       "name": "Nainstalujte Flatpak",
-      "text": "<p>Pro instalaci Flatpaku, spusťte v terminálu následující:</p> <2></2> <4>Aktuálnější balíček Flatpak je k dispozici v <2>repozitáři Debian backports</2>. </4>"
+      "text": "<p>Pro instalaci Flatpaku, spusťte v terminálu následující:</p> <2></2>"
     },
     "step-4": {
       "name": "Přidejte repozitář Flathub",
       "text": "<p>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení, spusťte</p> <2></2>"
     },
     "step-5": {
-      "name": "Restartovat",
+      "name": "Restartujte",
       "text": "<0>Pro dokončení nastavení restartujte systém Linux. To provedete kliknutím pravým tlačítkem myši na terminál a poté kliknutím na „Vypnout Linux“. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
     },
     "introduction": "<0>Aplikace Flatpak mohou být nainstalovány na ChromeOS pomocí vrstvy kompatibility Crostini Linux. Tohle není k dispozici pro všechna zařízení ChromeOS, takže se nejdříve ujistěte, že vaše zařízení je kompatibilní. Seznam kompatibilních zařízení je spravován <2>zde</2>.</0>"
@@ -82,7 +82,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<0>Podpora Flatpaku je již zabudovaná v Linux Mint 18.3 a novější–žádné další nastavení není potřeba</0> <2>Pokud používáte starší verzi, <2>proveďte povýšení na Linux Mint 18.3</2>.</2>"
+    "introduction": "<0>Podpora Flatpaku je již zabudovaná v Linux Mint 18.3 a novější–žádné další nastavení není potřeba</0>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -125,10 +125,25 @@
     },
     "step-4": {
       "name": "Restartujte",
-      "text": "<0>Pro dokončení nastavování systém zrestartujte. Nyní už stačí jen <2>nainstalovat aplikace</2>!</0>"
+      "text": "<0>Pro dokončení nastavování systém restartujte. Nyní už stačí jen <2>nainstalovat aplikace</2>!</0>"
     }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux"
+  },
+  "pop_os": {
+    "introduction": "<0>Podpora Flatpaku je již zabudována v Pop!_OS 20.04 a novější–žádné další nastavení není potřeba!</0>",
+    "distroName": "Pop!_OS"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Nainstalujte aplikace",
+      "text": "<0>elementary OS 5.1 a novější přichází již s předinstalovanou podporou Flatpaku. Pro neschválené aplikace, se řiďte <2>Flathubem</2> pro instalaci jakékoliv aplikace pomocí velkého tlačítka \"Nainstalovat\" a otevřete stažený soubor `.flatpakref` pomocí Sideload.</0> <p>Poznámka: Po instalaci jedné z aplikací ze vzdáleného repozitáře jako je Flathub, se všechny aplikace z daného repositáře zobrazí v Centru aplikací.</p>"
+    }
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS",
+    "introduction": "<0>Podpora Flatpaku je již zabudována v Zorin OS</0> <p>Můžete použít aplikaci Centrum Software pro stažení aplikací Flatpak.</p>"
   }
 }
