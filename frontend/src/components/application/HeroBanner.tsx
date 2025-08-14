@@ -160,7 +160,7 @@ export const HeroBanner = ({
                   </div>
                   <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
                     <Image
-                      src={pickScreenshotSize(data.appstream.screenshots[0])}
+                      src={pickScreenshotSize(data.appstream.screenshots?.[0])}
                       alt={data.appstream.name}
                       priority={aboveTheFold && i === 0}
                       loading="eager"
