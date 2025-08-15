@@ -50,6 +50,26 @@ export const FlathubWorldMap = ({
 }) => {
   const { t } = useTranslation()
 
+  const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
+  const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
+
+  let country_data: {
+    country: string
+    downloads: number
+    population: number
+    downloads_per_people: number
+  }[] = []
+  if (stats.countries) {
+    for (const [key, value] of Object.entries(stats.countries)) {
+      country_data.push({
+        country: key,
+        downloads: value.downloads,
+        population: value.downloads,
+        downloads_per_people: value.downloads / value.population,
+      })
+    }
+  }
+
   const getLocalizedText = ({
     countryCode,
     countryValue,
@@ -74,6 +94,11 @@ export const FlathubWorldMap = ({
 
     return translation
   }
+
+  const refs = country_data.reduce((acc, value) => {
+    acc[value.country] = createRef()
+    return acc
+  }, {})
 
   const handleClick = (id) =>
     refs?.[id]?.current.scrollIntoView({
@@ -130,8 +155,8 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
           )}
         >
           {country_data
-            .toSorted((a, b) => b.value - a.value)
-            .map(({ country, value }, i) => {
+            .toSorted((a, b) => b.downloads_per_people - a.downloads_per_people)
+            .map(({ country, downloads_per_people }, i) => {
               return (
                 <div
                   key={country}
@@ -147,7 +172,9 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
                         t("unknown")}
                     </div>
                   </div>
-                  <div>{value.toLocaleString(i18n.language)}</div>
+                  <div>
+                    {downloads_per_people.toLocaleString(i18n.language)}
+                  </div>
                 </div>
               )
             })}

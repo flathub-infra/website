@@ -4,5 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { CountryData } from "./countryData"
 
-export type StatsResultCountries = { [key: string]: number }
+export type StatsResultCountries = { [key: string]: CountryData }
