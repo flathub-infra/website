@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -13,10 +13,11 @@ import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import { isInternalRedirect } from "../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
 import { getLoginMethodsAuthLoginGet } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 export default function AuthReturnPage({ services }: { services: string[] }) {
   // Must access query params to POST to backend for oauth verification
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const user = useUserContext()
@@ -108,7 +109,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       services,
     },
     revalidate: 900,

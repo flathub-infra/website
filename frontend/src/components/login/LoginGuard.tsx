@@ -2,8 +2,8 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useUserContext } from "../../context/user-info"
 import Spinner from "../Spinner"
-import { Trans, useTranslation } from "next-i18next"
 import { UserInfo } from "src/codegen"
+import { useTranslations } from "next-intl"
 
 /**
 This is essentially a wrapper component to conditionally render the
@@ -19,7 +19,7 @@ const LoginGuard = ({
   children: React.ReactNode
   condition?: (user: UserInfo) => boolean | undefined
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
   const router = useRouter()
 
@@ -44,13 +44,13 @@ const LoginGuard = ({
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="my-8">{t("whoops")}</h1>
         <p>{t("unauthorized-to-view")}</p>
-        <Trans i18nKey={"common:retry-or-go-home"}>
-          You might want to retry or go back{" "}
-          <a className="no-underline hover:underline" href=".">
-            home
-          </a>
-          .
-        </Trans>
+        {t.rich("retry-or-go-home", {
+          link: (chunk) => (
+            <a className="no-underline hover:underline" href=".">
+              {chunk}
+            </a>
+          ),
+        })}
       </div>
     </>
   )

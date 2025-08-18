@@ -5,7 +5,7 @@ import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationText } from "src/verification"
 import VerificationIcon from "./VerificationIcon"
 import { HiMiniExclamationTriangle } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 interface Props {
   appId: string
@@ -16,7 +16,7 @@ const Verification: FunctionComponent<Props> = ({
   appId,
   verificationStatus,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const verificationText = VerificationText(verificationStatus)
   let verifiedLink = null
 

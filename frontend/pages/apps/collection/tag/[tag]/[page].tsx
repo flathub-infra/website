@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../../src/components/application/Collection"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
@@ -9,6 +9,7 @@ import {
   MeilisearchResponseAppsIndex,
 } from "src/codegen"
 import { AxiosResponse } from "axios"
+import { translationMessages } from "i18n/request"
 
 export default function Tag({
   applications,
@@ -19,7 +20,7 @@ export default function Tag({
   tag: string
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -66,7 +67,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       applications: applications.data,
       tag: params.tag,
       locale,

@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { getIntlLocale } from "src/localize"
 import InlineError from "../InlineError"
@@ -17,6 +17,7 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useRouter } from "next/router"
 
 interface Props {
   title: string
@@ -25,7 +26,9 @@ interface Props {
 }
 
 const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
+  const i18n = getIntlLocale(router.locale)
   const user = useUserContext()
 
   const [modalState, setModalState] = useState<"approve" | "reject">("approve")

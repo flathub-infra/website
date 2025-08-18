@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, ReactNode } from "react"
 import DeleteCardButton from "./DeleteCardButton"
 import { getWalletinfoWalletWalletinfoGet } from "src/codegen"
 import { CardInfo, CardInfoSkeleton } from "./CardInfo"
 
 const SavedCards: FunctionComponent = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const walletQuery = useQuery({
     queryKey: ["/walletinfo"],

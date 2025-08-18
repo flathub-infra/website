@@ -1,19 +1,20 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import { LoginProvider } from "../src/types/Login"
 import { fetchLoginProviders } from "src/fetchers"
+import { translationMessages } from "i18n/request"
 
 export default function Settings({
   providers,
 }: {
   providers: LoginProvider[]
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -44,7 +45,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       providers: providers,
     },
     revalidate: 900,

@@ -2,8 +2,7 @@ import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
 import cc0 from "../public/img/CC0.png"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { Trans, useTranslation } from "next-i18next"
+
 import { getLanguageName, languages } from "src/localize"
 import { useState } from "react"
 import Image from "next/image"
@@ -14,9 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useTranslations } from "next-intl"
+import { translationMessages } from "i18n/request"
 
 const BadgePreview = ({ locale, preferred }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const lightPostfix = preferred ? "" : "&light"
 
@@ -33,22 +34,23 @@ const BadgePreview = ({ locale, preferred }) => {
         src={`/api/badge?locale=${locale}${lightPostfix}`}
       />
       <h6 className="pt-2 text-xs font-normal">
-        <Trans i18nKey={"common:also-available-as-svg"}>
-          Also available in{" "}
-          <a
-            className="no-underline hover:underline"
-            href={`/api/badge?svg&locale=${locale}${lightPostfix}`}
-          >
-            svg format
-          </a>
-        </Trans>
+        {t.rich("also-available-as-svg", {
+          link: (chunk) => (
+            <a
+              className="no-underline hover:underline"
+              href={`/api/badge?svg&locale=${locale}${lightPostfix}`}
+            >
+              {chunk}
+            </a>
+          ),
+        })}
       </h6>
     </div>
   )
 }
 
 const Badges = ({ applicationLocale }: { applicationLocale: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [locale, setLocale] = useState("en")
 
@@ -117,19 +119,18 @@ const Badges = ({ applicationLocale }: { applicationLocale: string }) => {
               <Image priority src={cc0} alt="CC0" />
             </a>
             <br />
-            <Trans i18nKey={"common:badge-copyright"}>
-              To the extent possible under law,{" "}
-              <a
-                rel="dct:publisher"
-                className="no-underline hover:underline"
-                href="https://flathub.org/badges"
-              >
-                <span property="dct:title">Jakub Steiner</span>
-              </a>{" "}
-              has waived all copyright and related or neighboring rights to
-              <span property="dct:title">Flathub Badges</span>. This work is
-              published from: Czech Republic.
-            </Trans>
+            {t.rich("badge-copyright", {
+              author: (chunk) => (
+                <a
+                  rel="dct:publisher"
+                  className="no-underline hover:underline"
+                  href="https://flathub.org/badges"
+                >
+                  <span property="dct:title">{chunk}</span>
+                </a>
+              ),
+              badgeslink: (chunk) => <span property="dct:title">{chunk}</span>,
+            })}
           </p>
 
           <h2 className="mb-4 mt-12 text-2xl font-bold">
@@ -173,7 +174,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       applicationLocale: locale,
     },
     revalidate: 900,

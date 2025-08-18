@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement } from "react"
@@ -9,9 +9,10 @@ import TransactionDetails from "../../../src/components/payment/transactions/Tra
 import Spinner from "../../../src/components/Spinner"
 import LoginGuard from "../../../src/components/login/LoginGuard"
 import { useGetTransactionByIdWalletTransactionsTxnGet } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 export default function TransactionPage() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const query = useGetTransactionByIdWalletTransactionsTxnGet(
@@ -74,7 +75,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

@@ -1,8 +1,8 @@
 import { BuildDashboard } from "@/components/build/build-dashboard"
 import { PipelineRepoWithAll } from "@/components/build/build-repo-filter"
 import { PipelineStatusWithAll } from "@/components/build/build-status-filter"
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -51,7 +51,7 @@ export default function Builds() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
     revalidate: 900,
   }

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useState } from "react"
 import { toast } from "sonner"
 import Spinner from "../Spinner"
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button"
  * - Dashboard link (possibly with "attention needed" text)
  */
 const VendingLink: FunctionComponent = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [onboarding, setOnboarding] = useState(false)
   const { push } = useRouter()
 

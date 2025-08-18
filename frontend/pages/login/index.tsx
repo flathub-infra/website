@@ -1,15 +1,16 @@
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import Router from "next/router"
 import { useEffect } from "react"
 import LoginProviders from "../../src/components/login/Providers"
 import { useUserContext } from "../../src/context/user-info"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { fetchLoginProviders } from "src/fetchers"
+import { translationMessages } from "i18n/request"
 
 export default function LoginPortal({ providers, locale }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   // Set NEXT_LOCALE cookie to match locale of this page
@@ -49,7 +50,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       providers: providers,
       locale,
     },

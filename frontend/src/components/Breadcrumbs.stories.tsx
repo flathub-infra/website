@@ -1,7 +1,5 @@
-import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import Breadcrumbs from "./Breadcrumbs"
-import { useTranslation } from "next-i18next"
 
 export default {
   title: "Components/Breadcrumbs",
@@ -9,12 +7,10 @@ export default {
 } as Meta<typeof Breadcrumbs>
 
 export const Generated = () => {
-  const { t } = useTranslation()
-
   const pages = [
-    { name: t("user-wallet"), href: "/wallet", current: false },
+    { name: "user-wallet", href: "/wallet", current: false },
     {
-      name: t("transaction-summary"),
+      name: "transaction-summary",
       href: "/payment/details/12",
       current: true,
     },

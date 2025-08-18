@@ -1,19 +1,20 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { useRouter } from "next/router"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import PublisherAgreement from "src/components/user/PublisherAgreement"
 import { useUserDispatch } from "src/context/user-info"
 import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
 import { acceptInviteInvitesAppIdAcceptPost } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 interface Props {
   appId: string
 }
 
 const PublisherAgreementPage = ({ appId }: Props) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
   const userDispatch = useUserDispatch()
 
@@ -51,7 +52,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       appId,
     },
   }

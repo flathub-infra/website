@@ -18,7 +18,9 @@ import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
 import Autoplay, { AutoplayType } from "embla-carousel-autoplay"
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
-import { i18n } from "next-i18next"
+import { useRouter } from "next/router"
+import { getIntlLocale } from "src/localize"
+import { getLangDir } from "rtl-detect"
 
 export const HeroBanner = ({
   heroBannerData,
@@ -39,6 +41,10 @@ export const HeroBanner = ({
   aboveTheFold?: boolean
   forceTheme?: "light" | "dark"
 }) => {
+  const router = useRouter()
+
+  const i18n = getIntlLocale(router.locale)
+
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
 
@@ -76,11 +82,13 @@ export const HeroBanner = ({
     })
   }, [api, currentIndex])
 
+  const direction = getLangDir(router.locale) ?? "ltr"
+
   return (
     <Carousel
       opts={{
         loop: true,
-        direction: i18n?.dir() ?? "ltr",
+        direction,
       }}
       plugins={[
         WheelGesturesPlugin(),

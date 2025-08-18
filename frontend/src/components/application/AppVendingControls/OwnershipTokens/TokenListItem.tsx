@@ -1,5 +1,5 @@
 import { DisclosureButton, DisclosurePanel } from "@headlessui/react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 import { FunctionComponent } from "react"
 import { HiChevronUp } from "react-icons/hi2"
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [state, setState] = useState(token.state)
 

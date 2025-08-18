@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useState } from "react"
 import { HiXCircle, HiTrash } from "react-icons/hi2"
 import { toast } from "sonner"
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 const DeleteCardButton: FunctionComponent<{
   card: PaymentCardInfo
 }> = ({ card }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const queryClient = useQueryClient()
 
   // The deletion request only happens once confirmed by secondary click

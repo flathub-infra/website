@@ -12,6 +12,7 @@ const config: StorybookConfig = {
     "storybook-addon-mock-date",
     "@storybook/addon-docs",
     "@storybook/addon-vitest",
+    "storybook-next-intl",
   ],
 
   framework: {

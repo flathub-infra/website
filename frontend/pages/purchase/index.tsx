@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -11,6 +11,7 @@ import {
   checkPurchasesPurchasesCheckPurchasesPost,
   getUpdateTokenPurchasesGenerateUpdateTokenPost,
 } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 const PERMITTED_REDIRECTS = [
   /^http:\/\/localhost:\d+\/$/,
@@ -18,7 +19,7 @@ const PERMITTED_REDIRECTS = [
 ]
 
 export default function Purchase() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [pendingTransaction, setPendingTransaction] = usePendingTransaction()
 
   const router = useRouter()
@@ -114,7 +115,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

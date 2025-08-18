@@ -1,5 +1,5 @@
+import { translationMessages } from "i18n/request"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { Permission, UserInfo } from "src/codegen"
 import LoginGuard from "src/components/login/LoginGuard"
@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       appId: app,
     },
     revalidate: 900,

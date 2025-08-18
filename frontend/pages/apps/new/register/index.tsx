@@ -1,9 +1,10 @@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
@@ -15,7 +16,7 @@ import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { Appstream } from "src/types/Appstream"
 
 export default function AppRegistrationPage() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [appId, setAppId] = useState<string>("")
   const userInfo = useUserContext()
   const userDispatch = useUserDispatch()
@@ -40,9 +41,10 @@ export default function AppRegistrationPage() {
         <h1 className="mb-8 mt-8 text-4xl font-extrabold">
           {t("new-direct-upload")}
         </h1>
-
         <Alert>
-          <AlertDescription>{t("app-id-instructions")}</AlertDescription>
+          <AlertDescription>
+            {t.rich("app-id-instructions", { i: (chunks) => <i>{chunks}</i> })}
+          </AlertDescription>
         </Alert>
 
         <Input
@@ -101,7 +103,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

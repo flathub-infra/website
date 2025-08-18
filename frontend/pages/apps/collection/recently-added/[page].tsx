@@ -1,11 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import fetchCollection from "src/fetchers"
 import { MeilisearchResponseAppsIndex } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 export default function RecentlyAdded({
   applications,
@@ -14,7 +15,7 @@ export default function RecentlyAdded({
   applications: MeilisearchResponseAppsIndex
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -60,7 +61,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       applications,
       locale,
     },

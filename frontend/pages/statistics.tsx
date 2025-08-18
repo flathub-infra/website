@@ -1,7 +1,7 @@
 import { NextSeo } from "next-seo"
 import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import styles from "./statistics.module.scss"
 import {
   HiCloudArrowDown,
@@ -11,7 +11,6 @@ import {
 } from "react-icons/hi2"
 
 import ListBox from "../src/components/application/ListBox"
-import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
 import { tryParseCategory } from "src/types/Category"
@@ -40,6 +39,9 @@ import {
 } from "@/components/ui/chart"
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
+import { useTranslations } from "next-intl"
+import { getLangDir } from "rtl-detect"
+import { translationMessages } from "i18n/request"
 
 export const FlathubWorldMap = ({
   country_data,
@@ -48,7 +50,8 @@ export const FlathubWorldMap = ({
   country_data: { country: string; value: number }[]
   refs?: { [key: string]: React.RefObject<HTMLDivElement> }
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
 
   const getLocalizedText = ({
     countryCode,
@@ -56,10 +59,10 @@ export const FlathubWorldMap = ({
     prefix,
     suffix,
   }: CountryContext) => {
-    const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
+    const regionName = new Intl.DisplayNames(router.locale, { type: "region" })
     const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
 
-    const translatedCountryValue = countryValue.toLocaleString(i18n.language)
+    const translatedCountryValue = countryValue.toLocaleString(router.locale)
 
     const downloadTranslation = t("x-downloads", {
       x: translatedCountryValue,
@@ -90,7 +93,7 @@ export const FlathubWorldMap = ({
         size="responsive"
         data={country_data}
         tooltipTextFunction={getLocalizedText}
-        rtl={i18n.dir() === "rtl"}
+        rtl={getLangDir(router.locale) === "rtl"}
         onClickFunction={(context) => handleClick(context.countryCode)}
       />
     </div>
@@ -98,7 +101,9 @@ export const FlathubWorldMap = ({
 }
 
 const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
+  const i18n = getIntlLocale(router.locale)
 
   const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
   const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
@@ -147,7 +152,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
                         t("unknown")}
                     </div>
                   </div>
-                  <div>{value.toLocaleString(i18n.language)}</div>
+                  <div>{value.toLocaleString(router.locale)}</div>
                 </div>
               )
             })}
@@ -158,7 +163,8 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
 }
 
 const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
   const { resolvedTheme } = useTheme()
 
   const data = []
@@ -202,7 +208,7 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
               height={80}
             />
             <YAxis
-              tickFormatter={(y) => y.toLocaleString(i18n.language)}
+              tickFormatter={(y) => y.toLocaleString(router.locale)}
               stroke={axisStroke(resolvedTheme)}
               width={80}
             />
@@ -218,7 +224,7 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
 }
 
 const FailedByGuideline = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { resolvedTheme } = useTheme()
 
   const user = useUserContext()
@@ -286,7 +292,7 @@ const FailedByGuideline = () => {
 }
 
 const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const chartConfig = {
     category: {
@@ -321,7 +327,7 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
 }
 
 const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
   const { resolvedTheme } = useTheme()
 
@@ -396,7 +402,8 @@ const Statistics = ({
   runtimes: { [key: string]: number }
   locale: string
 }): JSX.Element => {
-  const { t } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
 
   return (
     <>
@@ -419,7 +426,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: stats.totals.downloads?.toLocaleString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(router.locale),
                   ),
                 },
               },
@@ -433,7 +440,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: stats.totals.number_of_apps?.toLocaleString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(router.locale),
                   ),
                 },
               },
@@ -447,7 +454,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: stats.totals.verified_apps?.toLocaleString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(router.locale),
                   ),
                 },
               },
@@ -461,7 +468,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: new Date(2018, 3, 29).toLocaleDateString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(router.locale),
                   ),
                 },
               },
@@ -490,7 +497,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       stats: stats.data,
       runtimes: runtimes.data,
       locale,

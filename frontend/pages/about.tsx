@@ -1,23 +1,21 @@
 import { Button } from "@/components/ui/button"
 import clsx from "clsx"
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 
 const Acknowledgments = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div>
       <h2 className="mb-6 mt-12 text-2xl font-bold">{t("acknowledgements")}</h2>
-      <Trans i18nKey={"common:acknowledgements-block"}>
-        <p>
-          Flathub wouldn&apos;t be possible without the generous support of the
-          following organizations and individuals.
-        </p>
-      </Trans>
+      {t.rich("acknowledgements-block", {
+        p: (chunk) => <p>{chunk}</p>,
+      })}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <div>
           <h3 className="my-4 text-xl font-semibold">
@@ -70,46 +68,39 @@ const Acknowledgments = () => {
 }
 
 const Users = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="basis-1/2">
       <h2 className="mb-6 mt-12 text-2xl font-bold">{t("users")}</h2>
       <p>
-        <Trans i18nKey={"common:all-the-apps-you-want"}>
-          <span className="font-bold">All the apps you want</span> — From big
-          names you&apos;d expect to fresh indie developers, Flathub has
-          thousands of apps to meet your needs.
-        </Trans>
+        {t.rich("all-the-apps-you-want", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+        })}
       </p>
       <p>
-        <Trans i18nKey={"common:transparent-safety"}>
-          <span className="font-bold">Transparent safety</span> — Clearly see
-          when an app is{" "}
-          <a
-            href="https://docs.flathub.org/docs/for-users/verification/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            verified
-          </a>{" "}
-          as coming from its developer, what permissions it requires, and
-          whether or not it&apos;s open source and auditable
-        </Trans>
+        {t.rich("transparent-safety", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+          verifiedlink: (chunk) => (
+            <a
+              href="https://docs.flathub.org/docs/for-users/verification/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {chunk}
+            </a>
+          ),
+        })}
       </p>
       <p>
-        <Trans i18nKey={"common:tastefully-curated"}>
-          <span className="font-bold">Tastefully curated</span> — Discover
-          interesting, quality apps across Flathub with our staff curation that
-          showcases the best on offer
-        </Trans>
+        {t.rich("tastefully-curated", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+        })}
       </p>
       <p>
-        <Trans i18nKey={"common:apps-for-you-where-you-are"}>
-          <span className="font-bold">Apps for you where you are</span> —
-          Whether you&apos;re on a Steam Deck, a powerful Linux workstation, a
-          Raspberry Pi, or the rare Linux phone; Flathub has apps for you
-        </Trans>
+        {t.rich("apps-for-you-where-you-are", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+        })}
       </p>
       <div className="mt-10 flex gap-3">
         <Link href={"/setup"} className="w-1/2 sm:w-auto">
@@ -128,61 +119,58 @@ const Users = () => {
 }
 
 const Developers = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="basis-1/2">
       <h2 className="mb-6 mt-12 text-2xl font-bold">{t("developers")}</h2>
       <p>
-        <Trans i18nKey={"common:millions-users"}>
-          <span className="font-bold">Reach millions of users</span> — Flathub
-          comes out of the box on multiple Linux distros, is{" "}
-          <Link href="/setup">easily installable</Link> on the rest, and has
-          over a million active users
-        </Trans>
+        {t.rich("millions-users", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+          installlink: (chunk) => <Link href="/setup">{chunk}</Link>,
+        })}
       </p>
       <p>
-        <Trans i18nKey={"common:transparent"}>
-          <span className="font-bold">Independent & transparent</span> —
-          We&apos;re a grassroots open source community stewarding the best of
-          what the ecosystem has to offer
-        </Trans>
+        {t.rich("transparent", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+        })}
       </p>
       <p>
-        <Trans i18nKey={"common:docs-guidance"}>
-          <span className="font-bold">Clear docs & guidance</span> — Extensive
-          <a
-            href="https://docs.flathub.org/docs/category/for-app-authors"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {" "}
-            documentation
-          </a>
-          , thousands of public{" "}
-          <a
-            href="https://github.com/flathub/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            app manifests
-          </a>
-          , and a large community means you&apos;re always able to get help
-        </Trans>
+        {t.rich("docs-guidance", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+          doclink: (chunk) => (
+            <a
+              href="https://docs.flathub.org/docs/category/for-app-authors"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {chunk}
+            </a>
+          ),
+          manifestlink: (chunk) => (
+            <a
+              href="https://github.com/flathub/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {chunk}
+            </a>
+          ),
+        })}
       </p>
       <p>
-        <Trans i18nKey={"common:integration"}>
-          <span className="font-bold">Native app store integration</span> —
-          Forget web downloads; Flathub delivers apps and{" "}
-          <a
-            href="https://docs.flathub.org/docs/for-app-authors/updates"
-            target="_blank"
-            rel="noreferrer"
-          >
-            automatic updates
-          </a>{" "}
-          to users in their native app store client where they&apos;d expect
-        </Trans>
+        {t.rich("integration", {
+          bold: (chunk) => <span className="font-bold">{chunk}</span>,
+          updateslink: (chunk) => (
+            <a
+              href="https://docs.flathub.org/docs/for-app-authors/updates"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {chunk}
+            </a>
+          ),
+        })}
       </p>
       <div className="mt-10 flex">
         <a
@@ -201,7 +189,7 @@ const Developers = () => {
 }
 
 const GetInTouch = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div>
@@ -281,7 +269,7 @@ const GetInTouch = () => {
 }
 
 const About = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -298,15 +286,10 @@ const About = ({ locale }: { locale: string }) => {
           <h1 className="mt-8 mb-6 text-4xl font-extrabold">
             {t("about-pagename")}
           </h1>
-          <Trans i18nKey={"common:about-claim"}>
-            <h2 className="mb-6 text-xl">
-              Whether you&apos;re a user looking for apps or a developer looking
-              to reach more users,{" "}
-              <span className="font-bold">
-                Flathub is the best choice for apps on Linux.
-              </span>
-            </h2>
-          </Trans>
+          {t.rich("about-claim", {
+            text: (chunk) => <h2 className="mb-6 text-xl">{chunk}</h2>,
+            bold: (chunk) => <span className="font-bold">{chunk}</span>,
+          })}
         </section>
 
         {/* <!-- main content --> */}
@@ -334,7 +317,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       locale,
     },
     revalidate: 900,

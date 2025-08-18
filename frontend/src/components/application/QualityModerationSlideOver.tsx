@@ -20,8 +20,8 @@ import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
 import { IconGridOverlay } from "./IconGridOverlay"
-import { Trans, useTranslation } from "next-i18next"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
+import { useTranslations } from "next-intl"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import {
@@ -45,7 +45,7 @@ import {
 import Link from "next/link"
 
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
   return (
@@ -170,7 +170,7 @@ const ShowBrandingButton = ({
 }: {
   app: Pick<DesktopAppstream, "branding" | "icon" | "name" | "summary">
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
   if (!app.branding || app.branding?.length === 0) {
@@ -229,7 +229,7 @@ const QualityCategories = ({
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
   mode: "developer" | "moderator"
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const passAllMutation = useMutation({
     mutationFn: () => {
@@ -323,14 +323,13 @@ https://flathub.org/apps/details/${app.id}
         </Link>
       </Button>
       <div>
-        <Trans i18nKey={"quality-guideline.problems"}>
-          If you would like to ask us about specific quality guideline problems,
-          feel free to open{" "}
-          <a href={issueLink} target="_blank" rel="noreferrer">
-            an issue
-          </a>
-          .
-        </Trans>
+        {t.rich("quality-guideline.problems", {
+          link: (chunks) => (
+            <a href={issueLink} target="_blank" rel="noreferrer">
+              {chunks}
+            </a>
+          ),
+        })}
       </div>
 
       {Array.from(categories).map((category) => {
@@ -390,7 +389,7 @@ const QualityItem = ({
   qualityGuideline: Guideline | undefined
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [toggle, setToggle] = useState<boolean | null>(
     qualityModeration?.passed,
   )
@@ -483,7 +482,7 @@ const ScreenShotTypeItem = ({
   is_fullscreen_app: boolean
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [toggle, setToggle] = useState<boolean>(is_fullscreen_app)
 
   useEffect(() => {
@@ -548,7 +547,7 @@ const ScreenShotTypeItem = ({
 }
 
 const ReadOnlyItem = ({ toggle }: { toggle: boolean }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const status =
     toggle === null ? "pending" : toggle === true ? "passed" : "not-passed"
@@ -599,7 +598,7 @@ export const QualityModerationSlideOver = ({
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const query = useQuery({
     queryKey: ["qualityModeration", { appId: app.id }],

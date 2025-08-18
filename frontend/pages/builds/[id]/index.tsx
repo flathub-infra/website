@@ -3,7 +3,6 @@ import Link from "next/link"
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 import { useGetPipelineApiPipelinesPipelineIdGet } from "src/codegen-pipeline"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import Spinner from "src/components/Spinner"
 import {
   getRepoBadgeVariant,
@@ -12,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { NextSeo } from "next-seo"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { translationMessages } from "i18n/request"
 
 export default function BuildPage({
   pipelineId,
@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       pipelineId,
       locale,
     },

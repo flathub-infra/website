@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from "date-fns"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useCallback, useState } from "react"
 import { getIntlLocale } from "../../localize"
 
@@ -9,6 +9,7 @@ import { clsx } from "clsx"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
+import { useRouter } from "next/router"
 import { UTCDate } from "@date-fns/utc"
 
 interface Props {
@@ -24,7 +25,7 @@ const ReleaseLink = ({
   url: string
   noChangeLogProvided?: boolean
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (!url) {
     return null
@@ -50,7 +51,8 @@ const Releases: FunctionComponent<Props> = ({
   summary,
   expanded = false,
 }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
   const collapsedHeight = 46
   const [showCollapseButton, setShowCollapseButton] = useState(false)
 
@@ -84,7 +86,7 @@ const Releases: FunctionComponent<Props> = ({
               <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                 <h3 className="my-0 text-xl font-semibold ">
                   {t("changes-in-version", {
-                    "version-number": latestRelease.version,
+                    version_number: latestRelease.version,
                   })}
                 </h3>
                 <div className="flex gap-1">
@@ -92,7 +94,7 @@ const Releases: FunctionComponent<Props> = ({
                     <div
                       className="text-sm"
                       title={latestReleaseTimestamp.toLocaleString(
-                        i18n.language,
+                        router.locale,
                       )}
                     >
                       {formatDistanceToNow(latestReleaseTimestamp, {
@@ -105,11 +107,11 @@ const Releases: FunctionComponent<Props> = ({
                       className="text-sm"
                       title={new UTCDate(
                         summary.timestamp * 1000,
-                      ).toLocaleDateString(getIntlLocale(i18n.language))}
+                      ).toLocaleDateString(getIntlLocale(router.locale))}
                     >
                       (
                       {t("build-x", {
-                        "build-ago": formatDistanceToNow(
+                        build_ago: formatDistanceToNow(
                           new UTCDate(summary.timestamp * 1000),
                           { addSuffix: true },
                         ),

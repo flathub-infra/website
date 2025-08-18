@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
@@ -12,7 +12,7 @@ interface Props {
 
 const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   // Nothing to show if not logged in
   if (!user.info) {

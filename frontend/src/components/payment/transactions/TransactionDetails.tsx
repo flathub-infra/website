@@ -1,8 +1,8 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { formatCurrency } from "../../../utils/localize"
 import { format } from "date-fns"
-import { getLocale } from "../../../localize"
+import { getDateFnsLocale } from "../../../localize"
 import {
   Table,
   TableBody,
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const { created, updated, kind, value, status } = transaction.summary
@@ -49,7 +49,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             <div>{t("transaction-summary-created")}</div>
             <div className="md:col-span-2">
               {format(new UTCDate(created * 1000), "Pp", {
-                locale: getLocale(i18n.language),
+                locale: getDateFnsLocale(router.locale),
               })}
             </div>
           </div>
@@ -57,7 +57,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             <div>{t("transaction-summary-updated")}</div>
             <div className="md:col-span-2">
               {format(new UTCDate(updated * 1000), "Pp", {
-                locale: getLocale(i18n.language),
+                locale: getDateFnsLocale(router.locale),
               })}
             </div>
           </div>
@@ -114,7 +114,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
                   <TableCell className="text-right">
                     {formatCurrency(
                       entry.amount / 100,
-                      i18n.language,
+                      router.locale,
                       entry.currency,
                     )}
                   </TableCell>
@@ -125,7 +125,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
               <TableRow>
                 <TableCell colSpan={3}>{t("total")}</TableCell>
                 <TableCell className="text-right">
-                  {formatCurrency(value / 100, i18n.language)}
+                  {formatCurrency(value / 100, router.locale)}
                 </TableCell>
               </TableRow>
             </TableFooter>

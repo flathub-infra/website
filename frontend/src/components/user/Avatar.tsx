@@ -2,7 +2,7 @@ import { default as Image } from "next/image"
 import { default as FlathubImage } from "../Image"
 import React, { FunctionComponent } from "react"
 import FallbackAvatar from "boring-avatars"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 interface Props {
   avatarUrl: string | null
@@ -13,7 +13,7 @@ const celestialBlue = "oklch(63.85% 0.1314 251.94)"
 const variationTone = "oklch(83.88% 0.1014 201.73)"
 
 const Avatar: FunctionComponent<Props> = (props: Props) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (!props.userName) {
     return null

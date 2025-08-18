@@ -1,14 +1,14 @@
-import { Trans, useTranslation } from "next-i18next"
 import { Appstream } from "src/types/Appstream"
 import Link from "next/link"
 import LogoImage from "src/components/LogoImage"
+import { useTranslations } from "next-intl"
 
 export default function InstallFallback({
   app,
 }: {
   app: Pick<Appstream, "id" | "name" | "icon">
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="flex max-w-full flex-col">
@@ -29,33 +29,26 @@ export default function InstallFallback({
               </div>
             )}
             <div>
-              <Trans
-                i18nKey={"common:download.fallback-instructions"}
-                values={{ name: app.name }}
-              >
-                <div className="mb-8">
-                  Opening &quot;{app.name}&quot; in your software manager...
-                </div>
-                <div className="mb-4">
-                  If nothing happens, maybe your system does not support{" "}
-                  <i>flatpak+https</i> urls.
-                </div>
-                <div className="mb-2">In that case you can:</div>
-                <ol className="list-decimal list-inside pl-4">
-                  <li>
-                    Download the{" "}
-                    <a
-                      href={`https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`}
-                    >
-                      .flatpakref file
-                    </a>
-                  </li>
-                  <li>Then run it from your file manager</li>
-                </ol>
-                <div className="mt-4">
-                  <Link href={"/setup"}>Instructions to install Flatpak</Link>
-                </div>
-              </Trans>
+              {t.rich("download.fallback-instructions", {
+                name: app.name,
+                i: (chunks) => <i>{chunks}</i>,
+                ol: (chunks) => (
+                  <ol className="list-decimal list-inside pl-4">{chunks}</ol>
+                ),
+                li: (chunks) => <li>{chunks}</li>,
+                listPrefix: (chunks) => <div className="mb-2">{chunks}</div>,
+                support: (chunks) => <div className="mb-4">{chunks}</div>,
+                opening: (chunks) => <div className="mb-8">{chunks}</div>,
+                link: (chunks) => (
+                  <a
+                    href={`https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`}
+                  >
+                    {chunks}
+                  </a>
+                ),
+                setupLine: (chunks) => <div className="mt-4">{chunks}</div>,
+                linkSetup: (chunks) => <Link href="/setup">{chunks}</Link>,
+              })}
             </div>
           </div>
         </div>

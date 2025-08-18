@@ -1,10 +1,11 @@
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 
 export default function Custom404({ locale }: { locale: string }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -20,13 +21,13 @@ export default function Custom404({ locale }: { locale: string }) {
         </h1>
         <p>{t("could-not-find-page")}</p>
         <p>
-          <Trans i18nKey={"common:retry-or-go-home"}>
-            You might want to retry or go back{" "}
-            <a className="no-underline hover:underline" href={`/${locale}`}>
-              home
-            </a>
-            .
-          </Trans>
+          {t.rich("retry-or-go-home", {
+            link: (chunk) => (
+              <a className="no-underline hover:underline" href={`/${locale}`}>
+                {chunk}
+              </a>
+            ),
+          })}
         </p>
       </div>
     </>
@@ -40,8 +41,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      locale,
+      messages: await translationMessages(locale),
     },
   }
 }

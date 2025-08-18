@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
@@ -17,7 +17,7 @@ const CodeCopy: FunctionComponent<Props> = ({
   className,
   nested,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {

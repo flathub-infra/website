@@ -1,11 +1,11 @@
 import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe, Stripe, StripeElementsOptions } from "@stripe/stripe-js"
+import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
-import { ReactElement, useState } from "react"
+import { ReactElement } from "react"
 import LoginGuard from "../../src/components/login/LoginGuard"
 import Checkout from "../../src/components/payment/checkout/Checkout"
 import Breadcrumbs from "../../src/components/Breadcrumbs"
@@ -16,9 +16,10 @@ import {
   useGetTransactionByIdWalletTransactionsTxnGet,
   useGetTxnStripedataWalletTransactionsTxnStripeGet,
 } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 export default function TransactionPage({ stripePublicKey }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const stripe = loadStripe(stripePublicKey)
@@ -111,7 +112,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       stripePublicKey: stripeDataQuery.data.public_key,
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

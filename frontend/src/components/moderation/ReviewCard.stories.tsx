@@ -1,12 +1,11 @@
-import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import ReviewCard from "./ReviewCard"
-import { t } from "i18next"
 import { faker } from "@faker-js/faker"
 import { ModerationRequestResponse, Permission } from "../../codegen/model"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { UserContext } from "../../context/user-info"
 import { UserState } from "../../types/Login"
+import { useTranslations } from "next-intl"
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity, refetchOnMount: true } },
@@ -32,6 +31,7 @@ export default {
 } as Meta<typeof ReviewCard>
 
 export const PrimaryRejected = () => {
+  const t = useTranslations()
   const request: ModerationRequestResponse = {
     request_type: "appdata",
     request_data: {
@@ -75,6 +75,7 @@ export const PrimaryRejected = () => {
 }
 
 export const Primary = () => {
+  const t = useTranslations()
   const request: ModerationRequestResponse = {
     request_type: "appdata",
     request_data: {

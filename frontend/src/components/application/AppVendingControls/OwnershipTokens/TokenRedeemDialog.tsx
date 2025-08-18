@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
 import { Appstream } from "../../../../types/Appstream"
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
  * A set of controls for redemption of application ownership tokens.
  */
 const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [text, setText] = useState("")
 

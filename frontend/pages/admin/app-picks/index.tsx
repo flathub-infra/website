@@ -8,8 +8,6 @@ import {
   startOfISOWeek,
 } from "date-fns"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement, useEffect, useState } from "react"
 import { FlathubCombobox } from "src/components/Combobox"
@@ -31,6 +29,8 @@ import AdminLayout from "src/components/AdminLayout"
 import { DesktopAppstream } from "src/types/Appstream"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
+import { useTranslations } from "next-intl"
+import { translationMessages } from "i18n/request"
 
 AppPicks.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -45,7 +45,7 @@ AppPicks.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default function AppPicks() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   const [date, setDate] = useState(new Date())
@@ -300,13 +300,13 @@ export default function AppPicks() {
 
           <p>{t("an-error-occurred-server", { errorCode: "500" })}</p>
           <p>
-            <Trans i18nKey={"common:retry-or-go-home"}>
-              You might want to retry or go back{" "}
-              <a className="no-underline hover:underline" href=".">
-                home
-              </a>
-              .
-            </Trans>
+            {t.rich("retry-or-go-home", {
+              link: (chunk) => (
+                <a className="no-underline hover:underline" href=".">
+                  {chunk}
+                </a>
+              ),
+            })}
           </p>
         </>
       ) : (
@@ -480,7 +480,7 @@ export default function AppPicks() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
     revalidate: 900,
   }

@@ -7,7 +7,7 @@ import useEmblaCarousel, {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -51,7 +51,7 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -163,7 +163,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { orientation } = useCarousel()
 
   return (

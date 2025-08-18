@@ -1,6 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import Breadcrumbs from "src/components/Breadcrumbs"
@@ -19,6 +18,7 @@ import {
 } from "../../../../../../src/types/Category"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { MainCategory, MeilisearchResponseAppsIndex, SortBy } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 const ApplicationCategory = ({
   applications,
@@ -27,7 +27,7 @@ const ApplicationCategory = ({
   applications: MeilisearchResponseAppsIndex
   locale: string
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
   const category = router.query.category as MainCategory
   let categoryName = tryParseCategory(category, t)
@@ -123,7 +123,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       applications,
       locale,
     },

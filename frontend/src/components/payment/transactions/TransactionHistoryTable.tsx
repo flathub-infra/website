@@ -18,9 +18,10 @@ import {
   HiChevronRight,
   HiExclamationTriangle,
 } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { TransactionSummary } from "src/codegen"
 import { Dispatch, SetStateAction } from "react"
+import { getIntlLocale } from "src/localize"
 
 export const TransactionHistoryTable = ({
   transactions,
@@ -37,7 +38,8 @@ export const TransactionHistoryTable = ({
   endPage: number
   setPage: Dispatch<SetStateAction<number>>
 }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
+  const i18n = getIntlLocale(router.locale)
 
   function pageForward() {
     setPage(Math.min(page + 1, endPage ?? page + 1))

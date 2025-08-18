@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import ReviewCard from "./ReviewCard"
 import { ModerationRequestResponse } from "src/codegen"
@@ -239,7 +239,7 @@ const DiffRow = ({
 }
 
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const currentValuesFiltered = Object.keys(
     request.request_data?.current_values ?? {},

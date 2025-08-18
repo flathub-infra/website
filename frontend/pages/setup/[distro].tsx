@@ -1,11 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { distroMap } from "src/components/setup/Distros"
 import React from "react"
+import { translationMessages } from "i18n/request"
 
 export default function Setup({
   distroData,
@@ -14,7 +15,7 @@ export default function Setup({
   distroData: DistroSetup
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const translatedDistroName = t(distroData.translatedNameKey)
 
@@ -80,7 +81,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "distros"])),
+      messages: await translationMessages(locale),
       distroData,
       locale,
     },

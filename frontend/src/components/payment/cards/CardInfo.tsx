@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { FunctionComponent, MouseEventHandler } from "react"
 import ReactCountryFlag from "react-country-flag"
@@ -41,7 +41,7 @@ export const CardInfo: FunctionComponent<Props> = ({
   onClick,
   className,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { resolvedTheme } = useTheme()
 
   const classes = [

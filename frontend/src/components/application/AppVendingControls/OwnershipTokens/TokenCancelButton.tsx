@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
@@ -18,7 +18,7 @@ const TokenCancelButton: FunctionComponent<Props> = ({
   appId,
   setState,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const cancelVendingTokensMutation = useMutation({
     mutationKey: ["cancel-token", appId, token.token],

@@ -1,5 +1,4 @@
-import { Trans, useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useState } from "react"
+import { FunctionComponent, ReactElement, ReactNode, useState } from "react"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "src/components/InlineError"
@@ -14,6 +13,7 @@ import {
 import { requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet } from "src/codegen"
 import { AvailableMethod } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
+import { useTranslations } from "next-intl"
 
 interface Props {
   appId: string
@@ -30,7 +30,7 @@ const LoginVerification: FunctionComponent<Props> = ({
   onVerified,
   onReloadNeeded,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const user = useUserContext()
   const auth = user.info?.auths[method.login_provider]
@@ -107,72 +107,47 @@ const LoginVerification: FunctionComponent<Props> = ({
     </div>
   )
 
-  var description: ReactElement
+  var description: ReactNode
   var content: ReactElement
 
   if (method.login_is_organization) {
-    description = (
-      <Trans
-        i18nKey={"login-provider-verification-main-instruction-organization"}
-      >
-        Verify your right to use the app ID
-        <span className="font-medium">{{ id: appId }}</span> by logging into an
-        account with admin rights to the
-        <span className="font-medium">
-          {{ login_name: `@${method.login_name}` }}
-        </span>
-        organization on
-        <span className="font-medium">
-          {{
-            login_provider: provider_name,
-          }}
-        </span>
-        .
-      </Trans>
+    description = t.rich(
+      "login-provider-verification-main-instruction-organization",
+      {
+        appid: (chunk) => <span className="font-medium">{appId}</span>,
+        orgname: (chunk) => (
+          <span className="font-medium">{`@${method.login_name}`}</span>
+        ),
+        loginprovider: (chunk) => (
+          <span className="font-medium">{provider_name}</span>
+        ),
+      },
     )
   } else if (method.login_is_organization === false) {
-    description = (
-      <Trans i18nKey={"login-provider-verification-main-instruction"}>
-        Verify your right to use the app ID
-        <span className="font-medium">{{ id: appId }}</span> by logging in to
-        the account
-        <span className="font-medium">
-          {{ login_name: `@${method.login_name}` }}
-        </span>
-        on
-        <span className="font-medium">
-          {{
-            login_provider: provider_name,
-          }}
-        </span>
-        .
-      </Trans>
-    )
+    description = t.rich("login-provider-verification-main-instruction", {
+      appid: (chunk) => <span className="font-medium">{appId}</span>,
+      loginname: (chunk) => (
+        <span className="font-medium">{`@${method.login_name}`}</span>
+      ),
+      loginprovider: (chunk) => (
+        <span className="font-medium">{provider_name}</span>
+      ),
+    })
   } else {
-    description = (
-      <Trans
-        i18nKey={
-          "login-provider-verification-main-instruction-unknown-is-organization"
-        }
-      >
-        Verify your right to use the app ID
-        <span className="font-medium">{{ id: appId }}</span> by logging in to
-        the account
-        <span className="font-medium">
-          {{ login_name: `@${method.login_name}` }}
-        </span>
-        (or, if
-        <span className="font-medium">
-          {{ login_name: `@${method.login_name}` }}
-        </span>
-        is an organization, an account with access to it) on
-        <span className="font-medium">
-          {{
-            login_provider: provider_name,
-          }}
-        </span>
-        .
-      </Trans>
+    description = t.rich(
+      "login-provider-verification-main-instruction-unknown-is-organization",
+      {
+        appid: (chunk) => <span className="font-medium">{appId}</span>,
+        loginname: (chunk) => (
+          <span className="font-medium">{`@${method.login_name}`}</span>
+        ),
+        orgname: (chunk) => (
+          <span className="font-medium">{`@${method.login_name}`}</span>
+        ),
+        loginprovider: (chunk) => (
+          <span className="font-medium">{provider_name}</span>
+        ),
+      },
     )
   }
 
@@ -197,27 +172,26 @@ const LoginVerification: FunctionComponent<Props> = ({
 
     case "user_does_not_exist":
       content = (
-        <Trans i18nkey={"login-provider-verification-user-does-not-exist"}>
-          The account
-          <span className="font-medium">
-            {{ required_name: method.login_name }}
-          </span>
-          does not exist on
-          <span className="font-medium">
-            {{ login_provider: provider_name }}
-          </span>
-          . You must claim this account name and use it to verify your app, or
-          ideally, choose an app ID that you have control over. See
-          <a
-            href="https://docs.flathub.org/docs/for-app-authors/requirements#application-id"
-            target="_blank"
-            rel="noreferrer"
-            className="no-underline hover:underline"
-          >
-            the Flatpak documentation
-          </a>
-          for information about good app IDs.
-        </Trans>
+        <>
+          {t.rich("login-provider-verification-user-does-not-exist", {
+            requiredname: (chunk) => (
+              <span className="font-medium">{method.login_name}</span>
+            ),
+            loginprovider: (chunk) => (
+              <span className="font-medium">{provider_name}</span>
+            ),
+            doclink: (chunk) => (
+              <a
+                href="https://docs.flathub.org/docs/for-app-authors/requirements#application-id"
+                target="_blank"
+                rel="noreferrer"
+                className="no-underline hover:underline"
+              >
+                {chunk}
+              </a>
+            ),
+          })}
+        </>
       )
       break
 
@@ -231,22 +205,20 @@ const LoginVerification: FunctionComponent<Props> = ({
 
     case "username_does_not_match":
       content = (
-        <Trans i18nKey={"login-provider-verification-switch-account"}>
-          You are currently logged in to
-          <span className="font-medium">
-            {{ login_provider: provider_name }}
-          </span>
-          as
-          <span className="font-medium">
-            {{ current_name: `@${auth.login}` }}
-          </span>
-          . Log in as
-          <span className="font-medium">
-            {{ required_name: `@${method.login_name}` }}
-          </span>
-          to verify <span className="font-medium">{{ appId }}</span> by login
-          provider, or choose another method if one is available.
-        </Trans>
+        <>
+          {t.rich("login-provider-verification-switch-account", {
+            loginprovider: (chunk) => (
+              <span className="font-medium">{provider_name}</span>
+            ),
+            currentname: (chunk) => (
+              <span className="font-medium">{`@${auth.login}`}</span>
+            ),
+            requiredname: (chunk) => (
+              <span className="font-medium">{`@${method.login_name}`}</span>
+            ),
+            appid: (chunk) => <span className="font-medium">{appId}</span>,
+          })}
+        </>
       )
       break
 
@@ -254,23 +226,21 @@ const LoginVerification: FunctionComponent<Props> = ({
       content = (
         <>
           <p>
-            <Trans i18nKey={"login-provider-verification-enable-github-app"}>
-              To continue verification, Flathub needs permission to read your
-              membership level in the
-              <span className="font-medium">
-                {{ organization: `@${method.login_name}` }}
-              </span>
-              organization. You can grant this permission
-              <a
-                className="no-underline hover:underline"
-                href={githubOrgAccessLink?.data?.link}
-                target="_blank"
-                rel="noreferrer"
-              >
-                in your GitHub settings
-              </a>
-              .
-            </Trans>
+            {t.rich("login-provider-verification-enable-github-app", {
+              orgname: (chunk) => (
+                <span className="font-medium">{`@${method.login_name}`}</span>
+              ),
+              settingslink: (chunk) => (
+                <a
+                  className="no-underline hover:underline"
+                  href={githubOrgAccessLink?.data?.link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {chunk}
+                </a>
+              ),
+            })}
           </p>
           {try_again}
         </>
@@ -281,23 +251,17 @@ const LoginVerification: FunctionComponent<Props> = ({
       content = (
         <>
           <p>
-            <Trans i18nKey={"login-provider-verification-not-org-member"}>
-              You are currently logged in to
-              <span className="font-medium">
-                {{ login_provider: `@${provider_name}` }}
-              </span>
-              as
-              <span className="font-medium">
-                {{ current_name: `@${auth.login}` }}
-              </span>
-              . This account is not a member of the
-              <span className="font-medium">
-                {{ organization: `@${method.login_name}` }}
-              </span>
-              organization. To verify this app, you must request admin
-              privileges in the organization or sign into an account that
-              already has them.
-            </Trans>
+            {t.rich("login-provider-verification-not-org-member", {
+              loginprovider: (chunk) => (
+                <span className="font-medium">{`@${provider_name}`}</span>
+              ),
+              currentname: (chunk) => (
+                <span className="font-medium">{`@${auth.login}`}</span>
+              ),
+              orgname: (chunk) => (
+                <span className="font-medium">{`@${method.login_name}`}</span>
+              ),
+            })}
           </p>
           {try_again}
         </>
@@ -308,23 +272,17 @@ const LoginVerification: FunctionComponent<Props> = ({
       content = (
         <>
           <p>
-            <Trans i18nKey={"login-provider-verification-not-org-admin"}>
-              You are currently logged in to
-              <span className="font-medium">
-                {{ login_provider: `@${provider_name}` }}
-              </span>
-              as
-              <span className="font-medium">
-                {{ current_name: `@${auth.login}` }}
-              </span>
-              . This account is not an admin of the
-              <span className="font-medium">
-                {{ organization: `@${method.login_name}` }}
-              </span>
-              organization. To verify this app, you must request admin
-              privileges in the organization or sign into an account that
-              already has them.
-            </Trans>
+            {t.rich("login-provider-verification-not-org-admin", {
+              loginprovider: (chunk) => (
+                <span className="font-medium">{`@${provider_name}`}</span>
+              ),
+              currentname: (chunk) => (
+                <span className="font-medium">{`@${auth.login}`}</span>
+              ),
+              orgname: (chunk) => (
+                <span className="font-medium">{`@${method.login_name}`}</span>
+              ),
+            })}
           </p>
           {try_again}
         </>

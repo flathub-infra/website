@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useUserDispatch } from "src/context/user-info"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../login/LoginGuard"
@@ -20,7 +20,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
   onAccept,
   onCancel,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const userDispatch = useUserDispatch()
 
   const [accepted, setAccepted] = useState(false)

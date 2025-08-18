@@ -1,11 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import EolMessageDetails from "../../../src/components/application/EolMessage"
 import { fetchAppstream, fetchEolRebase } from "../../../src/fetchers"
 import { NextSeo } from "next-seo"
 import { Appstream, DesktopAppstream } from "../../../src/types/Appstream"
-import { Trans, useTranslation } from "next-i18next"
 import { isValidAppId } from "@/lib/helpers"
 import {
   getEolMessageAppidEolMessageAppIdGet,
@@ -13,6 +11,8 @@ import {
 } from "src/codegen"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { Alert } from "@/components/ui/alert"
+import { useTranslations } from "next-intl"
+import { translationMessages } from "i18n/request"
 
 export default function Details({
   app,
@@ -29,7 +29,7 @@ export default function Details({
     >
   }[]
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (eolMessage) {
     return <EolMessageDetails message={eolMessage} />
@@ -45,12 +45,11 @@ export default function Details({
             <h1 className="mt-2 mb-4 text-4xl font-extrabold">
               {t("quality.banner-preview")}
             </h1>
-            <Trans i18nKey={"common:quality.banner-preview-description"}>
-              To easily experiment with your banner, use{" "}
-              <a href="https://docs.flathub.org/banner-preview/">
-                the banner preview
-              </a>
-            </Trans>
+            {t.rich("quality.banner-preview-description", {
+              preview: (chunk) => (
+                <a href="https://docs.flathub.org/banner-preview/">{chunk}</a>
+              ),
+            })}
           </div>
         </div>
 
@@ -167,7 +166,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       app,
       eolMessage,
       heroBannerData,
