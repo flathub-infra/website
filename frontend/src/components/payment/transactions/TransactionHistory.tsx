@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
 
 import { toast } from "sonner"
@@ -12,7 +12,7 @@ import { TransactionHistoryTable } from "./TransactionHistoryTable"
 const perPage = 10
 
 const TransactionHistory: FunctionComponent = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   // Total count of transactions unknown, end determined when encountered

@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
@@ -31,6 +31,7 @@ import {
   useGetAppVendingSetupVendingappAppIdSetupGet,
   useGetInviteStatusInvitesAppIdGet,
 } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -77,7 +78,7 @@ export default function AppManagementPage({
   app: Appstream
   vendingConfig: VendingConfig
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
 
   const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
@@ -94,7 +95,7 @@ export default function AppManagementPage({
   const pages = [
     { name: t("developer-portal"), current: false, href: "/developer-portal" },
     {
-      name: t("manage-x", { "app-name": app.name }),
+      name: t("manage-x", { app_name: app.name }),
       current: true,
       href: `/apps/manage/${app.id}`,
     },
@@ -206,7 +207,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       app: app ?? { id: appId, name: appId },
       vendingConfig,
     },

@@ -1,5 +1,5 @@
 import { useStripe } from "@stripe/react-stripe-js"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { CardInfo, CardInfoSkeleton } from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
@@ -30,7 +30,7 @@ const CardSelect: FunctionComponent<Props> = ({
   skip,
   walletQuery,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const stripe = useStripe()
 
   const error = walletQuery.isError ? "failed-to-load-refresh" : null

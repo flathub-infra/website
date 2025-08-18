@@ -9,8 +9,8 @@ import {
 import clsx from "clsx"
 import { format } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import React from "react"
@@ -287,7 +287,7 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

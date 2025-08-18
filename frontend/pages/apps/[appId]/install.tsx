@@ -1,19 +1,19 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
 import Head from "next/head"
 import { fetchAppstream } from "src/fetchers"
 import { Appstream } from "src/types/Appstream"
 import InstallFallback from "src/components/application/InstallFallback"
+import { useTranslations } from "next-intl"
+import { translationMessages } from "i18n/request"
 
 export default function Install({
   app,
 }: {
   app: Pick<Appstream, "id" | "name" | "icon">
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       app,
     },
     revalidate: 900,

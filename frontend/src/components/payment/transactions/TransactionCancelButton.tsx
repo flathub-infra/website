@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { cancelTransactionWalletTransactionsTxnCancelPost } from "src/codegen"
@@ -17,7 +17,7 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
   className,
   disabled = false,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   // Using state to prevent user repeatedly initating fetches
   const [clicked, setClicked] = useState(false)
 

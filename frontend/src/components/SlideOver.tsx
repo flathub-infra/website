@@ -7,10 +7,10 @@ import {
 } from "@headlessui/react"
 import { HiMiniXMark } from "react-icons/hi2"
 import clsx from "clsx"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 
 export default function SlideOver({ shown, onClose, title, children }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <Transition show={shown}>

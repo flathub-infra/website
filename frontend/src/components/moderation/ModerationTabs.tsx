@@ -6,13 +6,13 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import ApplicationCollection from "../application/Collection"
 import { useQuery } from "@tanstack/react-query"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { setQueryParams } from "src/utils/queryParams"
 import { getModerationAppsModerationAppsGet } from "src/codegen"
 import { Checkbox } from "@/components/ui/checkbox"
 
 const ModerationTabs: FunctionComponent = () => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   const PAGE_SIZE = 30

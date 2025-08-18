@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation } from "@tanstack/react-query"
@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [modalVisible, setModalVisible] = useState(false)
 
   const switchToDirectUploadMutation = useMutation({
@@ -54,7 +54,7 @@ const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
 }
 
 const ArchiveApp = ({ app }: { app: { id: string } }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [modalVisible, setModalVisible] = useState(false)
   const [endoflife, setEndoflife] = useState("")
   const [endoflifeRebase, setEndoflifeRebase] = useState("")
@@ -120,7 +120,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 }
 
 export default function DangerZoneControls({ app }: { app: { id: string } }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const query = useGetUploadTokensUploadTokensAppIdGet(
     app.id,

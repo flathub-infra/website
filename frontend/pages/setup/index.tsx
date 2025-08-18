@@ -1,14 +1,15 @@
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 import Image from "next/image"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import clsx from "clsx"
 import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { useState } from "react"
 import { HiMagnifyingGlass } from "react-icons/hi2"
 import { Input } from "@/components/ui/input"
+import { translationMessages } from "i18n/request"
 
 export default function Setup({
   instructions,
@@ -17,7 +18,7 @@ export default function Setup({
   instructions: DistroSetup[]
   locale: string
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   // linux distros by approximate popularity or if setup is needed
   const distroOrder: { name: string; order: number }[] = [
@@ -140,7 +141,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "distros"])),
+      messages: await translationMessages(locale),
       instructions,
       locale,
     },

@@ -1,4 +1,3 @@
-import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import { Appstream } from "src/types/Appstream"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
@@ -16,6 +15,7 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useTranslations } from "next-intl"
 
 interface Props {
   app: Appstream
@@ -25,36 +25,29 @@ interface Props {
 }
 
 const StatusInfo = ({ status }: { status: VerificationStatus }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   switch (status.method) {
     case VerificationMethod.none || !status.verified:
       return <span>{t("app-is-currently-not-verified")}</span>
     case VerificationMethod.login_provider:
-      return (
-        <Trans i18nKey="app-is-currently-verified-by-login-provider">
-          Your app is currently verified by your login
+      return t.rich("app-is-currently-verified-by-login-provider", {
+        loginname: (chunk) => (
+          <span className="font-medium">{`@${status.login_name}`}</span>
+        ),
+        loginprovider: (chunk) => (
           <span className="font-medium">
-            {{ login_name: `@${status.login_name}` }}
+            {verificationProviderToHumanReadable(status.login_provider!)}
           </span>
-          on
-          <span className="font-medium">
-            {{
-              login_provider: verificationProviderToHumanReadable(
-                status.login_provider!,
-              ),
-            }}
-          </span>
-          .
-        </Trans>
-      )
+        ),
+      })
+
     case VerificationMethod.website:
-      return (
-        <Trans i18nKey="app-is-currently-verified-by-website">
-          Your app is currently verified by your website
-          <span className="font-medium">{{ website: status.website }}</span>
-        </Trans>
-      )
+      return t.rich("app-is-currently-verified-by-website", {
+        website: (chunk) => (
+          <span className="font-medium">{status.website}</span>
+        ),
+      })
     case VerificationMethod.manual:
       return <span>{t("app-is-currently-verified-manually")}</span>
   }
@@ -66,7 +59,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   onVerified,
   showHeader = true,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const query = useQuery({
     queryKey: ["verification", app.id],
@@ -160,7 +153,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           <InlineError
             shown={true}
             error={t("error-code", {
-              code: verificationAvailableMethods.error?.response.data.detail,
+              code: verificationAvailableMethods.error?.response.data.detail.toString(),
             })}
           />
         )

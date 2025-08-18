@@ -1,6 +1,4 @@
 import { Resvg } from "@resvg/resvg-js"
-import i18next from "i18next"
-import { languages } from "src/localize"
 import satori from "satori"
 import { fetchAppstream } from "src/fetchers"
 import { getContrastColor } from "@/lib/helpers"
@@ -21,27 +19,6 @@ export async function GET(
       ...config,
       baseURL: process.env.NEXT_PUBLIC_API_BASE_URI,
     }
-  })
-
-  const ns = ["common"]
-  const supportedLngs = languages
-  const resources = ns.reduce((acc, n) => {
-    supportedLngs.forEach((lng) => {
-      if (!acc[lng]) acc[lng] = {}
-      acc[lng] = {
-        ...acc[lng],
-        [n]: require(`../../../../public/locales/${lng}/${n}.json`),
-      }
-    })
-    return acc
-  }, {})
-
-  i18next.init({
-    lng: "en",
-    fallbackLng: "en",
-    defaultNS: "common",
-    supportedLngs,
-    resources,
   })
 
   const searchParams = request.nextUrl.searchParams

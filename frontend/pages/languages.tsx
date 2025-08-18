@@ -1,14 +1,15 @@
 import { NextSeo } from "next-seo"
-import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { getLanguageFlag, getLanguageName, languages } from "../src/localize"
 import Link from "next/link"
 
 import type { JSX } from "react"
+import { useTranslations } from "next-intl"
+import { translationMessages } from "i18n/request"
 
 const Languages = ({ locale }: { locale: string }): JSX.Element => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -42,19 +43,18 @@ const Languages = ({ locale }: { locale: string }): JSX.Element => {
             ))}
         </ul>
         <p className="pt-8">
-          <Trans i18nKey={"common:contribute-languages"}>
-            All these translations have been contributed by the community. If
-            you want to help translate Flathub, please
-            <a
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline hover:underline"
-              href="https://hosted.weblate.org/engage/flathub/"
-            >
-              join the Flathub translation team
-            </a>
-            .
-          </Trans>
+          {t.rich("contribute-languages", {
+            t: (chunks) => (
+              <a
+                target="_blank"
+                rel="noreferrer"
+                className="no-underline hover:underline"
+                href="https://hosted.weblate.org/engage/flathub/"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
         </p>
       </div>
     </>
@@ -68,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       locale,
     },
     revalidate: 900,

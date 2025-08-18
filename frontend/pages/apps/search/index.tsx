@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -7,9 +7,10 @@ import { useEffect, useState } from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "src/components/search/SearchPanel"
 import { usePostSearchSearchPost } from "src/codegen"
+import { translationMessages } from "i18n/request"
 
 export default function Search({ locale }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { trackSiteSearch } = useMatomo()
 
   const router = useRouter()
@@ -93,7 +94,7 @@ export default function Search({ locale }) {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       locale,
     },
   }

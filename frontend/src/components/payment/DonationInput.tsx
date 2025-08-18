@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next"
-import Router from "next/router"
+import { useTranslations } from "next-intl"
+import Router, { useRouter } from "next/router"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
@@ -9,13 +9,16 @@ import Spinner from "../Spinner"
 import { createTransactionWalletTransactionsPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { formatCurrency } from "src/utils/localize"
+import { getIntlLocale } from "src/localize"
 
 interface Props {
   org: string
 }
 
 const DonationInput: FunctionComponent<Props> = ({ org }) => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
+  const router = useRouter()
+  const i18n = getIntlLocale(router.locale)
 
   const currency = "USD"
 

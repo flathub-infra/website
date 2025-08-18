@@ -1,13 +1,14 @@
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import LoginGuard from "src/components/login/LoginGuard"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { translationMessages } from "i18n/request"
 
 export default function NewAppPage() {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
@@ -47,7 +48,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

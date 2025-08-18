@@ -1,11 +1,12 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
+import { translationMessages } from "i18n/request"
 
 export default function Purchase() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [pendingTransaction, _setPendingTransaction] = usePendingTransaction()
 
   return (
@@ -25,7 +26,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

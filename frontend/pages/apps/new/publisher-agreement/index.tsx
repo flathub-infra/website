@@ -1,5 +1,6 @@
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { useRouter } from "next/router"
 import PublisherAgreement from "src/components/user/PublisherAgreement"
 
@@ -27,7 +28,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

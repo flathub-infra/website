@@ -10,7 +10,7 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom"
 import Inline from "yet-another-react-lightbox/plugins/inline"
 import "yet-another-react-lightbox/styles.css"
 import Captions from "yet-another-react-lightbox/plugins/captions"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import CarouselNextJsImage from "./CarouselNextJsImage"
@@ -21,7 +21,7 @@ export const CarouselStrip = ({
 }: {
   app: Pick<DesktopAppstream, "screenshots">
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const ref = useRef(null)

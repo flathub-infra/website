@@ -1,7 +1,7 @@
 import { FunctionComponent, type JSX } from "react"
 
 import { Appstream } from "../../types/Appstream"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import {
   HiChatBubbleLeftRight,
   HiCodeBracket,
@@ -29,7 +29,7 @@ interface Props {
 }
 
 const Links: FunctionComponent<Props> = ({ app }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const { trackEvent } = useMatomo()
 
   const links: {

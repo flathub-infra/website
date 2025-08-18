@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement, useState } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { Appstream } from "src/types/Appstream"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const userDispatch = useUserDispatch()
   const router = useRouter()
 
@@ -187,7 +187,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
   isInvite,
   refresh,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const revokeInviteMutation = useMutation({
     mutationKey: ["revoke-invite-app", app.id, developer.id],
@@ -288,7 +288,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
   refresh,
   closeDialog,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [inviteCode, setInviteCode] = useState("")
 

@@ -1,7 +1,8 @@
 import { FunctionComponent, useState } from "react"
 
 import { AddonAppstream } from "../../types/Appstream"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
+import { HiMiniInformationCircle } from "react-icons/hi2"
 import clsx from "clsx"
 import Modal from "../Modal"
 import InstallButton from "./InstallButton"
@@ -35,7 +36,7 @@ const AddonRow: FunctionComponent<{
 }
 
 const Addons: FunctionComponent<Props> = ({ addons }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 

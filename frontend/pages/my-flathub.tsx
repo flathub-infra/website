@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslations } from "next-intl"
+
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import UserApps from "../src/components/user/UserApps"
@@ -11,9 +11,10 @@ import { useGetFavoritesFavoritesGet } from "src/codegen"
 import Spinner from "src/components/Spinner"
 import { getAppsInfo } from "src/asyncs/app"
 import { useQuery } from "@tanstack/react-query"
+import { translationMessages } from "i18n/request"
 
 const FavoriteApps = ({ locale }: { locale: string }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const favoritesQuery = useGetFavoritesFavoritesGet({
     axios: {
@@ -47,7 +48,7 @@ const FavoriteApps = ({ locale }: { locale: string }) => {
 }
 
 export default function MyFlathub({ locale }: { locale: string }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const pages = [{ name: t("my-flathub"), current: true, href: "/my-flathub" }]
 
@@ -90,7 +91,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       locale,
     },
     revalidate: 900,

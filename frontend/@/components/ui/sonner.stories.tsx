@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { Toaster } from "./sonner"
 import { toast } from "sonner"
-import React from "react"
-import { i18n } from "next-i18next"
 import { expect, userEvent, waitFor, within } from "storybook/test"
+import { getLangDir } from "rtl-detect"
 
 const meta = {
   title: "Components/UI/Toaster",
@@ -20,8 +19,8 @@ export const Default: Story = {
     <div>
       <button onClick={() => toast("Hello world!")}>Click me</button>
       <Toaster
-        position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-        dir={i18n?.dir()}
+        position={getLangDir("en") === "rtl" ? "bottom-left" : "bottom-right"}
+        dir={getLangDir("en")}
       />
     </div>
   ),
@@ -43,8 +42,8 @@ export const Error: Story = {
     <div>
       <button onClick={() => toast.error("Hello world!")}>Click me</button>
       <Toaster
-        position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-        dir={i18n?.dir()}
+        position={getLangDir("en") === "rtl" ? "bottom-left" : "bottom-right"}
+        dir={getLangDir("en")}
       />
     </div>
   ),
@@ -67,8 +66,8 @@ export const Success: Story = {
     <div>
       <button onClick={() => toast.success("Hello world!")}>Click me</button>
       <Toaster
-        position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-        dir={i18n?.dir()}
+        position={getLangDir("en") === "rtl" ? "bottom-left" : "bottom-right"}
+        dir={getLangDir("en")}
       />
     </div>
   ),
@@ -91,8 +90,8 @@ export const Info: Story = {
     <div>
       <button onClick={() => toast.info("Hello world!")}>Click me</button>
       <Toaster
-        position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-        dir={i18n?.dir()}
+        position={getLangDir("en") === "rtl" ? "bottom-left" : "bottom-right"}
+        dir={getLangDir("en")}
       />
     </div>
   ),

@@ -104,7 +104,7 @@ async function generateSetupInstructions() {
       fs.appendFileSync(tempFilePath, "<HowToJsonLd\n")
       fs.appendFileSync(
         tempFilePath,
-        `name={t('distros:${slugName}.distroName')}\n`,
+        `name={t('distros.${slugName}.distroName')}\n`,
       )
       fs.appendFileSync(
         tempFilePath,
@@ -121,8 +121,8 @@ async function generateSetupInstructions() {
         fs.appendFileSync(
           tempFilePath,
           `{url: 'https://flathub.org/setup/${slugName}',
-          name: t('distros:${slugName}.step-${index}.name'),
-          itemListElement: [{type: 'HowToDirection', text: t('distros:${slugName}.step-${index}.text').replace(/<[^>]*>/g, "").replace(/\s{2,}/g, " ").trim()}]},`,
+          name: t('distros.${slugName}.step-${index}.name'),
+          itemListElement: [{type: 'HowToDirection', text: t('distros.${slugName}.step-${index}.text').replace(/<[^>]*>/g, "").replace(/\s{2,}/g, " ").trim()}]},`,
         )
 
         index++
@@ -136,7 +136,7 @@ async function generateSetupInstructions() {
     if (introduction) {
       fs.appendFileSync(
         tempFilePath,
-        `<Trans i18nKey="distros:${slugName}.introduction">\n${introduction}</Trans>\n\n`,
+        `{t.rich("distros.${slugName}.introduction", {text: (chunk) => <>\n${introduction}\n\n</> })}`,
       )
     }
 
@@ -144,11 +144,9 @@ async function generateSetupInstructions() {
     if (steps) {
       let index = 1
       for (const step of steps) {
-        const stepName = step.name
-        const stepText = step.text.trim()
         fs.appendFileSync(
           tempFilePath,
-          `<li><h2><Trans i18nKey="distros:${slugName}.step-${index}.name">${stepName}</Trans></h2>\n<Trans i18nKey="distros:${slugName}.step-${index}.text">${stepText}</Trans></li>\n\n`,
+          `<li><h2>{t("distros.${slugName}.step-${index}.name")}</h2>\n{t.rich("distros.${slugName}.step-${index}.text")}</li>\n\n`,
         )
 
         index++
@@ -176,7 +174,7 @@ async function generateSetupInstructions() {
 
     // Use sed to replace <terminal-command> tags with <CodeCopy text={...} />
     const modifiedContent4 =
-      `const ${name} = ({ locale }: { locale: string }) => {const {t} = useTranslation()
+      `const ${name} = ({ locale }: { locale: string }) => {const t = useTranslations()
       return <>
             <div className="flex flex-col items-center">
               <picture>
@@ -188,7 +186,7 @@ async function generateSetupInstructions() {
                   alt="${distro.name}"
                 />
               </picture>
-              <h1>{t("distros:${slugName}.distroName")}</h1>
+              <h1>{t("distros.${slugName}.distroName")}</h1>
             </div>
               <ol className='distrotut'>
       ` + modifiedContent3.replace(/<terminal-command>/g, "<CodeCopy text={`")
@@ -213,9 +211,9 @@ async function generateSetupInstructions() {
   const importStatement =
     'import CodeCopy from "src/components/application/CodeCopy";\n'
 
-  // Prefix with import { useTranslation } from "next-i18next";
+  // Prefix with import { useTranslations } from "next-intl";
   const useTranslationStatement =
-    'import { Trans, useTranslation } from "next-i18next";\n'
+    'import { useTranslations } from "next-intl";\n'
 
   // Prefix with import Link from "next/link"
   const nextImportStatements =

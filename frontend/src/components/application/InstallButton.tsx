@@ -9,9 +9,9 @@ import { HiChevronDown } from "react-icons/hi2"
 import { clsx } from "clsx"
 import Link from "next/link"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
-import { Trans, useTranslation } from "next-i18next"
 import CodeCopy from "./CodeCopy"
 import { useRouter } from "next/router"
+import { useTranslations } from "next-intl"
 
 export default function InstallButton({
   appId,
@@ -20,7 +20,7 @@ export default function InstallButton({
   appId: string
   type?: "normal" | "addon"
 }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const { trackEvent } = useMatomo()
   const { push } = useRouter()
@@ -84,13 +84,16 @@ export default function InstallButton({
                 {t("manual-install")}
               </h3>
               <p>
-                <Trans i18nKey={"common:manual-install-instructions"}>
-                  Make sure to follow the{" "}
-                  <Link href="/setup/" className="no-underline hover:underline">
-                    setup guide
-                  </Link>{" "}
-                  before installing
-                </Trans>
+                {t.rich("manual-install-instructions", {
+                  distroguide: (chunks) => (
+                    <Link
+                      href="/setup/"
+                      className="no-underline hover:underline"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                })}
               </p>
               <CodeCopy
                 text={`flatpak install flathub ${appId}`}
@@ -149,13 +152,13 @@ export default function InstallButton({
               {t("manual-install")}
             </h3>
             <p>
-              <Trans i18nKey={"common:manual-install-instructions"}>
-                Make sure to follow the{" "}
-                <Link href="/setup/" className="no-underline hover:underline">
-                  setup guide
-                </Link>{" "}
-                before installing
-              </Trans>
+              {t.rich("manual-install-instructions", {
+                distroguide: (chunks) => (
+                  <Link href="/setup/" className="no-underline hover:underline">
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </p>
             <CodeCopy
               text={`flatpak install flathub ${appId}`}

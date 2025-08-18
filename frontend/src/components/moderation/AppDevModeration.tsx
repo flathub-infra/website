@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
 import { getReviewRow } from "./AppModeration"
@@ -14,7 +14,7 @@ interface Props {
 
 export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
   const router = useRouter()
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const PAGE_SIZE = 10
   const currentPage = parseInt((router.query.page as string) ?? "1") ?? 1

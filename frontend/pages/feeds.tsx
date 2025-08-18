@@ -1,14 +1,15 @@
 import { NextSeo } from "next-seo"
-import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 import type { JSX } from "react"
+import { useTranslations } from "next-intl"
+import { translationMessages } from "i18n/request"
 
 const Feeds = ({ locale }: { locale: string }): JSX.Element => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -44,16 +45,16 @@ const Feeds = ({ locale }: { locale: string }): JSX.Element => {
         </div>
 
         <h6 className="mt-2 text-xs font-normal">
-          <Trans i18nKey={"common:rss-apps"}>
-            Do you need an RSS application? We have excellent ones in Flathub.
-            Find them{" "}
-            <Link
-              className="no-underline hover:underline"
-              href="/apps/search?q=rss"
-            >
-              here
-            </Link>
-          </Trans>
+          {t.rich("rss-apps", {
+            link: (chunk) => (
+              <Link
+                className="no-underline hover:underline"
+                href="/apps/search?q=rss"
+              >
+                {chunk}
+              </Link>
+            ),
+          })}
         </h6>
       </div>
     </>
@@ -67,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       locale,
     },
     revalidate: 900,

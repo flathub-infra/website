@@ -1,16 +1,14 @@
 import "../styles/main.css"
-import i18n from "./i18next"
-import { languages, getLanguageName, getLanguageFlag } from "../src/localize"
+import { getLanguageName, getLanguageFlag } from "../src/localize"
 import { withThemeByClassName } from "@storybook/addon-themes"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import React, { Suspense, useEffect } from "react"
 import { faker } from "@faker-js/faker"
-import { I18nextProvider } from "react-i18next"
 import { MotionGlobalConfig } from "framer-motion"
 import isChromatic from "chromatic/isChromatic"
 
 import { initialize, mswLoader } from "msw-storybook-addon"
 import { allModes } from "./modes"
+import nextIntl from "./next-intl"
 
 initialize()
 
@@ -23,46 +21,269 @@ faker.setDefaultRefDate(new Date(2024, 0, 1))
 
 const queryClient = new QueryClient()
 
-// Create a global variable called locale in storybook
-// and add a menu in the toolbar to change your locale
-export const globalTypes = {
-  locale: {
-    name: "Locale",
-    description: "Internationalization locale",
-    toolbar: {
-      icon: "globe",
-      items: languages.map((lng) => ({
-        value: lng,
-        title: getLanguageName(lng),
-        right: getLanguageFlag(lng),
-      })),
-      showName: true,
+export default {
+  initialGlobals: {
+    locale: "en",
+    locales: {
+      en: {
+        title: getLanguageName("en"),
+        icon: getLanguageFlag("en"),
+        right: "en",
+      },
+      de: {
+        title: getLanguageName("de"),
+        icon: getLanguageFlag("de"),
+        right: "de",
+      },
+      fr: {
+        title: getLanguageName("fr"),
+        icon: getLanguageFlag("fr"),
+        right: "fr",
+      },
+      tr: {
+        title: getLanguageName("tr"),
+        icon: getLanguageFlag("tr"),
+        right: "tr",
+      },
+      fi: {
+        title: getLanguageName("fi"),
+        icon: getLanguageFlag("fi"),
+        right: "fi",
+      },
+      id: {
+        title: getLanguageName("id"),
+        icon: getLanguageFlag("id"),
+        right: "id",
+      },
+      pl: {
+        title: getLanguageName("pl"),
+        icon: getLanguageFlag("pl"),
+        right: "pl",
+      },
+      it: {
+        title: getLanguageName("it"),
+        icon: getLanguageFlag("it"),
+        right: "it",
+      },
+      ru: {
+        title: getLanguageName("ru"),
+        icon: getLanguageFlag("ru"),
+        right: "ru",
+      },
+      si: {
+        title: getLanguageName("si"),
+        icon: getLanguageFlag("si"),
+        right: "si",
+      },
+      vi: {
+        title: getLanguageName("vi"),
+        icon: getLanguageFlag("vi"),
+        right: "vi",
+      },
+      ar: {
+        title: getLanguageName("ar"),
+        icon: getLanguageFlag("ar"),
+        right: "ar",
+      },
+      es: {
+        title: getLanguageName("es"),
+        icon: getLanguageFlag("es"),
+        right: "es",
+      },
+      ja: {
+        title: getLanguageName("ja"),
+        icon: getLanguageFlag("ja"),
+        right: "ja",
+      },
+      cs: {
+        title: getLanguageName("cs"),
+        icon: getLanguageFlag("cs"),
+        right: "cs",
+      },
+      uk: {
+        title: getLanguageName("uk"),
+        icon: getLanguageFlag("uk"),
+        right: "uk",
+      },
+      et: {
+        title: getLanguageName("et"),
+        icon: getLanguageFlag("et"),
+        right: "et",
+      },
+      ca: {
+        title: getLanguageName("ca"),
+        icon: getLanguageFlag("ca"),
+        right: "ca",
+      },
+      el: {
+        title: getLanguageName("el"),
+        icon: getLanguageFlag("el"),
+        right: "el",
+      },
+      ta: {
+        title: getLanguageName("ta"),
+        icon: getLanguageFlag("ta"),
+        right: "ta",
+      },
+      fa: {
+        title: getLanguageName("fa"),
+        icon: getLanguageFlag("fa"),
+        right: "fa",
+      },
+      hi: {
+        title: getLanguageName("hi"),
+        icon: getLanguageFlag("hi"),
+        right: "hi",
+      },
+      bn: {
+        title: getLanguageName("bn"),
+        icon: getLanguageFlag("bn"),
+        right: "bn",
+      },
+      eo: {
+        title: getLanguageName("eo"),
+        icon: getLanguageFlag("eo"),
+        right: "eo",
+      },
+      lt: {
+        title: getLanguageName("lt"),
+        icon: getLanguageFlag("lt"),
+        right: "lt",
+      },
+      hr: {
+        title: getLanguageName("hr"),
+        icon: getLanguageFlag("hr"),
+        right: "hr",
+      },
+      be: {
+        title: getLanguageName("be"),
+        icon: getLanguageFlag("be"),
+        right: "be",
+      },
+      hu: {
+        title: getLanguageName("hu"),
+        icon: getLanguageFlag("hu"),
+        right: "hu",
+      },
+      nl: {
+        title: getLanguageName("nl"),
+        icon: getLanguageFlag("nl"),
+        right: "nl",
+      },
+      pt: {
+        title: getLanguageName("pt"),
+        icon: getLanguageFlag("pt"),
+        right: "pt",
+      },
+      oc: {
+        title: getLanguageName("oc"),
+        icon: getLanguageFlag("oc"),
+        right: "oc",
+      },
+      da: {
+        title: getLanguageName("da"),
+        icon: getLanguageFlag("da"),
+        right: "da",
+      },
+      az: {
+        title: getLanguageName("az"),
+        icon: getLanguageFlag("az"),
+        right: "az",
+      },
+      he: {
+        title: getLanguageName("he"),
+        icon: getLanguageFlag("he"),
+        right: "he",
+      },
+      ro: {
+        title: getLanguageName("ro"),
+        icon: getLanguageFlag("ro"),
+        right: "ro",
+      },
+      hy: {
+        title: getLanguageName("hy"),
+        icon: getLanguageFlag("hy"),
+        right: "hy",
+      },
+      ko: {
+        title: getLanguageName("ko"),
+        icon: getLanguageFlag("ko"),
+        right: "ko",
+      },
+      sv: {
+        title: getLanguageName("sv"),
+        icon: getLanguageFlag("sv"),
+        right: "sv",
+      },
+      pa: {
+        title: getLanguageName("pa"),
+        icon: getLanguageFlag("pa"),
+        right: "pa",
+      },
+      sq: {
+        title: getLanguageName("sq"),
+        icon: getLanguageFlag("sq"),
+        right: "sq",
+      },
+      ia: {
+        title: getLanguageName("ia"),
+        icon: getLanguageFlag("ia"),
+        right: "ia",
+      },
+      ckb: {
+        title: getLanguageName("ckb"),
+        icon: getLanguageFlag("ckb"),
+        right: "ckb",
+      },
+      ga: {
+        title: getLanguageName("ga"),
+        icon: getLanguageFlag("ga"),
+        right: "ga",
+      },
+      kab: {
+        title: getLanguageName("kab"),
+        icon: getLanguageFlag("kab"),
+        right: "kab",
+      },
+      fil: {
+        title: getLanguageName("fil"),
+        icon: getLanguageFlag("fil"),
+        right: "fil",
+      },
+      br: {
+        title: getLanguageName("br"),
+        icon: getLanguageFlag("br"),
+        right: "br",
+      },
+      en_GB: {
+        title: getLanguageName("en-GB"),
+        icon: getLanguageFlag("en-GB"),
+        right: "en-GB",
+      },
+      nb_NO: {
+        title: getLanguageName("nb-NO"),
+        icon: getLanguageFlag("nb-NO"),
+        right: "nb-NO",
+      },
+      pt_BR: {
+        title: getLanguageName("pt-BR"),
+        icon: getLanguageFlag("pt-BR"),
+        right: "pt-BR",
+      },
+      zh_Hans: {
+        title: getLanguageName("zh-Hans"),
+        icon: getLanguageFlag("zh-Hans"),
+        right: "zh-Hans",
+      },
+      zh_Hant: {
+        title: getLanguageName("zh-Hant"),
+        icon: getLanguageFlag("zh-Hant"),
+        right: "zh-Hant",
+      },
     },
   },
-}
-
-const withI18next = (Story, context) => {
-  const { locale } = context.globals
-
-  // When the locale global changes
-  // Set the new locale in i18n
-  useEffect(() => {
-    i18n.changeLanguage(locale)
-  }, [locale])
-
-  return (
-    // This catches the suspense from components not yet ready (still loading translations)
-    // Alternative: set useSuspense to false on i18next.options.react when initializing i18next
-    <Suspense fallback={<div>loading translations...</div>}>
-      <I18nextProvider i18n={i18n}>
-        <Story />
-      </I18nextProvider>
-    </Suspense>
-  )
-}
-
-export default {
   parameters: {
+    nextIntl,
     mockingDate: new Date(2024, 0, 1),
     viewport: {
       viewports: {
@@ -84,7 +305,6 @@ export default {
   },
   loaders: [mswLoader],
   decorators: [
-    withI18next,
     (Story) => (
       <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
     ),

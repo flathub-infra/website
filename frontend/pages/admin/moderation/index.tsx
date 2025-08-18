@@ -1,5 +1,6 @@
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import { ReactElement } from "react"
 import { Permission, UserInfo } from "src/codegen"
@@ -33,7 +34,7 @@ export default function ModerationDashboard() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

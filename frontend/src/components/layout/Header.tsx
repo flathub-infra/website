@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 import { useWindowSize } from "src/hooks/useWindowSize"
 import { OrganizationJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import Image from "next/image"
@@ -29,6 +29,7 @@ import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { AxiosError } from "axios"
 import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
 import Form from "next/form"
+import { getLangDir } from "rtl-detect"
 
 const navigation = [
   {
@@ -59,7 +60,7 @@ let userNavigation = [
 ]
 
 const MobileMenuButton = ({ open, close, width }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   useEffect(() => {
     if (open && width >= 1024) {
@@ -80,7 +81,7 @@ const MobileMenuButton = ({ open, close, width }) => {
 }
 
 const Header = () => {
-  const { t, i18n } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
   const user = useUserContext()
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
@@ -138,8 +139,8 @@ const Header = () => {
   }, [user.info])
 
   useEffect(() => {
-    document.dir = i18n.dir()
-  }, [i18n, i18n.language])
+    document.dir = getLangDir(router.locale)
+  }, [router.locale])
 
   useEffect(() => {
     const q = router.query.query as string

@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<0>Flatpak wird standardmäßig auf Red Hat Enterprise Linux Workstation 9 oder höher vorinstalliert. Alles, was du tun musst, ist Flathub zu aktivieren. Lade und installiere die <2>Flathub-Repository Datei</2>.</0> <p>Um Flatpak auf Red Hat Enterprise Linux Workstation 8 oder älter zu installieren führe die folgenden Befehle in einem Terminal aus:</p>   <5></5> <7>Jetzt musst du nur noch <2>apps installieren</2>!</7> <p>Die oben genannten Links sollten auf der normalen Red Hat Enterprise Linux Workstation 9 Installation funktionieren, falls dieses nicht der Fall ist, kann die Flathub-Remote manuell installiert werden:</p><11></11>"
+    "introduction": "<text>Flatpak wird standardmäßig auf Red Hat Enterprise Linux Workstation 9 oder höher vorinstalliert. Alles, was du tun musst, ist Flathub zu aktivieren. Lade und installiere die <filelink>Flathub-Repository Datei</filelink>.</text> <text>Um Flatpak auf Red Hat Enterprise Linux Workstation 8 oder älter zu installieren führe die folgenden Befehle in einem Terminal aus:</text>   <code></code> <text>Jetzt musst du nur noch <link>apps installieren</link>!</text> <text>Die oben genannten Links sollten auf der normalen Red Hat Enterprise Linux Workstation 9 Installation funktionieren, falls dieses nicht der Fall ist, kann die Flathub-Remote manuell installiert werden:</text><codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",

@@ -2,8 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { ConditionalWrapper } from "@/lib/helpers"
 import { format, formatDistanceToNow } from "date-fns"
+import { translationMessages } from "i18n/request"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 import {
@@ -234,7 +235,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       userId: user,
     },
     revalidate: 900,

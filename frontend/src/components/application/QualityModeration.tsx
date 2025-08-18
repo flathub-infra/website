@@ -13,7 +13,7 @@ import {
   HiEye,
   HiQuestionMarkCircle,
 } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import Modal from "../Modal"
 import { DesktopAppstream } from "src/types/Appstream"
 import {
@@ -29,7 +29,7 @@ const QualityModerationStatusComponent = ({
 }: {
   status: undefined | QualityModerationStatus
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   if (!status) {
     return null
@@ -76,7 +76,7 @@ const ReviewButton = ({
   buttonClicked?: () => void
   mode?: "moderator" | "developer"
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -160,7 +160,7 @@ export const QualityModeration = ({
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (isOpen: boolean) => void
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const user = useUserContext()
   const [isQualityModerator, setIsQualityModerator] = useState(false)
 

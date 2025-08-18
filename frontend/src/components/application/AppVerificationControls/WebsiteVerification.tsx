@@ -1,5 +1,5 @@
-import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
+import { useTranslations } from "next-intl"
 import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
 import { FlathubDisclosure } from "../../Disclosure"
@@ -24,7 +24,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
   isNewApp,
   onVerified,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [returnedToken, setReturnedToken] = useState<string>(null)
   const [confirmResult, setConfirmResult] =
@@ -115,17 +115,20 @@ const WebsiteVerification: FunctionComponent<Props> = ({
     content = (
       <div className="space-y-2">
         <div>
-          <Trans i18nKey={"website-validation-instruction"}>
-            Create a page at{" "}
-            <a className="no-underline hover:underline" href={webpage}>
-              {{ webpage }}
-            </a>{" "}
-            containing the following token:
-            <div className="p-3 font-semibold text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-              {{ token }}
-            </div>
-            If the page already exists, add the token to it.
-          </Trans>
+          {t.rich("website-validation-instruction", {
+            webpage: webpage,
+            token: token,
+            link: (chunks) => (
+              <a className="no-underline hover:underline" href={webpage}>
+                {chunks}
+              </a>
+            ),
+            i: (chunks) => (
+              <div className="p-3 font-semibold text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                {chunks}
+              </div>
+            ),
+          })}
         </div>
 
         <Button
@@ -148,12 +151,11 @@ const WebsiteVerification: FunctionComponent<Props> = ({
     content = (
       <>
         <p>
-          <Trans i18nKey={"website-verification-main-instruction"}>
-            Verify your right to use the app ID
-            <span className="font-semibold">{{ id: appId }}</span> by placing a
-            token at a specific page on
-            <span className="font-semibold">{{ domain: method.website }}</span>.
-          </Trans>
+          {t.rich("website-verification-main-instruction", {
+            id: appId,
+            domain: method.website,
+            bold: (chunks) => <span className="font-semibold">{chunks}</span>,
+          })}
         </p>
         <Button
           size="lg"

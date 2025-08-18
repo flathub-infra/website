@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import Image from "next/image"
 
@@ -17,7 +17,7 @@ const LogoImage: FunctionComponent<Props> = ({
   size = "128",
   ...props
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   return (
     <>
@@ -26,7 +26,7 @@ const LogoImage: FunctionComponent<Props> = ({
         iconUrl.startsWith("https://flathub.org")) ? (
         <Image
           src={iconUrl}
-          alt={t("app-logo", { "app-name": appName })}
+          alt={t("app-logo", { app_name: appName })}
           aria-hidden
           width={size}
           height={size}
@@ -37,7 +37,7 @@ const LogoImage: FunctionComponent<Props> = ({
         <div className="dark:invert p-1">
           <Image
             src={logoMini}
-            alt={t("app-logo", { "app-name": appName })}
+            alt={t("app-logo", { app_name: appName })}
             width={size}
             height={size}
             aria-hidden

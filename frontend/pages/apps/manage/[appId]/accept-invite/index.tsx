@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect } from "react"
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
@@ -15,9 +15,10 @@ import {
   useGetInviteStatusInvitesAppIdGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { translationMessages } from "i18n/request"
 
 export default function AcceptInvitePage({ app }) {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
   const user = useUserContext()
   const userDispatch = useUserDispatch()
@@ -133,7 +134,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
       app: app ?? { id: appId, name: appId },
     },
   }

@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { useRouter } from "next/router"
 import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "sonner"
@@ -21,7 +21,7 @@ const ProviderLink: FunctionComponent<Props> = ({
   provider,
   inACard = false,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
   const router = useRouter()
 
   // Using state to prevent user repeatedly initiating fetches

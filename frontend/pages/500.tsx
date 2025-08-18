@@ -1,10 +1,11 @@
+import { translationMessages } from "i18n/request"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
+import { useTranslations } from "next-intl"
 import { NextSeo } from "next-seo"
 
 export default function Custom500() {
-  const { t } = useTranslation()
+  const t = useTranslations()
   return (
     <>
       <NextSeo
@@ -18,13 +19,13 @@ export default function Custom500() {
         <h1 className="mb-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>{t("an-error-occurred-server", { errorCode: "500" })}</p>
         <p>
-          <Trans i18nKey={"common:retry-or-go-home"}>
-            You might want to retry or go back{" "}
-            <a className="no-underline hover:underline" href=".">
-              home
-            </a>
-            .
-          </Trans>
+          {t.rich("retry-or-go-home", {
+            link: (chunk) => (
+              <a className="no-underline hover:underline" href=".">
+                {chunk}
+              </a>
+            ),
+          })}
         </p>
       </div>
     </>
@@ -38,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      messages: await translationMessages(locale),
     },
   }
 }

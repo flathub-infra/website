@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useCallback, useState } from "react"
 import { Appstream } from "../../../../types/Appstream"
 import Modal from "src/components/Modal"
@@ -21,7 +21,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
   app,
   updateCallback,
 }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
 
   const [shown, setShown] = useState(false)
   const [text, setText] = useState("")
