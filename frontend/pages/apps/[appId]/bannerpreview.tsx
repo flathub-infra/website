@@ -19,11 +19,14 @@ export default function Details({
   eolMessage,
   heroBannerData,
 }: {
-  app: Appstream
+  app: Pick<Appstream, "id" | "name">
   eolMessage: string
   heroBannerData: {
     app: { position: number; app_id: string; isFullscreen: boolean }
-    appstream: DesktopAppstream
+    appstream: Pick<
+      DesktopAppstream,
+      "id" | "name" | "branding" | "icon" | "summary" | "screenshots"
+    >
   }[]
 }) {
   const { t } = useTranslation()
