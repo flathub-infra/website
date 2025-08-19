@@ -14,7 +14,7 @@ from . import config, database, models, search, zscore
 StatsType = dict[str, dict[str, list[int]]]
 
 
-class StatsFromServer(TypedDict):
+class DateStatsFromServer(TypedDict):
     countries: dict[str, int]
     date: datetime.date
     delta_downloads: int
@@ -26,6 +26,11 @@ class StatsFromServer(TypedDict):
     refs: dict[str, dict[str, list[int]]]
 
 
+class CountryData(TypedDict):
+    population: int
+    downloads: int
+
+
 POPULAR_DAYS_NUM = 7
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
@@ -33,7 +38,7 @@ FIRST_STATS_DATE = datetime.date(2018, 4, 29)
 
 def _get_stats_for_date(
     date: datetime.date, session: httpx.Client
-) -> StatsFromServer | None:
+) -> DateStatsFromServer | None:
     stats_json_url = urlparse(
         config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
     )
@@ -138,6 +143,15 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     return app_stats_per_day
 
 
+def _get_population_country(country: str) -> int:
+    country_population: dict[str, int] = {}
+    # Lazy import the first time the data is needed
+    if len(country_population) == 0:
+        with open("../data/country_population.json") as f:
+            country_population = json.load(f)
+    return country_population[country] if country in country_population else 0
+
+
 def _get_stats(app_count: int):
     edate = datetime.date.today()
     sdate = FIRST_STATS_DATE
@@ -145,7 +159,7 @@ def _get_stats(app_count: int):
     downloads_per_day: dict[str, int] = {}
     delta_downloads_per_day: dict[str, int] = {}
     updates_per_day: dict[str, int] = {}
-    totals_country: dict[str, int] = {}
+    totals_country: dict[str, CountryData] = {}
     with httpx.Client() as session:
         for i in range((edate - sdate).days + 1):
             date = sdate + datetime.timedelta(days=i)
@@ -179,8 +193,14 @@ def _get_stats(app_count: int):
             ):
                 for country, downloads in stats["countries"].items():
                     if country not in totals_country:
-                        totals_country[country] = 0
-                    totals_country[country] = totals_country[country] + downloads
+                        totals_country[country] = CountryData(population=0, downloads=0)
+                    totals_country[country]["downloads"] = (
+                        totals_country[country]["downloads"] + downloads
+                    )
+                for country, _ in totals_country:
+                    totals_country[country]["population"] = _get_population_country(
+                        country
+                    )
 
     category_totals = get_category_totals()
 
