@@ -218,7 +218,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<text>To complete the setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+      "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
     }
   },
   "mageia": {

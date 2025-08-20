@@ -7,7 +7,7 @@
     },
     "step-2": {
       "name": "Suiteáil breiseán Flatpak Bogearraí GNOME",
-      "text": "<text>Ligeann breiseán Bogearraí GNOME gur féidir aipeanna a shuiteáil gan an líne ordaithe a bheith ag teastáil. Chun é a shuiteáil, rith:</text> <code></code> <note><strong>Nóta:</strong> Dáileann Ubuntu Bogearraí GNOME mar Snap i leaganacha 20.04 go 23.04, agus cuireadh App Center ina áit i 23.10 agus níos nuaí—ní thacaíonn ceachtar acu le suiteáil aipeanna Flatpak. Suiteálfaidh suiteáil an bhreiseáin Flatpak leagan deb de Bhogearraí GNOME freisin, rud a fhágann go suiteálfar dhá aip \"Bogearraí\" ag an am céanna ar Ubuntu 20.04 go 23.04, agus aip nua \"Bogearraí\" amháin ar Ubuntu 23.10 agus níos nuaí.</note>"
+      "text": "<text>Ligeann breiseán Bogearraí GNOME gur féidir aipeanna a shuiteáil gan an líne ordaithe a bheith ag teastáil. Chun é a shuiteáil, rith:</text> <code></code> <text><strong>Nóta:</strong> Dáileann Ubuntu Bogearraí GNOME mar Snap i leaganacha 20.04 go 23.04, agus cuireadh App Center ina áit i 23.10 agus níos nuaí—ní thacaíonn ceachtar acu le suiteáil aipeanna Flatpak. Suiteálfaidh suiteáil an bhreiseáin Flatpak leagan deb de Bhogearraí GNOME freisin, rud a fhágann go suiteálfar dhá aip \"Bogearraí\" ag an am céanna ar Ubuntu 20.04 go 23.04, agus aip nua \"Bogearraí\" amháin ar Ubuntu 23.10 agus níos nuaí.</text>"
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
@@ -20,13 +20,13 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Fedora Workstation, Fedora Silverblue, agus Fedora Kinoite. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Tá Flathub réamhchumraithe mar chuid de na <repolink>Stórtha Tríú Páirtí</repolink>. Nó is féidir leat an comhad stórtha <filelink>Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <conclusion>Anois níl le déanamh agat ach <applink>aipeanna a shuiteáil</applink>!</conclusion> <text>Ba chóir go n-oibreodh na naisc thuas ar na suiteálacha réamhshocraithe GNOME agus KDE Fedora, ach má theipeann orthu ar chúis éigin is féidir leat an cianrialtán Flathub a chur leis de láimh trí rith:</text> <code></code>"
+    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Fedora Workstation, Fedora Silverblue, agus Fedora Kinoite. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Tá Flathub réamhchumraithe mar chuid de na <repolink>Stórtha Tríú Páirtí</repolink>. Nó is féidir leat an comhad stórtha <filelink>Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <text>Anois níl le déanamh agat ach <applink>aipeanna a shuiteáil</applink>!</text> <text>Ba chóir go n-oibreodh na naisc thuas ar na suiteálacha réamhshocraithe GNOME agus KDE Fedora, ach má theipeann orthu ar chúis éigin is féidir leat an cianrialtán Flathub a chur leis de láimh trí rith:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "Cumasaigh Flatpak tríd an Bainisteoir Bogearraí",
-      "text": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Manjaro 20 nó níos airde.</text> <instruction>Chun a thacaíocht a chumasú, nascleanúint chuig an <strong>Bainisteoir Bogearraí</strong> (Cuir Cláir Leis/Bain Cláir)</instruction> <text>Cliceáil ar an roghchlár trí líne [nó poncanna ag brath ar an Timpeallacht Deisce] ar dheis, sa roghchlár anuas roghnaigh \"Roghanna\"</text> <text>Nascleanúint chuig an táb \"Flatpak\" agus sleamhnaigh an lasc go Cumasaigh tacaíocht Flatpak (is féidir seiceáil le haghaidh nuashonruithe a chumasú freisin, rud a mholtar).</text>"
+      "text": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Manjaro 20 nó níos airde.</text> <text>Chun a thacaíocht a chumasú, nascleanúint chuig an <strong>Bainisteoir Bogearraí</strong> (Cuir Cláir Leis/Bain Cláir)</text> <text>Cliceáil ar an roghchlár trí líne [nó poncanna ag brath ar an Timpeallacht Deisce] ar dheis, sa roghchlár anuas roghnaigh \"Roghanna\"</text> <text>Téigh chuig an táb \"Flatpak\" agus sleamhnaigh an lasc go Cumasaigh tacaíocht Flatpak (is féidir seiceáil le haghaidh nuashonruithe a chumasú freisin, rud a mholtar).</text>"
     },
     "step-2": {
       "name": "Athosaigh",
@@ -57,7 +57,7 @@
     "introduction": "<text>Is féidir feidhmchláir Flatpak a shuiteáil ar ChromeOS leis an tsraith chomhoiriúnachta Crostini Linux. Níl sé seo ar fáil do gach gléas ChromeOS, mar sin ba chóir duit a chinntiú go bhfuil do ghléas comhoiriúnach sula dtéann tú ar aghaidh. Tá liosta de ghléasanna comhoiriúnacha á choinneáil <link>anseo</link>.</text>",
     "step-1": {
       "name": "Cumasaigh tacaíocht Linux",
-      "text": "<text>Téigh chuig <settingslink>chrome://os-settings</settingslink>, agus scrollaigh síos go dtí <strong>Forbróirí</strong> agus cas ar <i>timpeallacht forbartha Linux</i>. Tógfaidh sé roinnt ama ChromeOS Linux a íoslódáil agus a shuiteáil.</text>"
+      "text": "<text>Téigh chuig <settingslink>chrome://os-settings</settingslink>, agus scrollaigh síos go dtí <strong>Forbróirí</strong> agus cas ar <em>timpeallacht forbartha Linux</em>. Tógfaidh sé roinnt ama ChromeOS Linux a íoslódáil agus a shuiteáil.</text>"
     },
     "step-2": {
       "name": "Cuir tús le críochfort Linux",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Fiontar Linux",
-    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Red Hat Enterprise Linux Workstation 9 agus níos nuaí. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Íoslódáil agus suiteáil an comhad <filelink>stórtha Flathub</filelink>.</text> <text>Chun Flatpak a shuiteáil ar Red Hat Enterprise Linux Workstation 8 nó níos sine, rith an méid seo a leanas i dteirminéal:</text> <code></code> <next>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</next> <text>Ba chóir go n-oibreodh na naisc thuas ar an suiteáil réamhshocraithe Red Hat Enterprise Linux Workstation 9, ach má theipeann orthu ar chúis éigin is féidir leat an cianrialtán Flathub a chur leis de láimh trí rith:</text> <code></code>"
+    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Red Hat Enterprise Linux Workstation 9 agus níos nuaí. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Íoslódáil agus suiteáil an <filelink>comhad stórtha Flathub</filelink>.</text> <text>Chun Flatpak a shuiteáil ar Red Hat Enterprise Linux Workstation 8 nó níos sine, rith an méid seo a leanas i dteirminéal:</text> <code></code> <text>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text> <text>Ba chóir go n-oibreodh na naisc thuas ar an suiteáil réamhshocraithe Red Hat Enterprise Linux Workstation 9, ach má theipeann orthu ar chúis éigin is féidir leat an cianrialtán Flathub a chur leis de láimh trí rith:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Miontas Linux",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<text>Tá Flatpak ar fáil sna stórtha réamhshocraithe de na leaganacha uile de openSUSE Leap agus openSUSE Tumbleweed atá á gcothabháil faoi láthair.</text> <instruction>Más fearr leat suiteáil ghrafach, is féidir leat Flatpak a shuiteáil ag baint úsáide as \"suiteálaí 1-cliceáil\" ó <link>software.opensuse.org</link>. Mura bhfuil do leagan dáilte le feiceáil de réir réamhshocraithe, cliceáil <button>Taispeáin</button> faoin gcatagóir Dáiltí nach dtacaítear leo agus ansin roghnaigh ón liosta.</instruction> <text>Mar mhalairt air sin, suiteáil Flatpak ón líne ordaithe ag baint úsáide as Zypper:</text> <code></code>"
+      "text": "<text>Tá Flatpak ar fáil sna stórtha réamhshocraithe de na leaganacha uile de openSUSE Leap agus openSUSE Tumbleweed atá á gcothabháil faoi láthair.</text> <text>Más fearr leat suiteáil ghrafach, is féidir leat Flatpak a shuiteáil ag baint úsáide as \"suiteálaí 1-cliceáil\" ó <link>software.opensuse.org</link>. Mura bhfuil do leagan dáilte le feiceáil de réir réamhshocraithe, cliceáil <em>Taispeáin</em> faoin gcatagóir Dáiltí nach dtacaítear leo agus ansin roghnaigh ón liosta.</text> <text>Mar mhalairt air sin, suiteáil Flatpak ón líne ordaithe ag baint úsáide as Zypper:</text> <code></code>"
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
@@ -118,7 +118,7 @@
     },
     "step-2": {
       "name": "Suiteáil an breiseán Bogearraí Flatpak",
-      "text": "<text>Más GNOME atá á rith agat, is dea-smaoineamh é an breiseán Flatpak a shuiteáil do Bhogearraí GNOME. Chun seo a dhéanamh, rith:</text> <code></code> <text>Más KDE atá á rith agat, ba cheart duit an cúltaca Plasma Discover Flatpak a shuiteáil ina ionad:</text> <code></code>"
+      "text": "<text>Más GNOME atá á rith agat, is dea-smaoineamh é an breiseán Flatpak a shuiteáil do Bhogearraí GNOME. Chun seo a dhéanamh, rith:</text> <code></code> <text>Más KDE atá á rith agat, ba cheart duit an cúltaca Plasma Discover Flatpak a shuiteáil ina ionad:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
@@ -146,11 +146,11 @@
   },
   "centos": {
     "distroName": "Sruth CentOS",
-    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar CentOS Stream 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an comhad <filelink>stór Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <conclusion>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</conclusion>"
+    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar CentOS Stream 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an comhad <filelink>stór Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <text>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar AlmaLinux 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an comhad <filelink>stór Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <conclusion>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</conclusion>"
+    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar AlmaLinux 8 agus níos nuaí, agus GNOME in úsáid. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an comhad <filelink>stór Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <text>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -210,7 +210,7 @@
     },
     "step-2": {
       "name": "Suiteáil an breiseán Bogearraí Flatpak",
-      "text": "<text>Is féidir leat an breiseán Flatpak a shuiteáil do Bhogearra GNOME (ó leagan 3.13) nó do KDE Discover (ó leagan 3.11), rud a fhágann gur féidir aipeanna a shuiteáil gan an líne ordaithe a bheith ag teastáil. Chun é a shuiteáil, rith Bogearraí GNOME:</text> <code></code> <text>Le haghaidh KDE Discover rith:</text> <code></code>"
+      "text": "<text>Is féidir leat an breiseán Flatpak a shuiteáil do Bhogearra GNOME (ó leagan 3.13) nó do KDE Discover (ó leagan 3.11), rud a fhágann gur féidir aipeanna a shuiteáil gan an líne ordaithe a bheith ag teastáil. Chun é a shuiteáil, rith Bogearraí GNOME:</text> <code></code> <text>Le haghaidh KDE Discover rith:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
@@ -225,7 +225,7 @@
     "distroName": "Mageia",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<text>Tá pacáiste flatpak ar fáil do Mageia 6 agus níos nuaí. Chun é a shuiteáil le DNF, rith an méid seo a leanas mar fhréamh:</text> <code></code> <text>Nó, chun é a shuiteáil le <command>urpmi</command>, rith:</text> <code></code>"
+      "text": "<text>Tá pacáiste flatpak ar fáil do Mageia 6 agus níos nuaí. Chun é a shuiteáil le DNF, rith an méid seo a leanas mar fhréamh:</text> <code></code> <text>Nó, chun é a shuiteáil le <strong>urpmi</strong>, rith:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
@@ -238,7 +238,7 @@
   },
   "openmandriva_lx": {
     "distroName": "OscailMandriva Lx",
-    "introduction": "<text>Tá tacaíocht Flatpak tógtha isteach in OpenMandriva do gach leagan a bhfuil tacaíocht ghníomhach acu, ag tosú ón scaoileadh cobhsaí/seasta 'Rock 5.0', tríd an scaoileadh forbartha 'Cooker', agus ag críochnú leis an scaoileadh rollta 'ROME'.</text> <text>Tagann Flatpak leis an stórlann Flathub réamhchumraithe.</text>"
+    "introduction": "<header>Tá tacaíocht Flatpak tógtha isteach in OpenMandriva do gach leagan a bhfuil tacaíocht ghníomhach acu, ag tosú ón scaoileadh cobhsaí/seasta 'Rock 5.0', tríd an scaoileadh forbartha 'Cooker', agus ag críochnú leis an scaoileadh rollta 'ROME'.</header> <text>Tagann Flatpak leis an stórlann Flathub réamhchumraithe.</text>"
   },
   "pop_os": {
     "distroName": "Pop! _OS",
@@ -259,7 +259,7 @@
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
-      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code> <note><strong>Nóta tábhachtach:</strong> Moltar Raspberry Pi OS 64-giotán a úsáid mar is dóichí go mbeidh feidhmchláir níos nuaí ar fáil don ardán sin amháin.</note>"
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code> <text><strong>Nóta tábhachtach:</strong> Moltar Raspberry Pi OS 64-giotán a úsáid mar is dóichí go mbeidh feidhmchláir níos nuaí ar fáil don ardán sin amháin.</text>"
     },
     "step-3": {
       "name": "Athosaigh",
@@ -285,7 +285,7 @@
     "distroName": "NixOs",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<text>Chun Flatpak a shuiteáil, socraigh rogha NixOS <option>services.flatpak.enable</option> go <value>true</value> tríd an méid seo a leanas a chur i do <file>/etc/nixos/configuration.nix</file>:</text> <code></code> <text>Ansin, atóg agus aistrigh go dtí an chumraíocht nua le:</text> <code></code> <docs>Le haghaidh tuilleadh sonraí féach ar an <doclink>dhoiciméadacht NixOS</doclink>.</docs>"
+      "text": "<text>Chun Flatpak a shuiteáil, socraigh an rogha NixOS <strong>services.flatpak.enable</strong> go <strong>fíor</strong> tríd an méid seo a leanas a chur i do <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Ansin, atóg agus aistrigh go dtí an chumraíocht nua le:</text> <codeRebuild></codeRebuild> <text>Le haghaidh tuilleadh sonraí féach ar an <doclink>dhoiciméadacht NixOS</doclink>.</text>"
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
@@ -298,11 +298,11 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>Tá Flatpak suiteáilte de réir réamhshocraithe ar PureOS. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an comhad <filelink>stór Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <conclusion>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</conclusion>"
+    "introduction": "<text>Tá Flatpak suiteáilte de réir réamhshocraithe ar PureOS. Chun tús a chur leis, níl le déanamh agat ach Flathub a chumasú, arb é an bealach is fearr é chun aipeanna Flatpak a fháil. Níl le déanamh agat ach an comhad <filelink>stór Flathub</filelink> a íoslódáil agus a shuiteáil.</text> <text>Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
   },
   "zorin_os": {
     "distroName": "OS Zorin",
-    "introduction": "<text>Tá tacaíocht Flatpak tógtha isteach i Zorin OS</text> <text>Is féidir leat an aip Software Store a úsáid chun aipeanna Flatpak a íoslódáil.</text>"
+    "introduction": "<header>Tá tacaíocht Flatpak tógtha isteach i Zorin OS</header> <text>Is féidir leat an aip Software Store a úsáid chun aipeanna Flatpak a íoslódáil.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
@@ -346,7 +346,7 @@
     "distroName": "MX Linux",
     "step-1": {
       "name": "Cumasaigh Flatpak tríd an Bainisteoir Bogearraí",
-      "text": "<text>Tá tacaíocht Flatpak tógtha isteach ó MX 18 agus níos déanaí. Ní gá ach stórlann Flathub a ghníomhachtú trí na treoracha seo a leanúint:</text> <instruction>Oscail <strong>MX Package Suiteálaí</strong> (oscail an roghchlár agus féach in MX Tools), roghnaigh an cluaisín \"Flatpaks\", chun an stórlann a ghníomhachtú beidh ort an focal faire fréimhe a iontráil.</instruction>"
+      "text": "<text>Tá tacaíocht Flatpak tógtha isteach ó MX 18 agus níos déanaí. Ní gá ach stórlann Flathub a ghníomhachtú trí na treoracha seo a leanúint:</text> <text>Oscail <strong>MX Package Suiteálaí</strong> (oscail an roghchlár agus féach in MX Tools), roghnaigh an cluaisín \"Flatpaks\", chun an stórlann a ghníomhachtú beidh ort an focal faire fréimhe a iontráil.</text>"
     },
     "step-2": {
       "name": "Athosaigh",
@@ -372,7 +372,7 @@
     "distroName": "EndeavouRos",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<text>Chun Flatpak a shuiteáil ar EndeavorOS, ní mór duit a chinntiú ar dtús go bhfuil do shuiteáil cothrom le dáta, rith an méid seo a leanas i dteirminéal:</text> <code></code> <text>Ansin suiteáil Flatpak:</text> <code></code>"
+      "text": "<text>Chun Flatpak a shuiteáil ar EndeavorOS, ní mór duit a chinntiú ar dtús go bhfuil do shuiteáil cothrom le dáta, rith an méid seo a leanas i dteirminéal:</text> <codeUpdate></codeUpdate> <text>Ansin suiteáil Flatpak:</text> <code></code>"
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
@@ -404,10 +404,10 @@
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
-    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Crystal Linux.</text> <text>Mura n-úsáideann tú jade_gui chun Crystal a shuiteáil nó mura roghnaigh tú é a shuiteáil, is féidir leat Flatpak a shocrú trí na céimeanna seo a leanas a úsáid.</text>",
+    "introduction": "<header>Suiteáiltear Flatpak de réir réamhshocraithe ar Crystal Linux.</header> <text>Mura n-úsáideann tú jade_gui chun Crystal a shuiteáil nó mura roghnaigh tú é a shuiteáil, is féidir leat Flatpak a shocrú trí na céimeanna seo a leanas a úsáid.</text>",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<text>Chun Flatpak a shuiteáil i Crystal Linux, ní mór duit a chinntiú ar dtús go bhfuil do phacáistí cothrom le dáta. Rith an méid seo a leanas i dteirminéal:</text> <code></code> <text>Ansin suiteáil Flatpak:</text> <code></code>"
+      "text": "<text>Chun Flatpak a shuiteáil i Crystal Linux, ní mór duit a chinntiú ar dtús go bhfuil do phacáistí cothrom le dáta. Rith an méid seo a leanas i dteirminéal:</text> <codeUpdate></codeUpdate> <text>Ansin suiteáil Flatpak:</text> <code></code>"
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
@@ -420,10 +420,10 @@
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<text>Suiteáiltear Flatpak de réir réamhshocraithe ar Vanilla OS.</text> <instruction>Is féidir leat an aip Bogearraí a úsáid nó brabhsáil trí <link>Flathub</link> chun aipeanna a shuiteáil.</instruction> <text>Mura bhfuil Flathub ar fáil ar chúis éigin, is féidir leat é a chumrú de láimh ag baint úsáide as an ordú seo a leanas:</text> <code></code>"
+    "introduction": "<header>Suiteáiltear Flatpak de réir réamhshocraithe ar Vanilla OS.</header> <text>Is féidir leat an aip Bogearraí a úsáid nó brabhsáil trí <link>Flathub</link> chun aipeanna a shuiteáil.</text> <text>Mura bhfuil Flathub ar fáil ar chúis éigin, is féidir leat é a chumrú de láimh ag baint úsáide as an ordú seo a leanas:</text> <code></code>"
   },
   "salix": {
     "distroName": "Salix",
-    "introduction": "<text>Tá Flatpak suiteáilte de réir réamhshocraithe ar Salix ó leagan 15.0—níl aon ghá le socrú!</text> <text>Tagann Flatpak réamhchumraithe leis an stórlann Flathub agus tá uirlisí comhtháthaithe deisce san áireamh chun suiteáil 1-cliceáil ó Flathub a cheadú.</text> <conclusion>Níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</conclusion>"
+    "introduction": "<header>Tá Flatpak suiteáilte de réir réamhshocraithe ar Salix ó leagan 15.0—níl aon ghá le socrú!</header> <text>Tagann Flatpak réamhchumraithe leis an stórlann Flathub agus tá uirlisí comhtháthaithe deisce san áireamh chun suiteáil 1-cliceáil ó Flathub a cheadú.</text> <text>Níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
   }
 }

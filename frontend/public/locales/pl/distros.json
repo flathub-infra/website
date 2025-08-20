@@ -66,14 +66,14 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "arch": {
     "distroName": "Arch",
     "step-2": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     },
     "step-1": {
       "name": "Zainstaluj Flatpak",
@@ -100,7 +100,7 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "pureos": {
@@ -115,7 +115,7 @@
     },
     "step-2": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "pisi_gnulinux": {
@@ -175,7 +175,7 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     },
     "step-2": {
       "name": "Dodaj repozytorium Flathub",
@@ -214,7 +214,7 @@
     },
     "step-2": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "alpine": {
@@ -233,7 +233,7 @@
     },
     "step-4": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "mageia": {
@@ -289,7 +289,7 @@
     },
     "step-4": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "debian": {
@@ -308,7 +308,7 @@
     },
     "step-4": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "solus": {
@@ -343,7 +343,7 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     }
   },
   "centos": {
@@ -373,7 +373,7 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     },
     "step-2": {
       "name": "Dodaj repozytorium Flathub",
@@ -396,7 +396,7 @@
     },
     "step-4": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     },
     "step-2": {
       "name": "Zainstaluj wtyczkę Flatpak",
@@ -415,7 +415,7 @@
     },
     "step-4": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+      "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
     },
     "step-3": {
       "name": "Zainstaluj motywy Deepin",
