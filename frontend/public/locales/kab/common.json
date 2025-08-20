@@ -216,7 +216,7 @@
   "flathub": "Flathub",
   "login-with-provider": "Qqen s {provider}",
   "flathub-logo": "Alugu n Flathub",
-  "about-claim": "<0>Ma telliḍ d aseqdac yettnadin isnasen neɣ d aneflay yettnadin ad yaweḍ ɣer wugar n yiseqdacen, <2>Flathub d afran ifazen i yisnasen deg Linux.</2></0>",
+  "about-claim": "<text>Ma telliḍ d aseqdac yettnadin isnasen neɣ d aneflay yettnadin ad yaweḍ ɣer wugar n yiseqdacen, <bold>Flathub d afran ifazen i yisnasen deg Linux.</bold></text>",
   "get-apps": "Awi-d isnasen",
   "moderation-appstream": "Appstream",
   "download-size": "Teɣzi n usider",
@@ -249,7 +249,7 @@
   "setup-flathub": "Swel Flathub",
   "open-user-menu": "Ldi umuɣ n useqdac",
   "find-your-distribution": "Af-d azuzer-ik·im",
-  "manual-install-instructions": "Ur ttettu ara ad tḍefreḍ <2>amnir n usebded i uzuzer-ik Linux</2> send ma tesbeddeḍṭ",
-  "request-new-app": "Ma yella tettnadiḍ ɣef yiwen n usnas s timmad, eǧǧ tamɣiwant ad teẓer belli tebɣiḍ-t deg Flathub <1>sya</1>.",
+  "manual-install-instructions": "Ur ttettu ara ad tḍefreḍ <distroguide>amnir n usebded i uzuzer-ik Linux</distroguide> send ma tesbeddeḍṭ",
+  "request-new-app": "Ma yella tettnadiḍ ɣef yiwen n usnas s timmad, eǧǧ tamɣiwant ad teẓer belli tebɣiḍ-t deg Flathub <forumLink>sya</forumLink>.",
   "could-not-find-match-for-search": "Ur nufi ara asnas i yemṣadan d unadi-inek·inem."
 }

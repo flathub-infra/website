@@ -5,7 +5,7 @@
     },
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
-      "text": "<p>Flathub d adeg ifazen ansa ara d-awiḍ isnasen n Flatpak. Iwakken ad t-tremdedṭ, selkem:</p> <2></2>"
+      "text": "<text>Flathub d adeg ifazen ansa ara d-awiḍ isnasen n Flatpak. Iwakken ad t-tremdedṭ, selkem:</text> <code></code>"
     },
     "step-4": {
       "name": "Ales askker"
@@ -241,7 +241,7 @@
     },
     "step-2": {
       "name": "Sebded asiɣzef n Useɣẓan Flatpak",
-      "text": "<p>Ma tseddayeḍ GNOME, d tikti yelhan daɣen ad tesbeddeḍ asiɣzef n Flatpak i useɣẓan GNOME. Akken ad tgeḍ aya, selkem:</p> <2></2>"
+      "text": "<text>Ma tseddayeḍ GNOME, d tikti yelhan daɣen ad tesbeddeḍ asiɣzef n Flatpak i useɣẓan GNOME. Akken ad tgeḍ aya, selkem:</text> <code></code>"
     }
   },
   "mx_linux": {

@@ -45,7 +45,7 @@ export const SearchPanel = ({
         <p>{t("could-not-find-match-for-search")}</p>
         <p>
           {t.rich("request-new-app", {
-            discourseherelink: (chunks) => (
+            forumLink: (chunks) => (
               <a
                 target="_blank"
                 rel="noreferrer"

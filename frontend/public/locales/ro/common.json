@@ -49,7 +49,7 @@
   "whoops": "Hopa!",
   "could-not-find-page": "Nu am putut găsi pagina pe care o căutați.",
   "login": "Log in",
-  "retry-or-go-home": "Poate doriți să încercați din nou sau să vă întoarceți la <2>acasă</2>.",
+  "retry-or-go-home": "Poate doriți să încercați din nou sau să vă întoarceți la <link>acasă</link>.",
   "go-home": "Du-te acasă",
   "search-apps": "Căutați aplicații",
   "forum": "Forum",

@@ -48,9 +48,8 @@ const VerificationIcon: FunctionComponent<Props> = ({
               : verificationStatus.method === "website"
                 ? t.rich("verified-website-tooltip", {
                     app_id: appId,
-                    website: verificationStatus.website,
                     appid: (chunks) => <b>{chunks}</b>,
-                    websitelink: (chunks) => <b>{chunks}</b>,
+                    website: (chunks) => <b>{verificationStatus.website}</b>,
                   })
                 : verificationStatus.method === "login_provider"
                   ? t.rich("verified-login-provider-tooltip", {

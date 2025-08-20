@@ -3,24 +3,24 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Flatpak installeren",
-      "text": "<0>Om Flatpak te installeren op <strong>Ubuntu 18.10 (Cosmic Cuttlefish) of nieuwer</strong>, opent u de terminal-app en voert u het volgende uit:</0> <2></2>"
+      "text": "<text>Om Flatpak te installeren op <strong>Ubuntu 18.10 (Cosmic Cuttlefish) of nieuwer</strong>, opent u de terminal-app en voert u het volgende uit:</text> <code></code>"
     },
     "step-2": {
       "name": "De Flatpak-plug-in voor GNOME-Software installeren",
-      "text": "<p>De plug-in voor GNOME Software maakt het mogelijk om apps te installeren zonder de opdracht­regel. Voer het volgende uit om te installeren:</p> <2></2> <4><strong>Opmerking:</strong> Ubuntu distribueert GNOME Software als een Snap in versies 20.04 tot en met 23.04 en heeft het in 23.10 en nieuwer vervangen door App Center. Beide ondersteunen de installatie van Flatpak-apps niet. Door de Flatpak-plug-in te installeren, wordt ook een deb-versie van GNOME Software geïnstalleerd, waardoor er twee \"Software\"-apps tegelijk worden geïnstalleerd op Ubuntu 20.04 tot en met 23.04 en één nieuwe \"Software\"-app op Ubuntu 23.10 en nieuwer.</4>"
+      "text": "<text>De plug-in voor GNOME Software maakt het mogelijk om apps te installeren zonder de opdracht­regel. Voer het volgende uit om te installeren:</text> <code></code> <text><strong>Opmerking:</strong> Ubuntu distribueert GNOME Software als een Snap in versies 20.04 tot en met 23.04 en heeft het in 23.10 en nieuwer vervangen door App Center. Beide ondersteunen de installatie van Flatpak-apps niet. Door de Flatpak-plug-in te installeren, wordt ook een deb-versie van GNOME Software geïnstalleerd, waardoor er twee \"Software\"-apps tegelijk worden geïnstalleerd op Ubuntu 20.04 tot en met 23.04 en één nieuwe \"Software\"-app op Ubuntu 23.10 en nieuwer.</text>"
     },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
-      "text": "<p>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om deze te activeren:</p> <2></2>"
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om deze te activeren:</text> <code></code>"
     },
     "step-4": {
       "name": "Opnieuw opstarten",
-      "text": "<0>Om de installatie te voltooien, start u uw systeem opnieuw op. Nu hoeft u alleen nog maar <2>apps te installeren</2>!</0>"
+      "text": "<text>Om de installatie te voltooien, start u uw systeem opnieuw op. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<0>Flatpak is standaard geïnstalleerd op Fedora Workstation, Fedora Silverblue en Fedora Kinoite. Om te beginnen hoeft u alleen maar Flathub in te schakelen. Dit is de beste manier om Flatpak-apps te downloaden. Flathub is vooraf geconfigureerd als onderdeel van de <2>Repositories van derden</2>. U kunt ook het <5>Flathub-repository­bestand</5> downloaden en installeren.</0> <2>Nu hoeft u alleen nog maar <2>apps te installeren</2>!</2> <p>Bovenstaande links zouden moeten werken op de standaard GNOME- en KDE-Fedora-installaties, maar als ze om de een of andere reden niet werken, kunt u de Flathub-remote handmatig toevoegen door het volgende uit te voeren:</p> <6></6>"
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op Fedora Workstation, Fedora Silverblue en Fedora Kinoite. Om te beginnen hoeft u alleen maar Flathub in te schakelen. Dit is de beste manier om Flatpak-apps te downloaden. Flathub is vooraf geconfigureerd als onderdeel van de <link>Repositories van derden</link>. U kunt ook het <filelink>Flathub-repository­bestand</filelink> downloaden en installeren.</text> <link>Nu hoeft u alleen nog maar <link>apps te installeren</link>!</link> <text>Bovenstaande links zouden moeten werken op de standaard GNOME- en KDE-Fedora-installaties, maar als ze om de een of andere reden niet werken, kunt u de Flathub-remote handmatig toevoegen door het volgende uit te voeren:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",

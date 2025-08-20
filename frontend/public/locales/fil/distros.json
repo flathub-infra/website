@@ -3,81 +3,81 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "I-install ang Flatpak",
-      "text": "<0>Para i-install ang Flatpak sa <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o mas bago</strong>, buksan ang Terminal app at ilagay ang:</0> <2></2>"
+      "text": "<text>Para i-install ang Flatpak sa <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o mas bago</strong>, buksan ang Terminal app at ilagay ang:</text> <code></code>"
     },
     "step-2": {
       "name": "I-install ang Flatpak plugin para sa GNOME Software",
-      "text": "<p>Makakapag-install ka ng mga app nang hindi gumagamit ng command line gamit ang plugin para sa GNOME Software. Para i-install, patakbuhin ang:</p> <2></2> <4><strong>Paalala:</strong> Sa Ubuntu, isang Snap ang GNOME Software sa bersyon 20.04 hanggang 23.04, at pinalitan ito ng App Center simula 23.10—wala sa dalawang ito ang sumusuporta sa pag-install ng mga naka-Flatpak na app. Mai-install rin ang deb na bersyon ng GNOME Software kung ii-install ang Flatpak plugin, na hahantong sa pagkakaroon ng dalawang \"Software\" app na naka-install nang sabayan sa Ubuntu 20.04 hanggang 23.04, at isang bagong \"Software\" app simula Ubuntu 23.10.</4>"
+      "text": "<text>Makakapag-install ka ng mga app nang hindi gumagamit ng command line gamit ang plugin para sa GNOME Software. Para i-install, patakbuhin ang:</text> <code></code> <text><strong>Paalala:</strong> Sa Ubuntu, isang Snap ang GNOME Software sa bersyon 20.04 hanggang 23.04, at pinalitan ito ng App Center simula 23.10—wala sa dalawang ito ang sumusuporta sa pag-install ng mga naka-Flatpak na app. Mai-install rin ang deb na bersyon ng GNOME Software kung ii-install ang Flatpak plugin, na hahantong sa pagkakaroon ng dalawang \"Software\" app na naka-install nang sabayan sa Ubuntu 20.04 hanggang 23.04, at isang bagong \"Software\" app simula Ubuntu 23.10.</text>"
     },
     "step-3": {
       "name": "Idagdag ang repositoryo ng Flathub",
-      "text": "<p>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</p> <2></2>"
+      "text": "<text>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</text> <code></code>"
     },
     "step-4": {
       "name": "Mag-restart",
-      "text": "<0>Para matapos ang setup, i-restart ang system mo. Kailangan mo na lang ngayon <2>mag-install ng mga app</2>!</0>"
+      "text": "<text>Para matapos ang setup, i-restart ang system mo. Kailangan mo na lang ngayon <link>mag-install ng mga app</link>!</text>"
     }
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<0>Naka-install na by default ang Flatpak sa Fedora Workstation, Fedora Silverblue, at Fedora Kinoite. Para magsimula, kailangan mo na lang i-enable ang Flathub, na pinakamagandang paraan para makakuha ng mga naka-Flatpak na app. Naka-preconfigure ang Flathub bilang parte ng mga <2>Third-Party na Repositoryo</2>. Pwede mo ring i-download at i-install ang <5>file ng repositoryo ng Flathub</5>.</0> <2>Kailangan mo na lang ngayon <2>mag-install ng mga app</2>!</2> <p>Gagana dapat sa default na installation ng Fedora GNOME at KDE ang mga link sa itaas, pero kung hindi sila gumagana, pwede mong manu-manong idagdag ang Flathub remote sa pamamagitan ng pagpapatakbo ng:</p> <6></6>"
+    "introduction": "<text>Naka-install na by default ang Flatpak sa Fedora Workstation, Fedora Silverblue, at Fedora Kinoite. Para magsimula, kailangan mo na lang i-enable ang Flathub, na pinakamagandang paraan para makakuha ng mga naka-Flatpak na app. Naka-preconfigure ang Flathub bilang parte ng mga <link>Third-Party na Repositoryo</link>. Pwede mo ring i-download at i-install ang <filelink>file ng repositoryo ng Flathub</filelink>.</text> <link>Kailangan mo na lang ngayon <link>mag-install ng mga app</link>!</link> <text>Gagana dapat sa default na installation ng Fedora GNOME at KDE ang mga link sa itaas, pero kung hindi sila gumagana, pwede mong manu-manong idagdag ang Flathub remote sa pamamagitan ng pagpapatakbo ng:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "I-enable ang Flatpak sa pamamagitan ng Software Manager",
-      "text": "<p>Naka-install bilang default ang Flatpak sa Manjaro 20 at mas bago.</p> <2>Para i-enable ang support, mag-navigate sa <strong>Software Manager</strong> (Add/Remove Programs)</2> <p>I-click ang tatlong linyang menu [o mga dot depende sa Desktop Environmeng] sa kanan, sa drop down menu piliin ang \"Preferences\"</p> <p>Mag-navigate sa \"Flatpak\" tab at i-slide ang toggle para I-enable ang Flatpak support (posible rin ang pag-enable ng pagsusuri ng mga update, na lubos na inirerekomenda).</p>"
+      "text": "<text>Naka-install bilang default ang Flatpak sa Manjaro 20 at mas bago.</text> <link>Para i-enable ang support, mag-navigate sa <strong>Software Manager</strong> (Add/Remove Programs)</link> <text>I-click ang tatlong linyang menu [o mga dot depende sa Desktop Environmeng] sa kanan, sa drop down menu piliin ang \"Preferences\"</text> <text>Mag-navigate sa \"Flatpak\" tab at i-slide ang toggle para I-enable ang Flatpak support (posible rin ang pag-enable ng pagsusuri ng mga update, na lubos na inirerekomenda).</text>"
     },
     "step-2": {
       "name": "Mag-restart",
-      "text": "<0>Para tapusin ang setup, i-restart ang iyong sistema. Ang kailangan mo na lang gawin ngayon ay <2>mag-install ng mga app</2>!</0>"
+      "text": "<text>Para tapusin ang setup, i-restart ang iyong sistema. Ang kailangan mo na lang gawin ngayon ay <link>mag-install ng mga app</link>!</text>"
     }
   },
   "chrome_os": {
     "step-3": {
-      "text": "<p>Para i-install ang Flatpak, patakbuhin ang sumusunod sa terminal:</p> <2></2>",
+      "text": "<text>Para i-install ang Flatpak, patakbuhin ang sumusunod sa terminal:</text> <code></code>",
       "name": "I-install ang Flatpak"
     },
     "step-5": {
-      "text": "<0>Para tapusin ang setup, i-restart ang Linux. Maari mo ito gawin sa pamamagitan ng pag-right click ng Terminal, at i-click ang \"I-shut down ang Linux\". Ang kailangan mo na kang gawin ay <2>mag-install ng mga app</2>!</0>",
+      "text": "<text>Para tapusin ang setup, i-restart ang Linux. Maari mo ito gawin sa pamamagitan ng pag-right click ng Terminal, at i-click ang \"I-shut down ang Linux\". Ang kailangan mo na kang gawin ay <link>mag-install ng mga app</link>!</text>",
       "name": "Mag-restart"
     },
     "distroName": "ChromeOS",
-    "introduction": "<0>Mai-install ang mga Flatpak application sa ChromeOS gamit ang Crostini Linux compatibility layer. Hindi ito available para sa lahat ng mga ChromeOS device, kaya kailangan mong siguraduhin na compatible ang iyong device bago magpatuloy. Ang listahan ng mga compatible na device ay pinapanatili <2>dito</2>.</0>",
+    "introduction": "<text>Mai-install ang mga Flatpak application sa ChromeOS gamit ang Crostini Linux compatibility layer. Hindi ito available para sa lahat ng mga ChromeOS device, kaya kailangan mong siguraduhin na compatible ang iyong device bago magpatuloy. Ang listahan ng mga compatible na device ay pinapanatili <link>dito</link>.</text>",
     "step-1": {
       "name": "I-enable ang Linux Support",
-      "text": "<0>Pumunta sa <2>chrome://os-settings</2>, at mag-scroll pababa sa <strong>Mga Developer</2> at buksan ang <i>Linux Development Environment</i>. Maaring magtagal ang ChromeOS sa pag-download at pag-install ng Linux.</0>"
+      "text": "<text>Pumunta sa <link>chrome://os-settings</link>, at mag-scroll pababa sa <strong>Mga Developer</link> at buksan ang <i>Linux Development Environment</i>. Maaring magtagal ang ChromeOS sa pag-download at pag-install ng Linux.</text>"
     },
     "step-2": {
       "name": "Magsimula ng Linux terminal",
-      "text": "<p>Buksan ang Search/Launcher key, i-type ang \"Terminal\", at buksan ang Terminal app.</p>"
+      "text": "<text>Buksan ang Search/Launcher key, i-type ang \"Terminal\", at buksan ang Terminal app.</text>"
     },
     "step-4": {
       "name": "Idagdag ang Flathub repository",
-      "text": "<p>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</p> <2></2>"
+      "text": "<text>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</text> <code></code>"
     }
   },
   "alt_linux": {
     "step-3": {
-      "text": "<0>I-restart ang iyong device para kumpletuhin ang pag-install ng Flatpak. Ngayon ay <1>makaka-install ka na ng mga app</1>!</0>",
+      "text": "<text>I-restart ang iyong device para kumpletuhin ang pag-install ng Flatpak. Ngayon ay <text>makaka-install ka na ng mga app</text>!</text>",
       "name": "Mag-restart"
     },
     "distroName": "ALT Linux",
     "step-1": {
       "name": "I-install ang Flatpak",
-      "text": "<p>Para i-install ang Flatpak sa mga operating system ng pamilya ng Alt, buksan ang terminal at patakbuhin:</p><2></2>"
+      "text": "<text>Para i-install ang Flatpak sa mga operating system ng pamilya ng Alt, buksan ang terminal at patakbuhin:</text><code></code>"
     },
     "step-2": {
       "name": "Idagdag ang Flathub repository",
-      "text": "<p>Ang Flathub ang pinakamandang lugar para kumuha ng mga Flatpak app. Para i-enable ito sa iyong Alt system, patakbuhin ang:</p> <2></2>"
+      "text": "<text>Ang Flathub ang pinakamandang lugar para kumuha ng mga Flatpak app. Para i-enable ito sa iyong Alt system, patakbuhin ang:</text> <code></code>"
     }
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<0>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</0>"
+    "introduction": "<text>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</text>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<0>Naka-install bilang default ang Flatpak sa Red Hat Enterprise Linux Workstation 9 at mas bago. Para magsimula, ang kailangan mo lang gawin ay i-enable ang Flathub, kung saan ay ang pinakamahusay na paraan upang makakuha ng Flatpak apps. I-download at i-install ang <2>Flathub repository file</2>.</0>"
+    "introduction": "<text>Naka-install bilang default ang Flatpak sa Red Hat Enterprise Linux Workstation 9 at mas bago. Para magsimula, ang kailangan mo lang gawin ay i-enable ang Flathub, kung saan ay ang pinakamahusay na paraan upang makakuha ng Flatpak apps. I-download at i-install ang <link>Flathub repository file</link>.</text>"
   }
 }

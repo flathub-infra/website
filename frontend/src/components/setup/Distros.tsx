@@ -74,7 +74,8 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.ubuntu.step-1.text")
+                  text: t
+                    .raw("distros.ubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -87,7 +88,8 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.ubuntu.step-2.text")
+                  text: t
+                    .raw("distros.ubuntu.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -100,7 +102,8 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.ubuntu.step-3.text")
+                  text: t
+                    .raw("distros.ubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -113,7 +116,8 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.ubuntu.step-4.text")
+                  text: t
+                    .raw("distros.ubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -238,7 +242,8 @@ const Manjaro = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.manjaro.step-1.text")
+                  text: t
+                    .raw("distros.manjaro.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -251,7 +256,8 @@ const Manjaro = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.manjaro.step-2.text")
+                  text: t
+                    .raw("distros.manjaro.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -336,7 +342,8 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alt_linux.step-1.text")
+                  text: t
+                    .raw("distros.alt_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -349,7 +356,8 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alt_linux.step-2.text")
+                  text: t
+                    .raw("distros.alt_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -362,7 +370,8 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alt_linux.step-3.text")
+                  text: t
+                    .raw("distros.alt_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -439,7 +448,8 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.chrome_os.step-1.text")
+                  text: t
+                    .raw("distros.chrome_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -452,7 +462,8 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.chrome_os.step-2.text")
+                  text: t
+                    .raw("distros.chrome_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -465,7 +476,8 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.chrome_os.step-3.text")
+                  text: t
+                    .raw("distros.chrome_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -478,7 +490,8 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.chrome_os.step-4.text")
+                  text: t
+                    .raw("distros.chrome_os.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -491,7 +504,8 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.chrome_os.step-5.text")
+                  text: t
+                    .raw("distros.chrome_os.step-5.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -651,7 +665,8 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.opensuse.step-1.text")
+                  text: t
+                    .raw("distros.opensuse.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -664,7 +679,8 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.opensuse.step-2.text")
+                  text: t
+                    .raw("distros.opensuse.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -677,7 +693,8 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.opensuse.step-3.text")
+                  text: t
+                    .raw("distros.opensuse.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -754,7 +771,8 @@ const Arch = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.arch.step-1.text")
+                  text: t
+                    .raw("distros.arch.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -767,7 +785,8 @@ const Arch = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.arch.step-2.text")
+                  text: t
+                    .raw("distros.arch.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -824,7 +843,8 @@ const Debian = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.debian.step-1.text")
+                  text: t
+                    .raw("distros.debian.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -837,7 +857,8 @@ const Debian = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.debian.step-2.text")
+                  text: t
+                    .raw("distros.debian.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -850,7 +871,8 @@ const Debian = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.debian.step-3.text")
+                  text: t
+                    .raw("distros.debian.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -863,7 +885,8 @@ const Debian = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.debian.step-4.text")
+                  text: t
+                    .raw("distros.debian.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -956,7 +979,8 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.rocky_linux.step-1.text")
+                  text: t
+                    .raw("distros.rocky_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -969,7 +993,8 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.rocky_linux.step-2.text")
+                  text: t
+                    .raw("distros.rocky_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -982,7 +1007,8 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.rocky_linux.step-3.text")
+                  text: t
+                    .raw("distros.rocky_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1118,7 +1144,8 @@ const Gentoo = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.gentoo.step-1.text")
+                  text: t
+                    .raw("distros.gentoo.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1131,7 +1158,8 @@ const Gentoo = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.gentoo.step-2.text")
+                  text: t
+                    .raw("distros.gentoo.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1144,7 +1172,8 @@ const Gentoo = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.gentoo.step-3.text")
+                  text: t
+                    .raw("distros.gentoo.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1217,7 +1246,8 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.kubuntu.step-1.text")
+                  text: t
+                    .raw("distros.kubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1230,7 +1260,8 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.kubuntu.step-2.text")
+                  text: t
+                    .raw("distros.kubuntu.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1243,7 +1274,8 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.kubuntu.step-3.text")
+                  text: t
+                    .raw("distros.kubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1256,7 +1288,8 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.kubuntu.step-4.text")
+                  text: t
+                    .raw("distros.kubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1329,7 +1362,8 @@ const Solus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.solus.step-1.text")
+                  text: t
+                    .raw("distros.solus.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1342,7 +1376,8 @@ const Solus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.solus.step-2.text")
+                  text: t
+                    .raw("distros.solus.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1355,7 +1390,8 @@ const Solus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.solus.step-3.text")
+                  text: t
+                    .raw("distros.solus.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1434,7 +1470,8 @@ const Alpine = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alpine.step-1.text")
+                  text: t
+                    .raw("distros.alpine.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1447,7 +1484,8 @@ const Alpine = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alpine.step-2.text")
+                  text: t
+                    .raw("distros.alpine.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1460,7 +1498,8 @@ const Alpine = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alpine.step-3.text")
+                  text: t
+                    .raw("distros.alpine.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1473,7 +1512,8 @@ const Alpine = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.alpine.step-4.text")
+                  text: t
+                    .raw("distros.alpine.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1562,7 +1602,8 @@ const Mageia = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.mageia.step-1.text")
+                  text: t
+                    .raw("distros.mageia.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1575,7 +1616,8 @@ const Mageia = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.mageia.step-2.text")
+                  text: t
+                    .raw("distros.mageia.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1588,7 +1630,8 @@ const Mageia = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.mageia.step-3.text")
+                  text: t
+                    .raw("distros.mageia.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1719,7 +1762,8 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.elementary_os.step-1.text")
+                  text: t
+                    .raw("distros.elementary_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1768,7 +1812,8 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.raspberry_pi_os.step-1.text")
+                  text: t
+                    .raw("distros.raspberry_pi_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1781,7 +1826,8 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.raspberry_pi_os.step-2.text")
+                  text: t
+                    .raw("distros.raspberry_pi_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1794,7 +1840,8 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.raspberry_pi_os.step-3.text")
+                  text: t
+                    .raw("distros.raspberry_pi_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1870,7 +1917,8 @@ const Void_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.void_linux.step-1.text")
+                  text: t
+                    .raw("distros.void_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1883,7 +1931,8 @@ const Void_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.void_linux.step-2.text")
+                  text: t
+                    .raw("distros.void_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1896,7 +1945,8 @@ const Void_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.void_linux.step-3.text")
+                  text: t
+                    .raw("distros.void_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1967,7 +2017,8 @@ const NixOS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.nixos.step-1.text")
+                  text: t
+                    .raw("distros.nixos.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1980,7 +2031,8 @@ const NixOS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.nixos.step-2.text")
+                  text: t
+                    .raw("distros.nixos.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -1993,7 +2045,8 @@ const NixOS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.nixos.step-3.text")
+                  text: t
+                    .raw("distros.nixos.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2134,7 +2187,8 @@ const Deepin = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.deepin.step-1.text")
+                  text: t
+                    .raw("distros.deepin.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2147,7 +2201,8 @@ const Deepin = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.deepin.step-2.text")
+                  text: t
+                    .raw("distros.deepin.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2160,7 +2215,8 @@ const Deepin = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.deepin.step-3.text")
+                  text: t
+                    .raw("distros.deepin.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2173,7 +2229,8 @@ const Deepin = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.deepin.step-4.text")
+                  text: t
+                    .raw("distros.deepin.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2257,7 +2314,8 @@ const Pardus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pardus.step-1.text")
+                  text: t
+                    .raw("distros.pardus.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2270,7 +2328,8 @@ const Pardus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pardus.step-2.text")
+                  text: t
+                    .raw("distros.pardus.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2283,7 +2342,8 @@ const Pardus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pardus.step-3.text")
+                  text: t
+                    .raw("distros.pardus.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2296,7 +2356,8 @@ const Pardus = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pardus.step-4.text")
+                  text: t
+                    .raw("distros.pardus.step-4.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2379,7 +2440,8 @@ const MX_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.mx_linux.step-1.text")
+                  text: t
+                    .raw("distros.mx_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2392,7 +2454,8 @@ const MX_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.mx_linux.step-2.text")
+                  text: t
+                    .raw("distros.mx_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2453,7 +2516,8 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pisi_gnulinux.step-1.text")
+                  text: t
+                    .raw("distros.pisi_gnulinux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2466,7 +2530,8 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pisi_gnulinux.step-2.text")
+                  text: t
+                    .raw("distros.pisi_gnulinux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2479,7 +2544,8 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.pisi_gnulinux.step-3.text")
+                  text: t
+                    .raw("distros.pisi_gnulinux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2554,7 +2620,8 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.endeavouros.step-1.text")
+                  text: t
+                    .raw("distros.endeavouros.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2567,7 +2634,8 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.endeavouros.step-2.text")
+                  text: t
+                    .raw("distros.endeavouros.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2580,7 +2648,8 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.endeavouros.step-3.text")
+                  text: t
+                    .raw("distros.endeavouros.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2680,7 +2749,8 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.gnu_guix.step-1.text")
+                  text: t
+                    .raw("distros.gnu_guix.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2693,7 +2763,8 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.gnu_guix.step-2.text")
+                  text: t
+                    .raw("distros.gnu_guix.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2706,7 +2777,8 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.gnu_guix.step-3.text")
+                  text: t
+                    .raw("distros.gnu_guix.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2777,7 +2849,8 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.crystal_linux.step-1.text")
+                  text: t
+                    .raw("distros.crystal_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2790,7 +2863,8 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.crystal_linux.step-2.text")
+                  text: t
+                    .raw("distros.crystal_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
@@ -2803,7 +2877,8 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
               itemListElement: [
                 {
                   type: "HowToDirection",
-                  text: t("distros.crystal_linux.step-3.text")
+                  text: t
+                    .raw("distros.crystal_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
                     .replace(/s{2,}/g, " ")
                     .trim(),
