@@ -182,6 +182,10 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
             repo_name = "gnome-nibbles"
         case "org.gnome.PowerStats":
             repo_name = "gnome-power-manager"
+        case "org.gnome.Rhythmbox3":
+            repo_name = "rhythmbox"
+        case "org.gnome.SoundJuicer":
+            repo_name = "sound-juicer"
         case _:
             repo_name = None
 
