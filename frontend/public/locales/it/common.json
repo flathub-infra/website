@@ -265,7 +265,7 @@
   "moderation-key": "Chiave",
   "invite-not-found": "Invito non trovato",
   "close": "Chiudi",
-  "moderation-build-id": "Build ID",
+  "moderation-build-id": "ID Build",
   "moderation-outdated": "Obsoleto",
   "moderation-appstream": "Appstream",
   "moderation-approved-by": "Approvato da {handledBy} su {handledAt} ({handledAtRel})",
@@ -305,7 +305,7 @@
   "midi": "Midi",
   "filters": "Filtri",
   "remove-developer": "Rimuovi uno sviluppatore",
-  "invite-developer-description": "Inserisci il codice di invito dello sviluppatore per invitarlo a diventare sviluppatore di questa app. Può trovare il codice sulla scheda {developersTab} della pagina del suo account.",
+  "invite-developer-description": "Inserisci il codice di invito dello sviluppatore per invitarlo a diventare sviluppatore di questa app. Può trovare il codice sulla scheda <developerstabtitle>{developersTab}</developerstabtitle> della pagina del suo account.",
   "leave-confirmation": "Vuoi davvero abbandonare {app}?",
   "begin": "Inizia",
   "blocks": "Blocchi",
@@ -333,7 +333,7 @@
   "role-playing": "Giochi di Ruolo",
   "emulators": "Emulatori",
   "mixer": "Mixer",
-  "sequencer": "Sequencer",
+  "sequencer": "Sequenziatore",
   "tuner": "Tuner",
   "app-already-exists": "Esiste già una app con questo ID.",
   "arch": "Architettura",
@@ -401,7 +401,9 @@
     "failing-x-checks_one": "{count} controllo non superato",
     "failing-x-checks_many": "{count} controlli non superati",
     "failing-x-checks_other": "{count} controlli non superati",
-    "problems": "Se desideri porci domande su specifici problemi relativi alle linee guida sulla qualità, sentiti libero di aprire <link>un problema</link>."
+    "problems": "Se desideri porci domande su specifici problemi relativi alle linee guida sulla qualità, sentiti libero di aprire <link>un problema</link>.",
+    "light": "Chiaro",
+    "dark": "Scuro"
   },
   "audio-video-editing": "Montaggio Audio e Video",
   "appname-is-safety-rating-1": "{appName} è sicuro",
@@ -540,7 +542,7 @@
   "desktop-subfolder-x": "Sottocartella del desktop {folder}",
   "music-subfolder-x": "Sottocartella musica {folder}",
   "cache-subfolder-x": "Sottocartella cache {folder}",
-  "app-id-instructions": "Gli ID app utilizzano la notazione del nome di dominio inverso (RDNN). Ad esempio, GNOME Maps utilizza \"org.gnome.Maps\". Scegli un dominio su cui hai il controllo, ad esempio il sito web del progetto (o, se carichi come individuo, il tuo sito web). Se non è disponibile alcun sito web, puoi anche utilizzare un dominio associato a un account di hosting del codice sorgente, ad esempio \"io.github.nome_utente.nome_app\".",
+  "app-id-instructions": "Gli ID app utilizzano la notazione del nome di dominio inverso (RDNN). Ad esempio, GNOME Maps utilizza <i>org.gnome.Maps</i>. Scegli un dominio su cui hai il controllo, ad esempio il sito web del progetto (o, se carichi come individuo, il tuo sito web). Se non è disponibile alcun sito web, puoi anche utilizzare un dominio associato a un account di hosting del codice sorgente, ad esempio <i>io.github.nome_utente.nome_app</i>.",
   "app-listing-quality": "Qualità Elenco delle App",
   "system-folder-x": "Cartella di sistema {folder}",
   "token-created": "Copia questo token e archivialo in un luogo sicuro, ad esempio l'archivio dei segreti della pipeline CI. Concede l'accesso in lettura e scrittura alle build della tua app.",
@@ -650,7 +652,19 @@
   "count-verified-desktop-apps": "App desktop verificate",
   "vendingSharesPreview": {
     "app": "App",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "sliderLabel": "Cursore di distribuzione delle quote",
+    "appShare": "Quote app: {percentage}",
+    "sdkShare": "Quote SDK: {percentage}",
+    "flathubShare": "Quote Flathub: {percentage}",
+    "sliderThumbLabel": "Distribuzione delle quote dell'app: {percentage}",
+    "screenReaderBreakdown": "Cursore di ripartizione delle quote. Usa i tasti freccia per regolare la distribuzione tra App, SDK e Flathub. Distribuzione attuale: App: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Costo totale: {totalCost}."
   },
-  "since-x": "Dal {date}"
+  "since-x": "Dal {date}",
+  "count": "Conto",
+  "country-statistics": "Statistiche nazionali",
+  "download": {
+    "install-x": "Installa “{x}”",
+    "fallback-instructions": "<opening>Apertura di \"{name}\" nel tuo gestore software...</opening><support>Se non succede nulla, forse il tuo sistema non supporta gli URL <i>flatpak+https</i>.</support><listPrefix>In tal caso puoi:</listPrefix><ol><li>Scaricare il file <link>.flatpakref</link></li><li>Quindi eseguirlo dal tuo file manager</li></ol><setupLine><linkSetup>Istruzioni per installare Flatpak</linkSetup></setupLine>"
+  }
 }

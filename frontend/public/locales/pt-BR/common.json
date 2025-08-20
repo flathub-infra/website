@@ -229,7 +229,7 @@
   "verifying": "Verificando",
   "failed-to-find-token": "Falha ao encontrar token em resposta de {domain}.",
   "no-transactions": "Sem transações",
-  "website-validation-instruction": "Crie uma página em <website>{webpage}</website> contendo o seguinte token: <text>{token}</text> Se a página já existir, adicione o token a ela.",
+  "website-validation-instruction": "Crie uma página em <link>{webpage}</link> contendo o seguinte token: <i>{token}</i> Se a página já existir, adicione o token a ela.",
   "category-distribution": "Distribuição por categoria",
   "chat": "Chat",
   "login-provider-verification-main-instruction-organization": "Verifique seu direito de usar o ID de aplicativo <appid></appid> fazendo login em uma conta com direitos de administrador para a organização <orgname></orgname> em <loginprovider></loginprovider>.",

@@ -206,7 +206,7 @@
   "terms-and-conditions-description": "Naudodamiesi šia svetaine, jūs sutinkate su taisyklėmis ir sąlygomis.",
   "developer-settings": "Kūrėjo nustatymai",
   "minimum-payment": "Minimali suma",
-  "badge-copyright": "Kiek tai įmanoma pagal įstatymus, <author>Jakub Steiner</author> atsisakė visų autorių teisių ir gretutinių ar kaimyninių teisių į <link>Flathub ženklelius</link>. Šis darbas paskelbtas iš Čekijos.",
+  "badge-copyright": "Kiek tai įmanoma pagal įstatymus, <author>Jakub Steiner</author> atsisakė visų autorių teisių ir gretutinių ar kaimyninių teisių į <badgeslink>Flathub ženklelius</badgeslink>. Šis darbas paskelbtas iš Čekijos.",
   "x-downloads": "{x} atsisiuntimai",
   "error-code": "Klaidos kodas: {code}",
   "error": "Klaida",
@@ -215,7 +215,7 @@
   "app-is-currently-verified-by-website": "Jūsų programėlė šiuo metu patvirtinta pagal jūsų svetainę <website></website>",
   "app-is-currently-verified-manually": "Jūsų programėlė šiuo metu patvirtina „Flathub” darbuotojų",
   "verify-app": "Patvirtinti programėlę",
-  "app-is-currently-verified-by-login-provider": "Jūsų programėlė šiuo metu yra patvirtinta pagal jūsų prisijungimą <text>@{login_name}</text> su jūsų paskyra <loginprovider>{login_provider}</loginprovider>",
+  "app-is-currently-verified-by-login-provider": "Jūsų programėlė šiuo metu yra patvirtinta pagal jūsų prisijungimą <loginname></loginname> su jūsų paskyra <loginprovider></loginprovider>",
   "login-provider-verification-instruction": "Bandysime patvirtinti jūsų prieigą prie programėlės naudodami prisijungimo vardą <loginname>{login_name}</loginname> su paskyra <loginprovider>{login_provider}</loginprovider>",
   "website-verification": "Svetainės patvirtinimas"
 }
