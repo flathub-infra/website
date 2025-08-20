@@ -318,7 +318,7 @@
   "direct-upload": "Közvetlen feltöltés",
   "new-community-repository": "Új közösségi tárhely alkalmazás",
   "direct-upload-description": "Hozza létre alkalmazását saját folyamatos integrációs környezetében, és töltse fel közvetlenül a Flathubra.",
-  "app-id-instructions": "A RDNN (Reverse Domain Name Notation - alkalmazásazonosítók fordított domainnév-jelölést) használnak. Például a GNOME Maps az „org.gnome.Maps” fájlt használja. Válasszon egy domaint, amely felett Ön rendelkezik, például a projekt webhelyét (vagy, ha magánszemélyként tölt fel, saját webhelyét). Ha nem érhető el webhely, használhat egy forráskód-tárhelyfiókhoz társított domaint is, például „io.github.<felhasználónév>.<alkalmazásnév>”.",
+  "app-id-instructions": "A RDNN (Reverse Domain Name Notation - alkalmazásazonosítók fordított domainnév-jelölést) használnak. Például a GNOME Maps az „org.gnome.Maps” fájlt használja. Válasszon egy domaint, amely felett Ön rendelkezik, például a projekt webhelyét (vagy, ha magánszemélyként tölt fel, saját webhelyét). Ha nem érhető el webhely, használhat egy forráskód-tárhelyfiókhoz társított domaint is, például „io.github.felhasználónév.alkalmazásnév”.",
   "verify-app-id": "Alkalmazásazonosító ellenőrzése",
   "community-repository-description": "Alkalmazás feltöltéséhez a Flathubra töltse fel a Flatpak alkalmazásleíró fájlt és a kapcsolódó fájlokat a Flathub GitHub-szervezet egyik tárhelyére.",
   "app-already-exists": "Már létezik ilyen azonosítóval rendelkező alkalmazás.",

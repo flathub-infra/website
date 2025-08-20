@@ -489,7 +489,7 @@
   "user-configuration-subfolder-x": "Subpasta de configuração do usuário {folder}",
   "user-data-folder": "Pasta de dados do usuário",
   "invite-developer-description": "Insira o código de convite do desenvolvedor para convidá-lo a se tornar um desenvolvedor deste aplicativo. Eles podem encontrar o código na aba {developersTab} da página da conta.",
-  "app-id-instructions": "Os IDs de aplicativo usam notação de nome de domínio reverso (RDNN). Por exemplo, o Mapas do GNOME usa 'org.gnome.Maps'. Escolha um domínio sob o qual você tenha controle, como o site do projeto (ou, se estiver enviando como indivíduo, seu próprio site). Se nenhum site estiver disponível, você também pode usar um domínio associado a uma conta de hospedagem de código-fonte, como 'io.github.<seu_nome_de_usuário>.<nome_do_aplicativo>'.",
+  "app-id-instructions": "Os IDs de aplicativo usam notação de nome de domínio reverso (RDNN). Por exemplo, o Mapas do GNOME usa 'org.gnome.Maps'. Escolha um domínio sob o qual você tenha controle, como o site do projeto (ou, se estiver enviando como indivíduo, seu próprio site). Se nenhum site estiver disponível, você também pode usar um domínio associado a uma conta de hospedagem de código-fonte, como 'io.github.seu_nome_de_usuário.nome_do_aplicativo'.",
   "videos-folder": "Pasta de Vídeos",
   "arch": "Arquitetura",
   "can-read-all-data-in-your-download-folder": "Pode ler todos os dados na pasta de downloads",

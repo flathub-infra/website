@@ -324,7 +324,7 @@
   "direct-upload-description": "Bouw uw app in uw eigen continue integratie­omgeving en upload deze direct naar Flathub.",
   "malformed-app-id": "De app-ID is misvormd. App-ID's moeten minstens drie segmenten bevatten en geen enkel segment mag leeg zĳn. Elk segment moet beginnen met een letter of underscore en mag alleen letters, cĳfers, underscores en koppeltekens bevatten.",
   "release-link-no-changelog": "Uitgave­opmerkingen",
-  "app-id-instructions": "App ID's gebruiken omgekeerde domeinnaamnotatie (RDNN). Gnome Maps gebruikt bĳvoorbeeld ‘org.gnome.Maps’. Kies een domein waar u controle over heeft, zoals de website van het project (of, als u uploadt als individu, uw eigen website). Als er geen website beschikbaar is, kunt u ook een domein gebruiken dat gekoppeld is aan een broncode-hosting-account, zoals ‘io.github.<gebruikersnaam>.<app-naam>’.",
+  "app-id-instructions": "App ID's gebruiken omgekeerde domeinnaamnotatie (RDNN). Gnome Maps gebruikt bĳvoorbeeld ‘org.gnome.Maps’. Kies een domein waar u controle over heeft, zoals de website van het project (of, als u uploadt als individu, uw eigen website). Als er geen website beschikbaar is, kunt u ook een domein gebruiken dat gekoppeld is aan een broncode-hosting-account, zoals ‘io.github.gebruikersnaam.app-naam’.",
   "invites": "Uitnodigingen",
   "accept": "Accepteren",
   "invite-not-found": "Uitnodiging niet gevonden",

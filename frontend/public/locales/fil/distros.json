@@ -46,7 +46,7 @@
     "introduction": "<text>Mai-install ang mga Flatpak application sa ChromeOS gamit ang Crostini Linux compatibility layer. Hindi ito available para sa lahat ng mga ChromeOS device, kaya kailangan mong siguraduhin na compatible ang iyong device bago magpatuloy. Ang listahan ng mga compatible na device ay pinapanatili <link>dito</link>.</text>",
     "step-1": {
       "name": "I-enable ang Linux Support",
-      "text": "<text>Pumunta sa <link>chrome://os-settings</link>, at mag-scroll pababa sa <strong>Mga Developer</link> at buksan ang <i>Linux Development Environment</i>. Maaring magtagal ang ChromeOS sa pag-download at pag-install ng Linux.</text>"
+      "text": "<text>Pumunta sa <settingslink>chrome://os-settings</settingslink>, at mag-scroll pababa sa <strong>Mga Developer</strong> at buksan ang <em>Linux Development Environment</em>. Maaring magtagal ang ChromeOS sa pag-download at pag-install ng Linux.</text>"
     },
     "step-2": {
       "name": "Magsimula ng Linux terminal",

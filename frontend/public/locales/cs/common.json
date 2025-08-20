@@ -322,7 +322,7 @@
   "malformed-app-id": "ID aplikace je chybně zadáno. ID aplikace musí obsahovat alespoň tři segmenty a žádný segment nesmí být prázdný. Každý segment musí začínat písmenem nebo podtržítkem a smí obsahovat pouze písmena, číslice, podtržítka a pomlčky.",
   "publisher-agreement": "Smlouva o předkládání publikací vydavateli",
   "publisher-agreement-accept": "Souhlasím se smlouvou o předkládání publikací vydavateli",
-  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.<vaše_uživatelské_jméno>.<název_aplikace>'.",
+  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.vaše_uživatelské_jméno.název_aplikace'.",
   "arch": "Architektura",
   "release-link-no-changelog": "Poznámky k vydání",
   "invite-not-found-description": "Pozvánka, kterou se snažíte přijmout nebo odmítnout, neexistuje. Možná byla zrušena nebo odmítnuta.",

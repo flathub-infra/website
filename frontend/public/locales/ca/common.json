@@ -390,7 +390,7 @@
   "direct-upload": "Pujada directa",
   "direct-upload-description": "Construeix la teva aplicació en el teu propi entorn d'integració contínua i puja-la directament a Flathub.",
   "new-direct-upload": "Nova Aplicació de Pujada Directe",
-  "app-id-instructions": "Les IDs d'Aplicació utilitzen notació de nom de domini inversa (RDNN \"Reverse Domain Name Notation\"). Per exemple, GNOME Maps fa servir 'org.gnome.Maps'. Tria un domini sobre el qual tinguis control, com per exemple el lloc web del projecte (o, si estàs pujant com a individual, el teu propi lloc web). Si no hi ha cap web disponible també es pot fer servir un domini associat amb un compte de allotjament de codi font, com per exemple 'io.github.<el_teu_nom_dusuari>.<nom_de_la_applicacio>'.",
+  "app-id-instructions": "Les IDs d'Aplicació utilitzen notació de nom de domini inversa (RDNN \"Reverse Domain Name Notation\"). Per exemple, GNOME Maps fa servir 'org.gnome.Maps'. Tria un domini sobre el qual tinguis control, com per exemple el lloc web del projecte (o, si estàs pujant com a individual, el teu propi lloc web). Si no hi ha cap web disponible també es pot fer servir un domini associat amb un compte de allotjament de codi font, com per exemple 'io.github.el_teu_nom_dusuari.nom_de_la_applicacio'.",
   "distribution-flathub-setup": "{distribution} Configuració de Flathub",
   "find-your-distribution": "Troba la teva distribució",
   "news": "Notícies",

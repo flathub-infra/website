@@ -63,7 +63,7 @@
     },
     "step-3": {
       "name": "Instali Flatpak",
-      "text": "<text>Por instali Flatpak, rulu la jenon en la terminalo:</text> <link><link>"
+      "text": "<text>Por instali Flatpak, rulu la jenon en la terminalo:</text> <code></code>"
     },
     "distroName": "ChromeOS",
     "step-5": {
@@ -401,7 +401,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "Flatpak estas apriore instalita sur Fedora Workstation, Fedora Silverblue kaj Fedora Kinoite. Por komenci, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Flathub estas apriore agordita kiel unu el la <link>Triapartiaj Deponejoj</link>. Alternative, vi povas elŝuti kaj instali la <filelink>Flathub-deponejodosieron</filelink>. <link>Nun vi pretas <link>instali programojn</link>!</link> <text>La ĉi-supraj ligoj supozeble funkcios sur la aprioraj instalaĵoj de Fedora por GNOME aŭ KDE, sed se ili ial ne funkcias, vi povas malaŭtomate instali Flathub rulante la jenon:</text> <code> / 6>"
+    "introduction": "<text>Flatpak estas apriore instalita sur Fedora Workstation, Fedora Silverblue kaj Fedora Kinoite. Por komenci, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Flathub estas apriore agordita kiel unu el la <repolink>Triapartiaj Deponejoj</repolink>. Alternative, vi povas elŝuti kaj instali la <filelink>Flathub-deponejodosieron</filelink>. </text><text>Nun vi pretas <applink>instali programojn</applink>!</text> <text>La ĉi-supraj ligoj supozeble funkcios sur la aprioraj instalaĵoj de Fedora por GNOME aŭ KDE, sed se ili ial ne funkcias, vi povas malaŭtomate instali Flathub rulante la jenon:</text> <code> </code>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",

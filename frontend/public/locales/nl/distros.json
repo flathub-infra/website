@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak is standaard geïnstalleerd op Fedora Workstation, Fedora Silverblue en Fedora Kinoite. Om te beginnen hoeft u alleen maar Flathub in te schakelen. Dit is de beste manier om Flatpak-apps te downloaden. Flathub is vooraf geconfigureerd als onderdeel van de <link>Repositories van derden</link>. U kunt ook het <filelink>Flathub-repository­bestand</filelink> downloaden en installeren.</text> <link>Nu hoeft u alleen nog maar <link>apps te installeren</link>!</link> <text>Bovenstaande links zouden moeten werken op de standaard GNOME- en KDE-Fedora-installaties, maar als ze om de een of andere reden niet werken, kunt u de Flathub-remote handmatig toevoegen door het volgende uit te voeren:</text> <code></code>"
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op Fedora Workstation, Fedora Silverblue en Fedora Kinoite. Om te beginnen hoeft u alleen maar Flathub in te schakelen. Dit is de beste manier om Flatpak-apps te downloaden. Flathub is vooraf geconfigureerd als onderdeel van de <repolink>Repositories van derden</repolink>. U kunt ook het <filelink>Flathub-repository­bestand</filelink> downloaden en installeren.</text> <text>Nu hoeft u alleen nog maar <applink>apps te installeren</applink>!</text> <text>Bovenstaande links zouden moeten werken op de standaard GNOME- en KDE-Fedora-installaties, maar als ze om de een of andere reden niet werken, kunt u de Flathub-remote handmatig toevoegen door het volgende uit te voeren:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",

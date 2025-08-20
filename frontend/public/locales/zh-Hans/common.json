@@ -319,7 +319,7 @@
   "malformed-app-id": "应用 ID 格式不正确。应用 ID 必须至少包含三个分段，并且任何分段都不能为空。每个段必须以字母或下划线开头，并且只能包含字母、数字、下划线和连字符。",
   "publisher-agreement": "发布者提交协议",
   "publisher-agreement-accept": "我同意发布者提交协议",
-  "app-id-instructions": "应用 ID 使用反向域名表示法 （RDNN）。例如 GNOME Maps 用 'org.gnome.Maps' 表示。使用一个您可以控制的域名，例如项目的网站（如果以个人身份上传，则选择自己的网站）。如果没有可用的网站，还可以使用与源代码托管平台账户关联的域，例如'io.github.<your_username>.<app_name>'。",
+  "app-id-instructions": "应用 ID 使用反向域名表示法 （RDNN）。例如 GNOME Maps 用 'org.gnome.Maps' 表示。使用一个您可以控制的域名，例如项目的网站（如果以个人身份上传，则选择自己的网站）。如果没有可用的网站，还可以使用与源代码托管平台账户关联的域，例如'io.github.your_username.app_name'。",
   "desktop-application": "桌面应用",
   "console-application": "命令行应用",
   "app-type": "应用类型",

@@ -54,7 +54,7 @@
   "flos": "Foinse Oscailte Saor in Aisce/",
   "filters": "Scagairí",
   "runtime-distribution": "Dáileadh Ríomhthaíochta",
-  "app-id-instructions": "Úsáideann Aitheantais Aipe nodaireacht ainm fearainn droim ar ais (RDNN). Mar shampla, úsáideann GNOME Maps 'org.gnome.Maps'. Roghnaigh fearann a bhfuil smacht agat air, mar shuíomh Gréasáin an tionscadail (nó, má tá tú ag uaslódáil mar dhuine aonair, do shuíomh Gréasáin féin). Mura bhfuil suíomh Gréasáin ar fáil, is féidir leat fearann a bhaineann le cuntas óstála an chóid foinse a úsáid freisin, mar 'io.github.<your_username>.<app_name>'.",
+  "app-id-instructions": "Úsáideann Aitheantais Aipe nodaireacht ainm fearainn droim ar ais (RDNN). Mar shampla, úsáideann GNOME Maps 'org.gnome.Maps'. Roghnaigh fearann a bhfuil smacht agat air, mar shuíomh Gréasáin an tionscadail (nó, má tá tú ag uaslódáil mar dhuine aonair, do shuíomh Gréasáin féin). Mura bhfuil suíomh Gréasáin ar fáil, is féidir leat fearann a bhaineann le cuntas óstála an chóid foinse a úsáid freisin, mar 'io.github.your_username.app_name'.",
   "proprietary-code": "Cód dílseánaigh",
   "auditable-code": "Cód iniúchta",
   "learn-more": "Tuilleadh eolais",

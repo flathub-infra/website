@@ -23,7 +23,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak, Fedora Workstation, Fedora Silverblue ve Fedora Kinoite sürümlerinde otomatik olarak yüklüdür. Başlamak için Flathub'u aktifleştirmelisiniz, ki bu Flatpak uygulamalarını almak için en iyi yoldur. Flathub, <link>Üçüncü Parti Depolar</link>'ın bir parçası olarak otomatik olarak ayarlanmıştır. Onun yerine, <filelink>Flathub depo dosyalarını</filelink> yükleyerek indirebilirsiniz.</text> <link>Şimdi tek yapmanız gereken <link>uygulamalar yüklemek</link>!</link> <text>Yukarıdaki bağlantılar varsayılan GNOME ve KDE Fedora sürümlerinde çalışmalıdır, olur da hata alırsanız elle Flathub uzak deposunu çalıştırmak için bu komutu girebilirsiniz:</text> <code></code>"
+    "introduction": "<text>Flatpak, Fedora Workstation, Fedora Silverblue ve Fedora Kinoite sürümlerinde otomatik olarak yüklüdür. Başlamak için Flathub'u aktifleştirmelisiniz, ki bu Flatpak uygulamalarını almak için en iyi yoldur. Flathub, <repolink>Üçüncü Parti Depolar</repolink>'ın bir parçası olarak otomatik olarak ayarlanmıştır. Onun yerine, <filelink>Flathub depo dosyalarını</filelink> yükleyerek indirebilirsiniz.</text> <text>Şimdi tek yapmanız gereken <applink>uygulamalar yüklemek</applink>!</text> <text>Yukarıdaki bağlantılar varsayılan GNOME ve KDE Fedora sürümlerinde çalışmalıdır, olur da hata alırsanız elle Flathub uzak deposunu çalıştırmak için bu komutu girebilirsiniz:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",

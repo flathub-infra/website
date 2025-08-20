@@ -197,7 +197,7 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak telepítéséhez állítsa a NixOS <link>services.flatpak.enable</link> beállítását <text>true</text> értékre úgy, hogy beírja a következőket az <text>/etc/nixos/configuration.nix</text> fájlba:</text> <code></code> <text>Ezután építse újra, és váltson át az új konfigurációra. <>További részletekért lásd az OS-t a következővel: <link><link></text>. dokumentáció</link>.</text>"
+      "text": "<text>A Flatpak telepítéséhez állítsa a NixOS <strong>services.flatpak.enable</strong> beállítását <strong>true</strong> értékre úgy, hogy beírja a következőket az <strong>/etc/nixos/configuration.nix</strong> fájlba:</text> <code></code> <text>Ezután építse újra, és váltson át az új konfigurációra. </text>További részletekért lásd az OS-t a következővel: <codeRebuild></codeRebuild>.<text><doclink> dokumentáció</doclink>.</text>"
     },
     "distroName": "NixOS"
   },
@@ -388,7 +388,6 @@
     }
   },
   "fedora": {
-    "introduction": "<text>A Flatpak alapértelmezés szerint telepítve van a Fedora Workstation, a Fedora Silverblue és a Fedora Kinoite rendszereken. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. A Flathub előre be van állítva a <link>harmadik féltől származó adattárak</link> részeként. Ellenkező esetben letöltheti és telepítheti a <filelink>Flathub tárolófájlt</filelink>.</text> <link>Most már csak <link>alkalmazásokat kell telepítenie</link>!</link> <text>A fenti hivatkozásoknak működniük kell az alapértelmezett GNOME és KDE Fedora telepítéseken, de ha valamilyen oknál fogva nem sikerül, manuálisan is hozzáadhatja a Flathub <6 tárolót a következő futtatásával:</text>",
     "distroName": "Fedora"
   },
   "red_hat_enterprise_linux": {

@@ -535,7 +535,7 @@
   "scopes": "Campos de application",
   "kids": "Infantes",
   "midi": "MIDI",
-  "app-id-instructions": "Le ID de application usa notation de nomine de dominio reverse (RDNN). Per exemplo, GNOME Maps usa “org.gnome.Maps”. Selectiona un dominio que tu controla, tal como le sito web del projecto (o, si tu incarga como un individuo, tu proprie sito web). Si necun sito web es disponibile, tu pote igualmente usar un dominio associate con un conto de hospitation de codice fonte, tal como “io.github.<tu_nomine_de_usator>.<nomine_del_application>”.",
+  "app-id-instructions": "Le ID de application usa notation de nomine de dominio reverse (RDNN). Per exemplo, GNOME Maps usa “org.gnome.Maps”. Selectiona un dominio que tu controla, tal como le sito web del projecto (o, si tu incarga como un individuo, tu proprie sito web). Si necun sito web es disponibile, tu pote igualmente usar un dominio associate con un conto de hospitation de codice fonte, tal como “io.github.tu_nomine_de_usator.nomine_del_application”.",
   "invite-not-found-description": "Le invitation que tu tenta acceptar o declinar non existe. Il pote haber essite cancellate o declinate.",
   "invite-developer-description": "Entra le codice de invitation del disveloppator pro invitar les a devenir un disveloppator de iste application. Illes pote trovar le codice sur le scheda {developersTab} de lor pagina de conto.",
   "new": "Nove",

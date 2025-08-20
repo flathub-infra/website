@@ -159,7 +159,7 @@
   "console-application": "Aplikacion Rreshti Urdhrash",
   "app-type": "Lloj Aplikacioni",
   "community-repository-description": "Ngarkojeni aplikacionin tuaj në Flathub duke ngarkuar te një depo në GitHub e entit tuaj manifestin dhe kartelat përkatëse Flatpak. Roboti i montimeve Flathub do të montojë aplikacionin dhe do ta publikojë në Flathub.",
-  "app-id-instructions": "ID-të e aplikacioneve përdorin emërtim me emër përkatësie së prapthi (RDNN). Për shembull, GNOME Maps përdor 'org.gnome.Maps'. Zgjidhni një përkatësi të cilën e kontrolloni ju, fjala vjen, sajtin e projektit (ose, nëse po ngarkoni si një individ, sajtin tuaj). Nëse s’ka sajt, mundeni edhe të përdorni një përkatësi përshoqëruar me një llogari strehimi kodi burim, fjala vjen, 'io.github.<emri_juaj_i_përdoruesit>.<emër_aplikacioni>'.",
+  "app-id-instructions": "ID-të e aplikacioneve përdorin emërtim me emër përkatësie së prapthi (RDNN). Për shembull, GNOME Maps përdor 'org.gnome.Maps'. Zgjidhni një përkatësi të cilën e kontrolloni ju, fjala vjen, sajtin e projektit (ose, nëse po ngarkoni si një individ, sajtin tuaj). Nëse s’ka sajt, mundeni edhe të përdorni një përkatësi përshoqëruar me një llogari strehimi kodi burim, fjala vjen, 'io.github.emri_juaj_i_përdoruesit.emër_aplikacioni'.",
   "malformed-app-id": "ID-ja e aplikacionit është e keqformuar. ID-të e aplikacioneve duhet të përmbajnë të paktën tre segmente dhe asnjë prej tyre s’duhet të jetë i zbrazët. Çdo segment duhet të fillojë me një shkronjë dhe mund të përmbajë vetëm shkronja, shifra, nënvija dhe vija ndarëse në mes.",
   "publisher-agreement": "Marrëveshje Parashtrimesh Nga Publikuesi",
   "can-read-write-your-downloads": "Mund të lexojë dhe shkruajë krejt të dhënat në dosjen e shkarkimeve tuaja",

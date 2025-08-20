@@ -319,7 +319,7 @@
   "new-direct-upload": "Uusi suoran lähetyksen sovellus",
   "verify-app-id": "Vahvista sovellus-ID",
   "app-id": "Sovellus-ID",
-  "app-id-instructions": "Sovellus-ID:t ovat käänteisiä verkkotunnuksen niminotaatioita (RDNN). Esimerkiksi Gnomen karttasovelluksen ID on 'org.gnome.Maps'. Valitse verkkotunnus, jonka hallinnasta vastaat, kuten projektin verkkosivusto, tai jos lähetät yksityishenkilönä, oma verkkosivustosi. Jos verkkosivustoa ei ole käytettävissä, voit käyttää lähdekoodia tarjoavan tilin verkkotunnusta, kuten 'io.github.<tilin_nimi>.<sovelluksen_nimi>'.",
+  "app-id-instructions": "Sovellus-ID:t ovat käänteisiä verkkotunnuksen niminotaatioita (RDNN). Esimerkiksi Gnomen karttasovelluksen ID on 'org.gnome.Maps'. Valitse verkkotunnus, jonka hallinnasta vastaat, kuten projektin verkkosivusto, tai jos lähetät yksityishenkilönä, oma verkkosivustosi. Jos verkkosivustoa ei ole käytettävissä, voit käyttää lähdekoodia tarjoavan tilin verkkotunnusta, kuten 'io.github.tilin_nimi.sovelluksen_nimi'.",
   "app-already-exists": "Sovellus tällä ID:llä on jo olemassa.",
   "publisher-agreement": "Julkaisijan lähetyksen hyväksyntä",
   "publisher-agreement-accept": "Hyväksyn julkaisijan lähetyksen ehdot",

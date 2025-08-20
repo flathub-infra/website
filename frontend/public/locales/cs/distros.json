@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Nainstalujte Flatpak",
-      "text": "Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </text> <code></code>"
+      "text": "<text>Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </text> <code></code>"
     },
     "step-2": {
       "name": "Nainstalujte plugin Flatpaku pro GNOME Software",

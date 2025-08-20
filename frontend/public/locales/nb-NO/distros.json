@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Installer Flatpak",
-      "text": "<text> For å installere Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong>, åpne Terminal-appen og kjør: </text> <code></code> <text>For gamlere versjoner <strong>opp til Ubuntu 18.04 LTS (Bionic Beaver)</strong>, den offisielle Flatpak PPA er nødvendig for å installere Flatpak og holde den oppdatert. For å legge til PPA og installere Flatpak, åpne Terminal-appen og kjør:</text> <code></code>"
+      "text": "<text> For å installere Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong>, åpne Terminal-appen og kjør: </text> <code></code>"
     },
     "step-2": {
       "name": "Installer GNOME Software Flatpak utvidelse",
@@ -20,13 +20,13 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak er installert som standard på Fedora Workstation, Fedora Silverblue og Fedora Kinoite. For å starte trenger du bare å skru på Flathub, som er den beste måten å hente Flatpak-apper. Flathub er en ferdig-konfigurert del av <link> Tredjeparts-depoter</link>. Som alternativ kan du laste ned og installere <filelink> Flathub depotfilen</filelink>.</text> <link>Nå er det eneste du trenger å gjøre å <link>installere apper</link>!</link> <text>Over er lenker som burde fungere på standarde GNOME og KDE Fedora installasjoner, men hvis de eventuelt feiler kan du legge til Flathub remote ved å kjøre:</text> <code></code>"
+    "introduction": "<text>Flatpak er installert som standard på Fedora Workstation, Fedora Silverblue og Fedora Kinoite. For å starte trenger du bare å skru på Flathub, som er den beste måten å hente Flatpak-apper. Flathub er en ferdig-konfigurert del av <repolink> Tredjeparts-depoter</repolink>. Som alternativ kan du laste ned og installere <filelink> Flathub depotfilen</filelink>.</text> <text>Nå er det eneste du trenger å gjøre å <applink>installere apper</applink>!</text> <text>Over er lenker som burde fungere på standarde GNOME og KDE Fedora installasjoner, men hvis de eventuelt feiler kan du legge til Flathub remote ved å kjøre:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "Skru på Flatpak gjennom Software Manager",
-      "text": "<text>Flatpak er installert som standard på Manjaro 20 eller høyere.</text> <link>For å skru på støtten kan du navigere til <strong>Software Manager</strong> (Legg til/Fjern programmer)</link> <text>Klikk på trippel-linje-menyen [eller tre prikker etter skrivebordsmiljøet] på høyre side, i rullegardinmenyen velg \"Preferanser\"</text> <text>Naviger til \"Flatpak\" fanen og skyv bryteren for å skru på Flatpak"
+      "text": "<text>Flatpak er installert som standard på Manjaro 20 eller høyere.</text> <text>For å skru på støtten kan du navigere til <strong>Software Manager</strong> (Legg til/Fjern programmer)</text> <text>Klikk på trippel-linje-menyen [eller tre prikker etter skrivebordsmiljøet] på høyre side, i rullegardinmenyen velg \"Preferanser\"</text> <text>Naviger til \"Flatpak\" fanen og skyv bryteren for å skru på Flatpak</text>"
     },
     "step-2": {
       "name": "Omstart",
@@ -40,7 +40,7 @@
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-3": {
-      "text": "<text>Start enheten din opp igjen for å fullføre Flatpak installasjonen. Nå kan du <text>installere apper<text>!</text>",
+      "text": "<text>Start enheten din opp igjen for å fullføre Flatpak installasjonen. Nå kan du <link>installere apper</link>!</text>",
       "name": "Omstart"
     },
     "step-1": {
@@ -60,7 +60,7 @@
     },
     "step-3": {
       "name": "Installer Flatpak",
-      "text": "<text>For å installere Flatpak, kjør den følgende kommandoen i terminalen:</text> <code></code>En mer oppdatert flatpak-pakke er tilgjengelig i <link>Debian-backport-depotet</link>.</text>"
+      "text": "<text>For å installere Flatpak, kjør den følgende kommandoen i terminalen:</text> <code></code>"
     },
     "step-4": {
       "name": "Legg til Flathub-depotet",
@@ -72,7 +72,7 @@
     },
     "step-1": {
       "name": "Aktiver Linux-støtte",
-      "text": "<text>Naviger til <link>chrome://os-settings<link> og skroll ned til <strong>Utviklere</strong> og skru på <i>Linux utviklingsmiljø</i>. ChromeOS kommer til å bruke litt tid for å laste ned og installere Linux.</text>"
+      "text": "<text>Naviger til <settingslink>chrome://os-settings</settingslink> og skroll ned til <strong>Utviklere</strong> og skru på <em>Linux utviklingsmiljø</em>. ChromeOS kommer til å bruke litt tid for å laste ned og installere Linux.</text>"
     },
     "introduction": "<text>Flathub applikasjoner kan installeres på ChromeOS med Crostini Linux kompatiblitetsnivået. Dette er ikke tilgjengelig for alle ChromeOS enheter så du burde passe på at enheten din er kompatibel før du fortsetter. En liste med kompatible enheter er velikeholdt <link>her</link>.</text>"
   },

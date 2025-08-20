@@ -236,7 +236,7 @@
   "new-direct-upload": "新しい直接アップロードアプリ",
   "app-id": "アプリID",
   "verify-app-id": "アプリIDの確認",
-  "app-id-instructions": "アプリIDにはドメイン名の逆転表記法 (RDNN) を使います。例えば、GNOME Maps は org.gnome.Maps です。プロジェクトのサイト (や、個人としてアップロードするならあなたのサイト) など、あなたが管理できるドメインを選んでください。利用できるサイトがなければ、io.github.<your_username>.<app_name> のように、ソースコードを公開しているアカウントに関連するドメインを使うこともできます。",
+  "app-id-instructions": "アプリIDにはドメイン名の逆転表記法 (RDNN) を使います。例えば、GNOME Maps は org.gnome.Maps です。プロジェクトのサイト (や、個人としてアップロードするならあなたのサイト) など、あなたが管理できるドメインを選んでください。利用できるサイトがなければ、io.github.your_username.app_name のように、ソースコードを公開しているアカウントに関連するドメインを使うこともできます。",
   "app-already-exists": "このIDのアプリは既に存在します。",
   "malformed-app-id": "アプリIDが無効です。アプリIDは少なくとも3つの区分を含み、どの区分も空にできません。各区分は、文字かアンダースコアで始まり、文字、数字、アンダースコア、ハイフンのみを使うことができます。",
   "publisher-agreement-accept": "公開者投稿規約に同意する",
