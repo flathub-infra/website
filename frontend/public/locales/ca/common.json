@@ -314,7 +314,6 @@
   "invited-apps": "Invitacions",
   "accept": "Accepta",
   "login-provider-verification-not-org-member": "Actualment heu iniciat la sessió a <loginprovider>{login_provider}</loginprovider> com a <loginname>{current_name}</loginname>. Aquest compte no és membre de l'organització <loginname>{organization}</loginname>. Per verificar aquesta aplicació, heu de sol·licitar privilegis d'administrador a l'organització o iniciar sessió en un compte que ja els tingui.",
-  "recently-updated": "Actualitzat fa poc",
   "moderation-appstream-changes": "Canvis d'Appstream",
   "invite": "Convida a",
   "moderation-build-id": "ID de la compilació",
