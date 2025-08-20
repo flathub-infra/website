@@ -44,7 +44,7 @@ const Languages = ({ locale }: { locale: string }): JSX.Element => {
         </ul>
         <p className="pt-8">
           {t.rich("contribute-languages", {
-            t: (chunks) => (
+            link: (chunks) => (
               <a
                 target="_blank"
                 rel="noreferrer"

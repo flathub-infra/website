@@ -35,7 +35,7 @@ const BadgePreview = ({ locale, preferred }) => {
       />
       <h6 className="pt-2 text-xs font-normal">
         {t.rich("also-available-as-svg", {
-          link: (chunk) => (
+          svglink: (chunk) => (
             <a
               className="no-underline hover:underline"
               href={`/api/badge?svg&locale=${locale}${lightPostfix}`}

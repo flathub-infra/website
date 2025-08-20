@@ -3,85 +3,85 @@
     "distroName": "Manjaro",
     "step-1": {
       "name": "透過軟體管理器啟用 Flatpak",
-      "text": "<p>Flatpak 預設安裝在Manjaro 20 或更高版本上。 <p >點擊右側的三行選單[或根據桌面環境而定的點]，在下拉選單中選擇“首選項”</p> <p>導航至“Flatpak”標籤並滑動切換開關以啟用Flatpak支援（也可以啟用檢查更新，這是建議的）。</p>"
+      "text": "<text>Flatpak 預設安裝在Manjaro 20 或更高版本上。 <p >點擊右側的三行選單[或根據桌面環境而定的點]，在下拉選單中選擇“首選項”</text> <text>導航至“Flatpak”標籤並滑動切換開關以啟用Flatpak支援（也可以啟用檢查更新，這是建議的）。</text>"
     },
     "step-2": {
-      "text": "<0>要完成安裝，請重新啟動系統。現在您要做的就是<2>安裝應用程式</2>！</0>",
+      "text": "<text>要完成安裝，請重新啟動系統。現在您要做的就是<link>安裝應用程式</link>！</text>",
       "name": "重啟"
     }
   },
   "ubuntu": {
     "step-3": {
       "name": "新增 Flathub 儲存庫",
-      "text": "<p>Flathub 是獲取 Flatpak 應用程式的最佳場所。要啟用它，請運行：</p> <2></2>"
+      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳場所。要啟用它，請運行：</text> <code></code>"
     },
     "step-4": {
-      "text": "<0>要完成安裝，請重新啟動系統。現在您要做的就是<2>安裝應用程式</2>！</0>",
+      "text": "<text>要完成安裝，請重新啟動系統。現在您要做的就是<link>安裝應用程式</link>！</text>",
       "name": "重啟"
     },
     "step-2": {
-      "text": "<p>GNOME 軟體插件使得無需命令列即可安裝應用程式。要安裝，請運行：</p> <2></2> <4><strong>注意：</strong>Ubuntu 在20.04 至23.04 版本中將GNOME 軟體作為Snap 分發，並在23.10 版本中將其替換為App Center，較新——它們都不支援安裝 Flatpak 應用程式。安裝 Flatpak 插件還將安裝 GNOME 軟體的 deb 版本，導致在 Ubuntu 20.04 至 23.04 上同時安裝兩個「軟體」應用程序，並在 Ubuntu 23.10 及更新版本上安裝一個新的「軟體」應用程式。 >",
+      "text": "<text>GNOME 軟體插件使得無需命令列即可安裝應用程式。要安裝，請運行：</text> <code></code> <note><strong>注意：</strong>Ubuntu 在20.04 至23.04 版本中將GNOME 軟體作為Snap 分發，並在23.10 版本中將其替換為App Center，較新——它們都不支援安裝 Flatpak 應用程式。安裝 Flatpak 插件還將安裝 GNOME 軟體的 deb 版本，導致在 Ubuntu 20.04 至 23.04 上同時安裝兩個「軟體」應用程序，並在 Ubuntu 23.10 及更新版本上安裝一個新的「軟體」應用程式。</note>",
       "name": "安裝 GNOME Software Flatpak 插件"
     },
     "distroName": "Ubuntu",
     "step-1": {
       "name": "安裝 Flatpak",
-      "text": "<0>要在<strong>Ubuntu 18.10 (Cosmic Cuttlefish) 或更高版本</strong>上安裝Flatpak，請開啟終端應用並執行：</0> <2></2> <4>對於舊版本<strong>直到 Ubuntu 18.04 LTS (Bionic Beaver)，都需要官方 Flatpak PPA 來安裝 Flatpak 並保持更新。若要新增 PPA 並安裝 Flatpak，請開啟終端應用程式並執行：</4> <6></6>"
+      "text": "<text>要在<strong>Ubuntu 18.10 (Cosmic Cuttlefish) 或更高版本</strong>上安裝Flatpak，請開啟終端應用並執行：</text> <code></code> <note>對於舊版本<strong>直到 Ubuntu 18.04 LTS (Bionic Beaver)，都需要官方 Flatpak PPA 來安裝 Flatpak 並保持更新。若要新增 PPA 並安裝 Flatpak，請開啟終端應用程式並執行：</note> <code></code>"
     }
   },
   "fedora": {
-    "introduction": "<0>Flatpak 預設安裝在 Fedora Workstation、Fedora Silverblue 和 Fedora Kinoite 上。首先，您需要做的就是啟用 Flathub，這是獲取 Flatpak 應用程式的最佳方式。 Flathub 已預先配置為<2>第三方儲存庫</2>的一部分。或者，您可以下載並安裝 <5>Flathub 儲存庫檔案</5>。上述連結應適用於預設的GNOME 和KDE Fedora 安裝，但如果它們因某種原因失敗，您可以透過執行手動新增Flathub 遠端：</p> <6></6>",
+    "introduction": "<text>Flatpak 預設安裝在 Fedora Workstation、Fedora Silverblue 和 Fedora Kinoite 上。首先，您需要做的就是啟用 Flathub，這是獲取 Flatpak 應用程式的最佳方式。 Flathub 已預先配置為<link>第三方儲存庫</link>的一部分。或者，您可以下載並安裝 <link>Flathub 儲存庫檔案</link>。上述連結應適用於預設的GNOME 和KDE Fedora 安裝，但如果它們因某種原因失敗，您可以透過執行手動新增Flathub 遠端：</text> <code></code>",
     "distroName": "Fedora"
   },
   "endless_os": {
-    "introduction": "<0>Endless OS 3.0.0 及更新版本內建 Flatpak 支援 - 無需設定！ </0> <2>如果您使用的是舊版本，請<2>升級到 Endless OS 3</2>。 >",
+    "introduction": "<text>Endless OS 3.0.0 及更新版本內建 Flatpak 支援 - 無需設定！ </text> <link>如果您使用的是舊版本，請<link>升級到 Endless OS 3</link>。 >",
     "distroName": "Endless OS"
   },
   "alt_linux": {
     "step-3": {
-      "text": "<0>重新啟動您的裝置以完成 Flatpak 安裝。現在您可以<1>安裝應用程式</1>！</0>",
+      "text": "<text>重新啟動您的裝置以完成 Flatpak 安裝。現在您可以<text>安裝應用程式</text>！</text>",
       "name": "重啟"
     },
     "distroName": "ALT Linux",
     "step-1": {
       "name": "安裝 Flatpak",
-      "text": "<p>要在 Alt 系列作業系統上安裝 Flatpak，請開啟終端機應用程式並執行：</p> <2></2>"
+      "text": "<text>要在 Alt 系列作業系統上安裝 Flatpak，請開啟終端機應用程式並執行：</text> <code></code>"
     },
     "step-2": {
       "name": "新增 Flathub 儲存庫",
-      "text": "<p>Flathub 是獲取 Flatpak 應用程式的好地方。若要在您的 Alt 系統上啟用它，請執行：</p> <2></2>"
+      "text": "<text>Flathub 是獲取 Flatpak 應用程式的好地方。若要在您的 Alt 系統上啟用它，請執行：</text> <code></code>"
     }
   },
   "chrome_os": {
     "step-3": {
       "name": "安裝 Flatpak",
-      "text": "<p>要安裝 Flatpak，請在終端機中執行下列指令：</p> <2></2> <4>在 <2>Debian backports 儲存庫</2> 中可以找到更新的 flatpak 套件</2>。 </4>"
+      "text": "<text>要安裝 Flatpak，請在終端機中執行下列指令：</text> <code></code> <text>在 <link>Debian backports 儲存庫</link> 中可以找到更新的 flatpak 套件</link>。 </text>"
     },
-    "introduction": "<0>Flatpak 應用程式可以透過 Crostini Linux 相容層安裝在 ChromeOS 上。此功能並不適用於所有 ChromeOS 設備，因此在繼續操作之前，您應確保您的裝置相容。相容設備的清單保存在<2>此處</2>。</0>",
+    "introduction": "<text>Flatpak 應用程式可以透過 Crostini Linux 相容層安裝在 ChromeOS 上。此功能並不適用於所有 ChromeOS 設備，因此在繼續操作之前，您應確保您的裝置相容。相容設備的清單保存在<link>此處</link>。</text>",
     "step-1": {
       "name": "啟用 Linux 支援",
-      "text": "<0>導覽至 <2>chrome://os-settings</2>，向下捲動至<strong>開發人員</strong>並開啟 <i>Linux 開發環境</i>。 ChromeOS 將需要一些時間下載並安裝 Linux。</0>"
+      "text": "<text>導覽至 <link>chrome://os-settings</link>，向下捲動至<strong>開發人員</strong>並開啟 <i>Linux 開發環境</i>。 ChromeOS 將需要一些時間下載並安裝 Linux。</text>"
     },
     "step-2": {
-      "text": "<p>按搜尋/啟動器鍵，輸入“終端”，然後啟動終端應用程式。</p>",
+      "text": "<text>按搜尋/啟動器鍵，輸入“終端”，然後啟動終端應用程式。</text>",
       "name": "啟動 Linux 終端"
     },
     "step-5": {
-      "text": "<0>要完成設置，請重新啟動 Linux。您可以透過右鍵單擊終端，然後按一下「關閉 Linux」來執行此操作。現在您要做的就是<2>安裝應用程式</2>！</0>",
+      "text": "<text>要完成設置，請重新啟動 Linux。您可以透過右鍵單擊終端，然後按一下「關閉 Linux」來執行此操作。現在您要做的就是<link>安裝應用程式</link>！</text>",
       "name": "重啟"
     },
     "step-4": {
       "name": "新增 Flathub 儲存庫",
-      "text": "<p>Flathub 是獲取 Flatpak 應用程式的最佳場所。要啟用它，請運行：</p> <2></2>"
+      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳場所。要啟用它，請運行：</text> <code></code>"
     },
     "distroName": "ChromeOS"
   },
   "linux_mint": {
-    "introduction": "<0>Linux Mint 18.3 及更新版本內建 Flatpak 支援 - 無需設定！ </0> <2>如果您使用的是舊版本，請<2>升級到 Linux Mint 18.3</2>。</2>",
+    "introduction": "<text>Linux Mint 18.3 及更新版本內建 Flatpak 支援 - 無需設定！ </text> <link>如果您使用的是舊版本，請<link>升級到 Linux Mint 18.3</link>。</link>",
     "distroName": "Linux Mint"
   },
   "red_hat_enterprise_linux": {
-    "introduction": "<0>Flatpak 預設安裝在 Red Hat Enterprise Linux Workstation 9 及更新版本上。首先，您需要做的就是啟用 Flathub，這是獲取 Flatpak 應用程式的最佳方式。只需下載並安裝<2>Flathub 儲存庫檔案</2>。 p> <5> </5> <7>現在您要做的就是<2>安裝應用程式</2>！ ，但如果它們因某種原因失敗，您可以透過執行以下命令手動新增 Flathub 遠端：</p> <11></11>",
+    "introduction": "<text>Flatpak 預設安裝在 Red Hat Enterprise Linux Workstation 9 及更新版本上。首先，您需要做的就是啟用 Flathub，這是獲取 Flatpak 應用程式的最佳方式。只需下載並安裝<link>Flathub 儲存庫檔案</link>。 p> <filelink> </filelink> <text>現在您要做的就是<link>安裝應用程式</link>！ ，但如果它們因某種原因失敗，您可以透過執行以下命令手動新增 Flathub 遠端：</text> <text></text>",
     "distroName": "紅帽企業 Linux"
   },
   "opensuse": {

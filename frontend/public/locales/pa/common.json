@@ -227,7 +227,7 @@
   "updated-apps": "ਅੱਪਡੇਟ ਕੀਤੀਆਂ ਐਪਾਂ",
   "slide": "ਸਲਾਈਡ",
   "setup": "ਸੈਟਅੱਪ",
-  "also-available-as-svg": "<2>SVG ਫਾਰਮੈਟ</2> ਵਿੱਚ ਵੀ ਮੌਜੂਦ ਹੈ",
+  "also-available-as-svg": "<svglink>SVG ਫਾਰਮੈਟ</svglink> ਵਿੱਚ ਵੀ ਮੌਜੂਦ ਹੈ",
   "no-transactions": "ਕੋਈ ਲੈਣ-ਦੇਣ ਨਹੀਂ",
   "transaction-summary-created": "ਬਣਾਉਣ ਦੀ ਤਾਰੀਖ:",
   "transaction-summary-type": "ਕਿਸਮ:",
