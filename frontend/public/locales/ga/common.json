@@ -582,7 +582,7 @@
   "trending-apps": "Aipeanna Treochta",
   "scope-jobs": "Féach ar stádas poist",
   "developers-and-users-block": "Ceangail leis an bhfoireann agus le baill eile den phobal chun ceisteanna a chur agus do shaineolas a roinnt",
-  "login-provider-verification-enable-github-app": "Chun leanúint leis an bhfíorú, tá cead ag teastáil ó Flathub chun do leibhéal ballraíochta san eagraíocht <loginname>{organization}</loginname> a léamh. Is féidir leat an cead seo a thabhairt <link>i do shocruithe GitHub</link>.",
+  "login-provider-verification-enable-github-app": "Chun leanúint leis an bhfíorú, tá cead ag teastáil ó Flathub chun do leibhéal ballraíochta san eagraíocht <loginname>{organization}</loginname> a léamh. Is féidir leat an cead seo a thabhairt <settingslink>i do shocruithe GitHub</settingslink>.",
   "login-provider-verification-main-instruction-unknown-is-organization": "Fíoraigh do cheart chun aitheantas na haipe <appid></appid> a úsáid trí logáil isteach sa chuntas <loginname></loginname> (nó, más <orgname></orgname> Is eagraíocht é, cuntas a bhfuil rochtain aige air) ar <loginprovider></loginprovider>.",
   "invite-developer-description": "Cuir isteach cód cuiridh an fhorbróra chun cuireadh a thabhairt dóibh a bheith ina bhforbróir den aip seo. Is féidir leo an cód a aimsiú ar an gcluaisín {developersTab} dá leathanach cuntais.",
   "appname-is-safety-rating-3": "Seans go bhfuil {appName} neamhshábháilte",

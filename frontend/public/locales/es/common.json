@@ -229,10 +229,10 @@
   "login-provider-verification-switch-account": "Actualmente ha iniciado sesión en <loginprovider>{login_provider}</loginprovider> como <currentname>{current_name}</currentname>. Inicie sesión como <requiredname>{required_name}</requiredname> para verificar <appid>{appId}</appid> mediante el proveedor de inicio de sesión, o escoja otro método si hay alguno disponible.",
   "failed-to-find-token": "No se ha encontrado el testigo en la respuesta de {domain}.",
   "no-transactions": "Sin transacciones",
-  "website-validation-instruction": "Cree una página en <website>{webpage}</website> que contenga el siguiente testigo: <token>{token}</token> Si la página ya existe, añádale el testigo.",
+  "website-validation-instruction": "Cree una página en <link>{webpage}</link> que contenga el siguiente testigo: <i>{token}</i> Si la página ya existe, añádale el testigo.",
   "category-distribution": "Distribución de las categorías",
   "chat": "Chat",
-  "login-provider-verification-user-does-not-exist": "La cuenta <requiredname>{required_name}</requiredname> no existe en <loginprovider>{login_provider}</loginprovider>. Debe reclamar este nombre de la cuenta y usarlo para verificar su aplicación o, idealmente, elija un ID de la aplicación sobre la que tenga control. Consulte <link>la documentación de Flatpak</link> para obtener información sobre los buenas ID de las aplicaciones.",
+  "login-provider-verification-user-does-not-exist": "La cuenta <requiredname></requiredname> no existe en <loginprovider></loginprovider>. Debe reclamar este nombre de la cuenta y usarlo para verificar su aplicación o, idealmente, elija un ID de la aplicación sobre la que tenga control. Consulte <doclink>la documentación de Flatpak</doclink> para obtener información sobre los buenas ID de las aplicaciones.",
   "login-provider-verification-main-instruction-organization": "Verifique el derecho a usar el ID de la aplicación <appid></appid> iniciando sesión en una cuenta con derechos de administrador de la organización <orgname></orgname> en <loginprovider></loginprovider>.",
   "login-provider-verification-enable-github-app": "Para continuar con la verificación, Flathub necesita permisos para leer su nivel de membresía en la organización <orgname>{organization}</orgname>. Puede conceder este permiso <settingslink>en su configuración de GitHub</settingslink>.",
   "login-provider-verification-not-org-admin": "Actualmente ha iniciado sesión en <loginprovider>{login_provider}</loginprovider> como <currentname>{current_name}</currentname>. Esta cuenta no es un administrador de la organización <orgname>{organization}</orgname>. Para verificar esta aplicación, debe solicitar privilegios de administrador en la organización o iniciar sesión en una cuenta que ya los tenga.",
@@ -319,7 +319,7 @@
   "app-id": "ID de la aplicación",
   "verify-app-id": "Verificar ID de la aplicación",
   "direct-upload-description": "Cree su aplicación en su propio entorno de integración continua y súbala directamente a Flathub.",
-  "app-id-instructions": "Los ID de las aplicaciones usan la notación inversa de nombres de dominio (RDNN). Por ejemplo, GNOME Maps usa 'org.gnome.Maps'. Elija un dominio sobre el que tenga control, como el sitio web del proyecto (o, si lo sube como particular, su propio sitio web). Si no hay ningún sitio web disponible, también puede usar un dominio asociado a una cuenta de alojamiento de código fuente, como 'io.github.su_nombre_de_usuario.nombre_de_la_aplicación'.",
+  "app-id-instructions": "Los ID de las aplicaciones usan la notación inversa de nombres de dominio (RDNN). Por ejemplo, GNOME Maps usa <i>org.gnome.Maps</i>. Elija un dominio sobre el que tenga control, como el sitio web del proyecto (o, si lo sube como particular, su propio sitio web). Si no hay ningún sitio web disponible, también puede usar un dominio asociado a una cuenta de alojamiento de código fuente, como <i>io.github.su_nombre_de_usuario.nombre_de_la_aplicación</i>.",
   "publisher-agreement": "Acuerdo de envío de publicaciones",
   "malformed-app-id": "El ID de la aplicación está malformado. Los ID de aplicación deben contener al menos tres segmentos, y ningún segmento puede estar vacío. Cada segmento debe empezar por una letra o un guion bajo y solo puede contener letras, dígitos, guiones bajos y guiones.",
   "publisher-agreement-accept": "Acepto el acuerdo de envío de publicaciones",
@@ -341,7 +341,7 @@
   "invite-code": "Su código de invitación es:",
   "invite-pending": "Invitación pendiente",
   "developer-invited": "Has sido invitado a convertirte en un desarrollador",
-  "invite-developer-description": "Introduzca el código de invitación del desarrollador para invitarle a convertirse en desarrollador de esta aplicación. Pueden encontrar el código en la pestaña {developersTab} de la página de su cuenta.",
+  "invite-developer-description": "Introduzca el código de invitación del desarrollador para invitarle a convertirse en desarrollador de esta aplicación. Pueden encontrar el código en la pestaña <developerstabtitle>{developersTab}</developerstabtitle> de la página de su cuenta.",
   "leave-confirmation": "¿Seguro que quiere dejar {app}?",
   "leave": "Dejar",
   "invite-code-hint": "Dele este código a otro desarrollador para que pueda invitarle a su aplicación.",
@@ -660,6 +660,6 @@
   },
   "download": {
     "install-x": "Instalar «{x}»",
-    "fallback-instructions": "<opening>Abriendo «{name}» en su gestor de software...</opening><support>Si no ocurre nada, puede que su sistema no soporte URLs <i>flatpak+https</i> .</support><listprefix>En ese caso puede:</listprefix><ol><li>Descargar el archivo <link>.flatpakref</link></li><li>Después, ejecutarlo desde su gestor de archivos</li></ol><setupLine><linkSetup>Instrucciones para instalar Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Abriendo «{name}» en su gestor de software...</opening><support>Si no ocurre nada, puede que su sistema no soporte URLs <i>flatpak+https</i> .</support><listPrefix>En ese caso puede:</listPrefix><ol><li>Descargar el archivo <link>.flatpakref</link></li><li>Después, ejecutarlo desde su gestor de archivos</li></ol><setupLine><linkSetup>Instrucciones para instalar Flatpak</linkSetup></setupLine>"
   }
 }

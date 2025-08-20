@@ -229,7 +229,7 @@
   "begin": "Начать",
   "failed-to-find-token": "Не удалось найти токен в ответе от {domain}.",
   "no-transactions": "Нет транзакций",
-  "website-validation-instruction": "Создайте страницу на <website>{webpage}</website>, содержащую следующий токен: <text>{token}</text> Если страница уже существует, добавьте в неё токен.",
+  "website-validation-instruction": "Создайте страницу на <link>{webpage}</link>, содержащую следующий токен: <i>{token}</i> Если страница уже существует, добавьте в неё токен.",
   "category-distribution": "Распределение по категориям",
   "chat": "Чат",
   "refresh": "Обновить",

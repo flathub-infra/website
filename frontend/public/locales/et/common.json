@@ -429,7 +429,7 @@
   "login-provider-verification-failed": "Verifitseerimise nõuded ei ole täidetud.",
   "login-provider-verification-main-instruction": "Verifitseeri oma õigused rakenduse <appid>{id}</appid> haldamiseks logides oma kasutajanimega <loginname>{login_name}</loginname> teenusesse <loginprovider>{login_provider}</loginprovider>.",
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifitseeri oma õigused rakenduse <appid></appid> haldamiseks logides oma kasutajanimega <loginname></loginname>(või <orgname></orgname> organisatsiooni kasutajanimega, millel on vajalikud õigused) teenusesse <loginprovider></loginprovider>.",
-  "login-provider-verification-not-org-admin": "Sa oled hetkel loginud kasutajaga <text>{current_name}</text> teenusesse <loginprovider>{login_provider}</loginprovider>. Selle kasutajakontol pole organisatsioonis <organization>{organization}</organization> peakasutaja õigusi. Selle rakenduse verifitseerimiseks sul peavad oma organisatsioonis olema peakasutaja õigused või pead kasutama sellist kontot, millel need juba on olemas.",
+  "login-provider-verification-not-org-admin": "Sa oled hetkel loginud kasutajaga <currentname></currentname> teenusesse <loginprovider></loginprovider>. Selle kasutajakontol pole organisatsioonis <orgname></orgname> peakasutaja õigusi. Selle rakenduse verifitseerimiseks sul peavad oma organisatsioonis olema peakasutaja õigused või pead kasutama sellist kontot, millel need juba on olemas.",
   "login-provider-verification-not-org-member": "Sa oled hetkel loginud kasutajaga <text>{current_name}</text> teenusesse <loginprovider>{login_provider}</loginprovider>. See kasutajakonto pole organisatsiooni <organization>{organization}</organization> liige. Selle rakenduse verifitseerimiseks sul peavad oma organisatsioonis olema peakasutaja õigused või pead kasutama sellist kontot, millel need juba on olemas.",
   "login-provider-verification-user-does-not-exist": "Kasutajakontot <text>{required_name}</text> ei leidu teenuses <loginprovider>{login_provider}</loginprovider>. Oma rakenduse verifitseerimiseks pead kas sellise kasutajakonto tegema või ideaalis vali selline rakenduse tunnus, mille üle sul on kontroll. Mõistlike rakenduste tunnuste kohta leiad teavet <link>Flatpak'i dokumentatsioonist</link>.",
   "verification-warning": "Flathub'i meeskond võib igalt rakenduselt eemaldada omal paremal äranägemisel verifitseerimise kinnitusmärke. Selle põhjuseks võib näiteks olla ebaselgus rakenduse ametlikus staatuses või kaubamärgist johtuv vaidlus.",
@@ -445,7 +445,7 @@
   "show-expired-tokens": "Näita aegunud tunnuslube",
   "app-is-currently-verified-manually": "Sinu rakendus on hetkel verifitseeritud Flathub'i meeskonna poolt",
   "login-provider-verification": "Kasutajakonto-põhine verifitseerimine",
-  "login-provider-verification-enable-github-app": "Verifitseerimise jätkamiseks vajab Flathub luba lugeda sinu õigusi organisatsioonis <organization>{organization}</organization>. Sellise loa saad anda oma <link>GitHub'i seadistustes</link>.",
+  "login-provider-verification-enable-github-app": "Verifitseerimise jätkamiseks vajab Flathub luba lugeda sinu õigusi organisatsioonis <orgname></orgname>. Sellise loa saad anda oma <settingslink>GitHub'i seadistustes</settingslink>.",
   "get-it-on": "Paigalda siit",
   "runtime-distribution": "Jagunemine käitusteekide alusel",
   "quality-guideline": {

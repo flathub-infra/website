@@ -225,7 +225,7 @@
   "begin": "Začít",
   "login-provider-verification-main-instruction": "Ověřte své právo používat ID aplikace <appid>{id}</appid> přihlášením k účtu <loginname>{login_name}</loginname> na <loginprovider>{login_provider}</loginprovider>.",
   "verification-failed-to-connect": "Nepodařilo se připojit k webu {domain}.",
-  "login-provider-verification-switch-account": "Právě jste přihlášeni na <loginprovider>{login_provider}</loginprovider> jako <text>{current_name}</text>. Přihlaste se jako <text>{required_name}</text> pro ověření <appid>{appId}</appid> podle poskytovatele přihlašovacích údajů nebo zvolte jiný způsob, pokud je k dispozici.",
+  "login-provider-verification-switch-account": "Právě jste přihlášeni na <loginprovider></loginprovider> jako <currentname></currentname>. Přihlaste se jako <requiredname></requiredname> pro ověření <appid></appid> podle poskytovatele přihlašovacích údajů nebo zvolte jiný způsob, pokud je k dispozici.",
   "verifying": "Ověřování",
   "failed-to-find-token": "Nepodařilo se najít token v odpovědi z {domain}.",
   "no-transactions": "Žádné transakce",
@@ -233,7 +233,7 @@
   "category-distribution": "Distribuce kategorií",
   "chat": "Chat",
   "login-provider-verification-main-instruction-organization": "Ověřte své právo používat ID aplikace <appid></appid> přihlášením k účtu s právy správce organizace <orgname></orgname> na <loginprovider></loginprovider>.",
-  "login-provider-verification-enable-github-app": "Pro pokračování ověřování potřebuje Flathub oprávnění ke čtení úrovně vašeho členství v organizaci <orgname>{organization}</orgname>. Toto oprávnění můžete udělit <settings>ve svém nastavení GitHub</settings>.",
+  "login-provider-verification-enable-github-app": "Pro pokračování ověřování potřebuje Flathub oprávnění ke čtení úrovně vašeho členství v organizaci <orgname>{organization}</orgname>. Toto oprávnění můžete udělit <settingslink>ve svém nastavení GitHub</settingslink>.",
   "login-provider-verification-not-org-admin": "V současné době jste přihlášeni na <loginprovider>{login_provider}</loginprovider> jako <currentname>{current_name}</currentname>. Tento účet není administrátorem organizace <orgname>{organization}</orgname>. Chcete-li tuto aplikaci ověřit, musíte požádat o práva správce v organizaci nebo se přihlásit k účtu, který je již má.",
   "login-provider-verification-not-org-member": "V současné době jste přihlášeni na <loginprovider>{login_provider}</loginprovider> jako <currentname>{current_name}</currentname>. Tento účet není členem organizace <orgname>{organization}</orgname>. Chcete-li tuto aplikaci ověřit, musíte požádat o práva správce v organizaci nebo se přihlásit k účtu, který je již má.",
   "login-provider-verification-failed": "Požadavky na ověření nebyly splněny.",
@@ -322,14 +322,14 @@
   "malformed-app-id": "ID aplikace je chybně zadáno. ID aplikace musí obsahovat alespoň tři segmenty a žádný segment nesmí být prázdný. Každý segment musí začínat písmenem nebo podtržítkem a smí obsahovat pouze písmena, číslice, podtržítka a pomlčky.",
   "publisher-agreement": "Smlouva o předkládání publikací vydavateli",
   "publisher-agreement-accept": "Souhlasím se smlouvou o předkládání publikací vydavateli",
-  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.vaše_uživatelské_jméno.název_aplikace'.",
+  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají <i>org.gnome.Maps</i>. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například <i>io.github.vaše_uživatelské_jméno.název_aplikace</i>.",
   "arch": "Architektura",
   "release-link-no-changelog": "Poznámky k vydání",
   "invite-not-found-description": "Pozvánka, kterou se snažíte přijmout nebo odmítnout, neexistuje. Možná byla zrušena nebo odmítnuta.",
   "invited-apps": "Pozvánky",
   "invite": "Pozvat",
   "invite-code": "Kód vaší pozvánky je:",
-  "invite-developer-description": "Zadejte kód pozvánky vývojáře a pozvěte ho, aby se stal vývojářem této aplikace. Kód najdou na kartě {developersTab} na stránce svého účtu.",
+  "invite-developer-description": "Zadejte kód pozvánky vývojáře a pozvěte ho, aby se stal vývojářem této aplikace. Kód najdou na kartě <developerstabtitle>{developersTab}</developerstabtitle> na stránce svého účtu.",
   "remove": "Odstranit",
   "remove-developer": "Odstranit vývojáře",
   "leave-confirmation": "Jste si jisti, že chcete opustit aplikaci {app}?",
@@ -489,7 +489,7 @@
     "needed-to-pass-x": "Potřebné k předání {x}",
     "hide-branding-preview": "Skrýt náhled značky",
     "show-branding-preview": "Zobrazit náhled značky",
-    "problems": "Chcete-li se nás zeptat na konkrétní záležitosti zásad kvality, neváhejte a otevřete <bold>problém</bold>.",
+    "problems": "Chcete-li se nás zeptat na konkrétní záležitosti zásad kvality, neváhejte a otevřete <link>problém</link>.",
     "light": "Světlý",
     "dark": "Tmavý"
   },
@@ -665,5 +665,6 @@
     "fallback-instructions": "<opening>Otevírání “{name}” ve vašem správci softwaru...</opening><support>Pokud se nic nestane, možná váš systém nepodporuje <i>flatpak+https</i> odkazy.</support><listPrefix>V takovém případě můžete:</listPrefix><ol><li>Stáhnout soubor <link>.flatpakref</link></li><li>Poté jej spustit z vašeho správce souborů</li></ol><setupLine><linkSetup>Pokyny pro instalaci Flatpaku</linkSetup></setupLine>"
   },
   "country-statistics": "Statistiky zemí",
-  "since-x": "Od {date}"
+  "since-x": "Od {date}",
+  "count": "Počet"
 }
