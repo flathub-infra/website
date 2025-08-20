@@ -117,7 +117,7 @@
   "cannot-access-the-internet": "دەستگەیشتنی ئینتەرنێتی نییە",
   "app-of-the-day": "بەرنامەی ڕۆژ",
   "new": "نوێ",
-  "special-license-explanation": "ئەم بەرنامەیە گەشەپێدراوە لەژێر مۆڵەتی تایبەت <license>{ license }</license>.",
+  "special-license-explanation": "ئەم بەرنامەیە گەشەپێدراوە لەژێر مۆڵەتی تایبەت <bold>{ license }</bold>.",
   "we-love-games": "ئێمە ♥ یارییەکان",
   "tool": "ئامڕازەکان",
   "gametool": "ئامڕازەکانی یاری",

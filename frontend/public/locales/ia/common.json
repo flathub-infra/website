@@ -366,7 +366,7 @@
   "community-repository-description": "Incarga tu application a Flathub per incargar tu manifesto Flatpak e files de supporto a un repositorio in nostre organisation GitHub. Le buildbot de Flathub construira le application e lo publicara a Flathub.",
   "auditable-code": "Codice auditabile",
   "community-built": "Construite per le communitate",
-  "community-built-explanation": "Iste application es disveloppate aperitemente per un communitate international e lanceate sub le <license> { license }</license>.",
+  "community-built-explanation": "Iste application es disveloppate aperitemente per un communitate international e lanceate sub le <bold>{ license }</bold>.",
   "get-involved": "Participa",
   "no-user-device-access": "Necun accesso a dispositivo de usator",
   "appname-is-safety-rating-3": "{appName} es potentialmente insecur",
