@@ -530,7 +530,7 @@
   "enter-end-of-life-message": "Inserisci il messaggio di fine vita",
   "flathub-the-linux-app-store": "Flathub è l'App Store per Linux",
   "distribution-flathub-setup": "Configura Flathub su {distribution}",
-  "community-built-explanation": "Questa app è sviluppata liberamente da una comunità internazionale e rilasciata sotto <license>{ license }</license>.",
+  "community-built-explanation": "Questa app è sviluppata liberamente da una comunità internazionale e rilasciata sotto <bold>{ license }</bold>.",
   "home-subfolder-x": "Sottocartella Home {folder}",
   "can-read-all-data-in-your-download-folder": "Può leggere tutti i dati nella cartella dei download",
   "do-you-really-want-to-archive-app": "Sei sicuro? Ciò invaliderà i token di caricamento e archivierà l'applicazione.",
