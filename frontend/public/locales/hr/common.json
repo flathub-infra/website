@@ -314,7 +314,7 @@
   "community-repository-description": "Prenesi svoju aplikaciju na Flathub prijenosom tvog Flatpak manifesta i pratećih datoteka u repozitorij u našoj GitHub organizaciji. Flathubov robot za izgradnju (buildbot) će izgraditi aplikaciju i objaviti je na Flathubu.",
   "direct-upload": "Izravni prijenos",
   "new-direct-upload": "Nova aplikacija za izravni prijenos",
-  "app-id-instructions": "ID-ovi aplikacija koriste obrnutu notaciju imena domene (RDNN). Na primjer, GNOME karte koriste „org.gnome.Maps”. Odaberi domenu nad kojom vladaš, kao što je web stranica projekta (ili ako prenosiš kao pojedinac, vlastitu web stranicu). Ako nijedna web stranica nije dostupna, također možeš koristiti domenu povezanu s računom za hosting izvornog koda, kao što je „io.github.<tvoje_korisničko_ime>.<ime_aplikacije>”.",
+  "app-id-instructions": "ID-ovi aplikacija koriste obrnutu notaciju imena domene (RDNN). Na primjer, GNOME karte koriste „org.gnome.Maps”. Odaberi domenu nad kojom vladaš, kao što je web stranica projekta (ili ako prenosiš kao pojedinac, vlastitu web stranicu). Ako nijedna web stranica nije dostupna, također možeš koristiti domenu povezanu s računom za hosting izvornog koda, kao što je „io.github.tvoje_korisničko_ime.ime_aplikacije”.",
   "app-already-exists": "Aplikacija s tom ID oznakom već postoji.",
   "malformed-app-id": "ID aplikacije je neispravan. ID-ovi aplikacija moraju sadržavati najmanje tri segmenta i nijedan segment ne smije biti prazan. Svaki segment mora započeti slovom ili podvlakom i može sadržavati samo slova, znamenke, podvlake i crtice.",
   "publisher-agreement-accept": "Prihvaćam ugovor o podnescima izdavača",

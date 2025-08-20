@@ -609,7 +609,7 @@
   "publisher-agreement": "Väljaandjale esitamise leping",
   "malformed-app-id": "Rakenduse tunnus on vigane. Seal peab leiduma vähemalt kolm segmenti ning ükski neist ei tohi puudu olla. Iga segment peab algama tähe või alakriipsuga ja seal võib sisalduda vaid täppideta tähti, numbreid, alakriipse ja sidekriipse.",
   "addon-install-info-text": "Lisamoodulite paigaldamiseks palun kasuta sinu distributsiooni flatpaki haldurit.",
-  "app-id-instructions": "Rakenduse tunnuse aluseks on domeeninimede pöördkirjapilt (reverse domain name notation - RDNN). Näiteks Gnome Mapsi puhul on see „org.gnome.Maps“. Vali domeen, mida sa kontrollid - selleks võib olla projekti veebisait või kui tegutsed eraisikuna, siis sinu oma veebisait. Kui veebisaiti pole, siis saad kasutada domeeni, kus asub sinu rakenduse koodivaramu, näiteks „io.github.<sinunimi>.<rakendusenimi>“.",
+  "app-id-instructions": "Rakenduse tunnuse aluseks on domeeninimede pöördkirjapilt (reverse domain name notation - RDNN). Näiteks Gnome Mapsi puhul on see „org.gnome.Maps“. Vali domeen, mida sa kontrollid - selleks võib olla projekti veebisait või kui tegutsed eraisikuna, siis sinu oma veebisait. Kui veebisaiti pole, siis saad kasutada domeeni, kus asub sinu rakenduse koodivaramu, näiteks „io.github.sinunimi.rakendusenimi“.",
   "action-donate": "Toeta rahaliselt",
   "action-purchase": "Osta",
   "kind-purchase-app": "Osta {appName}",

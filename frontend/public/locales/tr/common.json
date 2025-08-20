@@ -306,7 +306,7 @@
   "community-repository": "Topluluk Deposu",
   "app-already-exists": "Bu kimlikle bir uygulama zaten var.",
   "app-id": "Uygulama Kimliği",
-  "app-id-instructions": "Uygulama kimlikleri, ters etki alanı adı gösterimini (RDNN) kullanır. Örneğin, GNOME Haritalar 'org.gnome.Maps' kullanır. Projenin web sitesi (veya bireysel olarak yüklüyorsanız kendi web siteniz) gibi üzerinde denetiminiz olan bir alan adı seçin. Kullanılabilir web sitesi yoksa, 'io.github.<your_username>.<app_name>' gibi bir kaynak kodu barındırma hesabıyla ilişkili bir etki alanı da kullanabilirsiniz.",
+  "app-id-instructions": "Uygulama kimlikleri, ters etki alanı adı gösterimini (RDNN) kullanır. Örneğin, GNOME Haritalar 'org.gnome.Maps' kullanır. Projenin web sitesi (veya bireysel olarak yüklüyorsanız kendi web siteniz) gibi üzerinde denetiminiz olan bir alan adı seçin. Kullanılabilir web sitesi yoksa, 'io.github.your_username.app_name' gibi bir kaynak kodu barındırma hesabıyla ilişkili bir etki alanı da kullanabilirsiniz.",
   "malformed-app-id": "Uygulama kimliği bozuk. Uygulama kimlikleri en az üç bölüm içermelidir ve hiçbir bölüm boş olamaz. Her bölüm bir harf veya alt çizgi ile başlamalıdır ve yalnızca harf, rakam, alt çizgi ve kısa çizgi içerebilir.",
   "developer-invited": "Geliştirici olmak için davet edildiniz",
   "invites": "Davetler",

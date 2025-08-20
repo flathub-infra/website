@@ -319,7 +319,7 @@
   "verify-app-id": "Verificar ID da aplicação",
   "app-id": "ID da aplicação",
   "app-already-exists": "Já existe uma aplicação com este ID.",
-  "app-id-instructions": "As IDs de aplicações utilizam a notação de nome de domínio invertida (RDNN). Por exemplo, o GNOME Maps usa 'org.gnome.Maps'. Escolha um domínio sobre o qual tenha controlo, como o sítio Web do projeto (ou, se estiver a carregar como indivíduo, o seu próprio sítio Web). Se nenhum site estiver disponível, você também pode usar um domínio associado a uma conta de hospedagem de código-fonte, como 'io.github.<nome_de_utilizador>.<nome_da_aplicação>'.",
+  "app-id-instructions": "As IDs de aplicações utilizam a notação de nome de domínio invertida (RDNN). Por exemplo, o GNOME Maps usa 'org.gnome.Maps'. Escolha um domínio sobre o qual tenha controlo, como o sítio Web do projeto (ou, se estiver a carregar como indivíduo, o seu próprio sítio Web). Se nenhum site estiver disponível, você também pode usar um domínio associado a uma conta de hospedagem de código-fonte, como 'io.github.nome_de_utilizador.nome_da_aplicação'.",
   "malformed-app-id": "O ID da aplicação está mal formado. Os IDs de aplicações têm de conter pelo menos três segmentos, e nenhum segmento pode estar vazio. Cada segmento tem de começar com uma letra ou um sublinhado e só pode conter letras, dígitos, sublinhados e hífenes.",
   "publisher-agreement": "Acordo de submissão do editor",
   "publisher-agreement-accept": "Aceito o Acordo de Submissão do Editor",

@@ -311,7 +311,7 @@
   "direct-upload-description": "Erstelle deine App in deiner eigenen Continuous-Integration-Umgebung und lade sie direkt auf Flathub hoch.",
   "verify-app-id": "App-ID verifizieren",
   "app-id": "App-ID",
-  "app-id-instructions": "App-IDs verwenden die umgekehrte Domain-Namen-Notation (RDNN). GNOME Maps verwendet zum Beispiel \"org.gnome.Maps\". Wähle eine Domain, die du kontrollierst, z. B. die Website des Projekts (oder, wenn du als Einzelperson hochlädst, deine eigene Website). Wenn keine Website verfügbar ist, kannst du auch eine Domäne verwenden, die mit einem Quellcode-Hosting-Konto verknüpft ist, z. B. \"io.github.<dein_benutzername>.<app_name>\".",
+  "app-id-instructions": "App-IDs verwenden die umgekehrte Domain-Namen-Notation (RDNN). GNOME Maps verwendet zum Beispiel \"org.gnome.Maps\". Wähle eine Domain, die du kontrollierst, z. B. die Website des Projekts (oder, wenn du als Einzelperson hochlädst, deine eigene Website). Wenn keine Website verfügbar ist, kannst du auch eine Domäne verwenden, die mit einem Quellcode-Hosting-Konto verknüpft ist, z. B. \"io.github.dein_benutzername.app_name\".",
   "app-already-exists": "Eine App mit dieser ID existiert bereits.",
   "malformed-app-id": "Die App-ID ist falsch formatiert. App-IDs müssen mindestens drei Segmente haben. Jedes Segment muss mit einem Buchstaben oder Unterstrich beginnen und darf nur Buchstaben, Ziffern, Unterstriche und Bindestriche enthalten.",
   "desktop-application": "Desktop-App",

@@ -259,7 +259,7 @@
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, xhironi:</text> <code></code> <text><text>Shënim i rëndësishëm: Rekomandohet të përdoret Raspberry Pi OS 64-bit, ngaqë gjasat janë që aplikacione më të reja të jenë të gatshme vetëm për atë platformë.</text>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, xhironi:</text> <code></code> <text><strong>Shënim i rëndësishëm:</strong> Rekomandohet të përdoret Raspberry Pi OS 64-bit, ngaqë gjasat janë që aplikacione më të reja të jenë të gatshme vetëm për atë platformë.</text>"
     },
     "step-3": {
       "name": "Rinise",

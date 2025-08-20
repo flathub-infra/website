@@ -540,7 +540,7 @@
   "desktop-subfolder-x": "Sottocartella del desktop {folder}",
   "music-subfolder-x": "Sottocartella musica {folder}",
   "cache-subfolder-x": "Sottocartella cache {folder}",
-  "app-id-instructions": "Gli ID app utilizzano la notazione del nome di dominio inverso (RDNN). Ad esempio, GNOME Maps utilizza \"org.gnome.Maps\". Scegli un dominio su cui hai il controllo, ad esempio il sito web del progetto (o, se carichi come individuo, il tuo sito web). Se non è disponibile alcun sito web, puoi anche utilizzare un dominio associato a un account di hosting del codice sorgente, ad esempio \"io.github.<nome_utente>.<nome_app>\".",
+  "app-id-instructions": "Gli ID app utilizzano la notazione del nome di dominio inverso (RDNN). Ad esempio, GNOME Maps utilizza \"org.gnome.Maps\". Scegli un dominio su cui hai il controllo, ad esempio il sito web del progetto (o, se carichi come individuo, il tuo sito web). Se non è disponibile alcun sito web, puoi anche utilizzare un dominio associato a un account di hosting del codice sorgente, ad esempio \"io.github.nome_utente.nome_app\".",
   "app-listing-quality": "Qualità Elenco delle App",
   "system-folder-x": "Cartella di sistema {folder}",
   "token-created": "Copia questo token e archivialo in un luogo sicuro, ad esempio l'archivio dei segreti della pipeline CI. Concede l'accesso in lettura e scrittura alle build della tua app.",

@@ -166,7 +166,7 @@
   "uses-session-services": "Använder sessionstjänster",
   "community-built": "Byggd av gemenskapen",
   "pictures-folder": "Bilder-mappen",
-  "special-license-explanation": "Den här appen omfattas av den speciella licensen <text>{ license }</text>.",
+  "special-license-explanation": "Den här appen omfattas av den speciella licensen <bold>{ license }</bold>.",
   "archive": "Arkivera",
   "not-logged-in": "Du är inte inloggad",
   "danger-zone": "Farligt område",

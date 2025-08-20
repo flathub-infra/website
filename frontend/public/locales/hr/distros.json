@@ -420,7 +420,7 @@
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<text>Flatpak je standardno instaliran na Vanilla OS.</text> <link>Za instaliranje aplikacija koristi aplikaciju Softver ili pregledaj <link>Flathub</link>. <text>Ako iz nekog razloga Flathub nije dostupan, može se ručno konfigurirati pomoću sljedeće naredbe:</text> <code></code>"
+    "introduction": "<header>Flatpak je standardno instaliran na Vanilla OS.</header> <text>Za instaliranje aplikacija koristi aplikaciju Softver ili pregledaj <link>Flathub</link>.</text> <text>Ako iz nekog razloga Flathub nije dostupan, može se ručno konfigurirati pomoću sljedeće naredbe:</text> <code></code>"
   },
   "salix": {
     "distroName": "Salix",

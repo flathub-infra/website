@@ -360,7 +360,7 @@
   "can-acquire-arbitrary-permissions": "Kan erhverve vilkårlige tilladelser",
   "links": "Links",
   "arch": "Arkitektur",
-  "app-id-instructions": "App ID'er bruger reverse domain name-notation (RDNN). GNOME Maps bruger f.eks 'org.gnome.Maps'. Vælg et domæne, du har kontrol over, såsom projektets webside (eller, hvis du uploader som enkeltperson, din egen webside). Hvis der ikke er noget websted tilgængeligt, kan du også bruge et domæne, der er knyttet til en kildekode-hostingkonto, såsom 'io.github.<dit_brugernavn>.<app_navn>'.",
+  "app-id-instructions": "App ID'er bruger reverse domain name-notation (RDNN). GNOME Maps bruger f.eks 'org.gnome.Maps'. Vælg et domæne, du har kontrol over, såsom projektets webside (eller, hvis du uploader som enkeltperson, din egen webside). Hvis der ikke er noget websted tilgængeligt, kan du også bruge et domæne, der er knyttet til en kildekode-hostingkonto, såsom 'io.github.dit_brugernavn.app_navn'.",
   "can-access-some-specific-files": "Kan tilgå nogle specifikke filer",
   "auditable-code": "Reviderbar kode",
   "appname-is-safety-rating-1": "{appName} er sikker",

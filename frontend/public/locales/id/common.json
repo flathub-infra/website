@@ -266,7 +266,7 @@
   "new-direct-upload": "Aplikasi Pengunggahan Langsung Baru",
   "verify-app-id": "Verifikasi ID Aplikasi",
   "app-id": "ID Aplikasi",
-  "app-id-instructions": "ID aplikasi menggunakan notasi nama domain terbalik (RDNN). Misalnya, GNOME Peta menggunakan 'org.gnome.Maps'. Pilih domain yang dapat Anda kendalikan, seperti situs web proyek (atau, jika Anda mengunggah sebagai individu, situs web Anda sendiri). Jika tidak ada situs web yang tersedia, Anda juga dapat menggunakan domain yang dikaitkan dengan akun hosting kode sumber, seperti 'io.github.<nama_pengguna_Anda>.<nama_aplikasi>'.",
+  "app-id-instructions": "ID aplikasi menggunakan notasi nama domain terbalik (RDNN). Misalnya, GNOME Peta menggunakan 'org.gnome.Maps'. Pilih domain yang dapat Anda kendalikan, seperti situs web proyek (atau, jika Anda mengunggah sebagai individu, situs web Anda sendiri). Jika tidak ada situs web yang tersedia, Anda juga dapat menggunakan domain yang dikaitkan dengan akun hosting kode sumber, seperti 'io.github.nama_pengguna_Anda.nama_aplikasi'.",
   "app-already-exists": "Aplikasi dengan ID ini sudah ada.",
   "malformed-app-id": "ID aplikasi salah. ID aplikasi harus berisi setidaknya tiga segmen, dan tidak boleh ada segmen yang kosong. Setiap segmen harus dimulai dengan huruf atau garis bawah dan hanya boleh berisi huruf, angka, garis bawah, dan tanda hubung.",
   "publisher-agreement": "Perjanjian Pengajuan Penerbit",
