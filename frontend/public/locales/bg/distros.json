@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена във „Fedora Workstation“, „Fedora Silverblue“ и „Fedora Kinoite“. Трябва само да активирате „Flathub“. Той е предварително конфигуриран като част от <repolink>хранилищата на трети страни</repolink>. Като алтернатива може да изтеглите и инсталирате <filelink>хранилището на „Flathub“</filelink>.</text> <conclusion>Време е да инсталирате<applink>приложенията</applink> във „Fedora“!</conclusion> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Fedora“:</text> <code></code>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена във „Fedora Workstation“, „Fedora Silverblue“ и „Fedora Kinoite“. Трябва само да активирате „Flathub“. Той е предварително конфигуриран като част от <repolink>хранилищата на трети страни</repolink>. Като алтернатива може да изтеглите и инсталирате <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате<applink>приложенията</applink> във „Fedora“!</text> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Fedora“:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -30,7 +30,7 @@
     },
     "step-1": {
       "name": "Активирайте „Flatpak“ чрез софтуерния мениджър на „Manjaro“",
-      "text": "<text>Поддръжката на „Flatpak“ е вградена в „Manjaro“ 20 и по-новите версии.</text> <instruction>Отворете <strong>софтуерния мениджър</strong> (Добавяне и премахване на програми).</instruction> <text>Натиснете върху трите линии или точки вдясно, в падащото меню изберете „Предпочитания“.</text><text>Отидете в раздела „Flatpak“ и плъзнете превключвателя за активиране на поддръжката на „Flatpak“ (препоръчва се да активирате и проверката за обновявания).</text>"
+      "text": "<text>Поддръжката на „Flatpak“ е вградена в „Manjaro“ 20 и по-новите версии.</text> <text>Отворете <strong>софтуерния мениджър</strong> (Добавяне и премахване на програми).</text> <text>Натиснете върху трите линии или точки вдясно, в падащото меню изберете „Предпочитания“.</text><text>Отидете в раздела „Flatpak“ и плъзнете превключвателя за активиране на поддръжката на „Flatpak“ (препоръчва се да активирате и проверката за обновявания).</text>"
     }
   },
   "endless_os": {
@@ -45,7 +45,7 @@
     },
     "step-3": {
       "name": "Рестартирайте",
-      "text": "<text>Вече може да инсталирате <text>приложенията</text> в „ALT Linux“!</text>"
+      "text": "<text>Вече може да инсталирате <link>приложенията</link> в „ALT Linux“!</text>"
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
@@ -68,7 +68,7 @@
     },
     "step-1": {
       "name": "Активирайте поддръжката на Линукс",
-      "text": "<text>Отидете в <settingslink>chrome://os-settings</settingslink>, превъртете надолу до „<strong>Разработчици</strong>“ и включете „<i>Среда за разработка на Линукс</i>“. „ChromeOS“ ще изтегли и инсталира Линукс.</text>"
+      "text": "<text>Отидете в <settingslink>chrome://os-settings</settingslink>, превъртете надолу до „<strong>Разработчици</strong>“ и включете „<em>Среда за разработка на Линукс</em>“. „ChromeOS“ ще изтегли и инсталира Линукс.</text>"
     },
     "step-2": {
       "name": "Стартирайте терминала на Линукс",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Red Hat Enterprise Linux Workstation“ 9 и по-новите версии. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text><text>Изпълнете следната команда в терминала на „Red Hat Enterprise Linux Workstation“ 8 и по-старите версии:</text>  <code></code> <next>Време е да инсталирате <link>приложенията</link> в „Red Hat Enterprise Linux“!</next> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Red Hat Enterprise Linux“:</text> <code></code>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Red Hat Enterprise Linux Workstation“ 9 и по-новите версии. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text><text>Изпълнете следната команда в терминала на „Red Hat Enterprise Linux Workstation“ 8 и по-старите версии:</text>  <code></code> <text>Време е да инсталирате <link>приложенията</link> в „Red Hat Enterprise Linux“!</text> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Red Hat Enterprise Linux“:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
-      "text": "<text>„Flatpak“ се поддържа от всички текущи версии на „openSUSE Leap“ и „openSUSE Tumbleweed“.</text> <instruction>Ако предпочитате графична инсталация, инсталирайте „Flatpak“ от <link>software.opensuse.org</link>. Ако версията на вашата дистрибуция не се показва по подразбиране, натиснете върху „<button>Покажи</button>“ в категорията „Неподдържани дистрибуции“ и след това изберете от списъка.</instruction> <text>Като алтернатива, изпълнете следната команда в терминала на „openSUSE“:</text> <code></code>"
+      "text": "<text>„Flatpak“ се поддържа от всички текущи версии на „openSUSE Leap“ и „openSUSE Tumbleweed“.</text> <text>Ако предпочитате графична инсталация, инсталирайте „Flatpak“ от <link>software.opensuse.org</link>. Ако версията на вашата дистрибуция не се показва по подразбиране, натиснете върху „<em>Покажи</em>“ в категорията „Неподдържани дистрибуции“ и след това изберете от списъка.</text> <text>Като алтернатива, изпълнете следната команда в терминала на „openSUSE“:</text> <code></code>"
     },
     "step-3": {
       "name": "Рестартирайте",
@@ -122,7 +122,7 @@
     },
     "step-2": {
       "name": "Инсталирайте приставката на „Flatpak“ за „GNOME“ или „KDE“",
-      "text": "<text>За „GNOME Software“, изпълнете следната команда в терминала:</text> <code></code> <text>За „KDE Discover“, изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За „GNOME Software“, изпълнете следната команда в терминала:</text> <code></code> <text>За „KDE Discover“, изпълнете следната команда в терминала:</text> <codeDiscover></codeDiscover>"
     },
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
@@ -146,11 +146,11 @@
   },
   "centos": {
     "distroName": "CentOS Stream",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „CentOS Stream“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <conclusion>Време е да инсталирате <link>приложенията</link> в „CentOS Stream“!</conclusion>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „CentOS Stream“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „CentOS Stream“!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „AlmaLinux“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <conclusion>Време е да инсталирате <link>приложенията</link> в „AlmaLinux“!</conclusion>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „AlmaLinux“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „AlmaLinux“!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -218,14 +218,14 @@
     },
     "step-2": {
       "name": "Инсталирайте приставката на „Flatpak“ за вашия софтуерен мениджър",
-      "text": "<text>За „GNOME Software“ (от версия 3.13), изпълнете следната команда в терминала:</text> <code></code> <text>За „KDE Discover“ (от версия 3.11), изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За „GNOME Software“ (от версия 3.13), изпълнете следната команда в терминала:</text> <code></code> <text>За „KDE Discover“ (от версия 3.11), изпълнете следната команда в терминала:</text> <codeDiscover></codeDiscover>"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
-      "text": "<text>Изпълнете следната команда в терминала на „Mageia“ 6 или по-новите версии, ако използвате DNF:</text> <code></code> <text>Ако използвате <command>urpmi</command>:</text> <code></code>"
+      "text": "<text>Изпълнете следната команда в терминала на „Mageia“ 6 или по-новите версии, ако използвате DNF:</text> <code></code> <text>Ако използвате <strong>urpmi</strong>:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-3": {
       "name": "Рестартирайте",
@@ -238,7 +238,7 @@
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена във всички текущи версии на „OpenMandriva“.</text><text>Хранилището на „Flathub“ е предварително конфигурирано.</text>"
+    "introduction": "<header>Поддръжката на „Flatpak“ е вградена във всички текущи версии на „OpenMandriva“.</header><text>Хранилището на „Flathub“ е предварително конфигурирано.</text>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -263,7 +263,7 @@
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изпълнете следната команда в терминала:</text> <code></code> <note><strong>Важно:</strong>Препоръчително е да използвате 64-битовата версия на „Raspberry Pi OS“, защото повечето нови приложения са налични само за тази платформа.</note>"
+      "text": "<text>За да го активирате, изпълнете следната команда в терминала:</text> <code></code> <text><strong>Важно:</strong>Препоръчително е да използвате 64-битовата версия на „Raspberry Pi OS“, защото повечето нови приложения са налични само за тази платформа.</text>"
     }
   },
   "void_linux": {
@@ -285,7 +285,7 @@
     "distroName": "NixOS",
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
-      "text": "<text>Задайте опцията <option>services.flatpak.enable</option> на <value>true</value>, като въведете следното във файла <file>/etc/nixos/configuration.nix</file>:</text> <code></code> <text>След това, изградете отново файла и превключете към новата конфигурация, като изпълните следната команда в терминала на „NixOS“:</text> <code></code> <docs>За повече информация вижте <doclink>документацията</doclink>.</docs>"
+      "text": "<text>Задайте опцията <strong>services.flatpak.enable</strong> на <strong>true</strong>, като въведете следното във файла <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>След това, изградете отново файла и превключете към новата конфигурация, като изпълните следната команда в терминала на „NixOS“:</text> <codeRebuild></codeRebuild> <text>За повече информация вижте <doclink>документацията</doclink>.</text>"
     },
     "step-3": {
       "name": "Рестартирайте",
@@ -298,11 +298,11 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „PureOS“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <conclusion>Време е да инсталирате <link>приложенията</link> в „PureOS“!</conclusion>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „PureOS“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „PureOS“!</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Zorin OS“</text> <text>За да изтеглите приложенията, отворете „Software Store“.</text>"
+    "introduction": "<header>Поддръжката на „Flatpak“ е вградена в „Zorin OS“</header> <text>За да изтеглите приложенията, отворете „Software Store“.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
@@ -350,7 +350,7 @@
     },
     "step-1": {
       "name": "Активирайте „Flatpak“ чрез софтуерния мениджър на „MX Linux“",
-      "text": "<text>Поддръжката на „Flatpak“ е вградена в „MX“ 18 и по-новите версии. Следвайте инструкциите по-долу:</text> <instruction>Отворете „<strong>MX Package Installer</strong>“, отидете в „MX Tools“ и изберете раздела „Flatpaks“.</instruction>"
+      "text": "<text>Поддръжката на „Flatpak“ е вградена в „MX“ 18 и по-новите версии. Следвайте инструкциите по-долу:</text> <text>Отворете „<strong>MX Package Installer</strong>“, отидете в „MX Tools“ и изберете раздела „Flatpaks“.</text>"
     }
   },
   "pisi_gnulinux": {
@@ -372,7 +372,7 @@
     "distroName": "EndeavourOS",
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
-      "text": "<text>Изпълнете следната команда в терминала на „EndeavorOS“:</text> <code></code> <text>След това, изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>Изпълнете следната команда в терминала на „EndeavorOS“:</text> <codeUpdate></codeUpdate> <text>След това, изпълнете следната команда в терминала:</text> <code></code>"
     },
     "step-3": {
       "name": "Рестартирайте",
@@ -406,7 +406,7 @@
     "distroName": "Crystal Linux",
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
-      "text": "<text>Изпълнете следната команда в терминала на „Crystal Linux“:</text> <code></code> <text>След това, изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>Изпълнете следната команда в терминала на „Crystal Linux“:</text> <codeUpdate></codeUpdate> <text>След това, изпълнете следната команда в терминала:</text> <code></code>"
     },
     "step-3": {
       "name": "Рестартирайте",
@@ -416,14 +416,14 @@
       "name": "Добавете хранилището на „Flathub“",
       "text": "<text>За да го активирате, изпълнете следната команда в терминала:</text> <code></code>"
     },
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Crystal Linux“.</text> <text>Ако не сте използвали „jade_gui“ или не сте избрали „Flatpak“ по време на инсталацията, следвайте инструкциите по-долу.</text>"
+    "introduction": "<header>Поддръжката на „Flatpak“ е вградена в „Crystal Linux“.</header> <text>Ако не сте използвали „jade_gui“ или не сте избрали „Flatpak“ по време на инсталацията, следвайте инструкциите по-долу.</text>"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена във „Vanilla OS“.</text> <instruction>За да инсталирате приложенията, отворете „Software“ или хранилището на „<link>Flathub</link>“.</instruction> <text>Ако има проблеми, изпълнете следната команда в терминала на „Vanilla OS“:</text> <code></code>"
+    "introduction": "<header>Поддръжката на „Flatpak“ е вградена във „Vanilla OS“.</header> <text>За да инсталирате приложенията, отворете „Software“ или хранилището на „<link>Flathub</link>“.</text> <text>Ако има проблеми, изпълнете следната команда в терминала на „Vanilla OS“:</text> <code></code>"
   },
   "salix": {
     "distroName": "Salix",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Salix“ от версия 15.0 — не е необходима настройка!</text> <text>Налични са инструменти за вграждане в работния плот и хранилището на „Flathub“ е предварително конфигурирано .</text> <conclusion>Време е да инсталирате <link>приложенията</link> в „Salix“!</conclusion>"
+    "introduction": "<header>Поддръжката на „Flatpak“ е вградена в „Salix“ от версия 15.0 — не е необходима настройка!</header> <text>Налични са инструменти за вграждане в работния плот и хранилището на „Flathub“ е предварително конфигурирано .</text> <text>Време е да инсталирате <link>приложенията</link> в „Salix“!</text>"
   }
 }

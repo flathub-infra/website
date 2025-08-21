@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak on asennettu oletusarvoisesti Fedora Workstationissa, Fedora Silverbluessa ja Fedora Kinoitessa. Aloittaminen vaatii, että otat käyttöön Flathubin, joka on paras lähde hankkia Flatpak-sovelluksia. Flathub on määritetty valmiiksi osana <link>kolmannen osapuolen ohjelmistolähteitä</link>. Vaihtoehtoisesti voit ladata <filelink>Flathub-ohjelmistolähdetiedoston</filelink>.</text> <link>Sen jälkeen voit <link>asentaa sovelluksia</link>!</link> <text>Yllä olevien linkkien tulisi toimia Fedoran Gnome- ja KDE-asennuksissa, mutta jos näin jostain syystä ei ole, voit lisätä Flathubin itse suorittamalla:</text> <code></code>"
+    "introduction": "<text>Flatpak on asennettu oletusarvoisesti Fedora Workstationissa, Fedora Silverbluessa ja Fedora Kinoitessa. Aloittaminen vaatii, että otat käyttöön Flathubin, joka on paras lähde hankkia Flatpak-sovelluksia. Flathub on määritetty valmiiksi osana <repolink>kolmannen osapuolen ohjelmistolähteitä</repolink>. Vaihtoehtoisesti voit ladata <filelink>Flathub-ohjelmistolähdetiedoston</filelink>.</text> <text>Sen jälkeen voit <applink>asentaa sovelluksia</applink>!</text> <text>Yllä olevien linkkien tulisi toimia Fedoran Gnome- ja KDE-asennuksissa, mutta jos näin jostain syystä ei ole, voit lisätä Flathubin itse suorittamalla:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -48,14 +48,14 @@
     },
     "step-3": {
       "name": "Käynnistä uudelleen",
-      "text": "<text>Käynnistä uudelleen laiteesi, jotta voit viimeistellä Flatpak asennuksesi. Nyt voit <text>asentaa sovelluksia</text>!</text>"
+      "text": "<text>Käynnistä uudelleen laiteesi, jotta voit viimeistellä Flatpak asennuksesi. Nyt voit <link>asentaa sovelluksia</link>!</text>"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-1": {
       "name": "Ota Linux-tuki käyttöön",
-      "text": "<text>Siirry sivulle <link>chrome://os-settings</link> ja vieritä kohtaan <strong>Developers</strong>, ja ota käyttöön <i>Linux development environment</i>. ChromeOS:llä kestää hetken ladata ja asentaa Linux.</text>"
+      "text": "<text>Siirry sivulle <settingslink>chrome://os-settings</settingslink> ja vieritä kohtaan <strong>Developers</strong>, ja ota käyttöön <em>Linux development environment</em>. ChromeOS:llä kestää hetken ladata ja asentaa Linux.</text>"
     },
     "step-2": {
       "name": "Käynnistä Linux-pääte",
@@ -77,7 +77,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak on asennettu oletusarvoisesti Red Hat Enterprise Linux Workstationin versioon 9 ja uudempiin. Aloita ottamalla käyttöön Flathub, joka on paras lähde ladata Flatpak-sovelluksia. Lataa ja asenna <link>Flathub-ohjelmistolähdetiedosto</link>.</text> <text>Asenna Flatpak Red Hat Enterprise Linux Workstationin versioon 8 tai vanhempiin suorittamalla päätteessä:</text>  <filelink></filelink> <text>Sen jälkeen voit <link>asentaa sovelluksia</link>!</text> <text>Yllä olevien linkkien tulisi toimia oletusarvoisessa Red Hat Enterprise Linux Workstation 9 -asennuksessa, mutta jos näin ei ole, voit lisätä Flathubin itse suorittamalla:</text> <text></text>"
+    "introduction": "<text>Flatpak on asennettu oletusarvoisesti Red Hat Enterprise Linux Workstationin versioon 9 ja uudempiin. Aloita ottamalla käyttöön Flathub, joka on paras lähde ladata Flatpak-sovelluksia. Lataa ja asenna <filelink>Flathub-ohjelmistolähdetiedosto</filelink>.</text> <text>Asenna Flatpak Red Hat Enterprise Linux Workstationin versioon 8 tai vanhempiin suorittamalla päätteessä:</text>  <code></code> <text>Sen jälkeen voit <link>asentaa sovelluksia</link>!</text> <text>Yllä olevien linkkien tulisi toimia oletusarvoisessa Red Hat Enterprise Linux Workstation 9 -asennuksessa, mutta jos näin ei ole, voit lisätä Flathubin itse suorittamalla:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -87,7 +87,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Asenna Flatpak",
-      "text": "<text>Flatpak on saatavilla kaikkien ylläpidon piirissä olevien openSUSE Leap -versioiden ja openSUSE Tumbleweed -versioiden oletusohjelmistolähteistä.</text> <link>Jos suosit graafista asennusohjelmaa, voit asentaa Flatpakin käyttäen \"1-napsautuksen asennusta\" sivustolla <link>software.opensuse.org</link>. Jos jakelusi versio ei näy oletusarvoisesti, napsauta <filelink>Näytä flatpak muille jakeluille</filelink> ja valitse jakelusi listalta.</link> <text>Vaihtoehtoisesti asenna Flatpak komentoriviltä Zypperin avulla:</text> <code></code>"
+      "text": "<text>Flatpak on saatavilla kaikkien ylläpidon piirissä olevien openSUSE Leap -versioiden ja openSUSE Tumbleweed -versioiden oletusohjelmistolähteistä.</text> <text>Jos suosit graafista asennusohjelmaa, voit asentaa Flatpakin käyttäen \"1-napsautuksen asennusta\" sivustolla <link>software.opensuse.org</link>. Jos jakelusi versio ei näy oletusarvoisesti, napsauta <em>Näytä flatpak muille jakeluille</em> ja valitse jakelusi listalta.</text> <text>Vaihtoehtoisesti asenna Flatpak komentoriviltä Zypperin avulla:</text> <code></code>"
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -117,11 +117,11 @@
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde",
-      "text": "<text>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön lataamalla ja asentamalla <link>Flathub-ohjelmistolähdetiedosto</link> tai suorita seuraava komento:</text> <code></code>"
+      "text": "<text>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön lataamalla ja asentamalla <filelink>Flathub-ohjelmistolähdetiedosto</filelink> tai suorita seuraava komento:</text> <code></code>"
     },
     "step-2": {
       "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa",
-      "text": "<text>Jos käytät Gnomea, voit asentaa Flatpak-lisäosan Gnomen Ohjelmistot-sovellukseen. Suorita komento:</text> <code></code> <text>Jos käytät KDE:tä, voit asentaa Plasman Discoverin Flatpak-taustaosan:</text> <code></code>"
+      "text": "<text>Jos käytät Gnomea, voit asentaa Flatpak-lisäosan Gnomen Ohjelmistot-sovellukseen. Suorita komento:</text> <code></code> <text>Jos käytät KDE:tä, voit asentaa Plasman Discoverin Flatpak-taustaosan:</text> <codeDiscover></codeDiscover>"
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
@@ -143,11 +143,11 @@
   },
   "centos": {
     "distroName": "CentOS",
-    "introduction": "<text>Flatpak on oletusarvoisesti asennettu CentOS:n versioon 7 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <link>Flathub-ohjelmistovarastotiedosto</link>.</text> <link>Sen jälkeen voit aloittaa <link>sovellusten asentamisen</link>!</link>"
+    "introduction": "<text>Flatpak on oletusarvoisesti asennettu CentOS:n versioon 7 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <filelink>Flathub-ohjelmistovarastotiedosto</filelink>.</text> <text>Sen jälkeen voit aloittaa <link>sovellusten asentamisen</link>!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Flatpak on oletusarvoisesti asennettu AlmaLinuxin versioon 8 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <link>Flathub-ohjelmistovarastotiedosto</link>.</text> <link>Sen jälkeen voit aloittaa <link>sovellusten asentamisen</link>!</link>"
+    "introduction": "<text>Flatpak on oletusarvoisesti asennettu AlmaLinuxin versioon 8 ja uudempiin, kun käytössä on Gnome. Pääset alkuun ottamalla Flathubin käyttöön. Lataa ja asenna <filelink>Flathub-ohjelmistovarastotiedosto</filelink>.</text> <text>Sen jälkeen voit aloittaa <link>sovellusten asentamisen</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -197,7 +197,7 @@
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
-      "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <text>asentaa sovelluksia</text>!</text>"
+      "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde"

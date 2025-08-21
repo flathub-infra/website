@@ -341,7 +341,7 @@
   "leave": "Umalis",
   "new-beta-token": "Bagong beta token",
   "revoke-token-description": "Sigurado ka ba gusto mong bawiin ang token na\"{name}\"?",
-  "app-id-instructions": "Ginagamit ng mga App ID ang reverse domain name notation (RDNN). Halimbawa, ang GNOME Maps ay gumagamit ng <i>org.gnome.Maps</i>. Pumili ng domain na may kontrol ka sa, tulad ng website ng iyong proyekto (o, kung maga-upload ka bilang indibidwal, ang iyong sariling website). Kung walang available na website, maari kang gumamit ng domain na nauugnay sa iyong source code hosting na account, tlad ng 'io.github.iyong_username.pangalan_ng_app'.",
+  "app-id-instructions": "Ginagamit ng mga App ID ang reverse domain name notation (RDNN). Halimbawa, ang GNOME Maps ay gumagamit ng <i>org.gnome.Maps</i>. Pumili ng domain na may kontrol ka sa, tulad ng website ng iyong proyekto (o, kung maga-upload ka bilang indibidwal, ang iyong sariling website). Kung walang available na website, maari kang gumamit ng domain na nauugnay sa iyong source code hosting na account, tlad ng <i>io.github.iyong_username.pangalan_ng_app</i>.",
   "authored-apps": "Mga na-awtor na app",
   "search-for-query": "Paghahanap para sa \"{query}\"",
   "moderation-pending-reviews": "Mga Nakabinbin na Review",

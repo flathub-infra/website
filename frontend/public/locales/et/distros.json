@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak on vaikimisi paigaldatud Fedora Workstationi, Fedora Silverblue ja Fedora Kinoite puhul. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Flathub on eelseadistatud osana <link>Kolmandate osapoolte tarkvarahoidlatest</link>. Alternatiivina võid sa laadida alla ja paigaldada <filelink>Flathubi tarkvarahoidla seadistusfaili</filelink>.</text> <link>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</link> <text>Eelpooltoodud lingid peaksid vaikimisi toimima Fedora GNOME'i ja KDE paigalduste puhul, aga kui nad mingil põhjusel ei toimi, siis saad Flathubi tarkvarahoidla lisada ka käsitsi käivitades:</text> <code></code>"
+    "introduction": "<text>Flatpak on vaikimisi paigaldatud Fedora Workstationi, Fedora Silverblue ja Fedora Kinoite puhul. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Flathub on eelseadistatud osana <repolink>Kolmandate osapoolte tarkvarahoidlatest</repolink>. Alternatiivina võid sa laadida alla ja paigaldada <filelink>Flathubi tarkvarahoidla seadistusfaili</filelink>.</text> <text>Nüüd polegi muud teha, kui <applink>hakka rakendusi paigaldama</applink>!</text> <text>Eelpooltoodud lingid peaksid vaikimisi toimima Fedora GNOME'i ja KDE paigalduste puhul, aga kui nad mingil põhjusel ei toimi, siis saad Flathubi tarkvarahoidla lisada ka käsitsi käivitades:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -30,7 +30,7 @@
     },
     "step-1": {
       "name": "Võta Flatpak kasutusele Tarkvarahalduris (Software Manager)",
-      "text": "<text>Flatpak on vaikimisi paigaldatud Manjaro versioonis 20 ja uuemas.</text> <link>Kasutuselevõtmiseks ava <strong>Tarkvarahaldur (Software Manager)</strong> (Lisa/Eemalda rakendusi)</link> <text>Klõpsi kolme triibuga menüüikooni paremal [sõltuvalt kasutatavast töölauast võib olla ka kolme punktiga menüüikoon], avanevast menüüst vali „Eelistused“</text> <text>Leia vahekaart „Flatpak“ ja libista liugurlüliti asendisse „Luba Flatpaki tugi“ (soovitame, et teed sama ka uuenduse kontrollimise valiku juures).</text>"
+      "text": "<text>Flatpak on vaikimisi paigaldatud Manjaro versioonis 20 ja uuemas.</text> <text>Kasutuselevõtmiseks ava <strong>Tarkvarahaldur (Software Manager)</strong> (Lisa/Eemalda rakendusi)</text> <text>Klõpsi kolme triibuga menüüikooni paremal [sõltuvalt kasutatavast töölauast võib olla ka kolme punktiga menüüikoon], avanevast menüüst vali „Eelistused“</text> <text>Leia vahekaart „Flatpak“ ja libista liugurlüliti asendisse „Luba Flatpaki tugi“ (soovitame, et teed sama ka uuenduse kontrollimise valiku juures).</text>"
     }
   },
   "endless_os": {
@@ -40,7 +40,7 @@
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-3": {
-      "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd saadki <text>rakendusi paigaldama hakata</text>!</text>",
+      "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd saadki <link>rakendusi paigaldama hakata</link>!</text>",
       "name": "Käivita arvuti uuesti"
     },
     "step-1": {
@@ -68,7 +68,7 @@
     },
     "step-1": {
       "name": "Lülita Linuxi tugi sisse",
-      "text": "<text>Ava <link>chrome://os-settings</link>, liigu jaotiseni <strong>Arendajad</strong> ja lülita sisse <i>Linuxi arenduskeskkond</i>. Järgmiseks kulub ChromeOSil natuke aega Linuxi allalaadimiseks ja paigaldamiseks.</text>"
+      "text": "<text>Ava <settingslink>chrome://os-settings</settingslink>, liigu jaotiseni <strong>Arendajad</strong> ja lülita sisse <em>Linuxi arenduskeskkond</em>. Järgmiseks kulub ChromeOSil natuke aega Linuxi allalaadimiseks ja paigaldamiseks.</text>"
     },
     "step-2": {
       "name": "Käivita Linuxi terminal",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak on vaikimisi paigaldatud Red Hat Enterprise Linux Workstation 9 ja uuema puhul. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link>.</text> <text>Flatpaki lisamiseks Red Hat Enterprise Linux Workstation 8 või vanema puhul, käivita terminalis:</text>  <filelink></filelink> <text>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text> <text>Eelpooltoodud lingid peaksid vaikimisi toimima Red Hat Enterprise Linux Workstation 9 paigalduse puhul, aga kui nad mingil põhjusel ei toimi, siis saad Flathubi tarkvarahoidla lisada ka käsitsi käivitades:</text> <text></text>"
+    "introduction": "<text>Flatpak on vaikimisi paigaldatud Red Hat Enterprise Linux Workstation 9 ja uuema puhul. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink>.</text> <text>Flatpaki lisamiseks Red Hat Enterprise Linux Workstation 8 või vanema puhul, käivita terminalis:</text>  <code></code> <text>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text> <text>Eelpooltoodud lingid peaksid vaikimisi toimima Red Hat Enterprise Linux Workstation 9 paigalduse puhul, aga kui nad mingil põhjusel ei toimi, siis saad Flathubi tarkvarahoidla lisada ka käsitsi käivitades:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<text>Flatpak on saadaval hetkel toetatavate openSUSE Leapi ja openSUSE Tumbleweedi versioonide vaikimisi tarkvarahoidlates.</text> <link>Kui sulle meeldib paigaldamisel graafiline kasutajaliides, siis võid Flatpaki paigaldada „1-klõpsuga paigaldajaga“ tarkvarahoidlast <link>software.opensuse.org</link>. Kui sinu distributsiooni versioon pole vaikimisi näha, siis esmalt klõpsi <filelink>Näita</filelink> mittetoetatud distributsioonide kategoorias ja siis tee loendist õige valik.</link> <text>Alternatiivina saad Flatpaki alati lisada zypperiga käsurealt:</text> <code></code>"
+      "text": "<text>Flatpak on saadaval hetkel toetatavate openSUSE Leapi ja openSUSE Tumbleweedi versioonide vaikimisi tarkvarahoidlates.</text> <text>Kui sulle meeldib paigaldamisel graafiline kasutajaliides, siis võid Flatpaki paigaldada „1-klõpsuga paigaldajaga“ tarkvarahoidlast <link>software.opensuse.org</link>. Kui sinu distributsiooni versioon pole vaikimisi näha, siis esmalt klõpsi <em>Näita</em> mittetoetatud distributsioonide kategoorias ja siis tee loendist õige valik.</text> <text>Alternatiivina saad Flatpaki alati lisada zypperiga käsurealt:</text> <code></code>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -114,7 +114,7 @@
     "distroName": "Debian",
     "step-2": {
       "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
-      "text": "<text>Kui kasutad GNOME'i, siis on hea mõte paigaldada Flatpaki plugin GNOME Tarkvara jaoks. Selleks käivita:</text> <code></code> <text>Kui kasutad KDE Plasmat, siis selle asemel paigalda Plasma Discoveri jaoks Flatpaki taustateenus:</text> <code></code>"
+      "text": "<text>Kui kasutad GNOME'i, siis on hea mõte paigaldada Flatpaki plugin GNOME Tarkvara jaoks. Selleks käivita:</text> <code></code> <text>Kui kasutad KDE Plasmat, siis selle asemel paigalda Plasma Discoveri jaoks Flatpaki taustateenus:</text> <codeDiscover></codeDiscover>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
@@ -126,14 +126,14 @@
     },
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link> või käivita terminalis järgnev käsk:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
     }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-2": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link> või käivita terminalis järgnev käsk:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
@@ -146,11 +146,11 @@
   },
   "centos": {
     "distroName": "CentOS Stream",
-    "introduction": "<text>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud CentOS 8 Streamis ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link>.</text><link>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</link>"
+    "introduction": "<text>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud CentOS 8 Streamis ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink>.</text><text>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud AlmaLinux 8's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link>.</text><link>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</link>"
+    "introduction": "<text>Kui kasutusel on GNOME, siis Flatpak on vaikimisi paigaldatud AlmaLinux 8's ja uuemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink>.</text><text>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -190,7 +190,7 @@
     "distroName": "Solus",
     "step-2": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link> või käivita terminalis järgnev käsk:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -210,22 +210,22 @@
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
-      "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <text>hakka rakendusi paigaldama</text>!</text>"
+      "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
     },
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link> või käivita terminalis järgnev käsk:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
     },
     "step-2": {
       "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
-      "text": "<text>Sa võid Flatpaki lisamooduli paigaldada GNOME Tarkvara (alates versioonist 3.13) või KDE Discoveri (alates versioonist 3.11) jaoks ja seejärel on sul võimalik rakendusi paigaldada käsurida kasutamata. Paigaldamaks GNOME Tarkvara jaoks käivita:</text> <code></code> <text>Ning KDE Discoveri jaoks käivita:</text> <code></code>"
+      "text": "<text>Sa võid Flatpaki lisamooduli paigaldada GNOME Tarkvara (alates versioonist 3.13) või KDE Discoveri (alates versioonist 3.11) jaoks ja seejärel on sul võimalik rakendusi paigaldada käsurida kasutamata. Paigaldamaks GNOME Tarkvara jaoks käivita:</text> <code></code> <text>Ning KDE Discoveri jaoks käivita:</text> <codeDiscover></codeDiscover>"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<text>Flatpaki pakett on saadaval Mageia 6 ja uuema jaoks. Paigaldamaks DNFi abil, käivita juurkasutajana:</text> <code></code> <text>Või kui eelistad <text>urpmit</text>, siis käivita:</text> <code></code>"
+      "text": "<text>Flatpaki pakett on saadaval Mageia 6 ja uuema jaoks. Paigaldamaks DNFi abil, käivita juurkasutajana:</text> <code></code> <text>Või kui eelistad <strong>urpmit</strong>, siis käivita:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -233,12 +233,12 @@
     },
     "step-2": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <link>Flathubi tarkvarahoidla seadistusfail</link> või käivita terminalis järgnev käsk:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
     }
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<text>Flatpaki kasutamise võimalus on olemas kõikides hetkel toetatavates OpenMandriva versioonides, seega alates stabiilsest versioonist „Rock 5.0“ ning arendusversioonis „Cooker“ ja pidevversioonis „Rome“.</text> <text>Flathubi tarkvarahoidla on juba eelseadistatud ja midagi lisaks tegema ei pea.</text>"
+    "introduction": "<header>Flatpaki kasutamise võimalus on olemas kõikides hetkel toetatavates OpenMandriva versioonides, seega alates stabiilsest versioonist „Rock 5.0“ ning arendusversioonis „Cooker“ ja pidevversioonis „Rome“.</header> <text>Flathubi tarkvarahoidla on juba eelseadistatud ja midagi lisaks tegema ei pea.</text>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -258,8 +258,7 @@
       "text": "<text>Flatpaki pakett on saadaval Raspberry Pi OSi jaoks (vana nimega Raspbian) alates versioonist Stretch ja uuemates. Paigaldamiseks käivita juurkasutajana järgnev käsk:</text> <code></code>"
     },
     "step-2": {
-      "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim kohta Flatpaki rakenduste leidmiseks. Tema kasutuselevõtmiseks käivita terminalis:</text> <code></code> <text>Soovitame, et paigaldad Raspberry Pi OSi 64-bitise versiooni. Enamus uusi rakendusi on tõenäoliselt saadaval vaid selle arhitektuuri jaoks.</text>"
+      "name": "Lisa Flathubi tarkvarahoidla"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -285,7 +284,7 @@
     "distroName": "NixOS",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<text>Flatpaki paigaldamiseks seadista NixOSi eelistuse <link>services.flatpak.enable</link> väärtuseks <text>true</text> lisades näidatud rea faili <text>/etc/nixos/configuration.nix</text>:</text> <code></code> <text>Siis kompileeri uuesti ja võta uus seadistus kasutusele käsuga:</text> <code></code> <text>Lisateavet leiad <link>NixOSi juhendist</link>.</text>"
+      "text": "<text>Flatpaki paigaldamiseks seadista NixOSi eelistuse <strong>services.flatpak.enable</strong> väärtuseks <strong>true</strong> lisades näidatud rea faili <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Siis kompileeri uuesti ja võta uus seadistus kasutusele käsuga:</text> <codeRebuild></codeRebuild> <text>Lisateavet leiad <doclink>NixOSi juhendist</doclink>.</text>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -298,11 +297,11 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>Flatpak on PureOSis vaikimisi olemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigaldada <link>Flathubi tarkvarahoidla seadistusfail</link>.</text> <link>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</link>"
+    "introduction": "<text>Flatpak on PureOSis vaikimisi olemas. Alustamiseks pole vaja teha muud, kui võta Flathub kasutusele, on ta ju parim viis Flatpaki rakenduste leidmiseks. Lihtsalt laadi alla ja paigaldada <filelink>Flathubi tarkvarahoidla seadistusfail</filelink>.</text> <text>Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<text>Flatpaki tugi on Zorin OSis vaikimisi olemas</text> <text>Flatpaki rakenduste allalaadimiseks ja paigaldamiseks võid kasutada rakendust Software Store.</text>"
+    "introduction": "<header>Flatpaki tugi on Zorin OSis vaikimisi olemas</header> <text>Flatpaki rakenduste allalaadimiseks ja paigaldamiseks võid kasutada rakendust Software Store.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
@@ -350,7 +349,7 @@
     },
     "step-1": {
       "name": "Võta Flatpak kasutusele Tarkvarahalduris (Software Manager)",
-      "text": "<text>Flatpaki tugi on olema MX Linux 18's ja uuemas. Pead lihtsalt järgneva juhendi alusel võtma kasutusele Flathubi tarkvarahoidla:</text> <link>Ava <strong>MX Package Installer</strong> (ava põhimenüü ja otsi valikust „MX Tools“), vali vahekaart „Flatpaks“. Valiku sisselülitamiseks palun sisesta juurkasutaja salasõna.</link>"
+      "text": "<text>Flatpaki tugi on olema MX Linux 18's ja uuemas. Pead lihtsalt järgneva juhendi alusel võtma kasutusele Flathubi tarkvarahoidla:</text> <text>Ava <strong>MX Package Installer</strong> (ava põhimenüü ja otsi valikust „MX Tools“), vali vahekaart „Flatpaks“. Valiku sisselülitamiseks palun sisesta juurkasutaja salasõna.</text>"
     }
   },
   "pisi_gnulinux": {
@@ -372,7 +371,7 @@
     "distroName": "EndeavourOS",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<text>Flatpaki paigaldamiseks EndeavorOSis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</text> <code></code> <text>Seejärel paigalda Flatpak:</text> <code></code>"
+      "text": "<text>Flatpaki paigaldamiseks EndeavorOSis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</text> <codeUpdate></codeUpdate> <text>Seejärel paigalda Flatpak:</text> <code></code>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -406,7 +405,7 @@
     "distroName": "Crystal Linux",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<text>Flatpaki paigaldamiseks Crystal Linuxis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</text> <code></code> <text>Seejärel paigalda Flatpak:</text> <code></code>"
+      "text": "<text>Flatpaki paigaldamiseks Crystal Linuxis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</text> <codeUpdate></codeUpdate> <text>Seejärel paigalda Flatpak:</text> <code></code>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
@@ -416,14 +415,14 @@
       "name": "Lisa Flathubi tarkvarahoidla",
       "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
     },
-    "introduction": "<text>Flatpak on Crystal Linuxis vaikimisi olemas.</text> <text>Kui sa Crystal Linuxi paigaldamisel ei kasutanud rakendust „jade_gui“ või eelistasid teda mitte valida, siis võid Flatpaki kasutusele võtta järgmiste tegevustega.</text>"
+    "introduction": "<header>Flatpak on Crystal Linuxis vaikimisi olemas.</header> <text>Kui sa Crystal Linuxi paigaldamisel ei kasutanud rakendust „jade_gui“ või eelistasid teda mitte valida, siis võid Flatpaki kasutusele võtta järgmiste tegevustega.</text>"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<text>Flatpak on Vanilla OSis vaikimisi olemas.</text> <link>Rakenduste paigaldamiseks võid kasutada rakendust Tarkvara või sirvida <link>Flathubi veebisaiti</link>.</link> <text>Kui mingil põhjusel on Flathub seadistamata, siis saad seda käsitsi teha järgmise käsuga:</text> <code></code>"
+    "introduction": "<header>Flatpak on Vanilla OSis vaikimisi olemas.</header> <text>Rakenduste paigaldamiseks võid kasutada rakendust Tarkvara või sirvida <link>Flathubi veebisaiti</link>.</text> <text>Kui mingil põhjusel on Flathub seadistamata, siis saad seda käsitsi teha järgmise käsuga:</text> <code></code>"
   },
   "salix": {
     "distroName": "Salix",
-    "introduction": "<text>Alates Salixi versioonist 15.0 on Flatpak vaikimisi paigaldatud — lisatoimingud pole vajalikud!</text> <text>Flathubi tarkvarahoidla on eelseadistatud ja olemas on töölauatarvikud, mis võimaldavad rakenduste paigaldamist Flathubist ühe klõpsuga.</text> <text>Sul pole vaja muud teha, <link>kui paigaldada rakendusi</link>!</text>"
+    "introduction": "<header>Alates Salixi versioonist 15.0 on Flatpak vaikimisi paigaldatud — lisatoimingud pole vajalikud!</header> <text>Flathubi tarkvarahoidla on eelseadistatud ja olemas on töölauatarvikud, mis võimaldavad rakenduste paigaldamist Flathubist ühe klõpsuga.</text> <text>Sul pole vaja muud teha, <link>kui paigaldada rakendusi</link>!</text>"
   }
 }

@@ -20,13 +20,13 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Naka-install na by default ang Flatpak sa Fedora Workstation, Fedora Silverblue, at Fedora Kinoite. Para magsimula, kailangan mo na lang i-enable ang Flathub, na pinakamagandang paraan para makakuha ng mga naka-Flatpak na app. Naka-preconfigure ang Flathub bilang parte ng mga <link>Third-Party na Repositoryo</link>. Pwede mo ring i-download at i-install ang <filelink>file ng repositoryo ng Flathub</filelink>.</text> <link>Kailangan mo na lang ngayon <link>mag-install ng mga app</link>!</link> <text>Gagana dapat sa default na installation ng Fedora GNOME at KDE ang mga link sa itaas, pero kung hindi sila gumagana, pwede mong manu-manong idagdag ang Flathub remote sa pamamagitan ng pagpapatakbo ng:</text> <code></code>"
+    "introduction": "<text>Naka-install na by default ang Flatpak sa Fedora Workstation, Fedora Silverblue, at Fedora Kinoite. Para magsimula, kailangan mo na lang i-enable ang Flathub, na pinakamagandang paraan para makakuha ng mga naka-Flatpak na app. Naka-preconfigure ang Flathub bilang parte ng mga <repolink>Third-Party na Repositoryo</repolink>. Pwede mo ring i-download at i-install ang <filelink>file ng repositoryo ng Flathub</filelink>.</text> <text>Kailangan mo na lang ngayon <applink>mag-install ng mga app</applink>!</text> <text>Gagana dapat sa default na installation ng Fedora GNOME at KDE ang mga link sa itaas, pero kung hindi sila gumagana, pwede mong manu-manong idagdag ang Flathub remote sa pamamagitan ng pagpapatakbo ng:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "I-enable ang Flatpak sa pamamagitan ng Software Manager",
-      "text": "<text>Naka-install bilang default ang Flatpak sa Manjaro 20 at mas bago.</text> <link>Para i-enable ang support, mag-navigate sa <strong>Software Manager</strong> (Add/Remove Programs)</link> <text>I-click ang tatlong linyang menu [o mga dot depende sa Desktop Environmeng] sa kanan, sa drop down menu piliin ang \"Preferences\"</text> <text>Mag-navigate sa \"Flatpak\" tab at i-slide ang toggle para I-enable ang Flatpak support (posible rin ang pag-enable ng pagsusuri ng mga update, na lubos na inirerekomenda).</text>"
+      "text": "<text>Naka-install bilang default ang Flatpak sa Manjaro 20 at mas bago.</text> <text>Para i-enable ang support, mag-navigate sa <strong>Software Manager</strong> (Add/Remove Programs)</text> <text>I-click ang tatlong linyang menu [o mga dot depende sa Desktop Environmeng] sa kanan, sa drop down menu piliin ang \"Preferences\"</text> <text>Mag-navigate sa \"Flatpak\" tab at i-slide ang toggle para I-enable ang Flatpak support (posible rin ang pag-enable ng pagsusuri ng mga update, na lubos na inirerekomenda).</text>"
     },
     "step-2": {
       "name": "Mag-restart",
@@ -59,7 +59,7 @@
   },
   "alt_linux": {
     "step-3": {
-      "text": "<text>I-restart ang iyong device para kumpletuhin ang pag-install ng Flatpak. Ngayon ay <text>makaka-install ka na ng mga app</text>!</text>",
+      "text": "<text>I-restart ang iyong device para kumpletuhin ang pag-install ng Flatpak. Ngayon ay <link>makaka-install ka na ng mga app</link>!</text>",
       "name": "Mag-restart"
     },
     "distroName": "ALT Linux",
@@ -77,7 +77,6 @@
     "introduction": "<text>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</text>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Naka-install bilang default ang Flatpak sa Red Hat Enterprise Linux Workstation 9 at mas bago. Para magsimula, ang kailangan mo lang gawin ay i-enable ang Flathub, kung saan ay ang pinakamahusay na paraan upang makakuha ng Flatpak apps. I-download at i-install ang <link>Flathub repository file</link>.</text>"
+    "distroName": "Red Hat Enterprise Linux"
   }
 }
