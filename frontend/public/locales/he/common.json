@@ -345,9 +345,6 @@
   "more-development": "כלים נוספים למפתחים",
   "screen-contents-access": "גישה לתוכן המסך",
   "quality-guideline": {
-    "failing-x-checks_one": "בדיקה נכשלה",
-    "failing-x-checks_two": "{count} בדיקות נכשלו",
-    "failing-x-checks_other": "{count} בדיקות נכשלו",
     "hide-branding-preview": "הסתרת תצוגת מיתוג מקדימה",
     "show-branding-preview": "הצגת תצוגת מיתוג מקדימה",
     "details": "פרטים",

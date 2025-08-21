@@ -470,8 +470,6 @@
     "screenshots-up-to-date": "Актуални",
     "screenshots-include-window-shadow-and-rounded-corners": "Включват сянката на прозореца и заоблените ъгли",
     "screenshots-at-least-one-screenshot": "Поне една",
-    "failing-x-checks_one": "{count} неуспешна проверка",
-    "failing-x-checks_other": "{count} неуспешни проверки",
     "high-quality-app-data": "Отлични данни на приложението",
     "pending": "Изчаква рецензия",
     "details": "Подробности",

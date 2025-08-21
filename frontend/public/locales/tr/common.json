@@ -412,8 +412,6 @@
     "app-icon-size": "SVG ya da PNG, en az 256px boyutunda",
     "app-summary-dont-start-with-an-article": "The gibi article ile başlama",
     "screenshots-just-the-app-window": "Yalnızca uygulama penceresi",
-    "failing-x-checks_one": "{count} denetim başarısız oldu",
-    "failing-x-checks_other": "{count} denetim başarısız oldu",
     "screenshots-at-least-one-screenshot": "En az bir ekran görüntüsü",
     "screenshots-tag-screenshots-with-correct-language": "Ekran görüntülerini geçerli dille etiketleyin",
     "high-quality-app-data": "Yüksek kaliteli uygulama verisi",

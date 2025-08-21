@@ -470,8 +470,6 @@
     "screenshots-good-content": "Jó tartalom",
     "screenshots-up-to-date": "Naprakész",
     "screenshots-include-window-shadow-and-rounded-corners": "Tartalmazza az ablak árnyékát és a lekerekített sarkokat",
-    "failing-x-checks_one": "{count} ellenőrzés sikertelen",
-    "failing-x-checks_other": "{count} ellenőrzés sikertelen",
     "high-quality-app-data": "Kiváló minőségű alkalmazásadatok",
     "pending": "Függőben levő",
     "details": "Részletek",

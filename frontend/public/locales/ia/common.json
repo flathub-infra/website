@@ -80,8 +80,6 @@
     "app-icon": "Icone del application",
     "app-icon-size": "SVG o PNG de al minus 256 px",
     "general": "General",
-    "failing-x-checks_one": "{count} verification fallite",
-    "failing-x-checks_other": "{count} verificationes fallite",
     "app-name": "Nomine del application",
     "branding": "Marca",
     "hide-icon": "Celar icone",

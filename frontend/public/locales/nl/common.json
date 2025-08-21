@@ -452,8 +452,6 @@
     "pending": "In behandeling",
     "details": "Details",
     "review-requested": "Review aan­gevraagd",
-    "failing-x-checks_one": "{count} falende controle",
-    "failing-x-checks_other": "{count} falende controles",
     "not-passed": "Gefaald",
     "app-data-review-pending": "Review van app-gegevens in afwachting",
     "passed": "Geslaagd",

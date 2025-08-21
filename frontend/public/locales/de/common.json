@@ -470,8 +470,6 @@
     "screenshots-up-to-date": "Aktuell",
     "screenshots-include-window-shadow-and-rounded-corners": "Mit Fensterschatten und abgerundeten Ecken",
     "screenshots-at-least-one-screenshot": "Mindestens ein Bildschirmfoto",
-    "failing-x-checks_one": "Eine Prüfung fehlgeschlagen",
-    "failing-x-checks_other": "{count} Prüfungen fehlgeschlagen",
     "high-quality-app-data": "Hochwertige App-Daten",
     "pending": "Anstehend",
     "details": "Details",

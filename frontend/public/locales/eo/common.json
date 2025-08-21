@@ -466,8 +466,6 @@
     "screenshots-up-to-date": "Ĝisdata",
     "screenshots-include-window-shadow-and-rounded-corners": "Inkluzivi fenestran ombron kaj rondajn angulojn",
     "screenshots-at-least-one-screenshot": "Almenaŭ unu ekrankopio",
-    "failing-x-checks_one": "{count} kriterio ne plenumiĝis",
-    "failing-x-checks_other": "{count} kriterioj ne plenumiĝis",
     "high-quality-app-data": "Altkvalitaj programaj metadatenoj",
     "pending": "Reviziota",
     "details": "Detaloj",
