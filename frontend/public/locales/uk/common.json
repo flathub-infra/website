@@ -219,7 +219,7 @@
   "verify-app": "Підтвердити застосунок",
   "error": "Помилка",
   "website-verification-main-instruction": "Підтвердьте своє право на використання ID застосунку <bold>{id}</bold>, розмістивши токен на визначеній сторінці <bold>{domain}</bold>.",
-  "login-provider-verification-switch-account": "Наразі ви увійшли до <loginprovider>{login_provider}</loginprovider> як <currentname>{current_name}</currentname>. Увійдіть як <requiredname>{required_name}</requiredname> для підтвердження <appid>{appId}</appid> через постачальника входу або виберіть інший метод, якщо він доступний.",
+  "login-provider-verification-switch-account": "Наразі ви увійшли до <loginprovider></loginprovider> як <currentname></currentname>. Увійдіть як <requiredname></requiredname> для підтвердження <appid></appid> через постачальника входу або виберіть інший метод, якщо він доступний.",
   "server-returned-status-code": "Сервер повернув HTTP {code}.",
   "unverify": "Скасувати підтвердження",
   "begin": "Почати",

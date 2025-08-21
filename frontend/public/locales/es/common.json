@@ -226,7 +226,7 @@
   "unverify-app-prompt": "¿Desverificar {appId}?",
   "verification-failed-to-connect": "Error al conectar con {domain}.",
   "login-provider-verification-main-instruction": "Verifique el derecho a usar el ID de la aplicación <appid>{id}</appid> iniciando sesión en la cuenta <loginname>{login_name}</loginname> en <loginprovider>{login_provider}</loginprovider>.",
-  "login-provider-verification-switch-account": "Actualmente ha iniciado sesión en <loginprovider>{login_provider}</loginprovider> como <currentname>{current_name}</currentname>. Inicie sesión como <requiredname>{required_name}</requiredname> para verificar <appid>{appId}</appid> mediante el proveedor de inicio de sesión, o escoja otro método si hay alguno disponible.",
+  "login-provider-verification-switch-account": "Actualmente ha iniciado sesión en <loginprovider></loginprovider> como <currentname></currentname>. Inicie sesión como <requiredname></requiredname> para verificar <appid></appid> mediante el proveedor de inicio de sesión, o escoja otro método si hay alguno disponible.",
   "failed-to-find-token": "No se ha encontrado el testigo en la respuesta de {domain}.",
   "no-transactions": "Sin transacciones",
   "website-validation-instruction": "Cree una página en <link>{webpage}</link> que contenga el siguiente testigo: <i>{token}</i> Si la página ya existe, añádale el testigo.",

@@ -652,7 +652,7 @@
   },
   "download": {
     "install-x": "安装“{x}”",
-    "fallback-instructions": "<opening>正在您的软件管理器中打开“{name}”……</opening><support>如果没有任何反应，有可能您的系统不支持 <i>flatpak+https</i> 链接。</support><listPrefix>这种情况下，您可以：</listPrefix><ol><li>下载 <link>.flatpakref</link> 文件</li><li>然后在您的文件管理器中运行该文件</li></ol><setupLine><linkSetup>Flatpak 安装指南</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>正在使用您的软件管理器中打开“{name}”……</opening><support>如果没有任何反应，有可能您的系统不支持 <i>flatpak+https</i> 链接。</support><listPrefix>这种情况下，您可以：</listPrefix><ol><li>下载 <link>.flatpakref</link> 文件</li><li>然后在您的文件管理器中运行该文件</li></ol><setupLine><linkSetup>Flatpak 安装指南</linkSetup></setupLine>"
   },
   "country-statistics": "国家/地区统计数据",
   "all-the-apps-you-want": "<bold>海量应用，随心选择</bold> — 从您熟悉的大厂应用，到新兴的独立开发者佳作，Flathub 拥有数千款应用满足您的所需。",

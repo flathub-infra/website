@@ -224,7 +224,7 @@
   "unverify": "Retirar verificação",
   "unverify-app-prompt": "Retirar verificação de {appId}?",
   "website-verification-main-instruction": "Confirme seu direito de usar o ID do aplicativo <bold>{id}</bold> colocando um token em uma página específica em <bold>{domain}</bold>.",
-  "login-provider-verification-switch-account": "No momento, você está conectado a <loginprovider>{login_provider}</loginprovider> como <currentname>{current_name}</currentname>. Faça login como <requiredname>{required_name}</requiredname> para verificar <appid>{appId}</appid> pelo provedor de login ou escolha outro método, se estiver disponível.",
+  "login-provider-verification-switch-account": "No momento, você está conectado a <loginprovider></loginprovider> como <currentname></currentname>. Faça login como <requiredname></requiredname> para verificar <appid></appid> pelo provedor de login ou escolha outro método, se estiver disponível.",
   "begin": "Começar",
   "verifying": "Verificando",
   "failed-to-find-token": "Falha ao encontrar token em resposta de {domain}.",
