@@ -1,3 +1,5 @@
+import importlib.resources
+import json
 import xml.etree.ElementTree as ET
 from enum import Enum
 from uuid import uuid4
@@ -66,6 +68,18 @@ class ErrorDetail(str, Enum):
 # Utility functions
 
 
+def _get_manual_verification_maps() -> dict[str, str]:
+    manual_maps: dict[str, str] = {}
+    try:
+        with importlib.resources.open_text(
+            "app.staticfiles", "manual_verifications.json"
+        ) as f:
+            manual_maps = json.load(f)
+    except Exception as err:
+        print(f"Failed to load manual maps: {err}")
+    return manual_maps
+
+
 def _matches_prefixes(app_id: str, *prefixes) -> bool:
     return any(app_id.startswith(prefix + ".") for prefix in prefixes)
 
@@ -118,7 +132,8 @@ def _demangle_name(name: str) -> str:
     return name
 
 
-def _get_domain_name(app_id: str) -> str | None:
+def _get_domain_name(app_id: str) -> tuple[str, bool] | None:
+    manual_maps = _get_manual_verification_maps()
     if _matches_prefixes(app_id, "com.github", "com.gitlab"):
         # These app IDs are common, and we don't want to confuse people by saying they can put a file on GitHub/GitLab's main website.
         return None
@@ -128,23 +143,26 @@ def _get_domain_name(app_id: str) -> str | None:
         # You can, however, verify by putting a file on your *.github.io or *.gitlab.io site
         [tld, domain, username] = app_id.split(".")[0:3]
         username = _demangle_name(username)
-        return f"{username}.{domain}.{tld}".lower()
+        return (f"{username}.{domain}.{tld}".lower(), False)
     elif _matches_prefixes(app_id, "io.sourceforge", "net.sourceforge"):
         [tld, domain, projectname] = app_id.split(".")[0:3]
         projectname = _demangle_name(projectname)
         # https://sourceforge.net/p/forge/documentation/Project%20Web%20Services/
-        return f"{projectname}.{domain}.io".lower()
+        return (f"{projectname}.{domain}.io".lower(), False)
+    elif manual_maps and app_id in manual_maps:
+        domain = manual_maps[app_id]
+        return (domain.lower(), True)
     else:
         fqdn = ".".join(reversed(app_id.split("."))).lower()
 
         psl = publicsuffixlist.PublicSuffixList()
         if psl.is_private(fqdn):
-            return _demangle_name(psl.privatesuffix(fqdn))
+            return (_demangle_name(psl.privatesuffix(fqdn)), False)
 
         # fallback to the top-level domain
         [tld, domain] = app_id.split(".")[0:2]
         domain = _demangle_name(domain)
-        return f"{domain}.{tld}".lower()
+        return (f"{domain}.{tld}".lower(), False)
 
 
 def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
@@ -264,7 +282,7 @@ class CheckWebsiteVerification:
     tested separately."""
 
     def __call__(self, app_id: str, token: str):
-        domain = _get_domain_name(app_id)
+        domain, _ = _get_domain_name(app_id)
         if domain is None:
             return WebsiteVerificationResult(
                 verified=False, detail=ErrorDetail.INVALID_METHOD
@@ -467,11 +485,12 @@ def get_verification_status(
                 method=VerificationMethod.MANUAL,
             )
         case "website":
+            domain, _ = _get_domain_name(app_id)
             return VerificationStatus(
                 verified=True,
                 timestamp=str(int(verification.verified_timestamp.timestamp())),
                 method=VerificationMethod.WEBSITE,
-                website=_get_domain_name(app_id),
+                website=domain,
             )
         case "login_provider":
             provider_username = _get_provider_username(app_id)
@@ -542,7 +561,9 @@ def get_available_methods(
 
     methods = []
 
-    if domain := _get_domain_name(app_id):
+    domain, _ = _get_domain_name(app_id)
+
+    if domain:
         with get_db("replica") as db:
             verification = models.AppVerification.by_app_and_user(
                 db, app_id, login.user
@@ -871,7 +892,8 @@ def setup_website_verification(
 
     _check_app_id(app_id, new_app, login)
 
-    domain = _get_domain_name(app_id)
+    domain, is_manual = _get_domain_name(app_id)
+    verif_method = "website"
 
     if domain is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
@@ -881,13 +903,13 @@ def setup_website_verification(
 
     if (
         verification is None
-        or verification.method != "website"
+        or verification.method != verif_method
         or verification.token is None
     ):
         verification = models.AppVerification(
             app_id=app_id,
             account=login.user.id,
-            method="website",
+            method=verif_method,
             verified=False,
             token=str(uuid4()),
         )
