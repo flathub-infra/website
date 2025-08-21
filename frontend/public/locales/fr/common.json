@@ -662,7 +662,7 @@
   },
   "download": {
     "install-x": "Installer \"{x}\"",
-    "fallback-instructions": "<opening>Ouverture de \"{name}\" dans votre gestionnaire de logiciels...</opening><support>Si rien ne se passe, votre système ne prend peut-être pas en charge les URL <i>flatpak+https</i>.</support><listPrefix>Si c'est le cas, vous pouvez :</listPrefix><ol><li>Télécharger le <link>fichier .flatpakref</link></li><li>Puis l'exécuter depuis votre gestionnaire de fichiers</li></ol><setupLine><linkSetup>Instructions d'installation de Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Ouverture de \"{name}\" dans votre gestionnaire de logiciels…</opening><support>Si rien ne se passe, votre système ne prend peut-être pas en charge les URL <i>flatpak+https</i>.</support><listPrefix>Si c'est le cas, vous pouvez :</listPrefix><ol><li>Télécharger le <link>fichier .flatpakref</link></li><li>Puis l'exécuter depuis votre gestionnaire de fichiers</li></ol><setupLine><linkSetup>Instructions d'installation de Flatpak</linkSetup></setupLine>"
   },
   "since-x": "Depuis {date}",
   "country-statistics": "Statistiques par pays",

@@ -225,7 +225,7 @@
   "unverify": "Анулиране",
   "unverify-app-prompt": "Анулиране на {appId}?",
   "begin": "Започване",
-  "login-provider-verification-switch-account": "Използвате профила <currentname></currentname> в „<loginprovider></loginprovider>“. Влезте като <requiredname></requiredname>, за да проверите <appid></appid> или изберете друг метод.",
+  "login-provider-verification-switch-account": "В момента сте в „<loginprovider></loginprovider>“ като <currentname></currentname>. Влезте като <requiredname></requiredname>, за да проверите <appid></appid> или изберете друг метод.",
   "website-verification-main-instruction": "Потвърдете правото си да използвате идентификатора <bold>{id}</bold> като добавите жетон към страница в <bold>{domain}</bold>.",
   "failed-to-find-token": "Неуспешно намиране на жетон в отговор от {domain}.",
   "no-transactions": "Няма транзакции",
@@ -233,8 +233,8 @@
   "category-distribution": "Разпределение по категория",
   "chat": "Чат",
   "login-provider-verification-main-instruction-organization": "Потвърдете правото си да използвате идентификатора <appid></appid> като влезете с администраторски права от профила <orgname></orgname> в „<loginprovider></loginprovider>“.",
-  "login-provider-verification-not-org-admin": "Използвате профила <currentname></currentname> в „<loginprovider></loginprovider>“. Този профил не е администратор в <orgname></orgname>. За да проверите приложението, трябва да заявите администраторски права или да влезете в администраторски профил.",
-  "login-provider-verification-not-org-member": "Използвате профила <currentname></currentname> в „<loginprovider></loginprovider>“. Този профил не участва в <orgname></orgname>. За да проверите приложението, трябва да заявите администраторски права или да влезете в администраторски профил.",
+  "login-provider-verification-not-org-admin": "В момента сте в „<loginprovider></loginprovider>“ като <currentname></currentname>. Този профил не е администратор в <orgname></orgname>. За да проверите приложението, трябва да заявите администраторски права или да влезете в администраторски профил.",
+  "login-provider-verification-not-org-member": "В момента сте в „<loginprovider></loginprovider>“ като <currentname></currentname>. Този профил не участва в <orgname></orgname>. За да проверите приложението, трябва да заявите администраторски права или да влезете в администраторски профил.",
   "login-provider-verification-user-does-not-exist": "Профилът <requiredname></requiredname> не съществува в „<loginprovider></loginprovider>“. Използвайте името на профила си, за да проверите приложението или изберете идентификатор, който вече притежавате. Прочетете <doclink>документацията на „Flatpak“</doclink> за повече информация.",
   "login-provider-verification-enable-github-app": "За да продължите, „Flathub“ трябва да разгледа вашето членство в <orgname></orgname>. Може да осигурите достъп от <settingslink>настройките на „GitHub“</settingslink>.",
   "login-provider-verification-failed": "Изискванията не са изпълнени.",
@@ -661,7 +661,7 @@
   },
   "download": {
     "install-x": "Инсталиране на „{x}“",
-    "fallback-instructions": "<opening>Отваряне на „{name}“ във вашия софтуерен мениджър...</opening><support>Ако нищо не се случи, може би вашата система не поддържа връзката <i>flatpak+https</i>.</support><listPrefix>В такъв случай можете:</listPrefix><ol><li>Да изтеглите файла <link>.flatpakref</link></li><li>След това да го стартирате от вашия файлов мениджър</li></ol><setupLine><linkSetup>Инструкции за инсталиране на „Flatpak“</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Отваряне на „{name}“ във вашия софтуерен мениджър…</opening><support>Ако нищо не се случи, може би вашата система не поддържа връзката <i>flatpak+https</i>.</support><listPrefix>В такъв случай можете:</listPrefix><ol><li>Да изтеглите файла <link>.flatpakref</link></li><li>След това да го стартирате от вашия файлов мениджър</li></ol><setupLine><linkSetup>Инструкции за инсталиране на „Flatpak“</linkSetup></setupLine>"
   },
   "since-x": "От {date}",
   "country-statistics": "Статистика по държави",

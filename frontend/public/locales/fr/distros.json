@@ -322,7 +322,8 @@
       "text": "<text>Un paquetage Flatpak est disponible dans Raspberry Pi OS (précédemment appelé Raspbian) Stretch et les versions plus récentes. Pour l’installer, exécutez les éléments suivants en tant que root :</text> <code></code>"
     },
     "step-2": {
-      "name": "Ajouter le dépôt Flathub"
+      "name": "Ajouter le dépôt Flathub",
+      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l’activer exécutez :</text> <code></code> <text><strong>Note importante :</strong> Il est recommandé d’utiliser Raspberry Pi OS 64 bits car les applications les plus récentes sont davantage susceptibles d’être disponibles uniquement pour cette plateforme.</text>"
     },
     "step-3": {
       "name": "Redémarrer",

@@ -350,7 +350,7 @@
   "publisher-agreement": "Հրատարակչի հաստատման պայմանագիր",
   "verification-instructions": "Հաստատեք ձեր հավելվածի ID-ն, որպեսի ձեր Flathub վերբեռնումը ստուգված լինի հավելված մշակողի կողմից: Պետք է ապացուցեք, որ դուք վերահսկում եք հավելվածը վեբկայքի տիրույթում կամ ստուգելով մուտքը դեպի հավելվածի ելակետային հոսթինգի հաշիվ: Հաստատված կրծքանշանը կցուցադրվի հավելվածի ու հրատարակչի անվան, ինչպես նաև հավելվածի ID-ի կողքին:",
   "login-provider-verification-enable-github-app": "Հաստատումը շարունակելու համար Flathub-ին անհրաժեշտ է թույլտվություն՝ ընթերցելու ձեր անդամակցության մակարդակը <orgname></orgname> կազմակերպությունում: Կարող եք հաստատել այս թույլտվությունը <settingslink>ձեր GitHub-ի կարգավորումների միջից</settingslink>:",
-  "login-provider-verification-switch-account": "Այս պահին դուք մուտք եք գործել որպես <loginprovider>{login_provider}</loginprovider> <currentname>{current_name}</currentname>: Մուտք գործեք որպես <requiredname>{required_name}</requiredname>՝ հաշիվը մուտքի մատակարարի կողմից <appid>{appId}</appid> ստուգելու համար, կամ ընտրեք այլ մեթոդ, եթե այդպիսիք առկա են:",
+  "login-provider-verification-switch-account": "Այս պահին դուք մուտք եք գործել որպես <loginprovider></loginprovider> <currentname></currentname>: Մուտք գործեք որպես <requiredname></requiredname>՝ հաշիվը մուտքի մատակարարի կողմից <appid></appid> ստուգելու համար, կամ ընտրեք այլ մեթոդ, եթե այդպիսիք առկա են:",
   "leave-confirmation": "Իրո՞ք ցանկանում եք լքել {app}-ը։",
   "leave": "Լքել",
   "try-again": "Փորձել նորից",
