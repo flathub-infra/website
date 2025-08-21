@@ -508,34 +508,53 @@ def test_verification_domain_names():
     assert _get_domain_name("com.gitlab.Example") is None
 
     # Github
-    assert _get_domain_name("io.github.example.App") == "example.github.io"
+    assert _get_domain_name("io.github.example.App") == ("example.github.io", False)
     # Gitlab
-    assert _get_domain_name("io.gitlab.example.App") == "example.gitlab.io"
+    assert _get_domain_name("io.gitlab.example.App") == ("example.gitlab.io", False)
 
     # Codeberg
-    assert _get_domain_name("page.codeberg.example.App") == "example.codeberg.page"
-    assert _get_domain_name("page.codeberg._0example.App") == "0example.codeberg.page"
+    assert _get_domain_name("page.codeberg.example.App") == (
+        "example.codeberg.page",
+        False,
+    )
+    assert _get_domain_name("page.codeberg._0example.App") == (
+        "0example.codeberg.page",
+        False,
+    )
 
     # Sourceforge
-    assert _get_domain_name("io.sourceforge.example.App") == "example.sourceforge.io"
-    assert _get_domain_name("io.sourceforge.example.App") == "example.sourceforge.io"
-    assert (
-        _get_domain_name("net.sourceforge._0example.App") == "0example.sourceforge.io"
+    assert _get_domain_name("io.sourceforge.example.App") == (
+        "example.sourceforge.io",
+        False,
     )
-    assert (
-        _get_domain_name("net.sourceforge._0example.App") == "0example.sourceforge.io"
+    assert _get_domain_name("io.sourceforge.example.App") == (
+        "example.sourceforge.io",
+        False,
+    )
+    assert _get_domain_name("net.sourceforge._0example.App") == (
+        "0example.sourceforge.io",
+        False,
+    )
+    assert _get_domain_name("net.sourceforge._0example.App") == (
+        "0example.sourceforge.io",
+        False,
     )
 
     # Normal top-level domain
-    assert _get_domain_name("org.flathub.TestApp") == "flathub.org"
-    assert _get_domain_name("org._0example.TestApp") == "0example.org"
-    assert _get_domain_name("org.example_website.TestApp") == "example-website.org"
-    assert _get_domain_name("org._0_example.TestApp") == "0-example.org"
-    assert _get_domain_name("tv.kodi.Kodi") == "kodi.tv"
-    assert _get_domain_name("com.fyralabs.SkiffDesktop") == "fyralabs.com"
-    assert _get_domain_name("org.ppsspp.PPSSPP") == "ppsspp.org"
-    assert _get_domain_name("net.kuribo64.melonDS") == "kuribo64.net"
-    assert _get_domain_name("org.mozilla.firefox") == "mozilla.org"
+    assert _get_domain_name("org.flathub.TestApp") == ("flathub.org", False)
+    assert _get_domain_name("org._0example.TestApp") == ("0example.org", False)
+    assert _get_domain_name("org.example_website.TestApp") == (
+        "example-website.org",
+        False,
+    )
+    assert _get_domain_name("org._0_example.TestApp") == ("0-example.org", False)
+    assert _get_domain_name("tv.kodi.Kodi") == ("kodi.tv", False)
+    assert _get_domain_name("com.fyralabs.SkiffDesktop") == ("fyralabs.com", False)
+    assert _get_domain_name("org.ppsspp.PPSSPP") == ("ppsspp.org", False)
+    assert _get_domain_name("net.kuribo64.melonDS") == ("kuribo64.net", False)
+    assert _get_domain_name("org.mozilla.firefox") == ("mozilla.org", False)
+
+    assert _get_domain_name("org.flathub.invalid.test") == ("flathub.org", True)
 
 
 @pytest.mark.xfail
