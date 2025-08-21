@@ -373,8 +373,6 @@
     "app-name-not-too-long": "20 वर्णों से छोटा",
     "screenshots-at-least-one-screenshot": "कम से कम एक स्क्रीनशॉट",
     "request-a-review-question": "क्या आप समीक्षा का अनुरोध करना चाहते हैं?",
-    "failing-x-checks_one": "असफल {count} जाँच",
-    "failing-x-checks_other": "असफल {count} जाँचें",
     "screenshots-include-window-shadow-and-rounded-corners": "खिड़की की छाया और गोलाकार कोने शामिल करें",
     "app-no-weird-formatting": "कोई अजीब स्वरूपण, विराम चिह्न, छोटेकेस इत्यादि नहीं।",
     "request-review-description": "हमारी टीम गुणवत्ता संबंधी समस्याओं के लिए आपके ऐप की समीक्षा करेगी। कृपया कुछ दिनों बाद जांच करें।",

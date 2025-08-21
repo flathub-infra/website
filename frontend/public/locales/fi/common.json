@@ -469,8 +469,6 @@
     "screenshots-up-to-date": "Ajan tasalla",
     "screenshots-include-window-shadow-and-rounded-corners": "Sisällytä ikkunan varjo ja pyöristetyt kulmat",
     "screenshots-at-least-one-screenshot": "Vähintään yksi kuvakaappaus",
-    "failing-x-checks_one": "{count} tarkistus epäonnistuu",
-    "failing-x-checks_other": "{count} tarkistusta epäonnistuu",
     "pending": "Odottaa",
     "details": "Lisätiedot",
     "review-requested": "Katselmointia pyydetty",

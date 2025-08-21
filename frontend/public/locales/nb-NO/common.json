@@ -307,8 +307,6 @@
     "app-summary-not-technical": "Forståelig for en ikke-teknisk person",
     "hide-icon": "Skjul ikon",
     "screenshots-just-the-app-window": "Bare appvinduet",
-    "failing-x-checks_one": "{count} problem med metadataene",
-    "failing-x-checks_other": "{count} problemer med metadataene",
     "app-icon-detail": "Ikke for mange eller for få detaljer",
     "app-name": "App-navn",
     "screenshots-take-screenshots-on-linux": "Tatt på Linux",

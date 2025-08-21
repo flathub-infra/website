@@ -54,9 +54,7 @@
     "app-icon": "وێنۆچکەی بەرنامە",
     "not-passed": "تێنەپەڕیوە",
     "app-name-not-too-long": "کەمتربێت لە 20 پیت",
-    "passed": "تێپەڕیوە",
-    "failing-x-checks_one": "پشکنینی {count} شکستیهێنا",
-    "failing-x-checks_other": "پشکنینی {count} شکستیانهێنا"
+    "passed": "تێپەڕیوە"
   },
   "mobile-apps": "بەرنامەکانی مۆبایل",
   "no-network-access": "دەستگەیشتنی ڕایەڵەی نییە",

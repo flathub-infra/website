@@ -211,8 +211,6 @@
     "pending": "Pezull",
     "request-a-review-question": "Doni të kërkoni një shqyrtim?",
     "details": "Hollësi",
-    "failing-x-checks_one": "Dështoi {count} kontroll",
-    "failing-x-checks_other": "Dështuan {count} kontrolle",
     "general": "Të përgjithshme",
     "general-no-trademark-violations": "Pa cenime shenjash tregtare (emër ose ikonë)",
     "app-icon": "Ikonë Aplikacioni",

@@ -422,7 +422,6 @@
     "not-passed": "未通过",
     "request-review": "请求审查",
     "review-requested": "已请求审查",
-    "failing-x-checks_other": "{count} 项检查失败",
     "passed": "通过",
     "request-a-review-question": "你想请求审查吗？",
     "high-quality-app-data": "高质量的应用数据",
