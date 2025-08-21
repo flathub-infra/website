@@ -398,9 +398,6 @@
     "show-branding-preview": "Mostra l'anteprima del marchio",
     "branding-has-primary-brand-colors": "Ha i colori primari del marchio",
     "review-requested": "Richiesta Revisione",
-    "failing-x-checks_one": "{count} controllo non superato",
-    "failing-x-checks_many": "{count} controlli non superati",
-    "failing-x-checks_other": "{count} controlli non superati",
     "problems": "Se desideri porci domande su specifici problemi relativi alle linee guida sulla qualità, sentiti libero di aprire <link>un problema</link>.",
     "light": "Chiaro",
     "dark": "Scuro"

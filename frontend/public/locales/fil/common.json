@@ -601,8 +601,6 @@
     "details": "Mga Detalye",
     "high-quality-app-data": "Mataas na kalidad ng data ng app",
     "app-data-review-pending": "Nakabinbin ang pagsuri ng app data",
-    "failing-x-checks_one": "{count} nabibigong pagsusuri",
-    "failing-x-checks_other": "{count} na nabibigong pagsusuri",
     "hide-branding-preview": "Itago ang preview ng branding",
     "show-branding-preview": "Ipakita ang preview ng branding",
     "light": "Maliwanag",
