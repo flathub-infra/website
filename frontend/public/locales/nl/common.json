@@ -507,7 +507,7 @@
   "new-beta-token": "Nieuw bèta-token",
   "create-token": "Token aanmaken",
   "scope-publish": "Build publiceren",
-  "no-tokens-to-show": "Geen tokens om weer te geven",
+  "no-tokens-to-show": "Geen tokens om weer te geven.",
   "revoke-token-description": "Weet u zeker dat u de token ‘{name}’ wilt intrekken?",
   "revoke": "Intrekken",
   "show-expired-tokens": "Verlopen tokens tonen",

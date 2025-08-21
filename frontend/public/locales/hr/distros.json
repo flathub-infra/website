@@ -22,11 +22,11 @@
     "distroName": "Mageia",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<text>Dostupan je Flatpak paket za Mageia 6 i novije verzije. Za instaliranje s DNF-om, pokreni sljedeće kao administrator:</text><code></code> <text>Za instaliranje s <text>urpmi</text>, pokreni:</text> <code></code>"
+      "text": "<text>Dostupan je Flatpak paket za Mageia 6 i novije verzije. Za instaliranje s DNF-om, pokreni sljedeće kao administrator:</text><code></code> <text>Za instaliranje s <strong>urpmi</strong>, pokreni:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <link>datoteku Flathub repozitorija</link> ili pokreni sljedeće u terminalu:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
     },
     "step-3": {
       "name": "Pokreni ponovo",
@@ -41,7 +41,7 @@
     "distroName": "NixOS",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<text>Za instaliranje Flatpaka, postavi NixOS opciju <link>services.flatpak.enable</link> na <text>true</text> dodajući sljedeće u tvoju <text>/etc/nixos/configuration.nix</text> datoteku:</text> <code></code> <text>Nakon toga ponovo izgradi i prebaci se na novu konfiguraciju s:</text> <code></code> <text>Za više detalja pogledaj <link>NixOS dokumentaciju</link>.</text>"
+      "text": "<text>Za instaliranje Flatpaka, postavi NixOS opciju <strong>services.flatpak.enable</strong> na <strong>true</strong> dodajući sljedeće u tvoju <strong>/etc/nixos/configuration.nix</strong> datoteku:</text> <code></code> <text>Nakon toga ponovo izgradi i prebaci se na novu konfiguraciju s:</text> <codeRebuild></codeRebuild> <text>Za više detalja pogledaj <doclink>NixOS dokumentaciju</doclink>.</text>"
     },
     "step-3": {
       "name": "Pokreni ponovo",
@@ -55,7 +55,7 @@
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <link>datoteku Flathub repozitorija</link> ili pokreni sljedeće u terminalu:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
     },
     "distroName": "Solus",
     "step-3": {
@@ -85,7 +85,7 @@
   },
   "alpine": {
     "step-4": {
-      "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <text>instalirati aplikacije</text>!</text>",
+      "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text>",
       "name": "Pokreni ponovo"
     },
     "distroName": "Alpine",
@@ -95,22 +95,22 @@
     },
     "step-2": {
       "name": "Instaliraj Flatpak dodatak za Softver",
-      "text": "<text>Flatpak dodatak se može instalirati za GNOME Softver (od verzije 3.13) ili KDE Discover (od verzije 3.11), što omogućuje instalaciju aplikacija bez korištenja naredbenog retka. Za instalaciju za GNOME Softver pokreni:</text> <code></code> <text>Za KDE Discover pokreni:</text> <code></code>"
+      "text": "<text>Flatpak dodatak se može instalirati za GNOME Softver (od verzije 3.13) ili KDE Discover (od verzije 3.11), što omogućuje instalaciju aplikacija bez korištenja naredbenog retka. Za instalaciju za GNOME Softver pokreni:</text> <code></code> <text>Za KDE Discover pokreni:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <link>datoteku Flathub repozitorija</link> ili pokreni sljedeće u terminalu:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
     }
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak je standardno instaliran na Fedora Workstation, Fedora Silverblue i Fedora Kinoite. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Flathub je unaprijed konfiguriran kao dio <link>repozitorija trećih strana</link>. Alternativno možeš preuzeti i instalirati <filelink>datoteku Flathub repozitorija</filelink>.</text> <link>Sada moraš još samo <link>instalirati aplikacije</link>!</link> <text>Gore navedene poveznice bi trebale raditi na zadanim GNOME i KDE Fedora instalacijama, no ako iz nekog razloga ne rade, možeš ručno dodati udaljeni Flathub repozitorij pokretanjem:</text> <code></code>"
+    "introduction": "<text>Flatpak je standardno instaliran na Fedora Workstation, Fedora Silverblue i Fedora Kinoite. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Flathub je unaprijed konfiguriran kao dio <repolink>repozitorija trećih strana</repolink>. Alternativno možeš preuzeti i instalirati <filelink>datoteku Flathub repozitorija</filelink>.</text> <text>Sada moraš još samo <applink>instalirati aplikacije</applink>!</text> <text>Gore navedene poveznice bi trebale raditi na zadanim GNOME i KDE Fedora instalacijama, no ako iz nekog razloga ne rade, možeš ručno dodati udaljeni Flathub repozitorij pokretanjem:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "Aktiviraj Flatpak putem upravljača softvera",
-      "text": "<text>Flatpak je standardno instaliran na Manjaro 20 i novijim verzijama.</text> <link>Za aktiviranje podrške idi na <strong>Upravljač softvera</strong> (Dodaj/Izbriši programe)</link> <text>Klikni na izbornik s tri crte [ili tri točke, ovisno o desktop okruženju] na desnoj strani, a u padajućem izborniku odaberi „Osobitosti“.</text> <text>Idi na karticu „Flatpak“ i pomakni prekidač za aktiviranje Flatpak podrške (također je moguće aktivirati provjeru ažuriranja, što se preporučuje).</text>"
+      "text": "<text>Flatpak je standardno instaliran na Manjaro 20 i novijim verzijama.</text> <text>Za aktiviranje podrške idi na <strong>Upravljač softvera</strong> (Dodaj/Izbriši programe)</text> <text>Klikni na izbornik s tri crte [ili tri točke, ovisno o desktop okruženju] na desnoj strani, a u padajućem izborniku odaberi „Osobitosti“.</text> <text>Idi na karticu „Flatpak“ i pomakni prekidač za aktiviranje Flatpak podrške (također je moguće aktivirati provjeru ažuriranja, što se preporučuje).</text>"
     },
     "step-2": {
       "name": "Pokreni ponovo",
@@ -124,7 +124,7 @@
   "rocky_linux": {
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <link>datoteku Flathub repozitorija</link> ili pokreni sljedeće u terminalu:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
     },
     "distroName": "Rocky Linux",
     "step-1": {
@@ -148,7 +148,7 @@
     },
     "step-3": {
       "name": "Pokreni ponovo",
-      "text": "<text>Za dovršavanje instaliranja Flatpaka ponovo pokreni uređaj. Sada možeš <text>instalirati aplikacije</text>!</text>"
+      "text": "<text>Za dovršavanje instaliranja Flatpaka ponovo pokreni uređaj. Sada možeš <link>instalirati aplikacije</link>!</text>"
     }
   },
   "chrome_os": {
@@ -156,7 +156,7 @@
     "introduction": "<text>Flatpak aplikacije se mogu instalirati na ChromeOS pomoću Crostini. Ovo nije dostupno za sve ChromeOS uređaje, stoga provjeri je li tvoj uređaj kompatibilan prije nego što nastaviš. Popis kompatibilnih uređaja dostupan je <link>ovdje</link>.</text>",
     "step-1": {
       "name": "Aktiviraj podršku za Linux",
-      "text": "<text>Idi na <link>chrome://os-settings</link>, pomakni se prema dolje do <strong>Programeri</strong> i uključi <i>Linux razvojno okruženje</i>. Preuzimanje i instaliranje Linuxa će ponešto potrajati.</text>"
+      "text": "<text>Idi na <settingslink>chrome://os-settings</settingslink>, pomakni se prema dolje do <strong>Programeri</strong> i uključi <em>Linux razvojno okruženje</em>. Preuzimanje i instaliranje Linuxa će ponešto potrajati.</text>"
     },
     "step-2": {
       "name": "Pokreni Linux terminal",
@@ -177,7 +177,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak je standardno instaliran na Red Hat Enterprise Linux Workstation 9 i novijim verzijama. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instalirak <link>datoteku Flathub repozitorija</link>.</text> <text>Za instaliranje Flatpaka na Red Hat Enterprise Linux Workstation 8 ili starijim verzijama, pokreni sljedeće u terminalu:</text> <filelink></filelink> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text> <text>Gore navedene poveznice bi trebale raditi na standardnoj Red Hat Enterprise Linux Workstation 9 instalaciji, no ako iz nekog razloga ne rade, možeš ručno dodati udaljeni Flathub repozitorij pokretanjem:</text> <code></code>"
+    "introduction": "<text>Flatpak je standardno instaliran na Red Hat Enterprise Linux Workstation 9 i novijim verzijama. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instalirak <filelink>datoteku Flathub repozitorija</filelink>.</text> <text>Za instaliranje Flatpaka na Red Hat Enterprise Linux Workstation 8 ili starijim verzijama, pokreni sljedeće u terminalu:</text> <code></code> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text> <text>Gore navedene poveznice bi trebale raditi na standardnoj Red Hat Enterprise Linux Workstation 9 instalaciji, no ako iz nekog razloga ne rade, možeš ručno dodati udaljeni Flathub repozitorij pokretanjem:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -187,7 +187,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<text>Flatpak je dostupan u zadanim repozitorijima svih trenutačno održavanih openSUSE Leap i openSUSE Tumbleweed verzija.</text> <link>Ako preferiraš grafičku instalaciju, instaliraj Flatpak pomoću instalacije jednim klikom (1-click installer) sa <link>software.opensuse.org</link>. Ako tvoja verzija distribucije standardno nije prikazana, najprije klikni <filelink>Prikaži</filelink> u kategoriji nepodržanih distribucija, a zatim odaberi distribuciju iz popisa.</link> <text>Alternativno, instaliraj Flatpak pomoću naredbenog retka koristeći Zypper:</text> <code></code>"
+      "text": "<text>Flatpak je dostupan u zadanim repozitorijima svih trenutačno održavanih openSUSE Leap i openSUSE Tumbleweed verzija.</text> <text>Ako preferiraš grafičku instalaciju, instaliraj Flatpak pomoću instalacije jednim klikom (1-click installer) sa <link>software.opensuse.org</link>. Ako tvoja verzija distribucije standardno nije prikazana, najprije klikni <em>Prikaži</em> u kategoriji nepodržanih distribucija, a zatim odaberi distribuciju iz popisa.</text> <text>Alternativno, instaliraj Flatpak pomoću naredbenog retka koristeći Zypper:</text> <code></code>"
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
@@ -217,11 +217,11 @@
     },
     "step-2": {
       "name": "Instaliraj Flatpak dodatak za Softver",
-      "text": "<text>Ako koristiš GNOME, također je dobra ideja instalirati Flatpak dodatak za GNOME Softver. Za to pokreni:</text> <code></code> <text>Ako koristiš KDE, umjesto toga instaliraj Flatpak pozadinski sustav Plasma Discover:</text> <code></code>"
+      "text": "<text>Ako koristiš GNOME, također je dobra ideja instalirati Flatpak dodatak za GNOME Softver. Za to pokreni:</text> <code></code> <text>Ako koristiš KDE, umjesto toga instaliraj Flatpak pozadinski sustav Plasma Discover:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <link>datoteku Flathub repozitorija</link> ili pokreni sljedeće u terminalu:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
     },
     "step-4": {
       "name": "Pokreni ponovo",
@@ -230,11 +230,11 @@
   },
   "centos": {
     "distroName": "CentOS",
-    "introduction": "<text>Flatpak je standardno instaliran na CentOS 7 i novijim verzijama kada se koristi GNOME. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <link>datoteku Flathub repozitorija</link>.</text> <link>Sada moraš još samo <link>instalirati aplikacije</link>!</link>"
+    "introduction": "<text>Flatpak je standardno instaliran na CentOS 7 i novijim verzijama kada se koristi GNOME. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink>.</text> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Flatpak je standardno instaliran na AlmaLinux 8 i novijim verzijama. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <link>datoteku Flathub repozitorija</link>.</text> <link>Sada moraš još samo <link>instalirati aplikacije</link>!</link>"
+    "introduction": "<text>Flatpak je standardno instaliran na AlmaLinux 8 i novijim verzijama. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink>.</text> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -272,7 +272,7 @@
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<text>Flatpak podrška je ugrađena u OpenMandriva za sve aktivno podržane verzije, počevši od stabilne/fiksne verzije „Rock 5.0“, preko razvojne verzije „Cooker“, pa do kontinuirane verzije „ROME“.</text> <text>Flatpak sadrži unaprijed konfigurirani Flathub repozitorij.</text>"
+    "introduction": "<header>Flatpak podrška je ugrađena u OpenMandriva za sve aktivno podržane verzije, počevši od stabilne/fiksne verzije „Rock 5.0“, preko razvojne verzije „Cooker“, pa do kontinuirane verzije „ROME“.</header> <text>Flatpak sadrži unaprijed konfigurirani Flathub repozitorij.</text>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -293,7 +293,7 @@
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</text> <code></code> <text><text>Važna napomena:</text> Preporučuje se korištenje 64-bitne verzije Raspberry Pi OS-a, jer je vjerojatnost veća da su novije aplikacije dostupne za tu platformu.</text>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</text> <code></code> <text><strong>Važna napomena:</strong> Preporučuje se korištenje 64-bitne verzije Raspberry Pi OS-a, jer je vjerojatnost veća da su novije aplikacije dostupne za tu platformu.</text>"
     },
     "step-3": {
       "name": "Pokreni ponovo",
@@ -317,11 +317,11 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>Flatpak je standardno instaliran na PureOS. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <link>datoteku Flathub repozitorija</link>.</text> <link>Sada moraš još samo <link>instalirati aplikacije</link>!</link>"
+    "introduction": "<text>Flatpak je standardno instaliran na PureOS. Za početak moraš samo aktivirati Flathub, što je najbolji način za dobivanje Flatpak aplikacija. Jednostavno preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink>.</text> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<text>Podrška za Flatpak je ugrađena u Zorin OS</text> <text>Za preuzimanje flatpak aplikacija možeš koristiti aplikaciju Softver.</text>"
+    "introduction": "<header>Podrška za Flatpak je ugrađena u Zorin OS</header> <text>Za preuzimanje flatpak aplikacija možeš koristiti aplikaciju Softver.</text>"
   },
   "pardus": {
     "distroName": "Pardus",
@@ -346,7 +346,7 @@
     "distroName": "MX Linux",
     "step-1": {
       "name": "Aktiviraj Flatpak putem upravljača softvera",
-      "text": "<text>Flatpak podrška je ugrađena u MX 18 i novijim verzijama. Potrebno je samo aktivirati Flathub repozitorij slijedeći ove upute:</text> <link>Otvori <strong>MX Package Installer</strong> (otvori izbornik i pogledaj MX alati), odaberi karticu „Flatpaks“, za aktiviranje repozitorija morat ćeš upisati administratorsku lozinku.</link>"
+      "text": "<text>Flatpak podrška je ugrađena u MX 18 i novijim verzijama. Potrebno je samo aktivirati Flathub repozitorij slijedeći ove upute:</text> <text>Otvori <strong>MX Package Installer</strong> (otvori izbornik i pogledaj MX alati), odaberi karticu „Flatpaks“, za aktiviranje repozitorija morat ćeš upisati administratorsku lozinku.</text>"
     },
     "step-2": {
       "name": "Pokreni ponovo",
@@ -372,7 +372,7 @@
     "distroName": "EndeavourOS",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<text>Za instaliranje Flatpaka na EndeavorOS, najprije provjeri je li tvoja instalacija aktualna, pokreni sljedeće u terminalu:</text><code></code> <text>Zatim instaliraj Flatpak:</text> <code></code>"
+      "text": "<text>Za instaliranje Flatpaka na EndeavorOS, najprije provjeri je li tvoja instalacija aktualna, pokreni sljedeće u terminalu:</text><codeUpdate></codeUpdate> <text>Zatim instaliraj Flatpak:</text> <code></code>"
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
@@ -404,10 +404,10 @@
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
-    "introduction": "<text>Flatpak je standardno instaliran na Crystal Linux.</text> <text>Ako za instalaciju Crystala nisi koristio/la jade_gui ili si odabrao/la da ga ne instaliraš, možeš postaviti Flatpak koristeći sljedeće korake.</text>",
+    "introduction": "<header>Flatpak je standardno instaliran na Crystal Linux.</header> <text>Ako za instalaciju Crystala nisi koristio/la jade_gui ili si odabrao/la da ga ne instaliraš, možeš postaviti Flatpak koristeći sljedeće korake.</text>",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<text>Za instaliranje Flatpaka na Crystal Linux, najprije provjeri da su tvoji paketi aktualni. Pokreni sljedeće u terminalu:</text><code></code> <text>Zatim instaliraj Flatpak:</text> <code></code>"
+      "text": "<text>Za instaliranje Flatpaka na Crystal Linux, najprije provjeri da su tvoji paketi aktualni. Pokreni sljedeće u terminalu:</text><codeUpdate></codeUpdate> <text>Zatim instaliraj Flatpak:</text> <code></code>"
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
@@ -424,6 +424,6 @@
   },
   "salix": {
     "distroName": "Salix",
-    "introduction": "<text>Podrška za Flatpak je ugrađena u Salix od verzije 15.0 – bez potrebe za postavljanjem!</text> <text>Flatpak sadrži unaprijed konfigurirani Flathub repozitorij, a alati za desktop integraciju su uključeni kako bi omogućili instalaciju aplikacija jednim klikom s Flathuba.</text> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
+    "introduction": "<header>Podrška za Flatpak je ugrađena u Salix od verzije 15.0 – bez potrebe za postavljanjem!</header> <text>Flatpak sadrži unaprijed konfigurirani Flathub repozitorij, a alati za desktop integraciju su uključeni kako bi omogućili instalaciju aplikacija jednim klikom s Flathuba.</text> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
   }
 }

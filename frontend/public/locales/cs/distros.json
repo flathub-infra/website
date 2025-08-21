@@ -20,12 +20,12 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak je nainstalován na Fedoře Workstation, Fedoře Silverblue, a Fedoře Kinoite již ve výchozím nastavení. Jediné co potřebujete pro začátek, je povolit repozitář Flathub, který je nejlepším místem pro získávání aplikací Flatpak. Flathub je předkonfigurovaný jako součást <link>repozitářů třetích stran</link>. Případně můžete stáhnout a nainstalovat <filelink>soubor repositáře Flathub</filelink>.</text> <link>Teď už jen stačí <link>nainstalovat aplikace</link>!</link> <text>Výše uvedené odkazy by měly fungovat ve výchozích instalacích Fedory GNOME a KDE, ale pokud z jakéhokoliv důvodu selžou, můžete přidat repozitář Flathub ručně spuštěním:</text> <code></code>"
+    "introduction": "<text>Flatpak je nainstalován na Fedoře Workstation, Fedoře Silverblue, a Fedoře Kinoite již ve výchozím nastavení. Jediné co potřebujete pro začátek, je povolit repozitář Flathub, který je nejlepším místem pro získávání aplikací Flatpak. Flathub je předkonfigurovaný jako součást <repolink>repozitářů třetích stran</repolink>. Případně můžete stáhnout a nainstalovat <filelink>soubor repositáře Flathub</filelink>.</text> <text>Teď už jen stačí <applink>nainstalovat aplikace</applink>!</text> <text>Výše uvedené odkazy by měly fungovat ve výchozích instalacích Fedory GNOME a KDE, ale pokud z jakéhokoliv důvodu selžou, můžete přidat repozitář Flathub ručně spuštěním:</text> <code></code>"
   },
   "manjaro": {
     "step-1": {
       "name": "Povolit Flatpak skrze ve Správci softwaru",
-      "text": "<text>Flatpak je nainstalován již ve výchozím nastavení na Manjaro 20 nebo vyšším.</text> <link>Pro povolení jeho podpory, přejděte do <strong>Správce softwaru</strong> (Nainstalovat/Odstranit software)</link> <text>Klikněte na tříčárkovanou nabídku [nebo tečky v závislosti na desktopovém prostředí] vpravo, v rolovací nabídce zvolte \"Předvolby\"</text> <text>Přejděte na kartu \"Flatpak\" a posuňte přepínač pro Povolení podpory Flatpak (je také možné povolit kontrolu aktualizací, což je doporučováno).</text>"
+      "text": "<text>Flatpak je nainstalován již ve výchozím nastavení na Manjaro 20 nebo vyšším.</text> <text>Pro povolení jeho podpory, přejděte do <strong>Správce softwaru</strong> (Nainstalovat/Odstranit software)</text> <text>Klikněte na tříčárkovanou nabídku [nebo tečky v závislosti na desktopovém prostředí] vpravo, v rolovací nabídce zvolte \"Předvolby\"</text> <text>Přejděte na kartu \"Flatpak\" a posuňte přepínač pro Povolení podpory Flatpak (je také možné povolit kontrolu aktualizací, což je doporučováno).</text>"
     },
     "step-2": {
       "name": "Restartujte",
@@ -49,14 +49,14 @@
     },
     "step-3": {
       "name": "Restartujte",
-      "text": "<text>Restartujte vaše zařízení pro dokončení instalace Flatpaku. Teď už jen stačí <text>nainstalovat aplikace</text>!</text>"
+      "text": "<text>Restartujte vaše zařízení pro dokončení instalace Flatpaku. Teď už jen stačí <link>nainstalovat aplikace</link>!</text>"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-1": {
       "name": "Povolte Linuxovou podporu",
-      "text": "<text>Přejděte do <link>chrome://os-settings</link>, a posuňte se dolů do sekce <strong>Vývojáře</strong> a povolte <i>Vývojové prostředí Linux</i>. Stažení a instalace systému Linux zabere nějaký čas.</text>"
+      "text": "<text>Přejděte do <settingslink>chrome://os-settings</settingslink>, a posuňte se dolů do sekce <strong>Vývojáře</strong> a povolte <em>Vývojové prostředí Linux</em>. Stažení a instalace systému Linux zabere nějaký čas.</text>"
     },
     "step-2": {
       "name": "Spusťte Linuxový termínal",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak je nainstalován již v základu na Red Hat Enterprise Linux, od verze 9 nebo novější. Jediné co potřebujete pro začátek, je povolení Flathubu, což je nejlepší způsob pro získávání aplikací Flatpak. Stačí jen stáhnout <link>soubor repozitáře Flathub</link>.</text> <text>Pro instalaci Flatpaku na Red Hat Enterprise Linux, verze 8 nebo starší, spusťte následující příkaz v terminálu: </text>  <filelink></filelink> <text>Nyní již můžete začít s <link>instalací aplikací</link>!</text> <text>Výše uvedené odkazy by měly fungovat ve výchozí instalaci Red Hat Enterprise Linux 9, nicméně pokud by z jakéhokoliv důvodu nefungovaly, můžete přidat repozitář Flathub ručně spuštěním:</text> <text></text>"
+    "introduction": "<text>Flatpak je nainstalován již v základu na Red Hat Enterprise Linux, od verze 9 nebo novější. Jediné co potřebujete pro začátek, je povolení Flathubu, což je nejlepší způsob pro získávání aplikací Flatpak. Stačí jen stáhnout <filelink>soubor repozitáře Flathub</filelink>.</text> <text>Pro instalaci Flatpaku na Red Hat Enterprise Linux, verze 8 nebo starší, spusťte následující příkaz v terminálu: </text>  <code></code> <text>Nyní již můžete začít s <link>instalací aplikací</link>!</text> <text>Výše uvedené odkazy by měly fungovat ve výchozí instalaci Red Hat Enterprise Linux 9, nicméně pokud by z jakéhokoliv důvodu nefungovaly, můžete přidat repozitář Flathub ručně spuštěním:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Nainstalujte Flatpak",
-      "text": "<text>Flatpak je k dispozici ve výchozích repozitářích všech aktuálně udržovaných verzí openSUSE Leap a openSUSE Tumbleweed.</text> <link>Pokud dáváte přednost grafické instalaci, můžete Flatpak nainstalovat pomocí „instalátoru na jedno kliknutí“ z <link>software.opensuse.org</link>. Pokud se verze vaší distribuce ve výchozím nastavení nezobrazuje, klikněte nejprve na <filelink>Zobrazit Flatpak pro jiné distribuce</filelink> a poté vyberte ze seznamu.</link> <text>Alternativně můžete Flatpak nainstalovat z příkazového řádku pomocí nástroje Zypper:</text> <code></code>"
+      "text": "<text>Flatpak je k dispozici ve výchozích repozitářích všech aktuálně udržovaných verzí openSUSE Leap a openSUSE Tumbleweed.</text> <text>Pokud dáváte přednost grafické instalaci, můžete Flatpak nainstalovat pomocí „instalátoru na jedno kliknutí“ z <link>software.opensuse.org</link>. Pokud se verze vaší distribuce ve výchozím nastavení nezobrazuje, klikněte nejprve na <em>Zobrazit Flatpak pro jiné distribuce</em> a poté vyberte ze seznamu.</text> <text>Alternativně můžete Flatpak nainstalovat z příkazového řádku pomocí nástroje Zypper:</text> <code></code>"
     },
     "step-2": {
       "name": "Přidejte repositář Flathub",
@@ -121,7 +121,7 @@
     },
     "step-3": {
       "name": "Přidejte repozitář Flathub",
-      "text": "<text>Flathub je nejlepším místem, odkud získávat Flatpak aplikace. Povolíte ho tak, že si stáhnete a nainstalujete <link>soubor Flathub repozitáře</link> nebo spustíte následující v terminálu:</text> <code></code>"
+      "text": "<text>Flathub je nejlepším místem, odkud získávat Flatpak aplikace. Povolíte ho tak, že si stáhnete a nainstalujete <filelink>soubor Flathub repozitáře</filelink> nebo spustíte následující v terminálu:</text> <code></code>"
     },
     "step-4": {
       "name": "Restartujte",
@@ -144,6 +144,6 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<text>Podpora Flatpaku je již zabudována v Zorin OS</text> <text>Můžete použít aplikaci Centrum Software pro stažení aplikací Flatpak.</text>"
+    "introduction": "<header>Podpora Flatpaku je již zabudována v Zorin OS</header> <text>Můžete použít aplikaci Centrum Software pro stažení aplikací Flatpak.</text>"
   }
 }

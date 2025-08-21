@@ -20,13 +20,13 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak-u, instalohet si parazgjedhje në Fedora Workstation, Fedora Silverblue dhe Fedora Kinoite. Që t’ia filloni, krejt ka ju duhet është të aktivizoni Flathub-in, e cila është mënyra më e mirë për të marrë aplikacione Flatpak. Flathub-i është i formësuar paraprakisht, si pjesë <link>Depove Palë të Treta</link>. Ndryshe, mund të instaloni dhe instaloni <filelink>kartelën e depos Flathub</filelink>.</text> <link>Tanimë krejt çka ju duhet është <link>të instaloni aplikacione</link>!</link> <text>Lidhjet më sipër duhet të funksionojnë në instalimet parazgjedhje Fedora GNOME dhe KDE, por, nëse për ndonjë arsye dështojnë, mund ta shtoni dorazi Flathub-in, duke ekzekutuar:</text> <code></code>"
+    "introduction": "<text>Flatpak-u, instalohet si parazgjedhje në Fedora Workstation, Fedora Silverblue dhe Fedora Kinoite. Që t’ia filloni, krejt ka ju duhet është të aktivizoni Flathub-in, e cila është mënyra më e mirë për të marrë aplikacione Flatpak. Flathub-i është i formësuar paraprakisht, si pjesë <repolink>Depove Palë të Treta</repolink>. Ndryshe, mund të instaloni dhe instaloni <filelink>kartelën e depos Flathub</filelink>.</text> <text>Tanimë krejt çka ju duhet është <applink>të instaloni aplikacione</applink>!</text> <text>Lidhjet më sipër duhet të funksionojnë në instalimet parazgjedhje Fedora GNOME dhe KDE, por, nëse për ndonjë arsye dështojnë, mund ta shtoni dorazi Flathub-in, duke ekzekutuar:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "Aktivizoni Flatpak-un që nga Përgjegjësi i Software-it",
-      "text": "<text>Flatpak-u instalohet si parazgjedhje në Manjaro 20, ose më sipër.</text> <link>Që të aktivizoni mbulim për të, kaloni te <strong>Software Manager</strong> (Add/Remove Programs)</link> <text>Klikoni mbi menunë me tre vija [ose pika, varet nga Mjedisi Desktop] në të djathtë, te menuja hapmbyll përzgjidhni “Preferences</text> <text>Kaloni te skeda “Flatpak” dhe kalojeni shenjën për “Enable Flatpak support” (është gjithashtu e mundshme të aktivizohet kontrollim për përditësime, çka rekomandohet).</text>"
+      "text": "<text>Flatpak-u instalohet si parazgjedhje në Manjaro 20, ose më sipër.</text> <text>Që të aktivizoni mbulim për të, kaloni te <strong>Software Manager</strong> (Add/Remove Programs)</text> <text>Klikoni mbi menunë me tre vija [ose pika, varet nga Mjedisi Desktop] në të djathtë, te menuja hapmbyll përzgjidhni “Preferences</text> <text>Kaloni te skeda “Flatpak” dhe kalojeni shenjën për “Enable Flatpak support” (është gjithashtu e mundshme të aktivizohet kontrollim për përditësime, çka rekomandohet).</text>"
     },
     "step-2": {
       "name": "Rinise",
@@ -49,7 +49,7 @@
     },
     "step-3": {
       "name": "Rinise",
-      "text": "<text>Që të plotësohet instalimi i Flatpak-ut, rinisni pajisjen tuaj. Tani mund të <text>instaloni aplikacione</text>!</text>"
+      "text": "<text>Që të plotësohet instalimi i Flatpak-ut, rinisni pajisjen tuaj. Tani mund të <link>instaloni aplikacione</link>!</text>"
     }
   },
   "chrome_os": {
@@ -57,7 +57,7 @@
     "introduction": "<text>Në ChromeOS aplikacione Flatpak mund të instalohet me shtresën Crostini Linux për përputhje. Kjo s’është e gatshme për krejt pajisjet ChromeOS, ndaj duhet të siguroheni se pajisja juaj është e përputhshme, para se të ecni më tej. Një listë e pajisjeve të përputhshme mirëmbahet <link>këtu</link>.</text>",
     "step-1": {
       "name": "Aktivizoni mbulim për Linux",
-      "text": "<text>Kaloni te <link>chrome://os-settings</link> dhe zbrisni poshtë te <strong>Developers</strong> dhe aktivizoni <i>Linux development environment</i>. ChromeOS-i do të harxhojë ca kohë të shkarkojë dhe instalojë Linux-in.</text>"
+      "text": "<text>Kaloni te <settingslink>chrome://os-settings</settingslink> dhe zbrisni poshtë te <strong>Developers</strong> dhe aktivizoni <em>Linux development environment</em>. ChromeOS-i do të harxhojë ca kohë të shkarkojë dhe instalojë Linux-in.</text>"
     },
     "step-2": {
       "name": "Nisni një terminal Linux",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në Red Hat Enterprise Linux Workstation 9 dhe më të ri. Që t’ia filloni, krejt çka ju duhet të bëni është të aktivizoni Flathub-in, që është rruga më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <link>kartelën depo Flathub</link>.</text> <text>Që të instaloni Flatpak-un në Red Hat Enterprise Linux Workstation 8 ose më të vjetër, ekzekutoni në një terminal sa vijon:</text>  <filelink></filelink> <text>Tani krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text> <text>Lidhjet më sipër duhet të funksionojnë në instalimin parazgjedhje të Red Hat Enterprise Linux Workstation 9, por, nëse për ndonjë arsye dështojnë, mund ta shtoni dorazi Flathub-in, duke ekzekutuar:</text> <text></text>"
+    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në Red Hat Enterprise Linux Workstation 9 dhe më të ri. Që t’ia filloni, krejt çka ju duhet të bëni është të aktivizoni Flathub-in, që është rruga më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <filelink>kartelën depo Flathub</filelink>.</text> <text>Që të instaloni Flatpak-un në Red Hat Enterprise Linux Workstation 8 ose më të vjetër, ekzekutoni në një terminal sa vijon:</text>  <code></code> <text>Tani krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text> <text>Lidhjet më sipër duhet të funksionojnë në instalimin parazgjedhje të Red Hat Enterprise Linux Workstation 9, por, nëse për ndonjë arsye dështojnë, mund ta shtoni dorazi Flathub-in, duke ekzekutuar:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Instaloni Flatpak-un",
-      "text": "<text>Flatpak-u është gati në depot parazgjedhje të krejt versioneve aktualisht të mirëmbajtur për openSUSE Leap dhe openSUSE Tumbleweed.</text> <link>Nëse parapëlqeni një instalim grafik, mund të instaloni Flatpak-un duke përdorur një “instalues me 1 klikim” prej <link>software.opensuse.org</link>. Nëse versioni i shpërndarjes tuaj s’shfaqet, si parazgjedhje, klikoni së pari mbi <filelink>Shfaq</filelink>, nën kategorinë “Shpërndarje të pambuluara” dhe mandej përzgjidheni prej listës.</link> <text>Ndryshe, instalojeni Flatpak-un që nga rreshti i urdhrave duke përdorur Zypper:</text> <code></code>"
+      "text": "<text>Flatpak-u është gati në depot parazgjedhje të krejt versioneve aktualisht të mirëmbajtur për openSUSE Leap dhe openSUSE Tumbleweed.</text> <text>Nëse parapëlqeni një instalim grafik, mund të instaloni Flatpak-un duke përdorur një “instalues me 1 klikim” prej <link>software.opensuse.org</link>. Nëse versioni i shpërndarjes tuaj s’shfaqet, si parazgjedhje, klikoni së pari mbi <em>Shfaq</em>, nën kategorinë “Shpërndarje të pambuluara” dhe mandej përzgjidheni prej listës.</text> <text>Ndryshe, instalojeni Flatpak-un që nga rreshti i urdhrave duke përdorur Zypper:</text> <code></code>"
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
@@ -118,11 +118,11 @@
     },
     "step-2": {
       "name": "Instaloni shtojcën “Software Flatpak”",
-      "text": "<text>Nëse xhironi GNOME, është gjithashtu ide e mirë të instalohet shtojca Flatpak për GNOME Software. Që ta bëni këtë, ekzekutoni:</text> <code></code> <text>Nëse xhironi KDE, duhet të instaloni Plasma Discover Flatpak:</text> <code></code>"
+      "text": "<text>Nëse xhironi GNOME, është gjithashtu ide e mirë të instalohet shtojca Flatpak për GNOME Software. Që ta bëni këtë, ekzekutoni:</text> <code></code> <text>Nëse xhironi KDE, duhet të instaloni Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë aplikacione Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>, ose ekzekutoni në një terminal sa vijon:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë aplikacione Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni në një terminal sa vijon:</text> <code></code>"
     },
     "step-4": {
       "name": "Rinise",
@@ -137,7 +137,7 @@
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë aplikacione Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>, ose ekzekutoni në një terminal sa vijon:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë aplikacione Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni në një terminal sa vijon:</text> <code></code>"
     },
     "step-3": {
       "name": "Rinise",
@@ -146,11 +146,11 @@
   },
   "centos": {
     "distroName": "CentOS",
-    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në CentOS 7 dhe më të ri, kur përdoret GNOME. Për t’ia filluar, krejt çka ju duhet është të aktivizoni Flathub-in, që është mënyra më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>.</text> <link>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</link>"
+    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në CentOS 7 dhe më të ri, kur përdoret GNOME. Për t’ia filluar, krejt çka ju duhet është të aktivizoni Flathub-in, që është mënyra më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>.</text> <text>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në AlmaLinux 8 dhe më të ri, kur përdoret GNOME. Për t’ia filluar, krejt çka ju duhet është të aktivizoni Flathub-in, që është mënyra më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>.</text> <link>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</link>"
+    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në AlmaLinux 8 dhe më të ri, kur përdoret GNOME. Për t’ia filluar, krejt çka ju duhet është të aktivizoni Flathub-in, që është mënyra më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>.</text> <text>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -194,7 +194,7 @@
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>, ose xhironi në një terminal sa vijon:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose xhironi në një terminal sa vijon:</text> <code></code>"
     },
     "step-3": {
       "name": "Rinise",
@@ -210,26 +210,26 @@
     },
     "step-2": {
       "name": "Instaloni shtojcën “Software Flatpak”",
-      "text": "<text>Mund ta instaloni shtojcën Flatpak për the GNOME Software (që nga v3.13), ose për KDE Discover (që nga v3.11), duke bërë të mundur instalim aplikacionesh pa u dashur rreshti i urdhrave. Që të instaloni, për GNOME Software ekezkutoni:</text> <code></code> <text>Për KDE Discover ekzekutoni:</text> <code></code>"
+      "text": "<text>Mund ta instaloni shtojcën Flatpak për the GNOME Software (që nga v3.13), ose për KDE Discover (që nga v3.11), duke bërë të mundur instalim aplikacionesh pa u dashur rreshti i urdhrave. Që të instaloni, për GNOME Software ekezkutoni:</text> <code></code> <text>Për KDE Discover ekzekutoni:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>, ose xhironi në një terminal sa vijon:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose xhironi në një terminal sa vijon:</text> <code></code>"
     },
     "step-4": {
       "name": "Rinise",
-      "text": "<text>Që të plotësoni ujdisjen, rinisni sistemin tuaj. Tanimë krejt çka ju duhet të bëni, është <text>të instaloni aplikacione</text>!</text>"
+      "text": "<text>Që të plotësoni ujdisjen, rinisni sistemin tuaj. Tanimë krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
       "name": "Instaloni Flatpak-un",
-      "text": "<text>Ka të gatshme një paketë flatpak për Mageia 6 dhe më të re. Që ta instaloni me DNF, ekzekutoni sa vijon si rrënjë:</text> <code></code> <text>Ose, që ta instaloni me <text>urpmi</text>, ekzekutoni:</text> <code></code>"
+      "text": "<text>Ka të gatshme një paketë flatpak për Mageia 6 dhe më të re. Që ta instaloni me DNF, ekzekutoni sa vijon si rrënjë:</text> <code></code> <text>Ose, që ta instaloni me <strong>urpmi</strong>, ekzekutoni:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>, ose xhironi në një terminal sa vijon:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose xhironi në një terminal sa vijon:</text> <code></code>"
     },
     "step-3": {
       "name": "Rinise",
@@ -238,7 +238,7 @@
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<text>Mbulimi i Flatpak-ut është i brendshëm në OpenMandriva për krejt versionet e mbuluar, duke filluar që nga hedhja në qarkullim për stable/fixed 'Rock 5.0', në hedhjen zhvillim në qarkullim 'Cooker' dhe duke përfunduar me hedhjen “rolling” në qarkullim 'ROME'.</text> <text>Flatpak-u vjen me Flathub-in si depo të formësuar paraprakisht.</text>"
+    "introduction": "<header>Mbulimi i Flatpak-ut është i brendshëm në OpenMandriva për krejt versionet e mbuluar, duke filluar që nga hedhja në qarkullim për stable/fixed 'Rock 5.0', në hedhjen zhvillim në qarkullim 'Cooker' dhe duke përfunduar me hedhjen “rolling” në qarkullim 'ROME'.</header> <text>Flatpak-u vjen me Flathub-in si depo të formësuar paraprakisht.</text>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -285,7 +285,7 @@
     "distroName": "NixOS",
     "step-1": {
       "name": "Instaloni Flatpak-un",
-      "text": "<text>Që të instaloni Flatpak-un, vini për mundësinë NixOS <link>services.flatpak.enable</link> si <text>true</text>, duke vënë sa vijon te <text>/etc/nixos/configuration.nix</text> juaj:</text> <code></code> <text>Mandej, ribëni montimin dhe kaloni te një formësim i ri me:</text> <code></code> <text>Për më tepër hollësi, shihni <link>dokumentimin e NixOS-it</link>.</text>"
+      "text": "<text>Që të instaloni Flatpak-un, vini për mundësinë NixOS <strong>services.flatpak.enable</strong> si <strong>true</strong>, duke vënë sa vijon te <strong>/etc/nixos/configuration.nix</strong> juaj:</text> <code></code> <text>Mandej, ribëni montimin dhe kaloni te një formësim i ri me:</text> <codeRebuild></codeRebuild> <text>Për më tepër hollësi, shihni <doclink>dokumentimin e NixOS-it</doclink>.</text>"
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
@@ -298,11 +298,11 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>Flatpak-u është i instaluar, si parazgjedhje, në PureOS. Që t’ia filloni, krejt çka ju duhet të bëni është të aktivizoni Flathub-in, që është rruga më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <link>kartelën e depos Flathub</link>.</text> <link>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</link>"
+    "introduction": "<text>Flatpak-u është i instaluar, si parazgjedhje, në PureOS. Që t’ia filloni, krejt çka ju duhet të bëni është të aktivizoni Flathub-in, që është rruga më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>.</text> <text>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<text>Zorin OS e mbulon së brendshmi Flatpak-un</text> <text>Që të shkarkoni aplikacione Flatpak, mund të përdorni aplikacionin Software Store.</text>"
+    "introduction": "<header>Zorin OS e mbulon së brendshmi Flatpak-un</header> <text>Që të shkarkoni aplikacione Flatpak, mund të përdorni aplikacionin Software Store.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
@@ -346,7 +346,7 @@
     "distroName": "MX Linux",
     "step-1": {
       "name": "Aktivizoni Flatpak-un që nga Përgjegjësi i Software-it",
-      "text": "<text>Në MX 18 dhe të mëvonshëm, Flatpak-u mbulohet së brendshmi. Lypset vetëm të aktivizohet depoja Flathub duke ndjekur këto udhëzime:</text> <link>Hapni <strong>Instaluesin e Paketave OMX</strong> (hapni menunë dhe shihni te Mjete MX), përzgjidhni skedën “Flatpaks”, që të aktivizohet depoja do t’ju duhet të jepni fjalëkalimin e përdoruesit rrënjë.</link>"
+      "text": "<text>Në MX 18 dhe të mëvonshëm, Flatpak-u mbulohet së brendshmi. Lypset vetëm të aktivizohet depoja Flathub duke ndjekur këto udhëzime:</text> <text>Hapni <strong>Instaluesin e Paketave OMX</strong> (hapni menunë dhe shihni te Mjete MX), përzgjidhni skedën “Flatpaks”, që të aktivizohet depoja do t’ju duhet të jepni fjalëkalimin e përdoruesit rrënjë.</text>"
     },
     "step-2": {
       "name": "Rinise",
@@ -372,7 +372,7 @@
     "distroName": "EndeavourOS",
     "step-1": {
       "name": "Instaloni Flatpak-un",
-      "text": "<text>Që të instaloni Flatpak-un në EndeavorOS, së pari sigurohuni se instalimi juaj është i përditësuar, ekzekutoni në një terminal sa vijon:</text> <code></code> <text>Mandej instaloni Flatpak-un:</text> <code></code>"
+      "text": "<text>Që të instaloni Flatpak-un në EndeavorOS, së pari sigurohuni se instalimi juaj është i përditësuar, ekzekutoni në një terminal sa vijon:</text> <codeUpdate></codeUpdate> <text>Mandej instaloni Flatpak-un:</text> <code></code>"
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
@@ -404,10 +404,10 @@
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
-    "introduction": "<text>Flatpak-u është i instaluar, si parazgjedhje, në Crystal Linux.</text> <text>Nëse s’përdorët jade_gui për të instaluar Crystal-in, ose përzgjodhët të mos instalohet Flatpak-u, mund ta ujdisni Flatpak-un duke përdorur hapat vijues.</text>",
+    "introduction": "<header>Flatpak-u është i instaluar, si parazgjedhje, në Crystal Linux.</header> <text>Nëse s’përdorët jade_gui për të instaluar Crystal-in, ose përzgjodhët të mos instalohet Flatpak-u, mund ta ujdisni Flatpak-un duke përdorur hapat vijues.</text>",
     "step-1": {
       "name": "Instaloni Flatpak-un",
-      "text": "<text>Që të instaloni Flatpak-un në Crystal Linux, së pari sigurohuni se paketat tuaja janë të përditësuara. Ekzekutoni në një terminal sa vijon:</text> <code></code> <text>Mandej instaloni Flatpak-un:</text> <code></code>"
+      "text": "<text>Që të instaloni Flatpak-un në Crystal Linux, së pari sigurohuni se paketat tuaja janë të përditësuara. Ekzekutoni në një terminal sa vijon:</text> <codeUpdate></codeUpdate> <text>Mandej instaloni Flatpak-un:</text> <code></code>"
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
@@ -420,10 +420,10 @@
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në Vanilla OS.</text> <link>Që të instaloni aplikacione, mund të përdorni aplikacionin Software, ose të shfletoni në <link>Flathub</link>.</link> <text>Nëse për ndonjë arsye, Flathub-i s’është gati, mund ta formësoni dorazi duke përdorur urdhrin vijues:</text> <code></code>"
+    "introduction": "<header>Flatpak-u instalohet si parazgjedhje në Vanilla OS.</header> <text>Që të instaloni aplikacione, mund të përdorni aplikacionin Software, ose të shfletoni në <link>Flathub</link>.</text> <text>Nëse për ndonjë arsye, Flathub-i s’është gati, mund ta formësoni dorazi duke përdorur urdhrin vijues:</text> <code></code>"
   },
   "salix": {
     "distroName": "Salix",
-    "introduction": "<text>Flatpak-u instalohet si parazgjedhje në Salix, që me versionin 15.0—s’ka nevojë për ujdisje!</text> <text>Flatpak-u vjen i formësuar paraprakisht me depon Flathub dhe përfshihen mjete integrimi desktopi, që lejojnë instalime me 1 klikim që nga Flathub-i.</text> <text>Krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
+    "introduction": "<header>Flatpak-u instalohet si parazgjedhje në Salix, që me versionin 15.0—s’ka nevojë për ujdisje!</header> <text>Flatpak-u vjen i formësuar paraprakisht me depon Flathub dhe përfshihen mjete integrimi desktopi, që lejojnë instalime me 1 klikim që nga Flathub-i.</text> <text>Krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
   }
 }

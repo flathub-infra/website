@@ -662,7 +662,7 @@
   },
   "download": {
     "install-x": "Встановити “{x}”",
-    "fallback-instructions": "<opening>Відкриття “{name}” у вашому менеджері програмного забезпечення...</opening><support>Якщо нічого не відбувається, можливо, ваша система не підтримує URL-адреси <i>flatpak+https</i>.</support><listPrefix>У такому разі ви можете:</listPrefix><ol><li>Завантажити файл <link>.flatpakref</link></li><li>Потім запустити його з вашого файлового менеджера</li></ol><setupLine><linkSetup>Інструкції щодо встановлення Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Відкриття “{name}” у вашому менеджері програмного забезпечення… </opening><support>Якщо нічого не відбувається, можливо, ваша система не підтримує URL-адреси <i>flatpak+https</i>.</support><listPrefix>У такому разі ви можете:</listPrefix><ol><li>Завантажити файл <link>.flatpakref</link></li><li>Потім запустити його з вашого файлового менеджера</li></ol><setupLine><linkSetup>Інструкції щодо встановлення Flatpak</linkSetup></setupLine>"
   },
   "country-statistics": "Статистика країни",
   "since-x": "З {date}",

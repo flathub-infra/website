@@ -662,7 +662,7 @@
   },
   "download": {
     "install-x": "Zainstaluj “{x}”",
-    "fallback-instructions": "<opening>Otwierając „{name}” w menedżerze oprogramowania...</opening><support>Jeśli nic się nie dzieje, być może twój system nie obsługuje adresów <i>flatpak+https</i>.</support><listPrefix>W takim przypadku możesz:</listPrefix><ol><li>Pobrać plik <link>.flatpakref</link></li><li>Następnie uruchomić go z menedżera plików</li></ol><setupLine><linkSetup>Instrukcje instalacji Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Otwierając „{name}” w menedżerze oprogramowania…</opening><support>Jeśli nic się nie dzieje, być może twój system nie obsługuje adresów <i>flatpak+https</i>.</support><listPrefix>W takim przypadku możesz:</listPrefix><ol><li>Pobrać plik <link>.flatpakref</link></li><li>Następnie uruchomić go z menedżera plików</li></ol><setupLine><linkSetup>Instrukcje instalacji Flatpak</linkSetup></setupLine>"
   },
   "country-statistics": "Statystyki dotyczące krajów",
   "since-x": "Od {date}",
