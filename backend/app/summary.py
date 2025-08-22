@@ -384,24 +384,38 @@ def update(sqldb) -> None:
     eol_rebase, eol_message = parse_eol_data(metadata)
 
     try:
-        for appId in models.App.get_eol_apps(sqldb):
-            if appId not in eol_rebase:
-                models.App.set_eol_data(sqldb, appId, False)
-
-        for app_id, old_id_list in eol_rebase.items():
+        summary_eol_map = defaultdict(set)
+        for new_app_id, old_id_list in eol_rebase.items():
             for old_id_and_branch in old_id_list:
-                if ":" in old_id_and_branch:
-                    old_id, old_branch = old_id_and_branch.split(":", 1)
-                else:
-                    old_id, old_branch = old_id_and_branch, None
+                old_id, _, old_branch = old_id_and_branch.partition(":")
+                summary_eol_map[old_id].add(old_branch or "stable")
 
-                if old_branch:
-                    models.App.set_eol_data(sqldb, old_id, True, old_branch)
-                else:
-                    models.App.set_eol_data(sqldb, old_id, True)
+        for appid_and_branch, message in eol_message.items():
+            app_id, _, branch = appid_and_branch.partition(":")
+            summary_eol_map[app_id].add(branch or "stable")
+            models.App.set_eol_message(sqldb, app_id, message)
+
+        db_eol_apps = set(models.App.get_eol_apps(sqldb))
+        apps_to_process = set(summary_eol_map.keys()).union(db_eol_apps)
+
+        for app_id in apps_to_process:
+            app = models.App.by_appid(sqldb, app_id)
+            if not app:
+                continue
+
+            if app_id in summary_eol_map:
+                app.is_eol = True
+                app.eol_branches = list(summary_eol_map[app_id])
+                sqldb.session.add(app)
+            else:
+                app.is_eol = False
+                app.eol_branches = None
+                app.eol_message = None
+                sqldb.session.add(app)
+        sqldb.session.commit()
     except Exception as e:
         sqldb.session.rollback()
-        print(f"Error updating eol values of apps: {str(e)}")
+        print(f"Error updating EOL values of apps: {str(e)}")
 
     processed_rebases = {}
     for new_app_id, old_id_list in eol_rebase.items():
@@ -419,12 +433,6 @@ def update(sqldb) -> None:
 
     for new_app_id, old_ids in processed_rebases.items():
         models.AppEolRebase.set_rebases(sqldb, new_app_id, old_ids)
-
-    for appid_and_branch, message in eol_message.items():
-        app_id, _, branch = appid_and_branch.partition(":")
-
-        models.App.set_eol_message(sqldb, app_id, message)
-        models.App.set_eol_data(sqldb, app_id, True, branch if branch else None)
 
     reverse_lookup = {}
     for ref in metadata["xa.cache"]:
