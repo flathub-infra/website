@@ -488,7 +488,8 @@
     "show-branding-preview": "Zobrazit náhled značky",
     "problems": "Chcete-li se nás zeptat na konkrétní záležitosti zásad kvality, neváhejte a otevřete <link>problém</link>.",
     "light": "Světlý",
-    "dark": "Tmavý"
+    "dark": "Tmavý",
+    "failing-x-checks": "Selhání {count, plural, one {# check} other {# checks}}"
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
   "moderation-build-id": "ID sestavení",
@@ -659,7 +660,7 @@
   },
   "download": {
     "install-x": "Nainstalovat “{x}”",
-    "fallback-instructions": "<opening>Otevírání “{name}” ve vašem správci softwaru...</opening><support>Pokud se nic nestane, možná váš systém nepodporuje <i>flatpak+https</i> odkazy.</support><listPrefix>V takovém případě můžete:</listPrefix><ol><li>Stáhnout soubor <link>.flatpakref</link></li><li>Poté jej spustit z vašeho správce souborů</li></ol><setupLine><linkSetup>Pokyny pro instalaci Flatpaku</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Otevírání “{name}” ve vašem správci softwaru…</opening><support>Pokud se nic nestane, možná váš systém nepodporuje <i>flatpak+https</i> odkazy.</support><listPrefix>V takovém případě můžete:</listPrefix><ol><li>Stáhnout soubor <link>.flatpakref</link></li><li>Poté jej spustit z vašeho správce souborů</li></ol><setupLine><linkSetup>Pokyny pro instalaci Flatpaku</linkSetup></setupLine>"
   },
   "country-statistics": "Statistiky zemí",
   "since-x": "Od {date}",

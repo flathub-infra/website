@@ -412,7 +412,7 @@
     "introduction": "<text>Versioj de Linux Mint ne malpli novaj ol 18.3 subtenas Flatpak — neniu agordado necesas!</text>"
   },
   "centos": {
-    "distroName": "CentOS",
+    "distroName": "CentOS Stream",
     "introduction": "<text>Flatpak estas apriore instalita sur CentOS versio 7 aŭ pli nova, kiam oni uzas GNOME. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <filelink>Flathub-deponejodosiero</filelink>.</text> <text>Nun vi pretas <link>instali programojn</link>!</text>"
   },
   "elementary_os": {

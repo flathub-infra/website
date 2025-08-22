@@ -498,7 +498,8 @@
     "high-quality-app-data": "Rakenduse andmed on kõrgekvaliteedilised",
     "problems": "Kui soovid küsida meil nõu konkreetses kvaliteedikontrolli kontekstis, siis palun tee seda <link>meie arenduse haldusliideses</link>.",
     "light": "Hele",
-    "dark": "Tume"
+    "dark": "Tume",
+    "failing-x-checks": "{count} kontroll ei õnnestunud{count} kontrolli ei õnnestunud"
   },
   "rebase-onto-other-app": "Sisesta rakenduse tunnus, mida nüüd soovid kasutama hakata",
   "unverified": "Verifitseerimata",

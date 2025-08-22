@@ -488,7 +488,8 @@
     "problems": "Si vous souhaitez nous poser des questions sur des problèmes spécifiques liés aux directives de qualité, n'hésitez pas à ouvrir <link>un problème</link>.",
     "branding-good-primary-brand-colors": "Couleurs de marque principales bien choisies",
     "light": "Clair",
-    "dark": "Sombre"
+    "dark": "Sombre",
+    "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}"
   },
   "app-listing-quality": "Qualité de référencement de l'app",
   "issued-to": "Délivré à",
