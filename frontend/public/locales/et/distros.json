@@ -258,7 +258,8 @@
       "text": "<text>Flatpaki pakett on saadaval Raspberry Pi OSi jaoks (vana nimega Raspbian) alates versioonist Stretch ja uuemates. Paigaldamiseks käivita juurkasutajana järgnev käsk:</text> <code></code>"
     },
     "step-2": {
-      "name": "Lisa Flathubi tarkvarahoidla"
+      "name": "Lisa Flathubi tarkvarahoidla",
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code> <text><strong>Oluline märkus:</strong> Me soovitame, et kasutad 64-bitist Raspberry Pi OS-i - uuemad rakendused on ilmselt saadaval vaid sellel platvormil.</text>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",

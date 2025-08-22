@@ -482,7 +482,10 @@
     "hide-branding-preview": "Kaŝi markan antaŭrigardon",
     "show-branding-preview": "Malkaŝi markan antaŭrigardon",
     "branding-good-primary-brand-colors": "Havas bonajn markajn ĉefkolorojn",
-    "problems": "Se vi volas pridemandi specifajn normojn pri kvalito, bonvolu raporti <link>problemon</link>."
+    "problems": "Se vi volas pridemandi specifajn normojn pri kvalito, bonvolu raporti <link>problemon</link>.",
+    "light": "Hela",
+    "dark": "Malhela",
+    "failing-x-checks": "{count, plural, one {# kriterio} other {# kriterioj}} ne plenumiĝis"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
@@ -654,5 +657,12 @@
     "sliderLabel": "Ŝovbutono pri elcentoj",
     "screenReaderBreakdown": "Ŝovbutono pri elcentoj. Uzu sagoklavojn por modifi la distribuon inter Programo, Programdisvolva Ilaro, kaj Flathub. Aktuala distribuo: Programo: {appPercentage}, Programdisvolva Ilaro: {sdkPercentage}, Flathub: {flathubPercentage}. Totala kosto: {totalCost}.",
     "sdk": "Programdisvolva ilaro"
-  }
+  },
+  "download": {
+    "install-x": "Instali «{x}»",
+    "fallback-instructions": "<opening>Malfermante «{name}» en via programadministrilo…</opening><support>Se nenio okazas, eble via sistemo ne subtenas la redadresojn <i>flatpak+https</i>.</support><listPrefix>Tiokaze, vi povas:</listPrefix><ol><li>Elŝuti la <link>dosieron .flatpakref</link></li><li>Kaj poste ruli ĝin per via dosieradministrilo</li></ol><setupLine><linkSetup>Instrukcioj por instali Flatpak</linkSetup></setupLine>"
+  },
+  "count": "Kalkulo",
+  "country-statistics": "Statistikoj pri landoj",
+  "since-x": "Ekde {date}"
 }
