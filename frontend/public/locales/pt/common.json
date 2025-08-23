@@ -661,6 +661,6 @@
   },
   "download": {
     "install-x": "Instalar “{x}”",
-    "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software...</opening><support>Se nada acontecer, talvez o seu sistema não ofereça apoio a URLs <i>flatpak+https</i>.</support><listPrefix>Nesse caso, pode:</listPrefix><ol><li>Descarregar o ficheiro <link>.flatpakref</link></li><li>Em seguida, executá-lo no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Instruções para instalar o Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software…</opening><support>Se nada acontecer, talvez o seu sistema não ofereça apoio a URLs <i>flatpak+https</i>.</support><listPrefix>Nesse caso, pode:</listPrefix><ol><li>Descarregar o ficheiro <link>.flatpakref</link></li><li>Em seguida, executá-lo no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Instruções para instalar o Flatpak</linkSetup></setupLine>"
   }
 }

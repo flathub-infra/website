@@ -488,7 +488,8 @@
     "problems": "إذا كنت ترغب في سؤالنا حول مشكلات محددة تتعلق بإرشادات الجودة، فلا تتردد في فتح <link>مشكلة</link>.",
     "light": "فاتح",
     "dark": "داكن",
-    "app-name": "اسم التطبيق"
+    "app-name": "اسم التطبيق",
+    "failing-x-checks": "يفشل {count, plural, =0 {لا فحوصات} one {فحص} two {فحصان} few {# فحوصات} many {# فحصًا} other {# فحص}}"
   },
   "app-listing-quality": "جودة مسردة التطبيقات",
   "moderation-build-id": "معرِّف التصريفة",

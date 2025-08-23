@@ -195,7 +195,8 @@
     "request-review-description": "گروهمان کاره‌تان را برای مشکلات کیفی بررسی خواهند کرد. چند روز دیگر بررسی کنید.",
     "problems": "گشودن <link>مسأله‌ای</link> در صورت نیاز به پرسش دربارهٔ مشکلات رهنمودهای کیفی.",
     "light": "روشن",
-    "dark": "تیره"
+    "dark": "تیره",
+    "failing-x-checks": "ناموفق {count, plural, one {# check} other {# checks}}"
   },
   "desktop-folder": "شاخهٔ میزکار",
   "remove-developer": "برداشتن توسعه‌دهنده",

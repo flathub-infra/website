@@ -488,7 +488,8 @@
     "needed-to-pass-x": "Niezbędne do zaliczenia {x}",
     "problems": "Jeśli chcesz zapytać nas o konkretne problemy związane z wytycznymi dotyczącymi jakości, możesz śmiało otworzyć <link>zgłoszenie</link>.",
     "light": "Jasny",
-    "dark": "Ciemny"
+    "dark": "Ciemny",
+    "failing-x-checks": "{count, plural, one {Nieudany # test} many {Nieudanych # testów} other {Nieudane # testy}}"
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",

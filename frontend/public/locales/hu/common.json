@@ -488,7 +488,8 @@
     "show-branding-preview": "Márkaépítés előnézetének megjelenítése",
     "problems": "Ha konkrét minőségi irányelvvel kapcsolatos problémákról szeretne érdeklődni, nyisson meg egy <link>jegyet</link>.",
     "light": "Világos",
-    "dark": "Sötét"
+    "dark": "Sötét",
+    "failing-x-checks": "Sikertelen {count, plural, one {# ellenőrzés} other {# ellenőrzések}}"
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító",
@@ -659,7 +660,7 @@
   },
   "download": {
     "install-x": "A(z) „{x}” telepítése",
-    "fallback-instructions": "<opening>A(z) „{name}” megnyitása a szoftverkezelőben...</opening><support>Ha semmi sem történik, lehet, hogy a rendszere nem támogatja a <i>flatpak+https</i> URL-eket.</support><listPrefix>Ebben az esetben az alábbi lehetőségek állnak rendelkezésére:</listPrefix><ol><li>Töltse le a <link>.flatpakref fájlt</link></li><li>Majd futtassa azt a fájlkezelő segítségével</li></ol><setupLine><linkSetup>Útmutató a Flatpak telepítéséhez</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>A(z) „{name}” megnyitása a szoftverkezelőben…</opening><support>Ha semmi sem történik, lehet, hogy a rendszere nem támogatja a <i>flatpak+https</i> URL-eket.</support><listPrefix>Ebben az esetben az alábbi lehetőségek állnak rendelkezésére:</listPrefix><ol><li>Töltse le a <link>.flatpakref fájlt</link></li><li>Majd futtassa azt a fájlkezelő segítségével</li></ol><setupLine><linkSetup>Útmutató a Flatpak telepítéséhez</linkSetup></setupLine>"
   },
   "country-statistics": "Országonkénti statisztika",
   "since-x": "Ettől: {date}",

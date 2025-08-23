@@ -142,7 +142,8 @@
     "app-data-review-pending": "Athbhreithniú sonraí aipeanna",
     "problems": "Más mian leat ceist a chur orainn faoi fhadhbanna ar leith le treoirlínte cáilíochta, ná bíodh aon leisce ort <link>ceist a tharraingt anuas</link>.",
     "light": "Solas",
-    "dark": "Dorcha"
+    "dark": "Dorcha",
+    "failing-x-checks": "Ag teip {count, plural, one {# sheiceáil} other {# seiceálacha}}"
   },
   "special-license-explanation": "Forbraítear an aip seo faoin gceadúnas speisialta <bold>{ license }</bold>.",
   "more-pages": "Tuilleadh leathanaigh",
@@ -659,7 +660,7 @@
   },
   "download": {
     "install-x": "Suiteáil “{x}”",
-    "fallback-instructions": "<opening>Ag oscailt “{name}” i do bhainisteoir bogearraí...</opening><support>Mura dtarlaíonn aon rud, b'fhéidir nach dtacaíonn do chóras le URLanna <i>flatpak+https</i>.</support><listPrefix>Sa chás sin is féidir leat:</listPrefix><ol><li>An comhad <link>.flatpakref a íoslódáil</link></li><li>Ansin é a rith ó do bhainisteoir comhad</li></ol><setupLine><linkSetup>Treoracha chun Flatpak a shuiteáil</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Ag oscailt “{name}” i do bhainisteoir bogearraí…</opening><support>Mura dtarlaíonn aon rud, b’fhéidir nach dtacaíonn do chóras le URLanna <i>flatpak+https</i>.</support><listPrefix>Sa chás sin is féidir leat:</listPrefix><ol><li>An comhad <link>.flatpakref a íoslódáil</link></li><li>Ansin é a rith ó do bhainisteoir comhad</li></ol><setupLine><linkSetup>Treoracha chun Flatpak a shuiteáil</linkSetup></setupLine>"
   },
   "country-statistics": "Staitisticí Tíre",
   "since-x": "Ó {date}",

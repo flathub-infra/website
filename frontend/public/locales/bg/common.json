@@ -488,7 +488,8 @@
     "show-branding-preview": "Показване на предварителния преглед",
     "problems": "Ако имате въпроси, натиснете <link>тук</link>.",
     "light": "Светъл",
-    "dark": "Тъмен"
+    "dark": "Тъмен",
+    "failing-x-checks": "{count, plural, one {# неуспешна проверка} other {# неуспешни проверки}}"
   },
   "app-listing-quality": "Свойства на приложението",
   "moderation-build-id": "Идентификатор на компилацията",
