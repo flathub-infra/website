@@ -658,6 +658,6 @@
   },
   "download": {
     "install-x": "Instal “{x}”",
-    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda...</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</support><listPrefix>Dalam hal itu, Anda dapat:</listPrefix><ol><li>Mengunduh <link>berkas .flatpakref</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk menginstal Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</support><listPrefix>Dalam hal itu, Anda dapat:</listPrefix><ol><li>Mengunduh <link>berkas .flatpakref</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk menginstal Flatpak</linkSetup></setupLine>"
   }
 }

@@ -466,7 +466,8 @@
     "show-branding-preview": "Branding-voorvertoning tonen",
     "problems": "Als u ons vragen wilt stellen over specifieke problemen met de kwaliteits­richtlĳnen, kunt u gerust <link>een issue</link> openen.",
     "light": "Licht",
-    "dark": "Donker"
+    "dark": "Donker",
+    "failing-x-checks": "{count, plural, one {# mislukte controle} other {# mislukte controles}"
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",

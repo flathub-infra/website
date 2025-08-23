@@ -658,7 +658,7 @@
   },
   "download": {
     "install-x": "Instalar “{x}”",
-    "fallback-instructions": "<opening>Abrindo “{name}” no seu gerenciador de software...</opening><support>Se nada acontecer, talvez seu sistema não ofereça suporte a URLs <i>flatpak+https</i>.</support><listPrefix>Nesse caso, você pode:</listPrefix><ol><li>Baixar o arquivo <link>.flatpakref</link></li><li>Em seguida, executá-lo no seu gerenciador de arquivos</li></ol><setupLine><linkSetup>Instruções para instalar o Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Abrindo “{name}” no seu gerenciador de software…</opening><support>Se nada acontecer, talvez seu sistema não ofereça suporte a URLs <i>flatpak+https</i>.</support><listPrefix>Nesse caso, você pode:</listPrefix><ol><li>Baixar o arquivo <link>.flatpakref</link></li><li>Em seguida, executá-lo no seu gerenciador de arquivos</li></ol><setupLine><linkSetup>Instruções para instalar o Flatpak</linkSetup></setupLine>"
   },
   "country-statistics": "Estatísticas por país",
   "since-x": "Desde {date}",

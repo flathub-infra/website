@@ -355,7 +355,8 @@
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<text> Ein Flatpak-Paket ist in Pisi 2.1 und neuer verfügbar . Um es zu installieren, führe Folgendes als root aus:</text> <code></code>"
     },
     "step-3": {
       "name": "Neustart",

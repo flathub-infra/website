@@ -663,6 +663,6 @@
   },
   "download": {
     "install-x": "Install “{x}”",
-    "fallback-instructions": "<opening>Opening “{name}” in your software manager...</opening><support>If nothing happens, maybe your system does not support <i>flatpak+https</i> urls.</support><listPrefix>In that case you can:</listPrefix><ol><li>Download the <link>.flatpakref file</link></li><li>Then run it from your file manager</li></ol><setupLine><linkSetup>Instructions to install Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Opening “{name}” in your software manager…</opening><support>If nothing happens, maybe your system does not support <i>flatpak+https</i> urls.</support><listPrefix>In that case you can:</listPrefix><ol><li>Download the <link>.flatpakref file</link></li><li>Then run it from your file manager</li></ol><setupLine><linkSetup>Instructions to install Flatpak</linkSetup></setupLine>"
   }
 }
