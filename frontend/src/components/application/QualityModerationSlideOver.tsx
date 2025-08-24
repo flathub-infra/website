@@ -227,7 +227,7 @@ const QualityCategories = ({
 }: {
   app: Pick<DesktopAppstream, "id" | "name" | "summary" | "icon" | "branding">
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
-  mode: "developer" | "moderator"
+  mode: "developer" | "qualityModerator"
 }) => {
   const t = useTranslations()
 
@@ -286,7 +286,7 @@ https://flathub.org/apps/details/${app.id}
 
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
-      {mode === "moderator" && (
+      {mode === "qualityModerator" && (
         <div className="flex gap-3">
           {query.data.data.review_requested_at && (
             <Button
@@ -383,7 +383,7 @@ const QualityItem = ({
   qualityGuideline,
   query,
 }: {
-  mode: "developer" | "moderator"
+  mode: "developer" | "qualityModerator"
   appId: string
   qualityModeration?: QualityModerationType
   qualityGuideline: Guideline | undefined
@@ -477,7 +477,7 @@ const ScreenShotTypeItem = ({
   is_fullscreen_app,
   query,
 }: {
-  mode: "developer" | "moderator"
+  mode: "developer" | "qualityModerator"
   appId: string
   is_fullscreen_app: boolean
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
@@ -593,7 +593,7 @@ export const QualityModerationSlideOver = ({
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
-  mode: "developer" | "moderator"
+  mode: "developer" | "qualityModerator"
   app: DesktopAppstream
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void

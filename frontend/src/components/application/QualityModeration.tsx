@@ -74,7 +74,7 @@ const ReviewButton = ({
   status?: QualityModerationStatus
   app_id: string
   buttonClicked?: () => void
-  mode?: "moderator" | "developer"
+  mode?: "qualityModerator" | "developer"
 }) => {
   const t = useTranslations()
 
@@ -95,7 +95,7 @@ const ReviewButton = ({
     return null
   }
 
-  if (mode === "moderator" && !review_requested_at) {
+  if (mode === "qualityModerator" && !review_requested_at) {
     return null
   }
 
@@ -189,7 +189,7 @@ export const QualityModeration = ({
     return null
   }
 
-  const mode = isQualityModerator ? "moderator" : "developer"
+  const mode = isQualityModerator ? "qualityModerator" : "developer"
 
   return (
     <>
@@ -229,7 +229,7 @@ export const QualityModeration = ({
             }}
             className="flex items-center gap-1"
           >
-            {mode === "moderator" && (
+            {mode === "qualityModerator" && (
               <>
                 <HiCog6Tooth className="w-5 h-5" />
                 <div className="hidden sm:block">Moderate</div>
