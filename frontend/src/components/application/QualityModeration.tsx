@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "src/context/user-info"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
-import { useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
 import {
@@ -17,12 +16,15 @@ import { useTranslations } from "next-intl"
 import Modal from "../Modal"
 import { DesktopAppstream } from "src/types/Appstream"
 import {
-  getQualityModerationStatusForAppQualityModerationAppIdStatusGet,
-  requestReviewForAppQualityModerationAppIdRequestReviewPost,
   Permission,
   QualityModerationStatus,
+  useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet,
+  useGetModerationAppModerationAppsAppIdGet,
+  useRequestReviewForAppQualityModerationAppIdRequestReviewPost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ScanEyeIcon } from "lucide-react"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -80,16 +82,16 @@ const ReviewButton = ({
 
   const [modalVisible, setModalVisible] = useState(false)
 
-  const requestReviewMutation = useMutation({
-    mutationFn: () =>
-      requestReviewForAppQualityModerationAppIdRequestReviewPost(app_id, {
-        withCredentials: true,
-      }),
-    onSuccess: () => {
-      buttonClicked?.()
-      setModalVisible(false)
-    },
-  })
+  const requestReviewMutation =
+    useRequestReviewForAppQualityModerationAppIdRequestReviewPost({
+      mutation: {
+        onSuccess: () => {
+          buttonClicked?.()
+          setModalVisible(false)
+        },
+      },
+      axios: { withCredentials: true },
+    })
 
   if (status?.passes) {
     return null
@@ -125,7 +127,9 @@ const ReviewButton = ({
           }}
           submitButton={{
             onClick: () => {
-              requestReviewMutation.mutate()
+              requestReviewMutation.mutate({
+                appId: app_id,
+              })
             },
             label: t("quality-guideline.request-review"),
           }}
@@ -163,19 +167,34 @@ export const QualityModeration = ({
   const t = useTranslations()
   const user = useUserContext()
   const [isQualityModerator, setIsQualityModerator] = useState(false)
+  const [isModerator, setIsModerator] = useState(false)
 
   const requirement =
     isQualityModerator || user.info?.dev_flatpaks.includes(app.id)
 
-  const query = useQuery({
-    queryKey: ["/quality-moderation-app-status", { appId: app.id }],
-    queryFn: ({ signal }) =>
-      getQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
-        withCredentials: true,
-        signal: signal,
-      }),
-    enabled: !!requirement,
-  })
+  const query =
+    useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
+      axios: { withCredentials: true },
+      query: {
+        enabled: !!requirement,
+      },
+    })
+
+  const moderationStatusQuery = useGetModerationAppModerationAppsAppIdGet(
+    app.id,
+    {
+      limit: 1,
+      include_handled: false,
+      include_outdated: false,
+      offset: 0,
+    },
+    {
+      axios: { withCredentials: true },
+      query: {
+        enabled: isModerator,
+      },
+    },
+  )
 
   useEffect(() => {
     if (
@@ -185,7 +204,13 @@ export const QualityModeration = ({
     }
   }, [user.info])
 
-  if (!requirement) {
+  useEffect(() => {
+    if (user.info?.permissions.some((a) => a === Permission["moderation"])) {
+      setIsModerator(true)
+    }
+  }, [user.info])
+
+  if (!requirement && !isModerator) {
     return null
   }
 
@@ -213,6 +238,16 @@ export const QualityModeration = ({
           </div>
         </div>
         <div className="ms-auto flex">
+          {isModerator &&
+            moderationStatusQuery.isSuccess &&
+            moderationStatusQuery.data?.data && (
+              <Button size="lg" variant="secondary" asChild className="me-2">
+                <Link href={`/admin/moderation/${app.id}`}>
+                  <ScanEyeIcon className="w-5 h-5" />
+                  <div className="hidden sm:block">Review</div>
+                </Link>
+              </Button>
+            )}
           <ReviewButton
             app_id={app.id}
             status={query?.data?.data}
