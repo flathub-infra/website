@@ -1,25 +1,29 @@
+'use client'
+
 import { useEffect } from "react"
 
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import Header from "./Header"
 import Footer from "./Footer"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
 
 const Main = ({ children }: { children: React.ReactNode }) => {
   const { trackPageView } = useMatomo()
-  const router = useRouter()
+  const pathname = usePathname()
+  const locale = useLocale()
 
   // Track page view
   useEffect(() => {
     trackPageView({
       href: window.location.href.replace(
-        RegExp(`/${router.locale}$|/${router.locale}/`),
+        RegExp(`/${locale}$|/${locale}/`),
         "/",
       ),
       customDimensions: [
         {
           id: 1,
-          value: router.locale,
+          value: locale,
         },
       ],
     })
