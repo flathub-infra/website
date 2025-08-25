@@ -32,7 +32,7 @@
   "moderation-key": "Բանալի",
   "moderation-old-value": "Հին արժեք",
   "moderation-new-value": "Նոր արժեք",
-  "search-for-query": "'{query}'֊ի որոնում",
+  "search-for-query": "\"{query}\"֊ի որոնում",
   "moderation-value": "Արժեք",
   "acknowledgements-block": "<p>Flathub-ը հնարավոր չէր լինի առանց հետևյալ կազմակերպությունների և անհատների առատաձեռն աջակցության:</p>",
   "moderation-no-review-requests": "Այս հավելվածի համար վերանայումներ առկա չեն։",
