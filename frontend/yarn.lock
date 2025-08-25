@@ -7491,10 +7491,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"boring-avatars@npm:^1.11.2":
-  version: 1.11.2
-  resolution: "boring-avatars@npm:1.11.2"
-  checksum: 10c0/b574bbbd926faeca7615c82a1bc2e0dda85803ed677c5e243b27cdda7b1ee97289d53f81bfe89087429b73897e2a329e306f13fd65c279e23b394595cfa15828
+"boring-avatars@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "boring-avatars@npm:2.0.1"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/4d85934cd93cff6456f7d0985c58510cf3f90849dae24a748e02d821fa26eb0cfdba19232b991146a78241cdb13496b5e86e7453631ab1c7abdd969ed9612440
   languageName: node
   linkType: hard
 
@@ -9734,7 +9737,7 @@ __metadata:
     "@vitest/browser": "npm:^3.2.4"
     "@vitest/coverage-v8": "npm:^3.2.4"
     axios: "npm:^1.11.0"
-    boring-avatars: "npm:^1.11.2"
+    boring-avatars: "npm:^2.0.1"
     chromatic: "npm:^13.1.2"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
