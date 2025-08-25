@@ -67,7 +67,7 @@
   "badges-description": "ඔබගේ යෙදුම ෆ්ලැට්හබ් හි ප්‍රවර්ධනයට නිල චිහ්න",
   "preferred-badge": "අභිප්‍රේත චිහ්නය",
   "alternative-badge": "වෛකල්පිත චිහ්නය",
-  "search-for-query": "'{query}' සඳහා සෙවීම",
+  "search-for-query": "\"{query}\" සඳහා සෙවීම",
   "manual-install-instructions": "ස්ථාපනයට පෙර <distroguide>පිහිටුවීමේ මාර්ගෝපදේශය</distroguide> අනුගමනය කරන්න",
   "login-with-provider": "{provider} සමඟ පිවිසෙන්න",
   "by": "{developer} වෙතින්",

@@ -236,7 +236,7 @@
   "page-not-found": "{errorCode} - 找不到页面",
   "could-not-find-page": "我们找不到您要查找的页面。",
   "verified-manually-tooltip": "<appid>{app_id}</appid> 应用 ID 的所有权已由 Flathub 团队手动验证",
-  "verified-login-provider-tooltip": "<appid>{app_id}</appid> 应用 ID 的所有权已由 <loginname>{login_name}</loginname> 在 <loginprovider>{login_provider}</loginprovider> 上验证",
+  "verified-login-provider-tooltip": "<appid>{app_id}</appid> 应用 ID 的所有权已由 <loginname></loginname> 在 <loginprovider></loginprovider> 上验证",
   "login-provider-verification-enable-github-app": "要继续验证，Flathub 需要获得权限以读取您在 <orgname></orgname> 组织中的成员级别。可以<settingslink>在 GitHub 设置中</settingslink>授予此权限。",
   "login-provider-verification-not-org-member": "您当前是以 <currentname></currentname> 身份登录 <loginprovider></loginprovider> 的。此账号不是 <orgname></orgname> 组织的成员。要验证此应用，您必须在组织中申请管理员权限或登录已具有管理员权限的账号。",
   "login-provider-verification-failed": "未满足验证要求。",

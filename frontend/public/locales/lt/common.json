@@ -216,6 +216,6 @@
   "app-is-currently-verified-manually": "Jūsų programėlė šiuo metu patvirtina „Flathub” darbuotojų",
   "verify-app": "Patvirtinti programėlę",
   "app-is-currently-verified-by-login-provider": "Jūsų programėlė šiuo metu yra patvirtinta pagal jūsų prisijungimą <loginname></loginname> su jūsų paskyra <loginprovider></loginprovider>",
-  "login-provider-verification-instruction": "Bandysime patvirtinti jūsų prieigą prie programėlės naudodami prisijungimo vardą <loginname>{login_name}</loginname> su paskyra <loginprovider>{login_provider}</loginprovider>",
+  "login-provider-verification-instruction": "Bandysime patvirtinti jūsų prieigą prie programėlės naudodami prisijungimo vardą <loginname></loginname> su paskyra <loginprovider></loginprovider>",
   "website-verification": "Svetainės patvirtinimas"
 }
