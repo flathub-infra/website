@@ -423,12 +423,11 @@ class FlathubUser(Base):
 
 class flathubuser_role(Base):
     __tablename__ = "flathubuser_role"
+    id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
     flathubuser_id = mapped_column(
-        Integer, ForeignKey("flathubuser.id"), nullable=False, primary_key=True
+        Integer, ForeignKey("flathubuser.id"), nullable=False
     )
-    role_id = mapped_column(
-        Integer, ForeignKey("role.id"), nullable=False, primary_key=True
-    )
+    role_id = mapped_column(Integer, ForeignKey("role.id"), nullable=False)
 
     __table_args__ = (
         Index("flathubuser_role_unique", flathubuser_id, role_id, unique=True),
@@ -489,11 +488,15 @@ FlathubUser.TABLES_FOR_DELETE.append(flathubuser_role)
 
 class role_permission(Base):
     __tablename__ = "role_permission"
-    role_id = mapped_column(
-        Integer, ForeignKey("role.id"), nullable=False, primary_key=True
-    )
+    id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
+
+    role_id = mapped_column(Integer, ForeignKey("role.id"), nullable=False)
     permission_name = mapped_column(
-        String, ForeignKey("permission.name"), nullable=False, primary_key=True
+        String, ForeignKey("permission.name"), nullable=False
+    )
+
+    __table_args__ = (
+        Index("role_permission_unique", role_id, permission_name, unique=True),
     )
 
 
@@ -1533,14 +1536,17 @@ class StripePendingTransfer(Base):
 class UserOwnedApp(Base):
     __tablename__ = "userownedapp"
 
-    app_id = mapped_column(String, nullable=False, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
+
+    app_id = mapped_column(String, nullable=False)
     account = mapped_column(
         Integer,
         ForeignKey(FlathubUser.id, ondelete="CASCADE"),
         nullable=False,
-        primary_key=True,
     )
     created = mapped_column(DateTime, nullable=False)
+
+    __table_args__ = (Index("user_owned_app_unique", account, app_id, unique=True),)
 
     def to_result(self) -> UserOwnedAppResult:
         return UserOwnedAppResult(app_id=self.app_id, created=self.created)
@@ -2767,18 +2773,16 @@ class App(Base):
 class UserFavoriteApp(Base):
     __tablename__ = "user_favorite_app"
 
-    id = mapped_column(Integer, server_default=Identity())
+    id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
     app_id = mapped_column(
         String,
         ForeignKey(App.app_id, ondelete="CASCADE"),
         nullable=False,
-        primary_key=True,
     )
     account = mapped_column(
         Integer,
         ForeignKey(FlathubUser.id, ondelete="CASCADE"),
         nullable=False,
-        primary_key=True,
     )
     created = mapped_column(DateTime, nullable=False)
 
