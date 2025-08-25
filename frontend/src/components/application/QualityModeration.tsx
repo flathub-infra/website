@@ -65,7 +65,7 @@ const QualityModerationStatusComponent = ({
   }
 }
 
-const ReviewButton = ({
+const QualityReviewButton = ({
   review_requested_at,
   status,
   app_id,
@@ -240,7 +240,7 @@ export const QualityModeration = ({
         <div className="ms-auto flex">
           {isModerator &&
             moderationStatusQuery.isSuccess &&
-            moderationStatusQuery.data?.data && (
+            moderationStatusQuery.data?.data.requests_count > 0 && (
               <Button size="lg" variant="secondary" asChild className="me-2">
                 <Link href={`/admin/moderation/${app.id}`}>
                   <ScanEyeIcon className="w-5 h-5" />
@@ -248,7 +248,7 @@ export const QualityModeration = ({
                 </Link>
               </Button>
             )}
-          <ReviewButton
+          <QualityReviewButton
             app_id={app.id}
             status={query?.data?.data}
             review_requested_at={query?.data?.data?.review_requested_at}
