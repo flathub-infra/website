@@ -103,5 +103,14 @@
   "graphics-and-photography": "Graferezh ha Luc'hskeudennerezh",
   "more-graphics": "Muioc'h a Graferezh ha Luc'hskeudennerezh",
   "website-verification": "Gwiriadur dre lec'hienn web",
-  "verification": "Gwiriadur"
+  "verification": "Gwiriadur",
+  "number-of-results": "Disoc'hoù : {number}",
+  "no-results-found": "Disoc'h ebet bet kavet",
+  "languages": "Yezhoù",
+  "languages-summary": "Dibabit ar yezh a fell deoc'h gwelet al lec'hienn web.",
+  "cancel": "Nullañ",
+  "continue": "Kenderc'hel",
+  "no-apps": "Arload ebet da ziskouez.",
+  "developer-settings": "Arventennoù ar diorroer",
+  "x-downloads": "pellgargadennoù : {x}"
 }
