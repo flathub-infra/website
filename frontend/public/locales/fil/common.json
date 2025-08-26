@@ -604,7 +604,8 @@
     "hide-branding-preview": "Itago ang preview ng branding",
     "show-branding-preview": "Ipakita ang preview ng branding",
     "light": "Maliwanag",
-    "dark": "Madilim"
+    "dark": "Madilim",
+    "failing-x-checks": "Nabibigong {count, plural, one {# pagsusuri} other {# mga pagsusuri}}"
   },
   "delete-account-prompt": "Burahin ang iyong account?",
   "moderation-approved-by": "Inaprubahan ni/ng {handledBy} sa {handledAt} ({handledAtRel})",
@@ -662,5 +663,6 @@
   "download": {
     "install-x": "I-install ang \"{x}\"",
     "fallback-instructions": "<opening>Binubuksan ang \"{name}\" sa iyong tagapamahala ng software…</opening><support>Kung walang nangyayari, baka hindi sinusuportahan ng iyong sistema ang mga <i>flatpak+https</i> na url.</support><listPrefix>Sa kasong ito, maaari mong:</listPrefix><ol><li>I-download ang <link>.flatpakref file</link></li><li>At patakbuhin ito sa iyong file manager</li></ol><setupLine><linkSetup>Mga tagubilin kung paano i-install ang Flatpak</linkSetup></setupLine>"
-  }
+  },
+  "count": "Bilang"
 }

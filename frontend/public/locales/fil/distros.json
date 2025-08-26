@@ -77,6 +77,17 @@
     "introduction": "<text>Kasama ang Flatpak support sa Endless OS 3.0.0 at mas bago—walang setup na kinakailangan!</text>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Naka-install bilang default sa Red Hat Enterprise Linux 9 at mas bago ang Flatpak. Para makapagsimula, ang kailangan mo lang gawin ay paganahin ang Flathub, na ang pinakamagandang paraan sa pagkuha ng mga Flatpak app. I-download lang ang <filelink>Flathub repository file</filelink>.</text> <text>Para i-install ang Flatpak sa Red Hat Enterprise Linux 8 at mas luma, patakbuhin ang sumusunod sa terminal:</text>. <code></code> <text>Ang kailangan mo lang gawin ay <link>mag-install ng mga app</link>!</text> <text>Ang mga link sa itaas ay gagana sa default na Red Hat Enterprise Linux Workstation 9 na installation, ngunit kung mabigo sila dahil sa anumang dahilan maaari mong manwal na idagdag ang Flathub remote sa pamamagitan ng pagtakbo ng:</text> <codeAddRemote></codeAddRemote>"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint",
+    "introduction": "<text>May kasamang support sa Flatpak ang Linux Mint 18.3 at mas bago—walang kailangan na pag-set up!</text>"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "I-install ang Flatpak"
+    }
   }
 }
