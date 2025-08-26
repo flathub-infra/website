@@ -488,7 +488,8 @@
     "needed-to-pass-x": "必須通過 {x}",
     "problems": "若您想詢問我們具體的品質指引問題，請不吝開啟<link>問題</link>。",
     "light": "淺色",
-    "dark": "深色"
+    "dark": "深色",
+    "failing-x-checks": "{count, plural, one {# 次檢查} other {# 次檢查}}失敗"
   },
   "app-listing-quality": "應用程式清單品質",
   "moderation-build-id": "建構 ID",
