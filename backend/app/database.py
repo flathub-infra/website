@@ -139,10 +139,38 @@ def get_json_key(key: str):
                     )
                 return None
 
+    if key.startswith("app_stats:"):
+        app_id = key.split(":", 1)[1]
+        with get_db() as sqldb:
+            app_stats = models.AppStats.get_stats(sqldb, app_id)
+            return app_stats.to_dict() if app_stats else None
+
+    if key == "stats" or key.startswith("stats:date:"):
+        with get_db() as sqldb:
+            cache_value = models.StatsCache.get_value(sqldb, key)
+            return cache_value
+
     if value := redis_conn.get(key):
         return orjson.loads(value)
 
     return None
+
+
+def set_cache_key(key: str, value: dict | list, expires_in_seconds: int | None = None):
+    """Set a cache value in PostgreSQL"""
+    with get_db("writer") as sqldb:
+        if isinstance(value, dict):
+            models.StatsCache.set_value(sqldb, key, value, expires_in_seconds)
+        else:
+            raise ValueError(
+                f"Stats cache key {key} requires a dict value, got {type(value)}"
+            )
+
+
+def bulk_set_app_stats(stats_dict: dict[str, dict]):
+    """Bulk set app stats in PostgreSQL"""
+    with get_db("writer") as sqldb:
+        models.AppStats.bulk_set_stats(sqldb, stats_dict)
 
 
 def get_all_appids_for_frontend():

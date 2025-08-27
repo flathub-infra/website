@@ -58,6 +58,11 @@ def _get_stats_for_date(
             else None
         )
         database.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
+        database.set_cache_key(
+            redis_key,
+            stats,
+            int(expire / datetime.timedelta(hours=1)) if expire is not None else None,
+        )
     else:
         stats = orjson.loads(stats_txt)
     return stats
@@ -459,3 +464,5 @@ def update(sqldb):
             for app_id in stats_apps_dict
         }
     )
+    database.set_cache_key("stats", stats_dict)
+    database.bulk_set_app_stats(stats_apps_dict)
