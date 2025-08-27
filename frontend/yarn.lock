@@ -1446,10 +1446,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-fns/utc@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@date-fns/utc@npm:2.1.0"
-  checksum: 10c0/3f093e0f748b6e8c3df434e42e168b31762e1674b8313d43907c6a85c6540138a0bec01826eb998142e08a8839d3190a776e4e6bba41fe29073f6a3de206e365
+"@date-fns/utc@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@date-fns/utc@npm:2.1.1"
+  checksum: 10c0/796eaf66d4f2945ff336edad29714f5f6b3c64090f534febe0ca8359a61fba521076dd4974fe3a35ce8aeb964bf73d372a87eef5c2900d3334bcaa36fa1f0dd2
   languageName: node
   linkType: hard
 
@@ -9795,7 +9795,7 @@ __metadata:
     "@babel/core": "npm:^7.28.0"
     "@chromatic-com/storybook": "npm:^4.0.1"
     "@collapsed/react": "npm:^5.1.0"
-    "@date-fns/utc": "npm:^2.1.0"
+    "@date-fns/utc": "npm:^2.1.1"
     "@faker-js/faker": "npm:^9.7.0"
     "@headlessui/react": "npm:^2.2.4"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
