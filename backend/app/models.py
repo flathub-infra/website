@@ -2997,3 +2997,72 @@ class AppExtensionLookup(Base):
             db.add(cls(extension_id=extension_id, parent_app_id=parent_app_id))
 
         db.commit()
+
+
+class AppStats(Base):
+    __tablename__ = "app_stats"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    app_id: Mapped[str] = mapped_column(String, nullable=False, index=True, unique=True)
+    installs_total: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=text("0")
+    )
+    installs_last_month: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=text("0")
+    )
+    installs_last_7_days: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=text("0")
+    )
+    installs_per_day: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    installs_per_country: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        Index("ix_app_stats_installs_last_7_days", "installs_last_7_days"),
+        Index("ix_app_stats_updated_at", "updated_at"),
+    )
+
+    @classmethod
+    def get_stats(cls, db, app_id: str) -> "AppStats | None":
+        return db.query(cls).filter(cls.app_id == app_id).first()
+
+    @classmethod
+    def set_stats(cls, db, app_id: str, stats_data: dict) -> "AppStats":
+        app_stats = db.query(cls).filter(cls.app_id == app_id).first()
+
+        if app_stats:
+            app_stats.installs_total = stats_data.get("installs_total", 0)
+            app_stats.installs_last_month = stats_data.get("installs_last_month", 0)
+            app_stats.installs_last_7_days = stats_data.get("installs_last_7_days", 0)
+            app_stats.installs_per_day = stats_data.get("installs_per_day", {})
+            app_stats.installs_per_country = stats_data.get("installs_per_country", {})
+            app_stats.updated_at = func.now()
+        else:
+            app_stats = cls(
+                app_id=app_id,
+                installs_total=stats_data.get("installs_total", 0),
+                installs_last_month=stats_data.get("installs_last_month", 0),
+                installs_last_7_days=stats_data.get("installs_last_7_days", 0),
+                installs_per_day=stats_data.get("installs_per_day", {}),
+                installs_per_country=stats_data.get("installs_per_country", {}),
+            )
+            db.add(app_stats)
+
+        db.commit()
+        return app_stats
+
+    @classmethod
+    def bulk_set_stats(cls, db, stats_dict: dict[str, dict]) -> None:
+        for app_id, stats_data in stats_dict.items():
+            cls.set_stats(db, app_id, stats_data)
+
+    def to_dict(self) -> dict:
+        return {
+            "installs_total": self.installs_total,
+            "installs_last_month": self.installs_last_month,
+            "installs_last_7_days": self.installs_last_7_days,
+            "installs_per_day": self.installs_per_day or {},
+            "installs_per_country": self.installs_per_country or {},
+        }

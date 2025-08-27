@@ -453,9 +453,4 @@ def update(sqldb):
                     stats_apps_dict[new_id]["installs_per_country"][country] = count
 
     database.redis_conn.set("stats", orjson.dumps(stats_dict))
-    database.redis_conn.mset(
-        {
-            f"app_stats:{app_id}": orjson.dumps(stats_apps_dict[app_id])
-            for app_id in stats_apps_dict
-        }
-    )
+    database.bulk_set_app_stats(stats_apps_dict)
