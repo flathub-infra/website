@@ -102,7 +102,7 @@
     "chromatic": "^13.1.2",
     "eslint": "^9.32.0",
     "eslint-config-next": "15.5.0",
-    "eslint-config-prettier": "^10.1.2",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-storybook": "^9.0.18",
     "msw": "^2.10.4",
