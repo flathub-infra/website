@@ -163,10 +163,9 @@ def load_appstream(sqldb) -> None:
     apps_to_delete_from_search = []
     for app_id in set(all_apps) - set(apps):
         # Preserve app_stats when deleting app
-        with database.get_db() as sqldb:
-            app_stats = models.AppStats.get_stats(sqldb, app_id)
-            if app_stats:
-                continue
+        app_stats = models.AppStats.get_stats(sqldb, app_id)
+        if app_stats:
+            continue
 
         apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
         models.App.delete_app(sqldb, app_id)
