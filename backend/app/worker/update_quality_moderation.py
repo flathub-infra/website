@@ -105,3 +105,29 @@ def update_quality_moderation():
                     ),
                     None,
                 )
+                if summary_dict := get_json_key(f"summary:{app_id}:stable"):
+                    runtime_is_not_eol = True
+                    if (
+                        "metadata" in summary_dict
+                        and summary_dict["metadata"]
+                        and "runtime" in summary_dict["metadata"]
+                        and summary_dict["metadata"]["runtime"]
+                    ):
+                        runtime_parts = summary_dict["metadata"]["runtime"].split("/")
+                        if len(runtime_parts) >= 2:
+                            runtime_appid = runtime_parts[0]
+                            runtime_branch = (
+                                runtime_parts[2] if len(runtime_parts) > 2 else "stable"
+                            )
+                            runtime_is_eol = models.App.get_eol_data(
+                                db, runtime_appid, runtime_branch
+                            )
+                            runtime_is_not_eol = not runtime_is_eol
+
+                    models.QualityModeration.upsert(
+                        db,
+                        app_id,
+                        "general-runtime-not-eol",
+                        runtime_is_not_eol,
+                        None,
+                    )
