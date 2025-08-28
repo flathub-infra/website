@@ -48,6 +48,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
                         className={clsx(
                           "absolute bottom-[-1px] start-0 end-0 h-1",
                           "bg-flathub-celestial-blue",
+                          "z-10",
                         )}
                       />
                     )}
