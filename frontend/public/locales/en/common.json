@@ -603,6 +603,7 @@
     "problems": "If you would like to ask us about specific quality guideline problems, feel free to open <link>an issue</link>.",
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
+    "general-runtime-not-eol": "Runtime not end-of-life",
     "branding": "Branding",
     "branding-has-primary-brand-colors": "Has primary brand colors",
     "branding-good-primary-brand-colors": "Good primary brand colors",
