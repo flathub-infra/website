@@ -388,7 +388,8 @@
     }
   },
   "fedora": {
-    "distroName": "Fedora"
+    "distroName": "Fedora",
+    "introduction": "<text>A Flatpak alapértelmezetten telepítve van a Fedora Workstation, Fedora Silverblue és Fedora Kinoite rendszereken. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a legjobb módja a Flatpak-alkalmazások beszerzésének. A Flathub előre be van állítva a <repolink>Harmadik féltől származó tárolók</repolink>. részeként. Alternatívaként letöltheti és telepítheti a <filelink>Flathub tárolófájlt</filelink>.</text> <text>Most már nincs más dolga, mint <applink>alkalmazásokat telepíteni</applink>!</text> <text>A fenti hivatkozásoknak működniük kell az alapértelmezett GNOME- és KDE-s Fedora telepítéseken, de ha valamiért mégsem, akkor kézzel is hozzáadhatja a Flathub tárolót a következő parancs futtatásával:</text> <code></code>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",

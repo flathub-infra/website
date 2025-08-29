@@ -80,19 +80,55 @@
     "distroName": "Red Hat Enterprise Linux"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<text>Flatpak-støtte er innebygd i Linux Mint 18.3 og nyere newer—ingen installering er nødvendig!</text>"
   },
   "opensuse": {
-    "distroName": "openSUSE"
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Installer Flatpak"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, kjør:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Etter det trenger du bare å <link>installere apper</link>!</text>"
+    }
   },
   "arch": {
-    "distroName": "Arch"
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Arch, åpne terminalen og kjør:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Etter det trenger du bare å <link>installere apper</link>!</text>"
+    }
   },
   "debian": {
-    "distroName": "Debian"
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Legg til Flathub-pakkebrønnen"
+    },
+    "step-4": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Etter det trenger du bare å <link>installere apper</link>!</text>"
+    }
   },
   "rocky_linux": {
-    "distroName": "Rocky Linux"
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
+    }
   },
   "centos": {
     "distroName": "CentOS"

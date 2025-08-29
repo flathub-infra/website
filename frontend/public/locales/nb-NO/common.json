@@ -649,7 +649,13 @@
   "mobile-apps-description": "Apper til Linux-telefoner og nettbrett",
   "vendingSharesPreview": {
     "sdk": "SDK",
-    "app": "App"
+    "app": "App",
+    "sliderThumbLabel": "App-andel per distribusjon: {percentage}",
+    "appShare": "App-andel: {percentage}",
+    "sdkShare": "SDK-andel: {percentage}",
+    "flathubShare": "Flathub-andel: {percentage}",
+    "screenReaderBreakdown": "Andelsskyveknapp. Bruk piltastene for å justere distribusjonen mellom app, SDK og Flathub. Gjeldende distribusjon: App: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Total kostnad: {totalCost}.",
+    "sliderLabel": "Andelsskyveknapp"
   },
   "count": "Antall",
   "country-statistics": "Statistikk per land",
