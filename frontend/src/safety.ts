@@ -134,6 +134,21 @@ export function getSafetyRating(
     })
   }
 
+  // gpg-agent
+  if (
+    summaryMetadata.permissions.sockets?.some(
+      (x) => x.toLowerCase() === "gpg-agent",
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      icon: HiOutlineCog6Tooth,
+      title: "uses-privileged-socket",
+      description: "sockey-may-allow-extra-permissions",
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
   // system-bus
   if (
     summaryMetadata.permissions.sockets?.some(
