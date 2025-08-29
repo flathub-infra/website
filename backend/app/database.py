@@ -115,6 +115,7 @@ def get_json_key(key: str):
             apps_with_eol_messages = (
                 sqldb.query(models.App.app_id, models.App.eol_message)
                 .filter(models.App.eol_message.isnot(None))
+                .filter(models.App.is_eol == True)
                 .all()
             )
             return {app.app_id: app.eol_message for app in apps_with_eol_messages}
