@@ -2466,6 +2466,9 @@ class App(Base):
         if not app:
             return False
 
+        if not app.is_eol:
+            return False
+
         if branch and app.eol_branches:
             eol_branches = app.eol_branches
 
