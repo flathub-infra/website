@@ -94,7 +94,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/eslint-plugin-query": "^5.83.1",
     "@tanstack/react-query-devtools": "^5.81.5",
-    "@types/node": "^22.16.5",
+    "@types/node": "^24.3.0",
     "@types/react": "19.1.10",
     "@types/rtl-detect": "^1",
     "@vitest/browser": "^3.2.4",
