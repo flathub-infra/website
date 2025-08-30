@@ -292,9 +292,14 @@ export function getSafetyRating(
 
   // can acquire arbitrary permissions
   if (
-    summaryMetadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-data/flatpak/overrides:create",
-    ) ||
+    summaryMetadata.permissions.filesystems?.some((path) => {
+      return (
+        fsValueMatchesPrefix(path, "~/.local/share/flatpak") ||
+        fsValueMatchesPrefix(path, "home/.local/share/flatpak") ||
+        fsValueMatchesPrefix(path, "xdg-data/flatpak") ||
+        fsValueMatchesPrefix(path, "/var/lib/flatpak")
+      )
+    }) ||
     summaryMetadata.permissions["session-bus"]?.talk?.some(
       (x) => x.toLowerCase() === "org.freedesktop.flatpak".toLowerCase(),
     ) ||
@@ -485,6 +490,20 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
   }
 
   return appSafetyRating
+}
+
+function fsValueMatchesPrefix(inputPath: string, prefix: string): boolean {
+  // Implements https://github.com/flathub-infra/flatpak-builder-lint/blob/f8f5ec10ac97d25e3fb9fef79fc82ab0aaad8bbe/flatpak_builder_lint/checks/finish_args.py#L15-L17
+
+  // Check if a filesystem permission path matches a given prefix
+  // Matches:
+  //  - The exact prefix path - prefix, prefix/
+  //  - The prefix path followed by subpath(s) - prefix/foo, prefix/foo/, prefix/foo/bar
+  //  - Any of the above optionally with :ro, :rw, :create suffixes
+
+  const escapedPrefix = prefix.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&")
+  const pattern = new RegExp(`^${escapedPrefix}(?:/.*)?(?::(create|rw|ro))?$`)
+  return pattern.test(inputPath)
 }
 
 function specificFileHandling(
