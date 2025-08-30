@@ -353,7 +353,8 @@
     "request-review": "Be om kontroll",
     "problems": "Hvis du har spørsmål om spesifikke retningslinjer, åpne gjerne en <link>sak</link> i arbeidsområdet vårt.",
     "light": "Lys",
-    "dark": "Mørk"
+    "dark": "Mørk",
+    "failing-x-checks": "Mislykkede {count, plural, one {# check} other {# checks}}"
   },
   "updated-apps": "Oppdaterte apper",
   "stripe-error-payment_intent_authentication_failure": "Autentisering av betalingsmåte mislyktes. Velg en annen betalingsmåte og prøv igjen.",
@@ -661,6 +662,7 @@
   "country-statistics": "Statistikk per land",
   "since-x": "Siden {date}",
   "download": {
-    "install-x": "Installer «{x}»"
+    "install-x": "Installer «{x}»",
+    "fallback-instructions": "<opening>«{name}» skal åpnes i programvarebehandleren din…</opening><support>Hvis ingenting skjer, kan det hende at systemet ditt ikke støtter <i>flatpak+https</i> URL-er.</support><listPrefix>I det tilfellet kan du</listPrefix><ol><li>Laste ned <link>.flatpakref-filen</link></li><li>Deretter kjøre den fra filprogrammet ditt</li></ol><setupLine><linkSetup>Instruksjoner om hvordan man installerer Flatpak</linkSetup></setupLine>"
   }
 }
