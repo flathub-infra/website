@@ -1,10 +1,11 @@
+"use client"
+
 import { ChangeEvent, useEffect, useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter, usePathname, Link } from "../../i18n/navigation"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 import { useWindowSize } from "src/hooks/useWindowSize"
-import { OrganizationJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
-import { useTranslations } from "next-intl"
+// import { OrganizationJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
+import { useTranslations, useLocale } from "next-intl"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import Image from "next/image"
@@ -30,6 +31,7 @@ import { AxiosError } from "axios"
 import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
 import Form from "next/form"
 import { getLangDir } from "rtl-detect"
+import { useSearchParams } from "next/navigation"
 
 const navigation = [
   {
@@ -82,7 +84,10 @@ const MobileMenuButton = ({ open, close, width }) => {
 
 const Header = () => {
   const t = useTranslations()
+  const locale = useLocale()
   const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const user = useUserContext()
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [query, setQuery] = useState("")
@@ -139,15 +144,15 @@ const Header = () => {
   }, [user.info])
 
   useEffect(() => {
-    document.dir = getLangDir(router.locale)
-  }, [router.locale])
+    document.dir = getLangDir(locale)
+  }, [locale])
 
   useEffect(() => {
-    const q = router.query.query as string
+    const q = searchParams.get("query")
     if (q) {
       setQuery(q)
     }
-  }, [router.query.query])
+  }, [searchParams])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -158,13 +163,7 @@ const Header = () => {
     const disallowedQueries = [".", ".."]
     if (!disallowedQueries.includes(query)) {
       const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-      router.push(
-        `/apps/search${queryEncoded ? `?q=${queryEncoded}` : ""}`,
-        undefined,
-        {
-          locale: router.locale,
-        },
-      )
+      router.push(`/apps/search${queryEncoded ? `?q=${queryEncoded}` : ""}`)
     }
   }
 
@@ -210,7 +209,7 @@ const Header = () => {
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full shrink-0 items-center">
-                    <OrganizationJsonLd
+                    {/* <OrganizationJsonLd
                       name={t("flathub")}
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                       logo={logoEmail.src}
@@ -222,8 +221,8 @@ const Header = () => {
                         "https://github.com/flathub",
                         "https://github.com/flathub-infra",
                       ]}
-                    />
-                    <Link href="/" passHref>
+                    /> */}
+                    <Link href="/">
                       <div
                         className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-black transition hover:bg-black/5 dark:text-white dark:invert dark:hover:bg-black/5 lg:w-fit lg:py-2 lg:pe-[14px] lg:ps-3"
                         title={t("go-home")}
@@ -254,7 +253,7 @@ const Header = () => {
                 <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-4">
                   <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                     <div className="w-full xl:mx-auto xl:w-[400px]">
-                      <SiteLinksSearchBoxJsonLd
+                      {/* <SiteLinksSearchBoxJsonLd
                         url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
                         potentialActions={[
                           {
@@ -262,7 +261,7 @@ const Header = () => {
                             queryInput: "search_term_string",
                           },
                         ]}
-                      />
+                      /> */}
                       <label htmlFor="search" className="sr-only">
                         {t("search-apps")}
                       </label>
@@ -337,8 +336,7 @@ const Header = () => {
                     } else {
                       return (
                         <Link
-                          passHref
-                          href={item.href}
+                          href={item.href as any}
                           key={item.name}
                           className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
@@ -349,8 +347,7 @@ const Header = () => {
                   })}
                   {!user.info && (
                     <Link
-                      passHref
-                      href={`/login?returnTo=${encodeURIComponent(router.asPath)}`}
+                      href={`/login?returnTo=${encodeURIComponent(pathname)}`}
                       key="login"
                       className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
@@ -388,8 +385,7 @@ const Header = () => {
                               <MenuItem key={item.name}>
                                 {({ focus }) => (
                                   <Link
-                                    passHref
-                                    href={item.href}
+                                    href={item.href as any}
                                     className={clsx(
                                       focus
                                         ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
@@ -451,8 +447,7 @@ const Header = () => {
                       } else {
                         return (
                           <Link
-                            passHref
-                            href={item.href}
+                            href={item.href as any}
                             key={item.name}
                             onClick={() => {
                               navigation.forEach((nav) => {
@@ -475,7 +470,6 @@ const Header = () => {
                     })}
                     {!user.info && (
                       <Link
-                        passHref
                         href="/login"
                         key="login"
                         className={clsx(
@@ -519,8 +513,7 @@ const Header = () => {
                           .map((item) => (
                             <Link
                               key={item.name}
-                              href={item.href}
-                              passHref
+                              href={item.href as any}
                               className="block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
                               onClick={() => {
                                 close()

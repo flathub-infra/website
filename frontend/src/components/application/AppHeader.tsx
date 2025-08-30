@@ -13,7 +13,7 @@ import {
   useRemoveFromFavoritesFavoritesAppIdRemoveDelete,
   VendingSetup,
 } from "src/codegen"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"

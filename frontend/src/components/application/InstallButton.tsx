@@ -10,7 +10,7 @@ import { clsx } from "clsx"
 import Link from "next/link"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import CodeCopy from "./CodeCopy"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 
 export default function InstallButton({
