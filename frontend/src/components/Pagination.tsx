@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
 import { clsx } from "clsx"
 import { HiEllipsisHorizontal } from "react-icons/hi2"
 import { useTranslations } from "next-intl"
+import { Link, usePathname, useRouter } from "src/i18n/navigation"
+import { useSearchParams } from "next/navigation"
 
 interface Props {
   currentPage: number
@@ -16,8 +16,9 @@ const Pagination: FunctionComponent<Props> = ({
   pages,
   onClick,
 }) => {
-  const router = useRouter()
   const t = useTranslations()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   if (pages.length < 2) {
     return null
@@ -64,9 +65,9 @@ const Pagination: FunctionComponent<Props> = ({
               {!onClick && (
                 <Link
                   href={{
-                    pathname: router.pathname,
+                    pathname: pathname,
                     query: {
-                      ...router.query,
+                      ...searchParams,
                       page: curr.toString(),
                     },
                   }}

@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl"
 import { BreadcrumbJsonLd } from "next-seo"
-import Link from "next/link"
 import { FunctionComponent } from "react"
 import { HiChevronRight, HiHome } from "react-icons/hi2"
+import { Link } from "src/i18n/navigation"
 
 interface Props {
   pages: { name: string; href: string; current: boolean }[]

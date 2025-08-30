@@ -1,5 +1,8 @@
 const { PHASE_PRODUCTION_BUILD } = require("next/constants")
 const { withSentryConfig } = require("@sentry/nextjs")
+const createNextIntlPlugin = require("next-intl/plugin")
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
@@ -46,63 +49,6 @@ const nextConfig = (phase) => ({
     scrollRestoration: true,
   },
   serverExternalPackages: ["@resvg/resvg-js"],
-  i18n: {
-    defaultLocale: "en",
-    locales: [
-      "en-GB",
-      "en",
-      "de",
-      "fr",
-      "nb-NO",
-      "tr",
-      "fi",
-      "id",
-      "it",
-      "pl",
-      "pt-BR",
-      "ru",
-      "si",
-      "vi",
-      "ar",
-      "es",
-      "ja",
-      "cs",
-      "zh-Hans",
-      "bg",
-      "uk",
-      "et",
-      "ca",
-      "el",
-      "ta",
-      "fa",
-      "hi",
-      "bn",
-      "eo",
-      "lt",
-      "hr",
-      "be",
-      "hu",
-      "nl",
-      "pt",
-      "zh-Hant",
-      "oc",
-      "da",
-      "az",
-      "he",
-      "ro",
-      "hy",
-      "ko",
-      "sv",
-      "pa",
-      "sq",
-      "ia",
-      "ckb",
-      "ga",
-      "kab",
-      "fil",
-      "br",
-    ],
-  },
   cacheHandler:
     process.env.NODE_ENV === "production"
       ? require.resolve("./cache-handler.mjs")
@@ -337,7 +283,9 @@ module.exports = async (phase) => {
   /**
    * @type {import('next').NextConfig}
    */
-  return process.env.ENABLE_SENTRY === "true"
+  const config = process.env.ENABLE_SENTRY === "true"
     ? withSentryConfig(sentryExports(phase), sentryWebpackPluginOptions)
     : nextConfig(phase)
+    
+  return withNextIntl(config)
 }

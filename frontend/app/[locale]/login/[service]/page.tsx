@@ -1,0 +1,49 @@
+import { Metadata } from "next"
+import { notFound } from "next/navigation"
+import { getTranslations } from "next-intl/server"
+import { getLoginMethodsAuthLoginGet } from "../../../../src/codegen"
+import LoginServiceClient from "./login-service-client"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}): Promise<Metadata> {
+  const t = await getTranslations()
+
+  return {
+    title: t("login"),
+    robots: {
+      index: false,
+      follow: false,
+    },
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const providers = await getLoginMethodsAuthLoginGet()
+    const services = providers.data.map((d) => d.method)
+
+    return services.map((service: string) => ({
+      service,
+    }))
+  } catch (error) {
+    return []
+  }
+}
+
+export default async function LoginServicePage({
+  params,
+}: {
+  params: { locale: string; service: string }
+}) {
+  try {
+    const providers = await getLoginMethodsAuthLoginGet()
+    const services = providers.data.map((d) => d.method)
+
+    return <LoginServiceClient services={services} />
+  } catch (error) {
+    notFound()
+  }
+}

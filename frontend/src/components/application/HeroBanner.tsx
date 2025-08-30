@@ -18,7 +18,7 @@ import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
 import Autoplay, { AutoplayType } from "embla-carousel-autoplay"
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { getIntlLocale } from "src/localize"
 import { getLangDir } from "rtl-detect"
 

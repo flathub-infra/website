@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import NewTokenDialog from "./NewTokenDialog"
 import Spinner from "src/components/Spinner"
 import { getIntlLocale } from "src/localize"
@@ -11,14 +11,15 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const t = useTranslations()
 
   const router = useRouter()
+  const locale = useLocale()
 
-  const i18n = getIntlLocale(router.locale)
+  const i18n = getIntlLocale(locale)
 
   const [modalVisible, setModalVisible] = useState(false)
   const [repo, setRepo] = useState<Repo>("beta")

@@ -1,4 +1,3 @@
-import { useRouter } from "next/router"
 import { FunctionComponent, ReactElement, useState } from "react"
 import Spinner from "../../Spinner"
 import TransactionCancelButton from "../transactions/TransactionCancelButton"
@@ -7,6 +6,8 @@ import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
 import { useQuery } from "@tanstack/react-query"
 import { getWalletinfoWalletWalletinfoGet, Transaction } from "src/codegen"
+import { useRouter } from "src/i18n/navigation"
+import { useLocale } from "next-intl"
 
 enum Stage {
   TermsAgreement,
@@ -24,16 +25,13 @@ export const TransactionCancelButtonPrep = ({
   disabled?: boolean
 }) => {
   const router = useRouter()
+  const locale = useLocale()
   return (
     <TransactionCancelButton
       id={transactionId}
       className="w-full sm:w-auto"
       disabled={disabled}
-      onSuccess={() =>
-        router.push(`${detailsPage}/${transactionId}`, undefined, {
-          locale: router.locale,
-        })
-      }
+      onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
     />
   )
 }
@@ -94,11 +92,7 @@ const Checkout: FunctionComponent<{
           transaction={transaction}
           clientSecret={clientSecret}
           walletQuery={walletQuery}
-          submit={() =>
-            router.push(`${detailsPage}/${transactionId}`, undefined, {
-              locale: router.locale,
-            })
-          }
+          submit={() => router.push(`${detailsPage}/${transactionId}`)}
           skip={() => setStage(Stage.AmountInput)}
         />
       )
