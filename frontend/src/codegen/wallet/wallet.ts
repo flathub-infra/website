@@ -46,11 +46,14 @@ This will return a list of cards which the user has saved to their account.
 export const getWalletinfoWalletWalletinfoGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<WalletInfo>> => {
-  return axios.get(`/wallet/walletinfo`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/walletinfo`,
+    options,
+  )
 }
 
 export const getGetWalletinfoWalletWalletinfoGetQueryKey = () => {
-  return [`/wallet/walletinfo`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/walletinfo`] as const
 }
 
 export const getGetWalletinfoWalletWalletinfoGetQueryOptions = <
@@ -203,7 +206,11 @@ export const postRemovecardWalletRemovecardPost = (
   paymentCardInfo: PaymentCardInfo,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/wallet/removecard`, paymentCardInfo, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/removecard`,
+    paymentCardInfo,
+    options,
+  )
 }
 
 export const getPostRemovecardWalletRemovecardPostMutationOptions = <
@@ -290,16 +297,22 @@ export const getTransactionsWalletTransactionsGet = (
   params?: GetTransactionsWalletTransactionsGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TransactionSummary[]>> => {
-  return axios.get(`/wallet/transactions`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetTransactionsWalletTransactionsGetQueryKey = (
   params?: GetTransactionsWalletTransactionsGetParams,
 ) => {
-  return [`/wallet/transactions`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetTransactionsWalletTransactionsGetQueryOptions = <
@@ -464,7 +477,11 @@ export const createTransactionWalletTransactionsPost = (
   nascentTransaction: NascentTransaction,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<PostTransactionResponse>> => {
-  return axios.post(`/wallet/transactions`, nascentTransaction, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions`,
+    nascentTransaction,
+    options,
+  )
 }
 
 export const getCreateTransactionWalletTransactionsPostMutationOptions = <
@@ -553,13 +570,18 @@ export const getTransactionByIdWalletTransactionsTxnGet = (
   txn: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<Transaction>> => {
-  return axios.get(`/wallet/transactions/${txn}`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}`,
+    options,
+  )
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryKey = (
   txn?: string,
 ) => {
-  return [`/wallet/transactions/${txn}`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}`,
+  ] as const
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryOptions = <
@@ -743,7 +765,7 @@ export const setTransactionCardWalletTransactionsTxnSetcardPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `/wallet/transactions/${txn}/setcard`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/setcard`,
     paymentCardInfo,
     options,
   )
@@ -852,7 +874,11 @@ export const cancelTransactionWalletTransactionsTxnCancelPost = (
   txn: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/wallet/transactions/${txn}/cancel`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/cancel`,
+    undefined,
+    options,
+  )
 }
 
 export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions =
@@ -943,11 +969,14 @@ considered secret, we don't need a login or anything for this
 export const getStripedataWalletStripedataGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<StripeKeys>> => {
-  return axios.get(`/wallet/stripedata`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/stripedata`,
+    options,
+  )
 }
 
 export const getGetStripedataWalletStripedataGetQueryKey = () => {
-  return [`/wallet/stripedata`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/stripedata`] as const
 }
 
 export const getGetStripedataWalletStripedataGetQueryOptions = <
@@ -1100,13 +1129,18 @@ export const getTxnStripedataWalletTransactionsTxnStripeGet = (
   txn: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TransactionStripeData>> => {
-  return axios.get(`/wallet/transactions/${txn}/stripe`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/stripe`,
+    options,
+  )
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryKey = (
   txn?: string,
 ) => {
-  return [`/wallet/transactions/${txn}/stripe`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/stripe`,
+  ] as const
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions = <
@@ -1313,7 +1347,7 @@ export const setSavecardWalletTransactionsTxnSavecardPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `/wallet/transactions/${txn}/savecard`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/savecard`,
     transactionSaveCard,
     options,
   )
@@ -1404,7 +1438,7 @@ export const setPendingWalletTransactionsTxnSetpendingPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `/wallet/transactions/${txn}/setpending`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/setpending`,
     undefined,
     options,
   )
@@ -1496,7 +1530,11 @@ kind to wallet kind.
 export const webhookWalletWebhookStripePost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/wallet/webhook/stripe`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/webhook/stripe`,
+    undefined,
+    options,
+  )
 }
 
 export const getWebhookWalletWebhookStripePostMutationOptions = <

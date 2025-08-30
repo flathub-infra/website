@@ -40,17 +40,23 @@ export const getUploadTokensUploadTokensAppIdGet = (
   params?: GetUploadTokensUploadTokensAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TokensResponse>> => {
-  return axios.get(`/upload-tokens/${appId}`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
   appId?: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
 ) => {
-  return [`/upload-tokens/${appId}`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
@@ -226,7 +232,11 @@ export const createUploadTokenUploadTokensAppIdPost = (
   uploadTokenRequest: UploadTokenRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<NewTokenResponse>> => {
-  return axios.post(`/upload-tokens/${appId}`, uploadTokenRequest, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}`,
+    uploadTokenRequest,
+    options,
+  )
 }
 
 export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
@@ -310,7 +320,11 @@ export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
   tokenId: number,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<null>> => {
-  return axios.post(`/upload-tokens/${tokenId}/revoke`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${tokenId}/revoke`,
+    undefined,
+    options,
+  )
 }
 
 export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =

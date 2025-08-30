@@ -26,12 +26,17 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 export const getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/feed/recently-updated`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/recently-updated`,
+    options,
+  )
 }
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryKey =
   () => {
-    return [`/feed/recently-updated`] as const
+    return [
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/recently-updated`,
+    ] as const
   }
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions = <
@@ -216,11 +221,11 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
 export const getNewAppsFeedFeedNewGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/feed/new`, options)
+  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/new`, options)
 }
 
 export const getGetNewAppsFeedFeedNewGetQueryKey = () => {
-  return [`/feed/new`] as const
+  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/new`] as const
 }
 
 export const getGetNewAppsFeedFeedNewGetQueryOptions = <

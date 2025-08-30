@@ -44,11 +44,16 @@ import type {
 export const getCategoriesCollectionCategoryGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`/collection/category`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category`,
+    options,
+  )
 }
 
 export const getGetCategoriesCollectionCategoryGetQueryKey = () => {
-  return [`/collection/category`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category`,
+  ] as const
 }
 
 export const getGetCategoriesCollectionCategoryGetQueryOptions = <
@@ -199,10 +204,13 @@ export const getCategoryCollectionCategoryCategoryGet = (
   params?: GetCategoryCollectionCategoryCategoryGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/category/${category}`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
@@ -210,7 +218,7 @@ export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
   params?: GetCategoryCollectionCategoryCategoryGetParams,
 ) => {
   return [
-    `/collection/category/${category}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -388,10 +396,13 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
   params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/category/${category}/subcategories`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}/subcategories`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
@@ -400,7 +411,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey
     params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   ) => {
     return [
-      `/collection/category/${category}/subcategories`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/category/${category}/subcategories`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -644,16 +655,22 @@ export const getKeywordCollectionKeywordGet = (
   params: GetKeywordCollectionKeywordGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/keyword`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/keyword`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetKeywordCollectionKeywordGetQueryKey = (
   params?: GetKeywordCollectionKeywordGetParams,
 ) => {
-  return [`/collection/keyword`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/keyword`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetKeywordCollectionKeywordGetQueryOptions = <
@@ -813,16 +830,22 @@ export const getDevelopersCollectionDeveloperGet = (
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppSearchDevelopersResponse>> => {
-  return axios.get(`/collection/developer`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetDevelopersCollectionDeveloperGetQueryKey = (
   params?: GetDevelopersCollectionDeveloperGetParams,
 ) => {
-  return [`/collection/developer`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetDevelopersCollectionDeveloperGetQueryOptions = <
@@ -984,10 +1007,13 @@ export const getDeveloperCollectionDeveloperDeveloperGet = (
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/developer/${developer}`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer/${developer}`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
@@ -995,7 +1021,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
 ) => {
   return [
-    `/collection/developer/${developer}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/developer/${developer}`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -1192,16 +1218,22 @@ export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/recently-updated`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-updated`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryKey = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
 ) => {
-  return [`/collection/recently-updated`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-updated`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryOptions = <
@@ -1395,16 +1427,22 @@ export const getRecentlyAddedCollectionRecentlyAddedGet = (
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/recently-added`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-added`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryKey = (
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
 ) => {
-  return [`/collection/recently-added`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/recently-added`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions = <
@@ -1580,16 +1618,22 @@ export const getVerifiedCollectionVerifiedGet = (
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/verified`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/verified`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetVerifiedCollectionVerifiedGetQueryKey = (
   params?: GetVerifiedCollectionVerifiedGetParams,
 ) => {
-  return [`/collection/verified`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/verified`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetVerifiedCollectionVerifiedGetQueryOptions = <
@@ -1750,16 +1794,22 @@ export const getMobileCollectionMobileGet = (
   params?: GetMobileCollectionMobileGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/mobile`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/mobile`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetMobileCollectionMobileGetQueryKey = (
   params?: GetMobileCollectionMobileGetParams,
 ) => {
-  return [`/collection/mobile`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/mobile`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetMobileCollectionMobileGetQueryOptions = <
@@ -1919,16 +1969,22 @@ export const getPopularLastMonthCollectionPopularGet = (
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/popular`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/popular`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetPopularLastMonthCollectionPopularGetQueryKey = (
   params?: GetPopularLastMonthCollectionPopularGetParams,
 ) => {
-  return [`/collection/popular`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/popular`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetPopularLastMonthCollectionPopularGetQueryOptions = <
@@ -2089,16 +2145,22 @@ export const getTrendingLastTwoWeeksCollectionTrendingGet = (
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.get(`/collection/trending`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/trending`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryKey = (
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
 ) => {
-  return [`/collection/trending`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/trending`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions = <
