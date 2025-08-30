@@ -46,13 +46,18 @@ export const getVerificationStatusVerificationAppIdStatusGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VerificationStatus>> => {
-  return axios.get(`/verification/${appId}/status`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/status`,
+    options,
+  )
 }
 
 export const getGetVerificationStatusVerificationAppIdStatusGetQueryKey = (
   appId?: string,
 ) => {
-  return [`/verification/${appId}/status`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/status`,
+  ] as const
 }
 
 export const getGetVerificationStatusVerificationAppIdStatusGetQueryOptions = <
@@ -253,10 +258,13 @@ export const getAvailableMethodsVerificationAppIdAvailableMethodsGet = (
   params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AvailableMethods>> => {
-  return axios.get(`/verification/${appId}/available-methods`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/available-methods`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryKey =
@@ -265,7 +273,7 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryKey 
     params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
   ) => {
     return [
-      `/verification/${appId}/available-methods`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/available-methods`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -512,7 +520,7 @@ export const verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost = (
   AxiosResponse<VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200>
 > => {
   return axios.post(
-    `/verification/${appId}/verify-by-login-provider`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/verify-by-login-provider`,
     undefined,
     {
       ...options,
@@ -645,14 +653,16 @@ export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost 
 export const requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet =
   (options?: AxiosRequestConfig): Promise<AxiosResponse<LinkResponse>> => {
     return axios.get(
-      `/verification/request-organization-access/github`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/request-organization-access/github`,
       options,
     )
   }
 
 export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryKey =
   () => {
-    return [`/verification/request-organization-access/github`] as const
+    return [
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/request-organization-access/github`,
+    ] as const
   }
 
 export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryOptions =
@@ -882,7 +892,7 @@ export const setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPo
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<WebsiteVerificationToken>> => {
     return axios.post(
-      `/verification/${appId}/setup-website-verification`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/setup-website-verification`,
       undefined,
       {
         ...options,
@@ -1019,7 +1029,7 @@ export const confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificati
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<WebsiteVerificationResult>> => {
     return axios.post(
-      `/verification/${appId}/confirm-website-verification`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/confirm-website-verification`,
       undefined,
       {
         ...options,
@@ -1153,7 +1163,11 @@ export const unverifyVerificationAppIdUnverifyPost = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<null>> => {
-  return axios.post(`/verification/${appId}/unverify`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/unverify`,
+    undefined,
+    options,
+  )
 }
 
 export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
@@ -1237,7 +1251,7 @@ export const switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<null>> => {
   return axios.post(
-    `/verification/${appId}/switch_to_direct_upload`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/switch_to_direct_upload`,
     undefined,
     options,
   )
@@ -1352,7 +1366,11 @@ export const archiveVerificationAppIdArchivePost = (
   archiveRequest: ArchiveRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<null>> => {
-  return axios.post(`/verification/${appId}/archive`, archiveRequest, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/archive`,
+    archiveRequest,
+    options,
+  )
 }
 
 export const getArchiveVerificationAppIdArchivePostMutationOptions = <

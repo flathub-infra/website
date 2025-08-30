@@ -43,7 +43,7 @@ export const getModerationAppsModerationAppsGet = (
   params?: GetModerationAppsModerationAppsGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<ModerationAppsResponse>> => {
-  return axios.get(`/moderation/apps`, {
+  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/apps`, {
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -52,7 +52,10 @@ export const getModerationAppsModerationAppsGet = (
 export const getGetModerationAppsModerationAppsGetQueryKey = (
   params?: GetModerationAppsModerationAppsGetParams,
 ) => {
-  return [`/moderation/apps`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/apps`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetModerationAppsModerationAppsGetQueryOptions = <
@@ -215,17 +218,23 @@ export const getModerationAppModerationAppsAppIdGet = (
   params?: GetModerationAppModerationAppsAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<ModerationApp>> => {
-  return axios.get(`/moderation/apps/${appId}`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/apps/${appId}`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetModerationAppModerationAppsAppIdGetQueryKey = (
   appId?: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
 ) => {
-  return [`/moderation/apps/${appId}`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/apps/${appId}`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetModerationAppModerationAppsAppIdGetQueryOptions = <
@@ -400,7 +409,11 @@ export const submitReviewRequestModerationSubmitReviewRequestPost = (
   reviewRequest: ReviewRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<ReviewRequestResponse>> => {
-  return axios.post(`/moderation/submit_review_request`, reviewRequest, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/submit_review_request`,
+    reviewRequest,
+    options,
+  )
 }
 
 export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions =
@@ -503,7 +516,11 @@ export const submitReviewModerationRequestsIdReviewPost = (
   review: Review,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<SubmitReviewModerationRequestsIdReviewPost200>> => {
-  return axios.post(`/moderation/requests/${id}/review`, review, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/requests/${id}/review`,
+    review,
+    options,
+  )
 }
 
 export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <

@@ -31,12 +31,17 @@ import type {
 export const getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/collection/recently-updated/25`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated/25`,
+    options,
+  )
 }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryKey =
   () => {
-    return [`/compat/apps/collection/recently-updated/25`] as const
+    return [
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated/25`,
+    ] as const
   }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryOptions =
@@ -262,12 +267,17 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
 export const getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/collection/recently-updated`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated`,
+    options,
+  )
 }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryKey =
   () => {
-    return [`/compat/apps/collection/recently-updated`] as const
+    return [
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated`,
+    ] as const
   }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOptions =
@@ -485,11 +495,16 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
 export const getRecentlyAddedCompatAppsCollectionNew25Get = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/collection/new/25`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new/25`,
+    options,
+  )
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryKey = () => {
-  return [`/compat/apps/collection/new/25`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new/25`,
+  ] as const
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions = <
@@ -667,11 +682,16 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
 export const getRecentlyAddedCompatAppsCollectionNewGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/collection/new`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new`,
+    options,
+  )
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryKey = () => {
-  return [`/compat/apps/collection/new`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new`,
+  ] as const
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
@@ -836,11 +856,16 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
 export const getPopularAppsCompatAppsCollectionPopular50Get = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/collection/popular/50`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular/50`,
+    options,
+  )
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryKey = () => {
-  return [`/compat/apps/collection/popular/50`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular/50`,
+  ] as const
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions = <
@@ -1020,11 +1045,16 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
 export const getPopularAppsCompatAppsCollectionPopularGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/collection/popular`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular`,
+    options,
+  )
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopularGetQueryKey = () => {
-  return [`/compat/apps/collection/popular`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular`,
+  ] as const
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions = <
@@ -1204,17 +1234,23 @@ export const getSearchCompatAppsSearchQueryGet = (
   params?: GetSearchCompatAppsSearchQueryGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/search/${query}`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  })
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/search/${query}`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
 }
 
 export const getGetSearchCompatAppsSearchQueryGetQueryKey = (
   query?: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
 ) => {
-  return [`/compat/apps/search/${query}`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/search/${query}`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
@@ -1389,11 +1425,16 @@ export const getSingleAppCompatAppsAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/${appId}`, options)
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/${appId}`,
+    options,
+  )
 }
 
 export const getGetSingleAppCompatAppsAppIdGetQueryKey = (appId?: string) => {
-  return [`/compat/apps/${appId}`] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/${appId}`,
+  ] as const
 }
 
 export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <

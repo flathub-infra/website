@@ -21,7 +21,11 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 export const updateUpdatePost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/update`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/update`,
+    undefined,
+    options,
+  )
 }
 
 export const getUpdateUpdatePostMutationOptions = <
@@ -99,7 +103,11 @@ export const useUpdateUpdatePost = <
 export const updateStatsUpdateStatsPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/update/stats`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/update/stats`,
+    undefined,
+    options,
+  )
 }
 
 export const getUpdateStatsUpdateStatsPostMutationOptions = <
@@ -178,7 +186,11 @@ export const useUpdateStatsUpdateStatsPost = <
 export const processTransfersUpdateProcessPendingTransfersPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/update/process-pending-transfers`, undefined, options)
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/update/process-pending-transfers`,
+    undefined,
+    options,
+  )
 }
 
 export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions =
