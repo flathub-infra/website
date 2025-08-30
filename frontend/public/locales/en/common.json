@@ -508,6 +508,8 @@
   "arbitrary-permissions": "Arbitrary permissions",
   "can-read-all-data": "Can read all data in the directory",
   "user-device-access": "User device access",
+  "uses-non-portal-service": "Uses non-portal services",
+  "can-talk-to-non-portal-service": "Can request data from non-portal services and gain additional permissions",
   "system-device-access": "System device access",
   "no-user-device-access-description": "The app cannot access any user devices such as webcams or gaming controllers",
   "proprietary-code-description": "The source code is not public, so it cannot be independently audited and might be unsafe",
