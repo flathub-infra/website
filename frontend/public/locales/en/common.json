@@ -532,7 +532,7 @@
   "user-settings": "User settings",
   "can-request-data-from-session-services": "Can request data from session services",
   "can-request-data-from-system-services": "Can request data from system services",
-  "sockey-may-allow-extra-permissions": "Uses a socket that allows gaining extra permissions",
+  "socket-may-allow-extra-permissions": "Uses a socket that allows gaining extra permissions",
   "app-listing-quality": "App Listing Quality",
   "flathub-apps-for-linux": "Flathub - Apps for Linux",
   "build-x": "Built {build_ago}",
