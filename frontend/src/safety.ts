@@ -144,7 +144,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       icon: HiOutlineCog6Tooth,
       title: "uses-privileged-socket",
-      description: "sockey-may-allow-extra-permissions",
+      description: "socket-may-allow-extra-permissions",
       showOnSummaryOrDetails: "both",
     })
   }
