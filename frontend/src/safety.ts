@@ -291,22 +291,58 @@ export function getSafetyRating(
   }
 
   // can acquire arbitrary permissions
-  if (
-    summaryMetadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-data/flatpak/overrides:create",
+  const hasArbitraryBusNames =
+    summaryMetadata.permissions["session-bus"]?.talk?.some((x) =>
+      isArbitraryBusName(x, true),
     ) ||
-    summaryMetadata.permissions["session-bus"]?.talk?.some(
-      (x) => x.toLowerCase() === "org.freedesktop.flatpak".toLowerCase(),
+    summaryMetadata.permissions["session-bus"]?.own?.some((x) =>
+      isArbitraryBusName(x, true),
     ) ||
-    summaryMetadata.permissions["session-bus"]?.talk?.some(
-      (x) => x.toLowerCase() === "org.freedesktop.impl.portal.permissionstore",
+    summaryMetadata.permissions["system-bus"]?.talk?.some((x) =>
+      isArbitraryBusName(x, false),
+    ) ||
+    summaryMetadata.permissions["system-bus"]?.own?.some((x) =>
+      isArbitraryBusName(x, false),
     )
+
+  if (
+    summaryMetadata.permissions.filesystems?.some((path) => {
+      return (
+        fsValueMatchesPrefix(path, "~/.local/share/flatpak") ||
+        fsValueMatchesPrefix(path, "home/.local/share/flatpak") ||
+        fsValueMatchesPrefix(path, "xdg-data/flatpak") ||
+        fsValueMatchesPrefix(path, "/var/lib/flatpak")
+      )
+    }) ||
+    hasArbitraryBusNames
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
       title: "arbitrary-permissions",
       description: "can-acquire-arbitrary-permissions",
       icon: HiOutlineExclamationTriangle,
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
+  if (
+    (summaryMetadata.permissions["session-bus"]?.talk?.some(
+      (x) => x.toLowerCase() === "org.gtk.vfs.*",
+    ) ||
+      summaryMetadata.permissions["session-bus"]?.own?.some(
+        (x) => x.toLowerCase() === "org.gtk.vfs.*",
+      )) &&
+    summaryMetadata.permissions.filesystems?.some(
+      (path) =>
+        fsValueMatchesPrefix(path.toLowerCase(), "xdg-run/gvfs") ||
+        fsValueMatchesPrefix(path.toLowerCase(), "xdg-run/gvfsd"),
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "full-file-system-read-write-access",
+      description: "can-read-write-all-data-on-file-system",
+      icon: HiOutlineDocument,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -370,6 +406,30 @@ export function getSafetyRating(
 
   return appSafetyRating
 }
+
+function isArbitraryBusName(name: string, isSession: boolean): boolean {
+  // `isSession = false` implies system bus
+
+  if (
+    name.startsWith("org.freedesktop.Flatpak.") ||
+    name.startsWith("org.freedesktop.DBus.") ||
+    name === "org.freedesktop.*" ||
+    name === "org.gnome.*" ||
+    name === "org.kde.*" ||
+    name === "org.freedesktop.DBus"
+  ) {
+    return true
+  }
+
+  if (isSession) {
+    return (
+      name === "org.freedesktop.Flatpak" ||
+      name === "org.freedesktop.impl.portal.permissionstore"
+    )
+  }
+  return false
+}
+
 function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
   // Implements https://gitlab.gnome.org/GNOME/gnome-software/-/blob/9ae6d604297cd946ab45c11f7d6c25461cb119c9/plugins/flatpak/gs-flatpak.c#L319
   const appSafetyRating: AppSafetyRating[] = []
@@ -485,6 +545,20 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
   }
 
   return appSafetyRating
+}
+
+function fsValueMatchesPrefix(inputPath: string, prefix: string): boolean {
+  // Implements https://github.com/flathub-infra/flatpak-builder-lint/blob/f8f5ec10ac97d25e3fb9fef79fc82ab0aaad8bbe/flatpak_builder_lint/checks/finish_args.py#L15-L17
+
+  // Check if a filesystem permission path matches a given prefix
+  // Matches:
+  //  - The exact prefix path - prefix, prefix/
+  //  - The prefix path followed by subpath(s) - prefix/foo, prefix/foo/, prefix/foo/bar
+  //  - Any of the above optionally with :ro, :rw, :create suffixes
+
+  const escapedPrefix = prefix.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&")
+  const pattern = new RegExp(`^${escapedPrefix}(?:/.*)?(?::(create|rw|ro))?$`)
+  return pattern.test(inputPath)
 }
 
 function specificFileHandling(
