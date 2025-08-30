@@ -5588,8 +5588,8 @@ __metadata:
   linkType: hard
 
 "@stoplight/spectral-core@npm:^1.19.2, @stoplight/spectral-core@npm:^1.19.4":
-  version: 1.19.4
-  resolution: "@stoplight/spectral-core@npm:1.19.4"
+  version: 1.20.0
+  resolution: "@stoplight/spectral-core@npm:1.20.0"
   dependencies:
     "@stoplight/better-ajv-errors": "npm:1.0.3"
     "@stoplight/json": "npm:~3.21.0"
@@ -5602,9 +5602,9 @@ __metadata:
     "@types/json-schema": "npm:^7.0.11"
     ajv: "npm:^8.17.1"
     ajv-errors: "npm:~3.0.0"
-    ajv-formats: "npm:~2.1.0"
+    ajv-formats: "npm:~2.1.1"
     es-aggregate-error: "npm:^1.0.7"
-    jsonpath-plus: "npm:10.2.0"
+    jsonpath-plus: "npm:^10.3.0"
     lodash: "npm:~4.17.21"
     lodash.topath: "npm:^4.5.2"
     minimatch: "npm:3.1.2"
@@ -5612,7 +5612,7 @@ __metadata:
     pony-cause: "npm:^1.1.1"
     simple-eval: "npm:1.0.1"
     tslib: "npm:^2.8.1"
-  checksum: 10c0/ef83666fa41ada87c8ee030487ee9ba657b158f5147e4b2056fe2beb51069001381fd04900781ad3f5e0c040473cbadc2beeb4b4ed07de29e66e93329edd2e2d
+  checksum: 10c0/ebf6adeefded181b7c220a6cae70ebed37aa9e2ca73d9bd386d7e4c2bef965aea154fd6bb7613c822d37ae3440745fe1408c1369a11475e1050fcb986e64b63a
   languageName: node
   linkType: hard
 
@@ -7320,7 +7320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv-formats@npm:~2.1.0":
+"ajv-formats@npm:~2.1.0, ajv-formats@npm:~2.1.1":
   version: 2.1.1
   resolution: "ajv-formats@npm:2.1.1"
   dependencies:
@@ -11502,21 +11502,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonpath-plus@npm:10.2.0":
-  version: 10.2.0
-  resolution: "jsonpath-plus@npm:10.2.0"
-  dependencies:
-    "@jsep-plugin/assignment": "npm:^1.3.0"
-    "@jsep-plugin/regex": "npm:^1.0.4"
-    jsep: "npm:^1.4.0"
-  bin:
-    jsonpath: bin/jsonpath-cli.js
-    jsonpath-plus: bin/jsonpath-cli.js
-  checksum: 10c0/46480781a0a0b5347dc592fd69ef7ff0fa5a5e322a3f1f23997319e77ee937762366d722facafcc5e8d16101e9cdf1ae14df1f1777b2933990aadd0cdb20d8f5
-  languageName: node
-  linkType: hard
-
-"jsonpath-plus@npm:^6.0.1 || ^10.1.0":
+"jsonpath-plus@npm:^10.3.0, jsonpath-plus@npm:^6.0.1 || ^10.1.0":
   version: 10.3.0
   resolution: "jsonpath-plus@npm:10.3.0"
   dependencies:
