@@ -292,9 +292,19 @@ export function getSafetyRating(
 
   // can acquire arbitrary permissions
   if (
-    summaryMetadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-data/flatpak/overrides:create",
-    ) ||
+    summaryMetadata.permissions.filesystems?.some((x) => {
+      const lower = x.toLowerCase()
+      return (
+        lower === "~/.local/share/flatpak" ||
+        lower.startsWith("~/.local/share/flatpak/") ||
+        lower === "home/.local/share/flatpak" ||
+        lower.startsWith("home/.local/share/flatpak/") ||
+        lower === "xdg-data/flatpak" ||
+        lower.startsWith("xdg-data/flatpak/") ||
+        lower === "/var/lib/flatpak" ||
+        lower.startsWith("/var/lib/flatpak/")
+      )
+    }) ||
     summaryMetadata.permissions["session-bus"]?.talk?.some(
       (x) => x.toLowerCase() === "org.freedesktop.flatpak".toLowerCase(),
     ) ||
