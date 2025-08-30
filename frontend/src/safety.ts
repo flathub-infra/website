@@ -291,6 +291,20 @@ export function getSafetyRating(
   }
 
   // can acquire arbitrary permissions
+  const hasArbitraryBusNames =
+    summaryMetadata.permissions["session-bus"]?.talk?.some((x) =>
+      isArbitraryBusName(x, true),
+    ) ||
+    summaryMetadata.permissions["session-bus"]?.own?.some((x) =>
+      isArbitraryBusName(x, true),
+    ) ||
+    summaryMetadata.permissions["system-bus"]?.talk?.some((x) =>
+      isArbitraryBusName(x, false),
+    ) ||
+    summaryMetadata.permissions["system-bus"]?.own?.some((x) =>
+      isArbitraryBusName(x, false),
+    )
+
   if (
     summaryMetadata.permissions.filesystems?.some((path) => {
       return (
@@ -300,12 +314,7 @@ export function getSafetyRating(
         fsValueMatchesPrefix(path, "/var/lib/flatpak")
       )
     }) ||
-    summaryMetadata.permissions["session-bus"]?.talk?.some(
-      (x) => x.toLowerCase() === "org.freedesktop.flatpak".toLowerCase(),
-    ) ||
-    summaryMetadata.permissions["session-bus"]?.talk?.some(
-      (x) => x.toLowerCase() === "org.freedesktop.impl.portal.permissionstore",
-    )
+    hasArbitraryBusNames
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -375,6 +384,30 @@ export function getSafetyRating(
 
   return appSafetyRating
 }
+
+function isArbitraryBusName(name: string, isSession: boolean): boolean {
+  // `isSession = false` implies system bus
+
+  if (
+    name.startsWith("org.freedesktop.Flatpak.") ||
+    name.startsWith("org.freedesktop.DBus.") ||
+    name === "org.freedesktop.*" ||
+    name === "org.gnome.*" ||
+    name === "org.kde.*" ||
+    name === "org.freedesktop.DBus"
+  ) {
+    return true
+  }
+
+  if (isSession) {
+    return (
+      name === "org.freedesktop.Flatpak" ||
+      name === "org.freedesktop.impl.portal.permissionstore"
+    )
+  }
+  return false
+}
+
 function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
   // Implements https://gitlab.gnome.org/GNOME/gnome-software/-/blob/9ae6d604297cd946ab45c11f7d6c25461cb119c9/plugins/flatpak/gs-flatpak.c#L319
   const appSafetyRating: AppSafetyRating[] = []
