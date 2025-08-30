@@ -326,6 +326,28 @@ export function getSafetyRating(
   }
 
   if (
+    (summaryMetadata.permissions["session-bus"]?.talk?.some(
+      (x) => x.toLowerCase() === "org.gtk.vfs.*",
+    ) ||
+      summaryMetadata.permissions["session-bus"]?.own?.some(
+        (x) => x.toLowerCase() === "org.gtk.vfs.*",
+      )) &&
+    summaryMetadata.permissions.filesystems?.some(
+      (path) =>
+        fsValueMatchesPrefix(path.toLowerCase(), "xdg-run/gvfs") ||
+        fsValueMatchesPrefix(path.toLowerCase(), "xdg-run/gvfsd"),
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "full-file-system-read-write-access",
+      description: "can-read-write-all-data-on-file-system",
+      icon: HiOutlineDocument,
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
+  if (
     appSafetyRating.filter((x) => x.safetyRating === SafetyRating.safe)
       .length === appSafetyRating.length
   ) {
