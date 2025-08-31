@@ -329,14 +329,21 @@ def update(sqldb):
             else:
                 passed_percentage_factor = app_quality_status.passed / total * factor
 
+            # Calculate base trending score
+            base_trending_score = zscore.zscore(
+                0.8,
+                installs_over_days,
+            ).score(score)
+
+            # Check if app is EOL and halve the score if it is
+            app = models.App.by_appid(sqldb, app_id)
+            if app and app.is_eol:
+                base_trending_score = base_trending_score / 2
+
             trending_apps.append(
                 {
                     "id": utils.get_clean_app_id(app_id),
-                    "trending": zscore.zscore(
-                        0.8,
-                        installs_over_days,
-                    ).score(score)
-                    + passed_percentage_factor,
+                    "trending": base_trending_score + passed_percentage_factor,
                 }
             )
     search.create_or_update_apps(trending_apps)
