@@ -418,7 +418,9 @@ function isArbitraryBusName(name: string, isSession: boolean): boolean {
     name === "org.kde.*" ||
     name === "org.freedesktop.DBus" ||
     name === "org.freedesktop.systemd1" ||
-    name === "org.freedesktop.login1"
+    name === "org.freedesktop.login1" ||
+    name === "org.kde.KWin" ||
+    name === "org.kde.plasmashell"
   ) {
     return true
   }
