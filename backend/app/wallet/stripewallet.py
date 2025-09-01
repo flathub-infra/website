@@ -204,6 +204,17 @@ class StripeWallet(WalletBase):
                 error="stripe-payment-intent-build-failed"
             ) from stripe_error
 
+    def _get_stripe_payment_intent_id(
+        self, user: FlathubUser, txn: models.Transaction
+    ) -> str:
+        with get_db("replica") as db:
+            stxn = models.StripeTransaction.by_transaction(db, txn)
+            if stxn is not None:
+                return stxn.stripe_pi
+            else:
+                stxn = self._get_transaction(user, txn)
+                return stxn.stripe_pi
+
     def _update_transaction(self, user: FlathubUser, txn: models.Transaction) -> bool:
         if txn.status not in ["pending", "retry"]:
             return False
@@ -261,23 +272,22 @@ class StripeWallet(WalletBase):
                 )
                 for row in txn.rows(db)
             ]
-            with get_db("replica") as db:
-                stxn = self._get_transaction(user, txn)
-                card = None
-                receipt = None
-                try:
-                    payment_intent = stripe.PaymentIntent.retrieve(
-                        stxn.stripe_pi, expand=["latest_charge"]
-                    )
-                    payment_method = payment_intent.get("payment_method")
-                    if payment_method is not None:
-                        payment_method = stripe.PaymentMethod.retrieve(payment_method)
-                        card = self._cardinfo(payment_method)
-                    latest_charge = payment_intent.get("latest_charge")
-                    if latest_charge is not None:
-                        receipt = latest_charge.get("receipt_url")
-                except Exception as stripe_error:
-                    raise WalletError(error="not found") from stripe_error
+            stripe_pi = self._get_stripe_payment_intent_id(user, txn)
+            card = None
+            receipt = None
+            try:
+                payment_intent = stripe.PaymentIntent.retrieve(
+                    stripe_pi, expand=["latest_charge"]
+                )
+                payment_method = payment_intent.get("payment_method")
+                if payment_method is not None:
+                    payment_method = stripe.PaymentMethod.retrieve(payment_method)
+                    card = self._cardinfo(payment_method)
+                latest_charge = payment_intent.get("latest_charge")
+                if latest_charge is not None:
+                    receipt = latest_charge.get("receipt_url")
+            except Exception as stripe_error:
+                raise WalletError(error="not found") from stripe_error
 
             return Transaction(
                 summary=summary, card=card, details=details, receipt=receipt
