@@ -9972,7 +9972,7 @@ __metadata:
     framer-motion: "npm:^12.23.12"
     i18next: "npm:^25.3.2"
     isomorphic-dompurify: "npm:^2.25.0"
-    linkify-html: "npm:^4.3.1"
+    linkify-html: "npm:^4.3.2"
     linkifyjs: "npm:^4.3.2"
     lucide-react: "npm:^0.541.0"
     msw: "npm:^2.10.5"
@@ -11711,12 +11711,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linkify-html@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "linkify-html@npm:4.3.1"
+"linkify-html@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "linkify-html@npm:4.3.2"
   peerDependencies:
     linkifyjs: ^4.0.0
-  checksum: 10c0/00f2c4d2b3dd246c5594e1e8fc09249b4dcc63952f6a292f9cbc8bcd441a4ea20561891b35b9bd6763fafd9aa565b4f1a3fb4c6148419abfeb86d2dbdb3f99d5
+  checksum: 10c0/22144151d1f88a0d73eb573026186279ab44108b784230c34e12d90b65e47c9bf95889368dcd8a11e98025501417c745b041edcfe341899f1580157de0bd502b
   languageName: node
   linkType: hard
 
