@@ -34,22 +34,6 @@ const categoryOrder = [
   MainCategory.utility,
 ]
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
-  const { locale } = await params
-  const t = await getTranslations()
-
-  return {
-    description: t("flathub-description"),
-    robots: {
-      index: locale !== "en-GB",
-    },
-  }
-}
-
 export default async function HomePage({
   params,
 }: {
