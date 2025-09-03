@@ -1,5 +1,4 @@
-import { useTranslations } from "next-intl"
-import { useRouter } from "next/router"
+import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
@@ -17,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { useRouter } from "src/i18n/navigation"
 
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle">
@@ -42,6 +42,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const router = useRouter()
+  const locale = useLocale()
 
   const { handleSubmit, control } = useForm<FormData>()
 
@@ -61,9 +62,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
       )
     },
     onSuccess: (data) => {
-      router.push(`/payment/${data.data.transaction}`, undefined, {
-        locale: router.locale,
-      })
+      router.push(`/payment/${data.data.transaction}`, undefined)
     },
     onError: (error) => {
       toast.error(t(error.message))
@@ -73,11 +72,11 @@ const PurchaseControls: FunctionComponent<Props> = ({
   // Obtain currency values for display
   const prettyMinimum = formatCurrency(
     vendingSetup.minimum_payment / 100,
-    router.locale,
+    locale,
   )
   const prettyRecommended = formatCurrency(
     vendingSetup.recommended_donation / 100,
-    router.locale,
+    locale,
   )
 
   const canSubmit =

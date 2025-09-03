@@ -1,4 +1,3 @@
-import { useRouter } from "next/router"
 import { FunctionComponent, type JSX } from "react"
 
 import { Appstream, AppstreamListItem } from "../../types/Appstream"
@@ -7,6 +6,8 @@ import { useTranslations } from "next-intl"
 import Pagination from "../Pagination"
 import { ApplicationCard } from "./ApplicationCard"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "src/i18n/navigation"
+import { useSearchParams } from "next/navigation"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
@@ -70,6 +71,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const refresh = onRefresh ? (
     <Button
@@ -100,7 +102,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   }
 
   if (!page && totalPages) {
-    page = parseInt((router.query.page ?? "1") as string)
+    page = parseInt((searchParams.get("page") ?? "1") as string)
   }
   const pages = Array.from({ length: totalPages ?? 1 }, (_, i) => i + 1)
 

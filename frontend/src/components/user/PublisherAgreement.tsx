@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from "react"
 import { useTranslations } from "next-intl"
 import { useUserDispatch } from "src/context/user-info"
-import { NextSeo } from "next-seo"
 import LoginGuard from "../login/LoginGuard"
 import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
@@ -197,7 +196,6 @@ const PublisherAgreement: FunctionComponent<Props> = ({
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={t("publisher-agreement")} noindex />
       <LoginGuard>{content}</LoginGuard>
     </div>
   )
