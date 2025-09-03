@@ -13,11 +13,10 @@ import {
   useRemoveFromFavoritesFavoritesAppIdRemoveDelete,
   VendingSetup,
 } from "src/codegen"
-import { useRouter } from "next/router"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
 import clsx from "clsx"
+import { Link, useRouter } from "src/i18n/navigation"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
   const t = useTranslations()

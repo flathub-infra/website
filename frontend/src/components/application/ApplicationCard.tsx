@@ -1,4 +1,3 @@
-import Link from "next/link"
 import LogoImage from "../LogoImage"
 
 import { AppstreamListItem } from "../../types/Appstream"
@@ -9,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { cva, VariantProps } from "class-variance-authority"
 import React from "react"
+import { Link } from "src/i18n/navigation"
 
 const cardVariants = cva(
   "flex min-w-0 items-center gap-4 duration-500 hover:cursor-pointer hover:no-underline active:bg-flathub-gainsborow/40 dark:active:bg-flathub-arsenic h-full",

@@ -4,12 +4,16 @@ import PublisherAgreement from "./PublisherAgreement"
 import { UserState } from "../../types/Login"
 import { Permission } from "../../codegen/model"
 import { UserContext } from "../../context/user-info"
-import React from "react"
 import { expect, within } from "storybook/test"
 
 const meta = {
   component: PublisherAgreement,
   title: "Components/User/PublisherAgreement",
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } satisfies Meta<typeof PublisherAgreement>
 
 export default meta

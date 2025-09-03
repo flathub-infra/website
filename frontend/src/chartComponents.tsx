@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes"
-import { useRouter } from "next/router"
 import { getIntlLocale } from "./localize"
+import { useLocale } from "next-intl"
 
 export function axisStroke(resolvedTheme: string): string {
   return resolvedTheme === "light"
@@ -39,9 +39,9 @@ export const RotatedAxisTick = (props) => {
 }
 
 export const FlathubTooltip = (props) => {
-  const router = useRouter()
+  const locale = useLocale()
 
-  const i18n = getIntlLocale(router.locale)
+  const i18n = getIntlLocale(locale)
 
   const { active, payload, label, labelFormatter, formatter } = props
 
