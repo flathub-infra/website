@@ -335,9 +335,15 @@ def update(sqldb):
                 installs_over_days,
             ).score(score)
 
-            # Check if app is EOL and halve the score if it is
-            app = models.App.by_appid(sqldb, app_id)
-            if app and app.is_eol:
+            # Check if app runtime is EOL (via guideline) and halve the score if it is
+            appQualityModeration = models.QualityModeration.by_appid(sqldb, app_id)
+            if appQualityModeration and any(
+                match
+                for match in appQualityModeration
+                if match[0].id == "general-runtime-not-eol"
+                and match[1]
+                and not match[1].passed
+            ):
                 base_trending_score = base_trending_score / 2
 
             trending_apps.append(
