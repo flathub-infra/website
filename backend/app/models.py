@@ -1972,7 +1972,9 @@ class QualityModeration(Base):
         db.session.commit()
 
     @classmethod
-    def by_appid(cls, db, app_id: str) -> list["Any"]:
+    def by_appid(
+        cls, db, app_id: str
+    ) -> list[tuple[Guideline, "QualityModeration | None", "App"]]:
         return (
             db.session.query(Guideline, QualityModeration, App)
             .join(
