@@ -4,15 +4,15 @@ import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
 import { useTranslations } from "next-intl"
 import { ReactElement } from "react"
-import LoginGuard from "../../../../src/components/login/LoginGuard"
-import Checkout from "../../../../src/components/payment/checkout/Checkout"
-import Breadcrumbs from "../../../../src/components/Breadcrumbs"
-import Spinner from "../../../../src/components/Spinner"
+import LoginGuard from "../../../../../src/components/login/LoginGuard"
+import Checkout from "../../../../../src/components/payment/checkout/Checkout"
+import Breadcrumbs from "../../../../../src/components/Breadcrumbs"
+import Spinner from "../../../../../src/components/Spinner"
 import { useTheme } from "next-themes"
 import {
   useGetTransactionByIdWalletTransactionsTxnGet,
   useGetTxnStripedataWalletTransactionsTxnStripeGet,
-} from "../../../../src/codegen"
+} from "../../../../../src/codegen"
 
 interface Props {
   transactionId: string
