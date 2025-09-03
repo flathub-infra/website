@@ -3,6 +3,7 @@ import { fetchAppstream, fetchVendingConfig } from "../../../../../src/fetchers"
 import { Metadata } from "next"
 import AppPurchaseClient from "./app-purchase-client"
 import { getTranslations } from "next-intl/server"
+import { useGetAppVendingSetupVendingappAppIdSetupGet } from "src/codegen/vending/vending"
 
 interface Props {
   params: Promise<{
@@ -14,18 +15,27 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { appId, locale } = await params
   const app = await fetchAppstream(appId, locale)
+  const t = await getTranslations()
 
   if (!app) {
-    const t = await getTranslations()
     return {
       title: t("whoops"),
     }
   }
 
-  // We need to determine if it's donation-only on the server side for proper metadata
-  // For now, we'll use a generic title that covers both cases
-  const t = await getTranslations()
-  const title = t("kind-purchase-app", { appName: app.name })
+  const vendingSetup = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
+    axios: { withCredentials: true },
+    query: {
+      enabled: !!app.id,
+    },
+  })
+
+  // When the minimum payment is 0, the application does not require payment
+  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
+
+  const title = t(isDonationOnly ? "kind-donate-app" : "kind-purchase-app", {
+    appName: app?.name,
+  })
 
   return {
     title,
