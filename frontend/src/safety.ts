@@ -290,6 +290,24 @@ export function getSafetyRating(
     appSafetyRating.push(microphoneAccess)
   }
 
+  const hasPortalAlt =
+    summaryMetadata.permissions["session-bus"]?.talk?.some((x) =>
+      hasPortalImpl(x),
+    ) ||
+    summaryMetadata.permissions["session-bus"]?.own?.some((x) =>
+      hasPortalImpl(x),
+    )
+
+  if (hasPortalAlt) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      icon: HiOutlineCog6Tooth,
+      title: "uses-non-portal-service",
+      description: "can-talk-to-non-portal-service",
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
   // can acquire arbitrary permissions
   const hasArbitraryBusNames =
     summaryMetadata.permissions["session-bus"]?.talk?.some((x) =>
@@ -430,6 +448,27 @@ function isArbitraryBusName(name: string, isSession: boolean): boolean {
       name === "org.freedesktop.Flatpak" ||
       name === "org.freedesktop.impl.portal.permissionstore"
     )
+  }
+  return false
+}
+
+function hasPortalImpl(name: string): boolean {
+  if (
+    name.startsWith("org.gnome.SessionManager.") ||
+    name.startsWith("org.freedesktop.PowerManagement.") ||
+    name.startsWith("org.gnome.Mutter.IdleMonitor.") ||
+    name === "org.gnome.SessionManager" ||
+    name === "org.freedesktop.secrets" ||
+    name === "org.freedesktop.Notifications" ||
+    name === "org.freedesktop.PowerManagement" ||
+    name === "org.freedesktop.ScreenSaver" ||
+    name === "org.gnome.Mutter.IdleMonitor" ||
+    name === "org.kde.knotify" ||
+    name === "org.gtk.Notifications" ||
+    name === "org.freedesktop.RealtimeKit1" ||
+    name === "org.freedesktop.Accounts"
+  ) {
+    return true
   }
   return false
 }
