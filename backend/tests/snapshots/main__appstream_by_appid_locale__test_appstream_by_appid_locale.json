@@ -129,7 +129,11 @@
   "name": "Maze",
   "summary": "Ein simples Irrgartenspiel",
   "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
+  "categories": [
+    "Game",
+    "ActionGame",
+    "AdventureGame"
+  ],
   "kudos": ["HiDpiIcon"],
   "project_license": "GPL-3.0-or-later",
   "launchable": {

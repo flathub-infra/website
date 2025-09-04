@@ -34,17 +34,17 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
         category for category in categories if category.lower() in all_main_categories
     ]
 
-    sub_categories = [
-        category
-        for category in categories
-        if category.lower() not in all_main_categories
-    ]
+    sub_categories = []
 
     # only keep the fist main_category
-    # split the rest to the sub_categories
     if len(main_categories) > 0:
-        sub_categories = sub_categories + main_categories[1:]
         main_categories = main_categories[0]
+        valid_subcategories = schemas.get_subcategories(
+            schemas.MainCategory(main_categories)
+        )
+        sub_categories = [
+            category for category in categories if category in valid_subcategories
+        ]
 
     type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
 

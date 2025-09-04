@@ -13,6 +13,8 @@
     <icon type="cached" height="128" width="128">org.sugarlabs.Maze.png</icon>
     <categories>
       <category>Game</category>
+      <category>ActionGame</category>
+      <category>AdventureGame</category>
     </categories>
     <kudos>
       <kudo>HiDpiIcon</kudo>
