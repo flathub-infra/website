@@ -489,9 +489,10 @@
     "branding-good-primary-brand-colors": "Couleurs de marque principales bien choisies",
     "light": "Clair",
     "dark": "Sombre",
-    "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}"
+    "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}",
+    "general-runtime-not-eol": "Temps d'exécution sans fin de vie"
   },
-  "app-listing-quality": "Qualité de référencement de l'app",
+  "app-listing-quality": "Qualité de référencement de l'application",
   "issued-to": "Délivré à",
   "moderation-build-id": "ID de build",
   "id": "ID",
@@ -664,5 +665,7 @@
   },
   "since-x": "Depuis {date}",
   "country-statistics": "Statistiques par pays",
-  "count": "Total"
+  "count": "Total",
+  "socket-may-allow-extra-permissions": "Utilise un socket (réceptacle de processeur) qui permet des autorisations supplémentaires",
+  "uses-privileged-socket": "Utilise un connecteur privilégié"
 }
