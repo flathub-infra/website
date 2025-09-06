@@ -2,10 +2,6 @@ import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { Link } from "src/i18n/navigation"
 
-interface Props {
-  params: Promise<{ locale: string }>
-}
-
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
@@ -17,8 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function UnauthorizedPage({ params }: Props) {
-  const { locale } = await params
+export default async function UnauthorizedPage() {
   const t = await getTranslations()
 
   return (
