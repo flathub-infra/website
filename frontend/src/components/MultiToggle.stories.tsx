@@ -16,7 +16,7 @@ export const SmallWithIcons: Story = {
     size: "sm",
     variant: "primary",
   },
-  render: (args) => {
+  render: function SmallWithIconsRender(args) {
     const [selectedToggle, setSelectedToggle] = useState<boolean | undefined>(
       false,
     )
@@ -59,7 +59,7 @@ export const LargePrimary: Story = {
     size: "lg",
     variant: "primary",
   },
-  render: (args) => {
+  render: function LargePrimaryRender(args) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const options = [{ name: "One" }, { name: "Two" }, { name: "Three" }]
 
@@ -82,7 +82,7 @@ export const LargeSecondary: Story = {
     size: "lg",
     variant: "secondary",
   },
-  render: (args) => {
+  render: function LargeSecondaryRender(args) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const options = [{ name: "One" }, { name: "Two" }, { name: "Three" }]
 
@@ -105,7 +105,7 @@ export const LargeFlat: Story = {
     size: "lg",
     variant: "flat",
   },
-  render: (args) => {
+  render: function LargeFlatRender(args) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const options = [
       { name: "Newest" },
