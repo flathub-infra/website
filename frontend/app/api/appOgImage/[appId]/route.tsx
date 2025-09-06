@@ -247,7 +247,7 @@ export async function GET(
   })
   const image = renderer.render()
 
-  const pngBuffer = image.asPng()
+  const pngBuffer = image.asPng() as BodyInit
 
   return new Response(pngBuffer, {
     status: 200,

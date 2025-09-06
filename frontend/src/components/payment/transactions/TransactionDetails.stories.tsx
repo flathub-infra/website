@@ -5,6 +5,11 @@ import TransactionDetails from "./TransactionDetails"
 const meta = {
   component: TransactionDetails,
   title: "Components/Payment/TransactionDetails",
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } satisfies Meta<typeof TransactionDetails>
 
 export default meta

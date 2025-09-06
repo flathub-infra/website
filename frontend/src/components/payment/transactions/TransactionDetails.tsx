@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { formatCurrency } from "../../../utils/localize"
 import { format } from "date-fns"
@@ -16,9 +16,8 @@ import { UTCDate } from "@date-fns/utc"
 import { Transaction } from "src/codegen"
 import TransactionCancelButton from "./TransactionCancelButton"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { useRouter } from "next/router"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Link, useRouter } from "src/i18n/navigation"
 
 interface Props {
   transaction: Transaction
@@ -27,6 +26,7 @@ interface Props {
 const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
   const t = useTranslations()
   const router = useRouter()
+  const locale = useLocale()
 
   const { created, updated, kind, value, status } = transaction.summary
 
@@ -49,7 +49,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             <div>{t("transaction-summary-created")}</div>
             <div className="md:col-span-2">
               {format(new UTCDate(created * 1000), "Pp", {
-                locale: getDateFnsLocale(router.locale),
+                locale: getDateFnsLocale(locale),
               })}
             </div>
           </div>
@@ -57,7 +57,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             <div>{t("transaction-summary-updated")}</div>
             <div className="md:col-span-2">
               {format(new UTCDate(updated * 1000), "Pp", {
-                locale: getDateFnsLocale(router.locale),
+                locale: getDateFnsLocale(locale),
               })}
             </div>
           </div>
@@ -79,7 +79,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
                   <AlertDescription className="flex gap-3">
                     <TransactionCancelButton
                       id={transaction.summary.id}
-                      onSuccess={() => router.reload()}
+                      onSuccess={() => router.refresh()}
                     />
                     <Button asChild size="lg">
                       <Link href={`/payment/${transaction.summary.id}`}>
@@ -112,11 +112,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
                   <TableCell>{t(`kind-${entry.kind}`)}</TableCell>
                   <TableCell>{entry.recipient}</TableCell>
                   <TableCell className="text-right">
-                    {formatCurrency(
-                      entry.amount / 100,
-                      router.locale,
-                      entry.currency,
-                    )}
+                    {formatCurrency(entry.amount / 100, locale, entry.currency)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -125,7 +121,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
               <TableRow>
                 <TableCell colSpan={3}>{t("total")}</TableCell>
                 <TableCell className="text-right">
-                  {formatCurrency(value / 100, router.locale)}
+                  {formatCurrency(value / 100, locale)}
                 </TableCell>
               </TableRow>
             </TableFooter>

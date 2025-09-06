@@ -1,3 +1,5 @@
+"use client"
+
 import {
   createContext,
   Dispatch,
@@ -9,11 +11,12 @@ import { getUserData } from "../asyncs/login"
 import { UserState, UserStateAction } from "../types/Login"
 import { contextReducer } from "./reducer"
 
-const initialState = { loading: true }
+const initialState: UserState = { loading: true }
 
 export const UserContext = createContext<UserState>(initialState)
-export const UserDispatchContext =
-  createContext<Dispatch<UserStateAction>>(null)
+export const UserDispatchContext = createContext<
+  Dispatch<UserStateAction> | undefined
+>(undefined)
 
 export const UserInfoProvider = ({
   children,
@@ -31,7 +34,9 @@ export const UserInfoProvider = ({
   // This works thanks to Next.js Link components, as soon as a new
   // session is created this will re-fetch
   useEffect(() => {
-    getUserData(dispatch)
+    if (typeof window !== "undefined") {
+      getUserData(dispatch)
+    }
   }, [])
 
   return (
@@ -45,8 +50,18 @@ export const UserInfoProvider = ({
 
 // Custom hooks to use the contexts make code cleaner elsewhere
 export function useUserContext() {
-  return useContext(UserContext)
+  const context = useContext(UserContext)
+  // The context will always have a value because we provide a default
+  return context
 }
 export function useUserDispatch() {
-  return useContext(UserDispatchContext)
+  const dispatch = useContext(UserDispatchContext)
+  if (dispatch === undefined) {
+    // Return noop function for SSR
+    if (typeof window === "undefined") {
+      return () => {}
+    }
+    throw new Error("useUserDispatch must be used within a UserInfoProvider")
+  }
+  return dispatch
 }

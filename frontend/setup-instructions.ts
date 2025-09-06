@@ -167,7 +167,7 @@ async function generateSetupInstructions() {
 
     const darkSource = distro.logo_dark
       ? `<source
-                  srcSet={"img/distro/${distro.logo_dark}"}
+                  srcSet={"/img/distro/${distro.logo_dark}"}
                   media="(prefers-color-scheme: dark)"
                 />`
       : ""
@@ -182,7 +182,7 @@ async function generateSetupInstructions() {
                 <Image
                   width={128}
                   height={128}
-                  src={"img/distro/${distro.logo}"}
+                  src={"/img/distro/${distro.logo}"}
                   alt="${distro.name}"
                 />
               </picture>

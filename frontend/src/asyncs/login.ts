@@ -17,13 +17,14 @@ import { getUserinfoAuthUserinfoGet } from "src/codegen"
  */
 export async function login(
   dispatch: Dispatch<UserStateAction>,
+  service: string,
   query: ParsedUrlQuery,
 ): Promise<void> {
   dispatch({ type: "loading" })
 
   let res: Response
   try {
-    res = await fetch(`${LOGIN_PROVIDERS_URL}/${query.service}`, {
+    res = await fetch(`${LOGIN_PROVIDERS_URL}/${service}`, {
       method: "POST",
       credentials: "include", // Must use the session cookie
       headers: {

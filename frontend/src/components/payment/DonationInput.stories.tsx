@@ -5,6 +5,11 @@ import DonationInput from "./DonationInput"
 const meta = {
   title: "Components/DonationInput",
   component: DonationInput,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } satisfies Meta<typeof DonationInput>
 
 export default meta

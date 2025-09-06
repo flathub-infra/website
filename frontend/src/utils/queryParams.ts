@@ -1,22 +1,23 @@
-import { NextRouter } from "next/router"
+import { useRouter, usePathname } from "src/i18n/navigation"
 
 export function setQueryParams(
-  router: NextRouter,
+  router: ReturnType<typeof useRouter>,
   params: { [param: string]: string | undefined },
+  pathname: string,
+  searchParams: URLSearchParams,
 ) {
-  let query = router.query
+  const newParams = new URLSearchParams(searchParams.toString())
 
   for (const [key, value] of Object.entries(params)) {
-    if (value === undefined) {
-      const { [key]: _, ...q } = { ...query }
-      query = q
+    if (value === undefined || value === "") {
+      newParams.delete(key)
     } else {
-      query = { ...query, [key]: value }
+      newParams.set(key, value)
     }
   }
 
-  router.push({
-    pathname: router.pathname,
-    query,
-  })
+  const queryString = newParams.toString()
+  const url = queryString ? `${pathname}?${queryString}` : pathname
+
+  router.push(url)
 }

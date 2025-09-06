@@ -6,6 +6,11 @@ import { LoginProvider } from "../../types/Login"
 export default {
   title: "Components/Login/ProviderLink",
   component: ProviderLink,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } as Meta<typeof ProviderLink>
 
 export const github = () => {

@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl"
 import { BreadcrumbJsonLd } from "next-seo"
-import Link from "next/link"
 import { FunctionComponent } from "react"
 import { HiChevronRight, HiHome } from "react-icons/hi2"
+import { Link } from "src/i18n/navigation"
 
 interface Props {
   pages: { name: string; href: string; current: boolean }[]
@@ -15,6 +15,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
   return (
     <>
       <BreadcrumbJsonLd
+        useAppDir={true}
         itemListElements={[
           {
             position: 1,
@@ -54,7 +55,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
                   className="ms-4 text-sm font-medium text-flathub-granite-gray hover:text-flathub-arsenic dark:text-flathub-gray-x11 dark:hover:text-flathub-gainsborow"
                   aria-current={page.current ? "page" : undefined}
                 >
-                  {t(page.name)}
+                  {page.name}
                 </Link>
               </div>
             </li>

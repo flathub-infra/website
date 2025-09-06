@@ -2,13 +2,13 @@ import { FunctionComponent, useEffect, useMemo } from "react"
 import { Appstream } from "../../../types/Appstream"
 import { computeAppShares, computeShares } from "../../../utils/vending"
 import { formatCurrency } from "src/utils/localize"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { VendingConfig } from "src/codegen"
 
 import * as Slider from "@radix-ui/react-slider"
 import clsx from "clsx"
-import { useRouter } from "next/router"
 import { getIntlLocale } from "src/localize"
+import { useRouter } from "src/i18n/navigation"
 
 interface Props {
   price: number
@@ -34,7 +34,8 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const router = useRouter()
-  const i18n = getIntlLocale(router.locale)
+  const locale = useLocale()
+  const i18n = getIntlLocale(locale)
 
   // Don't re-run computations unnecessarily
   const shares = useMemo(

@@ -19,9 +19,9 @@ export async function fetchSetupInstructions() {
   const mappedDistros = parsedDistros.map((instruction) => {
     return {
       ...instruction,
-      logo: `img/distro/${instruction.logo}`,
+      logo: `/img/distro/${instruction.logo}`,
       logo_dark: instruction.logo_dark
-        ? `img/distro/${instruction.logo_dark}`
+        ? `/img/distro/${instruction.logo_dark}`
         : null,
       translatedNameKey: `distros.${instruction.name
         .replaceAll(" ", "_")

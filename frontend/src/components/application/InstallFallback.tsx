@@ -1,7 +1,7 @@
 import { Appstream } from "src/types/Appstream"
-import Link from "next/link"
 import LogoImage from "src/components/LogoImage"
 import { useTranslations } from "next-intl"
+import { Link } from "src/i18n/navigation"
 
 export default function InstallFallback({
   app,

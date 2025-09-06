@@ -7,6 +7,11 @@ import { UserInfoProvider } from "../../../src/context/user-info"
 const meta = {
   component: AppHeader,
   title: "Components/Application/AppHeader",
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } satisfies Meta<typeof AppHeader>
 
 export default meta
