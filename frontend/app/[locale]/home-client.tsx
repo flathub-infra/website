@@ -205,6 +205,7 @@ const TopSection = ({
             selected: x.name === selectedName,
             onClick: () => {
               setSelectedName(x.name)
+              setSelectedApps(x)
               // Update URL without page reload using app router navigation
               const url = new URL(window.location.href)
               url.searchParams.set("category", x.name)
