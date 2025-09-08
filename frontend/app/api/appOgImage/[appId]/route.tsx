@@ -7,7 +7,6 @@ import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
 import axios from "axios"
 import { fonts } from "app/api/fontManager"
-import { fontLanguageDenyList, Language, languages } from "src/localize"
 
 export async function GET(
   request: NextRequest,
@@ -26,16 +25,9 @@ export async function GET(
   const locale = searchParams.get("locale") || "en"
   const asSvg = searchParams.get("svg") === "" || false
 
-  // Fall back to English if the locale is in the deny list or not supported
-  const safeLocale =
-    fontLanguageDenyList.includes(locale) ||
-    !languages.includes(locale as Language)
-      ? "en"
-      : locale
-
   const app: DesktopAppstream = (await fetchAppstream(
     appId as string,
-    safeLocale as string,
+    locale as string,
   )) as DesktopAppstream
 
   if (!app) {

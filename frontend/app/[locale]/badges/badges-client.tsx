@@ -80,11 +80,13 @@ const BadgesClient = (): JSX.Element => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {languages.map((language) => (
-                <SelectItem key={language} value={language}>
-                  {getLanguageName(language)}
-                </SelectItem>
-              ))}
+              {languages
+                .filter((language) => !["ar", "fa"].includes(language))
+                .map((language) => (
+                  <SelectItem key={language} value={language}>
+                    {getLanguageName(language)}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </div>
