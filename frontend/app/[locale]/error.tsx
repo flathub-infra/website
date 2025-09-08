@@ -5,8 +5,6 @@ import { useTranslations } from "next-intl"
 import { getTranslations } from "next-intl/server"
 import { Metadata } from "next"
 
-import * as Sentry from "@sentry/nextjs"
-
 interface Props {
   error: Error & { digest?: string }
   reset: () => void
@@ -28,7 +26,8 @@ export default function Error({ error, reset }: Props) {
   const t = useTranslations()
 
   useEffect(() => {
-    Sentry.captureException(error)
+    // Log the error to an error reporting service
+    console.error("Error boundary caught:", error)
   }, [error])
 
   return (
