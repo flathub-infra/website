@@ -5,6 +5,7 @@ import EolMessageDetails from "../../../../../src/components/application/EolMess
 import { HeroBanner } from "../../../../../src/components/application/HeroBanner"
 import { Alert } from "../../../../../@/components/ui/alert"
 import { Appstream, DesktopAppstream } from "../../../../../src/types/Appstream"
+import Head from "next/head"
 
 interface Props {
   app: Pick<Appstream, "id" | "name"> | null
@@ -28,7 +29,9 @@ export default function BannerPreviewClient({
   if (eolMessage) {
     return (
       <>
-        <meta name="robots" content="noindex" />
+        <Head>
+          <meta name="robots" content="noindex" />
+        </Head>
         <EolMessageDetails message={eolMessage} />
       </>
     )
