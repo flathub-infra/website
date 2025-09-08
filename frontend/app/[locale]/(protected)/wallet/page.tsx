@@ -2,11 +2,7 @@ import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import WalletClient from "./wallet-client"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
   return {
@@ -17,10 +13,6 @@ export async function generateMetadata({
   }
 }
 
-export default async function WalletPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
+export default async function WalletPage() {
   return <WalletClient />
 }

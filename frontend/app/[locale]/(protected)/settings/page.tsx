@@ -20,11 +20,7 @@ export async function generateMetadata({
   }
 }
 
-export default async function SettingsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
+export default async function SettingsPage() {
   try {
     const providers = await fetchLoginProviders()
 
