@@ -14,11 +14,8 @@ import {
 } from "src/codegen"
 import { ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Link, useRouter } from "src/i18n/navigation"
-import {
-  usePathname,
-  useSearchParams,
-} from "next/dist/client/components/navigation"
+import { Link, usePathname, useRouter } from "src/i18n/navigation"
+import { useSearchParams } from "next/navigation"
 
 interface Props {
   appId: string
