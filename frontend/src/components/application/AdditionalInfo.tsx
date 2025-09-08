@@ -2,9 +2,10 @@ import { Summary } from "../../types/Summary"
 import ListBox from "./ListBox"
 import { HiCloudArrowDown, HiFolderArrowDown } from "react-icons/hi2"
 import { BsHddFill, BsLaptop } from "react-icons/bs"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import { calculateHumanReadableSize } from "../../size"
 import { getIntlLocale } from "../../localize"
+import { useRouter } from "next/router"
 import { StatsResultApp } from "src/codegen"
 
 const AdditionalInfo = ({
@@ -15,7 +16,7 @@ const AdditionalInfo = ({
   stats: Pick<StatsResultApp, "installs_total">
 }) => {
   const t = useTranslations()
-  const locale = useLocale()
+  const router = useRouter()
 
   return (
     <div className="relative flex flex-wrap gap-2">
@@ -76,7 +77,7 @@ const AdditionalInfo = ({
               content: {
                 type: "text",
                 text: stats.installs_total.toLocaleString(
-                  getIntlLocale(locale),
+                  getIntlLocale(router.locale),
                 ),
               },
             },

@@ -16,11 +16,6 @@ const request_id = 1
 export default {
   title: "Components/Moderation/ReviewCard",
   component: ReviewCard,
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
   decorators: [
     (Story) => {
       queryClient.setQueryData(["review", request_id], {

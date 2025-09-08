@@ -2,7 +2,7 @@ import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
 import { AddonAppstream, Appstream } from "../../types/Appstream"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 
 import { Summary } from "../../types/Summary"
 
@@ -32,7 +32,8 @@ import {
   MeilisearchResponseAppsIndex,
   StatsResultApp,
 } from "src/codegen"
-import { FlathubWorldMap } from "../../../app/[locale]/statistics/statistics-client"
+import { FlathubWorldMap } from "pages/statistics"
+import { Info } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -43,6 +44,7 @@ import { HiMiniInformationCircle } from "react-icons/hi2"
 import clsx from "clsx"
 import { UTCDate } from "@date-fns/utc"
 import { getIntlLocale } from "src/localize"
+import { useRouter } from "next/router"
 
 interface Props {
   app?: Appstream
@@ -66,9 +68,9 @@ const Details: FunctionComponent<Props> = ({
   keywords,
 }) => {
   const t = useTranslations()
-  const locale = useLocale()
+  const router = useRouter()
 
-  const i18n = getIntlLocale(locale)
+  const i18n = getIntlLocale(router.locale)
 
   const countryStatisticsStartDate = new UTCDate(2024, 3, 15)
 
@@ -162,7 +164,7 @@ const Details: FunctionComponent<Props> = ({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <FlathubWorldMap country_data={countryData} refs={null} />
+            <FlathubWorldMap country_data={countryData} />
           </div>
         ),
         replacePadding: "p-0",

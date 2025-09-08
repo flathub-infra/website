@@ -5,6 +5,7 @@ import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
 import { useUserDispatch } from "src/context/user-info"
+import { useRouter } from "next/router"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
 import { getUserData } from "src/asyncs/login"
@@ -19,10 +20,9 @@ import {
 import { Developer } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useRouter } from "src/i18n/navigation"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name">
+  app: Appstream
 }
 
 const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
@@ -174,7 +174,7 @@ export default AppDevelopersControls
 
 interface DeveloperRowProps {
   developer: Developer
-  app: Pick<Appstream, "id" | "name">
+  app: Appstream
   selfIsPrimary: boolean
   isInvite: boolean
   refresh: () => void
@@ -277,7 +277,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
 
 interface InviteDialogProps {
   isVisible: boolean
-  app: Pick<Appstream, "id">
+  app: Appstream
   refresh: () => void
   closeDialog: () => void
 }
