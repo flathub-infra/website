@@ -1,7 +1,6 @@
 import { Metadata } from "next"
-import PaymentClient from "./payment-client"
+import PaymentDetailsClient from "./payment-details-client"
 import { getTranslations } from "next-intl/server"
-import { getStripedataWalletStripedataGet } from "../../../../../src/codegen"
 
 interface Props {
   params: Promise<{
@@ -15,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations()
 
   return {
-    title: t("payment"),
+    title: t("transaction-summary"),
     robots: {
       index: false,
       follow: false,
@@ -23,14 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function PaymentPage({ params }: Props) {
+export default async function PaymentDetailsPage({ params }: Props) {
   const { transaction_id } = await params
-  const stripeDataQuery = await getStripedataWalletStripedataGet()
-
-  return (
-    <PaymentClient
-      transactionId={transaction_id}
-      stripePublicKey={stripeDataQuery.data.public_key}
-    />
-  )
+  return <PaymentDetailsClient transactionId={transaction_id} />
 }
