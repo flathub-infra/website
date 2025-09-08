@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import PublisherAgreementClient from "./publisher-agreement-client"
-import getTranslations from "next-intl/dist/types/server/react-server/getTranslations"
+import { getTranslations } from "next-intl/server"
 
 interface Props {
   params: Promise<{
