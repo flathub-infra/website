@@ -30,7 +30,6 @@ export async function generateMetadata({
   const headersList = await headers()
   const pathname = headersList.get("x-pathname") || ""
 
-  const canonical = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${pathname.replace(`/${locale}`, "/en")}`
   const url = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${pathname}`
 
   return {
@@ -61,7 +60,6 @@ export async function generateMetadata({
       apple: "/apple-touch-icon.png",
     },
     alternates: {
-      canonical,
       languages: languages
         .filter((lang) => lang !== "en" && lang !== "en-GB")
         .reduce(
