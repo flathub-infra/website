@@ -6,11 +6,6 @@ import { faker } from "@faker-js/faker"
 const meta = {
   component: Addons,
   title: "Components/Application/Addons",
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } satisfies Meta<typeof Addons>
 
 export default meta

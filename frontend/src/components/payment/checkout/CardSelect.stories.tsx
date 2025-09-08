@@ -1,3 +1,4 @@
+import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import CardSelect from "./CardSelect"
 import { Elements } from "@stripe/react-stripe-js"
@@ -7,11 +8,6 @@ import { PaymentCardInfo, Transaction } from "../../../codegen"
 export default {
   title: "Components/Payment/CardSelect",
   component: CardSelect,
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } as Meta<typeof CardSelect>
 
 export const Generated = () => {

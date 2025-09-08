@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { DesktopAppstream } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
@@ -8,7 +9,6 @@ import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
-import { Link } from "src/i18n/navigation"
 
 export const AppOfTheDay = ({
   appOfTheDay,

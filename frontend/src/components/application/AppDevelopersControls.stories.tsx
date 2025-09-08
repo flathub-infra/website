@@ -1,8 +1,9 @@
+import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
 import AppDevelopersControls from "./AppDevelopersControls"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { AppRoutesInvitesDevelopersResponse } from "src/codegen/model"
+import { DevelopersResponse } from "../../codegen/model"
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity, refetchOnMount: true } },
@@ -18,11 +19,6 @@ const app = {
 export default {
   title: "Components/Application/AppDevelopersControls",
   component: AppDevelopersControls,
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } as Meta<typeof AppDevelopersControls>
 
 function fakeDeveloper(isSelf: boolean = false, isPrimary: boolean = false) {
@@ -41,7 +37,7 @@ export const PrimaryDeveloperOnly = {
         data: {
           developers: [fakeDeveloper(true, true)],
           invites: [],
-        } as AppRoutesInvitesDevelopersResponse,
+        } as DevelopersResponse,
       })
       return (
         <QueryClientProvider client={queryClient}>
@@ -67,7 +63,7 @@ export const WithInvites = {
             fakeDeveloper(),
             fakeDeveloper(),
           ],
-        } as AppRoutesInvitesDevelopersResponse,
+        } as DevelopersResponse,
       })
       return (
         <QueryClientProvider client={queryClient}>
@@ -95,7 +91,7 @@ export const WithOtherDevs = {
             fakeDeveloper(),
           ],
           invites: [],
-        } as AppRoutesInvitesDevelopersResponse,
+        } as DevelopersResponse,
       })
       return (
         <QueryClientProvider client={queryClient}>
@@ -128,7 +124,7 @@ export const NotPrimaryDev = {
             fakeDeveloper(),
           ],
           invites: [],
-        } as AppRoutesInvitesDevelopersResponse,
+        } as DevelopersResponse,
       })
       return (
         <QueryClientProvider client={queryClient}>

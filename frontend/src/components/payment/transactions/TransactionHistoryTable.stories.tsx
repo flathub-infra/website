@@ -7,11 +7,6 @@ import { faker } from "@faker-js/faker"
 const meta = {
   component: TransactionHistoryTable,
   title: "Components/Payment/Transactions/TransactionHistoryTable",
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } satisfies Meta<typeof TransactionHistoryTable>
 
 export default meta

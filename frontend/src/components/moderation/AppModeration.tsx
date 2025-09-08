@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
 import { getAppsInfo } from "src/asyncs/app"
 import { setQueryParams } from "src/utils/queryParams"
@@ -5,6 +6,7 @@ import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
+import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../Breadcrumbs"
@@ -14,11 +16,6 @@ import {
 } from "src/codegen"
 import { ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Link, useRouter } from "src/i18n/navigation"
-import {
-  usePathname,
-  useSearchParams,
-} from "next/dist/client/components/navigation"
 
 interface Props {
   appId: string
@@ -60,7 +57,7 @@ const NavigatePreviousNext = ({ appId }) => {
     } else {
       setNextAppId(listQuery.data?.apps[currentIndex + 1].appid)
     }
-  }, [setNextAppId, setPreviousAppId, listQuery, appId])
+  }, [setNextAppId, setPreviousAppId, listQuery])
 
   if (listQuery.isLoading || listQuery.data.apps.length === 0) {
     return null
@@ -79,15 +76,13 @@ const NavigatePreviousNext = ({ appId }) => {
 const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   const t = useTranslations()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
 
   const [includeOutdatedQuery, setIncludeOutdatedQuery] = useState<boolean>(
-    searchParams.get("includeOutdated") === "true",
+    router.query.includeOutdated === "true",
   )
 
   const [includeHandledQuery, setIncludeHandledQuery] = useState<boolean>(
-    searchParams.get("includeHandled") === "true",
+    router.query.includeHandled === "true",
   )
 
   const appInfoQuery = useQuery({
@@ -97,17 +92,17 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   })
 
   const PAGE_SIZE = 10
-  const currentPage = parseInt((searchParams.get("page") as string) ?? "1") ?? 1
+  const currentPage = parseInt((router.query.page as string) ?? "1") ?? 1
 
   const [offset, setOffset] = useState((currentPage - 1) * PAGE_SIZE)
 
   useEffect(() => {
-    setIncludeOutdatedQuery(searchParams.get("includeOutdated") === "true")
-  }, [searchParams.get("includeOutdated")])
+    setIncludeOutdatedQuery(router.query.includeOutdated === "true")
+  }, [router.query.includeOutdated])
 
   useEffect(() => {
-    setIncludeHandledQuery(searchParams.get("includeHandled") === "true")
-  }, [searchParams.get("includeHandled")])
+    setIncludeHandledQuery(router.query.includeHandled === "true")
+  }, [router.query.includeHandled])
 
   useEffect(() => {
     setOffset((currentPage - 1) * PAGE_SIZE)
@@ -195,15 +190,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             id="include-outdated"
             checked={includeOutdatedQuery}
             onCheckedChange={(event) => {
-              setQueryParams(
-                router,
-                {
-                  includeOutdated: event ? "true" : undefined,
-                  page: "1",
-                },
-                pathname,
-                searchParams,
-              )
+              setQueryParams(router, {
+                includeOutdated: event ? "true" : undefined,
+                page: "1",
+              })
             }}
           />
           <div className="grid gap-1.5 leading-none">
@@ -221,15 +211,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             id="include-handled"
             checked={includeHandledQuery}
             onCheckedChange={(event) => {
-              setQueryParams(
-                router,
-                {
-                  includeHandled: event ? "true" : undefined,
-                  page: "1",
-                },
-                pathname,
-                searchParams,
-              )
+              setQueryParams(router, {
+                includeHandled: event ? "true" : undefined,
+                page: "1",
+              })
             }}
           />
           <div className="grid gap-1.5 leading-none">

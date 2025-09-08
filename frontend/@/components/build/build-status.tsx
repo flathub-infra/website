@@ -69,7 +69,6 @@ export function BuildStatus({ pipelineSummary }: BuildStatusProps) {
         <div className="flex justify-between">
           {steps.map((step, index) => (
             <div
-              key={step.id}
               className={cn(
                 "flex items-start",
                 index < steps.length - 1 && "flex-1",

@@ -24,10 +24,10 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Link } from "src/i18n/navigation"
+import Link from "next/link"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name" | "bundle">
+  app: Appstream
   vendingConfig: VendingConfig
 }
 

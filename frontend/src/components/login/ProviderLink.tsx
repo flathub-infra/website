@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl"
-import { useSearchParams } from "next/navigation"
+import { useRouter } from "next/router"
 import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "sonner"
 import { LOGIN_PROVIDERS_URL } from "../../env"
@@ -11,7 +11,6 @@ import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
 import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
-import { useRouter } from "src/i18n/navigation"
 
 interface Props {
   provider: LoginProvider
@@ -24,7 +23,6 @@ const ProviderLink: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   // Using state to prevent user repeatedly initiating fetches
   const [clicked, setClicked] = useState(false)
@@ -56,7 +54,7 @@ const ProviderLink: FunctionComponent<Props> = ({
 
     if (res.ok) {
       const data: LoginRedirect = await res.json()
-      const returnTo = searchParams.get("returnTo")
+      const returnTo = router.query.returnTo as string
       if (returnTo) {
         setReturnTo(
           returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI) ||
@@ -71,15 +69,7 @@ const ProviderLink: FunctionComponent<Props> = ({
       toast.error(`${res.status} ${res.statusText}`)
       setClicked(false)
     }
-  }, [
-    clicked,
-    setClicked,
-    t,
-    router,
-    setReturnTo,
-    provider.method,
-    searchParams,
-  ])
+  }, [clicked, setClicked, t, router, setReturnTo, provider.method])
 
   const loginText = t(`login-with-provider`, { provider: provider.name })
 

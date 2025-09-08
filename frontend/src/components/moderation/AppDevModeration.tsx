@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl"
-import { useSearchParams } from "next/navigation"
+import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
 import { getReviewRow } from "./AppModeration"
 import Pagination from "../Pagination"
@@ -13,12 +13,11 @@ interface Props {
 }
 
 export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
+  const router = useRouter()
   const t = useTranslations()
-  const searchParams = useSearchParams()
 
   const PAGE_SIZE = 10
-  const currentPage =
-    parseInt((searchParams?.get("page") ?? "1") as string) ?? 1
+  const currentPage = parseInt((router.query.page as string) ?? "1") ?? 1
 
   const [offset, setOffset] = useState((currentPage - 1) * PAGE_SIZE)
 

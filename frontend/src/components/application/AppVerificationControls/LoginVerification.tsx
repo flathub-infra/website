@@ -200,7 +200,7 @@ const LoginVerification: FunctionComponent<Props> = ({
         (provider) => provider.method === method.login_provider,
       )[0]
 
-      content = <ProviderLink provider={provider} />
+      content = <ProviderLink provider={provider}></ProviderLink>
       break
 
     case "username_does_not_match":
