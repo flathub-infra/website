@@ -18,6 +18,7 @@ import type {
   MeilisearchResponseAppsIndex,
   StatsResultApp,
 } from "../../../../src/codegen"
+import Head from "next/head"
 
 interface AppDetailClientProps {
   app: Appstream | null
@@ -86,7 +87,9 @@ const AppDetailClient = ({
   if (eolMessage) {
     return (
       <>
-        <meta name="robots" content="noindex" />
+        <Head>
+          <meta name="robots" content="noindex" />
+        </Head>
         <EolMessageDetails message={eolMessage} />
       </>
     )
