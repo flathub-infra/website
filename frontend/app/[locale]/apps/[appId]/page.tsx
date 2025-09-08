@@ -43,16 +43,14 @@ export async function generateMetadata({
         index: app.type !== "addon" && locale !== "en-GB",
       },
       alternates: {
-        languages: languages
-          .filter((lang) => lang !== "en-GB" && lang !== "en") // Exclude en-GB and en from alternates
-          .reduce(
-            (acc, lang) => {
-              acc[lang] =
-                `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}/apps/${app?.id}`
-              return acc
-            },
-            {} as Record<string, string>,
-          ),
+        languages: languages.reduce(
+          (acc, lang) => {
+            acc[lang] =
+              `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}/apps/${app?.id}`
+            return acc
+          },
+          {} as Record<string, string>,
+        ),
       },
       openGraph: {
         url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/${app?.id}`,
