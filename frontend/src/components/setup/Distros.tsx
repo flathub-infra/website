@@ -2,8 +2,8 @@ import { useTranslations } from "next-intl"
 import { HowToJsonLd } from "next-seo"
 import CodeCopy from "src/components/application/CodeCopy"
 import type { JSX } from "react"
-import Link from "next/link"
 import Image from "next/image"
+import { Link } from "src/i18n/navigation"
 
 export const distroMap = (locale: string) => {
   return new Map<string, JSX.Element>([
@@ -56,7 +56,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/ubuntu.svg"}
+            src={"/img/distro/ubuntu.svg"}
             alt="Ubuntu"
           />
         </picture>
@@ -64,6 +64,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.ubuntu.distroName")}
           image="https://flathub.org/img/distro/ubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -184,7 +185,7 @@ const Fedora = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/fedora.svg"}
+            src={"/img/distro/fedora.svg"}
             alt="Fedora"
           />
         </picture>
@@ -224,7 +225,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/manjaro.svg"}
+            src={"/img/distro/manjaro.svg"}
             alt="Manjaro"
           />
         </picture>
@@ -232,6 +233,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.manjaro.distroName")}
           image="https://flathub.org/img/distro/manjaro.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -296,7 +298,7 @@ const Endless_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/endless.svg"}
+            src={"/img/distro/endless.svg"}
             alt="Endless OS"
           />
         </picture>
@@ -318,13 +320,13 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/altlinux-dark.svg"}
+            srcSet={"/img/distro/altlinux-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/altlinux.svg"}
+            src={"/img/distro/altlinux.svg"}
             alt="ALT Linux"
           />
         </picture>
@@ -332,6 +334,7 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.alt_linux.distroName")}
           image="https://flathub.org/img/distro/altlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -430,7 +433,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/chrome-os.svg"}
+            src={"/img/distro/chrome-os.svg"}
             alt="Chrome OS"
           />
         </picture>
@@ -438,6 +441,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.chrome_os.distroName")}
           image="https://flathub.org/img/distro/chrome-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -585,7 +589,7 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/redhat.svg"}
+            src={"/img/distro/redhat.svg"}
             alt="Red Hat Enterprise Linux"
           />
         </picture>
@@ -623,7 +627,7 @@ const Linux_Mint = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/mint.svg"}
+            src={"/img/distro/mint.svg"}
             alt="Linux Mint"
           />
         </picture>
@@ -647,7 +651,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/opensuse.svg"}
+            src={"/img/distro/opensuse.svg"}
             alt="openSUSE"
           />
         </picture>
@@ -655,6 +659,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.opensuse.distroName")}
           image="https://flathub.org/img/distro/opensuse.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -753,7 +758,7 @@ const Arch = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/arch.svg"}
+            src={"/img/distro/arch.svg"}
             alt="Arch"
           />
         </picture>
@@ -761,6 +766,7 @@ const Arch = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.arch.distroName")}
           image="https://flathub.org/img/distro/arch.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -825,7 +831,7 @@ const Debian = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/debian.svg"}
+            src={"/img/distro/debian.svg"}
             alt="Debian"
           />
         </picture>
@@ -833,6 +839,7 @@ const Debian = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.debian.distroName")}
           image="https://flathub.org/img/distro/debian.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -961,7 +968,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/rockylinux.svg"}
+            src={"/img/distro/rockylinux.svg"}
             alt="Rocky Linux"
           />
         </picture>
@@ -969,6 +976,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.rocky_linux.distroName")}
           image="https://flathub.org/img/distro/rockylinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1066,7 +1074,7 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/centos.svg"}
+            src={"/img/distro/centos.svg"}
             alt="CentOS Stream"
           />
         </picture>
@@ -1096,7 +1104,7 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/almalinux.svg"}
+            src={"/img/distro/almalinux.svg"}
             alt="AlmaLinux"
           />
         </picture>
@@ -1126,7 +1134,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/gentoo.svg"}
+            src={"/img/distro/gentoo.svg"}
             alt="Gentoo"
           />
         </picture>
@@ -1134,6 +1142,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.gentoo.distroName")}
           image="https://flathub.org/img/distro/gentoo.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1228,7 +1237,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/kubuntu.svg"}
+            src={"/img/distro/kubuntu.svg"}
             alt="Kubuntu"
           />
         </picture>
@@ -1236,6 +1245,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.kubuntu.distroName")}
           image="https://flathub.org/img/distro/kubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1344,7 +1354,7 @@ const Solus = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/solus.svg"}
+            src={"/img/distro/solus.svg"}
             alt="Solus"
           />
         </picture>
@@ -1352,6 +1362,7 @@ const Solus = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.solus.distroName")}
           image="https://flathub.org/img/distro/solus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1452,7 +1463,7 @@ const Alpine = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/alpine.svg"}
+            src={"/img/distro/alpine.svg"}
             alt="Alpine"
           />
         </picture>
@@ -1460,6 +1471,7 @@ const Alpine = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.alpine.distroName")}
           image="https://flathub.org/img/distro/alpine.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1584,7 +1596,7 @@ const Mageia = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/mageia.svg"}
+            src={"/img/distro/mageia.svg"}
             alt="Mageia"
           />
         </picture>
@@ -1592,6 +1604,7 @@ const Mageia = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.mageia.distroName")}
           image="https://flathub.org/img/distro/mageia.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1691,7 +1704,7 @@ const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/openmandriva.svg"}
+            src={"/img/distro/openmandriva.svg"}
             alt="OpenMandriva Lx"
           />
         </picture>
@@ -1716,7 +1729,7 @@ const Pop_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/pop-os.svg"}
+            src={"/img/distro/pop-os.svg"}
             alt="Pop!_OS"
           />
         </picture>
@@ -1738,13 +1751,13 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/elementary-os-dark.svg"}
+            srcSet={"/img/distro/elementary-os-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/elementary-os.svg"}
+            src={"/img/distro/elementary-os.svg"}
             alt="elementary OS"
           />
         </picture>
@@ -1752,6 +1765,7 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.elementary_os.distroName")}
           image="https://flathub.org/img/distro/elementary-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1794,7 +1808,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/raspberry-pi-os.svg"}
+            src={"/img/distro/raspberry-pi-os.svg"}
             alt="Raspberry Pi OS"
           />
         </picture>
@@ -1802,6 +1816,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.raspberry_pi_os.distroName")}
           image="https://flathub.org/img/distro/raspberry-pi-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1893,13 +1908,13 @@ const Void_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/void-dark.svg"}
+            srcSet={"/img/distro/void-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/void.svg"}
+            src={"/img/distro/void.svg"}
             alt="Void Linux"
           />
         </picture>
@@ -1907,6 +1922,7 @@ const Void_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.void_linux.distroName")}
           image="https://flathub.org/img/distro/void.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1999,7 +2015,7 @@ const NixOS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/nixos.svg"}
+            src={"/img/distro/nixos.svg"}
             alt="NixOS"
           />
         </picture>
@@ -2007,6 +2023,7 @@ const NixOS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.nixos.distroName")}
           image="https://flathub.org/img/distro/nixos.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2108,13 +2125,13 @@ const PureOS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/pureos-dark.svg"}
+            srcSet={"/img/distro/pureos-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/pureos.svg"}
+            src={"/img/distro/pureos.svg"}
             alt="PureOS"
           />
         </picture>
@@ -2144,7 +2161,7 @@ const Zorin_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/zorin-os.svg"}
+            src={"/img/distro/zorin-os.svg"}
             alt="Zorin OS"
           />
         </picture>
@@ -2169,7 +2186,7 @@ const Deepin = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/deepin.svg"}
+            src={"/img/distro/deepin.svg"}
             alt="Deepin"
           />
         </picture>
@@ -2177,6 +2194,7 @@ const Deepin = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.deepin.distroName")}
           image="https://flathub.org/img/distro/deepin.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2296,7 +2314,7 @@ const Pardus = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/pardus.svg"}
+            src={"/img/distro/pardus.svg"}
             alt="Pardus"
           />
         </picture>
@@ -2304,6 +2322,7 @@ const Pardus = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.pardus.distroName")}
           image="https://flathub.org/img/distro/pardus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2422,7 +2441,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/mxlinux.svg"}
+            src={"/img/distro/mxlinux.svg"}
             alt="MX Linux"
           />
         </picture>
@@ -2430,6 +2449,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.mx_linux.distroName")}
           image="https://flathub.org/img/distro/mxlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2492,13 +2512,13 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/pisi-dark.svg"}
+            srcSet={"/img/distro/pisi-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/pisi.svg"}
+            src={"/img/distro/pisi.svg"}
             alt="Pisi GNU/Linux"
           />
         </picture>
@@ -2506,6 +2526,7 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.pisi_gnulinux.distroName")}
           image="https://flathub.org/img/distro/pisi.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2596,13 +2617,13 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/endeavouros-dark.svg"}
+            srcSet={"/img/distro/endeavouros-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/endeavouros.svg"}
+            src={"/img/distro/endeavouros.svg"}
             alt="EndeavourOS"
           />
         </picture>
@@ -2610,6 +2631,7 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.endeavouros.distroName")}
           image="https://flathub.org/img/distro/endeavouros.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2703,7 +2725,7 @@ const KDE_neon = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/kdeneon.svg"}
+            src={"/img/distro/kdeneon.svg"}
             alt="KDE neon"
           />
         </picture>
@@ -2725,13 +2747,13 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <picture>
           <source
-            srcSet={"img/distro/guix-dark.svg"}
+            srcSet={"/img/distro/guix-dark.svg"}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"img/distro/guix.svg"}
+            src={"/img/distro/guix.svg"}
             alt="GNU Guix"
           />
         </picture>
@@ -2739,6 +2761,7 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.gnu_guix.distroName")}
           image="https://flathub.org/img/distro/guix.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2831,7 +2854,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/crystallinux.svg"}
+            src={"/img/distro/crystallinux.svg"}
             alt="Crystal Linux"
           />
         </picture>
@@ -2839,6 +2862,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
+          useAppDir={true}
           name={t("distros.crystal_linux.distroName")}
           image="https://flathub.org/img/distro/crystallinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2936,7 +2960,7 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/vanillaos.svg"}
+            src={"/img/distro/vanillaos.svg"}
             alt="Vanilla OS"
           />
         </picture>
@@ -2969,7 +2993,7 @@ const Salix = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"img/distro/salix.svg"}
+            src={"/img/distro/salix.svg"}
             alt="Salix"
           />
         </picture>

@@ -1,4 +1,3 @@
-import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import Releases from "./Releases"
 import { faker } from "@faker-js/faker"
@@ -7,6 +6,11 @@ import { Release } from "../../types/Appstream"
 export default {
   title: "Components/Application/Releases",
   component: Releases,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } as Meta<typeof Releases>
 
 export const noChangelogProvided = () => {

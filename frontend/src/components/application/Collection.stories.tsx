@@ -1,4 +1,3 @@
-import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import Collection from "./Collection"
 import { faker } from "@faker-js/faker"
@@ -6,6 +5,11 @@ import { faker } from "@faker-js/faker"
 export default {
   title: "Components/Application/Collection",
   component: Collection,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } as Meta<typeof Collection>
 
 export const Generated = () => {

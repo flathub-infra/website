@@ -18,7 +18,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useTranslations } from "next-intl"
 
 interface Props {
-  app: Appstream
+  app: Pick<Appstream, "id">
   isNewApp: boolean
   onVerified?: () => void
   showHeader?: boolean

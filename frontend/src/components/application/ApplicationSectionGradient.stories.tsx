@@ -2,9 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { ApplicationSectionGradient } from "./ApplicationSectionGradient"
 import { MobileDevicesLogo } from "../../../src/components/MobileDevicesLogo"
-import React from "react"
 import { faker } from "@faker-js/faker"
-import Link from "next/link"
 
 const meta = {
   component: ApplicationSectionGradient,

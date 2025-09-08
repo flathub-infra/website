@@ -1,16 +1,15 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import InstallButton from "./InstallButton"
-import {
-  expect,
-  queryByAttribute,
-  userEvent,
-  waitFor,
-  within,
-} from "storybook/internal/test"
+import { userEvent, within } from "storybook/internal/test"
 
 const meta = {
   title: "Components/InstallButton",
   component: InstallButton,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } satisfies Meta<typeof InstallButton>
 
 export default meta
