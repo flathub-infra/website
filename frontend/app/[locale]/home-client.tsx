@@ -19,7 +19,6 @@ import { GameControllersLogo } from "../../src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "../../src/components/application/ApplicationSectionGradientMultiToggle"
 import type { JSX } from "react"
 import { Link, useRouter } from "src/i18n/navigation"
-import { useSearchParams } from "next/navigation"
 
 interface HomeClientProps {
   recentlyUpdated: MeilisearchResponseAppsIndex
@@ -166,8 +165,8 @@ const TopSection = ({
 }) => {
   const t = useTranslations()
   const router = useRouter()
-  const searchParams = useSearchParams()
 
+  // Use searchParams to get the category parameter
   const [selectedName, setSelectedName] = useState<string>(topApps[0].name)
   const [selectedApps, setSelectedApps] = useState<{
     name: string
@@ -176,17 +175,13 @@ const TopSection = ({
   }>(topApps[0])
 
   useEffect(() => {
-    const categoryParam = searchParams.get("category")
-    if (categoryParam) {
-      const foundApps = topApps.find(
-        (sectionData) => sectionData.name === categoryParam,
-      )
-      if (foundApps) {
-        setSelectedName(categoryParam)
-        setSelectedApps(foundApps)
-      }
+    const foundApps = topApps.find(
+      (sectionData) => sectionData.name === selectedName,
+    )
+    if (foundApps) {
+      setSelectedApps(foundApps)
     }
-  }, [])
+  }, [selectedName, topApps])
 
   return (
     <ApplicationSection
@@ -198,22 +193,26 @@ const TopSection = ({
       )}
       numberOfApps={APPS_IN_PREVIEW_COUNT}
       customHeader={
-        <MultiToggle
-          items={topApps.map((x) => ({
-            id: x.name,
-            content: <div className="font-semibold truncate">{t(x.name)}</div>,
-            selected: x.name === selectedName,
-            onClick: () => {
-              setSelectedName(x.name)
-              // Update URL without page reload using app router navigation
-              const url = new URL(window.location.href)
-              url.searchParams.set("category", x.name)
-              router.replace(url.search, { scroll: false })
-            },
-          }))}
-          size={"lg"}
-          variant="secondary"
-        />
+        <>
+          <MultiToggle
+            items={topApps.map((x) => ({
+              id: x.name,
+              content: (
+                <div className="font-semibold truncate">{t(x.name)}</div>
+              ),
+              selected: x.name === selectedName,
+              onClick: () => {
+                setSelectedName(x.name)
+                // Update URL without page reload using app router navigation
+                const url = new URL(window.location.href)
+                url.searchParams.set("category", x.name)
+                router.replace(url.search, { scroll: false })
+              },
+            }))}
+            size={"lg"}
+            variant="secondary"
+          />
+        </>
       }
       showMore={true}
       moreText={t(`more-${selectedApps.name}`)}
