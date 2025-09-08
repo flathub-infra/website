@@ -29,6 +29,7 @@ export async function generateMetadata({
         follow: false,
       },
       alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/en/apps/${app?.id}/install`,
         languages: languages
           .filter((lang) => lang !== "en-GB" && lang !== "en") // Exclude en-GB and en from alternates
           .reduce(
