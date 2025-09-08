@@ -1,4 +1,3 @@
-import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import { faker } from "@faker-js/faker"
@@ -12,6 +11,11 @@ const queryClient = new QueryClient({
 export default {
   title: "Components/Moderation/AppstreamChangesRow",
   component: AppstreamChangesRow,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
   decorators: [
     (Story) => {
       queryClient.setQueryData(["moderation", "tv.abc.TestApp", 0], {

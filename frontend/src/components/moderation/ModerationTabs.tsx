@@ -1,5 +1,4 @@
-import { useRouter } from "next/router"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, use, useEffect, useState } from "react"
 import { getAppsInfo } from "src/asyncs/app"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
@@ -7,33 +6,37 @@ import Spinner from "../Spinner"
 import ApplicationCollection from "../application/Collection"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
-import { setQueryParams } from "src/utils/queryParams"
 import { getModerationAppsModerationAppsGet } from "src/codegen"
 import { Checkbox } from "@/components/ui/checkbox"
+import { usePathname, useRouter } from "src/i18n/navigation"
+import { useSearchParams } from "next/navigation"
+import { setQueryParams } from "src/utils/queryParams"
 
 const ModerationTabs: FunctionComponent = () => {
   const t = useTranslations()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
 
   const PAGE_SIZE = 30
-  const currentPage = parseInt((router.query.page as string) ?? "1")
+  const currentPage = parseInt((searchParams.get("page") as string) ?? "1")
 
   const [offset, setOffset] = useState((currentPage - 1) * PAGE_SIZE)
 
   const [filterNewSubmissionsQuery, setFilterNewSubmissionsQuery] =
-    useState<boolean>(router.query.filterNew === "true")
+    useState<boolean>(searchParams.get("filterNew") === "true")
 
   const [showHandledQuery, setShowHandledQuery] = useState<boolean>(
-    router.query.includeHandled === "true",
+    searchParams.get("includeHandled") === "true",
   )
 
   useEffect(() => {
-    setFilterNewSubmissionsQuery(router.query.filterNew === "true")
-  }, [router.query.filterNew])
+    setFilterNewSubmissionsQuery(searchParams.get("filterNew") === "true")
+  }, [searchParams.get("filterNew")])
 
   useEffect(() => {
-    setShowHandledQuery(router.query.includeHandled === "true")
-  }, [router.query.includeHandled])
+    setShowHandledQuery(searchParams.get("includeHandled") === "true")
+  }, [searchParams.get("includeHandled")])
 
   useEffect(() => {
     setOffset((currentPage - 1) * PAGE_SIZE)
@@ -97,10 +100,15 @@ const ModerationTabs: FunctionComponent = () => {
               id="filter-new"
               checked={filterNewSubmissionsQuery}
               onCheckedChange={(event) => {
-                setQueryParams(router, {
-                  filterNew: event ? "true" : undefined,
-                  page: "1",
-                })
+                setQueryParams(
+                  router,
+                  {
+                    filterNew: event ? "true" : undefined,
+                    page: "1",
+                  },
+                  pathname,
+                  searchParams,
+                )
               }}
             />
             <div className="grid gap-1.5 leading-none">
@@ -118,10 +126,15 @@ const ModerationTabs: FunctionComponent = () => {
               id="include-handled"
               checked={showHandledQuery}
               onCheckedChange={(event) => {
-                setQueryParams(router, {
-                  includeHandled: event ? "true" : undefined,
-                  page: "1",
-                })
+                setQueryParams(
+                  router,
+                  {
+                    includeHandled: event ? "true" : undefined,
+                    page: "1",
+                  },
+                  pathname,
+                  searchParams,
+                )
               }}
             />
             <div className="grid gap-1.5 leading-none">

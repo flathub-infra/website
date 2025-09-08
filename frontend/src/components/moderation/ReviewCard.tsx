@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { getIntlLocale } from "src/localize"
 import InlineError from "../InlineError"
@@ -6,7 +6,6 @@ import Spinner from "../Spinner"
 import Badge from "../application/Badge"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
-import Link from "next/link"
 import { useMutation } from "@tanstack/react-query"
 import Modal from "../Modal"
 import CodeCopy from "../application/CodeCopy"
@@ -17,7 +16,7 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { useRouter } from "next/router"
+import { Link, useRouter } from "src/i18n/navigation"
 
 interface Props {
   title: string
@@ -28,7 +27,8 @@ interface Props {
 const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
   const t = useTranslations()
   const router = useRouter()
-  const i18n = getIntlLocale(router.locale)
+  const locale = useLocale()
+  const i18n = getIntlLocale(locale)
   const user = useUserContext()
 
   const [modalState, setModalState] = useState<"approve" | "reject">("approve")
