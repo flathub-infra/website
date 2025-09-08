@@ -1,23 +1,21 @@
-import { useRouter, usePathname } from "src/i18n/navigation"
+import { QueryParams } from "next-intl/navigation"
+import { ReadonlyURLSearchParams } from "next/navigation"
+import { useRouter } from "src/i18n/navigation"
 
 export function setQueryParams(
   router: ReturnType<typeof useRouter>,
   params: { [param: string]: string | undefined },
   pathname: string,
-  searchParams: URLSearchParams,
+  searchParams: ReadonlyURLSearchParams,
 ) {
-  const newParams = new URLSearchParams(searchParams.toString())
-
+  const newParams = Object.fromEntries(searchParams.entries()) as QueryParams
   for (const [key, value] of Object.entries(params)) {
     if (value === undefined || value === "") {
-      newParams.delete(key)
+      delete newParams[key]
     } else {
-      newParams.set(key, value)
+      newParams[key] = value
     }
   }
 
-  const queryString = newParams.toString()
-  const url = queryString ? `${pathname}?${queryString}` : pathname
-
-  router.push(url)
+  router.push({ pathname, query: newParams })
 }
