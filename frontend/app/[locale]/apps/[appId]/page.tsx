@@ -43,6 +43,7 @@ export async function generateMetadata({
         index: app.type !== "addon" && locale !== "en-GB",
       },
       alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/en/apps/${app?.id}`,
         languages: languages
           .filter((lang) => lang !== "en-GB" && lang !== "en") // Exclude en-GB and en from alternates
           .reduce(
