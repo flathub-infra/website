@@ -9,7 +9,6 @@ import {
 import { DesktopAppstream } from "../../../../../src/types/Appstream"
 import BannerPreviewClient from "./bannerpreview-client"
 import { redirect } from "src/i18n/navigation"
-import { getTranslations } from "next-intl/server"
 
 interface Params {
   locale: string
@@ -23,8 +22,6 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, appId: rawAppId } = await params
 
-  const t = await getTranslations()
-
   // Handle .flatpakref extension
   const isFlatpakref = rawAppId.endsWith(".flatpakref")
   const appId = isFlatpakref
@@ -33,16 +30,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!isValidAppId(appId)) {
     return {
-      title: `${t("quality.banner-preview")}`,
+      title: "Banner Preview",
     }
   }
 
   const app = await fetchAppstream(appId, locale)
 
   return {
-    title: app?.name
-      ? `${app.name} ${t("quality.banner-preview")}`
-      : `${t("quality.banner-preview")}`,
+    title: app?.name ? `${app.name} Banner Preview` : "Banner Preview",
     robots: {
       index: false,
       follow: false,
