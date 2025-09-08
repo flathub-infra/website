@@ -3,12 +3,12 @@
 import { useTranslations } from "next-intl"
 import { useEffect } from "react"
 import { toast } from "sonner"
-import Spinner from "../../../src/components/Spinner"
-import { usePendingTransaction } from "../../../src/hooks/usePendingTransaction"
+import Spinner from "../../../../src/components/Spinner"
+import { usePendingTransaction } from "../../../../src/hooks/usePendingTransaction"
 import {
   checkPurchasesPurchasesCheckPurchasesPost,
   getUpdateTokenPurchasesGenerateUpdateTokenPost,
-} from "../../../src/codegen"
+} from "../../../../src/codegen"
 import { useRouter } from "src/i18n/navigation"
 
 const PERMITTED_REDIRECTS = [
