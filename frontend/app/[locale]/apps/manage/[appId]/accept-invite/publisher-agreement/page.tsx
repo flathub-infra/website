@@ -1,6 +1,5 @@
 import { Metadata } from "next"
 import PublisherAgreementClient from "./publisher-agreement-client"
-import getTranslations from "next-intl/dist/types/server/react-server/getTranslations"
 
 interface Props {
   params: Promise<{
@@ -9,11 +8,11 @@ interface Props {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations()
   return {
-    title: t("publisher-agreement"),
+    title: "Publisher Agreement",
     robots: {
       index: false,
+      follow: false,
     },
   }
 }
