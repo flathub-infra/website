@@ -4,24 +4,16 @@ import { Metadata } from "next"
 import SetupClient from "./setup-client"
 import { getTranslations } from "next-intl/server"
 
-interface Props {
-  params: Promise<{
-    locale: string
-  }>
-}
-
 export async function generateStaticParams() {
   return []
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
   return {
     title: t("setup-flathub"),
     description: t("setup-flathub-description"),
-    robots: locale === "en-GB" ? { index: false } : undefined,
   }
 }
 
