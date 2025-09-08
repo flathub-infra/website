@@ -1,3 +1,5 @@
+import { Metadata } from "next"
+import { getTranslations } from "next-intl/server"
 import fetchCollection, {
   fetchAppOfTheDay,
   fetchAppsOfTheWeek,
@@ -9,7 +11,12 @@ import fetchCollection, {
   fetchGameUtilityCategory,
 } from "../../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT } from "../../src/env"
-import { MainCategory, SortBy } from "../../src/codegen"
+import { mapAppsIndexToAppstreamListItem } from "../../src/meilisearch"
+import {
+  MainCategory,
+  MeilisearchResponseAppsIndex,
+  SortBy,
+} from "../../src/codegen"
 import { formatISO } from "date-fns"
 import { DesktopAppstream } from "../../src/types/Appstream"
 import HomeClient from "./home-client"
