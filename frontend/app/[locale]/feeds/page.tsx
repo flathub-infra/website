@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server"
 import FeedsClient from "./feeds-client"
-import { Metadata } from "next"
+import { Metadata } from "next/dist/lib/metadata/types/metadata-interface"
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
