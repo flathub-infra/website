@@ -8,6 +8,7 @@ import { useState } from "react"
 import { HiMagnifyingGlass } from "react-icons/hi2"
 import { Input } from "../../../@/components/ui/input"
 import { Link } from "src/i18n/navigation"
+import { motion, LayoutGroup } from "framer-motion"
 
 interface Props {
   instructions: DistroSetup[]
@@ -57,59 +58,66 @@ export default function SetupClient({ instructions }: Props) {
     })
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-2">
-          <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
-        </div>
-        <Input
-          type="text"
-          placeholder={t("find-your-distribution")}
-          className={clsx("ps-9")}
-          onChange={(e) => setDistroFilter(e.target.value)}
-        />
-      </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {instructionsFilteredAndSorted.length === 0 && (
-          <div className="col-span-full text-center">
-            <p className="text-flathub-dark-gunmetal/50 dark:text-flathub-sonic-silver">
-              {t("no-results-found")}
-            </p>
+    <LayoutGroup>
+      <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <div className="relative">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-2">
+            <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
           </div>
-        )}
-        {instructionsFilteredAndSorted.map((instruction, index) => (
-          <Link
-            key={instruction.name}
-            href={`/setup/${encodeURIComponent(
-              instruction.slug ?? instruction.name,
-            )}`}
-            className={clsx(
-              "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
-              "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
-              "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
-              "px-8 py-6",
-            )}
-          >
-            <picture>
-              <source
-                srcSet={instruction.logo_dark}
-                media="(prefers-color-scheme: dark)"
-              />
-              <Image
-                className="size-24"
-                src={instruction.logo}
-                width={96}
-                height={96}
-                priority={index < 7}
-                alt={t(instruction.translatedNameKey)}
-              />
-            </picture>
-            <span className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-              {t(instruction.translatedNameKey)}
-            </span>
-          </Link>
-        ))}
+          <Input
+            type="text"
+            placeholder={t("find-your-distribution")}
+            className={clsx("ps-9")}
+            onChange={(e) => setDistroFilter(e.target.value)}
+          />
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {instructionsFilteredAndSorted.length === 0 && (
+            <div className="col-span-full text-center">
+              <p className="text-flathub-dark-gunmetal/50 dark:text-flathub-sonic-silver">
+                {t("no-results-found")}
+              </p>
+            </div>
+          )}
+          {instructionsFilteredAndSorted.map((instruction, index) => (
+            <Link
+              key={instruction.name}
+              href={`/setup/${encodeURIComponent(
+                instruction.slug ?? instruction.name,
+              )}`}
+              className={clsx(
+                "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
+                "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
+                "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
+                "px-8 py-6",
+              )}
+            >
+              <motion.picture
+                layoutId={`distro-logo-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
+              >
+                <source
+                  srcSet={instruction.logo_dark}
+                  media="(prefers-color-scheme: dark)"
+                />
+                <Image
+                  className="size-24"
+                  src={instruction.logo}
+                  width={96}
+                  height={96}
+                  priority={index < 7}
+                  alt={t(instruction.translatedNameKey)}
+                />
+              </motion.picture>
+              <motion.span
+                className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
+                layoutId={`distro-name-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
+              >
+                {t(instruction.translatedNameKey)}
+              </motion.span>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+    </LayoutGroup>
   )
 }
