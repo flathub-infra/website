@@ -10,12 +10,14 @@ import { cn } from "@/lib/utils"
 import FlathubListbox from "./FlathubListbox"
 
 const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
+  const layoutGroupId = `multi-toggle-${variant}-${size}`
+
   return (
-    <LayoutGroup id={Math.random().toString(36)}>
+    <LayoutGroup id={layoutGroupId}>
       <ul
         className={clsx(
           size === "sm" ? "flex" : "hidden md:flex",
-          "w-full cursor-pointer justify-around rounded-full",
+          "w-full cursor-pointer justify-around rounded-full overflow-visible",
           variant === "primary" &&
             "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
           variant === "secondary" &&
@@ -26,7 +28,10 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
         )}
       >
         {items.map((item) => (
-          <li key={item.id} className="relative z-10 mx-1 w-full truncate">
+          <li
+            key={item.id}
+            className="relative z-10 mx-1 w-full truncate overflow-visible"
+          >
             <button
               type="button" // If this isn't set to button, the button will submit the form
               onClick={item.onClick}
@@ -70,7 +75,12 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                   item.color,
                 )}
                 layoutId="tab"
-                layout="position"
+                initial={false}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                  damping: 30,
+                }}
               />
             )}
           </li>
