@@ -2,11 +2,11 @@
 
 import { useTranslations } from "next-intl"
 import { ReactElement } from "react"
-import Breadcrumbs from "../../../../../../src/components/Breadcrumbs"
-import TransactionDetails from "../../../../../../src/components/payment/transactions/TransactionDetails"
-import Spinner from "../../../../../../src/components/Spinner"
-import LoginGuard from "../../../../../../src/components/login/LoginGuard"
-import { useGetTransactionByIdWalletTransactionsTxnGet } from "../../../../../../src/codegen"
+import Breadcrumbs from "../../../../../src/components/Breadcrumbs"
+import TransactionDetails from "../../../../../src/components/payment/transactions/TransactionDetails"
+import Spinner from "../../../../../src/components/Spinner"
+import LoginGuard from "../../../../../src/components/login/LoginGuard"
+import { useGetTransactionByIdWalletTransactionsTxnGet } from "../../../../../src/codegen"
 
 interface Props {
   transactionId: string
