@@ -14,7 +14,7 @@
     "@hono/swagger-ui": "0.5.2",
     "@hono/zod-openapi": "^0.19.10",
     "@react-email/components": "0.5.1",
-    "@react-email/render": "1.2.1",
+    "@react-email/render": "1.2.2",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.1",
     "hono": "^4.9.6",
