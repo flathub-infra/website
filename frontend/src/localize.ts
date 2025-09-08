@@ -100,8 +100,6 @@ export type Language =
   | "fil"
   | "br"
 
-export const fontLanguageDenyList = ["ar", "fa"]
-
 export const languages: Language[] = [
   "en",
   "en-GB",
