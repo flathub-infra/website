@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from "date-fns"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import { FunctionComponent, useCallback, useState } from "react"
 import { getIntlLocale } from "../../localize"
 
@@ -9,8 +9,8 @@ import { clsx } from "clsx"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
+import { useRouter } from "next/router"
 import { UTCDate } from "@date-fns/utc"
-import { useRouter } from "src/i18n/navigation"
 
 interface Props {
   latestRelease: Release | null
@@ -53,7 +53,6 @@ const Releases: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const router = useRouter()
-  const locale = useLocale()
   const collapsedHeight = 46
   const [showCollapseButton, setShowCollapseButton] = useState(false)
 
@@ -94,7 +93,9 @@ const Releases: FunctionComponent<Props> = ({
                   {latestReleaseTimestamp && (
                     <div
                       className="text-sm"
-                      title={latestReleaseTimestamp.toLocaleString(locale)}
+                      title={latestReleaseTimestamp.toLocaleString(
+                        router.locale,
+                      )}
                     >
                       {formatDistanceToNow(latestReleaseTimestamp, {
                         addSuffix: true,
@@ -106,7 +107,7 @@ const Releases: FunctionComponent<Props> = ({
                       className="text-sm"
                       title={new UTCDate(
                         summary.timestamp * 1000,
-                      ).toLocaleDateString(getIntlLocale(locale))}
+                      ).toLocaleDateString(getIntlLocale(router.locale))}
                     >
                       (
                       {t("build-x", {

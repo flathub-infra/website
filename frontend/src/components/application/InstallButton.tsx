@@ -7,9 +7,10 @@ import {
 } from "@headlessui/react"
 import { HiChevronDown } from "react-icons/hi2"
 import { clsx } from "clsx"
-import { Link, useRouter } from "src/i18n/navigation"
+import Link from "next/link"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import CodeCopy from "./CodeCopy"
+import { useRouter } from "next/router"
 import { useTranslations } from "next-intl"
 
 export default function InstallButton({
@@ -27,7 +28,7 @@ export default function InstallButton({
   const installClicked = (e) => {
     e.preventDefault()
     trackEvent({ category: "App", action: "Install", name: appId })
-    push(`/apps/${appId}/install`)
+    push(`${appId}/install`)
   }
 
   const flatpakInstallCopied = () => {
@@ -109,7 +110,7 @@ export default function InstallButton({
   return (
     <div className="inline-flex w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
       <Link
-        href={`/apps/${appId}/install`}
+        href={`apps/${appId}/install`}
         onClick={installClicked}
         className={clsx(
           "hover:opacity-75 active:opacity-50",

@@ -6,11 +6,6 @@ import { VendingConfig, VendingSetup } from "../../../codegen/model"
 const meta = {
   component: PurchaseControls,
   title: "Components/Application/AppVendingControls/PurchaseControls",
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } satisfies Meta<typeof PurchaseControls>
 
 export default meta

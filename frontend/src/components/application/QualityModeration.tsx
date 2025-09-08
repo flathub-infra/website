@@ -23,8 +23,8 @@ import {
   useRequestReviewForAppQualityModerationAppIdRequestReviewPost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { ScanEyeIcon } from "lucide-react"
-import { Link } from "src/i18n/navigation"
 
 const QualityModerationStatusComponent = ({
   status,

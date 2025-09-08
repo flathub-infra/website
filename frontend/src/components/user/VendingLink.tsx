@@ -8,8 +8,8 @@ import {
   startOnboardingVendingStatusOnboardingPost,
   statusVendingStatusGet,
 } from "src/codegen"
+import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
-import { useRouter } from "src/i18n/navigation"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:
