@@ -1,5 +1,5 @@
 import i18next from "i18next"
-import { languages, fontLanguageDenyList, Language } from "src/localize"
+import { languages } from "src/localize"
 import satori from "satori"
 import { NextRequest } from "next/server"
 import { Resvg } from "@resvg/resvg-js"
@@ -39,18 +39,11 @@ export async function GET(request: NextRequest) {
   const light = searchParams.get("light") === "" || false
   const asSvg = searchParams.get("svg") === "" || false
 
-  // Fall back to English if the locale is in the deny list or not supported
-  const safeLocale =
-    fontLanguageDenyList.includes(locale) ||
-    !languages.includes(locale as Language)
-      ? "en"
-      : locale
-
   const flathubArray = getTranslationsForKey("flathub")
-  const flathub = flathubArray[safeLocale as string]
+  const flathub = flathubArray[locale as string]
 
   const getItOnArray = getTranslationsForKey("get-it-on")
-  const getItOn = getItOnArray[safeLocale as string].toUpperCase()
+  const getItOn = getItOnArray[locale as string].toUpperCase()
 
   const svg = await satori(
     <div
