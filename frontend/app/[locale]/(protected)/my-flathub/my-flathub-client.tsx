@@ -64,6 +64,7 @@ const MyFlathubClient = ({ locale }: MyFlathubClientProps): JSX.Element => {
             {!IS_PRODUCTION && (
               <>
                 <UserApps variant="owned" locale={locale} />
+                <FavoriteApps locale={locale} />
               </>
             )}
             {IS_PRODUCTION && (
