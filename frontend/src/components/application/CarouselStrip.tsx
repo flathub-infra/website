@@ -48,7 +48,6 @@ export const CarouselStrip = ({
       {slides && (
         <>
           <CarouselJsonLd
-            useAppDir={true}
             ofType="default"
             data={slides.map((slide) => {
               return { url: slide.src }

@@ -119,11 +119,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
   )
 }
 
-export default function DangerZoneControls({
-  app,
-}: {
-  app: Pick<Appstream, "id">
-}) {
+export default function DangerZoneControls({ app }: { app: { id: string } }) {
   const t = useTranslations()
 
   const query = useGetUploadTokensUploadTokensAppIdGet(

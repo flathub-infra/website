@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react"
 import { cn } from "@/lib/utils"
-import { Link } from "src/i18n/navigation"
 
 interface Props {
   children: React.ReactNode
@@ -19,7 +18,7 @@ const Tile: FunctionComponent<Props> = ({
   ref: React.RefObject<HTMLAnchorElement>
 }) => {
   return (
-    <Link
+    <a
       className={cn(
         "flex items-center justify-center break-words rounded-xl p-4 text-center duration-500",
         "bg-flathub-white text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic/70 dark:text-flathub-spanish-gray",
@@ -32,7 +31,7 @@ const Tile: FunctionComponent<Props> = ({
       ref={ref}
     >
       <span className="overflow-hidden">{children}</span>
-    </Link>
+    </a>
   )
 }
 

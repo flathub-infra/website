@@ -8,11 +8,6 @@ import { Summary } from "../../types/Summary"
 export default {
   title: "Components/Application/Details",
   component: Details,
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } as Meta<typeof Details>
 
 export const Generated = () => {

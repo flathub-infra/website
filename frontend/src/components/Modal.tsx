@@ -129,7 +129,7 @@ const Modal: FunctionComponent<Props> = ({
                         aria-label={submitButton.label ?? t("submit")}
                         disabled={submitButton.disabled}
                       >
-                        {submitButton.label ?? t("submit")}
+                        {t(submitButton.label ?? t("submit"))}
                       </Button>
                     )}
                     {cancelButton && (
@@ -141,7 +141,7 @@ const Modal: FunctionComponent<Props> = ({
                         aria-label={cancelButton.label ?? t("cancel")}
                         disabled={cancelButton.disabled}
                       >
-                        {cancelButton.label ?? t("cancel")}
+                        {t(cancelButton.label ?? t("cancel"))}
                       </Button>
                     )}
                   </div>

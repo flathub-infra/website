@@ -6,11 +6,6 @@ import { useArgs } from "storybook/internal/preview-api"
 const meta = {
   component: VendingSharesPreview,
   title: "Components/Application/AppVendingControls/VendingSharesPreview",
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
 } satisfies Meta<typeof VendingSharesPreview>
 
 export default meta

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table"
 import { UTCDate } from "@date-fns/utc"
 import { format } from "date-fns"
+import router from "next/router"
 
 import { formatCurrency } from "src/utils/localize"
 import { clsx } from "clsx"
@@ -17,11 +18,10 @@ import {
   HiChevronRight,
   HiExclamationTriangle,
 } from "react-icons/hi2"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import { TransactionSummary } from "src/codegen"
 import { Dispatch, SetStateAction } from "react"
 import { getIntlLocale } from "src/localize"
-import { useRouter } from "src/i18n/navigation"
 
 export const TransactionHistoryTable = ({
   transactions,
@@ -39,9 +39,7 @@ export const TransactionHistoryTable = ({
   setPage: Dispatch<SetStateAction<number>>
 }) => {
   const t = useTranslations()
-  const locale = useLocale()
-  const i18n = getIntlLocale(locale)
-  const router = useRouter()
+  const i18n = getIntlLocale(router.locale)
 
   function pageForward() {
     setPage(Math.min(page + 1, endPage ?? page + 1))

@@ -6,6 +6,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 import clsx from "clsx"
+import Link from "next/link"
 import { DesktopAppstream, pickScreenshotSize } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
@@ -17,9 +18,9 @@ import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
 import Autoplay, { AutoplayType } from "embla-carousel-autoplay"
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
+import { useRouter } from "next/router"
+import { getIntlLocale } from "src/localize"
 import { getLangDir } from "rtl-detect"
-import { useLocale } from "next-intl"
-import { Link } from "src/i18n/navigation"
 
 export const HeroBanner = ({
   heroBannerData,
@@ -40,7 +41,9 @@ export const HeroBanner = ({
   aboveTheFold?: boolean
   forceTheme?: "light" | "dark"
 }) => {
-  const locale = useLocale()
+  const router = useRouter()
+
+  const i18n = getIntlLocale(router.locale)
 
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
@@ -79,7 +82,7 @@ export const HeroBanner = ({
     })
   }, [api, currentIndex])
 
-  const direction = getLangDir(locale) ?? "ltr"
+  const direction = getLangDir(router.locale) ?? "ltr"
 
   return (
     <Carousel

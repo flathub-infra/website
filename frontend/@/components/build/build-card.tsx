@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button"
 import { Clock, Flag, PackageCheck, PlayCircle, PlusCircle } from "lucide-react"
 import { formatDistance, formatDistanceToNow } from "date-fns"
 import { PipelineSummary } from "src/codegen-pipeline"
+import Link from "next/link"
 import { BuildStatus as BuildStatus } from "./build-status"
 import { UTCDate } from "@date-fns/utc"
-import { Link } from "src/i18n/navigation"
 
 interface PipelineCardProps {
   pipelineSummary: PipelineSummary

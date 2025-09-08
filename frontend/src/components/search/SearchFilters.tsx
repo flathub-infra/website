@@ -382,7 +382,7 @@ const SearchFilterArches = ({
           (arch) => (
             <FilterFacette
               key={arch}
-              label={arch}
+              label={t(arch)}
               count={results?.data.data.facetDistribution?.arches[arch]}
               checked={selectedFilters.some(
                 (filter) =>

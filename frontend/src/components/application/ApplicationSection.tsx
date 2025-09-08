@@ -5,8 +5,8 @@ import { AppstreamListItem } from "../../types/Appstream"
 import { ApplicationCard, ApplicationCardSkeleton } from "./ApplicationCard"
 import clsx from "clsx"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { Link } from "src/i18n/navigation"
 
 interface PropsWithTitle {
   type: "withTitle"

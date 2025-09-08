@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import Badge from "./Badge"
-import { Link } from "src/i18n/navigation"
+import Link from "next/link"
 
 interface Props {
   keywords: string[]
