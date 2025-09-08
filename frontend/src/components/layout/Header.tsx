@@ -338,7 +338,7 @@ const Header = () => {
                     } else {
                       return (
                         <Link
-                          href={item.href}
+                          href={item.href as any}
                           key={item.name}
                           className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
@@ -387,7 +387,7 @@ const Header = () => {
                               <MenuItem key={item.name}>
                                 {({ focus }) => (
                                   <Link
-                                    href={item.href}
+                                    href={item.href as any}
                                     className={clsx(
                                       focus
                                         ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
@@ -449,7 +449,7 @@ const Header = () => {
                       } else {
                         return (
                           <Link
-                            href={item.href}
+                            href={item.href as any}
                             key={item.name}
                             onClick={() => {
                               navigation.forEach((nav) => {
@@ -515,7 +515,7 @@ const Header = () => {
                           .map((item) => (
                             <Link
                               key={item.name}
-                              href={item.href}
+                              href={item.href as any}
                               className="block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
                               onClick={() => {
                                 close()
