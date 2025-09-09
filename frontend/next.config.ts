@@ -143,48 +143,54 @@ const nextConfig = (phase) => ({
         permanent: false,
       },
       {
+        source: "/:locale/apps/:path*/flatpakhttps",
+        destination:
+          "flatpak+https://dl.flathub.org/repo/appstream/:path*.flatpakref",
+        permanent: false,
+      },
+      {
         source: "/apps/details/:path*",
-        destination: "/apps/:path*",
+        destination: "/en/apps/:path*",
         permanent: true,
       },
       {
         source: "/apps/collection/verified",
-        destination: "/apps/collection/verified/1",
+        destination: "/en/apps/collection/verified/1",
         permanent: true,
       },
       {
         source: "/apps/collection/recently-updated",
-        destination: "/apps/collection/recently-updated/1",
+        destination: "/en/apps/collection/recently-updated/1",
         permanent: true,
       },
       {
         source: "/apps/collection/recently-added",
-        destination: "/apps/collection/recently-added/1",
+        destination: "/en/apps/collection/recently-added/1",
         permanent: true,
       },
       {
         source: "/apps/collection/popular",
-        destination: "/apps/collection/popular/1",
+        destination: "/en/apps/collection/popular/1",
         permanent: true,
       },
       {
         source: "/apps/collection/trending",
-        destination: "/apps/collection/trending/1",
+        destination: "/en/apps/collection/trending/1",
         permanent: true,
       },
       {
         source: "/apps/collection/mobile",
-        destination: "/apps/collection/mobile/1",
+        destination: "/en/apps/collection/mobile/1",
         permanent: true,
       },
       {
         source: "/pipelines",
-        destination: "/builds",
+        destination: "/en/builds",
         permanent: true,
       },
       {
         source: "/pipelines/:buildId",
-        destination: "/builds/:buildId",
+        destination: "/en/builds/:buildId",
         permanent: true,
       },
     ]
