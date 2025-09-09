@@ -125,7 +125,6 @@
   "error-already-logged-in": "Wybrane konto jest już zalogowane.",
   "app-logo": "Logo {app_name}",
   "user-wallet": "Portfel użytkownika",
-  "flathub-statistics": "Statystyki Flathub",
   "count-downloads": "Wszystkie pobrania",
   "since": "Od momentu",
   "downloads-per-country": "Pobrania według kraju",
@@ -489,7 +488,8 @@
     "problems": "Jeśli chcesz zapytać nas o konkretne problemy związane z wytycznymi dotyczącymi jakości, możesz śmiało otworzyć <link>zgłoszenie</link>.",
     "light": "Jasny",
     "dark": "Ciemny",
-    "failing-x-checks": "{count, plural, one {Nieudany # test} many {Nieudanych # testów} other {Nieudane # testy}}"
+    "failing-x-checks": "{count, plural, one {Nieudany # test} many {Nieudanych # testów} other {Nieudane # testy}}",
+    "general-runtime-not-eol": "Środowisko uruchomieniowe nie jest wycofane"
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",
@@ -664,5 +664,9 @@
   },
   "country-statistics": "Statystyki dotyczące krajów",
   "since-x": "Od {date}",
-  "count": "Liczba"
+  "count": "Liczba",
+  "socket-may-allow-extra-permissions": "Używa gniazda, które umożliwia uzyskanie dodatkowych uprawnień",
+  "uses-privileged-socket": "Używa uprzywilejowanego gniazda",
+  "uses-non-portal-service": "Korzysta z usług niebędących portalami",
+  "can-talk-to-non-portal-service": "Może żądać danych z usług niebędących portalami i uzyskiwać dodatkowe uprawnienia"
 }

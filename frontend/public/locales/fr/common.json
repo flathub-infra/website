@@ -43,7 +43,6 @@
   "loading-user-apps": "Chargement des apps utilisateur…",
   "authored-apps": "Vos apps",
   "app-logo": "Logo de {app_name}",
-  "flathub-statistics": "Statistiques de Flathub",
   "count-downloads": "Nombre total de téléchargements",
   "since": "Depuis",
   "downloads-per-country": "Téléchargements par pays",
@@ -489,9 +488,10 @@
     "branding-good-primary-brand-colors": "Couleurs de marque principales bien choisies",
     "light": "Clair",
     "dark": "Sombre",
-    "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}"
+    "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}",
+    "general-runtime-not-eol": "Environnement d'exécution sous prise en charge"
   },
-  "app-listing-quality": "Qualité de référencement de l'app",
+  "app-listing-quality": "Qualité de référencement de l'application",
   "issued-to": "Délivré à",
   "moderation-build-id": "ID de build",
   "id": "ID",
@@ -664,5 +664,9 @@
   },
   "since-x": "Depuis {date}",
   "country-statistics": "Statistiques par pays",
-  "count": "Total"
+  "count": "Total",
+  "socket-may-allow-extra-permissions": "Utilise un socket permettant d'obtenir des autorisations supplémentaires",
+  "uses-privileged-socket": "Utilise un socket privilégié",
+  "uses-non-portal-service": "Utilise des services hors portail",
+  "can-talk-to-non-portal-service": "Peut demander des données à des services hors portail et obtenir des autorisations supplémentaires"
 }

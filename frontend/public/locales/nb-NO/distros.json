@@ -77,7 +77,8 @@
     "introduction": "<text>Flathub applikasjoner kan installeres på ChromeOS med Crostini Linux kompatiblitetsnivået. Dette er ikke tilgjengelig for alle ChromeOS enheter så du burde passe på at enheten din er kompatibel før du fortsetter. En liste med kompatible enheter er velikeholdt <link>her</link>.</text>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Flatpak er forhåndsinstallert på Red Hat Enterprise Linux Workstation 9 og nyere som standard. For å komme i gang, trenger du bare å skru på Flathub, som er den beste måten å få tak i Flatpak-apper. Bare last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink>.</text> <text>For å installere Flatpak på Red Hat Enterprise Linux Workstation 8 og eldre, kjør følgende kommando i et terminalvindu:</text>  <code></code> <text>Da trenger du bare å <link>installere apper</link>!</text> <text>Lenkene over burde fungere på vanlige Red Hat Enterprise Linux Workstation 9-installasjoner, men hvis de mislykkes av en eller annen grunn, kan du legge til Flathub manuelt ved å kjøre følgende:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -111,14 +112,20 @@
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>En flatpak-pakke er tilgjengelig i Debian 10 (Buster) og nyere. For å installere det, gjør følgende kommando som root:</text> <code></code>"
     },
     "step-3": {
-      "name": "Legg til Flathub-pakkebrønnen"
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende kommando i et terminalvindu:</text> <code></code>"
     },
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Etter det trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-2": {
+      "name": "Installer Software Flatpak-utvidelsen",
+      "text": "<text>Hvis du bruker GNOME, er det også lurt å installere Flatpak-utvidelsen til GNOME Software. For å gjøre dette kjør følgende kommando:</text> <code></code> <text>Hvis du bruker KDE, burde du heller installere Plasma Discover Flatpak backend:</text> <codeDiscover></codeDiscover>"
     }
   },
   "rocky_linux": {
@@ -128,6 +135,10 @@
     },
     "step-3": {
       "name": "Start på nytt"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende kommando i et terminalvindu:</text> <code></code>"
     }
   },
   "centos": {
@@ -137,19 +148,48 @@
     "distroName": "AlmaLinux"
   },
   "gentoo": {
-    "distroName": "Gentoo"
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Gentoo, åpne terminalappen og kjør følgende kommando:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, kjør følgende kommando:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Start på nytt"
+    }
   },
   "kubuntu": {
-    "distroName": "Kubuntu"
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Legg til Flathub-pakkebrønnen"
+    },
+    "step-4": {
+      "name": "Start på nytt"
+    }
   },
   "solus": {
-    "distroName": "Solus"
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "alpine": {
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "mageia": {
-    "distroName": "Mageia"
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx"
@@ -161,13 +201,22 @@
     "distroName": "elementary OS"
   },
   "raspberry_pi_os": {
-    "distroName": "Raspberry Pi OS"
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "void_linux": {
-    "distroName": "Void Linux"
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "nixos": {
-    "distroName": "NixOS"
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "pureos": {
     "distroName": "PureOS"
@@ -176,28 +225,46 @@
     "distroName": "Zorin OS"
   },
   "deepin": {
-    "distroName": "Deepin"
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "pardus": {
-    "distroName": "Pardus"
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "mx_linux": {
     "distroName": "MX Linux"
   },
   "pisi_gnulinux": {
-    "distroName": "Pisi GNU/Linux"
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "endeavouros": {
-    "distroName": "EndeavourOS"
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "kde_neon": {
     "distroName": "KDE neon"
   },
   "gnu_guix": {
-    "distroName": "GNU Guix"
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "crystal_linux": {
-    "distroName": "Crystal Linux"
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Installer Flatpak"
+    }
   },
   "vanilla_os": {
     "distroName": "Vanilla OS"
