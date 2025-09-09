@@ -270,6 +270,11 @@ export default {
         icon: getLanguageFlag("pt-BR"),
         right: "pt-BR",
       },
+      bg: {
+        title: getLanguageName("bg"),
+        icon: getLanguageFlag("bg"),
+        right: "bg",
+      },
       zh_Hans: {
         title: getLanguageName("zh-Hans"),
         icon: getLanguageFlag("zh-Hans"),
