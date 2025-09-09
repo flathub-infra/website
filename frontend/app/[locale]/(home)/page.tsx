@@ -7,12 +7,12 @@ import fetchCollection, {
   fetchGameEmulatorCategory,
   fetchGamePackageManagerCategory,
   fetchGameUtilityCategory,
-} from "../../src/fetchers"
-import { APPS_IN_PREVIEW_COUNT } from "../../src/env"
-import { MainCategory, SortBy } from "../../src/codegen"
+} from "../../../src/fetchers"
+import { APPS_IN_PREVIEW_COUNT } from "../../../src/env"
+import { MainCategory, SortBy } from "../../../src/codegen"
 import { formatISO } from "date-fns"
-import { DesktopAppstream } from "../../src/types/Appstream"
-import HomeClient from "./home-client"
+import { DesktopAppstream } from "../../../src/types/Appstream"
+import HomeClient from "../home-client"
 import { unstable_cache } from "next/cache"
 import { setRequestLocale } from "next-intl/server"
 
