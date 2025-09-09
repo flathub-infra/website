@@ -74,7 +74,6 @@ export default async function middleware(request: NextRequest) {
 
   // Add pathname as header for metadata generation
   const response = intlResponse || NextResponse.next()
-  response.headers.set("x-pathname", pathname)
 
   return response
 }

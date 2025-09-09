@@ -32,11 +32,7 @@ export async function generateMetadata({
   const { locale } = await params
   const t = await getTranslations({ locale })
 
-  // Get the current pathname from headers
-  const headersList = await headers()
-  const pathname = headersList.get("x-pathname") || ""
-
-  const url = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${pathname}`
+  // const url = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${pathname}`
 
   return {
     metadataBase: new URL(
@@ -73,19 +69,19 @@ export async function generateMetadata({
             // Extract the base path after removing the locale prefix
             let basePath = ""
 
-            if (pathname.startsWith(`/${locale}/`)) {
-              // Case: /de/feeds -> feeds
-              basePath = pathname.slice(locale.length + 2)
-            } else if (pathname === `/${locale}` || pathname === "/") {
-              // Case: /de or / (index page) -> empty
-              basePath = ""
-            } else if (pathname.startsWith("/")) {
-              // Case: /feeds (no locale prefix) -> feeds
-              basePath = pathname.slice(1)
-            } else {
-              // Case: feeds (no leading slash) -> feeds
-              basePath = pathname
-            }
+            // if (pathname.startsWith(`/${locale}/`)) {
+            //   // Case: /de/feeds -> feeds
+            //   basePath = pathname.slice(locale.length + 2)
+            // } else if (pathname === `/${locale}` || pathname === "/") {
+            //   // Case: /de or / (index page) -> empty
+            //   basePath = ""
+            // } else if (pathname.startsWith("/")) {
+            //   // Case: /feeds (no locale prefix) -> feeds
+            //   basePath = pathname.slice(1)
+            // } else {
+            //   // Case: feeds (no leading slash) -> feeds
+            //   basePath = pathname
+            // }
 
             // Build the localized URL
             if (basePath) {
@@ -105,7 +101,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website",
       locale: bcpToPosixLocale(locale),
-      url,
+      // url,
       siteName: t("flathub-apps-for-linux"),
       images: [
         {
