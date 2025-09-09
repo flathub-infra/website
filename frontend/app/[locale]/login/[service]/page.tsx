@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
+import { Suspense } from "react"
 import { getLoginMethodsAuthLoginGet } from "../../../../src/codegen"
 import LoginServiceClient from "./login-service-client"
 
@@ -34,7 +35,11 @@ export default async function LoginServicePage() {
     const providers = await getLoginMethodsAuthLoginGet()
     const services = providers.data.map((d) => d.method)
 
-    return <LoginServiceClient services={services} />
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginServiceClient services={services} />
+      </Suspense>
+    )
   } catch (error) {
     notFound()
   }
