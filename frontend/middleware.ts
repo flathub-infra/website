@@ -53,8 +53,6 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Handle internationalization first
-  const intlMiddleware = createMiddleware(routing)
-  const intlResponse = intlMiddleware(request)
 
   // Then check authentication for protected routes
   if (isProtectedRoute(pathname)) {
@@ -72,13 +70,12 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  // Add pathname as header for metadata generation
-  const response = intlResponse || NextResponse.next()
-
-  return response
+  return createMiddleware(routing)(request) || NextResponse.next()
 }
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ["/", "/((?!api|_next|_vercel|.*\\..*).*)"],
+  // Match all pathnames except for
+  // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
+  // - … the ones containing a dot (e.g. `favicon.ico`)
+  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
 }
