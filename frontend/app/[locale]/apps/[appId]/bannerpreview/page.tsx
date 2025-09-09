@@ -9,7 +9,7 @@ import {
 import { DesktopAppstream } from "../../../../../src/types/Appstream"
 import BannerPreviewClient from "./bannerpreview-client"
 import { redirect } from "src/i18n/navigation"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
 interface Params {
   locale: string
@@ -20,10 +20,15 @@ interface Props {
   params: Promise<Params>
 }
 
+export async function generateStaticParams() {
+  // Return empty array to enable ISR for all appId combinations
+  return []
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, appId: rawAppId } = await params
 
-  const t = await getTranslations()
+  const t = await getTranslations({ locale })
 
   // Handle .flatpakref extension
   const isFlatpakref = rawAppId.endsWith(".flatpakref")
@@ -52,6 +57,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BannerPreviewPage({ params }: Props) {
   const { locale, appId: rawAppId } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
 
   console.log("Fetching data for app hero banner: ", rawAppId, locale)
 

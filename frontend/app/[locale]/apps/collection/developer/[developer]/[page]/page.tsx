@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { fetchDeveloperApps } from "../../../../../../../src/fetchers"
 import { Metadata } from "next"
 import DeveloperCollectionClient from "./developer-collection-client"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
 interface Props {
   params: Promise<{
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, developer } = await params
-  const t = await getTranslations()
+  const t = await getTranslations({ locale })
   const developerDecoded = decodeURIComponent(developer)
 
   return {
@@ -28,6 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DeveloperCollectionPage({ params }: Props) {
   const { locale, developer, page } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
   const pageNum = parseInt(page)
 
   if (isNaN(pageNum)) {

@@ -1,9 +1,16 @@
 import { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { useTranslations } from "next-intl"
+import { getTranslations, setRequestLocale } from "next-intl/server"
+import { use } from "react"
 import { Link } from "src/i18n/navigation"
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations()
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale })
 
   return {
     title: t("unauthorized"),
@@ -13,8 +20,17 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function UnauthorizedPage() {
-  const t = await getTranslations()
+export default async function UnauthorizedPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
+  const t = await getTranslations(locale)
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">

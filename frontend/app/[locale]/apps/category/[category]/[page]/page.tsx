@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import {
   fetchCategory,
   fetchGameCategory,
@@ -20,10 +20,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ category: string; page: string }>
+  params: Promise<{ category: string; page: string; locale: string }>
 }): Promise<Metadata> {
-  const { category: categoryParam } = await params
-  const t = await getTranslations()
+  const { category: categoryParam, locale } = await params
+  const t = await getTranslations({ locale })
 
   const category = stringToCategory(categoryParam)
   const title = category ? categoryToName(category, t) : categoryParam
@@ -39,6 +39,9 @@ export default async function CategoryPagePaginated({
   params: Promise<{ locale: string; category: string; page: string }>
 }) {
   const { locale, category: categoryParam, page: pageParam } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
 
   const category = stringToCategory(categoryParam)
   const page = parseInt(pageParam)

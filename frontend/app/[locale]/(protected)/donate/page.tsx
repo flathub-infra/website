@@ -1,9 +1,14 @@
 import { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import DonateClient from "./donate-client"
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations()
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale })
 
   return {
     title: t("donate-to", { project: "Flathub" }),
@@ -13,6 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function DonatePage() {
+export default async function DonatePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  // Enable static rendering
+  setRequestLocale(locale)
   return <DonateClient />
 }

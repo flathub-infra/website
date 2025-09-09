@@ -13,7 +13,7 @@ import {
   tryParseSubCategory,
 } from "../../../../../../../../src/types/Category"
 import SubcategoryPageClient from "./subcategory-page-client"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 
 interface Params {
   locale: string
@@ -31,9 +31,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { subcategory } = await params
+  const { subcategory, locale } = await params
 
-  const t = await getTranslations()
+  const t = await getTranslations({ locale })
   let subcategoryName =
     tryParseSubCategory(subcategory, t) ?? t(subcategory.toLowerCase())
 
@@ -44,6 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SubcategoryPage({ params }: Props) {
   const { locale, category, subcategory, page: pageParam } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
   const page = parseInt(pageParam, 10)
 
   if (isNaN(page) || page < 1) {
