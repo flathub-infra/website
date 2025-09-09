@@ -11,7 +11,6 @@
   "no-changelog-provided": "Регистърът на промените не е наличен",
   "proprietary": "Собственически",
   "unknown": "Неизвестно",
-  "flathub-statistics": "Статистика на „Flathub“",
   "home": "Начало",
   "downloads-per-country": "Изтегляния по държава",
   "flathub-description": "Открийте и инсталирайте стотици приложения и игри за Линукс. Наслаждавайте се на приложенията „Firefox“, „Telegram“, „RetroArch“, „GIMP“ и много други!",
@@ -489,7 +488,8 @@
     "problems": "Ако имате въпроси, натиснете <link>тук</link>.",
     "light": "Светъл",
     "dark": "Тъмен",
-    "failing-x-checks": "{count, plural, one {# неуспешна проверка} other {# неуспешни проверки}}"
+    "failing-x-checks": "{count, plural, one {# неуспешна проверка} other {# неуспешни проверки}}",
+    "general-runtime-not-eol": "Средата за изпълнение не е с изтекъл експлоатационен живот"
   },
   "app-listing-quality": "Свойства на приложението",
   "moderation-build-id": "Идентификатор на компилацията",
@@ -664,5 +664,9 @@
   },
   "since-x": "От {date}",
   "country-statistics": "Статистика по държави",
-  "count": "Брой"
+  "count": "Брой",
+  "uses-privileged-socket": "Използва привилегировано гнездо",
+  "socket-may-allow-extra-permissions": "Използва гнездо, което позволява получаване на допълнителни разрешения",
+  "uses-non-portal-service": "Използва услуги, които са извън портала",
+  "can-talk-to-non-portal-service": "Може да изисква данни от услуги, които са извън портала и да получава допълнителни разрешения"
 }

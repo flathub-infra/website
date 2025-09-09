@@ -47,7 +47,6 @@
   "loading-user-apps": "Memuat aplikasi pengguna…",
   "authored-apps": "Aplikasi yang Ditulis",
   "app-logo": "Logo {app_name}",
-  "flathub-statistics": "Statistik Flathub",
   "count-downloads": "Jumlah unduhan",
   "since": "Sejak",
   "downloads-per-country": "Unduhan per Negara",
@@ -440,7 +439,9 @@
     "request-a-review-question": "Apakah Anda ingin meminta peninjauan?",
     "problems": "Jika Anda ingin bertanya kepada kami tentang masalah pedoman kualitas tertentu, silakan laporkan <link>masalah</link>.",
     "light": "Terang",
-    "dark": "Gelap"
+    "dark": "Gelap",
+    "general-runtime-not-eol": "Runtime belum mencapai akhir masa pakai",
+    "failing-x-checks": "Gagal {count, plural, one {# check} other {# checks}}"
   },
   "user-data-subfolder-x": "Subfolder data pengguna {folder}",
   "desktop-folder": "Folder desktop",
@@ -659,5 +660,13 @@
   "download": {
     "install-x": "Instal “{x}”",
     "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</support><listPrefix>Dalam hal itu, Anda dapat:</listPrefix><ol><li>Mengunduh <link>berkas .flatpakref</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk menginstal Flatpak</linkSetup></setupLine>"
-  }
+  },
+  "count": "Jumlah",
+  "country-statistics": "Statistik Negara",
+  "since-x": "Sejak {date}",
+  "docs-guidance": "<bold>Dokumen dan panduan yang jelas</bold> — <doclink>documentation</doclink> yang lengkap, ribuan <manifestlink>app manifests</manifestlink> publik, dan komunitas yang besar memastikan Anda selalu dapat memperoleh bantuan.",
+  "uses-privileged-socket": "Menggunakan soket khusus",
+  "uses-non-portal-service": "Menggunakan layanan non-portal",
+  "can-talk-to-non-portal-service": "Dapat meminta data dari layanan non-portal dan memperoleh izin tambahan",
+  "socket-may-allow-extra-permissions": "Menggunakan soket yang memungkinkan mendapatkan izin tambahan"
 }

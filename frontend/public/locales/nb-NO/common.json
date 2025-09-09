@@ -43,7 +43,6 @@
   "loading-user-apps": "Laster inn apper…",
   "authored-apps": "Selvutviklede apper",
   "app-logo": "{app_name} Logo",
-  "flathub-statistics": "Flathub-statistikk",
   "count-downloads": "Nedlastinger",
   "since": "Siden",
   "downloads-per-country": "Nedlastinger globalt",
@@ -353,7 +352,9 @@
     "request-review": "Be om kontroll",
     "problems": "Hvis du har spørsmål om spesifikke retningslinjer, åpne gjerne en <link>sak</link> i arbeidsområdet vårt.",
     "light": "Lys",
-    "dark": "Mørk"
+    "dark": "Mørk",
+    "failing-x-checks": "Mislykkede {count, plural, one {# check} other {# checks}}",
+    "general-runtime-not-eol": "Base er ikke utløpt"
   },
   "updated-apps": "Oppdaterte apper",
   "stripe-error-payment_intent_authentication_failure": "Autentisering av betalingsmåte mislyktes. Velg en annen betalingsmåte og prøv igjen.",
@@ -661,6 +662,11 @@
   "country-statistics": "Statistikk per land",
   "since-x": "Siden {date}",
   "download": {
-    "install-x": "Installer «{x}»"
-  }
+    "install-x": "Installer «{x}»",
+    "fallback-instructions": "<opening>«{name}» skal åpnes i programvarebehandleren din…</opening><support>Hvis ingenting skjer, kan det hende at systemet ditt ikke støtter <i>flatpak+https</i> URL-er.</support><listPrefix>I det tilfellet kan du</listPrefix><ol><li>Laste ned <link>.flatpakref-filen</link></li><li>Deretter kjøre den fra filprogrammet ditt</li></ol><setupLine><linkSetup>Instruksjoner om hvordan man installerer Flatpak</linkSetup></setupLine>"
+  },
+  "uses-privileged-socket": "Bruker en privilegert socket",
+  "socket-may-allow-extra-permissions": "Bruker en socket som gjør det mulig å få flere rettigheter",
+  "uses-non-portal-service": "Bruker tjenester utenom portaler",
+  "can-talk-to-non-portal-service": "Kan forespørre data fra tjenester utenom portaler og få flere rettigheter"
 }

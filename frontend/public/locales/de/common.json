@@ -44,7 +44,6 @@
   "loading-user-apps": "Lade Benutzer-Apps…",
   "authored-apps": "Erstellte Apps",
   "app-logo": "{app_name}-Logo",
-  "flathub-statistics": "Flathub-Statistiken",
   "count-downloads": "Gesamt-Downloads",
   "since": "Seit",
   "downloads-per-country": "Downloads pro Land",
@@ -488,7 +487,8 @@
     "branding": "Branding",
     "problems": "Wenn du uns Fragen zu bestimmten Qualitätsrichtlinienproblemen stellen möchtest, öffne bitte <link>ein Issue</link>.",
     "light": "Hell",
-    "dark": "Dunkel"
+    "dark": "Dunkel",
+    "general-runtime-not-eol": "Laufzeit nicht am Ende der Lebensdauer"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build-ID",
@@ -663,5 +663,6 @@
   },
   "country-statistics": "Länderstatistik",
   "since-x": "Seit {date}",
-  "count": "Anzahl"
+  "count": "Anzahl",
+  "uses-privileged-socket": "Verwendet einen privilegierten Socket"
 }

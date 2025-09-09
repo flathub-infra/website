@@ -35,7 +35,6 @@
   "log-out": "Adiaŭi",
   "network-error-try-again": "Okazis reta eraro. Reprovu.",
   "proprietary": "Proprietaj",
-  "flathub-statistics": "Statistikoj pri Flathub",
   "owned-apps": "Posedataj programoj",
   "loading-user-apps": "Ŝargante programojn de uzanto…",
   "count-downloads": "Nombro de elŝutoj",
@@ -485,7 +484,8 @@
     "problems": "Se vi volas pridemandi specifajn normojn pri kvalito, bonvolu raporti <link>problemon</link>.",
     "light": "Hela",
     "dark": "Malhela",
-    "failing-x-checks": "{count, plural, one {# kriterio} other {# kriterioj}} ne plenumiĝis"
+    "failing-x-checks": "{count, plural, one {# kriterio} other {# kriterioj}} ne plenumiĝis",
+    "general-runtime-not-eol": "Rultempa medio ne estas malaktuala"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
@@ -664,5 +664,9 @@
   },
   "count": "Kalkulo",
   "country-statistics": "Statistikoj pri landoj",
-  "since-x": "Ekde {date}"
+  "since-x": "Ekde {date}",
+  "uses-privileged-socket": "Uzas privilegian konektinterfacon",
+  "socket-may-allow-extra-permissions": "Uzas konektinterfacon ebligantan gajni ekstrajn permesojn",
+  "uses-non-portal-service": "Uzas neportalajn servojn",
+  "can-talk-to-non-portal-service": "Povas peti datenojn de neportalaj servoj kaj tiel gajni pliajn permesojn"
 }

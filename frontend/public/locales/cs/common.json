@@ -13,7 +13,6 @@
   "installs": "Nainstalováno",
   "unknown": "Neznámé",
   "proprietary": "Uzavřený software",
-  "flathub-statistics": "Statistiky Flathubu",
   "subscribe": "Odebírat",
   "rss-feeds-description": "Můžete začít odebírat naše RSS kanály a mít tak vždy nejnovější zprávy z Flathubu ve své RSS čtečce!",
   "home": "Domovská stránka",
@@ -489,7 +488,8 @@
     "problems": "Chcete-li se nás zeptat na konkrétní záležitosti zásad kvality, neváhejte a otevřete <link>problém</link>.",
     "light": "Světlý",
     "dark": "Tmavý",
-    "failing-x-checks": "Selhání {count, plural, one {# check} other {# checks}}"
+    "failing-x-checks": "Selhání {count, plural, one {# check} other {# checks}}",
+    "general-runtime-not-eol": "Běhové prostředí není na konci životnosti"
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
   "moderation-build-id": "ID sestavení",
@@ -664,5 +664,9 @@
   },
   "country-statistics": "Statistiky zemí",
   "since-x": "Od {date}",
-  "count": "Počet"
+  "count": "Počet",
+  "uses-privileged-socket": "Použití privilegovaného socketu",
+  "socket-may-allow-extra-permissions": "Použití socketu, který umožňuje udělit zvláštní oprávnění",
+  "uses-non-portal-service": "Používá služby mimo portál",
+  "can-talk-to-non-portal-service": "Může požadovat data ze služeb mimo portál a udělit dodatečná oprávnění"
 }

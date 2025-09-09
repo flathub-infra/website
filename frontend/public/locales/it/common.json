@@ -77,7 +77,6 @@
   "languages": "Lingue",
   "languages-description": "Seleziona una lingua per passare ad essa:",
   "switch-language": "Cambia Lingua",
-  "flathub-statistics": "Statistiche di Flathub",
   "count-downloads": "Download totali",
   "unknown": "Sconosciuto",
   "error-already-logged-in": "L'account selezionato è già connesso.",
@@ -400,7 +399,8 @@
     "review-requested": "Richiesta Revisione",
     "problems": "Se desideri porci domande su specifici problemi relativi alle linee guida sulla qualità, sentiti libero di aprire <link>un problema</link>.",
     "light": "Chiaro",
-    "dark": "Scuro"
+    "dark": "Scuro",
+    "general-runtime-not-eol": "Runtime non a fine vita"
   },
   "audio-video-editing": "Montaggio Audio e Video",
   "appname-is-safety-rating-1": "{appName} è sicuro",
@@ -663,5 +663,7 @@
   "download": {
     "install-x": "Installa “{x}”",
     "fallback-instructions": "<opening>Apertura di \"{name}\" nel tuo gestore software…</opening><support>Se non succede nulla, forse il tuo sistema non supporta gli URL <i>flatpak+https</i>.</support><listPrefix>In tal caso puoi:</listPrefix><ol><li>Scaricare il file <link>.flatpakref</link></li><li>Quindi eseguirlo dal tuo file manager</li></ol><setupLine><linkSetup>Istruzioni per installare Flatpak</linkSetup></setupLine>"
-  }
+  },
+  "uses-privileged-socket": "Utilizza un socket privilegiato",
+  "socket-may-allow-extra-permissions": "Utilizza un socket che consente di ottenere permessi extra"
 }

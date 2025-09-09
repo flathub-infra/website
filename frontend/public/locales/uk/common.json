@@ -41,7 +41,6 @@
   "terms-and-conditions-description": "Користуючись цим вебсайтом, ви погоджуєтеся з Умовами та положеннями.",
   "user-avatar": "Аватар {user}",
   "license": "Ліцензія",
-  "flathub-statistics": "Статистика Flathub",
   "since": "Починаючи з",
   "audio-and-video": "Аудіо та відео",
   "developer-tools": "Засоби розроблення",
@@ -489,7 +488,8 @@
     "problems": "Якщо ви хочете запитати нас про конкретні помилки настанов про якість, не соромтеся написати про <link>проблему</link>.",
     "light": "Світлий",
     "dark": "Темний",
-    "failing-x-checks": "Невдача {count, plural, one {# перевірити} other {# чеки}}"
+    "failing-x-checks": "Невдача {count, plural, one {# перевірити} other {# чеки}}",
+    "general-runtime-not-eol": "Час виконання, а не кінець терміну служби"
   },
   "app-listing-quality": "Якість запису про застосунок",
   "moderation-build-id": "ID збірки",
@@ -664,5 +664,9 @@
   },
   "country-statistics": "Статистика країни",
   "since-x": "З {date}",
-  "count": "Кількість"
+  "count": "Кількість",
+  "uses-privileged-socket": "Використовує привілейований сокет",
+  "socket-may-allow-extra-permissions": "Використовує сокет, який дозволяє отримати додаткові дозволи",
+  "uses-non-portal-service": "Використовує непортальні сервіси",
+  "can-talk-to-non-portal-service": "Може запитувати дані з непортальних служб та отримувати додаткові дозволи"
 }

@@ -1,7 +1,6 @@
 {
   "error-already-logged-in": "Tá an cuntas roghnaithe logáilte isteach cheana féin.",
   "failed-to-load-refresh": "Theip ar an acmhainn a luchtú. Bain triail as athnuachan.",
-  "flathub-statistics": "Staitisticí Flathub",
   "flathub-statistics-description": "Forbhreathnú ar úsáid agus dáileadh aipeanna atá ar fáil ar an ardán.",
   "since": "Ó shin",
   "retry-or-go-home": "Seans gur mhaith leat triail eile a bhaint as nó dul ar ais <link>abhaile</link>.",
@@ -143,7 +142,8 @@
     "problems": "Más mian leat ceist a chur orainn faoi fhadhbanna ar leith le treoirlínte cáilíochta, ná bíodh aon leisce ort <link>ceist a tharraingt anuas</link>.",
     "light": "Solas",
     "dark": "Dorcha",
-    "failing-x-checks": "Ag teip {count, plural, one {# sheiceáil} other {# seiceálacha}}"
+    "failing-x-checks": "Ag teip {count, plural, one {# sheiceáil} other {# seiceálacha}}",
+    "general-runtime-not-eol": "Ní deireadh saoil an t-am rithe"
   },
   "special-license-explanation": "Forbraítear an aip seo faoin gceadúnas speisialta <bold>{ license }</bold>.",
   "more-pages": "Tuilleadh leathanaigh",
@@ -664,5 +664,9 @@
   },
   "country-statistics": "Staitisticí Tíre",
   "since-x": "Ó {date}",
-  "count": "Áireamh"
+  "count": "Áireamh",
+  "uses-privileged-socket": "Úsáideann soicéad pribhléideach",
+  "socket-may-allow-extra-permissions": "Úsáideann sé soicéad a ligeann ceadanna breise a fháil",
+  "uses-non-portal-service": "Úsáideann seirbhísí neamh-thairseach",
+  "can-talk-to-non-portal-service": "Is féidir sonraí a iarraidh ó sheirbhísí neamh-thairseacha agus ceadanna breise a fháil"
 }

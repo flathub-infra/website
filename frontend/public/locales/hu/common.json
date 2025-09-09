@@ -42,7 +42,6 @@
   "owned-apps": "Felhasználó tulajdonában lévő alkalmazások",
   "app-logo": "{app_name} embléma",
   "user-wallet": "Felhasználói pénztárca",
-  "flathub-statistics": "Flathub-statisztika",
   "count-downloads": "Összes letöltés",
   "since": "Ettől kezdve",
   "downloads-per-country": "Letöltések országonként",
@@ -489,7 +488,8 @@
     "problems": "Ha konkrét minőségi irányelvvel kapcsolatos problémákról szeretne érdeklődni, nyisson meg egy <link>jegyet</link>.",
     "light": "Világos",
     "dark": "Sötét",
-    "failing-x-checks": "Sikertelen {count, plural, one {# ellenőrzés} other {# ellenőrzések}}"
+    "failing-x-checks": "Sikertelen {count, plural, one {# ellenőrzés} other {# ellenőrzések}}",
+    "general-runtime-not-eol": "A futtatókörnyezet nem elavult"
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító",
@@ -664,5 +664,9 @@
   },
   "country-statistics": "Országonkénti statisztika",
   "since-x": "Ettől: {date}",
-  "count": "Darab"
+  "count": "Darab",
+  "uses-privileged-socket": "Kiemelt jogosultságú socketet használ",
+  "uses-non-portal-service": "Nem portálalapú szolgáltatásokat használ",
+  "can-talk-to-non-portal-service": "Nem portálalapú szolgáltatásoktól kérhet adatokat, és további jogosultságokat szerezhet",
+  "socket-may-allow-extra-permissions": "Olyan socketet használ, amely további jogosultságok megszerzését teszi lehetővé"
 }

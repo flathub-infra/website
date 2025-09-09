@@ -24,7 +24,6 @@
   "owned-apps": "Apps in uw bezit",
   "app-logo": "Logo van {app_name}",
   "user-wallet": "Gebruikers­portemonnee",
-  "flathub-statistics": "Flathub-satistieken",
   "home": "Start",
   "subscribe": "Abonneren",
   "server-error": "Server­fout",
@@ -467,7 +466,8 @@
     "problems": "Als u ons vragen wilt stellen over specifieke problemen met de kwaliteits­richtlĳnen, kunt u gerust <link>een issue</link> openen.",
     "light": "Licht",
     "dark": "Donker",
-    "failing-x-checks": "{count, plural, one {# mislukte controle} other {# mislukte controles}}"
+    "failing-x-checks": "{count, plural, one {# mislukte controle} other {# mislukte controles}}",
+    "general-runtime-not-eol": "Runtime niet aan einde levensduur"
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -664,5 +664,9 @@
     "install-x": "‘{x}’ installeren",
     "fallback-instructions": "<opening>‘{name}’ wordt geopend in uw softwarebeheerder…</opening><support>Als er niets gebeurt, ondersteunt uw systeem mogelĳk geen <i>flatpak+https</i>-url's.</support><listPrefix>In dat geval kunt u:</listPrefix><ol><li>Het <link>.flatpakref-bestand downloaden</link></li><li>Deze vervolgens uitvoeren vanuit uw bestandsbeheerder</li></ol><setupLine><linkSetup>Instructies voor het installeren van Flatpak</linkSetup></setupLine>"
   },
-  "count": "Aantal"
+  "count": "Aantal",
+  "socket-may-allow-extra-permissions": "Gebruikt een socket waarmee extra rechten kunnen worden verkregen",
+  "uses-privileged-socket": "Gebruikt een bevoorrechte socket",
+  "uses-non-portal-service": "Maakt gebruik van niet-portaal­services",
+  "can-talk-to-non-portal-service": "Kan gegevens opvragen bĳ diensten die geen portals gebruiken en extra rechten verkrĳgen"
 }

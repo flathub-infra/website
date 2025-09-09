@@ -82,7 +82,6 @@
   "loading-user-apps": "正在載入使用者應用程式……",
   "since": "始於",
   "user-wallet": "使用者錢包",
-  "flathub-statistics": "Flathub 統計資料",
   "count-downloads": "總下載數",
   "rss-feeds-description": "您現在可以訂閱我們的 RSS feeds，以在您的 feed 閱讀程式中取得最新的 Flathub 好東西！",
   "official-badges": "Flathub 官方徽章",
@@ -489,7 +488,8 @@
     "problems": "若您想詢問我們具體的品質指引問題，請不吝開啟<link>問題</link>。",
     "light": "淺色",
     "dark": "深色",
-    "failing-x-checks": "{count, plural, one {# 次檢查} other {# 次檢查}}失敗"
+    "failing-x-checks": "{count, plural, one {# 次檢查} other {# 次檢查}}失敗",
+    "general-runtime-not-eol": "執行時期未達終止生命週期"
   },
   "app-listing-quality": "應用程式清單品質",
   "moderation-build-id": "建構 ID",
@@ -664,5 +664,9 @@
   },
   "country-statistics": "國家統計",
   "since-x": "從 {date} 開始",
-  "count": "數量"
+  "count": "數量",
+  "uses-privileged-socket": "使用特權插座",
+  "socket-may-allow-extra-permissions": "使用允許取得額外權限的插座",
+  "uses-non-portal-service": "使用 portal 服務",
+  "can-talk-to-non-portal-service": "可向非 portal 服務請求資料並取得額外權限"
 }

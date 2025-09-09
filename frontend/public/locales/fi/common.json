@@ -39,7 +39,6 @@
   "loading-user-apps": "Ladataan käyttäjäsovelluksia…",
   "authored-apps": "Laaditut sovellukset",
   "app-logo": "Sovelluksen {app_name} logo",
-  "flathub-statistics": "Flathub-tilastot",
   "count-downloads": "Latauksia yhteensä",
   "since": "Alkaen",
   "downloads-per-country": "Lataukset maittain",
