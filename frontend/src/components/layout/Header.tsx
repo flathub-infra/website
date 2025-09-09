@@ -1,10 +1,10 @@
 "use client"
 
-import { ChangeEvent, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter, usePathname, Link } from "../../i18n/navigation"
-import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
+import { HiXMark, HiBars3 } from "react-icons/hi2"
 import { useWindowSize } from "src/hooks/useWindowSize"
-import { OrganizationJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
+import { OrganizationJsonLd } from "next-seo"
 import { useTranslations, useLocale } from "next-intl"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
@@ -29,9 +29,8 @@ import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { AxiosError } from "axios"
 import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
-import Form from "next/form"
 import { getLangDir } from "rtl-detect"
-import { useSearchParams } from "next/navigation"
+import SearchBarWithSuspense from "./SearchBarWithSuspense"
 
 const navigation = [
   {
@@ -87,10 +86,8 @@ const Header = () => {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
   const user = useUserContext()
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
-  const [query, setQuery] = useState("")
   const size = useWindowSize()
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
@@ -146,26 +143,6 @@ const Header = () => {
   useEffect(() => {
     document.dir = getLangDir(locale)
   }, [locale])
-
-  useEffect(() => {
-    const q = searchParams.get("query")
-    if (q) {
-      setQuery(q)
-    }
-  }, [searchParams])
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    setQuery(e.target.value)
-  }
-
-  function onClickSearch(): void {
-    const disallowedQueries = [".", ".."]
-    if (!disallowedQueries.includes(query)) {
-      const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-      router.push(`/apps/search${queryEncoded ? `?q=${queryEncoded}` : ""}`)
-    }
-  }
 
   useEffect(() => {
     function focusSearchBar(e: KeyboardEvent) {
@@ -254,63 +231,7 @@ const Header = () => {
                 <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-4">
                   <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                     <div className="w-full xl:mx-auto xl:w-[400px]">
-                      <SiteLinksSearchBoxJsonLd
-                        useAppDir={true}
-                        url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
-                        potentialActions={[
-                          {
-                            target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q`,
-                            queryInput: "search_term_string",
-                          },
-                        ]}
-                      />
-                      <label htmlFor="search" className="sr-only">
-                        {t("search-apps")}
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 start-0 flex items-center ps-2">
-                          <button
-                            className="rounded-full p-1 hover:bg-flathub-gray-x11/50 dark:hover:bg-flathub-gainsborow/10"
-                            aria-hidden="true"
-                            tabIndex={-1}
-                            onClick={onClickSearch}
-                          >
-                            <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
-                          </button>
-                        </div>
-                        <Form
-                          action={"/apps/search"}
-                          id="search-form"
-                          role="search"
-                        >
-                          <input
-                            id="search"
-                            name="q"
-                            onChange={onChange}
-                            value={query}
-                            className={clsx(
-                              "peer",
-                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-granite-gray/70",
-                              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-hidden dark:placeholder-flathub-sonic-silver dark:focus:placeholder-flathub-spanish-gray dark:focus:outline-hidden",
-                              "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
-                              "dark:focus:text-white dark:focus:ring-flathub-gainsborow sm:text-sm",
-                              "pe-2",
-                            )}
-                            placeholder={t("search-apps")}
-                            type="search"
-                          />
-                          {!query && (
-                            <div className="pointer-events-none absolute inset-y-0 end-0 hidden items-center pe-5 peer-focus:hidden md:flex">
-                              <kbd
-                                className="flex size-5 items-center justify-center rounded border-2 border-flathub-gray-x11/60 font-sans text-xs text-flathub-arsenic dark:border-flathub-sonic-silver dark:text-flathub-gainsborow"
-                                aria-hidden="true"
-                              >
-                                /
-                              </kbd>
-                            </div>
-                          )}
-                        </Form>
-                      </div>
+                      <SearchBarWithSuspense />
                     </div>
                   </div>
                 </div>
