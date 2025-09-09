@@ -1,5 +1,4 @@
-import { useTranslations } from "next-intl"
-import Router, { useRouter } from "next/router"
+import { useLocale, useTranslations } from "next-intl"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
@@ -10,6 +9,7 @@ import { createTransactionWalletTransactionsPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { formatCurrency } from "src/utils/localize"
 import { getIntlLocale } from "src/localize"
+import { redirect } from "src/i18n/navigation"
 
 interface Props {
   org: string
@@ -17,8 +17,8 @@ interface Props {
 
 const DonationInput: FunctionComponent<Props> = ({ org }) => {
   const t = useTranslations()
-  const router = useRouter()
-  const i18n = getIntlLocale(router.locale)
+  const locale = useLocale()
+  const i18n = getIntlLocale(locale)
 
   const currency = "USD"
 
@@ -62,11 +62,9 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
 
   useEffect(() => {
     if (transaction) {
-      Router.push(`payment/${transaction}`, undefined, {
-        locale: Router.locale,
-      })
+      redirect({ href: `payment/${transaction}`, locale })
     }
-  }, [transaction])
+  }, [transaction, locale])
 
   if (submit) {
     return <Spinner size="l" />

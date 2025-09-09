@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
 import { clsx } from "clsx"
 import { HiEllipsisHorizontal } from "react-icons/hi2"
 import { useTranslations } from "next-intl"
+import { Link, usePathname } from "src/i18n/navigation"
 
 interface Props {
   currentPage: number
@@ -16,8 +15,8 @@ const Pagination: FunctionComponent<Props> = ({
   pages,
   onClick,
 }) => {
-  const router = useRouter()
   const t = useTranslations()
+  const pathname = usePathname()
 
   if (pages.length < 2) {
     return null
@@ -64,11 +63,10 @@ const Pagination: FunctionComponent<Props> = ({
               {!onClick && (
                 <Link
                   href={{
-                    pathname: router.pathname,
-                    query: {
-                      ...router.query,
-                      page: curr.toString(),
-                    },
+                    pathname:
+                      pathname?.split("/").slice(0, -1).join("/") +
+                      "/" +
+                      curr.toString(),
                   }}
                   aria-current={isActive ? "page" : undefined}
                   className={clsx(
