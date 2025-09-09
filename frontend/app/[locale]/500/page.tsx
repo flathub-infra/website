@@ -2,12 +2,7 @@ import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import ServerErrorClient from "./server-error-client"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
-  const { locale } = await params
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
   return {

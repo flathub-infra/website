@@ -20,11 +20,7 @@ type DocusaurusFeed = {
   }[]
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
   return {

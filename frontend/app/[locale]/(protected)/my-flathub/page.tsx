@@ -2,11 +2,7 @@ import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import MyFlathubClient from "./my-flathub-client"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
   return {
