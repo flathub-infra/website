@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, Suspense } from "react"
 
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import Header from "./Header"
@@ -33,7 +33,13 @@ const Main = ({ children }: { children: React.ReactNode }) => {
     <div
       className={`flex min-h-screen flex-col bg-flathub-lotion dark:bg-flathub-dark-gunmetal`}
     >
-      <Header />
+      <Suspense
+        fallback={
+          <div className="h-[68px] bg-flathub-white dark:bg-flathub-dark-gunmetal"></div>
+        }
+      >
+        <Header />
+      </Suspense>
 
       <main className="pt-[68px]">{children}</main>
 

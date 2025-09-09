@@ -14,6 +14,7 @@ import { formatISO } from "date-fns"
 import { DesktopAppstream } from "../../src/types/Appstream"
 import HomeClient from "./home-client"
 import { unstable_cache } from "next/cache"
+import { setRequestLocale } from "next-intl/server"
 
 const categoryOrder = [
   MainCategory.office,
@@ -128,6 +129,10 @@ export default async function HomePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
   const currentDate = formatISO(new Date(), { representation: "date" })
 
   // Fetch all data in parallel using cached functions

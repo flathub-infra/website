@@ -1,18 +1,19 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import {
   getRuntimeListRuntimesGet,
   getStatsStatsGet,
 } from "../../../src/codegen"
 import StatisticsClient from "./statistics-client"
 
-export async function generateStaticParams() {
-  return []
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations()
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale })
 
   return {
     title: t("statistics"),
@@ -26,6 +27,9 @@ export default async function StatisticsPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
 
   try {
     const [statsResponse, runtimesResponse] = await Promise.all([

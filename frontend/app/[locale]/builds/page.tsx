@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { setRequestLocale } from "next-intl/server"
 import BuildsClient from "./builds-client"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -8,6 +9,15 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function BuildsPage() {
+export default async function BuildsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
   return <BuildsClient />
 }

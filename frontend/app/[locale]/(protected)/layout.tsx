@@ -1,6 +1,9 @@
 import { ReactNode } from "react"
 import ProtectedLayoutClient from "./protected-layout-client"
 
+// This page uses dynamic redirects and should not be statically generated
+export const dynamic = "force-dynamic"
+
 export default async function ProtectedLayout({
   children,
 }: {
