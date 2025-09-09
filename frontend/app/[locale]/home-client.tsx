@@ -25,7 +25,7 @@ import { ApplicationSectionGradient } from "../../src/components/application/App
 import { GameControllersLogo } from "../../src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "../../src/components/application/ApplicationSectionGradientMultiToggle"
 import type { JSX } from "react"
-import { Link, useRouter } from "src/i18n/navigation"
+import { Link } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 
 interface HomeClientProps {
@@ -183,7 +183,6 @@ const TopSection = memo(
     }[]
   }) => {
     const t = useTranslations()
-    const router = useRouter()
     const searchParams = useSearchParams()
 
     const [selectedName, setSelectedName] = useState<string>(topApps[0].name)
@@ -210,12 +209,13 @@ const TopSection = memo(
       (app: (typeof topApps)[0]) => {
         setSelectedName(app.name)
         setSelectedApps(app)
-        // Update URL without page reload using app router navigation
-        const url = new URL(window.location.href)
-        url.searchParams.set("category", app.name)
-        router.replace(url.search, { scroll: false })
+        // Update URL without triggering any navigation using History API
+        const params = new URLSearchParams(searchParams.toString())
+        params.set("category", app.name)
+        const newUrl = `${window.location.pathname}?${params.toString()}`
+        window.history.replaceState(null, "", newUrl)
       },
-      [router],
+      [searchParams],
     )
 
     const toggleItems = useMemo(
