@@ -86,7 +86,7 @@ const AppDetailClient = ({
   if (eolMessage) {
     return (
       <>
-        <meta name="robots" content="noindex" />
+        {/* <meta name="robots" content="noindex" /> */}
         <EolMessageDetails message={eolMessage} />
       </>
     )
