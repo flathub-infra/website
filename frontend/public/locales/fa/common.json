@@ -626,7 +626,7 @@
   "invite-not-found-description": "دعوتی که تلاش دارید پذیره یا رد کنید وجود ندارد. ممکن است لغو یا رد شده باشد.",
   "docs-guidance": "<text>مستندات و رهنمودهای سرراست</text> — <doclink>مستندات</doclink> گسترده، هزاران <manifestlink>بیانیهٔ کاره</manifestlink> و اجتماعی بزرگ که یعنی همواره می‌توانید کمک بگیرید",
   "login-provider-verification-instruction": "تلاش می‌کنیم دسترسیتان به کاره را با ورود به عنوان <loginname></loginname> در حسابتان روی <loginprovider></loginprovider> تأیید کنیم",
-  "transparent": "<text>مستقل و شفّاف</text> — ما اجتماع نرم‌افزار آزادی مردمی هستیم که بهترین آن‌چه را که این زیست‌بوم در چنته دارد ارائه می‌دهیم",
+  "transparent": "<bold>مستقل و شفّاف</bold> — ما اجتماع نرم‌افزار آزادی مردمی هستیم که بهترین آن‌چه را که این زیست‌بوم در چنته دارد ارائه می‌دهیم",
   "login-provider-verification-enable-github-app": "فلت‌هاب برای ادامهٔ تأیید نیازمند اجازهٔ خواندن سطح عضویتتان در سازمان <orgname></orgname> است. می‌توانید این اجازه را در <settingslink>در تنظیمات گیت‌هابتان</settingslink> اعطا کنید.",
   "vendingSharesPreview": {
     "app": "کاره",
