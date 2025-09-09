@@ -8,7 +8,7 @@ import { useState } from "react"
 import { HiMagnifyingGlass } from "react-icons/hi2"
 import { Input } from "../../../@/components/ui/input"
 import { Link } from "src/i18n/navigation"
-import { motion, LayoutGroup } from "framer-motion"
+import { motion, LayoutGroup, AnimatePresence } from "framer-motion"
 
 interface Props {
   instructions: DistroSetup[]
@@ -79,43 +79,57 @@ export default function SetupClient({ instructions }: Props) {
               </p>
             </div>
           )}
-          {instructionsFilteredAndSorted.map((instruction, index) => (
-            <Link
-              key={instruction.name}
-              href={`/setup/${encodeURIComponent(
-                instruction.slug ?? instruction.name,
-              )}`}
-              className={clsx(
-                "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
-                "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
-                "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
-                "px-8 py-6",
-              )}
-            >
-              <motion.picture
-                layoutId={`distro-logo-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
+          <AnimatePresence mode="popLayout">
+            {instructionsFilteredAndSorted.map((instruction, index) => (
+              <motion.div
+                key={instruction.name}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeInOut",
+                  layout: { duration: 0.3, ease: "easeInOut" },
+                }}
               >
-                <source
-                  srcSet={instruction.logo_dark}
-                  media="(prefers-color-scheme: dark)"
-                />
-                <Image
-                  className="size-24"
-                  src={instruction.logo}
-                  width={96}
-                  height={96}
-                  priority={index < 7}
-                  alt={t(instruction.translatedNameKey)}
-                />
-              </motion.picture>
-              <motion.span
-                className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
-                layoutId={`distro-name-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
-              >
-                {t(instruction.translatedNameKey)}
-              </motion.span>
-            </Link>
-          ))}
+                <Link
+                  href={`/setup/${encodeURIComponent(
+                    instruction.slug ?? instruction.name,
+                  )}`}
+                  className={clsx(
+                    "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
+                    "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
+                    "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
+                    "px-8 py-6",
+                  )}
+                >
+                  <motion.picture
+                    layoutId={`distro-logo-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
+                  >
+                    <source
+                      srcSet={instruction.logo_dark}
+                      media="(prefers-color-scheme: dark)"
+                    />
+                    <Image
+                      className="size-24"
+                      src={instruction.logo}
+                      width={96}
+                      height={96}
+                      priority={index < 7}
+                      alt={t(instruction.translatedNameKey)}
+                    />
+                  </motion.picture>
+                  <motion.span
+                    className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
+                    layoutId={`distro-name-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
+                  >
+                    {t(instruction.translatedNameKey)}
+                  </motion.span>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </LayoutGroup>
