@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { distro, locale } = await params
+  const { distro } = await params
   const cleanedDistro = distro.replaceAll("%20", " ")
   const instructions = await fetchSetupInstructions()
   const t = await getTranslations()
@@ -44,7 +44,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       distribution: translatedDistroName || cleanedDistro,
     }),
     description: t("setup-flathub-description"),
-    robots: locale === "en-GB" ? { index: false } : undefined,
   }
 }
 
