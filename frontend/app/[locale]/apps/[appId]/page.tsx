@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import {
   fetchAppstream,
   fetchAppStats,
@@ -31,7 +31,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string; appId: string }>
 }): Promise<Metadata> {
   const { locale, appId } = await params
-  const t = await getTranslations()
+
+  const t = await getTranslations({ locale })
 
   try {
     const app = await fetchAppstream(appId, locale)
@@ -77,6 +78,9 @@ export default async function AppDetailPage({
   params: Promise<{ locale: string; appId: string }>
 }) {
   const { locale, appId } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
 
   // Handle flatpakref URLs
   let cleanAppId = appId
