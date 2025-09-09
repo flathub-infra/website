@@ -102,8 +102,8 @@ export const FlathubWorldMap = ({
 
 const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
-  const router = useRouter()
-  const i18n = getIntlLocale("en") // Use en as fallback for now
+  const locale = useLocale()
+  const i18n = getIntlLocale(locale)
 
   const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
   const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
@@ -159,7 +159,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
                         t("unknown")}
                     </div>
                   </div>
-                  <div>{value.toLocaleString("en")}</div>
+                  <div>{value.toLocaleString(locale)}</div>
                 </div>
               )
             })}
@@ -172,6 +172,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
 const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
   const { resolvedTheme } = useTheme()
+  const locale = useLocale()
 
   const data = []
   if (stats.downloads_per_day) {
@@ -214,7 +215,7 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
               height={80}
             />
             <YAxis
-              tickFormatter={(y) => y.toLocaleString("en")}
+              tickFormatter={(y) => y.toLocaleString(locale)}
               stroke={axisStroke(resolvedTheme)}
               width={80}
             />
@@ -415,7 +416,7 @@ const StatisticsClient = ({
               header: t("count-downloads"),
               content: {
                 type: "text",
-                text: stats.totals.downloads?.toLocaleString("en"),
+                text: stats.totals.downloads?.toLocaleString(locale),
               },
             },
           ]}
@@ -427,7 +428,7 @@ const StatisticsClient = ({
               header: t("count-desktop-apps"),
               content: {
                 type: "text",
-                text: stats.totals.number_of_apps?.toLocaleString("en"),
+                text: stats.totals.number_of_apps?.toLocaleString(locale),
               },
             },
           ]}
@@ -439,7 +440,7 @@ const StatisticsClient = ({
               header: t("count-verified-desktop-apps"),
               content: {
                 type: "text",
-                text: stats.totals.verified_apps?.toLocaleString("en"),
+                text: stats.totals.verified_apps?.toLocaleString(locale),
               },
             },
           ]}
@@ -451,7 +452,7 @@ const StatisticsClient = ({
               header: t("since"),
               content: {
                 type: "text",
-                text: new Date(2018, 3, 29).toLocaleDateString("en"),
+                text: new Date(2018, 3, 29).toLocaleDateString(locale),
               },
             },
           ]}
