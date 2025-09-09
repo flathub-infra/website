@@ -1,7 +1,5 @@
 import { Metadata } from "next"
-import { useTranslations } from "next-intl"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { use } from "react"
 import { Link } from "src/i18n/navigation"
 
 export async function generateMetadata({
@@ -30,7 +28,7 @@ export default async function UnauthorizedPage({
   // Enable static rendering
   setRequestLocale(locale)
 
-  const t = await getTranslations(locale)
+  const t = await getTranslations({ locale })
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
