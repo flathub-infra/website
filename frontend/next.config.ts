@@ -125,12 +125,6 @@ const nextConfig = (phase) => ({
         destination: "/en/apps/search?q=:q",
         permanent: true,
       },
-      // Redirect non-localized app routes to localized ones (but not /apps itself)
-      {
-        source: "/apps/:path+",
-        destination: "/en/apps/:path*",
-        permanent: true,
-      },
       {
         source: "/apps",
         destination: "/en/",
@@ -181,6 +175,17 @@ const nextConfig = (phase) => ({
       {
         source: "/apps/collection/mobile",
         destination: "/en/apps/collection/mobile/1",
+        permanent: true,
+      },
+      // Redirect non-localized app routes to localized ones (but not /apps itself)
+      // {
+      //   source: "/apps/:path+",
+      //   destination: "/en/apps/:path*",
+      //   permanent: true,
+      // },
+      {
+        source: "/apps",
+        destination: "/en/",
         permanent: true,
       },
       {

@@ -47,7 +47,7 @@ const LoginServiceClient = ({
     mutationFn: () => login(dispatch, pathname.split("/").reverse()[0], query),
     onSuccess: () => {
       if (pendingTransaction) {
-        router.push("/purchase")
+        router.push("/purchase", { locale })
         return
       } else if (returnTo) {
         const redirect = decodeURIComponent(returnTo)
@@ -55,12 +55,12 @@ const LoginServiceClient = ({
 
         // Must validate the redirect to prevent open redirect and code execution
         if (isInternalRedirect(redirect)) {
-          router.push(redirect)
+          router.push(redirect, { locale })
           return
         }
       }
 
-      router.push("/")
+      router.push("/", { locale })
     },
     onError: (error: any) => {
       toast.error(t(error.message))
@@ -81,12 +81,7 @@ const LoginServiceClient = ({
       if (newlocale && typeof window !== "undefined") {
         const currentLocale = window.location.pathname.split("/")[1]
         if (newlocale !== currentLocale) {
-          router.push(
-            window.location.pathname.replace(
-              `/${currentLocale}/`,
-              `/${newlocale}/`,
-            ),
-          )
+          router.push("/", { locale: newlocale })
           return
         }
       }
@@ -107,7 +102,7 @@ const LoginServiceClient = ({
       code == null ||
       state == null
     ) {
-      router.push("/")
+      router.push("/", { locale })
       return
     }
   }, [router, user, services, searchParams])
