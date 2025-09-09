@@ -184,6 +184,76 @@ const nextConfig = (phase) => ({
         permanent: true,
       },
       {
+        source: "/apps/collection/developer/:developer",
+        destination: "/en/apps/collection/developer/:developer/1",
+        permanent: true,
+      },
+      {
+        source: "/apps/category/:category",
+        destination: "/en/apps/category/:category/1",
+        permanent: true,
+      },
+      {
+        source: "/apps/category/:category/subcategories/:subcategory",
+        destination: "/en/apps/category/:category/subcategories/:subcategory/1",
+        permanent: true,
+      },
+      {
+        source: "/apps/collection/tag/:tag",
+        destination: "/en/apps/collection/tag/:tag/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/developer/:developer",
+        destination: "/:locale/apps/collection/developer/:developer/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/verified",
+        destination: "/:locale/apps/collection/verified/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/recently-updated",
+        destination: "/:locale/apps/collection/recently-updated/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/recently-added",
+        destination: "/:locale/apps/collection/recently-added/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/popular",
+        destination: "/:locale/apps/collection/popular/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/trending",
+        destination: "/:locale/apps/collection/trending/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/mobile",
+        destination: "/:locale/apps/collection/mobile/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/category/:category",
+        destination: "/:locale/apps/category/:category/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/category/:category/subcategories/:subcategory",
+        destination: "/:locale/apps/category/:category/subcategories/:subcategory/1",
+        permanent: true,
+      },
+      {
+        source: "/:locale/apps/collection/tag/:tag",
+        destination: "/:locale/apps/collection/tag/:tag/1",
+        permanent: true,
+      },
+      {
         source: "/pipelines",
         destination: "/en/builds",
         permanent: true,
