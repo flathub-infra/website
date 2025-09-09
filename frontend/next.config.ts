@@ -178,11 +178,11 @@ const nextConfig = (phase) => ({
         permanent: true,
       },
       // Redirect non-localized app routes to localized ones (but not /apps itself)
-      // {
-      //   source: "/apps/:path+",
-      //   destination: "/en/apps/:path*",
-      //   permanent: true,
-      // },
+      {
+        source: "/apps/:path+",
+        destination: "/en/apps/:path*",
+        permanent: true,
+      },
       {
         source: "/apps",
         destination: "/en/",
@@ -250,7 +250,8 @@ const nextConfig = (phase) => ({
       },
       {
         source: "/:locale/apps/category/:category/subcategories/:subcategory",
-        destination: "/:locale/apps/category/:category/subcategories/:subcategory/1",
+        destination:
+          "/:locale/apps/category/:category/subcategories/:subcategory/1",
         permanent: true,
       },
       {
