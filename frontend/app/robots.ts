@@ -40,7 +40,7 @@ export default function robots(): MetadataRoute.Robots {
 
     sitemap: [
       `${process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"}/sitemap.xml`,
-      `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/server-sitemap-index.xml`,
+      `${process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"}/server-sitemap-index.xml`,
     ],
   }
 }
