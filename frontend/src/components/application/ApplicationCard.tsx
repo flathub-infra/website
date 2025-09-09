@@ -46,10 +46,21 @@ export const ApplicationCardSkeleton = ({
   ...props
 }: SkeletonProps) => {
   return (
-    <Skeleton
-      className={cn(cardVariants({ variant, size }), "h-32", className)}
-      {...props}
-    />
+    <div className={cn(cardVariants({ variant, size }), className)} {...props}>
+      <div className="relative flex h-[64px] w-[64px] shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
+        <Skeleton className="h-full w-full rounded-lg" />
+      </div>
+      <div className="flex flex-col justify-center overflow-hidden flex-1">
+        <div className="flex gap-1 items-center">
+          <Skeleton className="h-4 w-32" />
+        </div>
+        <div className="mt-1 space-y-1">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-3/4" />
+          <Skeleton className="h-3 w-1/2 hidden md:block" />
+        </div>
+      </div>
+    </div>
   )
 }
 
