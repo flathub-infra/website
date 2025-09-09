@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button"
 import { ApplicationCard } from "./ApplicationCard"
 import { cn } from "@/lib/utils"
 import { JSX } from "react"
-import Link from "next/link"
 import { MeilisearchResponseAppsIndex } from "src/codegen"
+import { Link } from "src/i18n/navigation"
 
 export const ApplicationSectionGradient = ({
   mobile,
