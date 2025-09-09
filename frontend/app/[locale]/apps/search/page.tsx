@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
+import { Suspense } from "react"
 import SearchClient from "./search-client"
 
 export async function generateMetadata({
@@ -20,5 +21,9 @@ export async function generateMetadata({
 }
 
 export default function SearchPage() {
-  return <SearchClient />
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchClient />
+    </Suspense>
+  )
 }

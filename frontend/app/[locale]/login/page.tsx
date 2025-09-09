@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
+import { Suspense } from "react"
 import { fetchLoginProviders } from "../../../src/fetchers"
 import LoginClient from "./login-client"
 
@@ -28,7 +29,11 @@ export default async function LoginPage({
     const providers = await fetchLoginProviders()
     const { locale } = await params
 
-    return <LoginClient providers={providers} locale={locale} />
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginClient providers={providers} locale={locale} />
+      </Suspense>
+    )
   } catch (error) {
     notFound()
   }
