@@ -1,5 +1,8 @@
 import { redirect } from "src/i18n/navigation"
 
+// This page uses dynamic redirects and should not be statically generated
+export const dynamic = "force-dynamic"
+
 export default async function RecentlyAddedRedirectPage({
   params,
 }: {

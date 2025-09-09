@@ -3,10 +3,10 @@
 import { BuildDashboard } from "../../../@/components/build/build-dashboard"
 import { PipelineRepoWithAll } from "../../../@/components/build/build-repo-filter"
 import { PipelineStatusWithAll } from "../../../@/components/build/build-status-filter"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 
-export default function BuildsClient() {
+function BuildsContent() {
   const [appId, setAppId] = useState<string | undefined>(undefined)
   const [statusFilter, setStatusFilter] = useState<PipelineStatusWithAll>("all")
   const [repoFilter, setRepoFilter] = useState<PipelineRepoWithAll>("all")
@@ -34,5 +34,13 @@ export default function BuildsClient() {
         setRepoFilter={setRepoFilter}
       />
     </div>
+  )
+}
+
+export default function BuildsClient() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BuildsContent />
+    </Suspense>
   )
 }

@@ -3,28 +3,34 @@ import { Inter } from "next/font/google"
 import { getLangDir } from "rtl-detect"
 import ClientProviders from "../client-providers"
 import Main from "../../src/components/layout/Main"
-import { NextIntlClientProvider } from "next-intl"
+import { hasLocale, NextIntlClientProvider } from "next-intl"
 import { setDefaultOptions } from "date-fns"
 import { getDateFnsLocale } from "src/localize"
 import { Metadata } from "next"
 import { bcpToPosixLocale, languages } from "src/localize"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import cardImage from "../../public/img/card.webp"
 import { IS_PRODUCTION } from "src/env"
 import { headers } from "next/headers"
+import { routing } from "src/i18n/routing"
+import { notFound } from "next/navigation"
 
 const inter = Inter({
   subsets: ["latin"],
   fallback: ["sans-serif"],
 })
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const t = await getTranslations()
   const { locale } = await params
+  const t = await getTranslations({ locale })
 
   // Get the current pathname from headers
   const headersList = await headers()
@@ -118,6 +124,12 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) {
+    notFound()
+  }
+
+  // Enable static rendering
+  setRequestLocale(locale)
 
   setDefaultOptions({ locale: getDateFnsLocale(locale) })
 

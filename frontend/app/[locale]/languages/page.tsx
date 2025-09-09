@@ -1,9 +1,19 @@
 import { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
+import { routing } from "src/i18n/routing"
 import LanguagesClient from "./languages-client"
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations()
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale })
 
   return {
     title: t("languages"),
@@ -11,10 +21,15 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export async function generateStaticParams() {
-  return []
-}
+export default async function LanguagesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
 
-export default async function LanguagesPage() {
+  // Enable static rendering
+  setRequestLocale(locale)
+
   return <LanguagesClient />
 }
