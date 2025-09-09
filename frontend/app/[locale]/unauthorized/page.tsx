@@ -40,7 +40,7 @@ export default async function UnauthorizedPage({
           {t("unauthorized-to-view")}
         </p>
         <p className="mb-8 text-flathub-sonic-silver dark:text-flathub-gainsborow">
-          {t("no-permission")}
+          {t("no-permissions")}
         </p>
         <Link
           href={`/`}
