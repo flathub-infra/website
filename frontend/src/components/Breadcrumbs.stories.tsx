@@ -8,9 +8,9 @@ export default {
 
 export const Generated = () => {
   const pages = [
-    { name: "user-wallet", href: "/wallet", current: false },
+    { name: "User Wallet", href: "/wallet", current: false },
     {
-      name: "transaction-summary",
+      name: "Transaction Summary",
       href: "/payment/details/12",
       current: true,
     },
