@@ -1,6 +1,5 @@
 import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { routing } from "src/i18n/routing"
 import About from "./about"
 
 export async function generateMetadata({
