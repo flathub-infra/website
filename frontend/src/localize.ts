@@ -122,6 +122,7 @@ export const languages: Language[] = [
   "ja",
   "cs",
   "zh-Hans",
+  "bg",
   "uk",
   "et",
   "ca",
