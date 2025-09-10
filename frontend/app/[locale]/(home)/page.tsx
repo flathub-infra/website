@@ -123,6 +123,11 @@ const getCachedGameData = unstable_cache(
   },
 )
 
+export async function generateStaticParams() {
+  // Return empty array to enable ISR for all locales
+  return []
+}
+
 export default async function HomePage({
   params,
 }: {
