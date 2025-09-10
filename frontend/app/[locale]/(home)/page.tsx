@@ -14,6 +14,7 @@ import { formatISO } from "date-fns"
 import { DesktopAppstream } from "../../../src/types/Appstream"
 import HomeClient from "../home-client"
 import { setRequestLocale } from "next-intl/server"
+import { languages } from "../../../src/localize"
 
 const categoryOrder = [
   MainCategory.office,
@@ -27,6 +28,14 @@ const categoryOrder = [
   MainCategory.system,
   MainCategory.utility,
 ]
+
+export async function generateStaticParams() {
+  const params = languages.map((locale) => ({
+    locale: locale,
+  }))
+
+  return params
+}
 
 async function getCollections(locale: string) {
   return Promise.all([
@@ -88,6 +97,9 @@ async function getGameData(locale: string) {
     fetchGameUtilityCategory(locale, 1, 12),
   ])
 }
+
+export const dynamic = "force-static"
+export const revalidate = 43200 // Revalidate twice per day (12 hours)
 
 export default async function HomePage({
   params,
