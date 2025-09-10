@@ -1,6 +1,7 @@
-const { PHASE_PRODUCTION_BUILD } = require("next/constants")
-const { withSentryConfig } = require("@sentry/nextjs")
-const createNextIntlPlugin = require("next-intl/plugin")
+import { PHASE_PRODUCTION_BUILD } from "next/constants"
+import { withSentryConfig } from "@sentry/nextjs"
+import createNextIntlPlugin from "next-intl/plugin"
+import { NextConfig } from "next"
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts")
 
@@ -26,13 +27,18 @@ const sentryWebpackPluginOptions = {
   project: "frontend",
 
   // Only print logs for uploading source maps in CI
-  silent: true,
+  silent: !process.env.CI,
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
+
+  // Automatically annotate React components to show their full name in breadcrumbs and session replay
+  reactComponentAnnotation: {
+    enabled: true,
+  },
 
   // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
   // This can increase your server load as well as your hosting bill.
@@ -58,10 +64,7 @@ if (!buildId) {
   )
 }
 
-/**
- * @type {import('next').NextConfig}
- */
-const nextConfig = (phase) => ({
+const nextConfig: (phase: string) => NextConfig = (phase) => ({
   output: "standalone",
   experimental: {
     scrollRestoration: true,
@@ -353,47 +356,14 @@ const nextConfig = (phase) => ({
     : undefined,
 })
 
-const sentryExports = (phase) => {
-  return {
-    ...nextConfig(phase),
-    sentry: {
-      // For all available options, see:
-      // https://github.com/getsentry/sentry-webpack-plugin#options
-
-      org: "flathub",
-      project: "frontend",
-
-      // Only print logs for uploading source maps in CI
-      silent: !process.env.CI,
-
-      // For all available options, see:
-      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-      // Upload a larger set of source maps for prettier stack traces (increases build time)
-      widenClientFileUpload: true,
-
-      // Automatically annotate React components to show their full name in breadcrumbs and session replay
-      reactComponentAnnotation: {
-        enabled: true,
-      },
-
-      // Hides source maps from generated client bundles
-      hideSourceMaps: true,
-
-      // Automatically tree-shake Sentry logger statements to reduce bundle size
-      disableLogger: true,
-    },
-  }
-}
-
 module.exports = async (phase) => {
-  /**
-   * @type {import('next').NextConfig}
-   */
   const config =
     process.env.ENABLE_SENTRY === "true"
-      ? withSentryConfig(sentryExports(phase), sentryWebpackPluginOptions)
-      : nextConfig(phase)
+      ? withSentryConfig(
+          withNextIntl(nextConfig(phase)),
+          sentryWebpackPluginOptions,
+        )
+      : withNextIntl(nextConfig(phase))
 
-  return withNextIntl(config)
+  return config
 }
