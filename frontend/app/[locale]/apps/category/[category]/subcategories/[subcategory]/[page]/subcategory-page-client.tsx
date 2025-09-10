@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../../../../../../../../src/components/Breadcrumbs"
-import ApplicationCollection from "../../../../../../../../src/components/application/Collection"
+import ApplicationCollectionSuspense from "../../../../../../../../src/components/application/ApplicationCollectionSuspense"
 import { mapAppsIndexToAppstreamListItem } from "../../../../../../../../src/meilisearch"
 import {
   tryParseCategory,
@@ -50,7 +50,7 @@ export default function SubcategoryPageClient({
     <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <Breadcrumbs pages={pages} />
 
-      <ApplicationCollection
+      <ApplicationCollectionSuspense
         title={subcategoryName}
         applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
         page={applications.page}

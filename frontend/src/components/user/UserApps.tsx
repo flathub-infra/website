@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState, type JSX } from "react"
 import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
-import ApplicationCollection from "../application/Collection"
+import ApplicationCollectionSuspense from "../application/ApplicationCollectionSuspense"
 import Spinner from "../Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
@@ -87,7 +87,7 @@ const UserApps: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ApplicationCollection
+      <ApplicationCollectionSuspense
         title={title}
         applications={queryDevApplications.data}
         customButtons={customButtons}

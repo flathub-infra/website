@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../../../../../../src/components/Breadcrumbs"
-import ApplicationCollection from "../../../../../../src/components/application/Collection"
+import ApplicationCollectionSuspense from "../../../../../../src/components/application/ApplicationCollectionSuspense"
 import {
   categoryToName,
   getSubcategory,
@@ -57,7 +57,7 @@ const CategoryPageClient = ({
         </div>
       )}
 
-      <ApplicationCollection
+      <ApplicationCollectionSuspense
         title={title}
         applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
         page={applications.page}

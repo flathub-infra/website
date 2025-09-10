@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import UserApps from "../../../../src/components/user/UserApps"
 import { IS_PRODUCTION } from "../../../../src/env"
 import Breadcrumbs from "../../../../src/components/Breadcrumbs"
-import ApplicationCollection from "../../../../src/components/application/Collection"
+import ApplicationCollectionSuspense from "../../../../src/components/application/ApplicationCollectionSuspense"
 import { useGetFavoritesFavoritesGet } from "../../../../src/codegen"
 import Spinner from "../../../../src/components/Spinner"
 import { getAppsInfo } from "../../../../src/asyncs/app"
@@ -41,7 +41,7 @@ const FavoriteApps = ({ locale }: { locale: string }) => {
   }
 
   return (
-    <ApplicationCollection
+    <ApplicationCollectionSuspense
       title={t("favorite-apps")}
       applications={appdetailQuery.data}
       variant="nested"

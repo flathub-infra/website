@@ -55,7 +55,7 @@ const Header = ({
   )
 }
 
-// If you don't set a totalPages, we assume you donq't want pagination
+// If you don't set a totalPages, we assume you don't want pagination
 // So you likely want to pass all your applications at once
 const ApplicationCollection: FunctionComponent<Props> = ({
   applications,
@@ -70,7 +70,6 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   customButtons,
 }) => {
   const t = useTranslations()
-  const router = useRouter()
   const searchParams = useSearchParams()
 
   const refresh = onRefresh ? (
