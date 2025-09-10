@@ -27,8 +27,8 @@ export default function PaymentClient({
   const stripe = loadStripe(stripePublicKey)
 
   const query = useGetTransactionByIdWalletTransactionsTxnGet(transactionId, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     query: {
       enabled: !!transactionId,
@@ -38,8 +38,8 @@ export default function PaymentClient({
   const queryStripe = useGetTxnStripedataWalletTransactionsTxnStripeGet(
     transactionId,
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       query: {
         enabled: !!transactionId,
@@ -52,16 +52,19 @@ export default function PaymentClient({
   let content: ReactElement
   if (query.isFetching || queryStripe.isFetching) {
     content = <Spinner size="l" />
-  } else if (query.isError || queryStripe.isError) {
+  } else if (
+    query.isError ||
+    queryStripe.isError ||
+    query.data?.status !== 200 ||
+    queryStripe.data?.status !== 200
+  ) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>
-          {t(
-            query.error?.message ||
-              queryStripe.error?.message ||
-              "Unknown error",
-          )}
+          {query.error?.detail?.[0]?.msg ||
+            queryStripe.error?.detail?.[0]?.msg ||
+            "Unknown error"}
         </p>
       </>
     )

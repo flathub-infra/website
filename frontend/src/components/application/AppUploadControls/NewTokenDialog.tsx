@@ -46,13 +46,15 @@ const NewTokenDialog: FunctionComponent<Props> = ({
           repos: [repo],
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (response) => {
-      setToken(response.data.token)
-      setState("copy-token")
-      created?.(response.data)
+      if (response.data && typeof response.data === 'object' && 'token' in response.data) {
+        setToken(response.data.token)
+        setState("copy-token")
+        created?.(response.data)
+      }
     },
   })
 

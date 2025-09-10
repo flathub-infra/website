@@ -44,11 +44,11 @@ export default function PurchaseWorkflowClient() {
     }
 
     checkPurchasesPurchasesCheckPurchasesPost(appIDs, {
-      withCredentials: true,
+      credentials: "include",
     })
       .then(() => {
         getUpdateTokenPurchasesGenerateUpdateTokenPost({
-          withCredentials: true,
+          credentials: "include",
         })
           .then((result) =>
             fetch(

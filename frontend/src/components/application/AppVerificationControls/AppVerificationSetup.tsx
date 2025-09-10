@@ -6,15 +6,21 @@ import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
-import { useQuery } from "@tanstack/react-query"
-import { VerificationMethod, VerificationStatus } from "src/codegen/model"
 import {
-  getVerificationStatusVerificationAppIdStatusGet,
+  AvailableMethods,
+  HTTPValidationError,
+  VerificationMethod,
+  VerificationStatus,
+} from "src/codegen/model"
+import {
+  getVerificationStatusVerificationAppIdStatusGetResponse,
   unverifyVerificationAppIdUnverifyPost,
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
+  useGetVerificationStatusVerificationAppIdStatusGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { UseQueryResult } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 
 interface Props {
@@ -22,6 +28,60 @@ interface Props {
   isNewApp: boolean
   onVerified?: () => void
   showHeader?: boolean
+}
+
+const Unverify = ({
+  app,
+  query,
+}: {
+  app: Pick<Appstream, "id">
+  query: UseQueryResult<
+    getVerificationStatusVerificationAppIdStatusGetResponse,
+    HTTPValidationError
+  >
+}) => {
+  const t = useTranslations()
+
+  const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
+
+  if (!query.data || query.data.status !== 200) {
+    return null
+  }
+
+  return (
+    <div>
+      <StatusInfo status={query.data.data} />
+
+      <br />
+
+      <Button
+        size="lg"
+        className="mt-3"
+        onClick={() => setConfirmUnverify(true)}
+      >
+        {t("unverify")}
+      </Button>
+
+      <ConfirmDialog
+        isVisible={confirmUnverify}
+        prompt={t("unverify", { appId: app.id })}
+        action={t("unverify")}
+        actionVariant="destructive"
+        onConfirmed={() => {
+          setConfirmUnverify(false)
+
+          unverifyVerificationAppIdUnverifyPost(app.id, {
+            credentials: "include",
+          }).then(() => {
+            query.refetch()
+          })
+        }}
+        onCancelled={() => setConfirmUnverify(false)}
+      >
+        {t("unverify-app-prompt", { appId: app.id })}
+      </ConfirmDialog>
+    </div>
+  )
 }
 
 const StatusInfo = ({ status }: { status: VerificationStatus }) => {
@@ -61,12 +121,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
 
-  const query = useQuery({
-    queryKey: ["verification", app.id],
-    queryFn: async () => {
-      return getVerificationStatusVerificationAppIdStatusGet(app.id)
-    },
-    enabled: !!app.id,
+  const query = useGetVerificationStatusVerificationAppIdStatusGet(app.id, {
+    query: { enabled: !!app.id },
   })
 
   const verificationAvailableMethods =
@@ -74,17 +130,18 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       app.id,
       { new_app: isNewApp },
       {
-        axios: {
-          withCredentials: true,
+        fetch: {
+          credentials: "include",
         },
         query: {
           retry: false,
-          enabled: query.data && !query.data.data.verified,
+          enabled:
+            query.data &&
+            query.data.status === 200 &&
+            !query.data.data.verified,
         },
       },
     )
-
-  const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
 
   const onChildVerified = useCallback(() => {
     onVerified?.()
@@ -95,13 +152,11 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   }
 
   let content: ReactElement
-  if (query.error) {
-    content = <InlineError shown={true} error={query.error.message} />
-  } else if (verificationAvailableMethods.error?.response?.data?.detail) {
-    switch (
-      verificationAvailableMethods.error.response.data
-        .detail as unknown as string
-    ) {
+  if (
+    verificationAvailableMethods.data.status !== 200 &&
+    verificationAvailableMethods.error?.detail
+  ) {
+    switch (verificationAvailableMethods.error.detail as unknown as string) {
       case "app_already_exists":
         content = <InlineError shown={true} error={t("app-already-exists")} />
         break
@@ -112,40 +167,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         if (isNewApp) {
           content = <InlineError shown={true} error={t("app-already-exists")} />
         } else {
-          content = (
-            <div>
-              <StatusInfo status={query.data.data} />
-
-              <br />
-
-              <Button
-                size="lg"
-                className="mt-3"
-                onClick={() => setConfirmUnverify(true)}
-              >
-                {t("unverify")}
-              </Button>
-
-              <ConfirmDialog
-                isVisible={confirmUnverify}
-                prompt={t("unverify", { appId: app.id })}
-                action={t("unverify")}
-                actionVariant="destructive"
-                onConfirmed={() => {
-                  setConfirmUnverify(false)
-
-                  unverifyVerificationAppIdUnverifyPost(app.id, {
-                    withCredentials: true,
-                  }).then(() => {
-                    query.refetch()
-                  })
-                }}
-                onCancelled={() => setConfirmUnverify(false)}
-              >
-                {t("unverify-app-prompt", { appId: app.id })}
-              </ConfirmDialog>
-            </div>
-          )
+          content = <Unverify app={app} query={query} />
         }
         break
       default:
@@ -153,7 +175,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           <InlineError
             shown={true}
             error={t("error-code", {
-              code: verificationAvailableMethods.error?.response.data.detail.toString(),
+              code: verificationAvailableMethods.error?.detail,
             })}
           />
         )
@@ -184,6 +206,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         {verificationAvailableMethods.isPending ? (
           <Spinner size="m" />
         ) : (
+          verificationAvailableMethods.data.status === 200 &&
           verificationAvailableMethods.data?.data?.methods?.map(
             (methodType) => {
               if (methodType.method === "website") {

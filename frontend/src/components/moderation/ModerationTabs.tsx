@@ -1,13 +1,16 @@
 import { FunctionComponent, use, useEffect, useState } from "react"
-import { getAppsInfo } from "src/asyncs/app"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import ApplicationCollectionSuspense from "../application/ApplicationCollectionSuspense"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
-import { getModerationAppsModerationAppsGet } from "src/codegen"
+import {
+  getModerationAppsModerationAppsGet,
+  ModerationAppsResponse,
+} from "src/codegen"
 import { Checkbox } from "@/components/ui/checkbox"
+import { getAppsInfo } from "src/asyncs/app"
 import { usePathname, useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 import { setQueryParams } from "src/utils/queryParams"
@@ -60,10 +63,14 @@ const ModerationTabs: FunctionComponent = () => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       )
+
+      if (apps.status !== 200) {
+        return null
+      }
 
       return {
         apps: apps.data,

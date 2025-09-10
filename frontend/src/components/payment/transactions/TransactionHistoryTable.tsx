@@ -23,14 +23,12 @@ import { useRouter } from "src/i18n/navigation"
 export const TransactionHistoryTable = ({
   transactions,
   perPage,
-  error,
   page,
   endPage,
   setPage,
 }: {
   transactions: TransactionSummary[]
   perPage: number
-  error: string
   page: number
   endPage: number
   setPage: Dispatch<SetStateAction<number>>
@@ -48,9 +46,7 @@ export const TransactionHistoryTable = ({
     setPage(Math.max(0, page - 1))
   }
 
-  const pageSlice = error
-    ? []
-    : transactions.slice(page * perPage, page * perPage + perPage)
+  const pageSlice = transactions.slice(page * perPage, page * perPage + perPage)
 
   return (
     <div className="flex flex-col gap-3 w-full lg:max-w-6xl">

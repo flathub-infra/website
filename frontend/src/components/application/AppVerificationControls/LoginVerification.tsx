@@ -55,8 +55,8 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const verify =
     useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost({
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       mutation: {
         onMutate: () => {

@@ -60,7 +60,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
           day: formatISO(app.day, { representation: "date" }),
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
 

@@ -50,10 +50,14 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         ],
       },
       {
-        withCredentials: true,
+        credentials: "include",
       },
     )
-      .then((result) => setTransaction(result.data.id))
+      .then((result) => {
+        if (result.data && 'id' in result.data) {
+          setTransaction(result.data.id)
+        }
+      })
       .catch((err) => {
         toast.error(t(err))
         setSubmit(false)

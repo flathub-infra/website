@@ -15,7 +15,6 @@ import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
@@ -45,7 +44,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     queryKey: ["/vending/status"],
     queryFn: () =>
       statusVendingStatusGet({
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -54,7 +53,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     queryKey: ["appVendingSetup", app.id],
     queryFn: () =>
       getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -72,7 +71,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // Controls should initialise to existing setup once known
   useEffect(() => {
-    if (vendingSetup.data) {
+    if (vendingSetup.data && vendingSetup.data.status === 200) {
       const decimalRecommendation = Math.max(
         vendingSetup.data.data.recommended_donation / 100,
         FLATHUB_MIN_PAYMENT,
@@ -111,18 +110,15 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             : 0,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (data) => {
       toast.success(t("app-vending-settings-confirmed"))
     },
-    onError: (error: AxiosError<{ status: string; error: string }>) => {
-      if (error && error.response) {
-        toast.error(t(error.response.data.error))
-      } else {
-        console.error(error)
-      }
+    onError: (error: Error) => {
+      console.error(error)
+      toast.error(t("error-occurred"))
     },
   })
 

@@ -37,10 +37,14 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         appId,
         { new_app: isNewApp },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
-    onSuccess: (result) => setReturnedToken(result.data.token),
+    onSuccess: (result) => {
+      if (result.data && 'token' in result.data) {
+        setReturnedToken(result.data.token)
+      }
+    },
   })
 
   const confirmWebsiteVerificationMutation = useMutation({
@@ -50,14 +54,16 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         appId,
         { new_app: isNewApp },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (result) => {
-      if (result.data.verified) {
-        onVerified()
-      } else {
-        setConfirmResult(result.data)
+      if (result.data && 'verified' in result.data) {
+        if (result.data.verified) {
+          onVerified()
+        } else {
+          setConfirmResult(result.data)
+        }
       }
     },
   })

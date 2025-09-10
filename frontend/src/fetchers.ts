@@ -313,7 +313,7 @@ export async function fetchDeveloperApps(
 
   console.log(`Developer apps for ${developer} fetched`)
 
-  return appList.data as MeilisearchResponseAppsIndex
+  return appList.data
 }
 
 export async function fetchVendingConfig(): Promise<

@@ -5,7 +5,6 @@ import { useUserDispatch } from "../../context/user-info"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError } from "axios"
 import {
   doDeleteuserAuthDeleteuserPost,
   getDeleteuserAuthDeleteuserGet,
@@ -24,12 +23,12 @@ const DeleteButton: FunctionComponent = () => {
     mutationKey: ["prepare-delete"],
     mutationFn: async () =>
       getDeleteuserAuthDeleteuserGet({
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: (data) => {
       setToken(data.data.token)
     },
-    onError: (e: AxiosError<{ detail: string }>) => {
+    onError: (e: Error) => {
       switch (e.response?.data?.detail) {
         case "cannot_abandon_app":
           toast.error(t("cannot-abandon-app"))
@@ -47,13 +46,13 @@ const DeleteButton: FunctionComponent = () => {
       doDeleteuserAuthDeleteuserPost(
         { token },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {
       dispatch({ type: "logout" })
     },
-    onError: (e: AxiosError<{ detail: string }>) => {
+    onError: (e: Error) => {
       if (e.response.data?.detail === "token mismatch") {
         toast.error(t("account-deletion-token-mismatch"))
       } else {

@@ -1,20 +1,13 @@
-import { AxiosResponse } from "axios"
 import {
   ApplicationCard,
   ApplicationCardSkeleton,
 } from "../application/ApplicationCard"
 import { FunctionComponent } from "react"
-import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
-import { UseMutationResult } from "@tanstack/react-query"
-import { MeilisearchResponseAppsIndex, AppsIndex } from "src/codegen"
+import { mapAppsIndexToAppstreamListItem, AppsIndex } from "src/meilisearch"
 import { Button } from "@/components/ui/button"
 import { useTranslations } from "next-intl"
 
 interface Props {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
   allHits: AppsIndex[]
   hasNextPage: boolean
   isLoadingMore: boolean

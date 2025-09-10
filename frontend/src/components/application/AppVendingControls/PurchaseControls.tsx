@@ -57,12 +57,16 @@ const PurchaseControls: FunctionComponent<Props> = ({
           amount: amount.settled * 100,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
     },
     onSuccess: (data) => {
-      router.push(`/payment/${data.data.transaction}`, undefined)
+      if (data.status === 200) {
+        router.push(`/payment/${data.data.transaction}`, {
+          locale,
+        })
+      }
     },
     onError: (error) => {
       toast.error(t(error.message))

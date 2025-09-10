@@ -5,7 +5,6 @@ import { getContrastColor } from "@/lib/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
-import axios from "axios"
 import { fonts } from "app/api/fontManager"
 import { fontLanguageDenyList, Language, languages } from "src/localize"
 
@@ -14,13 +13,6 @@ export async function GET(
   { params }: { params: Promise<{ appId: string }> },
 ) {
   const { appId } = await params
-
-  axios.interceptors.request.use((config) => {
-    return {
-      ...config,
-      baseURL: process.env.NEXT_PUBLIC_API_BASE_URI,
-    }
-  })
 
   const searchParams = request.nextUrl.searchParams
   const locale = searchParams.get("locale") || "en"

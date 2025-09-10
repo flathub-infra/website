@@ -21,7 +21,7 @@ const DeleteCardButton: FunctionComponent<{
     mutationKey: ["remove-card", card.id],
     mutationFn: () =>
       postRemovecardWalletRemovecardPost(card, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: () => {
       queryClient.setQueryData<WalletInfo>(["/walletinfo"], (wallet) => ({

@@ -80,7 +80,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
 
   const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
     query: { enabled: !!app.id },
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
   })
 
   const isAnApp = [
@@ -99,7 +99,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
   ]
 
   const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
     query: { enabled: !!app.id },
   })
 
@@ -145,6 +145,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
                           />
                         </SettingsDisclosure>
                         {query.isSuccess &&
+                          query.data.status === 200 &&
                           query.data?.data?.status === "ok" && (
                             <SettingsDisclosure
                               sectionTitle={t("ownership-tokens")}
@@ -166,11 +167,12 @@ export default function ManageClient({ app, vendingConfig }: Props) {
                     )) &&
                     isAnApp && (
                       <>
-                        {inviteQuery.data?.data?.is_direct_upload_app && (
-                          <SettingsDisclosure sectionTitle={t("developers")}>
-                            <AppDevelopersControls app={app} />
-                          </SettingsDisclosure>
-                        )}
+                        {inviteQuery.data?.status === 200 &&
+                          inviteQuery.data?.data?.is_direct_upload_app && (
+                            <SettingsDisclosure sectionTitle={t("developers")}>
+                              <AppDevelopersControls app={app} />
+                            </SettingsDisclosure>
+                          )}
                         <SettingsDisclosure sectionTitle={t("upload-tokens")}>
                           <UploadTokenControls app={app} />
                         </SettingsDisclosure>
