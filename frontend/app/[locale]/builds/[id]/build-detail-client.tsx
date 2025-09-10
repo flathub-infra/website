@@ -35,7 +35,18 @@ export default function BuildDetailClient({ pipelineId }: Props) {
   if (query.isError) {
     return (
       <div className="container mx-auto py-8 px-4">
-        <p>Error: {query.error.message}</p>
+        <p>Error: An error occurred while loading build details</p>
+      </div>
+    )
+  }
+
+  // Type guard for PipelineResponse
+  const pipelineData = query.data?.data && 'app_id' in query.data.data ? query.data.data : undefined
+
+  if (!pipelineData) {
+    return (
+      <div className="container mx-auto py-8 px-4">
+        <p>Build not found</p>
       </div>
     )
   }
@@ -53,25 +64,25 @@ export default function BuildDetailClient({ pipelineId }: Props) {
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between">
             <h1 className="text-3xl font-bold mb-6">
-              {query.data.data.app_id}
+              {pipelineData.app_id}
             </h1>
-            {query.data.data.repo && (
-              <Badge variant={getRepoBadgeVariant(query.data.data.repo)}>
-                {query.data.data.repo}
+            {pipelineData.repo && (
+              <Badge variant={getRepoBadgeVariant(pipelineData.repo)}>
+                {pipelineData.repo}
               </Badge>
             )}
           </div>
         </CardHeader>
 
         <CardContent className="pb-2">
-          <BuildCardContent pipelineSummary={query.data.data} />
+          <BuildCardContent pipelineSummary={pipelineData} />
         </CardContent>
 
         <CardFooter className="pt-2">
-          {query.data.data.log_url && (
+          {pipelineData.log_url && (
             <Button variant="outline" size="sm" className="w-full mt-6" asChild>
               <a
-                href={query.data.data.log_url}
+                href={pipelineData.log_url}
                 className="size-4 mr-2"
                 target="_blank"
               >

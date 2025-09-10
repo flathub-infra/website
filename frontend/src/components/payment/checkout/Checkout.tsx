@@ -57,7 +57,7 @@ const Checkout: FunctionComponent<{
     queryKey: ["/walletinfo"],
     queryFn: async ({ signal }) => {
       const wallet = await getWalletinfoWalletWalletinfoGet({
-        withCredentials: true,
+        credentials: "include",
         signal,
       })
 

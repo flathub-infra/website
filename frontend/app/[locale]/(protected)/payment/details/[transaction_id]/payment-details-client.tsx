@@ -16,8 +16,8 @@ export default function PaymentDetailsClient({ transactionId }: Props) {
   const t = useTranslations()
 
   const query = useGetTransactionByIdWalletTransactionsTxnGet(transactionId, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     query: {
       enabled: !!transactionId,
@@ -28,11 +28,11 @@ export default function PaymentDetailsClient({ transactionId }: Props) {
 
   if (query.isFetching) {
     content = <Spinner size="l" />
-  } else if (query.isError) {
+  } else if (query.isError || query.data.status !== 200) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(query.error?.message || "Unknown error")}</p>
+        <p>{query.error?.detail?.[0]?.msg || "Unknown error"}</p>
       </>
     )
   } else {

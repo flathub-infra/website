@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from "axios"
-import { APP_DETAILS } from "../env"
+import { fetchAppstream } from "src/fetchers"
 import { Appstream } from "../types/Appstream"
 
 /**
@@ -13,22 +12,18 @@ export async function getAppsInfo(
   const responses = await Promise.allSettled(
     appIds.map(async (id) => ({
       id,
-      response: await axios
-        .get<Appstream>(`${APP_DETAILS(id, locale)}`)
-        .catch(() => {
-          return {
-            data: {
-              id: id,
-              name: id,
-            } as Appstream,
-          } as AxiosResponse<Appstream>
-        }),
+      response: await fetchAppstream(id, locale),
     })),
   )
 
   return responses.map((res) => {
-    if (res.status === "fulfilled") {
-      return res.value.response.data
+    if (res.status === "fulfilled" && res.value.response) {
+      return res.value.response
+    } else if (res.status === "fulfilled") {
+      return {
+        id: res.value.id,
+        name: res.value.id,
+      } as Appstream
     } else {
       return {
         id: "error",

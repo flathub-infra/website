@@ -24,11 +24,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const vendingSetup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-    withCredentials: true,
+    credentials: "include",
   })
 
   // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly = vendingSetup.data.minimum_payment === 0
+  const isDonationOnly =
+    vendingSetup.status === 200 && vendingSetup.data.minimum_payment === 0
 
   return {
     title: t(isDonationOnly ? "kind-donate-app" : "kind-purchase-app", {

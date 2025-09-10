@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import { getAppsInfo } from "src/asyncs/app"
 import { setQueryParams } from "src/utils/queryParams"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
@@ -12,8 +11,9 @@ import {
   getModerationAppModerationAppsAppIdGet,
   getModerationAppsModerationAppsGet,
 } from "src/codegen"
-import { ModerationRequestResponse } from "src/codegen/model"
+import { ModerationApp, ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
+import { getAppsInfo } from "src/asyncs/app"
 import { Link, usePathname, useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 
@@ -33,33 +33,37 @@ const NavigatePreviousNext = ({ appId }) => {
           limit: 9999,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       )
 
-      return apps.data
+      return apps.status === 200 ? apps.data : { apps: [] }
     },
   })
 
   useEffect(() => {
-    const currentIndex = listQuery.data?.apps?.findIndex(
-      (a) => a.appid === appId,
-    )
+    if (!listQuery.data?.apps) return
+
+    const currentIndex = listQuery.data.apps.findIndex((a) => a.appid === appId)
     if (currentIndex <= 0) {
       setPreviousAppId(undefined)
     } else {
-      setPreviousAppId(listQuery.data?.apps[currentIndex - 1].appid)
+      setPreviousAppId(listQuery.data.apps[currentIndex - 1].appid)
     }
 
-    if (currentIndex >= listQuery.data?.apps?.length - 1) {
+    if (currentIndex >= listQuery.data.apps.length - 1) {
       setNextAppId(undefined)
     } else {
-      setNextAppId(listQuery.data?.apps[currentIndex + 1].appid)
+      setNextAppId(listQuery.data.apps[currentIndex + 1].appid)
     }
   }, [setNextAppId, setPreviousAppId, listQuery, appId])
 
-  if (listQuery.isLoading || listQuery.data.apps.length === 0) {
+  if (
+    listQuery.isLoading ||
+    !listQuery.data?.apps ||
+    listQuery.data.apps.length === 0
+  ) {
     return null
   }
 
@@ -129,7 +133,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       ),
@@ -148,7 +152,12 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   }
 
   const pages = Array.from(
-    { length: Math.ceil((query.data.data.requests_count ?? 1) / PAGE_SIZE) },
+    {
+      length: Math.ceil(
+        (query.data.status === 200 ? query.data.data.requests_count : 1) /
+          PAGE_SIZE,
+      ),
+    },
     (_, i) => i + 1,
   )
 
@@ -240,12 +249,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         </div>
       </div>
 
-      {query.data.data.requests.length === 0 && (
+      {query.data.status === 200 && query.data.data.requests.length === 0 && (
         <div>No reviews to show for this app.</div>
       )}
 
       <div className="flex flex-col space-y-4">
-        {query.data.data.requests.map(getReviewRow)}
+        {(query.data.status === 200 && query.data.data).requests.map(
+          getReviewRow,
+        )}
       </div>
 
       <Pagination currentPage={currentPage} pages={pages} />

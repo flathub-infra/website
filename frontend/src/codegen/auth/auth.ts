@@ -20,9 +20,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   ContinueGithubFlowAuthLoginGithubPostBody,
   ContinueGitlabFlowAuthLoginGitlabPostBody,
@@ -50,13 +47,41 @@ Each method is also given a button icon and some text to use, though
 frontends with localisation may choose to render other text instead.
  * @summary Get Login Methods
  */
-export const getLoginMethodsAuthLoginGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<LoginMethod[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login`,
-    options,
-  )
+export type getLoginMethodsAuthLoginGetResponse200 = {
+  data: LoginMethod[]
+  status: 200
+}
+
+export type getLoginMethodsAuthLoginGetResponseComposite =
+  getLoginMethodsAuthLoginGetResponse200
+
+export type getLoginMethodsAuthLoginGetResponse =
+  getLoginMethodsAuthLoginGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetLoginMethodsAuthLoginGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login`
+}
+
+export const getLoginMethodsAuthLoginGet = async (
+  options?: RequestInit,
+): Promise<getLoginMethodsAuthLoginGetResponse> => {
+  const res = await fetch(getGetLoginMethodsAuthLoginGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getLoginMethodsAuthLoginGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getLoginMethodsAuthLoginGetResponse
 }
 
 export const getGetLoginMethodsAuthLoginGetQueryKey = () => {
@@ -65,7 +90,7 @@ export const getGetLoginMethodsAuthLoginGetQueryKey = () => {
 
 export const getGetLoginMethodsAuthLoginGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -74,16 +99,16 @@ export const getGetLoginMethodsAuthLoginGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetLoginMethodsAuthLoginGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>
-  > = ({ signal }) => getLoginMethodsAuthLoginGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getLoginMethodsAuthLoginGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
@@ -95,11 +120,11 @@ export const getGetLoginMethodsAuthLoginGetQueryOptions = <
 export type GetLoginMethodsAuthLoginGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>
 >
-export type GetLoginMethodsAuthLoginGetQueryError = AxiosError<unknown>
+export type GetLoginMethodsAuthLoginGetQueryError = unknown
 
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -117,7 +142,7 @@ export function useGetLoginMethodsAuthLoginGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -125,7 +150,7 @@ export function useGetLoginMethodsAuthLoginGet<
 }
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -143,7 +168,7 @@ export function useGetLoginMethodsAuthLoginGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -151,7 +176,7 @@ export function useGetLoginMethodsAuthLoginGet<
 }
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -161,7 +186,7 @@ export function useGetLoginMethodsAuthLoginGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -173,7 +198,7 @@ export function useGetLoginMethodsAuthLoginGet<
 
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -183,7 +208,7 @@ export function useGetLoginMethodsAuthLoginGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -213,13 +238,41 @@ If the user is already logged in, and has a valid github token stored,
 then this will return an error instead.
  * @summary Start Github Flow
  */
-export const startGithubFlowAuthLoginGithubGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`,
-    options,
-  )
+export type startGithubFlowAuthLoginGithubGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type startGithubFlowAuthLoginGithubGetResponseComposite =
+  startGithubFlowAuthLoginGithubGetResponse200
+
+export type startGithubFlowAuthLoginGithubGetResponse =
+  startGithubFlowAuthLoginGithubGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getStartGithubFlowAuthLoginGithubGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`
+}
+
+export const startGithubFlowAuthLoginGithubGet = async (
+  options?: RequestInit,
+): Promise<startGithubFlowAuthLoginGithubGetResponse> => {
+  const res = await fetch(getStartGithubFlowAuthLoginGithubGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: startGithubFlowAuthLoginGithubGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as startGithubFlowAuthLoginGithubGetResponse
 }
 
 export const getStartGithubFlowAuthLoginGithubGetQueryKey = () => {
@@ -228,7 +281,7 @@ export const getStartGithubFlowAuthLoginGithubGetQueryKey = () => {
 
 export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -237,9 +290,9 @@ export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getStartGithubFlowAuthLoginGithubGetQueryKey()
@@ -247,7 +300,7 @@ export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>
   > = ({ signal }) =>
-    startGithubFlowAuthLoginGithubGet({ signal, ...axiosOptions })
+    startGithubFlowAuthLoginGithubGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
@@ -259,11 +312,11 @@ export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
 export type StartGithubFlowAuthLoginGithubGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>
 >
-export type StartGithubFlowAuthLoginGithubGetQueryError = AxiosError<unknown>
+export type StartGithubFlowAuthLoginGithubGetQueryError = unknown
 
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -281,7 +334,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -289,7 +342,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -307,7 +360,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -315,7 +368,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -325,7 +378,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -337,7 +390,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
 
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -347,7 +400,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -392,19 +445,54 @@ backend state machines; or it will return a success code with an indication
 of whether or not the login sequence completed OK.
  * @summary Continue Github Flow
  */
-export const continueGithubFlowAuthLoginGithubPost = (
+export type continueGithubFlowAuthLoginGithubPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type continueGithubFlowAuthLoginGithubPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type continueGithubFlowAuthLoginGithubPostResponseComposite =
+  | continueGithubFlowAuthLoginGithubPostResponse200
+  | continueGithubFlowAuthLoginGithubPostResponse422
+
+export type continueGithubFlowAuthLoginGithubPostResponse =
+  continueGithubFlowAuthLoginGithubPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getContinueGithubFlowAuthLoginGithubPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`
+}
+
+export const continueGithubFlowAuthLoginGithubPost = async (
   continueGithubFlowAuthLoginGithubPostBody: ContinueGithubFlowAuthLoginGithubPostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`,
-    continueGithubFlowAuthLoginGithubPostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<continueGithubFlowAuthLoginGithubPostResponse> => {
+  const res = await fetch(getContinueGithubFlowAuthLoginGithubPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(continueGithubFlowAuthLoginGithubPostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: continueGithubFlowAuthLoginGithubPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as continueGithubFlowAuthLoginGithubPostResponse
 }
 
 export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -413,7 +501,7 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
     { data: ContinueGithubFlowAuthLoginGithubPostBody },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError,
@@ -421,13 +509,13 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["continueGithubFlowAuthLoginGithubPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
@@ -435,7 +523,7 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return continueGithubFlowAuthLoginGithubPost(data, axiosOptions)
+    return continueGithubFlowAuthLoginGithubPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -447,13 +535,13 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationResult = NonNullable<
 export type ContinueGithubFlowAuthLoginGithubPostMutationBody =
   ContinueGithubFlowAuthLoginGithubPostBody
 export type ContinueGithubFlowAuthLoginGithubPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Continue Github Flow
  */
 export const useContinueGithubFlowAuthLoginGithubPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -463,7 +551,7 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
       { data: ContinueGithubFlowAuthLoginGithubPostBody },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -489,13 +577,41 @@ If the user is already logged in, and has a valid gitlab token stored,
 then this will return an error instead.
  * @summary Start Gitlab Flow
  */
-export const startGitlabFlowAuthLoginGitlabGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`,
-    options,
-  )
+export type startGitlabFlowAuthLoginGitlabGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type startGitlabFlowAuthLoginGitlabGetResponseComposite =
+  startGitlabFlowAuthLoginGitlabGetResponse200
+
+export type startGitlabFlowAuthLoginGitlabGetResponse =
+  startGitlabFlowAuthLoginGitlabGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getStartGitlabFlowAuthLoginGitlabGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`
+}
+
+export const startGitlabFlowAuthLoginGitlabGet = async (
+  options?: RequestInit,
+): Promise<startGitlabFlowAuthLoginGitlabGetResponse> => {
+  const res = await fetch(getStartGitlabFlowAuthLoginGitlabGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: startGitlabFlowAuthLoginGitlabGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as startGitlabFlowAuthLoginGitlabGetResponse
 }
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = () => {
@@ -504,7 +620,7 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = () => {
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -513,9 +629,9 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getStartGitlabFlowAuthLoginGitlabGetQueryKey()
@@ -523,7 +639,7 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>
   > = ({ signal }) =>
-    startGitlabFlowAuthLoginGitlabGet({ signal, ...axiosOptions })
+    startGitlabFlowAuthLoginGitlabGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
@@ -535,11 +651,11 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
 export type StartGitlabFlowAuthLoginGitlabGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>
 >
-export type StartGitlabFlowAuthLoginGitlabGetQueryError = AxiosError<unknown>
+export type StartGitlabFlowAuthLoginGitlabGetQueryError = unknown
 
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -557,7 +673,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -565,7 +681,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -583,7 +699,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -591,7 +707,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -601,7 +717,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -613,7 +729,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -623,7 +739,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -668,19 +784,54 @@ backend state machines; or it will return a success code with an indication
 of whether or not the login sequence completed OK.
  * @summary Continue Gitlab Flow
  */
-export const continueGitlabFlowAuthLoginGitlabPost = (
+export type continueGitlabFlowAuthLoginGitlabPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type continueGitlabFlowAuthLoginGitlabPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type continueGitlabFlowAuthLoginGitlabPostResponseComposite =
+  | continueGitlabFlowAuthLoginGitlabPostResponse200
+  | continueGitlabFlowAuthLoginGitlabPostResponse422
+
+export type continueGitlabFlowAuthLoginGitlabPostResponse =
+  continueGitlabFlowAuthLoginGitlabPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getContinueGitlabFlowAuthLoginGitlabPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`
+}
+
+export const continueGitlabFlowAuthLoginGitlabPost = async (
   continueGitlabFlowAuthLoginGitlabPostBody: ContinueGitlabFlowAuthLoginGitlabPostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`,
-    continueGitlabFlowAuthLoginGitlabPostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<continueGitlabFlowAuthLoginGitlabPostResponse> => {
+  const res = await fetch(getContinueGitlabFlowAuthLoginGitlabPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(continueGitlabFlowAuthLoginGitlabPostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: continueGitlabFlowAuthLoginGitlabPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as continueGitlabFlowAuthLoginGitlabPostResponse
 }
 
 export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -689,7 +840,7 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
     { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError,
@@ -697,13 +848,13 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["continueGitlabFlowAuthLoginGitlabPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
@@ -711,7 +862,7 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return continueGitlabFlowAuthLoginGitlabPost(data, axiosOptions)
+    return continueGitlabFlowAuthLoginGitlabPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -723,13 +874,13 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationResult = NonNullable<
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationBody =
   ContinueGitlabFlowAuthLoginGitlabPostBody
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Continue Gitlab Flow
  */
 export const useContinueGitlabFlowAuthLoginGitlabPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -739,7 +890,7 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
       { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -765,13 +916,41 @@ If the user is already logged in, and has a valid GNOME Gitlab token stored,
 then this will return an error instead.
  * @summary Start Gnome Flow
  */
-export const startGnomeFlowAuthLoginGnomeGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`,
-    options,
-  )
+export type startGnomeFlowAuthLoginGnomeGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type startGnomeFlowAuthLoginGnomeGetResponseComposite =
+  startGnomeFlowAuthLoginGnomeGetResponse200
+
+export type startGnomeFlowAuthLoginGnomeGetResponse =
+  startGnomeFlowAuthLoginGnomeGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getStartGnomeFlowAuthLoginGnomeGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`
+}
+
+export const startGnomeFlowAuthLoginGnomeGet = async (
+  options?: RequestInit,
+): Promise<startGnomeFlowAuthLoginGnomeGetResponse> => {
+  const res = await fetch(getStartGnomeFlowAuthLoginGnomeGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: startGnomeFlowAuthLoginGnomeGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as startGnomeFlowAuthLoginGnomeGetResponse
 }
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = () => {
@@ -780,7 +959,7 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = () => {
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -789,9 +968,9 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getStartGnomeFlowAuthLoginGnomeGetQueryKey()
@@ -799,7 +978,7 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>
   > = ({ signal }) =>
-    startGnomeFlowAuthLoginGnomeGet({ signal, ...axiosOptions })
+    startGnomeFlowAuthLoginGnomeGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
@@ -811,11 +990,11 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
 export type StartGnomeFlowAuthLoginGnomeGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>
 >
-export type StartGnomeFlowAuthLoginGnomeGetQueryError = AxiosError<unknown>
+export type StartGnomeFlowAuthLoginGnomeGetQueryError = unknown
 
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -833,7 +1012,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -841,7 +1020,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -859,7 +1038,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -867,7 +1046,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -877,7 +1056,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -889,7 +1068,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -899,7 +1078,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -944,19 +1123,54 @@ backend state machines; or it will return a success code with an indication
 of whether or not the login sequence completed OK.
  * @summary Continue Gnome Flow
  */
-export const continueGnomeFlowAuthLoginGnomePost = (
+export type continueGnomeFlowAuthLoginGnomePostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type continueGnomeFlowAuthLoginGnomePostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type continueGnomeFlowAuthLoginGnomePostResponseComposite =
+  | continueGnomeFlowAuthLoginGnomePostResponse200
+  | continueGnomeFlowAuthLoginGnomePostResponse422
+
+export type continueGnomeFlowAuthLoginGnomePostResponse =
+  continueGnomeFlowAuthLoginGnomePostResponseComposite & {
+    headers: Headers
+  }
+
+export const getContinueGnomeFlowAuthLoginGnomePostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`
+}
+
+export const continueGnomeFlowAuthLoginGnomePost = async (
   continueGnomeFlowAuthLoginGnomePostBody: ContinueGnomeFlowAuthLoginGnomePostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`,
-    continueGnomeFlowAuthLoginGnomePostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<continueGnomeFlowAuthLoginGnomePostResponse> => {
+  const res = await fetch(getContinueGnomeFlowAuthLoginGnomePostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(continueGnomeFlowAuthLoginGnomePostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: continueGnomeFlowAuthLoginGnomePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as continueGnomeFlowAuthLoginGnomePostResponse
 }
 
 export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -965,7 +1179,7 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
     { data: ContinueGnomeFlowAuthLoginGnomePostBody },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError,
@@ -973,13 +1187,13 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["continueGnomeFlowAuthLoginGnomePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
@@ -987,7 +1201,7 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return continueGnomeFlowAuthLoginGnomePost(data, axiosOptions)
+    return continueGnomeFlowAuthLoginGnomePost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -999,13 +1213,13 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationResult = NonNullable<
 export type ContinueGnomeFlowAuthLoginGnomePostMutationBody =
   ContinueGnomeFlowAuthLoginGnomePostBody
 export type ContinueGnomeFlowAuthLoginGnomePostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Continue Gnome Flow
  */
 export const useContinueGnomeFlowAuthLoginGnomePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -1015,7 +1229,7 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
       { data: ContinueGnomeFlowAuthLoginGnomePostBody },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1032,13 +1246,41 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
 /**
  * @summary Start Kde Flow
  */
-export const startKdeFlowAuthLoginKdeGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`,
-    options,
-  )
+export type startKdeFlowAuthLoginKdeGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type startKdeFlowAuthLoginKdeGetResponseComposite =
+  startKdeFlowAuthLoginKdeGetResponse200
+
+export type startKdeFlowAuthLoginKdeGetResponse =
+  startKdeFlowAuthLoginKdeGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getStartKdeFlowAuthLoginKdeGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`
+}
+
+export const startKdeFlowAuthLoginKdeGet = async (
+  options?: RequestInit,
+): Promise<startKdeFlowAuthLoginKdeGetResponse> => {
+  const res = await fetch(getStartKdeFlowAuthLoginKdeGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: startKdeFlowAuthLoginKdeGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as startKdeFlowAuthLoginKdeGetResponse
 }
 
 export const getStartKdeFlowAuthLoginKdeGetQueryKey = () => {
@@ -1047,7 +1289,7 @@ export const getStartKdeFlowAuthLoginKdeGetQueryKey = () => {
 
 export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1056,16 +1298,16 @@ export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getStartKdeFlowAuthLoginKdeGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>
-  > = ({ signal }) => startKdeFlowAuthLoginKdeGet({ signal, ...axiosOptions })
+  > = ({ signal }) => startKdeFlowAuthLoginKdeGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
@@ -1077,11 +1319,11 @@ export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
 export type StartKdeFlowAuthLoginKdeGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>
 >
-export type StartKdeFlowAuthLoginKdeGetQueryError = AxiosError<unknown>
+export type StartKdeFlowAuthLoginKdeGetQueryError = unknown
 
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -1099,7 +1341,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1107,7 +1349,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1125,7 +1367,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1133,7 +1375,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1143,7 +1385,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1155,7 +1397,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1165,7 +1407,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1186,19 +1428,54 @@ export function useStartKdeFlowAuthLoginKdeGet<
 /**
  * @summary Continue Kde Flow
  */
-export const continueKdeFlowAuthLoginKdePost = (
+export type continueKdeFlowAuthLoginKdePostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type continueKdeFlowAuthLoginKdePostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type continueKdeFlowAuthLoginKdePostResponseComposite =
+  | continueKdeFlowAuthLoginKdePostResponse200
+  | continueKdeFlowAuthLoginKdePostResponse422
+
+export type continueKdeFlowAuthLoginKdePostResponse =
+  continueKdeFlowAuthLoginKdePostResponseComposite & {
+    headers: Headers
+  }
+
+export const getContinueKdeFlowAuthLoginKdePostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`
+}
+
+export const continueKdeFlowAuthLoginKdePost = async (
   continueKdeFlowAuthLoginKdePostBody: ContinueKdeFlowAuthLoginKdePostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`,
-    continueKdeFlowAuthLoginKdePostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<continueKdeFlowAuthLoginKdePostResponse> => {
+  const res = await fetch(getContinueKdeFlowAuthLoginKdePostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(continueKdeFlowAuthLoginKdePostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: continueKdeFlowAuthLoginKdePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as continueKdeFlowAuthLoginKdePostResponse
 }
 
 export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1207,7 +1484,7 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
     { data: ContinueKdeFlowAuthLoginKdePostBody },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError,
@@ -1215,13 +1492,13 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["continueKdeFlowAuthLoginKdePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
@@ -1229,7 +1506,7 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return continueKdeFlowAuthLoginKdePost(data, axiosOptions)
+    return continueKdeFlowAuthLoginKdePost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1240,14 +1517,13 @@ export type ContinueKdeFlowAuthLoginKdePostMutationResult = NonNullable<
 >
 export type ContinueKdeFlowAuthLoginKdePostMutationBody =
   ContinueKdeFlowAuthLoginKdePostBody
-export type ContinueKdeFlowAuthLoginKdePostMutationError =
-  AxiosError<HTTPValidationError>
+export type ContinueKdeFlowAuthLoginKdePostMutationError = HTTPValidationError
 
 /**
  * @summary Continue Kde Flow
  */
 export const useContinueKdeFlowAuthLoginKdePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -1257,7 +1533,7 @@ export const useContinueKdeFlowAuthLoginKdePost = <
       { data: ContinueKdeFlowAuthLoginKdePostBody },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1298,19 +1574,54 @@ backend state machines; or it will return a success code with an indication
 of whether or not the login sequence completed OK.
  * @summary Continue Google Flow
  */
-export const continueGoogleFlowAuthLoginGooglePost = (
+export type continueGoogleFlowAuthLoginGooglePostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type continueGoogleFlowAuthLoginGooglePostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type continueGoogleFlowAuthLoginGooglePostResponseComposite =
+  | continueGoogleFlowAuthLoginGooglePostResponse200
+  | continueGoogleFlowAuthLoginGooglePostResponse422
+
+export type continueGoogleFlowAuthLoginGooglePostResponse =
+  continueGoogleFlowAuthLoginGooglePostResponseComposite & {
+    headers: Headers
+  }
+
+export const getContinueGoogleFlowAuthLoginGooglePostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/google`
+}
+
+export const continueGoogleFlowAuthLoginGooglePost = async (
   continueGoogleFlowAuthLoginGooglePostBody: ContinueGoogleFlowAuthLoginGooglePostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/google`,
-    continueGoogleFlowAuthLoginGooglePostBody,
-    options,
-  )
+  options?: RequestInit,
+): Promise<continueGoogleFlowAuthLoginGooglePostResponse> => {
+  const res = await fetch(getContinueGoogleFlowAuthLoginGooglePostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(continueGoogleFlowAuthLoginGooglePostBody),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: continueGoogleFlowAuthLoginGooglePostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as continueGoogleFlowAuthLoginGooglePostResponse
 }
 
 export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1319,7 +1630,7 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
     { data: ContinueGoogleFlowAuthLoginGooglePostBody },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError,
@@ -1327,13 +1638,13 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["continueGoogleFlowAuthLoginGooglePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
@@ -1341,7 +1652,7 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return continueGoogleFlowAuthLoginGooglePost(data, axiosOptions)
+    return continueGoogleFlowAuthLoginGooglePost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1353,13 +1664,13 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationResult = NonNullable<
 export type ContinueGoogleFlowAuthLoginGooglePostMutationBody =
   ContinueGoogleFlowAuthLoginGooglePostBody
 export type ContinueGoogleFlowAuthLoginGooglePostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Continue Google Flow
  */
 export const useContinueGoogleFlowAuthLoginGooglePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -1369,7 +1680,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
       { data: ContinueGoogleFlowAuthLoginGooglePostBody },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1385,7 +1696,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
 }
 /**
  * Retrieve the current login's user information.  If the user is not logged in
-you will get a `204` return.  Otherwise you will receive JSON describing the
+you will get a `401` return.  Otherwise you will receive JSON describing the
 currently logged in user, for example:
 
 ```
@@ -1404,13 +1715,47 @@ will be provided.
 dev_flatpaks is filtered against IDs available in AppStream
  * @summary Get Userinfo
  */
-export const getUserinfoAuthUserinfoGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<UserInfo>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/userinfo`,
-    options,
-  )
+export type getUserinfoAuthUserinfoGetResponse200 = {
+  data: UserInfo
+  status: 200
+}
+
+export type getUserinfoAuthUserinfoGetResponse401 = {
+  data: null
+  status: 401
+}
+
+export type getUserinfoAuthUserinfoGetResponseComposite =
+  | getUserinfoAuthUserinfoGetResponse200
+  | getUserinfoAuthUserinfoGetResponse401
+
+export type getUserinfoAuthUserinfoGetResponse =
+  getUserinfoAuthUserinfoGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetUserinfoAuthUserinfoGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/userinfo`
+}
+
+export const getUserinfoAuthUserinfoGet = async (
+  options?: RequestInit,
+): Promise<getUserinfoAuthUserinfoGetResponse> => {
+  const res = await fetch(getGetUserinfoAuthUserinfoGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getUserinfoAuthUserinfoGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getUserinfoAuthUserinfoGetResponse
 }
 
 export const getGetUserinfoAuthUserinfoGetQueryKey = () => {
@@ -1419,7 +1764,7 @@ export const getGetUserinfoAuthUserinfoGetQueryKey = () => {
 
 export const getGetUserinfoAuthUserinfoGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = null,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1428,16 +1773,16 @@ export const getGetUserinfoAuthUserinfoGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetUserinfoAuthUserinfoGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>
-  > = ({ signal }) => getUserinfoAuthUserinfoGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getUserinfoAuthUserinfoGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
@@ -1449,11 +1794,11 @@ export const getGetUserinfoAuthUserinfoGetQueryOptions = <
 export type GetUserinfoAuthUserinfoGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>
 >
-export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<unknown>
+export type GetUserinfoAuthUserinfoGetQueryError = null
 
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = null,
 >(
   options: {
     query: Partial<
@@ -1471,7 +1816,7 @@ export function useGetUserinfoAuthUserinfoGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1479,7 +1824,7 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = null,
 >(
   options?: {
     query?: Partial<
@@ -1497,7 +1842,7 @@ export function useGetUserinfoAuthUserinfoGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1505,7 +1850,7 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = null,
 >(
   options?: {
     query?: Partial<
@@ -1515,7 +1860,7 @@ export function useGetUserinfoAuthUserinfoGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1527,7 +1872,7 @@ export function useGetUserinfoAuthUserinfoGet<
 
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = null,
 >(
   options?: {
     query?: Partial<
@@ -1537,7 +1882,7 @@ export function useGetUserinfoAuthUserinfoGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1558,18 +1903,47 @@ export function useGetUserinfoAuthUserinfoGet<
 /**
  * @summary Do Refresh Dev Flatpaks
  */
-export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<RefreshDevFlatpaksReturn>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/refresh-dev-flatpaks`,
-    undefined,
-    options,
+export type doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponse200 = {
+  data: RefreshDevFlatpaksReturn
+  status: 200
+}
+
+export type doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseComposite =
+  doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponse200
+
+export type doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponse =
+  doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/refresh-dev-flatpaks`
+}
+
+export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = async (
+  options?: RequestInit,
+): Promise<doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponse> => {
+  const res = await fetch(
+    getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as doRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponse
 }
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+  <TError = unknown, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>
@@ -1578,7 +1952,7 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>>,
     TError,
@@ -1586,13 +1960,13 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
     TContext
   > => {
     const mutationKey = ["doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1600,7 +1974,7 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
       >,
       void
     > = () => {
-      return doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(axiosOptions)
+      return doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(fetchOptions)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -1612,13 +1986,13 @@ export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationResult =
   >
 
 export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationError =
-  AxiosError<unknown>
+  unknown
 
 /**
  * @summary Do Refresh Dev Flatpaks
  */
 export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(
   options?: {
@@ -1630,7 +2004,7 @@ export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1649,18 +2023,45 @@ export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
 and will clear the session cookie so that the user is not logged in.
  * @summary Do Logout
  */
-export const doLogoutAuthLogoutPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/logout`,
-    undefined,
-    options,
-  )
+export type doLogoutAuthLogoutPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type doLogoutAuthLogoutPostResponseComposite =
+  doLogoutAuthLogoutPostResponse200
+
+export type doLogoutAuthLogoutPostResponse =
+  doLogoutAuthLogoutPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getDoLogoutAuthLogoutPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/logout`
+}
+
+export const doLogoutAuthLogoutPost = async (
+  options?: RequestInit,
+): Promise<doLogoutAuthLogoutPostResponse> => {
+  const res = await fetch(getDoLogoutAuthLogoutPostUrl(), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: doLogoutAuthLogoutPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as doLogoutAuthLogoutPostResponse
 }
 
 export const getDoLogoutAuthLogoutPostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1669,7 +2070,7 @@ export const getDoLogoutAuthLogoutPostMutationOptions = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
   TError,
@@ -1677,19 +2078,19 @@ export const getDoLogoutAuthLogoutPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["doLogoutAuthLogoutPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
     void
   > = () => {
-    return doLogoutAuthLogoutPost(axiosOptions)
+    return doLogoutAuthLogoutPost(fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1699,15 +2100,12 @@ export type DoLogoutAuthLogoutPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>
 >
 
-export type DoLogoutAuthLogoutPostMutationError = AxiosError<unknown>
+export type DoLogoutAuthLogoutPostMutationError = unknown
 
 /**
  * @summary Do Logout
  */
-export const useDoLogoutAuthLogoutPost = <
-  TError = AxiosError<unknown>,
-  TContext = unknown,
->(
+export const useDoLogoutAuthLogoutPost = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
@@ -1715,7 +2113,7 @@ export const useDoLogoutAuthLogoutPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1735,13 +2133,41 @@ Otherwise they will get an option to delete their account
 and data.
  * @summary Get Deleteuser
  */
-export const getDeleteuserAuthDeleteuserGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetDeleteUserResult>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`,
-    options,
-  )
+export type getDeleteuserAuthDeleteuserGetResponse200 = {
+  data: GetDeleteUserResult
+  status: 200
+}
+
+export type getDeleteuserAuthDeleteuserGetResponseComposite =
+  getDeleteuserAuthDeleteuserGetResponse200
+
+export type getDeleteuserAuthDeleteuserGetResponse =
+  getDeleteuserAuthDeleteuserGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetDeleteuserAuthDeleteuserGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`
+}
+
+export const getDeleteuserAuthDeleteuserGet = async (
+  options?: RequestInit,
+): Promise<getDeleteuserAuthDeleteuserGetResponse> => {
+  const res = await fetch(getGetDeleteuserAuthDeleteuserGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getDeleteuserAuthDeleteuserGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDeleteuserAuthDeleteuserGetResponse
 }
 
 export const getGetDeleteuserAuthDeleteuserGetQueryKey = () => {
@@ -1750,7 +2176,7 @@ export const getGetDeleteuserAuthDeleteuserGetQueryKey = () => {
 
 export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1759,9 +2185,9 @@ export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetDeleteuserAuthDeleteuserGetQueryKey()
@@ -1769,7 +2195,7 @@ export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>
   > = ({ signal }) =>
-    getDeleteuserAuthDeleteuserGet({ signal, ...axiosOptions })
+    getDeleteuserAuthDeleteuserGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
@@ -1781,11 +2207,11 @@ export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
 export type GetDeleteuserAuthDeleteuserGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>
 >
-export type GetDeleteuserAuthDeleteuserGetQueryError = AxiosError<unknown>
+export type GetDeleteuserAuthDeleteuserGetQueryError = unknown
 
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -1803,7 +2229,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1811,7 +2237,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
 }
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1829,7 +2255,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1837,7 +2263,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
 }
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1847,7 +2273,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1859,7 +2285,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
 
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1869,7 +2295,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1900,19 +2326,54 @@ The input to this should be of the form:
 ```
  * @summary Do Deleteuser
  */
-export const doDeleteuserAuthDeleteuserPost = (
+export type doDeleteuserAuthDeleteuserPostResponse200 = {
+  data: DeleteUserResult
+  status: 200
+}
+
+export type doDeleteuserAuthDeleteuserPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type doDeleteuserAuthDeleteuserPostResponseComposite =
+  | doDeleteuserAuthDeleteuserPostResponse200
+  | doDeleteuserAuthDeleteuserPostResponse422
+
+export type doDeleteuserAuthDeleteuserPostResponse =
+  doDeleteuserAuthDeleteuserPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getDoDeleteuserAuthDeleteuserPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`
+}
+
+export const doDeleteuserAuthDeleteuserPost = async (
   userDeleteRequest: UserDeleteRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DeleteUserResult>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`,
-    userDeleteRequest,
-    options,
-  )
+  options?: RequestInit,
+): Promise<doDeleteuserAuthDeleteuserPostResponse> => {
+  const res = await fetch(getDoDeleteuserAuthDeleteuserPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(userDeleteRequest),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: doDeleteuserAuthDeleteuserPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as doDeleteuserAuthDeleteuserPostResponse
 }
 
 export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1921,7 +2382,7 @@ export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
     { data: UserDeleteRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
   TError,
@@ -1929,13 +2390,13 @@ export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["doDeleteuserAuthDeleteuserPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
@@ -1943,7 +2404,7 @@ export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return doDeleteuserAuthDeleteuserPost(data, axiosOptions)
+    return doDeleteuserAuthDeleteuserPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1953,14 +2414,13 @@ export type DoDeleteuserAuthDeleteuserPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>
 >
 export type DoDeleteuserAuthDeleteuserPostMutationBody = UserDeleteRequest
-export type DoDeleteuserAuthDeleteuserPostMutationError =
-  AxiosError<HTTPValidationError>
+export type DoDeleteuserAuthDeleteuserPostMutationError = HTTPValidationError
 
 /**
  * @summary Do Deleteuser
  */
 export const useDoDeleteuserAuthDeleteuserPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -1970,7 +2430,7 @@ export const useDoDeleteuserAuthDeleteuserPost = <
       { data: UserDeleteRequest },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1987,18 +2447,50 @@ export const useDoDeleteuserAuthDeleteuserPost = <
 /**
  * @summary Do Agree To Publisher Agreement
  */
-export const doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/accept-publisher-agreement`,
-    undefined,
-    options,
-  )
-}
+export type doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponseComposite =
+  doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponse200
+
+export type doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponse =
+  doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostUrl =
+  () => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/accept-publisher-agreement`
+  }
+
+export const doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost =
+  async (
+    options?: RequestInit,
+  ): Promise<doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponse> => {
+    const res = await fetch(
+      getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostUrl(),
+      {
+        ...options,
+        method: "POST",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostResponse
+  }
 
 export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+  <TError = unknown, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -2009,7 +2501,7 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutat
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<
@@ -2023,13 +2515,13 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutat
     const mutationKey = [
       "doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost",
     ]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -2040,7 +2532,7 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutat
       void
     > = () => {
       return doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -2057,13 +2549,13 @@ export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationR
   >
 
 export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationError =
-  AxiosError<unknown>
+  unknown
 
 /**
  * @summary Do Agree To Publisher Agreement
  */
 export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(
   options?: {
@@ -2077,7 +2569,7 @@ export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -2101,22 +2593,69 @@ export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
  * Changes the user's default account, which determines which display name and email we use.
  * @summary Do Change Default Account
  */
-export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
+export type doChangeDefaultAccountAuthChangeDefaultAccountPostResponse204 = {
+  data: null
+  status: 204
+}
+
+export type doChangeDefaultAccountAuthChangeDefaultAccountPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type doChangeDefaultAccountAuthChangeDefaultAccountPostResponseComposite =
+
+    | doChangeDefaultAccountAuthChangeDefaultAccountPostResponse204
+    | doChangeDefaultAccountAuthChangeDefaultAccountPostResponse422
+
+export type doChangeDefaultAccountAuthChangeDefaultAccountPostResponse =
+  doChangeDefaultAccountAuthChangeDefaultAccountPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostUrl = (
   params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/change-default-account`,
-    undefined,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/change-default-account?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/change-default-account`
+}
+
+export const doChangeDefaultAccountAuthChangeDefaultAccountPost = async (
+  params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
+  options?: RequestInit,
+): Promise<doChangeDefaultAccountAuthChangeDefaultAccountPostResponse> => {
+  const res = await fetch(
+    getDoChangeDefaultAccountAuthChangeDefaultAccountPostUrl(params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "POST",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: doChangeDefaultAccountAuthChangeDefaultAccountPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as doChangeDefaultAccountAuthChangeDefaultAccountPostResponse
 }
 
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
@@ -2125,7 +2664,7 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
       { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
@@ -2135,13 +2674,13 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
     TContext
   > => {
     const mutationKey = ["doChangeDefaultAccountAuthChangeDefaultAccountPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -2153,7 +2692,7 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
 
       return doChangeDefaultAccountAuthChangeDefaultAccountPost(
         params,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -2168,13 +2707,13 @@ export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationResult =
   >
 
 export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Do Change Default Account
  */
 export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -2186,7 +2725,7 @@ export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
       { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<

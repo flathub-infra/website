@@ -17,9 +17,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   GetStatsForAppStatsAppIdGet200,
   GetStatsForAppStatsAppIdGetParams,
@@ -30,10 +27,37 @@ import type {
 /**
  * @summary Get Stats
  */
-export const getStatsStatsGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetStatsStatsGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/`, options)
+export type getStatsStatsGetResponse200 = {
+  data: GetStatsStatsGet200
+  status: 200
+}
+
+export type getStatsStatsGetResponseComposite = getStatsStatsGetResponse200
+
+export type getStatsStatsGetResponse = getStatsStatsGetResponseComposite & {
+  headers: Headers
+}
+
+export const getGetStatsStatsGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/`
+}
+
+export const getStatsStatsGet = async (
+  options?: RequestInit,
+): Promise<getStatsStatsGetResponse> => {
+  const res = await fetch(getGetStatsStatsGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getStatsStatsGetResponse["data"] = body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getStatsStatsGetResponse
 }
 
 export const getGetStatsStatsGetQueryKey = () => {
@@ -42,20 +66,20 @@ export const getGetStatsStatsGetQueryKey = () => {
 
 export const getGetStatsStatsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey = queryOptions?.queryKey ?? getGetStatsStatsGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getStatsStatsGet>>
-  > = ({ signal }) => getStatsStatsGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getStatsStatsGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getStatsStatsGet>>,
@@ -67,11 +91,11 @@ export const getGetStatsStatsGetQueryOptions = <
 export type GetStatsStatsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getStatsStatsGet>>
 >
-export type GetStatsStatsGetQueryError = AxiosError<unknown>
+export type GetStatsStatsGetQueryError = unknown
 
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -89,7 +113,7 @@ export function useGetStatsStatsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -97,7 +121,7 @@ export function useGetStatsStatsGet<
 }
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -115,7 +139,7 @@ export function useGetStatsStatsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -123,7 +147,7 @@ export function useGetStatsStatsGet<
 }
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -133,7 +157,7 @@ export function useGetStatsStatsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -145,7 +169,7 @@ export function useGetStatsStatsGet<
 
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -155,7 +179,7 @@ export function useGetStatsStatsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -176,15 +200,64 @@ export function useGetStatsStatsGet<
 /**
  * @summary Get Stats For App
  */
-export const getStatsForAppStatsAppIdGet = (
+export type getStatsForAppStatsAppIdGetResponse200 = {
+  data: GetStatsForAppStatsAppIdGet200
+  status: 200
+}
+
+export type getStatsForAppStatsAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getStatsForAppStatsAppIdGetResponseComposite =
+  | getStatsForAppStatsAppIdGetResponse200
+  | getStatsForAppStatsAppIdGetResponse422
+
+export type getStatsForAppStatsAppIdGetResponse =
+  getStatsForAppStatsAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetStatsForAppStatsAppIdGetUrl = (
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetStatsForAppStatsAppIdGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/${appId}`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/${appId}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/${appId}`
+}
+
+export const getStatsForAppStatsAppIdGet = async (
+  appId: string,
+  params?: GetStatsForAppStatsAppIdGetParams,
+  options?: RequestInit,
+): Promise<getStatsForAppStatsAppIdGetResponse> => {
+  const res = await fetch(getGetStatsForAppStatsAppIdGetUrl(appId, params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getStatsForAppStatsAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getStatsForAppStatsAppIdGetResponse
 }
 
 export const getGetStatsForAppStatsAppIdGetQueryKey = (
@@ -199,7 +272,7 @@ export const getGetStatsForAppStatsAppIdGetQueryKey = (
 
 export const getGetStatsForAppStatsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -211,10 +284,10 @@ export const getGetStatsForAppStatsAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -223,7 +296,7 @@ export const getGetStatsForAppStatsAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>
   > = ({ signal }) =>
-    getStatsForAppStatsAppIdGet(appId, params, { signal, ...axiosOptions })
+    getStatsForAppStatsAppIdGet(appId, params, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -240,12 +313,11 @@ export const getGetStatsForAppStatsAppIdGetQueryOptions = <
 export type GetStatsForAppStatsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>
 >
-export type GetStatsForAppStatsAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetStatsForAppStatsAppIdGetQueryError = HTTPValidationError
 
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params: undefined | GetStatsForAppStatsAppIdGetParams,
@@ -265,7 +337,7 @@ export function useGetStatsForAppStatsAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -273,7 +345,7 @@ export function useGetStatsForAppStatsAppIdGet<
 }
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -293,7 +365,7 @@ export function useGetStatsForAppStatsAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -301,7 +373,7 @@ export function useGetStatsForAppStatsAppIdGet<
 }
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -313,7 +385,7 @@ export function useGetStatsForAppStatsAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -325,7 +397,7 @@ export function useGetStatsForAppStatsAppIdGet<
 
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -337,7 +409,7 @@ export function useGetStatsForAppStatsAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {

@@ -52,10 +52,12 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
     mutationKey: ["review", request.id],
     mutationFn: (body: { approve: boolean; comment?: string }) =>
       submitReviewModerationRequestsIdReviewPost(request.id, body, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: (data) => {
-      setIssueUrl(data.data?.github_issue_url)
+      if (data.data && 'github_issue_url' in data.data) {
+        setIssueUrl(data.data.github_issue_url)
+      }
     },
     onError: (e) => {
       setError(e as unknown as string)

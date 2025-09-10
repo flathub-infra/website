@@ -12,7 +12,7 @@ const SavedCards: FunctionComponent = () => {
     queryKey: ["/walletinfo"],
     queryFn: ({ signal }) =>
       getWalletinfoWalletWalletinfoGet({
-        withCredentials: true,
+        credentials: "include",
         signal,
       }),
   })

@@ -8,10 +8,15 @@ import { HiOutlineFunnel } from "react-icons/hi2"
 import clsx from "clsx"
 import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseMutationResult } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import {
+  HTTPValidationError,
+  MeilisearchResponseLimitedAppsIndex,
+  PostSearchSearchPostParams,
+  postSearchSearchPostResponse,
+  SearchQuery,
+} from "src/codegen"
 import { useTranslations } from "next-intl"
 
 export const SearchPanel = ({
@@ -21,7 +26,12 @@ export const SearchPanel = ({
   query,
 }: {
   searchResult: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
     unknown
   >
   selectedFilters: {
@@ -35,6 +45,7 @@ export const SearchPanel = ({
 
   if (
     searchResult.isSuccess &&
+    searchResult.data.status === 200 &&
     searchResult.data.data.estimatedTotalHits === 0
   ) {
     return (
@@ -83,7 +94,10 @@ export const SearchPanel = ({
               )}
             >
               {t("number-of-results", {
-                number: searchResult.data?.data?.estimatedTotalHits ?? "000",
+                number:
+                  searchResult.isSuccess && searchResult.data.status === 200
+                    ? searchResult.data?.data?.estimatedTotalHits
+                    : "000",
               })}
             </span>
           }
