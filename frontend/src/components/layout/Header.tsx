@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { useRouter, usePathname, Link } from "../../i18n/navigation"
 import { HiXMark, HiBars3 } from "react-icons/hi2"
-import { useWindowSize } from "src/hooks/useWindowSize"
 import { OrganizationJsonLd } from "next-seo"
 import { useTranslations, useLocale } from "next-intl"
 import { IS_PRODUCTION } from "../../env"
@@ -60,17 +59,11 @@ let userNavigation = [
   { name: "settings", href: "/settings" },
 ]
 
-const MobileMenuButton = ({ open, close, width }) => {
+const MobileMenuButton = ({ open }) => {
   const t = useTranslations()
 
-  useEffect(() => {
-    if (open && width >= 1024) {
-      close()
-    }
-  }, [close, open, width])
-
   return (
-    <PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5">
+    <PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:hidden">
       <span className="sr-only">{t("open-menu")}</span>
       {open ? (
         <HiXMark className="block size-6" aria-hidden="true" />
@@ -88,7 +81,6 @@ const Header = () => {
   const pathname = usePathname()
   const user = useUserContext()
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
-  const size = useWindowSize()
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -236,11 +228,7 @@ const Header = () => {
                   </div>
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:end-0 lg:hidden">
-                  <MobileMenuButton
-                    open={open}
-                    close={close}
-                    width={size.width}
-                  />
+                  <MobileMenuButton open={open} />
                 </div>
                 <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
                   {navigation.map((item) => {
