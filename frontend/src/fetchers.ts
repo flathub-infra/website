@@ -35,7 +35,9 @@ import {
 import { gameCategoryFilter } from "./types/Category"
 
 export async function fetchLoginProviders() {
-  const res = await fetch(LOGIN_PROVIDERS_URL)
+  const res = await fetch(LOGIN_PROVIDERS_URL, {
+    next: { revalidate: 3600 }, // Cache for 1 hour
+  })
   return await res.json()
 }
 
@@ -45,7 +47,9 @@ export async function fetchAppstream(
 ): Promise<Appstream> {
   let entryJson: Appstream | undefined = undefined
   try {
-    const entryData = await fetch(`${APP_DETAILS(appId, locale)}`)
+    const entryData = await fetch(`${APP_DETAILS(appId, locale)}`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    })
     entryJson = await entryData.json()
   } catch (error) {
     console.log(error)
@@ -62,7 +66,9 @@ export async function fetchEolRebase(
 ): Promise<string | undefined> {
   let entryJson: string | undefined
   try {
-    const entryData = await fetch(`${EOL_REBASE_URL(appId)}`)
+    const entryData = await fetch(`${EOL_REBASE_URL(appId)}`, {
+      next: { revalidate: 86400 }, // Cache for 24 hours (EOL data changes infrequently)
+    })
     if (entryData.status === 200) {
       entryJson = await entryData.json()
     }
@@ -79,7 +85,9 @@ export async function fetchEolRebase(
 export async function fetchSummary(appId: string): Promise<Summary> {
   let summaryJson: Summary
   try {
-    const summaryData = await fetch(`${SUMMARY_DETAILS(appId)}`)
+    const summaryData = await fetch(`${SUMMARY_DETAILS(appId)}`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    })
     summaryJson = await summaryData.json()
   } catch (error) {
     console.log(error)
@@ -94,7 +102,9 @@ export async function fetchSummary(appId: string): Promise<Summary> {
 export async function fetchAppStats(appId: string): Promise<StatsResultApp> {
   let statsJson: StatsResultApp
   try {
-    const statsData = await fetch(`${STATS_DETAILS(appId)}`)
+    const statsData = await fetch(`${STATS_DETAILS(appId)}`, {
+      next: { revalidate: 1800 }, // Cache for 30 minutes (stats change more frequently)
+    })
     statsJson = await statsData.json()
   } catch (error) {
     console.log(error)
@@ -154,7 +164,9 @@ export default async function fetchCollection(
     return
   }
 
-  const collectionListRes = await fetch(collectionURL)
+  const collectionListRes = await fetch(collectionURL, {
+    next: { revalidate: 1800 }, // Cache for 30 minutes (collections change frequently)
+  })
   const collectionList: MeilisearchResponseAppsIndex =
     await collectionListRes.json()
 
@@ -182,6 +194,9 @@ export async function fetchCategory(
       exclude_subcategories,
       sort_by,
     ),
+    {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    },
   )
   const response: MeilisearchResponseAppsIndex = await appListRes.json()
 
@@ -274,6 +289,9 @@ export async function fetchSubcategory(
       exclude_subcategories,
       sort_by,
     ),
+    {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    },
   )
   const response: MeilisearchResponseAppsIndex = await appListRes.json()
 
@@ -315,7 +333,9 @@ export async function fetchDeveloperApps(
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {
   let res: Response
   try {
-    res = await fetch(VENDING_CONFIG_URL)
+    res = await fetch(VENDING_CONFIG_URL, {
+      next: { revalidate: 86400 }, // Cache for 24 hours (config changes infrequently)
+    })
   } catch {
     return null
   }
@@ -335,6 +355,9 @@ export async function fetchVerificationStatus(
   try {
     const verificationResponse = await fetch(
       `${APP_VERIFICATION_STATUS(appId)}`,
+      {
+        next: { revalidate: 86400 }, // Cache for 24 hours (verification status changes infrequently)
+      },
     )
     verification = await verificationResponse.json()
   } catch (error) {
@@ -344,7 +367,9 @@ export async function fetchVerificationStatus(
 }
 
 export async function fetchAddons(appid: string, locale: string) {
-  const addonListResponse = await fetch(ADDONS_URL(appid))
+  const addonListResponse = await fetch(ADDONS_URL(appid), {
+    next: { revalidate: 3600 }, // Cache for 1 hour
+  })
 
   const addonList: string[] = await addonListResponse.json()
 
@@ -376,7 +401,9 @@ export async function fetchAddons(appid: string, locale: string) {
 export async function fetchAppsOfTheWeek(date: string) {
   let json: AppsOfTheWeek
   try {
-    const data = await fetch(APPS_OF_THE_WEEK_URL(date))
+    const data = await fetch(APPS_OF_THE_WEEK_URL(date), {
+      next: { revalidate: 43200 }, // Cache for 12 hours (app of the week changes daily)
+    })
     json = await data.json()
   } catch (error) {
     console.log(error)
@@ -391,7 +418,9 @@ export async function fetchAppsOfTheWeek(date: string) {
 export async function fetchAppOfTheDay(date: string) {
   let json: AppOfTheDay
   try {
-    const data = await fetch(APP_OF_THE_DAY_URL(date))
+    const data = await fetch(APP_OF_THE_DAY_URL(date), {
+      next: { revalidate: 43200 }, // Cache for 12 hours (app of the day changes daily)
+    })
     json = await data.json()
   } catch (error) {
     console.log(error)
