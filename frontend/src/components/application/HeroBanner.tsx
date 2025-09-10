@@ -141,6 +141,9 @@ export const HeroBanner = ({
                         appName={data.appstream.name}
                         loading="eager"
                         quality={100}
+                        fetchPriority={
+                          aboveTheFold && i === 0 ? "high" : "auto"
+                        }
                       />
                     </div>
                     <div className="flex pt-3">
@@ -173,6 +176,7 @@ export const HeroBanner = ({
                         "absolute rounded-lg",
                         data.app.isFullscreen ? "top-20" : "top-10 ",
                       )}
+                      fetchPriority={aboveTheFold && i === 0 ? "high" : "auto"}
                     />
                   </div>
                 </div>
