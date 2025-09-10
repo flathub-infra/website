@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import ApplicationCollection from "../../../../../../../src/components/application/Collection"
+import ApplicationCollectionSuspense from "../../../../../../../src/components/application/ApplicationCollectionSuspense"
 import { mapAppsIndexToAppstreamListItem } from "../../../../../../../src/meilisearch"
 import { MeilisearchResponseAppsIndex } from "../../../../../../../src/codegen"
 
@@ -15,7 +15,7 @@ export default function TagCollectionClient({ applications, tag }: Props) {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <ApplicationCollection
+      <ApplicationCollectionSuspense
         title={t("apps-by-tag", { tag })}
         applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
         page={applications.page}

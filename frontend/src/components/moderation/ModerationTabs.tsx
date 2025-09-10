@@ -3,7 +3,7 @@ import { getAppsInfo } from "src/asyncs/app"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
-import ApplicationCollection from "../application/Collection"
+import ApplicationCollectionSuspense from "../application/ApplicationCollectionSuspense"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import { getModerationAppsModerationAppsGet } from "src/codegen"
@@ -147,7 +147,7 @@ const ModerationTabs: FunctionComponent = () => {
             </div>
           </div>
         </div>
-        <ApplicationCollection
+        <ApplicationCollectionSuspense
           title={undefined}
           applications={query.data.appstream}
           totalHits={query.data.apps.apps_count}
