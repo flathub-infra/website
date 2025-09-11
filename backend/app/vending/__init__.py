@@ -202,7 +202,17 @@ async def vendingerror_exception_handler(_request: Request, exc: VendingError):
 router = APIRouter(prefix="/vending")
 
 
-@router.get("/status", tags=["vending"])
+@router.get(
+    "/status",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingStatus},
+        201: {"description": "User never began onboarding"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        500: {"description": "Internal server error"},
+    },
+)
 def status(login=Depends(login_state)) -> VendingStatus:
     """
     Retrieve the vending status of the logged in user.
@@ -243,7 +253,17 @@ def status(login=Depends(login_state)) -> VendingStatus:
     )
 
 
-@router.post("/status/onboarding", tags=["vending"])
+@router.post(
+    "/status/onboarding",
+    tags=["vending"],
+    responses={
+        200: {"description": "Onboarding completed successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def start_onboarding(
     data: VendingOnboardingRequest, login=Depends(login_state)
 ) -> VendingRedirect:
@@ -285,7 +305,17 @@ def start_onboarding(
             raise VendingError("stripe-account-create-failed") from error
 
 
-@router.get("/status/dashboardlink", tags=["vending"])
+@router.get(
+    "/status/dashboardlink",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingRedirect},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Not onboarded"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
     """
     Retrieve a link to the logged in user's Stripe express dashboard.
@@ -308,7 +338,14 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
             raise VendingError("stripe-link-create-failed") from error
 
 
-@router.get("/config", tags=["vending"])
+@router.get(
+    "/config",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingConfig},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_global_vending_config() -> VendingConfig:
     """
     Retrieve the configuration values needed to calculate application
@@ -333,7 +370,18 @@ def get_global_vending_config() -> VendingConfig:
     )
 
 
-@router.get("app/{app_id}/setup", tags=["vending"])
+@router.get(
+    "app/{app_id}/setup",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingSetup},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_app_vending_setup(
     app_id: str = Path(
         min_length=6,
@@ -370,7 +418,18 @@ def get_app_vending_setup(
     )
 
 
-@router.post("app/{app_id}/setup", tags=["vending"])
+@router.post(
+    "app/{app_id}/setup",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingSetup},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in or permission denied"},
+        404: {"description": "App not found or not onboarded"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def post_app_vending_setup(
     setup: VendingSetupRequest,
     app_id: str = Path(
@@ -434,7 +493,18 @@ def post_app_vending_setup(
     return get_app_vending_setup(app_id, login)
 
 
-@router.post("app/{app_id}", tags=["vending"])
+@router.post(
+    "app/{app_id}",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingOutput},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def post_app_vending_status(
     request: Request,
     data: ProposedPayment,
@@ -507,7 +577,18 @@ class TokenList(BaseModel):
     tokens: list[TokenModel]
 
 
-@router.get("app/{app_id}/tokens", tags=["vending"])
+@router.get(
+    "app/{app_id}/tokens",
+    tags=["vending"],
+    responses={
+        200: {"model": TokenList},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in or permission denied"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_redeemable_tokens(
     request: Request,
     app_id: str = Path(
@@ -550,7 +631,18 @@ def get_redeemable_tokens(
     return TokenList(status="ok", total=len(tokens), tokens=tokens)
 
 
-@router.post("app/{app_id}/tokens", tags=["vending"])
+@router.post(
+    "app/{app_id}/tokens",
+    tags=["vending"],
+    responses={
+        200: {"model": list[TokenModel]},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in or permission denied"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def create_tokens(
     request: Request,
     data: list[str],
@@ -602,7 +694,18 @@ class TokenCancellation(BaseModel):
     status: Literal["invalid", "cancelled", "error"]
 
 
-@router.post("app/{app_id}/tokens/cancel", tags=["vending"])
+@router.post(
+    "app/{app_id}/tokens/cancel",
+    tags=["vending"],
+    responses={
+        200: {"model": list[TokenCancellation]},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in or permission denied"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def cancel_tokens(
     request: Request,
     data: list[str],
@@ -651,7 +754,18 @@ class RedemptionResult(BaseModel):
     reason: str
 
 
-@router.post("app/{app_id}/tokens/redeem/{token}", tags=["vending"])
+@router.post(
+    "app/{app_id}/tokens/redeem/{token}",
+    tags=["vending"],
+    responses={
+        200: {"model": RedemptionResult},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in or permission denied"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def redeem_token(
     request: Request,
     app_id: str = Path(
@@ -688,7 +802,17 @@ def redeem_token(
 # Tax and other real-world problems are associated with things like an
 # application's type, licence, etc.
 # This heuristic tries to tell us about the app, and why we made that decision
-@router.get("app/{app_id}/info", tags=["vending"])
+@router.get(
+    "app/{app_id}/info",
+    tags=["vending"],
+    responses={
+        200: {"model": VendingApplicationInformation},
+        401: {"description": "Unauthorized"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def app_info(
     app_id: str = Path(
         min_length=6,

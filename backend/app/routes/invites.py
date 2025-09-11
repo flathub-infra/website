@@ -71,7 +71,17 @@ class InviteStatus(BaseModel):
     is_direct_upload_app: bool = True
 
 
-@router.get("/{app_id}", tags=["invite"])
+@router.get(
+    "/{app_id}",
+    tags=["invite"],
+    responses={
+        200: {"model": InviteStatus},
+        401: {"description": "Unauthorized"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_invite_status(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -99,7 +109,20 @@ def get_invite_status(
         raise HTTPException(status_code=404, detail=ErrorDetail.INVITE_NOT_FOUND)
 
 
-@router.post("/{app_id}/invite", status_code=204, tags=["invite"])
+@router.post(
+    "/{app_id}/invite",
+    status_code=204,
+    tags=["invite"],
+    responses={
+        204: {"description": "Invite sent successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not app developer"},
+        404: {"description": "App not found"},
+        409: {"description": "Developer already invited or added"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def invite_developer(
     invite_code: str,
     login=Depends(logged_in),
@@ -168,7 +191,19 @@ def invite_developer(
         worker.send_email_new.send(payload)
 
 
-@router.post("/{app_id}/accept", status_code=204, tags=["invite"])
+@router.post(
+    "/{app_id}/accept",
+    status_code=204,
+    tags=["invite"],
+    responses={
+        204: {"description": "Invite accepted successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not invited or already a developer"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def accept_invite(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -228,7 +263,19 @@ def accept_invite(
         worker.send_email_new.send(payload)
 
 
-@router.post("/{app_id}/decline", status_code=204, tags=["invite"])
+@router.post(
+    "/{app_id}/decline",
+    status_code=204,
+    tags=["invite"],
+    responses={
+        204: {"description": "Invite declined successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not invited"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def decline_invite(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -275,7 +322,21 @@ def decline_invite(
         worker.send_email_new.send(payload)
 
 
-@router.post("/{app_id}/leave", status_code=204, tags=["invite"])
+@router.post(
+    "/{app_id}/leave",
+    status_code=204,
+    tags=["invite"],
+    responses={
+        204: {"description": "Left team successfully"},
+        401: {"description": "Unauthorized"},
+        403: {
+            "description": "Forbidden - not a developer or primary developer cannot leave"
+        },
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def leave_team(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -327,7 +388,18 @@ class DevelopersResponse(BaseModel):
     invites: list[Developer]
 
 
-@router.get("/{app_id}/developers", tags=["invite"])
+@router.get(
+    "/{app_id}/developers",
+    tags=["invite"],
+    responses={
+        200: {"model": DevelopersResponse},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not a developer"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_app_developers(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -365,7 +437,19 @@ def get_app_developers(
         )
 
 
-@router.post("/{app_id}/remove-developer", status_code=204, tags=["invite"])
+@router.post(
+    "/{app_id}/remove-developer",
+    status_code=204,
+    tags=["invite"],
+    responses={
+        204: {"description": "Developer removed successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not authorized to remove this developer"},
+        404: {"description": "App or developer not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def remove_developer(
     developer_id: int,
     login=Depends(logged_in),
@@ -390,7 +474,19 @@ def remove_developer(
         db_session.commit()
 
 
-@router.post("/{app_id}/revoke", status_code=204, tags=["invite"])
+@router.post(
+    "/{app_id}/revoke",
+    status_code=204,
+    tags=["invite"],
+    responses={
+        204: {"description": "Invite revoked successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not authorized to revoke this invite"},
+        404: {"description": "App or invite not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def revoke_invite(
     invite_id: int,
     login=Depends(logged_in),

@@ -71,7 +71,7 @@ export async function getUserData(
 
     // Assuming a bad status indicates unchanged user state
     // A no content status response indicates the user is not logged in
-    if (res.status === 204) {
+    if (res.status === 401) {
       dispatch({ type: "logout" })
     } else {
       const info: UserInfo = res.data

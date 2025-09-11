@@ -24,7 +24,6 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
-  HTTPValidationError,
   ProposedPayment,
   RedemptionResult,
   TokenCancellation,
@@ -49,7 +48,7 @@ flow to be a vendor on Flathub.
  */
 export const statusVendingStatusGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VendingStatus>> => {
+): Promise<AxiosResponse<VendingStatus | null>> => {
   return axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status`,
     options,
@@ -62,7 +61,7 @@ export const getStatusVendingStatusGetQueryKey = () => {
 
 export const getStatusVendingStatusGetQueryOptions = <
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -91,11 +90,11 @@ export const getStatusVendingStatusGetQueryOptions = <
 export type StatusVendingStatusGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof statusVendingStatusGet>>
 >
-export type StatusVendingStatusGetQueryError = AxiosError<unknown>
+export type StatusVendingStatusGetQueryError = AxiosError<null | null | null>
 
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options: {
     query: Partial<
@@ -121,7 +120,7 @@ export function useStatusVendingStatusGet<
 }
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -147,7 +146,7 @@ export function useStatusVendingStatusGet<
 }
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -169,7 +168,7 @@ export function useStatusVendingStatusGet<
 
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -213,7 +212,7 @@ export const startOnboardingVendingStatusOnboardingPost = (
 }
 
 export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -257,13 +256,13 @@ export type StartOnboardingVendingStatusOnboardingPostMutationResult =
 export type StartOnboardingVendingStatusOnboardingPostMutationBody =
   VendingOnboardingRequest
 export type StartOnboardingVendingStatusOnboardingPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null>
 
 /**
  * @summary Start Onboarding
  */
 export const useStartOnboardingVendingStatusOnboardingPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -312,7 +311,7 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null | null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -346,13 +345,13 @@ export type GetDashboardLinkVendingStatusDashboardlinkGetQueryResult =
     Awaited<ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>>
   >
 export type GetDashboardLinkVendingStatusDashboardlinkGetQueryError =
-  AxiosError<unknown>
+  AxiosError<null | null | null | null>
 
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null | null>,
 >(
   options: {
     query: Partial<
@@ -386,7 +385,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -420,7 +419,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -446,7 +445,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -501,7 +500,7 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryKey = () => {
 
 export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -533,12 +532,11 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
 export type GetGlobalVendingConfigVendingConfigGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>
 >
-export type GetGlobalVendingConfigVendingConfigGetQueryError =
-  AxiosError<unknown>
+export type GetGlobalVendingConfigVendingConfigGetQueryError = AxiosError<null>
 
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -564,7 +562,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
 }
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -590,7 +588,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
 }
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -612,7 +610,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
 
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -665,7 +663,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryKey = (
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -708,12 +706,13 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
 export type GetAppVendingSetupVendingappAppIdSetupGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>
 >
-export type GetAppVendingSetupVendingappAppIdSetupGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetAppVendingSetupVendingappAppIdSetupGetQueryError = AxiosError<
+  null | null | null | null | null
+>
 
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -740,7 +739,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
 }
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -767,7 +766,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
 }
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -790,7 +789,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
 
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -847,7 +846,7 @@ export const postAppVendingSetupVendingappAppIdSetupPost = (
 }
 
 export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -895,13 +894,13 @@ export type PostAppVendingSetupVendingappAppIdSetupPostMutationResult =
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationBody =
   VendingSetupRequest
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Post App Vending Setup
  */
 export const usePostAppVendingSetupVendingappAppIdSetupPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -947,7 +946,7 @@ export const postAppVendingStatusVendingappAppIdPost = (
 }
 
 export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -989,14 +988,15 @@ export type PostAppVendingStatusVendingappAppIdPostMutationResult = NonNullable<
 >
 export type PostAppVendingStatusVendingappAppIdPostMutationBody =
   ProposedPayment
-export type PostAppVendingStatusVendingappAppIdPostMutationError =
-  AxiosError<HTTPValidationError>
+export type PostAppVendingStatusVendingappAppIdPostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Post App Vending Status
  */
 export const usePostAppVendingStatusVendingappAppIdPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1050,7 +1050,7 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1094,14 +1094,15 @@ export type GetRedeemableTokensVendingappAppIdTokensGetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>>
   >
-export type GetRedeemableTokensVendingappAppIdTokensGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetRedeemableTokensVendingappAppIdTokensGetQueryError = AxiosError<
+  null | null | null | null | null
+>
 
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -1134,7 +1135,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1167,7 +1168,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1192,7 +1193,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1241,7 +1242,7 @@ export const createTokensVendingappAppIdTokensPost = (
 }
 
 export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1282,14 +1283,15 @@ export type CreateTokensVendingappAppIdTokensPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>
 >
 export type CreateTokensVendingappAppIdTokensPostMutationBody = string[]
-export type CreateTokensVendingappAppIdTokensPostMutationError =
-  AxiosError<HTTPValidationError>
+export type CreateTokensVendingappAppIdTokensPostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Create Tokens
  */
 export const useCreateTokensVendingappAppIdTokensPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1330,7 +1332,7 @@ export const cancelTokensVendingappAppIdTokensCancelPost = (
 }
 
 export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1377,13 +1379,13 @@ export type CancelTokensVendingappAppIdTokensCancelPostMutationResult =
   >
 export type CancelTokensVendingappAppIdTokensCancelPostMutationBody = string[]
 export type CancelTokensVendingappAppIdTokensCancelPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Cancel Tokens
  */
 export const useCancelTokensVendingappAppIdTokensCancelPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1426,7 +1428,10 @@ export const redeemTokenVendingappAppIdTokensRedeemTokenPost = (
 }
 
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
@@ -1475,13 +1480,13 @@ export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationResult =
   >
 
 export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Redeem Token
  */
 export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1529,7 +1534,7 @@ export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId?: string) => {
 
 export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1568,12 +1573,13 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
 export type AppInfoVendingappAppIdInfoGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>
 >
-export type AppInfoVendingappAppIdInfoGetQueryError =
-  AxiosError<HTTPValidationError>
+export type AppInfoVendingappAppIdInfoGetQueryError = AxiosError<
+  null | null | null | null
+>
 
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -1600,7 +1606,7 @@ export function useAppInfoVendingappAppIdInfoGet<
 }
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1627,7 +1633,7 @@ export function useAppInfoVendingappAppIdInfoGet<
 }
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1650,7 +1656,7 @@ export function useAppInfoVendingappAppIdInfoGet<
 
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {

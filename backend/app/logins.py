@@ -155,7 +155,13 @@ class LoginMethod(BaseModel):
     name: str
 
 
-@router.get("/login", tags=["auth"])
+@router.get(
+    "/login",
+    tags=["auth"],
+    responses={
+        200: {"description": "Available login methods"},
+    },
+)
 def get_login_methods() -> list[LoginMethod]:
     """
     Retrieve the login methods available from the backend.
@@ -175,7 +181,14 @@ def get_login_methods() -> list[LoginMethod]:
     ]
 
 
-@router.get("/login/github", tags=["auth"])
+@router.get(
+    "/login/github",
+    tags=["auth"],
+    responses={
+        200: {"description": "OAuth flow started successfully"},
+        400: {"description": "User already logged in with GitHub"},
+    },
+)
 def start_github_flow(request: Request, login: LoginStatusDep):
     """
     Starts a github login flow.  This will set session cookie values and
@@ -204,7 +217,14 @@ def start_github_flow(request: Request, login: LoginStatusDep):
     )
 
 
-@router.get("/login/gitlab", tags=["auth"])
+@router.get(
+    "/login/gitlab",
+    tags=["auth"],
+    responses={
+        200: {"description": "OAuth flow started successfully"},
+        400: {"description": "User already logged in with GitLab"},
+    },
+)
 def start_gitlab_flow(request: Request, login: LoginStatusDep):
     """
     Starts a gitlab login flow.  This will set session cookie values and
@@ -233,7 +253,14 @@ def start_gitlab_flow(request: Request, login: LoginStatusDep):
     )
 
 
-@router.get("/login/gnome", tags=["auth"])
+@router.get(
+    "/login/gnome",
+    tags=["auth"],
+    responses={
+        200: {"description": "OAuth flow started successfully"},
+        400: {"description": "User already logged in with GNOME GitLab"},
+    },
+)
 def start_gnome_flow(request: Request, login: LoginStatusDep):
     """
     Starts a GNOME login flow.  This will set session cookie values and
@@ -262,7 +289,14 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
     )
 
 
-@router.get("/login/kde", tags=["auth"])
+@router.get(
+    "/login/kde",
+    tags=["auth"],
+    responses={
+        200: {"description": "OAuth flow started successfully"},
+        400: {"description": "User already logged in with KDE GitLab"},
+    },
+)
 def start_kde_flow(request: Request, login=Depends(login_state)):
     return start_oauth_flow(
         request,
@@ -361,7 +395,15 @@ class ProviderInfo:
     email: str | None = None
 
 
-@router.post("/login/github", tags=["auth"])
+@router.post(
+    "/login/github",
+    tags=["auth"],
+    responses={
+        200: {"description": "Login flow completed successfully"},
+        400: {"description": "Invalid flow state or token expired"},
+        500: {"description": "OAuth provider error or login failure"},
+    },
+)
 def continue_github_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -441,7 +483,15 @@ def _gitlab_provider_info(url, tokens) -> ProviderInfo:
     )
 
 
-@router.post("/login/gitlab", tags=["auth"])
+@router.post(
+    "/login/gitlab",
+    tags=["auth"],
+    responses={
+        200: {"description": "Login flow completed successfully"},
+        400: {"description": "Invalid flow state or token expired"},
+        500: {"description": "OAuth provider error or login failure"},
+    },
+)
 def continue_gitlab_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -497,7 +547,15 @@ def continue_gitlab_flow(
     )
 
 
-@router.post("/login/gnome", tags=["auth"])
+@router.post(
+    "/login/gnome",
+    tags=["auth"],
+    responses={
+        200: {"description": "Login flow completed successfully"},
+        400: {"description": "Invalid flow state or token expired"},
+        500: {"description": "OAuth provider error or login failure"},
+    },
+)
 def continue_gnome_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -553,7 +611,15 @@ def continue_gnome_flow(
     )
 
 
-@router.post("/login/google", tags=["auth"])
+@router.post(
+    "/login/google",
+    tags=["auth"],
+    responses={
+        200: {"description": "Login flow completed successfully"},
+        400: {"description": "Invalid flow state or token expired"},
+        500: {"description": "OAuth provider error or login failure"},
+    },
+)
 def continue_google_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -621,7 +687,15 @@ def continue_google_flow(
     )
 
 
-@router.post("/login/kde", tags=["auth"])
+@router.post(
+    "/login/kde",
+    tags=["auth"],
+    responses={
+        200: {"description": "Login flow completed successfully"},
+        400: {"description": "Invalid flow state or token expired"},
+        500: {"description": "OAuth provider error or login failure"},
+    },
+)
 def continue_kde_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -867,11 +941,18 @@ class UserInfo(BaseModel):
     auths: Auths
 
 
-@router.get("/userinfo", tags=["auth"])
+@router.get(
+    "/userinfo",
+    tags=["auth"],
+    responses={
+        200: {"description": "User information retrieved successfully"},
+        401: {"description": "Not logged in"},
+    },
+)
 def get_userinfo(login: LoginStatusDep) -> UserInfo:
     """
     Retrieve the current login's user information.  If the user is not logged in
-    you will get a `204` return.  Otherwise you will receive JSON describing the
+    you will get a `401` return.  Otherwise you will receive JSON describing the
     currently logged in user, for example:
 
     ```
@@ -890,7 +971,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     dev_flatpaks is filtered against IDs available in AppStream
     """
     if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=204, detail="Not logged in")
+        raise HTTPException(status_code=401, detail="Not logged in")
 
     appstream = apps.get_appids(include_eol=True)
 
@@ -952,7 +1033,14 @@ class RefreshDevFlatpaksReturn(BaseModel):
     dev_flatpaks: list[str]
 
 
-@router.post("/refresh-dev-flatpaks", tags=["auth"])
+@router.post(
+    "/refresh-dev-flatpaks",
+    tags=["auth"],
+    responses={
+        200: {"description": "Dev flatpaks refreshed successfully"},
+        401: {"description": "No GitHub account linked"},
+    },
+)
 def do_refresh_dev_flatpaks(
     login=Depends(logged_in),
 ) -> RefreshDevFlatpaksReturn:
@@ -971,7 +1059,14 @@ def do_refresh_dev_flatpaks(
     return RefreshDevFlatpaksReturn(dev_flatpaks=sorted(dev_flatpaks))
 
 
-@router.post("/logout", tags=["auth"])
+@router.post(
+    "/logout",
+    tags=["auth"],
+    responses={
+        200: {"description": "Logout successful"},
+        500: {"description": "Session error"},
+    },
+)
 def do_logout(request: Request, login: LoginStatusDep):
     """
     Clear the login state. This will discard tokens which access socials,
@@ -1003,7 +1098,14 @@ class GetDeleteUserResult(BaseModel):
     token: str
 
 
-@router.get("/deleteuser", tags=["auth"])
+@router.get(
+    "/deleteuser",
+    tags=["auth"],
+    responses={
+        200: {"description": "Delete user token generated"},
+        403: {"description": "Not logged in"},
+    },
+)
 def get_deleteuser(login: LoginStatusDep) -> GetDeleteUserResult:
     """
     Delete a user's login information.
@@ -1020,7 +1122,15 @@ def get_deleteuser(login: LoginStatusDep) -> GetDeleteUserResult:
     return GetDeleteUserResult(status="ok", token=token)
 
 
-@router.post("/deleteuser", tags=["auth"])
+@router.post(
+    "/deleteuser",
+    tags=["auth"],
+    responses={
+        200: {"description": "User deleted successfully"},
+        400: {"description": "Invalid token or deletion failed"},
+        403: {"description": "Not logged in"},
+    },
+)
 def do_deleteuser(
     request: Request, data: UserDeleteRequest, login: LoginStatusDep
 ) -> models.DeleteUserResult:
@@ -1051,7 +1161,14 @@ def do_deleteuser(
     return ret
 
 
-@router.post("/accept-publisher-agreement", tags=["auth"])
+@router.post(
+    "/accept-publisher-agreement",
+    tags=["auth"],
+    responses={
+        200: {"description": "Publisher agreement accepted"},
+        403: {"description": "Not logged in"},
+    },
+)
 def do_agree_to_publisher_agreement(login: LoginStatusDep):
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
@@ -1062,7 +1179,16 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
         db.commit()
 
 
-@router.post("/change-default-account", status_code=204, tags=["auth"])
+@router.post(
+    "/change-default-account",
+    status_code=204,
+    tags=["auth"],
+    responses={
+        204: {"description": "Default account changed successfully"},
+        403: {"description": "Not logged in"},
+        404: {"description": "Account not found"},
+    },
+)
 def do_change_default_account(
     provider: models.ConnectedAccountProvider,
     login: LoginStatusDep,

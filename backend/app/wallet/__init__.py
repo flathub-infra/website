@@ -50,7 +50,16 @@ async def walleterror_exception_handler(_request: Request, exc: WalletError):
 router = APIRouter(prefix="/wallet")
 
 
-@router.get("/walletinfo", tags=["wallet"])
+@router.get(
+    "/walletinfo",
+    tags=["wallet"],
+    responses={
+        200: {"model": WalletInfo},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
     """
     Retrieve the wallet for the currently logged in user.
@@ -62,7 +71,17 @@ def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
     return Wallet().info(request, login["user"])
 
 
-@router.post("/removecard", tags=["wallet"])
+@router.post(
+    "/removecard",
+    tags=["wallet"],
+    responses={
+        201: {"description": "Card removed successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def post_removecard(
     request: Request, card: PaymentCardInfo, login=Depends(login_state)
 ):
@@ -81,7 +100,18 @@ def post_removecard(
     return Response(None, status_code=201)
 
 
-@router.get("/transactions", response_model=list[TransactionSummary], tags=["wallet"])
+@router.get(
+    "/transactions",
+    response_model=list[TransactionSummary],
+    tags=["wallet"],
+    responses={
+        200: {"model": list[TransactionSummary]},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_transactions(
     request: Request,
     login=Depends(login_state),
@@ -102,7 +132,18 @@ def get_transactions(
     return Wallet().transactions(request, login["user"], sort, since, limit)
 
 
-@router.get("/transactions/{txn}", tags=["wallet"])
+@router.get(
+    "/transactions/{txn}",
+    tags=["wallet"],
+    responses={
+        200: {"model": Transaction},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Transaction not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_transaction_by_id(
     txn: str, request: Request, login=Depends(login_state)
 ) -> Transaction:
@@ -124,7 +165,17 @@ class PostTransactionResponse(BaseModel):
     id: str
 
 
-@router.post("/transactions", tags=["wallet"])
+@router.post(
+    "/transactions",
+    tags=["wallet"],
+    responses={
+        200: {"model": PostTransactionResponse},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def create_transaction(
     request: Request, data: NascentTransaction, login=Depends(login_state)
 ) -> PostTransactionResponse:
@@ -140,7 +191,18 @@ def create_transaction(
     return PostTransactionResponse(status="ok", id=ret)
 
 
-@router.post("/transactions/{txn}/setcard", tags=["wallet"])
+@router.post(
+    "/transactions/{txn}/setcard",
+    tags=["wallet"],
+    responses={
+        200: {"description": "Card set successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Transaction not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_transaction_card(
     txn: str, data: PaymentCardInfo, request: Request, login=Depends(login_state)
 ):
@@ -158,7 +220,18 @@ def set_transaction_card(
     return {"status": "ok"}
 
 
-@router.post("/transactions/{txn}/cancel", tags=["wallet"])
+@router.post(
+    "/transactions/{txn}/cancel",
+    tags=["wallet"],
+    responses={
+        201: {"description": "Transaction cancelled successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Transaction not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
     """
     Cancel a transaction in the `new` or `retry` states.
@@ -178,7 +251,14 @@ def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
 # Stripe specific endpoints which are necessary
 
 
-@router.get("/stripedata", tags=["wallet"])
+@router.get(
+    "/stripedata",
+    tags=["wallet"],
+    responses={
+        200: {"model": StripeKeys},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_stripedata() -> StripeKeys:
     """
     Return the stripe public key to use in the frontend.  Since this is not
@@ -187,7 +267,18 @@ def get_stripedata() -> StripeKeys:
     return Wallet().stripedata()
 
 
-@router.get("/transactions/{txn}/stripe", tags=["wallet"])
+@router.get(
+    "/transactions/{txn}/stripe",
+    tags=["wallet"],
+    responses={
+        200: {"model": TransactionStripeData},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Transaction not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_txn_stripedata(
     txn: str, request: Request, login=Depends(login_state)
 ) -> TransactionStripeData:
@@ -205,7 +296,18 @@ def get_txn_stripedata(
     return Wallet().get_transaction_stripedata(request, login["user"], txn)
 
 
-@router.post("/transactions/{txn}/savecard", tags=["wallet"])
+@router.post(
+    "/transactions/{txn}/savecard",
+    tags=["wallet"],
+    responses={
+        201: {"description": "Save card status set successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Transaction not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_savecard(
     txn: str, data: TransactionSaveCard, request: Request, login=Depends(login_state)
 ):
@@ -229,7 +331,18 @@ def set_savecard(
     return Response(None, status_code=201)
 
 
-@router.post("/transactions/{txn}/setpending", tags=["wallet"])
+@router.post(
+    "/transactions/{txn}/setpending",
+    tags=["wallet"],
+    responses={
+        201: {"description": "Transaction set as pending successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not logged in"},
+        404: {"description": "Transaction not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_pending(txn: str, request: Request, login=Depends(login_state)):
     """
     Set the transaction as 'pending' so that we can recover if Stripe
@@ -247,7 +360,14 @@ def set_pending(txn: str, request: Request, login=Depends(login_state)):
 
 if settings.stripe_public_key in [None, ""]:
 
-    @router.post("/clearfake", tags=["wallet"])
+    @router.post(
+        "/clearfake",
+        tags=["wallet"],
+        responses={
+            201: {"description": "Fake wallet cleared successfully"},
+            500: {"description": "Internal server error"},
+        },
+    )
     def clear_fake(request: Request):
         "Clear the fake wallet details"
         for key in ["txns", "fake-card-ok-del", "fake-card-exp-del"]:
@@ -256,7 +376,15 @@ if settings.stripe_public_key in [None, ""]:
         return Response(None, status_code=201)
 
 
-@router.post("/webhook/" + Wallet.webhook_name(), tags=["wallet"])
+@router.post(
+    "/webhook/" + Wallet.webhook_name(),
+    tags=["wallet"],
+    responses={
+        200: {"description": "Webhook processed successfully"},
+        400: {"description": "Invalid webhook payload"},
+        500: {"description": "Internal server error"},
+    },
+)
 async def webhook(request: Request):
     """
     This endpoint is intended to deal with webhooks coming back from payment

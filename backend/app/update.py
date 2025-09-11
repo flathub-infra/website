@@ -10,19 +10,40 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-@router.post("", tags=["update"])
+@router.post(
+    "",
+    tags=["update"],
+    responses={
+        200: {"description": "Update completed successfully"},
+        500: {"description": "Internal server error"},
+    },
+)
 async def update():
     worker.update.send()
     worker.update_quality_moderation.send()
     worker.update_app_picks.send()
 
 
-@router.post("/stats", tags=["update"])
+@router.post(
+    "/stats",
+    tags=["update"],
+    responses={
+        200: {"description": "Stats updated successfully"},
+        500: {"description": "Internal server error"},
+    },
+)
 async def update_stats():
     worker.update_stats.send()
 
 
-@router.post("/process-pending-transfers", tags=["update"])
+@router.post(
+    "/process-pending-transfers",
+    tags=["update"],
+    responses={
+        200: {"description": "Pending transfers processed successfully"},
+        500: {"description": "Internal server error"},
+    },
+)
 def process_transfers():
     """
     Process any pending transfers which may be in the system

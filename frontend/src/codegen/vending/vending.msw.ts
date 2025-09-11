@@ -22,14 +22,18 @@ import type {
 } from ".././model"
 
 export const getStatusVendingStatusGetResponseMock = (
-  overrideResponse: Partial<VendingStatus> = {},
-): VendingStatus => ({
-  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  can_take_payments: faker.datatype.boolean(),
-  needs_attention: faker.datatype.boolean(),
-  details_submitted: faker.datatype.boolean(),
-  ...overrideResponse,
-})
+  overrideResponse: Partial<VendingStatus | null> = {},
+): VendingStatus | null =>
+  faker.helpers.arrayElement([
+    {
+      status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      can_take_payments: faker.datatype.boolean(),
+      needs_attention: faker.datatype.boolean(),
+      details_submitted: faker.datatype.boolean(),
+      ...overrideResponse,
+    },
+    undefined,
+  ])
 
 export const getStartOnboardingVendingStatusOnboardingPostResponseMock = (
   overrideResponse: Partial<VendingRedirect> = {},
@@ -247,9 +251,10 @@ export const getAppInfoVendingappAppIdInfoGetResponseMock = (
 export const getStatusVendingStatusGetMockHandler = (
   overrideResponse?:
     | VendingStatus
+    | null
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<VendingStatus> | VendingStatus),
+      ) => Promise<VendingStatus | null> | VendingStatus | null),
 ) => {
   return http.get("*/vending/status", async (info) => {
     await delay(1000)

@@ -11,7 +11,13 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-@router.get("/recently-updated", tags=["feed"])
+@router.get(
+    "/recently-updated",
+    tags=["feed"],
+    responses={
+        200: {"description": "RSS feed of recently updated applications"},
+    },
+)
 def get_recently_updated_apps_feed():
     feed = generate_feed(
         "last_updated_at",
@@ -26,7 +32,13 @@ def get_recently_updated_apps_feed():
     )
 
 
-@router.get("/new", tags=["feed"])
+@router.get(
+    "/new",
+    tags=["feed"],
+    responses={
+        200: {"description": "RSS feed of recently added applications"},
+    },
+)
 def get_new_apps_feed():
     feed = generate_feed(
         "initial_release_at",

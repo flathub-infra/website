@@ -25,7 +25,6 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
   GetTransactionsWalletTransactionsGetParams,
-  HTTPValidationError,
   NascentTransaction,
   PaymentCardInfo,
   PostTransactionResponse,
@@ -58,7 +57,7 @@ export const getGetWalletinfoWalletWalletinfoGetQueryKey = () => {
 
 export const getGetWalletinfoWalletWalletinfoGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -89,11 +88,13 @@ export const getGetWalletinfoWalletWalletinfoGetQueryOptions = <
 export type GetWalletinfoWalletWalletinfoGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>
 >
-export type GetWalletinfoWalletWalletinfoGetQueryError = AxiosError<unknown>
+export type GetWalletinfoWalletWalletinfoGetQueryError = AxiosError<
+  null | null | null
+>
 
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options: {
     query: Partial<
@@ -119,7 +120,7 @@ export function useGetWalletinfoWalletWalletinfoGet<
 }
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -145,7 +146,7 @@ export function useGetWalletinfoWalletWalletinfoGet<
 }
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -167,7 +168,7 @@ export function useGetWalletinfoWalletWalletinfoGet<
 
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -205,7 +206,7 @@ wallet info endpoint.
 export const postRemovecardWalletRemovecardPost = (
   paymentCardInfo: PaymentCardInfo,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<unknown | null>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/removecard`,
     paymentCardInfo,
@@ -214,7 +215,7 @@ export const postRemovecardWalletRemovecardPost = (
 }
 
 export const getPostRemovecardWalletRemovecardPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -255,14 +256,15 @@ export type PostRemovecardWalletRemovecardPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>
 >
 export type PostRemovecardWalletRemovecardPostMutationBody = PaymentCardInfo
-export type PostRemovecardWalletRemovecardPostMutationError =
-  AxiosError<HTTPValidationError>
+export type PostRemovecardWalletRemovecardPostMutationError = AxiosError<
+  null | null | null | null
+>
 
 /**
  * @summary Post Removecard
  */
 export const usePostRemovecardWalletRemovecardPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -317,7 +319,7 @@ export const getGetTransactionsWalletTransactionsGetQueryKey = (
 
 export const getGetTransactionsWalletTransactionsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetTransactionsWalletTransactionsGetParams,
   options?: {
@@ -352,12 +354,13 @@ export const getGetTransactionsWalletTransactionsGetQueryOptions = <
 export type GetTransactionsWalletTransactionsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>
 >
-export type GetTransactionsWalletTransactionsGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetTransactionsWalletTransactionsGetQueryError = AxiosError<
+  null | null | null | null
+>
 
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params: undefined | GetTransactionsWalletTransactionsGetParams,
   options: {
@@ -384,7 +387,7 @@ export function useGetTransactionsWalletTransactionsGet<
 }
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetTransactionsWalletTransactionsGetParams,
   options?: {
@@ -411,7 +414,7 @@ export function useGetTransactionsWalletTransactionsGet<
 }
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetTransactionsWalletTransactionsGetParams,
   options?: {
@@ -434,7 +437,7 @@ export function useGetTransactionsWalletTransactionsGet<
 
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetTransactionsWalletTransactionsGetParams,
   options?: {
@@ -485,7 +488,7 @@ export const createTransactionWalletTransactionsPost = (
 }
 
 export const getCreateTransactionWalletTransactionsPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -527,14 +530,15 @@ export type CreateTransactionWalletTransactionsPostMutationResult = NonNullable<
 >
 export type CreateTransactionWalletTransactionsPostMutationBody =
   NascentTransaction
-export type CreateTransactionWalletTransactionsPostMutationError =
-  AxiosError<HTTPValidationError>
+export type CreateTransactionWalletTransactionsPostMutationError = AxiosError<
+  null | null | null | null
+>
 
 /**
  * @summary Create Transaction
  */
 export const useCreateTransactionWalletTransactionsPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -588,7 +592,7 @@ export const getGetTransactionByIdWalletTransactionsTxnGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -628,14 +632,15 @@ export const getGetTransactionByIdWalletTransactionsTxnGetQueryOptions = <
 export type GetTransactionByIdWalletTransactionsTxnGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>>
 >
-export type GetTransactionByIdWalletTransactionsTxnGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetTransactionByIdWalletTransactionsTxnGetQueryError = AxiosError<
+  null | null | null | null | null
+>
 
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options: {
@@ -666,7 +671,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -697,7 +702,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -722,7 +727,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -772,7 +777,10 @@ export const setTransactionCardWalletTransactionsTxnSetcardPost = (
 }
 
 export const getSetTransactionCardWalletTransactionsTxnSetcardPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
@@ -826,13 +834,13 @@ export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationResult =
 export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationBody =
   PaymentCardInfo
 export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Set Transaction Card
  */
 export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -873,7 +881,7 @@ payments from completing.
 export const cancelTransactionWalletTransactionsTxnCancelPost = (
   txn: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<unknown | null>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/cancel`,
     undefined,
@@ -882,7 +890,10 @@ export const cancelTransactionWalletTransactionsTxnCancelPost = (
 }
 
 export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
@@ -929,13 +940,13 @@ export type CancelTransactionWalletTransactionsTxnCancelPostMutationResult =
   >
 
 export type CancelTransactionWalletTransactionsTxnCancelPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Cancel Transaction
  */
 export const useCancelTransactionWalletTransactionsTxnCancelPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -981,7 +992,7 @@ export const getGetStripedataWalletStripedataGetQueryKey = () => {
 
 export const getGetStripedataWalletStripedataGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1012,11 +1023,11 @@ export const getGetStripedataWalletStripedataGetQueryOptions = <
 export type GetStripedataWalletStripedataGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>
 >
-export type GetStripedataWalletStripedataGetQueryError = AxiosError<unknown>
+export type GetStripedataWalletStripedataGetQueryError = AxiosError<null>
 
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -1042,7 +1053,7 @@ export function useGetStripedataWalletStripedataGet<
 }
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1068,7 +1079,7 @@ export function useGetStripedataWalletStripedataGet<
 }
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1090,7 +1101,7 @@ export function useGetStripedataWalletStripedataGet<
 
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1147,7 +1158,7 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -1194,13 +1205,13 @@ export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryResult =
     Awaited<ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>>
   >
 export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options: {
@@ -1235,7 +1246,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -1270,7 +1281,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -1297,7 +1308,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   txn: string,
   options?: {
@@ -1345,7 +1356,7 @@ export const setSavecardWalletTransactionsTxnSavecardPost = (
   txn: string,
   transactionSaveCard: TransactionSaveCard,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<unknown | null>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/savecard`,
     transactionSaveCard,
@@ -1354,7 +1365,7 @@ export const setSavecardWalletTransactionsTxnSavecardPost = (
 }
 
 export const getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1398,13 +1409,13 @@ export type SetSavecardWalletTransactionsTxnSavecardPostMutationResult =
 export type SetSavecardWalletTransactionsTxnSavecardPostMutationBody =
   TransactionSaveCard
 export type SetSavecardWalletTransactionsTxnSavecardPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Set Savecard
  */
 export const useSetSavecardWalletTransactionsTxnSavecardPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1436,7 +1447,7 @@ flows don't quite work (e.g. webhook goes missing)
 export const setPendingWalletTransactionsTxnSetpendingPost = (
   txn: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<unknown | null>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/setpending`,
     undefined,
@@ -1445,7 +1456,7 @@ export const setPendingWalletTransactionsTxnSetpendingPost = (
 }
 
 export const getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1488,13 +1499,13 @@ export type SetPendingWalletTransactionsTxnSetpendingPostMutationResult =
   >
 
 export type SetPendingWalletTransactionsTxnSetpendingPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Set Pending
  */
 export const useSetPendingWalletTransactionsTxnSetpendingPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1538,7 +1549,7 @@ export const webhookWalletWebhookStripePost = (
 }
 
 export const getWebhookWalletWebhookStripePostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1577,13 +1588,15 @@ export type WebhookWalletWebhookStripePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>
 >
 
-export type WebhookWalletWebhookStripePostMutationError = AxiosError<unknown>
+export type WebhookWalletWebhookStripePostMutationError = AxiosError<
+  null | null
+>
 
 /**
  * @summary Webhook
  */
 export const useWebhookWalletWebhookStripePost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null>,
   TContext = unknown,
 >(
   options?: {

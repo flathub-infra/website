@@ -13,7 +13,7 @@ import type {
   ModerationApp,
   ModerationAppsResponse,
   ReviewRequestResponse,
-  SubmitReviewModerationRequestsIdReviewPost200,
+  ReviewResponse,
 } from ".././model"
 
 export const getGetModerationAppsModerationAppsGetResponseMock = (
@@ -145,14 +145,12 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock
     ...overrideResponse,
   })
 
-export const getSubmitReviewModerationRequestsIdReviewPostResponseMock =
-  (): SubmitReviewModerationRequestsIdReviewPost200 =>
-    faker.helpers.arrayElement([
-      {
-        github_issue_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      },
-      null,
-    ])
+export const getSubmitReviewModerationRequestsIdReviewPostResponseMock = (
+  overrideResponse: Partial<ReviewResponse> = {},
+): ReviewResponse => ({
+  github_issue_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  ...overrideResponse,
+})
 
 export const getGetModerationAppsModerationAppsGetMockHandler = (
   overrideResponse?:
@@ -226,12 +224,10 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMockHandler 
 
 export const getSubmitReviewModerationRequestsIdReviewPostMockHandler = (
   overrideResponse?:
-    | SubmitReviewModerationRequestsIdReviewPost200
+    | ReviewResponse
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) =>
-        | Promise<SubmitReviewModerationRequestsIdReviewPost200>
-        | SubmitReviewModerationRequestsIdReviewPost200),
+      ) => Promise<ReviewResponse> | ReviewResponse),
 ) => {
   return http.post("*/moderation/requests/:id/review", async (info) => {
     await delay(1000)

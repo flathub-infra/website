@@ -14,12 +14,23 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-@router.get("/category")
+@router.get(
+    "/category",
+    responses={
+        200: {"description": "List of all available categories"},
+    },
+)
 def get_categories() -> list[str]:
     return [category.value for category in schemas.MainCategory]
 
 
-@router.get("/category/{category}")
+@router.get(
+    "/category/{category}",
+    responses={
+        200: {"description": "Apps in the specified category"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_category(
     category: schemas.MainCategory,
     exclude_subcategories: list[str] = Query(None),
@@ -43,7 +54,13 @@ def get_category(
     return result
 
 
-@router.get("/category/{category}/subcategories")
+@router.get(
+    "/category/{category}/subcategories",
+    responses={
+        200: {"description": "Apps in the specified subcategories"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_subcategory(
     category: schemas.MainCategory,
     subcategory: list[str] = Query(),
@@ -73,7 +90,13 @@ def get_subcategory(
     return result
 
 
-@router.get("/keyword")
+@router.get(
+    "/keyword",
+    responses={
+        200: {"description": "Apps matching the keyword"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_keyword(
     keyword: str,
     page: int | None = None,
@@ -93,7 +116,13 @@ def get_keyword(
     return result
 
 
-@router.get("/developer")
+@router.get(
+    "/developer",
+    responses={
+        200: {"description": "List of developers"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_developers(
     page: int | None = None,
     per_page: int | None = None,
@@ -109,7 +138,13 @@ def get_developers(
     return search.get_developers(page, per_page)
 
 
-@router.get("/developer/{developer:path}")
+@router.get(
+    "/developer/{developer:path}",
+    responses={
+        200: {"description": "Apps by the specified developer"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_developer(
     developer: str,
     page: int | None = None,
@@ -129,7 +164,13 @@ def get_developer(
     return result
 
 
-@router.get("/recently-updated")
+@router.get(
+    "/recently-updated",
+    responses={
+        200: {"description": "Recently updated apps"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_recently_updated(
     page: int | None = None,
     per_page: int | None = None,
@@ -148,7 +189,13 @@ def get_recently_updated(
     return result
 
 
-@router.get("/recently-added")
+@router.get(
+    "/recently-added",
+    responses={
+        200: {"description": "Recently added apps"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_recently_added(
     page: int | None = None,
     per_page: int | None = None,
@@ -167,7 +214,13 @@ def get_recently_added(
     return result
 
 
-@router.get("/verified")
+@router.get(
+    "/verified",
+    responses={
+        200: {"description": "Verified apps"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_verified(
     page: int | None = None,
     per_page: int | None = None,
@@ -186,7 +239,13 @@ def get_verified(
     return result
 
 
-@router.get("/mobile")
+@router.get(
+    "/mobile",
+    responses={
+        200: {"description": "Mobile-friendly apps"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_mobile(
     page: int | None = None,
     per_page: int | None = None,
@@ -205,7 +264,13 @@ def get_mobile(
     return result
 
 
-@router.get("/popular")
+@router.get(
+    "/popular",
+    responses={
+        200: {"description": "Popular apps (last month)"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_popular_last_month(
     page: int | None = None,
     per_page: int | None = None,
@@ -224,7 +289,13 @@ def get_popular_last_month(
     return result
 
 
-@router.get("/trending")
+@router.get(
+    "/trending",
+    responses={
+        200: {"description": "Trending apps (last two weeks)"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
 def get_trending_last_two_weeks(
     page: int | None = None,
     per_page: int | None = None,

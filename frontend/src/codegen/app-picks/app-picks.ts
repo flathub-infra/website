@@ -23,12 +23,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type {
-  AppOfTheDay,
-  AppsOfTheWeek,
-  HTTPValidationError,
-  UpsertAppOfTheWeek,
-} from ".././model"
+import type { AppOfTheDay, AppsOfTheWeek, UpsertAppOfTheWeek } from ".././model"
 
 /**
  * @summary Get App Of The Day
@@ -53,7 +48,7 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -93,12 +88,13 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>
 >
-export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryError = AxiosError<
+  null | null | null
+>
 
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options: {
@@ -125,7 +121,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -152,7 +148,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -175,7 +171,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -233,7 +229,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -277,14 +273,15 @@ export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>
   >
-export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryError = AxiosError<
+  null | null | null
+>
 
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options: {
@@ -317,7 +314,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -350,7 +347,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -375,7 +372,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   date: string,
   options?: {
@@ -421,7 +418,7 @@ export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
 }
 
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -463,14 +460,15 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationResult = NonNullable<
 >
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationBody =
   UpsertAppOfTheWeek
-export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError =
-  AxiosError<HTTPValidationError>
+export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError = AxiosError<
+  null | null | null | null
+>
 
 /**
  * @summary Set App Of The Week
  */
 export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -510,7 +508,7 @@ export const setAppOfTheDayAppPicksAppOfTheDayPost = (
 }
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -551,14 +549,15 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>
 >
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationBody = AppOfTheDay
-export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError =
-  AxiosError<HTTPValidationError>
+export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError = AxiosError<
+  null | null | null | null
+>
 
 /**
  * @summary Set App Of The Day
  */
 export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
   TContext = unknown,
 >(
   options?: {

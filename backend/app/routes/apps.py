@@ -11,7 +11,13 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-@router.get("/eol/rebase", tags=["app"])
+@router.get(
+    "/eol/rebase",
+    tags=["app"],
+    responses={
+        200: {"description": "End-of-life rebase information"},
+    },
+)
 def get_eol_rebase() -> dict[str, list[str]]:
     eol_rebase = database.get_json_key("eol_rebase")
     if eol_rebase is None:
@@ -19,7 +25,14 @@ def get_eol_rebase() -> dict[str, list[str]]:
     return eol_rebase
 
 
-@router.get("/eol/rebase/{app_id}", tags=["app"])
+@router.get(
+    "/eol/rebase/{app_id}",
+    tags=["app"],
+    responses={
+        200: {"description": "End-of-life rebase information for specific app"},
+        404: {"description": "App rebase information not found"},
+    },
+)
 def get_eol_rebase_appid(
     app_id: str = Path(
         min_length=6,
@@ -33,7 +46,13 @@ def get_eol_rebase_appid(
         return value
 
 
-@router.get("/eol/message", tags=["app"])
+@router.get(
+    "/eol/message",
+    tags=["app"],
+    responses={
+        200: {"description": "End-of-life messages for all apps"},
+    },
+)
 def get_eol_message() -> dict[str, str]:
     eol_messages = database.get_json_key("eol_message")
     if eol_messages is None:
@@ -41,7 +60,14 @@ def get_eol_message() -> dict[str, str]:
     return eol_messages
 
 
-@router.get("/eol/message/{app_id}", tags=["app"])
+@router.get(
+    "/eol/message/{app_id}",
+    tags=["app"],
+    responses={
+        200: {"description": "End-of-life message for specific app"},
+        404: {"description": "App message not found"},
+    },
+)
 def get_eol_message_appid(
     app_id: str = Path(
         min_length=6,
@@ -55,12 +81,26 @@ def get_eol_message_appid(
         return value
 
 
-@router.get("/appstream", tags=["app"])
+@router.get(
+    "/appstream",
+    tags=["app"],
+    responses={
+        200: {"description": "List of all app IDs"},
+    },
+)
 def list_appstream(filter: apps.AppType = apps.AppType.APPS) -> list[str]:
     return sorted(apps.get_appids(filter))
 
 
-@router.get("/appstream/{app_id}", status_code=200, tags=["app"])
+@router.get(
+    "/appstream/{app_id}",
+    status_code=200,
+    tags=["app"],
+    responses={
+        200: {"description": "AppStream metadata for the app"},
+        404: {"description": "App not found"},
+    },
+)
 def get_appstream(
     response: Response,
     app_id: str = Path(
@@ -89,7 +129,14 @@ def get_appstream(
         return result
 
 
-@router.get("/is-fullscreen-app/{app_id}", status_code=200, tags=["app"])
+@router.get(
+    "/is-fullscreen-app/{app_id}",
+    status_code=200,
+    tags=["app"],
+    responses={
+        200: {"description": "Whether the app is a fullscreen app"},
+    },
+)
 def get_isFullscreenApp(
     app_id: str = Path(
         min_length=6,
@@ -102,19 +149,40 @@ def get_isFullscreenApp(
         return models.App.get_fullscreen_app(db_session, app_id)
 
 
-@router.post("/search", tags=["app"])
+@router.post(
+    "/search",
+    tags=["app"],
+    responses={
+        200: {"description": "Search results for apps"},
+        400: {"description": "Invalid search query"},
+    },
+)
 def post_search(
     query: search.SearchQuery, locale: str = "en"
 ) -> search.MeilisearchResponseLimited[search.AppsIndex]:
     return search.search_apps_post(query, locale)
 
 
-@router.get("/runtimes", tags=["app"])
+@router.get(
+    "/runtimes",
+    tags=["app"],
+    responses={
+        200: {"description": "List of available runtimes"},
+    },
+)
 def get_runtime_list() -> dict[str, int]:
     return search.get_runtime_list()
 
 
-@router.get("/summary/{app_id}", status_code=200, tags=["app"])
+@router.get(
+    "/summary/{app_id}",
+    status_code=200,
+    tags=["app"],
+    responses={
+        200: {"description": "App summary information"},
+        404: {"description": "App not found"},
+    },
+)
 def get_summary(
     response: Response,
     app_id: str = Path(
@@ -156,7 +224,14 @@ def get_summary(
     return None
 
 
-@router.get("/platforms", status_code=200, tags=["app"])
+@router.get(
+    "/platforms",
+    status_code=200,
+    tags=["app"],
+    responses={
+        200: {"description": "Available platforms information"},
+    },
+)
 def get_platforms() -> dict[str, utils.Platform]:
     """
     Return a mapping from org-name to platform aliases and dependencies which are
@@ -166,6 +241,12 @@ def get_platforms() -> dict[str, utils.Platform]:
     return utils.PLATFORMS
 
 
-@router.get("/addon/{app_id}", tags=["app"])
+@router.get(
+    "/addon/{app_id}",
+    tags=["app"],
+    responses={
+        200: {"description": "List of addons for the app"},
+    },
+)
 def get_addons(app_id: str) -> list[str]:
     return [addon_id.split("//", 1)[0] for addon_id in apps.get_addons(app_id)]

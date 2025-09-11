@@ -42,7 +42,7 @@ export const getGetStatsStatsGetQueryKey = () => {
 
 export const getGetStatsStatsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
@@ -67,11 +67,11 @@ export const getGetStatsStatsGetQueryOptions = <
 export type GetStatsStatsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getStatsStatsGet>>
 >
-export type GetStatsStatsGetQueryError = AxiosError<unknown>
+export type GetStatsStatsGetQueryError = AxiosError<null>
 
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -97,7 +97,7 @@ export function useGetStatsStatsGet<
 }
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -123,7 +123,7 @@ export function useGetStatsStatsGet<
 }
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -145,7 +145,7 @@ export function useGetStatsStatsGet<
 
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -199,7 +199,7 @@ export const getGetStatsForAppStatsAppIdGetQueryKey = (
 
 export const getGetStatsForAppStatsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -241,11 +241,11 @@ export type GetStatsForAppStatsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>
 >
 export type GetStatsForAppStatsAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetStatsForAppStatsAppIdGetParams,
@@ -273,7 +273,7 @@ export function useGetStatsForAppStatsAppIdGet<
 }
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -301,7 +301,7 @@ export function useGetStatsForAppStatsAppIdGet<
 }
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
@@ -325,7 +325,7 @@ export function useGetStatsForAppStatsAppIdGet<
 
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,

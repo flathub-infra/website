@@ -43,7 +43,14 @@ class StatsResultApp(BaseModel):
     id: str
 
 
-@router.get("/", status_code=200)
+@router.get(
+    "/",
+    status_code=200,
+    responses={
+        200: {"description": "Overall statistics"},
+        404: {"description": "Statistics not available"},
+    },
+)
 def get_stats(response: Response) -> StatsResult | None:
     if value := database.get_json_key("stats"):
         return value
@@ -52,7 +59,14 @@ def get_stats(response: Response) -> StatsResult | None:
     return None
 
 
-@router.get("/{app_id}", status_code=200)
+@router.get(
+    "/{app_id}",
+    status_code=200,
+    responses={
+        200: {"description": "Statistics for specific app"},
+        404: {"description": "App statistics not found"},
+    },
+)
 def get_stats_for_app(
     response: Response,
     app_id: str = Path(

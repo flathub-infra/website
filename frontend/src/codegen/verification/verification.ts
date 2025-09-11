@@ -64,7 +64,7 @@ export const getGetVerificationStatusVerificationAppIdStatusGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -111,13 +111,13 @@ export type GetVerificationStatusVerificationAppIdStatusGetQueryResult =
     Awaited<ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>>
   >
 export type GetVerificationStatusVerificationAppIdStatusGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   options: {
@@ -152,7 +152,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -187,7 +187,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -214,7 +214,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -283,7 +283,7 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryOpti
     TData = Awaited<
       ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | null | HTTPValidationError | null>,
   >(
     appId: string,
     params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
@@ -346,13 +346,13 @@ export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryResult =
     >
   >
 export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | HTTPValidationError | null>
 
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError | null>,
 >(
   appId: string,
   params:
@@ -396,7 +396,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError | null>,
 >(
   appId: string,
   params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
@@ -438,7 +438,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError | null>,
 >(
   appId: string,
   params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
@@ -468,7 +468,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError | null>,
 >(
   appId: string,
   params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
@@ -530,7 +530,10 @@ export const verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost = (
 }
 
 export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -602,13 +605,13 @@ export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutat
   >
 
 export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Verify By Login Provider
  */
 export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+  <TError = AxiosError<null | null | null | null | null>, TContext = unknown>(
     options?: {
       mutation?: UseMutationOptions<
         Awaited<
@@ -672,7 +675,7 @@ export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAc
         typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = AxiosError<null>,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -724,7 +727,7 @@ export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccess
     >
   >
 export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
@@ -732,7 +735,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -774,7 +777,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -816,7 +819,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -846,7 +849,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -902,7 +905,10 @@ export const setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPo
   }
 
 export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -974,13 +980,13 @@ export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPos
   >
 
 export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Setup Website Verification
  */
 export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+  <TError = AxiosError<null | null | null | null | null>, TContext = unknown>(
     options?: {
       mutation?: UseMutationOptions<
         Awaited<
@@ -1039,7 +1045,10 @@ export const confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificati
   }
 
 export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1111,13 +1120,13 @@ export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificatio
   >
 
 export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Confirm Website Verification
  */
 export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+  <TError = AxiosError<null | null | null | null | null>, TContext = unknown>(
     options?: {
       mutation?: UseMutationOptions<
         Awaited<
@@ -1171,7 +1180,7 @@ export const unverifyVerificationAppIdUnverifyPost = (
 }
 
 export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1212,14 +1221,15 @@ export type UnverifyVerificationAppIdUnverifyPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>
 >
 
-export type UnverifyVerificationAppIdUnverifyPostMutationError =
-  AxiosError<HTTPValidationError>
+export type UnverifyVerificationAppIdUnverifyPostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Unverify
  */
 export const useUnverifyVerificationAppIdUnverifyPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1258,7 +1268,10 @@ export const switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost = (
 }
 
 export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1320,13 +1333,13 @@ export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutatio
   >
 
 export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Switch To Direct Upload
  */
 export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+  <TError = AxiosError<null | null | null | null | null>, TContext = unknown>(
     options?: {
       mutation?: UseMutationOptions<
         Awaited<
@@ -1374,7 +1387,7 @@ export const archiveVerificationAppIdArchivePost = (
 }
 
 export const getArchiveVerificationAppIdArchivePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1415,14 +1428,15 @@ export type ArchiveVerificationAppIdArchivePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>
 >
 export type ArchiveVerificationAppIdArchivePostMutationBody = ArchiveRequest
-export type ArchiveVerificationAppIdArchivePostMutationError =
-  AxiosError<HTTPValidationError>
+export type ArchiveVerificationAppIdArchivePostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Archive
  */
 export const useArchiveVerificationAppIdArchivePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {

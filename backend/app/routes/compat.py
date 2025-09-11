@@ -42,8 +42,22 @@ def get_short_app(key: str):
     return compat_app
 
 
-@router.get("/apps/collection/recently-updated", tags=["compat"])
-@router.get("/apps/collection/recently-updated/25", tags=["compat"])
+@router.get(
+    "/apps/collection/recently-updated",
+    tags=["compat"],
+    responses={
+        200: {"description": "Recently updated apps"},
+        500: {"description": "Internal server error"},
+    },
+)
+@router.get(
+    "/apps/collection/recently-updated/25",
+    tags=["compat"],
+    responses={
+        200: {"description": "Recently updated apps"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_recently_updated():
     with get_db("replica") as sqldb:
         appids = (
@@ -60,8 +74,22 @@ def get_recently_updated():
     return [app for app in compat if app]
 
 
-@router.get("/apps/collection/new", tags=["compat"])
-@router.get("/apps/collection/new/25", tags=["compat"])
+@router.get(
+    "/apps/collection/new",
+    tags=["compat"],
+    responses={
+        200: {"description": "New apps"},
+        500: {"description": "Internal server error"},
+    },
+)
+@router.get(
+    "/apps/collection/new/25",
+    tags=["compat"],
+    responses={
+        200: {"description": "New apps"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_recently_added():
     with get_db("replica") as sqldb:
         appids = (
@@ -78,16 +106,38 @@ def get_recently_added():
     return [app for app in compat if app]
 
 
-@router.get("/apps/collection/popular", tags=["compat"])
-@router.get("/apps/collection/popular/50", tags=["compat"])
+@router.get(
+    "/apps/collection/popular",
+    tags=["compat"],
+    responses={
+        200: {"description": "Popular apps"},
+        500: {"description": "Internal server error"},
+    },
+)
+@router.get(
+    "/apps/collection/popular/50",
+    tags=["compat"],
+    responses={
+        200: {"description": "Popular apps"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_popular_apps():
     popular = stats.get_popular(30)
     compat = [get_short_app(f"apps:{app_id}") for app_id in popular[0:50]]
     return [app for app in compat if app]
 
 
-@router.get("/apps/search/{query}", tags=["compat"])
-def get_search(query: str = Path(min_length=2), locale: str = "en"):
+@router.get(
+    "/apps/search/{query}",
+    tags=["compat"],
+    responses={
+        200: {"description": "Search results"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+def get_search(query: str = Path(min_length=2, max_length=100), locale: str = "en"):
     results = [
         {
             "id": app.app_id,
@@ -116,7 +166,16 @@ def get_search(query: str = Path(min_length=2), locale: str = "en"):
     return ret
 
 
-@router.get("/apps/{app_id}", tags=["compat"])
+@router.get(
+    "/apps/{app_id}",
+    tags=["compat"],
+    responses={
+        200: {"description": "App details"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_single_app(
     app_id: str = Path(
         min_length=6,

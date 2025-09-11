@@ -25,7 +25,6 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
   AppRoutesInvitesDevelopersResponse,
-  HTTPValidationError,
   InviteDeveloperInvitesAppIdInvitePostParams,
   InviteStatus,
   RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams,
@@ -51,7 +50,7 @@ export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId?: string) => {
 
 export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -90,12 +89,13 @@ export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
 export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>
 >
-export type GetInviteStatusInvitesAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetInviteStatusInvitesAppIdGetQueryError = AxiosError<
+  null | null | null | null
+>
 
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -122,7 +122,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -149,7 +149,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -172,7 +172,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -223,7 +223,7 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
 }
 
 export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -264,14 +264,15 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>
 >
 
-export type InviteDeveloperInvitesAppIdInvitePostMutationError =
-  AxiosError<HTTPValidationError>
+export type InviteDeveloperInvitesAppIdInvitePostMutationError = AxiosError<
+  null | null | null | null | null | null
+>
 
 /**
  * @summary Invite Developer
  */
 export const useInviteDeveloperInvitesAppIdInvitePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -310,7 +311,7 @@ export const acceptInviteInvitesAppIdAcceptPost = (
 }
 
 export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -351,14 +352,15 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>
 >
 
-export type AcceptInviteInvitesAppIdAcceptPostMutationError =
-  AxiosError<HTTPValidationError>
+export type AcceptInviteInvitesAppIdAcceptPostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Accept Invite
  */
 export const useAcceptInviteInvitesAppIdAcceptPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -397,7 +399,7 @@ export const declineInviteInvitesAppIdDeclinePost = (
 }
 
 export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -438,14 +440,15 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>
 >
 
-export type DeclineInviteInvitesAppIdDeclinePostMutationError =
-  AxiosError<HTTPValidationError>
+export type DeclineInviteInvitesAppIdDeclinePostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Decline Invite
  */
 export const useDeclineInviteInvitesAppIdDeclinePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -484,7 +487,7 @@ export const leaveTeamInvitesAppIdLeavePost = (
 }
 
 export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -525,14 +528,15 @@ export type LeaveTeamInvitesAppIdLeavePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>
 >
 
-export type LeaveTeamInvitesAppIdLeavePostMutationError =
-  AxiosError<HTTPValidationError>
+export type LeaveTeamInvitesAppIdLeavePostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Leave Team
  */
 export const useLeaveTeamInvitesAppIdLeavePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -579,7 +583,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -622,12 +626,13 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
 export type GetAppDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>
 >
-export type GetAppDevelopersInvitesAppIdDevelopersGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetAppDevelopersInvitesAppIdDevelopersGetQueryError = AxiosError<
+  null | null | null | null | null
+>
 
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -654,7 +659,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 }
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -681,7 +686,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 }
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -704,7 +709,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -755,7 +760,10 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
 }
 
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>
@@ -813,13 +821,13 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationResult =
   >
 
 export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Remove Developer
  */
 export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -870,7 +878,7 @@ export const revokeInviteInvitesAppIdRevokePost = (
 }
 
 export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -911,14 +919,15 @@ export type RevokeInviteInvitesAppIdRevokePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>
 >
 
-export type RevokeInviteInvitesAppIdRevokePostMutationError =
-  AxiosError<HTTPValidationError>
+export type RevokeInviteInvitesAppIdRevokePostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Revoke Invite
  */
 export const useRevokeInviteInvitesAppIdRevokePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {

@@ -88,6 +88,13 @@ favorites.register_to_app(router)
 stats.register_to_app(router)
 
 
-@router.get("/status", status_code=200, tags=["healthcheck"])
+@router.get(
+    "/status",
+    status_code=200,
+    tags=["healthcheck"],
+    responses={
+        200: {"description": "Service is healthy"},
+    },
+)
 def healthcheck():
     return {"status": "OK"}

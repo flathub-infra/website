@@ -461,6 +461,10 @@ def get_verified_apps():
     response_model=VerificationStatus,
     response_model_exclude_none=True,
     tags=["verification"],
+    responses={
+        200: {"description": "Verification status for the app"},
+        404: {"description": "App not found"},
+    },
 )
 def get_verification_status(
     app_id: str = Path(
@@ -544,6 +548,12 @@ class AvailableMethods(BaseModel):
     response_model=AvailableMethods,
     response_model_exclude_none=True,
     tags=["verification"],
+    responses={
+        200: {"model": AvailableMethods},
+        401: {"description": "Unauthorized"},
+        404: {"description": "App not found"},
+        500: {"description": "Internal server error"},
+    },
 )
 def get_available_methods(
     login=Depends(logged_in),
@@ -794,7 +804,19 @@ def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
 
 
 @router.post(
-    "/{app_id}/verify-by-login-provider", status_code=200, tags=["verification"]
+    "/{app_id}/verify-by-login-provider",
+    status_code=200,
+    tags=["verification"],
+    responses={
+        200: {"description": "Successfully verified"},
+        401: {"description": "Unauthorized"},
+        403: {
+            "description": "Forbidden - verification method not available or not authorized"
+        },
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def verify_by_login_provider(
     login=Depends(logged_in),
@@ -859,6 +881,10 @@ class LinkResponse(BaseModel):
     "/request-organization-access/github",
     response_model=LinkResponse,
     tags=["verification"],
+    responses={
+        200: {"model": LinkResponse},
+        500: {"description": "Internal server error"},
+    },
 )
 def request_organization_access_github():
     """Returns the URL to request access to the organization so we can verify the user's membership."""
@@ -877,6 +903,14 @@ class WebsiteVerificationToken(BaseModel):
     status_code=200,
     response_model=WebsiteVerificationToken,
     tags=["verification"],
+    responses={
+        200: {"model": WebsiteVerificationToken},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - verification method not available"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def setup_website_verification(
     login=Depends(logged_in),
@@ -926,6 +960,14 @@ def setup_website_verification(
     response_model=WebsiteVerificationResult,
     response_model_exclude_none=True,
     tags=["verification"],
+    responses={
+        200: {"model": WebsiteVerificationResult},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - verification failed"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def confirm_website_verification(
     login=Depends(logged_in),
@@ -971,7 +1013,19 @@ def confirm_website_verification(
     return result
 
 
-@router.post("/{app_id}/unverify", status_code=204, tags=["verification"])
+@router.post(
+    "/{app_id}/unverify",
+    status_code=204,
+    tags=["verification"],
+    responses={
+        204: {"description": "Successfully unverified"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not app author"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def unverify(
     login=Depends(app_author_only),
     app_id: str = Path(
@@ -1002,7 +1056,17 @@ def unverify(
 
 
 @router.post(
-    "/{app_id}/switch_to_direct_upload", status_code=204, tags=["verification"]
+    "/{app_id}/switch_to_direct_upload",
+    status_code=204,
+    tags=["verification"],
+    responses={
+        204: {"description": "Successfully switched to direct upload"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not app author"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def switch_to_direct_upload(
     login=Depends(app_author_only),
@@ -1027,7 +1091,19 @@ def switch_to_direct_upload(
             db.session.commit()
 
 
-@router.post("/{app_id}/archive", status_code=204, tags=["verification"])
+@router.post(
+    "/{app_id}/archive",
+    status_code=204,
+    tags=["verification"],
+    responses={
+        204: {"description": "Successfully archived"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not app author"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def archive(
     request: ArchiveRequest,
     login=Depends(app_author_only),
