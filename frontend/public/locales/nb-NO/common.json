@@ -668,5 +668,6 @@
   "uses-privileged-socket": "Bruker en privilegert socket",
   "socket-may-allow-extra-permissions": "Bruker en socket som gjør det mulig å få flere rettigheter",
   "uses-non-portal-service": "Bruker tjenester utenom portaler",
-  "can-talk-to-non-portal-service": "Kan forespørre data fra tjenester utenom portaler og få flere rettigheter"
+  "can-talk-to-non-portal-service": "Kan forespørre data fra tjenester utenom portaler og få flere rettigheter",
+  "unauthorized": "Uautorisert"
 }

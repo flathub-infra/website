@@ -668,5 +668,6 @@
   "socket-may-allow-extra-permissions": "Używa gniazda, które umożliwia uzyskanie dodatkowych uprawnień",
   "uses-privileged-socket": "Używa uprzywilejowanego gniazda",
   "uses-non-portal-service": "Korzysta z usług niebędących portalami",
-  "can-talk-to-non-portal-service": "Może żądać danych z usług niebędących portalami i uzyskiwać dodatkowe uprawnienia"
+  "can-talk-to-non-portal-service": "Może żądać danych z usług niebędących portalami i uzyskiwać dodatkowe uprawnienia",
+  "unauthorized": "Nieautoryzowany"
 }

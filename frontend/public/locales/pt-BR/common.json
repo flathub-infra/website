@@ -424,7 +424,9 @@
     "request-a-review-question": "Deseja solicitar uma revisão?",
     "problems": "Se você quiser nos perguntar sobre problemas específicos de diretrizes de qualidade, sinta-se à vontade para abrir <link>um problema</link>.",
     "light": "Clara",
-    "dark": "Escura"
+    "dark": "Escura",
+    "general-runtime-not-eol": "Runtime que não está em fim de vida",
+    "failing-x-checks": "Falhando em {count, plural, one {# verificação} other {# verificações}}"
   },
   "user-data-subfolder-x": "Subpasta de dados do usuário {folder}",
   "new-community-repository": "Novo aplicativo de repositório comunitário",
@@ -661,5 +663,11 @@
   },
   "country-statistics": "Estatísticas por país",
   "since-x": "Desde {date}",
-  "count": "Contagem"
+  "count": "Contagem",
+  "integration": "<bold>Integração com a loja de aplicativos nativa</bold> — Esqueça os downloads na web; o Flathub entrega aplicativos e <updateslink>atualizações automáticas</updateslink> aos usuários em seu cliente nativo de loja de aplicativos, onde eles esperariam",
+  "unauthorized": "Não autorizado",
+  "uses-privileged-socket": "Usa o socket privilegiado",
+  "uses-non-portal-service": "Usa serviços por fora do portal",
+  "can-talk-to-non-portal-service": "Pode solicitar dados a partir de serviços for do portal e ganhar permissões adicionais",
+  "socket-may-allow-extra-permissions": "Usa um socket que permite ganhar permissões extras"
 }
