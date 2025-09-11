@@ -20,9 +20,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   FavoriteApp,
   GetAppstreamAppstreamAppIdGetParams,
@@ -45,13 +42,41 @@ import type {
 /**
  * @summary Get Eol Rebase
  */
-export const getEolRebaseEolRebaseGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetEolRebaseEolRebaseGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase`,
-    options,
-  )
+export type getEolRebaseEolRebaseGetResponse200 = {
+  data: GetEolRebaseEolRebaseGet200
+  status: 200
+}
+
+export type getEolRebaseEolRebaseGetResponseComposite =
+  getEolRebaseEolRebaseGetResponse200
+
+export type getEolRebaseEolRebaseGetResponse =
+  getEolRebaseEolRebaseGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetEolRebaseEolRebaseGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase`
+}
+
+export const getEolRebaseEolRebaseGet = async (
+  options?: RequestInit,
+): Promise<getEolRebaseEolRebaseGetResponse> => {
+  const res = await fetch(getGetEolRebaseEolRebaseGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getEolRebaseEolRebaseGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getEolRebaseEolRebaseGetResponse
 }
 
 export const getGetEolRebaseEolRebaseGetQueryKey = () => {
@@ -60,7 +85,7 @@ export const getGetEolRebaseEolRebaseGetQueryKey = () => {
 
 export const getGetEolRebaseEolRebaseGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -69,16 +94,16 @@ export const getGetEolRebaseEolRebaseGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetEolRebaseEolRebaseGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>
-  > = ({ signal }) => getEolRebaseEolRebaseGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getEolRebaseEolRebaseGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
@@ -90,11 +115,11 @@ export const getGetEolRebaseEolRebaseGetQueryOptions = <
 export type GetEolRebaseEolRebaseGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>
 >
-export type GetEolRebaseEolRebaseGetQueryError = AxiosError<unknown>
+export type GetEolRebaseEolRebaseGetQueryError = unknown
 
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -112,7 +137,7 @@ export function useGetEolRebaseEolRebaseGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -120,7 +145,7 @@ export function useGetEolRebaseEolRebaseGet<
 }
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -138,7 +163,7 @@ export function useGetEolRebaseEolRebaseGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -146,7 +171,7 @@ export function useGetEolRebaseEolRebaseGet<
 }
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -156,7 +181,7 @@ export function useGetEolRebaseEolRebaseGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -168,7 +193,7 @@ export function useGetEolRebaseEolRebaseGet<
 
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -178,7 +203,7 @@ export function useGetEolRebaseEolRebaseGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -199,18 +224,67 @@ export function useGetEolRebaseEolRebaseGet<
 /**
  * @summary Get Eol Rebase Appid
  */
-export const getEolRebaseAppidEolRebaseAppIdGet = (
+export type getEolRebaseAppidEolRebaseAppIdGetResponse200 = {
+  data: GetEolRebaseAppidEolRebaseAppIdGet200
+  status: 200
+}
+
+export type getEolRebaseAppidEolRebaseAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getEolRebaseAppidEolRebaseAppIdGetResponseComposite =
+  | getEolRebaseAppidEolRebaseAppIdGetResponse200
+  | getEolRebaseAppidEolRebaseAppIdGetResponse422
+
+export type getEolRebaseAppidEolRebaseAppIdGetResponse =
+  getEolRebaseAppidEolRebaseAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetEolRebaseAppidEolRebaseAppIdGetUrl = (
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetEolRebaseAppidEolRebaseAppIdGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase/${appId}`,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase/${appId}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase/${appId}`
+}
+
+export const getEolRebaseAppidEolRebaseAppIdGet = async (
+  appId: string,
+  params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
+  options?: RequestInit,
+): Promise<getEolRebaseAppidEolRebaseAppIdGetResponse> => {
+  const res = await fetch(
+    getGetEolRebaseAppidEolRebaseAppIdGetUrl(appId, params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "GET",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getEolRebaseAppidEolRebaseAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getEolRebaseAppidEolRebaseAppIdGetResponse
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
@@ -225,7 +299,7 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -237,10 +311,10 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -251,7 +325,7 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
   > = ({ signal }) =>
     getEolRebaseAppidEolRebaseAppIdGet(appId, params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -269,12 +343,11 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
 export type GetEolRebaseAppidEolRebaseAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>
 >
-export type GetEolRebaseAppidEolRebaseAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetEolRebaseAppidEolRebaseAppIdGetQueryError = HTTPValidationError
 
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params: undefined | GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -294,7 +367,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -302,7 +375,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 }
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -322,7 +395,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -330,7 +403,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 }
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -342,7 +415,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -354,7 +427,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -366,7 +439,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -391,13 +464,41 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 /**
  * @summary Get Eol Message
  */
-export const getEolMessageEolMessageGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetEolMessageEolMessageGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message`,
-    options,
-  )
+export type getEolMessageEolMessageGetResponse200 = {
+  data: GetEolMessageEolMessageGet200
+  status: 200
+}
+
+export type getEolMessageEolMessageGetResponseComposite =
+  getEolMessageEolMessageGetResponse200
+
+export type getEolMessageEolMessageGetResponse =
+  getEolMessageEolMessageGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetEolMessageEolMessageGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message`
+}
+
+export const getEolMessageEolMessageGet = async (
+  options?: RequestInit,
+): Promise<getEolMessageEolMessageGetResponse> => {
+  const res = await fetch(getGetEolMessageEolMessageGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getEolMessageEolMessageGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getEolMessageEolMessageGetResponse
 }
 
 export const getGetEolMessageEolMessageGetQueryKey = () => {
@@ -406,7 +507,7 @@ export const getGetEolMessageEolMessageGetQueryKey = () => {
 
 export const getGetEolMessageEolMessageGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -415,16 +516,16 @@ export const getGetEolMessageEolMessageGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetEolMessageEolMessageGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getEolMessageEolMessageGet>>
-  > = ({ signal }) => getEolMessageEolMessageGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getEolMessageEolMessageGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
@@ -436,11 +537,11 @@ export const getGetEolMessageEolMessageGetQueryOptions = <
 export type GetEolMessageEolMessageGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getEolMessageEolMessageGet>>
 >
-export type GetEolMessageEolMessageGetQueryError = AxiosError<unknown>
+export type GetEolMessageEolMessageGetQueryError = unknown
 
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -458,7 +559,7 @@ export function useGetEolMessageEolMessageGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -466,7 +567,7 @@ export function useGetEolMessageEolMessageGet<
 }
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -484,7 +585,7 @@ export function useGetEolMessageEolMessageGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -492,7 +593,7 @@ export function useGetEolMessageEolMessageGet<
 }
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -502,7 +603,7 @@ export function useGetEolMessageEolMessageGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -514,7 +615,7 @@ export function useGetEolMessageEolMessageGet<
 
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -524,7 +625,7 @@ export function useGetEolMessageEolMessageGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -545,18 +646,67 @@ export function useGetEolMessageEolMessageGet<
 /**
  * @summary Get Eol Message Appid
  */
-export const getEolMessageAppidEolMessageAppIdGet = (
+export type getEolMessageAppidEolMessageAppIdGetResponse200 = {
+  data: GetEolMessageAppidEolMessageAppIdGet200
+  status: 200
+}
+
+export type getEolMessageAppidEolMessageAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getEolMessageAppidEolMessageAppIdGetResponseComposite =
+  | getEolMessageAppidEolMessageAppIdGetResponse200
+  | getEolMessageAppidEolMessageAppIdGetResponse422
+
+export type getEolMessageAppidEolMessageAppIdGetResponse =
+  getEolMessageAppidEolMessageAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetEolMessageAppidEolMessageAppIdGetUrl = (
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetEolMessageAppidEolMessageAppIdGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message/${appId}`,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message/${appId}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message/${appId}`
+}
+
+export const getEolMessageAppidEolMessageAppIdGet = async (
+  appId: string,
+  params?: GetEolMessageAppidEolMessageAppIdGetParams,
+  options?: RequestInit,
+): Promise<getEolMessageAppidEolMessageAppIdGetResponse> => {
+  const res = await fetch(
+    getGetEolMessageAppidEolMessageAppIdGetUrl(appId, params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "GET",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getEolMessageAppidEolMessageAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getEolMessageAppidEolMessageAppIdGetResponse
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
@@ -571,7 +721,7 @@ export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -583,10 +733,10 @@ export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -597,7 +747,7 @@ export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
   > = ({ signal }) =>
     getEolMessageAppidEolMessageAppIdGet(appId, params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -615,12 +765,11 @@ export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
 export type GetEolMessageAppidEolMessageAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>
 >
-export type GetEolMessageAppidEolMessageAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetEolMessageAppidEolMessageAppIdGetQueryError = HTTPValidationError
 
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params: undefined | GetEolMessageAppidEolMessageAppIdGetParams,
@@ -640,7 +789,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -648,7 +797,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 }
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -668,7 +817,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -676,7 +825,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 }
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -688,7 +837,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -700,7 +849,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -712,7 +861,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -737,14 +886,62 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 /**
  * @summary List Appstream
  */
-export const listAppstreamAppstreamGet = (
+export type listAppstreamAppstreamGetResponse200 = {
+  data: string[]
+  status: 200
+}
+
+export type listAppstreamAppstreamGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type listAppstreamAppstreamGetResponseComposite =
+  | listAppstreamAppstreamGetResponse200
+  | listAppstreamAppstreamGetResponse422
+
+export type listAppstreamAppstreamGetResponse =
+  listAppstreamAppstreamGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getListAppstreamAppstreamGetUrl = (
   params?: ListAppstreamAppstreamGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`
+}
+
+export const listAppstreamAppstreamGet = async (
+  params?: ListAppstreamAppstreamGetParams,
+  options?: RequestInit,
+): Promise<listAppstreamAppstreamGetResponse> => {
+  const res = await fetch(getListAppstreamAppstreamGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: listAppstreamAppstreamGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as listAppstreamAppstreamGetResponse
 }
 
 export const getListAppstreamAppstreamGetQueryKey = (
@@ -758,7 +955,7 @@ export const getListAppstreamAppstreamGetQueryKey = (
 
 export const getListAppstreamAppstreamGetQueryOptions = <
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListAppstreamAppstreamGetParams,
   options?: {
@@ -769,10 +966,10 @@ export const getListAppstreamAppstreamGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getListAppstreamAppstreamGetQueryKey(params)
@@ -780,7 +977,7 @@ export const getListAppstreamAppstreamGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof listAppstreamAppstreamGet>>
   > = ({ signal }) =>
-    listAppstreamAppstreamGet(params, { signal, ...axiosOptions })
+    listAppstreamAppstreamGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
@@ -792,12 +989,11 @@ export const getListAppstreamAppstreamGetQueryOptions = <
 export type ListAppstreamAppstreamGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof listAppstreamAppstreamGet>>
 >
-export type ListAppstreamAppstreamGetQueryError =
-  AxiosError<HTTPValidationError>
+export type ListAppstreamAppstreamGetQueryError = HTTPValidationError
 
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | ListAppstreamAppstreamGetParams,
   options: {
@@ -816,7 +1012,7 @@ export function useListAppstreamAppstreamGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -824,7 +1020,7 @@ export function useListAppstreamAppstreamGet<
 }
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListAppstreamAppstreamGetParams,
   options?: {
@@ -843,7 +1039,7 @@ export function useListAppstreamAppstreamGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -851,7 +1047,7 @@ export function useListAppstreamAppstreamGet<
 }
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListAppstreamAppstreamGetParams,
   options?: {
@@ -862,7 +1058,7 @@ export function useListAppstreamAppstreamGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -874,7 +1070,7 @@ export function useListAppstreamAppstreamGet<
 
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListAppstreamAppstreamGetParams,
   options?: {
@@ -885,7 +1081,7 @@ export function useListAppstreamAppstreamGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -906,18 +1102,64 @@ export function useListAppstreamAppstreamGet<
 /**
  * @summary Get Appstream
  */
-export const getAppstreamAppstreamAppIdGet = (
+export type getAppstreamAppstreamAppIdGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getAppstreamAppstreamAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getAppstreamAppstreamAppIdGetResponseComposite =
+  | getAppstreamAppstreamAppIdGetResponse200
+  | getAppstreamAppstreamAppIdGetResponse422
+
+export type getAppstreamAppstreamAppIdGetResponse =
+  getAppstreamAppstreamAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAppstreamAppstreamAppIdGetUrl = (
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}`
+}
+
+export const getAppstreamAppstreamAppIdGet = async (
+  appId: string,
+  params?: GetAppstreamAppstreamAppIdGetParams,
+  options?: RequestInit,
+): Promise<getAppstreamAppstreamAppIdGetResponse> => {
+  const res = await fetch(getGetAppstreamAppstreamAppIdGetUrl(appId, params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getAppstreamAppstreamAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getAppstreamAppstreamAppIdGetResponse
 }
 
 export const getGetAppstreamAppstreamAppIdGetQueryKey = (
@@ -932,7 +1174,7 @@ export const getGetAppstreamAppstreamAppIdGetQueryKey = (
 
 export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -944,10 +1186,10 @@ export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -956,7 +1198,7 @@ export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>
   > = ({ signal }) =>
-    getAppstreamAppstreamAppIdGet(appId, params, { signal, ...axiosOptions })
+    getAppstreamAppstreamAppIdGet(appId, params, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -973,12 +1215,11 @@ export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
 export type GetAppstreamAppstreamAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>
 >
-export type GetAppstreamAppstreamAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetAppstreamAppstreamAppIdGetQueryError = HTTPValidationError
 
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params: undefined | GetAppstreamAppstreamAppIdGetParams,
@@ -998,7 +1239,7 @@ export function useGetAppstreamAppstreamAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1006,7 +1247,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 }
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -1026,7 +1267,7 @@ export function useGetAppstreamAppstreamAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1034,7 +1275,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 }
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -1046,7 +1287,7 @@ export function useGetAppstreamAppstreamAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1058,7 +1299,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -1070,7 +1311,7 @@ export function useGetAppstreamAppstreamAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1095,14 +1336,53 @@ export function useGetAppstreamAppstreamAppIdGet<
 /**
  * @summary Get Isfullscreenapp
  */
-export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
+export type getIsFullscreenAppIsFullscreenAppAppIdGetResponse200 = {
+  data: boolean
+  status: 200
+}
+
+export type getIsFullscreenAppIsFullscreenAppAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getIsFullscreenAppIsFullscreenAppAppIdGetResponseComposite =
+  | getIsFullscreenAppIsFullscreenAppAppIdGetResponse200
+  | getIsFullscreenAppIsFullscreenAppAppIdGetResponse422
+
+export type getIsFullscreenAppIsFullscreenAppAppIdGetResponse =
+  getIsFullscreenAppIsFullscreenAppAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetIsFullscreenAppIsFullscreenAppAppIdGetUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<boolean>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/is-fullscreen-app/${appId}`,
-    options,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/is-fullscreen-app/${appId}`
+}
+
+export const getIsFullscreenAppIsFullscreenAppAppIdGet = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<getIsFullscreenAppIsFullscreenAppAppIdGetResponse> => {
+  const res = await fetch(
+    getGetIsFullscreenAppIsFullscreenAppAppIdGetUrl(appId),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getIsFullscreenAppIsFullscreenAppAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getIsFullscreenAppIsFullscreenAppAppIdGetResponse
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
@@ -1115,7 +1395,7 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1126,10 +1406,10 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1140,7 +1420,7 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions = <
   > = ({ signal }) =>
     getIsFullscreenAppIsFullscreenAppAppIdGet(appId, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -1159,11 +1439,11 @@ export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>
 >
 export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1182,7 +1462,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1190,7 +1470,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 }
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1209,7 +1489,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1217,7 +1497,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 }
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1228,7 +1508,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1240,7 +1520,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1251,7 +1531,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1275,23 +1555,69 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 /**
  * @summary Post Search
  */
-export const postSearchSearchPost = (
+export type postSearchSearchPostResponse200 = {
+  data: MeilisearchResponseLimitedAppsIndex
+  status: 200
+}
+
+export type postSearchSearchPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type postSearchSearchPostResponseComposite =
+  | postSearchSearchPostResponse200
+  | postSearchSearchPostResponse422
+
+export type postSearchSearchPostResponse =
+  postSearchSearchPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getPostSearchSearchPostUrl = (
+  params?: PostSearchSearchPostParams,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/search?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/search`
+}
+
+export const postSearchSearchPost = async (
   searchQuery: SearchQuery,
   params?: PostSearchSearchPostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<MeilisearchResponseLimitedAppsIndex>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/search`,
-    searchQuery,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+  options?: RequestInit,
+): Promise<postSearchSearchPostResponse> => {
+  const res = await fetch(getPostSearchSearchPostUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(searchQuery),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: postSearchSearchPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as postSearchSearchPostResponse
 }
 
 export const getPostSearchSearchPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1300,7 +1626,7 @@ export const getPostSearchSearchPostMutationOptions = <
     { data: SearchQuery; params?: PostSearchSearchPostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError,
@@ -1308,13 +1634,13 @@ export const getPostSearchSearchPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["postSearchSearchPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postSearchSearchPost>>,
@@ -1322,7 +1648,7 @@ export const getPostSearchSearchPostMutationOptions = <
   > = (props) => {
     const { data, params } = props ?? {}
 
-    return postSearchSearchPost(data, params, axiosOptions)
+    return postSearchSearchPost(data, params, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1332,13 +1658,13 @@ export type PostSearchSearchPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof postSearchSearchPost>>
 >
 export type PostSearchSearchPostMutationBody = SearchQuery
-export type PostSearchSearchPostMutationError = AxiosError<HTTPValidationError>
+export type PostSearchSearchPostMutationError = HTTPValidationError
 
 /**
  * @summary Post Search
  */
 export const usePostSearchSearchPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -1348,7 +1674,7 @@ export const usePostSearchSearchPost = <
       { data: SearchQuery; params?: PostSearchSearchPostParams },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1364,10 +1690,41 @@ export const usePostSearchSearchPost = <
 /**
  * @summary Get Runtime List
  */
-export const getRuntimeListRuntimesGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetRuntimeListRuntimesGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/runtimes`, options)
+export type getRuntimeListRuntimesGetResponse200 = {
+  data: GetRuntimeListRuntimesGet200
+  status: 200
+}
+
+export type getRuntimeListRuntimesGetResponseComposite =
+  getRuntimeListRuntimesGetResponse200
+
+export type getRuntimeListRuntimesGetResponse =
+  getRuntimeListRuntimesGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRuntimeListRuntimesGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/runtimes`
+}
+
+export const getRuntimeListRuntimesGet = async (
+  options?: RequestInit,
+): Promise<getRuntimeListRuntimesGetResponse> => {
+  const res = await fetch(getGetRuntimeListRuntimesGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRuntimeListRuntimesGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRuntimeListRuntimesGetResponse
 }
 
 export const getGetRuntimeListRuntimesGetQueryKey = () => {
@@ -1376,7 +1733,7 @@ export const getGetRuntimeListRuntimesGetQueryKey = () => {
 
 export const getGetRuntimeListRuntimesGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1385,16 +1742,16 @@ export const getGetRuntimeListRuntimesGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetRuntimeListRuntimesGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>
-  > = ({ signal }) => getRuntimeListRuntimesGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getRuntimeListRuntimesGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
@@ -1406,11 +1763,11 @@ export const getGetRuntimeListRuntimesGetQueryOptions = <
 export type GetRuntimeListRuntimesGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>
 >
-export type GetRuntimeListRuntimesGetQueryError = AxiosError<unknown>
+export type GetRuntimeListRuntimesGetQueryError = unknown
 
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -1428,7 +1785,7 @@ export function useGetRuntimeListRuntimesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1436,7 +1793,7 @@ export function useGetRuntimeListRuntimesGet<
 }
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1454,7 +1811,7 @@ export function useGetRuntimeListRuntimesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1462,7 +1819,7 @@ export function useGetRuntimeListRuntimesGet<
 }
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1472,7 +1829,7 @@ export function useGetRuntimeListRuntimesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1484,7 +1841,7 @@ export function useGetRuntimeListRuntimesGet<
 
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1494,7 +1851,7 @@ export function useGetRuntimeListRuntimesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1515,15 +1872,64 @@ export function useGetRuntimeListRuntimesGet<
 /**
  * @summary Get Summary
  */
-export const getSummarySummaryAppIdGet = (
+export type getSummarySummaryAppIdGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getSummarySummaryAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getSummarySummaryAppIdGetResponseComposite =
+  | getSummarySummaryAppIdGetResponse200
+  | getSummarySummaryAppIdGetResponse422
+
+export type getSummarySummaryAppIdGetResponse =
+  getSummarySummaryAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetSummarySummaryAppIdGetUrl = (
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}`
+}
+
+export const getSummarySummaryAppIdGet = async (
+  appId: string,
+  params?: GetSummarySummaryAppIdGetParams,
+  options?: RequestInit,
+): Promise<getSummarySummaryAppIdGetResponse> => {
+  const res = await fetch(getGetSummarySummaryAppIdGetUrl(appId, params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getSummarySummaryAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getSummarySummaryAppIdGetResponse
 }
 
 export const getGetSummarySummaryAppIdGetQueryKey = (
@@ -1538,7 +1944,7 @@ export const getGetSummarySummaryAppIdGetQueryKey = (
 
 export const getGetSummarySummaryAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1550,10 +1956,10 @@ export const getGetSummarySummaryAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1562,7 +1968,7 @@ export const getGetSummarySummaryAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>
   > = ({ signal }) =>
-    getSummarySummaryAppIdGet(appId, params, { signal, ...axiosOptions })
+    getSummarySummaryAppIdGet(appId, params, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -1579,12 +1985,11 @@ export const getGetSummarySummaryAppIdGetQueryOptions = <
 export type GetSummarySummaryAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>
 >
-export type GetSummarySummaryAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetSummarySummaryAppIdGetQueryError = HTTPValidationError
 
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params: undefined | GetSummarySummaryAppIdGetParams,
@@ -1604,7 +2009,7 @@ export function useGetSummarySummaryAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1612,7 +2017,7 @@ export function useGetSummarySummaryAppIdGet<
 }
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1632,7 +2037,7 @@ export function useGetSummarySummaryAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1640,7 +2045,7 @@ export function useGetSummarySummaryAppIdGet<
 }
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1652,7 +2057,7 @@ export function useGetSummarySummaryAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1664,7 +2069,7 @@ export function useGetSummarySummaryAppIdGet<
 
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1676,7 +2081,7 @@ export function useGetSummarySummaryAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1704,10 +2109,41 @@ recognised by the backend.  These are used by things such as the transactions
 and donations APIs to address amounts to the platforms.
  * @summary Get Platforms
  */
-export const getPlatformsPlatformsGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetPlatformsPlatformsGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/platforms`, options)
+export type getPlatformsPlatformsGetResponse200 = {
+  data: GetPlatformsPlatformsGet200
+  status: 200
+}
+
+export type getPlatformsPlatformsGetResponseComposite =
+  getPlatformsPlatformsGetResponse200
+
+export type getPlatformsPlatformsGetResponse =
+  getPlatformsPlatformsGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPlatformsPlatformsGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/platforms`
+}
+
+export const getPlatformsPlatformsGet = async (
+  options?: RequestInit,
+): Promise<getPlatformsPlatformsGetResponse> => {
+  const res = await fetch(getGetPlatformsPlatformsGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPlatformsPlatformsGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPlatformsPlatformsGetResponse
 }
 
 export const getGetPlatformsPlatformsGetQueryKey = () => {
@@ -1716,7 +2152,7 @@ export const getGetPlatformsPlatformsGetQueryKey = () => {
 
 export const getGetPlatformsPlatformsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1725,16 +2161,16 @@ export const getGetPlatformsPlatformsGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetPlatformsPlatformsGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getPlatformsPlatformsGet>>
-  > = ({ signal }) => getPlatformsPlatformsGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getPlatformsPlatformsGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
@@ -1746,11 +2182,11 @@ export const getGetPlatformsPlatformsGetQueryOptions = <
 export type GetPlatformsPlatformsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getPlatformsPlatformsGet>>
 >
-export type GetPlatformsPlatformsGetQueryError = AxiosError<unknown>
+export type GetPlatformsPlatformsGetQueryError = unknown
 
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -1768,7 +2204,7 @@ export function useGetPlatformsPlatformsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1776,7 +2212,7 @@ export function useGetPlatformsPlatformsGet<
 }
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1794,7 +2230,7 @@ export function useGetPlatformsPlatformsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1802,7 +2238,7 @@ export function useGetPlatformsPlatformsGet<
 }
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1812,7 +2248,7 @@ export function useGetPlatformsPlatformsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1824,7 +2260,7 @@ export function useGetPlatformsPlatformsGet<
 
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1834,7 +2270,7 @@ export function useGetPlatformsPlatformsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1855,14 +2291,48 @@ export function useGetPlatformsPlatformsGet<
 /**
  * @summary Get Addons
  */
-export const getAddonsAddonAppIdGet = (
+export type getAddonsAddonAppIdGetResponse200 = {
+  data: string[]
+  status: 200
+}
+
+export type getAddonsAddonAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getAddonsAddonAppIdGetResponseComposite =
+  | getAddonsAddonAppIdGetResponse200
+  | getAddonsAddonAppIdGetResponse422
+
+export type getAddonsAddonAppIdGetResponse =
+  getAddonsAddonAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAddonsAddonAppIdGetUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/addon/${appId}`
+}
+
+export const getAddonsAddonAppIdGet = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/addon/${appId}`,
-    options,
-  )
+  options?: RequestInit,
+): Promise<getAddonsAddonAppIdGetResponse> => {
+  const res = await fetch(getGetAddonsAddonAppIdGetUrl(appId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getAddonsAddonAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getAddonsAddonAppIdGetResponse
 }
 
 export const getGetAddonsAddonAppIdGetQueryKey = (appId?: string) => {
@@ -1871,7 +2341,7 @@ export const getGetAddonsAddonAppIdGetQueryKey = (appId?: string) => {
 
 export const getGetAddonsAddonAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1882,17 +2352,17 @@ export const getGetAddonsAddonAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetAddonsAddonAppIdGetQueryKey(appId)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
-  > = ({ signal }) => getAddonsAddonAppIdGet(appId, { signal, ...axiosOptions })
+  > = ({ signal }) => getAddonsAddonAppIdGet(appId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -1909,11 +2379,11 @@ export const getGetAddonsAddonAppIdGetQueryOptions = <
 export type GetAddonsAddonAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>
 >
-export type GetAddonsAddonAppIdGetQueryError = AxiosError<HTTPValidationError>
+export type GetAddonsAddonAppIdGetQueryError = HTTPValidationError
 
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1932,7 +2402,7 @@ export function useGetAddonsAddonAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1940,7 +2410,7 @@ export function useGetAddonsAddonAppIdGet<
 }
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1959,7 +2429,7 @@ export function useGetAddonsAddonAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1967,7 +2437,7 @@ export function useGetAddonsAddonAppIdGet<
 }
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1978,7 +2448,7 @@ export function useGetAddonsAddonAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1990,7 +2460,7 @@ export function useGetAddonsAddonAppIdGet<
 
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2001,7 +2471,7 @@ export function useGetAddonsAddonAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2022,13 +2492,41 @@ export function useGetAddonsAddonAppIdGet<
 /**
  * @summary Get Exceptions
  */
-export const getExceptionsExceptionsGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/`,
-    options,
-  )
+export type getExceptionsExceptionsGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getExceptionsExceptionsGetResponseComposite =
+  getExceptionsExceptionsGetResponse200
+
+export type getExceptionsExceptionsGetResponse =
+  getExceptionsExceptionsGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetExceptionsExceptionsGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/`
+}
+
+export const getExceptionsExceptionsGet = async (
+  options?: RequestInit,
+): Promise<getExceptionsExceptionsGetResponse> => {
+  const res = await fetch(getGetExceptionsExceptionsGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getExceptionsExceptionsGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getExceptionsExceptionsGetResponse
 }
 
 export const getGetExceptionsExceptionsGetQueryKey = () => {
@@ -2037,7 +2535,7 @@ export const getGetExceptionsExceptionsGetQueryKey = () => {
 
 export const getGetExceptionsExceptionsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -2046,16 +2544,16 @@ export const getGetExceptionsExceptionsGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetExceptionsExceptionsGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getExceptionsExceptionsGet>>
-  > = ({ signal }) => getExceptionsExceptionsGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getExceptionsExceptionsGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
@@ -2067,11 +2565,11 @@ export const getGetExceptionsExceptionsGetQueryOptions = <
 export type GetExceptionsExceptionsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getExceptionsExceptionsGet>>
 >
-export type GetExceptionsExceptionsGetQueryError = AxiosError<unknown>
+export type GetExceptionsExceptionsGetQueryError = unknown
 
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -2089,7 +2587,7 @@ export function useGetExceptionsExceptionsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -2097,7 +2595,7 @@ export function useGetExceptionsExceptionsGet<
 }
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -2115,7 +2613,7 @@ export function useGetExceptionsExceptionsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2123,7 +2621,7 @@ export function useGetExceptionsExceptionsGet<
 }
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -2133,7 +2631,7 @@ export function useGetExceptionsExceptionsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2145,7 +2643,7 @@ export function useGetExceptionsExceptionsGet<
 
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -2155,7 +2653,7 @@ export function useGetExceptionsExceptionsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2176,14 +2674,48 @@ export function useGetExceptionsExceptionsGet<
 /**
  * @summary Get Exceptions For App
  */
-export const getExceptionsForAppExceptionsAppIdGet = (
+export type getExceptionsForAppExceptionsAppIdGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getExceptionsForAppExceptionsAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getExceptionsForAppExceptionsAppIdGetResponseComposite =
+  | getExceptionsForAppExceptionsAppIdGetResponse200
+  | getExceptionsForAppExceptionsAppIdGetResponse422
+
+export type getExceptionsForAppExceptionsAppIdGetResponse =
+  getExceptionsForAppExceptionsAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetExceptionsForAppExceptionsAppIdGetUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/${appId}`
+}
+
+export const getExceptionsForAppExceptionsAppIdGet = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/${appId}`,
-    options,
-  )
+  options?: RequestInit,
+): Promise<getExceptionsForAppExceptionsAppIdGetResponse> => {
+  const res = await fetch(getGetExceptionsForAppExceptionsAppIdGetUrl(appId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getExceptionsForAppExceptionsAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getExceptionsForAppExceptionsAppIdGetResponse
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
@@ -2196,7 +2728,7 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2207,10 +2739,10 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -2219,7 +2751,7 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>
   > = ({ signal }) =>
-    getExceptionsForAppExceptionsAppIdGet(appId, { signal, ...axiosOptions })
+    getExceptionsForAppExceptionsAppIdGet(appId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -2237,11 +2769,11 @@ export type GetExceptionsForAppExceptionsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>
 >
 export type GetExceptionsForAppExceptionsAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -2260,7 +2792,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -2268,7 +2800,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 }
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2287,7 +2819,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2295,7 +2827,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 }
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2306,7 +2838,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2318,7 +2850,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2329,7 +2861,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2354,19 +2886,52 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
  * Add an app to a users favorites. The appid is the ID of the app to add.
  * @summary Add To Favorites
  */
-export const addToFavoritesFavoritesAppIdAddPost = (
+export type addToFavoritesFavoritesAppIdAddPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type addToFavoritesFavoritesAppIdAddPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type addToFavoritesFavoritesAppIdAddPostResponseComposite =
+  | addToFavoritesFavoritesAppIdAddPostResponse200
+  | addToFavoritesFavoritesAppIdAddPostResponse422
+
+export type addToFavoritesFavoritesAppIdAddPostResponse =
+  addToFavoritesFavoritesAppIdAddPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getAddToFavoritesFavoritesAppIdAddPostUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}/add`
+}
+
+export const addToFavoritesFavoritesAppIdAddPost = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}/add`,
-    undefined,
-    options,
-  )
+  options?: RequestInit,
+): Promise<addToFavoritesFavoritesAppIdAddPostResponse> => {
+  const res = await fetch(getAddToFavoritesFavoritesAppIdAddPostUrl(appId), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: addToFavoritesFavoritesAppIdAddPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as addToFavoritesFavoritesAppIdAddPostResponse
 }
 
 export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -2375,7 +2940,7 @@ export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
   TError,
@@ -2383,13 +2948,13 @@ export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["addToFavoritesFavoritesAppIdAddPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
@@ -2397,7 +2962,7 @@ export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
   > = (props) => {
     const { appId } = props ?? {}
 
-    return addToFavoritesFavoritesAppIdAddPost(appId, axiosOptions)
+    return addToFavoritesFavoritesAppIdAddPost(appId, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -2408,13 +2973,13 @@ export type AddToFavoritesFavoritesAppIdAddPostMutationResult = NonNullable<
 >
 
 export type AddToFavoritesFavoritesAppIdAddPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Add To Favorites
  */
 export const useAddToFavoritesFavoritesAppIdAddPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -2424,7 +2989,7 @@ export const useAddToFavoritesFavoritesAppIdAddPost = <
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -2442,18 +3007,56 @@ export const useAddToFavoritesFavoritesAppIdAddPost = <
  * Remove an app from a users favorites. The appid is the ID of the app to remove.
  * @summary Remove From Favorites
  */
-export const removeFromFavoritesFavoritesAppIdRemoveDelete = (
+export type removeFromFavoritesFavoritesAppIdRemoveDeleteResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type removeFromFavoritesFavoritesAppIdRemoveDeleteResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type removeFromFavoritesFavoritesAppIdRemoveDeleteResponseComposite =
+  | removeFromFavoritesFavoritesAppIdRemoveDeleteResponse200
+  | removeFromFavoritesFavoritesAppIdRemoveDeleteResponse422
+
+export type removeFromFavoritesFavoritesAppIdRemoveDeleteResponse =
+  removeFromFavoritesFavoritesAppIdRemoveDeleteResponseComposite & {
+    headers: Headers
+  }
+
+export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.delete(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}/remove`,
-    options,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}/remove`
+}
+
+export const removeFromFavoritesFavoritesAppIdRemoveDelete = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<removeFromFavoritesFavoritesAppIdRemoveDeleteResponse> => {
+  const res = await fetch(
+    getRemoveFromFavoritesFavoritesAppIdRemoveDeleteUrl(appId),
+    {
+      ...options,
+      method: "DELETE",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: removeFromFavoritesFavoritesAppIdRemoveDeleteResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as removeFromFavoritesFavoritesAppIdRemoveDeleteResponse
 }
 
 export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -2462,7 +3065,7 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
     { appId: string },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
   TError,
@@ -2470,13 +3073,13 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
   TContext
 > => {
   const mutationKey = ["removeFromFavoritesFavoritesAppIdRemoveDelete"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
@@ -2484,7 +3087,7 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
   > = (props) => {
     const { appId } = props ?? {}
 
-    return removeFromFavoritesFavoritesAppIdRemoveDelete(appId, axiosOptions)
+    return removeFromFavoritesFavoritesAppIdRemoveDelete(appId, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -2496,13 +3099,13 @@ export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationResult =
   >
 
 export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Remove From Favorites
  */
 export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -2512,7 +3115,7 @@ export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -2530,10 +3133,41 @@ export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
  * Get a list of the users favorite apps.
  * @summary Get Favorites
  */
-export const getFavoritesFavoritesGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<FavoriteApp[]>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites`, options)
+export type getFavoritesFavoritesGetResponse200 = {
+  data: FavoriteApp[]
+  status: 200
+}
+
+export type getFavoritesFavoritesGetResponseComposite =
+  getFavoritesFavoritesGetResponse200
+
+export type getFavoritesFavoritesGetResponse =
+  getFavoritesFavoritesGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetFavoritesFavoritesGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites`
+}
+
+export const getFavoritesFavoritesGet = async (
+  options?: RequestInit,
+): Promise<getFavoritesFavoritesGetResponse> => {
+  const res = await fetch(getGetFavoritesFavoritesGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getFavoritesFavoritesGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getFavoritesFavoritesGetResponse
 }
 
 export const getGetFavoritesFavoritesGetQueryKey = () => {
@@ -2542,7 +3176,7 @@ export const getGetFavoritesFavoritesGetQueryKey = () => {
 
 export const getGetFavoritesFavoritesGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -2551,16 +3185,16 @@ export const getGetFavoritesFavoritesGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetFavoritesFavoritesGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getFavoritesFavoritesGet>>
-  > = ({ signal }) => getFavoritesFavoritesGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getFavoritesFavoritesGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
@@ -2572,11 +3206,11 @@ export const getGetFavoritesFavoritesGetQueryOptions = <
 export type GetFavoritesFavoritesGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getFavoritesFavoritesGet>>
 >
-export type GetFavoritesFavoritesGetQueryError = AxiosError<unknown>
+export type GetFavoritesFavoritesGetQueryError = unknown
 
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -2594,7 +3228,7 @@ export function useGetFavoritesFavoritesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -2602,7 +3236,7 @@ export function useGetFavoritesFavoritesGet<
 }
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -2620,7 +3254,7 @@ export function useGetFavoritesFavoritesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2628,7 +3262,7 @@ export function useGetFavoritesFavoritesGet<
 }
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -2638,7 +3272,7 @@ export function useGetFavoritesFavoritesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2650,7 +3284,7 @@ export function useGetFavoritesFavoritesGet<
 
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -2660,7 +3294,7 @@ export function useGetFavoritesFavoritesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2681,14 +3315,48 @@ export function useGetFavoritesFavoritesGet<
 /**
  * @summary Is Favorited
  */
-export const isFavoritedFavoritesAppIdGet = (
+export type isFavoritedFavoritesAppIdGetResponse200 = {
+  data: boolean
+  status: 200
+}
+
+export type isFavoritedFavoritesAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type isFavoritedFavoritesAppIdGetResponseComposite =
+  | isFavoritedFavoritesAppIdGetResponse200
+  | isFavoritedFavoritesAppIdGetResponse422
+
+export type isFavoritedFavoritesAppIdGetResponse =
+  isFavoritedFavoritesAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getIsFavoritedFavoritesAppIdGetUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}`
+}
+
+export const isFavoritedFavoritesAppIdGet = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<boolean>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}`,
-    options,
-  )
+  options?: RequestInit,
+): Promise<isFavoritedFavoritesAppIdGetResponse> => {
+  const res = await fetch(getIsFavoritedFavoritesAppIdGetUrl(appId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: isFavoritedFavoritesAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as isFavoritedFavoritesAppIdGetResponse
 }
 
 export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId?: string) => {
@@ -2697,7 +3365,7 @@ export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId?: string) => {
 
 export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2708,10 +3376,10 @@ export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getIsFavoritedFavoritesAppIdGetQueryKey(appId)
@@ -2719,7 +3387,7 @@ export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>
   > = ({ signal }) =>
-    isFavoritedFavoritesAppIdGet(appId, { signal, ...axiosOptions })
+    isFavoritedFavoritesAppIdGet(appId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -2736,12 +3404,11 @@ export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
 export type IsFavoritedFavoritesAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>
 >
-export type IsFavoritedFavoritesAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type IsFavoritedFavoritesAppIdGetQueryError = HTTPValidationError
 
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -2760,7 +3427,7 @@ export function useIsFavoritedFavoritesAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -2768,7 +3435,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 }
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2787,7 +3454,7 @@ export function useIsFavoritedFavoritesAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2795,7 +3462,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 }
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2806,7 +3473,7 @@ export function useIsFavoritedFavoritesAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -2818,7 +3485,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -2829,7 +3496,7 @@ export function useIsFavoritedFavoritesAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {

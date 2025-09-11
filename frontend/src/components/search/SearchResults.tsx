@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios"
 import {
   ApplicationCard,
   ApplicationCardSkeleton,
@@ -6,11 +5,21 @@ import {
 import { FunctionComponent } from "react"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { UseMutationResult } from "@tanstack/react-query"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import {
+  HTTPValidationError,
+  PostSearchSearchPostParams,
+  postSearchSearchPostResponse,
+  SearchQuery,
+} from "src/codegen"
 
 interface Props {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    postSearchSearchPostResponse,
+    HTTPValidationError,
+    {
+      data: SearchQuery
+      params?: PostSearchSearchPostParams
+    },
     unknown
   >
 }
@@ -27,6 +36,7 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
           )
         })}
       {results.isSuccess &&
+        results.data.status === 200 &&
         results.data?.data.hits.map((app) => (
           <div key={app.app_id} className={"flex flex-col gap-2"}>
             <ApplicationCard

@@ -17,19 +17,46 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 /**
  * @summary Get Recently Updated Apps Feed
  */
-export const getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/recently-updated`,
-    options,
+export type getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponseComposite =
+  getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponse200
+
+export type getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponse =
+  getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/recently-updated`
+}
+
+export const getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet = async (
+  options?: RequestInit,
+): Promise<getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponse> => {
+  const res = await fetch(
+    getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponse
 }
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryKey =
@@ -43,7 +70,7 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -54,9 +81,9 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -67,7 +94,7 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions = <
   > = ({ signal }) =>
     getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet({
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -83,14 +110,13 @@ export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>>
   >
-export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryError =
-  AxiosError<unknown>
+export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryError = unknown
 
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -114,7 +140,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -124,7 +150,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -148,7 +174,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -158,7 +184,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -170,7 +196,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -184,7 +210,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -196,7 +222,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -218,10 +244,41 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
 /**
  * @summary Get New Apps Feed
  */
-export const getNewAppsFeedFeedNewGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/new`, options)
+export type getNewAppsFeedFeedNewGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getNewAppsFeedFeedNewGetResponseComposite =
+  getNewAppsFeedFeedNewGetResponse200
+
+export type getNewAppsFeedFeedNewGetResponse =
+  getNewAppsFeedFeedNewGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetNewAppsFeedFeedNewGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/new`
+}
+
+export const getNewAppsFeedFeedNewGet = async (
+  options?: RequestInit,
+): Promise<getNewAppsFeedFeedNewGetResponse> => {
+  const res = await fetch(getGetNewAppsFeedFeedNewGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getNewAppsFeedFeedNewGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getNewAppsFeedFeedNewGetResponse
 }
 
 export const getGetNewAppsFeedFeedNewGetQueryKey = () => {
@@ -230,7 +287,7 @@ export const getGetNewAppsFeedFeedNewGetQueryKey = () => {
 
 export const getGetNewAppsFeedFeedNewGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -239,16 +296,16 @@ export const getGetNewAppsFeedFeedNewGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetNewAppsFeedFeedNewGetQueryKey()
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>
-  > = ({ signal }) => getNewAppsFeedFeedNewGet({ signal, ...axiosOptions })
+  > = ({ signal }) => getNewAppsFeedFeedNewGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
@@ -260,11 +317,11 @@ export const getGetNewAppsFeedFeedNewGetQueryOptions = <
 export type GetNewAppsFeedFeedNewGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>
 >
-export type GetNewAppsFeedFeedNewGetQueryError = AxiosError<unknown>
+export type GetNewAppsFeedFeedNewGetQueryError = unknown
 
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -282,7 +339,7 @@ export function useGetNewAppsFeedFeedNewGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -290,7 +347,7 @@ export function useGetNewAppsFeedFeedNewGet<
 }
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -308,7 +365,7 @@ export function useGetNewAppsFeedFeedNewGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -316,7 +373,7 @@ export function useGetNewAppsFeedFeedNewGet<
 }
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -326,7 +383,7 @@ export function useGetNewAppsFeedFeedNewGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -338,7 +395,7 @@ export function useGetNewAppsFeedFeedNewGet<
 
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -348,7 +405,7 @@ export function useGetNewAppsFeedFeedNewGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {

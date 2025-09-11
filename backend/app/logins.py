@@ -867,11 +867,18 @@ class UserInfo(BaseModel):
     auths: Auths
 
 
-@router.get("/userinfo", tags=["auth"])
+@router.get(
+    "/userinfo",
+    tags=["auth"],
+    responses={
+        200: {"description": "User information returned successfully"},
+        401: {"description": "User is not logged in"},
+    },
+)
 def get_userinfo(login: LoginStatusDep) -> UserInfo:
     """
     Retrieve the current login's user information.  If the user is not logged in
-    you will get a `204` return.  Otherwise you will receive JSON describing the
+    you will get a `401` return.  Otherwise you will receive JSON describing the
     currently logged in user, for example:
 
     ```
@@ -890,7 +897,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     dev_flatpaks is filtered against IDs available in AppStream
     """
     if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=204, detail="Not logged in")
+        raise HTTPException(status_code=401, detail="Not logged in")
 
     appstream = apps.get_appids(include_eol=True)
 

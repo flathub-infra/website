@@ -56,7 +56,7 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
         },
         {
           onSuccess: (res) => {
-            if (q.length > 0) {
+            if (q.length > 0 && res.data && 'estimatedTotalHits' in res.data) {
               trackSiteSearch({
                 keyword: q,
                 count: res.data.estimatedTotalHits,

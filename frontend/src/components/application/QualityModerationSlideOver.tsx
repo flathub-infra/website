@@ -2,7 +2,6 @@ import { UseQueryResult, useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
-import { AxiosResponse } from "axios"
 import {
   HiArrowTopRightOnSquare,
   HiArrowsPointingOut,
@@ -32,6 +31,7 @@ import {
 import {
   deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete,
   getQualityModerationForAppQualityModerationAppIdGet,
+  getQualityModerationForAppQualityModerationAppIdGetResponse,
   setFullscreenAppQualityModerationAppIdFullscreenPost,
   setQualityModerationForAppQualityModerationAppIdPost,
 } from "src/codegen"
@@ -226,7 +226,10 @@ const QualityCategories = ({
   mode,
 }: {
   app: Pick<DesktopAppstream, "id" | "name" | "summary" | "icon" | "branding">
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    getQualityModerationForAppQualityModerationAppIdGetResponse,
+    unknown
+  >
   mode: "developer" | "qualityModerator"
 }) => {
   const t = useTranslations()
@@ -234,14 +237,14 @@ const QualityCategories = ({
   const passAllMutation = useMutation({
     mutationFn: () => {
       return Promise.all(
-        query.data.data.guidelines
-          .filter((guideline) => !guideline.guideline.read_only)
-          .map((guideline) =>
+        (query.data?.data as QualityModerationResponse)?.guidelines
+          ?.filter((guideline) => !guideline.guideline.read_only)
+          ?.map((guideline) =>
             setQualityModerationForAppQualityModerationAppIdPost(
               app.id,
               { guideline_id: guideline.guideline_id, passed: true },
               {
-                withCredentials: true,
+                credentials: "include",
               },
             ),
           ) ?? [],
@@ -258,7 +261,7 @@ const QualityCategories = ({
       deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
         app.id,
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {
@@ -267,7 +270,9 @@ const QualityCategories = ({
   })
 
   const categories = new Set<string>(
-    query.data.data.guidelines.map((guideline) => guideline.guideline.category),
+    (query.data?.data as QualityModerationResponse)?.guidelines?.map(
+      (guideline) => guideline.guideline.category,
+    ) ?? [],
   )
 
   const issueLink = newGithubIssueUrl({
@@ -288,7 +293,8 @@ https://flathub.org/apps/details/${app.id}
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
       {mode === "qualityModerator" && (
         <div className="flex gap-3">
-          {query.data.data.review_requested_at && (
+          {(query.data?.data as QualityModerationResponse)
+            ?.review_requested_at && (
             <Button
               size="lg"
               className="w-full"
@@ -345,7 +351,10 @@ https://flathub.org/apps/details/${app.id}
                   key={category}
                   appId={app.id}
                   query={query}
-                  is_fullscreen_app={query.data.data.is_fullscreen_app}
+                  is_fullscreen_app={
+                    (query.data?.data as QualityModerationResponse)
+                      ?.is_fullscreen_app ?? false
+                  }
                 />
               )}
             </div>
@@ -356,9 +365,9 @@ https://flathub.org/apps/details/${app.id}
             >
               {category === "app-icon" && <ShowIconButton app={app} />}
               {category === "branding" && <ShowBrandingButton app={app} />}
-              {query.data.data.guidelines
-                .filter((a) => a.guideline.category === category)
-                .map((guideline) => (
+              {(query.data?.data as QualityModerationResponse)?.guidelines
+                ?.filter((a) => a.guideline.category === category)
+                ?.map((guideline) => (
                   <QualityItem
                     mode={mode}
                     key={guideline.guideline_id}
@@ -387,7 +396,10 @@ const QualityItem = ({
   appId: string
   qualityModeration?: QualityModerationType
   qualityGuideline: Guideline | undefined
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    getQualityModerationForAppQualityModerationAppIdGetResponse,
+    unknown
+  >
 }) => {
   const t = useTranslations()
   const [toggle, setToggle] = useState<boolean | null>(
@@ -404,7 +416,7 @@ const QualityItem = ({
         appId,
         { guideline_id: qualityGuideline.id, passed },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
 
@@ -480,7 +492,10 @@ const ScreenShotTypeItem = ({
   mode: "developer" | "qualityModerator"
   appId: string
   is_fullscreen_app: boolean
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    getQualityModerationForAppQualityModerationAppIdGetResponse,
+    unknown
+  >
 }) => {
   const t = useTranslations()
   const [toggle, setToggle] = useState<boolean>(is_fullscreen_app)
@@ -495,7 +510,7 @@ const ScreenShotTypeItem = ({
         appId,
         { is_fullscreen_app: is_fullscreen_app },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
 
@@ -604,7 +619,7 @@ export const QualityModerationSlideOver = ({
     queryKey: ["qualityModeration", { appId: app.id }],
     queryFn: ({ signal }) =>
       getQualityModerationForAppQualityModerationAppIdGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
         signal,
       }),
     enabled: !!app.id,

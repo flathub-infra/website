@@ -24,7 +24,7 @@ const TokenCancelButton: FunctionComponent<Props> = ({
     mutationKey: ["cancel-token", appId, token.token],
     mutationFn: () => {
       return cancelTokensVendingappAppIdTokensCancelPost(appId, [token.token], {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: (data) => {

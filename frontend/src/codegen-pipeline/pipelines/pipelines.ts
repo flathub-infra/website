@@ -20,9 +20,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   HTTPValidationError,
   ListPipelinesApiPipelinesGetParams,
@@ -37,19 +34,54 @@ import type {
 /**
  * @summary Trigger Pipeline
  */
-export const triggerPipelineApiPipelinesPost = (
+export type triggerPipelineApiPipelinesPostResponse201 = {
+  data: TriggerPipelineApiPipelinesPost201
+  status: 201
+}
+
+export type triggerPipelineApiPipelinesPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type triggerPipelineApiPipelinesPostResponseComposite =
+  | triggerPipelineApiPipelinesPostResponse201
+  | triggerPipelineApiPipelinesPostResponse422
+
+export type triggerPipelineApiPipelinesPostResponse =
+  triggerPipelineApiPipelinesPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getTriggerPipelineApiPipelinesPostUrl = () => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`
+}
+
+export const triggerPipelineApiPipelinesPost = async (
   pipelineTriggerRequest: PipelineTriggerRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<TriggerPipelineApiPipelinesPost201>> => {
-  return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`,
-    pipelineTriggerRequest,
-    options,
-  )
+  options?: RequestInit,
+): Promise<triggerPipelineApiPipelinesPostResponse> => {
+  const res = await fetch(getTriggerPipelineApiPipelinesPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(pipelineTriggerRequest),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: triggerPipelineApiPipelinesPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as triggerPipelineApiPipelinesPostResponse
 }
 
 export const getTriggerPipelineApiPipelinesPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -58,7 +90,7 @@ export const getTriggerPipelineApiPipelinesPostMutationOptions = <
     { data: PipelineTriggerRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
   TError,
@@ -66,13 +98,13 @@ export const getTriggerPipelineApiPipelinesPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["triggerPipelineApiPipelinesPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
@@ -80,7 +112,7 @@ export const getTriggerPipelineApiPipelinesPostMutationOptions = <
   > = (props) => {
     const { data } = props ?? {}
 
-    return triggerPipelineApiPipelinesPost(data, axiosOptions)
+    return triggerPipelineApiPipelinesPost(data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -90,14 +122,13 @@ export type TriggerPipelineApiPipelinesPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>
 >
 export type TriggerPipelineApiPipelinesPostMutationBody = PipelineTriggerRequest
-export type TriggerPipelineApiPipelinesPostMutationError =
-  AxiosError<HTTPValidationError>
+export type TriggerPipelineApiPipelinesPostMutationError = HTTPValidationError
 
 /**
  * @summary Trigger Pipeline
  */
 export const useTriggerPipelineApiPipelinesPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -107,7 +138,7 @@ export const useTriggerPipelineApiPipelinesPost = <
       { data: PipelineTriggerRequest },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -124,17 +155,62 @@ export const useTriggerPipelineApiPipelinesPost = <
 /**
  * @summary List Pipelines
  */
-export const listPipelinesApiPipelinesGet = (
+export type listPipelinesApiPipelinesGetResponse200 = {
+  data: PipelineSummary[]
+  status: 200
+}
+
+export type listPipelinesApiPipelinesGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type listPipelinesApiPipelinesGetResponseComposite =
+  | listPipelinesApiPipelinesGetResponse200
+  | listPipelinesApiPipelinesGetResponse422
+
+export type listPipelinesApiPipelinesGetResponse =
+  listPipelinesApiPipelinesGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getListPipelinesApiPipelinesGetUrl = (
   params?: ListPipelinesApiPipelinesGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<PipelineSummary[]>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines?${stringifiedParams}`
+    : `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`
+}
+
+export const listPipelinesApiPipelinesGet = async (
+  params?: ListPipelinesApiPipelinesGetParams,
+  options?: RequestInit,
+): Promise<listPipelinesApiPipelinesGetResponse> => {
+  const res = await fetch(getListPipelinesApiPipelinesGetUrl(params), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: listPipelinesApiPipelinesGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as listPipelinesApiPipelinesGetResponse
 }
 
 export const getListPipelinesApiPipelinesGetQueryKey = (
@@ -148,7 +224,7 @@ export const getListPipelinesApiPipelinesGetQueryKey = (
 
 export const getListPipelinesApiPipelinesGetQueryOptions = <
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListPipelinesApiPipelinesGetParams,
   options?: {
@@ -159,10 +235,10 @@ export const getListPipelinesApiPipelinesGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getListPipelinesApiPipelinesGetQueryKey(params)
@@ -170,7 +246,7 @@ export const getListPipelinesApiPipelinesGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>
   > = ({ signal }) =>
-    listPipelinesApiPipelinesGet(params, { signal, ...axiosOptions })
+    listPipelinesApiPipelinesGet(params, { signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
@@ -182,12 +258,11 @@ export const getListPipelinesApiPipelinesGetQueryOptions = <
 export type ListPipelinesApiPipelinesGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>
 >
-export type ListPipelinesApiPipelinesGetQueryError =
-  AxiosError<HTTPValidationError>
+export type ListPipelinesApiPipelinesGetQueryError = HTTPValidationError
 
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params: undefined | ListPipelinesApiPipelinesGetParams,
   options: {
@@ -206,7 +281,7 @@ export function useListPipelinesApiPipelinesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -214,7 +289,7 @@ export function useListPipelinesApiPipelinesGet<
 }
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListPipelinesApiPipelinesGetParams,
   options?: {
@@ -233,7 +308,7 @@ export function useListPipelinesApiPipelinesGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -241,7 +316,7 @@ export function useListPipelinesApiPipelinesGet<
 }
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListPipelinesApiPipelinesGetParams,
   options?: {
@@ -252,7 +327,7 @@ export function useListPipelinesApiPipelinesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -264,7 +339,7 @@ export function useListPipelinesApiPipelinesGet<
 
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   params?: ListPipelinesApiPipelinesGetParams,
   options?: {
@@ -275,7 +350,7 @@ export function useListPipelinesApiPipelinesGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -299,14 +374,53 @@ export function useListPipelinesApiPipelinesGet<
 /**
  * @summary Get Pipeline
  */
-export const getPipelineApiPipelinesPipelineIdGet = (
+export type getPipelineApiPipelinesPipelineIdGetResponse200 = {
+  data: PipelineResponse
+  status: 200
+}
+
+export type getPipelineApiPipelinesPipelineIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getPipelineApiPipelinesPipelineIdGetResponseComposite =
+  | getPipelineApiPipelinesPipelineIdGetResponse200
+  | getPipelineApiPipelinesPipelineIdGetResponse422
+
+export type getPipelineApiPipelinesPipelineIdGetResponse =
+  getPipelineApiPipelinesPipelineIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPipelineApiPipelinesPipelineIdGetUrl = (
   pipelineId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<PipelineResponse>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}`,
-    options,
+) => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}`
+}
+
+export const getPipelineApiPipelinesPipelineIdGet = async (
+  pipelineId: string,
+  options?: RequestInit,
+): Promise<getPipelineApiPipelinesPipelineIdGetResponse> => {
+  const res = await fetch(
+    getGetPipelineApiPipelinesPipelineIdGetUrl(pipelineId),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPipelineApiPipelinesPipelineIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPipelineApiPipelinesPipelineIdGetResponse
 }
 
 export const getGetPipelineApiPipelinesPipelineIdGetQueryKey = (
@@ -319,7 +433,7 @@ export const getGetPipelineApiPipelinesPipelineIdGetQueryKey = (
 
 export const getGetPipelineApiPipelinesPipelineIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -330,10 +444,10 @@ export const getGetPipelineApiPipelinesPipelineIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -344,7 +458,7 @@ export const getGetPipelineApiPipelinesPipelineIdGetQueryOptions = <
   > = ({ signal }) =>
     getPipelineApiPipelinesPipelineIdGet(pipelineId, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -362,12 +476,11 @@ export const getGetPipelineApiPipelinesPipelineIdGetQueryOptions = <
 export type GetPipelineApiPipelinesPipelineIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>
 >
-export type GetPipelineApiPipelinesPipelineIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetPipelineApiPipelinesPipelineIdGetQueryError = HTTPValidationError
 
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options: {
@@ -386,7 +499,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -394,7 +507,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 }
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -413,7 +526,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -421,7 +534,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 }
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -432,7 +545,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -444,7 +557,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -455,7 +568,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -479,20 +592,62 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 /**
  * @summary Pipeline Callback
  */
-export const pipelineCallbackApiPipelinesPipelineIdCallbackPost = (
+export type pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type pipelineCallbackApiPipelinesPipelineIdCallbackPostResponseComposite =
+
+    | pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse200
+    | pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse422
+
+export type pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse =
+  pipelineCallbackApiPipelinesPipelineIdCallbackPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostUrl = (
+  pipelineId: string,
+) => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback`
+}
+
+export const pipelineCallbackApiPipelinesPipelineIdCallbackPost = async (
   pipelineId: string,
   pipelineCallbackApiPipelinesPipelineIdCallbackPostBody: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback`,
-    pipelineCallbackApiPipelinesPipelineIdCallbackPostBody,
-    options,
+  options?: RequestInit,
+): Promise<pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse> => {
+  const res = await fetch(
+    getPipelineCallbackApiPipelinesPipelineIdCallbackPostUrl(pipelineId),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(
+        pipelineCallbackApiPipelinesPipelineIdCallbackPostBody,
+      ),
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as pipelineCallbackApiPipelinesPipelineIdCallbackPostResponse
 }
 
 export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
@@ -504,7 +659,7 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOption
       },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
@@ -517,13 +672,13 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOption
     TContext
   > => {
     const mutationKey = ["pipelineCallbackApiPipelinesPipelineIdCallbackPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -539,7 +694,7 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOption
       return pipelineCallbackApiPipelinesPipelineIdCallbackPost(
         pipelineId,
         data,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -555,13 +710,13 @@ export type PipelineCallbackApiPipelinesPipelineIdCallbackPostMutationResult =
 export type PipelineCallbackApiPipelinesPipelineIdCallbackPostMutationBody =
   PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
 export type PipelineCallbackApiPipelinesPipelineIdCallbackPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Pipeline Callback
  */
 export const usePipelineCallbackApiPipelinesPipelineIdCallbackPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -576,7 +731,7 @@ export const usePipelineCallbackApiPipelinesPipelineIdCallbackPost = <
       },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -600,14 +755,52 @@ export const usePipelineCallbackApiPipelinesPipelineIdCallbackPost = <
 /**
  * @summary Redirect To Log Url
  */
-export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = (
+export type redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponseComposite =
+  | redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse200
+  | redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse422
+
+export type redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse =
+  redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetUrl = (
   pipelineId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/log_url`,
-    options,
+) => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/log_url`
+}
+
+export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = async (
+  pipelineId: string,
+  options?: RequestInit,
+): Promise<redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse> => {
+  const res = await fetch(
+    getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetUrl(pipelineId),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as redirectToLogUrlApiPipelinesPipelineIdLogUrlGetResponse
 }
 
 export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryKey = (
@@ -622,7 +815,7 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -635,10 +828,10 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -649,7 +842,7 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryOptions = <
   > = ({ signal }) =>
     redirectToLogUrlApiPipelinesPipelineIdLogUrlGet(pipelineId, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -669,13 +862,13 @@ export type RedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryResult =
     Awaited<ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>>
   >
 export type RedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options: {
@@ -700,7 +893,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -710,7 +903,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -735,7 +928,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -745,7 +938,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -758,7 +951,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -772,7 +965,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   pipelineId: string,
   options?: {
@@ -785,7 +978,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -810,18 +1003,45 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
 /**
  * @summary Publish Pipelines
  */
-export const publishPipelinesApiPipelinesPublishPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<PublishSummary>> => {
-  return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/publish`,
-    undefined,
-    options,
-  )
+export type publishPipelinesApiPipelinesPublishPostResponse200 = {
+  data: PublishSummary
+  status: 200
+}
+
+export type publishPipelinesApiPipelinesPublishPostResponseComposite =
+  publishPipelinesApiPipelinesPublishPostResponse200
+
+export type publishPipelinesApiPipelinesPublishPostResponse =
+  publishPipelinesApiPipelinesPublishPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getPublishPipelinesApiPipelinesPublishPostUrl = () => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/publish`
+}
+
+export const publishPipelinesApiPipelinesPublishPost = async (
+  options?: RequestInit,
+): Promise<publishPipelinesApiPipelinesPublishPostResponse> => {
+  const res = await fetch(getPublishPipelinesApiPipelinesPublishPostUrl(), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: publishPipelinesApiPipelinesPublishPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as publishPipelinesApiPipelinesPublishPostResponse
 }
 
 export const getPublishPipelinesApiPipelinesPublishPostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -830,7 +1050,7 @@ export const getPublishPipelinesApiPipelinesPublishPostMutationOptions = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof publishPipelinesApiPipelinesPublishPost>>,
   TError,
@@ -838,19 +1058,19 @@ export const getPublishPipelinesApiPipelinesPublishPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["publishPipelinesApiPipelinesPublishPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof publishPipelinesApiPipelinesPublishPost>>,
     void
   > = () => {
-    return publishPipelinesApiPipelinesPublishPost(axiosOptions)
+    return publishPipelinesApiPipelinesPublishPost(fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -860,14 +1080,13 @@ export type PublishPipelinesApiPipelinesPublishPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof publishPipelinesApiPipelinesPublishPost>>
 >
 
-export type PublishPipelinesApiPipelinesPublishPostMutationError =
-  AxiosError<unknown>
+export type PublishPipelinesApiPipelinesPublishPostMutationError = unknown
 
 /**
  * @summary Publish Pipelines
  */
 export const usePublishPipelinesApiPipelinesPublishPost = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(
   options?: {
@@ -877,7 +1096,7 @@ export const usePublishPipelinesApiPipelinesPublishPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -894,18 +1113,45 @@ export const usePublishPipelinesApiPipelinesPublishPost = <
 /**
  * @summary Check Pipeline Jobs
  */
-export const checkPipelineJobsApiPipelinesCheckJobsPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/check-jobs`,
-    undefined,
-    options,
-  )
+export type checkPipelineJobsApiPipelinesCheckJobsPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type checkPipelineJobsApiPipelinesCheckJobsPostResponseComposite =
+  checkPipelineJobsApiPipelinesCheckJobsPostResponse200
+
+export type checkPipelineJobsApiPipelinesCheckJobsPostResponse =
+  checkPipelineJobsApiPipelinesCheckJobsPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getCheckPipelineJobsApiPipelinesCheckJobsPostUrl = () => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/check-jobs`
+}
+
+export const checkPipelineJobsApiPipelinesCheckJobsPost = async (
+  options?: RequestInit,
+): Promise<checkPipelineJobsApiPipelinesCheckJobsPostResponse> => {
+  const res = await fetch(getCheckPipelineJobsApiPipelinesCheckJobsPostUrl(), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: checkPipelineJobsApiPipelinesCheckJobsPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as checkPipelineJobsApiPipelinesCheckJobsPostResponse
 }
 
 export const getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -914,7 +1160,7 @@ export const getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
   TError,
@@ -922,19 +1168,19 @@ export const getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["checkPipelineJobsApiPipelinesCheckJobsPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>,
     void
   > = () => {
-    return checkPipelineJobsApiPipelinesCheckJobsPost(axiosOptions)
+    return checkPipelineJobsApiPipelinesCheckJobsPost(fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -945,14 +1191,13 @@ export type CheckPipelineJobsApiPipelinesCheckJobsPostMutationResult =
     Awaited<ReturnType<typeof checkPipelineJobsApiPipelinesCheckJobsPost>>
   >
 
-export type CheckPipelineJobsApiPipelinesCheckJobsPostMutationError =
-  AxiosError<unknown>
+export type CheckPipelineJobsApiPipelinesCheckJobsPostMutationError = unknown
 
 /**
  * @summary Check Pipeline Jobs
  */
 export const useCheckPipelineJobsApiPipelinesCheckJobsPost = <
-  TError = AxiosError<unknown>,
+  TError = unknown,
   TContext = unknown,
 >(
   options?: {
@@ -962,7 +1207,7 @@ export const useCheckPipelineJobsApiPipelinesCheckJobsPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<

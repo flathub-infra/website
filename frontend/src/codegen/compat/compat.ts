@@ -17,9 +17,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   GetSearchCompatAppsSearchQueryGetParams,
   HTTPValidationError,
@@ -28,14 +25,47 @@ import type {
 /**
  * @summary Get Recently Updated
  */
-export const getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated/25`,
-    options,
-  )
-}
+export type getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponseComposite =
+  getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponse200
+
+export type getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponse =
+  getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetUrl =
+  () => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated/25`
+  }
+
+export const getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get =
+  async (
+    options?: RequestInit,
+  ): Promise<getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponse> => {
+    const res = await fetch(
+      getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetUrl(),
+      {
+        ...options,
+        method: "GET",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetResponse
+  }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryKey =
   () => {
@@ -51,7 +81,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryO
         typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = unknown,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -64,9 +94,9 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryO
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -81,7 +111,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryO
     > = ({ signal }) =>
       getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get({
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -104,7 +134,7 @@ export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryResul
     >
   >
 export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryError =
-  AxiosError<unknown>
+  unknown
 
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
   TData = Awaited<
@@ -112,7 +142,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -142,7 +172,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -154,7 +184,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -184,7 +214,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -196,7 +226,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -210,7 +240,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -226,7 +256,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -240,7 +270,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -264,13 +294,45 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
 /**
  * @summary Get Recently Updated
  */
-export const getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated`,
-    options,
+export type getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponseComposite =
+  getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponse200
+
+export type getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponse =
+  getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetUrl =
+  () => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/recently-updated`
+  }
+
+export const getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet = async (
+  options?: RequestInit,
+): Promise<getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponse> => {
+  const res = await fetch(
+    getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetResponse
 }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryKey =
@@ -287,7 +349,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOpt
         typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = unknown,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -300,9 +362,9 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOpt
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -317,7 +379,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOpt
     > = ({ signal }) =>
       getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet({
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -340,13 +402,13 @@ export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryResult 
     >
   >
 export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryError =
-  AxiosError<unknown>
+  unknown
 
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -376,7 +438,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -386,7 +448,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -416,7 +478,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -426,7 +488,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -440,7 +502,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -454,7 +516,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -468,7 +530,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -492,13 +554,43 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
 /**
  * @summary Get Recently Added
  */
-export const getRecentlyAddedCompatAppsCollectionNew25Get = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new/25`,
-    options,
+export type getRecentlyAddedCompatAppsCollectionNew25GetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getRecentlyAddedCompatAppsCollectionNew25GetResponseComposite =
+  getRecentlyAddedCompatAppsCollectionNew25GetResponse200
+
+export type getRecentlyAddedCompatAppsCollectionNew25GetResponse =
+  getRecentlyAddedCompatAppsCollectionNew25GetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyAddedCompatAppsCollectionNew25GetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new/25`
+}
+
+export const getRecentlyAddedCompatAppsCollectionNew25Get = async (
+  options?: RequestInit,
+): Promise<getRecentlyAddedCompatAppsCollectionNew25GetResponse> => {
+  const res = await fetch(
+    getGetRecentlyAddedCompatAppsCollectionNew25GetUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRecentlyAddedCompatAppsCollectionNew25GetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRecentlyAddedCompatAppsCollectionNew25GetResponse
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryKey = () => {
@@ -511,7 +603,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -520,9 +612,9 @@ export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -531,7 +623,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>
   > = ({ signal }) =>
-    getRecentlyAddedCompatAppsCollectionNew25Get({ signal, ...axiosOptions })
+    getRecentlyAddedCompatAppsCollectionNew25Get({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>,
@@ -544,14 +636,13 @@ export type GetRecentlyAddedCompatAppsCollectionNew25GetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>
   >
-export type GetRecentlyAddedCompatAppsCollectionNew25GetQueryError =
-  AxiosError<unknown>
+export type GetRecentlyAddedCompatAppsCollectionNew25GetQueryError = unknown
 
 export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -575,7 +666,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -585,7 +676,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -609,7 +700,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -619,7 +710,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -631,7 +722,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -645,7 +736,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -657,7 +748,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -679,13 +770,41 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
 /**
  * @summary Get Recently Added
  */
-export const getRecentlyAddedCompatAppsCollectionNewGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new`,
-    options,
-  )
+export type getRecentlyAddedCompatAppsCollectionNewGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getRecentlyAddedCompatAppsCollectionNewGetResponseComposite =
+  getRecentlyAddedCompatAppsCollectionNewGetResponse200
+
+export type getRecentlyAddedCompatAppsCollectionNewGetResponse =
+  getRecentlyAddedCompatAppsCollectionNewGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetRecentlyAddedCompatAppsCollectionNewGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/new`
+}
+
+export const getRecentlyAddedCompatAppsCollectionNewGet = async (
+  options?: RequestInit,
+): Promise<getRecentlyAddedCompatAppsCollectionNewGetResponse> => {
+  const res = await fetch(getGetRecentlyAddedCompatAppsCollectionNewGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getRecentlyAddedCompatAppsCollectionNewGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getRecentlyAddedCompatAppsCollectionNewGetResponse
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryKey = () => {
@@ -698,7 +817,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -707,9 +826,9 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -718,7 +837,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>
   > = ({ signal }) =>
-    getRecentlyAddedCompatAppsCollectionNewGet({ signal, ...axiosOptions })
+    getRecentlyAddedCompatAppsCollectionNewGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>,
@@ -730,14 +849,13 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
 export type GetRecentlyAddedCompatAppsCollectionNewGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>
 >
-export type GetRecentlyAddedCompatAppsCollectionNewGetQueryError =
-  AxiosError<unknown>
+export type GetRecentlyAddedCompatAppsCollectionNewGetQueryError = unknown
 
 export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -757,7 +875,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -767,7 +885,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -787,7 +905,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -797,7 +915,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -807,7 +925,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -821,7 +939,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -831,7 +949,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -853,13 +971,43 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
 /**
  * @summary Get Popular Apps
  */
-export const getPopularAppsCompatAppsCollectionPopular50Get = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular/50`,
-    options,
+export type getPopularAppsCompatAppsCollectionPopular50GetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getPopularAppsCompatAppsCollectionPopular50GetResponseComposite =
+  getPopularAppsCompatAppsCollectionPopular50GetResponse200
+
+export type getPopularAppsCompatAppsCollectionPopular50GetResponse =
+  getPopularAppsCompatAppsCollectionPopular50GetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPopularAppsCompatAppsCollectionPopular50GetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular/50`
+}
+
+export const getPopularAppsCompatAppsCollectionPopular50Get = async (
+  options?: RequestInit,
+): Promise<getPopularAppsCompatAppsCollectionPopular50GetResponse> => {
+  const res = await fetch(
+    getGetPopularAppsCompatAppsCollectionPopular50GetUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPopularAppsCompatAppsCollectionPopular50GetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPopularAppsCompatAppsCollectionPopular50GetResponse
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryKey = () => {
@@ -872,7 +1020,7 @@ export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -883,9 +1031,9 @@ export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -894,7 +1042,7 @@ export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>>
   > = ({ signal }) =>
-    getPopularAppsCompatAppsCollectionPopular50Get({ signal, ...axiosOptions })
+    getPopularAppsCompatAppsCollectionPopular50Get({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>>,
@@ -907,14 +1055,13 @@ export type GetPopularAppsCompatAppsCollectionPopular50GetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>>
   >
-export type GetPopularAppsCompatAppsCollectionPopular50GetQueryError =
-  AxiosError<unknown>
+export type GetPopularAppsCompatAppsCollectionPopular50GetQueryError = unknown
 
 export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -938,7 +1085,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -948,7 +1095,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -972,7 +1119,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -982,7 +1129,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -994,7 +1141,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1008,7 +1155,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1020,7 +1167,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1042,13 +1189,43 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
 /**
  * @summary Get Popular Apps
  */
-export const getPopularAppsCompatAppsCollectionPopularGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular`,
-    options,
+export type getPopularAppsCompatAppsCollectionPopularGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getPopularAppsCompatAppsCollectionPopularGetResponseComposite =
+  getPopularAppsCompatAppsCollectionPopularGetResponse200
+
+export type getPopularAppsCompatAppsCollectionPopularGetResponse =
+  getPopularAppsCompatAppsCollectionPopularGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPopularAppsCompatAppsCollectionPopularGetUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/collection/popular`
+}
+
+export const getPopularAppsCompatAppsCollectionPopularGet = async (
+  options?: RequestInit,
+): Promise<getPopularAppsCompatAppsCollectionPopularGetResponse> => {
+  const res = await fetch(
+    getGetPopularAppsCompatAppsCollectionPopularGetUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPopularAppsCompatAppsCollectionPopularGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPopularAppsCompatAppsCollectionPopularGetResponse
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopularGetQueryKey = () => {
@@ -1061,7 +1238,7 @@ export const getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1070,9 +1247,9 @@ export const getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions = <
       TData
     >
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1081,7 +1258,7 @@ export const getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>
   > = ({ signal }) =>
-    getPopularAppsCompatAppsCollectionPopularGet({ signal, ...axiosOptions })
+    getPopularAppsCompatAppsCollectionPopularGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>,
@@ -1094,14 +1271,13 @@ export type GetPopularAppsCompatAppsCollectionPopularGetQueryResult =
   NonNullable<
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>
   >
-export type GetPopularAppsCompatAppsCollectionPopularGetQueryError =
-  AxiosError<unknown>
+export type GetPopularAppsCompatAppsCollectionPopularGetQueryError = unknown
 
 export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -1125,7 +1301,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1135,7 +1311,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1159,7 +1335,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1169,7 +1345,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1181,7 +1357,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1195,7 +1371,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -1207,7 +1383,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1229,18 +1405,67 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
 /**
  * @summary Get Search
  */
-export const getSearchCompatAppsSearchQueryGet = (
+export type getSearchCompatAppsSearchQueryGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getSearchCompatAppsSearchQueryGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getSearchCompatAppsSearchQueryGetResponseComposite =
+  | getSearchCompatAppsSearchQueryGetResponse200
+  | getSearchCompatAppsSearchQueryGetResponse422
+
+export type getSearchCompatAppsSearchQueryGetResponse =
+  getSearchCompatAppsSearchQueryGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetSearchCompatAppsSearchQueryGetUrl = (
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/search/${query}`,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/search/${query}?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/search/${query}`
+}
+
+export const getSearchCompatAppsSearchQueryGet = async (
+  query: string,
+  params?: GetSearchCompatAppsSearchQueryGetParams,
+  options?: RequestInit,
+): Promise<getSearchCompatAppsSearchQueryGetResponse> => {
+  const res = await fetch(
+    getGetSearchCompatAppsSearchQueryGetUrl(query, params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "GET",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getSearchCompatAppsSearchQueryGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getSearchCompatAppsSearchQueryGetResponse
 }
 
 export const getGetSearchCompatAppsSearchQueryGetQueryKey = (
@@ -1255,7 +1480,7 @@ export const getGetSearchCompatAppsSearchQueryGetQueryKey = (
 
 export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1267,10 +1492,10 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -1281,7 +1506,7 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
   > = ({ signal }) =>
     getSearchCompatAppsSearchQueryGet(query, params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -1299,12 +1524,11 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
 export type GetSearchCompatAppsSearchQueryGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>
 >
-export type GetSearchCompatAppsSearchQueryGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetSearchCompatAppsSearchQueryGetQueryError = HTTPValidationError
 
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   query: string,
   params: undefined | GetSearchCompatAppsSearchQueryGetParams,
@@ -1324,7 +1548,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1332,7 +1556,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
 }
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1352,7 +1576,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1360,7 +1584,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
 }
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1372,7 +1596,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1384,7 +1608,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
 
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1396,7 +1620,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1421,14 +1645,48 @@ export function useGetSearchCompatAppsSearchQueryGet<
 /**
  * @summary Get Single App
  */
-export const getSingleAppCompatAppsAppIdGet = (
+export type getSingleAppCompatAppsAppIdGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type getSingleAppCompatAppsAppIdGetResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type getSingleAppCompatAppsAppIdGetResponseComposite =
+  | getSingleAppCompatAppsAppIdGetResponse200
+  | getSingleAppCompatAppsAppIdGetResponse422
+
+export type getSingleAppCompatAppsAppIdGetResponse =
+  getSingleAppCompatAppsAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetSingleAppCompatAppsAppIdGetUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/${appId}`
+}
+
+export const getSingleAppCompatAppsAppIdGet = async (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/compat/apps/${appId}`,
-    options,
-  )
+  options?: RequestInit,
+): Promise<getSingleAppCompatAppsAppIdGetResponse> => {
+  const res = await fetch(getGetSingleAppCompatAppsAppIdGetUrl(appId), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getSingleAppCompatAppsAppIdGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getSingleAppCompatAppsAppIdGetResponse
 }
 
 export const getGetSingleAppCompatAppsAppIdGetQueryKey = (appId?: string) => {
@@ -1439,7 +1697,7 @@ export const getGetSingleAppCompatAppsAppIdGetQueryKey = (appId?: string) => {
 
 export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1450,10 +1708,10 @@ export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ?? getGetSingleAppCompatAppsAppIdGetQueryKey(appId)
@@ -1461,7 +1719,7 @@ export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>
   > = ({ signal }) =>
-    getSingleAppCompatAppsAppIdGet(appId, { signal, ...axiosOptions })
+    getSingleAppCompatAppsAppIdGet(appId, { signal, ...fetchOptions })
 
   return {
     queryKey,
@@ -1478,12 +1736,11 @@ export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
 export type GetSingleAppCompatAppsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>
 >
-export type GetSingleAppCompatAppsAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetSingleAppCompatAppsAppIdGetQueryError = HTTPValidationError
 
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options: {
@@ -1502,7 +1759,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1510,7 +1767,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
 }
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1529,7 +1786,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1537,7 +1794,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
 }
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1548,7 +1805,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1560,7 +1817,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
 
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   options?: {
@@ -1571,7 +1828,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {

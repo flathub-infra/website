@@ -4,7 +4,6 @@ import { Appstream } from "../../../../types/Appstream"
 import Modal from "src/components/Modal"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { AxiosError } from "axios"
 import { createTokensVendingappAppIdTokensPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -32,7 +31,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     mutationKey: ["create-token", app.id, names],
     mutationFn: () => {
       return createTokensVendingappAppIdTokensPost(app.id, names, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: () => {
@@ -40,7 +39,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
       setText("")
       setShown(false)
     },
-    onError: (err: AxiosError<{ error }>) => {
+    onError: (err: Error) => {
       toast.error(t(err.response.data.error))
     },
   })
