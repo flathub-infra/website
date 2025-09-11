@@ -37,9 +37,8 @@ CacheHandler.onCreation(({ buildId }) => {
       try {
         redisClient = createClient(settings)
         redisClient.on("error", (e) => {
-          if (typeof process.env.NEXT_PRIVATE_DEBUG_CACHE !== "undefined") {
-            console.warn("Redis error", e)
-          }
+          console.warn("Redis error", e)
+
           global.cacheHandlerConfig = null
           global.cacheHandlerConfigPromise = null
         })
@@ -51,7 +50,15 @@ CacheHandler.onCreation(({ buildId }) => {
     if (redisClient) {
       try {
         console.info("Connecting Redis client...")
-        await redisClient.connect()
+        await Promise.race([
+          redisClient.connect(),
+          new Promise((_, reject) =>
+            setTimeout(
+              () => reject(new Error("Redis connection timeout")),
+              5000,
+            ),
+          ),
+        ])
         console.info("Redis client connected.")
       } catch (error) {
         console.warn("Failed to connect Redis client:", error)
