@@ -668,5 +668,6 @@
   "uses-privileged-socket": "يستخدم مقبسًا مميزًا",
   "socket-may-allow-extra-permissions": "يستخدم مقبسًا يسمح بالحصول على أذونات إضافية",
   "uses-non-portal-service": "يستخدم خدمات غير البوابة",
-  "can-talk-to-non-portal-service": "يمكن طلب البيانات من الخدمات غير البوابة والحصول على أذونات إضافية"
+  "can-talk-to-non-portal-service": "يمكن طلب البيانات من الخدمات غير البوابة والحصول على أذونات إضافية",
+  "unauthorized": "غير مصرّح"
 }

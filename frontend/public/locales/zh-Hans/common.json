@@ -169,7 +169,7 @@
   "app-payment-information": "应用开发者设置了最低付款额为 {minvalue}，首选付款额为 {recvalue}。",
   "value-at-least": "您必须输入至少 {value} 的值",
   "value-at-most": "您必须输入最多 {value} 的值",
-  "unauthorized-to-view": "您无权查看此内容。",
+  "unauthorized-to-view": "您未被授权查看此内容。",
   "payment-provider-error": "我们的支付提供商遇到了一个错误。请稍后再试。",
   "ownership-tokens": "所有权令牌",
   "redeem-token": "兑换令牌",
@@ -668,5 +668,6 @@
   "uses-privileged-socket": "使用特权套接字",
   "socket-may-allow-extra-permissions": "使用允许获得额外权限的套接字",
   "uses-non-portal-service": "使用非门户服务",
-  "can-talk-to-non-portal-service": "可以向非门户服务请求数据并获得额外权限"
+  "can-talk-to-non-portal-service": "可以向非门户服务请求数据并获得额外权限",
+  "unauthorized": "未经授权"
 }

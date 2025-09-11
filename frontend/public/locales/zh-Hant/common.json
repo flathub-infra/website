@@ -668,5 +668,6 @@
   "uses-privileged-socket": "使用特權插座",
   "socket-may-allow-extra-permissions": "使用允許取得額外權限的插座",
   "uses-non-portal-service": "使用 portal 服務",
-  "can-talk-to-non-portal-service": "可向非 portal 服務請求資料並取得額外權限"
+  "can-talk-to-non-portal-service": "可向非 portal 服務請求資料並取得額外權限",
+  "unauthorized": "未授權"
 }
