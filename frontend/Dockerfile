@@ -33,8 +33,16 @@ ARG GITHUB_SHA
 
 ENV GITHUB_SHA=$GITHUB_SHA
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 EXPOSE 3000
+
+# Install wget for health checks
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
+# Add health checks for zero-downtime deployments
+HEALTHCHECK --interval=12s --timeout=12s --start-period=5s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
 
 RUN addgroup --system --gid 1001 nextjs && \
   adduser --system --uid 1001 nextjs
