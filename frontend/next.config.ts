@@ -70,6 +70,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
     process.env.NODE_ENV === "production"
       ? require.resolve("./cache-handler.mjs")
       : undefined,
+  cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined, // Disable in-memory caching in production
   images: {
     remotePatterns: [
       {
@@ -271,6 +272,15 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
   },
   async headers() {
     return [
+      {
+        source: "/:path*{/}?",
+        headers: [
+          {
+            key: "X-Accel-Buffering",
+            value: "no",
+          },
+        ],
+      },
       {
         source: "/:path*",
         headers: [
