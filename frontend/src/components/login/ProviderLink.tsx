@@ -12,6 +12,7 @@ import { GithubLogo } from "./GithubLogo"
 import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
 import { useRouter } from "src/i18n/navigation"
+import { robustFetch } from "../../utils/fetch"
 
 interface Props {
   provider: LoginProvider
@@ -41,7 +42,7 @@ const ProviderLink: FunctionComponent<Props> = ({
 
     let res: Response
     try {
-      res = await fetch(url, {
+      res = await robustFetch(url, {
         // Must use the session cookie sent back
         credentials: "include",
         // Redirects are unique each time

@@ -1,9 +1,10 @@
 import { getServerSideSitemapIndex } from "next-sitemap"
+import { robustFetchJson } from "src/utils/fetch"
 
 export async function GET(request: Request) {
-  const appstreamList = await fetch(
+  const appstreamList = await robustFetchJson<string[]>(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`,
-  ).then((res) => res.json())
+  )
 
   // make chunks
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)

@@ -6,6 +6,7 @@ import { UserStateAction } from "../types/Login"
 import { AxiosResponse } from "axios"
 import { UserInfo } from "src/codegen/model/userInfo"
 import { getUserinfoAuthUserinfoGet } from "src/codegen"
+import { robustFetch } from "../utils/fetch"
 
 /**
  * Performs the callback POST request to check 3rd party authentication
@@ -24,7 +25,7 @@ export async function login(
 
   let res: Response
   try {
-    res = await fetch(`${LOGIN_PROVIDERS_URL}/${service}`, {
+    res = await robustFetch(`${LOGIN_PROVIDERS_URL}/${service}`, {
       method: "POST",
       credentials: "include", // Must use the session cookie
       headers: {

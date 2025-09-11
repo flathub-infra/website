@@ -1,6 +1,7 @@
 import createMiddleware from "next-intl/middleware"
 import { NextRequest, NextResponse } from "next/server"
 import { routing } from "src/i18n/routing"
+import { robustFetch } from "src/utils/fetch"
 
 // Routes that require authentication - updated to match the protected route group
 const protectedRoutes = [
@@ -30,7 +31,7 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
     }
 
     // Make a request to the backend to verify the session
-    const response = await fetch(
+    const response = await robustFetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/userinfo`,
       {
         method: "GET",
@@ -38,6 +39,7 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
           Cookie: cookieHeader,
           "Content-Type": "application/json",
         },
+        timeout: 5000, // Shorter timeout for auth checks
       },
     )
 
