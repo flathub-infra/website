@@ -61,7 +61,17 @@ class FailedByGuideline(BaseModel):
     not_passed: int
 
 
-@router.get("/status", tags=["quality-moderation"])
+@router.get(
+    "/status",
+    tags=["quality-moderation"],
+    responses={
+        200: {"model": QualityModerationDashboardResponse},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_quality_moderation_status(
     page: int = 1,
     page_size: int = 25,
@@ -77,7 +87,15 @@ def get_quality_moderation_status(
     return all_quality_apps
 
 
-@router.get("/passing-apps", tags=["quality-moderation"])
+@router.get(
+    "/passing-apps",
+    tags=["quality-moderation"],
+    responses={
+        200: {"model": SimpleQualityModerationResponse},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_passing_quality_apps(
     page: int = 1,
     page_size: int = 25,
@@ -91,7 +109,17 @@ def get_passing_quality_apps(
     )
 
 
-@router.get("/app-pick-recommendations", tags=["quality-moderation"])
+@router.get(
+    "/app-pick-recommendations",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "App pick recommendations"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_app_pick_recommendations(
     recommendation_date: datetime.date = datetime.date.today(),
     _moderator=Depends(quality_moderator_only),
@@ -100,7 +128,16 @@ def get_app_pick_recommendations(
         return App.app_pick_recommendations(db, recommendation_date)
 
 
-@router.get("/failed-by-guideline", tags=["quality-moderation"])
+@router.get(
+    "/failed-by-guideline",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Apps grouped by failed guidelines"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_quality_moderation_stats(
     _moderator=Depends(quality_moderator_only),
 ) -> list[FailedByGuideline]:
@@ -108,7 +145,18 @@ def get_quality_moderation_stats(
         return QualityModeration.group_by_guideline(db)
 
 
-@router.get("/{app_id}", tags=["quality-moderation"])
+@router.get(
+    "/{app_id}",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Quality moderation details for app"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_quality_moderation_for_app(
     app_id: str = Path(
         min_length=6,
@@ -161,7 +209,18 @@ def get_quality_moderation_for_app(
     )
 
 
-@router.post("/{app_id}", tags=["quality-moderation"])
+@router.post(
+    "/{app_id}",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Quality moderation updated successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_quality_moderation_for_app(
     body: UpsertQualityModeration,
     app_id: str = Path(
@@ -178,7 +237,18 @@ def set_quality_moderation_for_app(
         )
 
 
-@router.get("/{app_id}/status", tags=["quality-moderation"])
+@router.get(
+    "/{app_id}/status",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "App quality moderation status"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_quality_moderation_status_for_app(
     app_id: str = Path(
         min_length=6,
@@ -194,7 +264,18 @@ def get_quality_moderation_status_for_app(
     return app_quality_status
 
 
-@router.post("/{app_id}/request-review", tags=["quality-moderation"])
+@router.post(
+    "/{app_id}/request-review",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Review requested successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not app developer"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def request_review_for_app(
     app_id: str = Path(
         min_length=6,
@@ -208,7 +289,18 @@ def request_review_for_app(
         QualityModerationRequest.create(db, app_id, moderator.user.id)
 
 
-@router.delete("/{app_id}/request-review", tags=["quality-moderation"])
+@router.delete(
+    "/{app_id}/request-review",
+    tags=["quality-moderation"],
+    responses={
+        204: {"description": "Review request cancelled successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not app developer"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def delete_review_request_for_app(
     app_id: str = Path(
         min_length=6,
@@ -222,7 +314,18 @@ def delete_review_request_for_app(
         QualityModerationRequest.delete(db, app_id)
 
 
-@router.post("/{app_id}/fullscreen", tags=["quality-moderation"])
+@router.post(
+    "/{app_id}/fullscreen",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Fullscreen setting updated successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_fullscreen_app(
     is_fullscreen_app: bool,
     app_id: str = Path(

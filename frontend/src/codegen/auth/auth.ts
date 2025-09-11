@@ -228,7 +228,7 @@ export const getStartGithubFlowAuthLoginGithubGetQueryKey = () => {
 
 export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -259,11 +259,11 @@ export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
 export type StartGithubFlowAuthLoginGithubGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>
 >
-export type StartGithubFlowAuthLoginGithubGetQueryError = AxiosError<unknown>
+export type StartGithubFlowAuthLoginGithubGetQueryError = AxiosError<null>
 
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -289,7 +289,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -315,7 +315,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -337,7 +337,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
 
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -404,7 +404,7 @@ export const continueGithubFlowAuthLoginGithubPost = (
 }
 
 export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -447,13 +447,13 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationResult = NonNullable<
 export type ContinueGithubFlowAuthLoginGithubPostMutationBody =
   ContinueGithubFlowAuthLoginGithubPostBody
 export type ContinueGithubFlowAuthLoginGithubPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError | null>
 
 /**
  * @summary Continue Github Flow
  */
 export const useContinueGithubFlowAuthLoginGithubPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(
   options?: {
@@ -504,7 +504,7 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = () => {
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -535,11 +535,11 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
 export type StartGitlabFlowAuthLoginGitlabGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>
 >
-export type StartGitlabFlowAuthLoginGitlabGetQueryError = AxiosError<unknown>
+export type StartGitlabFlowAuthLoginGitlabGetQueryError = AxiosError<null>
 
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -565,7 +565,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -591,7 +591,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -613,7 +613,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -680,7 +680,7 @@ export const continueGitlabFlowAuthLoginGitlabPost = (
 }
 
 export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -723,13 +723,13 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationResult = NonNullable<
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationBody =
   ContinueGitlabFlowAuthLoginGitlabPostBody
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError | null>
 
 /**
  * @summary Continue Gitlab Flow
  */
 export const useContinueGitlabFlowAuthLoginGitlabPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(
   options?: {
@@ -780,7 +780,7 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = () => {
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -811,11 +811,11 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
 export type StartGnomeFlowAuthLoginGnomeGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>
 >
-export type StartGnomeFlowAuthLoginGnomeGetQueryError = AxiosError<unknown>
+export type StartGnomeFlowAuthLoginGnomeGetQueryError = AxiosError<null>
 
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -841,7 +841,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -867,7 +867,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -889,7 +889,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -956,7 +956,7 @@ export const continueGnomeFlowAuthLoginGnomePost = (
 }
 
 export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -999,13 +999,13 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationResult = NonNullable<
 export type ContinueGnomeFlowAuthLoginGnomePostMutationBody =
   ContinueGnomeFlowAuthLoginGnomePostBody
 export type ContinueGnomeFlowAuthLoginGnomePostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError | null>
 
 /**
  * @summary Continue Gnome Flow
  */
 export const useContinueGnomeFlowAuthLoginGnomePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1047,7 +1047,7 @@ export const getStartKdeFlowAuthLoginKdeGetQueryKey = () => {
 
 export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1077,11 +1077,11 @@ export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
 export type StartKdeFlowAuthLoginKdeGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>
 >
-export type StartKdeFlowAuthLoginKdeGetQueryError = AxiosError<unknown>
+export type StartKdeFlowAuthLoginKdeGetQueryError = AxiosError<null>
 
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -1107,7 +1107,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1133,7 +1133,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1155,7 +1155,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1198,7 +1198,7 @@ export const continueKdeFlowAuthLoginKdePost = (
 }
 
 export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1241,13 +1241,13 @@ export type ContinueKdeFlowAuthLoginKdePostMutationResult = NonNullable<
 export type ContinueKdeFlowAuthLoginKdePostMutationBody =
   ContinueKdeFlowAuthLoginKdePostBody
 export type ContinueKdeFlowAuthLoginKdePostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError | null>
 
 /**
  * @summary Continue Kde Flow
  */
 export const useContinueKdeFlowAuthLoginKdePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1310,7 +1310,7 @@ export const continueGoogleFlowAuthLoginGooglePost = (
 }
 
 export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1353,13 +1353,13 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationResult = NonNullable<
 export type ContinueGoogleFlowAuthLoginGooglePostMutationBody =
   ContinueGoogleFlowAuthLoginGooglePostBody
 export type ContinueGoogleFlowAuthLoginGooglePostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError | null>
 
 /**
  * @summary Continue Google Flow
  */
 export const useContinueGoogleFlowAuthLoginGooglePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1385,7 +1385,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
 }
 /**
  * Retrieve the current login's user information.  If the user is not logged in
-you will get a `204` return.  Otherwise you will receive JSON describing the
+you will get a `401` return.  Otherwise you will receive JSON describing the
 currently logged in user, for example:
 
 ```
@@ -1419,7 +1419,7 @@ export const getGetUserinfoAuthUserinfoGetQueryKey = () => {
 
 export const getGetUserinfoAuthUserinfoGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1449,11 +1449,11 @@ export const getGetUserinfoAuthUserinfoGetQueryOptions = <
 export type GetUserinfoAuthUserinfoGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>
 >
-export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<unknown>
+export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<null>
 
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -1479,7 +1479,7 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1505,7 +1505,7 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1527,7 +1527,7 @@ export function useGetUserinfoAuthUserinfoGet<
 
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1569,7 +1569,7 @@ export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = (
 }
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+  <TError = AxiosError<null>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>
@@ -1612,13 +1612,13 @@ export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationResult =
   >
 
 export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 /**
  * @summary Do Refresh Dev Flatpaks
  */
 export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(
   options?: {
@@ -1660,7 +1660,7 @@ export const doLogoutAuthLogoutPost = (
 }
 
 export const getDoLogoutAuthLogoutPostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1699,13 +1699,13 @@ export type DoLogoutAuthLogoutPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>
 >
 
-export type DoLogoutAuthLogoutPostMutationError = AxiosError<unknown>
+export type DoLogoutAuthLogoutPostMutationError = AxiosError<null>
 
 /**
  * @summary Do Logout
  */
 export const useDoLogoutAuthLogoutPost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(
   options?: {
@@ -1750,7 +1750,7 @@ export const getGetDeleteuserAuthDeleteuserGetQueryKey = () => {
 
 export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1781,11 +1781,11 @@ export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
 export type GetDeleteuserAuthDeleteuserGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>
 >
-export type GetDeleteuserAuthDeleteuserGetQueryError = AxiosError<unknown>
+export type GetDeleteuserAuthDeleteuserGetQueryError = AxiosError<null>
 
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -1811,7 +1811,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
 }
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1837,7 +1837,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
 }
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1859,7 +1859,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
 
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1912,7 +1912,7 @@ export const doDeleteuserAuthDeleteuserPost = (
 }
 
 export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1954,13 +1954,13 @@ export type DoDeleteuserAuthDeleteuserPostMutationResult = NonNullable<
 >
 export type DoDeleteuserAuthDeleteuserPostMutationBody = UserDeleteRequest
 export type DoDeleteuserAuthDeleteuserPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | HTTPValidationError>
 
 /**
  * @summary Do Deleteuser
  */
 export const useDoDeleteuserAuthDeleteuserPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -1998,7 +1998,7 @@ export const doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = (
 }
 
 export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+  <TError = AxiosError<null>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -2057,13 +2057,13 @@ export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationR
   >
 
 export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 /**
  * @summary Do Agree To Publisher Agreement
  */
 export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(
   options?: {
@@ -2116,7 +2116,10 @@ export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
 }
 
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
@@ -2168,13 +2171,13 @@ export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationResult =
   >
 
 export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | HTTPValidationError>
 
 /**
  * @summary Do Change Default Account
  */
 export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {

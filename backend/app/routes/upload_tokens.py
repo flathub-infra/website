@@ -75,7 +75,16 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
     )
 
 
-@router.get("/{app_id}", status_code=200, tags=["upload-tokens"])
+@router.get(
+    "/{app_id}",
+    status_code=200,
+    tags=["upload-tokens"],
+    responses={
+        200: {"description": "Upload tokens for the app"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Not an app developer"},
+    },
+)
 def get_upload_tokens(
     app_id: str, include_expired: bool = False, login=Depends(login_state)
 ) -> TokensResponse:
@@ -122,7 +131,18 @@ class UploadTokenRequest(BaseModel):
     repos: list[str]
 
 
-@router.post("/{app_id}", status_code=200, tags=["upload-tokens"])
+@router.post(
+    "/{app_id}",
+    status_code=200,
+    tags=["upload-tokens"],
+    responses={
+        200: {"description": "Upload token created successfully"},
+        400: {"description": "Invalid request parameters"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Not an app developer"},
+        500: {"description": "Flat manager not configured or server error"},
+    },
+)
 def create_upload_token(
     app_id: str,
     request: UploadTokenRequest,
@@ -235,7 +255,18 @@ def create_upload_token(
     )
 
 
-@router.post("/{token_id}/revoke", status_code=204, tags=["upload-tokens"])
+@router.post(
+    "/{token_id}/revoke",
+    status_code=204,
+    tags=["upload-tokens"],
+    responses={
+        204: {"description": "Upload token revoked successfully"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Not authorized to revoke this token"},
+        404: {"description": "Token not found"},
+        500: {"description": "Flat manager not configured or server error"},
+    },
+)
 def revoke_upload_token(token_id: int, login=Depends(login_state)):
     if config.settings.flat_manager_api is None:
         raise HTTPException(

@@ -255,6 +255,9 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetR
     ...overrideResponse,
   })
 
+export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseMock =
+  (): unknown | null => faker.helpers.arrayElement([undefined, undefined])
+
 export const getGetQualityModerationStatusQualityModerationStatusGetMockHandler =
   (
     overrideResponse?:
@@ -452,18 +455,26 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
   (
     overrideResponse?:
       | unknown
+      | null
       | ((
           info: Parameters<Parameters<typeof http.delete>[1]>[0],
-        ) => Promise<unknown> | unknown),
+        ) => Promise<unknown | null> | unknown | null),
   ) => {
     return http.delete(
       "*/quality-moderation/:appId/request-review",
       async (info) => {
         await delay(1000)
-        if (typeof overrideResponse === "function") {
-          await overrideResponse(info)
-        }
-        return new HttpResponse(null, { status: 200 })
+
+        return new HttpResponse(
+          JSON.stringify(
+            overrideResponse !== undefined
+              ? typeof overrideResponse === "function"
+                ? await overrideResponse(info)
+                : overrideResponse
+              : getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseMock(),
+          ),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        )
       },
     )
   }

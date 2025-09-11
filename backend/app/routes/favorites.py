@@ -15,7 +15,14 @@ def register_to_app(app):
     app.include_router(router)
 
 
-@router.post("/favorites/{app_id}/add", tags=["app"])
+@router.post(
+    "/favorites/{app_id}/add",
+    tags=["app"],
+    responses={
+        200: {"description": "App added to favorites successfully"},
+        500: {"description": "Internal server error"},
+    },
+)
 def add_to_favorites(
     app_id: str,
     login=Depends(logged_in),
@@ -34,7 +41,14 @@ def add_to_favorites(
             return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
 
 
-@router.delete("/favorites/{app_id}/remove", tags=["app"])
+@router.delete(
+    "/favorites/{app_id}/remove",
+    tags=["app"],
+    responses={
+        200: {"description": "App removed from favorites successfully"},
+        500: {"description": "Internal server error"},
+    },
+)
 def remove_from_favorites(
     app_id: str,
     login=Depends(logged_in),
@@ -58,7 +72,13 @@ class FavoriteApp(BaseModel):
     created_at: datetime.datetime
 
 
-@router.get("/favorites", tags=["app"])
+@router.get(
+    "/favorites",
+    tags=["app"],
+    responses={
+        200: {"description": "List of user's favorite apps"},
+    },
+)
 def get_favorites(
     login=Depends(logged_in),
 ) -> list[FavoriteApp]:
@@ -74,7 +94,13 @@ def get_favorites(
         ]
 
 
-@router.get("/favorites/{app_id}", tags=["app"])
+@router.get(
+    "/favorites/{app_id}",
+    tags=["app"],
+    responses={
+        200: {"description": "Whether the app is favorited by the user"},
+    },
+)
 def is_favorited(
     app_id: str,
     login=Depends(logged_in),

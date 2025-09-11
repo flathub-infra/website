@@ -225,7 +225,7 @@ export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -270,11 +270,11 @@ export type GetCategoryCollectionCategoryCategoryGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>
 >
 export type GetCategoryCollectionCategoryCategoryGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params: undefined | GetCategoryCollectionCategoryCategoryGetParams,
@@ -302,7 +302,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 }
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -330,7 +330,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 }
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -354,7 +354,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
@@ -423,7 +423,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryOpt
         typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | HTTPValidationError>,
   >(
     category: MainCategory,
     params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -489,13 +489,13 @@ export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryResult 
     >
   >
 export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -537,7 +537,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -579,7 +579,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -609,7 +609,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   category: MainCategory,
   params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
@@ -675,7 +675,7 @@ export const getGetKeywordCollectionKeywordGetQueryKey = (
 
 export const getGetKeywordCollectionKeywordGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -710,11 +710,11 @@ export type GetKeywordCollectionKeywordGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>
 >
 export type GetKeywordCollectionKeywordGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options: {
@@ -741,7 +741,7 @@ export function useGetKeywordCollectionKeywordGet<
 }
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -768,7 +768,7 @@ export function useGetKeywordCollectionKeywordGet<
 }
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -791,7 +791,7 @@ export function useGetKeywordCollectionKeywordGet<
 
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: GetKeywordCollectionKeywordGetParams,
   options?: {
@@ -850,7 +850,7 @@ export const getGetDevelopersCollectionDeveloperGetQueryKey = (
 
 export const getGetDevelopersCollectionDeveloperGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -886,11 +886,11 @@ export type GetDevelopersCollectionDeveloperGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>
 >
 export type GetDevelopersCollectionDeveloperGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetDevelopersCollectionDeveloperGetParams,
   options: {
@@ -917,7 +917,7 @@ export function useGetDevelopersCollectionDeveloperGet<
 }
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -944,7 +944,7 @@ export function useGetDevelopersCollectionDeveloperGet<
 }
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -967,7 +967,7 @@ export function useGetDevelopersCollectionDeveloperGet<
 
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetDevelopersCollectionDeveloperGetParams,
   options?: {
@@ -1030,7 +1030,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1076,13 +1076,13 @@ export type GetDeveloperCollectionDeveloperDeveloperGetQueryResult =
     Awaited<ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>>
   >
 export type GetDeveloperCollectionDeveloperDeveloperGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   developer: string,
   params: undefined | GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1116,7 +1116,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1150,7 +1150,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1176,7 +1176,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
@@ -1240,7 +1240,7 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1282,13 +1282,13 @@ export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryResult =
     Awaited<ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>>
   >
 export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options: {
@@ -1323,7 +1323,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1358,7 +1358,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1385,7 +1385,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
   options?: {
@@ -1449,7 +1449,7 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1488,13 +1488,13 @@ export type GetRecentlyAddedCollectionRecentlyAddedGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>
 >
 export type GetRecentlyAddedCollectionRecentlyAddedGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options: {
@@ -1525,7 +1525,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1556,7 +1556,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1581,7 +1581,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
   options?: {
@@ -1638,7 +1638,7 @@ export const getGetVerifiedCollectionVerifiedGetQueryKey = (
 
 export const getGetVerifiedCollectionVerifiedGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1674,11 +1674,11 @@ export type GetVerifiedCollectionVerifiedGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>
 >
 export type GetVerifiedCollectionVerifiedGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetVerifiedCollectionVerifiedGetParams,
   options: {
@@ -1705,7 +1705,7 @@ export function useGetVerifiedCollectionVerifiedGet<
 }
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1732,7 +1732,7 @@ export function useGetVerifiedCollectionVerifiedGet<
 }
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1755,7 +1755,7 @@ export function useGetVerifiedCollectionVerifiedGet<
 
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetVerifiedCollectionVerifiedGetParams,
   options?: {
@@ -1814,7 +1814,7 @@ export const getGetMobileCollectionMobileGetQueryKey = (
 
 export const getGetMobileCollectionMobileGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1849,11 +1849,11 @@ export type GetMobileCollectionMobileGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
 >
 export type GetMobileCollectionMobileGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetMobileCollectionMobileGetParams,
   options: {
@@ -1880,7 +1880,7 @@ export function useGetMobileCollectionMobileGet<
 }
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1907,7 +1907,7 @@ export function useGetMobileCollectionMobileGet<
 }
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1930,7 +1930,7 @@ export function useGetMobileCollectionMobileGet<
 
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetMobileCollectionMobileGetParams,
   options?: {
@@ -1989,7 +1989,7 @@ export const getGetPopularLastMonthCollectionPopularGetQueryKey = (
 
 export const getGetPopularLastMonthCollectionPopularGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -2025,11 +2025,11 @@ export type GetPopularLastMonthCollectionPopularGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>
 >
 export type GetPopularLastMonthCollectionPopularGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetPopularLastMonthCollectionPopularGetParams,
   options: {
@@ -2056,7 +2056,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
 }
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -2083,7 +2083,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
 }
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -2106,7 +2106,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
 
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetPopularLastMonthCollectionPopularGetParams,
   options?: {
@@ -2167,7 +2167,7 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2209,13 +2209,13 @@ export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryResult =
     Awaited<ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>>
   >
 export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | HTTPValidationError>
 
 export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params: undefined | GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options: {
@@ -2250,7 +2250,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2285,7 +2285,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {
@@ -2312,7 +2312,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | HTTPValidationError>,
 >(
   params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   options?: {

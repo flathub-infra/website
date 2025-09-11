@@ -15,13 +15,29 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-@router.get("/", tags=["app"])
+@router.get(
+    "/",
+    tags=["app"],
+    responses={
+        200: {"description": "List of all exceptions"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_exceptions():
     with get_db() as db:
         return Exceptions.get_all_exceptions(db)
 
 
-@router.get("/{app_id}", tags=["app"])
+@router.get(
+    "/{app_id}",
+    tags=["app"],
+    responses={
+        200: {"description": "Exceptions for the specified app"},
+        404: {"description": "App exceptions not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_exceptions_for_app(app_id: str, response: Response):
     with get_db() as db:
         if exc := Exceptions.get_exception(db, app_id):

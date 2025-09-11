@@ -15,7 +15,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type { BuildNotificationRequest, HTTPValidationError } from ".././model"
+import type { BuildNotificationRequest } from ".././model"
 
 /**
  * @summary Build Notification
@@ -32,7 +32,7 @@ export const buildNotificationEmailsBuildNotificationPost = (
 }
 
 export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -76,13 +76,13 @@ export type BuildNotificationEmailsBuildNotificationPostMutationResult =
 export type BuildNotificationEmailsBuildNotificationPostMutationBody =
   BuildNotificationRequest
 export type BuildNotificationEmailsBuildNotificationPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null>
 
 /**
  * @summary Build Notification
  */
 export const useBuildNotificationEmailsBuildNotificationPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
   TContext = unknown,
 >(
   options?: {

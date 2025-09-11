@@ -29,7 +29,6 @@ import type {
   GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   GetQualityModerationStatusQualityModerationStatusGetParams,
-  HTTPValidationError,
   QualityModerationDashboardResponse,
   QualityModerationResponse,
   QualityModerationStatus,
@@ -68,7 +67,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
     TData = Awaited<
       ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | null | null | null>,
   >(
     params?: GetQualityModerationStatusQualityModerationStatusGetParams,
     options?: {
@@ -118,13 +117,13 @@ export type GetQualityModerationStatusQualityModerationStatusGetQueryResult =
     >
   >
 export type GetQualityModerationStatusQualityModerationStatusGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null>
 
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params:
     | undefined
@@ -167,7 +166,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -208,7 +207,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -237,7 +236,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -304,7 +303,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
     TData = Awaited<
       ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | null>,
   >(
     params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
     options?: {
@@ -354,13 +353,13 @@ export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryResult =
     >
   >
 export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null>
 
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   params:
     | undefined
@@ -403,7 +402,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -444,7 +443,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -473,7 +472,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -544,7 +543,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
         typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | null | null | null>,
   >(
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
     options?: {
@@ -602,7 +601,7 @@ export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQ
     >
   >
 export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null>
 
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
@@ -610,7 +609,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params:
     | undefined
@@ -655,7 +654,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -698,7 +697,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -729,7 +728,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -792,7 +791,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
         typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = AxiosError<null | null | null>,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -845,7 +844,7 @@ export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryR
     >
   >
 export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryError =
-  AxiosError<unknown>
+  AxiosError<null | null | null>
 
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
@@ -853,7 +852,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options: {
     query: Partial<
@@ -895,7 +894,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -937,7 +936,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -967,7 +966,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -1028,7 +1027,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
     TData = Awaited<
       ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | null | null | null | null>,
   >(
     appId: string,
     options?: {
@@ -1083,13 +1082,13 @@ export type GetQualityModerationForAppQualityModerationAppIdGetQueryResult =
     >
   >
 export type GetQualityModerationForAppQualityModerationAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -1128,7 +1127,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1167,7 +1166,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1194,7 +1193,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1245,7 +1244,10 @@ export const setQualityModerationForAppQualityModerationAppIdPost = (
 }
 
 export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
@@ -1299,13 +1301,13 @@ export type SetQualityModerationForAppQualityModerationAppIdPostMutationResult =
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationBody =
   UpsertQualityModeration
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Set Quality Moderation For App
  */
 export const useSetQualityModerationForAppQualityModerationAppIdPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1362,7 +1364,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
         typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
       >
     >,
-    TError = AxiosError<HTTPValidationError>,
+    TError = AxiosError<null | null | null | null | null>,
   >(
     appId: string,
     options?: {
@@ -1425,7 +1427,7 @@ export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQuery
     >
   >
 export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
@@ -1433,7 +1435,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options: {
@@ -1476,7 +1478,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1519,7 +1521,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1550,7 +1552,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1602,7 +1604,10 @@ export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
 }
 
 export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1664,13 +1669,13 @@ export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationRe
   >
 
 export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Request Review For App
  */
 export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -1711,7 +1716,7 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
   (
     appId: string,
     options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<unknown>> => {
+  ): Promise<AxiosResponse<unknown | null>> => {
     return axios.delete(
       `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`,
       options,
@@ -1719,7 +1724,10 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
   }
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1781,13 +1789,13 @@ export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMu
   >
 
 export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Delete Review Request For App
  */
 export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+  <TError = AxiosError<null | null | null | null | null>, TContext = unknown>(
     options?: {
       mutation?: UseMutationOptions<
         Awaited<
@@ -1838,7 +1846,10 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
 }
 
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TError = AxiosError<null | null | null | null | null>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
@@ -1900,13 +1911,13 @@ export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationResult =
   >
 
 export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationError =
-  AxiosError<HTTPValidationError>
+  AxiosError<null | null | null | null | null>
 
 /**
  * @summary Set Fullscreen App
  */
 export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {

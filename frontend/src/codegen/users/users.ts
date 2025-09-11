@@ -27,7 +27,6 @@ import type {
   AddUserRoleUsersUserIdRolePostParams,
   DeleteUserRoleUsersUserIdRoleDeleteParams,
   FlathubUsersResult,
-  HTTPValidationError,
   RoleName,
   UserResult,
   UsersUsersGetParams,
@@ -56,7 +55,7 @@ export const getUsersUsersGetQueryKey = (params?: UsersUsersGetParams) => {
 
 export const getUsersUsersGetQueryOptions = <
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: UsersUsersGetParams,
   options?: {
@@ -84,11 +83,11 @@ export const getUsersUsersGetQueryOptions = <
 export type UsersUsersGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof usersUsersGet>>
 >
-export type UsersUsersGetQueryError = AxiosError<HTTPValidationError>
+export type UsersUsersGetQueryError = AxiosError<null | null | null | null>
 
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params: undefined | UsersUsersGetParams,
   options: {
@@ -111,7 +110,7 @@ export function useUsersUsersGet<
 }
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: UsersUsersGetParams,
   options?: {
@@ -134,7 +133,7 @@ export function useUsersUsersGet<
 }
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: UsersUsersGetParams,
   options?: {
@@ -153,7 +152,7 @@ export function useUsersUsersGet<
 
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null>,
 >(
   params?: UsersUsersGetParams,
   options?: {
@@ -197,7 +196,7 @@ export const getRolesUsersRolesGetQueryKey = () => {
 
 export const getRolesUsersRolesGetQueryOptions = <
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -226,11 +225,11 @@ export const getRolesUsersRolesGetQueryOptions = <
 export type RolesUsersRolesGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof rolesUsersRolesGet>>
 >
-export type RolesUsersRolesGetQueryError = AxiosError<unknown>
+export type RolesUsersRolesGetQueryError = AxiosError<null | null | null>
 
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options: {
     query: Partial<
@@ -256,7 +255,7 @@ export function useRolesUsersRolesGet<
 }
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -282,7 +281,7 @@ export function useRolesUsersRolesGet<
 }
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -304,7 +303,7 @@ export function useRolesUsersRolesGet<
 
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null | null | null>,
 >(
   options?: {
     query?: Partial<
@@ -352,7 +351,7 @@ export const getUserUsersUserIdGetQueryKey = (userId?: number) => {
 
 export const getUserUsersUserIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   userId: number,
   options?: {
@@ -390,11 +389,13 @@ export const getUserUsersUserIdGetQueryOptions = <
 export type UserUsersUserIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof userUsersUserIdGet>>
 >
-export type UserUsersUserIdGetQueryError = AxiosError<HTTPValidationError>
+export type UserUsersUserIdGetQueryError = AxiosError<
+  null | null | null | null | null
+>
 
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   userId: number,
   options: {
@@ -421,7 +422,7 @@ export function useUserUsersUserIdGet<
 }
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   userId: number,
   options?: {
@@ -448,7 +449,7 @@ export function useUserUsersUserIdGet<
 }
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   userId: number,
   options?: {
@@ -471,7 +472,7 @@ export function useUserUsersUserIdGet<
 
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   userId: number,
   options?: {
@@ -520,7 +521,7 @@ export const addUserRoleUsersUserIdRolePost = (
 }
 
 export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -561,14 +562,15 @@ export type AddUserRoleUsersUserIdRolePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>
 >
 
-export type AddUserRoleUsersUserIdRolePostMutationError =
-  AxiosError<HTTPValidationError>
+export type AddUserRoleUsersUserIdRolePostMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Add User Role
  */
 export const useAddUserRoleUsersUserIdRolePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -611,7 +613,7 @@ export const deleteUserRoleUsersUserIdRoleDelete = (
 }
 
 export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -652,14 +654,15 @@ export type DeleteUserRoleUsersUserIdRoleDeleteMutationResult = NonNullable<
   Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>
 >
 
-export type DeleteUserRoleUsersUserIdRoleDeleteMutationError =
-  AxiosError<HTTPValidationError>
+export type DeleteUserRoleUsersUserIdRoleDeleteMutationError = AxiosError<
+  null | null | null | null | null
+>
 
 /**
  * @summary Delete User Role
  */
 export const useDeleteUserRoleUsersUserIdRoleDelete = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
   TContext = unknown,
 >(
   options?: {
@@ -707,7 +710,7 @@ export const getRoleUsersUsersRolesRoleNameGetQueryKey = (
 
 export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   roleName: RoleName,
   options?: {
@@ -747,12 +750,13 @@ export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
 export type RoleUsersUsersRolesRoleNameGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
 >
-export type RoleUsersUsersRolesRoleNameGetQueryError =
-  AxiosError<HTTPValidationError>
+export type RoleUsersUsersRolesRoleNameGetQueryError = AxiosError<
+  null | null | null | null | null
+>
 
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   roleName: RoleName,
   options: {
@@ -779,7 +783,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
 }
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   roleName: RoleName,
   options?: {
@@ -806,7 +810,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
 }
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   roleName: RoleName,
   options?: {
@@ -829,7 +833,7 @@ export function useRoleUsersUsersRolesRoleNameGet<
 
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null | null | null>,
 >(
   roleName: RoleName,
   options?: {

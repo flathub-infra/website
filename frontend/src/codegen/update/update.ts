@@ -29,7 +29,7 @@ export const updateUpdatePost = (
 }
 
 export const getUpdateUpdatePostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -68,13 +68,13 @@ export type UpdateUpdatePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof updateUpdatePost>>
 >
 
-export type UpdateUpdatePostMutationError = AxiosError<unknown>
+export type UpdateUpdatePostMutationError = AxiosError<null>
 
 /**
  * @summary Update
  */
 export const useUpdateUpdatePost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(
   options?: {
@@ -111,7 +111,7 @@ export const updateStatsUpdateStatsPost = (
 }
 
 export const getUpdateStatsUpdateStatsPostMutationOptions = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -150,13 +150,13 @@ export type UpdateStatsUpdateStatsPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>
 >
 
-export type UpdateStatsUpdateStatsPostMutationError = AxiosError<unknown>
+export type UpdateStatsUpdateStatsPostMutationError = AxiosError<null>
 
 /**
  * @summary Update Stats
  */
 export const useUpdateStatsUpdateStatsPost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(
   options?: {
@@ -194,7 +194,7 @@ export const processTransfersUpdateProcessPendingTransfersPost = (
 }
 
 export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+  <TError = AxiosError<null>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
@@ -241,13 +241,13 @@ export type ProcessTransfersUpdateProcessPendingTransfersPostMutationResult =
   >
 
 export type ProcessTransfersUpdateProcessPendingTransfersPostMutationError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 /**
  * @summary Process Transfers
  */
 export const useProcessTransfersUpdateProcessPendingTransfersPost = <
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
   TContext = unknown,
 >(
   options?: {

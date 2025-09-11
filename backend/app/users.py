@@ -15,6 +15,13 @@ def register_to_app(app: FastAPI):
 @router.get(
     "",
     tags=["users"],
+    responses={
+        200: {"description": "List of users"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def users(
     page: int = 1,
@@ -32,6 +39,12 @@ def users(
 @router.get(
     "/roles",
     tags=["users"],
+    responses={
+        200: {"description": "List of role names"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - view users permission required"},
+        500: {"description": "Internal server error"},
+    },
 )
 def roles(_admin=Depends(view_users_only)) -> list[str]:
     """
@@ -44,6 +57,14 @@ def roles(_admin=Depends(view_users_only)) -> list[str]:
 @router.get(
     "/{user_id}",
     tags=["users"],
+    responses={
+        200: {"description": "User details"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - view users permission required"},
+        404: {"description": "User not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
     """
@@ -61,6 +82,14 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
 @router.post(
     "/{user_id}/role",
     tags=["users"],
+    responses={
+        200: {"description": "Role added successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - modify users permission required"},
+        404: {"description": "User not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def add_user_role(
     user_id: int, role: models.RoleName, _admin=Depends(modify_users_only)
@@ -82,6 +111,14 @@ def add_user_role(
 @router.delete(
     "/{user_id}/role",
     tags=["users"],
+    responses={
+        200: {"description": "Role removed successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - modify users permission required"},
+        404: {"description": "User not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def delete_user_role(
     user_id: int, role: models.RoleName, _admin=Depends(modify_users_only)
@@ -103,6 +140,14 @@ def delete_user_role(
 @router.get(
     "/roles/{role_name}",
     tags=["users"],
+    responses={
+        200: {"description": "List of users with the specified role"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - view users permission required"},
+        404: {"description": "Role not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def role_users(
     role_name: models.RoleName, _admin=Depends(view_users_only)

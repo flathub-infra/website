@@ -144,7 +144,15 @@ class BuildNotificationRequest(BaseModel):
     diagnostics: list[Any]
 
 
-@router.post("/build-notification", tags=["email"])
+@router.post(
+    "/build-notification",
+    tags=["email"],
+    responses={
+        200: {"description": "Build notification sent successfully"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def build_notification(
     request: BuildNotificationRequest,
     authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),

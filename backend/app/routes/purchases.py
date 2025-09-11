@@ -42,6 +42,9 @@ class ErrorDetail(str, Enum):
     status_code=200,
     response_model_exclude_none=True,
     tags=["purchase"],
+    responses={
+        200: {"description": "Storefront information for the app"},
+    },
 )
 def get_storefront_info(app_id: str) -> StorefrontInfo:
     """
@@ -86,7 +89,14 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     return result
 
 
-@router.get("/storefront-info/is-free-software", status_code=200, tags=["purchase"])
+@router.get(
+    "/storefront-info/is-free-software",
+    status_code=200,
+    tags=["purchase"],
+    responses={
+        200: {"description": "Whether the app is free software"},
+    },
+)
 def get_is_free_software(app_id: str, license: str | None = None) -> bool:
     """
     Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
@@ -103,7 +113,15 @@ class GenerateUpdateTokenResponse(BaseModel):
     token: str
 
 
-@router.post("/generate-update-token", status_code=200, tags=["purchase"])
+@router.post(
+    "/generate-update-token",
+    status_code=200,
+    tags=["purchase"],
+    responses={
+        200: {"description": "Update token generated successfully"},
+        401: {"description": "Not logged in"},
+    },
+)
 def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenResponse:
     """
     Generates an update token for a user account. This token allows the user to generate download tokens for apps they
@@ -160,7 +178,16 @@ class CheckPurchasesResponseSuccess(BaseModel):
     status: str = "ok"
 
 
-@router.post("/check-purchases", status_code=200, tags=["purchase"])
+@router.post(
+    "/check-purchases",
+    status_code=200,
+    tags=["purchase"],
+    responses={
+        200: {"description": "Purchase check completed successfully"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Purchase necessary for some apps"},
+    },
+)
 def check_purchases(
     appids: list[str], login=Depends(logins.login_state)
 ) -> CheckPurchasesResponseSuccess:
@@ -192,7 +219,17 @@ class GetDownloadTokenResponse(BaseModel):
     update_token: str
 
 
-@router.post("/generate-download-token", status_code=200, tags=["purchase"])
+@router.post(
+    "/generate-download-token",
+    status_code=200,
+    tags=["purchase"],
+    responses={
+        200: {"description": "Download token generated successfully"},
+        400: {"description": "Invalid app ID"},
+        401: {"description": "Invalid or missing update token"},
+        403: {"description": "Purchase necessary for some apps"},
+    },
+)
 def get_download_token(
     appids: list[str], update_token: str = Body(None)
 ) -> GetDownloadTokenResponse:

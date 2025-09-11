@@ -20,7 +20,16 @@ class AppOfTheDay(BaseModel):
     day: datetime.date
 
 
-@router.get("/app-of-the-day/{date}", tags=["app-picks"])
+@router.get(
+    "/app-of-the-day/{date}",
+    tags=["app-picks"],
+    responses={
+        200: {"description": "App of the day"},
+        404: {"description": "No app of the day for this date"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_app_of_the_day(
     date: datetime.date = Path(
         examples=[
@@ -48,7 +57,16 @@ class AppsOfTheWeek(BaseModel):
     apps: list[AppOfTheWeek]
 
 
-@router.get("/apps-of-the-week/{date}", tags=["app-picks"])
+@router.get(
+    "/apps-of-the-week/{date}",
+    tags=["app-picks"],
+    responses={
+        200: {"description": "Apps of the week"},
+        404: {"description": "No apps of the week for this date"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def get_app_of_the_week(
     date: datetime.date = Path(
         examples=[
@@ -82,7 +100,17 @@ class UpsertAppOfTheWeek(BaseModel):
     position: int
 
 
-@router.post("/app-of-the-week", tags=["app-picks"])
+@router.post(
+    "/app-of-the-week",
+    tags=["app-picks"],
+    responses={
+        200: {"description": "Successfully set app of the week"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_app_of_the_week(
     body: UpsertAppOfTheWeek,
     moderator=Depends(quality_moderator_only),
@@ -99,7 +127,17 @@ def set_app_of_the_week(
         )
 
 
-@router.post("/app-of-the-day", tags=["app-picks"])
+@router.post(
+    "/app-of-the-day",
+    tags=["app-picks"],
+    responses={
+        200: {"description": "Successfully set app of the day"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def set_app_of_the_day(
     body: AppOfTheDay,
     _moderator=Depends(quality_moderator_only),

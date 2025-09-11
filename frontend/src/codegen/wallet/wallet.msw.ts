@@ -43,6 +43,10 @@ export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
   ...overrideResponse,
 })
 
+export const getPostRemovecardWalletRemovecardPostResponseMock = ():
+  | unknown
+  | null => faker.helpers.arrayElement([undefined, undefined])
+
 export const getGetTransactionsWalletTransactionsGetResponseMock =
   (): TransactionSummary[] =>
     Array.from(
@@ -197,6 +201,9 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
   ...overrideResponse,
 })
 
+export const getCancelTransactionWalletTransactionsTxnCancelPostResponseMock =
+  (): unknown | null => faker.helpers.arrayElement([undefined, undefined])
+
 export const getGetStripedataWalletStripedataGetResponseMock = (
   overrideResponse: Partial<StripeKeys> = {},
 ): StripeKeys => ({
@@ -235,6 +242,14 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   ...overrideResponse,
 })
 
+export const getSetSavecardWalletTransactionsTxnSavecardPostResponseMock = ():
+  | unknown
+  | null => faker.helpers.arrayElement([undefined, undefined])
+
+export const getSetPendingWalletTransactionsTxnSetpendingPostResponseMock = ():
+  | unknown
+  | null => faker.helpers.arrayElement([undefined, undefined])
+
 export const getGetWalletinfoWalletWalletinfoGetMockHandler = (
   overrideResponse?:
     | WalletInfo
@@ -261,16 +276,24 @@ export const getGetWalletinfoWalletWalletinfoGetMockHandler = (
 export const getPostRemovecardWalletRemovecardPostMockHandler = (
   overrideResponse?:
     | unknown
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) => Promise<unknown | null> | unknown | null),
 ) => {
   return http.post("*/wallet/removecard", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getPostRemovecardWalletRemovecardPostResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
@@ -363,16 +386,24 @@ export const getSetTransactionCardWalletTransactionsTxnSetcardPostMockHandler =
 export const getCancelTransactionWalletTransactionsTxnCancelPostMockHandler = (
   overrideResponse?:
     | unknown
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) => Promise<unknown | null> | unknown | null),
 ) => {
   return http.post("*/wallet/transactions/:txn/cancel", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCancelTransactionWalletTransactionsTxnCancelPostResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
@@ -425,32 +456,48 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler = (
 export const getSetSavecardWalletTransactionsTxnSavecardPostMockHandler = (
   overrideResponse?:
     | unknown
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) => Promise<unknown | null> | unknown | null),
 ) => {
   return http.post("*/wallet/transactions/:txn/savecard", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getSetSavecardWalletTransactionsTxnSavecardPostResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 
 export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
   overrideResponse?:
     | unknown
+    | null
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) => Promise<unknown | null> | unknown | null),
 ) => {
   return http.post("*/wallet/transactions/:txn/setpending", async (info) => {
     await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getSetPendingWalletTransactionsTxnSetpendingPostResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
   })
 }
 

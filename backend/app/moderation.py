@@ -109,7 +109,17 @@ def sort_lists_in_dict(data: dict) -> dict:
 
 
 @router.get(
-    "/apps", status_code=200, response_model_exclude_none=True, tags=["moderation"]
+    "/apps",
+    status_code=200,
+    response_model_exclude_none=True,
+    tags=["moderation"],
+    responses={
+        200: {"description": "List of apps with moderation requests"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def get_moderation_apps(
     new_submissions: bool | None = None,
@@ -164,6 +174,14 @@ def get_moderation_apps(
     status_code=200,
     response_model_exclude_none=True,
     tags=["moderation"],
+    responses={
+        200: {"description": "Moderation details for the app"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not authorized for this app"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def get_moderation_app(
     login: LoginStatusDep,
@@ -259,6 +277,12 @@ class ReviewRequestResponse(BaseModel):
     status_code=200,
     response_model_exclude_none=True,
     tags=["moderation"],
+    responses={
+        200: {"model": ReviewRequestResponse},
+        401: {"description": "Unauthorized - invalid token"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
 )
 def submit_review_request(
     review_request: ReviewRequest,
@@ -528,7 +552,19 @@ class ReviewResponse(BaseModel):
     github_issue_url: str
 
 
-@router.post("/requests/{id}/review", status_code=200, tags=["moderation"])
+@router.post(
+    "/requests/{id}/review",
+    status_code=200,
+    tags=["moderation"],
+    responses={
+        200: {"model": ReviewResponse},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - moderator required"},
+        404: {"description": "Moderation request not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
 def submit_review(
     id: int,
     review: Review,

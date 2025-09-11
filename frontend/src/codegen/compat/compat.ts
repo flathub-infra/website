@@ -20,10 +20,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type {
-  GetSearchCompatAppsSearchQueryGetParams,
-  HTTPValidationError,
-} from ".././model"
+import type { GetSearchCompatAppsSearchQueryGetParams } from ".././model"
 
 /**
  * @summary Get Recently Updated
@@ -51,7 +48,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryO
         typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = AxiosError<null>,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -104,7 +101,7 @@ export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryResul
     >
   >
 export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
   TData = Awaited<
@@ -112,7 +109,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -154,7 +151,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -196,7 +193,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -226,7 +223,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get
     >
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -287,7 +284,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOpt
         typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet
       >
     >,
-    TError = AxiosError<unknown>,
+    TError = AxiosError<null>,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -340,13 +337,13 @@ export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryResult 
     >
   >
 export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -386,7 +383,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -426,7 +423,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -454,7 +451,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -511,7 +508,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -545,13 +542,13 @@ export type GetRecentlyAddedCompatAppsCollectionNew25GetQueryResult =
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>
   >
 export type GetRecentlyAddedCompatAppsCollectionNew25GetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -585,7 +582,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -619,7 +616,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -645,7 +642,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -698,7 +695,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -731,13 +728,13 @@ export type GetRecentlyAddedCompatAppsCollectionNewGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>
 >
 export type GetRecentlyAddedCompatAppsCollectionNewGetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -767,7 +764,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -797,7 +794,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -821,7 +818,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -872,7 +869,7 @@ export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -908,13 +905,13 @@ export type GetPopularAppsCompatAppsCollectionPopular50GetQueryResult =
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>>
   >
 export type GetPopularAppsCompatAppsCollectionPopular50GetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -948,7 +945,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -982,7 +979,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1008,7 +1005,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1061,7 +1058,7 @@ export const getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1095,13 +1092,13 @@ export type GetPopularAppsCompatAppsCollectionPopularGetQueryResult =
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>
   >
 export type GetPopularAppsCompatAppsCollectionPopularGetQueryError =
-  AxiosError<unknown>
+  AxiosError<null>
 
 export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options: {
     query: Partial<
@@ -1135,7 +1132,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1169,7 +1166,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1195,7 +1192,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
   >,
-  TError = AxiosError<unknown>,
+  TError = AxiosError<null>,
 >(
   options?: {
     query?: Partial<
@@ -1255,7 +1252,7 @@ export const getGetSearchCompatAppsSearchQueryGetQueryKey = (
 
 export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1299,12 +1296,13 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
 export type GetSearchCompatAppsSearchQueryGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>
 >
-export type GetSearchCompatAppsSearchQueryGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetSearchCompatAppsSearchQueryGetQueryError = AxiosError<
+  null | null
+>
 
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   query: string,
   params: undefined | GetSearchCompatAppsSearchQueryGetParams,
@@ -1332,7 +1330,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
 }
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1360,7 +1358,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
 }
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1384,7 +1382,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
 
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null>,
 >(
   query: string,
   params?: GetSearchCompatAppsSearchQueryGetParams,
@@ -1439,7 +1437,7 @@ export const getGetSingleAppCompatAppsAppIdGetQueryKey = (appId?: string) => {
 
 export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1478,12 +1476,13 @@ export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
 export type GetSingleAppCompatAppsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>
 >
-export type GetSingleAppCompatAppsAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetSingleAppCompatAppsAppIdGetQueryError = AxiosError<
+  null | null | null
+>
 
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   appId: string,
   options: {
@@ -1510,7 +1509,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
 }
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1537,7 +1536,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
 }
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   appId: string,
   options?: {
@@ -1560,7 +1559,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
 
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<null | null | null>,
 >(
   appId: string,
   options?: {
