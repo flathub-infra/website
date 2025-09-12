@@ -7,7 +7,7 @@
     },
     "step-2": {
       "name": "De Flatpak-plug-in voor GNOME-Software installeren",
-      "text": "<text>De plug-in voor GNOME Software maakt het mogelijk om apps te installeren zonder de opdracht­regel. Voer het volgende uit om te installeren:</text> <code></code> <text><strong>Opmerking:</strong> Ubuntu distribueert GNOME Software als een Snap in versies 20.04 tot en met 23.04 en heeft het in 23.10 en nieuwer vervangen door App Center. Beide ondersteunen de installatie van Flatpak-apps niet. Door de Flatpak-plug-in te installeren, wordt ook een deb-versie van GNOME Software geïnstalleerd, waardoor er twee \"Software\"-apps tegelijk worden geïnstalleerd op Ubuntu 20.04 tot en met 23.04 en één nieuwe \"Software\"-app op Ubuntu 23.10 en nieuwer.</text>"
+      "text": "<text>De plug-in voor GNOME Software maakt het mogelĳk om apps te installeren zonder de opdracht­regel. Voer het volgende uit om te installeren:</text> <code></code> <text><strong>Opmerking:</strong> Ubuntu distribueert GNOME Software als een Snap in versies 20.04 tot en met 23.04 en heeft het in 23.10 en nieuwer vervangen door App Center. Beide ondersteunen de installatie van Flatpak-apps niet. Door de Flatpak-plug-in te installeren, wordt ook een deb-versie van GNOME Software geïnstalleerd, waardoor er twee ‘Software’-apps tegelĳk worden geïnstalleerd op Ubuntu 20.04 tot en met 23.04 en één nieuwe ‘Software’-app op Ubuntu 23.10 en nieuwer.</text>"
     },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
@@ -25,50 +25,64 @@
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
-      "name": "Flatpak inschakelen via de software-beheerder"
+      "name": "Flatpak inschakelen via de software-beheerder",
+      "text": "<text>Flatpak is standaard geïnstalleerd op Manjaro 20 of hoger.</text> <text>Om de ondersteuning in te schakelen, navigeert u naar de <strong>Software Manager</strong> (Programma's toevoegen/verwĳderen).</text> <text>Klik op het menu met drie lĳnen [of stippen, afhankelĳk van de bureaublad­omgeving] aan de rechterkant en selecteer ‘Voorkeuren’ in het dropdown­menu.</text> <text>Navigeer naar het tabblad ‘Flatpak’ en schuif de schakelaar naar ‘Flatpak-ondersteuning inschakelen’ (u kunt ook controleren op updates inschakelen, wat wordt aanbevolen).</text>"
     },
     "step-2": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Om de installatie te voltooien, start u uw systeem opnieuw op. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "endless_os": {
-    "distroName": "Endless OS"
+    "distroName": "Endless OS",
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Endless OS 3.0.0 en nieuwer. Geen installatie vereist!</text>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak te installeren op besturings­systemen uit de Alt-familie, opent u de Terminal-app en voert u het volgende uit:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is een geweldige plek om Flatpak-apps te downloaden. Om het op uw Alt-systeem te activeren, voert u het volgende uit:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw apparaat opnieuw op om de installatie van Flatpak te voltooien. Nu kunt u <link>apps installeren</link>!</text>"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-1": {
-      "name": "Linux-ondersteuning inschakelen"
+      "name": "Linux-ondersteuning inschakelen",
+      "text": "<text>Navigeer naar <settingslink>chrome://os-settings</settingslink>, scrol omlaag naar <strong>Ontwikkelaars</strong> en schakel <em>Linux-ontwikkel­omgeving</em> in. Het downloaden en installeren van Linux duurt even.</text>"
     },
     "step-2": {
-      "name": "Een Linux-terminal starten"
+      "name": "Een Linux-terminal starten",
+      "text": "<text>Druk op de zoek-/starttoets, typ ‘Terminal’ en start de Terminal-app.</text>"
     },
     "step-3": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak te installeren, voert u het volgende uit in de terminal:</text> <code></code>"
     },
     "step-4": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om het te activeren, voert u het volgende uit:</text> <code></code>"
     },
     "step-5": {
-      "name": "Opnieuw opstarten"
-    }
+      "name": "Opnieuw opstarten",
+      "text": "<text>Om de installatie te voltooien, start u Linux opnieuw op. U kunt dit doen door met de rechtermuisknop op de terminal te klikken en vervolgens op ‘Linux afsluiten’ te klikken. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
+    },
+    "introduction": "<text>Flatpak-apps kunnen op ChromeOS worden geïnstalleerd met de Linux-compatibiliteits­laag Crostini. Dit is niet beschikbaar voor alle ChromeOS-apparaten, dus controleer of uw apparaat compatibel is voordat u verdergaat. Een lĳst met compatibele apparaten vindt u <link>hier</link>.</text>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op Red Hat Enterprise Linux Workstation 9 en nieuwer. Om te beginnen hoeft u alleen maar Flathub in te schakelen. Dit is de beste manier om Flatpak-apps te verkrĳgen. Download en installeer het <filelink>Flathub-repository­bestand</filelink>.</text> <text>Om Flatpak op Red Hat Enterprise Linux Workstation 8 of ouder te installeren, voert u het volgende uit in een terminal:</text> <code></code> <text>Nu hoeft u alleen nog maar <link>apps installeren</link>!</text> <text>De bovenstaande links zouden moeten werken op de standaard­installatie van Red Hat Enterprise Linux Workstation 9. Mochten ze om een of andere reden niet werken, dan kunt u de Flathub-remote handmatig toevoegen door het volgende uit te voeren:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Linux Mint 18.3 en nieuwer, geen installatie vereist!</text>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -85,25 +99,31 @@
   "arch": {
     "distroName": "Arch Linux",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Arch Linux te installeren, opent u de Terminal-app en voert u het volgende uit:</text> <code></code>"
     },
     "step-2": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Om de installatie te voltooien, start u uw systeem opnieuw op. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Een flatpak-pakket is beschikbaar voor Debian 10 (Buster) en nieuwer. Om deze te installeren, voert u het volgende uit als root:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren"
+      "name": "De Flatpak-plug-in voor Software installeren",
+      "text": "<text>Als u GNOME gebruikt, is het ook een goed idee om de Flatpak-plug-in voor GNOME Software te installeren. Voer hiervoor het volgende uit:</text> <code></code> <text>Als u KDE gebruikt, kunt u het beste de Plasma Discover Flatpak-backend installeren:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden en te installeren. Om het te activeren, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-4": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Om de installatie te voltooien, start u uw systeem opnieuw op. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "rocky_linux": {

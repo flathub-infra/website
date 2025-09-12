@@ -668,5 +668,6 @@
   "socket-may-allow-extra-permissions": "Utilise un socket permettant d'obtenir des autorisations supplémentaires",
   "uses-privileged-socket": "Utilise un socket privilégié",
   "uses-non-portal-service": "Utilise des services hors portail",
-  "can-talk-to-non-portal-service": "Peut demander des données à des services hors portail et obtenir des autorisations supplémentaires"
+  "can-talk-to-non-portal-service": "Peut demander des données à des services hors portail et obtenir des autorisations supplémentaires",
+  "unauthorized": "Non autorisé"
 }
