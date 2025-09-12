@@ -668,5 +668,6 @@
   "uses-privileged-socket": "Použití privilegovaného socketu",
   "socket-may-allow-extra-permissions": "Použití socketu, který umožňuje udělit zvláštní oprávnění",
   "uses-non-portal-service": "Používá služby mimo portál",
-  "can-talk-to-non-portal-service": "Může požadovat data ze služeb mimo portál a udělit dodatečná oprávnění"
+  "can-talk-to-non-portal-service": "Může požadovat data ze služeb mimo portál a udělit dodatečná oprávnění",
+  "unauthorized": "Neautorizované"
 }

@@ -668,5 +668,6 @@
   "uses-privileged-socket": "Kasutab laiade õigustega ühendussoklit",
   "socket-may-allow-extra-permissions": "Kasutab ühendussoklit, millel on võimalik saada täiendavaid õigusi",
   "uses-non-portal-service": "Kasutab portaaliväliseid teenuseid",
-  "can-talk-to-non-portal-service": "Võib kasutada portaalivälistest teenustest ja saad täiendavaid õigusi"
+  "can-talk-to-non-portal-service": "Võib kasutada portaalivälistest teenustest ja saad täiendavaid õigusi",
+  "unauthorized": "Pole lubatud"
 }

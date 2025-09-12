@@ -668,5 +668,6 @@
   "socket-may-allow-extra-permissions": "Gebruikt een socket waarmee extra rechten kunnen worden verkregen",
   "uses-privileged-socket": "Gebruikt een bevoorrechte socket",
   "uses-non-portal-service": "Maakt gebruik van niet-portaal­services",
-  "can-talk-to-non-portal-service": "Kan gegevens opvragen bĳ diensten die geen portals gebruiken en extra rechten verkrĳgen"
+  "can-talk-to-non-portal-service": "Kan gegevens opvragen bĳ diensten die geen portals gebruiken en extra rechten verkrĳgen",
+  "unauthorized": "Ongeautoriseerd"
 }

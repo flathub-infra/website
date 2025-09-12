@@ -668,5 +668,6 @@
   "uses-privileged-socket": "Uzas privilegian konektinterfacon",
   "socket-may-allow-extra-permissions": "Uzas konektinterfacon ebligantan gajni ekstrajn permesojn",
   "uses-non-portal-service": "Uzas neportalajn servojn",
-  "can-talk-to-non-portal-service": "Povas peti datenojn de neportalaj servoj kaj tiel gajni pliajn permesojn"
+  "can-talk-to-non-portal-service": "Povas peti datenojn de neportalaj servoj kaj tiel gajni pliajn permesojn",
+  "unauthorized": "Ne permesita"
 }
