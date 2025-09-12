@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const dynamic = "force-static"
-export const revalidate = 43200 // Revalidate twice per day (12 hours)
+export const revalidate = 3600 // Revalidate every hour
 
 export async function generateStaticParams() {
   return []
