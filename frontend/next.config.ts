@@ -333,7 +333,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
         ],
       },
       {
-        source: "/apps/(collection|category)/:path*",
+        source: "/:locale/",
         headers: [
           {
             key: "Surrogate-Control",
@@ -343,7 +343,17 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
         ],
       },
       {
-        source: "/apps/:path",
+        source: "/:locale/apps/(collection|category)/:path*",
+        headers: [
+          {
+            key: "Surrogate-Control",
+            value:
+              "max-age=900, stale-while-revalidate=31557600, stale-if-error=31557600",
+          },
+        ],
+      },
+      {
+        source: "/:locale/apps/:path",
         headers: [
           {
             key: "Surrogate-Control",
