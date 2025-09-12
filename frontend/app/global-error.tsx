@@ -16,6 +16,13 @@ export default function GlobalError({ error, reset }: Props) {
 
   return (
     <html>
+      <head>
+        <meta
+          httpEquiv="Cache-Control"
+          content="no-cache, no-store, must-revalidate"
+        />
+        <meta httpEquiv="Surrogate-Control" content="no-cache" />
+      </head>
       <body>
         <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 mt-12 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
           <h1 className="mb-8 text-4xl font-extrabold">

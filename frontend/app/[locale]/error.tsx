@@ -21,6 +21,10 @@ export async function generateMetadata(): Promise<Metadata> {
       index: false,
       follow: false,
     },
+    other: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Surrogate-Control": "no-cache",
+    },
   }
 }
 
