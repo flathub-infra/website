@@ -13,7 +13,10 @@ import {
 import { isValidAppId } from "@/lib/helpers"
 import { languages } from "../../../../src/localize"
 import AppDetailClient from "./app-detail-client"
-import { getEolMessageAppidEolMessageAppIdGet } from "src/codegen"
+import {
+  getEolMessageAppidEolMessageAppIdGet,
+  MeilisearchResponseAppsIndex,
+} from "src/codegen"
 import { AddonAppstream } from "../../../../src/types/Appstream"
 import { removeAppIdFromSearchResponse } from "../../../../src/meilisearch"
 import { formatISO } from "date-fns"
@@ -36,6 +39,10 @@ export async function generateMetadata({
 
   try {
     const app = await fetchAppstream(appId, locale)
+
+    if ("error" in app) {
+      throw new Error("App not found")
+    }
 
     return {
       title: t("install-x", { app_name: app?.name }),
@@ -144,6 +151,25 @@ export default async function AppDetailPage({
       ],
     )
 
+    // Check for errors in fetched data
+    if ("error" in app) {
+      throw new Error(`App fetch error: ${app.error}`)
+    }
+    if ("error" in stats) {
+      throw new Error(`Stats fetch error: ${stats.error}`)
+    }
+    if ("error" in summary) {
+      throw new Error(`Summary fetch error: ${summary.error}`)
+    }
+    if ("error" in addons) {
+      throw new Error(`Addons fetch error: ${addons.error}`)
+    }
+    if ("error" in verificationStatus) {
+      throw new Error(
+        `Verification status fetch error: ${verificationStatus.error}`,
+      )
+    }
+
     // If no app found and no EOL message, show 404
     if (!app) {
       notFound()
@@ -161,6 +187,11 @@ export default async function AppDetailPage({
         ? await fetchDeveloperApps(app.developer_name, locale)
         : null
 
+    // Check for developer apps error
+    if (developerApps && "error" in developerApps) {
+      throw new Error(`Developer apps fetch error: ${developerApps.error}`)
+    }
+
     // Get date published (matching original pages router logic)
     const datePublished = formatISO(new UTCDate(summary?.timestamp ?? 0 * 1000))
 
@@ -169,7 +200,14 @@ export default async function AppDetailPage({
         app={app}
         summary={summary}
         stats={stats}
-        developerApps={removeAppIdFromSearchResponse(developerApps, app?.id)}
+        developerApps={
+          developerApps
+            ? removeAppIdFromSearchResponse(
+                developerApps as MeilisearchResponseAppsIndex,
+                app?.id,
+              )
+            : null
+        }
         verificationStatus={verificationStatus}
         eolMessage=""
         addons={addons as AddonAppstream[]}

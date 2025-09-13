@@ -54,39 +54,40 @@ export default async function CategoryPagePaginated({
     notFound()
   }
 
-  try {
-    let applications
-    if (category === "game") {
-      applications = await fetchGameCategory(locale, page, 30)
-    } else {
-      applications = await fetchCategory(
-        category,
-        locale,
-        page,
-        30,
-        [],
-        SortBy.trending,
-      )
-    }
-
-    // If there are no applications in this category, return 404
-    if (!applications.totalHits) {
-      notFound()
-    }
-
-    if (applications.page > applications.totalPages) {
-      notFound()
-    }
-
-    return (
-      <CategoryPageClient
-        applications={applications}
-        locale={locale}
-        category={category}
-      />
+  let applications
+  if (category === "game") {
+    applications = await fetchGameCategory(locale, page, 30)
+  } else {
+    applications = await fetchCategory(
+      category,
+      locale,
+      page,
+      30,
+      [],
+      SortBy.trending,
     )
-  } catch (error) {
-    console.error("Error fetching category data:", error)
+  }
+
+  if ("error" in applications) {
+    throw new Error(
+      `Failed to fetch category ${category}: ${applications.error}`,
+    )
+  }
+
+  // If there are no applications in this category, return 404
+  if (!applications.totalHits) {
     notFound()
   }
+
+  if (applications.page > applications.totalPages) {
+    notFound()
+  }
+
+  return (
+    <CategoryPageClient
+      applications={applications}
+      locale={locale}
+      category={category}
+    />
+  )
 }

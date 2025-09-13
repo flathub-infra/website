@@ -44,6 +44,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const app = await fetchAppstream(appId, locale)
 
+  if ("error" in app) {
+    return {
+      title: `${t("quality.banner-preview")}`,
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
+  }
+
   return {
     title: app?.name
       ? `${app.name} ${t("quality.banner-preview")}`
@@ -92,6 +102,10 @@ export default async function BannerPreviewPage({ params }: Props) {
   }
 
   const app = await fetchAppstream(appId, locale)
+
+  if ("error" in app) {
+    throw new Error(`App fetch error: ${app.error}`)
+  }
 
   const eolMessageResponse = await getEolMessageAppidEolMessageAppIdGet(
     appId as string,

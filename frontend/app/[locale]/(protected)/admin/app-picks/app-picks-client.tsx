@@ -130,17 +130,30 @@ export default function AppPicksClient() {
         formatISO(date, { representation: "date" }),
       )
 
+      if ("error" in getAppsOfTheWeek) {
+        throw new Error(
+          `Apps of the week fetch error: ${getAppsOfTheWeek.error}`,
+        )
+      }
+
       const heroBannerAppstreams = await Promise.all(
         getAppsOfTheWeek.apps.map(async (app) =>
           fetchAppstream(app.app_id, "en"),
         ),
       )
 
+      // Check for errors in appstream fetches
+      for (const appstream of heroBannerAppstreams) {
+        if ("error" in appstream) {
+          throw new Error(`Appstream fetch error: ${appstream.error}`)
+        }
+      }
+
       const heroBannerData = getAppsOfTheWeek.apps.map((app) => {
         return {
           app: app,
           appstream: heroBannerAppstreams.find(
-            (a) => a.id === app.app_id,
+            (a) => (a as DesktopAppstream).id === app.app_id,
           ) as DesktopAppstream,
         }
       })
@@ -152,6 +165,10 @@ export default function AppPicksClient() {
 
         if (currentApp) {
           const appInfo = await fetchAppstream(currentApp.app_id, "en")
+
+          if ("error" in appInfo) {
+            throw new Error(`App info fetch error: ${appInfo.error}`)
+          }
 
           return {
             id: appInfo.id,
@@ -192,13 +209,21 @@ export default function AppPicksClient() {
 
       const passingApps = await Promise.all(
         getAppsWithQuality.data.recommendations.map(async (app) => {
+          const appstream = await fetchAppstream(app.app_id, "en")
+
+          if ("error" in appstream) {
+            throw new Error(
+              `Appstream fetch error for ${app.app_id}: ${appstream.error}`,
+            )
+          }
+
           return {
             id: app.app_id,
             lastTimeAppOfTheDay: app.lastTimeAppOfTheDay,
             lastTimeAppOfTheWeek: app.lastTimeAppOfTheWeek,
             numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
             numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
-            appstream: await fetchAppstream(app.app_id, "en"),
+            appstream: appstream,
           }
         }),
       )

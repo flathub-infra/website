@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const app = await fetchAppstream(appId, locale)
   const t = await getTranslations()
 
-  if (!app) {
+  if ("error" in app || !app) {
     return {
       title: t("whoops"),
     }
@@ -50,8 +50,12 @@ export default async function AppPurchasePage({ params }: Props) {
     fetchVendingConfig(),
   ])
 
-  if (!app) {
+  if ("error" in app || !app) {
     notFound()
+  }
+
+  if ("error" in vendingConfig) {
+    throw new Error("Vending config not found")
   }
 
   return <AppPurchaseClient app={app} vendingConfig={vendingConfig} />

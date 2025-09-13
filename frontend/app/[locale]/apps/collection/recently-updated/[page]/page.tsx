@@ -46,6 +46,10 @@ export default async function RecentlyUpdatedCollectionPage({ params }: Props) {
     locale,
   )
 
+  if ("error" in applications) {
+    throw new Error(`Collection fetch error: ${applications.error}`)
+  }
+
   if (applications.page > applications.totalPages) {
     notFound()
   }

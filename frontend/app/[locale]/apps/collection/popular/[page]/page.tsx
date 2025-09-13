@@ -41,6 +41,10 @@ export default async function PopularCollectionPage({ params }: Props) {
 
   const applications = await fetchCollection("popular", pageNum, 30, locale)
 
+  if ("error" in applications) {
+    throw new Error(`Collection fetch error: ${applications.error}`)
+  }
+
   if (applications.page > applications.totalPages) {
     notFound()
   }
