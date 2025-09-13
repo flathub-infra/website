@@ -665,5 +665,9 @@
     "flathubShare": "Udio Flathuba: {percentage}",
     "screenReaderBreakdown": "Klizač za raspodjelu dijeljenja. Koristi strelice na tipkovnici za podešavanje raspodjele između aplikacije, SDK-a i Flathuba. Trenutačna raspodjela: Aplikacija: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Ukupni trošak: {totalCost}."
   },
-  "uses-privileged-socket": "Koristi privilegirani mrežni priključak"
+  "uses-privileged-socket": "Koristi privilegirani mrežni priključak",
+  "unauthorized": "Neautorizirano",
+  "socket-may-allow-extra-permissions": "Koristi priključak koji omogućuje stjecanje dodatnih dozvola",
+  "can-talk-to-non-portal-service": "Može zatražiti podatke od usluga koje nisu dio portala i steći dodatne dozvole",
+  "uses-non-portal-service": "Koristi usluge koje nisu dio portala"
 }
