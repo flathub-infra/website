@@ -11,7 +11,6 @@ import { bcpToPosixLocale, languages } from "src/localize"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import cardImage from "../../public/img/card.webp"
 import { IS_PRODUCTION } from "src/env"
-import { headers } from "next/headers"
 import { routing } from "src/i18n/routing"
 import { notFound } from "next/navigation"
 
