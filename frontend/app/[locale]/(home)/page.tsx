@@ -91,7 +91,12 @@ async function getCategoryData(locale: string) {
       }
     })
 
-  return await Promise.all(categoryPromises)
+  const topAppsByCategory = await Promise.all(categoryPromises)
+
+  // Sort categories according to predefined order
+  return topAppsByCategory.sort((a, b) => {
+    return categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)
+  })
 }
 
 async function getHeroBanner(dateString: string, locale: string) {
