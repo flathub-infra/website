@@ -13,6 +13,17 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { appId, locale } = await params
   const app = await fetchAppstream(appId, locale)
+
+  if ("error" in app) {
+    return {
+      title: appId,
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
+  }
+
   const appName = app?.name || appId
 
   return {
@@ -31,16 +42,22 @@ export default async function ManagePage({ params }: Props) {
     fetchVendingConfig(),
   ])
 
-  // For manage pages, we allow fallback to show the app ID if app doesn't exist
+  // Check for vending config error
+  if ("error" in vendingConfig) {
+    throw new Error(`Vending config fetch error: ${vendingConfig.error}`)
+  }
+
+  // For manage pages, we allow fallback to show the app ID if app doesn't exist or has error
   const appData =
-    app ??
-    ({
-      id: appId,
-      name: appId,
-      bundle: {},
-      type: "desktop",
-      icon: "",
-    } as Pick<Appstream, "id" | "name" | "bundle" | "type" | "icon">)
+    app && !("error" in app)
+      ? app
+      : ({
+          id: appId,
+          name: appId,
+          bundle: {},
+          type: "desktop",
+          icon: "",
+        } as Pick<Appstream, "id" | "name" | "bundle" | "type" | "icon">)
 
   return <ManageClient app={appData} vendingConfig={vendingConfig} />
 }

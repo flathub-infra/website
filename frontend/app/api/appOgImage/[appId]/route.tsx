@@ -38,7 +38,7 @@ export async function GET(
     safeLocale as string,
   )) as DesktopAppstream
 
-  if (!app) {
+  if (!app || "error" in app) {
     return new Response("App not found", {
       status: 404,
       statusText: "App not found",

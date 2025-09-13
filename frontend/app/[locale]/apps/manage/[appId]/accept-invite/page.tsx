@@ -12,7 +12,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { appId, locale } = await params
   const app = await fetchAppstream(appId, locale)
-  const appName = app?.name || appId
+  const appName = (!("error" in app) && app?.name) || appId
 
   return {
     title: appName,
@@ -27,8 +27,8 @@ export default async function AcceptInvitePage({ params }: Props) {
   const { appId, locale } = await params
   const app = await fetchAppstream(appId, locale)
 
-  // For manage pages, we allow fallback to show the app ID if app doesn't exist
-  const appData = app ?? { id: appId, name: appId }
+  // For manage pages, we allow fallback to show the app ID if app doesn't exist or has error
+  const appData = app && !("error" in app) ? app : { id: appId, name: appId }
 
   return <AcceptInviteClient app={appData} />
 }

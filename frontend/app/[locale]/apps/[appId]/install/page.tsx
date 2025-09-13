@@ -21,6 +21,10 @@ export async function generateMetadata({
   try {
     const app = await fetchAppstream(appId, locale)
 
+    if ("error" in app) {
+      throw new Error("App not found")
+    }
+
     return {
       title: t("download.install-x", { x: app.name }),
       description: app?.summary,
@@ -70,7 +74,7 @@ export default async function InstallPage({
   try {
     const app = await fetchAppstream(appId, locale)
 
-    if (!app) {
+    if ("error" in app || !app) {
       notFound()
     }
 

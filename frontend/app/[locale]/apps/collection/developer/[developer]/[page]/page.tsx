@@ -44,6 +44,10 @@ export default async function DeveloperCollectionPage({ params }: Props) {
   const developerDecoded = decodeURIComponent(developer)
   const applications = await fetchDeveloperApps(developer, locale, pageNum, 30)
 
+  if ("error" in applications) {
+    throw new Error(`Developer apps fetch error: ${applications.error}`)
+  }
+
   if (applications.page > applications.totalPages) {
     notFound()
   }

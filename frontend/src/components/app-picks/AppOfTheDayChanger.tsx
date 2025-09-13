@@ -29,10 +29,20 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
         formatISO(day, { representation: "date" }),
       )
 
+      if ("error" in getAppsOfTheDay) {
+        throw new Error(
+          `Failed to fetch app of the day: ${getAppsOfTheDay.error}`,
+        )
+      }
+
       const getAppOfTheDayInfo = await fetchAppstream(
         getAppsOfTheDay.app_id,
         "en",
       )
+
+      if ("error" in getAppOfTheDayInfo) {
+        throw new Error(`Failed to fetch app info: ${getAppOfTheDayInfo.error}`)
+      }
 
       return getAppOfTheDayInfo
     },
