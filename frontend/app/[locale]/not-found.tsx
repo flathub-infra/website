@@ -14,10 +14,6 @@ export async function generateMetadata(params) {
       index: false,
       follow: false,
     },
-    other: {
-      "Cache-Control": "no-cache, no-store, must-revalidate",
-      "Surrogate-Control": "no-cache",
-    },
   }
 }
 
