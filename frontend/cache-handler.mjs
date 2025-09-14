@@ -84,7 +84,7 @@ CacheHandler.onCreation(({ buildId }) => {
     const redisCacheHandler = createRedisHandler({
       client: redisClient,
       keyPrefix: buildId,
-      timeoutMs: 500,
+      // timeoutMs: 500,
     })
 
     global.cacheHandlerConfigPromise = null
