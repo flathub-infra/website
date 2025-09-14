@@ -1,56 +1,26 @@
-import i18next from "i18next"
-import { languages, fontLanguageDenyList, Language } from "src/localize"
 import satori from "satori"
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { Resvg } from "@resvg/resvg-js"
 import { fonts } from "../fontManager"
-
-function getTranslationsForKey(key: string) {
-  return languages.reduce((messages, currentLang) => {
-    messages[currentLang] = i18next.t(key, { lng: currentLang })
-    return messages
-  }, {})
-}
+import { getTranslations } from "next-intl/server"
+import { routing } from "src/i18n/routing"
+import { hasLocale } from "next-intl"
 
 export async function GET(request: NextRequest) {
-  const ns = ["common"]
-  const supportedLngs = languages
-  const resources = ns.reduce((acc, n) => {
-    supportedLngs.forEach((lng) => {
-      if (!acc[lng]) acc[lng] = {}
-      acc[lng] = {
-        ...acc[lng],
-        [n]: require(`../../../public/locales/${lng}/${n}.json`),
-      }
-    })
-    return acc
-  }, {})
-
-  i18next.init({
-    lng: "en",
-    fallbackLng: "en",
-    defaultNS: "common",
-    supportedLngs,
-    resources,
-  })
-
   const searchParams = request.nextUrl.searchParams
   const locale = searchParams.get("locale") || "en"
   const light = searchParams.get("light") === "" || false
   const asSvg = searchParams.get("svg") === "" || false
 
-  // Fall back to English if the locale is in the deny list or not supported
-  const safeLocale =
-    fontLanguageDenyList.includes(locale) ||
-    !languages.includes(locale as Language)
-      ? "en"
-      : locale
+  if (!hasLocale(routing.locales, locale)) {
+    return NextResponse.json({ error: "Invalid locale" }, { status: 400 })
+  }
 
-  const flathubArray = getTranslationsForKey("flathub")
-  const flathub = flathubArray[safeLocale as string]
+  const t = await getTranslations({ locale })
 
-  const getItOnArray = getTranslationsForKey("get-it-on")
-  const getItOn = getItOnArray[safeLocale as string].toUpperCase()
+  const flathub = t("flathub")
+
+  const getItOn = t("get-it-on").toUpperCase()
 
   const svg = await satori(
     <div
