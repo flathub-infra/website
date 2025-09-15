@@ -201,19 +201,9 @@ export default async function HomePage({
     getGameData(locale),
   ])
 
-  // Remove duplicated apps from recently updated
-  const filteredRecentlyUpdated = {
-    ...recentlyUpdated,
-    hits: recentlyUpdated.hits
-      .filter(
-        (app) => !recentlyAdded.hits.some((addedApp) => addedApp.id === app.id),
-      )
-      .slice(0, APPS_IN_PREVIEW_COUNT),
-  }
-
   return (
     <HomeClient
-      recentlyUpdated={filteredRecentlyUpdated}
+      recentlyUpdated={recentlyUpdated}
       recentlyAdded={recentlyAdded}
       trending={trending}
       popular={popular}
