@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
 import { getLoginMethodsAuthLoginGet } from "../../../../src/codegen"
 import LoginServiceClient from "./login-service-client"
+import Spinner from "src/components/Spinner"
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
@@ -36,7 +37,7 @@ export default async function LoginServicePage() {
     const services = providers.data.map((d) => d.method)
 
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner size={"m"} />}>
         <LoginServiceClient services={services} />
       </Suspense>
     )
