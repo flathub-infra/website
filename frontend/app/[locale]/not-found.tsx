@@ -1,10 +1,11 @@
-import { useTranslations } from "next-intl"
 import { getTranslations } from "next-intl/server"
+import { useTranslations } from "next-intl"
 import { Link } from "src/i18n/navigation"
 
 export async function generateMetadata(params) {
   const { locale } = await params
-  const t = await getTranslations()
+  const t = await getTranslations({ locale })
+
   return {
     title: t("page-not-found", { errorCode: "404" }),
     openGraph: {
