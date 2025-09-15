@@ -665,5 +665,6 @@
     "fallback-instructions": "<opening>Apertura di \"{name}\" nel tuo gestore software…</opening><support>Se non succede nulla, forse il tuo sistema non supporta gli URL <i>flatpak+https</i>.</support><listPrefix>In tal caso puoi:</listPrefix><ol><li>Scaricare il file <link>.flatpakref</link></li><li>Quindi eseguirlo dal tuo file manager</li></ol><setupLine><linkSetup>Istruzioni per installare Flatpak</linkSetup></setupLine>"
   },
   "uses-privileged-socket": "Utilizza un socket privilegiato",
-  "socket-may-allow-extra-permissions": "Utilizza un socket che consente di ottenere permessi extra"
+  "socket-may-allow-extra-permissions": "Utilizza un socket che consente di ottenere permessi extra",
+  "unauthorized": "Non autorizzato"
 }
