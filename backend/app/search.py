@@ -18,6 +18,8 @@ class MeilisearchResponse[T](BaseModel):
     page: int
     totalPages: int
     totalHits: int
+    facetDistribution: dict[str, dict[str, int]] | None = None
+    facetStats: dict[str, dict[str, int]] | None = None
 
 
 class MeilisearchResponseLimited[T](BaseModel):
@@ -79,6 +81,22 @@ class Filter(BaseModel):
 class SearchQuery(BaseModel):
     query: str
     filters: list[Filter] | None = None
+    hits_per_page: int = 50
+    page: int = 1
+
+    @field_validator("hits_per_page")
+    def validate_hits_per_page(cls, v: int):
+        if v < 1:
+            raise ValueError("hits_per_page must be at least 1")
+        if v > 1000:
+            raise ValueError("hits_per_page cannot exceed 1000")
+        return v
+
+    @field_validator("page")
+    def validate_page(cls, v: int):
+        if v < 1:
+            raise ValueError("page must be at least 1")
+        return v
 
 
 def _configure_meilisearch_index(client):
@@ -497,7 +515,7 @@ def search_apps(
 
 def search_apps_post(
     searchquery: SearchQuery, locale: str
-) -> MeilisearchResponseLimited[AppsIndex]:
+) -> MeilisearchResponse[AppsIndex]:
     filters = []
 
     filteringForType = False
@@ -524,11 +542,12 @@ def search_apps_post(
 
     return _translate_name_and_summary(
         locale,
-        MeilisearchResponseLimited[AppsIndex].model_validate(
+        MeilisearchResponse[AppsIndex].model_validate(
             client.index("apps").search(
                 searchquery.query,
                 {
-                    "limit": 250,
+                    "hitsPerPage": searchquery.hits_per_page or 250,
+                    "page": searchquery.page or 1,
                     "sort": ["installs_last_month:desc"],
                     "filter": filterString if filterString else None,
                     "facets": [

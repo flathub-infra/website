@@ -159,7 +159,7 @@ def get_isFullscreenApp(
 )
 def post_search(
     query: search.SearchQuery, locale: str = "en"
-) -> search.MeilisearchResponseLimited[search.AppsIndex]:
+) -> search.MeilisearchResponse[search.AppsIndex]:
     return search.search_apps_post(query, locale)
 
 
