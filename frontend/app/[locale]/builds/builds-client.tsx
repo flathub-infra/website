@@ -5,6 +5,7 @@ import { PipelineRepoWithAll } from "../../../@/components/build/build-repo-filt
 import { PipelineStatusWithAll } from "../../../@/components/build/build-status-filter"
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
+import Spinner from "src/components/Spinner"
 
 function BuildsContent() {
   const [appId, setAppId] = useState<string | undefined>(undefined)
@@ -39,7 +40,7 @@ function BuildsContent() {
 
 export default function BuildsClient() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner size={"m"} />}>
       <BuildsContent />
     </Suspense>
   )

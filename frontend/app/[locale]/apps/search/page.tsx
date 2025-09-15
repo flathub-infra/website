@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
 import SearchClient from "./search-client"
+import Spinner from "src/components/Spinner"
 
 export async function generateMetadata({
   searchParams,
@@ -22,7 +23,7 @@ export async function generateMetadata({
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner size={"m"} />}>
       <SearchClient />
     </Suspense>
   )

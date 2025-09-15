@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Suspense } from "react"
 import { fetchLoginProviders } from "../../../src/fetchers"
 import LoginClient from "./login-client"
+import Spinner from "src/components/Spinner"
 
 export async function generateMetadata({
   params,
@@ -34,7 +35,7 @@ export default async function LoginPage({
     setRequestLocale(locale)
 
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner size={"m"} />}>
         <LoginClient providers={providers} locale={locale} />
       </Suspense>
     )
