@@ -37,5 +37,7 @@
   "hitsPerPage": 1,
   "page": 1,
   "totalPages": 3,
-  "totalHits": 3
+  "totalHits": 3,
+  "facetDistribution": null,
+  "facetStats": null
 }

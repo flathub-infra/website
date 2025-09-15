@@ -9,4 +9,6 @@ import type { SearchQueryFilters } from "./searchQueryFilters"
 export interface SearchQuery {
   query: string
   filters?: SearchQueryFilters
+  hits_per_page?: number
+  page?: number
 }

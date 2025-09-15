@@ -81,7 +81,7 @@ class Filter(BaseModel):
 class SearchQuery(BaseModel):
     query: str
     filters: list[Filter] | None = None
-    hits_per_page: int = 50
+    hits_per_page: int = 21
     page: int = 1
 
     @field_validator("hits_per_page")

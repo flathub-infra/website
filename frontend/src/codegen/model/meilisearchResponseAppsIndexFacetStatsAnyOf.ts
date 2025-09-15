@@ -5,6 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type MeilisearchResponseLimitedAppsIndexFacetDistributionAnyOf = {
+export type MeilisearchResponseAppsIndexFacetStatsAnyOf = {
   [key: string]: { [key: string]: number }
 }

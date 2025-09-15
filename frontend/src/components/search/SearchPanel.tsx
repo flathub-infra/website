@@ -11,7 +11,7 @@ import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import { MeilisearchResponseAppsIndex, AppsIndex } from "src/codegen"
 import { useTranslations } from "next-intl"
 
 export const SearchPanel = ({
@@ -19,9 +19,14 @@ export const SearchPanel = ({
   selectedFilters,
   setSelectedFilters,
   query,
+  allHits,
+  searchMetadata,
+  hasNextPage,
+  isLoadingMore,
+  fetchNextPage,
 }: {
   searchResult: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -30,13 +35,15 @@ export const SearchPanel = ({
   }[]
   setSelectedFilters
   query: string
+  allHits: AppsIndex[]
+  searchMetadata: Omit<MeilisearchResponseAppsIndex, "hits"> | null
+  hasNextPage: boolean
+  isLoadingMore: boolean
+  fetchNextPage: () => void
 }) => {
   const t = useTranslations()
 
-  if (
-    searchResult.isSuccess &&
-    searchResult.data.data.estimatedTotalHits === 0
-  ) {
+  if (searchResult.isSuccess && searchMetadata?.totalHits === 0) {
     return (
       <div>
         <h1 className="pb-8 text-2xl font-bold">
@@ -83,7 +90,10 @@ export const SearchPanel = ({
               )}
             >
               {t("number-of-results", {
-                number: searchResult.data?.data?.estimatedTotalHits ?? "000",
+                number:
+                  searchMetadata?.totalHits ??
+                  searchResult.data?.data?.totalHits ??
+                  "000",
               })}
             </span>
           }
@@ -122,7 +132,13 @@ export const SearchPanel = ({
             </Transition>
           </Disclosure>
         </div>
-        <SearchResults results={searchResult} />
+        <SearchResults
+          results={searchResult}
+          allHits={allHits}
+          hasNextPage={hasNextPage}
+          isLoadingMore={isLoadingMore}
+          fetchNextPage={fetchNextPage}
+        />
       </div>
     </>
   )

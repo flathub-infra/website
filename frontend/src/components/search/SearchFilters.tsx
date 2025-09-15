@@ -3,7 +3,7 @@ import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { useTranslations } from "next-intl"
-import { MeilisearchResponseLimitedAppsIndex } from "src/codegen"
+import { MeilisearchResponseAppsIndex } from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
 
 const FilterFacette = ({
@@ -31,7 +31,7 @@ const SearchFilterCategories = ({
   setSelectedFilters,
 }: {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -108,7 +108,7 @@ const SearchFilterFloss = ({
   setSelectedFilters,
 }: {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -193,7 +193,7 @@ const SearchFilterVerified = ({
   setSelectedFilters,
 }: {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -280,7 +280,7 @@ const SearchFilterTypes = ({
   setSelectedFilters,
 }: {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -348,7 +348,7 @@ const SearchFilterArches = ({
   setSelectedFilters,
 }: {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -421,7 +421,7 @@ export const SearchFilters = ({
   setSelectedFilters,
 }: {
   results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseLimitedAppsIndex, any>,
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {

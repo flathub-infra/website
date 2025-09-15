@@ -5,6 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { AppsIndex } from "./appsIndex"
+import type { MeilisearchResponseAppsIndexFacetDistribution } from "./meilisearchResponseAppsIndexFacetDistribution"
+import type { MeilisearchResponseAppsIndexFacetStats } from "./meilisearchResponseAppsIndexFacetStats"
 
 export interface MeilisearchResponseAppsIndex {
   hits: AppsIndex[]
@@ -14,4 +16,6 @@ export interface MeilisearchResponseAppsIndex {
   page: number
   totalPages: number
   totalHits: number
+  facetDistribution?: MeilisearchResponseAppsIndexFacetDistribution
+  facetStats?: MeilisearchResponseAppsIndexFacetStats
 }
