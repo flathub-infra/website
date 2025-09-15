@@ -184,7 +184,7 @@ export default async function AppDetailPage({
     // Fetch developer apps only for non-addon apps
     const developerApps =
       app && app.type !== "addon"
-        ? await fetchDeveloperApps(app.developer_name, locale)
+        ? await fetchDeveloperApps(app.developer_name, locale, 1, 7)
         : null
 
     // Check for developer apps error
