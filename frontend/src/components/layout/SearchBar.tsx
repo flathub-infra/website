@@ -3,7 +3,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useRouter } from "../../i18n/navigation"
 import { HiMagnifyingGlass } from "react-icons/hi2"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { SiteLinksSearchBoxJsonLd } from "next-seo"
 import Form from "next/form"
@@ -16,6 +16,7 @@ interface SearchBarProps {
 const SearchBar = ({ className }: SearchBarProps) => {
   const t = useTranslations()
   const router = useRouter()
+  const locale = useLocale()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState("")
 
@@ -65,7 +66,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
             <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
           </button>
         </div>
-        <Form action={"/apps/search"} id="search-form" role="search">
+        <Form action={`/${locale}/apps/search`} id="search-form" role="search">
           <input
             id="search"
             name="q"
