@@ -40,9 +40,10 @@
   ],
   "query": "maz",
   "processingTimeMs": 123,
-  "limit": 250,
-  "offset": 0,
-  "estimatedTotalHits": 1,
+  "hitsPerPage": 21,
+  "page": 1,
+  "totalPages": 1,
+  "totalHits": 1,
   "facetDistribution": {
     "arches": {
       "x86_64": 1

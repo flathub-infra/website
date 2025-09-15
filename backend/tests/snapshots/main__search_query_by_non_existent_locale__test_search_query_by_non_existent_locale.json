@@ -2,9 +2,10 @@
   "hits": [],
   "query": "NonExistent",
   "processingTimeMs": 123,
-  "limit": 250,
-  "offset": 0,
-  "estimatedTotalHits": 0,
+  "hitsPerPage": 21,
+  "page": 1,
+  "totalPages": 0,
+  "totalHits": 0,
   "facetDistribution": {
     "arches": {},
     "is_free_license": {},

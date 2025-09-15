@@ -17,7 +17,7 @@ import type {
   GetEolRebaseEolRebaseGet200,
   GetPlatformsPlatformsGet200,
   GetRuntimeListRuntimesGet200,
-  MeilisearchResponseLimitedAppsIndex,
+  MeilisearchResponseAppsIndex,
 } from ".././model"
 
 export const getGetEolRebaseEolRebaseGetResponseMock =
@@ -58,8 +58,8 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock =
   (): boolean => faker.datatype.boolean()
 
 export const getPostSearchSearchPostResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseLimitedAppsIndex> = {},
-): MeilisearchResponseLimitedAppsIndex => ({
+  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -189,17 +189,22 @@ export const getPostSearchSearchPostResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
-  limit: faker.number.int({
+  hitsPerPage: faker.number.int({
     min: undefined,
     max: undefined,
     multipleOf: undefined,
   }),
-  offset: faker.number.int({
+  page: faker.number.int({
     min: undefined,
     max: undefined,
     multipleOf: undefined,
   }),
-  estimatedTotalHits: faker.number.int({
+  totalPages: faker.number.int({
+    min: undefined,
+    max: undefined,
+    multipleOf: undefined,
+  }),
+  totalHits: faker.number.int({
     min: undefined,
     max: undefined,
     multipleOf: undefined,
@@ -454,12 +459,12 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
 
 export const getPostSearchSearchPostMockHandler = (
   overrideResponse?:
-    | MeilisearchResponseLimitedAppsIndex
+    | MeilisearchResponseAppsIndex
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseLimitedAppsIndex>
-        | MeilisearchResponseLimitedAppsIndex),
+        | Promise<MeilisearchResponseAppsIndex>
+        | MeilisearchResponseAppsIndex),
 ) => {
   return http.post("*/search", async (info) => {
     await delay(1000)

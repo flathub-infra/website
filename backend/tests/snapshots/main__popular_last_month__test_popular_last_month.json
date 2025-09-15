@@ -116,5 +116,7 @@
   "hitsPerPage": 250,
   "page": 1,
   "totalPages": 1,
-  "totalHits": 3
+  "totalHits": 3,
+  "facetDistribution": null,
+  "facetStats": null
 }

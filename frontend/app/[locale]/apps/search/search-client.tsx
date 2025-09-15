@@ -1,11 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "../../../../src/components/search/SearchPanel"
 import { usePostSearchSearchPost } from "../../../../src/codegen"
 import type { JSX } from "react"
 import { useSearchParams } from "next/navigation"
+import type {
+  AppsIndex,
+  MeilisearchResponseAppsIndex,
+} from "../../../../src/codegen"
 
 interface SearchClientProps {
   locale?: string
@@ -39,16 +43,40 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
     }[]
   >(filtersFromQuery)
 
+  // State for infinite scrolling
+  const [currentPage, setCurrentPage] = useState(1)
+  const [allHits, setAllHits] = useState<AppsIndex[]>([])
+  const [searchMetadata, setSearchMetadata] = useState<Omit<
+    MeilisearchResponseAppsIndex,
+    "hits"
+  > | null>(null)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+
   const search = usePostSearchSearchPost()
 
-  useEffect(() => {
-    // Only trigger search if query or filters change, and not while loading
-    if (!search.isPending) {
+  const hasNextPage = searchMetadata
+    ? currentPage < searchMetadata.totalPages
+    : false
+
+  const resetSearch = useCallback(() => {
+    setCurrentPage(1)
+    setAllHits([])
+    setSearchMetadata(null)
+    setIsLoadingMore(false)
+  }, [])
+
+  const fetchNextPage = useCallback(() => {
+    if (hasNextPage && !search.isPending && !isLoadingMore) {
+      setIsLoadingMore(true)
+      const nextPage = currentPage + 1
+
       search.mutate(
         {
           data: {
             query: q,
             filters: selectedFilters,
+            hits_per_page: 21,
+            page: nextPage,
           },
           params: {
             locale: locale,
@@ -56,17 +84,60 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
         },
         {
           onSuccess: (res) => {
-            if (q.length > 0) {
-              trackSiteSearch({
-                keyword: q,
-                count: res.data.estimatedTotalHits,
-              })
-            }
-            return res
+            const { hits, ...metadata } = res.data
+            setAllHits((prev) => [...prev, ...hits])
+            setSearchMetadata(metadata)
+            setCurrentPage(nextPage)
+            setIsLoadingMore(false)
+          },
+          onError: () => {
+            setIsLoadingMore(false)
           },
         },
       )
     }
+  }, [
+    hasNextPage,
+    search,
+    isLoadingMore,
+    currentPage,
+    q,
+    selectedFilters,
+    locale,
+  ])
+
+  // Reset and perform initial search when query or filters change
+  useEffect(() => {
+    resetSearch()
+
+    search.mutate(
+      {
+        data: {
+          query: q,
+          filters: selectedFilters,
+          hits_per_page: 21,
+          page: 1,
+        },
+        params: {
+          locale: locale,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          if (q.length > 0) {
+            trackSiteSearch({
+              keyword: q,
+              count: res.data.totalHits,
+            })
+          }
+
+          const { hits, ...metadata } = res.data
+          setAllHits(hits)
+          setSearchMetadata(metadata)
+          setCurrentPage(1)
+        },
+      },
+    )
   }, [q, selectedFilters, locale])
 
   return (
@@ -77,6 +148,11 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
           query={q}
+          allHits={allHits}
+          searchMetadata={searchMetadata}
+          hasNextPage={hasNextPage}
+          isLoadingMore={isLoadingMore}
+          fetchNextPage={fetchNextPage}
         />
       </div>
     </div>

@@ -171,6 +171,36 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -327,6 +357,36 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
       max: undefined,
       multipleOf: undefined,
     }),
+    facetDistribution: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.number.int({
+              min: undefined,
+              max: undefined,
+              multipleOf: undefined,
+            }),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    facetStats: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {
+            [faker.string.alphanumeric(5)]: faker.number.int({
+              min: undefined,
+              max: undefined,
+              multipleOf: undefined,
+            }),
+          },
+        },
+        null,
+      ]),
+      undefined,
+    ]),
     ...overrideResponse,
   })
 
@@ -482,6 +542,36 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -662,6 +752,36 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -817,6 +937,36 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -972,6 +1122,36 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -1127,6 +1307,36 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -1282,6 +1492,36 @@ export const getGetMobileCollectionMobileGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -1437,6 +1677,36 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
@@ -1592,6 +1862,36 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
     max: undefined,
     multipleOf: undefined,
   }),
+  facetDistribution: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  facetStats: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int({
+            min: undefined,
+            max: undefined,
+            multipleOf: undefined,
+          }),
+        },
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   ...overrideResponse,
 })
 
