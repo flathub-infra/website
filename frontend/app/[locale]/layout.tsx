@@ -60,38 +60,6 @@ export async function generateMetadata({
       ],
       apple: "/apple-touch-icon.png",
     },
-    alternates: {
-      languages: languages.reduce(
-        (acc, lang) => {
-          // Extract the base path after removing the locale prefix
-          let basePath = ""
-
-          // if (pathname.startsWith(`/${locale}/`)) {
-          //   // Case: /de/feeds -> feeds
-          //   basePath = pathname.slice(locale.length + 2)
-          // } else if (pathname === `/${locale}` || pathname === "/") {
-          //   // Case: /de or / (index page) -> empty
-          //   basePath = ""
-          // } else if (pathname.startsWith("/")) {
-          //   // Case: /feeds (no locale prefix) -> feeds
-          //   basePath = pathname.slice(1)
-          // } else {
-          //   // Case: feeds (no leading slash) -> feeds
-          //   basePath = pathname
-          // }
-
-          // Build the localized URL
-          if (basePath) {
-            acc[lang] = `/${lang}/${basePath}`
-          } else {
-            // Index page
-            acc[lang] = `/${lang}`
-          }
-          return acc
-        },
-        {} as Record<string, string>,
-      ),
-    },
     twitter: {
       card: "summary_large_image",
     },

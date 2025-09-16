@@ -50,16 +50,6 @@ export async function generateMetadata({
       robots: {
         index: app.type !== "addon" && locale !== "en-GB",
       },
-      alternates: {
-        languages: languages.reduce(
-          (acc, lang) => {
-            acc[lang] =
-              `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}/apps/${app?.id}`
-            return acc
-          },
-          {} as Record<string, string>,
-        ),
-      },
       openGraph: {
         url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/${app?.id}`,
         images: [
