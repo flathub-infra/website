@@ -32,16 +32,6 @@ export async function generateMetadata({
         index: false,
         follow: false,
       },
-      alternates: {
-        languages: languages.reduce(
-          (acc, lang) => {
-            acc[lang] =
-              `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}/apps/${app?.id}/install`
-            return acc
-          },
-          {} as Record<string, string>,
-        ),
-      },
       openGraph: {
         url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/${app?.id}/install`,
         images: [
