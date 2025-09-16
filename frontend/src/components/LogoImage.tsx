@@ -3,6 +3,7 @@ import { FunctionComponent } from "react"
 import Image from "next/image"
 
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
+import flathubImageLoader from "src/image-loader"
 
 interface Props {
   iconUrl: string
@@ -25,6 +26,7 @@ const LogoImage: FunctionComponent<Props> = ({
       (iconUrl.startsWith("https://dl.flathub.org") ||
         iconUrl.startsWith("https://flathub.org")) ? (
         <Image
+          loader={flathubImageLoader}
           src={iconUrl}
           alt={t("app-logo", { app_name: appName })}
           aria-hidden

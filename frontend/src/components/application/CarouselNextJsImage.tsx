@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import flathubImageLoader from "src/image-loader"
 import {
   isImageFitCover,
   isImageSlide,
@@ -45,6 +46,7 @@ export default function CarouselNextJsImage({ slide, offset, rect }) {
       <Image
         fill
         alt=""
+        loader={flathubImageLoader}
         src={slide}
         loading="eager"
         draggable={false}

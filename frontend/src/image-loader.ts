@@ -1,5 +1,5 @@
 "use client"
 
-export default function myImageLoader({ src, width, quality }) {
+export default function flathubImageLoader({ src, width, quality }) {
   return `${src}`
 }
