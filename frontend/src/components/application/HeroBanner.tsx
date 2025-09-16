@@ -20,6 +20,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
 import { getLangDir } from "rtl-detect"
 import { useLocale } from "next-intl"
 import { Link } from "src/i18n/navigation"
+import flathubImageLoader from "src/image-loader"
 
 export const HeroBanner = ({
   heroBannerData,
@@ -172,6 +173,7 @@ export const HeroBanner = ({
                       alt={data.appstream.name}
                       priority={aboveTheFold && i === 0}
                       loading="eager"
+                      loader={flathubImageLoader}
                       className={clsx(
                         "absolute rounded-lg",
                         data.app.isFullscreen ? "top-20" : "top-10 ",
