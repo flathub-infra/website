@@ -78,11 +78,9 @@ export async function fetchSummary(
 }
 
 export async function fetchAppStats(appId: string): Promise<StatsResultApp> {
-  const statsJson = await robustFetchJson<StatsResultApp>(
-    `${STATS_DETAILS(appId)}`,
-  )
-
-  if (!statsJson) {
+  try {
+    return await robustFetchJson<StatsResultApp>(`${STATS_DETAILS(appId)}`)
+  } catch (error) {
     // Return default stats instead of error for stats
     return {
       id: appId,
@@ -93,7 +91,6 @@ export async function fetchAppStats(appId: string): Promise<StatsResultApp> {
       installs_per_country: {},
     }
   }
-  return statsJson
 }
 
 export default async function fetchCollection(
