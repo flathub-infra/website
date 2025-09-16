@@ -23,6 +23,7 @@ export const SearchPanel = ({
   searchMetadata,
   hasNextPage,
   isLoadingMore,
+  isInitialLoading,
   fetchNextPage,
 }: {
   searchResult: UseMutationResult<
@@ -39,6 +40,7 @@ export const SearchPanel = ({
   searchMetadata: Omit<MeilisearchResponseAppsIndex, "hits"> | null
   hasNextPage: boolean
   isLoadingMore: boolean
+  isInitialLoading: boolean
   fetchNextPage: () => void
 }) => {
   const t = useTranslations()
@@ -137,6 +139,7 @@ export const SearchPanel = ({
           allHits={allHits}
           hasNextPage={hasNextPage}
           isLoadingMore={isLoadingMore}
+          isInitialLoading={isInitialLoading}
           fetchNextPage={fetchNextPage}
         />
       </div>
