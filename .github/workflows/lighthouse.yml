@@ -11,22 +11,22 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
-            https://flathub.org/
-            https://flathub.org/apps/category/Graphics/1
-            https://flathub.org/apps/category/AudioVideo/1
-            https://flathub.org/feeds
-            https://flathub.org/badges
-            https://flathub.org/languages
-            https://flathub.org/terms-and-conditions
-            https://flathub.org/privacy-policy
-            https://flathub.org/statistics
-            https://flathub.org/about
-            https://flathub.org/consultants
-            https://flathub.org/apps/org.mozilla.firefox
-            https://flathub.org/apps/net.veloren.veloren
-            https://flathub.org/setup
-            https://flathub.org/setup/Ubuntu
-            https://flathub.org/apps/search?q=kde
+            https://flathub.org/en/
+            https://flathub.org/en/apps/category/Graphics/1
+            https://flathub.org/en/apps/category/AudioVideo/1
+            https://flathub.org/en/feeds
+            https://flathub.org/en/badges
+            https://flathub.org/en/languages
+            https://flathub.org/en/terms-and-conditions
+            https://flathub.org/en/privacy-policy
+            https://flathub.org/en/statistics
+            https://flathub.org/en/about
+            https://flathub.org/en/consultants
+            https://flathub.org/en/apps/org.mozilla.firefox
+            https://flathub.org/en/apps/net.veloren.veloren
+            https://flathub.org/en/setup
+            https://flathub.org/en/setup/Ubuntu
+            https://flathub.org/en/apps/search?q=kde
 
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
