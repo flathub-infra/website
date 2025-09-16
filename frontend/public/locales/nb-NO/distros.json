@@ -87,7 +87,8 @@
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>Flatpak er tilgjengelig gjennom standardpakkebrønnene på alle versjoner av openSUSE Leap og openSUSE Tumbleweed som er under vedlikehold.</text> <text>Hvis du foretrekker å installere Flatpak uten å bruke terminalen, kan du installere det med installasjonsprogrammet fra <link>software.opensuse.org</link>. Hvis distribusjonen din ikke vises som standard, klikk «<em>Show</em>» under «Unsupported distributions»-kategorien og velg fra den listen.</text> <text>Eventuelt kan du installere Flatpak gjennom terminalen med Zypper:</text> <code></code>"
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
@@ -131,10 +132,12 @@
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>Flatpak er installert som standard på Rocky Linux 8 og nyere versjoner, når det er installert sammen med et programvareutvalg som inkluderer GNOME (Server with GUI, Workstation). Hvis du bruker et slikt system, kan du hoppe over dette skrittet. For å installere Flatpak på Rocky Linux, kjør følgende i et terminalvindu:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Herifra er det bare å <link>installere apper</link>!</text>"
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
