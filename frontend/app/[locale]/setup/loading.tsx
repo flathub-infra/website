@@ -22,7 +22,7 @@ export default function SetupLoading() {
 
       {/* Distribution Grid Skeleton */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {Array.from({ length: 12 }).map((_, index) => (
+        {Array.from({ length: 21 }).map((_, index) => (
           <div
             key={index}
             className="flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-8 py-6 shadow-md dark:bg-flathub-arsenic/70"

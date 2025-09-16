@@ -79,57 +79,46 @@ export default function SetupClient({ instructions }: Props) {
               </p>
             </div>
           )}
-          <AnimatePresence mode="popLayout">
-            {instructionsFilteredAndSorted.map((instruction, index) => (
-              <motion.div
-                key={instruction.name}
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{
-                  duration: 0.3,
-                  ease: "easeInOut",
-                  layout: { duration: 0.3, ease: "easeInOut" },
-                }}
+          {instructionsFilteredAndSorted.map((instruction, index) => (
+            <motion.div key={instruction.name} layout>
+              <Link
+                href={`/setup/${encodeURIComponent(
+                  instruction.slug ?? instruction.name,
+                )}`}
+                className={clsx(
+                  "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
+                  "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
+                  "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
+                  "px-8 py-6",
+                )}
               >
-                <Link
-                  href={`/setup/${encodeURIComponent(
-                    instruction.slug ?? instruction.name,
-                  )}`}
-                  className={clsx(
-                    "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
-                    "no-underline hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
-                    "active:bg-flathub-gainsborow/40 active:shadow-xs dark:active:bg-flathub-arsenic",
-                    "px-8 py-6",
-                  )}
+                <motion.picture
+                  layoutId={`distro-logo-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
                 >
-                  <motion.picture
-                    layoutId={`distro-logo-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
-                  >
-                    <source
-                      srcSet={instruction.logo_dark}
-                      media="(prefers-color-scheme: dark)"
-                    />
-                    <Image
-                      className="size-24"
-                      src={instruction.logo}
-                      width={96}
-                      height={96}
-                      priority={index < 7}
-                      alt={t(instruction.translatedNameKey)}
-                    />
-                  </motion.picture>
-                  <motion.span
-                    className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
-                    layoutId={`distro-name-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
-                  >
-                    {t(instruction.translatedNameKey)}
-                  </motion.span>
-                </Link>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                  <source
+                    srcSet={instruction.logo_dark}
+                    media="(prefers-color-scheme: dark)"
+                  />
+                  <Image
+                    className="size-24"
+                    src={instruction.logo}
+                    width={96}
+                    height={96}
+                    priority={index < 7}
+                    alt={t("app-logo", {
+                      app_name: instruction.translatedNameKey,
+                    })}
+                  />
+                </motion.picture>
+                <motion.span
+                  className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
+                  layoutId={`distro-name-${instruction.name.replaceAll("/", "").replaceAll(" ", "-")}`}
+                >
+                  {t(instruction.translatedNameKey)}
+                </motion.span>
+              </Link>
+            </motion.div>
+          ))}
         </div>
       </div>
     </LayoutGroup>

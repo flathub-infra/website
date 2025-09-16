@@ -58,7 +58,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/ubuntu.svg"}
-            alt="Ubuntu"
+            alt="Ubuntu Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Ubuntu">
@@ -189,7 +189,7 @@ const Fedora = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/fedora.svg"}
-            alt="Fedora"
+            alt="Fedora Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Fedora">
@@ -231,7 +231,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/manjaro.svg"}
-            alt="Manjaro"
+            alt="Manjaro Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Manjaro">
@@ -306,7 +306,7 @@ const Endless_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/endless.svg"}
-            alt="Endless OS"
+            alt="Endless OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Endless-OS">
@@ -336,7 +336,7 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/altlinux.svg"}
-            alt="ALT Linux"
+            alt="ALT Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-ALT-Linux">
@@ -445,7 +445,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/chrome-os.svg"}
-            alt="Chrome OS"
+            alt="Chrome OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Chrome-OS">
@@ -603,7 +603,7 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/redhat.svg"}
-            alt="Red Hat Enterprise Linux"
+            alt="Red Hat Enterprise Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Red-Hat-Enterprise-Linux">
@@ -643,7 +643,7 @@ const Linux_Mint = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/mint.svg"}
-            alt="Linux Mint"
+            alt="Linux Mint Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Linux-Mint">
@@ -669,7 +669,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/opensuse.svg"}
-            alt="openSUSE"
+            alt="openSUSE Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-openSUSE">
@@ -778,7 +778,7 @@ const Arch = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/arch.svg"}
-            alt="Arch"
+            alt="Arch Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Arch">
@@ -853,7 +853,7 @@ const Debian = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/debian.svg"}
-            alt="Debian"
+            alt="Debian Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Debian">
@@ -992,7 +992,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/rockylinux.svg"}
-            alt="Rocky Linux"
+            alt="Rocky Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Rocky-Linux">
@@ -1100,7 +1100,7 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/centos.svg"}
-            alt="CentOS Stream"
+            alt="CentOS Stream Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-CentOS">
@@ -1132,7 +1132,7 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/almalinux.svg"}
-            alt="AlmaLinux"
+            alt="AlmaLinux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-AlmaLinux">
@@ -1164,7 +1164,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/gentoo.svg"}
-            alt="Gentoo"
+            alt="Gentoo Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Gentoo">
@@ -1269,7 +1269,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/kubuntu.svg"}
-            alt="Kubuntu"
+            alt="Kubuntu Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Kubuntu">
@@ -1388,7 +1388,7 @@ const Solus = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/solus.svg"}
-            alt="Solus"
+            alt="Solus Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Solus">
@@ -1499,7 +1499,7 @@ const Alpine = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/alpine.svg"}
-            alt="Alpine"
+            alt="Alpine Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Alpine">
@@ -1634,7 +1634,7 @@ const Mageia = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/mageia.svg"}
-            alt="Mageia"
+            alt="Mageia Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Mageia">
@@ -1744,7 +1744,7 @@ const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/openmandriva.svg"}
-            alt="OpenMandriva Lx"
+            alt="OpenMandriva Lx Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-OpenMandriva-Lx">
@@ -1771,7 +1771,7 @@ const Pop_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/pop-os.svg"}
-            alt="Pop!_OS"
+            alt="Pop!_OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Pop!_OS">
@@ -1801,7 +1801,7 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/elementary-os.svg"}
-            alt="elementary OS"
+            alt="elementary OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-elementary-OS">
@@ -1854,7 +1854,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/raspberry-pi-os.svg"}
-            alt="Raspberry Pi OS"
+            alt="Raspberry Pi OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Raspberry-Pi-OS">
@@ -1962,7 +1962,7 @@ const Void_Linux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/void.svg"}
-            alt="Void Linux"
+            alt="Void Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Void-Linux">
@@ -2065,7 +2065,7 @@ const NixOS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/nixos.svg"}
-            alt="NixOS"
+            alt="NixOS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-NixOS">
@@ -2183,7 +2183,7 @@ const PureOS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/pureos.svg"}
-            alt="PureOS"
+            alt="PureOS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-PureOS">
@@ -2215,7 +2215,7 @@ const Zorin_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/zorin-os.svg"}
-            alt="Zorin OS"
+            alt="Zorin OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Zorin-OS">
@@ -2242,7 +2242,7 @@ const Deepin = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/deepin.svg"}
-            alt="Deepin"
+            alt="Deepin Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Deepin">
@@ -2372,7 +2372,7 @@ const Pardus = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/pardus.svg"}
-            alt="Pardus"
+            alt="Pardus Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Pardus">
@@ -2501,7 +2501,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/mxlinux.svg"}
-            alt="MX Linux"
+            alt="MX Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-MX-Linux">
@@ -2580,7 +2580,7 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/pisi.svg"}
-            alt="Pisi GNU/Linux"
+            alt="Pisi GNU/Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Pisi-GNULinux">
@@ -2687,7 +2687,7 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/endeavouros.svg"}
-            alt="EndeavourOS"
+            alt="EndeavourOS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-EndeavourOS">
@@ -2791,7 +2791,7 @@ const KDE_neon = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/kdeneon.svg"}
-            alt="KDE neon"
+            alt="KDE neon Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-KDE-neon">
@@ -2821,7 +2821,7 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/guix.svg"}
-            alt="GNU Guix"
+            alt="GNU Guix Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-GNU-Guix">
@@ -2924,7 +2924,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/crystallinux.svg"}
-            alt="Crystal Linux"
+            alt="Crystal Linux Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Crystal-Linux">
@@ -3032,7 +3032,7 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/vanillaos.svg"}
-            alt="Vanilla OS"
+            alt="Vanilla OS Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Vanilla-OS">
@@ -3067,7 +3067,7 @@ const Salix = ({ locale }: { locale: string }) => {
             width={128}
             height={128}
             src={"/img/distro/salix.svg"}
-            alt="Salix"
+            alt="Salix Logo"
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-Salix">
