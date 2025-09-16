@@ -51,6 +51,7 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
     "hits"
   > | null>(null)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
 
   const search = usePostSearchSearchPost()
 
@@ -63,6 +64,7 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
     setAllHits([])
     setSearchMetadata(null)
     setIsLoadingMore(false)
+    setIsInitialLoading(true)
   }, [])
 
   const fetchNextPage = useCallback(() => {
@@ -135,6 +137,10 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
           setAllHits(hits)
           setSearchMetadata(metadata)
           setCurrentPage(1)
+          setIsInitialLoading(false)
+        },
+        onError: () => {
+          setIsInitialLoading(false)
         },
       },
     )
@@ -152,6 +158,7 @@ const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
           searchMetadata={searchMetadata}
           hasNextPage={hasNextPage}
           isLoadingMore={isLoadingMore}
+          isInitialLoading={isInitialLoading}
           fetchNextPage={fetchNextPage}
         />
       </div>
