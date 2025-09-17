@@ -7791,7 +7791,7 @@ __metadata:
     msw-storybook-addon: "npm:^2.0.5"
     new-github-issue-url: "npm:^1.1.0"
     next: "npm:15.5.2"
-    next-intl: "npm:^4.3.5"
+    next-intl: "npm:^4.3.9"
     next-seo: "npm:^6.7.1"
     next-sitemap: "npm:^4.2.3"
     next-themes: "npm:^0.4.6"
@@ -9864,13 +9864,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-intl@npm:^4.3.5":
-  version: 4.3.5
-  resolution: "next-intl@npm:4.3.5"
+"next-intl@npm:^4.3.9":
+  version: 4.3.9
+  resolution: "next-intl@npm:4.3.9"
   dependencies:
     "@formatjs/intl-localematcher": "npm:^0.5.4"
     negotiator: "npm:^1.0.0"
-    use-intl: "npm:^4.3.5"
+    use-intl: "npm:^4.3.9"
   peerDependencies:
     next: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0 || ^19.0.0
@@ -9878,7 +9878,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/ebd16ee5e473ab88a3cb8badb6c60cfdc13e1cfdea8a9e4c0b8b15713b0ebb69192614fa2acadff4b89467821fcf0999e2b4f2c34815597a6a08a523792d5154
+  checksum: 10c0/45a5dd65de5148b599a106e9c37b063f4a61889f389cd552d9473e93fe23558c0e4195a473d2373ecc3507fc815a19f8eedfa7fc1c9f50c3b92d46cf46f9321f
   languageName: node
   linkType: hard
 
@@ -12922,16 +12922,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-intl@npm:^4.3.5":
-  version: 4.3.5
-  resolution: "use-intl@npm:4.3.5"
+"use-intl@npm:^4.3.9":
+  version: 4.3.9
+  resolution: "use-intl@npm:4.3.9"
   dependencies:
     "@formatjs/fast-memoize": "npm:^2.2.0"
     "@schummar/icu-type-parser": "npm:1.21.5"
     intl-messageformat: "npm:^10.5.14"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0 || ^19.0.0
-  checksum: 10c0/052ac0bf141ddd05a26e20015c2097f307e4d0d393575ec8ee287b5fddeba2d39ed6220de079e026567d49c69a3d6fafd47848de9dbc2e413b4f70d39d88e377
+  checksum: 10c0/7b5577bc7445f6e7bbcbe3568bfec52d4442fe71ed80ff4cc1c961e98caa4a5f71a34bb9a25fb5d20cc95981b357bf11399b5997712e539caeb585dc85736f8f
   languageName: node
   linkType: hard
 
