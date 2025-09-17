@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
-import { CopyToClipboard } from "react-copy-to-clipboard"
+import { CopyToClipboard } from "react-copy-to-clipboard-ts"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
 import { cn } from "@/lib/utils"
 
