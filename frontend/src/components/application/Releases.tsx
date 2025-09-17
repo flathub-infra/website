@@ -10,7 +10,6 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
-import { useRouter } from "src/i18n/navigation"
 
 interface Props {
   latestRelease: Release | null
@@ -52,7 +51,6 @@ const Releases: FunctionComponent<Props> = ({
   expanded = false,
 }) => {
   const t = useTranslations()
-  const router = useRouter()
   const locale = useLocale()
   const collapsedHeight = 46
   const [showCollapseButton, setShowCollapseButton] = useState(false)
