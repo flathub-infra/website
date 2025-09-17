@@ -12,6 +12,8 @@ import { MotionConfig } from "framer-motion"
 import { Toaster } from "@/components/ui/sonner"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { getLangDir } from "rtl-detect"
+import { setDefaultOptions } from "date-fns"
+import { getDateFnsLocale } from "src/localize"
 
 const queryClient = new QueryClient()
 
@@ -35,6 +37,8 @@ export default function ClientProviders({
   locale,
 }: ClientProvidersProps) {
   const direction = getLangDir(locale)
+
+  setDefaultOptions({ locale: getDateFnsLocale(locale) })
 
   return (
     <MatomoProvider value={instance}>
