@@ -4,10 +4,10 @@ import { getLangDir } from "rtl-detect"
 import ClientProviders from "../client-providers"
 import Main from "../../src/components/layout/Main"
 import { hasLocale, NextIntlClientProvider } from "next-intl"
-import { setDefaultOptions } from "date-fns"
+
 import { getDateFnsLocale } from "src/localize"
 import { Metadata } from "next"
-import { bcpToPosixLocale, languages } from "src/localize"
+import { bcpToPosixLocale } from "src/localize"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import cardImage from "../../public/img/card.webp"
 import { IS_PRODUCTION } from "src/env"
@@ -91,8 +91,6 @@ export default async function LocaleLayout({
 
   // Enable static rendering
   setRequestLocale(locale)
-
-  setDefaultOptions({ locale: getDateFnsLocale(locale) })
 
   return (
     <html suppressHydrationWarning lang={locale} dir={getLangDir(locale)}>
