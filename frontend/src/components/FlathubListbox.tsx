@@ -35,13 +35,13 @@ const FlathubListbox: FunctionComponent<Props> = ({
 }: Props & {
   ref: React.RefObject<HTMLUListElement>
 }) => {
-  const selectedItem = items.find((item) => item.selected) ?? undefined
+  const selectedItem = items.find((item) => item.selected) ?? null
 
   return (
     <Listbox
       value={selectedItem}
       onChange={(item) => {
-        item.onClick()
+        item?.onClick()
       }}
       as={"div"}
       className={cn("relative", className)}
