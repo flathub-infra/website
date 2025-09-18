@@ -666,5 +666,7 @@
   },
   "uses-privileged-socket": "Utilizza un socket privilegiato",
   "socket-may-allow-extra-permissions": "Utilizza un socket che consente di ottenere permessi extra",
-  "unauthorized": "Non autorizzato"
+  "unauthorized": "Non autorizzato",
+  "uses-non-portal-service": "Utilizza servizi al di fuori di portal",
+  "can-talk-to-non-portal-service": "Può richiedere dati da servizi al di fuori di portal e ottenere autorizzazioni aggiuntive"
 }
