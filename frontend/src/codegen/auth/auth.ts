@@ -1385,7 +1385,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
 }
 /**
  * Retrieve the current login's user information.  If the user is not logged in
-you will get a `401` return.  Otherwise you will receive JSON describing the
+you will get a `204` return.  Otherwise you will receive JSON describing the
 currently logged in user, for example:
 
 ```
@@ -1406,7 +1406,7 @@ dev_flatpaks is filtered against IDs available in AppStream
  */
 export const getUserinfoAuthUserinfoGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<UserInfo>> => {
+): Promise<AxiosResponse<UserInfo | null>> => {
   return axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/userinfo`,
     options,
@@ -1419,7 +1419,7 @@ export const getGetUserinfoAuthUserinfoGetQueryKey = () => {
 
 export const getGetUserinfoAuthUserinfoGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<unknown>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -1449,11 +1449,11 @@ export const getGetUserinfoAuthUserinfoGetQueryOptions = <
 export type GetUserinfoAuthUserinfoGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>
 >
-export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<null>
+export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<unknown>
 
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<unknown>,
 >(
   options: {
     query: Partial<
@@ -1479,7 +1479,7 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<unknown>,
 >(
   options?: {
     query?: Partial<
@@ -1505,7 +1505,7 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<unknown>,
 >(
   options?: {
     query?: Partial<
@@ -1527,7 +1527,7 @@ export function useGetUserinfoAuthUserinfoGet<
 
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<unknown>,
 >(
   options?: {
     query?: Partial<
