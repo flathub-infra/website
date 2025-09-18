@@ -1501,12 +1501,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:15.5.2":
-  version: 15.5.2
-  resolution: "@next/eslint-plugin-next@npm:15.5.2"
+"@next/eslint-plugin-next@npm:15.5.3":
+  version: 15.5.3
+  resolution: "@next/eslint-plugin-next@npm:15.5.3"
   dependencies:
     fast-glob: "npm:3.3.1"
-  checksum: 10c0/5bafb42b15c23f8a1c5460e4eda4cb45b7c07832f80ce734cad138781606cd9c954ee37b93fd2a973b064ea39469dfc1409301cb2c90995ce5226a3b2b07a891
+  checksum: 10c0/c8d083b4bd789f238ac99081034b59bb7f5a65e34d188a53980d4f47b65889582ff3d3803b915a26160c5192d2b1ebf29db6441d03d1f941787d8bf29e0673e0
   languageName: node
   linkType: hard
 
@@ -7147,11 +7147,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:15.5.2":
-  version: 15.5.2
-  resolution: "eslint-config-next@npm:15.5.2"
+"eslint-config-next@npm:15.5.3":
+  version: 15.5.3
+  resolution: "eslint-config-next@npm:15.5.3"
   dependencies:
-    "@next/eslint-plugin-next": "npm:15.5.2"
+    "@next/eslint-plugin-next": "npm:15.5.3"
     "@rushstack/eslint-patch": "npm:^1.10.3"
     "@typescript-eslint/eslint-plugin": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
     "@typescript-eslint/parser": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
@@ -7167,7 +7167,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/8453afa73211e368137c8d20d7ce31cd043306460f9f7f78d62a7cfd9c1d55f00f2ba96780d212638162002eef707640b4caa9f56d8744159b5b6ce5f656219c
+  checksum: 10c0/c49b7280e79b2b9af5dac43200a2b3c496e8d3e967b90bdd7ba4962a0b19fa5e81b0cca64c13b9b93106dafe889b5ccc3c15c0cfe7dbd2d23bf546f3fbc979ba
   languageName: node
   linkType: hard
 
@@ -7776,7 +7776,7 @@ __metadata:
     embla-carousel-react: "npm:^8.6.0"
     embla-carousel-wheel-gestures: "npm:^8.0.2"
     eslint: "npm:^9.35.0"
-    eslint-config-next: "npm:15.5.2"
+    eslint-config-next: "npm:15.5.3"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-prettier: "npm:^5.5.0"
     eslint-plugin-react-compiler: "npm:19.0.0-beta-714736e-20250131"
