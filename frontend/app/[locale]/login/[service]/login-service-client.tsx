@@ -71,16 +71,26 @@ const LoginServiceClient = ({
   useEffect(() => {
     if (loginQuery.isIdle) {
       // redirect to correct locale, which we stored on the providers page
-      const [, newlocale] = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("NEXT_LOCALE="))
-        ?.split("=") ?? [null, null]
+      const getCookie = (name: string): string | null => {
+        const value = `; ${document.cookie}`
+        const parts = value.split(`; ${name}=`)
+        if (parts.length === 2) {
+          return parts.pop()?.split(";").shift() || null
+        }
+        return null
+      }
 
+      const newlocale = getCookie("NEXT_LOCALE")
       setLocale(newlocale || undefined)
 
       if (newlocale && typeof window !== "undefined") {
         const currentLocale = window.location.pathname.split("/")[1]
-        if (newlocale !== currentLocale) {
+        // Only redirect if we're not in the middle of a login flow
+        // The presence of 'code' and 'state' parameters indicates we're returning from OAuth
+        const urlParams = new URLSearchParams(window.location.search)
+        const hasOAuthParams = urlParams.has("code") && urlParams.has("state")
+
+        if (newlocale !== currentLocale && !hasOAuthParams) {
           router.push("/", { locale: newlocale })
           return
         }
