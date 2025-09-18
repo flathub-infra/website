@@ -27,123 +27,127 @@ export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
   }))
 
 export const getGetUserinfoAuthUserinfoGetResponseMock = (
-  overrideResponse: Partial<UserInfo> = {},
-): UserInfo => ({
-  displayname: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
-  ]),
-  dev_flatpaks: faker.helpers.arrayElement([
-    Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-    undefined,
-  ]),
-  permissions: faker.helpers.arrayElement([
-    faker.helpers.arrayElements(Object.values(Permission)),
-    undefined,
-  ]),
-  owned_flatpaks: faker.helpers.arrayElement([
-    Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-    undefined,
-  ]),
-  invited_flatpaks: faker.helpers.arrayElement([
-    Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-    undefined,
-  ]),
-  invite_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  accepted_publisher_agreement_at: faker.helpers.arrayElement([
-    `${faker.date.past().toISOString().split(".")[0]}Z`,
-    null,
-  ]),
-  default_account: {
-    login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    avatar: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
+  overrideResponse: Partial<UserInfo | null> = {},
+): UserInfo | null =>
+  faker.helpers.arrayElement([
+    {
+      displayname: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
+      dev_flatpaks: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        undefined,
+      ]),
+      permissions: faker.helpers.arrayElement([
+        faker.helpers.arrayElements(Object.values(Permission)),
+        undefined,
+      ]),
+      owned_flatpaks: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        undefined,
+      ]),
+      invited_flatpaks: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        undefined,
+      ]),
+      invite_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      accepted_publisher_agreement_at: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
       ]),
-      undefined,
-    ]),
-  },
-  auths: {
-    github: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
+      default_account: {
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
           ]),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-    gitlab: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
+          undefined,
+        ]),
+      },
+      auths: {
+        github: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                  null,
+                ]),
+                undefined,
+              ]),
+            },
+            null,
           ]),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-    gnome: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
+          undefined,
+        ]),
+        gitlab: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                  null,
+                ]),
+                undefined,
+              ]),
+            },
+            null,
           ]),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-    kde: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
+          undefined,
+        ]),
+        gnome: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                  null,
+                ]),
+                undefined,
+              ]),
+            },
+            null,
           ]),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-  },
-  ...overrideResponse,
-})
+          undefined,
+        ]),
+        kde: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                  null,
+                ]),
+                undefined,
+              ]),
+            },
+            null,
+          ]),
+          undefined,
+        ]),
+      },
+      ...overrideResponse,
+    },
+    undefined,
+  ])
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock = (
   overrideResponse: Partial<RefreshDevFlatpaksReturn> = {},
@@ -347,9 +351,10 @@ export const getContinueGoogleFlowAuthLoginGooglePostMockHandler = (
 export const getGetUserinfoAuthUserinfoGetMockHandler = (
   overrideResponse?:
     | UserInfo
+    | null
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<UserInfo> | UserInfo),
+      ) => Promise<UserInfo | null> | UserInfo | null),
 ) => {
   return http.get("*/auth/userinfo", async (info) => {
     await delay(1000)
