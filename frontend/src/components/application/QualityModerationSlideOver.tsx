@@ -427,6 +427,7 @@ const QualityItem = ({
           ) : (
             <MultiToggle
               size="sm"
+              layoutId={`quality-${qualityGuideline.id}`}
               items={[
                 {
                   id: "not-set",
@@ -514,6 +515,7 @@ const ScreenShotTypeItem = ({
       <div className="ms-auto">
         <MultiToggle
           size="sm"
+          layoutId={`screenshot-type-${appId}`}
           items={[
             {
               id: "default",
