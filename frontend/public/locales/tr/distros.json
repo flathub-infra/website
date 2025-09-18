@@ -19,7 +19,8 @@
     "step-3": {
       "name": "Flathub deposunu ekle",
       "text": "<text>Flathub, Flatpak uygulamalarını yüklemek için en iyi yerdir. Aktifleştirmek için çalıştırın:</text> <code></code>"
-    }
+    },
+    "distroName": "Ubuntu"
   },
   "fedora": {
     "distroName": "Fedora",
@@ -28,7 +29,8 @@
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
-      "name": "Flatpak'ı Yazılım Yöneticisi ayrıcalığıyla etkinleştir"
+      "name": "Flatpak'ı Yazılım Yöneticisi ayrıcalığıyla etkinleştir",
+      "text": "<text>Flatpak, Manjaro 20 ve daha üst sürümlerde varsayılan olarak kurulmaktadır.</text><text>Bu özelliği etkinleştirmek için <strong>Yazılım Yöneticisi</strong>’ni (Program Ekle/Kaldır) açın.</text><text>Sağdaki üç çizgili menüye [masaüstü ortamınıza göre üç noktada olabilir] tıklayın, açılan menüden \"Tercihler\"i seçin.</text><text>\"Flatpak\" sekmesine gidin ve Flatpak desteğini etkinleştirmek için anahtarı kaydırın (güncelleştirmeyi kontrol et bölümüde olabilir, etkinleştirilmesi tavsiye edilir).</text>"
     },
     "step-2": {
       "name": "Yeniden başlat",
@@ -42,7 +44,15 @@
       "text": "<text>Flatpak'ı Alt ailesinin işletim sistemlerinde indirmek için Terminal uygulamasını açın ve çalıştırın:</text> <code></code>"
     },
     "step-2": {
-      "name": "Flathub deposunu ekle"
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flatpak uygulamalarını indirmek için Flathub harika bir yer. Alt sisteminizde etkinleştirmek için şunu çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Flatpak kurulumunu tamamlamak için cihazınızı yeniden başlatın. Artık <link>uygulama yükleyebilirsiniz</link>!</text>"
     }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS"
   }
 }
