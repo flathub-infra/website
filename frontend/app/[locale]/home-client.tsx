@@ -126,8 +126,8 @@ function CategorySection({
     <>
       {topAppsByCategory.map((sectionData, i) => (
         <div key={`categorySection${sectionData.category}`}>
-          {i === 3 && mobileSection}
-          {i === 5 && gameSection}
+          {i === 3 && <div className="mb-10">{mobileSection}</div>}
+          {i === 5 && <div className="mb-10">{gameSection}</div>}
           <ApplicationSection
             type="withCustomHeader"
             href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
