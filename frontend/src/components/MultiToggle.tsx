@@ -9,8 +9,14 @@ import {
 import { cn } from "@/lib/utils"
 import FlathubListbox from "./FlathubListbox"
 
-const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
+const MultiToggleBig = ({
+  items,
+  variant = "primary",
+  size = "sm",
+  layoutId = "tab",
+}) => {
   const layoutGroupId = `multi-toggle-${variant}-${size}`
+  const motionLayoutId = layoutId
 
   return (
     <LayoutGroup id={layoutGroupId}>
@@ -74,7 +80,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                     : "dark:bg-flathub-gainsborow/20 bg-flathub-white",
                   item.color,
                 )}
-                layoutId="tab"
+                layoutId={motionLayoutId}
                 initial={false}
                 transition={{
                   type: "spring",
@@ -101,6 +107,7 @@ type Props = {
   }[]
   size: "sm" | "lg"
   variant?: "primary" | "secondary" | "flat"
+  layoutId?: string
 } & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
 
 const MultiToggle: FunctionComponent<Props> = ({
@@ -108,6 +115,7 @@ const MultiToggle: FunctionComponent<Props> = ({
   items,
   size = "lg",
   variant = "primary",
+  layoutId,
 }: Props & {
   ref: React.RefObject<HTMLUListElement>
 }) => {
@@ -117,7 +125,12 @@ const MultiToggle: FunctionComponent<Props> = ({
         items={items}
         className={clsx(size === "sm" ? "hidden" : "md:hidden", "w-full")}
       />
-      <MultiToggleBig items={items} variant={variant} size={size} />
+      <MultiToggleBig
+        items={items}
+        variant={variant}
+        size={size}
+        layoutId={layoutId}
+      />
     </>
   )
 }
