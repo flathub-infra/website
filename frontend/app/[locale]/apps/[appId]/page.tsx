@@ -11,7 +11,6 @@ import {
   fetchEolRebase,
 } from "../../../../src/fetchers"
 import { isValidAppId } from "@/lib/helpers"
-import { languages } from "../../../../src/localize"
 import AppDetailClient from "./app-detail-client"
 import {
   getEolMessageAppidEolMessageAppIdGet,
