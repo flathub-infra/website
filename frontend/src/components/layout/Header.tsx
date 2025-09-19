@@ -94,6 +94,8 @@ const Header = () => {
       }
     }
 
+    handleScroll() // Check scroll position on mount
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
