@@ -40,11 +40,9 @@ export const UserInfoProvider = ({
   }, [])
 
   return (
-    <UserContext.Provider value={user}>
-      <UserDispatchContext.Provider value={dispatch}>
-        {children}
-      </UserDispatchContext.Provider>
-    </UserContext.Provider>
+    <UserContext value={user}>
+      <UserDispatchContext value={dispatch}>{children}</UserDispatchContext>
+    </UserContext>
   )
 }
 
