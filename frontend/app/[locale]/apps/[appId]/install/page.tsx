@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import { fetchAppstream } from "../../../../../src/fetchers"
 import InstallClient from "./client"
-import { languages } from "src/localize"
 
 export async function generateStaticParams() {
   // Return empty array to enable ISR for all app IDs
