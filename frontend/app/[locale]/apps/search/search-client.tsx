@@ -10,14 +10,12 @@ import type {
   AppsIndex,
   MeilisearchResponseAppsIndex,
 } from "../../../../src/codegen"
+import { useLocale } from "next-intl"
 
-interface SearchClientProps {
-  locale?: string
-}
-
-const SearchClient = ({ locale }: SearchClientProps): JSX.Element => {
+const SearchClient = (): JSX.Element => {
   const { trackSiteSearch } = useMatomo()
   const searchParams = useSearchParams()
+  const locale = useLocale()
 
   const q = searchParams.get("q") || ""
 
