@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from typing import Literal
 
-from fastapi import APIRouter, Depends, FastAPI, Path
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
@@ -66,6 +66,7 @@ class FailedByGuideline(BaseModel):
     tags=["quality-moderation"],
     responses={
         200: {"model": QualityModerationDashboardResponse},
+        400: {"description": "Invalid pagination parameters"},
         401: {"description": "Unauthorized"},
         403: {"description": "Forbidden - quality moderator required"},
         422: {"description": "Validation error"},
@@ -78,6 +79,11 @@ def get_quality_moderation_status(
     filter: Literal["all", "passing", "todo"] = "all",
     _moderator=Depends(quality_moderator_only),
 ) -> QualityModerationDashboardResponse:
+    if page < 1:
+        raise HTTPException(
+            status_code=400,
+        )
+
     with get_db("replica") as db:
         all_quality_apps = App.status_summarized(db, page, page_size, filter)
 
@@ -92,6 +98,7 @@ def get_quality_moderation_status(
     tags=["quality-moderation"],
     responses={
         200: {"model": SimpleQualityModerationResponse},
+        400: {"description": "Invalid pagination parameters"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
@@ -100,6 +107,11 @@ def get_passing_quality_apps(
     page: int = 1,
     page_size: int = 25,
 ) -> SimpleQualityModerationResponse:
+    if page < 1:
+        raise HTTPException(
+            status_code=400,
+        )
+
     with get_db("replica") as db:
         passing_quality_apps = App.status_summarized(db, page, page_size, "passing")
 
