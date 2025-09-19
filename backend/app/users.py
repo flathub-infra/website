@@ -17,6 +17,7 @@ def register_to_app(app: FastAPI):
     tags=["users"],
     responses={
         200: {"description": "List of users"},
+        400: {"description": "Invalid pagination parameters"},
         401: {"description": "Unauthorized"},
         403: {"description": "Forbidden - moderator required"},
         422: {"description": "Validation error"},
@@ -32,6 +33,11 @@ def users(
     """
     Return a list of all known users
     """
+    if page < 1:
+        raise HTTPException(
+            status_code=400,
+        )
+
     with get_db("replica") as db_session:
         return models.FlathubUser.all(db_session, page, page_size, filterString)
 
