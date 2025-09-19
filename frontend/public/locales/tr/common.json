@@ -585,5 +585,15 @@
   "more-pages": "Daha çok sayfa",
   "carousel": "Dönme dolap",
   "slide": "Kaydır",
-  "count": "Adet"
+  "count": "Adet",
+  "country-statistics": "Ülke İstatistikleri",
+  "flathub-statistics-description": "Platformda bulunan uygulamaların kullanımı ve dağıtımı hakkında genel bakış.",
+  "count-verified-desktop-apps": "Doğrulanmış masaüstü uygulamaları",
+  "since-x": "{date} tarihinden beri",
+  "apps-by-tag": "\"{tag}\" etiketli uygulamalar",
+  "about-claim": "<text>İster uygulama arayan bir kullanıcı olun, ister daha fazla kullanıcıya ulaşmak isteyen bir geliştirici, <bold>Flathub, Linux için uygulamalar konusunda en iyi seçimdir.</bold></text>",
+  "all-the-apps-you-want": "<bold>Aradığınız bütün uygulamalar</bold> — Beklediğiniz büyük isimlerden, yeni bağımsız geliştiricilere kadar, Flathub ihtiyaçlarınızı karşılayacak binlerce uygulama sunar.",
+  "transparent-safety": "<bold>Şeffaf güvenlik</bold> — Bir uygulamanın, geliştiricisi tarafından geldiği <verifiedlink>doğrulanmış</verifiedlink> olduğunu, hangi izinleri gerektirdiğini ve açık kaynaklı ve denetlenebilir olup olmadığı açık bir şekilde görün",
+  "tastefully-curated": "<bold>Özenle seçilmiş</bold> — Flathub’daki en iyi uygulamaları öne çıkaran, ilgi çekici ve kaliteli uygulamaları keşfetmek için ekibimizin hazırladığı katalogları inceleyin",
+  "apps-for-you-where-you-are": "<bold>Uygulamalar, bulunduğunuz yerde sizinle</bold> — İster bir Steam Deck’te, güçlü bir Linux iş istasyonunda, bir Raspberry Pi’de, ister nadir bir Linux telefonda olun; Flathub sizin için uygulamalara sahiptir"
 }
