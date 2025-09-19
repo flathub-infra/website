@@ -109,6 +109,7 @@ export default function InstallButton({
   return (
     <div className="inline-flex w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
       <Link
+        rel="nofollow"
         href={`/apps/${appId}/install`}
         onClick={installClicked}
         className={clsx(
