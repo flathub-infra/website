@@ -72,7 +72,11 @@ const AcceptingPayment = () => {
     return null
   }
 
-  if (IS_PRODUCTION || user.info?.dev_flatpaks.length === 0) {
+  if (
+    IS_PRODUCTION ||
+    !user.info?.dev_flatpaks ||
+    user.info.dev_flatpaks.length === 0
+  ) {
     return null
   }
 

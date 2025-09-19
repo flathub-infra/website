@@ -30,11 +30,9 @@ const UserApps: FunctionComponent<Props> = ({
   const queryDevApplications = useQuery({
     queryKey: [`${variant}-apps`, page, pageSize, locale],
     queryFn: async () => {
+      const flatpaks = user.info?.[`${variant}_flatpaks`] || []
       return getAppsInfo(
-        user.info[`${variant}_flatpaks`].slice(
-          (page - 1) * pageSize,
-          (page - 1) * pageSize + pageSize,
-        ),
+        flatpaks.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize),
         locale,
       )
     },
@@ -80,7 +78,9 @@ const UserApps: FunctionComponent<Props> = ({
 
   const pages = Array.from(
     {
-      length: Math.ceil(user.info[`${variant}_flatpaks`].length / pageSize),
+      length: Math.ceil(
+        (user.info?.[`${variant}_flatpaks`]?.length || 0) / pageSize,
+      ),
     },
     (_, i) => i + 1,
   )
