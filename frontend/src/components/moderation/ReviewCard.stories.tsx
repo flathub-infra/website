@@ -71,11 +71,11 @@ export const PrimaryRejected = () => {
   }
 
   return (
-    <UserContext.Provider value={{ ...userInfo }}>
+    <UserContext value={{ ...userInfo }}>
       <ReviewCard title={t("moderation-appstream")} request={request}>
         <div>Show table here</div>
       </ReviewCard>
-    </UserContext.Provider>
+    </UserContext>
   )
 }
 
@@ -115,10 +115,10 @@ export const Primary = () => {
   }
 
   return (
-    <UserContext.Provider value={{ ...userInfo }}>
+    <UserContext value={{ ...userInfo }}>
       <ReviewCard title={t("moderation-appstream")} request={request}>
         <div>Show table here</div>
       </ReviewCard>
-    </UserContext.Provider>
+    </UserContext>
   )
 }

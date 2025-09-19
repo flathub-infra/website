@@ -583,5 +583,9 @@
   "microphone-access": "माइक्रोफोन पहुंच",
   "can-listen-using-microphones-without-asking-permission": "बिना अनुमति के माइक्रोफोन का उपयोग करके सुन सकते हैं",
   "screen-contents-access": "स्क्रीन सामग्री तक पहुंच",
-  "can-access-the-contents-of-the-screen-or-other-windows": "स्क्रीन या अन्य विंडो की सामग्री तक पहुँच सकते हैं"
+  "can-access-the-contents-of-the-screen-or-other-windows": "स्क्रीन या अन्य विंडो की सामग्री तक पहुँच सकते हैं",
+  "flathub": "फ्लैटहब",
+  "flathub-logo": "फ्लैटहब चिह्न",
+  "mastodon": "मास्टोडन",
+  "users": "प्रयोक्ता"
 }

@@ -35,7 +35,7 @@
   "community": "Tamɣiwent",
   "go-home": "Asebter agejdan",
   "search-apps": "Anadi ɣef isnasen",
-  "about-pagename": "Ɣef Flathub",
+  "about-pagename": "Ɣef Flathub : Taḥanut n yisnasen n Linux",
   "rss-feeds": "Isuddam RSS",
   "popular": "Yettwassnen",
   "news": "Isallen",
@@ -115,7 +115,9 @@
     "hide-icon": "Ffer tignit",
     "show-icon": "Sken-d tignit",
     "app-icon": "Tignit n usnas",
-    "screenshots-default-settings": "Iɣewwaṛen imezwar"
+    "screenshots-default-settings": "Iɣewwaṛen imezwar",
+    "light": "Aceɛlal",
+    "dark": "Ubrik"
   },
   "moderation-new-value": "Azal amaynut",
   "number-of-results": "{number} n igmaḍ",
@@ -241,7 +243,11 @@
   "kind-purchase-app": "Aɣ-d {appName}",
   "lightbox": {
     "zoom-in": "Semɣer",
-    "zoom-out": "Simẓi"
+    "zoom-out": "Simẓi",
+    "close": "Mdel",
+    "next": "Uḍfiṛ",
+    "previous": "Uzwir",
+    "screenshot": "Tuṭṭfa n ugdil"
   },
   "gametool": "Ifecka n wuraren",
   "system-folder-x": "Akaram n unagraw {folder}",
@@ -250,5 +256,46 @@
   "find-your-distribution": "Af-d azuzer-ik·im",
   "manual-install-instructions": "Ur ttettu ara ad tḍefreḍ <distroguide>amnir n usebded i uzuzer-ik Linux</distroguide> send ma tesbeddeḍṭ",
   "request-new-app": "Ma yella tettnadiḍ ɣef yiwen n usnas s timmad, eǧǧ tamɣiwant ad teẓer belli tebɣiḍ-t deg Flathub <forumLink>sya</forumLink>.",
-  "could-not-find-match-for-search": "Ur nufi ara asnas i yemṣadan d unadi-inek·inem."
+  "could-not-find-match-for-search": "Ur nufi ara asnas i yemṣadan d unadi-inek·inem.",
+  "we-love-games": "Nekkni ♥ Uraren",
+  "game-section-description": "Uraren d yisnasen akken ad tessedduḍ izwilen-ik·im i tḥemmleḍ s waṭas",
+  "gamelauncher": "Isekkaren n wuraren",
+  "launcher": "Isekkaren",
+  "more-gamelauncher": "Ugar n yisekkaren n wuraren",
+  "simulation": "Aserwes",
+  "emulators": "Imtellalen",
+  "gameemulator": "Imtellalen",
+  "tool": "Ifecka",
+  "vendingSharesPreview": {
+    "app": "Asnas",
+    "sdk": "SDK"
+  },
+  "count": "Aɣrud",
+  "community-built": "Tebna-t temɣiwant",
+  "get-involved": "Ttekki",
+  "desktop-folder": "Akaram n tnarit",
+  "documents-folder": "Akaram n isemliyen",
+  "music-folder": "Akaram n uẓawan",
+  "templates-folder": "Akaram n tmudmiwin",
+  "cache-folder": "Akaram n tuffart",
+  "manage-x": "Sefrek {app_name}",
+  "trending-apps": "Isnasen inezzaɣ",
+  "more-trending": "Ugar n tnezzaɣ",
+  "more-popular": "Ugar n yisnasen inezzaɣ",
+  "download": {
+    "install-x": "Sebded “{x}”"
+  },
+  "country-statistics": "Addaden n yal tamurt",
+  "since-x": "Seg ass n {date}",
+  "delete-account-prompt": "Kkes amiḍan-ik·im?",
+  "distribution-flathub-setup": "Tawila n Flathub deg {distribution}",
+  "developers-and-users": "Ineflayen akked iseqdacen",
+  "kind-donate-app": "Mudd tawsa i {appName}",
+  "on-the-go": "Deg yal agdil",
+  "more-mobile-apps": "Ugar n isnasen izirazen",
+  "more-gametool": "Ugar n ifecka n wuraren",
+  "other-apps-by-developer": "Isnasen nniḍen sɣur {developer}",
+  "addon-install-info": "Amek ara tesbeddeḍ isiɣzaf",
+  "delete-account-entry": "Bɣiɣ ad kkseɣ amiḍan-iw",
+  "setup-flathub-description": "Swel Flathub akken ad tesbeddeḍ u ad tleqmeḍ isnasen deg unagraw-ik·im."
 }

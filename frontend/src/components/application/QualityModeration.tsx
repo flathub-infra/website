@@ -170,7 +170,9 @@ export const QualityModeration = ({
   const [isModerator, setIsModerator] = useState(false)
 
   const requirement =
-    isQualityModerator || user.info?.dev_flatpaks.includes(app.id)
+    isQualityModerator ||
+    (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
+    false
 
   const query =
     useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {

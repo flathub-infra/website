@@ -47,6 +47,11 @@ def get_category(
             status_code=400,
         )
 
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
     result = search.get_by_selected_categories(
         [category], exclude_subcategories, page, per_page, locale, sort_by
     )
@@ -74,6 +79,11 @@ def get_subcategory(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
         raise HTTPException(
             status_code=400,
         )
@@ -111,6 +121,11 @@ def get_keyword(
             status_code=400,
         )
 
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
     result = search.get_by_keyword(keyword, page, per_page, locale)
 
     return result
@@ -135,6 +150,11 @@ def get_developers(
             status_code=400,
         )
 
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
     return search.get_developers(page, per_page)
 
 
@@ -155,6 +175,11 @@ def get_developer(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
         raise HTTPException(
             status_code=400,
         )
@@ -184,6 +209,11 @@ def get_recently_updated(
             status_code=400,
         )
 
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
     result = search.get_by_updated_at(page, per_page, locale)
 
     return result
@@ -205,6 +235,11 @@ def get_recently_added(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
         raise HTTPException(
             status_code=400,
         )
@@ -234,6 +269,11 @@ def get_verified(
             status_code=400,
         )
 
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
     result = search.get_by_verified(page, per_page, locale)
 
     return result
@@ -255,6 +295,11 @@ def get_mobile(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
         raise HTTPException(
             status_code=400,
         )
@@ -284,6 +329,11 @@ def get_popular_last_month(
             status_code=400,
         )
 
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
     result = search.get_by_installs_last_month(page, per_page, locale)
 
     return result
@@ -305,6 +355,11 @@ def get_trending_last_two_weeks(
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
         raise HTTPException(
             status_code=400,
         )

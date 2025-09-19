@@ -344,28 +344,6 @@ export function getSafetyRating(
   }
 
   if (
-    (summaryMetadata.permissions["session-bus"]?.talk?.some(
-      (x) => x === "org.gtk.vfs.*",
-    ) ||
-      summaryMetadata.permissions["session-bus"]?.own?.some(
-        (x) => x === "org.gtk.vfs.*",
-      )) &&
-    summaryMetadata.permissions.filesystems?.some(
-      (path) =>
-        fsValueMatchesPrefix(path, "xdg-run/gvfs") ||
-        fsValueMatchesPrefix(path, "xdg-run/gvfsd"),
-    )
-  ) {
-    appSafetyRating.push({
-      safetyRating: SafetyRating.potentially_unsafe,
-      title: "full-file-system-read-write-access",
-      description: "can-read-write-all-data-on-file-system",
-      icon: HiOutlineDocument,
-      showOnSummaryOrDetails: "both",
-    })
-  }
-
-  if (
     appSafetyRating.filter((x) => x.safetyRating === SafetyRating.safe)
       .length === appSafetyRating.length
   ) {
@@ -478,10 +456,20 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
   const appSafetyRating: AppSafetyRating[] = []
 
   // read/write all your data
-  if (
+  const hasHostFs =
     permissions.filesystems?.some((x) => x.toLowerCase() === "host") ||
     permissions.filesystems?.some((x) => x.toLowerCase() === "host:rw")
-  ) {
+
+  const hasGvfsAccess =
+    (permissions["session-bus"]?.talk?.some((x) => x === "org.gtk.vfs.*") ||
+      permissions["session-bus"]?.own?.some((x) => x === "org.gtk.vfs.*")) &&
+    permissions.filesystems?.some(
+      (path) =>
+        fsValueMatchesPrefix(path, "xdg-run/gvfs") ||
+        fsValueMatchesPrefix(path, "xdg-run/gvfsd"),
+    )
+
+  if (hasHostFs || hasGvfsAccess) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-write-access",

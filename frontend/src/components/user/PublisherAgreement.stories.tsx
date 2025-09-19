@@ -49,9 +49,9 @@ export const Default: Story = {
       },
     }
     return (
-      <UserContext.Provider value={{ ...userInfo }}>
+      <UserContext value={{ ...userInfo }}>
         <PublisherAgreement {...args} />
-      </UserContext.Provider>
+      </UserContext>
     )
   },
 }

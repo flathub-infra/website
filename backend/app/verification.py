@@ -204,6 +204,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
             repo_name = "rhythmbox"
         case "org.gnome.SoundJuicer":
             repo_name = "sound-juicer"
+        case "org.gnome.Tetravex":
+            repo_name = "gnome-tetravex"
         case _:
             repo_name = None
 
