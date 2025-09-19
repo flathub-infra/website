@@ -28,7 +28,13 @@ const RequestSchema = z.object({
         z.string(),
         z.array(z.string()),
         z.boolean(),
-        z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
+        z.record(
+          z.any(),
+          z.union([
+            z.array(z.string()),
+            z.record(z.any(), z.array(z.string())),
+          ]),
+        ),
         z.null(),
       ]),
     ),
@@ -38,7 +44,13 @@ const RequestSchema = z.object({
         z.string(),
         z.array(z.string()),
         z.boolean(),
-        z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
+        z.record(
+          z.any(),
+          z.union([
+            z.array(z.string()),
+            z.record(z.any(), z.array(z.string())),
+          ]),
+        ),
         z.null(),
       ]),
     ),
