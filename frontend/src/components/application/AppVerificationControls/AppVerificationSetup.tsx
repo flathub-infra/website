@@ -161,7 +161,20 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   } else {
     content = (
       <div className="space-y-3">
-        <p className="xl:max-w-[75%]">{t("verification-instructions")}</p>
+        <p className="xl:max-w-[75%]">
+          {t.rich("verification-instructions", {
+            doclink: (chunk) => (
+              <a
+                href="https://docs.flathub.org/docs/for-app-authors/verification"
+                target="_blank"
+                rel="noreferrer"
+                className="no-underline hover:underline"
+              >
+                {chunk}
+              </a>
+            ),
+          })}
+        </p>
         <div className="xl:max-w-[75%]">
           <Alert>
             <AlertDescription>{t("verification-warning")}</AlertDescription>
