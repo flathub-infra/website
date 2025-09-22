@@ -132,11 +132,11 @@ def _demangle_name(name: str) -> str:
     return name
 
 
-def _get_domain_name(app_id: str) -> tuple[str, bool] | None:
+def _get_domain_name(app_id: str) -> tuple[str | None, bool]:
     manual_maps = _get_manual_verification_maps()
     if _matches_prefixes(app_id, "com.github", "com.gitlab"):
         # These app IDs are common, and we don't want to confuse people by saying they can put a file on GitHub/GitLab's main website.
-        return None
+        return (None, False)
     elif _matches_prefixes(
         app_id, "io.github", "io.gitlab", "io.frama", "page.codeberg"
     ):
