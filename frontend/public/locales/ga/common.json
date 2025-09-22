@@ -373,7 +373,7 @@
   "more-utility": "Tuilleadh Fóntais",
   "verified": "Fíoraithe",
   "app-is-verified": "Fíoraítear an aip seo",
-  "verification-instructions": "Fíoraigh d'aitheantas aip chun a léiriú go bhfuil d'uaslódáil Flathub ceadaithe ag forbróir an aip. Beidh ort a chruthú go bhfuil smacht agat ar an aip trí shuíomh Gréasáin ar fhearann an aip nó trí rochtain ar chuntas an aip a sheiceáil ar shuíomh óstála cód foinse. Taispeánfar an suaitheantas fíoraithe in éineacht le hainm an aip, ainm an fhoilsitheora, agus an bealach ar fíoraíodh ID an aip.",
+  "verification-instructions": "Fíoraigh d’aitheantas aipe chun a léiriú go bhfuil d’uaslódáil Flathub ceadaithe ag forbróir an aipe. Beidh ort a chruthú go bhfuil smacht agat ar an aip trí shuíomh Gréasáin ar fhearann an aipe nó trí rochtain ar chuntas an aipe a sheiceáil ar shuíomh óstála cód foinse. Taispeánfar an suaitheantas fíoraithe in éineacht le hainm an aipe, ainm an fhoilsitheora, agus an chaoi ar fíoraíodh an t-aitheantas aipe. Féach ar an <doclink>doiciméadacht fíoraithe</doclink> le haghaidh tuilleadh sonraí.",
   "verification-warning": "Féadfaidh foireann Flathub an suaitheantas fíoraithe a bhaint as aon aip de réir ár rogha féin amháin, mar shampla, dá bhféadfadh sé daoine a chur amú faoi stádas oifigiúil an aip nó mearbhall a chur faoi thrádmharc.",
   "x-downloads": "Íoslódálacha {x}",
   "login-provider-verification-failed": "Níor chomhlíonadh na ceanglais fíoraithe.",

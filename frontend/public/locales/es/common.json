@@ -245,7 +245,7 @@
   "could-not-find-page": "No hemos encontrado la página que buscaba.",
   "verified-manually-tooltip": "La propiedad del ID de la aplicación <appid></appid> ha sido verificada manualmente por el equipo de Flathub",
   "refresh": "Actualizar",
-  "verification-instructions": "Verifique el ID de su aplicación para indicar que su subida a Flathub ha sido aprobada por el desarrollador de la aplicación. Tendrá que demostrar que tiene el control de la aplicación a través de un sitio web en el dominio de la aplicación o comprobando el acceso a la cuenta de la aplicación en un sitio de alojamiento de código fuente. El distintivo de verificado se mostrará junto al nombre de la aplicación, el nombre del editor y la forma en que se verificó el ID de la aplicación.",
+  "verification-instructions": "Verifique el ID de su aplicación para indicar que su subida a Flathub ha sido aprobada por el desarrollador de la aplicación. Tendrá que demostrar que tiene el control de la aplicación a través de un sitio web en el dominio de la aplicación o comprobando el acceso a la cuenta de la aplicación en un sitio de alojamiento de código fuente. El distintivo de verificado se mostrará junto al nombre de la aplicación, el nombre del editor y la forma en que se verificó el ID de la aplicación. Por favor, consulte la <doclink>documentación de verificación</doclink> para más detalles.",
   "verification-warning": "El equipo de Flathub puede retirar el distintivo de verificación de cualquier aplicación a su entera discreción, por ejemplo, si puede inducir a error sobre el estado oficial de la aplicación o causar confusión con respecto a una marca comercial.",
   "verification": "Verificación",
   "my-flathub": "Mi Flathub",
@@ -657,5 +657,13 @@
   "download": {
     "install-x": "Instalar «{x}»",
     "fallback-instructions": "<opening>Abriendo «{name}» en su gestor de software…</opening><support>Si no ocurre nada, puede que su sistema no soporte URLs <i>flatpak+https</i> .</support><listPrefix>En ese caso puede:</listPrefix><ol><li>Descargar el archivo <link>.flatpakref</link></li><li>Después, ejecutarlo desde su gestor de archivos</li></ol><setupLine><linkSetup>Instrucciones para instalar Flatpak</linkSetup></setupLine>"
-  }
+  },
+  "count": "Contar",
+  "country-statistics": "Estadísticas por país",
+  "since-x": "Desde {date}",
+  "unauthorized": "No autorizado",
+  "uses-privileged-socket": "Usa un socket privilegiado",
+  "uses-non-portal-service": "Usa servicios que no son de los portales",
+  "can-talk-to-non-portal-service": "Puede solicitar datos de servicios que no pertenecen a los portales y obtener permisos adicionales",
+  "socket-may-allow-extra-permissions": "Usa un socket que permite obtener permisos adicionales"
 }

@@ -244,7 +244,7 @@
   "login-provider-verification-user-does-not-exist": "账号 <requiredname></requiredname> 在 <loginprovider></loginprovider> 上不存在。您必须声明此账号名称并使用它来验证您的应用，或者最好选择一个您可以控制的应用 ID。请参阅 <doclink>Flatpak 文档</doclink>，了解有关良好应用 ID 的信息。",
   "try-again": "再试一次",
   "verified-apps": "已验证应用",
-  "verification-instructions": "验证应用 ID 以表明您的 Flathub 上传已获得应用开发者的批准。您需要通过应用域名上的网站或检查源代码托管网站上应用账号的访问权限来证明您拥有应用的控制权。验证徽章将与应用名称、发布者名称与应用 ID 的验证方式一同显示。",
+  "verification-instructions": "验证应用 ID 以表明您的 Flathub 上传已获得应用开发者的批准。您需要通过应用域名上的网站或检查源代码托管网站上应用账号的访问权限来证明您拥有应用的控制权。验证徽章将与应用名称、发布者名称与应用 ID 的验证方式一同显示。如需了解详情，请参阅<doclink>验证</doclink>文档。",
   "verification-warning": "Flathub 团队可能会自行决定从任何应用中删除验证徽章，例如，如果它可能误导人们关于应用的官方地位，或者其导致了对商标的混淆。",
   "refresh": "刷新",
   "verification": "验证",

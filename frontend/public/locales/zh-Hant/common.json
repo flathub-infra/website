@@ -233,7 +233,7 @@
   "system": "系統",
   "token-redeem-placeholder": "輸入擁有權權杖",
   "app-is-verified": "此應用程式已驗證",
-  "verification-instructions": "驗證您的應用程式 ID，以表明您的 Flathub 上傳已獲得應用程式開發者的核准。您必須透過應用程式網域中的網站或透過檢查原始碼託管網站上對應用程式帳號的存取權限來證明您可以控制該應用程式。經過驗證的徽章將與應用程式名稱、發佈者名稱以及應用程式 ID 的驗證方式一起顯示。",
+  "verification-instructions": "驗證您的應用程式 ID，以表明您的 Flathub 上傳已獲得應用程式開發者的核准。您必須透過應用程式網域中的網站或透過檢查原始碼託管網站上對應用程式帳號的存取權限來證明您可以控制該應用程式。經過驗證的徽章將與應用程式名稱、發佈者名稱以及應用程式 ID 的驗證方式一起顯示。請見<doclink>驗證文件</doclink>以取得更多資訊。",
   "website-verification-main-instruction": "透過放置權杖於 <bold>{domain}</bold> 上的特定頁面來使用應用程式 ID <bold>{id}</bold> 驗證您的權利。",
   "x-downloads": "{x} 次下載",
   "verified-login-provider-tooltip": "<appid></appid> 應用程式 ID 的所有權已由 <loginprovider></loginprovider> 上的 <loginname></loginname> 驗證",

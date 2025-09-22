@@ -1,7 +1,7 @@
 {
   "flathub": "Flathub",
   "flathub-logo": "Logo Flathub",
-  "more-pages": "Muioc'h a bajenn",
+  "more-pages": "Muioc'h a bajennoù",
   "close": "Serriñ",
   "go-home": "Degemer",
   "search-apps": "Klask arloadoù",
@@ -206,5 +206,9 @@
   "remove-developer": "Dilemel an diorroer",
   "remove-developer-confirmation": "Ha sur oc'h e fell deoc'h dilemel {developer} diouzh {app}?",
   "settings": "Arventennoù",
-  "get-apps": "Kaout arloadoù"
+  "get-apps": "Kaout arloadoù",
+  "carousel": "Karousel",
+  "run": "Lañsañ",
+  "page-not-found": "{errorCode} – N'eo ket bet kavet ar bajenn",
+  "an-error-occurred-server": "{errorCode} - Ur fazi zo c'hoarvezet war ar servijer."
 }
