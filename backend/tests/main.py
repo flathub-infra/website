@@ -504,8 +504,8 @@ def test_verification_domain_names():
     from app.verification import _get_domain_name
 
     # Invalid as we don't want .com
-    assert _get_domain_name("com.github.Example") is None
-    assert _get_domain_name("com.gitlab.Example") is None
+    assert _get_domain_name("com.github.Example") is (None, False)
+    assert _get_domain_name("com.gitlab.Example") is (None, False)
 
     # Github
     assert _get_domain_name("io.github.example.App") == ("example.github.io", False)
