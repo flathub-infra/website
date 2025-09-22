@@ -179,7 +179,7 @@
   "select-purchase-amount": "Oppgi beløpet du ønsker å betale",
   "no-apps": "Ingen apper å vise.",
   "permission-denied": "Du har ikke tillatelse til å gjøre dette.",
-  "verification-instructions": "Verifiser appen for å vise at den er godkjent for publisering på Flathub, av appens opprinnelige utvikler. Du må bevise at du har kontroll over nettstedet brukt i appens ID, eller at du har tilgang til kontoen som eier appen på et kildekode nettsted. Et verifisert merke vil vise ved siden av navnet til appen, publisererens navn, og måten appen ble verifisert på.",
+  "verification-instructions": "Verifiser appen for å vise at den er godkjent for publisering på Flathub, av appens opprinnelige utvikler. Du må bevise at du har kontroll over nettstedet brukt i appens ID, eller at du har tilgang til kontoen som eier appen på et kildekode nettsted. Et verifisert merke vil vise ved siden av navnet til appen, publisererens navn, og måten appen ble verifisert på. Se <doclink>verifiseringsdokumentasjonen</doclink> for mer info.",
   "primary-developer": "Hovedutvikler",
   "invite-developer": "Inviter utvikler",
   "remove": "Fjern",

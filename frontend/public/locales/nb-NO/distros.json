@@ -56,7 +56,7 @@
     "distroName": "ChromeOS",
     "step-2": {
       "name": "Start en Linux-terminal",
-      "text": "<text>Klikk Søke/Startknappen, skriv \"Terminal\" og deretter åpne Terminal-appen.</text>"
+      "text": "<text>Klikk Søke/Startknappen, skriv «Terminal» og deretter åpne Terminal-appen.</text>"
     },
     "step-3": {
       "name": "Installer Flatpak",
@@ -145,10 +145,12 @@
     }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<text>Flatpak er installert som standard på CentOS Stream 8 og nyere versjoner når GNOME er installert. For å komme i gang, trenger du bare skru på Flathub, som er den beste måten å få tak i Flatpak-apper. Bare last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink>.</text> <text>Da har du alt du trenger for å <link>installere apper</link>!</text>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<text>Flatpak er installert som standard på AlmaLinux 8 og nyere versjoner når GNOME er installert. For å komme i gang, trenger du bare skru på Flathub, som er den beste måten å få tak i Flatpak-apper. Bare last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink>.</text> <text>Da har du alt du trenger for å <link>installere apper</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -161,37 +163,53 @@
       "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, kjør følgende kommando:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak-apper kan være umulig på Gentoo.</text>"
     }
   },
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Kubuntu, åpne Discover, gå til Innstillinger, installer Flatpak-bakenden og start Discover på nytt.</text>"
     },
     "step-3": {
       "name": "Legg til Flathub-pakkebrønnen"
     },
     "step-4": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-2": {
+      "name": "Installer Flatpak-systeminnstillingsutvidelsen"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
     }
   },
   "alpine": {
     "distroName": "Alpine",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-4": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
     }
   },
   "openmandriva_lx": {
@@ -201,24 +219,38 @@
     "distroName": "Pop!_OS"
   },
   "elementary_os": {
-    "distroName": "elementary OS"
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Installer apper"
+    }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
     }
   },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     }
   },
   "nixos": {
     "distroName": "NixOS",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     }
   },
   "pureos": {
@@ -231,27 +263,45 @@
     "distroName": "Deepin",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-4": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     }
   },
   "pardus": {
     "distroName": "Pardus",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-4": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     }
   },
   "mx_linux": {
-    "distroName": "MX Linux"
+    "distroName": "MX Linux",
+    "step-2": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    }
   },
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
     }
   },
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
     }
   },
   "kde_neon": {
@@ -261,12 +311,19 @@
     "distroName": "GNU Guix",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt"
     }
   },
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-1": {
       "name": "Installer Flatpak"
+    },
+    "step-3": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     }
   },
   "vanilla_os": {

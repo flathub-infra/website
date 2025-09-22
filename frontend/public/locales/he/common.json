@@ -290,7 +290,7 @@
   "status-unredeemed": "לא נוצל",
   "token-cancelled": "טוקן בוטל בהצלחה",
   "create-tokens": "יצירת אסימונים",
-  "verification-instructions": "אמתו את מזהה היישום שלכם כדי להראות שההעלאה שלכם לFlathub מאושרת על ידי מפתח היישום. תצטרכו להוכיח שיש לכם שליטה על היישום בעזרת אתר בדומיין של היישום או על ידי בדיקת גישה לחשבון היישום באתר אירוח קוד מקור. תג האימות יוצג ליד שם היישום, שם המפרסם, והדרך שבה מזהה היישום אומת.",
+  "verification-instructions": "אמתו את מזהה היישום שלכם כדי להראות שההעלאה שלכם לFlathub מאושרת על ידי מפתח היישום. תצטרכו להוכיח שיש לכם שליטה על היישום בעזרת אתר בדומיין של היישום או על ידי בדיקת גישה לחשבון היישום באתר אירוח קוד מקור. תג האימות יוצג ליד שם היישום, שם המפרסם, והדרך שבה מזהה היישום אומת. ב<doclink>תיעוד האימות</doclink> אפשר למצוא פרטים נוספים.",
   "x-downloads": "{x} הורדות",
   "login-provider-verification-main-instruction-unknown-is-organization": "אמתו את הזכות שלכם להשתמש במזהה היישום <appid></appid> על ידי התחברות לחשבון <loginname></loginname> (או, אם <orgname></orgname> הוא ארגון, חשבון עם גישה אליו) ב<loginprovider></loginprovider>.",
   "login-provider-verification-user-does-not-exist": "החשבון <requiredname>@</requiredname> לא קיים ב<loginprovider></loginprovider>. עליכם לתבוע את שם החשבון ולהשתמש בו כדי לאמת את היישום, או באופן מיטבי, לבחור מזהה יישום שיש לכם שליטה עליו. ראו את <doclink>תיעוד Flatpak</doclink> בשביל מידע על מזהי יישומים טובים.",

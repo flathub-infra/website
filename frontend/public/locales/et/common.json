@@ -395,7 +395,7 @@
   "token-redeemed": "Tunnusloa lunastamine õnnestus",
   "token-failed": "Tunnusloa lunastamine ei õnnestunud",
   "create-tokens": "Loo tunnusload",
-  "verification-instructions": "Näitamaks, et Flathub'i üleslaaditud rakendus on arendaja poolt heaks kiidetud, palun verifitseeri oma rakenduse tunnus. Sa pead tõestama et sul on kontroll rakenduse üle kas rakenduse domeenis asuva veebisaidi alusel või lähtekood haldusteenuse saidis selle rakenduse projekti õiguste alusel. Verifitseerimise kinnitusmärget kuvatakse rakenduse nime, avaldaja nime ja verifitseerimismeetodi kõrval.",
+  "verification-instructions": "Näitamaks, et Flathub'i üleslaaditud rakendus on arendaja poolt heaks kiidetud, palun verifitseeri oma rakenduse tunnus. Sa pead tõestama et sul on kontroll rakenduse üle kas rakenduse domeenis asuva veebisaidi alusel või lähtekoodi haldusteenuse saidis selle rakenduse projekti õiguste alusel. Verifitseerimise kinnitusmärget kuvatakse rakenduse nime, avaldaja nime ja verifitseerimismeetodi kõrval. Täpsemat teavet leiad <doclink>verifitseerimise juhendist</doclink>.",
   "login-provider-verification-switch-account": "Sa oled hetkel loginud kasutajaga <currentname></currentname> teenusesse <loginprovider></loginprovider>. Rakenduse <appid></appid> verifitseerimiseks logi sellesse teenusesse sisse kasutajana <requiredname></requiredname> või kasuta mõnda muud meetodit, kui selline on saadaval.",
   "verified-login-provider-tooltip": "Kontroll rakenduse tunnuse <appid></appid> üle on verifitseeritud kasutajanime <loginname></loginname> alusel teenuses <loginprovider></loginprovider>",
   "token-redeem-placeholder": "Sisesta omandit kinnitav tunnusluba",
