@@ -64,6 +64,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
   experimental: {
     scrollRestoration: true,
     globalNotFound: true,
+    inlineCss: true,
   },
   serverExternalPackages: ["@resvg/resvg-js"],
   cacheHandler:
