@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import About from "./about"
+import About from "./about-client"
 
 export async function generateMetadata({
   params,

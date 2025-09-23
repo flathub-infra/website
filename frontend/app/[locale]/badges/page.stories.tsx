@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
-import Page from "./page"
+import BadgesClient from "./badges-client"
 
 const meta = {
-  component: Page,
+  component: BadgesClient,
   title: "pages/badges",
-} satisfies Meta<typeof Page>
+} satisfies Meta<typeof BadgesClient>
 
 export default meta
 

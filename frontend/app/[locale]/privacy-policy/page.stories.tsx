@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
-import Page from "./page"
+import PrivacyPolicyClient from "./privacy-policy-client"
 
 const meta = {
-  component: Page,
+  component: PrivacyPolicyClient,
   title: "pages/privacy-policy",
-} satisfies Meta<typeof Page>
+} satisfies Meta<typeof PrivacyPolicyClient>
 
 export default meta
 

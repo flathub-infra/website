@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
-import Page from "./page"
+import ConsultantsClient from "./consultants-client"
 
 const meta = {
-  component: Page,
+  component: ConsultantsClient,
   title: "pages/consultants",
-} satisfies Meta<typeof Page>
+} satisfies Meta<typeof ConsultantsClient>
 
 export default meta
 
