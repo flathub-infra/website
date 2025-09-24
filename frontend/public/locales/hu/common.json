@@ -237,7 +237,7 @@
   "refresh": "Újratöltés",
   "verified-login-provider-tooltip": "A(z) <appid></appid> alkalmazásazonosítójának tulajdonjogát <loginname></loginname> a(z) <loginprovider></loginprovider> segítségével ellenőrizte",
   "verified-website-tooltip": "A(z) <appid></appid> alkalmazásazonosítójának tulajdonjogát a(z) <website></website> segítségével igazolták",
-  "verification-instructions": "Ellenőrizze az alkalmazásazonosítót, hogy jelezze: a Flathubra feltöltött verziót az alkalmazás fejlesztője hagyta jóvá. Igazolnia kell, hogy Ön rendelkezik az alkalmazás felett ellenőrzéssel — akár a domainhez tartozó weboldalon keresztül, akár a forráskódot tároló oldal (pl. GitHub) fiókjához való hozzáféréssel. A hitelesített jelvény az alkalmazás neve, a közzétevő és a hitelesítés módja mellett jelenik majd meg.",
+  "verification-instructions": "Ellenőrizze az alkalmazásazonosítót, hogy jelezze: a Flathubra feltöltött verziót az alkalmazás fejlesztője hagyta jóvá. Igazolnia kell, hogy Ön rendelkezik az alkalmazás felett ellenőrzéssel — akár a domainhez tartozó weboldalon keresztül, akár a forráskódot tároló oldal (pl. GitHub) fiókjához való hozzáféréssel. A hitelesített jelvény az alkalmazás neve, a közzétevő és a hitelesítés módja mellett jelenik majd meg. További részletekért tekintse meg az <doclink>ellenőrzési dokumentációt</doclink>.",
   "verification-warning": "A Flathub csapata saját belátása szerint eltávolíthatja a hitelesített jelvényt bármely alkalmazásról, például ha az megtévesztheti az embereket az alkalmazás hivatalos státuszával kapcsolatban, vagy ha zavarodottságot okoz egy védjegyet illetően.",
   "login-provider-verification-main-instruction-organization": "Ellenőrizze a jogát az alkalmazásazonosító (<appid></appid>) használatához egy adminisztrátori jogosultságokkal rendelkező fiókba történő bejelentkezéssel a(z) <orgname></orgname> szervezethez itt: <loginprovider></loginprovider>.",
   "login-provider-verification-enable-github-app": "A hitelesítés folytatásához, a Flathub-nak szüksége van az engedélyére a tagsági szintjének elolvasásához a(z) <orgname></orgname> szervezetnél. A <settingslink>GitHub beállításaiban</settingslink> tudja ezt megtenni.",
@@ -668,5 +668,6 @@
   "uses-privileged-socket": "Kiemelt jogosultságú socketet használ",
   "uses-non-portal-service": "Nem portálalapú szolgáltatásokat használ",
   "can-talk-to-non-portal-service": "Nem portálalapú szolgáltatásoktól kérhet adatokat, és további jogosultságokat szerezhet",
-  "socket-may-allow-extra-permissions": "Olyan socketet használ, amely további jogosultságok megszerzését teszi lehetővé"
+  "socket-may-allow-extra-permissions": "Olyan socketet használ, amely további jogosultságok megszerzését teszi lehetővé",
+  "unauthorized": "Jogosulatlan"
 }

@@ -246,7 +246,7 @@
   "verified-login-provider-tooltip": "Vlastnictví aplikace <appid></appid> bylo ověřeno <loginname></loginname> na <loginprovider></loginprovider>",
   "refresh": "Obnovit",
   "verification-warning": "Tým Flathub může na základě vlastního uvážení odstranit ověřovací odznak z jakékoli aplikace, například pokud by mohl uvádět lidi v omyl ohledně oficiálního statusu aplikace nebo způsobit záměnu ochranné známky.",
-  "verification-instructions": "Ověřte své ID aplikace, abyste zjistili, že je vaše nahrávání do Flathubu schváleno vývojářem aplikace. Budete muset prokázat, že máte kontrolu nad aplikací prostřednictvím webové stránky na doméně aplikace nebo ověřením přístupu k účtu aplikace na webu pro hosting zdrojového kódu. Ověřený odznak se zobrazí vedle názvu aplikace, jména vydavatele a způsobu, jakým bylo ID aplikace ověřeno.",
+  "verification-instructions": "Ověřte své ID aplikace, abyste zjistili, že je vaše nahrávání do Flathubu schváleno vývojářem aplikace. Budete muset prokázat, že máte kontrolu nad aplikací prostřednictvím webové stránky na doméně aplikace nebo ověřením přístupu k účtu aplikace na webu pro hosting zdrojového kódu. Ověřený odznak se zobrazí vedle názvu aplikace, jména vydavatele a způsobu, jakým bylo ID aplikace ověřeno. Projděte si prosím <doclink>ověřovací dokumentaci</doclink> pro více informací.",
   "verification": "Ověření",
   "my-flathub": "Můj Flathub",
   "settings": "Nastavení",
