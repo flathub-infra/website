@@ -246,7 +246,7 @@
   "verified-manually-tooltip": "La proprieto de la programidentigilo <appid></appid> estis neaŭtomate konfirmita de Flathub",
   "refresh": "Reŝargi",
   "verification-warning": "La administrantoj de Flathub rajtas forigi la konfirmosignon de iu ajn programo laŭ sia sola bontrovo, ekzemple se la konfirmosigno povus trompi pri la oficialeco de la programo aŭ konfuzi markojn.",
-  "verification-instructions": "Konfirmu vian programidentigilon por indiki, ke vian Flathub-alŝuton aprobas la aŭtoro de la programo. Vi devos pruvi, ke vi regas la programon per programista retejo aŭ per aliro al la programa konto ĉe fontkoda deponejo. La konfirmosigno montriĝos apud la nomo de la programo, nomo de la eldoninto kaj la konfirmomaniero de la programidentigilo.",
+  "verification-instructions": "Konfirmu vian programidentigilon por indiki, ke vian Flathub-alŝuton aprobas la aŭtoro de la programo. Vi devos pruvi, ke vi regas la programon per programista retejo aŭ per aliro al la programa konto ĉe fontkoda deponejo. La konfirmosigno montriĝos apud la nomo de la programo, nomo de la eldoninto kaj la konfirmomaniero de la programidentigilo. Bonvolu legi la <doclink>dokumentaron pri konfirmado</doclink> por pliaj detaloj.",
   "settings": "Agordoj",
   "my-flathub": "Mia Flathub",
   "verification": "Konfirmado",
