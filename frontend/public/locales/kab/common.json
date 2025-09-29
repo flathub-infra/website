@@ -50,7 +50,7 @@
   "report-an-issue": "Azen aneqqis n wugur",
   "manual-install": "Asebded s ufus",
   "copy-text": "Nɣel aḍris",
-  "developer-portal": "Awwur n uneflay",
+  "developer-portal": { "title": "Awwur n uneflay" },
   "publish-your-app": "Suffeɣ-d asnas-ik·im",
   "home": "Agejdan",
   "acknowledgements": "Isnemmar",

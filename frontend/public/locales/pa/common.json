@@ -219,7 +219,7 @@
   "stripe-receipt": "Stripe ਰਸੀਦ",
   "submit-payment": "ਭੁਗਤਾਨ ਭੇਜੋ",
   "news": "ਖ਼ਬਰਾਂ",
-  "developer-portal": "ਡਿਵੈਲਪਰ ਸੱਥ",
+  "developer-portal": { "title": "ਡਿਵੈਲਪਰ ਸੱਥ" },
   "no-changelog-provided": "ਕੋਈ ਚੇਜ਼-ਲਾਗ ਜਾਣਕਾਰੀ ਨਹੀਂ ਦਿੱਤੀ",
   "moderation-approved-by": "{handledAt} ({handledAtRel}) ਉੱਤੇ {handledBy} ਵਲੋਂ ਮਨਜ਼ੂਰ ਕੀਤੇ",
   "more-apps-by-developer": "{developer} ਵਲੋਂ ਹੋਰ ਐਪਾਂ",

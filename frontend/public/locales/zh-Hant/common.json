@@ -538,7 +538,7 @@
   "flathub-the-linux-app-store": "Flathub 是適用於 Linux 的應用程式商店",
   "nothing-to-do": "無事可做",
   "news": "新聞",
-  "developer-portal": "開發者入口",
+  "developer-portal": { "title": "開發者入口" },
   "unverified": "未驗證",
   "new": "新",
   "updated": "已更新",

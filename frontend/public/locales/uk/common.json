@@ -538,7 +538,7 @@
   "flathub-the-linux-app-store": "Flathub — це крамниця застосунків для Linux",
   "nothing-to-do": "Нічого робити",
   "news": "Новини",
-  "developer-portal": "Портал розробника",
+  "developer-portal": { "title": "Портал розробника" },
   "unverified": "Не перевірено",
   "new": "Нові",
   "updated": "Оновлені",

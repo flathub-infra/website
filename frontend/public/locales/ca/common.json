@@ -393,7 +393,7 @@
   "distribution-flathub-setup": "{distribution} Configuració de Flathub",
   "find-your-distribution": "Troba la teva distribució",
   "news": "Notícies",
-  "developer-portal": "Portal de desenvolupador",
+  "developer-portal": { "title": "Portal de desenvolupador" },
   "tags-colon": "Etiquetes:",
   "can-read-home-folder": "Pot llegir totes les dades de la vostra carpeta principal",
   "can-read-write-all-data-on-file-system": "Pot llegir i escriure totes les dades del sistema de fitxers",

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter, usePathname, Link } from "../../i18n/navigation"
+import { usePathname, Link } from "../../i18n/navigation"
 import { HiXMark, HiBars3 } from "react-icons/hi2"
 import { OrganizationJsonLd } from "next-seo"
 import { useTranslations, useLocale } from "next-intl"
@@ -31,34 +31,6 @@ import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
 import { getLangDir } from "rtl-detect"
 import SearchBarWithSuspense from "./SearchBarWithSuspense"
 
-const navigation = [
-  {
-    name: "publish",
-    href: "https://docs.flathub.org/docs/for-app-authors/submission",
-    current: false,
-  },
-  { name: "forum", href: "https://discourse.flathub.org/", current: false },
-  { name: "about", href: "/about", current: false },
-]
-
-let userNavigation = [
-  { name: "my-flathub", href: "/my-flathub" },
-  {
-    name: "view-wallet",
-    href: "/wallet",
-    condition: (user: UserInfo) => !IS_PRODUCTION,
-  },
-  { name: "developer-portal", href: "/developer-portal" },
-  {
-    name: "Admin",
-    href: "/admin",
-    condition: (user: UserInfo) =>
-      user?.permissions.some((a) => a === Permission.moderation) ||
-      user?.permissions.some((a) => a === Permission["quality-moderation"]),
-  },
-  { name: "settings", href: "/settings" },
-]
-
 const MobileMenuButton = ({ open }) => {
   const t = useTranslations()
 
@@ -77,13 +49,44 @@ const MobileMenuButton = ({ open }) => {
 const Header = () => {
   const t = useTranslations()
   const locale = useLocale()
-  const router = useRouter()
   const pathname = usePathname()
   const user = useUserContext()
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
   const [isScrolled, setIsScrolled] = useState(false)
+
+  const navigation = [
+    {
+      name: t("publish"),
+      href: "https://docs.flathub.org/docs/for-app-authors/submission",
+      current: false,
+    },
+    {
+      name: t("forum"),
+      href: "https://discourse.flathub.org/",
+      current: false,
+    },
+    { name: t("about"), href: "/about", current: false },
+  ]
+
+  let userNavigation = [
+    { name: t("my-flathub"), href: "/my-flathub" },
+    {
+      name: t("view-wallet"),
+      href: "/wallet",
+      condition: (user: UserInfo) => !IS_PRODUCTION,
+    },
+    { name: t("developer-portal.title"), href: "/developer-portal" },
+    {
+      name: "Admin",
+      href: "/admin",
+      condition: (user: UserInfo) =>
+        user?.permissions.some((a) => a === Permission.moderation) ||
+        user?.permissions.some((a) => a === Permission["quality-moderation"]),
+    },
+    { name: t("settings"), href: "/settings" },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -243,7 +246,7 @@ const Header = () => {
                           rel="noreferrer"
                           className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
-                          {t(item.name)}
+                          {item.name}
                         </a>
                       )
                     } else {
@@ -253,7 +256,7 @@ const Header = () => {
                           key={item.name}
                           className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
-                          {t(item.name)}
+                          {item.name}
                         </Link>
                       )
                     }
@@ -306,7 +309,7 @@ const Header = () => {
                                       "block px-4 py-2 text-sm text-flathub-dark-gunmetal transition first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
                                     )}
                                   >
-                                    {t(item.name)}
+                                    {item.name}
                                   </Link>
                                 )}
                               </MenuItem>
@@ -354,7 +357,7 @@ const Header = () => {
                               "block rounded-md px-3 py-2 text-base font-medium text-black transition dark:text-flathub-gainsborow",
                             )}
                           >
-                            {t(item.name)}
+                            {item.name}
                           </a>
                         )
                       } else {
@@ -432,7 +435,7 @@ const Header = () => {
                                 close()
                               }}
                             >
-                              {t(item.name)}
+                              {item.name}
                             </Link>
                           ))}
                         <button

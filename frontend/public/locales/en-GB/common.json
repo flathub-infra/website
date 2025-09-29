@@ -22,7 +22,7 @@
   "developers": "Developers",
   "news": "News",
   "count": "Count",
-  "developer-portal": "Developer Portal",
+  "developer-portal": { "title": "Developer Portal" },
   "publish-your-app": "Publish Your App",
   "documentation": "Documentation",
   "badges": "Badges",

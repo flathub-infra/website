@@ -535,7 +535,7 @@
   "enter-end-of-life-message": "End-of-Life Nachricht eingeben",
   "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll",
   "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
-  "developer-portal": "Entwicklerportal",
+  "developer-portal": { "title": "Entwicklerportal" },
   "news": "Neuigkeiten",
   "nothing-to-do": "Nichts zu tun",
   "unverified": "Unverifiziert",

@@ -521,7 +521,7 @@
   "trending": "急上昇",
   "trending-apps": "急上昇中のアプリ",
   "scope-jobs": "ジョブのステータス",
-  "developer-portal": "開発者ポータル",
+  "developer-portal": { "title": "開発者ポータル" },
   "news": "ニュース",
   "new-apps": "新着アプリ",
   "more-new": "新着をもっと表示",

@@ -535,7 +535,7 @@
   "install-x": "Instalar {app_name} en Linux",
   "flathub-the-linux-app-store": "Flathub es la tienda de aplicaciones para Linux",
   "news": "Noticias",
-  "developer-portal": "Portal para desarrolladores",
+  "developer-portal": { "title": "Portal para desarrolladores" },
   "nothing-to-do": "Nada que hacer",
   "unverified": "Sin verificar",
   "new": "Nuevo",

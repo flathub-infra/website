@@ -548,7 +548,7 @@
   "new": "Nouveautés",
   "updated": "Mises à jour",
   "news": "Nouveautés",
-  "developer-portal": "Portail développeurs",
+  "developer-portal": { "title": "Portail développeurs" },
   "trending": "Tendances",
   "special-license-explanation": "Cette application est développée sous la licence spéciale <bold>{ license }</bold>.",
   "do-you-really-want-to-switch-to-direct-upload": "Êtes-vous sûr ? Une fois l'application passée en upload direct, vous ne pourrez plus revenir en arrière.",

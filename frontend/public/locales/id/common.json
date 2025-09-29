@@ -524,7 +524,7 @@
   "more-graphics": "Lebih Banyak Grafik & Fotografi",
   "flathub-the-linux-app-store": "Flathub adalah App Store untuk Linux",
   "news": "Berita",
-  "developer-portal": "Portal Pengembang",
+  "developer-portal": { "title": "Portal Pengembang" },
   "unverified": "Tidak diverifikasi",
   "trending": "Sedang tren",
   "reporting-issues-description": "Kami menangani laporan keamanan dan masalah hukum dengan sangat serius",

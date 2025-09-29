@@ -1,7 +1,8 @@
 export type AppstreamListItem = Pick<
   Appstream,
   "id" | "summary" | "icon" | "name" | "metadata"
->
+> &
+  Partial<Pick<Appstream, "bundle">>
 
 export type Appstream = DesktopAppstream | AddonAppstream
 
