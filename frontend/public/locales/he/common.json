@@ -372,7 +372,7 @@
   "direct-upload": "העלאה ישירה",
   "publisher-agreement": "הסכם הגשת מפיץ",
   "setup": "התקנה",
-  "developer-portal": "שער המפתחים",
+  "developer-portal": { "title": "שער המפתחים" },
   "new-description": "יישומים חדשים שפורסמו ב־Flathub בימים האחרונים.",
   "updated-description": "יישומים שעודכנו ב־Flathub בימים האחרונים.",
   "more-apps-by-developer": "יישומים נוספים מאת {developer}",

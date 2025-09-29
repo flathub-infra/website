@@ -262,7 +262,7 @@
   "tv": "Television",
   "open-user-menu": "Dobrir lo menú utilizaire",
   "users": "Utilizaires",
-  "developer-portal": "Portal desvolopaire",
+  "developer-portal": { "title": "Portal desvolopaire" },
   "date": "Data",
   "get-apps": "Obténer d'aplicacions",
   "invite": "Convidar",

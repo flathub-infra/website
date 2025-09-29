@@ -469,7 +469,7 @@
     "app-data-review-pending": "앱 데이터 검수 중"
   },
   "news": "뉴스",
-  "developer-portal": "개발자 포털",
+  "developer-portal": { "title": "개발자 포털" },
   "more-trending": "더 많은 급상승 앱",
   "moderation-build-id": "빌드 ID",
   "carousel": "캐러셀",

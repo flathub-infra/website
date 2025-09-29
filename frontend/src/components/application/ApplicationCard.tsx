@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { cva, VariantProps } from "class-variance-authority"
 import React from "react"
 import { Link } from "src/i18n/navigation"
+import { useTranslations } from "next-intl"
 
 const cardVariants = cva(
   "flex min-w-0 items-center gap-4 duration-500 hover:cursor-pointer hover:no-underline active:bg-flathub-gainsborow/40 dark:active:bg-flathub-arsenic h-full",
@@ -84,6 +85,8 @@ export const ApplicationCard = ({
   showId = false,
   ...props
 }: Props) => {
+  const t = useTranslations()
+
   const isVerified = application.metadata?.["flathub::verification::verified"]
 
   const linkFunc = link ?? ((appid: string) => `/apps/${appid}`)
@@ -136,13 +139,20 @@ export const ApplicationCard = ({
           />
         </div>
         {showId && application.id !== application.name && (
-          <div className="text-sm text-flathub-spanish-gray truncate leading-none">
+          <div className="text-sm dark:text-flathub-spanish-gray text-flathub-granite-gray truncate leading-tight">
             {application.id}
           </div>
         )}
         <div className="mt-1 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
           {application.summary}
         </div>
+        {application.bundle?.runtime && (
+          <div className="mt-1 text-xs dark:text-flathub-spanish-gray text-flathub-granite-gray">
+            {t("developer-portal.runtime-version", {
+              version: application.bundle.runtime,
+            })}
+          </div>
+        )}
       </div>
     </Link>
   )

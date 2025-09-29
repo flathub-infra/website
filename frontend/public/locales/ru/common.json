@@ -537,7 +537,7 @@
   "manage-x": "Управление «{app_name}»",
   "flathub-the-linux-app-store": "Flathub — магазин приложений для Linux",
   "news": "Новости",
-  "developer-portal": "Портал разработчиков",
+  "developer-portal": { "title": "Портал разработчиков" },
   "nothing-to-do": "Здесь ничего нет",
   "unverified": "Не проверено",
   "new": "Новые",

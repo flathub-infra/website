@@ -92,7 +92,7 @@ const Footer = () => {
               href="/developer-portal"
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
             >
-              {t("developer-portal")}
+              {t("developer-portal.title")}
             </Link>
             <a
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"

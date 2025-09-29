@@ -538,7 +538,7 @@
   "flathub-the-linux-app-store": "Flathub 是 Linux 的应用商店",
   "nothing-to-do": "无事可做",
   "news": "新闻",
-  "developer-portal": "开发者门户",
+  "developer-portal": { "title": "开发者门户" },
   "unverified": "未验证",
   "trending-apps": "‌飙升应用",
   "trending": "‌飙升",

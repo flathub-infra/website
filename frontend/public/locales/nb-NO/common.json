@@ -300,7 +300,7 @@
   "app-payment-information": "Apputvikleren har angitt en minstesum på {minvalue} og en ideell sum på {recvalue}.",
   "checkout": "Kasse",
   "news": "Nyheter",
-  "developer-portal": "Utviklerportal",
+  "developer-portal": { "title": "Utviklerportal" },
   "moderation-rejected-by": "Avvist av {handledBy} {handledAt} ({handledAtRel})",
   "quality-guideline": {
     "app-summary-not-technical": "Forståelig for en ikke-teknisk person",

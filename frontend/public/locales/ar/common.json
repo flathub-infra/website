@@ -542,7 +542,7 @@
   "unverified": "لم يُتحقّق منه",
   "new": "جديد",
   "updated": "مُحدث",
-  "developer-portal": "بوابة المطور",
+  "developer-portal": { "title": "بوابة المطور" },
   "updated-apps": "التطبيقات المُحدثة",
   "more-apps-by-developer": "المزيد من التطبيقات بواسطة {developer}",
   "new-apps": "التطبيقات الجديدة",

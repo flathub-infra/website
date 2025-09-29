@@ -535,7 +535,7 @@
   "not-onboarded": "Perehdy ensin",
   "get-it-on": "Lataa:",
   "news": "Uutiset",
-  "developer-portal": "Kehittäjäportaali",
+  "developer-portal": { "title": "Kehittäjäportaali" },
   "nothing-to-do": "Ei mitään tehtävää",
   "unverified": "Vahvistamaton",
   "updated": "Päivitetty",

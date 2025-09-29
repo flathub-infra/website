@@ -163,7 +163,7 @@
   "community": "Pobal",
   "developers": "Forbróirí",
   "news": "Nuacht",
-  "developer-portal": "Tairseach Forbróra",
+  "developer-portal": { "title": "Tairseach Forbróra" },
   "publish-your-app": "Foilsigh Do Aip",
   "documentation": "Doiciméadú",
   "badges": "Suaitheantais",

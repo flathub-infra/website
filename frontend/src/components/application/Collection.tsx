@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl"
 import Pagination from "../Pagination"
 import { ApplicationCard } from "./ApplicationCard"
 import { Button } from "@/components/ui/button"
-import { useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 
 interface Props {

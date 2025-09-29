@@ -532,7 +532,7 @@
   "get-it-on": "Şuradan indir",
   "flathub-the-linux-app-store": "Flathub, Linux için Uygulama Mağazasıdır",
   "news": "Haberler",
-  "developer-portal": "Geliştirici Kanalı",
+  "developer-portal": { "title": "Geliştirici Kanalı" },
   "nothing-to-do": "Yapacak bir şey yok",
   "unverified": "Doğrulanmadı",
   "new": "Yeni",

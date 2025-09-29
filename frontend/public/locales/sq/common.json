@@ -523,7 +523,7 @@
   "nothing-to-do": "S’ka ç’bëhet",
   "moderation-appstream-changes": "Ndryshime Appstream",
   "news": "Lajme",
-  "developer-portal": "Portal Zhvilluesish",
+  "developer-portal": { "title": "Portal Zhvilluesish" },
   "tuner": "Radio",
   "not-onboarded": "Ju lutemi, së pari kryeni hapat e mirëseardhjes",
   "trending": "Në modë",

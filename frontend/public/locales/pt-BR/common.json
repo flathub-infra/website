@@ -539,7 +539,7 @@
   "manage-x": "Gerenciar {app_name}",
   "unverified": "Não verificado",
   "news": "Notícias",
-  "developer-portal": "Portal do Desenvolvedor",
+  "developer-portal": { "title": "Portal do Desenvolvedor" },
   "trending": "Em Alta",
   "trending-apps": "Aplicativos em alta",
   "new": "Novos",

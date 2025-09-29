@@ -165,7 +165,11 @@ const DeveloperPortalClient = ({
   const locale = useLocale()
 
   const pages = [
-    { name: t("developer-portal"), current: true, href: "/developer-portal" },
+    {
+      name: t("developer-portal.title"),
+      current: true,
+      href: "/developer-portal",
+    },
   ]
 
   return (
@@ -173,7 +177,9 @@ const DeveloperPortalClient = ({
       <div className="space-y-12">
         <Breadcrumbs pages={pages} />
         <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
-          <h1 className="text-4xl font-extrabold">{t("developer-portal")}</h1>
+          <h1 className="text-4xl font-extrabold">
+            {t("developer-portal.title")}
+          </h1>
           <div className="space-y-12 w-full">
             <News feed={feed} />
             <DeveloperApps locale={locale} />

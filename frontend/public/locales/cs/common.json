@@ -538,7 +538,7 @@
   "flathub-the-linux-app-store": "Flathub je obchod s aplikacemi pro Linux",
   "nothing-to-do": "Není co dělat",
   "news": "Novinky",
-  "developer-portal": "Portál vývojáře",
+  "developer-portal": { "title": "Portál vývojáře" },
   "unverified": "Neověřené",
   "new": "Nové",
   "updated": "Aktualizované",
