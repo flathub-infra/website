@@ -143,7 +143,7 @@ export function AppHeader({
           </h1>
         </div>
         {app.developer_name?.trim().length > 0 && (
-          <div className="text-center text-sm font-light text-flathub-sonic-silver dark:text-flathub-spanish-gray sm:text-start">
+          <div className="text-center text-sm font-light text-flathub-arsenic dark:text-flathub-spanish-gray sm:text-start">
             {t("by", {
               developer: app.developer_name,
             })}
