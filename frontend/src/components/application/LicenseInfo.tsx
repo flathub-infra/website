@@ -1,19 +1,19 @@
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { clsx } from "clsx"
 import { createElement } from "react"
-import {
-  HiArrowTopRightOnSquare,
-  HiMiniExclamationTriangle,
-  HiMiniEyeSlash,
-  HiMiniHandRaised,
-  HiMiniHandThumbUp,
-  HiMiniHeart,
-  HiMiniUserGroup,
-} from "react-icons/hi2"
 import spdxLicenseList from "spdx-license-list"
 import { Appstream } from "src/types/Appstream"
 import { IconType } from "react-icons"
 import { useTranslations } from "next-intl"
+import {
+  ExternalLinkIcon,
+  EyeOffIcon,
+  HandIcon,
+  HeartIcon,
+  ThumbsUpIcon,
+  TriangleAlertIcon,
+  Users2Icon,
+} from "lucide-react"
 
 const licenseRefProprietaryRegex = /LicenseRef-proprietary=(.*)/i
 const licenseRefRegex = /LicenseRef-scancode-(.*)=(.*)/i
@@ -158,7 +158,7 @@ const LicenseLink = ({
         title={t("open-in-new-tab")}
       >
         {t(licenseType === "proprietary" ? "learn-more" : "get-involved")}
-        <HiArrowTopRightOnSquare className="rtl:-rotate-90" />
+        <ExternalLinkIcon className="rtl:-rotate-90 h-5" />
       </a>
     )
   )
@@ -188,15 +188,15 @@ const LicenseInfo = ({
       <div className="flex gap-2">
         {licenseType === "proprietary" || licenseType === "special" ? (
           <>
-            <IconInCircle color="yellow" icon={HiMiniHandRaised} />
-            <IconInCircle color="yellow" icon={HiMiniExclamationTriangle} />
-            <IconInCircle color="yellow" icon={HiMiniEyeSlash} />
+            <IconInCircle color="yellow" icon={HandIcon} />
+            <IconInCircle color="yellow" icon={TriangleAlertIcon} />
+            <IconInCircle color="yellow" icon={EyeOffIcon} />
           </>
         ) : (
           <>
-            <IconInCircle color="green" icon={HiMiniHeart} />
-            <IconInCircle color="green" icon={HiMiniUserGroup} />
-            <IconInCircle color="green" icon={HiMiniHandThumbUp} />
+            <IconInCircle color="green" icon={HeartIcon} />
+            <IconInCircle color="green" icon={Users2Icon} />
+            <IconInCircle color="green" icon={ThumbsUpIcon} />
           </>
         )}
       </div>

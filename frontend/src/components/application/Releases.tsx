@@ -6,10 +6,10 @@ import { getIntlLocale } from "../../localize"
 import { Release } from "../../types/Appstream"
 import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
-import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
+import { ExternalLinkIcon } from "lucide-react"
 
 interface Props {
   latestRelease: Release | null
@@ -39,7 +39,7 @@ const ReleaseLink = ({
     >
       {t(noChangeLogProvided ? "release-link-no-changelog" : "release-link")}
       <div className="self-center justify-self-end text-flathub-black opacity-60 dark:text-flathub-gainsborow">
-        <HiArrowTopRightOnSquare className="rtl:-rotate-90" />
+        <ExternalLinkIcon className="rtl:-rotate-90 h-5" />
       </div>
     </a>
   )

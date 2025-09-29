@@ -1,27 +1,26 @@
-import {
-  HiOutlineExclamationTriangle,
-  HiOutlineWifi,
-  HiOutlineArrowDownTray,
-  HiOutlineComputerDesktop,
-  HiOutlineCheckCircle,
-  HiOutlineCheckBadge,
-  HiOutlineDocument,
-  HiOutlineVideoCameraSlash,
-  HiOutlineVideoCamera,
-  HiOutlineCpuChip,
-  HiExclamationTriangle,
-  HiQuestionMarkCircle,
-  HiShieldCheck,
-  HiOutlineWrenchScrewdriver,
-  HiOutlineCog6Tooth,
-  HiOutlineMicrophone,
-} from "react-icons/hi2"
-import { IoGameControllerOutline } from "react-icons/io5"
 import { Appstream } from "./types/Appstream"
 import { Permissions, Metadata } from "./types/Summary"
 import React, { type JSX } from "react"
 import { IconType } from "react-icons"
-import { BsWifiOff } from "react-icons/bs"
+import {
+  BadgeCheckIcon,
+  CircleCheckIcon,
+  CircleQuestionMarkIcon,
+  CpuIcon,
+  DownloadIcon,
+  FileIcon,
+  Gamepad2Icon,
+  MicIcon,
+  MonitorIcon,
+  SettingsIcon,
+  ShieldCheckIcon,
+  TriangleAlertIcon,
+  VideoIcon,
+  VideoOffIcon,
+  WifiIcon,
+  WifiOffIcon,
+  WrenchIcon,
+} from "lucide-react"
 
 enum SafetyRating {
   safe = 1,
@@ -56,19 +55,19 @@ export function safetyRatingToColor(safetyRating: SafetyRating): string {
 export function safetyRatingToIcon(safetyRating: SafetyRating): JSX.Element {
   switch (safetyRating) {
     case SafetyRating.safe:
-      return React.createElement(HiShieldCheck, {
+      return React.createElement(ShieldCheckIcon, {
         className: "w-full h-full",
       })
     case SafetyRating.probably_safe:
-      return React.createElement(HiShieldCheck, {
+      return React.createElement(ShieldCheckIcon, {
         className: "w-full h-full",
       })
     case SafetyRating.potentially_unsafe:
-      return React.createElement(HiQuestionMarkCircle, {
+      return React.createElement(CircleQuestionMarkIcon, {
         className: "w-full h-full",
       })
     case SafetyRating.unsafe:
-      return React.createElement(HiExclamationTriangle, {
+      return React.createElement(TriangleAlertIcon, {
         className: "w-full h-full",
       })
   }
@@ -93,7 +92,7 @@ const microphoneAccess: AppSafetyRating = {
   safetyRating: SafetyRating.probably_safe,
   title: "microphone-access",
   description: "can-listen-using-microphones-without-asking-permission",
-  icon: HiOutlineMicrophone,
+  icon: MicIcon,
   showOnSummaryOrDetails: "both",
 }
 
@@ -121,7 +120,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.probably_safe,
       title: "network-access",
       description: "has-network-access",
-      icon: HiOutlineWifi,
+      icon: WifiIcon,
       showOnSummaryOrDetails: "both",
     })
   } else {
@@ -129,7 +128,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "no-network-access",
       description: "cannot-access-the-internet",
-      icon: BsWifiOff,
+      icon: WifiOffIcon,
       showOnSummaryOrDetails: "details",
     })
   }
@@ -142,7 +141,7 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      icon: HiOutlineCog6Tooth,
+      icon: SettingsIcon,
       title: "uses-privileged-socket",
       description: "socket-may-allow-extra-permissions",
       showOnSummaryOrDetails: "both",
@@ -157,7 +156,7 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      icon: HiOutlineCog6Tooth,
+      icon: SettingsIcon,
       title: "uses-system-services",
       description: "can-request-data-from-system-services",
       showOnSummaryOrDetails: "both",
@@ -172,7 +171,7 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      icon: HiOutlineCog6Tooth,
+      icon: SettingsIcon,
       title: "uses-session-services",
       description: "can-request-data-from-session-services",
       showOnSummaryOrDetails: "both",
@@ -187,7 +186,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "user-device-access",
       description: "can-access-hardware-devices",
-      icon: HiOutlineVideoCamera,
+      icon: VideoIcon,
       showOnSummaryOrDetails: "both",
     })
   } else if (
@@ -199,7 +198,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.probably_safe,
       title: "user-device-access",
       description: "can-access-input-devices",
-      icon: IoGameControllerOutline,
+      icon: Gamepad2Icon,
       showOnSummaryOrDetails: "both",
     })
   } else {
@@ -207,7 +206,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "no-user-device-access",
       description: "no-user-device-access-description",
-      icon: HiOutlineVideoCameraSlash,
+      icon: VideoOffIcon,
       showOnSummaryOrDetails: "details",
     })
   }
@@ -223,7 +222,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "system-device-access",
       description: "can-access-system-devices",
-      icon: HiOutlineCpuChip,
+      icon: CpuIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -239,7 +238,7 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      icon: HiOutlineWrenchScrewdriver,
+      icon: WrenchIcon,
       title: "user-settings",
       description: "can-access-and-change-user-settings",
       showOnSummaryOrDetails: "both",
@@ -259,7 +258,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "legacy-windowing-system",
       description: "legacy-windowing-system-description",
-      icon: HiOutlineComputerDesktop,
+      icon: MonitorIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -276,7 +275,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "legacy-windowing-system",
       description: "legacy-windowing-system-description",
-      icon: HiOutlineComputerDesktop,
+      icon: MonitorIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -301,7 +300,7 @@ export function getSafetyRating(
   if (hasPortalAlt) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      icon: HiOutlineCog6Tooth,
+      icon: SettingsIcon,
       title: "uses-non-portal-service",
       description: "can-talk-to-non-portal-service",
       showOnSummaryOrDetails: "both",
@@ -338,7 +337,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "arbitrary-permissions",
       description: "can-acquire-arbitrary-permissions",
-      icon: HiOutlineExclamationTriangle,
+      icon: TriangleAlertIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -360,7 +359,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "uses-eol-runtime",
       description: "uses-eol-runtime-description",
-      icon: HiOutlineExclamationTriangle,
+      icon: TriangleAlertIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -370,7 +369,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.probably_safe,
       title: "proprietary-code",
       description: "proprietary-code-description",
-      icon: HiOutlineExclamationTriangle,
+      icon: TriangleAlertIcon,
       showOnSummaryOrDetails: "both",
     })
   } else {
@@ -378,7 +377,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "auditable-code",
       description: "auditable-code-description",
-      icon: HiOutlineCheckCircle,
+      icon: CircleCheckIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -391,7 +390,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "software-developer-verified",
       description: "software-developer-verified-description",
-      icon: HiOutlineCheckBadge,
+      icon: BadgeCheckIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -474,7 +473,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-write-access",
       description: "can-read-write-all-data-on-file-system",
-      icon: HiOutlineDocument,
+      icon: FileIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -490,7 +489,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "home-folder-read-write-access",
       description: "can-read-write-home-folder",
-      icon: HiOutlineDocument,
+      icon: FileIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -501,7 +500,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-access",
       description: "can-read-all-data-on-file-system",
-      icon: HiOutlineDocument,
+      icon: FileIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -515,7 +514,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "home-folder-read-access",
       description: "can-read-home-folder",
-      icon: HiOutlineDocument,
+      icon: FileIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -529,7 +528,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "download-folder-read-write-access",
       description: "can-read-write-your-downloads",
-      icon: HiOutlineArrowDownTray,
+      icon: DownloadIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -542,7 +541,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "download-folder-read-access",
       description: "can-read-all-data-in-your-download-folder",
-      icon: HiOutlineArrowDownTray,
+      icon: DownloadIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -558,7 +557,7 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "screen-contents-access",
       description: "can-access-the-contents-of-the-screen-or-other-windows",
-      icon: HiOutlineComputerDesktop,
+      icon: MonitorIcon,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -707,7 +706,7 @@ function specificFileHandling(
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
             description: readWriteTranslationKey(x),
-            icon: HiOutlineDocument,
+            icon: FileIcon,
             showOnSummaryOrDetails: "details",
           })
         })
@@ -726,7 +725,7 @@ function specificFileHandling(
             title: fileSystem.partialMatchKey,
             titleOptions: { folder: trimPermission(x) },
             description: readWriteTranslationKey(x),
-            icon: HiOutlineDocument,
+            icon: FileIcon,
             showOnSummaryOrDetails: "details",
           })
         })
@@ -740,7 +739,7 @@ function specificFileHandling(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "can-access-some-specific-files",
       description: "",
-      icon: HiOutlineDocument,
+      icon: FileIcon,
       showOnSummaryOrDetails: "summary",
     })
   }

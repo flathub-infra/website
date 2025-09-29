@@ -4,7 +4,6 @@ import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { AxiosResponse } from "axios"
 import {
-  HiArrowTopRightOnSquare,
   HiArrowsPointingOut,
   HiCheck,
   HiCheckCircle,
@@ -43,6 +42,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Link } from "src/i18n/navigation"
+import { ExternalLinkIcon } from "lucide-react"
 
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   const t = useTranslations()
@@ -419,7 +419,7 @@ const QualityItem = ({
       <div className={clsx("flex items-center gap-1")}>
         <div>{t(`quality-guideline.${qualityGuideline.id}`)}</div>
         <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
-          <HiArrowTopRightOnSquare className="rtl:-rotate-90" />
+          <ExternalLinkIcon className="rtl:-rotate-90 h-5" />
         </a>
         <div className="ms-auto">
           {qualityGuideline.read_only || mode === "developer" ? (
