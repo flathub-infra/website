@@ -361,6 +361,10 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
             value:
               "max-age=900, stale-while-revalidate=31557600, stale-if-error=31557600",
           },
+          {
+            key: "Surrogate-Key",
+            value: `app-:path`,
+          },
         ],
       },
     ]
