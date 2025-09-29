@@ -244,7 +244,7 @@
   "could-not-find-page": "Wir konnten die gesuchte Seite nicht finden.",
   "verified-login-provider-tooltip": "Der Besitz der Appkennung <appid></appid> wurde von <loginname></loginname> auf <loginprovider></loginprovider> verifiziert",
   "verified-manually-tooltip": "Der Besitz der Appkennung <appid></appid> wurde manuell von dem Flathub-Team verifiziert",
-  "refresh": "Neu laden",
+  "refresh": "Aktualisieren",
   "verification-warning": "Das Flathub-Team kann das Verifizierungsabzeichen nach eigenem Ermessen von jeder App entfernen, zum Beispiel wenn es jemanden über den offiziellen Status der App in die Irre führen könnte oder eine Verwechslung in Bezug auf eine Marke verursacht.",
   "verification-instructions": "Verifiziere deine App-ID, um anzuzeigen, dass dein Flathub-Upload vom App-Entwickler genehmigt wurde. Du musst nachweisen, dass du Kontrolle über die App hast, indem du eine Website auf der Domäne der App ablegst oder den Zugriff auf das Konto der App auf einer Quellcode-Hosting-Website hast. Das verifiziert Abzeichen wird neben dem Namen der App, dem Namen des Herausgebers und der Art und Weise, wie die App-ID verifiziert wurde, angezeigt.",
   "settings": "Einstellungen",

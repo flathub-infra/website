@@ -415,7 +415,7 @@
   "cache-folder": "Dossier de cache",
   "documents-folder": "Dossier Documents",
   "public-share-folder": "Dossier de partage public",
-  "no-file-system-access-description": "Aucun accès au système de fichiers, de quelque manière que ce soit",
+  "no-file-system-access-description": "Aucun accès possible au système de fichiers, de quelque manière que ce soit",
   "can-read-all-data": "Peut lire toutes les données du répertoire",
   "host-system-folders": "Dossiers du système hôte",
   "can-request-data-from-system-services": "Peut demander des données aux services du système",
