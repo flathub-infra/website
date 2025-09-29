@@ -262,7 +262,7 @@ export function getDateFnsLocale(language?: string): Locale {
     case "fil":
       return enUS // date-fns has no Filipino locale
     case "br":
-      return ptBR
+      return enGB // date-fns has no Breton locale
 
     default:
       return enGB
@@ -374,7 +374,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "fil":
       return "fil"
     case "br":
-      return "pt_BR"
+      return "br"
 
     default:
       return "en_US"
@@ -486,7 +486,7 @@ export function getLanguageFlag(language: Language): string {
     case "fil":
       return "🇵🇭"
     case "br":
-      return "🇧🇷"
+      return ""
   }
 }
 
