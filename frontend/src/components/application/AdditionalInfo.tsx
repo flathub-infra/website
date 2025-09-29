@@ -1,11 +1,15 @@
 import { Summary } from "../../types/Summary"
 import ListBox from "./ListBox"
-import { HiCloudArrowDown, HiFolderArrowDown } from "react-icons/hi2"
-import { BsHddFill, BsLaptop } from "react-icons/bs"
 import { useLocale, useTranslations } from "next-intl"
 import { calculateHumanReadableSize } from "../../size"
 import { getIntlLocale } from "../../localize"
 import { StatsResultApp } from "src/codegen"
+import {
+  CloudDownload,
+  FolderDown,
+  HardDrive,
+  LaptopMinimal,
+} from "lucide-react"
 
 const AdditionalInfo = ({
   summary,
@@ -23,7 +27,7 @@ const AdditionalInfo = ({
         inACard
         items={[
           {
-            icon: <BsHddFill aria-hidden />,
+            icon: <HardDrive aria-hidden />,
             header: t("installed-size"),
             content: {
               type: "text",
@@ -38,7 +42,7 @@ const AdditionalInfo = ({
         inACard
         items={[
           {
-            icon: <HiFolderArrowDown />,
+            icon: <FolderDown />,
             header: t("download-size"),
             content: {
               type: "text",
@@ -54,7 +58,7 @@ const AdditionalInfo = ({
         inACard
         items={[
           {
-            icon: <BsLaptop aria-hidden />,
+            icon: <LaptopMinimal aria-hidden />,
             header: t("available-architectures"),
             content: {
               type: "text",
@@ -71,7 +75,7 @@ const AdditionalInfo = ({
           inACard
           items={[
             {
-              icon: <HiCloudArrowDown />,
+              icon: <CloudDownload />,
               header: t("installs"),
               content: {
                 type: "text",

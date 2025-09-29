@@ -2,22 +2,22 @@ import { FunctionComponent, type JSX } from "react"
 
 import { Appstream } from "../../types/Appstream"
 import { useTranslations } from "next-intl"
-import {
-  HiChatBubbleLeftRight,
-  HiCodeBracket,
-  HiCodeBracketSquare,
-  HiFlag,
-  HiGlobeAlt,
-  HiInbox,
-  HiLanguage,
-  HiLifebuoy,
-  HiMiniArrowTopRightOnSquare,
-  HiWrenchScrewdriver,
-} from "react-icons/hi2"
 import clsx from "clsx"
 import React from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { ProjectUrl } from "src/types/ProjectUrl"
+import {
+  Code2Icon,
+  CodeIcon,
+  ExternalLinkIcon,
+  FlagIcon,
+  GlobeIcon,
+  InboxIcon,
+  LanguagesIcon,
+  LifeBuoyIcon,
+  MessagesSquareIcon,
+  WrenchIcon,
+} from "lucide-react"
 
 interface Props {
   app: Pick<Appstream, "id" | "urls"> & {
@@ -44,7 +44,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.homepage,
         trackAsEvent: "Homepage",
       },
-      icon: <HiGlobeAlt />,
+      icon: <GlobeIcon />,
       name: t("project-website"),
     })
   }
@@ -55,7 +55,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.contact,
         trackAsEvent: "Contact",
       },
-      icon: <HiInbox />,
+      icon: <InboxIcon />,
       name: t("contact"),
     })
   }
@@ -66,7 +66,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.help,
         trackAsEvent: "Help",
       },
-      icon: <HiLifebuoy />,
+      icon: <LifeBuoyIcon />,
       name: t("help"),
     })
   }
@@ -77,7 +77,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.faq,
         trackAsEvent: "Faq",
       },
-      icon: <HiChatBubbleLeftRight />,
+      icon: <MessagesSquareIcon />,
       name: t("frequently-asked-questions"),
     })
   }
@@ -88,7 +88,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.translate,
         trackAsEvent: "Translate",
       },
-      icon: <HiLanguage />,
+      icon: <LanguagesIcon />,
       name: t("contribute-translations"),
     })
   }
@@ -102,7 +102,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
           : `https://github.com/flathub/${app.id}/issues`,
       trackAsEvent: "Bugtracker",
     },
-    icon: <HiFlag />,
+    icon: <FlagIcon />,
     name: t("report-an-issue"),
   })
 
@@ -112,7 +112,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.vcs_browser,
         trackAsEvent: "VCS_Browser",
       },
-      icon: <HiCodeBracket />,
+      icon: <Code2Icon />,
       name: t("vcs_browser"),
     })
   }
@@ -123,7 +123,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         text: app.urls.contribute,
         trackAsEvent: "Contribute",
       },
-      icon: <HiWrenchScrewdriver />,
+      icon: <WrenchIcon />,
       name: t("contribute"),
     })
   }
@@ -135,7 +135,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         `https://github.com/flathub/${app.id}`,
       trackAsEvent: "Manifest",
     },
-    icon: <HiCodeBracketSquare />,
+    icon: <CodeIcon />,
     name: t("manifest"),
   })
 
@@ -189,7 +189,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                       {link.content.text}
                     </span>
                   </div>
-                  <HiMiniArrowTopRightOnSquare className="rtl:-rotate-90 shrink-0 w-5 h-5 ms-auto text-flathub-granite-gray dark:text-flathub-spanish-gray" />
+                  <ExternalLinkIcon className="rtl:-rotate-90 shrink-0 w-5 h-5 ms-auto text-flathub-granite-gray dark:text-flathub-spanish-gray" />
                 </a>
               )
             })}
