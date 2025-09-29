@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
-import Badge from "./Badge"
+import Tag from "./Tag"
 import React from "react"
 
 const meta = {
-  title: "Components/Badge",
-  component: Badge,
-} satisfies Meta<typeof Badge>
+  title: "Components/Tag",
+  component: Tag,
+} satisfies Meta<typeof Tag>
 
 export default meta
 
@@ -25,7 +25,7 @@ export const InACard: Story = {
   },
   render: (args) => (
     <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
-      <Badge {...args} />
+      <Tag {...args} />
     </div>
   ),
 }

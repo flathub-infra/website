@@ -3,7 +3,7 @@ import { FunctionComponent, ReactElement, useState } from "react"
 import { getIntlLocale } from "src/localize"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
-import Badge from "../application/Badge"
+import Tag from "../application/Tag"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import { useMutation } from "@tanstack/react-query"
@@ -191,7 +191,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
             {title}
             {request.is_outdated && (
               <span className="ms-2">
-                <Badge text={t("moderation-outdated")} inACard={true} />
+                <Tag text={t("moderation-outdated")} inACard={true} />
               </span>
             )}
           </h2>

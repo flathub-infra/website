@@ -1,7 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import { FunctionComponent, type JSX } from "react"
 import { clsx } from "clsx"
-import Badge from "./application/Badge"
+import Tag from "./application/Tag"
 import { LayoutGroup, motion } from "framer-motion"
 
 export interface Tab {
@@ -39,7 +39,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
                     {tab.name}
                     {!!tab.badge && (
                       <span className="ms-1">
-                        <Badge text={tab.badge.toString()}></Badge>
+                        <Tag text={tab.badge.toString()}></Tag>
                       </span>
                     )}
                     {selected && (
