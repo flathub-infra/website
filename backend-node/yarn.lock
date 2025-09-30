@@ -2513,10 +2513,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^17.2.2":
-  version: 17.2.2
-  resolution: "dotenv@npm:17.2.2"
-  checksum: 10c0/be66513504590aff6eccb14167625aed9bd42ce80547f4fe5d195860211971a7060949b57108dfaeaf90658f79e40edccd3f233f0a978bff507b5b1565ae162b
+"dotenv@npm:^17.2.3":
+  version: 17.2.3
+  resolution: "dotenv@npm:17.2.3"
+  checksum: 10c0/c884403209f713214a1b64d4d1defa4934c2aa5b0002f5a670ae298a51e3c3ad3ba79dfee2f8df49f01ae74290fcd9acdb1ab1d09c7bfb42b539036108bb2ba0
   languageName: node
   linkType: hard
 
@@ -4141,7 +4141,7 @@ __metadata:
     "@types/react-dom": "npm:^19"
     "@types/swagger-ui-dist": "npm:^3.30.6"
     date-fns: "npm:^4.1.0"
-    dotenv: "npm:^17.2.2"
+    dotenv: "npm:^17.2.3"
     eslint: "npm:^9.36.0"
     hono: "npm:^4.9.9"
     nodemailer: "npm:7.0.6"
