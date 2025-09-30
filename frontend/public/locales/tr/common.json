@@ -431,7 +431,9 @@
     "branding-good-primary-brand-colors": "İyi ana marka renkleri",
     "needed-to-pass-x": "{x} geçmek için gerekli",
     "hide-branding-preview": "Marka ön izlemesini gizle",
-    "show-branding-preview": "Marka ön izlemesini göster"
+    "show-branding-preview": "Marka ön izlemesini göster",
+    "light": "Açık Tema",
+    "dark": "Koyu Tema"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {folder}",
   "desktop-folder": "Masaüstü klasörü",
@@ -532,7 +534,9 @@
   "get-it-on": "Şuradan indir",
   "flathub-the-linux-app-store": "Flathub, Linux için Uygulama Mağazasıdır",
   "news": "Haberler",
-  "developer-portal": { "title": "Geliştirici Kanalı" },
+  "developer-portal": {
+    "title": "Geliştirici Kanalı"
+  },
   "nothing-to-do": "Yapacak bir şey yok",
   "unverified": "Doğrulanmadı",
   "new": "Yeni",
@@ -634,5 +638,23 @@
   "launcher": "Başlatıcılar",
   "gamelauncher": "Oyun Başlatıcıları",
   "more-gamelauncher": "Diğer Oyun Başlatıcıları",
-  "tool": "Araçlar"
+  "tool": "Araçlar",
+  "gametool": "Oyun Araçları",
+  "more-gametool": "Diğer Oyun Araçları",
+  "vendingSharesPreview": {
+    "app": "Uygulama",
+    "sdk": "SDK"
+  },
+  "lightbox": {
+    "close": "Kapat",
+    "next": "Sonraki",
+    "previous": "Önceki",
+    "zoom-in": "Yakınlaştır",
+    "zoom-out": "Uzaklaştır",
+    "show-screenshot-fullscreen": "Ekran görüntüsünü tam ekran göster",
+    "screenshot": "Ekran görüntüsü"
+  },
+  "download": {
+    "install-x": "“{x}” programını yükle"
+  }
 }

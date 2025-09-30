@@ -538,7 +538,10 @@
   "flathub-the-linux-app-store": "Приложения за Линукс във „Flathub“",
   "nothing-to-do": "Няма нищо",
   "news": "Новини",
-  "developer-portal": { "title": "Портал" },
+  "developer-portal": {
+    "title": "Портал",
+    "runtime-version": "Среда за изпълнение: {version}"
+  },
   "unverified": "Непроверено",
   "updated": "Обновени",
   "new": "Нови",

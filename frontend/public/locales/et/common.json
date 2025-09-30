@@ -437,7 +437,10 @@
   "new-beta-token": "Uus beetaversiooni tunnusluba",
   "new-stable-token": "Uus stabiilse versiooni tunnusluba",
   "create-token": "Loo tunnusluba",
-  "developer-portal": { "title": "Portaal arendajatele" },
+  "developer-portal": {
+    "title": "Portaal arendajatele",
+    "runtime-version": "Käitusteek: {version}"
+  },
   "token-name": "Tunnusloa nimi",
   "revoke-token": "Muuda tunnusluba kehtetuks",
   "revoke-token-description": "Kas sa oled kindel, et soovid tühistada „{name}“ tunnusloa?",
