@@ -73,6 +73,7 @@ export interface Props
   application: AppstreamListItem
   link?: (appid: string) => string
   showId?: boolean
+  showRuntime?: boolean
   className?: string
 }
 
@@ -83,6 +84,7 @@ export const ApplicationCard = ({
   application,
   link,
   showId = false,
+  showRuntime = false,
   ...props
 }: Props) => {
   const t = useTranslations()
@@ -146,7 +148,7 @@ export const ApplicationCard = ({
         <div className="mt-1 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
           {application.summary}
         </div>
-        {application.bundle?.runtime && (
+        {showRuntime && application.bundle?.runtime && (
           <div className="mt-1 text-xs dark:text-flathub-spanish-gray text-flathub-granite-gray">
             {t("developer-portal.runtime-version", {
               version: application.bundle.runtime,
