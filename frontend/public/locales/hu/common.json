@@ -538,7 +538,10 @@
   "do-you-really-want-to-switch-to-direct-upload": "Biztos, hogy szeretné? Ha egy alkalmazást közvetlen feltöltésre vált, nincs visszaút.",
   "news": "Hírek",
   "unverified": "Ellenőrizetlen",
-  "developer-portal": { "title": "Fejlesztői portál" },
+  "developer-portal": {
+    "title": "Fejlesztői portál",
+    "runtime-version": "Futtatókörnyezet: {version}"
+  },
   "nothing-to-do": "Nincs tennivaló",
   "trending": "Felkapott",
   "new": "Új",
