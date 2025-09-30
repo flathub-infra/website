@@ -94,6 +94,7 @@ const UserApps: FunctionComponent<Props> = ({
         onRefresh={variant === "dev" && queryRefreshDev.mutate}
         variant="nested"
         showId
+        showRuntime
         link={link}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />

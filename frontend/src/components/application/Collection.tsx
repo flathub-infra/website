@@ -18,6 +18,7 @@ interface Props {
   link?: (appid: string) => string
   variant?: "default" | "nested" | "flat"
   showId?: boolean
+  showRuntime?: boolean
   customButtons?: JSX.Element
 }
 
@@ -66,6 +67,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   link,
   variant = "default",
   showId = false,
+  showRuntime = false,
   customButtons,
 }) => {
   const t = useTranslations()
@@ -121,6 +123,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
               link={link}
               variant={variant}
               showId={showId}
+              showRuntime={showRuntime}
             />
           </div>
         ))}
