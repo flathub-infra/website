@@ -135,6 +135,7 @@
   "entry-confirmation-prompt": "Enter “{text}” to continue.",
   "login-with-provider": "Log in with {provider}",
   "by": "by {developer}",
+  "unverified-tooltip": "The ownership of the <appid></appid> app ID has not been verified and it may be a community package",
   "install": "Install",
   "donate": "Donate",
   "donate-to": "Donate to {project}",
