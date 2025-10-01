@@ -19,13 +19,19 @@ export const Description = ({
   const description = useMemo(
     () =>
       app.description
-        ? linkifyHtml(sanitizeAppstreamDescription(app.description), {
-            rel: "noopener noreferrer",
-            target: "_blank",
-            validate: {
-              url: (value) => /^https:\/\//.test(value),
+        ? linkifyHtml(
+            sanitizeAppstreamDescription(app.description).replace(
+              /<p>(\s*(<em>)?\s*note:\s*(<\/em>)?.*?)<\/p>/is,
+              "<p><b>$1</b></p>",
+            ),
+            {
+              rel: "noopener noreferrer",
+              target: "_blank",
+              validate: {
+                url: (value) => /^https:\/\//.test(value),
+              },
             },
-          })
+          )
         : "",
     [app.description],
   )
