@@ -162,8 +162,6 @@ def get_quality_moderation_stats(
     tags=["quality-moderation"],
     responses={
         200: {"description": "Quality moderation details for app"},
-        401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - quality moderator required"},
         404: {"description": "App not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
@@ -176,7 +174,6 @@ def get_quality_moderation_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationResponse:
     with get_db("replica") as db:
         items = [
