@@ -22,6 +22,9 @@ export const Description = ({
         ? linkifyHtml(sanitizeAppstreamDescription(app.description), {
             rel: "noopener noreferrer",
             target: "_blank",
+            validate: {
+              url: (value) => /^https:\/\//.test(value),
+            },
           })
         : "",
     [app.description],
