@@ -622,43 +622,43 @@ function specificFileHandling(
       folder: "xdg-desktop",
       fullMatchKey: "desktop-folder",
       partialMatchKey: "desktop-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-documents",
       fullMatchKey: "documents-folder",
       partialMatchKey: "documents-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-music",
       fullMatchKey: "music-folder",
       partialMatchKey: "music-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-pictures",
       fullMatchKey: "pictures-folder",
       partialMatchKey: "pictures-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-public-share",
       fullMatchKey: "public-share-folder",
       partialMatchKey: "public-share-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-videos",
       fullMatchKey: "videos-folder",
       partialMatchKey: "videos-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-templates",
       fullMatchKey: "templates-folder",
       partialMatchKey: "templates-subfolder-x",
-      safetyRating: SafetyRating.probably_safe
+      safetyRating: SafetyRating.probably_safe,
     },
     {
       folder: "xdg-cache",
@@ -710,7 +710,8 @@ function specificFileHandling(
       if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
         fullMatch.forEach((x) => {
           appSafetyRating.push({
-            safetyRating: fileSystem.safetyRating ?? SafetyRating.potentially_unsafe,
+            safetyRating:
+              fileSystem.safetyRating ?? SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
             description: readWriteTranslationKey(x),
             icon: FileIcon,
@@ -728,7 +729,8 @@ function specificFileHandling(
       if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
         partialMatch.forEach((x) => {
           appSafetyRating.push({
-            safetyRating: fileSystem.safetyRating ?? SafetyRating.potentially_unsafe,
+            safetyRating:
+              fileSystem.safetyRating ?? SafetyRating.potentially_unsafe,
             title: fileSystem.partialMatchKey,
             titleOptions: { folder: trimPermission(x) },
             description: readWriteTranslationKey(x),
