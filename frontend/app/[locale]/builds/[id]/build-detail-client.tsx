@@ -44,7 +44,7 @@ export default function BuildDetailClient({ pipelineId }: Props) {
     <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <Link href="/builds">
         <Button variant="ghost" className="mb-6">
-          <ArrowLeftIcon className="h-4 w-4 mr-2" />
+          <ArrowLeftIcon className="h-4 w-4 me-2" />
           Back to Dashboard
         </Button>
       </Link>
@@ -72,7 +72,7 @@ export default function BuildDetailClient({ pipelineId }: Props) {
             <Button variant="outline" size="sm" className="w-full mt-6" asChild>
               <a
                 href={query.data.data.log_url}
-                className="size-4 mr-2"
+                className="size-4 me-2"
                 target="_blank"
               >
                 View Log
