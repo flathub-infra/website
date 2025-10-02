@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "Kasutab ühendussoklit, millel on võimalik saada täiendavaid õigusi",
   "uses-non-portal-service": "Kasutab portaaliväliseid teenuseid",
   "can-talk-to-non-portal-service": "Võib kasutada portaalivälistest teenustest ja saad täiendavaid õigusi",
-  "unauthorized": "Pole lubatud"
+  "unauthorized": "Pole lubatud",
+  "developed-by": "arendajaks on {developer}",
+  "unverified-tooltip": "<appid></appid> rakenduse tunnuse omand on arendaja poolt kinnitamata ning tegemist võib olla kogukonna poolt pakendatud variandiga"
 }

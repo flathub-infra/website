@@ -118,13 +118,13 @@
   "use-new-card": "Yeni bir kart kullan",
   "failed-to-load-refresh": "Kaynak yüklenemedi. Yenilemeyi deneyin.",
   "user-wallet": "Kullanıcı Cüzdanı",
-  "confirm-selection": "Seçimi Onayla",
+  "confirm-selection": "Seçimi onayla",
   "stripe-declined-insufficient_funds": "Kartın yeterli bakiyesi yok.",
-  "remove-saved-card": "Kayıtlı Kartı Kaldır",
+  "remove-saved-card": "Kayıtlı kartı kaldır",
   "donate-to": "{project} projesine bağış yapın",
   "kind-purchase": "Satın alma",
   "payment": "Ödeme",
-  "make-donation": "Bağış Yap",
+  "make-donation": "Bağış yap",
   "kind-donation": "Bağış",
   "retry-checkout": "Ödemeyi yeniden dene",
   "no-saved-payment-methods": "Gösterilecek kayıtlı ödeme yöntemi yok.",
@@ -178,7 +178,7 @@
   "payment-provider-error": "Ödeme sağlayıcımız bir hatayla karşılaştı. Daha sonra tekrar deneyin.",
   "recommended-payment": "Tavsiye Edilen Ödeme",
   "app-vending-settings-confirmed": "Uygulama satış ayarları onaylandı",
-  "confirm-settings": "Ayarları Onayla",
+  "confirm-settings": "Ayarları onayla",
   "select-purchase-amount": "Ödemek istediğiniz tutarı girin",
   "app-payment-information": "Uygulama geliştiricisi asgari ödemeyi {minvalue} ve tercih edilen ödemeyi {recvalue} olarak ayarladı.",
   "owned-apps": "Sahip olunan uygulamalar",
@@ -194,7 +194,7 @@
   "status-unredeemed": "Kullanılmadı",
   "token-cancelled": "Belirteç başarıyla iptal edildi",
   "token-creation-placeholder": "Her satırda bir tane olacak şekilde bir ad listesi girin, her biri yeni bir sahiplik belirtecini tanımlayacaktır.",
-  "create-tokens": "Belirteç Oluştur",
+  "create-tokens": "Token oluştur",
   "submit": "Gönder",
   "token-failed": "Belirteç kullanılamadı",
   "token-redeem-placeholder": "Bir sahiplik belirteci girin",
@@ -301,7 +301,7 @@
   "moderation-no-review-requests": "Bu uygulama için gösterilecek inceleme yok.",
   "runtime-distribution": "Çalışma Zamanı Dağıtımı",
   "flathub-index-description": "Herhangi bir Linux dağıtımı için tüm gözde uygulamalarınızın en son sürümlerini edinin",
-  "new-app": "Yeni Uygulama",
+  "new-app": "Yeni uygulama",
   "community-repository": "Topluluk Deposu",
   "app-already-exists": "Bu kimlikle bir uygulama zaten var.",
   "app-id": "Uygulama Kimliği",
@@ -353,7 +353,7 @@
   "remove-developer": "Geliştiriciyi kaldır",
   "remove-developer-confirmation": "{developer} geliştiricisini {app} uygulamasından kaldırmak istediğinize emin misiniz?",
   "desktop-application": "Masaüstü Uygulaması",
-  "console-application": "Uçbirim Uygulaması",
+  "console-application": "Terminal Uygulaması",
   "new-direct-upload": "Yeni Direk Yüklenmiş Uygulama",
   "publisher-agreement": "Yayıncı Gönderim Sözleşmesi",
   "publisher-agreement-accept": "Yayıncı Gönderim Sözleşmesini kabul ediyorum",
@@ -433,7 +433,10 @@
     "hide-branding-preview": "Marka ön izlemesini gizle",
     "show-branding-preview": "Marka ön izlemesini göster",
     "light": "Açık Tema",
-    "dark": "Koyu Tema"
+    "dark": "Koyu Tema",
+    "problems": "Eğer rehber hakkında özel olarak bir soru sormak isterseniz, istediğiniz zaman <link>şikayet</link> oluşturabilirsiniz.",
+    "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor",
+    "failing-x-checks": "Denetim başarısız oldu"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {folder}",
   "desktop-folder": "Masaüstü klasörü",
@@ -500,18 +503,18 @@
   "build-x": "Derleme: {build_ago}",
   "scopes": "Kapsam",
   "name": "Ad",
-  "new-beta-token": "Yeni Beta Jetonu",
+  "new-beta-token": "Yeni beta tokenı",
   "create-token": "Jeton Oluştur",
   "scope-publish": "Derlemeyi yayınla",
   "no-tokens-to-show": "Gösterecek jeton yok.",
   "revoke-token-description": "\"{name}\" jetonunu feshetmek istediğinizden emin misiniz?",
   "revoke": "Feshet",
-  "show-expired-tokens": "Süresi Dolmuş Jetonları Göster",
+  "show-expired-tokens": "Süresi dolmuş tokenlari göster",
   "scope-upload": "Derleme için dosya yükle",
   "repo": "Depo",
   "flathub-apps-for-linux": "Flathub - Linux için uygulamalar",
   "upload-tokens": "Jetonları Yükle",
-  "new-stable-token": "Yeni Kararlı Jetonu",
+  "new-stable-token": "Yeni kararlı token",
   "can-access-input-devices": "Klavye, fare veya oyun kumandası gibi girdi aygıtlarına erişebilir",
   "expires": "Sona erme",
   "revoked": "İptal edilmiş",
@@ -535,7 +538,8 @@
   "flathub-the-linux-app-store": "Flathub, Linux için Uygulama Mağazasıdır",
   "news": "Haberler",
   "developer-portal": {
-    "title": "Geliştirici Kanalı"
+    "title": "Geliştirici Kanalı",
+    "runtime-version": "Runtime: {version}"
   },
   "nothing-to-do": "Yapacak bir şey yok",
   "unverified": "Doğrulanmadı",
@@ -586,7 +590,7 @@
   "flathub-logo": "Flathub Logosu",
   "date": "Tarih",
   "mastodon": "Mastodon",
-  "more-pages": "Daha çok sayfa",
+  "more-pages": "Diğer sayfalar",
   "carousel": "Dönme dolap",
   "slide": "Kaydır",
   "count": "Adet",
@@ -643,7 +647,13 @@
   "more-gametool": "Diğer Oyun Araçları",
   "vendingSharesPreview": {
     "app": "Uygulama",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "sliderLabel": "Oran dağılım çubuğu",
+    "sliderThumbLabel": "Uygulama oran dağılımı: {percentage}",
+    "appShare": "Uygulama oranı: {percentage}",
+    "sdkShare": "SDK oranı: {percentage}",
+    "flathubShare": "Flathub oranı: {percentage}",
+    "screenReaderBreakdown": "Oran dağılım çubuğu. Uygulama, SDK ve Flathub arasındaki dağılımı ayarlamak için ok tuşlarını kullanın. Mevcut dağılım: Uygulama: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Toplam maliyet: {totalCost}."
   },
   "lightbox": {
     "close": "Kapat",
@@ -655,6 +665,14 @@
     "screenshot": "Ekran görüntüsü"
   },
   "download": {
-    "install-x": "“{x}” programını yükle"
+    "install-x": "“{x}” programını yükle",
+    "fallback-instructions": "<opening>\"{name}\" yönetici programında açılıyor…</opening><support>Hiçbir şey olmazsa, sisteminiz <i>flatpak+https</i> URL’lerini desteklemiyor olabilir.</support><listPrefix>Bu durumda şunları yapabilirsiniz:</listPrefix><ol><li><link>.flatpakref dosyasını indirin</link></li><li>Daha sonra dosya yöneticinizden çalıştırın</li></ol><setupLine><linkSetup>Flatpak kurulum talimatları</linkSetup></setupLine>"
+  },
+  "developed-by": "{developer} tarafından geliştirildi",
+  "unverified-tooltip": "<appid></appid> uygulama kimliğinin sahipliği doğrulanmamış ve bu uygulama topluluk paketi olabilir",
+  "quality": {
+    "missing-brand-colors": "Marka renkleri bulunmuyor",
+    "banner-preview": "Afiş önizlemesi",
+    "banner-preview-description": "Afişinizi kolayca denemek için, <preview>afiş önizlemesini</preview> kullanın"
   }
 }
