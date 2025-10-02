@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { usePathname, Link } from "../../i18n/navigation"
-import { HiXMark, HiBars3 } from "react-icons/hi2"
+import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid"
 import { OrganizationJsonLd } from "next-seo"
 import { useTranslations, useLocale } from "next-intl"
 import { IS_PRODUCTION } from "../../env"
@@ -38,9 +38,9 @@ const MobileMenuButton = ({ open }) => {
     <PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:hidden">
       <span className="sr-only">{t("open-menu")}</span>
       {open ? (
-        <HiXMark className="block size-6" aria-hidden="true" />
+        <XMarkIcon className="block size-6" aria-hidden="true" />
       ) : (
-        <HiBars3 className="block size-6" aria-hidden="true" />
+        <Bars3Icon className="block size-6" aria-hidden="true" />
       )}
     </PopoverButton>
   )

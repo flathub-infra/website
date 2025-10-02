@@ -1,8 +1,8 @@
 import {
-  HiChevronRight,
-  HiChevronLeft,
-  HiArrowsPointingOut,
-} from "react-icons/hi2"
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  ArrowsPointingOutIcon,
+} from "@heroicons/react/24/solid"
 import { DesktopAppstream, mapScreenshot } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
@@ -85,7 +85,7 @@ export const CarouselStrip = ({
               aria-label={t("lightbox.show-screenshot-fullscreen")}
               title={t("lightbox.show-screenshot-fullscreen")}
             >
-              <HiArrowsPointingOut />
+              <ArrowsPointingOutIcon />
             </button>
           )}
           <div className="aspect-video max-h-[500px] w-full">
@@ -116,12 +116,12 @@ export const CarouselStrip = ({
               render={{
                 iconPrev: () => (
                   <div className="control-arrow control-prev text-3xl text-flathub-dark-gunmetal opacity-90 transition hover:opacity-50 dark:text-flathub-gainsborow">
-                    <HiChevronLeft />
+                    <ChevronLeftIcon className="size-7.5" />
                   </div>
                 ),
                 iconNext: () => (
                   <div className="control-arrow control-prev text-3xl text-flathub-dark-gunmetal opacity-90 transition hover:opacity-50 dark:text-flathub-gainsborow">
-                    <HiChevronRight />
+                    <ChevronRightIcon className="size-7.5" />
                   </div>
                 ),
                 buttonPrev:

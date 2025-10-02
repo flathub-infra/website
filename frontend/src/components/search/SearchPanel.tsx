@@ -4,7 +4,7 @@ import {
   DisclosurePanel,
   Transition,
 } from "@headlessui/react"
-import { HiOutlineFunnel } from "react-icons/hi2"
+import { FunnelIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseMutationResult } from "@tanstack/react-query"
@@ -110,9 +110,7 @@ export const SearchPanel = ({
               className="w-full"
             >
               <div className="flex gap-3">
-                <HiOutlineFunnel
-                  className={clsx("size-6 transform duration-150")}
-                />
+                <FunnelIcon className={"size-6 transform duration-150"} />
                 {t("filters")}
               </div>
             </DisclosureButton>

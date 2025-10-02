@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { StackedListBox } from "./StackedListBox"
-import { HiCodeBracket } from "react-icons/hi2"
+import { CodeBracketIcon } from "@heroicons/react/16/solid"
 import React from "react"
 import { faker } from "@faker-js/faker"
 
@@ -21,13 +21,13 @@ export const Default: Story = {
         id: 1,
         header: faker.lorem.words(3),
         description: faker.lorem.text(),
-        icon: <HiCodeBracket />,
+        icon: <CodeBracketIcon className="size-4" />,
       },
       {
         id: 2,
         header: faker.lorem.words(3),
         description: faker.lorem.text(),
-        icon: <HiCodeBracket />,
+        icon: <CodeBracketIcon className="size-4" />,
       },
       {
         id: 3,
@@ -38,7 +38,7 @@ export const Default: Story = {
         id: 4,
         header: faker.lorem.words(3),
         description: faker.lorem.text(),
-        icon: <HiCodeBracket />,
+        icon: <CodeBracketIcon className="size-4" />,
       },
     ],
   },

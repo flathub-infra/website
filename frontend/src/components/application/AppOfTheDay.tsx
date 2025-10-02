@@ -1,7 +1,7 @@
 import { DesktopAppstream } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
-import { HiMiniStar } from "react-icons/hi2"
+import { StarIcon } from "@heroicons/react/16/solid"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
@@ -66,7 +66,7 @@ export const AppOfTheDay = ({
     >
       <div className="grid grid-cols-2 grid-rows-[auto_1fr] w-full h-full">
         <div className="flex gap-1 col-span-2 items-center col-start-1 row-start-1">
-          <HiMiniStar className={clsx(textColor, "size-4 shrink-0")} />
+          <StarIcon className={clsx(textColor, "size-4 shrink-0")} />
           {t("app-of-the-day")}
         </div>
         <div className="flex flex-col gap-2 py-8 col-start-1 row-start-2">

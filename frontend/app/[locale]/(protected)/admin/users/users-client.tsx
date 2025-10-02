@@ -13,7 +13,7 @@ import { format } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import React from "react"
 import { useEffect, useState } from "react"
-import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid"
 import {
   FlathubUsersResult,
   Permission,
@@ -216,8 +216,8 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
                             header.getContext(),
                           )}
                           {{
-                            asc: <HiMiniChevronUp className="size-4" />,
-                            desc: <HiMiniChevronDown className="size-4" />,
+                            asc: <ChevronUpIcon className="size-4" />,
+                            desc: <ChevronDownIcon className="size-4" />,
                           }[header.column.getIsSorted() as string] ?? null}
                         </button>
                       </div>

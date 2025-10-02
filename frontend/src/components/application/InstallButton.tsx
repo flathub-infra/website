@@ -5,7 +5,7 @@ import {
   PopoverPanel,
   Transition,
 } from "@headlessui/react"
-import { HiChevronDown } from "react-icons/hi2"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { clsx } from "clsx"
 import { Link, useRouter } from "src/i18n/navigation"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
@@ -132,7 +132,7 @@ export default function InstallButton({
           )}
         >
           <span className="sr-only">Open options</span>
-          <HiChevronDown className="size-5" aria-hidden="true" />
+          <ChevronDownIcon className="size-5" aria-hidden="true" />
         </PopoverButton>
         <Transition
           enter="transition ease-out duration-100"

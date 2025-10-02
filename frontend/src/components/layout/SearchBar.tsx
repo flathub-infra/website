@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from "react"
 import { useRouter } from "../../i18n/navigation"
-import { HiMagnifyingGlass } from "react-icons/hi2"
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 import { useLocale, useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { SiteLinksSearchBoxJsonLd } from "next-seo"
@@ -63,7 +63,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
             tabIndex={-1}
             onClick={onClickSearch}
           >
-            <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
+            <MagnifyingGlassIcon className="size-5 text-flathub-spanish-gray" />
           </button>
         </div>
         <Form action={`/${locale}/apps/search`} id="search-form" role="search">

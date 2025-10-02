@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import { Alert, AlertDescription, AlertTitle } from "./alert"
-import { HiMiniExclamationTriangle } from "react-icons/hi2"
+import { AlertTriangleIcon } from "lucide-react"
 import React from "react"
 
 const meta = {
@@ -30,7 +30,7 @@ export const WithIcon: Story = {
   args: {
     children: (
       <>
-        <HiMiniExclamationTriangle />
+        <AlertTriangleIcon className="size-5" />
         <AlertTitle>Title</AlertTitle>
         <AlertDescription>This is an alert</AlertDescription>
       </>
@@ -43,7 +43,7 @@ export const WithIconDestructive: Story = {
     variant: "destructive",
     children: (
       <>
-        <HiMiniExclamationTriangle />
+        <AlertTriangleIcon className="size-5" />
         <AlertTitle>Title</AlertTitle>
         <AlertDescription>This is an alert</AlertDescription>
       </>

@@ -1,7 +1,11 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { useState } from "react"
 import MultiToggle from "./MultiToggle"
-import { HiCheck, HiQuestionMarkCircle, HiXMark } from "react-icons/hi2"
+import {
+  CheckIcon,
+  QuestionMarkCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid"
 
 const meta: Meta<typeof MultiToggle> = {
   title: "Components/MultiToggle",
@@ -28,7 +32,7 @@ export const SmallWithIcons: Story = {
           items={[
             {
               id: "not-set",
-              content: <HiQuestionMarkCircle className="w-6 h-6" />,
+              content: <QuestionMarkCircleIcon className="size-6" />,
               selected: selectedToggle === undefined,
               onClick: () => setSelectedToggle(undefined),
               disabled: true,
@@ -36,14 +40,14 @@ export const SmallWithIcons: Story = {
             },
             {
               id: "not_passed",
-              content: <HiXMark className="w-6 h-6" />,
+              content: <XMarkIcon className="size-6" />,
               onClick: () => setSelectedToggle(false),
               selected: selectedToggle === false,
               color: "bg-flathub-electric-red dark:bg-flathub-electric-red",
             },
             {
               id: "passed",
-              content: <HiCheck className="w-6 h-6" />,
+              content: <CheckIcon className="size-6" />,
               onClick: () => setSelectedToggle(true),
               selected: selectedToggle === true,
             },

@@ -9,7 +9,7 @@ import {
   Transition,
 } from "@headlessui/react"
 import { motion } from "framer-motion"
-import { HiChevronUp } from "react-icons/hi2"
+import { ChevronUpIcon } from "@heroicons/react/24/solid"
 
 import AppDevelopersControls from "../../../../../src/components/application/AppDevelopersControls"
 import UploadTokenControls from "../../../../../src/components/application/AppUploadControls/UploadTokenControls"
@@ -55,7 +55,7 @@ const SettingsDisclosure = ({ sectionTitle, children }) => {
               variants={variants}
               className="ms-6 flex h-7 items-center"
             >
-              <HiChevronUp className="h-6 w-6" aria-hidden="true" />
+              <ChevronUpIcon className="size-6" aria-hidden="true" />
             </motion.span>
           </DisclosureButton>
           <Transition

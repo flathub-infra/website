@@ -12,11 +12,8 @@ import { format } from "date-fns"
 
 import { formatCurrency } from "src/utils/localize"
 import { clsx } from "clsx"
-import {
-  HiChevronLeft,
-  HiChevronRight,
-  HiExclamationTriangle,
-} from "react-icons/hi2"
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
+import { ExclamationTriangleIcon } from "@heroicons/react/16/solid"
 import { useLocale, useTranslations } from "next-intl"
 import { TransactionSummary } from "src/codegen"
 import { Dispatch, SetStateAction } from "react"
@@ -86,7 +83,7 @@ export const TransactionHistoryTable = ({
                     <TableCell>{t(`status-${entry.status}`)}</TableCell>
                     <TableCell className="text-right flex justify-end gap-1 items-center">
                       {needsAttention && (
-                        <HiExclamationTriangle className="text-red-500" />
+                        <ExclamationTriangleIcon className="text-red-500 size-4" />
                       )}
                       <span
                         className={clsx(
@@ -112,7 +109,7 @@ export const TransactionHistoryTable = ({
               disabled={page === 0}
               aria-label={t("previous-page")}
             >
-              <HiChevronLeft className="text-2xl" />
+              <ChevronLeftIcon className="text-2xl size-6" />
             </Button>
             <Button
               variant="secondary"
@@ -120,7 +117,7 @@ export const TransactionHistoryTable = ({
               disabled={page === endPage || perPage > pageSlice.length}
               aria-label={t("next-page")}
             >
-              <HiChevronRight className="text-2xl" />
+              <ChevronRightIcon className="text-2xl size-6" />
             </Button>
           </div>
         </>

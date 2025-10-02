@@ -1,7 +1,6 @@
 import { Appstream } from "./types/Appstream"
 import { Permissions, Metadata } from "./types/Summary"
 import React, { type JSX } from "react"
-import { IconType } from "react-icons"
 import {
   BadgeCheckIcon,
   CircleCheckIcon,
@@ -35,7 +34,7 @@ interface AppSafetyRating {
   titleOptions?: { folder: string }
   description: string
   descriptionOptions?: { folder: string }
-  icon?: IconType
+  icon?: React.ElementType
   showOnSummaryOrDetails: "summary" | "details" | "both"
 }
 
