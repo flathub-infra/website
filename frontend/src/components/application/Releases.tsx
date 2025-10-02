@@ -32,7 +32,7 @@ const ReleaseLink = ({
 
   return (
     <a
-      className="flex items-center gap-2 font-normal text-flathub-celestial-blue no-underline hover:underline"
+      className="flex items-center gap-2 pb-2 font-normal text-flathub-celestial-blue no-underline hover:underline"
       href={url}
       target="_blank"
       rel="noreferrer"
@@ -52,21 +52,19 @@ const Releases: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const locale = useLocale()
-  const collapsedHeight = 64
+  const collapsedHeight = 46
   const [showCollapseButton, setShowCollapseButton] = useState(false)
-
-  const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
-    useCollapse({
-      collapsedHeight: collapsedHeight,
-      defaultExpanded: expanded,
-    })
 
   const ref = useCallback((node) => {
     if (node !== null) {
       setShowCollapseButton(node.scrollHeight > collapsedHeight)
-      setExpanded(node.scrollHeight <= collapsedHeight || expanded)
     }
   }, [])
+
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
+    collapsedHeight: collapsedHeight,
+    defaultExpanded: expanded,
+  })
 
   const latestReleaseTimestamp =
     !latestRelease.timestamp ||
@@ -83,7 +81,7 @@ const Releases: FunctionComponent<Props> = ({
       {latestRelease && (
         <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
           <div>
-            <div className="flex flex-col gap-2 p-4">
+            <div className="flex flex-col gap-2 px-4 pt-4">
               <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                 <h3 className="my-0 text-xl font-semibold ">
                   {t("changes-in-version", {
