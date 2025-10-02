@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "使用允许获得额外权限的套接字",
   "uses-non-portal-service": "使用非门户服务",
   "can-talk-to-non-portal-service": "可以向非门户服务请求数据并获得额外权限",
-  "unauthorized": "未经授权"
+  "unauthorized": "未经授权",
+  "developed-by": "由 {developer} 开发",
+  "unverified-tooltip": "<appid></appid> 应用 ID 的所有权尚未验证，可能是社区软件包"
 }

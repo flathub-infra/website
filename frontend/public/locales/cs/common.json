@@ -538,7 +538,10 @@
   "flathub-the-linux-app-store": "Flathub je obchod s aplikacemi pro Linux",
   "nothing-to-do": "Není co dělat",
   "news": "Novinky",
-  "developer-portal": { "title": "Portál vývojáře" },
+  "developer-portal": {
+    "title": "Portál vývojáře",
+    "runtime-version": "Běhové prostředí: {version}"
+  },
   "unverified": "Neověřené",
   "new": "Nové",
   "updated": "Aktualizované",
@@ -669,5 +672,7 @@
   "socket-may-allow-extra-permissions": "Použití socketu, který umožňuje udělit zvláštní oprávnění",
   "uses-non-portal-service": "Používá služby mimo portál",
   "can-talk-to-non-portal-service": "Může požadovat data ze služeb mimo portál a udělit dodatečná oprávnění",
-  "unauthorized": "Neautorizované"
+  "unauthorized": "Neautorizované",
+  "developed-by": "vyvinuto vývojářem {developer}",
+  "unverified-tooltip": "Vlastnictví ID aplikace <appid></appid> nebylo ověřeno a může se jednat o komunitní balíček"
 }

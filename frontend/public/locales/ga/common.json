@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "Úsáideann sé soicéad a ligeann ceadanna breise a fháil",
   "uses-non-portal-service": "Úsáideann seirbhísí neamh-thairseach",
   "can-talk-to-non-portal-service": "Is féidir sonraí a iarraidh ó sheirbhísí neamh-thairseacha agus ceadanna breise a fháil",
-  "unauthorized": "Neamhúdaraithe"
+  "unauthorized": "Neamhúdaraithe",
+  "developed-by": "forbartha ag {developer}",
+  "unverified-tooltip": "Níl úinéireacht aitheantóir aip<appid></appid> fíoraithe agus d'fhéadfadh gur pacáiste pobail atá ann"
 }

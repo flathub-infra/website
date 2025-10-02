@@ -50,7 +50,7 @@
   "manual-install-instructions": "تأكَّد من مطالعة <distroguide>دليل الإعداد حسب التوزيعة</distroguide> قبل التثبيت",
   "popular-apps": "التطبيقات الشائعة",
   "delete-account": "احذف الحساب",
-  "by": "طوِّر بواسطة {developer}",
+  "by": "بواسطة {developer}",
   "install": "ثبِّت",
   "donate": "تبرَّع",
   "other-apps-by-developer": "تطبيقات أخرى طوِّرت بواسطة {developer}",
@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "يستخدم مقبسًا يسمح بالحصول على أذونات إضافية",
   "uses-non-portal-service": "يستخدم خدمات غير البوابة",
   "can-talk-to-non-portal-service": "يمكن طلب البيانات من الخدمات غير البوابة والحصول على أذونات إضافية",
-  "unauthorized": "غير مصرّح"
+  "unauthorized": "غير مصرّح",
+  "developed-by": "طوِّر بواسطة {developer}",
+  "unverified-tooltip": "لم يتحقق من ملكية معرِّف التطبيق <appid></appid> وقد يكون حزمة مجتمعية"
 }
