@@ -98,7 +98,7 @@ export const HeroBanner = ({
       className="overflow-hidden shadow-md rounded-xl"
       setApi={setApi}
     >
-      <CarouselContent className="h-[288px] xl:h-[352px] ml-0">
+      <CarouselContent className="h-[288px] xl:h-[352px] ms-0">
         {heroBannerData.map((data, i) => {
           const fallbackColor = chooseBrandingColor(
             data.appstream?.branding,
@@ -117,7 +117,7 @@ export const HeroBanner = ({
             : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
 
           return (
-            <CarouselItem className="basis-full pl-0" key={data.appstream.id}>
+            <CarouselItem className="basis-full ps-0" key={data.appstream.id}>
               <Link
                 href={`/apps/${data.appstream.id}`}
                 passHref

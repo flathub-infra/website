@@ -33,7 +33,7 @@ export default function InstallFallback({
                 name: app.name,
                 i: (chunks) => <i>{chunks}</i>,
                 ol: (chunks) => (
-                  <ol className="list-decimal list-inside pl-4">{chunks}</ol>
+                  <ol className="list-decimal list-inside ps-4">{chunks}</ol>
                 ),
                 li: (chunks) => <li>{chunks}</li>,
                 listPrefix: (chunks) => <div className="mb-2">{chunks}</div>,

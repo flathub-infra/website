@@ -94,7 +94,7 @@ const AdminLayoutClient = ({
                       pathname === item.href
                         ? "bg-flathub-gainsborow text-flathub-black dark:bg-flathub-arsenic dark:text-flathub-white"
                         : "text-flathub-black hover:bg-flathub-gainsborow/50 dark:text-flathub-white dark:hover:bg-flathub-arsenic",
-                      "group flex gap-x-3 rounded-md p-2 pl-3 text-sm leading-6 font-semibold",
+                      "group flex gap-x-3 rounded-md p-2 ps-3 text-sm leading-6 font-semibold",
                     )}
                   >
                     {item.name}

@@ -53,7 +53,7 @@ const SettingsDisclosure = ({ sectionTitle, children }) => {
             <motion.span
               animate={open ? "open" : "closed"}
               variants={variants}
-              className="ml-6 flex h-7 items-center"
+              className="ms-6 flex h-7 items-center"
             >
               <HiChevronUp className="h-6 w-6" aria-hidden="true" />
             </motion.span>
