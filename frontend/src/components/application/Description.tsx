@@ -21,8 +21,8 @@ export const Description = ({
       app.description
         ? linkifyHtml(
             sanitizeAppstreamDescription(app.description).replace(
-              /<p>(\s*(<em>)?\s*note:\s*(<\/em>)?.*?)<\/p>/is,
-              "<p><b>$1</b></p>",
+              /(<p\b[^>]*>)\*\*(.*?)\*\*(<\/p>)/gis,
+              "$1<b>$2</b>$3",
             ),
             {
               rel: "noopener noreferrer",
