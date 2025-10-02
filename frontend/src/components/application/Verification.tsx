@@ -4,7 +4,6 @@ import React from "react"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationText } from "src/verification"
 import VerificationIcon from "./VerificationIcon"
-import { HiInformationCircle } from "react-icons/hi2"
 import {
   Tooltip,
   TooltipContent,
@@ -12,6 +11,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useTranslations } from "next-intl"
+import { InfoIcon } from "lucide-react"
+import { clsx } from "yet-another-react-lightbox"
 
 interface Props {
   appId: string
@@ -83,9 +84,16 @@ const Verification: FunctionComponent<Props> = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="rounded-full w-fit text-flathub-black dark:text-flathub-white bg-flathub-status-yellow-dark dark:bg-flathub-status-yellow py-0.5 px-2 cursor-pointer">
+            <div
+              className={clsx(
+                "rounded-full w-fit",
+                "text-flathub-black dark:text-flathub-white",
+                "bg-flathub-status-yellow-dark dark:bg-flathub-status-yellow",
+                "py-0.5 ps-1 pe-2 cursor-pointer",
+              )}
+            >
               <div className="text-xs flex gap-1 items-center">
-                <HiInformationCircle className="size-3.5" />
+                <InfoIcon className="size-3.5" />
                 {t("unverified")}
               </div>
             </div>
