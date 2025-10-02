@@ -192,7 +192,7 @@ export const HeroBanner = ({
           "text-flathub-black dark:text-flathub-white",
           "hover:text-flathub-black dark:hover:text-flathub-white",
           "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
-          "absolute left-4 top-1/2 size-11",
+          "absolute start-4 top-1/2 size-11",
           forceTheme && "hidden",
         )}
         variant="ghost"
@@ -202,7 +202,7 @@ export const HeroBanner = ({
           "text-flathub-black dark:text-flathub-white",
           "hover:text-flathub-black dark:hover:text-flathub-white",
           "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
-          "absolute right-4 top-1/2 size-11",
+          "absolute end-4 top-1/2 size-11",
           forceTheme && "hidden",
         )}
         variant="ghost"

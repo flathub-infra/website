@@ -2,7 +2,7 @@ import { DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
 import { FunctionComponent } from "react"
-import { HiChevronUp } from "react-icons/hi2"
+import { ChevronUpIcon } from "@heroicons/react/24/solid"
 import TokenCancelButton from "./TokenCancelButton"
 import { TokenModel } from "src/codegen"
 import { format } from "date-fns"
@@ -26,8 +26,8 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
           <div>{token.name}</div>
           <div className="ms-auto pe-8">{t(`status-${state}`)}</div>
         </div>
-        <HiChevronUp
-          className={clsx("text-2xl transition", !open && "rotate-180")}
+        <ChevronUpIcon
+          className={clsx("text-2xl size-6 transition", !open && "rotate-180")}
         />
       </DisclosureButton>
       <DisclosurePanel className="flex flex-wrap justify-between gap-y-4 pe-4 ps-4">

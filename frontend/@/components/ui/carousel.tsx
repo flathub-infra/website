@@ -6,7 +6,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi2"
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 import { useTranslations } from "next-intl"
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -197,15 +197,15 @@ function CarouselPrevious({
       className={cn(
         "absolute size-8 rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? "top-1/2 -start-12 -translate-y-1/2 rtl:rotate-180"
+          : "-top-12 start-1/2 -translate-x-1/2 rotate-90",
         className,
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <HiChevronLeft className="size-7" />
+      <ChevronLeftIcon className="size-7" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -227,15 +227,15 @@ function CarouselNext({
       className={cn(
         "absolute size-8 rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? "top-1/2 -end-12 -translate-y-1/2 rtl:rotate-180"
+          : "-bottom-12 start-1/2 -translate-x-1/2 rotate-90",
         className,
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
-      <HiChevronRight className="size-7" />
+      <ChevronRightIcon className="size-7" />
       <span className="sr-only">Next slide</span>
     </Button>
   )

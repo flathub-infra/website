@@ -2,13 +2,13 @@
 
 import { Suspense } from "react"
 import SearchBar from "./SearchBar"
-import { HiMagnifyingGlass } from "react-icons/hi2"
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 
 const SearchBarSkeleton = () => (
   <div className="relative">
     <div className="absolute inset-y-0 start-0 flex items-center ps-2">
       <div className="rounded-full p-1 opacity-50">
-        <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
+        <MagnifyingGlassIcon className="size-5 text-flathub-spanish-gray" />
       </div>
     </div>
     <div className="block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 pe-2 h-9 animate-pulse" />
