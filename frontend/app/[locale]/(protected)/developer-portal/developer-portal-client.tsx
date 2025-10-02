@@ -6,7 +6,7 @@ import { IS_PRODUCTION } from "../../../../src/env"
 import VendingLink from "../../../../src/components/user/VendingLink"
 import { useUserContext } from "../../../../src/context/user-info"
 import CodeCopy from "../../../../src/components/application/CodeCopy"
-import { HiMiniPlus } from "react-icons/hi2"
+import { PlusIcon } from "@heroicons/react/20/solid"
 import Breadcrumbs from "../../../../src/components/Breadcrumbs"
 import { format } from "date-fns"
 import { Permission } from "../../../../src/codegen"
@@ -148,7 +148,7 @@ const DeveloperApps = ({ locale }: { locale: string }) => {
           user.info?.permissions.some((a) => a === Permission.moderation)) && (
           <Button size="lg" className="w-full sm:w-auto" asChild>
             <Link href="/apps/new">
-              <HiMiniPlus className="w-5 h-5" />
+              <PlusIcon className="size-5" />
               {t("new-app")}
             </Link>
           </Button>

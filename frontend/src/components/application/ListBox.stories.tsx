@@ -2,7 +2,7 @@ import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import ListBox from "./ListBox"
 import { faker } from "@faker-js/faker"
-import { HiCodeBracket } from "react-icons/hi2"
+import { CodeBracketIcon } from "@heroicons/react/24/solid"
 
 export default {
   title: "Components/Application/ListBox",
@@ -12,7 +12,7 @@ export default {
 export const singleText = () => {
   const items = [
     {
-      icon: <HiCodeBracket />,
+      icon: <CodeBracketIcon className="size-6" />,
       header: faker.commerce.product(),
       content: {
         type: "text" as const,
@@ -27,7 +27,7 @@ export const singleText = () => {
 export const stacked = () => {
   const items = [
     {
-      icon: <HiCodeBracket />,
+      icon: <CodeBracketIcon className="size-6" />,
       header: faker.commerce.product(),
       content: {
         type: "text" as const,
@@ -35,7 +35,7 @@ export const stacked = () => {
       },
     },
     {
-      icon: <HiCodeBracket />,
+      icon: <CodeBracketIcon className="size-6" />,
       header: faker.commerce.product(),
       content: {
         type: "text" as const,
@@ -43,7 +43,7 @@ export const stacked = () => {
       },
     },
     {
-      icon: <HiCodeBracket />,
+      icon: <CodeBracketIcon className="size-6" />,
       header: faker.commerce.product(),
       content: {
         type: "text" as const,

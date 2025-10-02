@@ -5,7 +5,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react"
-import { HiMiniXMark } from "react-icons/hi2"
+import { XMarkIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { useTranslations } from "next-intl"
 
@@ -49,10 +49,7 @@ export default function SlideOver({ shown, onClose, title, children }) {
                             onClick={() => onClose()}
                           >
                             <span className="sr-only">{t("close")}</span>
-                            <HiMiniXMark
-                              className="size-5"
-                              aria-hidden="true"
-                            />
+                            <XMarkIcon className="size-5" aria-hidden="true" />
                           </button>
                         </div>
                       </div>

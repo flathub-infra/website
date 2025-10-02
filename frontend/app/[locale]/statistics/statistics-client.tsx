@@ -4,11 +4,11 @@ import WorldMap, { CountryContext } from "react-svg-worldmap"
 
 import styles from "./statistics.module.scss"
 import {
-  HiCloudArrowDown,
-  HiCalendar,
-  HiListBullet,
-  HiCheckBadge,
-} from "react-icons/hi2"
+  CloudArrowDownIcon,
+  CalendarIcon,
+  ListBulletIcon,
+  CheckBadgeIcon,
+} from "@heroicons/react/24/solid"
 import ListBox from "../../../src/components/application/ListBox"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../../../src/localize"
@@ -412,7 +412,7 @@ const StatisticsClient = ({
         <ListBox
           items={[
             {
-              icon: <HiCloudArrowDown />,
+              icon: <CloudArrowDownIcon className="size-6" />,
               header: t("count-downloads"),
               content: {
                 type: "text",
@@ -424,7 +424,7 @@ const StatisticsClient = ({
         <ListBox
           items={[
             {
-              icon: <HiListBullet />,
+              icon: <ListBulletIcon className="size-6" />,
               header: t("count-desktop-apps"),
               content: {
                 type: "text",
@@ -436,7 +436,7 @@ const StatisticsClient = ({
         <ListBox
           items={[
             {
-              icon: <HiCheckBadge />,
+              icon: <CheckBadgeIcon className="size-6" />,
               header: t("count-verified-desktop-apps"),
               content: {
                 type: "text",
@@ -448,7 +448,7 @@ const StatisticsClient = ({
         <ListBox
           items={[
             {
-              icon: <HiCalendar />,
+              icon: <CalendarIcon className="size-6" />,
               header: t("since"),
               content: {
                 type: "text",

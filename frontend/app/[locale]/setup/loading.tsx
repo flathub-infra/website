@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton"
-import { HiMagnifyingGlass } from "react-icons/hi2"
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 
 export default function SetupLoading() {
   return (
@@ -12,7 +12,7 @@ export default function SetupLoading() {
             aria-hidden="true"
             tabIndex={-1}
           >
-            <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
+            <MagnifyingGlassIcon className="size-5 text-flathub-spanish-gray" />
           </button>
         </div>
         <div className="block w-full rounded-lg bg-flathub-gainsborow/50 py-4 ps-10 pe-2 text-sm dark:bg-flathub-granite-gray/70 h-12">

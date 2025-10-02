@@ -7,7 +7,7 @@ import {
   ComboboxOptions,
   Label,
 } from "@headlessui/react"
-import { HiCheck, HiChevronUpDown } from "react-icons/hi2"
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 
 export const FlathubCombobox = <
@@ -64,8 +64,8 @@ export const FlathubCombobox = <
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(item: T) => item?.name}
         />
-        <ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
-          <HiChevronUpDown
+        <ComboboxButton className="absolute inset-y-0 end-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
+          <ChevronUpDownIcon
             className="size-5 text-gray-400"
             aria-hidden="true"
           />
@@ -116,13 +116,13 @@ export const FlathubCombobox = <
                       {selected && (
                         <span
                           className={clsx(
-                            "absolute inset-y-0 right-0 flex items-center pe-4",
+                            "absolute inset-y-0 end-0 flex items-center pe-4",
                             focus
                               ? "text-white"
                               : "text-flathub-bg-flathub-celestial-blue",
                           )}
                         >
-                          <HiCheck className="size-5" aria-hidden="true" />
+                          <CheckIcon className="size-5" aria-hidden="true" />
                         </span>
                       )}
                     </>

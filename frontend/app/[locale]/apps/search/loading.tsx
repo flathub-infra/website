@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { ApplicationCardSkeleton } from "src/components/application/ApplicationCard"
-import { HiOutlineFunnel } from "react-icons/hi2"
+import { FunnelIcon } from "@heroicons/react/24/outline"
 
 export default function SearchLoading() {
   return (
@@ -75,7 +75,7 @@ export default function SearchLoading() {
           {/* Mobile filters button */}
           <div className="md:hidden">
             <div className="w-full h-12 bg-secondary border border-input rounded-md flex items-center justify-center gap-3">
-              <HiOutlineFunnel className="size-6" />
+              <FunnelIcon className="size-6" />
               <Skeleton className="h-4 w-12" />
             </div>
           </div>

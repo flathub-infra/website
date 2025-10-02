@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard-ts"
-import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
+import { CheckIcon, Square2StackIcon } from "@heroicons/react/24/solid"
 import { cn } from "@/lib/utils"
 
 interface Props {
@@ -52,8 +52,8 @@ const CodeCopy: FunctionComponent<Props> = ({
           className="absolute end-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver transition hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray dark:hover:text-flathub-gainsborow"
           title={t("copy-text")}
         >
-          {!copied && <HiSquare2Stack></HiSquare2Stack>}
-          {copied && <HiCheck className="text-green-600"></HiCheck>}
+          {!copied && <Square2StackIcon className="size-6" />}
+          {copied && <CheckIcon className="text-green-600 size-6" />}
         </button>
       </CopyToClipboard>
     </div>

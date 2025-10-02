@@ -87,7 +87,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
           >
             <Slider.Track className="relative grow rounded-sm h-3 overflow-hidden">
               <div
-                className="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-100"
+                className="absolute top-0 start-0 h-full bg-blue-500 transition-all duration-100"
                 style={{ width: `${appPercentage}%` }}
                 aria-hidden="true"
               />

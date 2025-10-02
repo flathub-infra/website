@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react"
 import { clsx } from "clsx"
-import { HiEllipsisHorizontal } from "react-icons/hi2"
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { useTranslations } from "next-intl"
 import { Link, usePathname } from "src/i18n/navigation"
 
@@ -42,7 +42,7 @@ const Pagination: FunctionComponent<Props> = ({
             <React.Fragment key={`pagination-${index}`}>
               {index > 0 && array[index - 1] + 1 !== curr && (
                 <span aria-hidden className={`w-12 flex justify-center`}>
-                  <HiEllipsisHorizontal className="size-5" />
+                  <EllipsisHorizontalIcon className="size-5" />
                   <span className="sr-only">{t("more-pages")}</span>
                 </span>
               )}

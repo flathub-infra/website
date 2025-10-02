@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import React from "react"
-import { HiOutlineExclamationTriangle } from "react-icons/hi2"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { TriangleAlertIcon } from "lucide-react"
 
 interface Props {
   message: string
@@ -15,7 +15,7 @@ const EolMessage: FunctionComponent<Props> = ({ message }) => {
     <>
       <div className="mt-8 flex max-w-full flex-col px-[5%] md:px-[20%] 2xl:px-[30%]">
         <Alert>
-          <HiOutlineExclamationTriangle className="h-4 w-4" />
+          <TriangleAlertIcon className="size-5" />
           <AlertTitle>{t("app-eol")}</AlertTitle>
           <AlertDescription>{message}</AlertDescription>
         </Alert>
