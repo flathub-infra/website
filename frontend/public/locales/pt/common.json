@@ -555,7 +555,9 @@
   "unverified": "Não verificado",
   "new": "Novos",
   "news": "Notícias",
-  "developer-portal": { "title": "Portal do Programador" },
+  "developer-portal": {
+    "title": "Portal do Programador"
+  },
   "new-apps": "Novas apps",
   "flathub-the-linux-app-store": "O Flathub é a Loja de Apps para o Linux",
   "confirm": "Confirmar",

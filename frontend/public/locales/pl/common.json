@@ -538,7 +538,9 @@
   "flathub-the-linux-app-store": "Flathub to sklep z aplikacjami dla systemu Linux",
   "nothing-to-do": "Nie ma nic do zrobienia",
   "news": "Aktualności",
-  "developer-portal": { "title": "Portal programisty" },
+  "developer-portal": {
+    "title": "Portal programisty"
+  },
   "unverified": "Niezweryfikowana",
   "new": "Nowe",
   "updated": "Zaktualizowane",

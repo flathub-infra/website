@@ -97,7 +97,9 @@
   "community": "Komunidad",
   "developers": "Mga Developer",
   "news": "Balita",
-  "developer-portal": { "title": "Portal ng Developer" },
+  "developer-portal": {
+    "title": "Portal ng Developer"
+  },
   "publish-your-app": "Ipamahagi Ang Iyong App",
   "documentation": "Dokumentasyon",
   "badges": "Mga Badge",

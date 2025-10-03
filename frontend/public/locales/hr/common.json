@@ -595,7 +595,9 @@
   "appname-is-safety-rating-4": "Aplikacija {appName} je nesigurna",
   "software-developer-verified": "Programer softvera je potvrđen",
   "information": "Informacije",
-  "developer-portal": { "title": "Portal programera" },
+  "developer-portal": {
+    "title": "Portal programera"
+  },
   "recipient": "Primatelj",
   "special-license-explanation": "Ova je aplikacija razvijena pod posebnom licencom <bold>{ license }</bold>.",
   "you-may-or-may-not-be-able-to-contribute": "Možda ćeš moći, a možda nećeš moći doprinijeti ovoj aplikaciji.",

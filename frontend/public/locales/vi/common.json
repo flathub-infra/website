@@ -574,7 +574,9 @@
   "nothing-to-do": "Không làm gì",
   "you-may-or-may-not-be-able-to-contribute": "Bạn có thể có hoặc không có khả năng đóng góp cho ứng dụng này.",
   "build-x": "Đã được dựng {build_ago}",
-  "developer-portal": { "title": "Cổng dành cho nhà phát triển" },
+  "developer-portal": {
+    "title": "Cổng dành cho nhà phát triển"
+  },
   "microphone-access": "Truy cập microphone",
   "slide": "Slide",
   "more-pages": "Xem thêm trang",

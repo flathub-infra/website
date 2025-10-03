@@ -535,7 +535,9 @@
   "not-onboarded": "Perehdy ensin",
   "get-it-on": "Lataa:",
   "news": "Uutiset",
-  "developer-portal": { "title": "Kehittäjäportaali" },
+  "developer-portal": {
+    "title": "Kehittäjäportaali"
+  },
   "nothing-to-do": "Ei mitään tehtävää",
   "unverified": "Vahvistamaton",
   "updated": "Päivitetty",
@@ -652,7 +654,10 @@
   "country-statistics": "Maatilastot",
   "since-x": "Alkaen {date}",
   "download": {
-    "install-x": "Asenna “{x}”"
+    "install-x": "Asenna “{x}”",
+    "fallback-instructions": "<opening>Avataan “{name}” ohjelmistonhallinnassa…</opening><support>Jos mitään ei tapahdu, voi olla, ettei järjestelmäsi tue <i>flatpak+https</i>-osoitteita.</support><listPrefix>Siinä tapauksessa:</listPrefix><ol><li>Lataa <link>.flatpakref-tiedosto</link></li><li>Suorita se tiedostonhallinnasta</li></ol><setupLine><linkSetup>Ohjeet Flatpakin asennukseen</linkSetup></setupLine>"
   },
-  "count": "Lukumäärä"
+  "count": "Lukumäärä",
+  "developed-by": "kehittänyt {developer}",
+  "unauthorized": "Ei valtuutta"
 }

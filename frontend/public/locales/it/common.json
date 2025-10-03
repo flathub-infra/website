@@ -495,7 +495,9 @@
   "proprietary-code-description": "Il codice sorgente non è pubblico, quindi non può essere controllato in modo indipendente e potrebbe non essere sicuro",
   "can-read-write-all-data": "Può leggere e scrivere tutti i dati nella cartella",
   "news": "Notizie",
-  "developer-portal": { "title": "Portale Sviluppatore" },
+  "developer-portal": {
+    "title": "Portale Sviluppatore"
+  },
   "scope-upload": "Carica i file nel build",
   "scope-publish": "Pubblica la build",
   "repo": "Deposito",

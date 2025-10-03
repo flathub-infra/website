@@ -262,7 +262,9 @@
   "tv": "Television",
   "open-user-menu": "Dobrir lo menú utilizaire",
   "users": "Utilizaires",
-  "developer-portal": { "title": "Portal desvolopaire" },
+  "developer-portal": {
+    "title": "Portal desvolopaire"
+  },
   "date": "Data",
   "get-apps": "Obténer d'aplicacions",
   "invite": "Convidar",
@@ -373,5 +375,6 @@
   "lightbox": {
     "show-screenshot-fullscreen": "Afichar la captura d'ecran en plen ecran",
     "screenshot": "Captura d'ecran"
-  }
+  },
+  "developed-by": "desvolopat per {developer}"
 }

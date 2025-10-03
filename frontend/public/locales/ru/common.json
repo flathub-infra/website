@@ -220,7 +220,7 @@
   "website-verification-main-instruction": "Подтвердите ваши права на использования ID приложения <bold>{id}</bold>, разместив токен на определённой странице на <bold>{domain}</bold>.",
   "login-provider-verification-switch-account": "Вы вошли в систему <loginprovider></loginprovider> как <currentname></currentname>. Войдите как <requiredname></requiredname>, чтобы подтвердить <appid></appid> с помощью провайдера входа, или выберите другой метод, если он доступен.",
   "server-returned-status-code": "Сервер вернул HTTP {code}.",
-  "login-provider-verification-main-instruction": "Подтвердите ваши права на использование ID приложения <appid></appid>, войдя в учётную запись <loginname></loginname> на <loginprovider></loginprovider>.",
+  "login-provider-verification-main-instruction": "Подтвердите ваши права на использование идентификатора приложения <appid></appid>, войдя в учётную запись <loginname></loginname> на <loginprovider></loginprovider>.",
   "verifying": "Проверка",
   "verification-failed-to-connect": "Не удалось подключиться к {domain}.",
   "unverify": "Отменить проверку",
@@ -308,7 +308,7 @@
   "console-application": "Приложения командной строки",
   "app-type": "Тип приложения",
   "desktop-application": "Настольные приложения",
-  "community-repository-description": "Загрузите своё приложение во Flathub, отправив манифест Flatpak и вспомогательные файлы в репозиторий нашей организации GitHub. Наш робот-сборщик создаст приложение и опубликует его во Flathub.",
+  "community-repository-description": "Загрузите своё приложение во Flathub, отправив манифест Flatpak и вспомогательные файлы в репозиторий нашей организации GitHub. Наш сервис сборки выполнит построение приложения и опубликует его во Flathub.",
   "new-app": "Новое приложение",
   "community-repository": "Репозиторий сообщества",
   "app-id": "ID приложения",
@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "Использует сокет, позволяющий получить дополнительные разрешения",
   "unauthorized": "Вход не выполнен",
   "uses-non-portal-service": "Использует сервисы, не являющиеся порталами",
-  "can-talk-to-non-portal-service": "Может запрашивать данные у сервисов, не являющихся порталами, получая дополнительные разрешения"
+  "can-talk-to-non-portal-service": "Может запрашивать данные у сервисов, не являющихся порталами, получая дополнительные разрешения",
+  "developed-by": "разработано {developer}",
+  "unverified-tooltip": "Право собственности на идентификатор приложения <appid></appid> не было подтверждено, этот пакет может быть неофициальным"
 }
