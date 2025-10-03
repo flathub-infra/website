@@ -17,7 +17,6 @@ import newGithubIssueUrl from "new-github-issue-url"
 import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
-import { useCollapse } from "@collapsed/react"
 import { IconGridOverlay } from "./IconGridOverlay"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { useTranslations } from "next-intl"
@@ -46,7 +45,7 @@ import { ExternalLinkIcon } from "lucide-react"
 
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   const t = useTranslations()
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
+  const [isExpanded, setIsExpanded] = useState(false)
 
   return (
     <div>
@@ -54,7 +53,7 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
         size="lg"
         variant="secondary"
         className="flex items-center gap-1"
-        {...getToggleProps()}
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         <span>
           {t(
@@ -70,8 +69,13 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
           )}
         />
       </Button>
-      <section {...getCollapseProps()}>
-        <div className="flex">
+      <section
+        className={clsx(
+          "grid transition-all duration-300 ease-in-out",
+          isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        )}
+      >
+        <div className="flex flex-col sm:flex-row overflow-hidden">
           <div
             className={clsx(
               "relative m-2 flex h-[256px] min-w-[256px] self-center border",
@@ -171,7 +175,7 @@ const ShowBrandingButton = ({
   app: Pick<DesktopAppstream, "branding" | "icon" | "name" | "summary">
 }) => {
   const t = useTranslations()
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
+  const [isExpanded, setIsExpanded] = useState(false)
 
   if (!app.branding || app.branding?.length === 0) {
     return null
@@ -186,7 +190,7 @@ const ShowBrandingButton = ({
         size="lg"
         variant="secondary"
         className="flex items-center gap-1"
-        {...getToggleProps()}
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         <span>
           {t(
@@ -202,8 +206,13 @@ const ShowBrandingButton = ({
           )}
         />
       </Button>
-      <section {...getCollapseProps()}>
-        <div className="flex flex-col sm:flex-row ">
+      <section
+        className={clsx(
+          "grid transition-all duration-300 ease-in-out",
+          isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        )}
+      >
+        <div className="flex flex-col sm:flex-row overflow-hidden">
           <BrandingPreview
             app={app}
             color={primaryLight}

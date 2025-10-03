@@ -1,6 +1,5 @@
-import { useCollapse } from "@collapsed/react"
 import clsx from "clsx"
-import { useCallback, useMemo, useState } from "react"
+import { useMemo, useState, useRef, useEffect } from "react"
 import { useTranslations } from "next-intl"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import linkifyHtml from "linkify-html"
@@ -36,22 +35,23 @@ export const Description = ({
     [app.description],
   )
 
-  const [scrollHeight, setScrollHeight] = useState(0)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [showCollapseButton, setShowCollapseButton] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [fullHeight, setFullHeight] = useState<number>(0)
 
-  const ref = useCallback((node) => {
-    if (node !== null) {
-      setScrollHeight(node.scrollHeight)
+  useEffect(() => {
+    // Check if content is overflowing after render
+    if (contentRef.current) {
+      setFullHeight(contentRef.current.scrollHeight)
+      setShowCollapseButton(contentRef.current.scrollHeight > collapsedHeight)
     }
-  }, [])
-
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
-    collapsedHeight: collapsedHeight,
-  })
+  }, [description])
 
   return (
     <>
       <div>
-        <h2 className="my-4 text-xl font-semibold ">
+        <h2 className="my-4 text-xl font-semibold">
           {app.summary.length > 35 && isQualityModalOpen ? (
             <>
               <span>{app.summary.slice(0, 35)}</span>
@@ -61,33 +61,30 @@ export const Description = ({
             app.summary
           )}
         </h2>
-        {scrollHeight > collapsedHeight && (
-          <div
-            {...getCollapseProps({ ref })}
-            className={clsx(
-              `prose relative transition-all dark:prose-invert xl:max-w-[75%]`,
-              !isExpanded &&
-                scrollHeight > collapsedHeight &&
-                "before:from-flathub-lotion before:absolute before:bottom-0 before:start-0 before:h-1/3 before:w-full before:bg-linear-to-t before:content-[''] dark:before:from-flathub-dark-gunmetal",
-            )}
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
-          />
-        )}
-        {scrollHeight <= collapsedHeight && (
-          <div
-            className={`prose dark:prose-invert xl:max-w-[75%]`}
-            ref={ref}
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
-          />
-        )}
+        <div
+          ref={contentRef}
+          className={clsx(
+            "prose relative overflow-hidden transition-all duration-300 ease-in-out dark:prose-invert xl:max-w-[75%]",
+            !isExpanded &&
+              showCollapseButton &&
+              "before:from-flathub-lotion before:absolute before:bottom-0 before:start-0 before:h-1/3 before:w-full before:bg-linear-to-t before:content-[''] dark:before:from-flathub-dark-gunmetal",
+          )}
+          style={{
+            maxHeight:
+              isExpanded || !showCollapseButton
+                ? fullHeight
+                  ? `${fullHeight}px`
+                  : "none"
+                : `${collapsedHeight}px`,
+          }}
+          dangerouslySetInnerHTML={{
+            __html: description,
+          }}
+        />
       </div>
 
-      {scrollHeight > collapsedHeight && (
-        <button {...getToggleProps()}>
+      {showCollapseButton && (
+        <button onClick={() => setIsExpanded(!isExpanded)}>
           <span className="m-0 w-full rounded-xl bg-flathub-white px-6 py-2 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 dark:hover:bg-flathub-arsenic">
             {isExpanded ? t(`show-less`) : t(`show-more`)}
           </span>
