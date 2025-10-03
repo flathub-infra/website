@@ -21,7 +21,7 @@ export const Description = ({
       app.description
         ? linkifyHtml(
             sanitizeAppstreamDescription(app.description).replace(
-              /(<p\b[^>]*>)\*\*(.*?)\*\*(<\/p>)/gis,
+              /(<p\b[^>]*>)\s*\*\*([\s\S]*?)\*\*\s*(<\/p>)/gi,
               "$1<b>$2</b>$3",
             ),
             {
