@@ -105,7 +105,7 @@
     "msw": "^2.11.2",
     "msw-storybook-addon": "^2.0.5",
     "orval": "^7.11.2",
-    "playwright": "^1.54.1",
+    "playwright": "^1.55.1",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.13",
