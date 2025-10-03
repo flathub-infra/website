@@ -16,7 +16,6 @@
     "openapi-codegen": "orval"
   },
   "dependencies": {
-    "@collapsed/react": "^5.1.0",
     "@date-fns/utc": "^2.1.1",
     "@headlessui/react": "^2.2.4",
     "@mitresthen/matomo-tracker-react": "^0.1.1",

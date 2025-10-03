@@ -1,10 +1,9 @@
 import { formatDistanceToNow } from "date-fns"
 import { useLocale, useTranslations } from "next-intl"
-import { FunctionComponent, useCallback, useState } from "react"
+import { FunctionComponent, useState, useRef, useEffect } from "react"
 import { getIntlLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
-import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
@@ -32,7 +31,7 @@ const ReleaseLink = ({
 
   return (
     <a
-      className="flex items-center gap-2 pb-2 font-normal text-flathub-celestial-blue no-underline hover:underline"
+      className="flex items-center gap-2 font-normal text-flathub-celestial-blue no-underline hover:underline"
       href={url}
       target="_blank"
       rel="noreferrer"
@@ -52,19 +51,25 @@ const Releases: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const locale = useLocale()
-  const collapsedHeight = 46
+  const [isExpanded, setIsExpanded] = useState(expanded)
   const [showCollapseButton, setShowCollapseButton] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [collapsedHeight, setCollapsedHeight] = useState<number>(0)
+  const [fullHeight, setFullHeight] = useState<number>(0)
 
-  const ref = useCallback((node) => {
-    if (node !== null) {
-      setShowCollapseButton(node.scrollHeight > collapsedHeight)
+  useEffect(() => {
+    // Check if content is overflowing after render
+    if (contentRef.current) {
+      const lineHeight = parseFloat(
+        getComputedStyle(contentRef.current).lineHeight,
+      )
+      const maxLines = 3
+      const maxHeight = lineHeight * maxLines
+      setCollapsedHeight(maxHeight)
+      setFullHeight(contentRef.current.scrollHeight)
+      setShowCollapseButton(contentRef.current.scrollHeight > maxHeight)
     }
-  }, [])
-
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
-    collapsedHeight: collapsedHeight,
-    defaultExpanded: expanded,
-  })
+  }, [latestRelease.description])
 
   const latestReleaseTimestamp =
     !latestRelease.timestamp ||
@@ -81,7 +86,12 @@ const Releases: FunctionComponent<Props> = ({
       {latestRelease && (
         <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
           <div>
-            <div className="flex flex-col gap-2 px-4 pt-4">
+            <div
+              className={clsx(
+                "flex flex-col gap-2 px-4 pt-4",
+                (!showCollapseButton || isExpanded) && "pb-4",
+              )}
+            >
               <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                 <h3 className="my-0 text-xl font-semibold ">
                   {t("changes-in-version", {
@@ -120,13 +130,23 @@ const Releases: FunctionComponent<Props> = ({
               </header>
               {descriptionSanitized ? (
                 <div
-                  {...getCollapseProps({ ref })}
+                  ref={contentRef}
                   className={clsx(
-                    `prose prose-p:my-0 prose-ul:my-0 relative transition-all duration-700 dark:prose-invert dark:prose-p:text-flathub-lotion`,
+                    "prose prose-p:my-0 prose-ul:my-0 relative overflow-hidden transition-all duration-300 ease-in-out dark:prose-invert dark:prose-p:text-flathub-lotion",
                     !isExpanded &&
                       showCollapseButton &&
                       "before:from-flathub-white before:absolute before:bottom-0 before:start-0 before:h-1/2 before:w-full before:bg-linear-to-t before:content-[''] dark:before:from-flathub-arsenic",
                   )}
+                  style={{
+                    maxHeight:
+                      isExpanded || !showCollapseButton
+                        ? fullHeight
+                          ? `${fullHeight}px`
+                          : "none"
+                        : collapsedHeight
+                          ? `${collapsedHeight}px`
+                          : "none",
+                  }}
                 >
                   <div
                     dangerouslySetInnerHTML={{
@@ -136,10 +156,7 @@ const Releases: FunctionComponent<Props> = ({
                   <ReleaseLink url={latestRelease.url} />
                 </div>
               ) : (
-                <div
-                  className={`prose prose-p:my-0 dark:prose-invert`}
-                  ref={ref}
-                >
+                <div className="prose prose-p:my-0 dark:prose-invert">
                   {latestRelease.url ? (
                     <ReleaseLink url={latestRelease.url} noChangeLogProvided />
                   ) : (
@@ -153,7 +170,7 @@ const Releases: FunctionComponent<Props> = ({
             {showCollapseButton && (
               <button
                 className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 dark:border-zinc-600"
-                {...getToggleProps()}
+                onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? (
                   <span>{t("less")}</span>

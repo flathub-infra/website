@@ -44,6 +44,43 @@ export const withChangelog = () => {
   )
 }
 
+export const shortChangelog = () => {
+  const latestRelease: Release = {
+    version: faker.system.semver(),
+    description: `Just a one liner`,
+    timestamp: faker.date.recent().getTime() / 1000,
+  }
+
+  const summary = {
+    timestamp: faker.date.recent().getTime() / 1000,
+  }
+
+  return (
+    <Releases latestRelease={latestRelease} summary={summary} expanded={true} />
+  )
+}
+
+export const shouldShowTwoLinesWithoutExpanding = () => {
+  const latestRelease: Release = {
+    version: faker.system.semver(),
+    description: `This is a changelog`,
+    url: faker.internet.url(),
+    timestamp: faker.date.recent().getTime() / 1000,
+  }
+
+  const summary = {
+    timestamp: faker.date.recent().getTime() / 1000,
+  }
+
+  return (
+    <Releases
+      latestRelease={latestRelease}
+      summary={summary}
+      expanded={false}
+    />
+  )
+}
+
 export const notExpanded = () => {
   const latestRelease: Release = {
     version: faker.system.semver(),
