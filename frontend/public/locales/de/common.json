@@ -535,7 +535,9 @@
   "enter-end-of-life-message": "End-of-Life Nachricht eingeben",
   "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll",
   "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
-  "developer-portal": { "title": "Entwicklerportal" },
+  "developer-portal": {
+    "title": "Entwicklerportal"
+  },
   "news": "Neuigkeiten",
   "nothing-to-do": "Nichts zu tun",
   "unverified": "Unverifiziert",
@@ -664,5 +666,7 @@
   "country-statistics": "Länderstatistik",
   "since-x": "Seit {date}",
   "count": "Anzahl",
-  "uses-privileged-socket": "Verwendet einen privilegierten Socket"
+  "uses-privileged-socket": "Verwendet einen privilegierten Socket",
+  "developed-by": "entwickelt von {developer}",
+  "unverified-tooltip": "Die Eigentümerschaft der App-ID <appid></appid> wurde nicht überprüft und es könnte sich um ein Gemeinschaftspaket handeln"
 }

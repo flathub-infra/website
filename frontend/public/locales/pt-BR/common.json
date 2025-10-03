@@ -246,7 +246,7 @@
   "verified-login-provider-tooltip": "A propriedade do ID de aplicativo <appid></appid> foi verificada por <loginname></loginname> em <loginprovider></loginprovider>",
   "refresh": "Atualizar",
   "verification-warning": "A equipe do Flathub pode remover o selo de verificação de qualquer aplicativo a nosso exclusivo critério, por exemplo, se isso puder enganar as pessoas sobre o status oficial do aplicativo ou causar confusão em relação a uma marca registrada.",
-  "verification-instructions": "Verifique o ID do seu aplicativo para indicar que seu envio ao Flathub foi aprovado pelo desenvolvedor do aplicativo. Você precisará provar que tem o controle do aplicativo por meio de um site no domínio do aplicativo ou verificando o acesso à conta do aplicativo em um site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome do aplicativo, nome do editor e a forma como o ID do aplicativo foi verificado.",
+  "verification-instructions": "Verifique o ID do seu aplicativo para indicar que seu envio ao Flathub foi aprovado pelo desenvolvedor do aplicativo. Você precisará provar que tem o controle do aplicativo por meio de um site no domínio do aplicativo ou verificando o acesso à conta do aplicativo em um site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome do aplicativo, nome do editor e a forma como o ID do aplicativo foi verificado. Por favor, consulte a <doclink>documentação de verificação</doclink> para mais detalhes.",
   "verification": "Verificação",
   "my-flathub": "Meu Flathub",
   "settings": "Configurações",
@@ -539,7 +539,10 @@
   "manage-x": "Gerenciar {app_name}",
   "unverified": "Não verificado",
   "news": "Notícias",
-  "developer-portal": { "title": "Portal do Desenvolvedor" },
+  "developer-portal": {
+    "title": "Portal do Desenvolvedor",
+    "runtime-version": "Runtime: {version}"
+  },
   "trending": "Em Alta",
   "trending-apps": "Aplicativos em alta",
   "new": "Novos",
@@ -669,5 +672,7 @@
   "uses-privileged-socket": "Usa o socket privilegiado",
   "uses-non-portal-service": "Usa serviços por fora do portal",
   "can-talk-to-non-portal-service": "Pode solicitar dados a partir de serviços for do portal e ganhar permissões adicionais",
-  "socket-may-allow-extra-permissions": "Usa um socket que permite ganhar permissões extras"
+  "socket-may-allow-extra-permissions": "Usa um socket que permite ganhar permissões extras",
+  "developed-by": "desenvolvido por {developer}",
+  "unverified-tooltip": "A propriedade do ID de aplicativo <appid></appid> não foi verificada e pode ser um pacote comunitário"
 }

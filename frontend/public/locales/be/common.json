@@ -534,7 +534,9 @@
   "install-x": "Усталяваць {app_name} на Linux",
   "flathub-the-linux-app-store": "Flathub - гэта крама праграм для Linux",
   "news": "Навіны",
-  "developer-portal": { "title": "Партал распрацоўшчыкаў" },
+  "developer-portal": {
+    "title": "Партал распрацоўшчыкаў"
+  },
   "nothing-to-do": "Тут нічога няма",
   "unverified": "Неправерана",
   "trending": "У трэндзе",

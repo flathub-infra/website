@@ -473,7 +473,7 @@
   "direct-upload": "Uaslódáil Díreach",
   "direct-upload-description": "Tóg d'aip i do thimpeallacht chomhtháthaithe leanúnach féin agus uaslódáil é go díreach chuig Flathub.",
   "new-direct-upload": "Aip Uaslódála Díreach Nua",
-  "community-repository-description": "Uaslódáil d'aip chuig Flathub trí do léiriú Flatpak a uaslódáil agus comhaid tacaíochta chuig stór inár n-eagraíocht GitHub. Tógfaidh buildbot Flathub an aip agus foilseoidh sé chuig Flathub é.",
+  "community-repository-description": "Uaslódáil d’aip chuig Flathub trí do léiriú Flatpak agus comhaid tacaíochta a uaslódáil chuig stór inár n-eagraíocht GitHub. Tógfaidh seirbhís tógála Flathub an aip agus foilseoidh sí í chuig Flathub.",
   "verify-app-id": "Fíoraigh ID App",
   "app-id": "Aitheantas Aipeanna",
   "app-already-exists": "Tá aip leis an aitheantas seo ann cheana féin.",

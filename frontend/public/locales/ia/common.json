@@ -427,7 +427,9 @@
   "action": "Action",
   "find-your-distribution": "Trova tu distribution",
   "news": "Novas",
-  "developer-portal": { "title": "Portal de disveloppator" },
+  "developer-portal": {
+    "title": "Portal de disveloppator"
+  },
   "flathub-the-linux-app-store": "Flathub es le magazin de applicationes pro Linux",
   "app-id": "ID del application",
   "view-wallet": "Visualisar portafolio",

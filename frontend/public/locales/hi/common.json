@@ -533,7 +533,9 @@
   "flathub-the-linux-app-store": "Flathub Linux के लिए ऐप स्टोर है",
   "nothing-to-do": "कुछ करने को नहीं है",
   "news": "खबर",
-  "developer-portal": { "title": "विकासकर्ता पोर्टल" },
+  "developer-portal": {
+    "title": "विकासकर्ता पोर्टल"
+  },
   "unverified": "असत्यापित",
   "new": "नया",
   "updated": "अद्यतित",

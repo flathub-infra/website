@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "Bruker en socket som gjør det mulig å få flere rettigheter",
   "uses-non-portal-service": "Bruker tjenester utenom portaler",
   "can-talk-to-non-portal-service": "Kan forespørre data fra tjenester utenom portaler og få flere rettigheter",
-  "unauthorized": "Uautorisert"
+  "unauthorized": "Uautorisert",
+  "developed-by": "utviklet av {developer}",
+  "unverified-tooltip": "Eierskapet til <appid></appid>-app-ID-en har ikke blitt bekreftet, og pakken kan derfor være samlet av fellesskapet"
 }
