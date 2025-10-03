@@ -3,7 +3,6 @@ import { clsx } from "clsx"
 import { createElement } from "react"
 import spdxLicenseList from "spdx-license-list"
 import { Appstream } from "src/types/Appstream"
-import { IconType } from "react-icons"
 import { useTranslations } from "next-intl"
 import {
   ExternalLinkIcon,
@@ -58,7 +57,7 @@ const IconInCircle = ({
   icon,
 }: {
   color: "green" | "yellow"
-  icon: IconType
+  icon: React.ElementType
 }) => {
   return (
     <div

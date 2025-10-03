@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent, useState } from "react"
-import { HiXCircle, HiTrash } from "react-icons/hi2"
+import { XCircleIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { toast } from "sonner"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -50,7 +50,7 @@ const DeleteCardButton: FunctionComponent<{
           aria-label={t("cancel")}
           title={t("cancel")}
         >
-          <HiXCircle className="text-2xl" />
+          <XCircleIcon className="text-2xl size-6" />
         </Button>
         <Button
           size="lg"
@@ -59,7 +59,7 @@ const DeleteCardButton: FunctionComponent<{
           aria-label={t("delete")}
           title={t("delete")}
         >
-          <HiTrash className="text-2xl" />
+          <TrashIcon className="text-2xl size-6" />
         </Button>
       </div>
     )

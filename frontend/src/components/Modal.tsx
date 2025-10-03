@@ -8,7 +8,7 @@ import {
 } from "@headlessui/react"
 import { FunctionComponent, useRef } from "react"
 import { useTranslations } from "next-intl"
-import { HiMiniXMark } from "react-icons/hi2"
+import { XMarkIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { Button } from "@/components/ui/button"
 
@@ -95,7 +95,7 @@ const Modal: FunctionComponent<Props> = ({
                       onClick={() => onClose()}
                     >
                       <span className="sr-only">{t("close")}</span>
-                      <HiMiniXMark className="size-5" aria-hidden="true" />
+                      <XMarkIcon className="size-5" aria-hidden="true" />
                     </button>
                   </div>
 

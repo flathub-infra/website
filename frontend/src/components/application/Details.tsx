@@ -39,7 +39,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { HiMiniInformationCircle } from "react-icons/hi2"
+import { InformationCircleIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { UTCDate } from "@date-fns/utc"
 import { getIntlLocale } from "src/localize"
@@ -143,7 +143,7 @@ const Details: FunctionComponent<Props> = ({
                       ),
                     })}
                   >
-                    <HiMiniInformationCircle
+                    <InformationCircleIcon
                       className="size-5"
                       aria-label={t("since-x", {
                         date: countryStatisticsStartDate.toLocaleDateString(

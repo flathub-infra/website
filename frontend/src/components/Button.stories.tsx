@@ -1,6 +1,6 @@
 import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
-import { HiMiniPlus } from "react-icons/hi2"
+import { PlusIcon } from "@heroicons/react/20/solid"
 import { Button } from "@/components/ui/button"
 
 export default {
@@ -15,7 +15,7 @@ const ButtonRow = ({ variant = "default", size = "default" }) => {
         Test
       </Button>
       <Button size={size} variant={variant}>
-        <HiMiniPlus className="w-5 h-5" />
+        <PlusIcon className="size-5" />
         New app
       </Button>
       <Button size={size} disabled variant={variant}>

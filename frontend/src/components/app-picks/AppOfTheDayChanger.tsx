@@ -13,7 +13,7 @@ import { FlathubCombobox } from "../Combobox"
 import { useUserContext } from "src/context/user-info"
 import { ReactElement } from "react"
 import clsx from "clsx"
-import { HiCheck } from "react-icons/hi2"
+import { CheckIcon } from "@heroicons/react/20/solid"
 import LogoImage from "../LogoImage"
 import { setAppOfTheDayAppPicksAppOfTheDayPost, Permission } from "src/codegen"
 import { DesktopAppstream } from "src/types/Appstream"
@@ -161,11 +161,11 @@ const ComboboxItem = ({
         {selected && (
           <span
             className={clsx(
-              "absolute inset-y-0 right-0 flex items-center pe-4",
+              "absolute inset-y-0 end-0 flex items-center pe-4",
               active ? "text-white" : "text-flathub-bg-flathub-celestial-blue",
             )}
           >
-            <HiCheck className="size-5" aria-hidden="true" />
+            <CheckIcon className="size-5" aria-hidden="true" />
           </span>
         )}
       </div>

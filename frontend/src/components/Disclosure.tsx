@@ -5,7 +5,7 @@ import {
   Transition,
 } from "@headlessui/react"
 import { FunctionComponent, ReactElement } from "react"
-import { HiChevronRight } from "react-icons/hi2"
+import { ChevronRightIcon } from "@heroicons/react/24/solid"
 import { clsx } from "clsx"
 
 export const FlathubDisclosure: FunctionComponent<{
@@ -15,7 +15,7 @@ export const FlathubDisclosure: FunctionComponent<{
   return (
     <Disclosure>
       <DisclosureButton className="group flex w-full items-center gap-3 px-4 py-3">
-        <HiChevronRight
+        <ChevronRightIcon
           className={clsx(
             "group-data-open:rotate-90",
             "size-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",

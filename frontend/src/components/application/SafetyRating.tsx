@@ -10,7 +10,6 @@ import {
 import { Appstream } from "src/types/Appstream"
 import { Metadata } from "src/types/Summary"
 import { StackedListBox } from "./StackedListBox"
-import { IconType } from "react-icons"
 import Modal from "../Modal"
 
 interface Props {
@@ -28,7 +27,7 @@ const SafetyRatingIcon = ({
 }: {
   highestSafetyRating: number
   size: "small" | "large"
-  icon?: IconType
+  icon?: React.ElementType
 }) => {
   return (
     <div

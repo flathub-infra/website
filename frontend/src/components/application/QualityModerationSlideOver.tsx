@@ -4,15 +4,14 @@ import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { AxiosResponse } from "axios"
 import {
-  HiArrowsPointingOut,
-  HiCheck,
-  HiCheckCircle,
-  HiChevronUp,
-  HiExclamationTriangle,
-  HiMiniWindow,
-  HiQuestionMarkCircle,
-  HiXMark,
-} from "react-icons/hi2"
+  CheckIcon,
+  CheckCircleIcon,
+  ChevronUpIcon,
+  ExclamationTriangleIcon,
+  QuestionMarkCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid"
+import { WindowIcon, ArrowsPointingOutIcon } from "@heroicons/react/20/solid"
 import newGithubIssueUrl from "new-github-issue-url"
 import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
@@ -62,8 +61,9 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
               : "quality-guideline.show-icon",
           )}
         </span>
-        <HiChevronUp
+        <ChevronUpIcon
           className={clsx(
+            "size-6",
             "transition",
             !isExpanded ? "transform rotate-180" : "",
           )}
@@ -199,8 +199,9 @@ const ShowBrandingButton = ({
               : "quality-guideline.show-branding-preview",
           )}
         </span>
-        <HiChevronUp
+        <ChevronUpIcon
           className={clsx(
+            "size-6",
             "transition",
             !isExpanded ? "transform rotate-180" : "",
           )}
@@ -440,7 +441,7 @@ const QualityItem = ({
               items={[
                 {
                   id: "not-set",
-                  content: <HiQuestionMarkCircle className="w-6 h-6" />,
+                  content: <QuestionMarkCircleIcon className="size-6" />,
                   selected: toggle === undefined,
                   onClick: () => {},
                   disabled: true,
@@ -448,7 +449,7 @@ const QualityItem = ({
                 },
                 {
                   id: "not_passed",
-                  content: <HiXMark className="w-6 h-6" />,
+                  content: <XMarkIcon className="size-6" />,
                   onClick: () => {
                     mutation.mutateAsync({ passed: false })
                   },
@@ -457,7 +458,7 @@ const QualityItem = ({
                 },
                 {
                   id: "passed",
-                  content: <HiCheck className="w-6 h-6" />,
+                  content: <CheckIcon className="size-6" />,
                   onClick: () => {
                     mutation.mutateAsync({ passed: true })
                   },
@@ -529,8 +530,8 @@ const ScreenShotTypeItem = ({
             {
               id: "default",
               content: (
-                <div className="w-6 h-6 flex items-center justify-center">
-                  <HiMiniWindow className="w-5 h-5" />
+                <div className="size-6 flex items-center justify-center">
+                  <WindowIcon className="size-5" />
                 </div>
               ),
               onClick: () => {
@@ -541,8 +542,8 @@ const ScreenShotTypeItem = ({
             {
               id: "fullscreen",
               content: (
-                <div className="w-6 h-6 flex items-center justify-center">
-                  <HiArrowsPointingOut className="w-5 h-5" />
+                <div className="size-6 flex items-center justify-center">
+                  <ArrowsPointingOutIcon className="size-5" />
                 </div>
               ),
               onClick: () => {
@@ -563,12 +564,12 @@ const ReadOnlyItem = ({ toggle }: { toggle: boolean }) => {
   const status =
     toggle === null ? "pending" : toggle === true ? "passed" : "not-passed"
 
-  let content = <HiQuestionMarkCircle className="w-6 h-6" />
+  let content = <QuestionMarkCircleIcon className="size-6" />
   if (status === "passed") {
-    content = <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
+    content = <CheckCircleIcon className="size-6 text-flathub-celestial-blue" />
   } else if (status === "not-passed") {
     content = (
-      <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
+      <ExclamationTriangleIcon className="size-6 text-flathub-electric-red" />
     )
   }
 

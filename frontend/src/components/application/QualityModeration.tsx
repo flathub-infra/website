@@ -4,14 +4,10 @@ import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import Spinner from "../Spinner"
 import clsx from "clsx"
 import {
-  HiCheckCircle,
-  HiCog6Tooth,
-  HiEnvelope,
-  HiEnvelopeOpen,
-  HiExclamationTriangle,
-  HiEye,
-  HiQuestionMarkCircle,
-} from "react-icons/hi2"
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/24/solid"
 import { useTranslations } from "next-intl"
 import Modal from "../Modal"
 import { DesktopAppstream } from "src/types/Appstream"
@@ -25,6 +21,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { ScanEyeIcon } from "lucide-react"
 import { Link } from "src/i18n/navigation"
+import {
+  EnvelopeIcon,
+  EyeIcon,
+  Cog6ToothIcon,
+  EnvelopeOpenIcon,
+} from "@heroicons/react/20/solid"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -40,21 +42,21 @@ const QualityModerationStatusComponent = ({
   if (status.passes) {
     return (
       <div className="flex gap-1">
-        <HiCheckCircle className="text-2xl" />
+        <CheckCircleIcon className="text-2xl size-6" />
         <span>{t("quality-guideline.high-quality-app-data")}</span>
       </div>
     )
   } else if (status.not_passed === 0) {
     return (
       <div className="flex gap-1">
-        <HiQuestionMarkCircle className="text-2xl" />
+        <QuestionMarkCircleIcon className="text-2xl size-6" />
         <span>{t("quality-guideline.app-data-review-pending")}</span>
       </div>
     )
   } else {
     return (
       <div className="flex gap-1">
-        <HiExclamationTriangle className="text-2xl" />
+        <ExclamationTriangleIcon className="text-2xl size-6" />
         <span>
           {t("quality-guideline.failing-x-checks", {
             count: status.not_passed,
@@ -111,7 +113,7 @@ const QualityReviewButton = ({
           setModalVisible(true)
         }}
       >
-        <HiEnvelopeOpen className="w-5 h-5" />
+        <EnvelopeOpenIcon className="size-5" />
         <div className="hidden sm:block">
           {t("quality-guideline.request-review")}
         </div>
@@ -147,7 +149,7 @@ const QualityReviewButton = ({
       variant="secondary"
       disabled
     >
-      <HiEnvelope className="w-5 h-5" />
+      <EnvelopeIcon className="size-5" />
       <div className="hidden sm:block">
         {t("quality-guideline.review-requested")}
       </div>
@@ -268,13 +270,13 @@ export const QualityModeration = ({
           >
             {mode === "qualityModerator" && (
               <>
-                <HiCog6Tooth className="w-5 h-5" />
+                <Cog6ToothIcon className="size-5" />
                 <div className="hidden sm:block">Moderate</div>
               </>
             )}
             {mode === "developer" && (
               <>
-                <HiEye className="w-5 h-5" />
+                <EyeIcon className="size-5" />
                 <div className="hidden sm:block">
                   {t("quality-guideline.details")}
                 </div>

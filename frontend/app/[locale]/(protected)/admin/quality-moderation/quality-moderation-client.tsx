@@ -13,11 +13,10 @@ import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 import { Fragment, useEffect, useState } from "react"
 import {
-  HiCheckCircle,
-  HiExclamationTriangle,
-  HiMiniChevronDown,
-  HiMiniChevronUp,
-} from "react-icons/hi2"
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/solid"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid"
 import LogoImage from "src/components/LogoImage"
 import MultiToggle from "src/components/MultiToggle"
 import Pagination from "src/components/Pagination"
@@ -198,9 +197,9 @@ const QualityModerationTable = ({
       accessorFn: (row) => row.quality_moderation_status.passes,
       cell: ({ row }) =>
         row.original.quality_moderation_status.passes ? (
-          <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
+          <CheckCircleIcon className="size-6 text-flathub-celestial-blue" />
         ) : (
-          <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
+          <ExclamationTriangleIcon className="size-6 text-flathub-electric-red" />
         ),
     },
     {
@@ -336,8 +335,8 @@ const QualityModerationTable = ({
                             header.getContext(),
                           )}
                           {{
-                            asc: <HiMiniChevronUp className="size-4" />,
-                            desc: <HiMiniChevronDown className="size-4" />,
+                            asc: <ChevronUpIcon className="size-4" />,
+                            desc: <ChevronDownIcon className="size-4" />,
                           }[header.column.getIsSorted() as string] ?? null}
                         </button>
                       </div>

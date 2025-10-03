@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl"
 import { BreadcrumbJsonLd } from "next-seo"
 import { FunctionComponent } from "react"
-import { HiChevronRight, HiHome } from "react-icons/hi2"
+import { ChevronRightIcon, HomeIcon } from "@heroicons/react/20/solid"
 import { Link } from "src/i18n/navigation"
 
 interface Props {
@@ -37,7 +37,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
                 href="/"
                 className="text-flathub-granite-gray hover:text-flathub-arsenic dark:text-flathub-gray-x11 dark:hover:text-flathub-gainsborow"
               >
-                <HiHome className="size-5 shrink-0" aria-hidden="true" />
+                <HomeIcon className="size-5 shrink-0" aria-hidden="true" />
                 <span className="sr-only">{t("home")}</span>
               </Link>
             </div>
@@ -45,7 +45,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
           {pages.map((page) => (
             <li key={page.name}>
               <div className="flex items-center">
-                <HiChevronRight
+                <ChevronRightIcon
                   className="size-5 shrink-0 text-flathub-granite-gray dark:text-flathub-gray-x11 rtl:rotate-180"
                   aria-hidden="true"
                 />

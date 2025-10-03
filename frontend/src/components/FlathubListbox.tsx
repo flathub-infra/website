@@ -14,7 +14,7 @@ import {
   HTMLAttributes,
   ReactNode,
 } from "react"
-import { HiChevronDown } from "react-icons/hi2"
+import { ChevronDownIcon } from "@heroicons/react/24/solid"
 
 type Props = {
   items: {
@@ -54,7 +54,7 @@ const FlathubListbox: FunctionComponent<Props> = ({
         )}
       >
         {selectedItem?.content}
-        <HiChevronDown />
+        <ChevronDownIcon className="size-6" />
       </ListboxButton>
       <Transition
         enter="transition duration-100 ease-out"
