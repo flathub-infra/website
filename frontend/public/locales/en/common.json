@@ -421,7 +421,7 @@
   "app-type": "App Type",
   "new-app": "New app",
   "community-repository": "Community Repository",
-  "community-repository-description": "Upload your app to Flathub by uploading your Flatpak manifest and supporting files to a repository in our GitHub organization. Flathub's buildbot will build the app and publish it to Flathub.",
+  "community-repository-description": "Upload your app to Flathub by uploading your Flatpak manifest and supporting files to a repository in our GitHub organization. Flathub's build service will build the app and publish it to Flathub.",
   "new-community-repository": "New Community Repository App",
   "direct-upload": "Direct Upload",
   "direct-upload-description": "Build your app in your own continuous integration environment and upload it directly to Flathub.",
