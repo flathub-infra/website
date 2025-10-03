@@ -67,7 +67,7 @@
     "recharts": "^2.15.4",
     "rtl-detect": "^1.1.2",
     "sass": "^1.90.0",
-    "satori": "^0.16.2",
+    "satori": "^0.18.3",
     "sonner": "^2.0.7",
     "spdx-license-list": "^6.10.0",
     "tailwind-merge": "^3.3.1",
