@@ -6,6 +6,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Builds",
     description: "Monitor build and deployment processes",
+    robots: {
+      index: false,
+    },
   }
 }
 
