@@ -12,6 +12,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Build ${id}`,
     description: `A build pipeline details`,
+    robots: {
+      index: false,
+    },
   }
 }
 
