@@ -310,7 +310,7 @@
   "app-type": "Typ aplikacji",
   "new-app": "Nowa aplikacja",
   "community-repository": "Repozytorium społeczności",
-  "community-repository-description": "Prześlij swoją aplikację do Flathub, przesyłając manifest Flatpak i pliki dodatkowe do repozytorium w naszej organizacji GitHub. Buildbot Flathub zbuduje aplikację i opublikuje ją na Flathub.",
+  "community-repository-description": "Prześlij swoją aplikację do Flathub, przesyłając manifest Flatpak i pliki dodatkowe do repozytorium w naszej organizacji GitHub. Usługa kompilacji Flathub zbuduje aplikację i opublikuje ją na Flathub.",
   "new-community-repository": "Nowa aplikacja repozytorium społeczności",
   "direct-upload": "Bezpośrednie przesyłanie",
   "verify-app-id": "Weryfikacja identyfikatora aplikacji",
@@ -539,7 +539,8 @@
   "nothing-to-do": "Nie ma nic do zrobienia",
   "news": "Aktualności",
   "developer-portal": {
-    "title": "Portal programisty"
+    "title": "Portal programisty",
+    "runtime-version": "Środowisko uruchomieniowe: {version}"
   },
   "unverified": "Niezweryfikowana",
   "new": "Nowe",
@@ -671,5 +672,7 @@
   "uses-privileged-socket": "Używa uprzywilejowanego gniazda",
   "uses-non-portal-service": "Korzysta z usług niebędących portalami",
   "can-talk-to-non-portal-service": "Może żądać danych z usług niebędących portalami i uzyskiwać dodatkowe uprawnienia",
-  "unauthorized": "Nieautoryzowany"
+  "unauthorized": "Nieautoryzowany",
+  "developed-by": "stworzona przez {developer}",
+  "unverified-tooltip": "Własność identyfikatora aplikacji <appid></appid> nie została zweryfikowana i może to być aplikacja stworzona przez społeczność"
 }

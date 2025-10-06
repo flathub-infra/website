@@ -246,7 +246,7 @@
   "verified-manually-tooltip": "Der Besitz der Appkennung <appid></appid> wurde manuell von dem Flathub-Team verifiziert",
   "refresh": "Aktualisieren",
   "verification-warning": "Das Flathub-Team kann das Verifizierungsabzeichen nach eigenem Ermessen von jeder App entfernen, zum Beispiel wenn es jemanden über den offiziellen Status der App in die Irre führen könnte oder eine Verwechslung in Bezug auf eine Marke verursacht.",
-  "verification-instructions": "Verifiziere deine App-ID, um anzuzeigen, dass dein Flathub-Upload vom App-Entwickler genehmigt wurde. Du musst nachweisen, dass du Kontrolle über die App hast, indem du eine Website auf der Domäne der App ablegst oder den Zugriff auf das Konto der App auf einer Quellcode-Hosting-Website hast. Das verifiziert Abzeichen wird neben dem Namen der App, dem Namen des Herausgebers und der Art und Weise, wie die App-ID verifiziert wurde, angezeigt.",
+  "verification-instructions": "Verifiziere deine App-ID, um anzuzeigen, dass dein Flathub-Upload vom App-Entwickler genehmigt wurde. Du musst nachweisen, dass du Kontrolle über die App hast, indem du eine Website auf der Domäne der App ablegst oder den Zugriff auf das Konto der App auf einer Quellcode-Hosting-Website hast. Das verifiziert Abzeichen wird neben dem Namen der App, dem Namen des Herausgebers und der Art und Weise, wie die App-ID verifiziert wurde, angezeigt. Mehr Details sind in der <doclink>Verifizierungs-Dokumentation</doclink> zu finden.",
   "settings": "Einstellungen",
   "verification": "Verifizierung",
   "my-flathub": "Mein Flathub",
@@ -306,7 +306,7 @@
   "distribution-flathub-setup": "{distribution} Flathub-Einrichtung",
   "no-results-found": "Keine Ergebnisse gefunden",
   "new-app": "Neue App",
-  "community-repository-description": "Lade deine App auf Flathub hoch, indem du deine Flatpak-Manifest und unterstützende Dateien zu einem Repository in unserer GitHub-Organisation hinzufügst. Der Buildbot von Flathub baut dann die App und veröffentlicht sie auf Flathub.",
+  "community-repository-description": "Lade deine App auf Flathub hoch, indem du deine Flatpak-Manifest und unterstützende Dateien zu einem Repository in unserer GitHub-Organisation hinzufügst. Der Build-Service von Flathub baut dann die App und veröffentlicht sie auf Flathub.",
   "direct-upload-description": "Erstelle deine App in deiner eigenen Continuous-Integration-Umgebung und lade sie direkt auf Flathub hoch.",
   "verify-app-id": "App-ID verifizieren",
   "app-id": "App-ID",
@@ -488,7 +488,8 @@
     "problems": "Wenn du uns Fragen zu bestimmten Qualitätsrichtlinienproblemen stellen möchtest, öffne bitte <link>ein Issue</link>.",
     "light": "Hell",
     "dark": "Dunkel",
-    "general-runtime-not-eol": "Laufzeit nicht am Ende der Lebensdauer"
+    "general-runtime-not-eol": "Laufzeit nicht am Ende der Lebensdauer",
+    "failing-x-checks": "{count, plural, one {# Prüfung} other {# Prüfungen}} fehlgeschlagen"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build-ID",
@@ -536,7 +537,8 @@
   "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll",
   "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
   "developer-portal": {
-    "title": "Entwicklerportal"
+    "title": "Entwicklerportal",
+    "runtime-version": "Laufzeit-Umgebung: {version}"
   },
   "news": "Neuigkeiten",
   "nothing-to-do": "Nichts zu tun",
@@ -668,5 +670,9 @@
   "count": "Anzahl",
   "uses-privileged-socket": "Verwendet einen privilegierten Socket",
   "developed-by": "entwickelt von {developer}",
-  "unverified-tooltip": "Die Eigentümerschaft der App-ID <appid></appid> wurde nicht überprüft und es könnte sich um ein Gemeinschaftspaket handeln"
+  "unverified-tooltip": "Die Eigentümerschaft der App-ID <appid></appid> wurde nicht überprüft und es könnte sich um ein Gemeinschaftspaket handeln",
+  "unauthorized": "Unautorisiert",
+  "uses-non-portal-service": "Nutzt Nicht-Portal Dienste",
+  "can-talk-to-non-portal-service": "Kann Daten von Nicht-Portal-Diensten anfordern und zusätzliche Berechtigungen erhalten",
+  "socket-may-allow-extra-permissions": "Verwendet einen Socket, der zusätzliche Berechtigungen ermöglicht"
 }
