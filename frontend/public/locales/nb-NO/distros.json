@@ -174,49 +174,75 @@
       "text": "<text>For å installere Flatpak på Kubuntu, åpne Discover, gå til Innstillinger, installer Flatpak-bakenden og start Discover på nytt.</text>"
     },
     "step-3": {
-      "name": "Legg til Flathub-pakkebrønnen"
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, åpne Discover, gå til Innstillinger, og legg til Flathub-pakkebrønnnen.</text>"
     },
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     },
     "step-2": {
-      "name": "Installer Flatpak-systeminnstillingsutvidelsen"
+      "name": "Installer Flatpak-systeminnstillingsutvidelsen",
+      "text": "<text>For å integrere Flatpak-støtte i Plasma-systeminnstillingene, åpne Terminal-appen og kjør:</text> <code></code>"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Solus, åpne Terminal-appen og kjør:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>! </text> <text>Merk: grafisk installasjon av Flatpak-apper er bare tilgjengelig GNOME eller KDE Discover.</text>"
+    },
+    "introduction": "<text>Flatpak-støtte er innebygd i Solus 4.7 og nyere versjoner, så det er ikke nødvendig å installere noe! Flatpak-apper kan installeres med GNOME eller KDE Discover.</text> <text>Hvis Flatpak ikke er installert, følg instruksjonene nedenfor for å komme igang.</text>",
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende i en terminal:</text> <code></code>"
     }
   },
   "alpine": {
     "distroName": "Alpine",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>Flatpak kan installeres fra samfunnspakkebrønnen. Kjør følgende i en terminal:</text> <code></code>"
     },
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-3": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende i en terminal:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Installer Software Flatpak-utvidelsen",
+      "text": "<text>Du kan installere Flatpak-utvidelsen til denten GNOME Software (siden v3.13) eller KDE Discover (siden v3.11), som gjør det mulig å installere apper uten å bruke terminalen. For å installere det, for GNOME Software, kjør:</text> <code></code> <text>For KDE Discover, kjør:</text> <codeDiscover></codeDiscover>"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>En flatpak-pakke er tilgjengelig for Mageia 6 og nyere versjoner. For å installere med DNF, kjør følgende som root:</text> <code></code> <text>Eventuelt kan du installere med <strong>urpmi</strong>, ved å kjøre følgende:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak-apper er ikke mulig på Mageia.</text>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende i en terminal:</text> <code></code>"
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<header>Flatpak-støtte er innebygd i alle versjoner av OpenMandriva som vedlikeholdes, fra og med versjon «Rock 5.0», frem til versjon «Cooker», til og med versjon «ROME».</header> <text>Flatpak kommer med Flathub-pakkebrønnen forhåndskonfigurert.</text>"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<text>Flatpak-støtte er innebygd i Pop!_OS 20.04 og nyere! Det er ikke nødvendig å installere noe!</text>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -231,6 +257,9 @@
     },
     "step-3": {
       "name": "Start på nytt"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen"
     }
   },
   "void_linux": {
@@ -241,6 +270,10 @@
     "step-3": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "nixos": {
@@ -251,6 +284,10 @@
     "step-3": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "pureos": {
@@ -267,6 +304,10 @@
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "pardus": {
@@ -277,6 +318,13 @@
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-3": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Installer Software Flatpak-utvidelsen"
     }
   },
   "mx_linux": {
@@ -284,6 +332,9 @@
     "step-2": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-1": {
+      "name": "Skru på Flatpak gjennom Software Manager"
     }
   },
   "pisi_gnulinux": {
@@ -293,6 +344,10 @@
     },
     "step-3": {
       "name": "Start på nytt"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "endeavouros": {
@@ -302,6 +357,10 @@
     },
     "step-3": {
       "name": "Start på nytt"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "kde_neon": {
@@ -314,6 +373,10 @@
     },
     "step-3": {
       "name": "Start på nytt"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "crystal_linux": {
@@ -324,6 +387,10 @@
     "step-3": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     }
   },
   "vanilla_os": {

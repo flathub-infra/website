@@ -540,7 +540,7 @@
   "news": "Novinky",
   "developer-portal": {
     "title": "Portál vývojáře",
-    "runtime-version": "Běhové prostředí: {version}"
+    "runtime-version": "Prostředí: {version}"
   },
   "unverified": "Neověřené",
   "new": "Nové",

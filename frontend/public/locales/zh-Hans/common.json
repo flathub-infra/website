@@ -307,7 +307,7 @@
   "no-results-found": "未找到结果",
   "new-app": "新的应用",
   "community-repository": "社区仓库",
-  "community-repository-description": "通过将您的 Flatpak 清单和支持文件上传到我们 GitHub 组织中的仓库，即可将您的应用上传到 Flathub。Flathub 的构建机器人将构建并发布应用。",
+  "community-repository-description": "通过将您的 Flatpak 清单和支持文件上传到我们 GitHub 组织中的仓库，即可将您的应用上传到 Flathub。Flathub 的构建服务将构建并发布应用。",
   "new-community-repository": "新的来自社区仓库的应用",
   "direct-upload": "直接上传",
   "direct-upload-description": "在您自己的持续集成 (CI) 环境中构建应用，并将其直接上传到 Flathub。",

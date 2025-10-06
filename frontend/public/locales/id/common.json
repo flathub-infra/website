@@ -231,7 +231,7 @@
   "science": "Sains",
   "education": "Pendidikan",
   "system": "Sistem",
-  "verification-instructions": "Verifikasi ID aplikasi Anda untuk menunjukkan bahwa unggahan Flathub Anda disetujui oleh pengembang aplikasi. Anda harus membuktikan bahwa Anda memiliki kendali atas aplikasi melalui situs web di domain aplikasi atau dengan memeriksa akses ke akun aplikasi di situs hosting kode sumber. Lencana terverifikasi akan ditampilkan di samping nama aplikasi, nama penerbit, dan cara ID aplikasi diverifikasi.",
+  "verification-instructions": "Verifikasi ID aplikasi Anda untuk menunjukkan bahwa unggahan Flathub Anda disetujui oleh pengembang aplikasi. Anda harus membuktikan bahwa Anda memiliki kendali atas aplikasi melalui situs web di domain aplikasi atau dengan memeriksa akses ke akun aplikasi di situs hosting kode sumber. Lencana terverifikasi akan ditampilkan di samping nama aplikasi, nama penerbit, dan cara ID aplikasi diverifikasi. Silakan lihat dokumen verifikasi di <doclink>dokumentasi verifikasi</doclink> untuk detail lebih lanjut.",
   "login-provider-verification-not-org-admin": "Anda saat ini masuk ke <loginprovider></loginprovider> sebagai <currentname></currentname>. Akun ini bukan admin dari organisasi <orgname></orgname>. Untuk memverifikasi aplikasi ini, Anda harus meminta hak istimewa admin di organisasi atau masuk ke akun yang sudah memilikinya.",
   "verified-apps": "Aplikasi Terverifikasi",
   "verification": "Verifikasi",
@@ -258,7 +258,7 @@
   "apps-by-developer": "Aplikasi oleh {developer}",
   "new-app": "Aplikasi baru",
   "community-repository": "Repositori Komunitas",
-  "community-repository-description": "Unggah aplikasi Anda ke Flathub dengan mengunggah manifes Flatpak Anda dan berkas pendukung ke repositori di organisasi GitHub kami. Buildbot Flathub akan membuat aplikasi dan menerbitkannya ke Flathub.",
+  "community-repository-description": "Unggah aplikasi Anda ke Flathub dengan mengunggah manifes Flatpak Anda dan berkas pendukung ke repositori di organisasi GitHub kami. Layanan build Flathub akan membuat aplikasi dan menerbitkannya ke Flathub.",
   "new-community-repository": "Aplikasi Repositori Komunitas Baru",
   "direct-upload": "Unggah Langsung",
   "direct-upload-description": "Bangun aplikasi Anda di lingkungan integrasi berkelanjutan Anda sendiri dan unggah langsung ke Flathub.",
@@ -525,7 +525,8 @@
   "flathub-the-linux-app-store": "Flathub adalah App Store untuk Linux",
   "news": "Berita",
   "developer-portal": {
-    "title": "Portal Pengembang"
+    "title": "Portal Pengembang",
+    "runtime-version": "Runtime: {version}"
   },
   "unverified": "Tidak diverifikasi",
   "trending": "Sedang tren",
@@ -670,5 +671,8 @@
   "uses-privileged-socket": "Menggunakan soket khusus",
   "uses-non-portal-service": "Menggunakan layanan non-portal",
   "can-talk-to-non-portal-service": "Dapat meminta data dari layanan non-portal dan memperoleh izin tambahan",
-  "socket-may-allow-extra-permissions": "Menggunakan soket yang memungkinkan mendapatkan izin tambahan"
+  "socket-may-allow-extra-permissions": "Menggunakan soket yang memungkinkan mendapatkan izin tambahan",
+  "developed-by": "dikembangkan oleh {developer}",
+  "unverified-tooltip": "Kepemilikan ID aplikasi <appid></appid> belum terverifikasi dan mungkin merupakan paket komunitas",
+  "unauthorized": "Tanpa izin"
 }

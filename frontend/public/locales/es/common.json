@@ -667,5 +667,6 @@
   "uses-privileged-socket": "Usa un socket privilegiado",
   "uses-non-portal-service": "Usa servicios que no son de los portales",
   "can-talk-to-non-portal-service": "Puede solicitar datos de servicios que no pertenecen a los portales y obtener permisos adicionales",
-  "socket-may-allow-extra-permissions": "Usa un socket que permite obtener permisos adicionales"
+  "socket-may-allow-extra-permissions": "Usa un socket que permite obtener permisos adicionales",
+  "developed-by": "desarrollado por {developer}"
 }
