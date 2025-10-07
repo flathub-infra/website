@@ -1,8 +1,9 @@
 {
-  "type": "desktop",
+  "type": "desktop-application",
   "description": "<p>Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.</p>",
   "screenshots": [
     {
+      "caption": "Player navigating through maze",
       "sizes": [
         {
           "width": "800",
@@ -37,6 +38,7 @@
       ]
     },
     {
+      "caption": "Main game screen showing the maze",
       "default": true,
       "sizes": [
         {
@@ -122,6 +124,11 @@
   "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
   "icons": [],
   "id": "org.sugarlabs.Maze",
+  "keywords": [
+    "maze",
+    "puzzle",
+    "game"
+  ],
   "translation": {
     "value": "org.sugarlabs.Maze",
     "type": "gettext"
@@ -129,259 +136,17 @@
   "name": "Maze",
   "summary": "A simple maze game",
   "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
-  "kudos": ["HiDpiIcon"],
+  "categories": [
+    "Game"
+  ],
+  "kudos": [
+    "HiDpiIcon"
+  ],
   "project_license": "GPL-3.0-or-later",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
     "type": "desktop-id"
   },
-  "languages": [
-    {
-      "value": "ach",
-      "percentage": "100"
-    },
-    {
-      "value": "am",
-      "percentage": "100"
-    },
-    {
-      "value": "an",
-      "percentage": "100"
-    },
-    {
-      "value": "ar",
-      "percentage": "40"
-    },
-    {
-      "value": "ayc",
-      "percentage": "100"
-    },
-    {
-      "value": "aym",
-      "percentage": "40"
-    },
-    {
-      "value": "ca",
-      "percentage": "100"
-    },
-    {
-      "value": "cs",
-      "percentage": "100"
-    },
-    {
-      "value": "da",
-      "percentage": "100"
-    },
-    {
-      "value": "de",
-      "percentage": "100"
-    },
-    {
-      "value": "el",
-      "percentage": "100"
-    },
-    {
-      "value": "en",
-      "percentage": "100"
-    },
-    {
-      "value": "en_GB",
-      "percentage": "100"
-    },
-    {
-      "value": "en_US",
-      "percentage": "100"
-    },
-    {
-      "value": "es",
-      "percentage": "100"
-    },
-    {
-      "value": "fa",
-      "percentage": "100"
-    },
-    {
-      "value": "fi",
-      "percentage": "40"
-    },
-    {
-      "value": "fr",
-      "percentage": "100"
-    },
-    {
-      "value": "gn",
-      "percentage": "100"
-    },
-    {
-      "value": "gug",
-      "percentage": "100"
-    },
-    {
-      "value": "he",
-      "percentage": "100"
-    },
-    {
-      "value": "hi",
-      "percentage": "100"
-    },
-    {
-      "value": "hu",
-      "percentage": "100"
-    },
-    {
-      "value": "hus",
-      "percentage": "40"
-    },
-    {
-      "value": "hy",
-      "percentage": "100"
-    },
-    {
-      "value": "id",
-      "percentage": "100"
-    },
-    {
-      "value": "it",
-      "percentage": "100"
-    },
-    {
-      "value": "ja",
-      "percentage": "40"
-    },
-    {
-      "value": "kab",
-      "percentage": "40"
-    },
-    {
-      "value": "km",
-      "percentage": "40"
-    },
-    {
-      "value": "ko",
-      "percentage": "80"
-    },
-    {
-      "value": "lt",
-      "percentage": "100"
-    },
-    {
-      "value": "mg",
-      "percentage": "40"
-    },
-    {
-      "value": "mi",
-      "percentage": "100"
-    },
-    {
-      "value": "ml",
-      "percentage": "100"
-    },
-    {
-      "value": "mn",
-      "percentage": "40"
-    },
-    {
-      "value": "ms",
-      "percentage": "100"
-    },
-    {
-      "value": "nah",
-      "percentage": "100"
-    },
-    {
-      "value": "ne",
-      "percentage": "100"
-    },
-    {
-      "value": "nl",
-      "percentage": "100"
-    },
-    {
-      "value": "pap",
-      "percentage": "100"
-    },
-    {
-      "value": "pbs",
-      "percentage": "100"
-    },
-    {
-      "value": "pl",
-      "percentage": "100"
-    },
-    {
-      "value": "pt",
-      "percentage": "100"
-    },
-    {
-      "value": "pt_BR",
-      "percentage": "100"
-    },
-    {
-      "value": "ro",
-      "percentage": "100"
-    },
-    {
-      "value": "ru",
-      "percentage": "100"
-    },
-    {
-      "value": "sk",
-      "percentage": "100"
-    },
-    {
-      "value": "sl",
-      "percentage": "40"
-    },
-    {
-      "value": "son",
-      "percentage": "100"
-    },
-    {
-      "value": "sq",
-      "percentage": "100"
-    },
-    {
-      "value": "sr",
-      "percentage": "40"
-    },
-    {
-      "value": "sv",
-      "percentage": "100"
-    },
-    {
-      "value": "sw",
-      "percentage": "40"
-    },
-    {
-      "value": "ta",
-      "percentage": "40"
-    },
-    {
-      "value": "te",
-      "percentage": "60"
-    },
-    {
-      "value": "th",
-      "percentage": "100"
-    },
-    {
-      "value": "uk",
-      "percentage": "100"
-    },
-    {
-      "value": "vi",
-      "percentage": "40"
-    },
-    {
-      "value": "zh_CN",
-      "percentage": "100"
-    },
-    {
-      "value": "zh_TW",
-      "percentage": "100"
-    }
-  ],
   "bundle": {
     "value": "app/org.sugarlabs.Maze/x86_64/stable",
     "type": "flatpak",

@@ -51,15 +51,14 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
     translations = {}
     for key, apps in apps_locale.items():
         if key in localize.LOCALES:
-            filtered_translations = dict(
-                filter(
-                    lambda x: (
-                        x[0] == "name" or x[0] == "summary" or x[0] == "description"
-                    )
-                    and len(x[1]) > 0,
-                    apps.items(),
-                )
-            )
+            filtered_translations = {}
+            for k, v in apps.items():
+                if k in ("name", "summary", "description"):
+                    if isinstance(v, str) and len(v) > 0:
+                        filtered_translations[k] = v
+                elif k == "keywords":
+                    if isinstance(v, list) and len(v) > 0:
+                        filtered_translations[k] = v
 
             if "description" in filtered_translations:
                 filtered_translations["description"] = re.sub(

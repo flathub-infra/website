@@ -1,8 +1,12 @@
 {
   "hits": [
     {
-      "name": "Maze",
-      "keywords": null,
+      "name": "Irrgarten",
+      "keywords": [
+        "Labyrinth",
+        "R\u00e4tsel",
+        "Spiel"
+      ],
       "summary": "Ein simples Irrgartenspiel",
       "description": "Gut deinen Weg aus einer schwierigen Situation zu finden?",
       "id": "org_sugarlabs_Maze",
@@ -23,9 +27,7 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": [
-        "x86_64"
-      ],
+      "arches": ["x86_64"],
       "added_at": 1610973680,
       "trending": 5.0,
       "installs_last_month": 567,

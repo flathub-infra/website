@@ -157,6 +157,48 @@ def test_apps_by_developer_locale(client, snapshot):
     )
 
 
+def test_apps_by_category_with_keywords_translation(client, snapshot):
+    """Test that apps in category endpoint include keyword translations"""
+    response = client.get("/collection/category/Game")
+    assert response.status_code == 200
+    response_data = response.json()
+
+    # Find the TranslationApp in the results
+    translation_app = None
+    for app in response_data.get("hits", []):
+        if app.get("id") == "org_sugarlabs_Maze":
+            translation_app = app
+            break
+
+    # Verify it's found and has keywords
+    assert translation_app is not None, (
+        "Translation test app should be in Game category"
+    )
+    assert "keywords" in translation_app
+    assert translation_app["keywords"] == ["maze", "puzzle", "game"]
+
+
+def test_apps_by_category_with_keywords_translation_de(client, snapshot):
+    """Test that apps in category endpoint with locale=de return German keywords"""
+    response = client.get("/collection/category/Game?locale=de")
+    assert response.status_code == 200
+    response_data = response.json()
+
+    # Find the TranslationApp in the results
+    translation_app = None
+    for app in response_data.get("hits", []):
+        if app.get("id") == "org_sugarlabs_Maze":
+            translation_app = app
+            break
+
+    # Verify it's found and has German keywords
+    assert translation_app is not None, (
+        "Translation test app should be in Game category"
+    )
+    assert "keywords" in translation_app
+    assert translation_app["keywords"] == ["Labyrinth", "Rätsel", "Spiel"]
+
+
 def test_apps_by_non_existent_developer(client):
     response = client.get("/collection/developer/NonExistent")
     assert response.status_code == 200
@@ -198,6 +240,141 @@ def test_appstream_by_non_existent_appid(client):
     response = client.get("/appstream/NonExistent")
     assert response.status_code == 404
     assert response.json() is None
+
+
+def test_appstream_keywords_translation(client, snapshot):
+    """Test that keywords with xml:lang attributes are parsed correctly"""
+    response = client.get("/appstream/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_keywords_translation.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
+    # Verify default keywords are present
+    assert "keywords" in response_data
+    assert response_data["keywords"] == ["maze", "puzzle", "game"]
+
+
+def test_appstream_keywords_translation_de(client, snapshot):
+    """Test that German keywords are returned when locale=de"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=de")
+    assert response.status_code == 200
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_keywords_translation_de.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
+    # Verify German keywords are present
+    assert "keywords" in response_data
+    assert response_data["keywords"] == ["Labyrinth", "Rätsel", "Spiel"]
+
+
+def test_appstream_keywords_translation_es(client, snapshot):
+    """Test that Spanish keywords are returned when locale=es"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=es")
+    assert response.status_code == 200
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_keywords_translation_es.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
+    # Verify Spanish keywords are present
+    assert "keywords" in response_data
+    assert response_data["keywords"] == ["laberinto", "rompecabezas", "juego"]
+
+
+def test_appstream_keywords_translation_fr(client, snapshot):
+    """Test that French keywords are returned when locale=fr"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=fr")
+    assert response.status_code == 200
+    response_data = response.json()
+    snapshot_data = snapshot("test_appstream_keywords_translation_fr.json")
+    _normalize_response_for_comparison(response_data)
+    _normalize_response_for_comparison(snapshot_data)
+    assert snapshot_data == response_data
+    # Verify French keywords are present
+    assert "keywords" in response_data
+    assert response_data["keywords"] == ["labyrinthe", "casse-tête", "jeu"]
+
+
+def test_appstream_keywords_translation_fallback(client, snapshot):
+    """Test that default keywords are returned for unsupported locale"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=ja")
+    assert response.status_code == 200
+    response_data = response.json()
+    # Should fall back to default English keywords
+    assert "keywords" in response_data
+    assert response_data["keywords"] == ["maze", "puzzle", "game"]
+
+
+def test_appstream_screenshot_captions_default(client, snapshot):
+    """Test that default screenshot captions are returned without locale"""
+    response = client.get("/appstream/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    response_data = response.json()
+    assert "screenshots" in response_data
+    screenshots = response_data["screenshots"]
+    assert len(screenshots) >= 2
+    # Check the first screenshot caption
+    assert screenshots[0]["caption"] == "Player navigating through maze"
+    # Check the second screenshot caption
+    assert screenshots[1]["caption"] == "Main game screen showing the maze"
+
+
+def test_appstream_screenshot_captions_german(client, snapshot):
+    """Test that German screenshot captions are returned for German locale"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=de")
+    assert response.status_code == 200
+    response_data = response.json()
+    assert "screenshots" in response_data
+    screenshots = response_data["screenshots"]
+    assert len(screenshots) >= 2
+    # Check German captions
+    assert screenshots[0]["caption"] == "Spieler navigiert durch das Labyrinth"
+    assert screenshots[1]["caption"] == "Hauptspielbildschirm mit dem Labyrinth"
+
+
+def test_appstream_screenshot_captions_spanish(client, snapshot):
+    """Test that Spanish screenshot captions are returned for Spanish locale"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=es")
+    assert response.status_code == 200
+    response_data = response.json()
+    assert "screenshots" in response_data
+    screenshots = response_data["screenshots"]
+    assert len(screenshots) >= 2
+    # Check Spanish captions
+    assert screenshots[0]["caption"] == "Jugador navegando por el laberinto"
+    assert (
+        screenshots[1]["caption"]
+        == "Pantalla principal del juego mostrando el laberinto"
+    )
+
+
+def test_appstream_screenshot_captions_french(client, snapshot):
+    """Test that French screenshot captions are returned for French locale"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=fr")
+    assert response.status_code == 200
+    response_data = response.json()
+    assert "screenshots" in response_data
+    screenshots = response_data["screenshots"]
+    assert len(screenshots) >= 2
+    # Check French captions
+    assert screenshots[0]["caption"] == "Joueur naviguant dans le labyrinthe"
+    assert screenshots[1]["caption"] == "Écran de jeu principal montrant le labyrinthe"
+
+
+def test_appstream_screenshot_captions_fallback(client, snapshot):
+    """Test that default captions are returned for unsupported locale"""
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=ja")
+    assert response.status_code == 200
+    response_data = response.json()
+    assert "screenshots" in response_data
+    screenshots = response_data["screenshots"]
+    assert len(screenshots) >= 2
+    # Should fall back to default English captions
+    assert screenshots[0]["caption"] == "Player navigating through maze"
+    assert screenshots[1]["caption"] == "Main game screen showing the maze"
 
 
 def test_search_query_by_partial_name(client, snapshot):

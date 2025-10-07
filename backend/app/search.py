@@ -40,7 +40,7 @@ class AppsIndex(BaseModel):
     description: str
     id: str
     type: str
-    translations: dict[str, dict[str, str]] | None = None
+    translations: dict[str, dict[str, str | list[str]]] | None = None
     project_license: str
     is_free_license: bool
     app_id: str
@@ -172,21 +172,27 @@ def _translate_name_and_summary[
             elif fallbackLocale in searchResult.translations.keys():
                 picked_locale = fallbackLocale
 
-        if not picked_locale:
-            continue
+            if picked_locale:
+                if "name" in searchResult.translations[picked_locale]:
+                    searchResult.name = searchResult.translations[picked_locale]["name"]
 
-        if "name" in searchResult.translations[picked_locale]:
-            searchResult.name = searchResult.translations[picked_locale]["name"]
+                if "summary" in searchResult.translations[picked_locale]:
+                    searchResult.summary = searchResult.translations[picked_locale][
+                        "summary"
+                    ]
 
-        if "summary" in searchResult.translations[picked_locale]:
-            searchResult.summary = searchResult.translations[picked_locale]["summary"]
+                if "description" in searchResult.translations[picked_locale]:
+                    searchResult.description = searchResult.translations[picked_locale][
+                        "description"
+                    ]
 
-        if "description" in searchResult.translations[picked_locale]:
-            searchResult.description = searchResult.translations[picked_locale][
-                "description"
-            ]
+                if "keywords" in searchResult.translations[picked_locale]:
+                    searchResult.keywords = searchResult.translations[picked_locale][
+                        "keywords"
+                    ]
 
-        del searchResult.translations
+            # Always delete translations from the response, regardless of whether a locale match was found
+            del searchResult.translations
 
     return searchResults
 
