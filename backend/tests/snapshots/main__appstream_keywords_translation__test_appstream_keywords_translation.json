@@ -1,0 +1,158 @@
+{
+  "id": "org.sugarlabs.Maze",
+  "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+  "name": "Maze",
+  "type": "desktop-application",
+  "urls": {
+    "homepage": "https://github.com/sugarlabs/maze-activity",
+    "bugtracker": "https://github.com/sugarlabs/maze-activity"
+  },
+  "icons": [],
+  "kudos": [
+    "HiDpiIcon"
+  ],
+  "bundle": {
+    "sdk": "org.gnome.Sdk/x86_64/3.36",
+    "type": "flatpak",
+    "value": "app/org.sugarlabs.Maze/x86_64/stable",
+    "runtime": "org.gnome.Platform/x86_64/3.36"
+  },
+  "summary": "A simple maze game",
+  "keywords": [
+    "maze",
+    "puzzle",
+    "game"
+  ],
+  "releases": [
+    {
+      "version": "30",
+      "timestamp": "1582070400"
+    }
+  ],
+  "categories": [
+    "Game"
+  ],
+  "launchable": {
+    "type": "desktop-id",
+    "value": "org.sugarlabs.Maze.desktop"
+  },
+  "description": "<p>Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.</p>",
+  "screenshots": [
+    {
+      "sizes": [
+        {
+          "src": "https://i.imgur.com/imoTbzP.webp",
+          "scale": "1x",
+          "width": "800",
+          "height": "500"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.webp",
+          "scale": "1x",
+          "width": "624",
+          "height": "351"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.webp",
+          "scale": "1x",
+          "width": "112",
+          "height": "63"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.webp",
+          "scale": "1x",
+          "width": "224",
+          "height": "126"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.webp",
+          "scale": "1x",
+          "width": "752",
+          "height": "423"
+        }
+      ],
+      "caption": "Player navigating through maze"
+    },
+    {
+      "sizes": [
+        {
+          "src": "https://i.imgur.com/GO11pbh.webp",
+          "scale": "1x",
+          "width": "800",
+          "height": "500"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.webp",
+          "scale": "1x",
+          "width": "624",
+          "height": "351"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.webp",
+          "scale": "1x",
+          "width": "112",
+          "height": "63"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.webp",
+          "scale": "1x",
+          "width": "224",
+          "height": "126"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.webp",
+          "scale": "1x",
+          "width": "752",
+          "height": "423"
+        }
+      ],
+      "caption": "Main game screen showing the maze",
+      "default": true
+    },
+    {
+      "sizes": [
+        {
+          "src": "https://i.imgur.com/RH1koq6.webp",
+          "scale": "1x",
+          "width": "800",
+          "height": "500"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.webp",
+          "scale": "1x",
+          "width": "624",
+          "height": "351"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.webp",
+          "scale": "1x",
+          "width": "112",
+          "height": "63"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.webp",
+          "scale": "1x",
+          "width": "224",
+          "height": "126"
+        },
+        {
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.webp",
+          "scale": "1x",
+          "width": "752",
+          "height": "423"
+        }
+      ]
+    }
+  ],
+  "translation": {
+    "type": "gettext",
+    "value": "org.sugarlabs.Maze"
+  },
+  "content_rating": {
+    "type": "oars-1.1"
+  },
+  "developer_name": "Sugar Labs Community",
+  "is_free_license": true,
+  "project_license": "GPL-3.0-or-later",
+  "isMobileFriendly": false
+}

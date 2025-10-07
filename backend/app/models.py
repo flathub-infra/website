@@ -2278,8 +2278,13 @@ class App(Base):
         if not self.appstream:
             return None
 
+        result = self.appstream.copy()
+
+        # Remove languages field from API response - it's internal data not needed by clients
+        result.pop("languages", None)
+
         if not self.localization:
-            return self.appstream
+            return result
 
         translation = self.localization.get(locale)
         if not translation:
@@ -2287,9 +2292,8 @@ class App(Base):
             base_locale = locale.split("-")[0]
             translation = self.localization.get(base_locale)
             if not translation:
-                return self.appstream
+                return result
 
-        result = self.appstream.copy()
         for key in translation:
             if key.startswith("screenshots_caption_"):
                 number = int(key.split("_")[-1])

@@ -204,7 +204,11 @@ def get_category_totals():
         search.SearchQuery(query="", filters=None), "en"
     )
 
-    if category_totals is None or category_totals.facetDistribution is None:
+    if (
+        category_totals is None
+        or category_totals.facetDistribution is None
+        or "main_categories" not in category_totals.facetDistribution
+    ):
         return categories
 
     for category, count in category_totals.facetDistribution["main_categories"].items():

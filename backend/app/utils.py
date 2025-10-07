@@ -47,7 +47,9 @@ class Hasher:
         return self.hasher.hexdigest()
 
 
-def add_translation(apps_locale: dict, language: str, appid: str, key: str, value: str):
+def add_translation(
+    apps_locale: dict, language: str, appid: str, key: str, value: str | list[str]
+):
     # normalize multi part languages, as the frontend
     #  always asks for the ones with a dash
     language = language.replace("_", "-")
@@ -174,23 +176,19 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
                 if component.attrib.get("type") == "desktop-application":
                     for caption in screenshot.findall("caption"):
-                        if caption is not None:
-                            if (
-                                caption.attrib.get(
-                                    "{http://www.w3.org/XML/1998/namespace}lang"
-                                )
-                                is None
-                            ):
+                        if caption is not None and caption.text:
+                            caption_lang = caption.get(
+                                "{http://www.w3.org/XML/1998/namespace}lang"
+                            )
+                            if caption_lang is None:
                                 attrs["caption"] = caption.text
                             else:
                                 add_translation(
                                     app["locales"],
-                                    caption.attrib.get(
-                                        "{http://www.w3.org/XML/1998/namespace}lang"
-                                    ),
+                                    caption_lang,
                                     appid,
                                     f"screenshots_caption_{i}",
-                                    "".join(caption.text),
+                                    caption.text,
                                 )
 
                 if screenshot.attrib.get("type") == "default":
@@ -208,9 +206,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                             image.attrib.get("type") == "source"
                             and image.attrib.get("width") is not None
                             and image.attrib.get("height") is not None
-                            and image.attrib.get(
-                                "{http://www.w3.org/XML/1998/namespace}lang"
-                            )
+                            and image.get("{http://www.w3.org/XML/1998/namespace}lang")
                             is None
                         )
                     ):
@@ -250,17 +246,15 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         description = [
                             etree.tostring(tag, encoding=("unicode")) for tag in desc
                         ]
-                        if (
-                            desc.attrib.get(
-                                "{http://www.w3.org/XML/1998/namespace}lang"
-                            )
-                            is None
-                        ):
+                        desc_lang = desc.get(
+                            "{http://www.w3.org/XML/1998/namespace}lang"
+                        )
+                        if desc_lang is None:
                             attrs["description"] = "".join(description)
                         else:
                             add_translation(
                                 app["locales"],
-                                desc.get("{http://www.w3.org/XML/1998/namespace}lang"),
+                                desc_lang,
                                 appid,
                                 "release_description_" + str(i),
                                 "".join(description),
@@ -363,22 +357,25 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             app["developers"] = []
             for name in developers:
                 # TODO: support translations
-                if name.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                if name.get("{http://www.w3.org/XML/1998/namespace}lang"):
                     continue
                 app["developers"].append(name.text)
             component.remove(component.find("developer"))
 
         for elem in component:
-            if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
-                if len(elem) == 0 and len(elem.attrib) == 1:
+            elem_xml_lang = elem.get("{http://www.w3.org/XML/1998/namespace}lang")
+            if elem_xml_lang:
+                # Only add translation if element has text content (leaf elements)
+                # Container elements like <keywords> with children will be handled below
+                if len(elem) == 0 and elem.text:
                     add_translation(
                         app["locales"],
-                        elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"),
+                        elem_xml_lang,
                         appid,
                         elem.tag,
                         elem.text,
                     )
-                continue
+                    continue
 
             if len(elem) == 0 and len(elem.attrib) == 0:
                 app[elem.tag] = elem.text
@@ -400,25 +397,53 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     app[elem.tag] = attrs.copy()
 
             if len(elem):
-                app[elem.tag] = []
-                for tag in elem:
+                # Check if parent element has xml:lang (for container elements with localized children)
+                parent_xml_lang = elem.get("{http://www.w3.org/XML/1998/namespace}lang")
+
+                # If parent has xml:lang, all children are translations
+                if parent_xml_lang:
+                    # Collect all child text values into a list
+                    translated_items = [
+                        tag.text
+                        for tag in elem
+                        if not len(tag.attrib) and tag.text is not None
+                    ]
+                    if translated_items:
+                        add_translation(
+                            app["locales"],
+                            parent_xml_lang,
+                            appid,
+                            elem.tag,
+                            translated_items,
+                        )
+                    continue
+
+                # Parent has no xml:lang, process children normally
+                if elem.tag not in app:
+                    app[elem.tag] = []
+                for tag_index, tag in enumerate(elem):
+                    # Try to get xml:lang attribute from child
+                    xml_lang = tag.get("{http://www.w3.org/XML/1998/namespace}lang")
+
+                    # Check if this is a translated child element
+                    if xml_lang:
+                        # Add translation for child elements like <keyword xml:lang="de">
+                        add_translation(
+                            app["locales"],
+                            xml_lang,
+                            appid,
+                            f"{elem.tag}_{tag_index}",
+                            tag.text,
+                        )
+                        continue
+
+                    # No xml:lang attribute - either no attributes or other attributes
                     if not len(tag.attrib):
+                        # Simple text element with no attributes
                         app[elem.tag].append(tag.text)
                         continue
 
-                    if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
-                        if len(elem) == 0 and len(elem.attrib) == 1:
-                            add_translation(
-                                app["locales"],
-                                elem.attrib.get(
-                                    "{http://www.w3.org/XML/1998/namespace}lang"
-                                ),
-                                appid,
-                                elem.tag,
-                                elem.text,
-                            )
-                        continue
-
+                    # Has other attributes (not xml:lang)
                     attrs = {}
                     attrs["value"] = tag.text
                     for attr in tag.attrib:

@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components version="0.8" origin="flatpak">
-  <component type="desktop">
+  <component type="desktop-application">
     <id>org.sugarlabs.Maze</id>
     <translation type="gettext">org.sugarlabs.Maze</translation>
     <name>Maze</name>
+    <name xml:lang="de">Irrgarten</name>
+    <name xml:lang="es">Laberinto</name>
+    <name xml:lang="fr">Labyrinthe</name>
     <summary>A simple maze game</summary>
     <summary xml:lang="de">Ein simples Irrgartenspiel</summary>
+    <summary xml:lang="es">Un simple juego de laberintos</summary>
+    <summary xml:lang="fr">Un simple jeu de labyrinthe</summary>
     <developer_name>Sugar Labs Community</developer_name>
     <description><p>Good at finding your way out of hard situations? Let&apos;s see! Try to make your way through an increasingly difficult path.</p></description>
     <description xml:lang="de"><p>Gut deinen Weg aus einer schwierigen Situation zu finden?</p></description>
+    <description xml:lang="es"><p>¿Eres bueno encontrando la salida de situaciones difíciles?</p></description>
+    <description xml:lang="fr"><p>Vous êtes doué pour vous sortir de situations difficiles ?</p></description>
     <icon type="cached" height="64" width="64">org.sugarlabs.Maze.png</icon>
     <icon type="cached" height="128" width="128">org.sugarlabs.Maze.png</icon>
     <categories>
       <category>Game</category>
     </categories>
+    <keywords>
+      <keyword>maze</keyword>
+      <keyword>puzzle</keyword>
+      <keyword>game</keyword>
+    </keywords>
+    <keywords xml:lang="de">
+      <keyword>Labyrinth</keyword>
+      <keyword>Rätsel</keyword>
+      <keyword>Spiel</keyword>
+    </keywords>
+    <keywords xml:lang="es">
+      <keyword>laberinto</keyword>
+      <keyword>rompecabezas</keyword>
+      <keyword>juego</keyword>
+    </keywords>
+    <keywords xml:lang="fr">
+      <keyword>labyrinthe</keyword>
+      <keyword>casse-tête</keyword>
+      <keyword>jeu</keyword>
+    </keywords>
     <kudos>
       <kudo>HiDpiIcon</kudo>
     </kudos>
@@ -22,6 +49,10 @@
     <url type="homepage">https://github.com/sugarlabs/maze-activity</url>
     <screenshots>
       <screenshot>
+        <caption>Player navigating through maze</caption>
+        <caption xml:lang="de">Spieler navigiert durch das Labyrinth</caption>
+        <caption xml:lang="es">Jugador navegando por el laberinto</caption>
+        <caption xml:lang="fr">Joueur naviguant dans le labyrinthe</caption>
         <image type="source" height="500" width="800">https://i.imgur.com/imoTbzP.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
@@ -29,6 +60,10 @@
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
       </screenshot>
       <screenshot type="default">
+        <caption>Main game screen showing the maze</caption>
+        <caption xml:lang="de">Hauptspielbildschirm mit dem Labyrinth</caption>
+        <caption xml:lang="es">Pantalla principal del juego mostrando el laberinto</caption>
+        <caption xml:lang="fr">Écran de jeu principal montrant le labyrinthe</caption>
         <image type="source" height="500" width="800">https://i.imgur.com/GO11pbh.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
@@ -127,7 +162,7 @@
     </languages>
     <bundle type="flatpak" runtime="org.gnome.Platform/x86_64/3.36" sdk="org.gnome.Sdk/x86_64/3.36">app/org.sugarlabs.Maze/x86_64/stable</bundle>
   </component>
-  <component type="desktop">
+  <component type="desktop-application">
     <id>com.anydesk.Anydesk.desktop</id>
     <name>AnyDesk</name>
     <summary>Connect to a computer remotely</summary>
@@ -213,7 +248,7 @@
        <value key="X-Flatpak-Tags">proprietary</value>
     </metadata>
   </component>
-  <component type="desktop">
+  <component type="desktop-application">
     <id>com.wps.Office</id>
     <name>WPS Office</name>
     <summary>WPS Office Suite</summary>

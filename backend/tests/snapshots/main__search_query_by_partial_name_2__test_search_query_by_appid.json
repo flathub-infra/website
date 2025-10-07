@@ -2,17 +2,15 @@
   "hits": [
     {
       "name": "Maze",
-      "keywords": null,
+      "keywords": [
+        "maze",
+        "puzzle",
+        "game"
+      ],
       "summary": "A simple maze game",
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
       "type": "desktop-application",
-      "translations": {
-        "de": {
-          "description": "Gut deinen Weg aus einer schwierigen Situation zu finden?",
-          "summary": "Ein simples Irrgartenspiel"
-        }
-      },
       "project_license": "GPL-3.0-or-later",
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",

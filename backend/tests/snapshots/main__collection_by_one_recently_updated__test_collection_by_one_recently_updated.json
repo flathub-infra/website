@@ -7,16 +7,6 @@
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
       "type": "desktop-application",
-      "translations": {
-        "es": {
-          "description": "Gracias a AnyDesk, contar\u00e1 con conexiones seguras y fiables de escritorio remoto para profesionales inform\u00e1ticos y usuarios en movimiento.",
-          "summary": "Con\u00e9ctese a un ordenador de forma remota"
-        },
-        "pt-BR": {
-          "description": "A AnyDesk assegura liga\u00e7\u00f5es de computador remoto seguras e fi\u00e1veis tanto para profissionais de TI como para pessoas em viagem.",
-          "summary": "Conectar com um computador remotamente"
-        }
-      },
       "project_license": "LicenseRef-proprietary",
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
