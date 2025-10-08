@@ -49,7 +49,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
             ))}
             {addons.length > 5 ? (
               <button
-                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 dark:border-zinc-600"
+                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
                 onClick={() => setIsModalOpen(true)}
               >
                 <span>{t("more")}</span>
