@@ -48,14 +48,14 @@ export default function InstallButton({
 
   if (type === "addon") {
     return (
-      <div className="inline-flex justify-end w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
+      <div className="inline-flex justify-end w-52 basis-1/2 rounded-md sm:w-32 md:w-40">
         <Popover as="div" className={clsx("block", "sm:relative")}>
           <PopoverBackdrop className="fixed inset-0 z-10 bg-black opacity-30" />
           <PopoverButton
             className={clsx(
               "hover:opacity-75 active:opacity-50",
               "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
-              "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer",
+              "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer shadow-xs",
               "w-full",
             )}
           >
@@ -107,7 +107,7 @@ export default function InstallButton({
   }
 
   return (
-    <div className="inline-flex w-52 basis-1/2 rounded-md shadow-xs sm:w-32 md:w-40">
+    <div className="inline-flex w-52 basis-1/2 rounded-md sm:w-32 md:w-40">
       <Link
         rel="nofollow"
         href={`/apps/${appId}/install`}
@@ -115,7 +115,7 @@ export default function InstallButton({
         className={clsx(
           "hover:opacity-75 active:opacity-50",
           "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
-          "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-s-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer",
+          "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-s-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer shadow-xs",
           "w-full",
         )}
         role="button"
@@ -128,7 +128,7 @@ export default function InstallButton({
           className={clsx(
             "hover:opacity-75 active:opacity-50",
             "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
-            "ms-[1px] h-11 rounded-e-lg px-2 py-2 outline-0 focus:z-10",
+            "ms-[1px] h-11 rounded-e-lg px-2 py-2 outline-0 focus:z-10 shadow-xs",
           )}
         >
           <span className="sr-only">Open options</span>
