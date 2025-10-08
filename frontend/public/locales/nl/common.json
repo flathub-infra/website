@@ -299,7 +299,7 @@
   "moderation-outdated": "Verouderd",
   "moderation-approved-by": "Goed­gekeurd door {handledBy} op {handledAt} ({handledAtRel})",
   "moderation-rejected-by": "Afgewezen door {handledBy} op {handledAt} ({handledAtRel})",
-  "runtime-distribution": "Runtime-verdeling",
+  "runtime-distribution": "Verdeling van uitvoerings­omgevingen",
   "flathub-index-description": "Download de nieuwste versies van al uw favoriete apps, voor elke Linux-distributie",
   "app-eol": "Deze app is niet meer beschikbaar op Flathub",
   "distribution-flathub-setup": "Flathub-setup voor {distribution}",
@@ -319,7 +319,7 @@
   "publisher-agreement": "Inzendingsovereenkomst voor uitgevers",
   "app-already-exists": "Er bestaat al een app met deze ID.",
   "arch": "Architectuur",
-  "community-repository-description": "Upload uw app naar Flathub door uw Flatpak-manifest en ondersteunende bestanden te uploaden naar een repository in onze GitHub-organisatie. De buildbot van Flathub zal de app bouwen en publiceren op Flathub.",
+  "community-repository-description": "Upload uw app naar Flathub door uw Flatpak-manifest en ondersteunende bestanden te uploaden naar een repository in onze GitHub-organisatie. De bouw­service van Flathub zal de app bouwen en publiceren op Flathub.",
   "direct-upload-description": "Bouw uw app in uw eigen continue integratie­omgeving en upload deze direct naar Flathub.",
   "malformed-app-id": "De app-ID is misvormd. App-ID's moeten minstens drie segmenten bevatten en geen enkel segment mag leeg zĳn. Elk segment moet beginnen met een letter of underscore en mag alleen letters, cĳfers, underscores en koppeltekens bevatten.",
   "release-link-no-changelog": "Uitgave­opmerkingen",
@@ -373,7 +373,7 @@
   "close": "Sluiten",
   "information": "Informatie",
   "community-built": "Gemaakt door gemeenschap",
-  "uses-eol-runtime": "Maakt gebruik van een runtime die niet meer wordt ondersteund",
+  "uses-eol-runtime": "Maakt gebruik van een uitvoerings­omgeving die niet meer wordt ondersteund",
   "can-acquire-arbitrary-permissions": "Kan willekeurige rechten verkrĳgen",
   "links": "Links",
   "learn-more": "Meer te weten komen",
@@ -411,10 +411,10 @@
   "can-read-all-data": "Kan alle gegevens in de map lezen",
   "user-configuration-subfolder-x": "Gebruikers­configuratie-submap {folder}",
   "user-data-folder": "Gebruikers­gegevens­map",
-  "user-runtime-subfolder-x": "Runtime-submap {folder} van gebruiker",
+  "user-runtime-subfolder-x": "Uitvoerings­omgevings­submap {folder} van gebruiker",
   "can-read-home-folder": "Kan alle gegevens uit uw persoonlĳke map lezen",
   "can-read-write-all-data-on-file-system": "Kan alle gegevens op het bestands­systeem lezen en schrĳven",
-  "user-runtime-folder": "Runtime-map van gebruiker",
+  "user-runtime-folder": "Uitvoerings­omgevings­map van gebruiker",
   "quality-guideline": {
     "app-icon-detail": "Niet te veel of te weinig details",
     "app-name": "App-naam",
@@ -467,7 +467,7 @@
     "light": "Licht",
     "dark": "Donker",
     "failing-x-checks": "{count, plural, one {# mislukte controle} other {# mislukte controles}}",
-    "general-runtime-not-eol": "Runtime niet aan einde levensduur"
+    "general-runtime-not-eol": "Uitvoerings­omgeving niet aan einde levensduur"
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -483,7 +483,7 @@
   "proprietary-code-description": "De broncode is niet openbaar, deze kan daarom niet onafhankelĳk worden gecontroleerd en kan onveilig zĳn",
   "can-read-write-home-folder": "Kan alle gegevens in uw persoonlĳke map lezen en schrĳven",
   "no-user-device-access-description": "De app heeft geen toegang tot gebruikers­apparaten zoals webcams of game­controllers",
-  "uses-eol-runtime-description": "De runtime die door deze app wordt gebruikt ontvangt geen beveiligingsupdates meer",
+  "uses-eol-runtime-description": "De uitvoerings­omgeving die door deze app wordt gebruikt ontvangt geen beveiligings­updates meer",
   "full-file-system-read-access": "Volledige lees­toegang tot bestands­systeem",
   "software-developer-verified-description": "De software­ontwikkelaar heeft hun identiteit geverifieerd, waardoor de kans groter is dat de app veilig is",
   "no-file-system-access-description": "Heeft geen toegang tot het bestands­systeem",
@@ -538,7 +538,8 @@
   "flathub-the-linux-app-store": "Flathub is de app-store voor Linux",
   "news": "Nieuws",
   "developer-portal": {
-    "title": "Ontwikkelaars­portaal"
+    "title": "Ontwikkelaars­portaal",
+    "runtime-version": "Uitvoerings­omgeving: {version}"
   },
   "nothing-to-do": "Er valt niets te doen",
   "unverified": "Niet geverifieerd",
@@ -671,5 +672,7 @@
   "uses-privileged-socket": "Gebruikt een bevoorrechte socket",
   "uses-non-portal-service": "Maakt gebruik van niet-portaal­services",
   "can-talk-to-non-portal-service": "Kan gegevens opvragen bĳ diensten die geen portals gebruiken en extra rechten verkrĳgen",
-  "unauthorized": "Ongeautoriseerd"
+  "unauthorized": "Ongeautoriseerd",
+  "developed-by": "ontwikkeld door {developer}",
+  "unverified-tooltip": "Het eigendom van de app-id <appid></appid> is niet geverifieerd, het kan een gemeenschaps­pakket zĳn"
 }

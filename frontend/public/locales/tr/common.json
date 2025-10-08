@@ -435,8 +435,7 @@
     "light": "Açık Tema",
     "dark": "Koyu Tema",
     "problems": "Eğer rehber hakkında özel olarak bir soru sormak isterseniz, istediğiniz zaman <link>şikayet</link> oluşturabilirsiniz.",
-    "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor",
-    "failing-x-checks": "Denetim başarısız oldu"
+    "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {folder}",
   "desktop-folder": "Masaüstü klasörü",
