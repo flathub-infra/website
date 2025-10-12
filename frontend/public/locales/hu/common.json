@@ -319,7 +319,7 @@
   "direct-upload-description": "Hozza létre alkalmazását saját folyamatos integrációs környezetében, és töltse fel közvetlenül a Flathubra.",
   "app-id-instructions": "A RDNN (Reverse Domain Name Notation - alkalmazásazonosítók fordított domainnév-jelölést) használnak. Például a GNOME Maps az <i>org.gnome.Maps</i> fájlt használja. Válasszon egy domaint, amely felett Ön rendelkezik, például a projekt webhelyét (vagy, ha magánszemélyként tölt fel, saját webhelyét). Ha nem érhető el webhely, használhat egy forráskód-tárhelyfiókhoz társított domaint is, például <i>io.github.felhasználónév.alkalmazásnév</i>.",
   "verify-app-id": "Alkalmazásazonosító ellenőrzése",
-  "community-repository-description": "Alkalmazás feltöltéséhez a Flathubra töltse fel a Flatpak alkalmazásleíró fájlt és a kapcsolódó fájlokat a Flathub GitHub-szervezet egyik tárhelyére.",
+  "community-repository-description": "Alkalmazás feltöltéséhez a Flathubra töltse fel a Flatpak alkalmazásleíró fájlt és a kapcsolódó fájlokat a Flathub GitHub-szervezet egyik tárolójába. A Flathub build-szolgáltatása le fogja fordítani az alkalmazást, és közzéteszi azt a Flathubon.",
   "app-already-exists": "Már létezik ilyen azonosítóval rendelkező alkalmazás.",
   "malformed-app-id": "Az alkalmazásazonosító hibás. Az alkalmazásazonosítóknak legalább három szegmenst kell tartalmazniuk, és egyetlen szegmens sem lehet üres. Minden szegmensnek betűvel vagy aláhúzásjellel kell kezdődnie, és csak betűket, számjegyeket, aláhúzásjeleket és kötőjeleket tartalmazhat.",
   "arch": "Architektúra",
@@ -672,5 +672,7 @@
   "uses-non-portal-service": "Nem portálalapú szolgáltatásokat használ",
   "can-talk-to-non-portal-service": "Nem portálalapú szolgáltatásoktól kérhet adatokat, és további jogosultságokat szerezhet",
   "socket-may-allow-extra-permissions": "Olyan socketet használ, amely további jogosultságok megszerzését teszi lehetővé",
-  "unauthorized": "Jogosulatlan"
+  "unauthorized": "Jogosulatlan",
+  "developed-by": "Fejlesztette: {developer}",
+  "unverified-tooltip": "A(z) <appid></appid> alkalmazásazonosító tulajdonjoga nem lett ellenőrizve, ezért lehetséges, hogy ez egy közösségi csomag"
 }

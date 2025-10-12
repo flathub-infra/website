@@ -1,0 +1,8 @@
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instalar Flatpak"
+    }
+  }
+}

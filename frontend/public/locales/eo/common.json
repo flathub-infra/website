@@ -312,7 +312,7 @@
   "community-repository": "Komunuma deponejo",
   "direct-upload": "Rekta alŝuto",
   "new-community-repository": "Nova komunumdeponeja programo",
-  "community-repository-description": "Alŝutu vian programon al Flathub alŝutante vian Flatpak-manifeston kaj helpdosierojn al deponejo ĉe nia GitHub-organizaĵo. La kunmetilo de Flathub kunmetos vian programon kaj eldonos ĝin ĉe Flathub.",
+  "community-repository-description": "Alŝutu vian programon al Flathub alŝutante vian Flatpak-manifeston kaj helpdosierojn al deponejo ĉe nia GitHub-organizaĵo. La kunmeta servo de Flathub kunmetos vian programon kaj eldonos ĝin ĉe Flathub.",
   "new-direct-upload": "Nova rekte elŝutata programo",
   "app-id": "Programidentigilo",
   "app-already-exists": "Jam ekzistas programo de ĉi tiu identigilo.",
@@ -539,7 +539,8 @@
   "nothing-to-do": "Nenio farenda",
   "news": "Novaĵoj",
   "developer-portal": {
-    "title": "Portalo por programistoj"
+    "title": "Portalo por programistoj",
+    "runtime-version": "Rultempa medio: {version}"
   },
   "unverified": "Nekonfirmita",
   "new": "Novaj",
@@ -671,5 +672,7 @@
   "socket-may-allow-extra-permissions": "Uzas konektinterfacon ebligantan gajni ekstrajn permesojn",
   "uses-non-portal-service": "Uzas neportalajn servojn",
   "can-talk-to-non-portal-service": "Povas peti datenojn de neportalaj servoj kaj tiel gajni pliajn permesojn",
-  "unauthorized": "Ne permesita"
+  "unauthorized": "Ne permesita",
+  "developed-by": "evoluata de {developer}",
+  "unverified-tooltip": "La posedo de la programidentigilo <appid></appid> ne estas konfirmita; ĝi eble estas komunuma pako"
 }
