@@ -55,4 +55,5 @@ LOCALES = [
     "kab",
     "fil",
     "br",
+    "gl",
 ]
