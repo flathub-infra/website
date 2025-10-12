@@ -246,7 +246,9 @@
     "hide-branding-preview": "Fshih paraparje elementësh marke",
     "show-branding-preview": "Shfaq paraparje elementësh marke",
     "problems": "Nëse do të donit të na pyesnit rreth problemesh specifike lidhur me udhëzime cilësie, mos ngurroni të hapni <link>një çështje</link>.",
-    "branding": "Aplikim marke"
+    "branding": "Aplikim marke",
+    "light": "E çelët",
+    "dark": "E errët"
   },
   "developers": "Zhvillues",
   "publish-your-app": "Publikoni Aplikacionin Tuaj",
@@ -650,5 +652,11 @@
   "created": "Krijuar më",
   "unauthorized": "E paautorizuar",
   "uses-privileged-socket": "Përdor një “socket” të privilegjuar",
-  "socket-may-allow-extra-permissions": "Përdor një “socket” që lejon përfitim lejesh ekstra"
+  "socket-may-allow-extra-permissions": "Përdor një “socket” që lejon përfitim lejesh ekstra",
+  "download": {
+    "install-x": "Instalo “{x}”",
+    "fallback-instructions": "<opening>Po hapet “{name}” me përgjegjësin tuaj të software-it…</opening><support>Nëse s’ndodh gjë, ndoshta sistemi juaj s’mbulon url-ra <i>flatpak+https</i>.</support><listPrefix>Në atë rast mundeni të:</listPrefix><ol><li>Shkarkoni paketën <link>.flatpakref</link></li><li>Mandej xhirojeni që nga përgjegjësi juaj i kartelave</li></ol><setupLine><linkSetup>Udhëzime si të instalohet Flatpak-u</linkSetup></setupLine>"
+  },
+  "uses-non-portal-service": "Përdor shërbime jopostare",
+  "can-talk-to-non-portal-service": "Mund të kërkojë të dhëna nga shërbime jopostare dhe të përfitojë leje shtesë"
 }

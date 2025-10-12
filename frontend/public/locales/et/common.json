@@ -586,7 +586,7 @@
   "integration": "<bold>Lõiming tavapärase rakendustepoega</bold> — Unusta allalaadimised veebist; kasutajad saavad Flathubist rakendused ja <updateslink>nende automaatsed uuendused</updateslink> oma tavapärasest rakendustepoest, just sealt, kust nad seda eeldavad",
   "community-repository": "Kogukonna tarkvarahoidla",
   "tastefully-curated": "<bold>Maitsekalt hallatud</bold> - Avasta huvitavaid ja kvaliteetseid rakendusi kogu Flathubis, sealhulgas meie töötajate eelvaliku abil, mis tutvustab parimaid pakkumisi",
-  "community-repository-description": "Oma rakenduse Flathubi lisamiseks laadi oma rakenduse Flatpaki kontrollfail ja tugifailid meie koodihoidlasse GitHubis. Flathubi kompileerimisrobot kompileerib rakenduse ja avaldab selle Flathubis.",
+  "community-repository-description": "Oma rakenduse Flathubi lisamiseks laadi oma rakenduse Flatpaki kontrollfail ja tugifailid meie koodihoidlasse GitHubis. Flathubi kompileerimisteenus kompileerib rakenduse ja avaldab selle Flathubis.",
   "new-community-repository": "Uus rakendus kogukonna tarkvarahoidlas",
   "flathub": "Flathub",
   "switch-to-direct-upload": "Määra rakendus otse üleslaaditavaks",

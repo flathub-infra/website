@@ -248,7 +248,7 @@
   "no-apps": "Nessuna app da mostrare.",
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifica il diritto di poter utilizzare l'ID dell'app <appid></appid> accedendo all'account <loginname></loginname> (o, se <orgname></orgname> è un'organizzazione, un account con accesso ad essa) su <loginprovider></loginprovider>.",
   "login-provider-verification-main-instruction-organization": "Verifica il diritto di poter utilizzare l'ID dell'app <appid></appid> accedendo ad un account con diritti di amministratore dell'organizzazione <orgname></orgname> su <loginprovider></loginprovider>.",
-  "verification-instructions": "Verifica il tuo ID dell'app per provare che il caricamento su Flathub è stato approvato dallo sviluppatore dell'app. Dovrai dimostrare di avere il controllo dell'app tramite un sito web sul dominio dell'app o verificando l'accesso all'account dell'app su un sito di hosting del codice sorgente. Il badge di verifica verrà mostrato accanto al nome dell'app, al nome dell'editore e al modo in cui è stato verificato l'ID dell'app.",
+  "verification-instructions": "Verifica il tuo ID dell'app per provare che il caricamento su Flathub è stato approvato dallo sviluppatore dell'app. Dovrai dimostrare di avere il controllo dell'app tramite un sito web sul dominio dell'app o verificando l'accesso all'account dell'app su un sito di hosting del codice sorgente. Il badge di verifica verrà mostrato accanto al nome dell'app, al nome dell'editore e al modo in cui è stato verificato l'ID dell'app. Consultare la <doclink>documentazione sulla verifica</doclink> per maggiori dettagli.",
   "login-provider-verification-main-instruction": "Verifica il diritto di poter utilizzare l'ID dell'app <appid></appid> accedendo all'account <loginname></loginname> su <loginprovider></loginprovider>.",
   "website-verification-main-instruction": "Verifica il diritto di poter utilizzare l'ID dell'app <bold>{id}</bold> inserendo un token in una pagina specifica su <bold>{domain}</bold>.",
   "tags-colon": "Parole chiave:",
@@ -496,7 +496,8 @@
   "can-read-write-all-data": "Può leggere e scrivere tutti i dati nella cartella",
   "news": "Notizie",
   "developer-portal": {
-    "title": "Portale Sviluppatore"
+    "title": "Portale Sviluppatore",
+    "runtime-version": "Runtime: {version}"
   },
   "scope-upload": "Carica i file nel build",
   "scope-publish": "Pubblica la build",
@@ -511,7 +512,7 @@
   "app-type": "Tipo di App",
   "new-app": "Nuova app",
   "community-repository": "Repository della Comunità",
-  "community-repository-description": "Carica la tua app su Flathub caricando il manifest Flatpak e i file associati in un repository nella nostra organizzazione GitHub. Il buildbot Flathub creerà l'app e la pubblicherà su Flathub.",
+  "community-repository-description": "Carica la tua app su Flathub caricando il manifest Flatpak e i file associati in un repository nella nostra organizzazione GitHub. Il servizio di build di Flathub creerà l'app e la pubblicherà su Flathub.",
   "new-community-repository": "Nuova App del Repository della Comunità",
   "direct-upload-description": "Crea la tua app nel tuo ambiente di integrazione continua e caricala direttamente su Flathub.",
   "new-direct-upload": "Nuova App di Caricamento Diretto",
@@ -670,5 +671,7 @@
   "socket-may-allow-extra-permissions": "Utilizza un socket che consente di ottenere permessi extra",
   "unauthorized": "Non autorizzato",
   "uses-non-portal-service": "Utilizza servizi al di fuori di portal",
-  "can-talk-to-non-portal-service": "Può richiedere dati da servizi al di fuori di portal e ottenere autorizzazioni aggiuntive"
+  "can-talk-to-non-portal-service": "Può richiedere dati da servizi al di fuori di portal e ottenere autorizzazioni aggiuntive",
+  "developed-by": "sviluppato da {developer}",
+  "unverified-tooltip": "La proprietà dell'ID dell'app <appid></appid> non è stata verificata e potrebbe trattarsi di un pacchetto della community"
 }

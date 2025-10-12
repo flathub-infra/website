@@ -247,25 +247,30 @@
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Installer apper"
+      "name": "Installer apper",
+      "text": "<text>elementary OS 5.1 og senere versjoner kommer med Flatpak-støtte som standard. For å installere ikke-bekreftede apper, dra til <link>Flathub</link> og installer en app ved å trykke på den store «Installer»-knappen, og last ned «.flatpakref»-filen med Sideload.</text> <text>Merk: Etter å ha installert en app fra en ekstern kilde som Flathub, kommer alle andre apper fra den kilden til å også dukke opp i AppCenter.</text>"
     }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>En flatpak-pakke er tilgjengelig i Raspberry Pi OS (tidligere Raspbian) Stretch og nyere versjoner. For å installere det, kjør følgende som root:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak-apper er ikke mulig med Raspberry Pi OS.</text>"
     },
     "step-2": {
-      "name": "Legg til Flathub-pakkebrønnen"
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å aktuvere det, kjør</text> <code></code> <text><strong>Merk:</strong> det anbefales å kjøre Raspberry Pi OS 64-bit siden nyere applikasjoner ofte bare har støtte for den plattformen.</text>"
     }
   },
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Void Linux, kjør følgende i en terminal:</text> <code></code>"
     },
     "step-3": {
       "name": "Start på nytt",
@@ -279,7 +284,8 @@
   "nixos": {
     "distroName": "NixOS",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak, set NixOS-innstillingen <strong>services.flatpak.enable</strong> til <strong>true</strong> ved å legge følgende inn i <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Deretter begynn en build og bytt til den nye konfigurasjonen med:</text> <codeRebuild></codeRebuild> <text>For mer informasjon, se <doclink>NixOS' dokumentasjon</doclink>.</text>"
     },
     "step-3": {
       "name": "Start på nytt",
@@ -291,7 +297,8 @@
     }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": "<text>Flatpak er installert som standard på PureOS. For å komme i gang trenger du bare å aktivere Flathub, som er den beste måten å få tak i Flatpak-apper. Bare last ned og installer <filelink>Flatpak-pakkebrønnfilen</filelink>.</text> <text>Deretter er alt du trenger å gjøre <link>å installere apper</link>!</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS"
