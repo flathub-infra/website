@@ -285,6 +285,11 @@ export default {
         icon: getLanguageFlag("zh-Hant"),
         right: "zh-Hant",
       },
+      gl: {
+        title: getLanguageName("gl"),
+        icon: getLanguageFlag("gl"),
+        right: "gl",
+      },
     },
   },
   parameters: {

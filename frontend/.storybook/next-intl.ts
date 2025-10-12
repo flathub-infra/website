@@ -51,6 +51,7 @@ import pt_BR from "../public/locales/pt-BR/common.json"
 import zh_Hans from "../public/locales/zh-Hans/common.json"
 import zh_Hant from "../public/locales/zh-Hant/common.json"
 import bg from "../public/locales/bg/common.json"
+import gl from "../public/locales/gl/common.json"
 
 const messagesByLocale: Record<string, any> = {
   en: { ...en, distros: en_distros },
@@ -105,6 +106,7 @@ const messagesByLocale: Record<string, any> = {
   pt_BR,
   zh_Hans,
   zh_Hant,
+  gl,
 }
 
 const nextIntl = {
