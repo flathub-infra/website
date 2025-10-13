@@ -10,7 +10,6 @@ import {
   getUpdateTokenPurchasesGenerateUpdateTokenPost,
 } from "../../../../src/codegen"
 import { useRouter } from "../../../../src/i18n/navigation"
-import { robustFetch } from "../../../../src/utils/fetch"
 
 const PERMITTED_REDIRECTS = [
   /^http:\/\/localhost:\d+\/$/,
@@ -52,7 +51,7 @@ export default function PurchaseWorkflowClient() {
           withCredentials: true,
         })
           .then((result) =>
-            robustFetch(
+            fetch(
               redirect.toString() +
                 "success?token=" +
                 encodeURIComponent(result.data.token),

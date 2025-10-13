@@ -1,13 +1,13 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
-import { LoginProvider } from "../../types/Login"
 import ProviderLink from "../login/ProviderLink"
 import Avatar from "./Avatar"
 import { getUserName } from "src/verificationProvider"
+import { LoginMethod } from "src/codegen"
 
 interface Props {
-  logins: LoginProvider[]
+  logins: LoginMethod[]
 }
 
 const UserDetails: FunctionComponent<Props> = ({ logins }) => {

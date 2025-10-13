@@ -1,10 +1,15 @@
 import { getServerSideSitemapIndex } from "next-sitemap"
-import { robustFetchJson } from "src/utils/fetch"
 
 export async function GET(request: Request) {
-  const appstreamList = await robustFetchJson<string[]>(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`,
   )
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch appstream list: ${response.statusText}`)
+  }
+
+  const appstreamList = await response.json()
 
   // make chunks
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)
