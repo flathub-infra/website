@@ -4,11 +4,11 @@ import { useTranslations } from "next-intl"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import DeleteButton from "../../../../src/components/user/DeleteButton"
 import UserDetails from "../../../../src/components/user/Details"
-import { LoginProvider } from "../../../../src/types/Login"
 import type { JSX } from "react"
+import { LoginMethod } from "src/codegen"
 
 interface SettingsClientProps {
-  providers: LoginProvider[]
+  providers: LoginMethod[]
 }
 
 const SettingsClient = ({ providers }: SettingsClientProps): JSX.Element => {

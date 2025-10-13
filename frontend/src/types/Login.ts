@@ -1,10 +1,5 @@
 import { UserInfo } from "src/codegen"
 
-export interface LoginProvider {
-  method: string
-  name: string
-}
-
 export interface LoginRedirect {
   redirect: string
 }

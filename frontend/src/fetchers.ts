@@ -20,13 +20,13 @@ import {
   MOBILE_APPS_URL,
   LOGIN_PROVIDERS_URL,
 } from "./env"
-import { robustFetchJson, robustFetch } from "./utils/fetch"
 import { Summary } from "./types/Summary"
 import { VerificationStatus } from "./types/VerificationStatus"
 import {
   AppOfTheDay,
   AppsOfTheWeek,
   getDeveloperCollectionDeveloperDeveloperGet,
+  LoginMethod,
   MainCategory,
   MeilisearchResponseAppsIndex,
   SortBy,
@@ -35,51 +35,69 @@ import {
 } from "./codegen"
 import { gameCategoryFilter } from "./types/Category"
 
+/**
+ * Helper function to fetch and parse JSON with proper error handling
+ */
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url)
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+  }
+
+  try {
+    return await response.json()
+  } catch (error) {
+    throw new Error(`Failed to parse JSON response: ${error}`)
+  }
+}
+
 export async function fetchLoginProviders() {
-  return await robustFetchJson(LOGIN_PROVIDERS_URL)
+  return await fetchJson<LoginMethod[]>(LOGIN_PROVIDERS_URL)
 }
 
 export async function fetchAppstream(
   appId: string,
   locale: string,
 ): Promise<Appstream | { error: string }> {
-  const entryJson = await robustFetchJson<Appstream>(
-    `${APP_DETAILS(appId, locale)}`,
-  )
-
-  if (!entryJson) {
+  try {
+    const entryJson = await fetchJson<Appstream>(
+      `${APP_DETAILS(appId, locale)}`,
+    )
+    return entryJson
+  } catch (error) {
     return { error: `No appstream data for ${appId}` }
   }
-  return entryJson
 }
 
 export async function fetchEolRebase(
   appId: string,
 ): Promise<string | { error: string }> {
-  const entryData = await robustFetch(`${EOL_REBASE_URL(appId)}`)
-  if (entryData.status === 200) {
+  try {
+    const entryData = await fetch(`${EOL_REBASE_URL(appId)}`)
+    if (!entryData.ok) {
+      return { error: `No eol rebase data for ${appId}` }
+    }
     return await entryData.json()
+  } catch (error) {
+    return { error: `No eol rebase data for ${appId}` }
   }
-
-  return { error: `No eol rebase data for ${appId}` }
 }
 
 export async function fetchSummary(
   appId: string,
 ): Promise<Summary | { error: string }> {
-  const summaryJson = await robustFetchJson<Summary>(
-    `${SUMMARY_DETAILS(appId)}`,
-  )
-
-  if (!summaryJson) {
+  try {
+    const summaryJson = await fetchJson<Summary>(`${SUMMARY_DETAILS(appId)}`)
+    return summaryJson
+  } catch (error) {
     return { error: `No summary data for ${appId}` }
   }
-  return summaryJson
 }
 
 export async function fetchAppStats(appId: string): Promise<StatsResultApp> {
   try {
-    return await robustFetchJson<StatsResultApp>(`${STATS_DETAILS(appId)}`)
+    return await fetchJson<StatsResultApp>(`${STATS_DETAILS(appId)}`)
   } catch (error) {
     // Return default stats instead of error for stats
     return {
@@ -132,18 +150,18 @@ export default async function fetchCollection(
     return { error: "Wrong collection parameter. Check your function call!" }
   }
 
-  const collectionList =
-    await robustFetchJson<MeilisearchResponseAppsIndex>(collectionURL)
+  try {
+    const collectionList =
+      await fetchJson<MeilisearchResponseAppsIndex>(collectionURL)
 
-  if (!collectionList) {
+    console.log(
+      `Collection ${collection} fetched. Asked for: ${page}. Returned items: ${collectionList.hits.length}.`,
+    )
+
+    return collectionList
+  } catch (error) {
     return { error: `Failed to fetch collection ${collection}` }
   }
-
-  console.log(
-    `Collection ${collection} fetched. Asked for: ${page}. Returned items: ${collectionList.hits.length}.`,
-  )
-
-  return collectionList
 }
 
 export async function fetchCategory(
@@ -154,26 +172,26 @@ export async function fetchCategory(
   exclude_subcategories?: string[],
   sort_by?: keyof typeof SortBy,
 ): Promise<MeilisearchResponseAppsIndex | { error: string }> {
-  const response = await robustFetchJson<MeilisearchResponseAppsIndex>(
-    CATEGORY_URL(
-      category,
-      page,
-      per_page,
-      locale,
-      exclude_subcategories,
-      sort_by,
-    ),
-  )
+  try {
+    const response = await fetchJson<MeilisearchResponseAppsIndex>(
+      CATEGORY_URL(
+        category,
+        page,
+        per_page,
+        locale,
+        exclude_subcategories,
+        sort_by,
+      ),
+    )
 
-  if (!response) {
+    console.log(
+      `Category ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
+    )
+
+    return response
+  } catch (error) {
     return { error: `Failed to fetch category ${category}` }
   }
-
-  console.log(
-    `Category ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
-  )
-
-  return response
 }
 
 export async function fetchGameCategory(
@@ -248,27 +266,27 @@ export async function fetchSubcategory(
   exclude_subcategories?: string[],
   sort_by?: keyof typeof SortBy,
 ): Promise<MeilisearchResponseAppsIndex | { error: string }> {
-  const response = await robustFetchJson<MeilisearchResponseAppsIndex>(
-    SUBCATEGORY_URL(
-      category,
-      subcategory,
-      page,
-      per_page,
-      locale,
-      exclude_subcategories,
-      sort_by,
-    ),
-  )
+  try {
+    const response = await fetchJson<MeilisearchResponseAppsIndex>(
+      SUBCATEGORY_URL(
+        category,
+        subcategory,
+        page,
+        per_page,
+        locale,
+        exclude_subcategories,
+        sort_by,
+      ),
+    )
 
-  if (!response) {
+    console.log(
+      `Subcategory ${subcategory} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
+    )
+
+    return response
+  } catch (error) {
     return { error: `Failed to fetch subcategory ${subcategory}` }
   }
-
-  console.log(
-    `Subcategory ${subcategory} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
-  )
-
-  return response
 }
 
 export async function fetchDeveloperApps(
@@ -300,71 +318,78 @@ export async function fetchDeveloperApps(
 export async function fetchVendingConfig(): Promise<
   VendingConfig | { error: string }
 > {
-  const data = await robustFetchJson<VendingConfig>(VENDING_CONFIG_URL)
-  if (!data) {
+  try {
+    const data = await fetchJson<VendingConfig>(VENDING_CONFIG_URL)
+    return data
+  } catch (error) {
     return { error: "Failed to fetch vending config" }
   }
-  return data
 }
 
 export async function fetchVerificationStatus(
   appId: string,
 ): Promise<VerificationStatus | { error: string }> {
-  const verification = await robustFetchJson<VerificationStatus>(
-    `${APP_VERIFICATION_STATUS(appId)}`,
-  )
-  if (!verification) {
+  try {
+    const verification = await fetchJson<VerificationStatus>(
+      `${APP_VERIFICATION_STATUS(appId)}`,
+    )
+    return verification
+  } catch (error) {
     return { error: `No verification data for ${appId}` }
   }
-  return verification
 }
 
 export async function fetchAddons(appid: string, locale: string) {
-  const addonList: string[] = await robustFetchJson<string[]>(ADDONS_URL(appid))
+  try {
+    const addonList: string[] = await fetchJson<string[]>(ADDONS_URL(appid))
 
-  const addonAppstreams = await Promise.all(
-    addonList.map((addon) => fetchAppstream(addon, locale)),
-  )
+    const addonAppstreams = await Promise.all(
+      addonList.map((addon) => fetchAppstream(addon, locale)),
+    )
 
-  const addonAppStats = await Promise.all(addonList.map(fetchAppStats))
+    const addonAppStats = await Promise.all(addonList.map(fetchAppStats))
 
-  const combined = addonAppstreams
-    .filter((a): a is Appstream => a && "id" in a)
-    .map((item) => {
-      return {
-        id: item.id,
-        appstream: item,
-        stats: addonAppStats.find((stats) => stats.id === item.id),
-      }
+    const combined = addonAppstreams
+      .filter((a): a is Appstream => a && "id" in a)
+      .map((item) => {
+        return {
+          id: item.id,
+          appstream: item,
+          stats: addonAppStats.find((stats) => stats.id === item.id),
+        }
+      })
+
+    console.log(`\nAddons for ${appid} fetched`)
+
+    combined.sort((a, b) => {
+      return b.stats.installs_last_month - a.stats.installs_last_month
     })
 
-  console.log(`\nAddons for ${appid} fetched`)
-
-  combined.sort((a, b) => {
-    return b.stats.installs_last_month - a.stats.installs_last_month
-  })
-
-  return combined.map((item) => item.appstream)
+    return combined.map((item) => item.appstream)
+  } catch (error) {
+    console.error(`Failed to fetch addons for ${appid}:`, error)
+    return []
+  }
 }
 
 export async function fetchAppsOfTheWeek(
   date: string,
 ): Promise<AppsOfTheWeek | { error: string }> {
-  const json = await robustFetchJson<AppsOfTheWeek>(APPS_OF_THE_WEEK_URL(date))
-
-  if (!json) {
+  try {
+    const json = await fetchJson<AppsOfTheWeek>(APPS_OF_THE_WEEK_URL(date))
+    return json
+  } catch (error) {
     return { error: `No app of the week data for ${date}` }
   }
-  return json
 }
 
 export async function fetchAppOfTheDay(
   date: string,
 ): Promise<AppOfTheDay | { error: string }> {
-  const json = await robustFetchJson<AppOfTheDay>(APP_OF_THE_DAY_URL(date))
-
-  if (!json) {
+  try {
+    const json = await fetchJson<AppOfTheDay>(APP_OF_THE_DAY_URL(date))
+    return json
+  } catch (error) {
     return { error: `No app of the day data for ${date}` }
   }
-  return json
 }

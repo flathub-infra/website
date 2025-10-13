@@ -4,7 +4,7 @@ import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "sonner"
 import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
-import { LoginProvider, LoginRedirect } from "../../types/Login"
+import { LoginRedirect } from "../../types/Login"
 import { GoogleLogo } from "./GoogleLogo"
 import { GnomeLogo } from "./GnomeLogo"
 import { GitlabLogo } from "./GitlabLogo"
@@ -12,10 +12,10 @@ import { GithubLogo } from "./GithubLogo"
 import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
 import { useRouter } from "src/i18n/navigation"
-import { robustFetch } from "../../utils/fetch"
+import { LoginMethod } from "src/codegen"
 
 interface Props {
-  provider: LoginProvider
+  provider: LoginMethod
   inACard?: boolean
 }
 
@@ -42,7 +42,7 @@ const ProviderLink: FunctionComponent<Props> = ({
 
     let res: Response
     try {
-      res = await robustFetch(url, {
+      res = await fetch(url, {
         // Must use the session cookie sent back
         credentials: "include",
         // Redirects are unique each time
@@ -56,18 +56,23 @@ const ProviderLink: FunctionComponent<Props> = ({
     }
 
     if (res.ok) {
-      const data: LoginRedirect = await res.json()
-      const returnTo = searchParams.get("returnTo")
-      if (returnTo) {
-        setReturnTo(
-          returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI) ||
-            returnTo.startsWith("/")
-            ? returnTo
-            : undefined,
-        )
-      }
+      try {
+        const data: LoginRedirect = await res.json()
+        const returnTo = searchParams.get("returnTo")
+        if (returnTo) {
+          setReturnTo(
+            returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI) ||
+              returnTo.startsWith("/")
+              ? returnTo
+              : undefined,
+          )
+        }
 
-      router.replace(data.redirect)
+        router.replace(data.redirect)
+      } catch (error) {
+        toast.error(t("network-error-try-again"))
+        setClicked(false)
+      }
     } else {
       toast.error(`${res.status} ${res.statusText}`)
       setClicked(false)

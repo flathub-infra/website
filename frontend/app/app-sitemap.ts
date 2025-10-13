@@ -2,12 +2,17 @@ import { UTCDate } from "@date-fns/utc"
 import { getServerSideSitemap } from "next-sitemap"
 import { notFound } from "next/navigation"
 import { languages } from "src/localize"
-import { robustFetchJson } from "src/utils/fetch"
 
 export async function createAppSitemap(chunk: number) {
-  const appstreamList = await robustFetchJson<string[]>(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`,
   )
+
+  if (!response.ok) {
+    return notFound()
+  }
+
+  const appstreamList = await response.json()
 
   //figure out which chunk to render
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)

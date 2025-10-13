@@ -1,7 +1,7 @@
 import React from "react"
 import { Meta } from "@storybook/nextjs-vite"
 import ProviderLink from "./ProviderLink"
-import { LoginProvider } from "../../types/Login"
+import { LoginMethod } from "../../codegen"
 
 export default {
   title: "Components/Login/ProviderLink",
@@ -14,7 +14,7 @@ export default {
 } as Meta<typeof ProviderLink>
 
 export const github = () => {
-  const provider: LoginProvider = {
+  const provider: LoginMethod = {
     method: "github",
     name: "GitHub",
   }
@@ -23,7 +23,7 @@ export const github = () => {
 }
 
 export const gitlab = () => {
-  const provider: LoginProvider = {
+  const provider: LoginMethod = {
     method: "gitlab",
     name: "GitLab",
   }
@@ -32,7 +32,7 @@ export const gitlab = () => {
 }
 
 export const gnome = () => {
-  const provider: LoginProvider = {
+  const provider: LoginMethod = {
     method: "gnome",
     name: "GNOME",
   }
@@ -41,7 +41,7 @@ export const gnome = () => {
 }
 
 export const google = () => {
-  const provider: LoginProvider = {
+  const provider: LoginMethod = {
     method: "google",
     name: "Google",
   }

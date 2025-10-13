@@ -2,7 +2,6 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import DeveloperPortalClient from "./developer-portal-client"
-import { robustFetchJson } from "src/utils/fetch"
 
 type DocusaurusFeed = {
   version: string
@@ -34,9 +33,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function DeveloperPortalPage() {
   try {
-    const feed: DocusaurusFeed = await robustFetchJson<DocusaurusFeed>(
-      "https://docs.flathub.org/blog/feed.json",
-    )
+    const response = await fetch("https://docs.flathub.org/blog/feed.json")
+
+    if (!response.ok) {
+      notFound()
+    }
+
+    const feed: DocusaurusFeed = await response.json()
 
     return <DeveloperPortalClient feed={feed} />
   } catch (error) {

@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/nextjs-vite"
 import Providers from "./Providers"
-import { LoginProvider } from "../../types/Login"
+import { LoginMethod } from "../../codegen"
 
 export default {
   title: "Components/Login/Providers",
@@ -13,7 +13,7 @@ export default {
 } as Meta<typeof Providers>
 
 export const generated = () => {
-  const providers: LoginProvider[] = [
+  const providers: LoginMethod[] = [
     {
       method: "github",
       name: "GitHub",
