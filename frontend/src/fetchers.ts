@@ -48,7 +48,8 @@ async function fetchJson<T>(url: string): Promise<T> {
   try {
     return await response.json()
   } catch (error) {
-    throw new Error(`Failed to parse JSON response: ${error}`)
+    const errorMsg = error instanceof Error ? error.message : String(error)
+    throw new Error(`Failed to parse JSON response from ${url}: ${errorMsg}`)
   }
 }
 
