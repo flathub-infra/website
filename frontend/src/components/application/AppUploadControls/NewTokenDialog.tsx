@@ -50,11 +50,9 @@ const NewTokenDialog: FunctionComponent<Props> = ({
         },
       ),
     onSuccess: (response) => {
-      if (response.data && typeof response.data === 'object' && 'token' in response.data) {
-        setToken(response.data.token)
-        setState("copy-token")
-        created?.(response.data)
-      }
+      setToken(response.data.token)
+      setState("copy-token")
+      created?.(response.data)
     },
   })
 

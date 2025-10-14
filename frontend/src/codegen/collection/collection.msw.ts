@@ -42,9 +42,13 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -228,9 +232,15 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
         faker.helpers.arrayElement([
           {
             [faker.string.alphanumeric(5)]: {
-              [faker.string.alphanumeric(5)]: faker.string.alpha({
-                length: { min: 10, max: 20 },
-              }),
+              [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Array.from(
+                  { length: faker.number.int({ min: 1, max: 10 }) },
+                  (_, i) => i + 1,
+                ).map(() =>
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                ),
+              ]),
             },
           },
           null,
@@ -413,9 +423,13 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -623,9 +637,13 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -808,9 +826,13 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -993,9 +1015,13 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -1178,9 +1204,13 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -1363,9 +1393,13 @@ export const getGetMobileCollectionMobileGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -1548,9 +1582,13 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -1733,9 +1771,13 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,

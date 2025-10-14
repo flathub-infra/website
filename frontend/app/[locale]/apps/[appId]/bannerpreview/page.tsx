@@ -110,7 +110,7 @@ export default async function BannerPreviewPage({ params }: Props) {
   const eolMessageResponse = await getEolMessageAppidEolMessageAppIdGet(
     appId as string,
   )
-  let eolMessage: string | null = typeof eolMessageResponse.data === 'string' ? eolMessageResponse.data : null
+  let eolMessage: string | null = eolMessageResponse.data
 
   // @ts-ignore - Check for app detail type
   if ((!app && !eolMessage) || !!app?.detail?.[0]?.type) {
@@ -121,7 +121,7 @@ export default async function BannerPreviewPage({ params }: Props) {
   try {
     const fullscreenResponse =
       await getIsFullscreenAppIsFullscreenAppAppIdGet(appId)
-    isFullscreen = typeof fullscreenResponse.data === 'boolean' ? fullscreenResponse.data : false
+    isFullscreen = fullscreenResponse.data
   } catch (error) {
     console.error("Error fetching fullscreen status:", error)
   }

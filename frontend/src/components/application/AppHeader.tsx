@@ -30,16 +30,12 @@ const FavoriteButton = ({ appId }: { appId: string }) => {
   })
 
   const addToFavoriteMutation = useAddToFavoritesFavoritesAppIdAddPost({
-    fetch: {
-      credentials: "include",
-    },
+    fetch: { credentials: "include" },
   })
 
   const removeFromFavoriteMutation =
     useRemoveFromFavoritesFavoritesAppIdRemoveDelete({
-      fetch: {
-        credentials: "include",
-      },
+      fetch: { credentials: "include" },
     })
 
   if (!user.info || isFavoriteQuery.isLoading || countChanges > 3) {

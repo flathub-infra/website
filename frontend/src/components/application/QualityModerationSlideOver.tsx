@@ -247,9 +247,9 @@ const QualityCategories = ({
   const passAllMutation = useMutation({
     mutationFn: () => {
       return Promise.all(
-        (query.data?.data as QualityModerationResponse)?.guidelines
-          ?.filter((guideline) => !guideline.guideline.read_only)
-          ?.map((guideline) =>
+        query.data.data.guidelines
+          .filter((guideline) => !guideline.guideline.read_only)
+          .map((guideline) =>
             setQualityModerationForAppQualityModerationAppIdPost(
               app.id,
               { guideline_id: guideline.guideline_id, passed: true },
@@ -280,9 +280,7 @@ const QualityCategories = ({
   })
 
   const categories = new Set<string>(
-    (query.data?.data as QualityModerationResponse)?.guidelines?.map(
-      (guideline) => guideline.guideline.category,
-    ) ?? [],
+    query.data.data.guidelines.map((guideline) => guideline.guideline.category),
   )
 
   const issueLink = newGithubIssueUrl({
@@ -303,8 +301,7 @@ https://flathub.org/apps/details/${app.id}
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
       {mode === "qualityModerator" && (
         <div className="flex gap-3">
-          {(query.data?.data as QualityModerationResponse)
-            ?.review_requested_at && (
+          {query.data.data.review_requested_at && (
             <Button
               size="lg"
               className="w-full"
@@ -361,10 +358,7 @@ https://flathub.org/apps/details/${app.id}
                   key={category}
                   appId={app.id}
                   query={query}
-                  is_fullscreen_app={
-                    (query.data?.data as QualityModerationResponse)
-                      ?.is_fullscreen_app ?? false
-                  }
+                  is_fullscreen_app={query.data.data.is_fullscreen_app}
                 />
               )}
             </div>
@@ -375,9 +369,9 @@ https://flathub.org/apps/details/${app.id}
             >
               {category === "app-icon" && <ShowIconButton app={app} />}
               {category === "branding" && <ShowBrandingButton app={app} />}
-              {(query.data?.data as QualityModerationResponse)?.guidelines
-                ?.filter((a) => a.guideline.category === category)
-                ?.map((guideline) => (
+              {query.data.data.guidelines
+                .filter((a) => a.guideline.category === category)
+                .map((guideline) => (
                   <QualityItem
                     mode={mode}
                     key={guideline.guideline_id}

@@ -26,6 +26,7 @@ import { QueryClient, useMutation } from "@tanstack/react-query"
 import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
+import { AxiosError } from "axios"
 import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
 import { getLangDir } from "rtl-detect"
 import SearchBarWithSuspense from "./SearchBarWithSuspense"
@@ -114,7 +115,7 @@ const Header = () => {
       dispatch({ type: "logout" })
       queryClient.clear()
     },
-    onError: (err: Error) => {
+    onError: (err: AxiosError) => {
       dispatch({ type: "interrupt" })
       setClickedLogout(false)
     },

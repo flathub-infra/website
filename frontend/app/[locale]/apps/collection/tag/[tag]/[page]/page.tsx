@@ -51,13 +51,9 @@ export default async function TagCollectionPage({ params }: Props) {
 
   const applications = applicationsResponse.data
 
-  // Type guard for MeilisearchResponseAppsIndex
-  if (applications && 'page' in applications && 'totalPages' in applications) {
-    if (applications.page > applications.totalPages) {
-      notFound()
-    }
-    return <TagCollectionClient applications={applications} tag={tagDecoded} />
+  if (applications.page > applications.totalPages) {
+    notFound()
   }
 
-  notFound()
+  return <TagCollectionClient applications={applications} tag={tagDecoded} />
 }

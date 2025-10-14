@@ -14,17 +14,19 @@ import { DesktopAppstream } from "src/types/Appstream"
 import {
   Permission,
   QualityModerationStatus,
-  ModerationApp,
   useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet,
   useGetModerationAppModerationAppsAppIdGet,
   useRequestReviewForAppQualityModerationAppIdRequestReviewPost,
-  requestReviewForAppQualityModerationAppIdRequestReviewPost,
-  getQualityModerationStatusForAppQualityModerationAppIdStatusGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { ScanEyeIcon } from "lucide-react"
 import { Link } from "src/i18n/navigation"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  EnvelopeIcon,
+  EyeIcon,
+  Cog6ToothIcon,
+  EnvelopeOpenIcon,
+} from "@heroicons/react/20/solid"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -82,16 +84,16 @@ const QualityReviewButton = ({
 
   const [modalVisible, setModalVisible] = useState(false)
 
-  const requestReviewMutation = useMutation({
-    mutationFn: () =>
-      requestReviewForAppQualityModerationAppIdRequestReviewPost(app_id, {
-        credentials: "include",
-      }),
-    onSuccess: () => {
-      buttonClicked?.()
-      setModalVisible(false)
-    },
-  })
+  const requestReviewMutation =
+    useRequestReviewForAppQualityModerationAppIdRequestReviewPost({
+      mutation: {
+        onSuccess: () => {
+          buttonClicked?.()
+          setModalVisible(false)
+        },
+      },
+      fetch: { credentials: "include" },
+    })
 
   if (status?.passes) {
     return null
@@ -127,7 +129,9 @@ const QualityReviewButton = ({
           }}
           submitButton={{
             onClick: () => {
-              requestReviewMutation.mutate()
+              requestReviewMutation.mutate({
+                appId: app_id,
+              })
             },
             label: t("quality-guideline.request-review"),
           }}
@@ -172,20 +176,24 @@ export const QualityModeration = ({
     (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
     false
 
-  const query = useQuery({
-    queryKey: ["/quality-moderation-app-status", { appId: app.id }],
-    queryFn: ({ signal }) =>
-      getQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
-        credentials: "include",
-        signal: signal,
-      }),
-    enabled: !!requirement,
-  })
+  const query =
+    useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
+      fetch: { credentials: "include" },
+      query: {
+        enabled: !!requirement,
+      },
+    })
 
   const moderationStatusQuery = useGetModerationAppModerationAppsAppIdGet(
     app.id,
-    {},
     {
+      limit: 1,
+      include_handled: false,
+      include_outdated: false,
+      offset: 0,
+    },
+    {
+      fetch: { credentials: "include" },
       query: {
         enabled: isModerator,
       },
@@ -212,27 +220,14 @@ export const QualityModeration = ({
 
   const mode = isQualityModerator ? "qualityModerator" : "developer"
 
-  // Type guard for QualityModerationStatus
-  const qualityModerationStatus =
-    query.data?.data && "passes" in query.data.data
-      ? (query.data.data as QualityModerationStatus)
-      : undefined
-
-  // Type guard for ModerationApp
-  const moderationApp =
-    moderationStatusQuery.data?.data &&
-    "requests_count" in moderationStatusQuery.data.data
-      ? (moderationStatusQuery.data.data as ModerationApp)
-      : undefined
-
   return (
     <>
       <div
         className={clsx(
           "flex px-8 h-16 items-center",
-          qualityModerationStatus?.passes
+          query.data?.data.passes
             ? "bg-flathub-celestial-blue/40"
-            : qualityModerationStatus?.["not_passed"] === 0
+            : query.data?.data["not_passed"] === 0
               ? "bg-flathub-gainsborow/40"
               : "bg-flathub-electric-red/40",
         )}
@@ -242,17 +237,14 @@ export const QualityModeration = ({
             {query.isPending ? (
               <Spinner size={"s"} orientation="row" />
             ) : (
-              <QualityModerationStatusComponent
-                status={qualityModerationStatus}
-              />
+              <QualityModerationStatusComponent status={query?.data?.data} />
             )}
           </div>
         </div>
         <div className="ms-auto flex">
           {isModerator &&
             moderationStatusQuery.isSuccess &&
-            moderationApp &&
-            moderationApp.requests_count > 0 && (
+            moderationStatusQuery.data?.data.requests_count > 0 && (
               <Button size="lg" variant="secondary" asChild className="me-2">
                 <Link href={`/admin/moderation/${app.id}`}>
                   <ScanEyeIcon className="w-5 h-5" />
@@ -262,8 +254,8 @@ export const QualityModeration = ({
             )}
           <QualityReviewButton
             app_id={app.id}
-            status={qualityModerationStatus}
-            review_requested_at={qualityModerationStatus?.review_requested_at}
+            status={query?.data?.data}
+            review_requested_at={query?.data?.data?.review_requested_at}
             buttonClicked={() => {
               query.refetch()
             }}

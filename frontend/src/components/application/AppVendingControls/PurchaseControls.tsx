@@ -62,11 +62,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
       )
     },
     onSuccess: (data) => {
-      if (data.status === 200) {
-        router.push(`/payment/${data.data.transaction}`, {
-          locale,
-        })
-      }
+      router.push(`/payment/${data.data.transaction}`, undefined)
     },
     onError: (error) => {
       toast.error(t(error.message))

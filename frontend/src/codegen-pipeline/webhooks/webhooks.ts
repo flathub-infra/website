@@ -12,26 +12,56 @@ import type {
   UseMutationResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type { HTTPValidationError } from ".././model"
 
 /**
  * @summary Receive Github Webhook
  */
-export const receiveGithubWebhookApiWebhooksGithubPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/webhooks/github`,
-    undefined,
-    options,
-  )
+export type receiveGithubWebhookApiWebhooksGithubPostResponse202 = {
+  data: unknown
+  status: 202
+}
+
+export type receiveGithubWebhookApiWebhooksGithubPostResponse422 = {
+  data: HTTPValidationError
+  status: 422
+}
+
+export type receiveGithubWebhookApiWebhooksGithubPostResponseComposite =
+  | receiveGithubWebhookApiWebhooksGithubPostResponse202
+  | receiveGithubWebhookApiWebhooksGithubPostResponse422
+
+export type receiveGithubWebhookApiWebhooksGithubPostResponse =
+  receiveGithubWebhookApiWebhooksGithubPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getReceiveGithubWebhookApiWebhooksGithubPostUrl = () => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/webhooks/github`
+}
+
+export const receiveGithubWebhookApiWebhooksGithubPost = async (
+  options?: RequestInit,
+): Promise<receiveGithubWebhookApiWebhooksGithubPostResponse> => {
+  const res = await fetch(getReceiveGithubWebhookApiWebhooksGithubPostUrl(), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: receiveGithubWebhookApiWebhooksGithubPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as receiveGithubWebhookApiWebhooksGithubPostResponse
 }
 
 export const getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -40,7 +70,7 @@ export const getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof receiveGithubWebhookApiWebhooksGithubPost>>,
   TError,
@@ -48,19 +78,19 @@ export const getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["receiveGithubWebhookApiWebhooksGithubPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof receiveGithubWebhookApiWebhooksGithubPost>>,
     void
   > = () => {
-    return receiveGithubWebhookApiWebhooksGithubPost(axiosOptions)
+    return receiveGithubWebhookApiWebhooksGithubPost(fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -72,13 +102,13 @@ export type ReceiveGithubWebhookApiWebhooksGithubPostMutationResult =
   >
 
 export type ReceiveGithubWebhookApiWebhooksGithubPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Receive Github Webhook
  */
 export const useReceiveGithubWebhookApiWebhooksGithubPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(
   options?: {
@@ -88,7 +118,7 @@ export const useReceiveGithubWebhookApiWebhooksGithubPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<

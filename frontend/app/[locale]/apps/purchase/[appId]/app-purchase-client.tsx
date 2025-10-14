@@ -35,7 +35,7 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
   })
 
   useEffect(() => {
-    if (vendingSetup.data && vendingSetup.data.status === 200) {
+    if (vendingSetup.data) {
       setAmount({
         live: vendingSetup.data.data.recommended_donation / 100,
         settled: vendingSetup.data.data.recommended_donation / 100,
@@ -43,11 +43,11 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
     }
   }, [vendingSetup.data])
 
-  if (vendingSetup.isError || vendingSetup.data?.status !== 200) {
+  if (vendingSetup.isError) {
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{vendingSetup.error?.detail?.[0]?.msg || "An error occurred"}</p>
+        <p>{t(vendingSetup.error.message)}</p>
       </>
     )
   }

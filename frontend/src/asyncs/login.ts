@@ -4,10 +4,7 @@ import { LOGIN_PROVIDERS_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserStateAction } from "../types/Login"
 import { UserInfo } from "src/codegen/model/userInfo"
-import {
-  getUserinfoAuthUserinfoGet,
-  getUserinfoAuthUserinfoGetResponse,
-} from "src/codegen"
+import { getUserinfoAuthUserinfoGet } from "src/codegen"
 
 /**
  * Performs the callback POST request to check 3rd party authentication
@@ -69,14 +66,13 @@ export async function getUserData(
   dispatch({ type: "loading" })
 
   // On network error just assume user state is unchanged
-  let res: getUserinfoAuthUserinfoGetResponse
   try {
     // Gets data for user with current session cookie
-    res = await getUserinfoAuthUserinfoGet({ credentials: "include" })
+    const res = await getUserinfoAuthUserinfoGet({ credentials: "include" })
 
     // Assuming a bad status indicates unchanged user state
     // A no content status response indicates the user is not logged in
-    if (res.status === 401) {
+    if (res.status === 204) {
       dispatch({ type: "logout" })
     } else {
       const info: UserInfo = res.data

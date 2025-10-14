@@ -87,12 +87,7 @@ export default function QualityModerationClient() {
   }, [searchParams])
 
   const pages = Array.from(
-    {
-      length:
-        query.data?.status === 200
-          ? query.data?.data?.pagination?.total_pages
-          : 1,
-    },
+    { length: query.data?.data?.pagination?.total_pages ?? 1 },
     (_, i) => i + 1,
   )
 
@@ -116,7 +111,7 @@ export default function QualityModerationClient() {
 
           <div className="px-4 sm:px-6 lg:px-8">
             {query.isLoading && <Spinner size="m" />}
-            {query.isSuccess && query.data.status === 200 && (
+            {query.isSuccess && (
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <QualityModerationTable
                   currentPage={page}

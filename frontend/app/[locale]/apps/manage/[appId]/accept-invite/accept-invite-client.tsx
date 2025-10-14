@@ -35,7 +35,7 @@ export default function AcceptInviteClient({ app }: Props) {
   }, [app.id, router, user.info])
 
   const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
-    fetch: { credentials: "include" },
+    axios: { withCredentials: true },
     query: { enabled: !!app.id },
   })
 
@@ -43,7 +43,7 @@ export default function AcceptInviteClient({ app }: Props) {
     mutationKey: ["accept-invite", app.id],
     mutationFn: () =>
       acceptInviteInvitesAppIdAcceptPost(app.id, {
-        credentials: "include",
+        withCredentials: true,
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -54,7 +54,7 @@ export default function AcceptInviteClient({ app }: Props) {
     mutationKey: ["decline-invite", app.id],
     mutationFn: () =>
       declineInviteInvitesAppIdDeclinePost(app.id, {
-        credentials: "include",
+        withCredentials: true,
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -64,7 +64,7 @@ export default function AcceptInviteClient({ app }: Props) {
 
   let content: ReactElement
 
-  if (inviteQuery.data.status === 200 && inviteQuery.data?.data?.is_pending) {
+  if (inviteQuery.data?.data?.is_pending) {
     content = (
       <>
         <div className="flex flex-col items-center justify-center">

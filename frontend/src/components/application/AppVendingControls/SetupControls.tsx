@@ -15,6 +15,7 @@ import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { AxiosError } from "axios"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
@@ -71,7 +72,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // Controls should initialise to existing setup once known
   useEffect(() => {
-    if (vendingSetup.data && vendingSetup.data.status === 200) {
+    if (vendingSetup.data) {
       const decimalRecommendation = Math.max(
         vendingSetup.data.data.recommended_donation / 100,
         FLATHUB_MIN_PAYMENT,
@@ -116,9 +117,12 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     onSuccess: (data) => {
       toast.success(t("app-vending-settings-confirmed"))
     },
-    onError: (error: Error) => {
-      console.error(error)
-      toast.error(t("error-occurred"))
+    onError: (error: AxiosError<{ status: string; error: string }>) => {
+      if (error && error.response) {
+        toast.error(t(error.response.data.error))
+      } else {
+        console.error(error)
+      }
     },
   })
 

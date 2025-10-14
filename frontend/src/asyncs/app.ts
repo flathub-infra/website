@@ -1,4 +1,4 @@
-import { fetchAppstream } from "src/fetchers"
+import { APP_DETAILS } from "../env"
 import { Appstream } from "../types/Appstream"
 
 /**
@@ -12,18 +12,29 @@ export async function getAppsInfo(
   const responses = await Promise.allSettled(
     appIds.map(async (id) => ({
       id,
-      response: await fetchAppstream(id, locale),
+      response: await fetch(`${APP_DETAILS(id, locale)}`)
+        .then(async (res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`)
+          }
+          return {
+            data: (await res.json()) as Appstream,
+          }
+        })
+        .catch(() => {
+          return {
+            data: {
+              id: id,
+              name: id,
+            } as Appstream,
+          }
+        }),
     })),
   )
 
   return responses.map((res) => {
-    if (res.status === "fulfilled" && res.value.response) {
-      return res.value.response
-    } else if (res.status === "fulfilled") {
-      return {
-        id: res.value.id,
-        name: res.value.id,
-      } as Appstream
+    if (res.status === "fulfilled") {
+      return res.value.response.data
     } else {
       return {
         id: "error",

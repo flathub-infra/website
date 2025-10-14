@@ -9,7 +9,6 @@ import { ApplicationCard } from "../../../../../src/components/application/Appli
 import {
   useGetAppVendingSetupVendingappAppIdSetupGet,
   VendingConfig,
-  VendingSetup,
 } from "../../../../../src/codegen"
 import { Appstream } from "../../../../../src/types/Appstream"
 import { NumericInputValue } from "../../../../../src/types/Input"
@@ -37,7 +36,7 @@ export default function PurchaseClient({ app, vendingConfig }: Props) {
   })
 
   useEffect(() => {
-    if (vendingSetup.data && vendingSetup.data.status === 200) {
+    if (vendingSetup.data) {
       setAmount({
         live: vendingSetup.data.data.recommended_donation / 100,
         settled: vendingSetup.data.data.recommended_donation / 100,
@@ -45,11 +44,11 @@ export default function PurchaseClient({ app, vendingConfig }: Props) {
     }
   }, [vendingSetup.data])
 
-  if (vendingSetup.isError || vendingSetup.data?.status !== 200) {
+  if (vendingSetup.isError) {
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(vendingSetup.error?.message)}</p>
+        <p>{t(vendingSetup.error.message)}</p>
       </>
     )
   }

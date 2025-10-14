@@ -30,13 +30,11 @@ const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
       })
     },
     onSuccess: (data) => {
-      if (data.status === 200) {
-        if (data.data?.status === "failure") {
-          toast.error(t("token-failed"))
-        }
-        if (data.data?.status === "success") {
-          toast.success(t("token-redeemed"))
-        }
+      if (data.data?.status === "failure") {
+        toast.error(t("token-failed"))
+      }
+      if (data.data?.status === "success") {
+        toast.success(t("token-redeemed"))
       }
     },
     onError: (error) => {

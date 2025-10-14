@@ -24,8 +24,6 @@ import {
   setAppOfTheWeekAppPicksAppOfTheWeekPost,
   Permission,
   getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
-  AppPickRecommendation,
-  AppPickRecommendationsResponse,
 } from "src/codegen"
 import { DesktopAppstream } from "src/types/Appstream"
 import { Button } from "@/components/ui/button"
@@ -113,7 +111,7 @@ export default function AppPicksClient() {
           position: app.position,
         },
         {
-          credentials: "include",
+          withCredentials: true,
         },
       )
 
@@ -205,7 +203,7 @@ export default function AppPicksClient() {
             recommendation_date: formatISO(date, { representation: "date" }),
           },
           {
-            credentials: "include",
+            withCredentials: true,
           },
         )
 

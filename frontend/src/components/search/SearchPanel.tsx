@@ -8,15 +8,10 @@ import { FunnelIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseMutationResult } from "@tanstack/react-query"
+import { AxiosResponse } from "axios"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
-import {
-  HTTPValidationError,
-  PostSearchSearchPostParams,
-  postSearchSearchPostResponse,
-  SearchQuery,
-} from "src/codegen"
-import { AppsIndex, MeilisearchResponseAppsIndex } from "src/meilisearch"
+import { MeilisearchResponseAppsIndex, AppsIndex } from "src/codegen"
 import { useTranslations } from "next-intl"
 
 export const SearchPanel = ({
@@ -32,12 +27,7 @@ export const SearchPanel = ({
   fetchNextPage,
 }: {
   searchResult: UseMutationResult<
-    postSearchSearchPostResponse,
-    HTTPValidationError,
-    {
-      data: SearchQuery
-      params?: PostSearchSearchPostParams
-    },
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
     unknown
   >
   selectedFilters: {
@@ -142,15 +132,14 @@ export const SearchPanel = ({
             </Transition>
           </Disclosure>
         </div>
-        <div className="flex w-full flex-col">
-          <SearchResults
-            allHits={allHits}
-            hasNextPage={hasNextPage}
-            isLoadingMore={isLoadingMore}
-            isInitialLoading={isInitialLoading}
-            fetchNextPage={fetchNextPage}
-          />
-        </div>
+        <SearchResults
+          results={searchResult}
+          allHits={allHits}
+          hasNextPage={hasNextPage}
+          isLoadingMore={isLoadingMore}
+          isInitialLoading={isInitialLoading}
+          fetchNextPage={fetchNextPage}
+        />
       </div>
     </>
   )

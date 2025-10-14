@@ -4,6 +4,7 @@ import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
+import { AxiosError } from "axios"
 import Modal from "../Modal"
 import {
   archiveVerificationAppIdArchivePost,
@@ -28,8 +29,8 @@ const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
     onSuccess: () => {
       setModalVisible(false)
     },
-    onError: (err: Error) => {
-      toast.error(t(err.message))
+    onError: (err: AxiosError<{ detail: string }>) => {
+      toast.error(t(err.response.data.detail))
     },
   })
 
@@ -73,8 +74,8 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
     onSuccess: () => {
       setModalVisible(false)
     },
-    onError: (err: Error) => {
-      toast.error(t(err.message))
+    onError: (err: AxiosError<{ detail: string }>) => {
+      toast.error(t(err.response.data.detail))
     },
   })
 
@@ -141,7 +142,7 @@ export default function DangerZoneControls({
   let content: ReactElement
   if (query.isPending) {
     content = <Spinner size="m" />
-  } else if (query.isError || query.data.status !== 200) {
+  } else if (query.status === "error") {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (

@@ -54,10 +54,8 @@ const VendingLink: FunctionComponent = () => {
         },
       ),
     onSuccess: (data) => {
-      if (data.status === 200) {
-        setOnboarding(true)
-        push(data.data.target_url)
-      }
+      setOnboarding(true)
+      push(data.data.target_url)
     },
     onError: (error) => {
       toast.error(t(error.message))

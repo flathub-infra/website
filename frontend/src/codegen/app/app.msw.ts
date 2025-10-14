@@ -80,9 +80,13 @@ export const getPostSearchSearchPostResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,

@@ -55,9 +55,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         credentials: "include",
       }),
     onSuccess: (data) => {
-      if (data.data && 'github_issue_url' in data.data) {
-        setIssueUrl(data.data.github_issue_url)
-      }
+      setIssueUrl(data.data?.github_issue_url)
     },
     onError: (e) => {
       setError(e as unknown as string)

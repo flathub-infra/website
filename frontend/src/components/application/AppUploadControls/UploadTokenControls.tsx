@@ -52,7 +52,7 @@ export default function UploadTokenControls({
   let content: ReactElement
   if (query.isPending) {
     content = <Spinner size="m" />
-  } else if (query.status === "error" || query.data.status !== 200) {
+  } else if (query.status === "error") {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (
@@ -211,7 +211,6 @@ export default function UploadTokenControls({
         onCancelled={() => setTokenToRevoke(undefined)}
       >
         {query?.data &&
-          query.data.status === 200 &&
           t("revoke-token-description", {
             name: query.data?.data?.tokens.find(
               (token) => token.id === tokenToRevoke,

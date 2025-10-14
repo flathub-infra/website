@@ -32,7 +32,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
   }
 
   let content: ReactElement
-  if (query.isError || query.data.status !== 200) {
+  if (query.isError) {
     content = <p>{t(query.error.message)}</p>
   } else {
     content = (

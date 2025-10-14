@@ -47,7 +47,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
 
   if (query.isPending) {
     return <Spinner size="m" />
-  } else if (query.isError || query.data.status !== 200) {
+  } else if (query.isError) {
     return <InlineError error={t(query.error.message)} shown={true} />
   }
 

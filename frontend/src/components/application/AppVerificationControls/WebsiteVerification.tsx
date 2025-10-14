@@ -40,11 +40,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
           credentials: "include",
         },
       ),
-    onSuccess: (result) => {
-      if (result.data && 'token' in result.data) {
-        setReturnedToken(result.data.token)
-      }
-    },
+    onSuccess: (result) => setReturnedToken(result.data.token),
   })
 
   const confirmWebsiteVerificationMutation = useMutation({
@@ -58,12 +54,10 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         },
       ),
     onSuccess: (result) => {
-      if (result.data && 'verified' in result.data) {
-        if (result.data.verified) {
-          onVerified()
-        } else {
-          setConfirmResult(result.data)
-        }
+      if (result.data.verified) {
+        onVerified()
+      } else {
+        setConfirmResult(result.data)
       }
     },
   })

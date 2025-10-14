@@ -6,5 +6,5 @@
  */
 
 export type AppsIndexTranslationsAnyOf = {
-  [key: string]: { [key: string]: string }
+  [key: string]: { [key: string]: string | string[] }
 }

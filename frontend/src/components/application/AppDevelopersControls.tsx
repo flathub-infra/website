@@ -5,138 +5,21 @@ import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
 import { useUserDispatch } from "src/context/user-info"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
 import { getUserData } from "src/asyncs/login"
+import { AxiosError } from "axios"
 import {
+  getAppDevelopersInvitesAppIdDevelopersGet,
   inviteDeveloperInvitesAppIdInvitePost,
+  leaveTeamInvitesAppIdLeavePost,
   removeDeveloperInvitesAppIdRemoveDeveloperPost,
   revokeInviteInvitesAppIdRevokePost,
-  useGetAppDevelopersInvitesAppIdDevelopersGet,
-  useLeaveTeamInvitesAppIdLeavePost,
 } from "src/codegen"
 import { Developer } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "src/i18n/navigation"
-
-const Developers = ({
-  app,
-  developersQuery,
-}: {
-  app: Pick<Appstream, "id" | "name">
-  developersQuery: any
-}) => {
-  const t = useTranslations()
-  const userDispatch = useUserDispatch()
-  const router = useRouter()
-
-  const leaveTeamInviteMutation = useLeaveTeamInvitesAppIdLeavePost({
-    fetch: { credentials: "include" },
-    mutation: {
-      onSuccess: async () => {
-        await getUserData(userDispatch)
-        setLeaveDialogVisible(false)
-        router.push("/developer-portal")
-      },
-    },
-  })
-
-  const selfIsPrimary = developersQuery.data?.data.developers.find(
-    (d) => d.is_self,
-  )?.is_primary
-
-  const [leaveDialogVisible, setLeaveDialogVisible] = useState(false)
-  const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
-
-  return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        {developersQuery.data.data.developers
-          .sort((a, b) => {
-            const sortByPrimary = Number(b.is_primary) - Number(a.is_primary)
-
-            if (sortByPrimary !== 0) {
-              return sortByPrimary
-            }
-            return a.name.localeCompare(b.name)
-          })
-          .map((developer) => (
-            <DeveloperRow
-              key={developer.id}
-              developer={developer}
-              app={app}
-              refresh={() => developersQuery.refetch()}
-              selfIsPrimary={selfIsPrimary}
-              isInvite={false}
-            />
-          ))}
-      </div>
-
-      <div className="space-y-3">
-        {developersQuery.data.data.invites.length > 0 && (
-          <h3 className="text-xl font-bold">{t("invites")}</h3>
-        )}
-        {developersQuery.data.data.invites
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((developer) => (
-            <DeveloperRow
-              key={developer.id}
-              developer={developer}
-              app={app}
-              refresh={() => developersQuery.refetch()}
-              selfIsPrimary={selfIsPrimary}
-              isInvite={true}
-            />
-          ))}
-      </div>
-
-      {selfIsPrimary && (
-        <>
-          <Button
-            size="lg"
-            className="w-full"
-            onClick={() => setInviteDialogVisible(true)}
-          >
-            {t("invite-developer")}
-          </Button>
-
-          <InviteDialog
-            isVisible={inviteDialogVisible}
-            app={app}
-            refresh={() => developersQuery.refetch()}
-            closeDialog={() => setInviteDialogVisible(false)}
-          />
-        </>
-      )}
-
-      {!selfIsPrimary && (
-        <>
-          <Button
-            size="lg"
-            className="w-full"
-            variant="destructive"
-            onClick={() => setLeaveDialogVisible(true)}
-          >
-            {t("leave")}
-          </Button>
-
-          <ConfirmDialog
-            isVisible={leaveDialogVisible}
-            prompt={t("leave")}
-            action={t("leave")}
-            description={t("leave-confirmation", { app: app.name })}
-            actionVariant="destructive"
-            onConfirmed={() =>
-              leaveTeamInviteMutation.mutate({ appId: app.id })
-            }
-            onCancelled={() => setLeaveDialogVisible(false)}
-          />
-        </>
-      )}
-    </div>
-  )
-}
 
 interface Props {
   app: Pick<Appstream, "id" | "name">
@@ -144,10 +27,36 @@ interface Props {
 
 const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const t = useTranslations()
+  const userDispatch = useUserDispatch()
+  const router = useRouter()
 
-  const developersQuery = useGetAppDevelopersInvitesAppIdDevelopersGet(app.id, {
-    fetch: { credentials: "include" },
+  const developersQuery = useQuery({
+    queryKey: ["developers", app.id],
+    queryFn: () =>
+      getAppDevelopersInvitesAppIdDevelopersGet(app.id, {
+        credentials: "include",
+      }),
   })
+
+  const leaveTeamInviteMutation = useMutation({
+    mutationKey: ["leave-team-invite-app", app.id],
+    mutationFn: () =>
+      leaveTeamInvitesAppIdLeavePost(app.id, {
+        credentials: "include",
+      }),
+    onSuccess: async () => {
+      await getUserData(userDispatch)
+      setLeaveDialogVisible(false)
+      router.push("/developer-portal")
+    },
+  })
+
+  const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
+  const [leaveDialogVisible, setLeaveDialogVisible] = useState(false)
+
+  const selfIsPrimary = developersQuery.data?.data.developers.find(
+    (d) => d.is_self,
+  )?.is_primary
 
   let content: ReactElement
 
@@ -157,17 +66,99 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
       break
 
     case "success":
-      content =
-        developersQuery.data.status === 200 ? (
-          <Developers app={app} developersQuery={developersQuery} />
-        ) : (
-          <InlineError error={t("unknown-error")} shown={true} />
-        )
+      content = (
+        <div className="space-y-6">
+          <div className="space-y-3">
+            {developersQuery.data.data.developers
+              .sort((a, b) => {
+                const sortByPrimary =
+                  Number(b.is_primary) - Number(a.is_primary)
+
+                if (sortByPrimary !== 0) {
+                  return sortByPrimary
+                }
+                return a.name.localeCompare(b.name)
+              })
+              .map((developer) => (
+                <DeveloperRow
+                  key={developer.id}
+                  developer={developer}
+                  app={app}
+                  refresh={() => developersQuery.refetch()}
+                  selfIsPrimary={selfIsPrimary}
+                  isInvite={false}
+                />
+              ))}
+          </div>
+
+          <div className="space-y-3">
+            {developersQuery.data.data.invites.length > 0 && (
+              <h3 className="text-xl font-bold">{t("invites")}</h3>
+            )}
+            {developersQuery.data.data.invites
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((developer) => (
+                <DeveloperRow
+                  key={developer.id}
+                  developer={developer}
+                  app={app}
+                  refresh={() => developersQuery.refetch()}
+                  selfIsPrimary={selfIsPrimary}
+                  isInvite={true}
+                />
+              ))}
+          </div>
+
+          {selfIsPrimary && (
+            <>
+              <Button
+                size="lg"
+                className="w-full"
+                onClick={() => setInviteDialogVisible(true)}
+              >
+                {t("invite-developer")}
+              </Button>
+
+              <InviteDialog
+                isVisible={inviteDialogVisible}
+                app={app}
+                refresh={() => developersQuery.refetch()}
+                closeDialog={() => setInviteDialogVisible(false)}
+              />
+            </>
+          )}
+
+          {!selfIsPrimary && (
+            <>
+              <Button
+                size="lg"
+                className="w-full"
+                variant="destructive"
+                onClick={() => setLeaveDialogVisible(true)}
+              >
+                {t("leave")}
+              </Button>
+
+              <ConfirmDialog
+                isVisible={leaveDialogVisible}
+                prompt={t("leave")}
+                action={t("leave")}
+                description={t("leave-confirmation", { app: app.name })}
+                actionVariant="destructive"
+                onConfirmed={leaveTeamInviteMutation.mutate}
+                onCancelled={() => setLeaveDialogVisible(false)}
+              />
+            </>
+          )}
+        </div>
+      )
 
       break
 
     case "error":
-      content = <InlineError error={t("unknown-error")} shown={true} />
+      content = (
+        <InlineError error={t(developersQuery.error.message)} shown={true} />
+      )
       break
   }
 
@@ -318,8 +309,8 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
       closeDialog()
       resetModal()
     },
-    onError: (e: Error) => {
-      setError(e.message.replaceAll("_", "-"))
+    onError: (e: AxiosError<{ detail: string }>) => {
+      setError(e.response.data.detail.replaceAll("_", "-"))
     },
   })
 

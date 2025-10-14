@@ -28,11 +28,11 @@ export default function PaymentDetailsClient({ transactionId }: Props) {
 
   if (query.isFetching) {
     content = <Spinner size="l" />
-  } else if (query.isError || query.data.status !== 200) {
+  } else if (query.isError) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{query.error?.detail?.[0]?.msg || "Unknown error"}</p>
+        <p>{t(query.error?.message || "Unknown error")}</p>
       </>
     )
   } else {

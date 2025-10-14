@@ -17,19 +17,40 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 /**
  * @summary Read Root
  */
-export const readRootGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/`,
-    options,
-  )
+export type readRootGetResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type readRootGetResponseComposite = readRootGetResponse200
+
+export type readRootGetResponse = readRootGetResponseComposite & {
+  headers: Headers
+}
+
+export const getReadRootGetUrl = () => {
+  return `https://flathub-vorarbeiter.apps.openshift.gnome.org/`
+}
+
+export const readRootGet = async (
+  options?: RequestInit,
+): Promise<readRootGetResponse> => {
+  const res = await fetch(getReadRootGetUrl(), {
+    ...options,
+    method: "GET",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: readRootGetResponse["data"] = body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as readRootGetResponse
 }
 
 export const getReadRootGetQueryKey = () => {
@@ -38,20 +59,20 @@ export const getReadRootGetQueryKey = () => {
 
 export const getReadRootGetQueryOptions = <
   TData = Awaited<ReturnType<typeof readRootGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof readRootGet>>, TError, TData>
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey = queryOptions?.queryKey ?? getReadRootGetQueryKey()
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof readRootGet>>> = ({
     signal,
-  }) => readRootGet({ signal, ...axiosOptions })
+  }) => readRootGet({ signal, ...fetchOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof readRootGet>>,
@@ -63,11 +84,11 @@ export const getReadRootGetQueryOptions = <
 export type ReadRootGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof readRootGet>>
 >
-export type ReadRootGetQueryError = AxiosError<unknown>
+export type ReadRootGetQueryError = unknown
 
 export function useReadRootGet<
   TData = Awaited<ReturnType<typeof readRootGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -81,7 +102,7 @@ export function useReadRootGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -89,7 +110,7 @@ export function useReadRootGet<
 }
 export function useReadRootGet<
   TData = Awaited<ReturnType<typeof readRootGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -103,7 +124,7 @@ export function useReadRootGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -111,13 +132,13 @@ export function useReadRootGet<
 }
 export function useReadRootGet<
   TData = Awaited<ReturnType<typeof readRootGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof readRootGet>>, TError, TData>
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -129,13 +150,13 @@ export function useReadRootGet<
 
 export function useReadRootGet<
   TData = Awaited<ReturnType<typeof readRootGet>>,
-  TError = AxiosError<unknown>,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof readRootGet>>, TError, TData>
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {

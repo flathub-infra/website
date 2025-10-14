@@ -109,7 +109,7 @@ export default async function AppDetailPage({
   const eolMessageResponse = await getEolMessageAppidEolMessageAppIdGet(
     cleanAppId as string,
   )
-  let eolMessage: string | null = typeof eolMessageResponse.data === 'string' ? eolMessageResponse.data : null
+  let eolMessage: string | null = eolMessageResponse.data
 
   // If there's an EOL message, return it directly without fetching other data
   if (eolMessage) {

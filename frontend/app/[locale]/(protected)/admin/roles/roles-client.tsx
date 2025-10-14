@@ -15,9 +15,7 @@ import { Link } from "src/i18n/navigation"
 
 export default function RolesClient() {
   const rolesQuery = useRolesUsersRolesGet({
-    fetch: {
-      credentials: "include",
-    },
+    fetch: { credentials: "include" },
   })
 
   return (
@@ -66,7 +64,7 @@ const UserList = ({ role }: { role: string }) => {
 
   return (
     <ul className="space-y-4">
-      {query.data.data && Array.isArray(query.data.data) && query.data.data.map((user) => (
+      {query.data.data.map((user) => (
         <li key={user.id}>
           <Link href={`/admin/users/${user.id}`}>
             {user.display_name ?? user.id}

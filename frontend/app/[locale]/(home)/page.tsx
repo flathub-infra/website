@@ -43,7 +43,7 @@ export async function generateStaticParams() {
 
 async function getCollections(locale: string) {
   const results = await Promise.all([
-    fetchCollection("recently-updated", 1, APPS_IN_PREVIEW_COUNT * 2, locale),
+    fetchCollection("recently-updated", 1, APPS_IN_PREVIEW_COUNT, locale),
     fetchCollection("popular", 1, APPS_IN_PREVIEW_COUNT, locale),
     fetchCollection("recently-added", 1, APPS_IN_PREVIEW_COUNT, locale),
     fetchCollection("trending", 1, APPS_IN_PREVIEW_COUNT, locale),
