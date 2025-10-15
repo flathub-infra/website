@@ -80,7 +80,7 @@ export default async function SubcategoryPage({ params }: Props) {
             page,
             per_page: 30,
             locale,
-            subcategory: ["packageManager"],
+            subcategory: ["packageManager", "launcherStore"],
             sort_by: AppSchemasSortBy.trending,
           },
         )
@@ -93,7 +93,7 @@ export default async function SubcategoryPage({ params }: Props) {
             page,
             per_page: 30,
             locale,
-            subcategory: ["utility", "network"],
+            subcategory: ["utility", "network", "gameTool"],
             sort_by: AppSchemasSortBy.trending,
           },
         )

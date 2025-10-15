@@ -967,9 +967,9 @@ async def _build_year_in_review_base(year: int) -> dict | None:
 
         if "emulator" in app_subcategories:
             emulator_app_ids.add(app.app_id)
-        elif "packagemanager" in app_subcategories:
+        elif app_subcategories & {"launcherStore", "packagemanager"}:
             game_store_app_ids.add(app.app_id)
-        elif app_subcategories & {"utility", "network"}:
+        elif app_subcategories & {"utility", "network", "gameTool"}:
             game_utility_app_ids.add(app.app_id)
         else:
             gaming_app_ids.add(app.app_id)
