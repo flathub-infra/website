@@ -549,6 +549,187 @@ def test_popular_last_month_locale(client, snapshot):
     )
 
 
+def test_collection_categories(client):
+    """Smoke test for GET /collection/category endpoint"""
+    response = client.get("/collection/category")
+    assert response.status_code == 200
+    categories = response.json()
+    assert isinstance(categories, list)
+    assert len(categories) > 0
+    assert "game" in categories
+
+
+def test_collection_subcategories(client, snapshot):
+    """Smoke test for GET /collection/category/{category}/subcategories endpoint"""
+    response = client.get(
+        "/collection/category/Game/subcategories?subcategory=ActionGame&subcategory=AdventureGame"
+    )
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_subcategories.json"
+    )
+
+
+def test_collection_subcategories_with_pagination(client):
+    """Smoke test for GET /collection/category/{category}/subcategories with pagination"""
+    response = client.get(
+        "/collection/category/Game/subcategories?subcategory=ActionGame&page=1&per_page=5"
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert "hits" in data
+
+
+def test_collection_subcategories_invalid_pagination(client):
+    """Test invalid pagination for subcategories endpoint"""
+    response = client.get(
+        "/collection/category/Game/subcategories?subcategory=ActionGame&page=1"
+    )
+    assert response.status_code == 400
+
+
+def test_collection_keyword(client, snapshot):
+    """Smoke test for GET /collection/keyword endpoint"""
+    response = client.get("/collection/keyword?keyword=game")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_keyword.json"
+    )
+
+
+def test_collection_keyword_with_pagination(client):
+    """Smoke test for GET /collection/keyword with pagination"""
+    response = client.get("/collection/keyword?keyword=game&page=1&per_page=5")
+    assert response.status_code == 200
+    data = response.json()
+    assert "hits" in data
+
+
+def test_collection_keyword_invalid_pagination(client):
+    """Test invalid pagination for keyword endpoint"""
+    response = client.get("/collection/keyword?keyword=game&page=1")
+    assert response.status_code == 400
+
+
+def test_collection_developers_list(client, snapshot):
+    """Smoke test for GET /collection/developer endpoint (list all developers)"""
+    response = client.get("/collection/developer")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_developers_list.json"
+    )
+
+
+def test_collection_developers_list_with_pagination(client):
+    """Smoke test for GET /collection/developer with pagination"""
+    response = client.get("/collection/developer?page=1&per_page=10")
+    assert response.status_code == 200
+    data = response.json()
+    assert "developers" in data
+
+
+def test_collection_developers_list_invalid_pagination(client):
+    """Test invalid pagination for developers list endpoint"""
+    response = client.get("/collection/developer?page=1")
+    assert response.status_code == 400
+
+
+def test_collection_recently_added(client, snapshot):
+    """Smoke test for GET /collection/recently-added endpoint"""
+    response = client.get("/collection/recently-added")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_recently_added.json"
+    )
+
+
+def test_collection_recently_added_locale(client, snapshot):
+    """Smoke test for GET /collection/recently-added with locale"""
+    response = client.get("/collection/recently-added?locale=es")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_recently_added_locale.json"
+    )
+
+
+def test_collection_recently_added_with_pagination(client):
+    """Smoke test for GET /collection/recently-added with pagination"""
+    response = client.get("/collection/recently-added?page=1&per_page=5")
+    assert response.status_code == 200
+    data = response.json()
+    assert "hits" in data
+
+
+def test_collection_recently_added_invalid_pagination(client):
+    """Test invalid pagination for recently-added endpoint"""
+    response = client.get("/collection/recently-added?page=1")
+    assert response.status_code == 400
+
+
+def test_collection_verified(client, snapshot):
+    """Smoke test for GET /collection/verified endpoint"""
+    response = client.get("/collection/verified")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_verified.json"
+    )
+
+
+def test_collection_verified_locale(client, snapshot):
+    """Smoke test for GET /collection/verified with locale"""
+    response = client.get("/collection/verified?locale=de")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_verified_locale.json"
+    )
+
+
+def test_collection_verified_with_pagination(client):
+    """Smoke test for GET /collection/verified with pagination"""
+    response = client.get("/collection/verified?page=1&per_page=10")
+    assert response.status_code == 200
+    data = response.json()
+    assert "hits" in data
+
+
+def test_collection_verified_invalid_pagination(client):
+    """Test invalid pagination for verified endpoint"""
+    response = client.get("/collection/verified?per_page=10")
+    assert response.status_code == 400
+
+
+def test_collection_mobile(client, snapshot):
+    """Smoke test for GET /collection/mobile endpoint"""
+    response = client.get("/collection/mobile")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_mobile.json"
+    )
+
+
+def test_collection_mobile_locale(client, snapshot):
+    """Smoke test for GET /collection/mobile with locale"""
+    response = client.get("/collection/mobile?locale=fr")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_mobile_locale.json"
+    )
+
+
+def test_collection_mobile_with_pagination(client):
+    """Smoke test for GET /collection/mobile with pagination"""
+    response = client.get("/collection/mobile?page=1&per_page=10")
+    assert response.status_code == 200
+    data = response.json()
+    assert "hits" in data
+
+
+def test_collection_mobile_invalid_pagination(client):
+    """Test invalid pagination for mobile endpoint"""
+    response = client.get("/collection/mobile?page=-1&per_page=10")
+    assert response.status_code == 400
+
+
 def test_status(client, snapshot):
     response = client.get("/status")
     assert response.status_code == 200
@@ -583,6 +764,99 @@ def test_summary_by_non_existent_id(client):
     response = client.get("/summary/does.not.exist")
     assert response.status_code == 404
     assert response.json() is None
+
+
+def test_eol_rebase_all(client):
+    """Smoke test for GET /eol/rebase endpoint"""
+    response = client.get("/eol/rebase")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, dict)
+
+
+def test_eol_rebase_by_app_id(client):
+    """Smoke test for GET /eol/rebase/{app_id} endpoint"""
+    response = client.get("/eol/rebase/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    # May return None if no rebase info exists, which is valid
+
+
+def test_eol_rebase_by_app_id_with_branch(client):
+    """Smoke test for GET /eol/rebase/{app_id} with branch parameter"""
+    response = client.get("/eol/rebase/org.sugarlabs.Maze?branch=stable")
+    assert response.status_code == 200
+
+
+def test_eol_message_all(client):
+    """Smoke test for GET /eol/message endpoint"""
+    response = client.get("/eol/message")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, dict)
+
+
+def test_eol_message_by_app_id(client):
+    """Smoke test for GET /eol/message/{app_id} endpoint"""
+    response = client.get("/eol/message/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    # May return None if no message exists, which is valid
+
+
+def test_eol_message_by_app_id_with_branch(client):
+    """Smoke test for GET /eol/message/{app_id} with branch parameter"""
+    response = client.get("/eol/message/org.sugarlabs.Maze?branch=stable")
+    assert response.status_code == 200
+
+
+def test_is_fullscreen_app(client):
+    """Smoke test for GET /is-fullscreen-app/{app_id} endpoint"""
+    response = client.get("/is-fullscreen-app/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, bool)
+
+
+def test_is_fullscreen_app_non_existent(client):
+    """Smoke test for /is-fullscreen-app/{app_id} with non-existent app"""
+    response = client.get("/is-fullscreen-app/does.not.exist")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, bool)
+
+
+def test_runtimes_list(client, snapshot):
+    """Snapshot test for GET /runtimes endpoint"""
+    response = client.get("/runtimes")
+    assert response.status_code == 200
+    response_data = response.json()
+    snapshot_data = snapshot("test_runtimes_list.json")
+    assert snapshot_data == response_data
+
+
+def test_platforms(client, snapshot):
+    """Snapshot test for GET /platforms endpoint"""
+    response = client.get("/platforms")
+    assert response.status_code == 200
+    response_data = response.json()
+    snapshot_data = snapshot("test_platforms.json")
+    assert snapshot_data == response_data
+
+
+def test_addons_for_app(client):
+    """Smoke test for GET /addon/{app_id} endpoint"""
+    response = client.get("/addon/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+
+
+def test_addons_for_non_existent_app(client):
+    """Smoke test for /addon/{app_id} with non-existent app"""
+    response = client.get("/addon/does.not.exist")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) == 0
 
 
 def test_stats(client):
