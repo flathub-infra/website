@@ -1,0 +1,26 @@
+{
+  "org.freedesktop.Platform": {
+    "depends": null,
+    "aliases": [
+      "org.freedesktop.Sdk"
+    ],
+    "keep": 100,
+    "stripe_account": null
+  },
+  "org.gnome.Platform": {
+    "depends": "org.freedesktop.Platform",
+    "aliases": [
+      "org.gnome.Sdk"
+    ],
+    "keep": 70,
+    "stripe_account": null
+  },
+  "org.kde.Platform": {
+    "depends": "org.freedesktop.Platform",
+    "aliases": [
+      "org.kde.Sdk"
+    ],
+    "keep": 70,
+    "stripe_account": null
+  }
+}
