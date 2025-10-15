@@ -1,7 +1,7 @@
-from fastapi import APIRouter, FastAPI, Path, Response
+from fastapi import APIRouter, FastAPI, HTTPException, Path
 from fastapi.responses import ORJSONResponse
 
-from .. import apps, database, models, search, utils
+from .. import api_models, apps, database, models, search, utils
 from ..database import get_db
 
 router = APIRouter(default_response_class=ORJSONResponse)
@@ -83,18 +83,22 @@ def get_eol_message_appid(
 
 @router.get(
     "/appstream",
+    response_model=list[str],
     tags=["app"],
     responses={
         200: {"description": "List of all app IDs"},
     },
 )
 def list_appstream(filter: apps.AppType = apps.AppType.APPS) -> list[str]:
+    """Get a list of all application IDs in the repository."""
     return sorted(apps.get_appids(filter))
 
 
 @router.get(
     "/appstream/{app_id}",
     status_code=200,
+    response_model=api_models.AppstreamResponse,
+    response_model_exclude_none=True,
     tags=["app"],
     responses={
         200: {"description": "AppStream metadata for the app"},
@@ -102,7 +106,6 @@ def list_appstream(filter: apps.AppType = apps.AppType.APPS) -> list[str]:
     },
 )
 def get_appstream(
-    response: Response,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -111,27 +114,34 @@ def get_appstream(
     ),
     locale: str = "en",
 ):
+    """
+    Get the AppStream metadata for a specific application.
+
+    Returns the full appstream data including name, description, screenshots,
+    releases, and other metadata. The response is localized based on the
+    locale parameter.
+    """
     with get_db("replica") as db_session:
         app = models.App.by_appid(db_session, app_id)
         if not app:
-            response.status_code = 404
-            return None
+            raise HTTPException(status_code=404, detail="App not found")
 
         if app.is_eol:
-            response.status_code = 404
-            return None
+            raise HTTPException(status_code=404, detail="App not found")
 
         result = app.get_translated_appstream(locale)
         if not result:
-            response.status_code = 404
-            return None
+            raise HTTPException(status_code=404, detail="App not found")
 
+        # FastAPI will automatically validate and convert this dict
+        # to AppstreamResponse based on response_model
         return result
 
 
 @router.get(
     "/is-fullscreen-app/{app_id}",
     status_code=200,
+    response_model=bool,
     tags=["app"],
     responses={
         200: {"description": "Whether the app is a fullscreen app"},
@@ -145,12 +155,14 @@ def get_isFullscreenApp(
         examples=["org.gnome.Glade"],
     ),
 ) -> bool:
+    """Check if an application is configured to run in fullscreen mode."""
     with get_db("replica") as db_session:
         return models.App.get_fullscreen_app(db_session, app_id)
 
 
 @router.post(
     "/search",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     tags=["app"],
     responses={
         200: {"description": "Search results for apps"},
@@ -160,23 +172,37 @@ def get_isFullscreenApp(
 def post_search(
     query: search.SearchQuery, locale: str = "en"
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Search for applications using Meilisearch.
+
+    Accepts a search query with filters and returns matching applications
+    with facets and pagination information.
+    """
     return search.search_apps_post(query, locale)
 
 
 @router.get(
     "/runtimes",
+    response_model=dict[str, int],
     tags=["app"],
     responses={
         200: {"description": "List of available runtimes"},
     },
 )
 def get_runtime_list() -> dict[str, int]:
+    """
+    Get a list of available Flatpak runtimes with usage counts.
+
+    Returns a mapping of runtime names to the number of apps using each runtime.
+    """
     return search.get_runtime_list()
 
 
 @router.get(
     "/summary/{app_id}",
     status_code=200,
+    response_model=api_models.SummaryResponse,
+    response_model_exclude_none=True,
     tags=["app"],
     responses={
         200: {"description": "App summary information"},
@@ -184,7 +210,6 @@ def get_runtime_list() -> dict[str, int]:
     },
 )
 def get_summary(
-    response: Response,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -193,15 +218,19 @@ def get_summary(
     ),
     branch: str | None = None,
 ):
+    """
+    Get summary information for a specific application.
+
+    Returns information about the app's size, architectures, runtime metadata,
+    and flatpak-specific configuration.
+    """
     with get_db("replica") as db_session:
         app = models.App.by_appid(db_session, app_id)
         if not app:
-            response.status_code = 404
-            return None
+            raise HTTPException(status_code=404, detail="App not found")
 
         if app.is_eol:
-            response.status_code = 404
-            return None
+            raise HTTPException(status_code=404, detail="App not found")
 
         if app.summary:
             summary = app.summary
@@ -218,15 +247,17 @@ def get_summary(
                 )
                 summary["metadata"]["runtimeIsEol"] = runtime_is_eol
 
+            # FastAPI will automatically validate and convert this dict
+            # to SummaryResponse based on response_model
             return summary
 
-    response.status_code = 404
-    return None
+        raise HTTPException(status_code=404, detail="App not found")
 
 
 @router.get(
     "/platforms",
     status_code=200,
+    response_model=dict[str, utils.Platform],
     tags=["app"],
     responses={
         200: {"description": "Available platforms information"},
@@ -243,10 +274,16 @@ def get_platforms() -> dict[str, utils.Platform]:
 
 @router.get(
     "/addon/{app_id}",
+    response_model=list[str],
     tags=["app"],
     responses={
         200: {"description": "List of addons for the app"},
     },
 )
 def get_addons(app_id: str) -> list[str]:
+    """
+    Get a list of addon IDs that are compatible with the specified application.
+
+    Addons extend the functionality of base applications (e.g., codecs, themes).
+    """
     return [addon_id.split("//", 1)[0] for addon_id in apps.get_addons(app_id)]

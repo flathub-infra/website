@@ -24,6 +24,7 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
+  AppstreamResponse,
   FavoriteApp,
   GetAppstreamAppstreamAppIdGetParams,
   GetEolMessageAppidEolMessageAppIdGet200,
@@ -40,6 +41,7 @@ import type {
   MeilisearchResponseAppsIndex,
   PostSearchSearchPostParams,
   SearchQuery,
+  SummaryResponse,
 } from ".././model"
 
 /**
@@ -735,6 +737,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 }
 
 /**
+ * Get a list of all application IDs in the repository.
  * @summary List Appstream
  */
 export const listAppstreamAppstreamGet = (
@@ -904,13 +907,18 @@ export function useListAppstreamAppstreamGet<
 }
 
 /**
+ * Get the AppStream metadata for a specific application.
+
+Returns the full appstream data including name, description, screenshots,
+releases, and other metadata. The response is localized based on the
+locale parameter.
  * @summary Get Appstream
  */
 export const getAppstreamAppstreamAppIdGet = (
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<AppstreamResponse>> => {
   return axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}`,
     {
@@ -1093,6 +1101,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 }
 
 /**
+ * Check if an application is configured to run in fullscreen mode.
  * @summary Get Isfullscreenapp
  */
 export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
@@ -1273,6 +1282,10 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 }
 
 /**
+ * Search for applications using Meilisearch.
+
+Accepts a search query with filters and returns matching applications
+with facets and pagination information.
  * @summary Post Search
  */
 export const postSearchSearchPost = (
@@ -1363,6 +1376,9 @@ export const usePostSearchSearchPost = <
   return useMutation(mutationOptions, queryClient)
 }
 /**
+ * Get a list of available Flatpak runtimes with usage counts.
+
+Returns a mapping of runtime names to the number of apps using each runtime.
  * @summary Get Runtime List
  */
 export const getRuntimeListRuntimesGet = (
@@ -1514,13 +1530,17 @@ export function useGetRuntimeListRuntimesGet<
 }
 
 /**
+ * Get summary information for a specific application.
+
+Returns information about the app's size, architectures, runtime metadata,
+and flatpak-specific configuration.
  * @summary Get Summary
  */
 export const getSummarySummaryAppIdGet = (
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<SummaryResponse>> => {
   return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -1854,6 +1874,9 @@ export function useGetPlatformsPlatformsGet<
 }
 
 /**
+ * Get a list of addon IDs that are compatible with the specified application.
+
+Addons extend the functionality of base applications (e.g., codecs, themes).
  * @summary Get Addons
  */
 export const getAddonsAddonAppIdGet = (

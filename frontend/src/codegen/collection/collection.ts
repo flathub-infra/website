@@ -39,6 +39,7 @@ import type {
 } from ".././model"
 
 /**
+ * Get a list of all available main categories for filtering applications.
  * @summary Get Categories
  */
 export const getCategoriesCollectionCategoryGet = (
@@ -197,6 +198,9 @@ export function useGetCategoriesCollectionCategoryGet<
 }
 
 /**
+ * Get applications in a specific main category.
+
+Supports pagination, subcategory exclusion, and custom sorting.
  * @summary Get Category
  */
 export const getCategoryCollectionCategoryCategoryGet = (
@@ -389,6 +393,10 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 }
 
 /**
+ * Get applications in specific subcategories within a main category.
+
+Filters by one or more subcategories (e.g., "ActionGame", "ArcadeGame")
+with optional exclusions and sorting.
  * @summary Get Subcategory
  */
 export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
@@ -649,6 +657,9 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
 }
 
 /**
+ * Search for applications by keyword.
+
+Returns apps that have the specified keyword in their metadata.
  * @summary Get Keyword
  */
 export const getKeywordCollectionKeywordGet = (
@@ -824,6 +835,9 @@ export function useGetKeywordCollectionKeywordGet<
 }
 
 /**
+ * Get a paginated list of all developers/publishers on Flathub.
+
+Returns developer names that can be used to filter applications.
  * @summary Get Developers
  */
 export const getDevelopersCollectionDeveloperGet = (
@@ -1000,6 +1014,9 @@ export function useGetDevelopersCollectionDeveloperGet<
 }
 
 /**
+ * Get all applications published by a specific developer.
+
+The developer parameter should match the developer_name field from appstream data.
  * @summary Get Developer
  */
 export const getDeveloperCollectionDeveloperDeveloperGet = (
@@ -1212,6 +1229,9 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
 }
 
 /**
+ * Get applications that have been recently updated.
+
+Sorted by the most recent release timestamp.
  * @summary Get Recently Updated
  */
 export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
@@ -1421,6 +1441,9 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
 }
 
 /**
+ * Get applications that have been recently added to Flathub.
+
+Sorted by the date the app was first published.
  * @summary Get Recently Added
  */
 export const getRecentlyAddedCollectionRecentlyAddedGet = (
@@ -1612,6 +1635,10 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
 }
 
 /**
+ * Get applications that have been verified by Flathub.
+
+Verified apps have proven ownership/authenticity through one of the
+verification methods (website, GitHub org, GitLab group, etc.).
  * @summary Get Verified
  */
 export const getVerifiedCollectionVerifiedGet = (
@@ -1788,6 +1815,10 @@ export function useGetVerifiedCollectionVerifiedGet<
 }
 
 /**
+ * Get applications that are mobile-friendly.
+
+These apps are designed to work well on mobile devices and
+have the isMobileFriendly flag set in their metadata.
  * @summary Get Mobile
  */
 export const getMobileCollectionMobileGet = (
@@ -1963,6 +1994,9 @@ export function useGetMobileCollectionMobileGet<
 }
 
 /**
+ * Get the most popular applications based on installs in the last month.
+
+Sorted by the number of installations in the previous 30 days.
  * @summary Get Popular Last Month
  */
 export const getPopularLastMonthCollectionPopularGet = (
@@ -2139,6 +2173,10 @@ export function useGetPopularLastMonthCollectionPopularGet<
 }
 
 /**
+ * Get trending applications based on recent growth in installs.
+
+Uses a trending score calculated from install growth over the last two weeks,
+highlighting apps that are gaining popularity.
  * @summary Get Trending Last Two Weeks
  */
 export const getTrendingLastTwoWeeksCollectionTrendingGet = (
