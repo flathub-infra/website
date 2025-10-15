@@ -16,16 +16,19 @@ def register_to_app(app: FastAPI):
 
 @router.get(
     "/category",
+    response_model=list[str],
     responses={
         200: {"description": "List of all available categories"},
     },
 )
 def get_categories() -> list[str]:
+    """Get a list of all available main categories for filtering applications."""
     return [category.value for category in schemas.MainCategory]
 
 
 @router.get(
     "/category/{category}",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Apps in the specified category"},
         400: {"description": "Invalid pagination parameters"},
@@ -40,6 +43,11 @@ def get_category(
     sort_by: schemas.SortBy | None = None,
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications in a specific main category.
+
+    Supports pagination, subcategory exclusion, and custom sorting.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -61,6 +69,7 @@ def get_category(
 
 @router.get(
     "/category/{category}/subcategories",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Apps in the specified subcategories"},
         400: {"description": "Invalid pagination parameters"},
@@ -76,6 +85,12 @@ def get_subcategory(
     sort_by: schemas.SortBy | None = None,
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications in specific subcategories within a main category.
+
+    Filters by one or more subcategories (e.g., "ActionGame", "ArcadeGame")
+    with optional exclusions and sorting.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -102,6 +117,7 @@ def get_subcategory(
 
 @router.get(
     "/keyword",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Apps matching the keyword"},
         400: {"description": "Invalid pagination parameters"},
@@ -114,6 +130,11 @@ def get_keyword(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Search for applications by keyword.
+
+    Returns apps that have the specified keyword in their metadata.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -133,6 +154,7 @@ def get_keyword(
 
 @router.get(
     "/developer",
+    response_model=search.DevelopersResponse,
     responses={
         200: {"description": "List of developers"},
         400: {"description": "Invalid pagination parameters"},
@@ -143,6 +165,11 @@ def get_developers(
     per_page: int | None = None,
     response: Response = Response(),
 ) -> search.DevelopersResponse:
+    """
+    Get a paginated list of all developers/publishers on Flathub.
+
+    Returns developer names that can be used to filter applications.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -160,6 +187,7 @@ def get_developers(
 
 @router.get(
     "/developer/{developer:path}",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Apps by the specified developer"},
         400: {"description": "Invalid pagination parameters"},
@@ -172,6 +200,11 @@ def get_developer(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get all applications published by a specific developer.
+
+    The developer parameter should match the developer_name field from appstream data.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -191,6 +224,7 @@ def get_developer(
 
 @router.get(
     "/recently-updated",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Recently updated apps"},
         400: {"description": "Invalid pagination parameters"},
@@ -202,6 +236,11 @@ def get_recently_updated(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications that have been recently updated.
+
+    Sorted by the most recent release timestamp.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -221,6 +260,7 @@ def get_recently_updated(
 
 @router.get(
     "/recently-added",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Recently added apps"},
         400: {"description": "Invalid pagination parameters"},
@@ -232,6 +272,11 @@ def get_recently_added(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications that have been recently added to Flathub.
+
+    Sorted by the date the app was first published.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -251,6 +296,7 @@ def get_recently_added(
 
 @router.get(
     "/verified",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Verified apps"},
         400: {"description": "Invalid pagination parameters"},
@@ -262,6 +308,12 @@ def get_verified(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications that have been verified by Flathub.
+
+    Verified apps have proven ownership/authenticity through one of the
+    verification methods (website, GitHub org, GitLab group, etc.).
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -281,6 +333,7 @@ def get_verified(
 
 @router.get(
     "/mobile",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Mobile-friendly apps"},
         400: {"description": "Invalid pagination parameters"},
@@ -292,6 +345,12 @@ def get_mobile(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications that are mobile-friendly.
+
+    These apps are designed to work well on mobile devices and
+    have the isMobileFriendly flag set in their metadata.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -311,6 +370,7 @@ def get_mobile(
 
 @router.get(
     "/popular",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Popular apps (last month)"},
         400: {"description": "Invalid pagination parameters"},
@@ -322,6 +382,11 @@ def get_popular_last_month(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get the most popular applications based on installs in the last month.
+
+    Sorted by the number of installations in the previous 30 days.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
@@ -341,6 +406,7 @@ def get_popular_last_month(
 
 @router.get(
     "/trending",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={
         200: {"description": "Trending apps (last two weeks)"},
         400: {"description": "Invalid pagination parameters"},
@@ -352,6 +418,12 @@ def get_trending_last_two_weeks(
     locale: str = "en",
     response: Response = Response(),
 ) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get trending applications based on recent growth in installs.
+
+    Uses a trending score calculated from install growth over the last two weeks,
+    highlighting apps that are gaining popularity.
+    """
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):

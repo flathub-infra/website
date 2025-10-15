@@ -239,7 +239,7 @@ def test_appstream_by_appid_fallback(client, snapshot):
 def test_appstream_by_non_existent_appid(client):
     response = client.get("/appstream/NonExistent")
     assert response.status_code == 404
-    assert response.json() is None
+    assert response.json() == {"detail": "App not found"}
 
 
 def test_appstream_keywords_translation(client, snapshot):
@@ -763,7 +763,7 @@ def test_summary_by_id(client, snapshot):
 def test_summary_by_non_existent_id(client):
     response = client.get("/summary/does.not.exist")
     assert response.status_code == 404
-    assert response.json() is None
+    assert response.json() == {"detail": "App not found"}
 
 
 def test_eol_rebase_all(client):
