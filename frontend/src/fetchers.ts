@@ -233,7 +233,7 @@ export async function fetchGamePackageManagerCategory(
 ): Promise<MeilisearchResponseAppsIndex | { error: string }> {
   return await fetchSubcategory(
     MainCategory.game,
-    ["packageManager"],
+    ["packageManager", "launcherStore"],
     locale,
     page,
     per_page,
@@ -249,7 +249,7 @@ export async function fetchGameUtilityCategory(
 ): Promise<MeilisearchResponseAppsIndex | { error: string }> {
   return await fetchSubcategory(
     MainCategory.game,
-    ["utility", "network"],
+    ["utility", "network", "gameTool"],
     locale,
     page,
     per_page,

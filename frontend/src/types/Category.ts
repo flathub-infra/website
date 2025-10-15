@@ -197,4 +197,6 @@ export const gameCategoryFilter = [
   "packageManager",
   "utility",
   "network",
+  "gameTool",
+  "launcherStore",
 ]
