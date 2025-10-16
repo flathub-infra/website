@@ -1,6 +1,9 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { fetchAppstream, fetchEolRebase } from "../../../../../src/fetchers"
+import {
+  getAppstreamAppstreamAppIdGet,
+  getEolRebaseAppidEolRebaseAppIdGet,
+} from "../../../../../src/codegen"
 import { isValidAppId } from "../../../../../@/lib/helpers"
 import {
   getEolMessageAppidEolMessageAppIdGet,
@@ -42,9 +45,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  const app = await fetchAppstream(appId, locale)
+  try {
+    const appResponse = await getAppstreamAppstreamAppIdGet(appId, { locale })
+    const app = appResponse.data as any
 
-  if ("error" in app) {
+    return {
+      title: app?.name
+        ? `${app.name} ${t("quality.banner-preview")}`
+        : `${t("quality.banner-preview")}`,
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
+  } catch (error) {
     return {
       title: `${t("quality.banner-preview")}`,
       robots: {
@@ -52,16 +66,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         follow: false,
       },
     }
-  }
-
-  return {
-    title: app?.name
-      ? `${app.name} ${t("quality.banner-preview")}`
-      : `${t("quality.banner-preview")}`,
-    robots: {
-      index: false,
-      follow: false,
-    },
   }
 }
 
@@ -84,7 +88,8 @@ export default async function BannerPreviewPage({ params }: Props) {
   }
 
   // Check for EOL rebase
-  const eolRebaseTo = await fetchEolRebase(appId)
+  const eolRebaseResponse = await getEolRebaseAppidEolRebaseAppIdGet(appId)
+  const eolRebaseTo = eolRebaseResponse.data
 
   if (eolRebaseTo) {
     const destination = isFlatpakref
@@ -101,11 +106,8 @@ export default async function BannerPreviewPage({ params }: Props) {
     })
   }
 
-  const app = await fetchAppstream(appId, locale)
-
-  if ("error" in app) {
-    throw new Error(`App fetch error: ${app.error}`)
-  }
+  const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
+  const app = response.data as any
 
   const eolMessageResponse = await getEolMessageAppidEolMessageAppIdGet(
     appId as string,

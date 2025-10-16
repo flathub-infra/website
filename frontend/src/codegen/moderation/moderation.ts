@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   GetModerationAppModerationAppsAppIdGetParams,
   GetModerationAppsModerationAppsGetParams,
@@ -45,6 +47,8 @@ export const getModerationAppsModerationAppsGet = (
   return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/moderation/apps`, {
     ...options,
     params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
   })
 }
 
@@ -223,6 +227,8 @@ export const getModerationAppModerationAppsAppIdGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import fetchCollection from "../../../../../../src/fetchers"
+import { getPopularLastMonthCollectionPopularGet } from "../../../../../../src/codegen"
 import { Metadata } from "next"
 import PopularCollectionClient from "./popular-collection-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
@@ -39,11 +39,12 @@ export default async function PopularCollectionPage({ params }: Props) {
     notFound()
   }
 
-  const applications = await fetchCollection("popular", pageNum, 30, locale)
-
-  if ("error" in applications) {
-    throw new Error(`Collection fetch error: ${applications.error}`)
-  }
+  const response = await getPopularLastMonthCollectionPopularGet({
+    page: pageNum,
+    per_page: 30,
+    locale,
+  })
+  const applications = response.data
 
   if (applications.page > applications.totalPages) {
     notFound()

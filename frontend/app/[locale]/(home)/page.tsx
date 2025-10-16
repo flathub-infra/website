@@ -1,13 +1,15 @@
-import fetchCollection, {
-  fetchAppOfTheDay,
-  fetchAppsOfTheWeek,
-  fetchAppstream,
-  fetchCategory,
-  fetchGameCategory,
-  fetchGameEmulatorCategory,
-  fetchGamePackageManagerCategory,
-  fetchGameUtilityCategory,
-} from "../../../src/fetchers"
+import {
+  getPopularLastMonthCollectionPopularGet,
+  getAppOfTheDayAppPicksAppOfTheDayDateGet,
+  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
+  getAppstreamAppstreamAppIdGet,
+  getCategoryCollectionCategoryCategoryGet,
+  getSubcategoryCollectionCategoryCategorySubcategoriesGet,
+  getRecentlyUpdatedCollectionRecentlyUpdatedGet,
+  getRecentlyAddedCollectionRecentlyAddedGet,
+  getTrendingLastTwoWeeksCollectionTrendingGet,
+  getMobileCollectionMobileGet,
+} from "../../../src/codegen"
 import { APPS_IN_PREVIEW_COUNT } from "../../../src/env"
 import {
   MainCategory,
@@ -19,6 +21,7 @@ import { Appstream, DesktopAppstream } from "../../../src/types/Appstream"
 import HomeClient from "../home-client"
 import { setRequestLocale } from "next-intl/server"
 import { languages } from "../../../src/localize"
+import { gameCategoryFilter } from "../../../src/types/Category"
 
 const categoryOrder = [
   MainCategory.office,
@@ -43,19 +46,30 @@ export async function generateStaticParams() {
 
 async function getCollections(locale: string) {
   const results = await Promise.all([
-    fetchCollection("recently-updated", 1, APPS_IN_PREVIEW_COUNT, locale),
-    fetchCollection("popular", 1, APPS_IN_PREVIEW_COUNT, locale),
-    fetchCollection("recently-added", 1, APPS_IN_PREVIEW_COUNT, locale),
-    fetchCollection("trending", 1, APPS_IN_PREVIEW_COUNT, locale),
-    fetchCollection("mobile", 1, 6, locale),
+    getRecentlyUpdatedCollectionRecentlyUpdatedGet({
+      page: 1,
+      per_page: APPS_IN_PREVIEW_COUNT,
+      locale,
+    }).then((r) => r.data),
+    getPopularLastMonthCollectionPopularGet({
+      page: 1,
+      per_page: APPS_IN_PREVIEW_COUNT,
+      locale,
+    }).then((r) => r.data),
+    getRecentlyAddedCollectionRecentlyAddedGet({
+      page: 1,
+      per_page: APPS_IN_PREVIEW_COUNT,
+      locale,
+    }).then((r) => r.data),
+    getTrendingLastTwoWeeksCollectionTrendingGet({
+      page: 1,
+      per_page: APPS_IN_PREVIEW_COUNT,
+      locale,
+    }).then((r) => r.data),
+    getMobileCollectionMobileGet({ page: 1, per_page: 6, locale }).then(
+      (r) => r.data,
+    ),
   ])
-
-  // Check for any errors and throw to trigger regeneration
-  for (const result of results) {
-    if (result && "error" in result) {
-      throw new Error(`Collection fetch error: ${result.error}`)
-    }
-  }
 
   return results as [
     MeilisearchResponseAppsIndex,
@@ -70,24 +84,19 @@ async function getCategoryData(locale: string) {
   const categoryPromises = Object.keys(MainCategory)
     .filter((category) => category !== "game")
     .map(async (category: MainCategory) => {
-      const appsResult = await fetchCategory(
+      const appsResult = await getCategoryCollectionCategoryCategoryGet(
         category,
-        locale,
-        1,
-        6,
-        [],
-        SortBy.trending,
+        {
+          page: 1,
+          per_page: 6,
+          locale,
+          sort_by: SortBy.trending,
+        },
       )
-
-      if ("error" in appsResult) {
-        throw new Error(
-          `Category fetch error for ${category}: ${appsResult.error}`,
-        )
-      }
 
       return {
         category,
-        apps: appsResult,
+        apps: appsResult.data,
       }
     })
 
@@ -100,70 +109,82 @@ async function getCategoryData(locale: string) {
 }
 
 async function getHeroBanner(dateString: string, locale: string) {
-  const [heroBannerApps, appOfTheDay] = await Promise.all([
-    fetchAppsOfTheWeek(dateString),
-    fetchAppOfTheDay(dateString),
+  const [heroBannerAppsResponse, appOfTheDayResponse] = await Promise.all([
+    getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(dateString),
+    getAppOfTheDayAppPicksAppOfTheDayDateGet(dateString),
   ])
 
-  // Check for errors and throw to trigger regeneration
-  if ("error" in heroBannerApps) {
-    throw new Error(`Hero banner apps fetch error: ${heroBannerApps.error}`)
-  }
-
-  if ("error" in appOfTheDay) {
-    throw new Error(`App of the day fetch error: ${appOfTheDay.error}`)
-  }
+  const heroBannerApps = heroBannerAppsResponse.data
+  const appOfTheDay = appOfTheDayResponse.data
 
   // Fetch appstream data for hero banner
   const heroBannerAppstreams = await Promise.all(
-    heroBannerApps.apps.map(async (app) => fetchAppstream(app.app_id, locale)),
+    heroBannerApps.apps.map(async (app) => {
+      const response = await getAppstreamAppstreamAppIdGet(app.app_id, {
+        locale,
+      })
+      return response.data
+    }),
   )
-
-  // Check for any appstream fetch errors
-  for (const appstream of heroBannerAppstreams) {
-    if ("error" in appstream) {
-      throw new Error(`Hero banner appstream fetch error: ${appstream.error}`)
-    }
-  }
 
   const heroBannerData = heroBannerApps.apps.map((app) => ({
     app: app,
-    appstream: (heroBannerAppstreams as Appstream[]).find(
+    appstream: heroBannerAppstreams.find(
       (a) => a.id === app.app_id,
-    ) as DesktopAppstream,
+    ) as unknown as DesktopAppstream,
   }))
 
-  const appOfTheDayAppstreamResult = await fetchAppstream(
+  const appOfTheDayAppstreamResponse = await getAppstreamAppstreamAppIdGet(
     appOfTheDay.app_id,
-    locale,
+    { locale },
   )
-
-  if ("error" in appOfTheDayAppstreamResult) {
-    throw new Error(
-      `App of the day appstream fetch error: ${appOfTheDayAppstreamResult.error}`,
-    )
-  }
 
   return {
     heroBannerData,
-    appOfTheDayAppstream: appOfTheDayAppstreamResult as DesktopAppstream,
+    appOfTheDayAppstream: appOfTheDayAppstreamResponse.data,
   }
 }
 
 async function getGameData(locale: string) {
   const results = await Promise.all([
-    fetchGameCategory(locale, 1, 12),
-    fetchGameEmulatorCategory(locale, 1, 12),
-    fetchGamePackageManagerCategory(locale, 1, 12),
-    fetchGameUtilityCategory(locale, 1, 12),
+    getCategoryCollectionCategoryCategoryGet(MainCategory.game, {
+      page: 1,
+      per_page: 12,
+      locale,
+      exclude_subcategories: gameCategoryFilter,
+      sort_by: SortBy.trending,
+    }).then((r) => r.data),
+    getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+      MainCategory.game,
+      {
+        page: 1,
+        per_page: 12,
+        locale,
+        subcategory: ["emulator"],
+        sort_by: SortBy.trending,
+      },
+    ).then((r) => r.data),
+    getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+      MainCategory.game,
+      {
+        page: 1,
+        per_page: 12,
+        locale,
+        subcategory: ["packageManager"],
+        sort_by: SortBy.trending,
+      },
+    ).then((r) => r.data),
+    getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+      MainCategory.game,
+      {
+        page: 1,
+        per_page: 12,
+        locale,
+        subcategory: ["utility", "network"],
+        sort_by: SortBy.trending,
+      },
+    ).then((r) => r.data),
   ])
-
-  // Check for any errors and throw to trigger regeneration
-  for (const result of results) {
-    if (result && "error" in result) {
-      throw new Error(`Game data fetch error: ${result.error}`)
-    }
-  }
 
   return results as [
     MeilisearchResponseAppsIndex,
@@ -209,7 +230,7 @@ export default async function HomePage({
       popular={popular}
       topAppsByCategory={topAppsByCategory}
       heroBannerData={heroBannerData}
-      appOfTheDayAppstream={appOfTheDayAppstream}
+      appOfTheDayAppstream={appOfTheDayAppstream as unknown as DesktopAppstream}
       mobile={mobile}
       games={games}
       emulators={emulators}

@@ -1,5 +1,8 @@
 import { notFound } from "next/navigation"
-import { fetchAppstream, fetchVendingConfig } from "../../../../../src/fetchers"
+import {
+  getAppstreamAppstreamAppIdGet,
+  getGlobalVendingConfigVendingConfigGet,
+} from "../../../../../src/codegen"
 import { Metadata } from "next"
 import PurchaseClient from "./purchase-client"
 import { getTranslations } from "next-intl/server"
@@ -15,13 +18,8 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations()
   const { appId, locale } = await params
-  const app = await fetchAppstream(appId, locale)
-
-  if ("error" in app || !app) {
-    return {
-      title: t("whoops"),
-    }
-  }
+  const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
+  const app = response.data
 
   const vendingSetup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
     withCredentials: true,
@@ -43,18 +41,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PurchasePage({ params }: Props) {
   const { appId, locale } = await params
-  const [app, vendingConfig] = await Promise.all([
-    fetchAppstream(appId, locale),
-    fetchVendingConfig(),
+  const [appResponse, vendingConfigResponse] = await Promise.all([
+    getAppstreamAppstreamAppIdGet(appId, { locale }),
+    getGlobalVendingConfigVendingConfigGet(),
   ])
 
-  if ("error" in app || !app) {
+  if (appResponse.status !== 200 || !appResponse.data) {
     notFound()
   }
 
-  if ("error" in vendingConfig) {
-    throw new Error("Vending config not found")
-  }
+  const app = appResponse.data
+  const vendingConfig = vendingConfigResponse.data
 
-  return <PurchaseClient app={app} vendingConfig={vendingConfig} />
+  return <PurchaseClient app={app as any} vendingConfig={vendingConfig} />
 }

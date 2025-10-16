@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AppRoutesInvitesDevelopersResponse,
   InviteDeveloperInvitesAppIdInvitePostParams,
@@ -218,6 +220,8 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -755,6 +759,8 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -873,6 +879,8 @@ export const revokeInviteInvitesAppIdRevokePost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }

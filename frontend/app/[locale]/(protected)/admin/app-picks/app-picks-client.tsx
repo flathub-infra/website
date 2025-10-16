@@ -14,7 +14,10 @@ import { FlathubCombobox } from "src/components/Combobox"
 import Spinner from "src/components/Spinner"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { useUserContext } from "src/context/user-info"
-import { fetchAppsOfTheWeek, fetchAppstream } from "src/fetchers"
+import {
+  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
+  getAppstreamAppstreamAppIdGet,
+} from "src/codegen"
 import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 import clsx from "clsx"
 import { CheckIcon } from "@heroicons/react/20/solid"
@@ -126,35 +129,27 @@ export default function AppPicksClient() {
   const queryAppsOfTheWeek = useQuery({
     queryKey: ["apps-of-the-week", date],
     queryFn: async () => {
-      const getAppsOfTheWeek = await fetchAppsOfTheWeek(
+      const response = await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
         formatISO(date, { representation: "date" }),
       )
 
-      if ("error" in getAppsOfTheWeek) {
-        throw new Error(
-          `Apps of the week fetch error: ${getAppsOfTheWeek.error}`,
-        )
-      }
+      const getAppsOfTheWeek = response.data
 
       const heroBannerAppstreams = await Promise.all(
-        getAppsOfTheWeek.apps.map(async (app) =>
-          fetchAppstream(app.app_id, "en"),
-        ),
+        getAppsOfTheWeek.apps.map(async (app) => {
+          const res = await getAppstreamAppstreamAppIdGet(app.app_id, {
+            locale: "en",
+          })
+          return res.data
+        }),
       )
-
-      // Check for errors in appstream fetches
-      for (const appstream of heroBannerAppstreams) {
-        if ("error" in appstream) {
-          throw new Error(`Appstream fetch error: ${appstream.error}`)
-        }
-      }
 
       const heroBannerData = getAppsOfTheWeek.apps.map((app) => {
         return {
           app: app,
           appstream: heroBannerAppstreams.find(
-            (a) => (a as DesktopAppstream).id === app.app_id,
-          ) as DesktopAppstream,
+            (a) => (a as any).id === app.app_id,
+          ) as unknown as DesktopAppstream,
         }
       })
 
@@ -164,11 +159,11 @@ export default function AppPicksClient() {
         )
 
         if (currentApp) {
-          const appInfo = await fetchAppstream(currentApp.app_id, "en")
-
-          if ("error" in appInfo) {
-            throw new Error(`App info fetch error: ${appInfo.error}`)
-          }
+          const appInfoRes = await getAppstreamAppstreamAppIdGet(
+            currentApp.app_id,
+            { locale: "en" },
+          )
+          const appInfo = appInfoRes.data as any
 
           return {
             id: appInfo.id,
@@ -209,13 +204,10 @@ export default function AppPicksClient() {
 
       const passingApps = await Promise.all(
         getAppsWithQuality.data.recommendations.map(async (app) => {
-          const appstream = await fetchAppstream(app.app_id, "en")
-
-          if ("error" in appstream) {
-            throw new Error(
-              `Appstream fetch error for ${app.app_id}: ${appstream.error}`,
-            )
-          }
+          const appstreamRes = await getAppstreamAppstreamAppIdGet(app.app_id, {
+            locale: "en",
+          })
+          const appstream = appstreamRes.data
 
           return {
             id: app.app_id,
@@ -223,7 +215,7 @@ export default function AppPicksClient() {
             lastTimeAppOfTheWeek: app.lastTimeAppOfTheWeek,
             numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
             numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
-            appstream: appstream,
+            appstream: appstream as any,
           }
         }),
       )

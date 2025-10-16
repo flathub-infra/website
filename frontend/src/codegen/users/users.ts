@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AddUserRoleUsersUserIdRolePostParams,
   DeleteUserRoleUsersUserIdRoleDeleteParams,
@@ -43,6 +45,8 @@ export const usersUsersGet = (
   return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/users`, {
     ...options,
     params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
   })
 }
 
@@ -518,6 +522,8 @@ export const addUserRoleUsersUserIdRolePost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -610,6 +616,8 @@ export const deleteUserRoleUsersUserIdRoleDelete = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }

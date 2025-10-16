@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AppstreamResponse,
   FavoriteApp,
@@ -211,6 +213,8 @@ export const getEolRebaseAppidEolRebaseAppIdGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -557,6 +561,8 @@ export const getEolMessageAppidEolMessageAppIdGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -747,6 +753,8 @@ export const listAppstreamAppstreamGet = (
   return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`, {
     ...options,
     params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
   })
 }
 
@@ -924,6 +932,8 @@ export const getAppstreamAppstreamAppIdGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1299,6 +1309,8 @@ export const postSearchSearchPost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1544,6 +1556,8 @@ export const getSummarySummaryAppIdGet = (
   return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
   })
 }
 

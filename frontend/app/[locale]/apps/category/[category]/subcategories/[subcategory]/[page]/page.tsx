@@ -1,12 +1,10 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { SortBy } from "../../../../../../../../src/codegen"
 import {
-  fetchSubcategory,
-  fetchGameUtilityCategory,
-  fetchGameEmulatorCategory,
-  fetchGamePackageManagerCategory,
-} from "../../../../../../../../src/fetchers"
+  SortBy,
+  getSubcategoryCollectionCategoryCategorySubcategoriesGet,
+  MainCategory,
+} from "../../../../../../../../src/codegen"
 import {
   gameCategoryFilter,
   stringToCategory,
@@ -63,21 +61,57 @@ export default async function SubcategoryPage({ params }: Props) {
 
   try {
     if (subcategory === "Emulator") {
-      applications = await fetchGameEmulatorCategory(locale, page, 30)
+      const response =
+        await getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+          MainCategory.game,
+          {
+            page,
+            per_page: 30,
+            locale,
+            subcategory: ["emulator"],
+            sort_by: SortBy.trending,
+          },
+        )
+      applications = response.data
     } else if (subcategory === "Launcher") {
-      applications = await fetchGamePackageManagerCategory(locale, page, 30)
+      const response =
+        await getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+          MainCategory.game,
+          {
+            page,
+            per_page: 30,
+            locale,
+            subcategory: ["packageManager"],
+            sort_by: SortBy.trending,
+          },
+        )
+      applications = response.data
     } else if (subcategory === "Tool") {
-      applications = await fetchGameUtilityCategory(locale, page, 30)
+      const response =
+        await getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+          MainCategory.game,
+          {
+            page,
+            per_page: 30,
+            locale,
+            subcategory: ["utility", "network"],
+            sort_by: SortBy.trending,
+          },
+        )
+      applications = response.data
     } else {
-      applications = await fetchSubcategory(
-        mainCategory,
-        [subcategory],
-        locale,
-        page,
-        30,
-        mainCategory === "game" ? gameCategoryFilter : [],
-        SortBy.trending,
-      )
+      const response =
+        await getSubcategoryCollectionCategoryCategorySubcategoriesGet(
+          mainCategory,
+          {
+            page,
+            per_page: 30,
+            locale,
+            subcategory: [subcategory],
+            sort_by: SortBy.trending,
+          },
+        )
+      applications = response.data
     }
   } catch (error) {
     console.error(

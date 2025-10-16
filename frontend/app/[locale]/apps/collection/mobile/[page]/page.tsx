@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import fetchCollection from "../../../../../../src/fetchers"
+import { getMobileCollectionMobileGet } from "../../../../../../src/codegen"
 import { Metadata } from "next"
 import MobileCollectionClient from "./mobile-collection-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
@@ -39,11 +39,12 @@ export default async function MobileCollectionPage({ params }: Props) {
     notFound()
   }
 
-  const applications = await fetchCollection("mobile", pageNum, 30, locale)
-
-  if ("error" in applications) {
-    throw new Error(`Collection fetch error: ${applications.error}`)
-  }
+  const response = await getMobileCollectionMobileGet({
+    page: pageNum,
+    per_page: 30,
+    locale,
+  })
+  const applications = response.data
 
   if (applications.page > applications.totalPages) {
     notFound()

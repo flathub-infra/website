@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { fetchDeveloperApps } from "../../../../../../../src/fetchers"
+import { getDeveloperCollectionDeveloperDeveloperGet } from "../../../../../../../src/codegen"
 import { Metadata } from "next"
 import DeveloperCollectionClient from "./developer-collection-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
@@ -42,11 +42,15 @@ export default async function DeveloperCollectionPage({ params }: Props) {
   }
 
   const developerDecoded = decodeURIComponent(developer)
-  const applications = await fetchDeveloperApps(developer, locale, pageNum, 30)
-
-  if ("error" in applications) {
-    throw new Error(`Developer apps fetch error: ${applications.error}`)
-  }
+  const response = await getDeveloperCollectionDeveloperDeveloperGet(
+    developer,
+    {
+      page: pageNum,
+      per_page: 30,
+      locale,
+    },
+  )
+  const applications = response.data
 
   if (applications.page > applications.totalPages) {
     notFound()
