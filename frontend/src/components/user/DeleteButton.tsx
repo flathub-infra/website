@@ -24,7 +24,7 @@ const DeleteButton: FunctionComponent = () => {
     mutationKey: ["prepare-delete"],
     mutationFn: async () =>
       getDeleteuserAuthDeleteuserGet({
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: (data) => {
       setToken(data.data.token)
@@ -47,7 +47,7 @@ const DeleteButton: FunctionComponent = () => {
       doDeleteuserAuthDeleteuserPost(
         { token },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {

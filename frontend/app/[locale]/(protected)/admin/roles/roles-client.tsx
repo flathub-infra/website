@@ -15,9 +15,7 @@ import { Link } from "src/i18n/navigation"
 
 export default function RolesClient() {
   const rolesQuery = useRolesUsersRolesGet({
-    axios: {
-      withCredentials: true,
-    },
+    fetch: { credentials: "include" },
   })
 
   return (
@@ -55,8 +53,8 @@ export default function RolesClient() {
 
 const UserList = ({ role }: { role: string }) => {
   const query = useRoleUsersUsersRolesRoleNameGet(role as RoleName, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 

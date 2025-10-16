@@ -33,7 +33,7 @@ const NavigatePreviousNext = ({ appId }) => {
           limit: 9999,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       )
@@ -129,7 +129,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       ),

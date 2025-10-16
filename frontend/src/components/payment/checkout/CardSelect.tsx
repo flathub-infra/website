@@ -46,10 +46,10 @@ const CardSelect: FunctionComponent<Props> = ({
       if (!useCard) return
 
       await setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
-        withCredentials: true,
+        credentials: "include",
       })
       return await setPendingWalletTransactionsTxnSetpendingPost(id, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: async () => {

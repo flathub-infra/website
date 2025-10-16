@@ -27,8 +27,8 @@ export default function PaymentClient({
   const stripe = loadStripe(stripePublicKey)
 
   const query = useGetTransactionByIdWalletTransactionsTxnGet(transactionId, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     query: {
       enabled: !!transactionId,
@@ -38,8 +38,8 @@ export default function PaymentClient({
   const queryStripe = useGetTxnStripedataWalletTransactionsTxnStripeGet(
     transactionId,
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       query: {
         enabled: !!transactionId,

@@ -92,7 +92,7 @@ const QualityReviewButton = ({
           setModalVisible(false)
         },
       },
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
     })
 
   if (status?.passes) {
@@ -178,7 +178,7 @@ export const QualityModeration = ({
 
   const query =
     useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
       query: {
         enabled: !!requirement,
       },
@@ -193,7 +193,7 @@ export const QualityModeration = ({
       offset: 0,
     },
     {
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
       query: {
         enabled: isModerator,
       },

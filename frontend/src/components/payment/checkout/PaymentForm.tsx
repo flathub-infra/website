@@ -43,14 +43,14 @@ const PaymentForm: FunctionComponent<Props> = ({
           transactionId,
           { save_card: "on_session" },
           {
-            withCredentials: true,
+            credentials: "include",
           },
         )
       }
       return await setPendingWalletTransactionsTxnSetpendingPost(
         transactionId,
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
     },

@@ -29,7 +29,7 @@ export default function PurchaseClient({ app, vendingConfig }: Props) {
   })
 
   const vendingSetup = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
     query: {
       enabled: !!app.id,
     },

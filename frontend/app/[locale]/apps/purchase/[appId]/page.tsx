@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const vendingSetup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-    withCredentials: true,
+    credentials: "include",
   })
 
   // When the minimum payment is 0, the application does not require payment

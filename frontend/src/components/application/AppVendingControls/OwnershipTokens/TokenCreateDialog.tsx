@@ -32,7 +32,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     mutationKey: ["create-token", app.id, names],
     mutationFn: () => {
       return createTokensVendingappAppIdTokensPost(app.id, names, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: () => {

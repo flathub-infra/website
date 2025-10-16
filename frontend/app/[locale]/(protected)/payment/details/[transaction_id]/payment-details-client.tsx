@@ -16,8 +16,8 @@ export default function PaymentDetailsClient({ transactionId }: Props) {
   const t = useTranslations()
 
   const query = useGetTransactionByIdWalletTransactionsTxnGet(transactionId, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     query: {
       enabled: !!transactionId,

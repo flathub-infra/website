@@ -48,7 +48,7 @@ const TransactionHistory: FunctionComponent = () => {
           limit: perPage,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
         .then(addNewPage)

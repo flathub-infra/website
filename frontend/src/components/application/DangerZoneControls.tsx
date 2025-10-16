@@ -24,7 +24,7 @@ const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const switchToDirectUploadMutation = useMutation({
     mutationFn: () =>
       switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: () => {
       setModalVisible(false)
@@ -68,7 +68,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
           endoflife_rebase: endoflifeRebase,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {
@@ -132,7 +132,7 @@ export default function DangerZoneControls({
       include_expired: false,
     },
     {
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
       query: {
         enabled: !!app.id,
       },

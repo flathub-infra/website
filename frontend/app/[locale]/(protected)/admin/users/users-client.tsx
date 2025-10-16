@@ -49,8 +49,8 @@ export default function UsersClient() {
       filterString: filterString,
     },
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
     },
   )

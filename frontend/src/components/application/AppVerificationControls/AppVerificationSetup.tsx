@@ -74,8 +74,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       app.id,
       { new_app: isNewApp },
       {
-        axios: {
-          withCredentials: true,
+        fetch: {
+          credentials: "include",
         },
         query: {
           retry: false,
@@ -135,7 +135,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                   setConfirmUnverify(false)
 
                   unverifyVerificationAppIdUnverifyPost(app.id, {
-                    withCredentials: true,
+                    credentials: "include",
                   }).then(() => {
                     query.refetch()
                   })

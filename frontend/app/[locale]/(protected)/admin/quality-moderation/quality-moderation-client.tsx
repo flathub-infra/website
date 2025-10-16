@@ -63,7 +63,7 @@ export default function QualityModerationClient() {
       filter: filteredBy,
     },
     {
-      axios: { withCredentials: true },
+      fetch: { credentials: "include" },
       query: {
         enabled: !!user.info?.permissions.some(
           (a) => a === Permission["quality-moderation"],

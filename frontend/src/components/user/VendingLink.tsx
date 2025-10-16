@@ -28,7 +28,7 @@ const VendingLink: FunctionComponent = () => {
     queryKey: ["/vending/status"],
     queryFn: () =>
       statusVendingStatusGet({
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -37,7 +37,7 @@ const VendingLink: FunctionComponent = () => {
     queryKey: ["/vending/status/dashboardlink"],
     queryFn: () =>
       getDashboardLinkVendingStatusDashboardlinkGet({
-        withCredentials: true,
+        credentials: "include",
       }),
 
     enabled: statusQuery.isSuccess && statusQuery.data.data.details_submitted,
@@ -50,7 +50,7 @@ const VendingLink: FunctionComponent = () => {
           return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/developer-portal`,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (data) => {

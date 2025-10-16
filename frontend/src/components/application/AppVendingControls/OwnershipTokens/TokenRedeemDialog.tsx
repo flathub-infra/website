@@ -26,7 +26,7 @@ const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
       setText("")
 
       return redeemTokenVendingappAppIdTokensRedeemTokenPost(app.id, token, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: (data) => {

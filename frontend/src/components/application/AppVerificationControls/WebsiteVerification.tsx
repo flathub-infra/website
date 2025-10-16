@@ -37,7 +37,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         appId,
         { new_app: isNewApp },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (result) => setReturnedToken(result.data.token),
@@ -50,7 +50,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         appId,
         { new_app: isNewApp },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (result) => {

@@ -76,7 +76,7 @@ const Details: FunctionComponent<Props> = ({
     queryKey: ["appVendingSetup", app.id],
     queryFn: () => {
       return getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     enabled: !!app.id && !IS_PRODUCTION,

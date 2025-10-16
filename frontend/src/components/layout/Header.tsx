@@ -109,7 +109,7 @@ const Header = () => {
     mutationKey: ["logout"],
     mutationFn: () =>
       doLogoutAuthLogoutPost({
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: () => {
       dispatch({ type: "logout" })

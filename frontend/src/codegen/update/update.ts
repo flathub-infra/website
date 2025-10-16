@@ -12,24 +12,51 @@ import type {
   UseMutationResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 /**
  * @summary Update
  */
-export const updateUpdatePost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/update`,
-    undefined,
-    options,
-  )
+export type updateUpdatePostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type updateUpdatePostResponse500 = {
+  data: null
+  status: 500
+}
+
+export type updateUpdatePostResponseComposite =
+  | updateUpdatePostResponse200
+  | updateUpdatePostResponse500
+
+export type updateUpdatePostResponse = updateUpdatePostResponseComposite & {
+  headers: Headers
+}
+
+export const getUpdateUpdatePostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/update`
+}
+
+export const updateUpdatePost = async (
+  options?: RequestInit,
+): Promise<updateUpdatePostResponse> => {
+  const res = await fetch(getUpdateUpdatePostUrl(), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: updateUpdatePostResponse["data"] = body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as updateUpdatePostResponse
 }
 
 export const getUpdateUpdatePostMutationOptions = <
-  TError = AxiosError<null>,
+  TError = null,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -38,7 +65,7 @@ export const getUpdateUpdatePostMutationOptions = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateUpdatePost>>,
   TError,
@@ -46,19 +73,19 @@ export const getUpdateUpdatePostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["updateUpdatePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateUpdatePost>>,
     void
   > = () => {
-    return updateUpdatePost(axiosOptions)
+    return updateUpdatePost(fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -68,15 +95,12 @@ export type UpdateUpdatePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof updateUpdatePost>>
 >
 
-export type UpdateUpdatePostMutationError = AxiosError<null>
+export type UpdateUpdatePostMutationError = null
 
 /**
  * @summary Update
  */
-export const useUpdateUpdatePost = <
-  TError = AxiosError<null>,
-  TContext = unknown,
->(
+export const useUpdateUpdatePost = <TError = null, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateUpdatePost>>,
@@ -84,7 +108,7 @@ export const useUpdateUpdatePost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -100,18 +124,51 @@ export const useUpdateUpdatePost = <
 /**
  * @summary Update Stats
  */
-export const updateStatsUpdateStatsPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/update/stats`,
-    undefined,
-    options,
-  )
+export type updateStatsUpdateStatsPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type updateStatsUpdateStatsPostResponse500 = {
+  data: null
+  status: 500
+}
+
+export type updateStatsUpdateStatsPostResponseComposite =
+  | updateStatsUpdateStatsPostResponse200
+  | updateStatsUpdateStatsPostResponse500
+
+export type updateStatsUpdateStatsPostResponse =
+  updateStatsUpdateStatsPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getUpdateStatsUpdateStatsPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/update/stats`
+}
+
+export const updateStatsUpdateStatsPost = async (
+  options?: RequestInit,
+): Promise<updateStatsUpdateStatsPostResponse> => {
+  const res = await fetch(getUpdateStatsUpdateStatsPostUrl(), {
+    ...options,
+    method: "POST",
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: updateStatsUpdateStatsPostResponse["data"] = body
+    ? JSON.parse(body)
+    : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as updateStatsUpdateStatsPostResponse
 }
 
 export const getUpdateStatsUpdateStatsPostMutationOptions = <
-  TError = AxiosError<null>,
+  TError = null,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -120,7 +177,7 @@ export const getUpdateStatsUpdateStatsPostMutationOptions = <
     void,
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
   TError,
@@ -128,19 +185,19 @@ export const getUpdateStatsUpdateStatsPostMutationOptions = <
   TContext
 > => {
   const mutationKey = ["updateStatsUpdateStatsPost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
+  const { mutation: mutationOptions, fetch: fetchOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
+    : { mutation: { mutationKey }, fetch: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>,
     void
   > = () => {
-    return updateStatsUpdateStatsPost(axiosOptions)
+    return updateStatsUpdateStatsPost(fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -150,13 +207,13 @@ export type UpdateStatsUpdateStatsPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof updateStatsUpdateStatsPost>>
 >
 
-export type UpdateStatsUpdateStatsPostMutationError = AxiosError<null>
+export type UpdateStatsUpdateStatsPostMutationError = null
 
 /**
  * @summary Update Stats
  */
 export const useUpdateStatsUpdateStatsPost = <
-  TError = AxiosError<null>,
+  TError = null,
   TContext = unknown,
 >(
   options?: {
@@ -166,7 +223,7 @@ export const useUpdateStatsUpdateStatsPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -183,18 +240,54 @@ export const useUpdateStatsUpdateStatsPost = <
  * Process any pending transfers which may be in the system
  * @summary Process Transfers
  */
-export const processTransfersUpdateProcessPendingTransfersPost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/update/process-pending-transfers`,
-    undefined,
-    options,
+export type processTransfersUpdateProcessPendingTransfersPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type processTransfersUpdateProcessPendingTransfersPostResponse500 = {
+  data: null
+  status: 500
+}
+
+export type processTransfersUpdateProcessPendingTransfersPostResponseComposite =
+
+    | processTransfersUpdateProcessPendingTransfersPostResponse200
+    | processTransfersUpdateProcessPendingTransfersPostResponse500
+
+export type processTransfersUpdateProcessPendingTransfersPostResponse =
+  processTransfersUpdateProcessPendingTransfersPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getProcessTransfersUpdateProcessPendingTransfersPostUrl = () => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/update/process-pending-transfers`
+}
+
+export const processTransfersUpdateProcessPendingTransfersPost = async (
+  options?: RequestInit,
+): Promise<processTransfersUpdateProcessPendingTransfersPostResponse> => {
+  const res = await fetch(
+    getProcessTransfersUpdateProcessPendingTransfersPostUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: processTransfersUpdateProcessPendingTransfersPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as processTransfersUpdateProcessPendingTransfersPostResponse
 }
 
 export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions =
-  <TError = AxiosError<null>, TContext = unknown>(options?: {
+  <TError = null, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
@@ -203,7 +296,7 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof processTransfersUpdateProcessPendingTransfersPost>
@@ -213,13 +306,13 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions
     TContext
   > => {
     const mutationKey = ["processTransfersUpdateProcessPendingTransfersPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -227,7 +320,7 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions
       >,
       void
     > = () => {
-      return processTransfersUpdateProcessPendingTransfersPost(axiosOptions)
+      return processTransfersUpdateProcessPendingTransfersPost(fetchOptions)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -241,13 +334,13 @@ export type ProcessTransfersUpdateProcessPendingTransfersPostMutationResult =
   >
 
 export type ProcessTransfersUpdateProcessPendingTransfersPostMutationError =
-  AxiosError<null>
+  null
 
 /**
  * @summary Process Transfers
  */
 export const useProcessTransfersUpdateProcessPendingTransfersPost = <
-  TError = AxiosError<null>,
+  TError = null,
   TContext = unknown,
 >(
   options?: {
@@ -259,7 +352,7 @@ export const useProcessTransfersUpdateProcessPendingTransfersPost = <
       void,
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<

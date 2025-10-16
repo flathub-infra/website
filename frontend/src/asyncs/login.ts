@@ -3,7 +3,6 @@ import { Dispatch } from "react"
 import { LOGIN_PROVIDERS_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserStateAction } from "../types/Login"
-import { AxiosResponse } from "axios"
 import { UserInfo } from "src/codegen/model/userInfo"
 import { getUserinfoAuthUserinfoGet } from "src/codegen"
 
@@ -67,10 +66,9 @@ export async function getUserData(
   dispatch({ type: "loading" })
 
   // On network error just assume user state is unchanged
-  let res: AxiosResponse<UserInfo, any>
   try {
     // Gets data for user with current session cookie
-    res = await getUserinfoAuthUserinfoGet({ withCredentials: true })
+    const res = await getUserinfoAuthUserinfoGet({ credentials: "include" })
 
     // Assuming a bad status indicates unchanged user state
     // A no content status response indicates the user is not logged in

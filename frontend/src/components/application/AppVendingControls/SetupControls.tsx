@@ -45,7 +45,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     queryKey: ["/vending/status"],
     queryFn: () =>
       statusVendingStatusGet({
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -54,7 +54,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     queryKey: ["appVendingSetup", app.id],
     queryFn: () =>
       getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -111,7 +111,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             : 0,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (data) => {

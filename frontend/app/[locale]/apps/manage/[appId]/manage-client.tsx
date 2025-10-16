@@ -80,7 +80,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
 
   const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
     query: { enabled: !!app.id },
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
   })
 
   const isAnApp = [
@@ -99,7 +99,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
   ]
 
   const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
     query: { enabled: !!app.id },
   })
 

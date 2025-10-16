@@ -20,9 +20,6 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query"
 
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-
 import type {
   AppPickRecommendationsResponse,
   FailedByGuideline,
@@ -40,17 +37,89 @@ import type {
 /**
  * @summary Get Quality Moderation Status
  */
-export const getQualityModerationStatusQualityModerationStatusGet = (
+export type getQualityModerationStatusQualityModerationStatusGetResponse200 = {
+  data: QualityModerationDashboardResponse
+  status: 200
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse400 = {
+  data: null
+  status: 400
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse401 = {
+  data: null
+  status: 401
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse403 = {
+  data: null
+  status: 403
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse422 = {
+  data: null
+  status: 422
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse500 = {
+  data: null
+  status: 500
+}
+
+export type getQualityModerationStatusQualityModerationStatusGetResponseComposite =
+
+    | getQualityModerationStatusQualityModerationStatusGetResponse200
+    | getQualityModerationStatusQualityModerationStatusGetResponse400
+    | getQualityModerationStatusQualityModerationStatusGetResponse401
+    | getQualityModerationStatusQualityModerationStatusGetResponse403
+    | getQualityModerationStatusQualityModerationStatusGetResponse422
+    | getQualityModerationStatusQualityModerationStatusGetResponse500
+
+export type getQualityModerationStatusQualityModerationStatusGetResponse =
+  getQualityModerationStatusQualityModerationStatusGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationStatusQualityModerationStatusGetUrl = (
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationDashboardResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status`,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status`
+}
+
+export const getQualityModerationStatusQualityModerationStatusGet = async (
+  params?: GetQualityModerationStatusQualityModerationStatusGetParams,
+  options?: RequestInit,
+): Promise<getQualityModerationStatusQualityModerationStatusGetResponse> => {
+  const res = await fetch(
+    getGetQualityModerationStatusQualityModerationStatusGetUrl(params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "GET",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getQualityModerationStatusQualityModerationStatusGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getQualityModerationStatusQualityModerationStatusGetResponse
 }
 
 export const getGetQualityModerationStatusQualityModerationStatusGetQueryKey = (
@@ -67,7 +136,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
     TData = Awaited<
       ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
     >,
-    TError = AxiosError<null | null | null | null>,
+    TError = null | null | null | null | null,
   >(
     params?: GetQualityModerationStatusQualityModerationStatusGetParams,
     options?: {
@@ -82,10 +151,10 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -98,7 +167,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
     > = ({ signal }) =>
       getQualityModerationStatusQualityModerationStatusGet(params, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -117,13 +186,17 @@ export type GetQualityModerationStatusQualityModerationStatusGetQueryResult =
     >
   >
 export type GetQualityModerationStatusQualityModerationStatusGetQueryError =
-  AxiosError<null | null | null | null>
+  | null
+  | null
+  | null
+  | null
+  | null
 
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   params:
     | undefined
@@ -156,7 +229,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -166,7 +239,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -197,7 +270,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -207,7 +280,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -222,7 +295,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -236,7 +309,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: {
@@ -251,7 +324,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -276,17 +349,77 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
 /**
  * @summary Get Passing Quality Apps
  */
-export const getPassingQualityAppsQualityModerationPassingAppsGet = (
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse200 = {
+  data: SimpleQualityModerationResponse
+  status: 200
+}
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse400 = {
+  data: null
+  status: 400
+}
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse422 = {
+  data: null
+  status: 422
+}
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse500 = {
+  data: null
+  status: 500
+}
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponseComposite =
+
+    | getPassingQualityAppsQualityModerationPassingAppsGetResponse200
+    | getPassingQualityAppsQualityModerationPassingAppsGetResponse400
+    | getPassingQualityAppsQualityModerationPassingAppsGetResponse422
+    | getPassingQualityAppsQualityModerationPassingAppsGetResponse500
+
+export type getPassingQualityAppsQualityModerationPassingAppsGetResponse =
+  getPassingQualityAppsQualityModerationPassingAppsGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetPassingQualityAppsQualityModerationPassingAppsGetUrl = (
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<SimpleQualityModerationResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps`,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps`
+}
+
+export const getPassingQualityAppsQualityModerationPassingAppsGet = async (
+  params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
+  options?: RequestInit,
+): Promise<getPassingQualityAppsQualityModerationPassingAppsGetResponse> => {
+  const res = await fetch(
+    getGetPassingQualityAppsQualityModerationPassingAppsGetUrl(params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "GET",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getPassingQualityAppsQualityModerationPassingAppsGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPassingQualityAppsQualityModerationPassingAppsGetResponse
 }
 
 export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryKey = (
@@ -303,7 +436,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
     TData = Awaited<
       ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
     >,
-    TError = AxiosError<null | null>,
+    TError = null | null | null,
   >(
     params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
     options?: {
@@ -318,10 +451,10 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -334,7 +467,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
     > = ({ signal }) =>
       getPassingQualityAppsQualityModerationPassingAppsGet(params, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -353,13 +486,15 @@ export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryResult =
     >
   >
 export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryError =
-  AxiosError<null | null>
+  | null
+  | null
+  | null
 
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<null | null>,
+  TError = null | null | null,
 >(
   params:
     | undefined
@@ -392,7 +527,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -402,7 +537,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<null | null>,
+  TError = null | null | null,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -433,7 +568,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -443,7 +578,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<null | null>,
+  TError = null | null | null,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -458,7 +593,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -472,7 +607,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
   >,
-  TError = AxiosError<null | null>,
+  TError = null | null | null,
 >(
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: {
@@ -487,7 +622,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -512,18 +647,92 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
 /**
  * @summary Get App Pick Recommendations
  */
-export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet =
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse200 =
+  {
+    data: AppPickRecommendationsResponse
+    status: 200
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse401 =
+  {
+    data: null
+    status: 401
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse403 =
+  {
+    data: null
+    status: 403
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse422 =
+  {
+    data: null
+    status: 422
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse500 =
+  {
+    data: null
+    status: 500
+  }
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseComposite =
+
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse200
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse401
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse403
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse422
+    | getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse500
+
+export type getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse =
+  getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetUrl =
   (
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
-    options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<AppPickRecommendationsResponse>> => {
-    return axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations`,
+  ) => {
+    const normalizedParams = new URLSearchParams()
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (value !== undefined) {
+        normalizedParams.append(key, value === null ? "null" : value.toString())
+      }
+    })
+
+    const stringifiedParams = normalizedParams.toString()
+
+    return stringifiedParams.length > 0
+      ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations?${stringifiedParams}`
+      : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations`
+  }
+
+export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet =
+  async (
+    params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+    options?: RequestInit,
+  ): Promise<getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse> => {
+    const res = await fetch(
+      getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetUrl(
+        params,
+      ),
       {
         ...options,
-        params: { ...params, ...options?.params },
+        method: "GET",
       },
     )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponse
   }
 
 export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryKey =
@@ -543,7 +752,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
         typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
       >
     >,
-    TError = AxiosError<null | null | null | null>,
+    TError = null | null | null | null,
   >(
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
     options?: {
@@ -558,10 +767,10 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -578,7 +787,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
     > = ({ signal }) =>
       getAppPickRecommendationsQualityModerationAppPickRecommendationsGet(
         params,
-        { signal, ...axiosOptions },
+        { signal, ...fetchOptions },
       )
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -601,7 +810,7 @@ export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQ
     >
   >
 export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryError =
-  AxiosError<null | null | null | null>
+  null | null | null | null
 
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
@@ -609,7 +818,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null,
 >(
   params:
     | undefined
@@ -642,7 +851,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -654,7 +863,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -685,7 +894,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -697,7 +906,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -712,7 +921,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -728,7 +937,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
       typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     >
   >,
-  TError = AxiosError<null | null | null | null>,
+  TError = null | null | null | null,
 >(
   params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   options?: {
@@ -743,7 +952,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -768,14 +977,69 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
 /**
  * @summary Get Quality Moderation Stats
  */
-export const getQualityModerationStatsQualityModerationFailedByGuidelineGet = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<FailedByGuideline[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/failed-by-guideline`,
-    options,
-  )
-}
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse200 =
+  {
+    data: FailedByGuideline[]
+    status: 200
+  }
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse401 =
+  {
+    data: null
+    status: 401
+  }
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse403 =
+  {
+    data: null
+    status: 403
+  }
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse500 =
+  {
+    data: null
+    status: 500
+  }
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponseComposite =
+
+    | getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse200
+    | getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse401
+    | getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse403
+    | getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse500
+
+export type getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse =
+  getQualityModerationStatsQualityModerationFailedByGuidelineGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetUrl =
+  () => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/failed-by-guideline`
+  }
+
+export const getQualityModerationStatsQualityModerationFailedByGuidelineGet =
+  async (
+    options?: RequestInit,
+  ): Promise<getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse> => {
+    const res = await fetch(
+      getGetQualityModerationStatsQualityModerationFailedByGuidelineGetUrl(),
+      {
+        ...options,
+        method: "GET",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getQualityModerationStatsQualityModerationFailedByGuidelineGetResponse
+  }
 
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryKey =
   () => {
@@ -791,7 +1055,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
         typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
       >
     >,
-    TError = AxiosError<null | null | null>,
+    TError = null | null | null,
   >(options?: {
     query?: Partial<
       UseQueryOptions<
@@ -804,9 +1068,9 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -821,7 +1085,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
     > = ({ signal }) =>
       getQualityModerationStatsQualityModerationFailedByGuidelineGet({
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
@@ -844,7 +1108,7 @@ export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryR
     >
   >
 export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryError =
-  AxiosError<null | null | null>
+  null | null | null
 
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
@@ -852,7 +1116,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<null | null | null>,
+  TError = null | null | null,
 >(
   options: {
     query: Partial<
@@ -882,7 +1146,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -894,7 +1158,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<null | null | null>,
+  TError = null | null | null,
 >(
   options?: {
     query?: Partial<
@@ -924,7 +1188,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -936,7 +1200,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<null | null | null>,
+  TError = null | null | null,
 >(
   options?: {
     query?: Partial<
@@ -950,7 +1214,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -966,7 +1230,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       typeof getQualityModerationStatsQualityModerationFailedByGuidelineGet
     >
   >,
-  TError = AxiosError<null | null | null>,
+  TError = null | null | null,
 >(
   options?: {
     query?: Partial<
@@ -980,7 +1244,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1004,14 +1268,65 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
 /**
  * @summary Get Quality Moderation For App
  */
-export const getQualityModerationForAppQualityModerationAppIdGet = (
+export type getQualityModerationForAppQualityModerationAppIdGetResponse200 = {
+  data: QualityModerationResponse
+  status: 200
+}
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponse404 = {
+  data: null
+  status: 404
+}
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponse422 = {
+  data: null
+  status: 422
+}
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponse500 = {
+  data: null
+  status: 500
+}
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponseComposite =
+
+    | getQualityModerationForAppQualityModerationAppIdGetResponse200
+    | getQualityModerationForAppQualityModerationAppIdGetResponse404
+    | getQualityModerationForAppQualityModerationAppIdGetResponse422
+    | getQualityModerationForAppQualityModerationAppIdGetResponse500
+
+export type getQualityModerationForAppQualityModerationAppIdGetResponse =
+  getQualityModerationForAppQualityModerationAppIdGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationForAppQualityModerationAppIdGetUrl = (
   appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`,
-    options,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`
+}
+
+export const getQualityModerationForAppQualityModerationAppIdGet = async (
+  appId: string,
+  options?: RequestInit,
+): Promise<getQualityModerationForAppQualityModerationAppIdGetResponse> => {
+  const res = await fetch(
+    getGetQualityModerationForAppQualityModerationAppIdGetUrl(appId),
+    {
+      ...options,
+      method: "GET",
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: getQualityModerationForAppQualityModerationAppIdGetResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getQualityModerationForAppQualityModerationAppIdGetResponse
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
@@ -1027,7 +1342,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
     TData = Awaited<
       ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
     >,
-    TError = AxiosError<null | null | null | null | null>,
+    TError = null | null | null,
   >(
     appId: string,
     options?: {
@@ -1042,10 +1357,10 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -1058,7 +1373,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
     > = ({ signal }) =>
       getQualityModerationForAppQualityModerationAppIdGet(appId, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return {
@@ -1082,13 +1397,15 @@ export type GetQualityModerationForAppQualityModerationAppIdGetQueryResult =
     >
   >
 export type GetQualityModerationForAppQualityModerationAppIdGetQueryError =
-  AxiosError<null | null | null | null | null>
+  | null
+  | null
+  | null
 
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null,
 >(
   appId: string,
   options: {
@@ -1117,7 +1434,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1127,7 +1444,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null,
 >(
   appId: string,
   options?: {
@@ -1156,7 +1473,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1166,7 +1483,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null,
 >(
   appId: string,
   options?: {
@@ -1179,7 +1496,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1193,7 +1510,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null,
 >(
   appId: string,
   options?: {
@@ -1206,7 +1523,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1231,23 +1548,84 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
 /**
  * @summary Set Quality Moderation For App
  */
-export const setQualityModerationForAppQualityModerationAppIdPost = (
+export type setQualityModerationForAppQualityModerationAppIdPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse401 = {
+  data: null
+  status: 401
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse403 = {
+  data: null
+  status: 403
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse404 = {
+  data: null
+  status: 404
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse422 = {
+  data: null
+  status: 422
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse500 = {
+  data: null
+  status: 500
+}
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponseComposite =
+
+    | setQualityModerationForAppQualityModerationAppIdPostResponse200
+    | setQualityModerationForAppQualityModerationAppIdPostResponse401
+    | setQualityModerationForAppQualityModerationAppIdPostResponse403
+    | setQualityModerationForAppQualityModerationAppIdPostResponse404
+    | setQualityModerationForAppQualityModerationAppIdPostResponse422
+    | setQualityModerationForAppQualityModerationAppIdPostResponse500
+
+export type setQualityModerationForAppQualityModerationAppIdPostResponse =
+  setQualityModerationForAppQualityModerationAppIdPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getSetQualityModerationForAppQualityModerationAppIdPostUrl = (
+  appId: string,
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`
+}
+
+export const setQualityModerationForAppQualityModerationAppIdPost = async (
   appId: string,
   upsertQualityModeration: UpsertQualityModeration,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`,
-    upsertQualityModeration,
-    options,
+  options?: RequestInit,
+): Promise<setQualityModerationForAppQualityModerationAppIdPostResponse> => {
+  const res = await fetch(
+    getSetQualityModerationForAppQualityModerationAppIdPostUrl(appId),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(upsertQualityModeration),
+    },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: setQualityModerationForAppQualityModerationAppIdPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as setQualityModerationForAppQualityModerationAppIdPostResponse
 }
 
 export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOptions =
-  <
-    TError = AxiosError<null | null | null | null | null>,
-    TContext = unknown,
-  >(options?: {
+  <TError = null | null | null | null | null, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
@@ -1256,7 +1634,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       { appId: string; data: UpsertQualityModeration },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
@@ -1266,13 +1644,13 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
     TContext
   > => {
     const mutationKey = ["setQualityModerationForAppQualityModerationAppIdPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1285,7 +1663,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       return setQualityModerationForAppQualityModerationAppIdPost(
         appId,
         data,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1301,13 +1679,17 @@ export type SetQualityModerationForAppQualityModerationAppIdPostMutationResult =
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationBody =
   UpsertQualityModeration
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationError =
-  AxiosError<null | null | null | null | null>
+  | null
+  | null
+  | null
+  | null
+  | null
 
 /**
  * @summary Set Quality Moderation For App
  */
 export const useSetQualityModerationForAppQualityModerationAppIdPost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
   TContext = unknown,
 >(
   options?: {
@@ -1319,7 +1701,7 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
       { appId: string; data: UpsertQualityModeration },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1340,15 +1722,86 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
 /**
  * @summary Get Quality Moderation Status For App
  */
-export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationStatus>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/status`,
-    options,
-  )
-}
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse200 =
+  {
+    data: QualityModerationStatus
+    status: 200
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse401 =
+  {
+    data: null
+    status: 401
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse403 =
+  {
+    data: null
+    status: 403
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse404 =
+  {
+    data: null
+    status: 404
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse422 =
+  {
+    data: null
+    status: 422
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse500 =
+  {
+    data: null
+    status: 500
+  }
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseComposite =
+
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse200
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse401
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse403
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse404
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse422
+    | getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse500
+
+export type getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse =
+  getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseComposite & {
+    headers: Headers
+  }
+
+export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetUrl =
+  (appId: string) => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/status`
+  }
+
+export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet =
+  async (
+    appId: string,
+    options?: RequestInit,
+  ): Promise<getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse> => {
+    const res = await fetch(
+      getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetUrl(
+        appId,
+      ),
+      {
+        ...options,
+        method: "GET",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getQualityModerationStatusForAppQualityModerationAppIdStatusGetResponse
+  }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryKey =
   (appId?: string) => {
@@ -1364,7 +1817,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
         typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
       >
     >,
-    TError = AxiosError<null | null | null | null | null>,
+    TError = null | null | null | null | null,
   >(
     appId: string,
     options?: {
@@ -1379,10 +1832,10 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
           TData
         >
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
   ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
     const queryKey =
       queryOptions?.queryKey ??
@@ -1399,7 +1852,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
     > = ({ signal }) =>
       getQualityModerationStatusForAppQualityModerationAppIdStatusGet(appId, {
         signal,
-        ...axiosOptions,
+        ...fetchOptions,
       })
 
     return {
@@ -1427,7 +1880,7 @@ export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQuery
     >
   >
 export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryError =
-  AxiosError<null | null | null | null | null>
+  null | null | null | null | null
 
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
@@ -1435,7 +1888,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   appId: string,
   options: {
@@ -1466,7 +1919,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
@@ -1478,7 +1931,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   appId: string,
   options?: {
@@ -1509,7 +1962,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1521,7 +1974,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   appId: string,
   options?: {
@@ -1536,7 +1989,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1552,7 +2005,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       typeof getQualityModerationStatusForAppQualityModerationAppIdStatusGet
     >
   >,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
 >(
   appId: string,
   options?: {
@@ -1567,7 +2020,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
@@ -1592,22 +2045,87 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
 /**
  * @summary Request Review For App
  */
-export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`,
-    undefined,
-    options,
-  )
-}
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse401 =
+  {
+    data: null
+    status: 401
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse403 =
+  {
+    data: null
+    status: 403
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse404 =
+  {
+    data: null
+    status: 404
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse422 =
+  {
+    data: null
+    status: 422
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse500 =
+  {
+    data: null
+    status: 500
+  }
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponseComposite =
+
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse200
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse401
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse403
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse404
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse422
+    | requestReviewForAppQualityModerationAppIdRequestReviewPostResponse500
+
+export type requestReviewForAppQualityModerationAppIdRequestReviewPostResponse =
+  requestReviewForAppQualityModerationAppIdRequestReviewPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostUrl =
+  (appId: string) => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`
+  }
+
+export const requestReviewForAppQualityModerationAppIdRequestReviewPost =
+  async (
+    appId: string,
+    options?: RequestInit,
+  ): Promise<requestReviewForAppQualityModerationAppIdRequestReviewPostResponse> => {
+    const res = await fetch(
+      getRequestReviewForAppQualityModerationAppIdRequestReviewPostUrl(appId),
+      {
+        ...options,
+        method: "POST",
+      },
+    )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: requestReviewForAppQualityModerationAppIdRequestReviewPostResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as requestReviewForAppQualityModerationAppIdRequestReviewPostResponse
+  }
 
 export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions =
-  <
-    TError = AxiosError<null | null | null | null | null>,
-    TContext = unknown,
-  >(options?: {
+  <TError = null | null | null | null | null, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1618,7 +2136,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<
@@ -1632,13 +2150,13 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
     const mutationKey = [
       "requestReviewForAppQualityModerationAppIdRequestReviewPost",
     ]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1652,7 +2170,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
 
       return requestReviewForAppQualityModerationAppIdRequestReviewPost(
         appId,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1669,13 +2187,13 @@ export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationRe
   >
 
 export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationError =
-  AxiosError<null | null | null | null | null>
+  null | null | null | null | null
 
 /**
  * @summary Request Review For App
  */
 export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
   TContext = unknown,
 >(
   options?: {
@@ -1689,7 +2207,7 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
@@ -1712,22 +2230,96 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
 /**
  * @summary Delete Review Request For App
  */
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse200 =
+  {
+    data: unknown
+    status: 200
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse204 =
+  {
+    data: null
+    status: 204
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse401 =
+  {
+    data: null
+    status: 401
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse403 =
+  {
+    data: null
+    status: 403
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse404 =
+  {
+    data: null
+    status: 404
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse422 =
+  {
+    data: null
+    status: 422
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse500 =
+  {
+    data: null
+    status: 500
+  }
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseComposite =
+
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse200
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse204
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse401
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse403
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse404
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse422
+    | deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse500
+
+export type deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse =
+  deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseComposite & {
+    headers: Headers
+  }
+
+export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteUrl =
+  (appId: string) => {
+    return `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`
+  }
+
 export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
-  (
+  async (
     appId: string,
-    options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<unknown | null>> => {
-    return axios.delete(
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`,
-      options,
+    options?: RequestInit,
+  ): Promise<deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse> => {
+    const res = await fetch(
+      getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteUrl(
+        appId,
+      ),
+      {
+        ...options,
+        method: "DELETE",
+      },
     )
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+    const data: deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse["data"] =
+      body ? JSON.parse(body) : {}
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as deleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponse
   }
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions =
-  <
-    TError = AxiosError<null | null | null | null | null>,
-    TContext = unknown,
-  >(options?: {
+  <TError = null | null | null | null | null, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
@@ -1738,7 +2330,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       { appId: string },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<
@@ -1752,13 +2344,13 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
     const mutationKey = [
       "deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete",
     ]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1772,7 +2364,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
 
       return deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
         appId,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1789,13 +2381,13 @@ export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMu
   >
 
 export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationError =
-  AxiosError<null | null | null | null | null>
+  null | null | null | null | null
 
 /**
  * @summary Delete Review Request For App
  */
 export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
-  <TError = AxiosError<null | null | null | null | null>, TContext = unknown>(
+  <TError = null | null | null | null | null, TContext = unknown>(
     options?: {
       mutation?: UseMutationOptions<
         Awaited<
@@ -1807,7 +2399,7 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
         { appId: string },
         TContext
       >
-      axios?: AxiosRequestConfig
+      fetch?: RequestInit
     },
     queryClient?: QueryClient,
   ): UseMutationResult<
@@ -1830,26 +2422,95 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
 /**
  * @summary Set Fullscreen App
  */
-export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse200 = {
+  data: unknown
+  status: 200
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse401 = {
+  data: null
+  status: 401
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse403 = {
+  data: null
+  status: 403
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse404 = {
+  data: null
+  status: 404
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse422 = {
+  data: null
+  status: 422
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse500 = {
+  data: null
+  status: 500
+}
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponseComposite =
+
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse200
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse401
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse403
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse404
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse422
+    | setFullscreenAppQualityModerationAppIdFullscreenPostResponse500
+
+export type setFullscreenAppQualityModerationAppIdFullscreenPostResponse =
+  setFullscreenAppQualityModerationAppIdFullscreenPostResponseComposite & {
+    headers: Headers
+  }
+
+export const getSetFullscreenAppQualityModerationAppIdFullscreenPostUrl = (
   appId: string,
   params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/fullscreen`,
-    undefined,
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/fullscreen?${stringifiedParams}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/fullscreen`
+}
+
+export const setFullscreenAppQualityModerationAppIdFullscreenPost = async (
+  appId: string,
+  params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
+  options?: RequestInit,
+): Promise<setFullscreenAppQualityModerationAppIdFullscreenPostResponse> => {
+  const res = await fetch(
+    getSetFullscreenAppQualityModerationAppIdFullscreenPostUrl(appId, params),
     {
       ...options,
-      params: { ...params, ...options?.params },
+      method: "POST",
     },
   )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: setFullscreenAppQualityModerationAppIdFullscreenPostResponse["data"] =
+    body ? JSON.parse(body) : {}
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as setFullscreenAppQualityModerationAppIdFullscreenPostResponse
 }
 
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions =
-  <
-    TError = AxiosError<null | null | null | null | null>,
-    TContext = unknown,
-  >(options?: {
+  <TError = null | null | null | null | null, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
@@ -1861,7 +2522,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<
       ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
@@ -1874,13 +2535,13 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
     TContext
   > => {
     const mutationKey = ["setFullscreenAppQualityModerationAppIdFullscreenPost"]
-    const { mutation: mutationOptions, axios: axiosOptions } = options
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
         options.mutation.mutationKey
         ? options
         : { ...options, mutation: { ...options.mutation, mutationKey } }
-      : { mutation: { mutationKey }, axios: undefined }
+      : { mutation: { mutationKey }, fetch: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1896,7 +2557,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       return setFullscreenAppQualityModerationAppIdFullscreenPost(
         appId,
         params,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -1911,13 +2572,17 @@ export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationResult =
   >
 
 export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationError =
-  AxiosError<null | null | null | null | null>
+  | null
+  | null
+  | null
+  | null
+  | null
 
 /**
  * @summary Set Fullscreen App
  */
 export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = null | null | null | null | null,
   TContext = unknown,
 >(
   options?: {
@@ -1932,7 +2597,7 @@ export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
       },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
   queryClient?: QueryClient,
 ): UseMutationResult<

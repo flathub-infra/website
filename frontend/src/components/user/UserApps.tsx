@@ -44,7 +44,7 @@ const UserApps: FunctionComponent<Props> = ({
     mutationKey: ["refresh-dev-flatpaks"],
     mutationFn: async () =>
       doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost({
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 

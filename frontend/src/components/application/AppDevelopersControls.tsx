@@ -34,7 +34,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
     queryKey: ["developers", app.id],
     queryFn: () =>
       getAppDevelopersInvitesAppIdDevelopersGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -42,7 +42,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
     mutationKey: ["leave-team-invite-app", app.id],
     mutationFn: () =>
       leaveTeamInvitesAppIdLeavePost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -196,7 +196,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         app.id,
         { invite_id: developer.id },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: async () => {
@@ -212,7 +212,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         app.id,
         { developer_id: developer.id },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: async () => {
@@ -301,7 +301,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
         app.id,
         { invite_code: inviteCode },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: async () => {

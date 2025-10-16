@@ -250,6 +250,9 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostResponseMock = ():
   | unknown
   | null => faker.helpers.arrayElement([undefined, undefined])
 
+export const getClearFakeWalletClearfakePostResponseMock = (): unknown | null =>
+  faker.helpers.arrayElement([undefined, undefined])
+
 export const getGetWalletinfoWalletWalletinfoGetMockHandler = (
   overrideResponse?:
     | WalletInfo
@@ -501,14 +504,38 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
   })
 }
 
-export const getWebhookWalletWebhookStripePostMockHandler = (
+export const getClearFakeWalletClearfakePostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | null
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown | null> | unknown | null),
+) => {
+  return http.post("*/wallet/clearfake", async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getClearFakeWalletClearfakePostResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    )
+  })
+}
+
+export const getWebhookWalletWebhookFakewalletPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
 ) => {
-  return http.post("*/wallet/webhook/stripe", async (info) => {
+  return http.post("*/wallet/webhook/fakewallet", async (info) => {
     await delay(1000)
     if (typeof overrideResponse === "function") {
       await overrideResponse(info)
@@ -528,5 +555,6 @@ export const getWalletMock = () => [
   getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler(),
   getSetSavecardWalletTransactionsTxnSavecardPostMockHandler(),
   getSetPendingWalletTransactionsTxnSetpendingPostMockHandler(),
-  getWebhookWalletWebhookStripePostMockHandler(),
+  getClearFakeWalletClearfakePostMockHandler(),
+  getWebhookWalletWebhookFakewalletPostMockHandler(),
 ]

@@ -22,7 +22,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
     queryKey: ["redeemable-tokens", app.id],
     queryFn: () =>
       getRedeemableTokensVendingappAppIdTokensGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     enabled: !!app.id,
   })

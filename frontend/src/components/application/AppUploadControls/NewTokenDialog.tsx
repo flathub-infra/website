@@ -46,7 +46,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
           repos: [repo],
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (response) => {

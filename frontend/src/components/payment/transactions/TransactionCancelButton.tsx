@@ -25,7 +25,7 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
   useEffect(() => {
     if (clicked) {
       cancelTransactionWalletTransactionsTxnCancelPost(id, {
-        withCredentials: true,
+        credentials: "include",
       })
         .then(() => {
           toast.success(t("transaction-cancelled"))

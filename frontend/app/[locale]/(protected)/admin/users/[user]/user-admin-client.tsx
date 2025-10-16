@@ -71,14 +71,14 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
   const userIdNumber = parseInt(userId, 10)
 
   const query = useUserUsersUserIdGet(userIdNumber, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
   const addRoleQuery = useAddUserRoleUsersUserIdRolePost({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     mutation: {
       onSuccess: () => {
@@ -88,8 +88,8 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
   })
 
   const removeRoleQuery = useDeleteUserRoleUsersUserIdRoleDelete({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     mutation: {
       onSuccess: () => {
