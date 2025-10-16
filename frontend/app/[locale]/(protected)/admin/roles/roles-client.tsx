@@ -5,7 +5,7 @@ import React from "react"
 import {
   Permission,
   RoleName,
-  UserInfo,
+  GetUserinfoAuthUserinfoGet200,
   useRolesUsersRolesGet,
   useRoleUsersUsersRolesRoleNameGet,
 } from "src/codegen"
@@ -22,7 +22,7 @@ export default function RolesClient() {
 
   return (
     <AdminLayoutClient
-      condition={(info: UserInfo) =>
+      condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission["view-users"])
       }
     >

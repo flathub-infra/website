@@ -27,7 +27,11 @@ import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { AxiosError } from "axios"
-import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
+import {
+  doLogoutAuthLogoutPost,
+  Permission,
+  GetUserinfoAuthUserinfoGet200,
+} from "src/codegen"
 import { getLangDir } from "rtl-detect"
 import SearchBarWithSuspense from "./SearchBarWithSuspense"
 
@@ -75,13 +79,13 @@ const Header = () => {
     {
       name: t("view-wallet"),
       href: "/wallet",
-      condition: (user: UserInfo) => !IS_PRODUCTION,
+      condition: (user: GetUserinfoAuthUserinfoGet200) => !IS_PRODUCTION,
     },
     { name: t("developer-portal.title"), href: "/developer-portal" },
     {
       name: "Admin",
       href: "/admin",
-      condition: (user: UserInfo) =>
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission.moderation) ||
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
     },

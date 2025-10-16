@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 import type {
   GetStatsForAppStatsAppIdGet200,
@@ -20,35 +21,30 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
       },
       countries: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
       },
       downloads_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
       },
       updates_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
       },
       delta_downloads_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
       },
       category_totals: Array.from(
@@ -56,11 +52,7 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
         (_, i) => i + 1,
       ).map(() => ({
         category: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        count: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        count: faker.number.int({ min: undefined, max: undefined }),
       })),
     },
     null,
@@ -70,34 +62,26 @@ export const getGetStatsForAppStatsAppIdGetResponseMock =
   (): GetStatsForAppStatsAppIdGet200 =>
     faker.helpers.arrayElement([
       {
-        installs_total: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        installs_total: faker.number.int({ min: undefined, max: undefined }),
         installs_per_day: {
           [faker.string.alphanumeric(5)]: faker.number.int({
             min: undefined,
             max: undefined,
-            multipleOf: undefined,
           }),
         },
         installs_per_country: {
           [faker.string.alphanumeric(5)]: faker.number.int({
             min: undefined,
             max: undefined,
-            multipleOf: undefined,
           }),
         },
         installs_last_month: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
         installs_last_7_days: faker.number.int({
           min: undefined,
           max: undefined,
-          multipleOf: undefined,
         }),
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       },
@@ -110,21 +94,26 @@ export const getGetStatsStatsGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<GetStatsStatsGet200> | GetStatsStatsGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/stats/", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/stats/",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetStatsStatsGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetStatsStatsGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetStatsForAppStatsAppIdGetMockHandler = (
@@ -135,21 +124,26 @@ export const getGetStatsForAppStatsAppIdGetMockHandler = (
       ) =>
         | Promise<GetStatsForAppStatsAppIdGet200>
         | GetStatsForAppStatsAppIdGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/stats/:appId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/stats/:appId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetStatsForAppStatsAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetStatsForAppStatsAppIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 export const getStatsMock = () => [
   getGetStatsStatsGetMockHandler(),

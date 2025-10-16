@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetMockHandler =
   (
@@ -13,6 +14,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetMockHa
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
         ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/compat/apps/collection/recently-updated/25",
@@ -23,6 +25,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetMockHa
         }
         return new HttpResponse(null, { status: 200 })
       },
+      options,
     )
   }
 
@@ -33,6 +36,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetMockHand
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
         ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/compat/apps/collection/recently-updated",
@@ -43,6 +47,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetMockHand
         }
         return new HttpResponse(null, { status: 200 })
       },
+      options,
     )
   }
 
@@ -52,14 +57,19 @@ export const getGetRecentlyAddedCompatAppsCollectionNew25GetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/compat/apps/collection/new/25", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/compat/apps/collection/new/25",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler = (
@@ -68,14 +78,19 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/compat/apps/collection/new", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/compat/apps/collection/new",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler = (
@@ -84,14 +99,19 @@ export const getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/compat/apps/collection/popular/50", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/compat/apps/collection/popular/50",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetPopularAppsCompatAppsCollectionPopularGetMockHandler = (
@@ -100,14 +120,19 @@ export const getGetPopularAppsCompatAppsCollectionPopularGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/compat/apps/collection/popular", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/compat/apps/collection/popular",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetSearchCompatAppsSearchQueryGetMockHandler = (
@@ -116,14 +141,19 @@ export const getGetSearchCompatAppsSearchQueryGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/compat/apps/search/:query", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/compat/apps/search/:query",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetSingleAppCompatAppsAppIdGetMockHandler = (
@@ -132,14 +162,19 @@ export const getGetSingleAppCompatAppsAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/compat/apps/:appId", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/compat/apps/:appId",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 export const getCompatMock = () => [
   getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetMockHandler(),

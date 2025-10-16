@@ -225,7 +225,7 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -270,11 +270,11 @@ export type GetEolRebaseAppidEolRebaseAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>
 >
 export type GetEolRebaseAppidEolRebaseAppIdGetQueryError =
-  AxiosError<null | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -302,7 +302,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 }
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -330,7 +330,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 }
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -354,7 +354,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
@@ -571,7 +571,7 @@ export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -616,11 +616,11 @@ export type GetEolMessageAppidEolMessageAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>
 >
 export type GetEolMessageAppidEolMessageAppIdGetQueryError =
-  AxiosError<null | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetEolMessageAppidEolMessageAppIdGetParams,
@@ -648,7 +648,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 }
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -676,7 +676,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 }
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -700,7 +700,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
@@ -932,7 +932,7 @@ export const getGetAppstreamAppstreamAppIdGetQueryKey = (
 
 export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -974,11 +974,11 @@ export type GetAppstreamAppstreamAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>
 >
 export type GetAppstreamAppstreamAppIdGetQueryError =
-  AxiosError<null | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetAppstreamAppstreamAppIdGetParams,
@@ -1006,7 +1006,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 }
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -1034,7 +1034,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 }
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -1058,7 +1058,7 @@ export function useGetAppstreamAppstreamAppIdGet<
 
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
@@ -1291,7 +1291,7 @@ export const postSearchSearchPost = (
 }
 
 export const getPostSearchSearchPostMutationOptions = <
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1333,13 +1333,13 @@ export type PostSearchSearchPostMutationResult = NonNullable<
 >
 export type PostSearchSearchPostMutationBody = SearchQuery
 export type PostSearchSearchPostMutationError =
-  AxiosError<null | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Post Search
  */
 export const usePostSearchSearchPost = <
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -1539,7 +1539,7 @@ export const getGetSummarySummaryAppIdGetQueryKey = (
 
 export const getGetSummarySummaryAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1581,11 +1581,11 @@ export type GetSummarySummaryAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>
 >
 export type GetSummarySummaryAppIdGetQueryError =
-  AxiosError<null | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetSummarySummaryAppIdGetParams,
@@ -1613,7 +1613,7 @@ export function useGetSummarySummaryAppIdGet<
 }
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1641,7 +1641,7 @@ export function useGetSummarySummaryAppIdGet<
 }
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -1665,7 +1665,7 @@ export function useGetSummarySummaryAppIdGet<
 
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
-  TError = AxiosError<null | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetSummarySummaryAppIdGetParams,
@@ -2038,7 +2038,7 @@ export const getGetExceptionsExceptionsGetQueryKey = () => {
 
 export const getGetExceptionsExceptionsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<void>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
@@ -2068,11 +2068,11 @@ export const getGetExceptionsExceptionsGetQueryOptions = <
 export type GetExceptionsExceptionsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getExceptionsExceptionsGet>>
 >
-export type GetExceptionsExceptionsGetQueryError = AxiosError<null>
+export type GetExceptionsExceptionsGetQueryError = AxiosError<void>
 
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<void>,
 >(
   options: {
     query: Partial<
@@ -2098,7 +2098,7 @@ export function useGetExceptionsExceptionsGet<
 }
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<void>,
 >(
   options?: {
     query?: Partial<
@@ -2124,7 +2124,7 @@ export function useGetExceptionsExceptionsGet<
 }
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<void>,
 >(
   options?: {
     query?: Partial<
@@ -2146,7 +2146,7 @@ export function useGetExceptionsExceptionsGet<
 
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
-  TError = AxiosError<null>,
+  TError = AxiosError<void>,
 >(
   options?: {
     query?: Partial<
@@ -2197,7 +2197,7 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   appId: string,
   options?: {
@@ -2238,12 +2238,12 @@ export type GetExceptionsForAppExceptionsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>
 >
 export type GetExceptionsForAppExceptionsAppIdGetQueryError = AxiosError<
-  null | null | null
+  void | void | void
 >
 
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   appId: string,
   options: {
@@ -2270,7 +2270,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 }
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   appId: string,
   options?: {
@@ -2297,7 +2297,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 }
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   appId: string,
   options?: {
@@ -2320,7 +2320,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   appId: string,
   options?: {
@@ -2368,7 +2368,7 @@ export const addToFavoritesFavoritesAppIdAddPost = (
 }
 
 export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError | null>,
+  TError = AxiosError<HTTPValidationError | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -2410,13 +2410,13 @@ export type AddToFavoritesFavoritesAppIdAddPostMutationResult = NonNullable<
 >
 
 export type AddToFavoritesFavoritesAppIdAddPostMutationError =
-  AxiosError<HTTPValidationError | null>
+  AxiosError<HTTPValidationError | void>
 
 /**
  * @summary Add To Favorites
  */
 export const useAddToFavoritesFavoritesAppIdAddPost = <
-  TError = AxiosError<HTTPValidationError | null>,
+  TError = AxiosError<HTTPValidationError | void>,
   TContext = unknown,
 >(
   options?: {
@@ -2455,7 +2455,7 @@ export const removeFromFavoritesFavoritesAppIdRemoveDelete = (
 }
 
 export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
-  TError = AxiosError<HTTPValidationError | null>,
+  TError = AxiosError<HTTPValidationError | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -2498,13 +2498,13 @@ export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationResult =
   >
 
 export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationError =
-  AxiosError<HTTPValidationError | null>
+  AxiosError<HTTPValidationError | void>
 
 /**
  * @summary Remove From Favorites
  */
 export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
-  TError = AxiosError<HTTPValidationError | null>,
+  TError = AxiosError<HTTPValidationError | void>,
   TContext = unknown,
 >(
   options?: {

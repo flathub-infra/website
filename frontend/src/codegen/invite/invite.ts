@@ -50,7 +50,7 @@ export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId?: string) => {
 
 export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -90,12 +90,12 @@ export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>
 >
 export type GetInviteStatusInvitesAppIdGetQueryError = AxiosError<
-  null | null | null | null
+  void | void | void | void
 >
 
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   appId: string,
   options: {
@@ -122,7 +122,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -149,7 +149,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -172,7 +172,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -211,7 +211,7 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
   appId: string,
   params: InviteDeveloperInvitesAppIdInvitePostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/invite`,
     undefined,
@@ -223,7 +223,7 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
 }
 
 export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
-  TError = AxiosError<null | null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -265,14 +265,14 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationResult = NonNullable<
 >
 
 export type InviteDeveloperInvitesAppIdInvitePostMutationError = AxiosError<
-  null | null | null | null | null | null
+  void | void | void | void | void | void
 >
 
 /**
  * @summary Invite Developer
  */
 export const useInviteDeveloperInvitesAppIdInvitePost = <
-  TError = AxiosError<null | null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -302,7 +302,7 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
 export const acceptInviteInvitesAppIdAcceptPost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/accept`,
     undefined,
@@ -311,7 +311,7 @@ export const acceptInviteInvitesAppIdAcceptPost = (
 }
 
 export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -353,14 +353,14 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationResult = NonNullable<
 >
 
 export type AcceptInviteInvitesAppIdAcceptPostMutationError = AxiosError<
-  null | null | null | null | null
+  void | void | void | void | void
 >
 
 /**
  * @summary Accept Invite
  */
 export const useAcceptInviteInvitesAppIdAcceptPost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -390,7 +390,7 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
 export const declineInviteInvitesAppIdDeclinePost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/decline`,
     undefined,
@@ -399,7 +399,7 @@ export const declineInviteInvitesAppIdDeclinePost = (
 }
 
 export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -441,14 +441,14 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationResult = NonNullable<
 >
 
 export type DeclineInviteInvitesAppIdDeclinePostMutationError = AxiosError<
-  null | null | null | null | null
+  void | void | void | void | void
 >
 
 /**
  * @summary Decline Invite
  */
 export const useDeclineInviteInvitesAppIdDeclinePost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -478,7 +478,7 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
 export const leaveTeamInvitesAppIdLeavePost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/leave`,
     undefined,
@@ -487,7 +487,7 @@ export const leaveTeamInvitesAppIdLeavePost = (
 }
 
 export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -529,14 +529,14 @@ export type LeaveTeamInvitesAppIdLeavePostMutationResult = NonNullable<
 >
 
 export type LeaveTeamInvitesAppIdLeavePostMutationError = AxiosError<
-  null | null | null | null | null
+  void | void | void | void | void
 >
 
 /**
  * @summary Leave Team
  */
 export const useLeaveTeamInvitesAppIdLeavePost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -583,7 +583,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -627,12 +627,12 @@ export type GetAppDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>
 >
 export type GetAppDevelopersInvitesAppIdDevelopersGetQueryError = AxiosError<
-  null | null | null | null | null
+  void | void | void | void | void
 >
 
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   options: {
@@ -659,7 +659,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 }
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -686,7 +686,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 }
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -709,7 +709,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   options?: {
@@ -748,7 +748,7 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
   appId: string,
   params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/remove-developer`,
     undefined,
@@ -761,7 +761,7 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
 
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
   <
-    TError = AxiosError<null | null | null | null | null>,
+    TError = AxiosError<void | void | void | void | void>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
@@ -821,13 +821,13 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationResult =
   >
 
 export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationError =
-  AxiosError<null | null | null | null | null>
+  AxiosError<void | void | void | void | void>
 
 /**
  * @summary Remove Developer
  */
 export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -866,7 +866,7 @@ export const revokeInviteInvitesAppIdRevokePost = (
   appId: string,
   params: RevokeInviteInvitesAppIdRevokePostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/revoke`,
     undefined,
@@ -878,7 +878,7 @@ export const revokeInviteInvitesAppIdRevokePost = (
 }
 
 export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -920,14 +920,14 @@ export type RevokeInviteInvitesAppIdRevokePostMutationResult = NonNullable<
 >
 
 export type RevokeInviteInvitesAppIdRevokePostMutationError = AxiosError<
-  null | null | null | null | null
+  void | void | void | void | void
 >
 
 /**
  * @summary Revoke Invite
  */
 export const useRevokeInviteInvitesAppIdRevokePost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {

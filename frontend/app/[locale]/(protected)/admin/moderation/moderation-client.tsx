@@ -1,13 +1,13 @@
 "use client"
 
-import { Permission, UserInfo } from "src/codegen"
+import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
 import ModerationTabs from "src/components/moderation/ModerationTabs"
 
 export default function ModerationClient() {
   return (
     <AdminLayoutClient
-      condition={(info: UserInfo) =>
+      condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission.moderation)
       }
     >

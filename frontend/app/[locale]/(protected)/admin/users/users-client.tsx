@@ -17,7 +17,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid"
 import {
   FlathubUsersResult,
   Permission,
-  UserInfo,
+  GetUserinfoAuthUserinfoGet200,
   UserResult,
   useUsersUsersGet,
 } from "src/codegen"
@@ -88,7 +88,7 @@ export default function UsersClient() {
 
   return (
     <AdminLayoutClient
-      condition={(info: UserInfo) =>
+      condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission["view-users"])
       }
     >

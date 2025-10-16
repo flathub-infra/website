@@ -24,7 +24,7 @@ import Breadcrumbs from "../../../../../src/components/Breadcrumbs"
 import LogoImage from "../../../../../src/components/LogoImage"
 import {
   Permission,
-  UserInfo,
+  GetUserinfoAuthUserinfoGet200,
   VendingConfig,
   useGetAppVendingSetupVendingappAppIdSetupGet,
   useGetInviteStatusInvitesAppIdGet,
@@ -106,7 +106,9 @@ export default function ManageClient({ app, vendingConfig }: Props) {
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <LoginGuard
-        condition={(info: UserInfo) => info.dev_flatpaks?.includes(app.id)}
+        condition={(info: GetUserinfoAuthUserinfoGet200) =>
+          info.dev_flatpaks?.includes(app.id)
+        }
       >
         <div className="space-y-8">
           <Breadcrumbs pages={pages} />

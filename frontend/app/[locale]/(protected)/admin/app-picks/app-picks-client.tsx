@@ -20,7 +20,7 @@ import clsx from "clsx"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import LogoImage from "src/components/LogoImage"
 import {
-  UserInfo,
+  GetUserinfoAuthUserinfoGet200,
   setAppOfTheWeekAppPicksAppOfTheWeekPost,
   Permission,
   getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
@@ -303,7 +303,7 @@ export default function AppPicksClient() {
 
   return (
     <AdminLayoutClient
-      condition={(info: UserInfo) =>
+      condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission["quality-moderation"])
       }
     >

@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 export const getReceiveGithubWebhookApiWebhooksGithubPostMockHandler = (
   overrideResponse?:
@@ -12,14 +13,19 @@ export const getReceiveGithubWebhookApiWebhooksGithubPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/api/webhooks/github", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 202 })
-  })
+  return http.post(
+    "*/api/webhooks/github",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 202 })
+    },
+    options,
+  )
 }
 export const getWebhooksMock = () => [
   getReceiveGithubWebhookApiWebhooksGithubPostMockHandler(),

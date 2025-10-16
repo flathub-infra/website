@@ -1,8 +1,10 @@
-import { Auths, UserInfo } from "./codegen"
+import { Auths, GetUserinfoAuthUserinfoGet200 } from "./codegen"
 
 export type VerificationProvider = "github" | "gitlab" | "gnome" | "kde"
 
-export function getUserName(info: UserInfo): string | undefined {
+export function getUserName(
+  info: GetUserinfoAuthUserinfoGet200,
+): string | undefined {
   if (!info) {
     return undefined
   }

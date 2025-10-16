@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 import {
   AvailableLoginMethodStatus,
@@ -180,11 +181,7 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     ]),
     status_code: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        faker.number.int({ min: undefined, max: undefined }),
         null,
       ]),
       undefined,
@@ -198,21 +195,26 @@ export const getGetVerificationStatusVerificationAppIdStatusGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<VerificationStatus> | VerificationStatus),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/verification/:appId/status", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/verification/:appId/status",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetVerificationStatusVerificationAppIdStatusGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetVerificationStatusVerificationAppIdStatusGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetMockHandler =
@@ -222,21 +224,26 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetMockHandl
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
         ) => Promise<AvailableMethods> | AvailableMethods),
+    options?: RequestHandlerOptions,
   ) => {
-    return http.get("*/verification/:appId/available-methods", async (info) => {
-      await delay(1000)
+    return http.get(
+      "*/verification/:appId/available-methods",
+      async (info) => {
+        await delay(1000)
 
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      )
-    })
+        return new HttpResponse(
+          JSON.stringify(
+            overrideResponse !== undefined
+              ? typeof overrideResponse === "function"
+                ? await overrideResponse(info)
+                : overrideResponse
+              : getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseMock(),
+          ),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        )
+      },
+      options,
+    )
   }
 
 export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMockHandler =
@@ -248,6 +255,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
         ) =>
           | Promise<VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200>
           | VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200),
+    options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/verification/:appId/verify-by-login-provider",
@@ -265,6 +273,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
           { status: 200, headers: { "Content-Type": "application/json" } },
         )
       },
+      options,
     )
   }
 
@@ -275,6 +284,7 @@ export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAc
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
         ) => Promise<LinkResponse> | LinkResponse),
+    options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/verification/request-organization-access/github",
@@ -292,6 +302,7 @@ export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAc
           { status: 200, headers: { "Content-Type": "application/json" } },
         )
       },
+      options,
     )
   }
 
@@ -302,6 +313,7 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
         ) => Promise<WebsiteVerificationToken> | WebsiteVerificationToken),
+    options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/verification/:appId/setup-website-verification",
@@ -319,6 +331,7 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
           { status: 200, headers: { "Content-Type": "application/json" } },
         )
       },
+      options,
     )
   }
 
@@ -329,6 +342,7 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
         ) => Promise<WebsiteVerificationResult> | WebsiteVerificationResult),
+    options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/verification/:appId/confirm-website-verification",
@@ -346,32 +360,39 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
           { status: 200, headers: { "Content-Type": "application/json" } },
         )
       },
+      options,
     )
   }
 
 export const getUnverifyVerificationAppIdUnverifyPostMockHandler = (
   overrideResponse?:
-    | null
+    | void
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<null> | null),
+      ) => Promise<void> | void),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/verification/:appId/unverify", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 204 })
-  })
+  return http.post(
+    "*/verification/:appId/unverify",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 204 })
+    },
+    options,
+  )
 }
 
 export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMockHandler =
   (
     overrideResponse?:
-      | null
+      | void
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<null> | null),
+        ) => Promise<void> | void),
+    options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/verification/:appId/switch_to_direct_upload",
@@ -382,23 +403,29 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMoc
         }
         return new HttpResponse(null, { status: 204 })
       },
+      options,
     )
   }
 
 export const getArchiveVerificationAppIdArchivePostMockHandler = (
   overrideResponse?:
-    | null
+    | void
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<null> | null),
+      ) => Promise<void> | void),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/verification/:appId/archive", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 204 })
-  })
+  return http.post(
+    "*/verification/:appId/archive",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 204 })
+    },
+    options,
+  )
 }
 export const getVerificationMock = () => [
   getGetVerificationStatusVerificationAppIdStatusGetMockHandler(),

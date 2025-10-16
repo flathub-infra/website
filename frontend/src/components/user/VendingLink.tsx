@@ -40,7 +40,10 @@ const VendingLink: FunctionComponent = () => {
         withCredentials: true,
       }),
 
-    enabled: statusQuery.isSuccess && statusQuery.data.data.details_submitted,
+    enabled:
+      statusQuery.isSuccess &&
+      !!statusQuery.data.data &&
+      statusQuery.data.data.details_submitted,
   })
 
   const generateOnboardingLinkMutation = useMutation({

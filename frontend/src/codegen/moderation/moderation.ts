@@ -59,7 +59,7 @@ export const getGetModerationAppsModerationAppsGetQueryKey = (
 
 export const getGetModerationAppsModerationAppsGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   params?: GetModerationAppsModerationAppsGetParams,
   options?: {
@@ -95,12 +95,12 @@ export type GetModerationAppsModerationAppsGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>
 >
 export type GetModerationAppsModerationAppsGetQueryError = AxiosError<
-  null | null | null | null
+  void | void | void | void
 >
 
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   params: undefined | GetModerationAppsModerationAppsGetParams,
   options: {
@@ -127,7 +127,7 @@ export function useGetModerationAppsModerationAppsGet<
 }
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   params?: GetModerationAppsModerationAppsGetParams,
   options?: {
@@ -154,7 +154,7 @@ export function useGetModerationAppsModerationAppsGet<
 }
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   params?: GetModerationAppsModerationAppsGetParams,
   options?: {
@@ -177,7 +177,7 @@ export function useGetModerationAppsModerationAppsGet<
 
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
 >(
   params?: GetModerationAppsModerationAppsGetParams,
   options?: {
@@ -239,7 +239,7 @@ export const getGetModerationAppModerationAppsAppIdGetQueryKey = (
 
 export const getGetModerationAppModerationAppsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
@@ -284,12 +284,12 @@ export type GetModerationAppModerationAppsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>
 >
 export type GetModerationAppModerationAppsAppIdGetQueryError = AxiosError<
-  null | null | null | null | null
+  void | void | void | void | void
 >
 
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   params: undefined | GetModerationAppModerationAppsAppIdGetParams,
@@ -317,7 +317,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
 }
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
@@ -345,7 +345,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
 }
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
@@ -369,7 +369,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
 
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
@@ -418,7 +418,7 @@ export const submitReviewRequestModerationSubmitReviewRequestPost = (
 }
 
 export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions =
-  <TError = AxiosError<null | null | null>, TContext = unknown>(options?: {
+  <TError = AxiosError<void | void | void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
@@ -471,13 +471,13 @@ export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationResult =
 export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationBody =
   ReviewRequest
 export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationError =
-  AxiosError<null | null | null>
+  AxiosError<void | void | void>
 
 /**
  * @summary Submit Review Request
  */
 export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -525,7 +525,7 @@ export const submitReviewModerationRequestsIdReviewPost = (
 }
 
 export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -568,13 +568,13 @@ export type SubmitReviewModerationRequestsIdReviewPostMutationResult =
   >
 export type SubmitReviewModerationRequestsIdReviewPostMutationBody = Review
 export type SubmitReviewModerationRequestsIdReviewPostMutationError =
-  AxiosError<null | null | null | null | null>
+  AxiosError<void | void | void | void | void>
 
 /**
  * @summary Submit Review
  */
 export const useSubmitReviewModerationRequestsIdReviewPost = <
-  TError = AxiosError<null | null | null | null | null>,
+  TError = AxiosError<void | void | void | void | void>,
   TContext = unknown,
 >(
   options?: {

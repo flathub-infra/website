@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 import { ConnectedAccountProvider } from ".././model"
 import type { FlathubUsersResult, UserResult } from ".././model"
@@ -18,11 +19,7 @@ export const getUsersUsersGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
+    id: faker.number.int({ min: undefined, max: undefined }),
     display_name: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
@@ -32,16 +29,8 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        github_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -64,16 +53,8 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gitlab_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -96,16 +77,8 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gnome_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -128,16 +101,8 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        google_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        google_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -160,16 +125,8 @@ export const getUsersUsersGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        kde_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        kde_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -199,16 +156,8 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          github_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          github_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -231,16 +180,8 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          gitlab_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -263,16 +204,8 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          gnome_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          gnome_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -295,16 +228,8 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          google_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          google_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -327,16 +252,8 @@ export const getUsersUsersGetResponseMock = (
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          kde_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          kde_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -373,11 +290,7 @@ export const getUsersUsersGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
         reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
       })),
       null,
@@ -394,26 +307,10 @@ export const getUsersUsersGetResponseMock = (
     ]),
   })),
   pagination: {
-    page: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
-    page_size: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
-    total: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
-    total_pages: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
+    page: faker.number.int({ min: undefined, max: undefined }),
+    page_size: faker.number.int({ min: undefined, max: undefined }),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    total_pages: faker.number.int({ min: undefined, max: undefined }),
   },
   ...overrideResponse,
 })
@@ -426,11 +323,7 @@ export const getRolesUsersRolesGetResponseMock = (): string[] =>
 export const getUserUsersUserIdGetResponseMock = (
   overrideResponse: Partial<UserResult> = {},
 ): UserResult => ({
-  id: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
+  id: faker.number.int({ min: undefined, max: undefined }),
   display_name: faker.helpers.arrayElement([
     faker.string.alpha({ length: { min: 10, max: 20 } }),
     null,
@@ -440,16 +333,8 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      github_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      github_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -472,16 +357,8 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      gitlab_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -504,16 +381,8 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      gnome_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      gnome_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -536,16 +405,8 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      google_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      google_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -568,16 +429,8 @@ export const getUserUsersUserIdGetResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      kde_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      kde_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -607,16 +460,8 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        github_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -639,16 +484,8 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gitlab_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -671,16 +508,8 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gnome_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -703,16 +532,8 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        google_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        google_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -735,16 +556,8 @@ export const getUserUsersUserIdGetResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        kde_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        kde_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -781,11 +594,7 @@ export const getUserUsersUserIdGetResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
       reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     null,
@@ -806,11 +615,7 @@ export const getUserUsersUserIdGetResponseMock = (
 export const getAddUserRoleUsersUserIdRolePostResponseMock = (
   overrideResponse: Partial<UserResult> = {},
 ): UserResult => ({
-  id: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
+  id: faker.number.int({ min: undefined, max: undefined }),
   display_name: faker.helpers.arrayElement([
     faker.string.alpha({ length: { min: 10, max: 20 } }),
     null,
@@ -820,16 +625,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      github_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      github_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -852,16 +649,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      gitlab_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -884,16 +673,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      gnome_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      gnome_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -916,16 +697,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      google_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      google_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -948,16 +721,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      kde_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      kde_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -987,16 +752,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        github_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1019,16 +776,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gitlab_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1051,16 +800,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gnome_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1083,16 +824,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        google_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        google_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1115,16 +848,8 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        kde_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        kde_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1161,11 +886,7 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
       reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     null,
@@ -1186,11 +907,7 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
 export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
   overrideResponse: Partial<UserResult> = {},
 ): UserResult => ({
-  id: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
+  id: faker.number.int({ min: undefined, max: undefined }),
   display_name: faker.helpers.arrayElement([
     faker.string.alpha({ length: { min: 10, max: 20 } }),
     null,
@@ -1200,16 +917,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      github_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      github_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1232,16 +941,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      gitlab_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1264,16 +965,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      gnome_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      gnome_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1296,16 +989,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      google_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      google_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1328,16 +1013,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
-      kde_userid: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      kde_userid: faker.number.int({ min: undefined, max: undefined }),
       login: faker.string.alpha({ length: { min: 10, max: 20 } }),
       avatar_url: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1367,16 +1044,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        github_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1399,16 +1068,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gitlab_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1431,16 +1092,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gnome_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1463,16 +1116,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        google_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        google_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1495,16 +1140,8 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        kde_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        kde_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1541,11 +1178,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      id: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      id: faker.number.int({ min: undefined, max: undefined }),
       reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     null,
@@ -1568,11 +1201,7 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
+    id: faker.number.int({ min: undefined, max: undefined }),
     display_name: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
@@ -1582,16 +1211,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        github_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1614,16 +1235,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gitlab_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1646,16 +1259,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        gnome_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        gnome_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1678,16 +1283,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        google_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        google_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1710,16 +1307,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
-        kde_userid: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        kde_userid: faker.number.int({ min: undefined, max: undefined }),
         login: faker.string.alpha({ length: { min: 10, max: 20 } }),
         avatar_url: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1749,16 +1338,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          github_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          github_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1781,16 +1362,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          gitlab_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          gitlab_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1813,16 +1386,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          gnome_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          gnome_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1845,16 +1410,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          google_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          google_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1877,16 +1434,8 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           provider: faker.helpers.arrayElement(
             Object.values(ConnectedAccountProvider),
           ),
-          id: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
-          kde_userid: faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          kde_userid: faker.number.int({ min: undefined, max: undefined }),
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar_url: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1923,11 +1472,7 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        id: faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        id: faker.number.int({ min: undefined, max: undefined }),
         reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
       })),
       null,
@@ -1950,21 +1495,26 @@ export const getUsersUsersGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<FlathubUsersResult> | FlathubUsersResult),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/users", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/users",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUsersUsersGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getUsersUsersGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getRolesUsersRolesGetMockHandler = (
@@ -1973,21 +1523,26 @@ export const getRolesUsersRolesGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<string[]> | string[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/users/roles", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/users/roles",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getRolesUsersRolesGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getRolesUsersRolesGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getUserUsersUserIdGetMockHandler = (
@@ -1996,21 +1551,26 @@ export const getUserUsersUserIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<UserResult> | UserResult),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/users/:userId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/users/:userId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUserUsersUserIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getUserUsersUserIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getAddUserRoleUsersUserIdRolePostMockHandler = (
@@ -2019,21 +1579,26 @@ export const getAddUserRoleUsersUserIdRolePostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<UserResult> | UserResult),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/users/:userId/role", async (info) => {
-    await delay(1000)
+  return http.post(
+    "*/users/:userId/role",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getAddUserRoleUsersUserIdRolePostResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getAddUserRoleUsersUserIdRolePostResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getDeleteUserRoleUsersUserIdRoleDeleteMockHandler = (
@@ -2042,21 +1607,26 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.delete>[1]>[0],
       ) => Promise<UserResult> | UserResult),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.delete("*/users/:userId/role", async (info) => {
-    await delay(1000)
+  return http.delete(
+    "*/users/:userId/role",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getDeleteUserRoleUsersUserIdRoleDeleteResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getDeleteUserRoleUsersUserIdRoleDeleteResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getRoleUsersUsersRolesRoleNameGetMockHandler = (
@@ -2065,21 +1635,26 @@ export const getRoleUsersUsersRolesRoleNameGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<UserResult[]> | UserResult[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/users/roles/:roleName", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/users/roles/:roleName",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getRoleUsersUsersRolesRoleNameGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getRoleUsersUsersRolesRoleNameGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 export const getUsersMock = () => [
   getUsersUsersGetMockHandler(),

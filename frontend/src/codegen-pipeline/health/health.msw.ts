@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 export const getReadRootGetMockHandler = (
   overrideResponse?:
@@ -12,13 +13,18 @@ export const getReadRootGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 export const getHealthMock = () => [getReadRootGetMockHandler()]
