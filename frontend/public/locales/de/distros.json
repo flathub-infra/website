@@ -370,7 +370,8 @@
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<text>Um Flatpak auf EndeavorOS zu installieren, muss sichergestellt werden, dass das System aktuell ist. Führe das Folgende im Terminal aus:</text> <codeUpdate></codeUpdate> <text>Danach installiere Flatpak:</text> <code></code>"
     },
     "step-3": {
       "name": "Neustart",

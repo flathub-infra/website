@@ -2,5 +2,9 @@
   "flathub": "Flathub",
   "flathub-logo": "Logotipo de Flathub",
   "more-pages": "Máis páxinas",
-  "carousel": "Carrusel"
+  "carousel": "Carrusel",
+  "documentation": "Documentación",
+  "statistics": "Estatísticas",
+  "country-statistics": "Estatísticas por país",
+  "source-code": "Código fonte"
 }
