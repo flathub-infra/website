@@ -64,7 +64,7 @@ class Urls(BaseModel):
 class Translation(BaseModel):
     """Translation information."""
 
-    value: str
+    value: str | None = None
     type: str
 
 
