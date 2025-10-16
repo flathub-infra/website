@@ -4,20 +4,20 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserInfoDisplayname } from "./userInfoDisplayname"
+import type { UserInfoOutputDisplayname } from "./userInfoOutputDisplayname"
 import type { Permission } from "./permission"
-import type { UserInfoAcceptedPublisherAgreementAt } from "./userInfoAcceptedPublisherAgreementAt"
+import type { UserInfoOutputAcceptedPublisherAgreementAt } from "./userInfoOutputAcceptedPublisherAgreementAt"
 import type { AuthInfo } from "./authInfo"
 import type { Auths } from "./auths"
 
-export interface UserInfo {
-  displayname?: UserInfoDisplayname
+export interface UserInfoOutput {
+  displayname?: UserInfoOutputDisplayname
   dev_flatpaks?: string[]
   permissions?: Permission[]
   owned_flatpaks?: string[]
   invited_flatpaks?: string[]
   invite_code: string
-  accepted_publisher_agreement_at: UserInfoAcceptedPublisherAgreementAt
+  accepted_publisher_agreement_at: UserInfoOutputAcceptedPublisherAgreementAt
   default_account: AuthInfo
   auths: Auths
 }

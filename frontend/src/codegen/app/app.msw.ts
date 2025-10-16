@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 import { MainCategory, VerificationMethod } from ".././model"
 import type {
@@ -80,9 +81,13 @@ export const getPostSearchSearchPostResponseMock = (
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.string.alpha({
-              length: { min: 10, max: 20 },
-            }),
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            ]),
           },
         },
         null,
@@ -142,11 +147,7 @@ export const getPostSearchSearchPostResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
+    updated_at: faker.number.int({ min: undefined, max: undefined }),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -154,11 +155,7 @@ export const getPostSearchSearchPostResponseMock = (
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
       null,
     ]),
-    added_at: faker.number.int({
-      min: undefined,
-      max: undefined,
-      multipleOf: undefined,
-    }),
+    added_at: faker.number.int({ min: undefined, max: undefined }),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         faker.number.float({
@@ -172,11 +169,7 @@ export const getPostSearchSearchPostResponseMock = (
     ]),
     installs_last_month: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.int({
-          min: undefined,
-          max: undefined,
-          multipleOf: undefined,
-        }),
+        faker.number.int({ min: undefined, max: undefined }),
         null,
       ]),
       undefined,
@@ -184,31 +177,11 @@ export const getPostSearchSearchPostResponseMock = (
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
-  hitsPerPage: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
-  page: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
-  totalPages: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
-  totalHits: faker.number.int({
-    min: undefined,
-    max: undefined,
-    multipleOf: undefined,
-  }),
+  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
+  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  totalPages: faker.number.int({ min: undefined, max: undefined }),
+  totalHits: faker.number.int({ min: undefined, max: undefined }),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
@@ -216,7 +189,6 @@ export const getPostSearchSearchPostResponseMock = (
           [faker.string.alphanumeric(5)]: faker.number.int({
             min: undefined,
             max: undefined,
-            multipleOf: undefined,
           }),
         },
       },
@@ -231,7 +203,6 @@ export const getPostSearchSearchPostResponseMock = (
           [faker.string.alphanumeric(5)]: faker.number.int({
             min: undefined,
             max: undefined,
-            multipleOf: undefined,
           }),
         },
       },
@@ -247,7 +218,6 @@ export const getGetRuntimeListRuntimesGetResponseMock =
     [faker.string.alphanumeric(5)]: faker.number.int({
       min: undefined,
       max: undefined,
-      multipleOf: undefined,
     }),
   })
 
@@ -265,11 +235,7 @@ export const getGetPlatformsPlatformsGetResponseMock =
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      keep: faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      keep: faker.number.int({ min: undefined, max: undefined }),
       stripe_account: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -303,21 +269,26 @@ export const getGetEolRebaseEolRebaseGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<GetEolRebaseEolRebaseGet200> | GetEolRebaseEolRebaseGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/eol/rebase", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/eol/rebase",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetEolRebaseEolRebaseGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetEolRebaseEolRebaseGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetMockHandler = (
@@ -328,21 +299,26 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetMockHandler = (
       ) =>
         | Promise<GetEolRebaseAppidEolRebaseAppIdGet200>
         | GetEolRebaseAppidEolRebaseAppIdGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/eol/rebase/:appId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/eol/rebase/:appId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetEolMessageEolMessageGetMockHandler = (
@@ -353,21 +329,26 @@ export const getGetEolMessageEolMessageGetMockHandler = (
       ) =>
         | Promise<GetEolMessageEolMessageGet200>
         | GetEolMessageEolMessageGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/eol/message", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/eol/message",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetEolMessageEolMessageGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetEolMessageEolMessageGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
@@ -378,21 +359,26 @@ export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
       ) =>
         | Promise<GetEolMessageAppidEolMessageAppIdGet200>
         | GetEolMessageAppidEolMessageAppIdGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/eol/message/:appId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/eol/message/:appId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getListAppstreamAppstreamGetMockHandler = (
@@ -401,21 +387,26 @@ export const getListAppstreamAppstreamGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<string[]> | string[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/appstream", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/appstream",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getListAppstreamAppstreamGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getListAppstreamAppstreamGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetAppstreamAppstreamAppIdGetMockHandler = (
@@ -424,14 +415,19 @@ export const getGetAppstreamAppstreamAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/appstream/:appId", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/appstream/:appId",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
@@ -440,21 +436,26 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<boolean> | boolean),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/is-fullscreen-app/:appId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/is-fullscreen-app/:appId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getPostSearchSearchPostMockHandler = (
@@ -465,21 +466,26 @@ export const getPostSearchSearchPostMockHandler = (
       ) =>
         | Promise<MeilisearchResponseAppsIndex>
         | MeilisearchResponseAppsIndex),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/search", async (info) => {
-    await delay(1000)
+  return http.post(
+    "*/search",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getPostSearchSearchPostResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getPostSearchSearchPostResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetRuntimeListRuntimesGetMockHandler = (
@@ -490,21 +496,26 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
       ) =>
         | Promise<GetRuntimeListRuntimesGet200>
         | GetRuntimeListRuntimesGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/runtimes", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/runtimes",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetRuntimeListRuntimesGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetRuntimeListRuntimesGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetSummarySummaryAppIdGetMockHandler = (
@@ -513,14 +524,19 @@ export const getGetSummarySummaryAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/summary/:appId", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/summary/:appId",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetPlatformsPlatformsGetMockHandler = (
@@ -529,21 +545,26 @@ export const getGetPlatformsPlatformsGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<GetPlatformsPlatformsGet200> | GetPlatformsPlatformsGet200),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/platforms", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/platforms",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetPlatformsPlatformsGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetPlatformsPlatformsGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetAddonsAddonAppIdGetMockHandler = (
@@ -552,21 +573,26 @@ export const getGetAddonsAddonAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<string[]> | string[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/addon/:appId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/addon/:appId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetAddonsAddonAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetAddonsAddonAppIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetExceptionsExceptionsGetMockHandler = (
@@ -575,14 +601,19 @@ export const getGetExceptionsExceptionsGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/exceptions/", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/exceptions/",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
@@ -591,14 +622,19 @@ export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/exceptions/:appId", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/exceptions/:appId",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getAddToFavoritesFavoritesAppIdAddPostMockHandler = (
@@ -607,14 +643,19 @@ export const getAddToFavoritesFavoritesAppIdAddPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/favorites/:appId/add", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/favorites/:appId/add",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler = (
@@ -623,14 +664,19 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.delete>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.delete("*/favorites/:appId/remove", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.delete(
+    "*/favorites/:appId/remove",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetFavoritesFavoritesGetMockHandler = (
@@ -639,21 +685,26 @@ export const getGetFavoritesFavoritesGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<FavoriteApp[]> | FavoriteApp[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/favorites", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/favorites",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetFavoritesFavoritesGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetFavoritesFavoritesGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getIsFavoritedFavoritesAppIdGetMockHandler = (
@@ -662,21 +713,26 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<boolean> | boolean),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/favorites/:appId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/favorites/:appId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getIsFavoritedFavoritesAppIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getIsFavoritedFavoritesAppIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 export const getAppMock = () => [
   getGetEolRebaseEolRebaseGetMockHandler(),

@@ -5,6 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type AppsIndexTranslationsAnyOf = {
-  [key: string]: { [key: string]: string | string[] }
-}
+export type UserInfoInputDisplayname = string | null

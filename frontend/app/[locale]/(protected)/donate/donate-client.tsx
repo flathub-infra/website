@@ -3,7 +3,10 @@
 import { useTranslations } from "next-intl"
 import ClientAuthGuard from "../../../../src/components/login/ClientAuthGuard"
 import DonationInput from "../../../../src/components/payment/DonationInput"
-import { Permission, UserInfo } from "../../../../src/codegen"
+import {
+  Permission,
+  GetUserinfoAuthUserinfoGet200,
+} from "../../../../src/codegen"
 import clsx from "clsx"
 import type { JSX } from "react"
 
@@ -13,7 +16,7 @@ const DonateClient = (): JSX.Element => {
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <ClientAuthGuard
-        condition={(info: UserInfo) =>
+        condition={(info: GetUserinfoAuthUserinfoGet200) =>
           info.permissions.some((a) => a === Permission.moderation)
         }
       >

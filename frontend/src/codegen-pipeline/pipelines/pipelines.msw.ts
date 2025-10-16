@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 import { PipelineStatus, PipelineTrigger } from ".././model"
 import type {
@@ -38,44 +39,28 @@ export const getListPipelinesApiPipelinesGetResponseMock =
       triggered_by: faker.helpers.arrayElement(Object.values(PipelineTrigger)),
       build_id: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          faker.number.int({ min: undefined, max: undefined }),
           null,
         ]),
         undefined,
       ]),
       commit_job_id: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          faker.number.int({ min: undefined, max: undefined }),
           null,
         ]),
         undefined,
       ]),
       publish_job_id: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          faker.number.int({ min: undefined, max: undefined }),
           null,
         ]),
         undefined,
       ]),
       update_repo_job_id: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.int({
-            min: undefined,
-            max: undefined,
-            multipleOf: undefined,
-          }),
+          faker.number.int({ min: undefined, max: undefined }),
           null,
         ]),
         undefined,
@@ -132,44 +117,28 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
   ]),
   build_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      faker.number.int({ min: undefined, max: undefined }),
       null,
     ]),
     undefined,
   ]),
   commit_job_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      faker.number.int({ min: undefined, max: undefined }),
       null,
     ]),
     undefined,
   ]),
   publish_job_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      faker.number.int({ min: undefined, max: undefined }),
       null,
     ]),
     undefined,
   ]),
   update_repo_job_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.number.int({
-        min: undefined,
-        max: undefined,
-        multipleOf: undefined,
-      }),
+      faker.number.int({ min: undefined, max: undefined }),
       null,
     ]),
     undefined,
@@ -233,21 +202,26 @@ export const getTriggerPipelineApiPipelinesPostMockHandler = (
       ) =>
         | Promise<TriggerPipelineApiPipelinesPost201>
         | TriggerPipelineApiPipelinesPost201),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/api/pipelines", async (info) => {
-    await delay(1000)
+  return http.post(
+    "*/api/pipelines",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getTriggerPipelineApiPipelinesPostResponseMock(),
-      ),
-      { status: 201, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getTriggerPipelineApiPipelinesPostResponseMock(),
+        ),
+        { status: 201, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getListPipelinesApiPipelinesGetMockHandler = (
@@ -256,21 +230,26 @@ export const getListPipelinesApiPipelinesGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<PipelineSummary[]> | PipelineSummary[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/api/pipelines", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/api/pipelines",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getListPipelinesApiPipelinesGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getListPipelinesApiPipelinesGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getGetPipelineApiPipelinesPipelineIdGetMockHandler = (
@@ -279,21 +258,26 @@ export const getGetPipelineApiPipelinesPipelineIdGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<PipelineResponse> | PipelineResponse),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/api/pipelines/:pipelineId", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/api/pipelines/:pipelineId",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetPipelineApiPipelinesPipelineIdGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetPipelineApiPipelinesPipelineIdGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMockHandler =
@@ -303,14 +287,19 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMockHandler =
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
         ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
   ) => {
-    return http.post("*/api/pipelines/:pipelineId/callback", async (info) => {
-      await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 200 })
-    })
+    return http.post(
+      "*/api/pipelines/:pipelineId/callback",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+      options,
+    )
   }
 
 export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler = (
@@ -319,14 +308,19 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/api/pipelines/:pipelineId/log_url", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/api/pipelines/:pipelineId/log_url",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getPublishPipelinesApiPipelinesPublishPostMockHandler = (
@@ -335,21 +329,26 @@ export const getPublishPipelinesApiPipelinesPublishPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<PublishSummary> | PublishSummary),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/api/pipelines/publish", async (info) => {
-    await delay(1000)
+  return http.post(
+    "*/api/pipelines/publish",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getPublishPipelinesApiPipelinesPublishPostResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getPublishPipelinesApiPipelinesPublishPostResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler = (
@@ -358,14 +357,19 @@ export const getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/api/pipelines/check-jobs", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/api/pipelines/check-jobs",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 export const getPipelinesMock = () => [
   getTriggerPipelineApiPipelinesPostMockHandler(),

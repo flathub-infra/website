@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 export const getBuildNotificationEmailsBuildNotificationPostMockHandler = (
   overrideResponse?:
@@ -12,14 +13,19 @@ export const getBuildNotificationEmailsBuildNotificationPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/emails/build-notification", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/emails/build-notification",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 export const getEmailMock = () => [
   getBuildNotificationEmailsBuildNotificationPostMockHandler(),

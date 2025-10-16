@@ -7,14 +7,15 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, delay, http } from "msw"
+import type { RequestHandlerOptions } from "msw"
 
 import { Permission } from ".././model"
 import type {
   DeleteUserResult,
   GetDeleteUserResult,
+  GetUserinfoAuthUserinfoGet200,
   LoginMethod,
   RefreshDevFlatpaksReturn,
-  UserInfo,
 } from ".././model"
 
 export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
@@ -26,128 +27,126 @@ export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
   }))
 
-export const getGetUserinfoAuthUserinfoGetResponseMock = (
-  overrideResponse: Partial<UserInfo | null> = {},
-): UserInfo | null =>
-  faker.helpers.arrayElement([
-    {
-      displayname: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
-      ]),
-      dev_flatpaks: faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-        undefined,
-      ]),
-      permissions: faker.helpers.arrayElement([
-        faker.helpers.arrayElements(Object.values(Permission)),
-        undefined,
-      ]),
-      owned_flatpaks: faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-        undefined,
-      ]),
-      invited_flatpaks: faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-        undefined,
-      ]),
-      invite_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      accepted_publisher_agreement_at: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split(".")[0]}Z`,
-        null,
-      ]),
-      default_account: {
-        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        avatar: faker.helpers.arrayElement([
+export const getGetUserinfoAuthUserinfoGetResponseMock =
+  (): GetUserinfoAuthUserinfoGet200 | void =>
+    faker.helpers.arrayElement([
+      {
+        displayname: faker.helpers.arrayElement([
           faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
           ]),
           undefined,
         ]),
+        dev_flatpaks: faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          undefined,
+        ]),
+        permissions: faker.helpers.arrayElement([
+          faker.helpers.arrayElements(Object.values(Permission)),
+          undefined,
+        ]),
+        owned_flatpaks: faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          undefined,
+        ]),
+        invited_flatpaks: faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          undefined,
+        ]),
+        invite_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        accepted_publisher_agreement_at: faker.helpers.arrayElement([
+          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          null,
+        ]),
+        default_account: {
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          avatar: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+        },
+        auths: {
+          github: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                avatar: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
+          gitlab: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                avatar: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
+          gnome: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                avatar: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
+          kde: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                avatar: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
+        },
       },
-      auths: {
-        github: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            {
-              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-              avatar: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                  faker.string.alpha({ length: { min: 10, max: 20 } }),
-                  null,
-                ]),
-                undefined,
-              ]),
-            },
-            null,
-          ]),
-          undefined,
-        ]),
-        gitlab: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            {
-              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-              avatar: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                  faker.string.alpha({ length: { min: 10, max: 20 } }),
-                  null,
-                ]),
-                undefined,
-              ]),
-            },
-            null,
-          ]),
-          undefined,
-        ]),
-        gnome: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            {
-              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-              avatar: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                  faker.string.alpha({ length: { min: 10, max: 20 } }),
-                  null,
-                ]),
-                undefined,
-              ]),
-            },
-            null,
-          ]),
-          undefined,
-        ]),
-        kde: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            {
-              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-              avatar: faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                  faker.string.alpha({ length: { min: 10, max: 20 } }),
-                  null,
-                ]),
-                undefined,
-              ]),
-            },
-            null,
-          ]),
-          undefined,
-        ]),
-      },
-      ...overrideResponse,
-    },
-    undefined,
-  ])
+      null,
+    ])
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock = (
   overrideResponse: Partial<RefreshDevFlatpaksReturn> = {},
@@ -187,21 +186,26 @@ export const getGetLoginMethodsAuthLoginGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<LoginMethod[]> | LoginMethod[]),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/login", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/auth/login",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetLoginMethodsAuthLoginGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetLoginMethodsAuthLoginGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getStartGithubFlowAuthLoginGithubGetMockHandler = (
@@ -210,14 +214,19 @@ export const getStartGithubFlowAuthLoginGithubGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/login/github", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/auth/login/github",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getContinueGithubFlowAuthLoginGithubPostMockHandler = (
@@ -226,14 +235,19 @@ export const getContinueGithubFlowAuthLoginGithubPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/login/github", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/auth/login/github",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getStartGitlabFlowAuthLoginGitlabGetMockHandler = (
@@ -242,14 +256,19 @@ export const getStartGitlabFlowAuthLoginGitlabGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/login/gitlab", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/auth/login/gitlab",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getContinueGitlabFlowAuthLoginGitlabPostMockHandler = (
@@ -258,14 +277,19 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/login/gitlab", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/auth/login/gitlab",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getStartGnomeFlowAuthLoginGnomeGetMockHandler = (
@@ -274,14 +298,19 @@ export const getStartGnomeFlowAuthLoginGnomeGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/login/gnome", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/auth/login/gnome",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getContinueGnomeFlowAuthLoginGnomePostMockHandler = (
@@ -290,14 +319,19 @@ export const getContinueGnomeFlowAuthLoginGnomePostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/login/gnome", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/auth/login/gnome",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getStartKdeFlowAuthLoginKdeGetMockHandler = (
@@ -306,14 +340,19 @@ export const getStartKdeFlowAuthLoginKdeGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/login/kde", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.get(
+    "*/auth/login/kde",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getContinueKdeFlowAuthLoginKdePostMockHandler = (
@@ -322,14 +361,19 @@ export const getContinueKdeFlowAuthLoginKdePostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/login/kde", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/auth/login/kde",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getContinueGoogleFlowAuthLoginGooglePostMockHandler = (
@@ -338,38 +382,51 @@ export const getContinueGoogleFlowAuthLoginGooglePostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/login/google", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/auth/login/google",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetUserinfoAuthUserinfoGetMockHandler = (
   overrideResponse?:
-    | UserInfo
-    | null
+    | GetUserinfoAuthUserinfoGet200
+    | void
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<UserInfo | null> | UserInfo | null),
+      ) =>
+        | Promise<GetUserinfoAuthUserinfoGet200 | void>
+        | GetUserinfoAuthUserinfoGet200
+        | void),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/userinfo", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/auth/userinfo",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetUserinfoAuthUserinfoGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetUserinfoAuthUserinfoGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler = (
@@ -378,21 +435,26 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<RefreshDevFlatpaksReturn> | RefreshDevFlatpaksReturn),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/refresh-dev-flatpaks", async (info) => {
-    await delay(1000)
+  return http.post(
+    "*/auth/refresh-dev-flatpaks",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getDoLogoutAuthLogoutPostMockHandler = (
@@ -401,14 +463,19 @@ export const getDoLogoutAuthLogoutPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/logout", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
+  return http.post(
+    "*/auth/logout",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
 }
 
 export const getGetDeleteuserAuthDeleteuserGetMockHandler = (
@@ -417,21 +484,26 @@ export const getGetDeleteuserAuthDeleteuserGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<GetDeleteUserResult> | GetDeleteUserResult),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.get("*/auth/deleteuser", async (info) => {
-    await delay(1000)
+  return http.get(
+    "*/auth/deleteuser",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetDeleteuserAuthDeleteuserGetResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetDeleteuserAuthDeleteuserGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getDoDeleteuserAuthDeleteuserPostMockHandler = (
@@ -440,21 +512,26 @@ export const getDoDeleteuserAuthDeleteuserPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) => Promise<DeleteUserResult> | DeleteUserResult),
+  options?: RequestHandlerOptions,
 ) => {
-  return http.post("*/auth/deleteuser", async (info) => {
-    await delay(1000)
+  return http.post(
+    "*/auth/deleteuser",
+    async (info) => {
+      await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getDoDeleteuserAuthDeleteuserPostResponseMock(),
-      ),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    )
-  })
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getDoDeleteuserAuthDeleteuserPostResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
 }
 
 export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockHandler =
@@ -464,31 +541,41 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockH
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
         ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
   ) => {
-    return http.post("*/auth/accept-publisher-agreement", async (info) => {
-      await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 200 })
-    })
+    return http.post(
+      "*/auth/accept-publisher-agreement",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+      options,
+    )
   }
 
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler =
   (
     overrideResponse?:
-      | null
+      | void
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<null> | null),
+        ) => Promise<void> | void),
+    options?: RequestHandlerOptions,
   ) => {
-    return http.post("*/auth/change-default-account", async (info) => {
-      await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 204 })
-    })
+    return http.post(
+      "*/auth/change-default-account",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 204 })
+      },
+      options,
+    )
   }
 export const getAuthMock = () => [
   getGetLoginMethodsAuthLoginGetMockHandler(),

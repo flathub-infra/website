@@ -4,7 +4,7 @@ import { LOGIN_PROVIDERS_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserStateAction } from "../types/Login"
 import { AxiosResponse } from "axios"
-import { UserInfo } from "src/codegen/model/userInfo"
+import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import { getUserinfoAuthUserinfoGet } from "src/codegen"
 
 /**
@@ -67,7 +67,7 @@ export async function getUserData(
   dispatch({ type: "loading" })
 
   // On network error just assume user state is unchanged
-  let res: AxiosResponse<UserInfo, any>
+  let res: AxiosResponse<void | GetUserinfoAuthUserinfoGet200, any>
   try {
     // Gets data for user with current session cookie
     res = await getUserinfoAuthUserinfoGet({ withCredentials: true })
@@ -76,8 +76,8 @@ export async function getUserData(
     // A no content status response indicates the user is not logged in
     if (res.status === 204) {
       dispatch({ type: "logout" })
-    } else {
-      const info: UserInfo = res.data
+    } else if (res.data) {
+      const info: GetUserinfoAuthUserinfoGet200 = res.data
       dispatch({
         type: "login",
         info,

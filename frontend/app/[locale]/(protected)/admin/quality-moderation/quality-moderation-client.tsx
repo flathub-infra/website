@@ -27,7 +27,7 @@ import {
   Permission,
   QualityModerationDashboardResponse,
   QualityModerationDashboardRow,
-  UserInfo,
+  GetUserinfoAuthUserinfoGet200,
   useGetQualityModerationStatusQualityModerationStatusGet,
 } from "src/codegen"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
@@ -101,7 +101,7 @@ export default function QualityModerationClient() {
 
   return (
     <AdminLayoutClient
-      condition={(info: UserInfo) =>
+      condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission["quality-moderation"])
       }
     >

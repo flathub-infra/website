@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useUserContext } from "../../context/user-info"
 import Spinner from "../Spinner"
-import { UserInfo } from "src/codegen"
+import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import { useTranslations } from "next-intl"
 import { usePathname, useRouter } from "src/i18n/navigation"
 
@@ -10,7 +10,7 @@ const LoginGuard = ({
   condition,
 }: {
   children: React.ReactNode
-  condition?: (user: UserInfo) => boolean | undefined
+  condition?: (user: GetUserinfoAuthUserinfoGet200) => boolean | undefined
 }) => {
   const t = useTranslations()
   const user = useUserContext()

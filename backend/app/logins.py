@@ -15,7 +15,7 @@ from urllib.parse import urlencode
 from uuid import uuid4
 
 import httpx
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from github import Github
 from gitlab import Gitlab
@@ -949,7 +949,7 @@ class UserInfo(BaseModel):
         204: {"description": "Not logged in"},
     },
 )
-def get_userinfo(login: LoginStatusDep) -> UserInfo:
+def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
     """
     Retrieve the current login's user information.  If the user is not logged in
     you will get a `204` return.  Otherwise you will receive JSON describing the
@@ -971,7 +971,8 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     dev_flatpaks is filtered against IDs available in AppStream
     """
     if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=204, detail="Not logged in")
+        response.status_code = 204
+        return None
 
     appstream = apps.get_appids(include_eol=True)
 

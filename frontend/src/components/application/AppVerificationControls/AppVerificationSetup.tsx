@@ -97,66 +97,86 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   let content: ReactElement
   if (query.error) {
     content = <InlineError shown={true} error={query.error.message} />
-  } else if (verificationAvailableMethods.error?.response?.data?.detail) {
-    switch (
-      verificationAvailableMethods.error.response.data
-        .detail as unknown as string
+  } else if (verificationAvailableMethods.error?.response?.data) {
+    const errorData = verificationAvailableMethods.error.response.data
+    // Handle custom error responses with string detail
+    let detail: string | undefined
+    if (
+      typeof errorData === "object" &&
+      "detail" in errorData &&
+      typeof errorData.detail === "string"
     ) {
-      case "app_already_exists":
-        content = <InlineError shown={true} error={t("app-already-exists")} />
-        break
-      case "malformed_app_id":
-        content = <InlineError shown={true} error={t("malformed-app-id")} />
-        break
-      case "app_already_verified":
-        if (isNewApp) {
+      detail = errorData.detail
+    }
+
+    if (detail) {
+      switch (detail) {
+        case "app_already_exists":
           content = <InlineError shown={true} error={t("app-already-exists")} />
-        } else {
+          break
+        case "malformed_app_id":
+          content = <InlineError shown={true} error={t("malformed-app-id")} />
+          break
+        case "app_already_verified":
+          if (isNewApp) {
+            content = (
+              <InlineError shown={true} error={t("app-already-exists")} />
+            )
+          } else {
+            content = (
+              <div>
+                <StatusInfo status={query.data.data} />
+
+                <br />
+
+                <Button
+                  size="lg"
+                  className="mt-3"
+                  onClick={() => setConfirmUnverify(true)}
+                >
+                  {t("unverify")}
+                </Button>
+
+                <ConfirmDialog
+                  isVisible={confirmUnverify}
+                  prompt={t("unverify", { appId: app.id })}
+                  action={t("unverify")}
+                  actionVariant="destructive"
+                  onConfirmed={() => {
+                    setConfirmUnverify(false)
+
+                    unverifyVerificationAppIdUnverifyPost(app.id, {
+                      withCredentials: true,
+                    }).then(() => {
+                      query.refetch()
+                    })
+                  }}
+                  onCancelled={() => setConfirmUnverify(false)}
+                >
+                  {t("unverify-app-prompt", { appId: app.id })}
+                </ConfirmDialog>
+              </div>
+            )
+          }
+          break
+        default:
           content = (
-            <div>
-              <StatusInfo status={query.data.data} />
-
-              <br />
-
-              <Button
-                size="lg"
-                className="mt-3"
-                onClick={() => setConfirmUnverify(true)}
-              >
-                {t("unverify")}
-              </Button>
-
-              <ConfirmDialog
-                isVisible={confirmUnverify}
-                prompt={t("unverify", { appId: app.id })}
-                action={t("unverify")}
-                actionVariant="destructive"
-                onConfirmed={() => {
-                  setConfirmUnverify(false)
-
-                  unverifyVerificationAppIdUnverifyPost(app.id, {
-                    withCredentials: true,
-                  }).then(() => {
-                    query.refetch()
-                  })
-                }}
-                onCancelled={() => setConfirmUnverify(false)}
-              >
-                {t("unverify-app-prompt", { appId: app.id })}
-              </ConfirmDialog>
-            </div>
+            <InlineError
+              shown={true}
+              error={t("error-code", {
+                code: detail,
+              })}
+            />
           )
-        }
-        break
-      default:
-        content = (
-          <InlineError
-            shown={true}
-            error={t("error-code", {
-              code: verificationAvailableMethods.error?.response.data.detail.toString(),
-            })}
-          />
-        )
+      }
+    } else {
+      // Handle other error types
+      content = (
+        <InlineError
+          shown={true}
+          error={verificationAvailableMethods.error.message}
+        />
+      )
     }
   } else {
     content = (

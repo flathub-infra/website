@@ -61,7 +61,7 @@ export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<null | null | HTTPValidationError>,
+  TError = AxiosError<void | void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -106,11 +106,11 @@ export type GetUploadTokensUploadTokensAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>
 >
 export type GetUploadTokensUploadTokensAppIdGetQueryError =
-  AxiosError<null | null | HTTPValidationError>
+  AxiosError<void | void | HTTPValidationError>
 
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<null | null | HTTPValidationError>,
+  TError = AxiosError<void | void | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetUploadTokensUploadTokensAppIdGetParams,
@@ -138,7 +138,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 }
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<null | null | HTTPValidationError>,
+  TError = AxiosError<void | void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -166,7 +166,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 }
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<null | null | HTTPValidationError>,
+  TError = AxiosError<void | void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -190,7 +190,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<null | null | HTTPValidationError>,
+  TError = AxiosError<void | void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -240,7 +240,7 @@ export const createUploadTokenUploadTokensAppIdPost = (
 }
 
 export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
-  TError = AxiosError<null | null | null | HTTPValidationError | null>,
+  TError = AxiosError<void | void | void | HTTPValidationError | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -283,13 +283,13 @@ export type CreateUploadTokenUploadTokensAppIdPostMutationResult = NonNullable<
 export type CreateUploadTokenUploadTokensAppIdPostMutationBody =
   UploadTokenRequest
 export type CreateUploadTokenUploadTokensAppIdPostMutationError =
-  AxiosError<null | null | null | HTTPValidationError | null>
+  AxiosError<void | void | void | HTTPValidationError | void>
 
 /**
  * @summary Create Upload Token
  */
 export const useCreateUploadTokenUploadTokensAppIdPost = <
-  TError = AxiosError<null | null | null | HTTPValidationError | null>,
+  TError = AxiosError<void | void | void | HTTPValidationError | void>,
   TContext = unknown,
 >(
   options?: {
@@ -319,7 +319,7 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
 export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
   tokenId: number,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<null>> => {
+): Promise<AxiosResponse<void>> => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${tokenId}/revoke`,
     undefined,
@@ -329,7 +329,7 @@ export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
 
 export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
   <
-    TError = AxiosError<null | null | null | HTTPValidationError | null>,
+    TError = AxiosError<void | void | void | HTTPValidationError | void>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
@@ -379,13 +379,13 @@ export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationResult =
   >
 
 export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationError =
-  AxiosError<null | null | null | HTTPValidationError | null>
+  AxiosError<void | void | void | HTTPValidationError | void>
 
 /**
  * @summary Revoke Upload Token
  */
 export const useRevokeUploadTokenUploadTokensTokenIdRevokePost = <
-  TError = AxiosError<null | null | null | HTTPValidationError | null>,
+  TError = AxiosError<void | void | void | HTTPValidationError | void>,
   TContext = unknown,
 >(
   options?: {

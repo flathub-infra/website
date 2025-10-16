@@ -2,7 +2,7 @@
 
 import clsx from "clsx"
 import { ReactNode, useEffect } from "react"
-import { Permission, UserInfo } from "src/codegen"
+import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import LoginGuard from "./login/LoginGuard"
 import { useUserContext } from "src/context/user-info"
 import FlathubListbox from "./FlathubListbox"
@@ -13,7 +13,7 @@ const AdminLayoutClient = ({
   condition,
 }: {
   children: ReactNode
-  condition?: (user: UserInfo) => boolean
+  condition?: (user: GetUserinfoAuthUserinfoGet200) => boolean
 }) => {
   const router = useRouter()
   const pathname = usePathname()
@@ -24,31 +24,31 @@ const AdminLayoutClient = ({
     {
       name: "Moderation",
       href: "/admin/moderation",
-      condition: (user: UserInfo) =>
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission.moderation),
     },
     {
       name: "Quality Moderation",
       href: "/admin/quality-moderation",
-      condition: (user: UserInfo) =>
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
     },
     {
       name: "App Picks",
       href: "/admin/app-picks",
-      condition: (user: UserInfo) =>
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
     },
     {
       name: "Users",
       href: "/admin/users",
-      condition: (user: UserInfo) =>
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["view-users"]),
     },
     {
       name: "Roles",
       href: "/admin/roles",
-      condition: (user: UserInfo) =>
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["view-users"]),
     },
   ].filter((nav) => !nav.condition || nav.condition(user?.info))

@@ -48,7 +48,7 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -89,12 +89,12 @@ export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>
 >
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryError = AxiosError<
-  null | null | null
+  void | void | void
 >
 
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options: {
@@ -121,7 +121,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -148,7 +148,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -171,7 +171,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -229,7 +229,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -274,14 +274,14 @@ export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
     Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>
   >
 export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryError = AxiosError<
-  null | null | null
+  void | void | void
 >
 
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options: {
@@ -314,7 +314,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -347,7 +347,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -372,7 +372,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
-  TError = AxiosError<null | null | null>,
+  TError = AxiosError<void | void | void>,
 >(
   date: string,
   options?: {
@@ -418,7 +418,7 @@ export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
 }
 
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -461,14 +461,14 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationResult = NonNullable<
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationBody =
   UpsertAppOfTheWeek
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError = AxiosError<
-  null | null | null | null
+  void | void | void | void
 >
 
 /**
  * @summary Set App Of The Week
  */
 export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
   TContext = unknown,
 >(
   options?: {
@@ -508,7 +508,7 @@ export const setAppOfTheDayAppPicksAppOfTheDayPost = (
 }
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -550,14 +550,14 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationResult = NonNullable<
 >
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationBody = AppOfTheDay
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError = AxiosError<
-  null | null | null | null
+  void | void | void | void
 >
 
 /**
  * @summary Set App Of The Day
  */
 export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
-  TError = AxiosError<null | null | null | null>,
+  TError = AxiosError<void | void | void | void>,
   TContext = unknown,
 >(
   options?: {

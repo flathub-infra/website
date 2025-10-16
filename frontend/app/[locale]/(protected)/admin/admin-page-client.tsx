@@ -1,12 +1,12 @@
 "use client"
 
 import AdminLayoutClient from "src/components/AdminLayoutClient"
-import { Permission, UserInfo } from "src/codegen"
+import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 
 export default function AdminPageClient() {
   return (
     <AdminLayoutClient
-      condition={(info: UserInfo) =>
+      condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission.moderation) ||
         info.permissions.some((a) => a === Permission["view-users"]) ||
         info.permissions.some((a) => a === Permission["quality-moderation"])
