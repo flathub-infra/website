@@ -63,7 +63,7 @@
     "react-dom": "19.1.1",
     "react-hook-form": "^7.63.0",
     "react-svg-worldmap": "2.0.0-alpha.16",
-    "recharts": "^2.15.4",
+    "recharts": "^3.2.1",
     "rtl-detect": "^1.1.2",
     "sass": "^1.93.2",
     "satori": "^0.18.3",
