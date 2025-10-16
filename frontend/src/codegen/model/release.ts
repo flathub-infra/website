@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ReleaseVersion } from "./releaseVersion"
 import type { ReleaseDescription } from "./releaseDescription"
 import type { ReleaseUrl } from "./releaseUrl"
 
@@ -12,7 +13,7 @@ import type { ReleaseUrl } from "./releaseUrl"
  */
 export interface Release {
   timestamp: string
-  version: string
+  version?: ReleaseVersion
   description?: ReleaseDescription
   url?: ReleaseUrl
 }

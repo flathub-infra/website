@@ -5,7 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { SummaryResponseBranch } from "./summaryResponseBranch"
-import type { SummaryMetadata } from "./summaryMetadata"
+import type { SummaryResponseMetadata } from "./summaryResponseMetadata"
 
 /**
  * Summary information response for an application.
@@ -19,6 +19,6 @@ export interface SummaryResponse {
   timestamp: number
   download_size: number
   installed_size: number
-  metadata: SummaryMetadata
+  metadata?: SummaryResponseMetadata
   [key: string]: unknown
 }

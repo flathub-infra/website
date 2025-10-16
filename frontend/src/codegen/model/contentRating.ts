@@ -4,11 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ContentRatingType } from "./contentRatingType"
 
 /**
  * Content rating information.
  */
 export interface ContentRating {
-  type: string
+  type?: ContentRatingType
   [key: string]: unknown
 }
