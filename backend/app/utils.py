@@ -367,13 +367,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             if elem_xml_lang:
                 # Only add translation if element has text content (leaf elements)
                 # Container elements like <keywords> with children will be handled below
-                if len(elem) == 0 and elem.text:
+                if len(elem) == 0 and elem.text and elem.text.strip():
                     add_translation(
                         app["locales"],
                         elem_xml_lang,
                         appid,
                         elem.tag,
-                        elem.text,
+                        elem.text.strip(),
                     )
                     continue
 
@@ -404,9 +404,11 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 if parent_xml_lang:
                     # Collect all child text values into a list
                     translated_items = [
-                        tag.text
+                        tag.text.strip()
                         for tag in elem
-                        if not len(tag.attrib) and tag.text is not None
+                        if not len(tag.attrib)
+                        and tag.text is not None
+                        and tag.text.strip()
                     ]
                     if translated_items:
                         add_translation(
@@ -428,19 +430,21 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     # Check if this is a translated child element
                     if xml_lang:
                         # Add translation for child elements like <keyword xml:lang="de">
-                        add_translation(
-                            app["locales"],
-                            xml_lang,
-                            appid,
-                            f"{elem.tag}_{tag_index}",
-                            tag.text,
-                        )
+                        if tag.text and tag.text.strip():
+                            add_translation(
+                                app["locales"],
+                                xml_lang,
+                                appid,
+                                f"{elem.tag}_{tag_index}",
+                                tag.text.strip(),
+                            )
                         continue
 
                     # No xml:lang attribute - either no attributes or other attributes
                     if not len(tag.attrib):
                         # Simple text element with no attributes
-                        app[elem.tag].append(tag.text)
+                        if tag.text and tag.text.strip():
+                            app[elem.tag].append(tag.text.strip())
                         continue
 
                     # Has other attributes (not xml:lang)
