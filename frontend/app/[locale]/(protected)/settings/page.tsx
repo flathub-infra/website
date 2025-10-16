@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
-import { fetchLoginProviders } from "../../../../src/fetchers"
+import { getLoginMethodsAuthLoginGet } from "../../../../src/codegen"
 import SettingsClient from "./settings-client"
 
 export async function generateMetadata({
@@ -22,7 +22,8 @@ export async function generateMetadata({
 
 export default async function SettingsPage() {
   try {
-    const providers = await fetchLoginProviders()
+    const response = await getLoginMethodsAuthLoginGet()
+    const providers = response.data
 
     return <SettingsClient providers={providers} />
   } catch (error) {

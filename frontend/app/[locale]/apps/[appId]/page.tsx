@@ -2,25 +2,25 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import {
-  fetchAppstream,
-  fetchAppStats,
-  fetchSummary,
-  fetchDeveloperApps,
-  fetchAddons,
-  fetchVerificationStatus,
-  fetchEolRebase,
-} from "../../../../src/fetchers"
-import { isValidAppId } from "@/lib/helpers"
-import AppDetailClient from "./app-detail-client"
-import {
+  getAppstreamAppstreamAppIdGet,
+  getStatsForAppStatsAppIdGet,
+  getSummarySummaryAppIdGet,
+  getDeveloperCollectionDeveloperDeveloperGet,
+  getAddonsAddonAppIdGet,
+  getVerificationStatusVerificationAppIdStatusGet,
+  getEolRebaseAppidEolRebaseAppIdGet,
   getEolMessageAppidEolMessageAppIdGet,
   MeilisearchResponseAppsIndex,
 } from "src/codegen"
-import { AddonAppstream } from "../../../../src/types/Appstream"
+import { VerificationStatus } from "src/types/VerificationStatus"
+import { isValidAppId } from "@/lib/helpers"
+import AppDetailClient from "./app-detail-client"
+import { Appstream, AddonAppstream } from "../../../../src/types/Appstream"
 import { removeAppIdFromSearchResponse } from "../../../../src/meilisearch"
 import { formatISO } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { redirect } from "src/i18n/navigation"
+import { Summary } from "src/types/Summary"
 
 export async function generateStaticParams() {
   // Return empty array to enable ISR for all app IDs
@@ -37,11 +37,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale })
 
   try {
-    const app = await fetchAppstream(appId, locale)
-
-    if ("error" in app) {
-      throw new Error("App not found")
-    }
+    const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
+    const app = response.data
 
     return {
       title: t("install-x", { app_name: app?.name }),
@@ -90,7 +87,8 @@ export default async function AppDetailPage({
   }
 
   // Check for EOL rebase redirect
-  const eolRebaseTo = await fetchEolRebase(cleanAppId)
+  const eolRebaseResponse = await getEolRebaseAppidEolRebaseAppIdGet(cleanAppId)
+  const eolRebaseTo = eolRebaseResponse.data
   if (eolRebaseTo) {
     const redirectPath = isFlatpakref
       ? `/apps/${eolRebaseTo}.flatpakref`
@@ -129,35 +127,69 @@ export default async function AppDetailPage({
   }
 
   try {
-    // Fetch all required data
-    const [app, stats, summary, addons, verificationStatus] = await Promise.all(
-      [
-        fetchAppstream(cleanAppId, locale),
-        fetchAppStats(cleanAppId),
-        fetchSummary(cleanAppId),
-        fetchAddons(cleanAppId, locale),
-        fetchVerificationStatus(cleanAppId),
-      ],
+    // Fetch critical data first
+    const [appResponse, statsResponse, summaryResponse] = await Promise.all([
+      getAppstreamAppstreamAppIdGet(cleanAppId, { locale }),
+      getStatsForAppStatsAppIdGet(cleanAppId),
+      getSummarySummaryAppIdGet(cleanAppId),
+    ])
+
+    const app = appResponse.data as unknown as Appstream
+    const stats = statsResponse.data
+    const summary = summaryResponse.data as unknown as Summary
+
+    // Fetch addons list with fallback
+    let addonsList: string[] = []
+    try {
+      const addonsListResponse = await getAddonsAddonAppIdGet(cleanAppId)
+      addonsList = addonsListResponse.data
+    } catch (e) {
+      addonsList = []
+    }
+
+    // Fetch verification status with fallback
+    let verificationStatus: VerificationStatus | null = null
+    try {
+      const verificationStatusResponse =
+        await getVerificationStatusVerificationAppIdStatusGet(cleanAppId)
+      verificationStatus =
+        verificationStatusResponse.data as unknown as VerificationStatus
+    } catch (e) {
+      verificationStatus = null
+    }
+    // Fetch addon appstreams
+    const addonAppstreams = await Promise.all(
+      addonsList.map((addonId) =>
+        getAppstreamAppstreamAppIdGet(addonId, { locale }),
+      ),
     )
 
-    // Check for errors in fetched data
-    if ("error" in app) {
-      throw new Error(`App fetch error: ${app.error}`)
-    }
-    if ("error" in stats) {
-      throw new Error(`Stats fetch error: ${stats.error}`)
-    }
-    if ("error" in summary) {
-      throw new Error(`Summary fetch error: ${summary.error}`)
-    }
-    if ("error" in addons) {
-      throw new Error(`Addons fetch error: ${addons.error}`)
-    }
-    if ("error" in verificationStatus) {
-      throw new Error(
-        `Verification status fetch error: ${verificationStatus.error}`,
+    const addonAppStats = await Promise.all(
+      addonsList.map((addonId) => getStatsForAppStatsAppIdGet(addonId)),
+    )
+
+    // Combine addon data and sort by installs
+    const combined = addonAppstreams
+      .filter((response) => response.data && "id" in response.data)
+      .map((response) => {
+        const addonApp = response.data as unknown as Appstream
+        return {
+          id: addonApp.id,
+          appstream: addonApp,
+          stats: addonAppStats.find(
+            (statsResponse) => statsResponse.data.id === addonApp.id,
+          )?.data,
+        }
+      })
+
+    combined.sort((a, b) => {
+      return (
+        (b.stats?.installs_last_month ?? 0) -
+        (a.stats?.installs_last_month ?? 0)
       )
-    }
+    })
+
+    const addons = combined.map((item) => item.appstream) as AddonAppstream[]
 
     // If no app found and no EOL message, show 404
     if (!app) {
@@ -171,15 +203,19 @@ export default async function AppDetailPage({
     }
 
     // Fetch developer apps only for non-addon apps
-    const developerApps =
+    const developerAppsResponse =
       app && app.type !== "addon" && app.developer_name
-        ? await fetchDeveloperApps(app.developer_name, locale, 1, 7)
+        ? await getDeveloperCollectionDeveloperDeveloperGet(
+            app.developer_name,
+            {
+              page: 1,
+              per_page: 7,
+              locale,
+            },
+          )
         : null
 
-    // Check for developer apps error
-    if (developerApps && "error" in developerApps) {
-      throw new Error(`Developer apps fetch error: ${developerApps.error}`)
-    }
+    const developerApps = developerAppsResponse?.data ?? null
 
     // Get date published (matching original pages router logic)
     const datePublished = formatISO(new UTCDate(summary?.timestamp ?? 0 * 1000))

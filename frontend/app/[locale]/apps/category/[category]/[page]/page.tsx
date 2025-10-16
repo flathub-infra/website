@@ -1,13 +1,11 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import {
-  fetchCategory,
-  fetchGameCategory,
-} from "../../../../../../src/fetchers"
+import { getCategoryCollectionCategoryCategoryGet } from "../../../../../../src/codegen"
 import {
   categoryToName,
   stringToCategory,
+  gameCategoryFilter,
 } from "../../../../../../src/types/Category"
 import { SortBy } from "../../../../../../src/codegen"
 import CategoryPageClient from "./category-page-client"
@@ -56,22 +54,22 @@ export default async function CategoryPagePaginated({
 
   let applications
   if (category === "game") {
-    applications = await fetchGameCategory(locale, page, 30)
-  } else {
-    applications = await fetchCategory(
-      category,
-      locale,
+    const response = await getCategoryCollectionCategoryCategoryGet(category, {
       page,
-      30,
-      [],
-      SortBy.trending,
-    )
-  }
-
-  if ("error" in applications) {
-    throw new Error(
-      `Failed to fetch category ${category}: ${applications.error}`,
-    )
+      per_page: 30,
+      locale,
+      exclude_subcategories: gameCategoryFilter,
+      sort_by: SortBy.trending,
+    })
+    applications = response.data
+  } else {
+    const response = await getCategoryCollectionCategoryCategoryGet(category, {
+      page,
+      per_page: 30,
+      locale,
+      sort_by: SortBy.trending,
+    })
+    applications = response.data
   }
 
   // If there are no applications in this category, return 404

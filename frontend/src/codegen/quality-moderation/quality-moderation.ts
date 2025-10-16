@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AppPickRecommendationsResponse,
   FailedByGuideline,
@@ -49,6 +51,8 @@ export const getQualityModerationStatusQualityModerationStatusGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -285,6 +289,8 @@ export const getPassingQualityAppsQualityModerationPassingAppsGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -522,6 +528,8 @@ export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
       {
         ...options,
         params: { ...params, ...options?.params },
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
       },
     )
   }
@@ -1841,6 +1849,8 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }

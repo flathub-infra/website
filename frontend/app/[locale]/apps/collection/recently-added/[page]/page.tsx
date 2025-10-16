@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import fetchCollection from "../../../../../../src/fetchers"
+import { getRecentlyAddedCollectionRecentlyAddedGet } from "../../../../../../src/codegen"
 import { Metadata } from "next"
 import RecentlyAddedCollectionClient from "./recently-added-collection-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
@@ -39,16 +39,12 @@ export default async function RecentlyAddedCollectionPage({ params }: Props) {
     notFound()
   }
 
-  const applications = await fetchCollection(
-    "recently-added",
-    pageNum,
-    30,
+  const response = await getRecentlyAddedCollectionRecentlyAddedGet({
+    page: pageNum,
+    per_page: 30,
     locale,
-  )
-
-  if ("error" in applications) {
-    throw new Error(`Collection fetch error: ${applications.error}`)
-  }
+  })
+  const applications = response.data
 
   if (applications.page > applications.totalPages) {
     notFound()

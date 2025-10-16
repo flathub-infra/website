@@ -1,6 +1,6 @@
 import { Resvg } from "@resvg/resvg-js"
 import satori from "satori"
-import { fetchAppstream } from "src/fetchers"
+import { getAppstreamAppstreamAppIdGet } from "src/codegen"
 import { getContrastColor } from "@/lib/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
@@ -33,12 +33,12 @@ export async function GET(
       ? "en"
       : locale
 
-  const app: DesktopAppstream = (await fetchAppstream(
-    appId as string,
-    safeLocale as string,
-  )) as DesktopAppstream
+  const response = await getAppstreamAppstreamAppIdGet(appId as string, {
+    locale: safeLocale as string,
+  })
+  const app: DesktopAppstream = response.data as unknown as DesktopAppstream
 
-  if (!app || "error" in app) {
+  if (!app) {
     return new Response("App not found", {
       status: 404,
       statusText: "App not found",

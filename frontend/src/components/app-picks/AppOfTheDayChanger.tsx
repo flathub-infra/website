@@ -6,7 +6,10 @@ import {
   isBefore,
   isSameDay,
 } from "date-fns"
-import { fetchAppOfTheDay, fetchAppstream } from "src/fetchers"
+import {
+  getAppOfTheDayAppPicksAppOfTheDayDateGet,
+  getAppstreamAppstreamAppIdGet,
+} from "src/codegen"
 import { AppOfTheDay } from "../application/AppOfTheDay"
 import Spinner from "../Spinner"
 import { FlathubCombobox } from "../Combobox"
@@ -25,26 +28,27 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const queryAppOfTheDay = useQuery({
     queryKey: ["app-of-the-day", day],
     queryFn: async () => {
-      const getAppsOfTheDay = await fetchAppOfTheDay(
-        formatISO(day, { representation: "date" }),
-      )
+      try {
+        const response = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
+          formatISO(day, { representation: "date" }),
+        )
 
-      if ("error" in getAppsOfTheDay) {
+        const getAppsOfTheDay = response.data
+
+        const infoResponse = await getAppstreamAppstreamAppIdGet(
+          getAppsOfTheDay.app_id,
+          { locale: "en" },
+        )
+
+        const getAppOfTheDayInfo =
+          infoResponse.data as unknown as DesktopAppstream
+
+        return getAppOfTheDayInfo
+      } catch (error) {
         throw new Error(
-          `Failed to fetch app of the day: ${getAppsOfTheDay.error}`,
+          `Failed to fetch app of the day for ${formatISO(day, { representation: "date" })}: ${error instanceof Error ? error.message : "Unknown error"}`,
         )
       }
-
-      const getAppOfTheDayInfo = await fetchAppstream(
-        getAppsOfTheDay.app_id,
-        "en",
-      )
-
-      if ("error" in getAppOfTheDayInfo) {
-        throw new Error(`Failed to fetch app info: ${getAppOfTheDayInfo.error}`)
-      }
-
-      return getAppOfTheDayInfo
     },
     enabled: !!user.info?.permissions.some(
       (a) => a === Permission["quality-moderation"],
@@ -87,7 +91,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
       {queryAppOfTheDay.isPending ? (
         <Spinner size="m" />
       ) : (
-        <AppOfTheDay appOfTheDay={queryAppOfTheDay.data as DesktopAppstream} />
+        <AppOfTheDay appOfTheDay={queryAppOfTheDay.data} />
       )}
       <FlathubCombobox
         disabled={isBefore(day, new Date()) && !isSameDay(day, new Date())}

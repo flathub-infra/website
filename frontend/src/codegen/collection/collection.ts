@@ -20,6 +20,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AppSearchDevelopersResponse,
   GetCategoryCollectionCategoryCategoryGetParams,
@@ -213,6 +215,8 @@ export const getCategoryCollectionCategoryCategoryGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -409,6 +413,8 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -671,6 +677,8 @@ export const getKeywordCollectionKeywordGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -849,6 +857,8 @@ export const getDevelopersCollectionDeveloperGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1029,6 +1039,8 @@ export const getDeveloperCollectionDeveloperDeveloperGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1243,6 +1255,8 @@ export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1455,6 +1469,8 @@ export const getRecentlyAddedCollectionRecentlyAddedGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1650,6 +1666,8 @@ export const getVerifiedCollectionVerifiedGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -1830,6 +1848,8 @@ export const getMobileCollectionMobileGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -2008,6 +2028,8 @@ export const getPopularLastMonthCollectionPopularGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
@@ -2188,6 +2210,8 @@ export const getTrendingLastTwoWeeksCollectionTrendingGet = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }

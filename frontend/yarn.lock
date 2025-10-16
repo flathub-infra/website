@@ -5147,6 +5147,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/qs@npm:^6":
+  version: 6.14.0
+  resolution: "@types/qs@npm:6.14.0"
+  checksum: 10c0/5b3036df6e507483869cdb3858201b2e0b64b4793dc4974f188caa5b5732f2333ab9db45c08157975054d3b070788b35088b4bc60257ae263885016ee2131310
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:19.1.12":
   version: 19.1.12
   resolution: "@types/react@npm:19.1.12"
@@ -8277,6 +8284,7 @@ __metadata:
     "@tanstack/react-query-devtools": "npm:^5.81.5"
     "@tanstack/react-table": "npm:^8.21.3"
     "@types/node": "npm:^24.6.2"
+    "@types/qs": "npm:^6"
     "@types/react": "npm:19.1.12"
     "@types/rtl-detect": "npm:^1"
     "@vitest/browser": "npm:^3.2.4"
@@ -8316,6 +8324,7 @@ __metadata:
     postcss: "npm:^8.5.3"
     prettier: "npm:^3.5.3"
     prettier-plugin-tailwindcss: "npm:^0.6.13"
+    qs: "npm:^6.14.0"
     react: "npm:19.1.1"
     react-copy-to-clipboard-ts: "npm:^1.3.0"
     react-country-flag: "npm:^3.1.0"
@@ -11329,6 +11338,15 @@ __metadata:
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: 10c0/14f76a8206bc3464f794fb2e3d3cc665ae416c01893ad7a02b23766eb07159144ee612ad67af5e84fa4479ccfe67678c4feb126b0485651b302babf66f04f9e9
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.14.0":
+  version: 6.14.0
+  resolution: "qs@npm:6.14.0"
+  dependencies:
+    side-channel: "npm:^1.1.0"
+  checksum: 10c0/8ea5d91bf34f440598ee389d4a7d95820e3b837d3fd9f433871f7924801becaa0cd3b3b4628d49a7784d06a8aea9bc4554d2b6d8d584e2d221dc06238a42909c
   languageName: node
   linkType: hard
 

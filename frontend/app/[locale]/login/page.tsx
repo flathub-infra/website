@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Suspense } from "react"
-import { fetchLoginProviders } from "../../../src/fetchers"
+import { getLoginMethodsAuthLoginGet } from "../../../src/codegen"
 import LoginClient from "./login-client"
 import Spinner from "src/components/Spinner"
 
@@ -28,7 +28,8 @@ export default async function LoginPage({
   params: Promise<{ locale: string }>
 }) {
   try {
-    const providers = await fetchLoginProviders()
+    const response = await getLoginMethodsAuthLoginGet()
+    const providers = response.data
     const { locale } = await params
 
     // Enable static rendering

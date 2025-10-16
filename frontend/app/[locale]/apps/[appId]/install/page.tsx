@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { fetchAppstream } from "../../../../../src/fetchers"
+import { getAppstreamAppstreamAppIdGet } from "../../../../../src/codegen"
 import InstallClient from "./client"
 
 export async function generateStaticParams() {
@@ -18,11 +18,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale })
 
   try {
-    const app = await fetchAppstream(appId, locale)
-
-    if ("error" in app) {
-      throw new Error("App not found")
-    }
+    const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
+    const app = response.data
 
     return {
       title: t("download.install-x", { x: app.name }),
@@ -61,14 +58,11 @@ export default async function InstallPage({
   setRequestLocale(locale)
 
   try {
-    const app = await fetchAppstream(appId, locale)
-
-    if ("error" in app || !app) {
-      notFound()
-    }
+    const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
+    const app = response.data
 
     // Use the client component to handle the redirect and fallback
-    return <InstallClient app={app} />
+    return <InstallClient app={app as any} />
   } catch (error) {
     console.error("Error fetching app data:", error)
     notFound()

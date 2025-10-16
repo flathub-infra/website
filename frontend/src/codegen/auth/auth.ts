@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   ContinueGithubFlowAuthLoginGithubPostBody,
   ContinueGitlabFlowAuthLoginGitlabPostBody,
@@ -2111,6 +2113,8 @@ export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
     {
       ...options,
       params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
     },
   )
 }
