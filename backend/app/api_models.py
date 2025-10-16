@@ -239,7 +239,7 @@ class SummaryResponse(BaseModel):
     timestamp: int
     download_size: int
     installed_size: int
-    metadata: SummaryMetadata
+    metadata: SummaryMetadata | None = None
 
     class Config:
         # Allow extra fields for forward compatibility
