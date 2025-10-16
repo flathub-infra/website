@@ -41,7 +41,7 @@ class Release(BaseModel):
 class ContentRating(BaseModel):
     """Content rating information."""
 
-    type: str
+    type: str | None = None
 
     class Config:
         # Allow extra fields for rating attributes like violence-cartoon, etc.
@@ -65,7 +65,7 @@ class Translation(BaseModel):
     """Translation information."""
 
     value: str | None = None
-    type: str
+    type: str | None = None
 
 
 class Launchable(BaseModel):
