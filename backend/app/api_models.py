@@ -33,7 +33,7 @@ class Release(BaseModel):
     """A release/version entry."""
 
     timestamp: str
-    version: str
+    version: str | None = None
     description: str | None = None
     url: str | None = None
 
