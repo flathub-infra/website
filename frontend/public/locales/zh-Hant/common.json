@@ -310,7 +310,7 @@
   "app-type": "應用程式類型",
   "new-app": "新應用程式",
   "community-repository": "社群軟體庫",
-  "community-repository-description": "將 Flatpak 清單和支援文件上傳到我們 GitHub 組織中的儲存庫，即可將應用程式上傳到 Flathub。 Flathub 的建造機器人將建構並發布應用。",
+  "community-repository-description": "將您的應用程式上傳至 Flathub，方法是將 Flatpak 清單檔與支援檔案上傳至我們 GitHub 組織中的倉庫。Flathub 的建置服務將為您編譯應用程式並發佈至 Flathub。",
   "new-community-repository": "新的社群軟體庫應用程式",
   "direct-upload": "直接上傳",
   "direct-upload-description": "在您自己的連續整合環境中建構您的應用程式並直接上傳至 Flathub。",
@@ -672,5 +672,7 @@
   "socket-may-allow-extra-permissions": "使用允許取得額外權限的插座",
   "uses-non-portal-service": "使用 portal 服務",
   "can-talk-to-non-portal-service": "可向非 portal 服務請求資料並取得額外權限",
-  "unauthorized": "未授權"
+  "unauthorized": "未授權",
+  "developed-by": "由 {developer} 開發",
+  "unverified-tooltip": "<appid></appid> 應用程式識別碼的所有權尚未驗證，可能屬於社群軟體包"
 }
