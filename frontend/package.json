@@ -75,7 +75,7 @@
     "yet-another-react-lightbox": "^3.25.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.3",
+    "@babel/core": "^7.28.4",
     "@chromatic-com/storybook": "^4.0.1",
     "@faker-js/faker": "^10.0.0",
     "@fortedigital/nextjs-cache-handler": "2.0.3",
