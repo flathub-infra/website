@@ -126,7 +126,7 @@ def get_appstream(
         if not app:
             raise HTTPException(status_code=404, detail="App not found")
 
-        if app.is_eol:
+        if models.App.is_fully_eol(db_session, app_id):
             raise HTTPException(status_code=404, detail="App not found")
 
         result = app.get_translated_appstream(locale)
@@ -229,7 +229,7 @@ def get_summary(
         if not app:
             raise HTTPException(status_code=404, detail="App not found")
 
-        if app.is_eol:
+        if models.App.is_fully_eol(db_session, app_id):
             raise HTTPException(status_code=404, detail="App not found")
 
         if app.summary:
