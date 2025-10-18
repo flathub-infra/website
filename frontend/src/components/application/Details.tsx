@@ -43,6 +43,7 @@ import { InformationCircleIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { UTCDate } from "@date-fns/utc"
 import { getIntlLocale } from "src/localize"
+import { getSafetyRating } from "src/safety"
 
 interface Props {
   app?: Appstream
@@ -174,13 +175,16 @@ const Details: FunctionComponent<Props> = ({
     const children = [<LicenseInfo key={"license-info"} app={app} />]
 
     if (summary !== null && summary.metadata !== null) {
-      children.unshift(
-        <SafetyRating
-          key={"safety-rating"}
-          data={app}
-          summaryMetadata={summary.metadata}
-        />,
-      )
+      const safetyRating = getSafetyRating(app, summary.metadata)
+      if (safetyRating.length > 0) {
+        children.unshift(
+          <SafetyRating
+            key={"safety-rating"}
+            appName={app.name}
+            safetyRating={safetyRating}
+          />,
+        )
+      }
     }
 
     return (
