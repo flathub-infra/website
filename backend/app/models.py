@@ -2406,16 +2406,9 @@ class App(Base):
             return
 
         if branch:
-            eol_branches = app.eol_branches or []
-
-            if isinstance(eol_branches, str):
-                try:
-                    eol_branches = json.loads(eol_branches)
-                except json.JSONDecodeError:
-                    eol_branches = []
-
-            if not isinstance(eol_branches, list):
-                eol_branches = []
+            eol_branches = (
+                app.eol_branches if isinstance(app.eol_branches, list) else []
+            )
 
             if is_eol and branch not in eol_branches:
                 new_eol_branches = eol_branches.copy()
@@ -2475,21 +2468,52 @@ class App(Base):
         if not app.is_eol:
             return False
 
-        if branch and app.eol_branches:
-            eol_branches = app.eol_branches
+        # If eol_branches is set, only specific branches are EOL (partial EOL)
+        if app.eol_branches:
+            if isinstance(app.eol_branches, list) and len(app.eol_branches) > 0:
+                # If a specific branch is requested, check if it's in the EOL list
+                if branch:
+                    return branch in app.eol_branches
 
+                # If no branch specified and we have partial EOL, the app is not fully EOL
+                return False
+
+        # No eol_branches (or empty list), meaning all branches are EOL
+        return True
+
+    @classmethod
+    def is_fully_eol(cls, db, app_id: str) -> bool:
+        """
+        Check if an app is completely EOL (all branches are EOL).
+        Returns True only if the app is EOL and has no active branches.
+        If eol_branches is set, it means only specific branches are EOL,
+        so there are still active branches available.
+        """
+        app = App.by_appid(db, app_id)
+        if not app:
+            return False
+
+        if not app.is_eol:
+            return False
+
+        # If eol_branches is set, it means only specific branches are EOL
+        # and there are still active branches, so the app is not fully EOL
+        if app.eol_branches:
+            eol_branches = app.eol_branches
             if isinstance(eol_branches, str):
                 try:
                     eol_branches = json.loads(eol_branches)
                 except json.JSONDecodeError:
-                    eol_branches = []
+                    # Malformed data, treat as fully EOL
+                    return True
 
-            if not isinstance(eol_branches, list):
-                eol_branches = []
+            if isinstance(eol_branches, list) and len(eol_branches) > 0:
+                # Has eol_branches - this means some branches are EOL but others are not
+                # Therefore, the app is NOT fully EOL
+                return False
 
-            return branch in eol_branches
-
-        return app.is_eol
+        # No eol_branches (or empty list), meaning all branches are EOL
+        return True
 
     @classmethod
     def set_eol_message(cls, db, app_id: str, message: str) -> None:

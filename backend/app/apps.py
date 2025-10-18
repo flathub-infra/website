@@ -233,7 +233,7 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
 
     with database.get_db() as sqldb:
         app = models.App.by_appid(sqldb, app_id)
-        if not app or not app.summary or app.is_eol:
+        if not app or not app.summary or models.App.is_fully_eol(sqldb, app_id):
             return result
 
         metadata = app.summary.get("metadata", {})
