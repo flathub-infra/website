@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import SafetyRating from "./SafetyRating"
+import { getSafetyRating } from "../../safety"
 
 const meta = {
   component: SafetyRating,
@@ -13,55 +14,61 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    data: {
-      is_free_license: true,
-      metadata: {
-        "flathub::verification::verified": "true",
+    appName: "Test App",
+    safetyRating: getSafetyRating(
+      {
+        is_free_license: true,
+        metadata: {
+          "flathub::verification::verified": "true",
+        },
+        project_license: "GPL-3",
       },
-      name: "Test App",
-      project_license: "GPL-3",
-    },
-    summaryMetadata: {
-      permissions: {
-        shared: ["network"],
+      {
+        permissions: {
+          shared: ["network"],
+        },
+        runtimeIsEol: false,
       },
-      runtimeIsEol: false,
-    },
+    ),
   },
 }
 
 export const EOL: Story = {
   args: {
-    data: {
-      is_free_license: true,
-      metadata: {
-        "flathub::verification::verified": "true",
+    appName: "Test App",
+    safetyRating: getSafetyRating(
+      {
+        is_free_license: true,
+        metadata: {
+          "flathub::verification::verified": "true",
+        },
+        project_license: "GPL-3",
       },
-      name: "Test App",
-      project_license: "GPL-3",
-    },
-    summaryMetadata: {
-      permissions: {
-        shared: ["network"],
+      {
+        permissions: {
+          shared: ["network"],
+        },
+        runtimeIsEol: true,
       },
-      runtimeIsEol: true,
-    },
+    ),
   },
 }
 
 export const Safe: Story = {
   args: {
-    data: {
-      is_free_license: true,
-      metadata: {
-        "flathub::verification::verified": "true",
+    appName: "Test App",
+    safetyRating: getSafetyRating(
+      {
+        is_free_license: true,
+        metadata: {
+          "flathub::verification::verified": "true",
+        },
+        project_license: "GPL-3",
       },
-      name: "Test App",
-      project_license: "GPL-3",
-    },
-    summaryMetadata: {
-      permissions: {},
-      runtimeIsEol: false,
-    },
+      {
+        permissions: {},
+        runtimeIsEol: false,
+      },
+    ),
   },
 }

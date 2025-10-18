@@ -3,6 +3,7 @@ import React from "react"
 import SafetyRating from "./components/application/SafetyRating"
 import { Appstream } from "./types/Appstream"
 import { Metadata } from "./types/Summary"
+import { getSafetyRating } from "./safety"
 
 const meta = {
   component: SafetyRating,
@@ -68,229 +69,298 @@ const createMetadata = (
 
 export const SafeApp: Story = {
   args: {
-    data: createAppData({ verified: true }),
-    summaryMetadata: createMetadata(),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData({ verified: true }),
+      createMetadata(),
+    ),
   },
 }
 
 export const ProbablySafeApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({ shared: ["network"] }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({ shared: ["network"] }),
+    ),
   },
 }
 
 export const PotentiallyUnsafeApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      filesystems: ["home"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        filesystems: ["home"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const UnsafeApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      filesystems: ["host"],
-      sockets: ["x11"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        filesystems: ["host"],
+        sockets: ["x11"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const ProprietaryApp: Story = {
   args: {
-    data: createAppData({
-      project_license: "Proprietary",
-      is_free_license: false,
-    }),
-    summaryMetadata: createMetadata({ shared: ["network"] }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData({
+        project_license: "Proprietary",
+        is_free_license: false,
+      }),
+      createMetadata({ shared: ["network"] }),
+    ),
   },
 }
 
 export const EOLRuntimeApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      runtimeIsEol: true,
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        runtimeIsEol: true,
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const MaximumPermissionsApp: Story = {
   args: {
-    data: createAppData({
-      project_license: "Proprietary",
-      is_free_license: false,
-    }),
-    summaryMetadata: createMetadata({
-      runtimeIsEol: true,
-      shared: ["network"],
-      sockets: ["x11", "system-bus", "session-bus", "pulseaudio", "gpg-agent"],
-      devices: ["all"],
-      filesystems: [
-        "host",
-        "xdg-download",
-        "xdg-run/pipewire-0",
-        "xdg-data/flatpak/overrides:create",
-      ],
-      sessionBusTalk: ["ca.desrt.dconf", "org.freedesktop.flatpak"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData({
+        project_license: "Proprietary",
+        is_free_license: false,
+      }),
+      createMetadata({
+        runtimeIsEol: true,
+        shared: ["network"],
+        sockets: [
+          "x11",
+          "system-bus",
+          "session-bus",
+          "pulseaudio",
+          "gpg-agent",
+        ],
+        devices: ["all"],
+        filesystems: [
+          "host",
+          "xdg-download",
+          "xdg-run/pipewire-0",
+          "xdg-data/flatpak/overrides:create",
+        ],
+        sessionBusTalk: ["ca.desrt.dconf", "org.freedesktop.flatpak"],
+      }),
+    ),
   },
 }
 
 export const InputDeviceApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      devices: ["input"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        devices: ["input"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const SystemDeviceApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      devices: ["shm", "kvm"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        devices: ["shm", "kvm"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const DownloadFolderApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      filesystems: ["xdg-download"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        filesystems: ["xdg-download"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const ReadOnlyHomeFolderApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      filesystems: ["home:ro"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        filesystems: ["home:ro"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const SpecificFolderApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      filesystems: [
-        "xdg-documents/Projects",
-        "xdg-pictures/Photos:ro",
-        "~/work-files",
-      ],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        filesystems: [
+          "xdg-documents/Projects",
+          "xdg-pictures/Photos:ro",
+          "~/work-files",
+        ],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const MediaAccessApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      sockets: ["pulseaudio"],
-      filesystems: ["xdg-run/pipewire-0"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        sockets: ["pulseaudio"],
+        filesystems: ["xdg-run/pipewire-0"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const LegacyX11App: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      sockets: ["fallback-x11"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        sockets: ["fallback-x11"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const WaylandApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      sockets: ["wayland", "fallback-x11"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        sockets: ["wayland", "fallback-x11"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const UserSettingsApp: Story = {
   args: {
-    data: createAppData(),
-    summaryMetadata: createMetadata({
-      sessionBusTalk: ["ca.desrt.dconf"],
-      shared: ["network"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData(),
+      createMetadata({
+        sessionBusTalk: ["ca.desrt.dconf"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const OfflineApp: Story = {
   args: {
-    data: createAppData({ verified: true }),
-    summaryMetadata: createMetadata({
-      filesystems: ["xdg-documents"],
-    }),
+    appName: "Example App",
+    safetyRating: getSafetyRating(
+      createAppData({ verified: true }),
+      createMetadata({
+        filesystems: ["xdg-documents"],
+      }),
+    ),
   },
 }
 
 export const GamingApp: Story = {
   args: {
-    data: createAppData({ name: "Epic Game" }),
-    summaryMetadata: createMetadata({
-      devices: ["input", "shm"],
-      sockets: ["x11"],
-      shared: ["network"],
-    }),
+    appName: "Epic Game",
+    safetyRating: getSafetyRating(
+      createAppData({ name: "Epic Game" }),
+      createMetadata({
+        devices: ["input", "shm"],
+        sockets: ["x11"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const DevelopmentApp: Story = {
   args: {
-    data: createAppData({ name: "Code Editor" }),
-    summaryMetadata: createMetadata({
-      filesystems: ["home", "host-os", "/tmp"],
-      sockets: ["session-bus", "system-bus"],
-      devices: ["input"],
-      shared: ["network"],
-      sessionBusTalk: ["ca.desrt.dconf"],
-    }),
+    appName: "Code Editor",
+    safetyRating: getSafetyRating(
+      createAppData({ name: "Code Editor" }),
+      createMetadata({
+        filesystems: ["home", "host-os", "/tmp"],
+        sockets: ["session-bus", "system-bus"],
+        devices: ["input"],
+        shared: ["network"],
+        sessionBusTalk: ["ca.desrt.dconf"],
+      }),
+    ),
   },
 }
 
 export const MediaPlayerApp: Story = {
   args: {
-    data: createAppData({ name: "Media Player" }),
-    summaryMetadata: createMetadata({
-      sockets: ["pulseaudio"],
-      filesystems: ["xdg-videos", "xdg-music", "xdg-pictures"],
-      devices: ["input"],
-      shared: ["network"],
-    }),
+    appName: "Media Player",
+    safetyRating: getSafetyRating(
+      createAppData({ name: "Media Player" }),
+      createMetadata({
+        sockets: ["pulseaudio"],
+        filesystems: ["xdg-videos", "xdg-music", "xdg-pictures"],
+        devices: ["input"],
+        shared: ["network"],
+      }),
+    ),
   },
 }
 
 export const BrowserApp: Story = {
   args: {
-    data: createAppData({ name: "Web Browser" }),
-    summaryMetadata: createMetadata({
-      shared: ["network"],
-      sockets: ["x11"],
-      filesystems: ["xdg-download", "xdg-documents", "xdg-desktop"],
-      devices: ["input"],
-    }),
+    appName: "Web Browser",
+    safetyRating: getSafetyRating(
+      createAppData({ name: "Web Browser" }),
+      createMetadata({
+        shared: ["network"],
+        sockets: ["x11"],
+        filesystems: ["xdg-download", "xdg-documents", "xdg-desktop"],
+        devices: ["input"],
+      }),
+    ),
   },
 }

@@ -28,7 +28,7 @@ enum SafetyRating {
   unsafe = 4,
 }
 
-interface AppSafetyRating {
+export interface AppSafetyRating {
   safetyRating: SafetyRating
   title: string
   titleOptions?: { folder: string }
