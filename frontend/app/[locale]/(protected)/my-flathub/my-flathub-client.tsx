@@ -10,6 +10,7 @@ import Spinner from "../../../../src/components/Spinner"
 import { getAppsInfo } from "../../../../src/asyncs/app"
 import { useQuery } from "@tanstack/react-query"
 import type { JSX } from "react"
+import CodeCopy from "../../../../src/components/application/CodeCopy"
 
 interface MyFlathubClientProps {
   locale: string
@@ -24,28 +25,51 @@ const FavoriteApps = ({ locale }: { locale: string }) => {
     },
   })
 
+  const appIds = favoritesQuery.data?.data?.map((app) => app.app_id) || []
+
   const appdetailQuery = useQuery({
-    queryKey: ["favorite-apps", locale],
+    queryKey: ["favorite-apps", locale, appIds],
     queryFn: async () => {
-      const data = await getAppsInfo(
-        favoritesQuery.data.data.map((app) => app.app_id),
-        locale,
-      )
+      const data = await getAppsInfo(appIds, locale)
       return data
     },
-    enabled: !!favoritesQuery.data,
+    enabled: !!favoritesQuery.data && appIds.length > 0,
   })
 
   if (appdetailQuery.isLoading || favoritesQuery.isLoading) {
     return <Spinner size="m" />
   }
 
+  if (appIds.length === 0) {
+    return (
+      <div>
+        <h2 className="mb-4 text-2xl font-bold">{t("favorite-apps")}</h2>
+        <p className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          {t("no-favorites-yet")}
+        </p>
+      </div>
+    )
+  }
+
+  const installCommand = `flatpak install ${appIds.join(" ")}`
+
   return (
-    <ApplicationCollectionSuspense
-      title={t("favorite-apps")}
-      applications={appdetailQuery.data}
-      variant="nested"
-    />
+    <div className="space-y-6">
+      <ApplicationCollectionSuspense
+        title={t("favorite-apps")}
+        applications={appdetailQuery.data}
+        variant="nested"
+      />
+      <div>
+        <h3 className="mb-3 text-xl font-semibold">
+          {t("install-all-favorites")}
+        </h3>
+        <p className="mb-3 text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          {t("install-all-favorites-description")}
+        </p>
+        <CodeCopy text={installCommand} nested />
+      </div>
+    </div>
   )
 }
 
@@ -66,11 +90,7 @@ const MyFlathubClient = ({ locale }: MyFlathubClientProps): JSX.Element => {
                 <UserApps variant="owned" locale={locale} />
               </>
             )}
-            {IS_PRODUCTION && (
-              <>
-                <FavoriteApps locale={locale} />
-              </>
-            )}
+            <FavoriteApps locale={locale} />
           </div>
         </div>
       </div>
