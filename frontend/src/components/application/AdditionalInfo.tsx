@@ -16,7 +16,7 @@ const AdditionalInfo = ({
   stats,
 }: {
   summary?: Pick<Summary, "installed_size" | "download_size" | "arches">
-  stats: Pick<StatsResultApp, "installs_total">
+  stats: Pick<StatsResultApp, "installs_total"> | null
 }) => {
   const t = useTranslations()
   const locale = useLocale()
@@ -70,7 +70,7 @@ const AdditionalInfo = ({
           },
         ]}
       ></ListBox>
-      {stats.installs_total !== 0 && (
+      {stats && stats.installs_total !== 0 && (
         <ListBox
           inACard
           items={[

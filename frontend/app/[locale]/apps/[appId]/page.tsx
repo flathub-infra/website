@@ -11,6 +11,7 @@ import {
   getEolRebaseAppidEolRebaseAppIdGet,
   getEolMessageAppidEolMessageAppIdGet,
   MeilisearchResponseAppsIndex,
+  StatsResultApp,
 } from "src/codegen"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { isValidAppId } from "@/lib/helpers"
@@ -130,12 +131,12 @@ export default async function AppDetailPage({
     // Fetch critical data first
     const [appResponse, statsResponse, summaryResponse] = await Promise.all([
       getAppstreamAppstreamAppIdGet(cleanAppId, { locale }),
-      getStatsForAppStatsAppIdGet(cleanAppId),
+      getStatsForAppStatsAppIdGet(cleanAppId).catch(() => ({ data: null })),
       getSummarySummaryAppIdGet(cleanAppId),
     ])
 
     const app = appResponse.data as unknown as Appstream
-    const stats = statsResponse.data
+    const stats: StatsResultApp | null = statsResponse.data
     const summary = summaryResponse.data as unknown as Summary
 
     // Fetch addons list with fallback
