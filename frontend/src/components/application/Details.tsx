@@ -47,7 +47,7 @@ import { getIntlLocale } from "src/localize"
 interface Props {
   app?: Appstream
   summary?: Summary
-  stats: StatsResultApp
+  stats: StatsResultApp | null
   developerApps: MeilisearchResponseAppsIndex
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]
@@ -111,7 +111,7 @@ const Details: FunctionComponent<Props> = ({
     }
 
     // only show graph, if we have more then ten days of data
-    if (Object.keys(stats.installs_per_day).length > 10) {
+    if (stats && Object.keys(stats.installs_per_day).length > 10) {
       tabs.push({
         name: t("statistics"),
         content: <AppStatistics stats={stats} />,
@@ -119,54 +119,56 @@ const Details: FunctionComponent<Props> = ({
       })
     }
 
-    const countryData = Object.entries(stats.installs_per_country).map(
-      ([key, value]) => {
-        return {
-          country: key,
-          value: value,
-        }
-      },
-    )
-    if (countryData?.length > 0) {
-      tabs.push({
-        name: t("country-statistics"),
-        content: (
-          <div className="relative flex flex-col items-center">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    className="absolute top-0 end-0 mt-1 me-1"
-                    aria-label={t("since-x", {
-                      date: countryStatisticsStartDate.toLocaleDateString(
-                        getIntlLocale(i18n.language),
-                      ),
-                    })}
-                  >
-                    <InformationCircleIcon
-                      className="size-5"
+    if (stats && stats.installs_per_country) {
+      const countryData = Object.entries(stats.installs_per_country).map(
+        ([key, value]) => {
+          return {
+            country: key,
+            value: value,
+          }
+        },
+      )
+      if (countryData?.length > 0) {
+        tabs.push({
+          name: t("country-statistics"),
+          content: (
+            <div className="relative flex flex-col items-center">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      className="absolute top-0 end-0 mt-1 me-1"
                       aria-label={t("since-x", {
                         date: countryStatisticsStartDate.toLocaleDateString(
                           getIntlLocale(i18n.language),
                         ),
                       })}
-                    />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="left" className={clsx("max-w-xs")}>
-                  {t("since-x", {
-                    date: countryStatisticsStartDate.toLocaleDateString(
-                      getIntlLocale(i18n.language),
-                    ),
-                  })}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <FlathubWorldMap country_data={countryData} refs={null} />
-          </div>
-        ),
-        replacePadding: "p-0",
-      })
+                    >
+                      <InformationCircleIcon
+                        className="size-5"
+                        aria-label={t("since-x", {
+                          date: countryStatisticsStartDate.toLocaleDateString(
+                            getIntlLocale(i18n.language),
+                          ),
+                        })}
+                      />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="left" className={clsx("max-w-xs")}>
+                    {t("since-x", {
+                      date: countryStatisticsStartDate.toLocaleDateString(
+                        getIntlLocale(i18n.language),
+                      ),
+                    })}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <FlathubWorldMap country_data={countryData} refs={null} />
+            </div>
+          ),
+          replacePadding: "p-0",
+        })
+      }
     }
 
     const children = [<LicenseInfo key={"license-info"} app={app} />]
