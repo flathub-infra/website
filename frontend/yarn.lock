@@ -1166,9 +1166,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^2.2.4":
-  version: 2.2.7
-  resolution: "@headlessui/react@npm:2.2.7"
+"@headlessui/react@npm:^2.2.9":
+  version: 2.2.9
+  resolution: "@headlessui/react@npm:2.2.9"
   dependencies:
     "@floating-ui/react": "npm:^0.26.16"
     "@react-aria/focus": "npm:^3.20.2"
@@ -1178,7 +1178,7 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19 || ^19.0.0-rc
     react-dom: ^18 || ^19 || ^19.0.0-rc
-  checksum: 10c0/7650e20eb83237575a66ad957c1cdf55389074089c4e3586c851e1fdb669cae495ca9e850d0fb22eb2c37648c339c1d8ddf500eee733afda92176e00b7459433
+  checksum: 10c0/a1bc4c473d4f58757e2bbc3b4302704030d9d56427a101bbe698b33b6b379885dd0177e5c0862d801117afa3b0a0b858be7685f1cfda5fb3ed3ede53eb24e987
   languageName: node
   linkType: hard
 
@@ -8287,7 +8287,7 @@ __metadata:
     "@date-fns/utc": "npm:^2.1.1"
     "@faker-js/faker": "npm:^10.0.0"
     "@fortedigital/nextjs-cache-handler": "npm:2.0.3"
-    "@headlessui/react": "npm:^2.2.4"
+    "@headlessui/react": "npm:^2.2.9"
     "@heroicons/react": "npm:^2.2.0"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
     "@radix-ui/react-checkbox": "npm:^1.3.2"
