@@ -32,6 +32,7 @@ const BadgePreview = ({
         {t(preferred ? "preferred-badge" : "alternative-badge")}
       </h3>
       <Image
+        key={`badge-${locale}${lightPostfix}`}
         priority
         width="240"
         height="80"
@@ -130,6 +131,7 @@ const BadgesClient = (): JSX.Element => {
           <CodeCopy text={badgeExampleCode}></CodeCopy>
           <a href="https://flathub.org/apps/org.gimp.GIMP">
             <Image
+              key={`badge-html-${locale}`}
               width={240}
               height={80}
               alt="Get it on Flathub"
@@ -142,6 +144,7 @@ const BadgesClient = (): JSX.Element => {
           <CodeCopy text={badgeExampleCodeMoinMoin}></CodeCopy>
           <a href="https://flathub.org/apps/org.gimp.GIMP">
             <Image
+              key={`badge-moinmoin-${locale}`}
               width={240}
               height={80}
               alt="Get it on Flathub"
