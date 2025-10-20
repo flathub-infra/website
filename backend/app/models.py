@@ -123,7 +123,7 @@ class FlathubUser(Base):
     display_name: Mapped[str | None]
     default_account: Mapped[str | None]
     deleted: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, server_default=false()
+        Boolean, nullable=False, server_default=false(), index=True
     )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
         DateTime, nullable=True, server_default=None
@@ -571,7 +571,7 @@ class GithubAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship("FlathubUser")
-    github_userid = mapped_column(Integer, nullable=False)
+    github_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -727,7 +727,7 @@ class GitlabAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    gitlab_userid = mapped_column(Integer, nullable=False)
+    gitlab_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -817,7 +817,7 @@ class GnomeAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    gnome_userid = mapped_column(Integer, nullable=False)
+    gnome_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -907,7 +907,7 @@ class GoogleAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    google_userid = mapped_column(String, nullable=False)
+    google_userid = mapped_column(String, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -997,7 +997,7 @@ class KdeAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    kde_userid = mapped_column(Integer, nullable=False)
+    kde_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -1353,7 +1353,7 @@ class Transaction(Base):
     value = mapped_column(Integer, nullable=False)
     currency = mapped_column(String, nullable=False)
     kind = mapped_column(String, nullable=False)
-    status = mapped_column(String, nullable=False)
+    status = mapped_column(String, nullable=False, index=True)
     reason = mapped_column(String)
     created = mapped_column(DateTime, nullable=False)
     updated = mapped_column(DateTime, nullable=False)
@@ -1842,18 +1842,29 @@ class ModerationRequest(Base):
 
     build_id = mapped_column(Integer, nullable=False)
     job_id = mapped_column(Integer, nullable=False, index=True)
-    is_outdated = mapped_column(Boolean, nullable=False, server_default=false())
+    is_outdated = mapped_column(
+        Boolean, nullable=False, server_default=false(), index=True
+    )
 
     request_type = mapped_column(String, nullable=False)
     request_data = mapped_column(String)
     is_new_submission = mapped_column(Boolean, nullable=False, server_default=false())
 
     handled_by = mapped_column(Integer, ForeignKey(FlathubUser.id), index=True)
-    handled_at = mapped_column(DateTime)
+    handled_at = mapped_column(DateTime, index=True)
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
 
     build_log_url = mapped_column(String)
+
+    __table_args__ = (
+        Index(
+            "moderationrequest_appid_handled_at_is_outdated",
+            appid,
+            handled_at,
+            is_outdated,
+        ),
+    )
 
 
 class GuidelineCategory(Base):
@@ -1903,7 +1914,9 @@ class QualityModeration(Base):
     guideline = relationship(Guideline)
     # todo add a foreign key later
     app_id = mapped_column(String, nullable=False, index=True)
-    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), index=True
+    )
     updated_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
     passed = mapped_column(Boolean, nullable=False)
     comment = mapped_column(String)
@@ -2272,7 +2285,10 @@ class App(Base):
     eol_branches = mapped_column(JSONB, nullable=True)
     eol_message = mapped_column(String, nullable=True)
 
-    __table_args__ = (Index("apps_unique", app_id, unique=True),)
+    __table_args__ = (
+        Index("apps_unique", app_id, unique=True),
+        Index("apps_type_is_eol", type, is_eol),
+    )
 
     def get_translated_appstream(self, locale: str) -> dict[str, Any] | None:
         if not self.appstream:
