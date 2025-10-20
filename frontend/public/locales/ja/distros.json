@@ -23,6 +23,37 @@
     "introduction": "<text>FlatpakはFedora Workstation、Fedora Silverblue、Fedora Kinoiteにデフォルトでインストールされています。使い始めるために必要なのは、Flatpakアプリを入手するのに最適な方法であるFlathubの有効化だけです。Flathubは<repolink>サードパーティリポジトリ</repolink>の一つとしてあらかじめ設定されています。代わりに、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールすることもできます。</text> <text>あとは<applink>アプリをインストールする</applink>だけです!</text> <text>上記のリンクはGNOMEとKDEのFedoraにおけるインストール後のデフォルト状態では機能するはずですが、何らかの理由で失敗する場合、次のコマンドを実行してFlathubリモートを手動で追加できます:</text> <code></code>"
   },
   "manjaro": {
-    "distroName": "Manjaro"
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "ソフトウェアマネージャーでFlatpakを有効化",
+      "text": "<text>FlatpakはManjaro 20以降にデフォルトでインストールされています。</text><text>Flatpakへの対応を有効化するには、<strong>ソフトウェアマネージャー</strong>（ソフトウェアの追加と削除）を開きます。</text><text>画面の右側にある3本線のメニュー（デスクトップ環境により3つの点の場合もあります）をクリックし、ドロップダウンメニューから「設定」を選択します。</text><text>「Flatpak」タブに移動し、「Flatpakサポートを有効にする」というスイッチをスライドします。（同時にアップデートの確認を有効化することもできます。これも有効にすることを推奨します。）</text>"
+    },
+    "step-2": {
+      "name": "再起動",
+      "text": "<text>セットアップを完了するため、システムを再起動します。あとは<link>アプリをインストールする</link>だけです!</text>"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<text>Flatpakへの対応はEndless OS 3.0.0以降であらかじめ含まれています—そのため、セットアップは必要ありません!</text>"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Flatpakをインストール",
+      "text": "<text>AltファミリーのOSにFlatpakをインストールするには、ターミナルアプリを開いて次のコマンドを実行します:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。あなたのAltシステムで有効化するには、次のコマンドを実行します:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "再起動",
+      "text": "<text>Flatpakのインストールを完了するため、端末を再起動します。すると、<link>アプリをインストール</link>ことができるようになります!</text>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "introduction": "<text>FlatpakアプリケーションはCrostiniというLinux互換性レイヤーを使用してChromeOSにインストールできます。これはすべてのChromeOS端末で利用可能ではないため、作業を進める前にあなたの端末が対応しているか確かめてください。対応している端末のリストは<link>ここ</link>でメンテナンスされています。</text>"
   }
 }

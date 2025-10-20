@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Kan forespørre data fra tjenester utenom portaler og få flere rettigheter",
   "unauthorized": "Uautorisert",
   "developed-by": "utviklet av {developer}",
-  "unverified-tooltip": "Eierskapet til <appid></appid>-app-ID-en har ikke blitt bekreftet, og pakken kan derfor være samlet av fellesskapet"
+  "unverified-tooltip": "Eierskapet til <appid></appid>-app-ID-en har ikke blitt bekreftet, og pakken kan derfor være samlet av fellesskapet",
+  "install-all-favorites": "Installer alle favoritter",
+  "install-all-favorites-description": "Kopier denne kommandoen for å installere alle favorittappene dine samtidig:",
+  "no-favorites-yet": "Du har ingen favorittapper ennå. Legg til noen som favoritter ved å klikke på bokmerkeikonet på apper du liker!"
 }
