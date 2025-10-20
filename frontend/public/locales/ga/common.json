@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Is féidir sonraí a iarraidh ó sheirbhísí neamh-thairseacha agus ceadanna breise a fháil",
   "unauthorized": "Neamhúdaraithe",
   "developed-by": "forbartha ag {developer}",
-  "unverified-tooltip": "Níl úinéireacht aitheantóir aip<appid></appid> fíoraithe agus d'fhéadfadh gur pacáiste pobail atá ann"
+  "unverified-tooltip": "Níl úinéireacht aitheantóir aip<appid></appid> fíoraithe agus d'fhéadfadh gur pacáiste pobail atá ann",
+  "install-all-favorites": "Suiteáil Gach Rogha",
+  "install-all-favorites-description": "Cóipeáil an t-ordú seo chun do chuid aipeanna is fearr leat go léir a shuiteáil ag an am céanna:",
+  "no-favorites-yet": "Níl aon aipeanna is fearr leat fós. Tosaigh ag cur cuid acu leis trí chliceáil ar an deilbhín leabharmharcanna ar aipeanna is maith leat!"
 }

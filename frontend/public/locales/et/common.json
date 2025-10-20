@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Võib kasutada portaalivälistest teenustest ja saad täiendavaid õigusi",
   "unauthorized": "Pole lubatud",
   "developed-by": "arendajaks on {developer}",
-  "unverified-tooltip": "<appid></appid> rakenduse tunnuse omand on arendaja poolt kinnitamata ning tegemist võib olla kogukonna poolt pakendatud variandiga"
+  "unverified-tooltip": "<appid></appid> rakenduse tunnuse omand on arendaja poolt kinnitamata ning tegemist võib olla kogukonna poolt pakendatud variandiga",
+  "install-all-favorites": "Paigalda kõik lemmikud",
+  "install-all-favorites-description": "Kopeeri see käsk ja saad paigaldada kõiki oma lemmikrakendusi ühe korraga:",
+  "no-favorites-yet": "Sul veel pole lemmikrakendusi. Klõpsides järjehoidja ikoonil saad sulle meeldivaid rakendusi lisada lemmikuks!"
 }

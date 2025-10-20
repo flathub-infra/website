@@ -301,12 +301,14 @@
     "introduction": "<text>Flatpak er installert som standard på PureOS. For å komme i gang trenger du bare å aktivere Flathub, som er den beste måten å få tak i Flatpak-apper. Bare last ned og installer <filelink>Flatpak-pakkebrønnfilen</filelink>.</text> <text>Deretter er alt du trenger å gjøre <link>å installere apper</link>!</text>"
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": "<header>Zorin OS har innebygd Flatpak-støtte.</header> <text>Du kan bruke Software Store-appen for å laste ned Flatpak-apper.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Deepin, kjør følgende i en terminal:</text> <code></code>"
     },
     "step-4": {
       "name": "Start på nytt",
@@ -315,12 +317,17 @@
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
       "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Installer Deepin-draktene",
+      "text": "<text>For å installere de lyse og mørke draktene, kjør:</text> <code></code>"
     }
   },
   "pardus": {
     "distroName": "Pardus",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>En flatpak-pakke er tilgjengelig for Pardus 2019 og nyere versjoner. For å installere den, kjør følgende som root:</text> <code></code>"
     },
     "step-4": {
       "name": "Start på nytt",
@@ -331,7 +338,8 @@
       "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
     },
     "step-2": {
-      "name": "Installer Software Flatpak-utvidelsen"
+      "name": "Installer Software Flatpak-utvidelsen",
+      "text": "<text>Hvis du bruker GNOME, er det også en god ide å installere Flatpak-utvidelsen til GNOME. For å gjøre dette, kjør:</text> <code></code>"
     }
   },
   "mx_linux": {
@@ -341,16 +349,19 @@
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
     },
     "step-1": {
-      "name": "Skru på Flatpak gjennom Software Manager"
+      "name": "Skru på Flatpak gjennom Software Manager",
+      "text": "<text>MX 18 og nyere versjoner har Flatpak-støtte innebygd. Du trenger bare å aktivere Flathub-pakkebrønnen med disse instruksjonene:</text> <text>Åpne <strong>MX Package Installer</strong> (åpne menyen og sjekk MX Tools), velg «Flatpaks»-fanen, og deretter skriv inn root-passordet ditt for å aktivere pakkebrønnen.</text>"
     }
   },
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>En flatpak-pakke er tilgjengelig for Pisi 2.1 og nyere versjoner. For å installere den, kjør følgende som root:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter er alt du trenger å <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak-apper er ikke mulig med Pisi GNU/Linux.</text>"
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
@@ -360,10 +371,12 @@
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på EndeavorOS, må du først bekrefte at operativsystemet er oppdatert, og deretter kan du kjøre følgende i en terminal:</text> <codeUpdate></codeUpdate> <text>Deretter kan du installere Flatpak:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak apper er ikke mulig på EndeavorOS.</text>"
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
@@ -371,15 +384,18 @@
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "introduction": "<text>KDE neon 19 og nyere versjoner har innebygd støtte for Flatpak! Ingen installasjon er nødvendig!</text>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på GNU Guix, kjør følgende i en terminal:</text> <code></code>"
     },
     "step-3": {
-      "name": "Start på nytt"
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak-apper kan være umulig på GNU Guix.</text>"
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
@@ -389,7 +405,8 @@
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-1": {
-      "name": "Installer Flatpak"
+      "name": "Installer Flatpak",
+      "text": "<text>For å installere Flatpak på Crystal Linux, må du først bekrefte at operativsystemet er oppdatert, og deretter kan du kjøre følgende i en terminal:</text> <codeUpdate></codeUpdate> <text>Deretter kan du installere Flatpak:</text> <code></code>"
     },
     "step-3": {
       "name": "Start på nytt",
@@ -398,12 +415,15 @@
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
       "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
-    }
+    },
+    "introduction": "<header>Flatpak er installert som standard på Crystal Linux.</header> <text>Hvis du ikke brukte jade_gui for å installere crystal eller valgte å ikke installere det, så kan du installere Flatpak ved å gjøre følgende.</text>"
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<header>Vanilla OS har Flatpak installert som standard.</header> <text>Du kan bruke Software-appen eller bla gjennom <link>Flathub</link> for å installere apper.</text> <text>Hvis Flathub ikke er tilgjengelig av en eller annen grunn, kan du konfigurere det manuelt med følgende kommando:</text> <code></code>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<header>Flatpak er installert som standard på Salix siden versjon 15.0. Ingen installasjon er nødvendig!</header> <text>Flatpak er forhåndskonfigurert med Flathub-pakkebrønnen og integrert med skrivebordsmiljøet som lar deg installere apper fra Flathub med bare ett klikk.</text> <text>Alt du trenger å gjøre er å <link>installere apper</link>!</text>"
   }
 }

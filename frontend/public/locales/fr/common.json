@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Peut demander des données à des services hors portail et obtenir des autorisations supplémentaires",
   "unauthorized": "Non autorisé",
   "developed-by": "développée par {developer}",
-  "unverified-tooltip": "La propriété de l'identifiant d'application <appid></appid> n'a pas été validée, il pourrait s'agir d'un paquet communautaire"
+  "unverified-tooltip": "La propriété de l'identifiant d'application <appid></appid> n'a pas été validée, il pourrait s'agir d'un paquet communautaire",
+  "install-all-favorites": "Installer tous les favoris",
+  "install-all-favorites-description": "Copiez cette commande pour installer toutes vos apps préférées en une fois :",
+  "no-favorites-yet": "Vous n'avez aucune app préférée. Commencez à en ajouter en cliquant sur l'icône de marque-page sur les apps que vous aimez !"
 }
