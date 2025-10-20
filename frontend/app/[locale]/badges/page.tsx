@@ -1,6 +1,5 @@
 import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { routing } from "src/i18n/routing"
 import BadgesClient from "./badges-client"
 
 export async function generateMetadata({
