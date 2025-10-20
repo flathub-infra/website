@@ -102,7 +102,7 @@ export type Language =
   | "br"
   | "gl"
 
-export const fontLanguageDenyList = ["ar", "fa"]
+export const fontLanguageDenyList = ["ar", "fa", "ckb"]
 
 export const languages: Language[] = [
   "en",
