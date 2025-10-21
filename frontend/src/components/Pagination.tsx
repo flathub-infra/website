@@ -3,20 +3,24 @@ import { clsx } from "clsx"
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { useTranslations } from "next-intl"
 import { Link, usePathname } from "src/i18n/navigation"
+import { useSearchParams } from "next/navigation"
 
 interface Props {
   currentPage: number
   pages: number[]
   onClick?: (page: number) => void
+  useQueryParams?: boolean
 }
 
 const Pagination: FunctionComponent<Props> = ({
   currentPage,
   pages,
   onClick,
+  useQueryParams = false,
 }) => {
   const t = useTranslations()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   if (pages.length < 2) {
     return null
@@ -63,10 +67,17 @@ const Pagination: FunctionComponent<Props> = ({
               {!onClick && (
                 <Link
                   href={{
-                    pathname:
-                      pathname?.split("/").slice(0, -1).join("/") +
-                      "/" +
-                      curr.toString(),
+                    pathname: useQueryParams
+                      ? pathname
+                      : pathname?.split("/").slice(0, -1).join("/") +
+                        "/" +
+                        curr.toString(),
+                    query: useQueryParams
+                      ? {
+                          ...Object.fromEntries(searchParams.entries()),
+                          page: curr.toString(),
+                        }
+                      : {},
                   }}
                   aria-current={isActive ? "page" : undefined}
                   className={clsx(

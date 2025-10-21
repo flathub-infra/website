@@ -107,7 +107,7 @@ export default function UsersClient() {
                   onBlur={(e) => setFilterString(e.target.value)}
                 />
                 <UserTable data={query.data.data} />
-                <Pagination currentPage={page} pages={pages} />
+                <Pagination currentPage={page} pages={pages} useQueryParams />
               </div>
             )}
           </div>
