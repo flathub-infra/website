@@ -68,7 +68,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
         {query.data.data.requests.map(getReviewRow)}
       </div>
 
-      <Pagination currentPage={currentPage} pages={pages} />
+      <Pagination currentPage={currentPage} pages={pages} useQueryParams />
     </>
   )
 }

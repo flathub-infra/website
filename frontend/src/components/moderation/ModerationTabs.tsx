@@ -154,7 +154,7 @@ const ModerationTabs: FunctionComponent = () => {
           link={link}
         />
 
-        <Pagination currentPage={currentPage} pages={pages} />
+        <Pagination currentPage={currentPage} pages={pages} useQueryParams />
       </>
     )
   }

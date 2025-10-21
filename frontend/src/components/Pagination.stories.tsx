@@ -21,6 +21,12 @@ export const all = () => {
         currentPage={3}
         pages={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
       />
+      {/* With query params (admin pages) */}
+      <Pagination
+        currentPage={3}
+        pages={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+        useQueryParams
+      />
     </>
   )
 }

@@ -120,7 +120,7 @@ export default function QualityModerationClient() {
                   updateSearchParams={updateSearchParams}
                   locale={locale}
                 />
-                <Pagination currentPage={page} pages={pages} />
+                <Pagination currentPage={page} pages={pages} useQueryParams />
               </div>
             )}
           </div>
