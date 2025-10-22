@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Povas peti datenojn de neportalaj servoj kaj tiel gajni pliajn permesojn",
   "unauthorized": "Ne permesita",
   "developed-by": "evoluata de {developer}",
-  "unverified-tooltip": "La posedo de la programidentigilo <appid></appid> ne estas konfirmita; ĝi eble estas komunuma pako"
+  "unverified-tooltip": "La posedo de la programidentigilo <appid></appid> ne estas konfirmita; ĝi eble estas komunuma pako",
+  "install-all-favorites": "Instali ĉiujn ŝatatajn programojn",
+  "install-all-favorites-description": "Kopiu la jenan komandon por instali ĉiujn ŝatatajn programojn:",
+  "no-favorites-yet": "Vi ankoraŭ ne ŝatis iun ajn programon. Eku alklakante la legosignan piktogramon ĉe tiuj programoj, kiujn vi ŝatas!"
 }

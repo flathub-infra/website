@@ -68,7 +68,7 @@
   "also-available-as-svg": "<svglink>SVG biçiminde</svglink> de kullanılabilir",
   "badge-copyright": "Yasaların mümkün olduğu ölçüde, <author>Jakub Steiner</author> <badgeslink>Flathub Rozetleri</badgeslink> ile ilgili tüm telif hakkı ve ilgili veya komşu haklardan feragat etmiştir. Bu çalışma Çekya'dan yayınlanmıştır.",
   "rss-description": "Flathub RSS beslemelerine abone olun",
-  "search-for-query": "\"{query}\" için ara",
+  "search-for-query": "\"{query}\" ifadesini ara",
   "categories": "Kategoriler",
   "linked-accounts": "Bağlı Hesaplar",
   "link-more-accounts": "Daha Fazla Hesap Bağla",
@@ -218,7 +218,7 @@
   "error": "Hata",
   "app-is-currently-not-verified": "Uygulamanız şu anda doğrulanmadı",
   "website-verification-main-instruction": "<bold>{id}</bold> uygulama kimliğini kullanma hakkınızı <bold>{domain}</bold> adresindeki belirli bir sayfaya bir belirteç yerleştirerek doğrulayın.",
-  "login-provider-verification-main-instruction": "<appid></appid> uygulama kimliğini kullanma hakkınızı <loginprovider></loginprovider> adresindeki <loginname></loginname> hesabında oturum açarak doğrulayın.",
+  "login-provider-verification-main-instruction": "<loginprovider></loginprovider> üzerinde <loginname></loginname> hesabına giriş yaparak<appid></appid> uygulama kimliğini kullanma hakkınızı doğrulayın.",
   "server-returned-status-code": "Sunucu HTTP {code} döndürdü.",
   "unverify": "Doğrulamayı iptal et",
   "unverify-app-prompt": "{appId} doğrulaması iptal edilsin mi?",
@@ -234,7 +234,7 @@
   "page-not-found": "{errorCode} - Sayfa bulunamadı",
   "could-not-find-page": "Aradığınız sayfayı bulamadık.",
   "verified-website-tooltip": "<appid></appid> uygulama kimliğinin sahipliği <website></website> kullanılarak doğrulandı",
-  "verified-login-provider-tooltip": "<appid></appid> uygulama kimliğinin sahipliği <loginprovider></loginprovider> üzerinde <loginname></loginname> tarafından doğrulandı",
+  "verified-login-provider-tooltip": "<appid></appid> uygulama kimliğinin sahipliği <loginname></loginname> tarafından <loginprovider></loginprovider> üzerinde doğrulandı",
   "login-provider-verification-enable-github-app": "Doğrulamaya devam etmek için Flathub'ın <orgname></orgname> kuruluşundaki üyelik seviyenizi okuma iznine ihtiyacı var. Bu izni <settingslink>GitHub ayarlarınızdan</settingslink> verebilirsiniz.",
   "login-provider-verification-failed": "Doğrulama gereksinimleri karşılanmadı.",
   "login-provider-verification-not-org-admin": "Şu anda <loginprovider></loginprovider> adresinde <currentname></currentname> olarak oturum açmış durumdasınız. Bu hesap <orgname></orgname> kuruluşunun yöneticisi değil. Bu uygulamayı doğrulamak için kuruluşta yönetici ayrıcalıkları talep etmeli ya da zaten bu ayrıcalıklara sahip bir hesapla oturum açmalısınız.",
@@ -246,7 +246,7 @@
   "login-provider-verification-not-org-member": "Şu anda <loginprovider></loginprovider> adresinde <currentname></currentname> olarak oturum açmış durumdasınız. Bu hesap <orgname></orgname> kuruluşunun bir üyesi değil. Bu uygulamayı doğrulamak için kuruluşta yönetici ayrıcalıkları talep etmeli ya da zaten bunlara sahip olan bir hesapla oturum açmalısınız.",
   "verification-warning": "Flathub ekibi, tamamen kendi kararı olarak, örneğin uygulama resmi statüsü hakkında insanları yanlış yönlendiriyorsa, ya da ticari bir markayla ilgili karışıklığa neden oluyorsa, herhangi bir uygulamadan doğrulama rozetini kaldırabilir.",
   "refresh": "Yenile",
-  "verification-instructions": "Flathub yüklemenizin uygulama geliştiricisi tarafından onaylandığını belirtmek için uygulama kimliğinizi doğrulayın. Uygulamanın etki alanındaki bir web sitesi aracılığıyla ya da bir kaynak kodu barındırma sitesinde uygulamanın hesabına erişimi denetleyerek uygulamanın kontrolüne sahip olduğunuzu kanıtlamanız gerekir. Doğrulanmış rozeti, uygulama adı, yayıncı adı ve uygulama kimliğinin doğrulandığı yolla birlikte gösterilecektir.",
+  "verification-instructions": "Flathub yüklemenizin uygulama geliştiricisi tarafından onaylandığını belirtmek için uygulama kimliğinizi doğrulayın. Uygulamanın etki alanındaki bir web sitesi aracılığıyla ya da bir kaynak kodu barındırma sitesinde uygulamanın hesabına erişimi denetleyerek uygulamanın kontrolüne sahip olduğunuzu kanıtlamanız gerekir. Doğrulanmış rozeti, uygulama adı, yayıncı adı ve uygulama kimliğinin doğrulandığı yolla birlikte gösterilecektir. Daha fazla ayrıntı için lütfen <doclink>doğrulama belgelerine</doclink> bakın.",
   "verification": "Doğrulama",
   "my-flathub": "Benim Flathub'um",
   "settings": "Ayarlar",
@@ -326,7 +326,7 @@
   "invite-developer-description": "Bu uygulamanın geliştiricisi olmaya davet etmek için geliştiricinin davet kodunu girin. Kodu, hesap sayfasının <developerstabtitle>{developersTab}</developerstabtitle> sekmesinde bulabilirler.",
   "new-community-repository": "Yeni Topluluk Deposu Uygulaması",
   "app-type": "Uygulama Türü",
-  "community-repository-description": "Flatpak manifest dosyasını ve destekleyici dosyalarınızı GitHub organizasyonumuzdaki bir depoya yükleyerek uygulamanızı Flathub'a yükleyin. Flathub'ın derleme botu, uygulamayı derleyecek ve Flathub'da yayınlayacak.",
+  "community-repository-description": "Flatpak manifest dosyasını ve destekleyici dosyalarınızı GitHub organizasyonumuzdaki bir depoya yükleyerek uygulamanızı Flathub'a yükleyin. Flathub'ın derleme servisi, uygulamayı derleyecek ve Flathub'da yayınlayacak.",
   "direct-upload": "Direk Yükle",
   "direct-upload-description": "Uygulamanızı kendi sürekli entegrasyon ortamınızda oluşturun ve doğrudan Flathub'a yükleyin.",
   "app-eol": "Bu uygulama artık Flathub'da yok",
@@ -435,7 +435,8 @@
     "light": "Açık Tema",
     "dark": "Koyu Tema",
     "problems": "Eğer rehber hakkında özel olarak bir soru sormak isterseniz, istediğiniz zaman <link>şikayet</link> oluşturabilirsiniz.",
-    "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor"
+    "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor",
+    "failing-x-checks": "Başarısız {count, plural, one {# check} other {# checks}}"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {folder}",
   "desktop-folder": "Masaüstü klasörü",
@@ -506,7 +507,7 @@
   "create-token": "Jeton Oluştur",
   "scope-publish": "Derlemeyi yayınla",
   "no-tokens-to-show": "Gösterecek jeton yok.",
-  "revoke-token-description": "\"{name}\" jetonunu feshetmek istediğinizden emin misiniz?",
+  "revoke-token-description": "\"{name}\" adlı token’ı iptal etmek istediğinizden emin misiniz?",
   "revoke": "Feshet",
   "show-expired-tokens": "Süresi dolmuş tokenlari göster",
   "scope-upload": "Derleme için dosya yükle",
@@ -673,5 +674,8 @@
     "missing-brand-colors": "Marka renkleri bulunmuyor",
     "banner-preview": "Afiş önizlemesi",
     "banner-preview-description": "Afişinizi kolayca denemek için, <preview>afiş önizlemesini</preview> kullanın"
-  }
+  },
+  "install-all-favorites": "Tüm Favorileri Yükle",
+  "install-all-favorites-description": "Tüm favori uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
+  "no-favorites-yet": "Henüz favori uygulamanız yok. Beğendiğiniz uygulamaların yer imlerine tıklayarak favori uygulamalarınızı eklemeye başlayın!"
 }

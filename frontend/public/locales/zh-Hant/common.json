@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "可向非 portal 服務請求資料並取得額外權限",
   "unauthorized": "未授權",
   "developed-by": "由 {developer} 開發",
-  "unverified-tooltip": "<appid></appid> 應用程式識別碼的所有權尚未驗證，可能屬於社群軟體包"
+  "unverified-tooltip": "<appid></appid> 應用程式識別碼的所有權尚未驗證，可能屬於社群軟體包",
+  "install-all-favorites": "安裝所有收藏",
+  "install-all-favorites-description": "複製此命令即可一次安裝所有您喜愛的應用程式：",
+  "no-favorites-yet": "您目前尚未收藏任何應用程式。點選您喜愛的應用程式上的書籤圖示，開始新增收藏吧！"
 }
