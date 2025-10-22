@@ -65,6 +65,8 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
     scrollRestoration: true,
     globalNotFound: true,
     inlineCss: true,
+    webpackMemoryOptimizations: true,
+    preloadEntriesOnStart: false,
   },
   serverExternalPackages: ["@resvg/resvg-js"],
   cacheHandler:
@@ -73,6 +75,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
       : undefined,
   cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined, // Disable in-memory caching in production
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
