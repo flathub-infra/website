@@ -10,6 +10,9 @@ interface Props {
   pages: number[]
   onClick?: (page: number) => void
   useQueryParams?: boolean
+  // For Storybook/testing
+  pathname?: string
+  searchParams?: URLSearchParams
 }
 
 const Pagination: FunctionComponent<Props> = ({
@@ -17,10 +20,15 @@ const Pagination: FunctionComponent<Props> = ({
   pages,
   onClick,
   useQueryParams = false,
+  pathname: injectedPathname,
+  searchParams: injectedSearchParams,
 }) => {
   const t = useTranslations()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+  const pathnameFromHook = usePathname()
+  const searchParamsFromHook = useSearchParams()
+
+  const pathname = injectedPathname ?? pathnameFromHook
+  const searchParams = injectedSearchParams ?? searchParamsFromHook
 
   if (pages.length < 2) {
     return null
