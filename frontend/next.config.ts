@@ -61,6 +61,7 @@ if (!buildId) {
 
 const nextConfig: (phase: string) => NextConfig = (phase) => ({
   output: "standalone",
+  reactCompiler: true,
   experimental: {
     scrollRestoration: true,
     globalNotFound: true,
