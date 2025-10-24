@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Kan gegevens opvragen bĳ diensten die geen portals gebruiken en extra rechten verkrĳgen",
   "unauthorized": "Ongeautoriseerd",
   "developed-by": "ontwikkeld door {developer}",
-  "unverified-tooltip": "Het eigendom van de app-id <appid></appid> is niet geverifieerd, het kan een gemeenschaps­pakket zĳn"
+  "unverified-tooltip": "Het eigendom van de app-id <appid></appid> is niet geverifieerd, het kan een gemeenschaps­pakket zĳn",
+  "install-all-favorites": "Alle favorieten installeren",
+  "install-all-favorites-description": "Kopieer deze opdracht om al uw favoriete apps in één keer te installeren:",
+  "no-favorites-yet": "U heeft nog geen favoriete apps. Begin met het toe­voegen hiervan door op de bladwĳzer­knop te drukken bĳ de apps die u leuk vindt!"
 }
