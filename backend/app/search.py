@@ -61,6 +61,7 @@ class AppsIndex(BaseModel):
     added_at: int
     trending: float | None = None
     installs_last_month: int | None = None
+    favorites_count: int | None = None
     isMobileFriendly: bool
 
     # Custom validator to map None to the Enum 'NONE'
@@ -108,6 +109,7 @@ def _configure_meilisearch_index(client):
             "added_at",
             "updated_at",
             "verification_timestamp",
+            "favorites_count",
         ]
     )
     client.index("apps").update_searchable_attributes(
@@ -408,6 +410,28 @@ def get_by_verified(
                         "NOT icon IS NULL",
                     ],
                     "sort": ["verification_timestamp:desc"],
+                    "hitsPerPage": hits_per_page or 250,
+                    "page": page or 1,
+                },
+            ),
+        ),
+    )
+
+
+def get_by_favorites_count(
+    page: int | None, hits_per_page: int | None, locale: str
+) -> MeilisearchResponse[AppsIndex]:
+    return _translate_name_and_summary(
+        locale,
+        MeilisearchResponse[AppsIndex].model_validate(
+            client.index("apps").search(
+                "",
+                {
+                    "filter": [
+                        "type IN [console-application, desktop-application]",
+                        "NOT icon IS NULL",
+                    ],
+                    "sort": ["favorites_count:desc", "updated_at:asc"],
                     "hitsPerPage": hits_per_page or 250,
                     "page": page or 1,
                 },
