@@ -2061,13 +2061,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/nodemailer@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "@types/nodemailer@npm:7.0.2"
+"@types/nodemailer@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "@types/nodemailer@npm:7.0.3"
   dependencies:
     "@aws-sdk/client-sesv2": "npm:^3.839.0"
     "@types/node": "npm:*"
-  checksum: 10c0/3466f155b87a4543b83d71d4eef91fe47a41b04a277557e71713913fabeef048f9c3149e8a8eff18facf3ed46be7cd6d84b18c560c36904e85b0e6c4c8fe0e77
+  checksum: 10c0/3ee33e21aebf96415dbe5bcbfce078e573a7e542ce707682cd8eb78a48be6f6095bbe7c71f6451c8797861397084a044e45b5afb0ea74b255202094770afdbcd
   languageName: node
   linkType: hard
 
@@ -3727,10 +3727,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:7.0.9":
-  version: 7.0.9
-  resolution: "nodemailer@npm:7.0.9"
-  checksum: 10c0/029af0c89d64a521aa9969196e44c13ef289c7f419264eed8d63682610999e06205b0fc264ab8ac65941dc3eefd3c435f23337a32880614cc199744c9be6209a
+"nodemailer@npm:7.0.10":
+  version: 7.0.10
+  resolution: "nodemailer@npm:7.0.10"
+  checksum: 10c0/9bb39bde904397879a6394e5202146167cabc3bd4089c1b0255ce16875e721d1cf132afde25a570fc4cf38f159ba6b6b5411d3b9371775543d38343fbd505101
   languageName: node
   linkType: hard
 
@@ -4126,7 +4126,7 @@ __metadata:
     "@react-email/components": "npm:0.5.7"
     "@react-email/render": "npm:1.4.0"
     "@types/html-to-text": "npm:^9.0.4"
-    "@types/nodemailer": "npm:^7.0.2"
+    "@types/nodemailer": "npm:^7.0.3"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     "@types/swagger-ui-dist": "npm:^3.30.6"
@@ -4134,7 +4134,7 @@ __metadata:
     dotenv: "npm:^17.2.3"
     eslint: "npm:^9.38.0"
     hono: "npm:^4.10.2"
-    nodemailer: "npm:7.0.9"
+    nodemailer: "npm:7.0.10"
     prettier: "npm:3.6.2"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
