@@ -549,6 +549,36 @@ def test_popular_last_month_locale(client, snapshot):
     )
 
 
+def test_collection_favorites(client, snapshot):
+    response = client.get("/collection/favorites")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_favorites.json"
+    )
+
+
+def test_collection_favorites_locale(client, snapshot):
+    response = client.get("/collection/favorites?locale=de")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_favorites_locale.json"
+    )
+
+
+def test_collection_favorites_with_pagination(client):
+    """Smoke test for GET /collection/favorites with pagination"""
+    response = client.get("/collection/favorites?page=1&per_page=10")
+    assert response.status_code == 200
+    data = response.json()
+    assert "hits" in data
+
+
+def test_collection_favorites_invalid_pagination(client):
+    """Test invalid pagination for favorites endpoint"""
+    response = client.get("/collection/favorites?page=1")
+    assert response.status_code == 400
+
+
 def test_collection_categories(client):
     """Smoke test for GET /collection/category endpoint"""
     response = client.get("/collection/category")
