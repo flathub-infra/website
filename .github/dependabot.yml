@@ -11,11 +11,11 @@ updates:
           - "@storybook/*"
           - storybook
       react-email:
-        patterns: 
+        patterns:
           - "@react-email/*"
           - "react-email"
       embla:
-        patterns: 
+        patterns:
           - embla
 
   - package-ecosystem: "npm"
