@@ -2870,6 +2870,19 @@ class UserFavoriteApp(Base):
         )
 
     @staticmethod
+    def get_favorites_count_per_app(db: DBSession) -> dict[str, int]:
+        """
+        Get the count of favorites for each app.
+        Returns a dictionary with app_id as key and count as value.
+        """
+        result = (
+            db.session.query(UserFavoriteApp.app_id, func.count(UserFavoriteApp.id))
+            .group_by(UserFavoriteApp.app_id)
+            .all()
+        )
+        return {app_id: count for app_id, count in result}
+
+    @staticmethod
     def delete_user(db, user: FlathubUser):
         """
         Delete any app ownerships associated with this user
