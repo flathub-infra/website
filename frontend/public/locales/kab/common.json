@@ -50,7 +50,9 @@
   "report-an-issue": "Azen aneqqis n wugur",
   "manual-install": "Asebded s ufus",
   "copy-text": "Nɣel aḍris",
-  "developer-portal": { "title": "Awwur n uneflay" },
+  "developer-portal": {
+    "title": "Awwur n uneflay"
+  },
   "publish-your-app": "Suffeɣ-d asnas-ik·im",
   "home": "Agejdan",
   "acknowledgements": "Isnemmar",
@@ -202,7 +204,7 @@
   "audio-and-video": "Ameslaw d uvidyu",
   "updated": "Yettuleqqmen",
   "more-audiovideo": "Ugar n umeslaw d uvidyu",
-  "more-apps-by-developer": "Isnasen nniḍen sɣur {developer}",
+  "more-apps-by-developer": "Ugar n yisnasen sɣur {developer}",
   "more-new": "Imaynuten nniḍen",
   "more-utility": "Ifecka nniḍen",
   "mastodon": "Mastodon",
@@ -298,5 +300,6 @@
   "addon-install-info": "Amek ara tesbeddeḍ isiɣzaf",
   "delete-account-entry": "Bɣiɣ ad kkseɣ amiḍan-iw",
   "setup-flathub-description": "Swel Flathub akken ad tesbeddeḍ u ad tleqmeḍ isnasen deg unagraw-ik·im.",
-  "mobile-apps-description": "Isnasen i tiliɣriwin n Linux akked tfelwiyin tudlifin"
+  "mobile-apps-description": "Isnasen i tiliɣriwin n Linux akked tfelwiyin tudlifin",
+  "transaction-summary-status": "Addad:"
 }

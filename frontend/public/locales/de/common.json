@@ -605,7 +605,7 @@
   "integration": "<bold>Native App-Store-Integration</bold> — Vergiss Web-Downloads; Flathub liefert Apps und <updateslink>automatische Aktualisierungen</updateslink> an die Benutzer in ihrem nativen App-Store-Client, wo sie es erwarten würden",
   "get-apps": "Apps bekommen",
   "flathub": "Flathub",
-  "flathub-logo": "Flathub Logo",
+  "flathub-logo": "Flathub-Logo",
   "mastodon": "Mastodon",
   "positions": "Positionen",
   "position-short": "Pos.",
@@ -674,5 +674,8 @@
   "unauthorized": "Unautorisiert",
   "uses-non-portal-service": "Nutzt Nicht-Portal Dienste",
   "can-talk-to-non-portal-service": "Kann Daten von Nicht-Portal-Diensten anfordern und zusätzliche Berechtigungen erhalten",
-  "socket-may-allow-extra-permissions": "Verwendet einen Socket, der zusätzliche Berechtigungen ermöglicht"
+  "socket-may-allow-extra-permissions": "Verwendet einen Socket, der zusätzliche Berechtigungen ermöglicht",
+  "install-all-favorites": "Alle Favoriten installieren",
+  "install-all-favorites-description": "Kopieren Sie diesen Befehl, um alle Ihre Lieblings-Apps auf einmal zu installieren:",
+  "no-favorites-yet": "Sie haben noch keine Lieblings-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!"
 }
