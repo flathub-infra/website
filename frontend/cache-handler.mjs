@@ -1,9 +1,91 @@
-//@ts-check
 import { createClient } from "redis"
 import { PHASE_PRODUCTION_BUILD } from "next/constants.js"
 import { CacheHandler } from "@fortedigital/nextjs-cache-handler"
 import createLruHandler from "@fortedigital/nextjs-cache-handler/local-lru"
 import createRedisHandler from "@fortedigital/nextjs-cache-handler/redis-strings"
+import createCompositeHandler from "@fortedigital/nextjs-cache-handler/composite"
+
+const isSingleConnectionModeEnabled = !!process.env.REDIS_SINGLE_CONNECTION
+
+async function setupRedisClient() {
+  if (PHASE_PRODUCTION_BUILD !== process.env.NEXT_PHASE) {
+    try {
+      const redisClient = createClient({
+        url: process.env.REDIS_URL ?? "redis://localhost:6379",
+        pingInterval: 10000,
+      })
+
+      redisClient.on("error", (e) => {
+        if (process.env.NEXT_PRIVATE_DEBUG_CACHE !== undefined) {
+          console.warn("Redis error", e)
+        }
+        if (isSingleConnectionModeEnabled) {
+          global.cacheHandlerConfig = null
+          global.cacheHandlerConfigPromise = null
+        }
+      })
+
+      console.info("Connecting Redis client...")
+      await redisClient.connect()
+      console.info("Redis client connected.")
+
+      if (!redisClient.isReady) {
+        console.error("Failed to initialize caching layer.")
+      }
+
+      return redisClient
+    } catch (error) {
+      console.warn("Failed to connect Redis client:", error)
+      if (redisClient) {
+        try {
+          redisClient.destroy()
+        } catch (e) {
+          console.error(
+            "Failed to quit the Redis client after failing to connect.",
+            e,
+          )
+        }
+      }
+    }
+  }
+
+  return null
+}
+
+async function createCacheConfig(buildId) {
+  const redisClient = await setupRedisClient()
+  const lruCache = createLruHandler()
+
+  if (!redisClient) {
+    const config = { handlers: [lruCache] }
+    if (isSingleConnectionModeEnabled) {
+      global.cacheHandlerConfigPromise = null
+      global.cacheHandlerConfig = config
+    }
+    return config
+  }
+
+  const redisCacheHandler = createRedisHandler({
+    client: redisClient,
+    keyPrefix: buildId + ":",
+  })
+
+  const config = {
+    handlers: [
+      createCompositeHandler({
+        handlers: [lruCache, redisCacheHandler],
+        setStrategy: (ctx) => (ctx?.tags.includes("memory-cache") ? 0 : 1),
+      }),
+    ],
+  }
+
+  if (isSingleConnectionModeEnabled) {
+    global.cacheHandlerConfigPromise = null
+    global.cacheHandlerConfig = config
+  }
+
+  return config
+}
 
 CacheHandler.onCreation(({ buildId }) => {
   if (!buildId) {
@@ -11,93 +93,28 @@ CacheHandler.onCreation(({ buildId }) => {
       handlers: [],
     }
   }
-
-  // Important - It's recommended to use global scope to ensure only one Redis connection is made
-  // This ensures only one instance get created
-  if (global.cacheHandlerConfig) {
-    return global.cacheHandlerConfig
-  }
-
-  // Important - It's recommended to use global scope to ensure only one Redis connection is made
-  // This ensures new instances are not created in a race condition
-  if (global.cacheHandlerConfigPromise) {
-    return global.cacheHandlerConfigPromise
-  }
-
-  // Main promise initializing the handler
-  global.cacheHandlerConfigPromise = (async () => {
-    let redisClient = null
-
-    if (PHASE_PRODUCTION_BUILD !== process.env.NEXT_PHASE) {
-      const settings = {
-        url: process.env.REDIS_URL ?? "redis://localhost:6379",
-        pingInterval: 10000,
-      }
-
-      try {
-        redisClient = createClient(settings)
-        redisClient.on("error", (e) => {
-          console.warn("Redis error", e)
-
-          global.cacheHandlerConfig = null
-          global.cacheHandlerConfigPromise = null
-        })
-      } catch (error) {
-        console.warn("Failed to create Redis client:", error)
-      }
-    }
-
-    if (redisClient) {
-      try {
-        console.info("Connecting Redis client...")
-        await Promise.race([
-          redisClient.connect(),
-          new Promise((_, reject) =>
-            setTimeout(
-              () => reject(new Error("Redis connection timeout")),
-              5000,
-            ),
-          ),
-        ])
-        console.info("Redis client connected.")
-      } catch (error) {
-        console.warn("Failed to connect Redis client:", error)
-        await redisClient
-          .disconnect()
-          .catch(() =>
-            console.warn(
-              "Failed to quit the Redis client after failing to connect.",
-            ),
-          )
-      }
-    }
-
-    const lruCache = createLruHandler()
-
-    if (!redisClient?.isReady) {
-      console.error("Failed to initialize caching layer.")
-      global.cacheHandlerConfigPromise = null
-      global.cacheHandlerConfig = { handlers: [lruCache] }
+  if (isSingleConnectionModeEnabled) {
+    if (global.cacheHandlerConfig) {
       return global.cacheHandlerConfig
     }
-
-    const redisCacheHandler = createRedisHandler({
-      client: redisClient,
-      keyPrefix: buildId,
-      // timeoutMs: 500,
-    })
-
-    global.cacheHandlerConfigPromise = null
-
-    global.cacheHandlerConfig = {
-      handlers: [redisCacheHandler],
-      ttl: { estimateExpireAge: (staleAge) => staleAge + 60 },
+    if (global.cacheHandlerConfigPromise) {
+      return global.cacheHandlerConfigPromise
     }
+  }
 
-    return global.cacheHandlerConfig
-  })()
+  if (process.env.NODE_ENV === "development") {
+    const config = { handlers: [createLruHandler()] }
+    if (isSingleConnectionModeEnabled) {
+      global.cacheHandlerConfig = config
+    }
+    return config
+  }
 
-  return global.cacheHandlerConfigPromise
+  const promise = createCacheConfig(buildId)
+  if (isSingleConnectionModeEnabled) {
+    global.cacheHandlerConfigPromise = promise
+  }
+  return promise
 })
 
 export default CacheHandler
