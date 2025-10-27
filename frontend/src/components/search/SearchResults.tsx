@@ -4,11 +4,11 @@ import {
   ApplicationCardSkeleton,
 } from "../application/ApplicationCard"
 import { FunctionComponent } from "react"
-import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { UseMutationResult } from "@tanstack/react-query"
-import { MeilisearchResponseAppsIndex, AppsIndex } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { useTranslations } from "next-intl"
+import { AppsIndex, MeilisearchResponseAppsIndex } from "../../codegen"
+import { mapAppsIndexToAppstreamListItem } from "../../meilisearch"
 
 interface Props {
   results: UseMutationResult<

@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react"
 import React from "react"
 
-import { VerificationStatus } from "src/types/VerificationStatus"
-import { VerificationText } from "src/verification"
+import { VerificationStatus } from "../../types/VerificationStatus"
+import { VerificationText } from "../../verification"
 import VerificationIcon from "./VerificationIcon"
 import {
   Tooltip,

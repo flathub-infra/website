@@ -6,21 +6,22 @@ import {
   isBefore,
   isSameDay,
 } from "date-fns"
-import {
-  getAppOfTheDayAppPicksAppOfTheDayDateGet,
-  getAppstreamAppstreamAppIdGet,
-} from "src/codegen"
 import { AppOfTheDay } from "../application/AppOfTheDay"
 import Spinner from "../Spinner"
 import { FlathubCombobox } from "../Combobox"
-import { useUserContext } from "src/context/user-info"
 import { ReactElement } from "react"
 import clsx from "clsx"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import LogoImage from "../LogoImage"
-import { setAppOfTheDayAppPicksAppOfTheDayPost, Permission } from "src/codegen"
-import { DesktopAppstream } from "src/types/Appstream"
 import { UTCDate } from "@date-fns/utc"
+import { useUserContext } from "../../context/user-info"
+import {
+  getAppOfTheDayAppPicksAppOfTheDayDateGet,
+  getAppstreamAppstreamAppIdGet,
+  Permission,
+  setAppOfTheDayAppPicksAppOfTheDayPost,
+} from "../../codegen"
+import { DesktopAppstream } from "../../types/Appstream"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const user = useUserContext()

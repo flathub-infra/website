@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useUserContext } from "src/context/user-info"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import Spinner from "../Spinner"
 import clsx from "clsx"
@@ -10,23 +9,24 @@ import {
 } from "@heroicons/react/24/solid"
 import { useTranslations } from "next-intl"
 import Modal from "../Modal"
-import { DesktopAppstream } from "src/types/Appstream"
-import {
-  Permission,
-  QualityModerationStatus,
-  useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet,
-  useGetModerationAppModerationAppsAppIdGet,
-  useRequestReviewForAppQualityModerationAppIdRequestReviewPost,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { ScanEyeIcon } from "lucide-react"
-import { Link } from "src/i18n/navigation"
 import {
   EnvelopeIcon,
   EyeIcon,
   Cog6ToothIcon,
   EnvelopeOpenIcon,
 } from "@heroicons/react/20/solid"
+import { Link } from "../../i18n/navigation"
+import { useUserContext } from "../../context/user-info"
+import { DesktopAppstream } from "../../types/Appstream"
+import {
+  Permission,
+  QualityModerationStatus,
+  useGetModerationAppModerationAppsAppIdGet,
+  useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet,
+  useRequestReviewForAppQualityModerationAppIdRequestReviewPost,
+} from "../../codegen"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -204,12 +204,14 @@ export const QualityModeration = ({
     if (
       user.info?.permissions.some((a) => a === Permission["quality-moderation"])
     ) {
+      //eslint-disable-next-line
       setIsQualityModerator(true)
     }
   }, [user.info])
 
   useEffect(() => {
     if (user.info?.permissions.some((a) => a === Permission["moderation"])) {
+      //eslint-disable-next-line
       setIsModerator(true)
     }
   }, [user.info])

@@ -4,9 +4,9 @@ import { toast } from "sonner"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
-import { redeemTokenVendingappAppIdTokensRedeemTokenPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { redeemTokenVendingappAppIdTokensRedeemTokenPost } from "../../../../codegen"
 
 /**
  * A set of controls for redemption of application ownership tokens.

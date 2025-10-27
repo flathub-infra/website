@@ -4,9 +4,12 @@ import { XCircleIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { toast } from "sonner"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { PaymentCardInfo, WalletInfo } from "src/codegen/model"
-import { postRemovecardWalletRemovecardPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import {
+  PaymentCardInfo,
+  postRemovecardWalletRemovecardPost,
+  WalletInfo,
+} from "../../../codegen"
 
 const DeleteCardButton: FunctionComponent<{
   card: PaymentCardInfo

@@ -1,27 +1,27 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import {
-  getAppstreamAppstreamAppIdGet,
-  getStatsForAppStatsAppIdGet,
-  getSummarySummaryAppIdGet,
-  getDeveloperCollectionDeveloperDeveloperGet,
-  getAddonsAddonAppIdGet,
-  getVerificationStatusVerificationAppIdStatusGet,
-  getEolRebaseAppidEolRebaseAppIdGet,
-  getEolMessageAppidEolMessageAppIdGet,
-  MeilisearchResponseAppsIndex,
-  StatsResultApp,
-} from "src/codegen"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import { isValidAppId } from "@/lib/helpers"
 import AppDetailClient from "./app-detail-client"
 import { Appstream, AddonAppstream } from "../../../../src/types/Appstream"
 import { removeAppIdFromSearchResponse } from "../../../../src/meilisearch"
 import { formatISO } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
-import { redirect } from "src/i18n/navigation"
-import { Summary } from "src/types/Summary"
+import { redirect } from "../../../../src/i18n/navigation"
+import {
+  getAddonsAddonAppIdGet,
+  getAppstreamAppstreamAppIdGet,
+  getDeveloperCollectionDeveloperDeveloperGet,
+  getEolMessageAppidEolMessageAppIdGet,
+  getEolRebaseAppidEolRebaseAppIdGet,
+  getStatsForAppStatsAppIdGet,
+  getSummarySummaryAppIdGet,
+  getVerificationStatusVerificationAppIdStatusGet,
+  MeilisearchResponseAppsIndex,
+  StatsResultApp,
+} from "../../../../src/codegen"
+import { Summary } from "../../../../src/types/Summary"
+import { VerificationStatus } from "../../../../src/types/VerificationStatus"
 
 export async function generateStaticParams() {
   // Return empty array to enable ISR for all app IDs

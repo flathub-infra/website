@@ -1,6 +1,6 @@
 import { QueryParams } from "next-intl/navigation"
 import { ReadonlyURLSearchParams } from "next/navigation"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../i18n/navigation"
 
 export function setQueryParams(
   router: ReturnType<typeof useRouter>,

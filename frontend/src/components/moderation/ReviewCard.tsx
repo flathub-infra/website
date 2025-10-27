@@ -1,22 +1,22 @@
 import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
-import { getIntlLocale } from "src/localize"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import Tag from "../application/Tag"
 import { formatDistanceToNow, parseISO } from "date-fns"
-import { useUserContext } from "src/context/user-info"
 import { useMutation } from "@tanstack/react-query"
 import Modal from "../Modal"
 import CodeCopy from "../application/CodeCopy"
-import {
-  submitReviewModerationRequestsIdReviewPost,
-  ModerationRequestResponse,
-  Permission,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Link, useRouter } from "src/i18n/navigation"
+import {
+  ModerationRequestResponse,
+  Permission,
+  submitReviewModerationRequestsIdReviewPost,
+} from "../../codegen"
+import { Link, useRouter } from "../../i18n/navigation"
+import { getIntlLocale } from "../../localize"
+import { useUserContext } from "../../context/user-info"
 
 interface Props {
   title: string

@@ -2,8 +2,8 @@ import { FunctionComponent } from "react"
 import React from "react"
 
 import { CheckBadgeIcon } from "@heroicons/react/20/solid"
-import { VerificationStatus } from "src/types/VerificationStatus"
-import { verificationProviderToHumanReadable } from "src/verificationProvider"
+import { VerificationStatus } from "../../codegen"
+import { verificationProviderToHumanReadable } from "../../verificationProvider"
 import {
   Tooltip,
   TooltipContent,

@@ -5,7 +5,7 @@ import LoginGuard from "../../../../src/components/login/LoginGuard"
 import DeleteButton from "../../../../src/components/user/DeleteButton"
 import UserDetails from "../../../../src/components/user/Details"
 import type { JSX } from "react"
-import { LoginMethod } from "src/codegen"
+import { LoginMethod } from "../../../../src/codegen"
 
 interface SettingsClientProps {
   providers: LoginMethod[]

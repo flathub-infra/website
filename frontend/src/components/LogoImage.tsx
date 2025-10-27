@@ -3,7 +3,7 @@ import { FunctionComponent } from "react"
 import Image from "next/image"
 
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
-import flathubImageLoader from "src/image-loader"
+import flathubImageLoader from "../image-loader"
 
 interface Props {
   iconUrl: string

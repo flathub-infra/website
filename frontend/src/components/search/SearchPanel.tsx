@@ -6,13 +6,13 @@ import {
 } from "@headlessui/react"
 import { FunnelIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
-import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
-import { MeilisearchResponseAppsIndex, AppsIndex } from "src/codegen"
 import { useTranslations } from "next-intl"
+import { MeilisearchResponseAppsIndex, AppsIndex } from "../../codegen"
+import { SearchFilters } from "./SearchFilters"
 
 export const SearchPanel = ({
   searchResult,

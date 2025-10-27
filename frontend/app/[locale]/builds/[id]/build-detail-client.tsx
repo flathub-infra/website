@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "../../../../@/components/ui/button"
-import { Link } from "src/i18n/navigation"
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 import { useGetPipelineApiPipelinesPipelineIdGet } from "../../../../src/codegen-pipeline"
 import Spinner from "../../../../src/components/Spinner"
@@ -16,6 +15,7 @@ import {
   CardFooter,
   CardHeader,
 } from "../../../../@/components/ui/card"
+import { Link } from "../../../../src/i18n/navigation"
 
 interface Props {
   pipelineId: string

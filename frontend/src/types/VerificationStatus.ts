@@ -1,4 +1,4 @@
-import { VerificationProvider } from "src/verificationProvider"
+import { VerificationProvider } from "../verificationProvider"
 
 export type VerificationStatus =
   | VerificationStatusNone

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import type { JSX } from "react"
 import { useTranslations } from "next-intl"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../../src/i18n/navigation"
 
 const FeedsClient = (): JSX.Element => {
   const t = useTranslations()

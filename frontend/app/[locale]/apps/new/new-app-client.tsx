@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import { Button } from "@/components/ui/button"
 import type { JSX } from "react"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../../../src/i18n/navigation"
 
 const NewAppClient = (): JSX.Element => {
   const t = useTranslations()

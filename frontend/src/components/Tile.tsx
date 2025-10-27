@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react"
 import { cn } from "@/lib/utils"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../i18n/navigation"
 
 interface Props {
   children: React.ReactNode

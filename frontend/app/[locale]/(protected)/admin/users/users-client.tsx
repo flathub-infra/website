@@ -14,19 +14,19 @@ import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import React from "react"
 import { useEffect, useState } from "react"
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid"
+import { useSearchParams } from "next/navigation"
+import AdminLayoutClient from "../../../../../src/components/AdminLayoutClient"
+import { usePathname, useRouter } from "../../../../../src/i18n/navigation"
+import Spinner from "../../../../../src/components/Spinner"
+import Pagination from "../../../../../src/components/Pagination"
+import { ProviderLogo } from "../../../../../src/components/login/ProviderLogo"
 import {
   FlathubUsersResult,
-  Permission,
   GetUserinfoAuthUserinfoGet200,
+  Permission,
   UserResult,
   useUsersUsersGet,
-} from "src/codegen"
-import AdminLayoutClient from "src/components/AdminLayoutClient"
-import { ProviderLogo } from "src/components/login/ProviderLogo"
-import Pagination from "src/components/Pagination"
-import Spinner from "src/components/Spinner"
-import { useSearchParams } from "next/navigation"
-import { usePathname, useRouter } from "src/i18n/navigation"
+} from "../../../../../src/codegen"
 
 export default function UsersClient() {
   const pageSize = 30
@@ -58,6 +58,7 @@ export default function UsersClient() {
   const [data, setData] = useState<FlathubUsersResult>()
 
   useEffect(() => {
+    // eslint-disable-next-line
     setPage(searchParams.get("page") ? Number(searchParams.get("page")) : 1)
   }, [searchParams])
 
@@ -78,6 +79,7 @@ export default function UsersClient() {
   }, [filterString, router, pathname, searchParams])
 
   useEffect(() => {
+    // eslint-disable-next-line
     setData(query?.data?.data)
   }, [query?.data])
 

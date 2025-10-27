@@ -2,16 +2,16 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import React from "react"
+import AdminLayoutClient from "../../../../../src/components/AdminLayoutClient"
+import Spinner from "../../../../../src/components/Spinner"
+import { Link } from "../../../../../src/i18n/navigation"
 import {
+  GetUserinfoAuthUserinfoGet200,
   Permission,
   RoleName,
-  GetUserinfoAuthUserinfoGet200,
   useRolesUsersRolesGet,
   useRoleUsersUsersRolesRoleNameGet,
-} from "src/codegen"
-import AdminLayoutClient from "src/components/AdminLayoutClient"
-import Spinner from "src/components/Spinner"
-import { Link } from "src/i18n/navigation"
+} from "../../../../../src/codegen"
 
 export default function RolesClient() {
   const rolesQuery = useRolesUsersRolesGet({

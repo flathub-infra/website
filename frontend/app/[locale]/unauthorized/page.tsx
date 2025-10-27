@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../../src/i18n/navigation"
 
 export async function generateMetadata({
   params,

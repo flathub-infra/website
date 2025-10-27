@@ -1,21 +1,21 @@
 import { ReactElement, useState } from "react"
 import { useTranslations } from "next-intl"
-import Spinner from "src/components/Spinner"
-import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { AxiosError } from "axios"
 import Modal from "../Modal"
-import {
-  archiveVerificationAppIdArchivePost,
-  switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
-  useGetUploadTokensUploadTokensAppIdGet,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Appstream } from "src/types/Appstream"
 import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import {
+  switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
+  archiveVerificationAppIdArchivePost,
+  useGetUploadTokensUploadTokensAppIdGet,
+} from "../../codegen"
+import { Appstream } from "../../types/Appstream"
+import ConfirmDialog from "../ConfirmDialog"
+import Spinner from "../Spinner"
 
 const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const t = useTranslations()

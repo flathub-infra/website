@@ -5,11 +5,11 @@ import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
 import { NumericInputValue } from "../../types/Input"
 import * as Currency from "../currency"
 import Spinner from "../Spinner"
-import { createTransactionWalletTransactionsPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
-import { formatCurrency } from "src/utils/localize"
-import { getIntlLocale } from "src/localize"
-import { redirect } from "src/i18n/navigation"
+import { redirect } from "../../i18n/navigation"
+import { createTransactionWalletTransactionsPost } from "../../codegen"
+import { getIntlLocale } from "../../localize"
+import { formatCurrency } from "../../utils/localize"
 
 interface Props {
   org: string

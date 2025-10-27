@@ -3,13 +3,13 @@ import { useTheme } from "next-themes"
 import { FunctionComponent, MouseEventHandler } from "react"
 import ReactCountryFlag from "react-country-flag"
 import Image from "next/image"
-import { PaymentCardInfo } from "src/codegen"
 
 import amex from "public/img/payment-methods/amex.svg"
 import mastercard from "public/img/payment-methods/mastercard.svg"
 import visa from "public/img/payment-methods/visa.svg"
 import visaDark from "public/img/payment-methods/visa-dark.svg"
 import { Skeleton } from "@/components/ui/skeleton"
+import { PaymentCardInfo } from "../../../codegen"
 
 interface Props {
   card: PaymentCardInfo

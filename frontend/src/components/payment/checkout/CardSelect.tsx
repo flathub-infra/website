@@ -5,15 +5,17 @@ import { CardInfo, CardInfoSkeleton } from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
 import { useMutation, UseQueryResult } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
-import {
-  setPendingWalletTransactionsTxnSetpendingPost,
-  setTransactionCardWalletTransactionsTxnSetcardPost,
-} from "src/codegen"
-import { PaymentCardInfo, Transaction, WalletInfo } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { TransactionCancelButtonPrep } from "./Checkout"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import {
+  PaymentCardInfo,
+  setPendingWalletTransactionsTxnSetpendingPost,
+  setTransactionCardWalletTransactionsTxnSetcardPost,
+  Transaction,
+  WalletInfo,
+} from "../../../codegen"
 
 interface Props {
   transaction: Transaction

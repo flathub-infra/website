@@ -11,8 +11,8 @@ import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
 import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
-import { useRouter } from "src/i18n/navigation"
-import { LoginMethod } from "src/codegen"
+import { LoginMethod } from "../../codegen"
+import { useRouter } from "../../i18n/navigation"
 
 interface Props {
   provider: LoginMethod

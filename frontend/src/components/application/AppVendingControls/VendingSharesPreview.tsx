@@ -1,14 +1,14 @@
-import { FunctionComponent, useEffect, useMemo } from "react"
+import { FunctionComponent, useMemo } from "react"
 import { Appstream } from "../../../types/Appstream"
 import { computeAppShares, computeShares } from "../../../utils/vending"
-import { formatCurrency } from "src/utils/localize"
 import { useLocale, useTranslations } from "next-intl"
-import { VendingConfig } from "src/codegen"
 
 import * as Slider from "@radix-ui/react-slider"
 import clsx from "clsx"
-import { getIntlLocale } from "src/localize"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../../../i18n/navigation"
+import { getIntlLocale } from "../../../localize"
+import { VendingConfig } from "../../../codegen"
+import { formatCurrency } from "../../../utils/localize"
 
 interface Props {
   price: number

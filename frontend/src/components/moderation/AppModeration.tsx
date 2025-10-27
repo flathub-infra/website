@@ -1,6 +1,4 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import { getAppsInfo } from "src/asyncs/app"
-import { setQueryParams } from "src/utils/queryParams"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
@@ -8,23 +6,22 @@ import AppstreamChangesRow from "./AppstreamChangesRow"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../Breadcrumbs"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useSearchParams } from "next/navigation"
 import {
   getModerationAppModerationAppsAppIdGet,
   getModerationAppsModerationAppsGet,
-} from "src/codegen"
-import { ModerationRequestResponse } from "src/codegen/model"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Link, usePathname, useRouter } from "src/i18n/navigation"
-import { useSearchParams } from "next/navigation"
+  ModerationRequestResponse,
+} from "../../codegen"
+import { Link, usePathname, useRouter } from "../../i18n/navigation"
+import { getAppsInfo } from "../../asyncs/app"
+import { setQueryParams } from "../../utils/queryParams"
 
 interface Props {
   appId: string
 }
 
 const NavigatePreviousNext = ({ appId }) => {
-  const [nextAppId, setNextAppId] = useState<string | undefined>()
-  const [previousAppId, setPreviousAppId] = useState<string | undefined>()
-
   const listQuery = useQuery({
     queryKey: ["moderation", 9999],
     queryFn: async ({ signal }) => {
@@ -42,26 +39,22 @@ const NavigatePreviousNext = ({ appId }) => {
     },
   })
 
-  useEffect(() => {
-    const currentIndex = listQuery.data?.apps?.findIndex(
-      (a) => a.appid === appId,
-    )
-    if (currentIndex <= 0) {
-      setPreviousAppId(undefined)
-    } else {
-      setPreviousAppId(listQuery.data?.apps[currentIndex - 1].appid)
-    }
-
-    if (currentIndex >= listQuery.data?.apps?.length - 1) {
-      setNextAppId(undefined)
-    } else {
-      setNextAppId(listQuery.data?.apps[currentIndex + 1].appid)
-    }
-  }, [setNextAppId, setPreviousAppId, listQuery, appId])
-
-  if (listQuery.isLoading || listQuery.data.apps.length === 0) {
+  if (
+    listQuery.isLoading ||
+    !listQuery.data ||
+    listQuery.data.apps.length === 0
+  ) {
     return null
   }
+
+  const apps = listQuery.data.apps
+  const currentIndex = apps.findIndex((a) => a.appid === appId)
+  const previousAppId =
+    currentIndex > 0 ? apps[currentIndex - 1]?.appid : undefined
+  const nextAppId =
+    currentIndex >= 0 && currentIndex < apps.length - 1
+      ? apps[currentIndex + 1]?.appid
+      : undefined
 
   return (
     <div className="flex gap-3">

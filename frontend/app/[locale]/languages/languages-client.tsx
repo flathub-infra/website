@@ -7,7 +7,7 @@ import {
   languages,
 } from "../../../src/localize"
 import type { JSX } from "react"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../../src/i18n/navigation"
 
 const LanguagesClient = (): JSX.Element => {
   const t = useTranslations()

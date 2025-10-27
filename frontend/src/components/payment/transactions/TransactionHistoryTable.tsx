@@ -10,15 +10,15 @@ import {
 import { UTCDate } from "@date-fns/utc"
 import { format } from "date-fns"
 
-import { formatCurrency } from "src/utils/localize"
 import { clsx } from "clsx"
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 import { ExclamationTriangleIcon } from "@heroicons/react/16/solid"
 import { useLocale, useTranslations } from "next-intl"
-import { TransactionSummary } from "src/codegen"
 import { Dispatch, SetStateAction } from "react"
-import { getIntlLocale } from "src/localize"
-import { useRouter } from "src/i18n/navigation"
+import { TransactionSummary } from "../../../codegen"
+import { getIntlLocale } from "../../../localize"
+import { useRouter } from "../../../i18n/navigation"
+import { formatCurrency } from "../../../utils/localize"
 
 export const TransactionHistoryTable = ({
   transactions,

@@ -5,14 +5,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useTranslations } from "next-intl"
 import { ReactElement, useEffect, useState } from "react"
-import { getUserData } from "src/asyncs/login"
-import Spinner from "src/components/Spinner"
-import { AppVerificationSetup } from "src/components/application/AppVerificationControls"
-import LoginGuard from "src/components/login/LoginGuard"
-import { useUserContext, useUserDispatch } from "src/context/user-info"
-import { Appstream } from "src/types/Appstream"
 import type { JSX } from "react"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../../../../../src/i18n/navigation"
+import { Appstream } from "../../../../../src/types/Appstream"
+import {
+  useUserContext,
+  useUserDispatch,
+} from "../../../../../src/context/user-info"
+import LoginGuard from "../../../../../src/components/login/LoginGuard"
+import Spinner from "../../../../../src/components/Spinner"
+import { AppVerificationSetup } from "../../../../../src/components/application/AppVerificationControls"
+import { getUserData } from "../../../../../src/asyncs/login"
 
 const RegisterClient = (): JSX.Element => {
   const t = useTranslations()

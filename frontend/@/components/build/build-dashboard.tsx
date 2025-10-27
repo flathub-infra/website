@@ -1,8 +1,8 @@
 import { BuildCard } from "./build-card"
 import { BuildStatusFilter } from "./build-status-filter"
-import { useListPipelinesApiPipelinesGet } from "src/codegen-pipeline"
 import { LoadingDashboard } from "./loading-dashboard"
 import { BuildRepoFilter } from "./build-repo-filter"
+import { useListPipelinesApiPipelinesGet } from "../../../src/codegen-pipeline"
 
 export function BuildDashboard({
   appId,

@@ -17,21 +17,9 @@ import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { IconGridOverlay } from "./IconGridOverlay"
-import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { useTranslations } from "next-intl"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
-import {
-  Guideline,
-  QualityModerationResponse,
-  QualityModerationType,
-} from "src/codegen/model"
-import {
-  deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete,
-  getQualityModerationForAppQualityModerationAppIdGet,
-  setFullscreenAppQualityModerationAppIdFullscreenPost,
-  setQualityModerationForAppQualityModerationAppIdPost,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import {
   Tooltip,
@@ -39,8 +27,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Link } from "src/i18n/navigation"
 import { ExternalLinkIcon } from "lucide-react"
+import { DesktopAppstream, Branding } from "../../types/Appstream"
+import { Link } from "../../i18n/navigation"
+import {
+  deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete,
+  getQualityModerationForAppQualityModerationAppIdGet,
+  Guideline,
+  QualityModerationResponse,
+  QualityModerationType,
+  setFullscreenAppQualityModerationAppIdFullscreenPost,
+  setQualityModerationForAppQualityModerationAppIdPost,
+} from "../../codegen"
 
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   const t = useTranslations()
@@ -404,9 +402,11 @@ const QualityItem = ({
     qualityModeration?.passed,
   )
 
+  // Keep toggle in sync with qualityModeration?.passed
   useEffect(() => {
+    // eslint-disable-next-line
     setToggle(qualityModeration?.passed)
-  }, [qualityModeration])
+  }, [qualityModeration?.passed])
 
   const mutation = useMutation({
     mutationFn: ({ passed }: { passed: boolean }) =>

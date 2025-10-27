@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "sonner"
-import { cancelTransactionWalletTransactionsTxnCancelPost } from "src/codegen"
+import { cancelTransactionWalletTransactionsTxnCancelPost } from "../../../codegen"
 
 interface Props {
   id: string

@@ -7,8 +7,8 @@ import { DistroSetup } from "../../../src/distro-setup"
 import { useState } from "react"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 import { Input } from "../../../@/components/ui/input"
-import { Link } from "src/i18n/navigation"
-import { motion, LayoutGroup, AnimatePresence } from "framer-motion"
+import { motion, LayoutGroup } from "framer-motion"
+import { Link } from "../../../src/i18n/navigation"
 
 interface Props {
   instructions: DistroSetup[]

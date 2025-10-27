@@ -1,25 +1,25 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslations } from "next-intl"
-import { Appstream } from "src/types/Appstream"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
-import { useUserDispatch } from "src/context/user-info"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
-import { getUserData } from "src/asyncs/login"
 import { AxiosError } from "axios"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Appstream } from "../../types/Appstream"
+import { useUserDispatch } from "../../context/user-info"
+import { useRouter } from "../../i18n/navigation"
 import {
+  Developer,
   getAppDevelopersInvitesAppIdDevelopersGet,
   inviteDeveloperInvitesAppIdInvitePost,
   leaveTeamInvitesAppIdLeavePost,
   removeDeveloperInvitesAppIdRemoveDeveloperPost,
   revokeInviteInvitesAppIdRevokePost,
-} from "src/codegen"
-import { Developer } from "src/codegen/model"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useRouter } from "src/i18n/navigation"
+} from "../../codegen"
+import { getUserData } from "../../asyncs/login"
 
 interface Props {
   app: Pick<Appstream, "id" | "name">

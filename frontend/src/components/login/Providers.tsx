@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react"
 import ProviderLink from "./ProviderLink"
-import { LoginMethod } from "src/codegen"
+import { LoginMethod } from "../../codegen"
 
 interface Props {
   providers: LoginMethod[]

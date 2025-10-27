@@ -7,10 +7,10 @@ import {
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { clsx } from "clsx"
-import { Link, useRouter } from "src/i18n/navigation"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import CodeCopy from "./CodeCopy"
 import { useTranslations } from "next-intl"
+import { Link, useRouter } from "../../i18n/navigation"
 
 export default function InstallButton({
   appId,

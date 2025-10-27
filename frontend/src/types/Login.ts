@@ -1,4 +1,4 @@
-import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
+import { GetUserinfoAuthUserinfoGet200 } from "../codegen"
 
 export interface LoginRedirect {
   redirect: string

@@ -17,23 +17,27 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/solid"
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid"
-import LogoImage from "src/components/LogoImage"
-import MultiToggle from "src/components/MultiToggle"
-import Pagination from "src/components/Pagination"
-import { useUserContext } from "src/context/user-info"
-import { Appstream } from "src/types/Appstream"
+import { useLocale } from "next-intl"
+import { Appstream } from "../../../../../src/types/Appstream"
+import Spinner from "../../../../../src/components/Spinner"
+import Pagination from "../../../../../src/components/Pagination"
+import LogoImage from "../../../../../src/components/LogoImage"
+import MultiToggle from "../../../../../src/components/MultiToggle"
+import { useUserContext } from "../../../../../src/context/user-info"
+import {
+  Link,
+  usePathname,
+  useRouter,
+} from "../../../../../src/i18n/navigation"
+import AdminLayoutClient from "../../../../../src/components/AdminLayoutClient"
 import {
   GetQualityModerationStatusQualityModerationStatusGetFilter,
+  GetUserinfoAuthUserinfoGet200,
   Permission,
   QualityModerationDashboardResponse,
   QualityModerationDashboardRow,
-  GetUserinfoAuthUserinfoGet200,
   useGetQualityModerationStatusQualityModerationStatusGet,
-} from "src/codegen"
-import AdminLayoutClient from "src/components/AdminLayoutClient"
-import Spinner from "src/components/Spinner"
-import { useLocale } from "next-intl"
-import { useRouter, usePathname, Link } from "src/i18n/navigation"
+} from "../../../../../src/codegen"
 
 export default function QualityModerationClient() {
   const user = useUserContext()
@@ -74,10 +78,12 @@ export default function QualityModerationClient() {
   )
 
   useEffect(() => {
+    // eslint-disable-next-line
     setPage(searchParams.get("page") ? Number(searchParams.get("page")) : 1)
   }, [searchParams])
 
   useEffect(() => {
+    // eslint-disable-next-line
     setFilteredBy(
       (searchParams.get(
         "filter",

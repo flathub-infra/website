@@ -1,14 +1,16 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslations } from "next-intl"
-import Spinner from "src/components/Spinner"
 import CodeCopy from "../CodeCopy"
-import Modal from "src/components/Modal"
-import { Repo } from "src/types/UploadTokens"
 import { useMutation } from "@tanstack/react-query"
-import { createUploadTokenUploadTokensAppIdPost } from "src/codegen"
-import { NewTokenResponse } from "src/codegen/model"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
+import {
+  NewTokenResponse,
+  createUploadTokenUploadTokensAppIdPost,
+} from "../../../codegen"
+import { Repo } from "../../../types/UploadTokens"
+import Modal from "../../Modal"
+import Spinner from "../../Spinner"
 
 interface Props {
   app_id: string

@@ -10,29 +10,27 @@ import {
   startOfISOWeek,
 } from "date-fns"
 import { ReactElement, useEffect, useState } from "react"
-import { FlathubCombobox } from "src/components/Combobox"
-import Spinner from "src/components/Spinner"
-import { HeroBanner } from "src/components/application/HeroBanner"
-import { useUserContext } from "src/context/user-info"
-import {
-  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
-  getAppstreamAppstreamAppIdGet,
-} from "src/codegen"
-import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 import clsx from "clsx"
 import { CheckIcon } from "@heroicons/react/20/solid"
-import LogoImage from "src/components/LogoImage"
-import {
-  GetUserinfoAuthUserinfoGet200,
-  setAppOfTheWeekAppPicksAppOfTheWeekPost,
-  Permission,
-  getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
-} from "src/codegen"
-import { DesktopAppstream } from "src/types/Appstream"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
 import { useTranslations } from "next-intl"
-import AdminLayoutClient from "src/components/AdminLayoutClient"
+import AdminLayoutClient from "../../../../../src/components/AdminLayoutClient"
+import { DesktopAppstream } from "../../../../../src/types/Appstream"
+import {
+  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
+  getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
+  getAppstreamAppstreamAppIdGet,
+  GetUserinfoAuthUserinfoGet200,
+  Permission,
+  setAppOfTheWeekAppPicksAppOfTheWeekPost,
+} from "../../../../../src/codegen"
+import LogoImage from "../../../../../src/components/LogoImage"
+import { HeroBanner } from "../../../../../src/components/application/HeroBanner"
+import Spinner from "../../../../../src/components/Spinner"
+import { FlathubCombobox } from "../../../../../src/components/Combobox"
+import { AppOfTheDayChanger } from "../../../../../src/components/app-picks/AppOfTheDayChanger"
+import { useUserContext } from "../../../../../src/context/user-info"
 
 export default function AppPicksClient() {
   const t = useTranslations()
@@ -250,6 +248,7 @@ export default function AppPicksClient() {
           }
         })
 
+      // eslint-disable-next-line
       setSelectableAppsAppOfTheDay(
         apps.toSorted((a, b) => {
           if (a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay !== 0) {

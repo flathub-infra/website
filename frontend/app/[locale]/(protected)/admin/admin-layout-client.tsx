@@ -1,10 +1,10 @@
 "use client"
 
 import { ReactNode, useEffect } from "react"
-import { useRouter } from "src/i18n/navigation"
 import { useUserContext } from "../../../../src/context/user-info"
 import { Permission } from "../../../../src/codegen"
 import Spinner from "../../../../src/components/Spinner"
+import { useRouter } from "../../../../src/i18n/navigation"
 
 interface AdminLayoutClientProps {
   children: ReactNode

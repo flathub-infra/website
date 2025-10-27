@@ -3,8 +3,8 @@ import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { useTranslations } from "next-intl"
-import { MeilisearchResponseAppsIndex } from "src/codegen"
-import { categoryToName, stringToCategory } from "src/types/Category"
+import { MeilisearchResponseAppsIndex } from "../../codegen"
+import { categoryToName, stringToCategory } from "../../types/Category"
 
 const FilterFacette = ({
   label,

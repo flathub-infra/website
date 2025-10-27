@@ -2,10 +2,12 @@ import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
-import { TokenModel } from "src/codegen/model"
-import { cancelTokensVendingappAppIdTokensCancelPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import {
+  TokenModel,
+  cancelTokensVendingappAppIdTokensCancelPost,
+} from "../../../../codegen"
 
 interface Props {
   token: Pick<TokenModel, "token">

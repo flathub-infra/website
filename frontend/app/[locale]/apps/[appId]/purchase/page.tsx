@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation"
 import {
   getAppstreamAppstreamAppIdGet,
+  getAppVendingSetupVendingappAppIdSetupGet,
   getGlobalVendingConfigVendingConfigGet,
 } from "../../../../../src/codegen"
 import { Metadata } from "next"
 import PurchaseClient from "./purchase-client"
 import { getTranslations } from "next-intl/server"
-import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen"
 
 interface Props {
   params: Promise<{

@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl"
 import {
   FormEvent,
   FunctionComponent,
-  ReactElement,
   useCallback,
   useEffect,
   useState,
@@ -16,15 +15,15 @@ import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import { Button } from "@/components/ui/button"
+import { Switch } from "@/components/ui/switch"
+import { Link } from "../../../i18n/navigation"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
   statusVendingStatusGet,
   VendingConfig,
-} from "src/codegen"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Link } from "src/i18n/navigation"
+} from "../../../codegen"
 
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle">
@@ -72,29 +71,36 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // Controls should initialise to existing setup once known
   useEffect(() => {
-    if (vendingSetup.data) {
-      const decimalRecommendation = Math.max(
-        vendingSetup.data.data.recommended_donation / 100,
-        FLATHUB_MIN_PAYMENT,
-      )
-      const decimalMinimum = Math.max(
-        vendingSetup.data.data.minimum_payment / 100,
-        FLATHUB_MIN_PAYMENT,
-      )
-
-      setAppShare(vendingSetup.data.data.appshare)
-      setRecommendedDonation({
-        live: decimalRecommendation,
-        settled: decimalRecommendation,
-      })
-      setMinPayment({
-        live: decimalMinimum,
-        settled: decimalMinimum,
-      })
-      setRequirePayment(vendingSetup.data.data.minimum_payment > 0)
-      setVendingEnabled(vendingSetup.data.data.recommended_donation > 0)
+    if (!vendingSetup.data) {
+      return
     }
-  }, [vendingSetup.data])
+
+    const decimalRecommendation = Math.max(
+      vendingSetup.data.data.recommended_donation / 100,
+      FLATHUB_MIN_PAYMENT,
+    )
+    const decimalMinimum = Math.max(
+      vendingSetup.data.data.minimum_payment / 100,
+      FLATHUB_MIN_PAYMENT,
+    )
+
+    setAppShare(vendingSetup.data.data.appshare)
+    setRecommendedDonation({
+      live: decimalRecommendation,
+      settled: decimalRecommendation,
+    })
+    setMinPayment({
+      live: decimalMinimum,
+      settled: decimalMinimum,
+    })
+    setRequirePayment(vendingSetup.data.data.minimum_payment > 0)
+    setVendingEnabled(vendingSetup.data.data.recommended_donation > 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    vendingSetup.data?.data?.appshare,
+    vendingSetup.data?.data?.recommended_donation,
+    vendingSetup.data?.data?.minimum_payment,
+  ])
 
   // Tell backend to update the setup on submission
   const setAppVendingSetupMutation = useMutation({

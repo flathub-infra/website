@@ -1,13 +1,13 @@
 "use client"
 
 import Image from "next/image"
-import flathubImageLoader from "src/image-loader"
 import {
   isImageFitCover,
   isImageSlide,
   useLightboxProps,
   useLightboxState,
 } from "yet-another-react-lightbox"
+import flathubImageLoader from "../../image-loader"
 
 function isNextJsImage(slide) {
   return (

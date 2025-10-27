@@ -6,7 +6,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 import clsx from "clsx"
-import { DesktopAppstream, pickScreenshotSize } from "src/types/Appstream"
+import { DesktopAppstream, pickScreenshotSize } from "../../types/Appstream"
 
 import LogoImage from "../LogoImage"
 import Image from "next/image"
@@ -19,8 +19,8 @@ import Autoplay, { AutoplayType } from "embla-carousel-autoplay"
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
 import { getLangDir } from "rtl-detect"
 import { useLocale } from "next-intl"
-import { Link } from "src/i18n/navigation"
-import flathubImageLoader from "src/image-loader"
+import { Link } from "../../i18n/navigation"
+import flathubImageLoader from "../../image-loader"
 
 export const HeroBanner = ({
   heroBannerData,

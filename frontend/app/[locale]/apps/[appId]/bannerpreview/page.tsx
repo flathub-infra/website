@@ -11,8 +11,8 @@ import {
 } from "../../../../../src/codegen"
 import { DesktopAppstream } from "../../../../../src/types/Appstream"
 import BannerPreviewClient from "./bannerpreview-client"
-import { redirect } from "src/i18n/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
+import { redirect } from "../../../../../src/i18n/navigation"
 
 interface Params {
   locale: string

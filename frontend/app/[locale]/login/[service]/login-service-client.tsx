@@ -15,7 +15,7 @@ import { usePendingTransaction } from "../../../../src/hooks/usePendingTransacti
 import { isInternalRedirect } from "../../../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
 import type { JSX } from "react"
-import { usePathname, useRouter } from "src/i18n/navigation"
+import { usePathname, useRouter } from "../../../../src/i18n/navigation"
 
 interface LoginServiceClientProps {
   services: string[]
@@ -81,6 +81,7 @@ const LoginServiceClient = ({
       }
 
       const newlocale = getCookie("NEXT_LOCALE")
+      // eslint-disable-next-line
       setLocale(newlocale || undefined)
 
       if (newlocale && typeof window !== "undefined") {

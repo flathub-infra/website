@@ -1,5 +1,3 @@
-import { DesktopAppstream } from "src/types/Appstream"
-
 import LogoImage from "../LogoImage"
 import { StarIcon } from "@heroicons/react/16/solid"
 import { useTranslations } from "next-intl"
@@ -8,7 +6,8 @@ import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
-import { Link } from "src/i18n/navigation"
+import { DesktopAppstream } from "../../types/Appstream"
+import { Link } from "../../i18n/navigation"
 
 export const AppOfTheDay = ({
   appOfTheDay,
@@ -25,6 +24,7 @@ export const AppOfTheDay = ({
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
+    //eslint-disable-next-line
     setMounted(true)
   }, [])
 

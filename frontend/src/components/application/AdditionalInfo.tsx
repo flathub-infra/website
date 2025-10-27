@@ -3,13 +3,13 @@ import ListBox from "./ListBox"
 import { useLocale, useTranslations } from "next-intl"
 import { calculateHumanReadableSize } from "../../size"
 import { getIntlLocale } from "../../localize"
-import { StatsResultApp } from "src/codegen"
 import {
   CloudDownload,
   FolderDown,
   HardDrive,
   LaptopMinimal,
 } from "lucide-react"
+import { StatsResultApp } from "../../codegen"
 
 const AdditionalInfo = ({
   summary,

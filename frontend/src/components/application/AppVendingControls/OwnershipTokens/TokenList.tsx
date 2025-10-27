@@ -6,7 +6,7 @@ import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 import { useQuery } from "@tanstack/react-query"
-import { getRedeemableTokensVendingappAppIdTokensGet } from "src/codegen"
+import { getRedeemableTokensVendingappAppIdTokensGet } from "../../../../codegen"
 
 interface Props {
   app: Pick<Appstream, "id">

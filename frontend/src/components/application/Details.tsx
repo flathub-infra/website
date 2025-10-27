@@ -13,25 +13,18 @@ import AppStatistics from "./AppStats"
 
 import ApplicationSection from "./ApplicationSection"
 
-import { VerificationStatus } from "src/types/VerificationStatus"
-import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
+import { mapAppsIndexToAppstreamListItem } from "../../meilisearch"
 import Tags from "./Tags"
 import SafetyRating from "./SafetyRating"
 import "yet-another-react-lightbox/plugins/captions.css"
 import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
-import { IS_PRODUCTION } from "src/env"
 import { Description } from "./Description"
 import { HorizontalStackedListBox } from "./HorizontalStackedListBox"
 import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
-import {
-  getAppVendingSetupVendingappAppIdSetupGet,
-  MeilisearchResponseAppsIndex,
-  StatsResultApp,
-} from "src/codegen"
 import { FlathubWorldMap } from "../../../app/[locale]/statistics/statistics-client"
 import {
   Tooltip,
@@ -42,8 +35,15 @@ import {
 import { InformationCircleIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { UTCDate } from "@date-fns/utc"
-import { getIntlLocale } from "src/localize"
-import { getSafetyRating } from "src/safety"
+import {
+  StatsResultApp,
+  MeilisearchResponseAppsIndex,
+  getAppVendingSetupVendingappAppIdSetupGet,
+  VerificationStatus,
+} from "../../codegen"
+import { IS_PRODUCTION } from "../../env"
+import { getIntlLocale } from "../../localize"
+import { getSafetyRating } from "../../safety"
 
 interface Props {
   app?: Appstream

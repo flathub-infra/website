@@ -35,7 +35,7 @@ import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
 import { getLangDir } from "rtl-detect"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../../../src/i18n/navigation"
 
 interface StatisticsClientProps {
   stats: StatsResult
