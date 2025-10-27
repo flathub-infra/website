@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Może żądać danych z usług niebędących portalami i uzyskiwać dodatkowe uprawnienia",
   "unauthorized": "Nieautoryzowany",
   "developed-by": "stworzona przez {developer}",
-  "unverified-tooltip": "Własność identyfikatora aplikacji <appid></appid> nie została zweryfikowana i może to być aplikacja stworzona przez społeczność"
+  "unverified-tooltip": "Własność identyfikatora aplikacji <appid></appid> nie została zweryfikowana i może to być aplikacja stworzona przez społeczność",
+  "install-all-favorites-description": "Skopiuj to polecenie, aby zainstalować wszystkie swoje ulubione aplikacje jednocześnie:",
+  "no-favorites-yet": "Nie masz jeszcze żadnych ulubionych aplikacji. Zacznij dodawać je, klikając ikonę zakładki przy aplikacjach, które Ci się podobają!",
+  "install-all-favorites": "Zainstaluj wszystkie ulubione"
 }

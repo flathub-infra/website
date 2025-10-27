@@ -439,3 +439,40 @@ def get_trending_last_two_weeks(
     result = search.get_by_trending(page, per_page, locale)
 
     return result
+
+
+@router.get(
+    "/favorites",
+    response_model=search.MeilisearchResponse[search.AppsIndex],
+    responses={
+        200: {"description": "Apps sorted by most favorited"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
+def get_most_favorited(
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    response: Response = Response(),
+) -> search.MeilisearchResponse[search.AppsIndex]:
+    """
+    Get applications sorted by the number of times they have been favorited.
+
+    Returns apps ordered by their favorites count in descending order,
+    showing the most popular apps among users.
+    """
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
+    result = search.get_by_favorites_count(page, per_page, locale)
+
+    return result

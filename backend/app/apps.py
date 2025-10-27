@@ -14,8 +14,20 @@ all_main_categories = schemas.get_main_categories()
 
 class AppType(str, Enum):
     APPS = "apps"
+    DESKTOP = "desktop"
+    DESKTOP_APPLICATION = "desktop-application"
+    CONSOLE_APPLICATION = "console-application"
+    LOCALIZATION = "localization"
+    GENERIC = "generic"
     EXTENSION = "extension"
+    ADDON = "addon"
     RUNTIME = "runtime"
+
+
+class SortBy(str, Enum):
+    ALPHABETICAL = "alphabetical"
+    CREATED_AT = "created-at"
+    LAST_UPDATED_AT = "last-updated-at"
 
 
 def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
@@ -173,24 +185,47 @@ def load_appstream(sqldb) -> None:
     search.delete_apps(apps_to_delete_from_search)
 
 
-def get_appids(type: AppType = AppType.APPS, include_eol: bool = False) -> list[str]:
+def get_appids(
+    type: AppType = AppType.APPS,
+    include_eol: bool = False,
+    sort_by: SortBy = SortBy.ALPHABETICAL,
+) -> list[str]:
     filter = None
 
-    if type == AppType.EXTENSION:
+    if type == AppType.EXTENSION or type == AppType.ADDON:
         filter = ["addon"]
     elif type == AppType.RUNTIME:
         filter = ["runtime"]
-    else:
+    elif type == AppType.DESKTOP:
+        filter = ["desktop"]
+    elif type == AppType.DESKTOP_APPLICATION:
+        filter = ["desktop-application"]
+    elif type == AppType.CONSOLE_APPLICATION:
+        filter = ["console-application"]
+    elif type == AppType.LOCALIZATION:
+        filter = ["localization"]
+    elif type == AppType.GENERIC:
+        filter = ["generic"]
+    else:  # AppType.APPS (default)
         filter = ["desktop-application", "console-application"]
 
     with database.get_db() as sqldb:
-        query = sqldb.query(models.App.app_id).filter(models.App.type.in_(filter))
+        query = sqldb.query(
+            models.App.app_id, models.App.created_at, models.App.last_updated_at
+        ).filter(models.App.type.in_(filter))
 
         if not include_eol:
             query = query.filter(~models.App.is_eol)
 
-        current_apps = set(app.app_id for app in query.all())
-    return list(current_apps)
+        if sort_by == SortBy.CREATED_AT:
+            query = query.order_by(models.App.created_at.desc())
+        elif sort_by == SortBy.LAST_UPDATED_AT:
+            query = query.order_by(models.App.last_updated_at.desc().nulls_last())
+        else:  # SortBy.ALPHABETICAL (default)
+            query = query.order_by(models.App.app_id)
+
+        current_apps = [app.app_id for app in query.all()]
+    return current_apps
 
 
 def get_addons(app_id: str, branch: str = "stable") -> list[str]:
@@ -198,7 +233,7 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
 
     with database.get_db() as sqldb:
         app = models.App.by_appid(sqldb, app_id)
-        if not app or not app.summary or app.is_eol:
+        if not app or not app.summary or models.App.is_fully_eol(sqldb, app_id):
             return result
 
         metadata = app.summary.get("metadata", {})

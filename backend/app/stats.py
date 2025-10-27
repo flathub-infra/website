@@ -389,6 +389,21 @@ def update(sqldb):
             )
     search.create_or_update_apps(stats_installs)
 
+    # Get favorites count per app and update meilisearch
+    favorites_count_dict = models.UserFavoriteApp.get_favorites_count_per_app(sqldb)
+    favorites_list: list = []
+    for app_id in frontend_app_ids:
+        favorites_count = favorites_count_dict.get(app_id, 0)
+        if favorites_count > 0:
+            favorites_list.append(
+                {
+                    "id": utils.get_clean_app_id(app_id),
+                    "favorites_count": favorites_count,
+                }
+            )
+    if len(favorites_list) > 0:
+        search.create_or_update_apps(favorites_list)
+
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)
 

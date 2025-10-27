@@ -11,7 +11,7 @@
     },
     "step-2": {
       "name": "GNOME Software Flatpak Plugin installieren",
-      "text": "<text>Das GNOME Software-Plugin ermöglicht es, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation, ausführen:</text> <code></code> <text><strong>Anmerkung:</strong> Ubuntu liefert GNOME Software als Snap in den Versionen 20.04 bis 23.04 und ersetzt es durch App Center in 23.10 und neuer – beide Unterstützen Flatpak Apps nicht. Bei der Installation des Flatpak Plugins wird auch eine Deb-Version von GNOME Software installieren, wodurch zwei \"Software\" Apps gleichzeitig auf Ubuntu 20.04 bis 23.04 installiert werden, und eine einzige neue \"Software\" App auf Ubuntu 23.10 und neuer.</text>"
+      "text": "<text>Das GNOME Software-Plugin ermöglicht es, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation, ausführen:</text> <code></code> <text><strong>Anmerkung:</strong> Ubuntu liefert GNOME Software als Snap in den Versionen 20.04 bis 23.04 und ersetzt es durch App Center in 23.10 und neuer – beide unterstützen Flatpak Apps nicht. Bei der Installation des Flatpak Plugins wird auch eine Deb-Version von GNOME Software installieren, wodurch zwei „Software“ Apps gleichzeitig auf Ubuntu 20.04 bis 23.04 installiert werden, und eine einzige neue „Software“ App auf Ubuntu 23.10 und neuer.</text>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",

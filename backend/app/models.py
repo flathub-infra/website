@@ -123,7 +123,7 @@ class FlathubUser(Base):
     display_name: Mapped[str | None]
     default_account: Mapped[str | None]
     deleted: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, server_default=false()
+        Boolean, nullable=False, server_default=false(), index=True
     )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
         DateTime, nullable=True, server_default=None
@@ -571,7 +571,7 @@ class GithubAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship("FlathubUser")
-    github_userid = mapped_column(Integer, nullable=False)
+    github_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -727,7 +727,7 @@ class GitlabAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    gitlab_userid = mapped_column(Integer, nullable=False)
+    gitlab_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -817,7 +817,7 @@ class GnomeAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    gnome_userid = mapped_column(Integer, nullable=False)
+    gnome_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -907,7 +907,7 @@ class GoogleAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    google_userid = mapped_column(String, nullable=False)
+    google_userid = mapped_column(String, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -997,7 +997,7 @@ class KdeAccount(Base):
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
     user_entity = relationship(FlathubUser)
-    kde_userid = mapped_column(Integer, nullable=False)
+    kde_userid = mapped_column(Integer, nullable=False, index=True)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
     display_name: Mapped[str | None]
@@ -1353,7 +1353,7 @@ class Transaction(Base):
     value = mapped_column(Integer, nullable=False)
     currency = mapped_column(String, nullable=False)
     kind = mapped_column(String, nullable=False)
-    status = mapped_column(String, nullable=False)
+    status = mapped_column(String, nullable=False, index=True)
     reason = mapped_column(String)
     created = mapped_column(DateTime, nullable=False)
     updated = mapped_column(DateTime, nullable=False)
@@ -1842,18 +1842,29 @@ class ModerationRequest(Base):
 
     build_id = mapped_column(Integer, nullable=False)
     job_id = mapped_column(Integer, nullable=False, index=True)
-    is_outdated = mapped_column(Boolean, nullable=False, server_default=false())
+    is_outdated = mapped_column(
+        Boolean, nullable=False, server_default=false(), index=True
+    )
 
     request_type = mapped_column(String, nullable=False)
     request_data = mapped_column(String)
     is_new_submission = mapped_column(Boolean, nullable=False, server_default=false())
 
     handled_by = mapped_column(Integer, ForeignKey(FlathubUser.id), index=True)
-    handled_at = mapped_column(DateTime)
+    handled_at = mapped_column(DateTime, index=True)
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
 
     build_log_url = mapped_column(String)
+
+    __table_args__ = (
+        Index(
+            "moderationrequest_appid_handled_at_is_outdated",
+            appid,
+            handled_at,
+            is_outdated,
+        ),
+    )
 
 
 class GuidelineCategory(Base):
@@ -1903,7 +1914,9 @@ class QualityModeration(Base):
     guideline = relationship(Guideline)
     # todo add a foreign key later
     app_id = mapped_column(String, nullable=False, index=True)
-    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), index=True
+    )
     updated_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
     passed = mapped_column(Boolean, nullable=False)
     comment = mapped_column(String)
@@ -2272,7 +2285,10 @@ class App(Base):
     eol_branches = mapped_column(JSONB, nullable=True)
     eol_message = mapped_column(String, nullable=True)
 
-    __table_args__ = (Index("apps_unique", app_id, unique=True),)
+    __table_args__ = (
+        Index("apps_unique", app_id, unique=True),
+        Index("apps_type_is_eol", type, is_eol),
+    )
 
     def get_translated_appstream(self, locale: str) -> dict[str, Any] | None:
         if not self.appstream:
@@ -2406,16 +2422,9 @@ class App(Base):
             return
 
         if branch:
-            eol_branches = app.eol_branches or []
-
-            if isinstance(eol_branches, str):
-                try:
-                    eol_branches = json.loads(eol_branches)
-                except json.JSONDecodeError:
-                    eol_branches = []
-
-            if not isinstance(eol_branches, list):
-                eol_branches = []
+            eol_branches = (
+                app.eol_branches if isinstance(app.eol_branches, list) else []
+            )
 
             if is_eol and branch not in eol_branches:
                 new_eol_branches = eol_branches.copy()
@@ -2475,21 +2484,52 @@ class App(Base):
         if not app.is_eol:
             return False
 
-        if branch and app.eol_branches:
-            eol_branches = app.eol_branches
+        # If eol_branches is set, only specific branches are EOL (partial EOL)
+        if app.eol_branches:
+            if isinstance(app.eol_branches, list) and len(app.eol_branches) > 0:
+                # If a specific branch is requested, check if it's in the EOL list
+                if branch:
+                    return branch in app.eol_branches
 
+                # If no branch specified and we have partial EOL, the app is not fully EOL
+                return False
+
+        # No eol_branches (or empty list), meaning all branches are EOL
+        return True
+
+    @classmethod
+    def is_fully_eol(cls, db, app_id: str) -> bool:
+        """
+        Check if an app is completely EOL (all branches are EOL).
+        Returns True only if the app is EOL and has no active branches.
+        If eol_branches is set, it means only specific branches are EOL,
+        so there are still active branches available.
+        """
+        app = App.by_appid(db, app_id)
+        if not app:
+            return False
+
+        if not app.is_eol:
+            return False
+
+        # If eol_branches is set, it means only specific branches are EOL
+        # and there are still active branches, so the app is not fully EOL
+        if app.eol_branches:
+            eol_branches = app.eol_branches
             if isinstance(eol_branches, str):
                 try:
                     eol_branches = json.loads(eol_branches)
                 except json.JSONDecodeError:
-                    eol_branches = []
+                    # Malformed data, treat as fully EOL
+                    return True
 
-            if not isinstance(eol_branches, list):
-                eol_branches = []
+            if isinstance(eol_branches, list) and len(eol_branches) > 0:
+                # Has eol_branches - this means some branches are EOL but others are not
+                # Therefore, the app is NOT fully EOL
+                return False
 
-            return branch in eol_branches
-
-        return app.is_eol
+        # No eol_branches (or empty list), meaning all branches are EOL
+        return True
 
     @classmethod
     def set_eol_message(cls, db, app_id: str, message: str) -> None:
@@ -2828,6 +2868,19 @@ class UserFavoriteApp(Base):
             .order_by(UserFavoriteApp.created.desc())
             .all()
         )
+
+    @staticmethod
+    def get_favorites_count_per_app(db: DBSession) -> dict[str, int]:
+        """
+        Get the count of favorites for each app.
+        Returns a dictionary with app_id as key and count as value.
+        """
+        result = (
+            db.session.query(UserFavoriteApp.app_id, func.count(UserFavoriteApp.id))
+            .group_by(UserFavoriteApp.app_id)
+            .all()
+        )
+        return {app_id: count for app_id, count in result}
 
     @staticmethod
     def delete_user(db, user: FlathubUser):

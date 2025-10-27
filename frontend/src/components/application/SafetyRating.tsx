@@ -2,22 +2,18 @@ import clsx from "clsx"
 import { useTranslations } from "next-intl"
 import { FunctionComponent, createElement, useState } from "react"
 import {
-  getSafetyRating,
+  AppSafetyRating,
   safetyRatingToColor,
   safetyRatingToIcon,
   safetyRatingToTranslationKey,
 } from "src/safety"
-import { Appstream } from "src/types/Appstream"
-import { Metadata } from "src/types/Summary"
 import { StackedListBox } from "./StackedListBox"
 import Modal from "../Modal"
 
 interface Props {
-  data: Pick<Appstream, "name" | "project_license" | "is_free_license"> & {
-    metadata?: Pick<Appstream["metadata"], "flathub::verification::verified">
-  }
+  appName: string
 
-  summaryMetadata: Pick<Metadata, "permissions" | "runtimeIsEol">
+  safetyRating: AppSafetyRating[]
 }
 
 const SafetyRatingIcon = ({
@@ -47,11 +43,9 @@ const SafetyRatingIcon = ({
   )
 }
 
-const SafetyRating: FunctionComponent<Props> = ({ data, summaryMetadata }) => {
+const SafetyRating: FunctionComponent<Props> = ({ appName, safetyRating }) => {
   const t = useTranslations()
   const [isOpen, setIsOpen] = useState(false)
-
-  const safetyRating = getSafetyRating(data, summaryMetadata)
 
   const highestSafetyRating = Math.max(
     ...Object.values(safetyRating).map((x) => x.safetyRating),
@@ -100,7 +94,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summaryMetadata }) => {
           </div>
         }
         title={t(`appname-is-safety-rating-${highestSafetyRating}`, {
-          appName: data.name,
+          appName: appName,
         })}
       >
         <>

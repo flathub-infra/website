@@ -89,9 +89,20 @@ def get_eol_message_appid(
         200: {"description": "List of all app IDs"},
     },
 )
-def list_appstream(filter: apps.AppType = apps.AppType.APPS) -> list[str]:
-    """Get a list of all application IDs in the repository."""
-    return sorted(apps.get_appids(filter))
+def list_appstream(
+    filter: apps.AppType = apps.AppType.APPS,
+    sort: apps.SortBy = apps.SortBy.ALPHABETICAL,
+) -> list[str]:
+    """
+    Get a list of all application IDs in the repository.
+
+    - **filter**: Filter by app type (default: apps)
+    - **sort**: Sort order (default: alphabetical)
+      - `alphabetical`: Sort by app ID alphabetically
+      - `created-at`: Sort by creation date (newest first)
+      - `last-updated-at`: Sort by last update date (newest first)
+    """
+    return apps.get_appids(filter, sort_by=sort)
 
 
 @router.get(
@@ -126,7 +137,7 @@ def get_appstream(
         if not app:
             raise HTTPException(status_code=404, detail="App not found")
 
-        if app.is_eol:
+        if models.App.is_fully_eol(db_session, app_id):
             raise HTTPException(status_code=404, detail="App not found")
 
         result = app.get_translated_appstream(locale)
@@ -229,7 +240,7 @@ def get_summary(
         if not app:
             raise HTTPException(status_code=404, detail="App not found")
 
-        if app.is_eol:
+        if models.App.is_fully_eol(db_session, app_id):
             raise HTTPException(status_code=404, detail="App not found")
 
         if app.summary:
