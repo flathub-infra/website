@@ -5,7 +5,7 @@ import orjson
 import redis
 from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.pool import QueuePool
+from sqlalchemy.pool import NullPool
 
 from . import config, models
 from .db_session import DBSession
@@ -19,20 +19,12 @@ redis_conn = redis.Redis(
 
 writer_engine = create_engine(
     config.settings.database_url,
-    poolclass=QueuePool,
-    pool_size=10,
-    max_overflow=20,
-    pool_timeout=30,
-    pool_recycle=1800,
+    poolclass=NullPool,
 )
 
 replica_engine = create_engine(
     config.settings.database_replica_url,
-    poolclass=QueuePool,
-    pool_size=10,
-    max_overflow=20,
-    pool_timeout=30,
-    pool_recycle=1800,
+    poolclass=NullPool,
 )
 
 WriterSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=writer_engine)
