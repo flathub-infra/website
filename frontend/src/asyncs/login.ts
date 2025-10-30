@@ -4,8 +4,10 @@ import { LOGIN_PROVIDERS_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserStateAction } from "../types/Login"
 import { AxiosResponse } from "axios"
-import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
-import { getUserinfoAuthUserinfoGet } from "src/codegen"
+import {
+  getUserinfoAuthUserinfoGet,
+  GetUserinfoAuthUserinfoGet200,
+} from "../codegen"
 
 /**
  * Performs the callback POST request to check 3rd party authentication

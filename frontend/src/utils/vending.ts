@@ -1,4 +1,4 @@
-import { VendingConfig } from "src/codegen"
+import { VendingConfig } from "../codegen"
 import { Appstream } from "../types/Appstream"
 import { VendingShare } from "../types/Vending"
 

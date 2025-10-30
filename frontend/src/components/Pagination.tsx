@@ -2,8 +2,8 @@ import React, { FunctionComponent } from "react"
 import { clsx } from "clsx"
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { useTranslations } from "next-intl"
-import { Link, usePathname } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
+import { Link, usePathname } from "../i18n/navigation"
 
 interface Props {
   currentPage: number

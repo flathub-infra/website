@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import ReviewCard from "./ReviewCard"
-import { ModerationRequestResponse } from "src/codegen"
 import diff from "fast-diff"
+import { ModerationRequestResponse } from "../../codegen"
 
 interface Props {
   request: ModerationRequestResponse

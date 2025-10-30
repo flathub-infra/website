@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button"
 import clsx from "clsx"
-import { Link } from "src/i18n/navigation"
 import type { JSX } from "react"
 import { useTranslations } from "next-intl"
+import { Link } from "../../../src/i18n/navigation"
 
 const Acknowledgments = () => {
   const t = useTranslations()

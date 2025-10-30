@@ -13,7 +13,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { getLangDir } from "rtl-detect"
 import { setDefaultOptions } from "date-fns"
-import { getDateFnsLocale } from "src/localize"
+import { getDateFnsLocale } from "../src/localize"
 
 const queryClient = new QueryClient()
 

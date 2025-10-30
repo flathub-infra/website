@@ -18,8 +18,8 @@ import { ApplicationSectionGradient } from "../../src/components/application/App
 import { GameControllersLogo } from "../../src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "../../src/components/application/ApplicationSectionGradientMultiToggle"
 import type { JSX } from "react"
-import { Link } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
+import { Link } from "../../src/i18n/navigation"
 
 interface HomeClientProps {
   recentlyUpdated: MeilisearchResponseAppsIndex
@@ -179,6 +179,7 @@ function TopSection({
         (sectionData) => sectionData.name === categoryParam,
       )
       if (foundApps) {
+        // eslint-disable-next-line
         setSelectedName(categoryParam)
         setSelectedApps(foundApps)
       }

@@ -1,13 +1,22 @@
 import { Resvg } from "@resvg/resvg-js"
 import satori from "satori"
-import { getAppstreamAppstreamAppIdGet } from "src/codegen"
 import { getContrastColor } from "@/lib/helpers"
-import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
-import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
 import axios from "axios"
-import { fonts } from "app/api/fontManager"
-import { fontLanguageDenyList, Language, languages } from "src/localize"
+import { fonts } from "../../fontManager"
+import {
+  getAppstreamAppstreamAppIdGet,
+  getIsFullscreenAppIsFullscreenAppAppIdGet,
+} from "../../../../src/codegen"
+import {
+  fontLanguageDenyList,
+  languages,
+  Language,
+} from "../../../../src/localize"
+import {
+  DesktopAppstream,
+  mapScreenshot,
+} from "../../../../src/types/Appstream"
 
 export async function GET(
   request: NextRequest,

@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl"
 import { BreadcrumbJsonLd } from "next-seo"
 import { FunctionComponent } from "react"
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/20/solid"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../i18n/navigation"
 
 interface Props {
   pages: { name: string; href: string; current: boolean }[]

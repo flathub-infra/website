@@ -4,14 +4,18 @@ import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { LineChart, Line, XAxis, YAxis } from "recharts"
 import { format } from "date-fns"
-import { axisStroke, primaryStroke, RotatedAxisTick } from "src/chartComponents"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { StatsResultApp } from "src/codegen"
+import {
+  primaryStroke,
+  axisStroke,
+  RotatedAxisTick,
+} from "../../chartComponents"
+import { StatsResultApp } from "../../codegen"
 
 interface Props {
   stats: Pick<StatsResultApp, "installs_per_day">

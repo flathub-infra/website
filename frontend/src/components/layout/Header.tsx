@@ -20,20 +20,20 @@ import {
 } from "@headlessui/react"
 import { clsx } from "clsx"
 import Avatar from "../user/Avatar"
-import { getUserName } from "src/verificationProvider"
 import { QueryClient, useMutation } from "@tanstack/react-query"
 
 import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { AxiosError } from "axios"
-import {
-  doLogoutAuthLogoutPost,
-  Permission,
-  GetUserinfoAuthUserinfoGet200,
-} from "src/codegen"
 import { getLangDir } from "rtl-detect"
 import SearchBarWithSuspense from "./SearchBarWithSuspense"
+import {
+  doLogoutAuthLogoutPost,
+  GetUserinfoAuthUserinfoGet200,
+  Permission,
+} from "../../codegen"
+import { getUserName } from "../../verificationProvider"
 
 const MobileMenuButton = ({ open }) => {
   const t = useTranslations()
@@ -55,7 +55,6 @@ const Header = () => {
   const locale = useLocale()
   const pathname = usePathname()
   const user = useUserContext()
-  const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -132,14 +131,6 @@ const Header = () => {
 
     logoutMutation.mutate()
   }
-
-  useEffect(() => {
-    if (user.info) {
-      const avatarUrl = user.info.default_account.avatar
-
-      setUserAvatarUrl(avatarUrl)
-    }
-  }, [user.info])
 
   useEffect(() => {
     document.dir = getLangDir(locale)
@@ -283,7 +274,7 @@ const Header = () => {
                           <span className="sr-only">{t("open-user-menu")}</span>
                           <Avatar
                             userName={displayNameWithFallback}
-                            avatarUrl={userAvatarUrl}
+                            avatarUrl={user.info.default_account.avatar}
                           />
                         </MenuButton>
                       </div>

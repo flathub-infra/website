@@ -11,7 +11,7 @@ import Inline from "yet-another-react-lightbox/plugins/inline"
 import "yet-another-react-lightbox/styles.css"
 import Captions from "yet-another-react-lightbox/plugins/captions"
 import { useTranslations } from "next-intl"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import clsx from "clsx"
 import CarouselNextJsImage from "./CarouselNextJsImage"
 import { CarouselJsonLd } from "next-seo"
@@ -25,14 +25,6 @@ export const CarouselStrip = ({
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const ref = useRef(null)
-
-  useEffect(() => {
-    setCurrentIndex(0)
-  }, [])
-
-  useEffect(() => {
-    setCurrentIndex(ref.current?.getLightboxState()?.currentIndex)
-  }, [])
 
   const slides = app.screenshots?.map(mapScreenshot).map((screenshot) => {
     return {

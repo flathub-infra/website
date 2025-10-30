@@ -4,22 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { ConditionalWrapper } from "@/lib/helpers"
 import { format, formatDistanceToNow } from "date-fns"
+import { ProviderLogo } from "../../../../../../src/components/login/ProviderLogo"
+import LoginGuard from "../../../../../../src/components/login/LoginGuard"
+import Spinner from "../../../../../../src/components/Spinner"
+import Breadcrumbs from "../../../../../../src/components/Breadcrumbs"
+import { Link } from "../../../../../../src/i18n/navigation"
 import {
   ConnectedAccountProvider,
+  GetUserinfoAuthUserinfoGet200,
   Permission,
   RoleName,
   useAddUserRoleUsersUserIdRolePost,
   useDeleteUserRoleUsersUserIdRoleDelete,
-  GetUserinfoAuthUserinfoGet200,
   UserResultConnectedAccountsItem,
   UserResultDefaultAccount,
   useUserUsersUserIdGet,
-} from "src/codegen"
-import Breadcrumbs from "src/components/Breadcrumbs"
-import LoginGuard from "src/components/login/LoginGuard"
-import { ProviderLogo } from "src/components/login/ProviderLogo"
-import Spinner from "src/components/Spinner"
-import { Link } from "src/i18n/navigation"
+} from "../../../../../../src/codegen"
 
 interface UserAdminClientProps {
   userId: string

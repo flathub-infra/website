@@ -6,12 +6,12 @@ import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
-import {
-  doDeleteuserAuthDeleteuserPost,
-  getDeleteuserAuthDeleteuserGet,
-} from "src/codegen"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import {
+  getDeleteuserAuthDeleteuserGet,
+  doDeleteuserAuthDeleteuserPost,
+} from "../../codegen"
 
 const DeleteButton: FunctionComponent = () => {
   const t = useTranslations()

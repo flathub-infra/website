@@ -2,11 +2,11 @@
 
 import clsx from "clsx"
 import { ReactNode, useEffect } from "react"
-import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import LoginGuard from "./login/LoginGuard"
-import { useUserContext } from "src/context/user-info"
 import FlathubListbox from "./FlathubListbox"
-import { usePathname, useRouter } from "src/i18n/navigation"
+import { GetUserinfoAuthUserinfoGet200, Permission } from "../codegen"
+import { usePathname, useRouter } from "../i18n/navigation"
+import { useUserContext } from "../context/user-info"
 
 const AdminLayoutClient = ({
   children,

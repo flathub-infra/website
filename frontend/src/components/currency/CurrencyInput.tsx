@@ -35,14 +35,14 @@ const CurrencyInput: FunctionComponent<Props> = ({
   ref: React.RefObject<HTMLInputElement>
 }) => {
   // String state used to allow temporary invalid numeric states (e.g. entering leading decimal)
-  const [userInput, setUserInput] = useState(inputValue.live.toFixed(2))
+  const [userInput, setUserInput] = useState(() =>
+    inputValue.settled.toFixed(2),
+  )
 
-  // Whenever a new value is settled the input should reflect it
-  // Using an effect enables this to be set externally too
-  useEffect(() => {
-    // Always show cent value for consistency (removes ambiguity)
+  // Update userInput only if inputValue.settled changes and is different from current userInput
+  if (userInput !== inputValue.settled.toFixed(2)) {
     setUserInput(inputValue.settled.toFixed(2))
-  }, [inputValue.settled])
+  }
 
   const handleChange = useCallback(
     (event: FormEvent<HTMLInputElement>) => {

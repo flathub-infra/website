@@ -4,9 +4,9 @@ import { useState } from "react"
 import { FunctionComponent } from "react"
 import { ChevronUpIcon } from "@heroicons/react/24/solid"
 import TokenCancelButton from "./TokenCancelButton"
-import { TokenModel } from "src/codegen"
 import { format } from "date-fns"
 import clsx from "clsx"
+import { TokenModel } from "../../../../codegen"
 
 interface Props {
   open: boolean

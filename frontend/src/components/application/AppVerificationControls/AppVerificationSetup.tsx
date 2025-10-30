@@ -1,21 +1,22 @@
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import { Appstream } from "src/types/Appstream"
-import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import ConfirmDialog from "../../ConfirmDialog"
 import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
-import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { VerificationMethod, VerificationStatus } from "src/codegen/model"
-import {
-  getVerificationStatusVerificationAppIdStatusGet,
-  unverifyVerificationAppIdUnverifyPost,
-  useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useTranslations } from "next-intl"
+import {
+  VerificationStatus,
+  VerificationMethod,
+  getVerificationStatusVerificationAppIdStatusGet,
+  useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
+  unverifyVerificationAppIdUnverifyPost,
+} from "../../../codegen"
+import { Appstream } from "../../../types/Appstream"
+import { verificationProviderToHumanReadable } from "../../../verificationProvider"
+import InlineError from "../../InlineError"
 
 interface Props {
   app: Pick<Appstream, "id">

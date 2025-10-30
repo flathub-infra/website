@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl"
 import LoginProviders from "../../../src/components/login/Providers"
 import { useUserContext } from "../../../src/context/user-info"
 import type { JSX } from "react"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../../../src/i18n/navigation"
 
 interface LoginClientProps {
   providers: any[]

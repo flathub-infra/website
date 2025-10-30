@@ -1,8 +1,11 @@
 "use client"
 
-import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
-import LoginGuard from "src/components/login/LoginGuard"
-import AppModeration from "src/components/moderation/AppModeration"
+import {
+  GetUserinfoAuthUserinfoGet200,
+  Permission,
+} from "../../../../../../src/codegen"
+import LoginGuard from "../../../../../../src/components/login/LoginGuard"
+import AppModeration from "../../../../../../src/components/moderation/AppModeration"
 
 interface AppModerationClientProps {
   appId: string

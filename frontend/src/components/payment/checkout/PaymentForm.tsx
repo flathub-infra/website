@@ -5,13 +5,13 @@ import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
-import {
-  setPendingWalletTransactionsTxnSetpendingPost,
-  setSavecardWalletTransactionsTxnSavecardPost,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { TransactionCancelButtonPrep } from "./Checkout"
+import {
+  setSavecardWalletTransactionsTxnSavecardPost,
+  setPendingWalletTransactionsTxnSetpendingPost,
+} from "../../../codegen"
 
 interface Props {
   transactionId: string

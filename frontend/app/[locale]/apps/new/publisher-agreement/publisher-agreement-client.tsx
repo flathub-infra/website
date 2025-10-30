@@ -1,8 +1,8 @@
 "use client"
 
-import PublisherAgreement from "src/components/user/PublisherAgreement"
 import type { JSX } from "react"
-import { useRouter } from "src/i18n/navigation"
+import PublisherAgreement from "../../../../../src/components/user/PublisherAgreement"
+import { useRouter } from "../../../../../src/i18n/navigation"
 
 const PublisherAgreementClient = (): JSX.Element => {
   const router = useRouter()

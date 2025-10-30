@@ -6,7 +6,7 @@ import {
   safetyRatingToColor,
   safetyRatingToIcon,
   safetyRatingToTranslationKey,
-} from "src/safety"
+} from "../../safety"
 import { StackedListBox } from "./StackedListBox"
 import Modal from "../Modal"
 

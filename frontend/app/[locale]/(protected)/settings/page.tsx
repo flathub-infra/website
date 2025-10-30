@@ -21,12 +21,14 @@ export async function generateMetadata({
 }
 
 export default async function SettingsPage() {
+  let providers
+
   try {
     const response = await getLoginMethodsAuthLoginGet()
-    const providers = response.data
-
-    return <SettingsClient providers={providers} />
+    providers = response.data
   } catch (error) {
     notFound()
   }
+
+  return <SettingsClient providers={providers} />
 }

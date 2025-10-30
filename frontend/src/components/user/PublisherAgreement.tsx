@@ -1,12 +1,12 @@
 import { FunctionComponent, useState } from "react"
 import { useTranslations } from "next-intl"
-import { useUserDispatch } from "src/context/user-info"
 import LoginGuard from "../login/LoginGuard"
-import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
-import { doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useUserDispatch } from "../../context/user-info"
+import { getUserData } from "../../asyncs/login"
+import { doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost } from "../../codegen"
 
 interface Props {
   continueText?: string

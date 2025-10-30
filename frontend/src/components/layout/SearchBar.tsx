@@ -18,13 +18,16 @@ const SearchBar = ({ className }: SearchBarProps) => {
   const router = useRouter()
   const locale = useLocale()
   const searchParams = useSearchParams()
-  const [query, setQuery] = useState("")
+  const initialQuery =
+    typeof window !== "undefined" ? searchParams.get("query") || "" : ""
+  const [query, setQuery] = useState(initialQuery)
 
   useEffect(() => {
-    const q = searchParams.get("query")
-    if (q) {
+    const q = searchParams.get("query") || ""
+    if (q !== query) {
       setQuery(q)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

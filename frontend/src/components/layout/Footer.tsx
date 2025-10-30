@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../i18n/navigation"
 
 const Footer = () => {
   const t = useTranslations()

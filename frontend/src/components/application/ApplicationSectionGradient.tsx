@@ -1,11 +1,11 @@
 import clsx from "clsx"
-import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import { Button } from "@/components/ui/button"
 import { ApplicationCard } from "./ApplicationCard"
 import { cn } from "@/lib/utils"
 import { JSX } from "react"
-import { MeilisearchResponseAppsIndex } from "src/codegen"
-import { Link } from "src/i18n/navigation"
+import { MeilisearchResponseAppsIndex } from "../../codegen"
+import { Link } from "../../i18n/navigation"
+import { mapAppsIndexToAppstreamListItem } from "../../meilisearch"
 
 export const ApplicationSectionGradient = ({
   mobile,

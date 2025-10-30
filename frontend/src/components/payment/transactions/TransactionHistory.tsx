@@ -5,9 +5,11 @@ import { toast } from "sonner"
 import { useUserContext } from "../../../context/user-info"
 import Spinner from "../../Spinner"
 import { AxiosResponse } from "axios"
-import { TransactionSummary } from "src/codegen/model/transactionSummary"
-import { getTransactionsWalletTransactionsGet } from "src/codegen"
 import { TransactionHistoryTable } from "./TransactionHistoryTable"
+import {
+  getTransactionsWalletTransactionsGet,
+  TransactionSummary,
+} from "../../../codegen"
 
 const perPage = 10
 

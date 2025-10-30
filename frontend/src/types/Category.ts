@@ -1,4 +1,4 @@
-import { MainCategory } from "src/codegen"
+import { MainCategory } from "../codegen"
 
 export function stringToCategory(category: string): MainCategory | undefined {
   switch (category.toLowerCase()) {

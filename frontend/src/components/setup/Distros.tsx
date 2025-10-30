@@ -1,10 +1,10 @@
 import { useTranslations } from "next-intl"
 import { HowToJsonLd } from "next-seo"
-import CodeCopy from "src/components/application/CodeCopy"
 import type { JSX } from "react"
 import Image from "next/image"
-import { Link } from "src/i18n/navigation"
 import { motion } from "framer-motion"
+import { Link } from "../../i18n/navigation"
+import CodeCopy from "../application/CodeCopy"
 
 export const distroMap = (locale: string) => {
   return new Map<string, JSX.Element>([

@@ -1,15 +1,16 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslations } from "next-intl"
-import InlineError from "src/components/InlineError"
-import Spinner from "src/components/Spinner"
 import { FlathubDisclosure } from "../../Disclosure"
 import { useMutation } from "@tanstack/react-query"
-import { AvailableMethod, WebsiteVerificationResult } from "src/codegen/model"
-import {
-  confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost,
-  setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost,
-} from "src/codegen"
 import { Button } from "@/components/ui/button"
+import {
+  AvailableMethod,
+  WebsiteVerificationResult,
+  setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost,
+  confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost,
+} from "../../../codegen"
+import InlineError from "../../InlineError"
+import Spinner from "../../Spinner"
 
 interface Props {
   appId: string

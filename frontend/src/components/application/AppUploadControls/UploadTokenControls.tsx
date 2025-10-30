@@ -1,17 +1,17 @@
 import { ReactElement, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import NewTokenDialog from "./NewTokenDialog"
-import Spinner from "src/components/Spinner"
-import { getIntlLocale } from "src/localize"
-import ConfirmDialog from "src/components/ConfirmDialog"
-import { Repo } from "src/types/UploadTokens"
+import { Button } from "@/components/ui/button"
+import { UTCDate } from "@date-fns/utc"
 import {
   useGetUploadTokensUploadTokensAppIdGet,
   useRevokeUploadTokenUploadTokensTokenIdRevokePost,
-} from "src/codegen"
-import { Button } from "@/components/ui/button"
-import { UTCDate } from "@date-fns/utc"
-import { Appstream } from "src/types/Appstream"
+} from "../../../codegen"
+import { getIntlLocale } from "../../../localize"
+import { Appstream } from "../../../types/Appstream"
+import { Repo } from "../../../types/UploadTokens"
+import ConfirmDialog from "../../ConfirmDialog"
+import Spinner from "../../Spinner"
 
 export default function UploadTokenControls({
   app,

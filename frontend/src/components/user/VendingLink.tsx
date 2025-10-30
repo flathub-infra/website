@@ -3,13 +3,13 @@ import { useTranslations } from "next-intl"
 import { FunctionComponent, useState } from "react"
 import { toast } from "sonner"
 import Spinner from "../Spinner"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "../../i18n/navigation"
 import {
   getDashboardLinkVendingStatusDashboardlinkGet,
   startOnboardingVendingStatusOnboardingPost,
   statusVendingStatusGet,
-} from "src/codegen"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "src/i18n/navigation"
+} from "../../codegen"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:

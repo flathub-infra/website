@@ -8,15 +8,15 @@ import { formatCurrency } from "../../../utils/localize"
 import * as Currency from "../../currency"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation } from "@tanstack/react-query"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { useRouter } from "../../../i18n/navigation"
 import {
   postAppVendingStatusVendingappAppIdPost,
   VendingConfig,
   VendingSetup,
-} from "src/codegen"
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { useRouter } from "src/i18n/navigation"
+} from "../../../codegen"
 
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle">

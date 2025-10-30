@@ -1,10 +1,10 @@
-import { ConnectedAccountProvider } from "src/codegen"
 import { GithubLogo } from "./GithubLogo"
 import { GitlabLogo } from "./GitlabLogo"
 import { GnomeLogo } from "./GnomeLogo"
 import { KdeLogo } from "./KdeLogo"
 import { GoogleLogo } from "./GoogleLogo"
 import React from "react"
+import { ConnectedAccountProvider } from "../../codegen"
 
 export const ProviderLogo = ({
   provider,

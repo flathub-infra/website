@@ -3,8 +3,7 @@ import { FunctionComponent, useCallback } from "react"
 import { NumericInputValue } from "../../types/Input"
 import { formatCurrency } from "../../utils/localize"
 import InlineError from "../InlineError"
-import { getIntlLocale } from "src/localize"
-import { useRouter } from "src/i18n/navigation"
+import { getIntlLocale } from "../../localize"
 
 interface Props {
   value: NumericInputValue
@@ -17,7 +16,6 @@ Conditionally renders errors if an associated currency input falls outside of so
 */
 const MinMaxError: FunctionComponent<Props> = ({ value, minimum, maximum }) => {
   const t = useTranslations()
-  const router = useRouter()
   const locale = useLocale()
   const i18n = getIntlLocale(locale)
 

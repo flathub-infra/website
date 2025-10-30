@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../src/i18n/navigation"
 
 export default function NotFoundPage() {
   const t = useTranslations()

@@ -108,6 +108,7 @@ const SearchClient = (): JSX.Element => {
 
   // Reset and perform initial search when query or filters change
   useEffect(() => {
+    // eslint-disable-next-line
     resetSearch()
 
     search.mutate(

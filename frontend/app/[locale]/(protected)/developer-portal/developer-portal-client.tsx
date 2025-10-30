@@ -13,7 +13,7 @@ import { Permission } from "../../../../src/codegen"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
 import type { JSX } from "react"
-import { Link } from "src/i18n/navigation"
+import { Link } from "../../../../src/i18n/navigation"
 
 type DocusaurusFeed = {
   version: string

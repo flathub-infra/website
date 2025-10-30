@@ -27,20 +27,23 @@ export default async function LoginPage({
 }: {
   params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
+  let providers
   try {
     const response = await getLoginMethodsAuthLoginGet()
-    const providers = response.data
-    const { locale } = await params
-
-    // Enable static rendering
-    setRequestLocale(locale)
-
-    return (
-      <Suspense fallback={<Spinner size={"m"} />}>
-        <LoginClient providers={providers} locale={locale} />
-      </Suspense>
-    )
+    providers = response.data
   } catch (error) {
     notFound()
+    return null
   }
+
+  return (
+    <Suspense fallback={<Spinner size={"m"} />}>
+      <LoginClient providers={providers} locale={locale} />
+    </Suspense>
+  )
 }

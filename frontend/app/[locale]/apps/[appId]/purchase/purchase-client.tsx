@@ -37,6 +37,7 @@ export default function PurchaseClient({ app, vendingConfig }: Props) {
 
   useEffect(() => {
     if (vendingSetup.data) {
+      // eslint-disable-next-line
       setAmount({
         live: vendingSetup.data.data.recommended_donation / 100,
         settled: vendingSetup.data.data.recommended_donation / 100,

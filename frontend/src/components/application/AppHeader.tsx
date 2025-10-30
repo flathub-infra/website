@@ -1,22 +1,22 @@
 import { useTranslations } from "next-intl"
 import React from "react"
-import { Appstream } from "src/types/Appstream"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
-import { useUserContext } from "src/context/user-info"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
+import { Button } from "@/components/ui/button"
+import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
+import clsx from "clsx"
+import { Link, useRouter } from "../../i18n/navigation"
+import { useUserContext } from "../../context/user-info"
+import { Appstream } from "../../types/Appstream"
+import { VerificationStatus } from "../../types/VerificationStatus"
 import {
   useAddToFavoritesFavoritesAppIdAddPost,
   useIsFavoritedFavoritesAppIdGet,
   useRemoveFromFavoritesFavoritesAppIdRemoveDelete,
   VendingSetup,
-} from "src/codegen"
-import { Button } from "@/components/ui/button"
-import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
-import clsx from "clsx"
-import { Link, useRouter } from "src/i18n/navigation"
+} from "../../codegen"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
   const t = useTranslations()

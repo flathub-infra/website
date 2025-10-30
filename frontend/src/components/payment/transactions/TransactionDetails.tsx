@@ -13,11 +13,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { UTCDate } from "@date-fns/utc"
-import { Transaction } from "src/codegen"
 import TransactionCancelButton from "./TransactionCancelButton"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Link, useRouter } from "src/i18n/navigation"
+import { Transaction } from "../../../codegen"
+import { Link, useRouter } from "../../../i18n/navigation"
 
 interface Props {
   transaction: Transaction

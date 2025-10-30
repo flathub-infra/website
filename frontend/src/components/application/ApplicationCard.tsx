@@ -1,15 +1,15 @@
 import LogoImage from "../LogoImage"
 
 import { AppstreamListItem } from "../../types/Appstream"
-import { VerificationStatus } from "src/types/VerificationStatus"
-import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { cva, VariantProps } from "class-variance-authority"
 import React from "react"
-import { Link } from "src/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { Link } from "../../i18n/navigation"
+import { VerificationStatus } from "../../types/VerificationStatus"
+import { VerificationProvider } from "../../verificationProvider"
 
 const cardVariants = cva(
   "flex min-w-0 items-center gap-4 duration-500 hover:cursor-pointer hover:no-underline active:bg-flathub-gainsborow/40 dark:active:bg-flathub-arsenic h-full",

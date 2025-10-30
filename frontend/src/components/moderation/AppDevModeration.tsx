@@ -6,7 +6,7 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import InlineError from "../InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { getModerationAppModerationAppsAppIdGet } from "src/codegen"
+import { getModerationAppModerationAppsAppIdGet } from "../../codegen"
 
 interface Props {
   appId: string

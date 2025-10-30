@@ -1,7 +1,6 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { Link } from "src/i18n/navigation"
 import {
   Disclosure,
   DisclosureButton,
@@ -30,6 +29,7 @@ import {
   useGetInviteStatusInvitesAppIdGet,
 } from "../../../../../src/codegen"
 import { Appstream } from "../../../../../src/types/Appstream"
+import { Link } from "../../../../../src/i18n/navigation"
 
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle" | "type" | "icon">

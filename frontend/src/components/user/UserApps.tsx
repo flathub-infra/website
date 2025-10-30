@@ -6,7 +6,7 @@ import ApplicationCollectionSuspense from "../application/ApplicationCollectionS
 import Spinner from "../Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
-import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "src/codegen"
+import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "../../codegen"
 
 interface Props {
   variant: "dev" | "owned" | "invited"

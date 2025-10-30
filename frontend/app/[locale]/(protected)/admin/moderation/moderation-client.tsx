@@ -1,8 +1,11 @@
 "use client"
 
-import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
-import AdminLayoutClient from "src/components/AdminLayoutClient"
-import ModerationTabs from "src/components/moderation/ModerationTabs"
+import {
+  GetUserinfoAuthUserinfoGet200,
+  Permission,
+} from "../../../../../src/codegen"
+import AdminLayoutClient from "../../../../../src/components/AdminLayoutClient"
+import ModerationTabs from "../../../../../src/components/moderation/ModerationTabs"
 
 export default function ModerationClient() {
   return (

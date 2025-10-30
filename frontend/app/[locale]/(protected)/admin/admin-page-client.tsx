@@ -1,7 +1,10 @@
 "use client"
 
-import AdminLayoutClient from "src/components/AdminLayoutClient"
-import { Permission, GetUserinfoAuthUserinfoGet200 } from "src/codegen"
+import {
+  GetUserinfoAuthUserinfoGet200,
+  Permission,
+} from "../../../../src/codegen"
+import AdminLayoutClient from "../../../../src/components/AdminLayoutClient"
 
 export default function AdminPageClient() {
   return (

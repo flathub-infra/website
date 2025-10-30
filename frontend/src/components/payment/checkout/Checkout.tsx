@@ -5,9 +5,8 @@ import CardSelect from "./CardSelect"
 import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
 import { useQuery } from "@tanstack/react-query"
-import { getWalletinfoWalletWalletinfoGet, Transaction } from "src/codegen"
-import { useRouter } from "src/i18n/navigation"
-import { useLocale } from "next-intl"
+import { useRouter } from "../../../i18n/navigation"
+import { getWalletinfoWalletWalletinfoGet, Transaction } from "../../../codegen"
 
 enum Stage {
   TermsAgreement,
@@ -25,7 +24,6 @@ export const TransactionCancelButtonPrep = ({
   disabled?: boolean
 }) => {
   const router = useRouter()
-  const locale = useLocale()
   return (
     <TransactionCancelButton
       id={transactionId}

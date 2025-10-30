@@ -3,8 +3,8 @@ import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
 import ProviderLink from "../login/ProviderLink"
 import Avatar from "./Avatar"
-import { getUserName } from "src/verificationProvider"
-import { LoginMethod } from "src/codegen"
+import { LoginMethod } from "../../codegen"
+import { getUserName } from "../../verificationProvider"
 
 interface Props {
   logins: LoginMethod[]

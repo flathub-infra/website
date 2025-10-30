@@ -15,8 +15,8 @@ import {
   useGetInviteStatusInvitesAppIdGet,
 } from "../../../../../../src/codegen"
 import { Button } from "../../../../../../@/components/ui/button"
-import { Appstream } from "src/types/Appstream"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../../../../../../src/i18n/navigation"
+import { Appstream } from "../../../../../../src/types/Appstream"
 
 interface Props {
   app: Pick<Appstream, "id" | "name">

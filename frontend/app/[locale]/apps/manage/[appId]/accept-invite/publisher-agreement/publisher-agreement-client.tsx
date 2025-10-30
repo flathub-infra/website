@@ -6,7 +6,7 @@ import { useUserDispatch } from "../../../../../../../src/context/user-info"
 import { getUserData } from "../../../../../../../src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
 import { acceptInviteInvitesAppIdAcceptPost } from "../../../../../../../src/codegen"
-import { useRouter } from "src/i18n/navigation"
+import { useRouter } from "../../../../../../../src/i18n/navigation"
 
 interface Props {
   appId: string

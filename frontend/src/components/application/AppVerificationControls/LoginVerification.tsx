@@ -1,19 +1,19 @@
 import { FunctionComponent, ReactElement, ReactNode, useState } from "react"
-import ProviderLink from "src/components/login/ProviderLink"
-import { useUserContext } from "src/context/user-info"
-import InlineError from "src/components/InlineError"
-import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
-import Spinner from "src/components/Spinner"
 import { useQuery } from "@tanstack/react-query"
-import {
-  getLoginMethodsAuthLoginGet,
-  useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost,
-} from "src/codegen"
-import { requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet } from "src/codegen"
-import { AvailableMethod } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { useTranslations } from "next-intl"
+import { useUserContext } from "../../../context/user-info"
+import {
+  AvailableMethod,
+  getLoginMethodsAuthLoginGet,
+  requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet,
+  useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost,
+} from "../../../codegen"
+import { verificationProviderToHumanReadable } from "../../../verificationProvider"
+import InlineError from "../../InlineError"
+import ProviderLink from "../../login/ProviderLink"
+import Spinner from "../../Spinner"
 
 interface Props {
   appId: string

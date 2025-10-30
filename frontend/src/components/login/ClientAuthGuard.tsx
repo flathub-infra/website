@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import { useUserContext } from "../../context/user-info"
 import Spinner from "../Spinner"
-import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import { useTranslations } from "next-intl"
-import { usePathname, useRouter } from "src/i18n/navigation"
+import { usePathname, useRouter } from "../../i18n/navigation"
+import { GetUserinfoAuthUserinfoGet200 } from "../../codegen"
 
 interface ClientAuthGuardProps {
   children: React.ReactNode
