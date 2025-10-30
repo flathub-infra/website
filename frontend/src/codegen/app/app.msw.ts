@@ -76,7 +76,13 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    developer_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    developer_name: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icons: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },

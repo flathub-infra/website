@@ -201,7 +201,7 @@ class DesktopAppstream(BaseModel):
     name: str
     summary: str
     description: str
-    developer_name: str
+    developer_name: str | None = None
     icon: str
     icons: list[Icon]
     screenshots: list[Screenshot] | None = None
