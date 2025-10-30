@@ -5,7 +5,7 @@ import {
   VerificationStatusLoginProvider,
   VerificationStatusManual,
   VerificationStatusWebsite,
-} from "../../types/VerificationStatus"
+} from "src/codegen"
 export default {
   title: "Components/Application/Verification",
   component: Verification,
@@ -14,7 +14,7 @@ export default {
 export const manualVerification = () => {
   const verificationStatus: VerificationStatusManual = {
     verified: true,
-    timestamp: 1678175850,
+    timestamp: "1678175850",
     detail: "",
     method: "manual",
   }
@@ -28,7 +28,7 @@ export const manualVerification = () => {
 export const websiteVerification = () => {
   const verificationStatus: VerificationStatusWebsite = {
     verified: true,
-    timestamp: 1678175850,
+    timestamp: "1678175850",
     detail: "",
     method: "website",
     website: "https://example.com",
@@ -43,7 +43,7 @@ export const websiteVerification = () => {
 export const loginProviderVerification = () => {
   const verificationStatus: VerificationStatusLoginProvider = {
     verified: true,
-    timestamp: 1678175850,
+    timestamp: "1678175850",
     login_name: "user_name",
     method: "login_provider",
     login_provider: "github",

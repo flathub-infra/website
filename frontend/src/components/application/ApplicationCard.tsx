@@ -111,7 +111,7 @@ export const ApplicationCard = ({
             application.metadata?.[
               "flathub::verification::login_is_organization"
             ] === true,
-          timestamp: 0,
+          timestamp: "",
           detail: "",
         }
       : {
