@@ -206,7 +206,7 @@ class DesktopAppstream(BaseModel):
     icons: list[Icon]
     screenshots: list[Screenshot] | None = None
     releases: list[Release]
-    content_rating: ContentRating
+    content_rating: ContentRating | None = None
     urls: Urls | None = None
     categories: list[str] | None = None
     kudos: list[str] | None = None
