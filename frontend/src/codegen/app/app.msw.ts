@@ -626,10 +626,16 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       undefined,
     ]),
-    categories: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    categories: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     kudos: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
