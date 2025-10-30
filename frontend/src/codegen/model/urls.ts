@@ -12,6 +12,7 @@ import type { UrlsTranslate } from "./urlsTranslate"
 import type { UrlsFaq } from "./urlsFaq"
 import type { UrlsContact } from "./urlsContact"
 import type { UrlsVcsBrowser } from "./urlsVcsBrowser"
+import type { UrlsContribute } from "./urlsContribute"
 
 /**
  * Various URLs related to the app.
@@ -24,5 +25,6 @@ export interface Urls {
   translate?: UrlsTranslate
   faq?: UrlsFaq
   contact?: UrlsContact
-  "vcs-browser"?: UrlsVcsBrowser
+  vcs_browser?: UrlsVcsBrowser
+  contribute?: UrlsContribute
 }

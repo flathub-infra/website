@@ -58,7 +58,8 @@ class Urls(BaseModel):
     translate: str | None = None
     faq: str | None = None
     contact: str | None = None
-    vcs_browser: str | None = Field(None, alias="vcs-browser")
+    vcs_browser: str | None = None
+    contribute: str | None = None
 
 
 class Translation(BaseModel):
