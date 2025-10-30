@@ -523,14 +523,14 @@ def get_verification_status(
         case "manual":
             return VerificationStatusManual(
                 verified=True,
-                timestamp=verification.verified_timestamp.timestamp(),
+                timestamp=str(int(verification.verified_timestamp.timestamp())),
                 method=VerificationMethod.MANUAL,
             )
         case "website":
             domain, _ = _get_domain_name(app_id)
             return VerificationStatusWebsite(
                 verified=True,
-                timestamp=verification.verified_timestamp.timestamp(),
+                timestamp=str(int(verification.verified_timestamp.timestamp())),
                 method=VerificationMethod.WEBSITE,
                 website=domain or "",
             )
@@ -540,7 +540,7 @@ def get_verification_status(
                 (provider, username) = provider_username
                 return VerificationStatusLoginProvider(
                     verified=True,
-                    timestamp=verification.verified_timestamp.timestamp(),
+                    timestamp=str(int(verification.verified_timestamp.timestamp())),
                     method=VerificationMethod.LOGIN_PROVIDER,
                     login_provider=provider,
                     login_name=username,
