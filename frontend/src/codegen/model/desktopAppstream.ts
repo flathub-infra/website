@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { DesktopAppstreamType } from "./desktopAppstreamType"
+import type { DesktopAppstreamDeveloperName } from "./desktopAppstreamDeveloperName"
 import type { Icon } from "./icon"
 import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
 import type { Release } from "./release"
@@ -31,7 +32,7 @@ export interface DesktopAppstream {
   name: string
   summary: string
   description: string
-  developer_name: string
+  developer_name?: DesktopAppstreamDeveloperName
   icon: string
   icons: Icon[]
   screenshots?: DesktopAppstreamScreenshots
