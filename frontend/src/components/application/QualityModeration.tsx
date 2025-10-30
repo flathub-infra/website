@@ -10,13 +10,13 @@ import {
 } from "@heroicons/react/24/solid"
 import { useTranslations } from "next-intl"
 import Modal from "../Modal"
-import { DesktopAppstream } from "src/types/Appstream"
 import {
   Permission,
   QualityModerationStatus,
   useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet,
   useGetModerationAppModerationAppsAppIdGet,
   useRequestReviewForAppQualityModerationAppIdRequestReviewPost,
+  DesktopAppstream,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { ScanEyeIcon } from "lucide-react"

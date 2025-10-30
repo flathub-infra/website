@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import {
+  DesktopAppstream,
   getAppstreamAppstreamAppIdGet,
   getEolRebaseAppidEolRebaseAppIdGet,
 } from "../../../../../src/codegen"
@@ -9,7 +10,6 @@ import {
   getEolMessageAppidEolMessageAppIdGet,
   getIsFullscreenAppIsFullscreenAppAppIdGet,
 } from "../../../../../src/codegen"
-import { DesktopAppstream } from "../../../../../src/types/Appstream"
 import BannerPreviewClient from "./bannerpreview-client"
 import { redirect } from "src/i18n/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"

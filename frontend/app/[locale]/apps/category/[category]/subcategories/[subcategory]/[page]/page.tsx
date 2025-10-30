@@ -1,12 +1,11 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import {
-  SortBy,
+  AppSchemasSortBy,
   getSubcategoryCollectionCategoryCategorySubcategoriesGet,
   MainCategory,
 } from "../../../../../../../../src/codegen"
 import {
-  gameCategoryFilter,
   stringToCategory,
   tryParseSubCategory,
 } from "../../../../../../../../src/types/Category"
@@ -69,7 +68,7 @@ export default async function SubcategoryPage({ params }: Props) {
             per_page: 30,
             locale,
             subcategory: ["emulator"],
-            sort_by: SortBy.trending,
+            sort_by: AppSchemasSortBy.trending,
           },
         )
       applications = response.data
@@ -82,7 +81,7 @@ export default async function SubcategoryPage({ params }: Props) {
             per_page: 30,
             locale,
             subcategory: ["packageManager"],
-            sort_by: SortBy.trending,
+            sort_by: AppSchemasSortBy.trending,
           },
         )
       applications = response.data
@@ -95,7 +94,7 @@ export default async function SubcategoryPage({ params }: Props) {
             per_page: 30,
             locale,
             subcategory: ["utility", "network"],
-            sort_by: SortBy.trending,
+            sort_by: AppSchemasSortBy.trending,
           },
         )
       applications = response.data
@@ -108,7 +107,7 @@ export default async function SubcategoryPage({ params }: Props) {
             per_page: 30,
             locale,
             subcategory: [subcategory],
-            sort_by: SortBy.trending,
+            sort_by: AppSchemasSortBy.trending,
           },
         )
       applications = response.data

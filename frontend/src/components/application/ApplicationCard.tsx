@@ -1,8 +1,6 @@
 import LogoImage from "../LogoImage"
 
 import { AppstreamListItem } from "../../types/Appstream"
-import { VerificationStatus } from "src/types/VerificationStatus"
-import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
@@ -10,6 +8,10 @@ import { cva, VariantProps } from "class-variance-authority"
 import React from "react"
 import { Link } from "src/i18n/navigation"
 import { useTranslations } from "next-intl"
+import {
+  GetVerificationStatusVerificationAppIdStatusGet200,
+  LoginProvider,
+} from "src/codegen"
 
 const cardVariants = cva(
   "flex min-w-0 items-center gap-4 duration-500 hover:cursor-pointer hover:no-underline active:bg-flathub-gainsborow/40 dark:active:bg-flathub-arsenic h-full",
@@ -93,7 +95,7 @@ export const ApplicationCard = ({
 
   const linkFunc = link ?? ((appid: string) => `/apps/${appid}`)
 
-  const verificationStatus: VerificationStatus =
+  const verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200 =
     isVerified &&
     application.metadata?.["flathub::verification::method"] !== "none"
       ? {
@@ -102,13 +104,13 @@ export const ApplicationCard = ({
           website: application.metadata?.["flathub::verification::website"],
           login_provider: application.metadata?.[
             "flathub::verification::login_provider"
-          ] as VerificationProvider,
+          ] as LoginProvider,
           login_name:
             application.metadata?.["flathub::verification::login_name"],
           login_is_organization:
             application.metadata?.[
               "flathub::verification::login_is_organization"
-            ] === "true",
+            ] === true,
           timestamp: 0,
           detail: "",
         }

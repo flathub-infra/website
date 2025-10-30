@@ -2,7 +2,6 @@ import { FunctionComponent } from "react"
 import React from "react"
 
 import { CheckBadgeIcon } from "@heroicons/react/20/solid"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import {
   Tooltip,
@@ -11,10 +10,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useTranslations } from "next-intl"
+import { GetVerificationStatusVerificationAppIdStatusGet200 } from "src/codegen"
 
 interface Props {
   appId: string
-  verificationStatus: VerificationStatus
+  verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200
 }
 
 const VerificationIcon: FunctionComponent<Props> = ({

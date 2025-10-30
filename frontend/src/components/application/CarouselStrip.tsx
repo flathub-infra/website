@@ -3,7 +3,7 @@ import {
   ChevronLeftIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/solid"
-import { DesktopAppstream, mapScreenshot } from "../../types/Appstream"
+import { mapScreenshot } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
 import Zoom from "yet-another-react-lightbox/plugins/zoom"
@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import CarouselNextJsImage from "./CarouselNextJsImage"
 import { CarouselJsonLd } from "next-seo"
+import { DesktopAppstream } from "src/codegen"
 
 export const CarouselStrip = ({
   app,

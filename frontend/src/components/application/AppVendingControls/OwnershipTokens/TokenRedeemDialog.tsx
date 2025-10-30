@@ -1,17 +1,23 @@
 import { useTranslations } from "next-intl"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
-import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
-import { redeemTokenVendingappAppIdTokensRedeemTokenPost } from "src/codegen"
+import {
+  GetAppstreamAppstreamAppIdGet200,
+  redeemTokenVendingappAppIdTokensRedeemTokenPost,
+} from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 /**
  * A set of controls for redemption of application ownership tokens.
  */
-const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
+const TokenRedeemDialog = ({
+  app,
+}: {
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
+}) => {
   const t = useTranslations()
 
   const [text, setText] = useState("")

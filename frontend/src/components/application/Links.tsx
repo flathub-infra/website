@@ -1,6 +1,5 @@
 import { FunctionComponent, type JSX } from "react"
 
-import { Appstream } from "../../types/Appstream"
 import { useTranslations } from "next-intl"
 import clsx from "clsx"
 import React from "react"
@@ -18,11 +17,12 @@ import {
   MessagesSquareIcon,
   WrenchIcon,
 } from "lucide-react"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 interface Props {
-  app: Pick<Appstream, "id" | "urls"> & {
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "urls"> & {
     metadata?: Pick<
-      Appstream["metadata"],
+      GetAppstreamAppstreamAppIdGet200["metadata"],
       "flathub::manifest" | "flathub::verification::verified"
     >
   }

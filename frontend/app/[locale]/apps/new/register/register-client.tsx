@@ -10,9 +10,9 @@ import Spinner from "src/components/Spinner"
 import { AppVerificationSetup } from "src/components/application/AppVerificationControls"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
-import { Appstream } from "src/types/Appstream"
 import type { JSX } from "react"
 import { useRouter } from "src/i18n/navigation"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 const RegisterClient = (): JSX.Element => {
   const t = useTranslations()
@@ -69,7 +69,9 @@ const RegisterClient = (): JSX.Element => {
         {step === "verify" && (
           <div className="mt-3">
             <AppVerificationSetup
-              app={{ id: appId, name: appId } as Appstream}
+              app={
+                { id: appId, name: appId } as GetAppstreamAppstreamAppIdGet200
+              }
               isNewApp={true}
               onVerified={async () => {
                 setStep("wait")

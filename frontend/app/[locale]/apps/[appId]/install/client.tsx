@@ -1,10 +1,10 @@
 "use client"
 
-import { Appstream } from "src/types/Appstream"
 import InstallFallback from "../../../../../src/components/application/InstallFallback"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 interface InstallClientProps {
-  app: Pick<Appstream, "id" | "name" | "icon">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name" | "icon">
 }
 
 export default function InstallClient({ app }: InstallClientProps) {

@@ -1237,8 +1237,8 @@ __metadata:
   linkType: hard
 
 "@ibm-cloud/openapi-ruleset@npm:^1.32.1":
-  version: 1.33.1
-  resolution: "@ibm-cloud/openapi-ruleset@npm:1.33.1"
+  version: 1.33.3
+  resolution: "@ibm-cloud/openapi-ruleset@npm:1.33.3"
   dependencies:
     "@ibm-cloud/openapi-ruleset-utilities": "npm:1.9.0"
     "@stoplight/spectral-formats": "npm:^1.8.2"
@@ -1252,7 +1252,7 @@ __metadata:
     loglevel-plugin-prefix: "npm:0.8.4"
     minimatch: "npm:^6.2.0"
     validator: "npm:^13.11.0"
-  checksum: 10c0/99fe58b00939a05591f8d5267b8e0d4864d005b6fe19d8f1acf53d2f8a10de628b734886c13b3234b6c7b2a2dfb133fa3874a2345ba52931687371451fa2975e
+  checksum: 10c0/aac770800414e9b5816c840d783cb6adcbb6d04b64d3236dfe8a483290bc478ea74a17e128b02ae59d5fae4a880a286e380b2f7a0a710a91a39585cb965ad0b4
   languageName: node
   linkType: hard
 
@@ -8344,7 +8344,7 @@ __metadata:
     next-seo: "npm:^6.7.1"
     next-sitemap: "npm:^4.2.3"
     next-themes: "npm:^0.4.6"
-    orval: "npm:^7.13.2"
+    orval: "npm:7.13.2"
     playwright: "npm:^1.55.1"
     postcss: "npm:^8.5.3"
     prettier: "npm:^3.5.3"
@@ -10832,7 +10832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"orval@npm:^7.13.2":
+"orval@npm:7.13.2":
   version: 7.13.2
   resolution: "orval@npm:7.13.2"
   dependencies:

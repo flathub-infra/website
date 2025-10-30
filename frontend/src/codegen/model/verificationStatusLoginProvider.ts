@@ -5,5 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { LoginProvider } from "./loginProvider"
+import type { VerificationStatusLoginProviderLoginIsOrganization } from "./verificationStatusLoginProviderLoginIsOrganization"
 
-export type VerificationStatusLoginProvider = LoginProvider | null
+export interface VerificationStatusLoginProvider {
+  verified: true
+  timestamp: number
+  method: "login_provider"
+  login_provider: LoginProvider
+  login_name: string
+  detail: string
+  login_is_organization?: VerificationStatusLoginProviderLoginIsOrganization
+}

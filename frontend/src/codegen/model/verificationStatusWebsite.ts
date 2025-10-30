@@ -5,4 +5,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type VerificationStatusWebsite = string | null
+export interface VerificationStatusWebsite {
+  verified: true
+  timestamp: number
+  method: "website"
+  website: string
+  detail: string
+}

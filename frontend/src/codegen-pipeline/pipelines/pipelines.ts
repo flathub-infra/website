@@ -26,8 +26,11 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
   HTTPValidationError,
   ListPipelinesApiPipelinesGetParams,
-  PipelineCallbackApiPipelinesPipelineIdCallbackPostBody,
+  PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody,
+  PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody,
+  PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody,
   PipelineResponse,
+  PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody,
   PipelineSummary,
   PipelineTriggerRequest,
   PublishSummary,
@@ -477,46 +480,53 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 }
 
 /**
- * @summary Pipeline Callback
+ * @summary Pipeline Metadata Callback
  */
-export const pipelineCallbackApiPipelinesPipelineIdCallbackPost = (
-  pipelineId: string,
-  pipelineCallbackApiPipelinesPipelineIdCallbackPostBody: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback`,
-    pipelineCallbackApiPipelinesPipelineIdCallbackPostBody,
-    options,
-  )
-}
+export const pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost =
+  (
+    pipelineId: string,
+    pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<unknown>> => {
+    return axios.post(
+      `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/metadata`,
+      pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody,
+      options,
+    )
+  }
 
-export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOptions =
+export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
-        ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
+        ReturnType<
+          typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
+        >
       >,
       TError,
       {
         pipelineId: string
-        data: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
+        data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
       },
       TContext
     >
     axios?: AxiosRequestConfig
   }): UseMutationOptions<
     Awaited<
-      ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
+      ReturnType<
+        typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
+      >
     >,
     TError,
     {
       pipelineId: string
-      data: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
+      data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
     },
     TContext
   > => {
-    const mutationKey = ["pipelineCallbackApiPipelinesPipelineIdCallbackPost"]
+    const mutationKey = [
+      "pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost",
+    ]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -527,16 +537,18 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOption
 
     const mutationFn: MutationFunction<
       Awaited<
-        ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
+        ReturnType<
+          typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
+        >
       >,
       {
         pipelineId: string
-        data: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
+        data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
       }
     > = (props) => {
       const { pipelineId, data } = props ?? {}
 
-      return pipelineCallbackApiPipelinesPipelineIdCallbackPost(
+      return pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost(
         pipelineId,
         data,
         axiosOptions,
@@ -546,57 +558,461 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOption
     return { mutationFn, ...mutationOptions }
   }
 
-export type PipelineCallbackApiPipelinesPipelineIdCallbackPostMutationResult =
+export type PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationResult =
   NonNullable<
     Awaited<
-      ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
+      ReturnType<
+        typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
+      >
     >
   >
-export type PipelineCallbackApiPipelinesPipelineIdCallbackPostMutationBody =
-  PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
-export type PipelineCallbackApiPipelinesPipelineIdCallbackPostMutationError =
+export type PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationBody =
+  PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+export type PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationError =
   AxiosError<HTTPValidationError>
 
 /**
- * @summary Pipeline Callback
+ * @summary Pipeline Metadata Callback
  */
-export const usePipelineCallbackApiPipelinesPipelineIdCallbackPost = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(
-  options?: {
+export const usePipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
+          >
+        >,
+        TError,
+        {
+          pipelineId: string
+          data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+    },
+    TContext
+  > => {
+    const mutationOptions =
+      getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationOptions(
+        options,
+      )
+
+    return useMutation(mutationOptions, queryClient)
+  }
+/**
+ * @summary Pipeline Log Url Callback
+ */
+export const pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost = (
+  pipelineId: string,
+  pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/log_url`,
+    pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody,
+    options,
+  )
+}
+
+export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
-        ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
+        ReturnType<
+          typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
+        >
       >,
       TError,
       {
         pipelineId: string
-        data: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
+        data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
       },
       TContext
     >
     axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<
-    ReturnType<typeof pipelineCallbackApiPipelinesPipelineIdCallbackPost>
-  >,
-  TError,
-  {
-    pipelineId: string
-    data: PipelineCallbackApiPipelinesPipelineIdCallbackPostBody
-  },
-  TContext
-> => {
-  const mutationOptions =
-    getPipelineCallbackApiPipelinesPipelineIdCallbackPostMutationOptions(
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+    },
+    TContext
+  > => {
+    const mutationKey = [
+      "pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
+        >
+      >,
+      {
+        pipelineId: string
+        data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+      }
+    > = (props) => {
+      const { pipelineId, data } = props ?? {}
+
+      return pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost(
+        pipelineId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
+      >
+    >
+  >
+export type PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationBody =
+  PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+export type PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Pipeline Log Url Callback
+ */
+export const usePipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
+          >
+        >,
+        TError,
+        {
+          pipelineId: string
+          data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+    },
+    TContext
+  > => {
+    const mutationOptions =
+      getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationOptions(
+        options,
+      )
+
+    return useMutation(mutationOptions, queryClient)
+  }
+/**
+ * @summary Pipeline Status Callback
+ */
+export const pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost = (
+  pipelineId: string,
+  pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/status`,
+    pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody,
+    options,
+  )
+}
+
+export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
+        >
+      >,
+      TError,
+      {
+        pipelineId: string
+        data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+    },
+    TContext
+  > => {
+    const mutationKey = [
+      "pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
+        >
+      >,
+      {
+        pipelineId: string
+        data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+      }
+    > = (props) => {
+      const { pipelineId, data } = props ?? {}
+
+      return pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost(
+        pipelineId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
+      >
+    >
+  >
+export type PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationBody =
+  PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+export type PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Pipeline Status Callback
+ */
+export const usePipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
+          >
+        >,
+        TError,
+        {
+          pipelineId: string
+          data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+    },
+    TContext
+  > => {
+    const mutationOptions =
+      getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationOptions(
+        options,
+      )
+
+    return useMutation(mutationOptions, queryClient)
+  }
+/**
+ * @summary Pipeline Reprocheck Callback
+ */
+export const pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost =
+  (
+    pipelineId: string,
+    pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<unknown>> => {
+    return axios.post(
+      `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/reprocheck`,
+      pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody,
       options,
     )
+  }
 
-  return useMutation(mutationOptions, queryClient)
-}
+export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
+        >
+      >,
+      TError,
+      {
+        pipelineId: string
+        data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+    },
+    TContext
+  > => {
+    const mutationKey = [
+      "pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
+        >
+      >,
+      {
+        pipelineId: string
+        data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+      }
+    > = (props) => {
+      const { pipelineId, data } = props ?? {}
+
+      return pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost(
+        pipelineId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
+      >
+    >
+  >
+export type PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationBody =
+  PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+export type PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Pipeline Reprocheck Callback
+ */
+export const usePipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
+          >
+        >,
+        TError,
+        {
+          pipelineId: string
+          data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+    },
+    TContext
+  > => {
+    const mutationOptions =
+      getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationOptions(
+        options,
+      )
+
+    return useMutation(mutationOptions, queryClient)
+  }
 /**
  * @summary Redirect To Log Url
  */

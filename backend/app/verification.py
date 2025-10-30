@@ -2,6 +2,7 @@ import importlib.resources
 import json
 import xml.etree.ElementTree as ET
 from enum import Enum
+from typing import Annotated, Literal
 from uuid import uuid4
 
 import github
@@ -11,7 +12,7 @@ import publicsuffixlist
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from github import Github
 from github.GithubException import UnknownObjectException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
@@ -325,15 +326,48 @@ class LoginProvider(Enum):
     KDE_GITLAB = "kde"
 
 
-class VerificationStatus(BaseModel):
-    verified: bool
-    timestamp: str | None = None
-    method: VerificationMethod | None = None
-    website: str | None = None
-    login_provider: LoginProvider | None = None
-    login_name: str | None = None
+# --- VerificationStatus Union Models ---
+
+
+class VerificationStatusNone(BaseModel):
+    verified: Literal[False]
+    method: Literal[VerificationMethod.NONE]
+    detail: str
+
+
+class VerificationStatusManual(BaseModel):
+    verified: Literal[True]
+    timestamp: int
+    method: Literal[VerificationMethod.MANUAL]
+    detail: str
+
+
+class VerificationStatusWebsite(BaseModel):
+    verified: Literal[True]
+    timestamp: int
+    method: Literal[VerificationMethod.WEBSITE]
+    website: str
+    detail: str
+
+
+class VerificationStatusLoginProvider(BaseModel):
+    verified: Literal[True]
+    timestamp: int
+    method: Literal[VerificationMethod.LOGIN_PROVIDER]
+    login_provider: LoginProvider
+    login_name: str
+    detail: str
     login_is_organization: bool | None = None
-    detail: str | None = None
+
+
+# Union type for VerificationStatus
+VerificationStatus = Annotated[
+    VerificationStatusNone
+    | VerificationStatusManual
+    | VerificationStatusWebsite
+    | VerificationStatusLoginProvider,
+    Field(discriminator="method"),
+]
 
 
 class ArchiveRequest(BaseModel):
@@ -481,37 +515,44 @@ def get_verification_status(
     verification = _get_existing_verification(app_id)
 
     if verification is None:
-        return VerificationStatus(verified=False)
+        return VerificationStatusNone(
+            verified=False, method=VerificationMethod.NONE, detail="Not verified"
+        )
 
     match verification.method:
         case "manual":
-            return VerificationStatus(
-                verified=verification.verified,
-                timestamp=str(int(verification.verified_timestamp.timestamp())),
+            return VerificationStatusManual(
+                verified=True,
+                timestamp=int(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.MANUAL,
+                detail=verification.detail,
             )
         case "website":
             domain, _ = _get_domain_name(app_id)
-            return VerificationStatus(
+            return VerificationStatusWebsite(
                 verified=True,
-                timestamp=str(int(verification.verified_timestamp.timestamp())),
+                timestamp=int(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.WEBSITE,
-                website=domain,
+                website=domain or "",
+                detail=verification.detail,
             )
         case "login_provider":
             provider_username = _get_provider_username(app_id)
             if provider_username is not None:
                 (provider, username) = provider_username
-                return VerificationStatus(
+                return VerificationStatusLoginProvider(
                     verified=True,
-                    timestamp=str(int(verification.verified_timestamp.timestamp())),
+                    timestamp=int(verification.verified_timestamp.timestamp()),
                     method=VerificationMethod.LOGIN_PROVIDER,
                     login_provider=provider,
                     login_name=username,
                     login_is_organization=verification.login_is_organization,
+                    detail=verification.detail,
                 )
 
-    return VerificationStatus(verified=False)
+    return VerificationStatusNone(
+        verified=False, method=VerificationMethod.NONE, detail="Not verified"
+    )
 
 
 class AvailableMethodType(Enum):

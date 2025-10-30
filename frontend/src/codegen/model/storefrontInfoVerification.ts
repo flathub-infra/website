@@ -4,6 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { VerificationStatus } from "./verificationStatus"
+import type { StorefrontInfoVerificationAnyOf } from "./storefrontInfoVerificationAnyOf"
 
-export type StorefrontInfoVerification = VerificationStatus | null
+export type StorefrontInfoVerification = StorefrontInfoVerificationAnyOf | null

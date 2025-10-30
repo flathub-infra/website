@@ -1,6 +1,5 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslations } from "next-intl"
-import { Appstream } from "src/types/Appstream"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
@@ -16,13 +15,13 @@ import {
   removeDeveloperInvitesAppIdRemoveDeveloperPost,
   revokeInviteInvitesAppIdRevokePost,
 } from "src/codegen"
-import { Developer } from "src/codegen/model"
+import { Developer, GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "src/i18n/navigation"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name">
 }
 
 const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
@@ -174,7 +173,7 @@ export default AppDevelopersControls
 
 interface DeveloperRowProps {
   developer: Developer
-  app: Pick<Appstream, "id" | "name">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name">
   selfIsPrimary: boolean
   isInvite: boolean
   refresh: () => void
@@ -277,7 +276,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
 
 interface InviteDialogProps {
   isVisible: boolean
-  app: Pick<Appstream, "id">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
   refresh: () => void
   closeDialog: () => void
 }

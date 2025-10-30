@@ -280,7 +280,7 @@ export const getGetPipelineApiPipelinesPipelineIdGetMockHandler = (
   )
 }
 
-export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMockHandler =
+export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMockHandler =
   (
     overrideResponse?:
       | unknown
@@ -290,7 +290,73 @@ export const getPipelineCallbackApiPipelinesPipelineIdCallbackPostMockHandler =
     options?: RequestHandlerOptions,
   ) => {
     return http.post(
-      "*/api/pipelines/:pipelineId/callback",
+      "*/api/pipelines/:pipelineId/callback/metadata",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+      options,
+    )
+  }
+
+export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMockHandler =
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/api/pipelines/:pipelineId/callback/log_url",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+      options,
+    )
+  }
+
+export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMockHandler =
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/api/pipelines/:pipelineId/callback/status",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+      options,
+    )
+  }
+
+export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMockHandler =
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/api/pipelines/:pipelineId/callback/reprocheck",
       async (info) => {
         await delay(1000)
         if (typeof overrideResponse === "function") {
@@ -375,7 +441,10 @@ export const getPipelinesMock = () => [
   getTriggerPipelineApiPipelinesPostMockHandler(),
   getListPipelinesApiPipelinesGetMockHandler(),
   getGetPipelineApiPipelinesPipelineIdGetMockHandler(),
-  getPipelineCallbackApiPipelinesPipelineIdCallbackPostMockHandler(),
+  getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMockHandler(),
+  getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMockHandler(),
+  getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMockHandler(),
+  getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMockHandler(),
   getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler(),
   getPublishPipelinesApiPipelinesPublishPostMockHandler(),
   getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler(),

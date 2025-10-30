@@ -30,10 +30,10 @@ import type {
   AvailableMethods,
   ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams,
   GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
+  GetVerificationStatusVerificationAppIdStatusGet200,
   HTTPValidationError,
   LinkResponse,
   SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams,
-  VerificationStatus,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams,
   WebsiteVerificationResult,
@@ -47,7 +47,9 @@ import type {
 export const getVerificationStatusVerificationAppIdStatusGet = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<VerificationStatus>> => {
+): Promise<
+  AxiosResponse<GetVerificationStatusVerificationAppIdStatusGet200>
+> => {
   return axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/verification/${appId}/status`,
     options,

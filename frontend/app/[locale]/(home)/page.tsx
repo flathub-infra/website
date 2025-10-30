@@ -9,15 +9,15 @@ import {
   getRecentlyAddedCollectionRecentlyAddedGet,
   getTrendingLastTwoWeeksCollectionTrendingGet,
   getMobileCollectionMobileGet,
+  AppSchemasSortBy,
+  DesktopAppstream,
 } from "../../../src/codegen"
 import { APPS_IN_PREVIEW_COUNT } from "../../../src/env"
 import {
   MainCategory,
   MeilisearchResponseAppsIndex,
-  SortBy,
 } from "../../../src/codegen"
 import { formatISO } from "date-fns"
-import { Appstream, DesktopAppstream } from "../../../src/types/Appstream"
 import HomeClient from "../home-client"
 import { setRequestLocale } from "next-intl/server"
 import { languages } from "../../../src/localize"
@@ -90,7 +90,7 @@ async function getCategoryData(locale: string) {
           page: 1,
           per_page: 6,
           locale,
-          sort_by: SortBy.trending,
+          sort_by: AppSchemasSortBy.trending,
         },
       )
 
@@ -152,7 +152,7 @@ async function getGameData(locale: string) {
       per_page: 12,
       locale,
       exclude_subcategories: gameCategoryFilter,
-      sort_by: SortBy.trending,
+      sort_by: AppSchemasSortBy.trending,
     }).then((r) => r.data),
     getSubcategoryCollectionCategoryCategorySubcategoriesGet(
       MainCategory.game,
@@ -161,7 +161,7 @@ async function getGameData(locale: string) {
         per_page: 12,
         locale,
         subcategory: ["emulator"],
-        sort_by: SortBy.trending,
+        sort_by: AppSchemasSortBy.trending,
       },
     ).then((r) => r.data),
     getSubcategoryCollectionCategoryCategorySubcategoriesGet(
@@ -171,7 +171,7 @@ async function getGameData(locale: string) {
         per_page: 12,
         locale,
         subcategory: ["packageManager"],
-        sort_by: SortBy.trending,
+        sort_by: AppSchemasSortBy.trending,
       },
     ).then((r) => r.data),
     getSubcategoryCollectionCategoryCategorySubcategoriesGet(
@@ -181,7 +181,7 @@ async function getGameData(locale: string) {
         per_page: 12,
         locale,
         subcategory: ["utility", "network"],
-        sort_by: SortBy.trending,
+        sort_by: AppSchemasSortBy.trending,
       },
     ).then((r) => r.data),
   ])

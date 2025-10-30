@@ -1,5 +1,5 @@
 import { sanitize } from "isomorphic-dompurify"
-import { Appstream, Branding } from "src/types/Appstream"
+import { Branding, GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children
@@ -79,7 +79,7 @@ export function chooseBrandingColor(
   return branding.find((a) => a.scheme_preference === undefined)
 }
 
-export function getKeywords(app: Appstream): string[] {
+export function getKeywords(app: GetAppstreamAppstreamAppIdGet200): string[] {
   if (app.type === "addon") {
     return []
   }

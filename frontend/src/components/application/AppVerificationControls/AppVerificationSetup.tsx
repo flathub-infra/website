@@ -1,5 +1,4 @@
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import { Appstream } from "src/types/Appstream"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import ConfirmDialog from "../../ConfirmDialog"
 import Spinner from "../../Spinner"
@@ -7,7 +6,11 @@ import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { VerificationMethod, VerificationStatus } from "src/codegen/model"
+import {
+  GetAppstreamAppstreamAppIdGet200,
+  GetVerificationStatusVerificationAppIdStatusGet200,
+  VerificationMethod,
+} from "src/codegen/model"
 import {
   getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
@@ -18,13 +21,17 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useTranslations } from "next-intl"
 
 interface Props {
-  app: Pick<Appstream, "id">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
   isNewApp: boolean
   onVerified?: () => void
   showHeader?: boolean
 }
 
-const StatusInfo = ({ status }: { status: VerificationStatus }) => {
+const StatusInfo = ({
+  status,
+}: {
+  status: GetVerificationStatusVerificationAppIdStatusGet200
+}) => {
   const t = useTranslations()
 
   switch (status.method) {

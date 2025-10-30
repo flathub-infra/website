@@ -18,8 +18,10 @@ import type { AppsIndexVerificationWebsite } from "./appsIndexVerificationWebsit
 import type { AppsIndexVerificationTimestamp } from "./appsIndexVerificationTimestamp"
 import type { AppsIndexRuntime } from "./appsIndexRuntime"
 import type { AppsIndexArches } from "./appsIndexArches"
+import type { AppsIndexAddedAt } from "./appsIndexAddedAt"
 import type { AppsIndexTrending } from "./appsIndexTrending"
 import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
+import type { AppsIndexFavoritesCount } from "./appsIndexFavoritesCount"
 
 export interface AppsIndex {
   name: string
@@ -46,8 +48,9 @@ export interface AppsIndex {
   runtime: AppsIndexRuntime
   updated_at: number
   arches: AppsIndexArches
-  added_at: number
+  added_at?: AppsIndexAddedAt
   trending?: AppsIndexTrending
   installs_last_month?: AppsIndexInstallsLastMonth
+  favorites_count?: AppsIndexFavoritesCount
   isMobileFriendly: boolean
 }

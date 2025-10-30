@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
-import React from "react"
 import SafetyRating from "./components/application/SafetyRating"
-import { Appstream } from "./types/Appstream"
 import { Metadata } from "./types/Summary"
 import { getSafetyRating } from "./safety"
 

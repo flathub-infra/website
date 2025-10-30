@@ -2,7 +2,6 @@ import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { clsx } from "clsx"
 import { createElement } from "react"
 import spdxLicenseList from "spdx-license-list"
-import { Appstream } from "src/types/Appstream"
 import { useTranslations } from "next-intl"
 import {
   ExternalLinkIcon,
@@ -13,6 +12,7 @@ import {
   TriangleAlertIcon,
   Users2Icon,
 } from "lucide-react"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 const licenseRefProprietaryRegex = /LicenseRef-proprietary=(.*)/i
 const licenseRefRegex = /LicenseRef-scancode-(.*)=(.*)/i
@@ -119,7 +119,7 @@ const LicenseLink = ({
   license,
 }: {
   licenseType: "proprietary" | "floss" | "special"
-  app: Pick<Appstream, "id" | "project_license" | "urls">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "project_license" | "urls">
   license: string
 }) => {
   const t = useTranslations()
@@ -166,7 +166,10 @@ const LicenseLink = ({
 const LicenseInfo = ({
   app,
 }: {
-  app: Pick<Appstream, "id" | "is_free_license" | "project_license" | "urls">
+  app: Pick<
+    GetAppstreamAppstreamAppIdGet200,
+    "id" | "is_free_license" | "project_license" | "urls"
+  >
 }) => {
   const t = useTranslations()
 

@@ -1,5 +1,4 @@
-import { VendingConfig } from "src/codegen"
-import { Appstream } from "../types/Appstream"
+import { GetAppstreamAppstreamAppIdGet200, VendingConfig } from "src/codegen"
 import { VendingShare } from "../types/Vending"
 
 /**
@@ -28,7 +27,7 @@ function flathubFee(total: number, vendingConfig: VendingConfig): number {
  * @returns Percentage splits shared between app and its dependencies
  */
 export function computeShares(
-  app: Pick<Appstream, "id" | "bundle">,
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "bundle">,
   appShare: number,
   vendingConfig: VendingConfig,
 ): VendingShare[] {

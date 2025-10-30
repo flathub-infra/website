@@ -12,14 +12,14 @@ import { getUserData } from "../../../../../../src/asyncs/login"
 import {
   acceptInviteInvitesAppIdAcceptPost,
   declineInviteInvitesAppIdDeclinePost,
+  GetAppstreamAppstreamAppIdGet200,
   useGetInviteStatusInvitesAppIdGet,
 } from "../../../../../../src/codegen"
 import { Button } from "../../../../../../@/components/ui/button"
-import { Appstream } from "src/types/Appstream"
 import { useRouter } from "src/i18n/navigation"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name">
 }
 
 export default function AcceptInviteClient({ app }: Props) {

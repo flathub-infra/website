@@ -5,11 +5,16 @@ These models define the structure of JSON responses returned by the API,
 enabling FastAPI to generate proper OpenAPI specifications and TypeScript types.
 """
 
-from typing import Any, Literal
+import datetime
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field
 
+from app.models import ConnectedAccountProvider
+
 # Appstream Models
+
+Severity = Literal["none", "mild", "moderate", "intense"]
 
 
 class ScreenshotSize(BaseModel):
@@ -32,20 +37,47 @@ class Screenshot(BaseModel):
 class Release(BaseModel):
     """A release/version entry."""
 
-    timestamp: str
-    version: str | None = None
+    timestamp: str | None = None
+    version: str
+    date: datetime.date | None = None
+    type: Literal["stable", "development", "snapshot"] | None = None
+    urgency: Literal["low", "medium", "high", "critical"] | None = None
     description: str | None = None
     url: str | None = None
+    date_eol: datetime.date | None = None
 
 
 class ContentRating(BaseModel):
     """Content rating information."""
 
     type: str | None = None
-
-    class Config:
-        # Allow extra fields for rating attributes like violence-cartoon, etc.
-        extra = "allow"
+    violence_cartoon: Severity | None = None
+    violence_fantasy: Severity | None = None
+    violence_realistic: Severity | None = None
+    violence_bloodshed: Severity | None = None
+    violence_sexual: Severity | None = None
+    violence_desecration: Severity | None = None
+    violence_slavery: Severity | None = None
+    violence_worship: Severity | None = None
+    drugs_alcohol: Severity | None = None
+    drugs_narcotics: Severity | None = None
+    drugs_tobacco: Severity | None = None
+    sex_nudity: Severity | None = None
+    sex_themes: Severity | None = None
+    sex_homosexuality: Severity | None = None
+    sex_prostitution: Severity | None = None
+    sex_adultery: Severity | None = None
+    sex_appearance: Severity | None = None
+    language_profanity: Severity | None = None
+    language_humor: Severity | None = None
+    language_discrimination: Severity | None = None
+    social_chat: Severity | None = None
+    social_info: Severity | None = None
+    social_audio: Severity | None = None
+    social_location: Severity | None = None
+    social_contacts: Severity | None = None
+    money_purchasing: Severity | None = None
+    money_gambling: Severity | None = None
 
 
 class Urls(BaseModel):
@@ -58,7 +90,8 @@ class Urls(BaseModel):
     translate: str | None = None
     faq: str | None = None
     contact: str | None = None
-    vcs_browser: str | None = Field(None, alias="vcs-browser")
+    vcs_browser: str | None = None
+    contribute: str | None = None
 
 
 class Translation(BaseModel):
@@ -103,9 +136,11 @@ class VerificationMetadata(BaseModel):
     """Verification metadata embedded in appstream."""
 
     verified: bool = Field(False, alias="flathub::verification::verified")
-    method: str | None = Field(None, alias="flathub::verification::method")
+    method: Literal["manual", "website", "login_provider", "none"] | None = Field(
+        None, alias="flathub::verification::method"
+    )
     login_name: str | None = Field(None, alias="flathub::verification::login_name")
-    login_provider: str | None = Field(
+    login_provider: ConnectedAccountProvider | None = Field(
         None, alias="flathub::verification::login_provider"
     )
     login_is_organization: bool | None = Field(
@@ -128,49 +163,95 @@ class Icon(BaseModel):
     type: Literal["remote", "cached"] | None = None
 
 
-class AppstreamResponse(BaseModel):
-    """
-    Full appstream metadata response for an application.
+class Metadata(BaseModel):
+    flathub_manifest: str | None = Field(None, alias="flathub::manifest")
+    flathub_verification_verified: bool | None = Field(
+        None, alias="flathub::verification::verified"
+    )
+    flathub_verification_method: (
+        Literal["manual", "website", "login_provider", "none"] | None
+    ) = Field(None, alias="flathub::verification::method")
+    flathub_verification_login_name: str | None = Field(
+        None, alias="flathub::verification::login_name"
+    )
+    flathub_verification_login_provider: ConnectedAccountProvider | None = Field(
+        None, alias="flathub::verification::login_provider"
+    )
+    flathub_verification_website: str | None = Field(
+        None, alias="flathub::verification::website"
+    )
+    flathub_verification_timestamp: str | None = Field(
+        None, alias="flathub::verification::timestamp"
+    )
+    flathub_verification_login_is_organization: bool | None = Field(
+        None, alias="flathub::verification::login_is_organization"
+    )
 
-    This model represents the complete appstream data that is returned
-    by the /appstream/{app_id} endpoint, including all metadata, screenshots,
-    releases, and other information about a Flatpak application.
+    class Config:
+        populate_by_name = True
+
+
+class DesktopAppstream(BaseModel):
+    """
+    Desktop application Appstream metadata, matching frontend DesktopAppstream type.
     """
 
-    type: str
+    type: Literal["desktop-application", "console-application", "desktop"]
     id: str
     name: str
     summary: str
-    description: str | None = None
-    developer_name: str | None = None
-    icon: str | None = None
-    icons: list[Icon] | None = None
+    description: str
+    developer_name: str
+    icon: str
+    icons: list[Icon]
     screenshots: list[Screenshot] | None = None
-    releases: list[Release] | None = None
-    content_rating: ContentRating | None = None
+    releases: list[Release]
+    content_rating: ContentRating
     urls: Urls | None = None
-    categories: list[str] | None = None
+    categories: list[str]
     kudos: list[str] | None = None
     keywords: list[str] | None = None
     mimetypes: list[str] | None = None
     project_license: str | None = None
-    provides: list[str | Provides] | None = None
+    provides: list[Provides | str] | None = None
     launchable: Launchable | None = None
-    bundle: Bundle | None = None
+    bundle: Bundle
     translation: Translation | None = None
-    metadata: dict[str, Any] | None = None
-    is_free_license: bool = False
-    isMobileFriendly: bool = False
+    metadata: Metadata | None = None
+    is_free_license: bool
+    isMobileFriendly: bool | None = None
     branding: list[Branding] | None = None
 
-    class Config:
-        # Allow extra fields that may be added in the future
-        extra = "allow"
+
+class AddonAppstream(BaseModel):
+    """
+    Addon Appstream metadata
+    """
+
+    type: Literal["addon"]
+    id: str
+    name: str
+    summary: str
+    releases: list[Release] | None = None
+    content_rating: ContentRating | None = None
+    urls: Urls
+    icon: str | None = None
+    icons: list[Icon] | None = None
+    developer_name: str | None = None
+    project_license: str | None = None
+    extends: str
+    bundle: Bundle
+    metadata: Metadata | None = None
+    is_free_license: bool
+
+
+Appstream = Annotated[
+    DesktopAppstream | AddonAppstream,
+    Field(discriminator="type"),
+]
 
 
 # Summary Models
-
-
 class SummaryPermissions(BaseModel):
     """Permissions required by the application."""
 

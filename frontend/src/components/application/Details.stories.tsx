@@ -1,8 +1,7 @@
 import { Meta } from "@storybook/nextjs-vite"
 import Details from "./Details"
 import { faker } from "@faker-js/faker"
-import { StatsResultApp } from "../../codegen"
-import { Appstream } from "../../types/Appstream"
+import { GetAppstreamAppstreamAppIdGet200, StatsResultApp } from "../../codegen"
 import { Summary } from "../../types/Summary"
 
 export default {
@@ -44,7 +43,7 @@ export const Generated = () => {
     },
   }
 
-  const app: Appstream = {
+  const app: GetAppstreamAppstreamAppIdGet200 = {
     id: faker.number.int().toString(),
     name: faker.commerce.productName(),
     summary: faker.commerce.productDescription(),

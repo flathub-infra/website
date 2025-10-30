@@ -1,6 +1,8 @@
-import axios, { AxiosResponse } from "axios"
-import { APP_DETAILS } from "../env"
-import { Appstream } from "../types/Appstream"
+import { getAppstreamAppstreamAppIdGet } from "../codegen/app/app"
+import type {
+  GetAppstreamAppstreamAppIdGet200,
+  GetAppstreamAppstreamAppIdGetParams,
+} from "../codegen/model"
 
 /**
  * Fetches the appstream data for a set of apps (e.g. the user's).
@@ -9,31 +11,26 @@ import { Appstream } from "../types/Appstream"
 export async function getAppsInfo(
   appIds: string[],
   locale: string,
-): Promise<Appstream[]> {
+): Promise<GetAppstreamAppstreamAppIdGet200[]> {
+  const params: GetAppstreamAppstreamAppIdGetParams = { locale }
   const responses = await Promise.allSettled(
-    appIds.map(async (id) => ({
-      id,
-      response: await axios
-        .get<Appstream>(`${APP_DETAILS(id, locale)}`)
-        .catch(() => {
-          return {
-            data: {
-              id: id,
-              name: id,
-            } as Appstream,
-          } as AxiosResponse<Appstream>
-        }),
-    })),
+    appIds.map(async (id) => {
+      try {
+        const response = await getAppstreamAppstreamAppIdGet(id, params)
+        return response.data
+      } catch {
+        return {
+          id: id,
+          name: id,
+        } as GetAppstreamAppstreamAppIdGet200
+      }
+    }),
   )
 
-  return responses.map((res) => {
-    if (res.status === "fulfilled") {
-      return res.value.response.data
-    } else {
-      return {
-        id: "error",
-        name: "Error",
-      } as Appstream
-    }
-  })
+  return responses
+    .filter(
+      (res): res is PromiseFulfilledResult<GetAppstreamAppstreamAppIdGet200> =>
+        res.status === "fulfilled",
+    )
+    .map((res) => res.value)
 }
