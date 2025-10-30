@@ -337,14 +337,14 @@ class VerificationStatusNone(BaseModel):
 
 class VerificationStatusManual(BaseModel):
     verified: Literal[True]
-    timestamp: int
+    timestamp: str
     method: Literal[VerificationMethod.MANUAL]
     detail: str | None = None
 
 
 class VerificationStatusWebsite(BaseModel):
     verified: Literal[True]
-    timestamp: int
+    timestamp: str
     method: Literal[VerificationMethod.WEBSITE]
     website: str
     detail: str | None = None
@@ -352,7 +352,7 @@ class VerificationStatusWebsite(BaseModel):
 
 class VerificationStatusLoginProvider(BaseModel):
     verified: Literal[True]
-    timestamp: int
+    timestamp: str
     method: Literal[VerificationMethod.LOGIN_PROVIDER]
     login_provider: LoginProvider
     login_name: str
@@ -523,14 +523,14 @@ def get_verification_status(
         case "manual":
             return VerificationStatusManual(
                 verified=True,
-                timestamp=int(verification.verified_timestamp.timestamp()),
+                timestamp=verification.verified_timestamp.timestamp(),
                 method=VerificationMethod.MANUAL,
             )
         case "website":
             domain, _ = _get_domain_name(app_id)
             return VerificationStatusWebsite(
                 verified=True,
-                timestamp=int(verification.verified_timestamp.timestamp()),
+                timestamp=verification.verified_timestamp.timestamp(),
                 method=VerificationMethod.WEBSITE,
                 website=domain or "",
             )
@@ -540,7 +540,7 @@ def get_verification_status(
                 (provider, username) = provider_username
                 return VerificationStatusLoginProvider(
                     verified=True,
-                    timestamp=int(verification.verified_timestamp.timestamp()),
+                    timestamp=verification.verified_timestamp.timestamp(),
                     method=VerificationMethod.LOGIN_PROVIDER,
                     login_provider=provider,
                     login_name=username,
