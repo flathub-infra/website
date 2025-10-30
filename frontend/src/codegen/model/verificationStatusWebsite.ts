@@ -4,11 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { VerificationStatusWebsiteDetail } from "./verificationStatusWebsiteDetail"
 
 export interface VerificationStatusWebsite {
   verified: true
   timestamp: number
   method: "website"
   website: string
-  detail: string
+  detail?: VerificationStatusWebsiteDetail
 }

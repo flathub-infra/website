@@ -28,7 +28,13 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
     ...{
       verified: false,
       method: "none",
-      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
     },
     ...overrideResponse,
   })
@@ -41,7 +47,13 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       verified: true,
       timestamp: faker.number.int({ min: undefined, max: undefined }),
       method: "manual",
-      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
     },
     ...overrideResponse,
   })
@@ -55,7 +67,13 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       timestamp: faker.number.int({ min: undefined, max: undefined }),
       method: "website",
       website: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
     },
     ...overrideResponse,
   })
@@ -70,7 +88,13 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       method: "login_provider",
       login_provider: faker.helpers.arrayElement(Object.values(LoginProvider)),
       login_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
       login_is_organization: faker.helpers.arrayElement([
         faker.helpers.arrayElement([faker.datatype.boolean(), null]),
         undefined,

@@ -4,9 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { VerificationStatusNoneDetail } from "./verificationStatusNoneDetail"
 
 export interface VerificationStatusNone {
   verified: false
   method: "none"
-  detail: string
+  detail?: VerificationStatusNoneDetail
 }

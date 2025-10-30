@@ -332,14 +332,14 @@ class LoginProvider(Enum):
 class VerificationStatusNone(BaseModel):
     verified: Literal[False]
     method: Literal[VerificationMethod.NONE]
-    detail: str
+    detail: str | None = None
 
 
 class VerificationStatusManual(BaseModel):
     verified: Literal[True]
     timestamp: int
     method: Literal[VerificationMethod.MANUAL]
-    detail: str
+    detail: str | None = None
 
 
 class VerificationStatusWebsite(BaseModel):
@@ -347,7 +347,7 @@ class VerificationStatusWebsite(BaseModel):
     timestamp: int
     method: Literal[VerificationMethod.WEBSITE]
     website: str
-    detail: str
+    detail: str | None = None
 
 
 class VerificationStatusLoginProvider(BaseModel):
@@ -356,7 +356,7 @@ class VerificationStatusLoginProvider(BaseModel):
     method: Literal[VerificationMethod.LOGIN_PROVIDER]
     login_provider: LoginProvider
     login_name: str
-    detail: str
+    detail: str | None = None
     login_is_organization: bool | None = None
 
 
@@ -525,7 +525,6 @@ def get_verification_status(
                 verified=True,
                 timestamp=int(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.MANUAL,
-                detail=verification.detail,
             )
         case "website":
             domain, _ = _get_domain_name(app_id)
@@ -534,7 +533,6 @@ def get_verification_status(
                 timestamp=int(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.WEBSITE,
                 website=domain or "",
-                detail=verification.detail,
             )
         case "login_provider":
             provider_username = _get_provider_username(app_id)
@@ -547,7 +545,6 @@ def get_verification_status(
                     login_provider=provider,
                     login_name=username,
                     login_is_organization=verification.login_is_organization,
-                    detail=verification.detail,
                 )
 
     return VerificationStatusNone(
