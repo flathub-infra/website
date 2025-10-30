@@ -45,9 +45,14 @@ const Builds = ({ appId, statusFilter, repoFilter }) => {
     return <LoadingDashboard />
   }
 
+  const filteredPipelines =
+    query.data?.data?.filter((summary) => {
+      return summary.build_id != null
+    }) || []
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {query.data?.data?.map((summary) => (
+      {filteredPipelines.map((summary) => (
         <BuildCard key={summary.id} pipelineSummary={summary} />
       ))}
     </div>
