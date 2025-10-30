@@ -45,7 +45,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
   ): VerificationStatusManual => ({
     ...{
       verified: true,
-      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
       method: "manual",
       detail: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -64,7 +64,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
   ): VerificationStatusWebsite => ({
     ...{
       verified: true,
-      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
       method: "website",
       website: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
@@ -84,7 +84,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
   ): VerificationStatusLoginProvider => ({
     ...{
       verified: true,
-      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
       method: "login_provider",
       login_provider: faker.helpers.arrayElement(Object.values(LoginProvider)),
       login_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
