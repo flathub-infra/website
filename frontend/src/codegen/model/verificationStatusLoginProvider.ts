@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { LoginProvider } from "./loginProvider"
+import type { VerificationStatusLoginProviderDetail } from "./verificationStatusLoginProviderDetail"
 import type { VerificationStatusLoginProviderLoginIsOrganization } from "./verificationStatusLoginProviderLoginIsOrganization"
 
 export interface VerificationStatusLoginProvider {
@@ -13,6 +14,6 @@ export interface VerificationStatusLoginProvider {
   method: "login_provider"
   login_provider: LoginProvider
   login_name: string
-  detail: string
+  detail?: VerificationStatusLoginProviderDetail
   login_is_organization?: VerificationStatusLoginProviderLoginIsOrganization
 }
