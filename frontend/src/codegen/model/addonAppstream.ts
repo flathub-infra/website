@@ -6,7 +6,7 @@
  */
 import type { AddonAppstreamReleases } from "./addonAppstreamReleases"
 import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
-import type { Urls } from "./urls"
+import type { AddonAppstreamUrls } from "./addonAppstreamUrls"
 import type { AddonAppstreamIcon } from "./addonAppstreamIcon"
 import type { AddonAppstreamIcons } from "./addonAppstreamIcons"
 import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
@@ -24,7 +24,7 @@ export interface AddonAppstream {
   summary: string
   releases?: AddonAppstreamReleases
   content_rating?: AddonAppstreamContentRating
-  urls: Urls
+  urls?: AddonAppstreamUrls
   icon?: AddonAppstreamIcon
   icons?: AddonAppstreamIcons
   developer_name?: AddonAppstreamDeveloperName

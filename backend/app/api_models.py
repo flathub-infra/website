@@ -234,7 +234,7 @@ class AddonAppstream(BaseModel):
     summary: str
     releases: list[Release] | None = None
     content_rating: ContentRating | None = None
-    urls: Urls
+    urls: Urls | None = None
     icon: str | None = None
     icons: list[Icon] | None = None
     developer_name: str | None = None
