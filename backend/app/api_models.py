@@ -242,11 +242,76 @@ class AddonAppstream(BaseModel):
     extends: str
     bundle: Bundle
     metadata: Metadata | None = None
+    isMobileFriendly: bool | None = None
+    is_free_license: bool
+
+
+class RuntimeAppstream(BaseModel):
+    """
+    Runtime Appstream metadata
+    """
+
+    type: Literal["runtime"]
+    id: str
+    name: str
+    summary: str
+    description: str
+    releases: list[Release] | None = None
+    urls: Urls
+    icon: str | None = None
+    icons: list[Icon] | None = None
+    developer_name: str | None = None
+    project_license: str
+    bundle: Bundle
+    metadata: Metadata | None = None
+    isMobileFriendly: bool | None = None
+    is_free_license: bool
+
+
+class GenericAppstream(BaseModel):
+    """
+    Generic Appstream metadata
+    """
+
+    type: Literal["generic"]
+    id: str
+    name: str
+    summary: str
+    releases: list[Release] | None = None
+    urls: Urls
+    icon: str | None = None
+    icons: list[Icon] | None = None
+    project_license: str
+    bundle: Bundle
+    isMobileFriendly: bool | None = None
+    is_free_license: bool
+
+
+class LocalizationAppstream(BaseModel):
+    """
+    Localization Appstream metadata
+    """
+
+    type: Literal["localization"]
+    id: str
+    name: str
+    summary: str
+    urls: Urls
+    icon: str | None = None
+    icons: list[Icon] | None = None
+    project_license: str
+    bundle: Bundle
+    metadata: Metadata | None = None
+    isMobileFriendly: bool | None = None
     is_free_license: bool
 
 
 Appstream = Annotated[
-    DesktopAppstream | AddonAppstream,
+    DesktopAppstream
+    | AddonAppstream
+    | LocalizationAppstream
+    | GenericAppstream
+    | RuntimeAppstream,
     Field(discriminator="type"),
 ]
 
