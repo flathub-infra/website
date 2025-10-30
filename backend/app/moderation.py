@@ -350,6 +350,8 @@ def submit_review_request(
 
     sentry_context = {"build_summary": build_summary}
 
+    app_runtime_dref: str | None = None
+
     for app_id, app_data in build_appstream.items():
         is_new_submission = True
 
@@ -435,6 +437,15 @@ def submit_review_request(
                 build_permissions = build_summary_metadata.get("permissions") or {}
                 build_extradata = bool(build_summary_metadata.get("extra-data", False))
 
+                app_runtime = build_summary_metadata.get(
+                    "runtime"
+                ) or build_summary_metadata.get("sdk", "")
+                app_runtime_dref = (
+                    f"{app_runtime.split('/')[0]}//{app_runtime.split('/')[2]}"
+                    if app_runtime.count("/") == 2
+                    else None
+                )
+
                 if current_extradata != build_extradata:
                     current_values["extra-data"] = current_extradata
                     keys["extra-data"] = build_extradata
@@ -465,6 +476,73 @@ def submit_review_request(
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
+
+            if app_runtime_dref:
+                runtime_id, runtime_br = app_runtime_dref.split("//")
+
+                if runtime_id in ("org.kde.Platform", "org.kde.Sdk"):
+                    is_ge_6_10 = False
+
+                    if not runtime_br.startswith("5.15-"):
+                        try:
+                            if "." in runtime_br:
+                                major, minor = runtime_br.split(".", 1)
+                                is_ge_6_10 = (
+                                    int(major) == 6 and int(minor) >= 10
+                                ) or int(major) > 6
+                        except (IndexError, ValueError):
+                            pass
+
+                    if (
+                        "talk-session-bus" in keys
+                        and "talk-session-bus" in current_values
+                    ):
+                        cur_session_talks = (
+                            current_values["talk-session-bus"]
+                            if isinstance(current_values["talk-session-bus"], list)
+                            else []
+                        )
+                        new_session_talks = (
+                            keys["talk-session-bus"]
+                            if isinstance(keys["talk-session-bus"], list)
+                            else []
+                        )
+
+                        if is_ge_6_10 or runtime_br.startswith("5.15-"):
+                            if (
+                                "org.kde.kdeconnect" in cur_session_talks
+                                and "org.kde.kdeconnect" not in new_session_talks
+                            ):
+                                cur_session_talks_filtered = list(
+                                    filter(
+                                        lambda x: x != "org.kde.kdeconnect",
+                                        cur_session_talks,
+                                    )
+                                )
+
+                                if sorted(cur_session_talks_filtered) == sorted(
+                                    new_session_talks
+                                ):
+                                    keys.pop("talk-session-bus", None)
+                                    current_values.pop("talk-session-bus", None)
+
+                        if runtime_br in ("6.9", "6.8"):
+                            if (
+                                "org.kde.kdeconnect" not in cur_session_talks
+                                and "org.kde.kdeconnect" in new_session_talks
+                            ):
+                                new_session_talks_filtered = list(
+                                    filter(
+                                        lambda x: x != "org.kde.kdeconnect",
+                                        new_session_talks,
+                                    )
+                                )
+
+                                if sorted(cur_session_talks) == sorted(
+                                    new_session_talks_filtered
+                                ):
+                                    keys.pop("talk-session-bus", None)
+                                    current_values.pop("talk-session-bus", None)
 
             # Create a moderation request
             request = models.ModerationRequest(
