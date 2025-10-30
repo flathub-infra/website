@@ -1,7 +1,6 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import { AddonAppstream, Appstream } from "../../types/Appstream"
 import { useLocale, useTranslations } from "next-intl"
 
 import { Summary } from "../../types/Summary"
@@ -13,7 +12,6 @@ import AppStatistics from "./AppStats"
 
 import ApplicationSection from "./ApplicationSection"
 
-import { VerificationStatus } from "src/types/VerificationStatus"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import Tags from "./Tags"
 import SafetyRating from "./SafetyRating"
@@ -28,7 +26,10 @@ import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
 import {
+  AddonAppstream,
+  GetAppstreamAppstreamAppIdGet200,
   getAppVendingSetupVendingappAppIdSetupGet,
+  GetVerificationStatusVerificationAppIdStatusGet200,
   MeilisearchResponseAppsIndex,
   StatsResultApp,
 } from "src/codegen"
@@ -46,11 +47,11 @@ import { getIntlLocale } from "src/localize"
 import { getSafetyRating } from "src/safety"
 
 interface Props {
-  app?: Appstream
+  app?: GetAppstreamAppstreamAppIdGet200
   summary?: Summary
   stats: StatsResultApp | null
   developerApps: MeilisearchResponseAppsIndex
-  verificationStatus: VerificationStatus
+  verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200
   addons: AddonAppstream[]
   isQualityModalOpen: boolean
   keywords: string[]

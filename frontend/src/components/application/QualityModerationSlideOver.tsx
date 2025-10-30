@@ -17,11 +17,12 @@ import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { IconGridOverlay } from "./IconGridOverlay"
-import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { useTranslations } from "next-intl"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import {
+  Branding,
+  DesktopAppstream,
   Guideline,
   QualityModerationResponse,
   QualityModerationType,

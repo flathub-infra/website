@@ -3,7 +3,7 @@ import { useMemo, useState, useRef, useEffect } from "react"
 import { useTranslations } from "next-intl"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import linkifyHtml from "linkify-html"
-import { DesktopAppstream } from "src/types/Appstream"
+import { DesktopAppstream } from "src/codegen"
 
 export const Description = ({
   app,

@@ -1,4 +1,3 @@
-import { Appstream } from "./types/Appstream"
 import { Permissions, Metadata } from "./types/Summary"
 import React, { type JSX } from "react"
 import {
@@ -20,6 +19,7 @@ import {
   WifiOffIcon,
   WrenchIcon,
 } from "lucide-react"
+import { GetAppstreamAppstreamAppIdGet200 } from "./codegen"
 
 enum SafetyRating {
   safe = 1,
@@ -97,8 +97,14 @@ const microphoneAccess: AppSafetyRating = {
 
 // reimplementation of https://gitlab.gnome.org/GNOME/gnome-software/-/blob/main/src/gs-app-context-bar.c
 export function getSafetyRating(
-  appstream: Pick<Appstream, "project_license" | "is_free_license"> & {
-    metadata?: Pick<Appstream["metadata"], "flathub::verification::verified">
+  appstream: Pick<
+    GetAppstreamAppstreamAppIdGet200,
+    "project_license" | "is_free_license"
+  > & {
+    metadata?: Pick<
+      GetAppstreamAppstreamAppIdGet200["metadata"],
+      "flathub::verification::verified"
+    >
   },
   summaryMetadata: Pick<Metadata, "permissions" | "runtimeIsEol">,
 ): AppSafetyRating[] {

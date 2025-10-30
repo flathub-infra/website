@@ -1,10 +1,10 @@
 import {
   getAppstreamAppstreamAppIdGet,
+  GetAppstreamAppstreamAppIdGet200,
   getGlobalVendingConfigVendingConfigGet,
 } from "../../../../../src/codegen"
 import { Metadata } from "next"
 import ManageClient from "./manage-client"
-import { Appstream } from "src/types/Appstream"
 
 interface Props {
   params: Promise<{
@@ -56,7 +56,10 @@ export default async function ManagePage({ params }: Props) {
         bundle: {},
         type: "desktop",
         icon: "",
-      } as Pick<Appstream, "id" | "name" | "bundle" | "type" | "icon">)
+      } as Pick<
+        GetAppstreamAppstreamAppIdGet200,
+        "id" | "name" | "bundle" | "type" | "icon"
+      >)
 
   return <ManageClient app={appData} vendingConfig={vendingConfig} />
 }

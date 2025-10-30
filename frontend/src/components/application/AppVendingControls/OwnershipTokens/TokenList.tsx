@@ -1,15 +1,17 @@
 import { Disclosure } from "@headlessui/react"
 import { useTranslations } from "next-intl"
-import { FunctionComponent, ReactElement, useState } from "react"
-import { Appstream } from "../../../../types/Appstream"
+import { FunctionComponent, ReactElement } from "react"
 import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 import { useQuery } from "@tanstack/react-query"
-import { getRedeemableTokensVendingappAppIdTokensGet } from "src/codegen"
+import {
+  GetAppstreamAppstreamAppIdGet200,
+  getRedeemableTokensVendingappAppIdTokensGet,
+} from "src/codegen"
 
 interface Props {
-  app: Pick<Appstream, "id">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
 }
 
 /**

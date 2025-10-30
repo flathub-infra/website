@@ -29,6 +29,7 @@ import type {
   GetDevelopersCollectionDeveloperGetParams,
   GetKeywordCollectionKeywordGetParams,
   GetMobileCollectionMobileGetParams,
+  GetMostFavoritedCollectionFavoritesGetParams,
   GetPopularLastMonthCollectionPopularGetParams,
   GetRecentlyAddedCollectionRecentlyAddedGetParams,
   GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
@@ -2395,6 +2396,188 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
 } {
   const queryOptions =
     getGetTrendingLastTwoWeeksCollectionTrendingGetQueryOptions(params, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * Get applications sorted by the number of times they have been favorited.
+
+Returns apps ordered by their favorites count in descending order,
+showing the most popular apps among users.
+ * @summary Get Most Favorited
+ */
+export const getMostFavoritedCollectionFavoritesGet = (
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/favorites`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    },
+  )
+}
+
+export const getGetMostFavoritedCollectionFavoritesGetQueryKey = (
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+) => {
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/collection/favorites`,
+    ...(params ? [params] : []),
+  ] as const
+}
+
+export const getGetMostFavoritedCollectionFavoritesGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetMostFavoritedCollectionFavoritesGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>
+  > = ({ signal }) =>
+    getMostFavoritedCollectionFavoritesGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetMostFavoritedCollectionFavoritesGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>
+>
+export type GetMostFavoritedCollectionFavoritesGetQueryError =
+  AxiosError<void | HTTPValidationError>
+
+export function useGetMostFavoritedCollectionFavoritesGet<
+  TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params: undefined | GetMostFavoritedCollectionFavoritesGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+          TError,
+          Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetMostFavoritedCollectionFavoritesGet<
+  TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+          TError,
+          Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetMostFavoritedCollectionFavoritesGet<
+  TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Most Favorited
+ */
+
+export function useGetMostFavoritedCollectionFavoritesGet<
+  TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetMostFavoritedCollectionFavoritesGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

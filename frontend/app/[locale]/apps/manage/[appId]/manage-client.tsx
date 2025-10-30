@@ -28,11 +28,14 @@ import {
   VendingConfig,
   useGetAppVendingSetupVendingappAppIdSetupGet,
   useGetInviteStatusInvitesAppIdGet,
+  GetAppstreamAppstreamAppIdGet200,
 } from "../../../../../src/codegen"
-import { Appstream } from "../../../../../src/types/Appstream"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name" | "bundle" | "type" | "icon">
+  app: Pick<
+    GetAppstreamAppstreamAppIdGet200,
+    "id" | "name" | "bundle" | "type" | "icon"
+  >
   vendingConfig: VendingConfig
 }
 

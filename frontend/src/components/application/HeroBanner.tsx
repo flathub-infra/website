@@ -6,7 +6,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 import clsx from "clsx"
-import { DesktopAppstream, pickScreenshotSize } from "src/types/Appstream"
+import { pickScreenshotSize } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
 import Image from "next/image"
@@ -21,6 +21,7 @@ import { getLangDir } from "rtl-detect"
 import { useLocale } from "next-intl"
 import { Link } from "src/i18n/navigation"
 import flathubImageLoader from "src/image-loader"
+import { DesktopAppstream } from "src/codegen"
 
 export const HeroBanner = ({
   heroBannerData,

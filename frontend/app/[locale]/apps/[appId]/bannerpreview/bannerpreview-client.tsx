@@ -4,10 +4,10 @@ import { useTranslations } from "next-intl"
 import EolMessageDetails from "../../../../../src/components/application/EolMessage"
 import { HeroBanner } from "../../../../../src/components/application/HeroBanner"
 import { Alert } from "../../../../../@/components/ui/alert"
-import { Appstream, DesktopAppstream } from "../../../../../src/types/Appstream"
+import { DesktopAppstream, GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name"> | null
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name"> | null
   eolMessage: string | null
   heroBannerData: {
     app: { position: number; app_id: string; isFullscreen: boolean }

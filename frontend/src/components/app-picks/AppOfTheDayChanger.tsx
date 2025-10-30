@@ -7,6 +7,7 @@ import {
   isSameDay,
 } from "date-fns"
 import {
+  DesktopAppstream,
   getAppOfTheDayAppPicksAppOfTheDayDateGet,
   getAppstreamAppstreamAppIdGet,
 } from "src/codegen"
@@ -19,7 +20,6 @@ import clsx from "clsx"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import LogoImage from "../LogoImage"
 import { setAppOfTheDayAppPicksAppOfTheDayPost, Permission } from "src/codegen"
-import { DesktopAppstream } from "src/types/Appstream"
 import { UTCDate } from "@date-fns/utc"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {

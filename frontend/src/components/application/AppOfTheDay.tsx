@@ -1,5 +1,3 @@
-import { DesktopAppstream } from "src/types/Appstream"
-
 import LogoImage from "../LogoImage"
 import { StarIcon } from "@heroicons/react/16/solid"
 import { useTranslations } from "next-intl"
@@ -9,6 +7,7 @@ import { cn } from "@/lib/utils"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { Link } from "src/i18n/navigation"
+import { DesktopAppstream } from "src/codegen"
 
 export const AppOfTheDay = ({
   appOfTheDay,

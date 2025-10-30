@@ -1,6 +1,4 @@
-import { Auths, GetUserinfoAuthUserinfoGet200 } from "./codegen"
-
-export type VerificationProvider = "github" | "gitlab" | "gnome" | "kde"
+import { Auths, GetUserinfoAuthUserinfoGet200, LoginProvider } from "./codegen"
 
 export function getUserName(
   info: GetUserinfoAuthUserinfoGet200,
@@ -29,7 +27,7 @@ function getFirstAuth(auths: Auths) {
 }
 
 export function verificationProviderToHumanReadable(
-  verificationProvider: VerificationProvider,
+  verificationProvider: LoginProvider,
 ) {
   switch (verificationProvider) {
     case "github":

@@ -3,12 +3,12 @@ import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent, useState, useRef, useEffect } from "react"
 import { getIntlLocale } from "../../localize"
 
-import { Release } from "../../types/Appstream"
 import { clsx } from "clsx"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
 import { ExternalLinkIcon } from "lucide-react"
+import { Release } from "src/codegen"
 
 interface Props {
   latestRelease: Release | null
@@ -73,9 +73,9 @@ const Releases: FunctionComponent<Props> = ({
 
   const latestReleaseTimestamp =
     !latestRelease.timestamp ||
-    new UTCDate(latestRelease.timestamp * 1000).getUTCFullYear() < 1990
+    new UTCDate(Number(latestRelease.timestamp) * 1000).getUTCFullYear() < 1990
       ? undefined
-      : new UTCDate(latestRelease.timestamp * 1000)
+      : new UTCDate(Number(latestRelease.timestamp) * 1000)
 
   const descriptionSanitized = sanitizeAppstreamDescription(
     latestRelease.description,

@@ -4,5 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
-export type AppsIndexVerificationLoginProvider = string | null
+export type AppsIndexVerificationLoginProvider = ConnectedAccountProvider | null

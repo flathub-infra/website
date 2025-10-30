@@ -14,69 +14,94 @@ import {
   AvailableMethodType,
   ErrorDetail,
   LoginProvider,
-  VerificationMethod,
 } from ".././model"
 import type {
   AvailableMethods,
+  GetVerificationStatusVerificationAppIdStatusGet200,
   LinkResponse,
-  VerificationStatus,
+  VerificationStatusLoginProvider,
+  VerificationStatusManual,
+  VerificationStatusNone,
+  VerificationStatusWebsite,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200,
   WebsiteVerificationResult,
   WebsiteVerificationToken,
 } from ".././model"
 
-export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
-  overrideResponse: Partial<VerificationStatus> = {},
-): VerificationStatus => ({
-  verified: faker.datatype.boolean(),
-  timestamp: faker.helpers.arrayElement([
+export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusNoneMock =
+  (
+    overrideResponse: Partial<VerificationStatusNone> = {},
+  ): VerificationStatusNone => ({
+    ...{
+      verified: false,
+      method: "none",
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusManualMock =
+  (
+    overrideResponse: Partial<VerificationStatusManual> = {},
+  ): VerificationStatusManual => ({
+    ...{
+      verified: true,
+      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      method: "manual",
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusWebsiteMock =
+  (
+    overrideResponse: Partial<VerificationStatusWebsite> = {},
+  ): VerificationStatusWebsite => ({
+    ...{
+      verified: true,
+      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      method: "website",
+      website: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusLoginProviderMock =
+  (
+    overrideResponse: Partial<VerificationStatusLoginProvider> = {},
+  ): VerificationStatusLoginProvider => ({
+    ...{
+      verified: true,
+      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      method: "login_provider",
+      login_provider: faker.helpers.arrayElement(Object.values(LoginProvider)),
+      login_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      login_is_organization: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+        undefined,
+      ]),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock =
+  (): GetVerificationStatusVerificationAppIdStatusGet200 =>
     faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
-  ]),
-  method: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.helpers.arrayElement(Object.values(VerificationMethod)),
-      null,
-    ]),
-    undefined,
-  ]),
-  website: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
-  ]),
-  login_provider: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.helpers.arrayElement(Object.values(LoginProvider)),
-      null,
-    ]),
-    undefined,
-  ]),
-  login_name: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
-  ]),
-  login_is_organization: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-    undefined,
-  ]),
-  detail: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
-  ]),
-  ...overrideResponse,
-})
+      {
+        ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusNoneMock(),
+      },
+      {
+        ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusManualMock(),
+      },
+      {
+        ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusWebsiteMock(),
+      },
+      {
+        ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusLoginProviderMock(),
+      },
+    ])
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseMock =
   (overrideResponse: Partial<AvailableMethods> = {}): AvailableMethods => ({
@@ -191,10 +216,12 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
 
 export const getGetVerificationStatusVerificationAppIdStatusGetMockHandler = (
   overrideResponse?:
-    | VerificationStatus
+    | GetVerificationStatusVerificationAppIdStatusGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<VerificationStatus> | VerificationStatus),
+      ) =>
+        | Promise<GetVerificationStatusVerificationAppIdStatusGet200>
+        | GetVerificationStatusVerificationAppIdStatusGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(

@@ -10,6 +10,12 @@ export type AppType = (typeof AppType)[keyof typeof AppType]
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AppType = {
   apps: "apps",
+  desktop: "desktop",
+  "desktop-application": "desktop-application",
+  "console-application": "console-application",
+  localization: "localization",
+  generic: "generic",
   extension: "extension",
+  addon: "addon",
   runtime: "runtime",
 } as const

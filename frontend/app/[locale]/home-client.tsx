@@ -7,13 +7,16 @@ import { mapAppsIndexToAppstreamListItem } from "../../src/meilisearch"
 import { categoryToName } from "../../src/types/Category"
 import ApplicationSection from "../../src/components/application/ApplicationSection"
 import { HeroBanner } from "../../src/components/application/HeroBanner"
-import { DesktopAppstream } from "../../src/types/Appstream"
 import clsx from "clsx"
 import { AppOfTheDay } from "../../src/components/application/AppOfTheDay"
 import MultiToggle from "../../src/components/MultiToggle"
 import { Button } from "@/components/ui/button"
 import { MobileDevicesLogo } from "../../src/components/MobileDevicesLogo"
-import { MainCategory, MeilisearchResponseAppsIndex } from "../../src/codegen"
+import {
+  DesktopAppstream,
+  MainCategory,
+  MeilisearchResponseAppsIndex,
+} from "../../src/codegen"
 import { ApplicationSectionGradient } from "../../src/components/application/ApplicationSectionGradient"
 import { GameControllersLogo } from "../../src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "../../src/components/application/ApplicationSectionGradientMultiToggle"

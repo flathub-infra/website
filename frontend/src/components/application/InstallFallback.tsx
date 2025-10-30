@@ -1,12 +1,12 @@
-import { Appstream } from "src/types/Appstream"
 import LogoImage from "src/components/LogoImage"
 import { useTranslations } from "next-intl"
 import { Link } from "src/i18n/navigation"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 export default function InstallFallback({
   app,
 }: {
-  app: Pick<Appstream, "id" | "name" | "icon">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name" | "icon">
 }) {
   const t = useTranslations()
 

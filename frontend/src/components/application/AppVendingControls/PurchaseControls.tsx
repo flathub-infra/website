@@ -2,13 +2,13 @@ import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
-import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { formatCurrency } from "../../../utils/localize"
 import * as Currency from "../../currency"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation } from "@tanstack/react-query"
 import {
+  GetAppstreamAppstreamAppIdGet200,
   postAppVendingStatusVendingappAppIdPost,
   VendingConfig,
   VendingSetup,
@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "src/i18n/navigation"
 
 interface Props {
-  app: Pick<Appstream, "id" | "name" | "bundle">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name" | "bundle">
   vendingConfig: VendingConfig
   amount: NumericInputValue
   setAmount: (amount: NumericInputValue) => void

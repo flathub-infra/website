@@ -9,68 +9,95 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { LoginProvider, VerificationMethod } from ".././model"
+import { LoginProvider } from ".././model"
 import type {
   CheckPurchasesResponseSuccess,
   GenerateUpdateTokenResponse,
   GetDownloadTokenResponse,
   StorefrontInfo,
+  VerificationStatusLoginProvider,
+  VerificationStatusManual,
+  VerificationStatusNone,
+  VerificationStatusWebsite,
 } from ".././model"
+
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusNoneMock =
+  (
+    overrideResponse: Partial<VerificationStatusNone> = {},
+  ): VerificationStatusNone => ({
+    ...{
+      verified: false,
+      method: "none",
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusManualMock =
+  (
+    overrideResponse: Partial<VerificationStatusManual> = {},
+  ): VerificationStatusManual => ({
+    ...{
+      verified: true,
+      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      method: "manual",
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusWebsiteMock =
+  (
+    overrideResponse: Partial<VerificationStatusWebsite> = {},
+  ): VerificationStatusWebsite => ({
+    ...{
+      verified: true,
+      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      method: "website",
+      website: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    ...overrideResponse,
+  })
+
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusLoginProviderMock =
+  (
+    overrideResponse: Partial<VerificationStatusLoginProvider> = {},
+  ): VerificationStatusLoginProvider => ({
+    ...{
+      verified: true,
+      timestamp: faker.number.int({ min: undefined, max: undefined }),
+      method: "login_provider",
+      login_provider: faker.helpers.arrayElement(Object.values(LoginProvider)),
+      login_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      login_is_organization: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+        undefined,
+      ]),
+    },
+    ...overrideResponse,
+  })
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
   overrideResponse: Partial<StorefrontInfo> = {},
 ): StorefrontInfo => ({
   verification: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      {
-        verified: faker.datatype.boolean(),
-        timestamp: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        method: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.helpers.arrayElement(Object.values(VerificationMethod)),
-            null,
-          ]),
-          undefined,
-        ]),
-        website: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        login_provider: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.helpers.arrayElement(Object.values(LoginProvider)),
-            null,
-          ]),
-          undefined,
-        ]),
-        login_name: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        login_is_organization: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-          undefined,
-        ]),
-        detail: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-      },
+      faker.helpers.arrayElement([
+        {
+          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusNoneMock(),
+        },
+        {
+          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusManualMock(),
+        },
+        {
+          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusWebsiteMock(),
+        },
+        {
+          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusLoginProviderMock(),
+        },
+      ]),
       null,
     ]),
     undefined,

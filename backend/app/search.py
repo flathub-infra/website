@@ -4,6 +4,8 @@ from urllib.parse import unquote
 import meilisearch
 from pydantic import BaseModel, field_validator
 
+from app.models import ConnectedAccountProvider
+
 from . import config, schemas
 from .verification_method import VerificationMethod
 
@@ -51,14 +53,14 @@ class AppsIndex(BaseModel):
     verification_verified: bool
     verification_method: VerificationMethod
     verification_login_name: str | None
-    verification_login_provider: str | None
-    verification_login_is_organization: str | None
+    verification_login_provider: ConnectedAccountProvider | None
+    verification_login_is_organization: bool | None
     verification_website: str | None
     verification_timestamp: str | None
     runtime: str | None
     updated_at: int
     arches: list[str] | None
-    added_at: int
+    added_at: int | None = None
     trending: float | None = None
     installs_last_month: int | None = None
     favorites_count: int | None = None

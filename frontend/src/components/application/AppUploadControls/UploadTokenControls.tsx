@@ -6,17 +6,17 @@ import { getIntlLocale } from "src/localize"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { Repo } from "src/types/UploadTokens"
 import {
+  GetAppstreamAppstreamAppIdGet200,
   useGetUploadTokensUploadTokensAppIdGet,
   useRevokeUploadTokenUploadTokensTokenIdRevokePost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
-import { Appstream } from "src/types/Appstream"
 
 export default function UploadTokenControls({
   app,
 }: {
-  app: Pick<Appstream, "id">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
 }) {
   const t = useTranslations()
 

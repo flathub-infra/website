@@ -1,13 +1,13 @@
 import { useTranslations } from "next-intl"
 import React from "react"
-import { Appstream } from "src/types/Appstream"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
 import { useUserContext } from "src/context/user-info"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import {
+  GetAppstreamAppstreamAppIdGet200,
+  GetVerificationStatusVerificationAppIdStatusGet200,
   useAddToFavoritesFavoritesAppIdAddPost,
   useIsFavoritedFavoritesAppIdGet,
   useRemoveFromFavoritesFavoritesAppIdRemoveDelete,
@@ -94,9 +94,9 @@ export function AppHeader({
   verificationStatus,
   isQualityModalOpen,
 }: {
-  app: Appstream
+  app: GetAppstreamAppstreamAppIdGet200
   vendingSetup: Pick<VendingSetup, "recommended_donation"> | undefined
-  verificationStatus: VerificationStatus
+  verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200
   isQualityModalOpen: boolean
 }) {
   const t = useTranslations()

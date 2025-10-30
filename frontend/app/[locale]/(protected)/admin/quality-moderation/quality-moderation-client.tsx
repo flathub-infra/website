@@ -21,7 +21,6 @@ import LogoImage from "src/components/LogoImage"
 import MultiToggle from "src/components/MultiToggle"
 import Pagination from "src/components/Pagination"
 import { useUserContext } from "src/context/user-info"
-import { Appstream } from "src/types/Appstream"
 import {
   GetQualityModerationStatusQualityModerationStatusGetFilter,
   Permission,
@@ -29,6 +28,7 @@ import {
   QualityModerationDashboardRow,
   GetUserinfoAuthUserinfoGet200,
   useGetQualityModerationStatusQualityModerationStatusGet,
+  GetAppstreamAppstreamAppIdGet200,
 } from "src/codegen"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
 import Spinner from "src/components/Spinner"
@@ -147,13 +147,19 @@ const QualityModerationTable = ({
       id: "icon",
       header: "Icon",
       cell: ({ row }) =>
-        (row.original.appstream as Appstream).icon && (
+        (row.original.appstream as GetAppstreamAppstreamAppIdGet200).icon && (
           <Link href={`/apps/${row.original.id}`}>
             <div className="relative m-2 flex h-[64px] min-w-[64px] self-center drop-shadow-md">
               <LogoImage
                 size="64"
-                iconUrl={(row.original.appstream as Appstream).icon}
-                appName={(row.original.appstream as Appstream).name}
+                iconUrl={
+                  (row.original.appstream as GetAppstreamAppstreamAppIdGet200)
+                    .icon
+                }
+                appName={
+                  (row.original.appstream as GetAppstreamAppstreamAppIdGet200)
+                    .name
+                }
               />
             </div>
           </Link>
@@ -165,10 +171,13 @@ const QualityModerationTable = ({
       cell: ({ row }) => (
         <div>
           <Link href={`/apps/${row.original.id}`}>
-            {(row.original.appstream as Appstream).name}
+            {(row.original.appstream as GetAppstreamAppstreamAppIdGet200).name}
           </Link>
           <div className="text-xs dark:text-flathub-gray-x11 text-flathub-sonic-silver">
-            {(row.original.appstream as Appstream).summary}
+            {
+              (row.original.appstream as GetAppstreamAppstreamAppIdGet200)
+                .summary
+            }
           </div>
         </div>
       ),

@@ -7,15 +7,15 @@ import * as AppVendingControls from "../../../../../src/components/application/A
 import LoginGuard from "../../../../../src/components/login/LoginGuard"
 import { ApplicationCard } from "../../../../../src/components/application/ApplicationCard"
 import {
+  GetAppstreamAppstreamAppIdGet200,
   useGetAppVendingSetupVendingappAppIdSetupGet,
   VendingConfig,
 } from "../../../../../src/codegen"
-import { Appstream } from "../../../../../src/types/Appstream"
 import { NumericInputValue } from "../../../../../src/types/Input"
 import Spinner from "../../../../../src/components/Spinner"
 
 interface Props {
-  app: Appstream
+  app: GetAppstreamAppstreamAppIdGet200
   vendingConfig: VendingConfig
 }
 export default function AppPurchaseClient({ app, vendingConfig }: Props) {

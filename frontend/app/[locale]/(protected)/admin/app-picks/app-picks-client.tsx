@@ -15,6 +15,7 @@ import Spinner from "src/components/Spinner"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { useUserContext } from "src/context/user-info"
 import {
+  DesktopAppstream,
   getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
   getAppstreamAppstreamAppIdGet,
 } from "src/codegen"
@@ -28,7 +29,6 @@ import {
   Permission,
   getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
 } from "src/codegen"
-import { DesktopAppstream } from "src/types/Appstream"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
 import { useTranslations } from "next-intl"

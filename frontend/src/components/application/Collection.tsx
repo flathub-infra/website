@@ -1,15 +1,16 @@
 import { FunctionComponent, type JSX } from "react"
 
-import { Appstream, AppstreamListItem } from "../../types/Appstream"
+import { AppstreamListItem } from "../../types/Appstream"
 
 import { useTranslations } from "next-intl"
 import Pagination from "../Pagination"
 import { ApplicationCard } from "./ApplicationCard"
 import { Button } from "@/components/ui/button"
 import { useSearchParams } from "next/navigation"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model/getAppstreamAppstreamAppIdGet200"
 
 interface Props {
-  applications: Appstream[] | AppstreamListItem[]
+  applications: GetAppstreamAppstreamAppIdGet200[] | AppstreamListItem[]
   title?: string
   page?: number
   totalPages?: number

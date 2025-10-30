@@ -1,7 +1,7 @@
 import { Meta } from "@storybook/nextjs-vite"
 import Releases from "./Releases"
 import { faker } from "@faker-js/faker"
-import { Release } from "../../types/Appstream"
+import { Release } from "../../codegen"
 
 export default {
   title: "Components/Application/Releases",

@@ -1,13 +1,15 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { getCategoryCollectionCategoryCategoryGet } from "../../../../../../src/codegen"
+import {
+  AppSchemasSortBy,
+  getCategoryCollectionCategoryCategoryGet,
+} from "../../../../../../src/codegen"
 import {
   categoryToName,
   stringToCategory,
   gameCategoryFilter,
 } from "../../../../../../src/types/Category"
-import { SortBy } from "../../../../../../src/codegen"
 import CategoryPageClient from "./category-page-client"
 
 export async function generateStaticParams() {
@@ -59,7 +61,7 @@ export default async function CategoryPagePaginated({
       per_page: 30,
       locale,
       exclude_subcategories: gameCategoryFilter,
-      sort_by: SortBy.trending,
+      sort_by: AppSchemasSortBy.trending,
     })
     applications = response.data
   } else {
@@ -67,7 +69,7 @@ export default async function CategoryPagePaginated({
       page,
       per_page: 30,
       locale,
-      sort_by: SortBy.trending,
+      sort_by: AppSchemasSortBy.trending,
     })
     applications = response.data
   }

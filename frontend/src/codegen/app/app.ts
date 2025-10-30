@@ -26,8 +26,8 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
-  AppstreamResponse,
   FavoriteApp,
+  GetAppstreamAppstreamAppIdGet200,
   GetAppstreamAppstreamAppIdGetParams,
   GetEolMessageAppidEolMessageAppIdGet200,
   GetEolMessageAppidEolMessageAppIdGetParams,
@@ -744,6 +744,12 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 
 /**
  * Get a list of all application IDs in the repository.
+
+- **filter**: Filter by app type (default: apps)
+- **sort**: Sort order (default: alphabetical)
+  - `alphabetical`: Sort by app ID alphabetically
+  - `created-at`: Sort by creation date (newest first)
+  - `last-updated-at`: Sort by last update date (newest first)
  * @summary List Appstream
  */
 export const listAppstreamAppstreamGet = (
@@ -926,7 +932,7 @@ export const getAppstreamAppstreamAppIdGet = (
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<AppstreamResponse>> => {
+): Promise<AxiosResponse<GetAppstreamAppstreamAppIdGet200>> => {
   return axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}`,
     {

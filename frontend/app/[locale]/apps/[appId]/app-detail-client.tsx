@@ -11,20 +11,21 @@ import { calculateHumanReadableSize } from "../../../../src/size"
 import { bcpToPosixLocale } from "../../../../src/localize"
 import { pickScreenshotSize } from "../../../../src/types/Appstream"
 import type { JSX } from "react"
-import type { Appstream, AddonAppstream } from "../../../../src/types/Appstream"
 import type { Summary } from "../../../../src/types/Summary"
-import type { VerificationStatus } from "../../../../src/types/VerificationStatus"
 import type {
+  AddonAppstream,
+  GetAppstreamAppstreamAppIdGet200,
+  GetVerificationStatusVerificationAppIdStatusGet200,
   MeilisearchResponseAppsIndex,
   StatsResultApp,
 } from "../../../../src/codegen"
 
 interface AppDetailClientProps {
-  app: Appstream | null
+  app: GetAppstreamAppstreamAppIdGet200 | null
   summary?: Summary | null
   stats: StatsResultApp | null
   developerApps: MeilisearchResponseAppsIndex | null
-  verificationStatus: VerificationStatus | null
+  verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200 | null
   eolMessage: string
   addons: AddonAppstream[]
   locale: string

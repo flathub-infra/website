@@ -8,16 +8,20 @@ import { AxiosError } from "axios"
 import Modal from "../Modal"
 import {
   archiveVerificationAppIdArchivePost,
+  GetAppstreamAppstreamAppIdGet200,
   switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
   useGetUploadTokensUploadTokensAppIdGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Appstream } from "src/types/Appstream"
 import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
-const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
+const SwitchToDirectUpload = ({
+  app,
+}: {
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
+}) => {
   const t = useTranslations()
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -122,7 +126,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 export default function DangerZoneControls({
   app,
 }: {
-  app: Pick<Appstream, "id">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
 }) {
   const t = useTranslations()
 

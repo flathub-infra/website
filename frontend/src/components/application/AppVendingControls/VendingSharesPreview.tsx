@@ -1,9 +1,8 @@
 import { FunctionComponent, useEffect, useMemo } from "react"
-import { Appstream } from "../../../types/Appstream"
 import { computeAppShares, computeShares } from "../../../utils/vending"
 import { formatCurrency } from "src/utils/localize"
 import { useLocale, useTranslations } from "next-intl"
-import { VendingConfig } from "src/codegen"
+import { GetAppstreamAppstreamAppIdGet200, VendingConfig } from "src/codegen"
 
 import * as Slider from "@radix-ui/react-slider"
 import clsx from "clsx"
@@ -12,7 +11,7 @@ import { useRouter } from "src/i18n/navigation"
 
 interface Props {
   price: number
-  app: Pick<Appstream, "id" | "name" | "bundle">
+  app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name" | "bundle">
   appShare: number
   setAppShare: (share: number) => void
   vendingConfig: VendingConfig

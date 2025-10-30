@@ -1,8 +1,10 @@
 import { useTranslations } from "next-intl"
-import { VerificationStatus } from "./types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "./verificationProvider"
+import { GetVerificationStatusVerificationAppIdStatusGet200 } from "./codegen"
 
-export const VerificationText = (verificationStatus: VerificationStatus) => {
+export const VerificationText = (
+  verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200,
+) => {
   const t = useTranslations()
 
   switch (verificationStatus.method) {

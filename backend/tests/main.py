@@ -1059,6 +1059,8 @@ def test_verification_status(client):
     response = client.get("/verification/com.github.flathub.NotVerified/status")
     expected = {
         "verified": False,
+        "method": "none",
+        "detail": "Not verified",
     }
     assert response.status_code == 200
     assert response.json() == expected
@@ -1118,6 +1120,8 @@ def test_verification_status_invalid(client):
     response = client.get("/verification/com.github/status")
     expected = {
         "verified": False,
+        "method": "none",
+        "detail": "Not verified",
     }
     assert response.status_code == 200
     assert response.json() == expected
@@ -1291,6 +1295,8 @@ def test_verification_status_not_verified(client):
     response = client.get("/verification/org.gnome.Calendar/status")
     expected = {
         "verified": False,
+        "method": "none",
+        "detail": "Not verified",
     }
     assert response.status_code == 200
     assert response.json() == expected

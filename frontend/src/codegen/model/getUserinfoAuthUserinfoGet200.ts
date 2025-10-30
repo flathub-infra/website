@@ -4,6 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserInfoOutput } from "./userInfoOutput"
+import type { UserInfo } from "./userInfo"
 
-export type GetUserinfoAuthUserinfoGet200 = UserInfoOutput | null
+export type GetUserinfoAuthUserinfoGet200 = UserInfo | null

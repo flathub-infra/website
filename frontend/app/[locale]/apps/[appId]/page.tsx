@@ -12,11 +12,11 @@ import {
   getEolMessageAppidEolMessageAppIdGet,
   MeilisearchResponseAppsIndex,
   StatsResultApp,
+  AddonAppstream,
+  GetVerificationStatusVerificationAppIdStatusGet200,
 } from "src/codegen"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import { isValidAppId } from "@/lib/helpers"
 import AppDetailClient from "./app-detail-client"
-import { Appstream, AddonAppstream } from "../../../../src/types/Appstream"
 import { removeAppIdFromSearchResponse } from "../../../../src/meilisearch"
 import { formatISO } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
@@ -135,7 +135,7 @@ export default async function AppDetailPage({
       getSummarySummaryAppIdGet(cleanAppId),
     ])
 
-    const app = appResponse.data as unknown as Appstream
+    const app = appResponse.data
     const stats: StatsResultApp | null = statsResponse.data
     const summary = summaryResponse.data as unknown as Summary
 
@@ -149,14 +149,19 @@ export default async function AppDetailPage({
     }
 
     // Fetch verification status with fallback
-    let verificationStatus: VerificationStatus | null = null
+    let verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200 | null =
+      null
     try {
       const verificationStatusResponse =
         await getVerificationStatusVerificationAppIdStatusGet(cleanAppId)
       verificationStatus =
-        verificationStatusResponse.data as unknown as VerificationStatus
+        verificationStatusResponse.data as unknown as GetVerificationStatusVerificationAppIdStatusGet200
     } catch (e) {
-      verificationStatus = null
+      verificationStatus = {
+        verified: false,
+        method: "none",
+        detail: null,
+      }
     }
     // Fetch addon appstreams
     const addonAppstreams = await Promise.all(
@@ -166,14 +171,18 @@ export default async function AppDetailPage({
     )
 
     const addonAppStats = await Promise.all(
-      addonsList.map((addonId) => getStatsForAppStatsAppIdGet(addonId)),
+      addonsList.map((addonId) =>
+        getStatsForAppStatsAppIdGet(addonId).catch(() => ({
+          data: { id: null, installs_last_month: 0 },
+        })),
+      ),
     )
 
     // Combine addon data and sort by installs
     const combined = addonAppstreams
       .filter((response) => response.data && "id" in response.data)
       .map((response) => {
-        const addonApp = response.data as unknown as Appstream
+        const addonApp = response.data
         return {
           id: addonApp.id,
           appstream: addonApp,
@@ -236,7 +245,7 @@ export default async function AppDetailPage({
         }
         verificationStatus={verificationStatus}
         eolMessage=""
-        addons={addons as AddonAppstream[]}
+        addons={addons}
         locale={locale}
         datePublished={datePublished}
       />

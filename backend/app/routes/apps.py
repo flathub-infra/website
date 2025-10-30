@@ -108,7 +108,7 @@ def list_appstream(
 @router.get(
     "/appstream/{app_id}",
     status_code=200,
-    response_model=api_models.AppstreamResponse,
+    response_model=api_models.Appstream,
     response_model_exclude_none=True,
     tags=["app"],
     responses={
@@ -144,9 +144,11 @@ def get_appstream(
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
 
-        # FastAPI will automatically validate and convert this dict
-        # to AppstreamResponse based on response_model
-        return result
+        # Return the correct union type
+        if result.get("type") == "addon":
+            return api_models.AddonAppstream(**result)
+        else:
+            return api_models.DesktopAppstream(**result)
 
 
 @router.get(
