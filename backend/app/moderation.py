@@ -477,6 +477,8 @@ def submit_review_request(
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
 
+            request_ignored = False
+
             if app_runtime_dref:
                 runtime_id, runtime_br = app_runtime_dref.split("//")
 
@@ -525,6 +527,7 @@ def submit_review_request(
                                 ):
                                     keys.pop("talk-session-bus", None)
                                     current_values.pop("talk-session-bus", None)
+                                    request_ignored = True
 
                         if runtime_br in ("6.9", "6.8"):
                             if (
@@ -543,6 +546,15 @@ def submit_review_request(
                                 ):
                                     keys.pop("talk-session-bus", None)
                                     current_values.pop("talk-session-bus", None)
+                                    request_ignored = True
+
+            if request_ignored:
+                logger.info(
+                    "Ignored moderation request for %s with current data %s and build data %s",
+                    app_id,
+                    current_values,
+                    keys,
+                )
 
             # Create a moderation request
             request = models.ModerationRequest(
