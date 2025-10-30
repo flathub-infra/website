@@ -21,3 +21,4 @@ cp tests/stats/004-two-weeks-ago.json tests/stats/$two_weeks_ago
 
 docker compose exec backend /.venv/bin/python -m pip install pytest httpx pytest-insta
 docker compose exec backend /.venv/bin/python -m pytest -vvvv tests/main.py
+docker compose exec backend /.venv/bin/python -m pytest -vvvv tests/test_storefront_smoke.py
