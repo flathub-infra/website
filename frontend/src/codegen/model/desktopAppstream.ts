@@ -11,6 +11,7 @@ import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
 import type { Release } from "./release"
 import type { ContentRating } from "./contentRating"
 import type { DesktopAppstreamUrls } from "./desktopAppstreamUrls"
+import type { DesktopAppstreamCategories } from "./desktopAppstreamCategories"
 import type { DesktopAppstreamKudos } from "./desktopAppstreamKudos"
 import type { DesktopAppstreamKeywords } from "./desktopAppstreamKeywords"
 import type { DesktopAppstreamMimetypes } from "./desktopAppstreamMimetypes"
@@ -39,7 +40,7 @@ export interface DesktopAppstream {
   releases: Release[]
   content_rating: ContentRating
   urls?: DesktopAppstreamUrls
-  categories: string[]
+  categories?: DesktopAppstreamCategories
   kudos?: DesktopAppstreamKudos
   keywords?: DesktopAppstreamKeywords
   mimetypes?: DesktopAppstreamMimetypes

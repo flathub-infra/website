@@ -208,7 +208,7 @@ class DesktopAppstream(BaseModel):
     releases: list[Release]
     content_rating: ContentRating
     urls: Urls | None = None
-    categories: list[str]
+    categories: list[str] | None = None
     kudos: list[str] | None = None
     keywords: list[str] | None = None
     mimetypes: list[str] | None = None
