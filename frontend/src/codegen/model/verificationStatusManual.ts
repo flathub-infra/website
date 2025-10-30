@@ -8,7 +8,7 @@ import type { VerificationStatusManualDetail } from "./verificationStatusManualD
 
 export interface VerificationStatusManual {
   verified: true
-  timestamp: number
+  timestamp: string
   method: "manual"
   detail?: VerificationStatusManualDetail
 }

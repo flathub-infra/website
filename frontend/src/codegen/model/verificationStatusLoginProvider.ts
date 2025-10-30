@@ -10,7 +10,7 @@ import type { VerificationStatusLoginProviderLoginIsOrganization } from "./verif
 
 export interface VerificationStatusLoginProvider {
   verified: true
-  timestamp: number
+  timestamp: string
   method: "login_provider"
   login_provider: LoginProvider
   login_name: string

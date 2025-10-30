@@ -8,7 +8,7 @@ import type { VerificationStatusWebsiteDetail } from "./verificationStatusWebsit
 
 export interface VerificationStatusWebsite {
   verified: true
-  timestamp: number
+  timestamp: string
   method: "website"
   website: string
   detail?: VerificationStatusWebsiteDetail
