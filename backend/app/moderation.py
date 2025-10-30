@@ -439,12 +439,13 @@ def submit_review_request(
 
                 app_runtime = build_summary_metadata.get(
                     "runtime"
-                ) or build_summary_metadata.get("sdk", "")
-                app_runtime_dref = (
-                    f"{app_runtime.split('/')[0]}//{app_runtime.split('/')[2]}"
-                    if app_runtime.count("/") == 2
-                    else None
-                )
+                ) or build_summary_metadata.get("sdk")
+                if app_runtime:
+                    app_runtime_dref = (
+                        f"{app_runtime.split('/')[0]}//{app_runtime.split('/')[2]}"
+                        if app_runtime.count("/") == 2
+                        else None
+                    )
 
                 if current_extradata != build_extradata:
                     current_values["extra-data"] = current_extradata
