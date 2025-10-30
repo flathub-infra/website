@@ -147,6 +147,12 @@ def get_appstream(
         # Return the correct union type
         if result.get("type") == "addon":
             return api_models.AddonAppstream(**result)
+        elif result.get("type") == "localization":
+            return api_models.LocalizationAppstream(**result)
+        elif result.get("type") == "generic":
+            return api_models.GenericAppstream(**result)
+        elif result.get("type") == "runtime":
+            return api_models.RuntimeAppstream(**result)
         else:
             return api_models.DesktopAppstream(**result)
 
