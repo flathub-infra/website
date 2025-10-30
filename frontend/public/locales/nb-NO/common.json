@@ -429,7 +429,7 @@
   "value-at-most": "Du må angi en sum på maks {value}",
   "token-creation-placeholder": "Oppgi en linjedelt liste med navn. Hvert navn vil brukes på en ny eierskapsnøkkel.",
   "verified-login-provider": "@{login_name} på {login_provider}",
-  "flathub-the-linux-app-store": "Flathub er appsenteret til Linux",
+  "flathub-the-linux-app-store": "Flathub er Appbutikken til Linux",
   "arch": "Arkitektur",
   "uses-session-services": "Bruker økttjenester",
   "auditable-code": "Åpen kildekode",

@@ -450,7 +450,7 @@
   "new-app": "Novo aplicativo",
   "uses-eol-runtime-description": "O runtime usado por este aplicativo não está mais recebendo atualizações de segurança",
   "leave-confirmation": "Tem certeza de que deseja sair de {app}?",
-  "community-repository-description": "Carregue seu aplicativo no Flathub enviando seu manifesto Flatpak e arquivos de suporte para um repositório em nossa organização GitHub. O buildbot do Flathub irá compilar o aplicativo e publicá-lo no Flathub.",
+  "community-repository-description": "Carregue seu aplicativo no Flathub enviando seu manifesto Flatpak e arquivos de suporte para um repositório em nossa organização GitHub. O serviço de compilação do Flathub irá compilar o aplicativo e publicá-lo no Flathub.",
   "app-already-exists": "Já existe um aplicativo com este ID.",
   "home-folder-read-write-access": "Acesso de leitura e gravação à pasta Home",
   "full-file-system-read-access": "Acesso de leitura completo ao sistema de arquivos",
@@ -517,7 +517,7 @@
   "new-stable-token": "Novo token estável",
   "expires": "Expira",
   "revoked": "Revogado",
-  "flathub-the-linux-app-store": "O Flathub é a Loja de Aplicativos para Linux",
+  "flathub-the-linux-app-store": "Flathub: A Loja de Aplicativos para Linux",
   "can-access-input-devices": "Pode acessar dispositivos de entrada como teclados, mouses ou controles de jogos",
   "get-it-on": "Obtenha no",
   "app-of-the-day": "Aplicativo do Dia",
@@ -674,5 +674,8 @@
   "can-talk-to-non-portal-service": "Pode solicitar dados a partir de serviços for do portal e ganhar permissões adicionais",
   "socket-may-allow-extra-permissions": "Usa um socket que permite ganhar permissões extras",
   "developed-by": "desenvolvido por {developer}",
-  "unverified-tooltip": "A propriedade do ID de aplicativo <appid></appid> não foi verificada e pode ser um pacote comunitário"
+  "unverified-tooltip": "A propriedade do ID de aplicativo <appid></appid> não foi verificada e pode ser um pacote comunitário",
+  "install-all-favorites": "Instalar todos os favoritos",
+  "install-all-favorites-description": "Copie este comando para instalar todos os seus aplicativos favoritos de uma só vez:",
+  "no-favorites-yet": "Você ainda não tem aplicativos favoritos. Comece adicionando alguns clicando no ícone de favoritar em aplicativos que você gosta!"
 }

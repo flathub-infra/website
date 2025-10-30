@@ -154,7 +154,9 @@
   "download-size": "قەبارەی داگرتن",
   "number-of-results": "{number} ئەنجام",
   "forum": "مەکۆ",
-  "developer-portal": { "title": "دەروازەی گەشەپێدەر" },
+  "developer-portal": {
+    "title": "دەروازەی گەشەپێدەر"
+  },
   "badges": "نیشانەکان",
   "contribute-translations": "بەژداری لە وەرگێڕانەکان",
   "manual-install": "دامەزراندنی دەستیی",
