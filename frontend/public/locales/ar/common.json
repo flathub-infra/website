@@ -663,7 +663,7 @@
   },
   "download": {
     "install-x": "ثبِّت «{x}»",
-    "fallback-instructions": "<opening>جارٍ فتح «{name}» في مدير برامجك…</opening><support>إذا لم يحدُث شيء، فربما لا يدعم نظامك عناوين URL من نوع <i>flatpak+https</i>.</support><listPrefix>في هذه الحالة يمكنك:</listPrefix><ol><li>تنزيل <link>.flatpakref</link> ملف</li><li>ثم تشغيله من مدير ملفاتك</li></ol><setupLine><linkSetup>تعليمات تثبيت Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>جارٍ فتح «{name}» في مدير برامجك…</opening><support>إذا لم يحدُث شيء، فربما لا يدعم نظامك عناوين URL من نوع <i>flatpak+https</i>.</support><listPrefix>في هذه الحالة يمكنك:</listPrefix><ol><li>تنزيل ملف <link>.flatpakref</link></li><li>ثم تشغيله من مدير ملفاتك</li></ol><setupLine><linkSetup>تعليمات تثبيت Flatpak</linkSetup></setupLine>"
   },
   "country-statistics": "إحصائيات الدول",
   "since-x": "منذ {date}",
