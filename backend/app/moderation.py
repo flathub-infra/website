@@ -458,7 +458,7 @@ def submit_review_request(
                             build_perm = build_permissions.get(perm)
 
                             if isinstance(current_perm, list):
-                                if current_perm != build_perm:
+                                if sorted(current_perm) != sorted(build_perm):
                                     current_values[perm] = current_perm
                                     keys[perm] = build_perm
 
@@ -468,11 +468,18 @@ def submit_review_request(
 
                                 dict_keys = current_perm.keys() | build_perm.keys()
                                 for key in dict_keys:
-                                    if current_perm.get(key) != build_perm.get(key):
-                                        current_values[f"{key}-{perm}"] = (
-                                            current_perm.get(key)
-                                        )
-                                        keys[f"{key}-{perm}"] = build_perm.get(key)
+                                    current_val = current_perm.get(key)
+                                    build_val = build_perm.get(key)
+
+                                    is_different = (
+                                        sorted(current_val) != sorted(build_val)
+                                        if isinstance(current_val, list)
+                                        and isinstance(build_val, list)
+                                        else current_val != build_val
+                                    )
+                                    if is_different:
+                                        current_values[f"{key}-{perm}"] = current_val
+                                        keys[f"{key}-{perm}"] = build_val
 
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
