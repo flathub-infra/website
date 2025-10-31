@@ -67,15 +67,26 @@ export default function BuildDetailClient({ pipelineId }: Props) {
           <BuildCardContent pipelineSummary={query.data.data} />
         </CardContent>
 
-        <CardFooter className="pt-2">
+        <CardFooter className="pt-2 flex flex-col gap-4">
           {query.data.data.log_url && (
-            <Button variant="outline" size="sm" className="w-full mt-6" asChild>
+            <Button variant="outline" size="sm" className="w-full" asChild>
               <a
                 href={query.data.data.log_url}
                 className="size-4 me-2"
                 target="_blank"
               >
-                View Log
+                View build log
+              </a>
+            </Button>
+          )}
+          {query.data.data.update_repo_job_id && (
+            <Button variant="outline" size="sm" className="w-full" asChild>
+              <a
+                href={`https://hub.flathub.org/status/${query.data.data.update_repo_job_id}`}
+                className="size-4 me-2"
+                target="_blank"
+              >
+                View publish job
               </a>
             </Button>
           )}
