@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
 import type { JSX } from "react"
 import { Link } from "src/i18n/navigation"
+import DeveloperStats from "src/components/user/DeveloperStats"
 
 type DocusaurusFeed = {
   version: string
@@ -131,7 +132,13 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
   )
 }
 
-const DeveloperApps = ({ locale }: { locale: string }) => {
+const DeveloperApps = ({
+  locale,
+  topContent,
+}: {
+  locale: string
+  topContent?: JSX.Element
+}) => {
   const t = useTranslations()
   const user = useUserContext()
 
@@ -143,6 +150,7 @@ const DeveloperApps = ({ locale }: { locale: string }) => {
     <UserApps
       locale={locale}
       variant="dev"
+      topContent={topContent}
       customButtons={
         (!IS_PRODUCTION ||
           user.info?.permissions.some((a) => a === Permission.moderation)) && (
@@ -182,7 +190,7 @@ const DeveloperPortalClient = ({
           </h1>
           <div className="space-y-12 w-full">
             <News feed={feed} />
-            <DeveloperApps locale={locale} />
+            <DeveloperApps locale={locale} topContent={<DeveloperStats />} />
             <InviteCode locale={locale} />
             <AcceptingPayment />
           </div>

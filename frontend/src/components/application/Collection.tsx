@@ -27,6 +27,7 @@ interface Props {
   renderItemAction?: (
     application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
   ) => ReactNode
+  topContent?: JSX.Element
 }
 
 const itemActionContainerClasses: Record<
@@ -89,6 +90,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showEolBadge = false,
   customButtons,
   renderItemAction,
+  topContent,
 }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
@@ -134,6 +136,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         refresh={refresh}
         customButtons={customButtons}
       />
+      {topContent}
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app, index) => {

@@ -891,7 +891,10 @@
   },
   "developer-portal": {
     "title": "Developer Portal",
-    "runtime-version": "Runtime: {version}"
+    "runtime-version": "Runtime: {version}",
+    "downloads-last-week": "Downloads (last 7 days)",
+    "no-downloads-last-week": "No downloads last week",
+    "some-downloads-last-week": "Nice — great work this week!"
   },
   "vending": {
     "purchase-not-available": "This application is not available for purchase."
