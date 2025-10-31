@@ -20,6 +20,7 @@ interface Props {
   showId?: boolean
   showRuntime?: boolean
   customButtons?: JSX.Element
+  topContent?: JSX.Element
 }
 
 const Header = ({
@@ -69,6 +70,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showId = false,
   showRuntime = false,
   customButtons,
+  topContent,
 }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
@@ -114,6 +116,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         refresh={refresh}
         customButtons={customButtons}
       />
+      {topContent}
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app) => (
