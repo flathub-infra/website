@@ -13,6 +13,7 @@ import {
 } from "../../../../../src/codegen"
 import { NumericInputValue } from "../../../../../src/types/Input"
 import Spinner from "../../../../../src/components/Spinner"
+import { isDesktopAppstreamTypeGuard } from "@/lib/helpers"
 
 interface Props {
   app: GetAppstreamAppstreamAppIdGet200
@@ -48,6 +49,15 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>{t(vendingSetup.error.message)}</p>
+      </>
+    )
+  }
+
+  if (isDesktopAppstreamTypeGuard(app) === false) {
+    return (
+      <>
+        <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
+        <p>{t("vending.purchase-not-available")}</p>
       </>
     )
   }

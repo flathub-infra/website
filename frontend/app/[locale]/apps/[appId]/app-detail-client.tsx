@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl"
 import ApplicationDetails from "../../../../src/components/application/Details"
 import EolMessageDetails from "../../../../src/components/application/EolMessage"
 import { QualityModeration } from "../../../../src/components/application/QualityModeration"
-import { getKeywords } from "@/lib/helpers"
+import { isDesktopAppstreamTypeGuard, getKeywords } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "../../../../src/size"
 import { bcpToPosixLocale } from "../../../../src/localize"
 import { pickScreenshotSize } from "../../../../src/types/Appstream"
@@ -100,17 +100,19 @@ const AppDetailClient = ({
   const keywords = getKeywords(app)
 
   const screenshot =
-    app.type !== "addon" && app.screenshots?.length > 0
+    isDesktopAppstreamTypeGuard(app) && app.screenshots?.length > 0
       ? pickScreenshotSize(app.screenshots[0])
       : undefined
 
-  const lastStableVersion = app.releases?.filter(
-    (release) => release.type === undefined || release.type === "stable",
-  )?.[0]?.version
+  const lastStableVersion =
+    isDesktopAppstreamTypeGuard(app) &&
+    app.releases?.filter(
+      (release) => release.type === undefined || release.type === "stable",
+    )?.[0]?.version
 
   return (
     <>
-      {app.type !== "addon" && (
+      {isDesktopAppstreamTypeGuard(app) && (
         <QualityModeration
           app={app}
           isQualityModalOpen={isQualityModalOpen}
@@ -155,7 +157,7 @@ const AppDetailClient = ({
             : t("unknown")
         }
       />
-      {app.type !== "addon" && app.categories?.includes("Game") && (
+      {isDesktopAppstreamTypeGuard(app) && app.categories?.includes("Game") && (
         <VideoGameJsonLd
           useAppDir={true}
           name={app.name}

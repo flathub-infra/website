@@ -6,5 +6,13 @@
  */
 import type { DesktopAppstream } from "./desktopAppstream"
 import type { AddonAppstream } from "./addonAppstream"
+import type { LocalizationAppstream } from "./localizationAppstream"
+import type { GenericAppstream } from "./genericAppstream"
+import type { RuntimeAppstream } from "./runtimeAppstream"
 
-export type GetAppstreamAppstreamAppIdGet200 = DesktopAppstream | AddonAppstream
+export type GetAppstreamAppstreamAppIdGet200 =
+  | DesktopAppstream
+  | AddonAppstream
+  | LocalizationAppstream
+  | GenericAppstream
+  | RuntimeAppstream

@@ -7,12 +7,14 @@
 import type { AddonAppstreamReleases } from "./addonAppstreamReleases"
 import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
 import type { AddonAppstreamUrls } from "./addonAppstreamUrls"
+import type { AddonAppstreamCategories } from "./addonAppstreamCategories"
 import type { AddonAppstreamIcon } from "./addonAppstreamIcon"
 import type { AddonAppstreamIcons } from "./addonAppstreamIcons"
 import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
 import type { AddonAppstreamProjectLicense } from "./addonAppstreamProjectLicense"
 import type { Bundle } from "./bundle"
 import type { AddonAppstreamMetadata } from "./addonAppstreamMetadata"
+import type { AddonAppstreamIsMobileFriendly } from "./addonAppstreamIsMobileFriendly"
 
 /**
  * Addon Appstream metadata
@@ -25,6 +27,7 @@ export interface AddonAppstream {
   releases?: AddonAppstreamReleases
   content_rating?: AddonAppstreamContentRating
   urls?: AddonAppstreamUrls
+  categories?: AddonAppstreamCategories
   icon?: AddonAppstreamIcon
   icons?: AddonAppstreamIcons
   developer_name?: AddonAppstreamDeveloperName
@@ -32,5 +35,6 @@ export interface AddonAppstream {
   extends: string
   bundle: Bundle
   metadata?: AddonAppstreamMetadata
+  isMobileFriendly?: AddonAppstreamIsMobileFriendly
   is_free_license: boolean
 }

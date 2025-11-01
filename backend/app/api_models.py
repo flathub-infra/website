@@ -38,7 +38,7 @@ class Release(BaseModel):
     """A release/version entry."""
 
     timestamp: str | None = None
-    version: str
+    version: str | None = None
     date: datetime.date | None = None
     type: Literal["stable", "development", "snapshot"] | None = None
     urgency: Literal["low", "medium", "high", "critical"] | None = None
@@ -235,6 +235,7 @@ class AddonAppstream(BaseModel):
     releases: list[Release] | None = None
     content_rating: ContentRating | None = None
     urls: Urls | None = None
+    categories: list[str] | None = None
     icon: str | None = None
     icons: list[Icon] | None = None
     developer_name: str | None = None
@@ -258,10 +259,11 @@ class RuntimeAppstream(BaseModel):
     description: str
     releases: list[Release] | None = None
     urls: Urls
+    categories: list[str] | None = None
     icon: str | None = None
     icons: list[Icon] | None = None
     developer_name: str | None = None
-    project_license: str
+    project_license: str | None = None
     bundle: Bundle
     metadata: Metadata | None = None
     isMobileFriendly: bool | None = None
@@ -279,10 +281,13 @@ class GenericAppstream(BaseModel):
     summary: str
     releases: list[Release] | None = None
     urls: Urls
+    categories: list[str] | None = None
     icon: str | None = None
     icons: list[Icon] | None = None
-    project_license: str
+    developer_name: str | None = None
+    project_license: str | None = None
     bundle: Bundle
+    metadata: Metadata | None = None
     isMobileFriendly: bool | None = None
     is_free_license: bool
 
@@ -296,10 +301,13 @@ class LocalizationAppstream(BaseModel):
     id: str
     name: str
     summary: str
+    releases: list[Release] | None = None
     urls: Urls
+    categories: list[str] | None = None
     icon: str | None = None
     icons: list[Icon] | None = None
-    project_license: str
+    developer_name: str | None = None
+    project_license: str | None = None
     bundle: Bundle
     metadata: Metadata | None = None
     isMobileFriendly: bool | None = None

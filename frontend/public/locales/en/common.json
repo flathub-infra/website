@@ -677,5 +677,8 @@
   "developer-portal": {
     "title": "Developer Portal",
     "runtime-version": "Runtime: {version}"
+  },
+  "vending": {
+    "purchase-not-available": "This application is not available for purchase."
   }
 }

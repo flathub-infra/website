@@ -79,8 +79,26 @@ export function chooseBrandingColor(
   return branding.find((a) => a.scheme_preference === undefined)
 }
 
+export function isDesktopAppstreamTypeGuard(
+  app: GetAppstreamAppstreamAppIdGet200,
+): app is GetAppstreamAppstreamAppIdGet200 & {
+  type: "desktop-application" | "console-application" | "desktop"
+} {
+  return (
+    app.type === "desktop-application" ||
+    app.type === "console-application" ||
+    app.type === "desktop"
+  )
+}
+
+export function isRuntimeAppstreamTypeGuard(
+  app: GetAppstreamAppstreamAppIdGet200,
+): app is GetAppstreamAppstreamAppIdGet200 & { type: "runtime" } {
+  return app.type === "runtime"
+}
+
 export function getKeywords(app: GetAppstreamAppstreamAppIdGet200): string[] {
-  if (app.type === "addon") {
+  if (!isDesktopAppstreamTypeGuard(app)) {
     return []
   }
   // Remove duplicates

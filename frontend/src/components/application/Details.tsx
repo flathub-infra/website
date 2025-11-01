@@ -45,6 +45,7 @@ import clsx from "clsx"
 import { UTCDate } from "@date-fns/utc"
 import { getIntlLocale } from "src/localize"
 import { getSafetyRating } from "src/safety"
+import { isDesktopAppstreamTypeGuard } from "@/lib/helpers"
 
 interface Props {
   app?: GetAppstreamAppstreamAppIdGet200
@@ -196,9 +197,11 @@ const Details: FunctionComponent<Props> = ({
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}
         />
-        {app.type !== "addon" && app.screenshots && <CarouselStrip app={app} />}
+        {isDesktopAppstreamTypeGuard(app) && app.screenshots && (
+          <CarouselStrip app={app} />
+        )}
         <div className="col-start-2 flex flex-col gap-6">
-          {app.type !== "addon" && (
+          {isDesktopAppstreamTypeGuard(app) && (
             <Description app={app} isQualityModalOpen={isQualityModalOpen} />
           )}
 
