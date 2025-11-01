@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ReleaseTimestamp } from "./releaseTimestamp"
+import type { ReleaseVersion } from "./releaseVersion"
 import type { ReleaseDate } from "./releaseDate"
 import type { ReleaseType } from "./releaseType"
 import type { ReleaseUrgency } from "./releaseUrgency"
@@ -17,7 +18,7 @@ import type { ReleaseDateEol } from "./releaseDateEol"
  */
 export interface Release {
   timestamp?: ReleaseTimestamp
-  version: string
+  version?: ReleaseVersion
   date?: ReleaseDate
   type?: ReleaseType
   urgency?: ReleaseUrgency

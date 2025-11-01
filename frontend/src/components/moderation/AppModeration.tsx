@@ -16,6 +16,7 @@ import { ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Link, usePathname, useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
+import { isDesktopAppstreamTypeGuard } from "@/lib/helpers"
 
 interface Props {
   appId: string
@@ -142,6 +143,15 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     return (
       <InlineError
         error={t(query.error.message ?? appInfoQuery.error.message)}
+        shown={true}
+      />
+    )
+  }
+
+  if (!isDesktopAppstreamTypeGuard(appInfoQuery.data[0])) {
+    return (
+      <InlineError
+        error={"Only desktop applications are supported for moderation."}
         shown={true}
       />
     )

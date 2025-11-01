@@ -53,5 +53,5 @@ export default async function PurchasePage({ params }: Props) {
   const app = appResponse.data
   const vendingConfig = vendingConfigResponse.data
 
-  return <PurchaseClient app={app as any} vendingConfig={vendingConfig} />
+  return <PurchaseClient app={app} vendingConfig={vendingConfig} />
 }
