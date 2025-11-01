@@ -6,10 +6,11 @@
  */
 import type { DesktopAppstreamType } from "./desktopAppstreamType"
 import type { DesktopAppstreamDeveloperName } from "./desktopAppstreamDeveloperName"
-import type { Icon } from "./icon"
+import type { DesktopAppstreamIcon } from "./desktopAppstreamIcon"
+import type { DesktopAppstreamIcons } from "./desktopAppstreamIcons"
 import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
 import type { Release } from "./release"
-import type { ContentRating } from "./contentRating"
+import type { DesktopAppstreamContentRating } from "./desktopAppstreamContentRating"
 import type { DesktopAppstreamUrls } from "./desktopAppstreamUrls"
 import type { DesktopAppstreamCategories } from "./desktopAppstreamCategories"
 import type { DesktopAppstreamKudos } from "./desktopAppstreamKudos"
@@ -34,11 +35,11 @@ export interface DesktopAppstream {
   summary: string
   description: string
   developer_name?: DesktopAppstreamDeveloperName
-  icon: string
-  icons: Icon[]
+  icon?: DesktopAppstreamIcon
+  icons?: DesktopAppstreamIcons
   screenshots?: DesktopAppstreamScreenshots
   releases: Release[]
-  content_rating: ContentRating
+  content_rating?: DesktopAppstreamContentRating
   urls?: DesktopAppstreamUrls
   categories?: DesktopAppstreamCategories
   kudos?: DesktopAppstreamKudos
