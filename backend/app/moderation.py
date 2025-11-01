@@ -458,7 +458,7 @@ def submit_review_request(
                             build_perm = build_permissions.get(perm)
 
                             if isinstance(current_perm, list):
-                                if sorted(current_perm) != sorted(build_perm):
+                                if sorted(current_perm or []) != sorted(build_perm or []):
                                     current_values[perm] = current_perm
                                     keys[perm] = build_perm
 
@@ -472,7 +472,7 @@ def submit_review_request(
                                     build_val = build_perm.get(key)
 
                                     is_different = (
-                                        sorted(current_val) != sorted(build_val)
+                                        sorted(current_val or []) != sorted(build_val or [])
                                         if isinstance(current_val, list)
                                         and isinstance(build_val, list)
                                         else current_val != build_val
