@@ -12,12 +12,14 @@ interface Props {
   variant: "dev" | "owned" | "invited"
   customButtons?: JSX.Element
   locale: string
+  topContent?: JSX.Element
 }
 
 const UserApps: FunctionComponent<Props> = ({
   variant,
   customButtons,
   locale,
+  topContent,
 }) => {
   const t = useTranslations()
   const user = useUserContext()
@@ -96,6 +98,9 @@ const UserApps: FunctionComponent<Props> = ({
         showId
         showRuntime
         link={link}
+        // forward topContent to the underlying Collection component
+        // so it renders below the title/header
+        {...(topContent ? { topContent } : {})}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />
     </>
