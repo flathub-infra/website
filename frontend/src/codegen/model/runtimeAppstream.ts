@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { RuntimeAppstreamDescription } from "./runtimeAppstreamDescription"
 import type { RuntimeAppstreamReleases } from "./runtimeAppstreamReleases"
 import type { Urls } from "./urls"
 import type { RuntimeAppstreamCategories } from "./runtimeAppstreamCategories"
@@ -23,7 +24,7 @@ export interface RuntimeAppstream {
   id: string
   name: string
   summary: string
-  description: string
+  description?: RuntimeAppstreamDescription
   releases?: RuntimeAppstreamReleases
   urls: Urls
   categories?: RuntimeAppstreamCategories
