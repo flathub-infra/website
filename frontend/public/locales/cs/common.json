@@ -674,5 +674,11 @@
   "can-talk-to-non-portal-service": "Může požadovat data ze služeb mimo portál a udělit dodatečná oprávnění",
   "unauthorized": "Neautorizované",
   "developed-by": "vyvinuto vývojářem {developer}",
-  "unverified-tooltip": "Vlastnictví ID aplikace <appid></appid> nebylo ověřeno a může se jednat o komunitní balíček"
+  "unverified-tooltip": "Vlastnictví ID aplikace <appid></appid> nebylo ověřeno a může se jednat o komunitní balíček",
+  "install-all-favorites": "Nainstalovat všechny oblíbené",
+  "install-all-favorites-description": "Zkopírujte tento příkaz pro instalaci všech vašich aplikací najednou:",
+  "no-favorites-yet": "Zatím nemáte žádné oblíbené aplikace. Začněte je přidávat kliknutím na ikonu záložky u aplikací, které se vám líbí!",
+  "vending": {
+    "purchase-not-available": "Tato aplikace není k dispozici ke koupi."
+  }
 }

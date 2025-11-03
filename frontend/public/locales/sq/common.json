@@ -662,5 +662,8 @@
   "can-talk-to-non-portal-service": "Mund të kërkojë të dhëna nga shërbime jopostare dhe të përfitojë leje shtesë",
   "install-all-favorites": "Instalo Krejt të Parapëlqyerit",
   "install-all-favorites-description": "Kopjoni këtë urdhër që të instalohen njëherësh krejt aplikacionet tuaj të parapëlqyer:",
-  "no-favorites-yet": "S’keni ende aplikacione të parapëlqyer. Filloni të shtoni ca, duke klikuar ikonën e faqerojtësve mbi aplikacione që ju pëlqejnë!"
+  "no-favorites-yet": "S’keni ende aplikacione të parapëlqyer. Filloni të shtoni ca, duke klikuar ikonën e faqerojtësve mbi aplikacione që ju pëlqejnë!",
+  "vending": {
+    "purchase-not-available": "Ky aplikacion s’jepet për t’u blerë."
+  }
 }

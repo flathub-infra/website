@@ -677,5 +677,8 @@
   "unverified-tooltip": "La propriété de l'identifiant d'application <appid></appid> n'a pas été validée, il pourrait s'agir d'un paquet communautaire",
   "install-all-favorites": "Installez tous vos favoris",
   "install-all-favorites-description": "Copiez cette commande pour installer en une fois toutes les apps dans vos favoris :",
-  "no-favorites-yet": "Vous n'avez aucune app dans vos favoris. Ajoutez-en en cliquant sur l'icône de marque-page des apps qui vous plaisent !"
+  "no-favorites-yet": "Vous n'avez aucune app dans vos favoris. Ajoutez-en en cliquant sur l'icône de marque-page des apps qui vous plaisent !",
+  "vending": {
+    "purchase-not-available": "Cette application n'est pas disponible à l'achat."
+  }
 }
