@@ -673,5 +673,11 @@
   "uses-non-portal-service": "Utilizza servizi al di fuori di portal",
   "can-talk-to-non-portal-service": "Può richiedere dati da servizi al di fuori di portal e ottenere autorizzazioni aggiuntive",
   "developed-by": "sviluppato da {developer}",
-  "unverified-tooltip": "La proprietà dell'ID dell'app <appid></appid> non è stata verificata e potrebbe trattarsi di un pacchetto della community"
+  "unverified-tooltip": "La proprietà dell'ID dell'app <appid></appid> non è stata verificata e potrebbe trattarsi di un pacchetto della community",
+  "install-all-favorites": "Installa tutti i preferiti",
+  "install-all-favorites-description": "Copia questo comando per installare tutte le tue app preferite contemporaneamente:",
+  "no-favorites-yet": "Non hai ancora nessuna app preferita. Inizia ad aggiungerne qualcuna cliccando sull'icona dei segnalibri sulle app che ti piacciono!",
+  "vending": {
+    "purchase-not-available": "Questa applicazione non è disponibile per l'acquisto."
+  }
 }

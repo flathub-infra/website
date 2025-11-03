@@ -677,5 +677,8 @@
   "unverified-tooltip": "Własność identyfikatora aplikacji <appid></appid> nie została zweryfikowana i może to być aplikacja stworzona przez społeczność",
   "install-all-favorites-description": "Skopiuj to polecenie, aby zainstalować wszystkie swoje ulubione aplikacje jednocześnie:",
   "no-favorites-yet": "Nie masz jeszcze żadnych ulubionych aplikacji. Zacznij dodawać je, klikając ikonę zakładki przy aplikacjach, które Ci się podobają!",
-  "install-all-favorites": "Zainstaluj wszystkie ulubione"
+  "install-all-favorites": "Zainstaluj wszystkie ulubione",
+  "vending": {
+    "purchase-not-available": "Ta aplikacja nie jest dostępna do zakupu."
+  }
 }

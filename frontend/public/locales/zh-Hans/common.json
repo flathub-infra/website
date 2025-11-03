@@ -677,5 +677,8 @@
   "unverified-tooltip": "<appid></appid> 应用 ID 的所有权尚未验证，可能是社区软件包",
   "install-all-favorites": "安装所有收藏应用",
   "install-all-favorites-description": "复制此命令即可一次性安装所有收藏应用：",
-  "no-favorites-yet": "您尚未收藏任何应用。点击应用旁的收藏图标即可开始添加！"
+  "no-favorites-yet": "您尚未收藏任何应用。点击应用旁的收藏图标即可开始添加！",
+  "vending": {
+    "purchase-not-available": "此应用程序暂不支持购买。"
+  }
 }
