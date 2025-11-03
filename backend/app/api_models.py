@@ -256,7 +256,7 @@ class RuntimeAppstream(BaseModel):
     id: str
     name: str
     summary: str
-    description: str
+    description: str | None = None
     releases: list[Release] | None = None
     urls: Urls
     categories: list[str] | None = None

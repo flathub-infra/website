@@ -2177,7 +2177,13 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    description: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    description: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
     releases: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
