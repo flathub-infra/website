@@ -81,7 +81,7 @@
   "safe-to-close-page": "אפשר לסגור את העמוד הזה.",
   "app-install-error-try-again": "לא היה ניתן להתקין את היישום. נסו לחזור לחנות ולהתקין שוב.",
   "other-apps-by-developer": "יישומים אחרים על ידי {developer}",
-  "loading": "טוען…",
+  "loading": "בטעינה…",
   "could-not-find-match-for-search": "לא נמצאו יישומים שתואמים לחיפוש שלך.",
   "request-new-app": "אם אתם מחפשים יישום מסויים, תנו לקהילה לדעת שאתם רוצים אותו בFlathub <forumLink>כאן</forumLink>.",
   "manifest": "מניפסט",
@@ -372,7 +372,9 @@
   "direct-upload": "העלאה ישירה",
   "publisher-agreement": "הסכם הגשת מפיץ",
   "setup": "התקנה",
-  "developer-portal": { "title": "שער המפתחים" },
+  "developer-portal": {
+    "title": "שער המפתחים"
+  },
   "new-description": "יישומים חדשים שפורסמו ב־Flathub בימים האחרונים.",
   "updated-description": "יישומים שעודכנו ב־Flathub בימים האחרונים.",
   "more-apps-by-developer": "יישומים נוספים מאת {developer}",
@@ -453,5 +455,17 @@
   "revoked": "נשלל",
   "mobile-apps": "יישומונים לניידים",
   "safe": "בטוח",
-  "mobile-apps-description": "יישומונים לטלפונים ולמחשבי הלוח שלך המבוססים על לינוקס"
+  "mobile-apps-description": "יישומונים לטלפונים ולמחשבי הלוח שלך המבוססים על לינוקס",
+  "trending": "מובילים",
+  "trending-apps": "יישומים מובילים",
+  "new": "חדשים",
+  "updated": "עדכניים",
+  "app-of-the-day": "יישום היום",
+  "on-the-go": "בדרך",
+  "we-love-games": "אנחנו ♥ משחקים",
+  "flathub-the-linux-app-store": "‏Flathub היא חנות היישומים ללינוקס",
+  "more-mobile-apps": "עוד יישומים לנייד",
+  "flathub-logo": "הלוגו של Flathub",
+  "count-verified-desktop-apps": "יישומים מאומתים לשולחן העבודה",
+  "since-x": "מאז {date}"
 }

@@ -1,1 +1,110 @@
-{}
+{
+  "ubuntu": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    },
+    "step-2": {
+      "name": "התקנת תוסף Flatpak לחנות התוכנה של GNOME"
+    }
+  },
+  "alt_linux": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "chrome_os": {
+    "step-3": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "opensuse": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "arch": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "debian": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "rocky_linux": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "gentoo": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "kubuntu": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "solus": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "alpine": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "mageia": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "raspberry_pi_os": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "void_linux": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "nixos": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "deepin": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "pardus": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "pisi_gnulinux": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "endeavouros": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "gnu_guix": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  },
+  "crystal_linux": {
+    "step-1": {
+      "name": "התקנת Flatpak"
+    }
+  }
+}
