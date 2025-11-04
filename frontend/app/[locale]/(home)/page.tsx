@@ -117,31 +117,31 @@ async function getHeroBanner(dateString: string, locale: string) {
   const heroBannerApps = heroBannerAppsResponse.data
   const appOfTheDay = appOfTheDayResponse.data
 
-  // Fetch appstream data for hero banner
-  const heroBannerAppstreams = await Promise.all(
-    heroBannerApps.apps.map(async (app) => {
-      const response = await getAppstreamAppstreamAppIdGet(app.app_id, {
-        locale,
-      })
-      return response.data
-    }),
+  const allAppIds = [
+    ...heroBannerApps.apps.map((app) => app.app_id),
+    appOfTheDay.app_id,
+  ]
+
+  const allAppstreams = await Promise.all(
+    allAppIds.map((appId) =>
+      getAppstreamAppstreamAppIdGet(appId, { locale }).then((r) => r.data),
+    ),
+  )
+
+  const appstreamMap = new Map(
+    allAppstreams.map((appstream) => [appstream.id, appstream]),
   )
 
   const heroBannerData = heroBannerApps.apps.map((app) => ({
     app: app,
-    appstream: heroBannerAppstreams.find(
-      (a) => a.id === app.app_id,
-    ) as unknown as DesktopAppstream,
+    appstream: appstreamMap.get(app.app_id) as DesktopAppstream,
   }))
-
-  const appOfTheDayAppstreamResponse = await getAppstreamAppstreamAppIdGet(
-    appOfTheDay.app_id,
-    { locale },
-  )
 
   return {
     heroBannerData,
-    appOfTheDayAppstream: appOfTheDayAppstreamResponse.data,
+    appOfTheDayAppstream: appstreamMap.get(
+      appOfTheDay.app_id,
+    ) as DesktopAppstream,
   }
 }
 
@@ -230,7 +230,7 @@ export default async function HomePage({
       popular={popular}
       topAppsByCategory={topAppsByCategory}
       heroBannerData={heroBannerData}
-      appOfTheDayAppstream={appOfTheDayAppstream as unknown as DesktopAppstream}
+      appOfTheDayAppstream={appOfTheDayAppstream}
       mobile={mobile}
       games={games}
       emulators={emulators}

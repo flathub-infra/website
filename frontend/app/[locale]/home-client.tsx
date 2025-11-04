@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { ReactElement, useEffect, useState, useCallback } from "react"
+import { ReactElement, useCallback, useMemo } from "react"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../../src/env"
 import { mapAppsIndexToAppstreamListItem } from "../../src/meilisearch"
 import { categoryToName } from "../../src/types/Category"
@@ -125,18 +125,27 @@ function CategorySection({
 }) {
   const t = useTranslations()
 
+  const categorySections = useMemo(
+    () =>
+      topAppsByCategory.map((sectionData) => ({
+        category: sectionData.category,
+        applications: sectionData.apps.hits.map((app) =>
+          mapAppsIndexToAppstreamListItem(app),
+        ),
+      })),
+    [topAppsByCategory],
+  )
+
   return (
     <>
-      {topAppsByCategory.map((sectionData, i) => (
+      {categorySections.map((sectionData, i) => (
         <div key={`categorySection${sectionData.category}`}>
           {i === 3 && <div className="mb-10">{mobileSection}</div>}
           {i === 5 && <div className="mb-10">{gameSection}</div>}
           <ApplicationSection
             type="withCustomHeader"
             href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
-            applications={sectionData.apps.hits.map((app) =>
-              mapAppsIndexToAppstreamListItem(app),
-            )}
+            applications={sectionData.applications}
             numberOfApps={6}
             customHeader={
               <>
@@ -168,31 +177,14 @@ function TopSection({
   const t = useTranslations()
   const searchParams = useSearchParams()
 
-  const [selectedName, setSelectedName] = useState<string>(topApps[0].name)
-  const [selectedApps, setSelectedApps] = useState<{
-    name: string
-    apps: MeilisearchResponseAppsIndex
-    moreLink: string
-  }>(topApps[0])
+  const categoryParam = searchParams.get("category")
 
-  useEffect(() => {
-    const categoryParam = searchParams.get("category")
-    if (categoryParam) {
-      const foundApps = topApps.find(
-        (sectionData) => sectionData.name === categoryParam,
-      )
-      if (foundApps) {
-        setSelectedName(categoryParam)
-        setSelectedApps(foundApps)
-      }
-    }
-  }, [searchParams, topApps])
+  const selectedApps =
+    topApps.find((app) => app.name === categoryParam) ?? topApps[0]
 
   const handleToggleClick = useCallback(
     (app: (typeof topApps)[0]) => {
-      setSelectedName(app.name)
-      setSelectedApps(app)
-      // Update URL without triggering any navigation using History API
+      // Update URL without triggering navigation using History API
       const params = new URLSearchParams(searchParams.toString())
       params.set("category", app.name)
       const newUrl = `${window.location.pathname}?${params.toString()}`
@@ -201,15 +193,21 @@ function TopSection({
     [searchParams],
   )
 
-  const toggleItems = topApps.map((x) => ({
-    id: x.name,
-    content: <div className="font-semibold truncate">{t(x.name)}</div>,
-    selected: x.name === selectedName,
-    onClick: () => handleToggleClick(x),
-  }))
+  const toggleItems = useMemo(
+    () =>
+      topApps.map((x) => ({
+        id: x.name,
+        content: <div className="font-semibold truncate">{t(x.name)}</div>,
+        selected: x.name === selectedApps.name,
+        onClick: () => handleToggleClick(x),
+      })),
+    [topApps, selectedApps.name, t, handleToggleClick],
+  )
 
-  const applications = selectedApps.apps.hits.map((app) =>
-    mapAppsIndexToAppstreamListItem(app),
+  const applications = useMemo(
+    () =>
+      selectedApps.apps.hits.map((app) => mapAppsIndexToAppstreamListItem(app)),
+    [selectedApps.apps.hits],
   )
 
   return (
