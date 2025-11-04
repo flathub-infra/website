@@ -28,6 +28,12 @@ export async function generateStaticParams() {
   return []
 }
 
+// Enable ISR with revalidation every hour
+export const dynamic = "force-static"
+export const revalidate = 3600
+export const dynamicParams = true
+export const fetchCache = "default-cache"
+
 export async function generateMetadata({
   params,
 }: {
@@ -128,55 +134,54 @@ export default async function AppDetailPage({
   }
 
   try {
-    // Fetch critical data first
-    const [appResponse, statsResponse, summaryResponse] = await Promise.all([
+    // Fetch critical data first (parallel)
+    const [
+      appResponse,
+      statsResponse,
+      summaryResponse,
+      addonsListResponse,
+      verificationStatusResponse,
+    ] = await Promise.all([
       getAppstreamAppstreamAppIdGet(cleanAppId, { locale }),
       getStatsForAppStatsAppIdGet(cleanAppId).catch(() => ({ data: null })),
       getSummarySummaryAppIdGet(cleanAppId),
+      getAddonsAddonAppIdGet(cleanAppId).catch(() => ({ data: [] })),
+      getVerificationStatusVerificationAppIdStatusGet(cleanAppId).catch(() => ({
+        data: {
+          verified: false,
+          method: "none",
+          detail: null,
+        },
+      })),
     ])
 
     const app = appResponse.data
     const stats: StatsResultApp | null = statsResponse.data
     const summary = summaryResponse.data as unknown as Summary
+    const addonsList: string[] = addonsListResponse.data
+    const verificationStatus =
+      verificationStatusResponse.data as GetVerificationStatusVerificationAppIdStatusGet200
 
-    // Fetch addons list with fallback
-    let addonsList: string[] = []
-    try {
-      const addonsListResponse = await getAddonsAddonAppIdGet(cleanAppId)
-      addonsList = addonsListResponse.data
-    } catch (e) {
-      addonsList = []
-    }
-
-    // Fetch verification status with fallback
-    let verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200 | null =
-      null
-    try {
-      const verificationStatusResponse =
-        await getVerificationStatusVerificationAppIdStatusGet(cleanAppId)
-      verificationStatus =
-        verificationStatusResponse.data as unknown as GetVerificationStatusVerificationAppIdStatusGet200
-    } catch (e) {
-      verificationStatus = {
-        verified: false,
-        method: "none",
-        detail: null,
-      }
-    }
-    // Fetch addon appstreams
-    const addonAppstreams = await Promise.all(
-      addonsList.map((addonId) =>
-        getAppstreamAppstreamAppIdGet(addonId, { locale }),
-      ),
-    )
-
-    const addonAppStats = await Promise.all(
-      addonsList.map((addonId) =>
-        getStatsForAppStatsAppIdGet(addonId).catch(() => ({
-          data: { id: null, installs_last_month: 0 },
-        })),
-      ),
-    )
+    // Fetch addon details in parallel (if any addons exist)
+    const [addonAppstreams, addonAppStats] =
+      addonsList.length > 0
+        ? await Promise.all([
+            Promise.all(
+              addonsList.map((addonId) =>
+                getAppstreamAppstreamAppIdGet(addonId, { locale }).catch(
+                  () => ({ data: null }),
+                ),
+              ),
+            ),
+            Promise.all(
+              addonsList.map((addonId) =>
+                getStatsForAppStatsAppIdGet(addonId).catch(() => ({
+                  data: { id: null, installs_last_month: 0 },
+                })),
+              ),
+            ),
+          ])
+        : [[], []]
 
     // Combine addon data and sort by installs
     const combined = addonAppstreams
