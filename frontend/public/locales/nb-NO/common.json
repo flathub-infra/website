@@ -677,5 +677,8 @@
   "unverified-tooltip": "Eierskapet til <appid></appid>-app-ID-en har ikke blitt bekreftet, og pakken kan derfor være samlet av fellesskapet",
   "install-all-favorites": "Installer alle favoritter",
   "install-all-favorites-description": "Kopier denne kommandoen for å installere alle favorittappene dine samtidig:",
-  "no-favorites-yet": "Du har ingen favorittapper ennå. Legg til noen som favoritter ved å klikke på bokmerkeikonet på apper du liker!"
+  "no-favorites-yet": "Du har ingen favorittapper ennå. Legg til noen som favoritter ved å klikke på bokmerkeikonet på apper du liker!",
+  "vending": {
+    "purchase-not-available": "Denne applikasjonen er ikke tilgjengelig for kjøp."
+  }
 }

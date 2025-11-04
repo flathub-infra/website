@@ -677,5 +677,8 @@
   "socket-may-allow-extra-permissions": "Verwendet einen Socket, der zusätzliche Berechtigungen ermöglicht",
   "install-all-favorites": "Alle Favoriten installieren",
   "install-all-favorites-description": "Kopieren Sie diesen Befehl, um alle Ihre Lieblings-Apps auf einmal zu installieren:",
-  "no-favorites-yet": "Sie haben noch keine Lieblings-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!"
+  "no-favorites-yet": "Sie haben noch keine Lieblings-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!",
+  "vending": {
+    "purchase-not-available": "Diese Anwendung ist nicht zum Kauf verfügbar."
+  }
 }
