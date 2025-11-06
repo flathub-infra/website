@@ -677,5 +677,8 @@
   "unverified-tooltip": "La posedo de la programidentigilo <appid></appid> ne estas konfirmita; ĝi eble estas komunuma pako",
   "install-all-favorites": "Instali ĉiujn ŝatatajn programojn",
   "install-all-favorites-description": "Kopiu la jenan komandon por instali ĉiujn ŝatatajn programojn:",
-  "no-favorites-yet": "Vi ankoraŭ ne ŝatis iun ajn programon. Eku alklakante la legosignan piktogramon ĉe tiuj programoj, kiujn vi ŝatas!"
+  "no-favorites-yet": "Vi ankoraŭ ne ŝatis iun ajn programon. Eku alklakante la legosignan piktogramon ĉe tiuj programoj, kiujn vi ŝatas!",
+  "vending": {
+    "purchase-not-available": "Ĉi tiu programo ne estas aĉetebla."
+  }
 }

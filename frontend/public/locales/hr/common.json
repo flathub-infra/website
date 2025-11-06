@@ -677,5 +677,8 @@
   "install-all-favorites": "Instaliraj sve favorite",
   "install-all-favorites-description": "Kopiraj ovu naredbu i odjednom instaliraj sve svoje omiljene aplikacije:",
   "no-favorites-yet": "Još nemaš omiljenih aplikacija. Počni dodavati neke klikom na ikonu zabilješke za aplikacije koje ti se sviđaju!",
-  "developed-by": "razvijeno od {developer}"
+  "developed-by": "razvijeno od {developer}",
+  "vending": {
+    "purchase-not-available": "Ova aplikacija nije dostupna za kupnju."
+  }
 }

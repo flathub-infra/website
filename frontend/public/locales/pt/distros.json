@@ -61,19 +61,19 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Instalar Flatpak",
-      "text": "<text>Para instalar o Flatpak no <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posterior</strong>, abra a app Terminal e execute:</text> <code></code>"
+      "text": "<text>Para instalar o Flatpak no <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posterior</strong>, abra a aplicação Terminal e execute:</text> <code></code>"
     },
     "step-2": {
       "name": "Instalar o plugin GNOME Software Flatpak",
-      "text": "<text>O plugin GNOME Software torna possível instalar apps sem precisar da linha de comando. Para instalar, execute:</text> <code></code> <text><strong>Nota:</strong> O Ubuntu distribui o GNOME Software como um Snap nas versões 20.04 a 23.04 e o substituiu pelo App Center na versão 23.10 e mais recentes — nenhum dos quais suporta a instalação de apps Flatpak. Instalar o plugin Flatpak também instalará uma versão DEB do GNOME Software, resultando em duas apps \"Software\" a serem instalados ao mesmo tempo no Ubuntu 20.04 a 23.04 e uma única app \"Software\" nova no Ubuntu 23.10 e mais recentes.</text>"
+      "text": "<text>O plugin GNOME Software torna possível instalar aplicações sem precisar da linha de comando. Para instalar, execute:</text> <code></code> <text><strong>Nota:</strong> O Ubuntu distribui o GNOME Software como um Snap nas versões 20.04 a 23.04 e foi substituído pela App Center na versão 23.10 e mais recentes — nenhum dos quais suporta a instalação de aplicações Flatpak. Ao Instalar o plugin Flatpak também irá instalar uma versão DEB do GNOME Software, resultando em duas aplicações \"Software\" a serem instaladas ao mesmo tempo no Ubuntu 20.04 a 23.04 e uma única aplicação nova \"Software\" no Ubuntu 23.10 e mais recentes.</text>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter apps Flatpak. Para ativá-lo, execute:</text> <code></code>"
+      "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para ativá-lo, execute:</text> <code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
-      "text": "<text>Para concluir a configuração, reinicie o seu sistema. Agora, tudo o que precisa fazer é <link>instalar as apps</link>!</text>"
+      "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text>"
     }
   },
   "fedora": {

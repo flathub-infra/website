@@ -93,5 +93,11 @@
   "linux_mint": {
     "distroName": "Linux Mint",
     "introduction": "<text>Flatpakへの対応はLinux Mint 18.3以降であらかじめ含まれています—そのため、セットアップは必要ありません!</text>"
+  },
+  "opensuse": {
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "distroName": "openSUSE"
   }
 }

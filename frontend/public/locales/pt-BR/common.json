@@ -674,5 +674,11 @@
   "can-talk-to-non-portal-service": "Pode solicitar dados a partir de serviços for do portal e ganhar permissões adicionais",
   "socket-may-allow-extra-permissions": "Usa um socket que permite ganhar permissões extras",
   "developed-by": "desenvolvido por {developer}",
-  "unverified-tooltip": "A propriedade do ID de aplicativo <appid></appid> não foi verificada e pode ser um pacote comunitário"
+  "unverified-tooltip": "A propriedade do ID de aplicativo <appid></appid> não foi verificada e pode ser um pacote comunitário",
+  "install-all-favorites": "Instalar todos os favoritos",
+  "install-all-favorites-description": "Copie este comando para instalar todos os seus aplicativos favoritos de uma só vez:",
+  "no-favorites-yet": "Você ainda não tem aplicativos favoritos. Comece adicionando alguns clicando no ícone de favoritar em aplicativos que você gosta!",
+  "vending": {
+    "purchase-not-available": "Este aplicativo não está disponível para compra."
+  }
 }
