@@ -8,7 +8,7 @@
   "statistics": "Estatísticas",
   "developers": "Programadores",
   "publish": "Publicar",
-  "go-home": "Ir à página inicial",
+  "go-home": "Ir para a Página Inicial",
   "search-apps": "Procurar aplicações",
   "about-description": "O Flathub é o lugar para obter e distribuir aplicações para Linux. É distribuído via Flatpak, o que permite às aplicações do Flathub serem executadas em praticamente qualquer distribuição de Linux.",
   "preferred-badge": "Emblema preferido",
@@ -245,7 +245,7 @@
   "verification-warning": "A equipa da Flathub pode remover o emblema de verificação de qualquer aplicação à nossa inteira discrição, por exemplo, se puder induzir em erro as pessoas sobre o estatuto oficial da aplicação ou causar confusão relativamente a uma marca registada.",
   "verified-login-provider-tooltip": "A propriedade do <appid></appid> o ID da aplicação foi verificado por <loginname></loginname> em <loginprovider></loginprovider>",
   "login-provider-verification-not-org-member": "No momento, está conectado a <loginprovider></loginprovider> como <currentname></currentname>. Esta conta não é um membro da organização <orgname></orgname>. Para verificar esta app, deve solicitar privilégios de administrador na organização ou entrar numa conta que já os possua.",
-  "verification-instructions": "Verifique o ID da sua app para indicar que o seu envio ao Flathub foi aprovado pelo programador da app. Precisará provar que tem o controlo da app por meio de um site no domínio do app ou a verificar o acesso à conta da app num site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome da app, nome do editor e a forma como o ID da app foi verificado.",
+  "verification-instructions": "Verifique o ID da sua aplicação para indicar que o seu envio ao Flathub é aprovado pelo programador da mesma. Precisará de provar que tem o controlo da aplicação por meio de um site no domínio da aplicação ou a verificar o acesso à conta da mesma num site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome da aplicação, nome do editor e a forma como o ID desta foi verificado. Consulte, por favor, a documentação de verificação <doclink> e </doclink> para saber mais detalhes.",
   "login-provider-verification-user-does-not-exist": "A conta <requiredname></requiredname> não existe em <loginprovider></loginprovider>. Você deve reivindicar esse nome de conta e usá-lo para verificar a sua app ou, idealmente, escolher um ID de app sobre o qual tenha controle. Consulte <doclink>a documentação do Flatpak</doclink> para obter informações sobre boas IDs da app.",
   "apps": "Aplicações",
   "count-desktop-apps": "Total de aplicações de ambiente de trabalho",
@@ -310,7 +310,7 @@
   "app-type": "Tipo de aplicação",
   "new-app": "Nova app",
   "community-repository": "Repositório da Comunidade",
-  "community-repository-description": "Carregue a sua aplicação para o Flathub carregando o seu manifesto Flatpak e ficheiros de suporte para um repositório na nossa organização GitHub. O buildbot do Flathub irá criar a aplicação e publicá-la no Flathub.",
+  "community-repository-description": "Faça o envio da sua aplicação para o Flathub enviando o seu manifesto Flatpak e respetivos ficheiros de suporte, para um repositório na nossa organização GitHub. O serviço de criação do Flathub irá construir a aplicação e publicá-la no Flathub.",
   "new-community-repository": "Nova aplicação para o repositório comunitário",
   "direct-upload": "Carregamento direto",
   "direct-upload-description": "Crie a sua aplicação no seu próprio ambiente de integração contínua e carregue-a diretamente para o Flathub.",
@@ -391,7 +391,9 @@
     "hide-branding-preview": "Ocultar visualização da marca",
     "problems": "Se quiser perguntar-nos sobre problemas específicos de diretrizes de qualidade, sinta-se à vontade para abrir <link>um problema</link>.",
     "light": "Clara",
-    "dark": "Escura"
+    "dark": "Escura",
+    "general-runtime-not-eol": "O tempo de execução não está em fim de vida",
+    "failing-x-checks": "Falha em {count, plural, one {# verificação} other {# verificações}}"
   },
   "user-data-subfolder-x": "Subpasta de dados do utilizador {folder}",
   "can-acquire-arbitrary-permissions": "Pode adquirir permissões arbitrárias",
@@ -556,7 +558,8 @@
   "new": "Novos",
   "news": "Notícias",
   "developer-portal": {
-    "title": "Portal do Programador"
+    "title": "Portal do Programador",
+    "runtime-version": "Tempo de execução: {version}"
   },
   "new-apps": "Novas apps",
   "flathub-the-linux-app-store": "O Flathub é a Loja de Apps para o Linux",
@@ -600,7 +603,7 @@
   "transparent-safety": "<bold>Segurança transparente</bold> - Veja claramente quando uma aplicação é <verifiedlink>verificada</verifiedlink> como proveniente do seu programador, que permissões requer e se é ou não de código aberto e auditável",
   "millions-users": "<bold>Alcance milhões de utilizadores</bold> — O Flathub vem pronto para uso em várias distribuições Linux, é <installlink>facilmente instalável</installlink> nas demais e possui mais que um milhão de utilizadores ativos",
   "integration": "<bold>Integração com a loja de aplicações nativa</bold> - Esqueça as descargas da Web; o Flathub fornece aplicações e <updateslink>atualizações automáticas</updateslink> aos utilizadores no seu cliente da loja de aplicações nativa, onde eles esperam",
-  "slide": "Slide",
+  "slide": "Deslizar",
   "flathub": "Flathub",
   "flathub-logo": "Logótipo do Flathub",
   "mastodon": "Mastodon",
@@ -644,7 +647,7 @@
   "vendingSharesPreview": {
     "sliderLabel": "Controle deslizante da distribuição de participação",
     "sliderThumbLabel": "Distribuição da participação da app: {percentage}",
-    "app": "App",
+    "app": "Aplicação",
     "sdk": "SDK",
     "appShare": "Participação da app: {percentage}",
     "sdkShare": "Participação do SDK: {percentage}",
@@ -663,5 +666,19 @@
   "download": {
     "install-x": "Instalar “{x}”",
     "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software…</opening><support>Se nada acontecer, talvez o seu sistema não ofereça apoio a URLs <i>flatpak+https</i>.</support><listPrefix>Nesse caso, pode:</listPrefix><ol><li>Descarregar o ficheiro <link>.flatpakref</link></li><li>Em seguida, executá-lo no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Instruções para instalar o Flatpak</linkSetup></setupLine>"
+  },
+  "count": "Contagem",
+  "developed-by": "desenvolvido por {developer}",
+  "unverified-tooltip": "O proprietário do ID da aplicação <appid></appid> não foi verificado e pode ser um pacote criado pela comunidade",
+  "unauthorized": "Não autorizado",
+  "install-all-favorites": "Instalar Todos os Favoritos",
+  "install-all-favorites-description": "Copie este comando para instalar, de uma só vez, as suas aplicações favoritas:",
+  "no-favorites-yet": "Ainda não tem nenhuma aplicação favorita. Comece por adicionar alguma ao clicar no ícone de marcador em aplicações que gostar!",
+  "uses-privileged-socket": "Usa um socket privilegiado",
+  "uses-non-portal-service": "Usa serviços sem portais",
+  "can-talk-to-non-portal-service": "Pode solicitar dados a partir de serviços sem portais e obter permissões adicionais",
+  "socket-may-allow-extra-permissions": "Usa um socket que permite obter permissões extra",
+  "vending": {
+    "purchase-not-available": "Esta aplicação não está disponível para compra."
   }
 }

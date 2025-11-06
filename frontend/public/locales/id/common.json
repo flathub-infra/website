@@ -370,7 +370,7 @@
   "can-read-write-your-downloads": "Dapat membaca dan menulis semua data di folder unduhan Anda",
   "probably-safe": "Kemungkinan aman",
   "invite-developer-description": "Masukkan kode undangan pengembang untuk mengundang mereka menjadi pengembang aplikasi ini. Mereka dapat menemukan kode tersebut di tab <developerstabtitle>{developersTab}</developerstabtitle> pada halaman akun mereka.",
-  "addon-install-info-text": "Silakan gunakan manajer flatpak yang disediakan oleh distribusi Anda untuk menginstal pengaya.",
+  "addon-install-info-text": "Silakan gunakan manajer flatpak yang disediakan oleh distribusi Anda untuk memasang pengaya.",
   "proprietary-code": "Kode berpemilik",
   "potentially-unsafe": "Berpotensi tidak aman",
   "invited-apps": "Undangan",
@@ -575,8 +575,8 @@
   "join-discourse-forum": "Bergabunglah dengan forum Discourse",
   "chat-on-matrix": "Mengobrol di Matrix",
   "rebase-onto-other-app": "Masukkan ID aplikasi Anda yang akan diubah basisnya",
-  "install-x": "Menginstal {app_name} di Linux",
-  "millions-users": "<bold>Jangkau jutaan pengguna</bold> — Flathub sudah tersedia secara default di berbagai distribusi Linux, <installlink>dapat diinstal dengan mudah</installlink> pada perangkat lainnya, dan memiliki lebih dari satu juta pengguna aktif",
+  "install-x": "Memasang {app_name} di Linux",
+  "millions-users": "<bold>Jangkau jutaan pengguna</bold> — Flathub sudah tersedia secara default di berbagai distribusi Linux, <installlink>dapat dipasang dengan mudah</installlink> pada perangkat lainnya, dan memiliki lebih dari satu juta pengguna aktif",
   "danger-zone": "Zona bahaya",
   "switch-to-direct-upload": "Beralih aplikasi ke unggahan langsung",
   "confirm": "Konfirmasi",
@@ -658,21 +658,27 @@
     "appShare": "Pangsa apl: {percentage}",
     "sdkShare": "Pangsa SDK: {percentage}",
     "flathubShare": "Pangsa Flathub: {percentage}",
-    "screenReaderBreakdown": "Penggeser distribusi. Gunakan tombol panah untuk mengatur porsi antara Apl, SDK, dan Flathub.\nPorsi saat ini: Apl: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Biaya total: {totalCost}."
+    "screenReaderBreakdown": "Penggeser distribusi. Gunakan tombol panah untuk mengatur porsi antara Apl, SDK, dan Flathub. Porsi saat ini: Apl: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Biaya total: {totalCost}."
   },
   "download": {
-    "install-x": "Instal “{x}”",
-    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</support><listPrefix>Dalam hal itu, Anda dapat:</listPrefix><ol><li>Mengunduh <link>berkas .flatpakref</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk menginstal Flatpak</linkSetup></setupLine>"
+    "install-x": "Pasang “{x}”",
+    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</support><listPrefix>Dalam hal itu, Anda dapat:</listPrefix><ol><li>Mengunduh <link>berkas .flatpakref</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk memasang Flatpak</linkSetup></setupLine>"
   },
   "count": "Jumlah",
   "country-statistics": "Statistik Negara",
   "since-x": "Sejak {date}",
-  "docs-guidance": "<bold>Dokumen dan panduan yang jelas</bold> — <doclink>documentation</doclink> yang lengkap, ribuan <manifestlink>app manifests</manifestlink> publik, dan komunitas yang besar memastikan Anda selalu dapat memperoleh bantuan.",
+  "docs-guidance": "<bold>Dokumen dan panduan yang jelas</bold> — <doclink>documentation</doclink> yang lengkap, ribuan <manifestlink>app manifests</manifestlink> publik, dan komunitas yang besar memastikan Anda selalu dapat memperoleh bantuan",
   "uses-privileged-socket": "Menggunakan soket khusus",
   "uses-non-portal-service": "Menggunakan layanan non-portal",
   "can-talk-to-non-portal-service": "Dapat meminta data dari layanan non-portal dan memperoleh izin tambahan",
   "socket-may-allow-extra-permissions": "Menggunakan soket yang memungkinkan mendapatkan izin tambahan",
   "developed-by": "dikembangkan oleh {developer}",
   "unverified-tooltip": "Kepemilikan ID aplikasi <appid></appid> belum terverifikasi dan mungkin merupakan paket komunitas",
-  "unauthorized": "Tanpa izin"
+  "unauthorized": "Tanpa izin",
+  "install-all-favorites": "Pasang Semua Favorit",
+  "install-all-favorites-description": "Salin perintah ini untuk memasang semua aplikasi favorit Anda sekaligus:",
+  "no-favorites-yet": "Anda belum memiliki aplikasi favorit. Mulailah menambahkan beberapa aplikasi dengan mengklik ikon markah pada aplikasi yang Anda sukai!",
+  "vending": {
+    "purchase-not-available": "Aplikasi ini tidak tersedia untuk dibeli."
+  }
 }
