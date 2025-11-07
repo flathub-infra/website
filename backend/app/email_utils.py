@@ -8,6 +8,8 @@ def normalize_email(email: str) -> str:
     """
     if not email:
         return email
+    if "@" not in email:
+        return email
     local, sep, domain = email.partition("@")
     plus_index = local.find("+")
     if plus_index != -1:
