@@ -440,10 +440,23 @@ class FlathubUser(Base):
             KdeAccount,
         ]
         for acc_cls in account_classes:
-            norm_expr = (
-                func.lower(func.split_part(acc_cls.email, "+", 1))
-                + literal("@")
-                + func.lower(func.split_part(acc_cls.email, "@", 2))
+            # Normalize email: lowercase, remove anything after '+' in local part, keep domain
+            norm_expr = func.lower(
+                func.concat(
+                    func.substring(
+                        acc_cls.email,
+                        1,
+                        func.nullif(func.position(literal("+"), acc_cls.email) - 1, -1),
+                    )
+                    if func.position(literal("+"), acc_cls.email) > 0
+                    else func.substring(
+                        acc_cls.email, 1, func.position(literal("@"), acc_cls.email) - 1
+                    ),
+                    literal("@"),
+                    func.substring(
+                        acc_cls.email, func.position(literal("@"), acc_cls.email) + 1
+                    ),
+                )
             )
             match = (
                 db.session.query(acc_cls)
