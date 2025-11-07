@@ -145,7 +145,6 @@
     }
   },
   "centos": {
-    "distroName": "CentOS",
     "introduction": "<text>Flatpak-u instalohet si parazgjedhje në CentOS 7 dhe më të ri, kur përdoret GNOME. Për t’ia filluar, krejt çka ju duhet është të aktivizoni Flathub-in, që është mënyra më e mirë për të marrë aplikacione Flatpak. Thjesht shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>.</text> <text>Tani, krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
   },
   "almalinux": {
