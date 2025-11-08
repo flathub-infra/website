@@ -210,7 +210,7 @@
     },
     "step-2": {
       "name": "Instalar o plugin Flatpak Software",
-      "text": "<text>Pode instalar o plugin Flatpak para o GNOME Software (desde a versão 3.13) ou para o KDE Discover (desde a versão 3.11), assim é possível instalar applicações sem precisar do Terminal.Para instalar no GNOME Software, execute o seguinte comando no Terminal:</text> <code></code> <text>Para o KDE Discover, execute o seguinte comando no Terminal:</text> <codeDiscover></codeDiscover>"
+      "text": "<text>Pode instalar o plugin Flatpak para o GNOME Software (desde a versão 3.13) ou para o KDE Discover (desde a versão 3.11), assim é possível instalar aplicações sem precisar do Terminal. Para instalar no GNOME Software, execute o seguinte comando no Terminal:</text> <code></code> <text>Para o KDE Discover, execute o seguinte comando no Terminal:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
@@ -225,7 +225,7 @@
     "distroName": "Mageia",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<text>Um pacote flatpak está disponível nas versões Mageia 6 e posteriores. Para instalar com o DNF, execute o seguinte comando no Terminal como Administrador (root):</text> <code></code> <text>Ou, para instalar com o <strong>urpmi</strong>, execute o seguinte comando:</text> <codeUrpmi></codeUrpmi>"
+      "text": "<text>Um pacote flatpak está disponível nas versões Mageia 6 e posteriores. Para instalar com o DNF, execute o seguinte comando no Terminal como Administrador (root):</text> <code></code> <text>Para instalar com o <strong>urpmi</strong>, execute o seguinte comando:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
       "name": "Adicione o repositório Flathub",
