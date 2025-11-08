@@ -329,7 +329,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
           {
             key: "Surrogate-Control",
             value:
-              "max-age=900, stale-while-revalidate=172800, stale-if-error=172800",
+              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
           },
         ],
       },
@@ -339,7 +339,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
           {
             key: "Surrogate-Control",
             value:
-              "max-age=900, stale-while-revalidate=172800, stale-if-error=172800",
+              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
           },
         ],
       },
@@ -349,7 +349,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
           {
             key: "Surrogate-Control",
             value:
-              "max-age=900, stale-while-revalidate=172800, stale-if-error=172800",
+              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
           },
         ],
       },
@@ -359,7 +359,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
           {
             key: "Surrogate-Control",
             value:
-              "max-age=900, stale-while-revalidate=172800, stale-if-error=172800",
+              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
           },
           {
             key: "Surrogate-Key",
