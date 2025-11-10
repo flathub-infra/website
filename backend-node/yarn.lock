@@ -1271,12 +1271,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/body@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@react-email/body@npm:0.1.0"
+"@react-email/body@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@react-email/body@npm:0.2.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/deeee52e0326eed20b3267dfe970649705298efae9ff580009ee7f48c201cbca6cd200be163865178ccdab04fc8e44384c6dd7ab130557b93f421d3b263b33c8
+  checksum: 10c0/f5aebd971c067dbcc2e3a050a5980b96832e2b2cf5f96aacc97c067371b81df805c196254c4b10e13fb9959573b24e20354a663374634cd26acfaaa8e4c519bf
   languageName: node
   linkType: hard
 
@@ -1289,14 +1289,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/code-block@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@react-email/code-block@npm:0.1.0"
+"@react-email/code-block@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@react-email/code-block@npm:0.2.0"
   dependencies:
     prismjs: "npm:^1.30.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/55d84654cbf593e49102a11d1615e3beefb6943a82842ab1e51f435c6130a62f4ea2ebc034b127ebcc96822789b58cf352df340823278c9759bb3f031d8a796e
+  checksum: 10c0/4efaeecd534a8f2708b45f26e1d75b6400ab74bdfdc79330a57ff10f64df8e75c8c91ab69f384b2d7f106f71e7c491d194d1873fd91d9adf44ebbbca0a29fb6d
   languageName: node
   linkType: hard
 
@@ -1318,13 +1318,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.5.7":
-  version: 0.5.7
-  resolution: "@react-email/components@npm:0.5.7"
+"@react-email/components@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@react-email/components@npm:1.0.0"
   dependencies:
-    "@react-email/body": "npm:0.1.0"
+    "@react-email/body": "npm:0.2.0"
     "@react-email/button": "npm:0.2.0"
-    "@react-email/code-block": "npm:0.1.0"
+    "@react-email/code-block": "npm:0.2.0"
     "@react-email/code-inline": "npm:0.0.5"
     "@react-email/column": "npm:0.0.13"
     "@react-email/container": "npm:0.0.15"
@@ -1335,16 +1335,16 @@ __metadata:
     "@react-email/html": "npm:0.0.11"
     "@react-email/img": "npm:0.0.11"
     "@react-email/link": "npm:0.0.12"
-    "@react-email/markdown": "npm:0.0.16"
+    "@react-email/markdown": "npm:0.0.17"
     "@react-email/preview": "npm:0.0.13"
-    "@react-email/render": "npm:1.4.0"
+    "@react-email/render": "npm:2.0.0"
     "@react-email/row": "npm:0.0.12"
     "@react-email/section": "npm:0.0.16"
-    "@react-email/tailwind": "npm:1.2.2"
+    "@react-email/tailwind": "npm:2.0.0"
     "@react-email/text": "npm:0.1.5"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/518e4b2ca3a56a6878620aba238ec66fdf0e726877d459f3a83b17e3e4c1019f734073e545270db4f71cf3638a1637eb6ae77d2036d5c814d781b8640b94c858
+  checksum: 10c0/fdb5483d11250169fce283bf5f87838b080da336f4999a26624a71dcf82dddeef31ba80690a989ca269861f3200eeed66b325a29d44f36ce022f8c698519f54c
   languageName: node
   linkType: hard
 
@@ -1420,14 +1420,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/markdown@npm:0.0.16":
-  version: 0.0.16
-  resolution: "@react-email/markdown@npm:0.0.16"
+"@react-email/markdown@npm:0.0.17":
+  version: 0.0.17
+  resolution: "@react-email/markdown@npm:0.0.17"
   dependencies:
     marked: "npm:^15.0.12"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/60e4c5432460a1073cd8137018faac376153673a3a53c78aab7a6be72318ad6686acdb5eba48159b5f8e62796ff9e23b66b2d2b48f6e1a9c2396b16974a934c2
+  checksum: 10c0/a68bdb3d347c5cf0906ca2e422fde89cfd418c5bd36524d16cce162ce4878a379cb6683119ce1d1359d19135d9b83c47a893e1e9b41daac22db578b6a9f242af
   languageName: node
   linkType: hard
 
@@ -1454,6 +1454,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-email/render@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@react-email/render@npm:2.0.0"
+  dependencies:
+    html-to-text: "npm:^9.0.5"
+    prettier: "npm:^3.5.3"
+  peerDependencies:
+    react: ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
+  checksum: 10c0/2c91f2930306c0dadd34f2a5d5d98191dd985269a841e448a1a8cf4ebb6f4fef93062a2c3da48dbe182d32c4fd9b7bd0c475dbf8ed629648dc6fd9948f8a44c2
+  languageName: node
+  linkType: hard
+
 "@react-email/row@npm:0.0.12":
   version: 0.0.12
   resolution: "@react-email/row@npm:0.0.12"
@@ -1472,12 +1485,46 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/tailwind@npm:1.2.2":
-  version: 1.2.2
-  resolution: "@react-email/tailwind@npm:1.2.2"
+"@react-email/tailwind@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@react-email/tailwind@npm:2.0.0"
+  dependencies:
+    tailwindcss: "npm:4.1.12"
   peerDependencies:
+    "@react-email/body": 0.2.0
+    "@react-email/button": 0.2.0
+    "@react-email/code-block": 0.2.0
+    "@react-email/code-inline": 0.0.5
+    "@react-email/container": 0.0.15
+    "@react-email/heading": 0.0.15
+    "@react-email/hr": 0.0.11
+    "@react-email/img": 0.0.11
+    "@react-email/link": 0.0.12
+    "@react-email/preview": 0.0.13
+    "@react-email/text": 0.1.5
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/fa7d0a4d518a77cf0ec26c57aeac8a24509344225a19d6f3c1320a4357d88b2d48e592f312286ec59ef17333d875e3f3437cd09102d793896229e3f5502d079e
+  peerDependenciesMeta:
+    "@react-email/body":
+      optional: true
+    "@react-email/button":
+      optional: true
+    "@react-email/code-block":
+      optional: true
+    "@react-email/code-inline":
+      optional: true
+    "@react-email/container":
+      optional: true
+    "@react-email/heading":
+      optional: true
+    "@react-email/hr":
+      optional: true
+    "@react-email/img":
+      optional: true
+    "@react-email/link":
+      optional: true
+    "@react-email/preview":
+      optional: true
+  checksum: 10c0/626de5c8e0d9ee24016ab63380f59c2dc94d5c99593d73910c5ad3544e3deb0073eb31ee1be483b8a0b0fba7fac94d02cf05e83876590911c132c60a6c72e627
   languageName: node
   linkType: hard
 
@@ -4123,7 +4170,7 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
     "@hono/zod-openapi": "npm:^1.1.4"
-    "@react-email/components": "npm:0.5.7"
+    "@react-email/components": "npm:1.0.0"
     "@react-email/render": "npm:1.4.0"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^7.0.3"
@@ -4371,6 +4418,13 @@ __metadata:
   dependencies:
     has-flag: "npm:^4.0.0"
   checksum: 10c0/afb4c88521b8b136b5f5f95160c98dee7243dc79d5432db7efc27efb219385bbc7d9427398e43dd6cc730a0f87d5085ce1652af7efbe391327bc0a7d0f7fc124
+  languageName: node
+  linkType: hard
+
+"tailwindcss@npm:4.1.12":
+  version: 4.1.12
+  resolution: "tailwindcss@npm:4.1.12"
+  checksum: 10c0/0e43375d8de91e1c97a60ed7855f1bf02d5cac61a909439afd54462604862ee71706d812c0447a639f2ef98051a8817840b3df6847c7a1ed015f7a910240ffef
   languageName: node
   linkType: hard
 
