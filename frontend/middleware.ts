@@ -51,9 +51,15 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
 }
 
 export default async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  // Handle internationalization first - this will redirect if locale is missing
+  const i18nResponse = createMiddleware(routing)(request)
 
-  // Handle internationalization first
+  // If i18n middleware wants to redirect, let it
+  if (i18nResponse) {
+    return i18nResponse
+  }
+
+  const { pathname } = request.nextUrl
 
   // Then check authentication for protected routes
   if (isProtectedRoute(pathname)) {
@@ -71,7 +77,8 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  return createMiddleware(routing)(request) || NextResponse.next()
+  // If no redirect needed, let request continue
+  return NextResponse.next()
 }
 
 export const config = {
