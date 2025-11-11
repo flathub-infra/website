@@ -7,5 +7,10 @@
   "statistics": "Estatísticas",
   "country-statistics": "Estatísticas por país",
   "source-code": "Código fonte",
-  "status": "Estado"
+  "status": "Estado",
+  "user-avatar": "Avatar de {user}",
+  "more": "Máis",
+  "number-of-results": "{number} resultados",
+  "installed-size": "Tamaño instalado",
+  "download-size": "Tamaño da descarga"
 }

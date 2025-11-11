@@ -24,6 +24,9 @@
     "step-2": {
       "name": "Ales asenker",
       "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+    },
+    "step-1": {
+      "name": "Rmed Flatpak deg umsefrak n iseɣẓanen"
     }
   },
   "endless_os": {
@@ -81,7 +84,8 @@
   "arch": {
     "distroName": "Arch",
     "step-1": {
-      "name": "Sbedd Flatpak"
+      "name": "Sbedd Flatpak",
+      "text": "<text>I wakken ad tesbeddeḍ Flatpak deg Arch, ldi Ixef sakin selkem:</text> <code></code>"
     },
     "step-2": {
       "name": "Ales asenker",
@@ -132,7 +136,8 @@
       "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak"
+      "name": "Sbedd Flatpak",
+      "text": "<text>I wakken ad tesbeddeḍ Flatpak deg Gentoo, ldi Ixef sakin selkem:</text> <code></code>"
     },
     "step-2": {
       "name": "Rnu akufi-a n Flathub",
@@ -150,6 +155,9 @@
     },
     "step-3": {
       "name": "Rnu akufi-a n Flathub"
+    },
+    "step-2": {
+      "name": "Sbedd azegrir n yiɣewwaṛen n unagraw n Flatpak"
     }
   },
   "solus": {
@@ -158,7 +166,8 @@
       "name": "Ales asenker"
     },
     "step-1": {
-      "name": "Sbedd Flatpak"
+      "name": "Sbedd Flatpak",
+      "text": "<text>I wakken ad tesbeddeḍ Flatpak deg Solus, ldi Ixef sakin selkem:</text> <code></code>"
     },
     "step-2": {
       "name": "Rnu akufi-a n Flathub",
@@ -248,7 +257,8 @@
       "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
     },
     "step-1": {
-      "name": "Sbedd Flatpak"
+      "name": "Sbedd Flatpak",
+      "text": "<text>I wakken ad tesbeddeḍ Flatpak deg Deepin, selkem aya deg Ixef:</text> <code></code>"
     },
     "step-2": {
       "name": "Rnu akufi-a n Flathub",

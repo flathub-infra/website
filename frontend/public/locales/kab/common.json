@@ -301,5 +301,9 @@
   "delete-account-entry": "Bɣiɣ ad kkseɣ amiḍan-iw",
   "setup-flathub-description": "Swel Flathub akken ad tesbeddeḍ u ad tleqmeḍ isnasen deg unagraw-ik·im.",
   "mobile-apps-description": "Isnasen i tiliɣriwin n Linux akked tfelwiyin tudlifin",
-  "transaction-summary-status": "Addad:"
+  "transaction-summary-status": "Addad:",
+  "apps-by-tag": "Isnasen s tebzimt “{tag}”",
+  "verification-failed-to-connect": "Tecceḍ tuqqna ɣer {domain}.",
+  "can-read-all-data": "Yezmer ad iɣer akk isefka yellan deg ukaram",
+  "can-request-data-from-system-services": "Yezmer ad yessuter isefka i yimeẓla n unagraw"
 }
