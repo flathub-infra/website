@@ -33,12 +33,20 @@ export async function GET(
       ? "en"
       : locale
 
-  const response = await getAppstreamAppstreamAppIdGet(appId as string, {
-    locale: safeLocale as string,
-  })
-  const app: DesktopAppstream = response.data as unknown as DesktopAppstream
+  let app: DesktopAppstream
+  try {
+    const response = await getAppstreamAppstreamAppIdGet(appId as string, {
+      locale: safeLocale as string,
+    })
+    app = response.data as unknown as DesktopAppstream
 
-  if (!app) {
+    if (!app) {
+      return new Response("App not found", {
+        status: 404,
+        statusText: "App not found",
+      })
+    }
+  } catch (error) {
     return new Response("App not found", {
       status: 404,
       statusText: "App not found",
