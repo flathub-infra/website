@@ -20,4 +20,6 @@ cp tests/stats/002-yesterday.json tests/stats/$yesterday
 cp tests/stats/003-today.json tests/stats/$today
 cp tests/stats/004-two-weeks-ago.json tests/stats/$two_weeks_ago
 
-docker compose exec backend python -m pytest -vvvv tests/main.py
+docker compose exec backend python -m pytest -vvvv \
+	tests/main.py \
+	tests/test_storefront_smoke.py
