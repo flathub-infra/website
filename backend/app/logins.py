@@ -61,7 +61,7 @@ def refresh_repo_list(gh_access_token: str, accountId: int):
 
 def _refresh_token(
     account, method: str, token_endpoint: str, client_id: str, client_secret: str
-) -> str | None:
+) -> str:
     if account.token_expiry is None or account.token_expiry > datetime.now():
         return account.token
 
