@@ -138,7 +138,7 @@ def refresh_oauth_token(account) -> str:
             case models.KdeAccount():
                 return _refresh_token(
                     account,
-                    "gnome",
+                    "kde",
                     "https://invent.kde.org/oauth/token",
                     config.settings.kde_client_id,
                     config.settings.kde_client_secret,
