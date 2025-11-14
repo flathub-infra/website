@@ -1,5 +1,4 @@
 from typing import TypeVar
-from urllib.parse import unquote
 
 import meilisearch
 from pydantic import BaseModel, field_validator
