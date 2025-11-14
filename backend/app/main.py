@@ -22,7 +22,6 @@ from .routes import (
     app_picks,
     apps,
     collection,
-    compat,
     exceptions,
     favorites,
     feed,
@@ -77,7 +76,6 @@ invites.register_to_app(router)
 
 app_picks.register_to_app(router)
 collection.register_to_app(router)
-compat.register_to_app(router)
 feed.register_to_app(router)
 quality_moderation.register_to_app(router)
 upload_tokens.register_to_app(router)

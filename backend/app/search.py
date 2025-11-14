@@ -519,32 +519,6 @@ def get_by_keyword(
     )
 
 
-## remove this, when compat get's removed
-def search_apps(
-    query: str, locale: str, free_software_only: bool = False
-) -> MeilisearchResponseLimited[AppsIndex]:
-    query = unquote(query)
-
-    filters = ["type IN [desktop-application, console-application]"]
-
-    if free_software_only:
-        filters.append("is_free_license = true")
-
-    return _translate_name_and_summary(
-        locale,
-        MeilisearchResponseLimited[AppsIndex].model_validate(
-            client.index("apps").search(
-                query,
-                {
-                    "limit": 250,
-                    "sort": ["installs_last_month:desc"],
-                    "filter": filters,
-                },
-            ),
-        ),
-    )
-
-
 def search_apps_post(
     searchquery: SearchQuery, locale: str
 ) -> MeilisearchResponse[AppsIndex]:
