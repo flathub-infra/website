@@ -34,9 +34,11 @@ const StatusInfo = ({
 }) => {
   const t = useTranslations()
 
+  if (!status.verified) {
+    return <span>{t("app-is-currently-not-verified")}</span>
+  }
+
   switch (status.method) {
-    case VerificationMethod.none || !status.verified:
-      return <span>{t("app-is-currently-not-verified")}</span>
     case VerificationMethod.login_provider:
       return t.rich("app-is-currently-verified-by-login-provider", {
         loginname: (chunk) => (
@@ -94,8 +96,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
 
   const onChildVerified = useCallback(() => {
+    query.refetch()
     onVerified?.()
-  }, [onVerified])
+  }, [onVerified, query])
 
   if (query.isPending || verificationAvailableMethods.isPending) {
     return <Spinner size="m" />
