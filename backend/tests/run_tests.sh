@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 set -x
 
 today="$(date -u -d "today" +"%Y/%m/%d.json")"
