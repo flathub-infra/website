@@ -19,17 +19,17 @@ services:
     restart: unless-stopped
     command: bash -c "alembic upgrade head && uvicorn app.main:router --host 0.0.0.0 --port 8000 --reload"
     environment: &backend-env
-      - ENV=development
-      - REDIS_HOST=redis
-      - STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
-      - STRIPE_PUBLIC_KEY=$STRIPE_PUBLIC_KEY
-      - STRIPE_WEBHOOK_KEY=$STRIPE_WEBHOOK_KEY
-      - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
-      - APPSTREAM_REPOS=$APPSTREAM_REPOS
-      - DATADIR=${DATADIR-/app/data}
-      - FLAT_MANAGER_API=$FLAT_MANAGER_API
-      - BACKEND_NODE_URL=${BACKEND_NODE_URL-http://backend-node:8001}
-      - REPO_URL=${REPO_URL-https://dl.flathub.org/repo}
+      ENV: development
+      REDIS_HOST: redis
+      STRIPE_SECRET_KEY: $STRIPE_SECRET_KEY
+      STRIPE_PUBLIC_KEY: $STRIPE_PUBLIC_KEY
+      STRIPE_WEBHOOK_KEY: $STRIPE_WEBHOOK_KEY
+      STATS_BASEURL: ${STATS_BASEURL-https://flathub.org/stats}
+      APPSTREAM_REPOS: $APPSTREAM_REPOS
+      DATADIR: ${DATADIR-/app/data}
+      FLAT_MANAGER_API: $FLAT_MANAGER_API
+      BACKEND_NODE_URL: ${BACKEND_NODE_URL-http://backend-node:8001}
+      REPO_URL: ${REPO_URL-https://dl.flathub.org/repo}
     ports:
       - "8000:8000"
     depends_on:
@@ -67,7 +67,9 @@ services:
       context: .
     restart: unless-stopped
     command: dramatiq app.worker --processes 1 --threads 2 --watch app
-    environment: *backend-env
+    environment:
+      <<: *backend-env
+      IS_WORKER: true
     depends_on:
       - redis
       - db

@@ -3,10 +3,11 @@ from datetime import datetime, timedelta
 
 import dramatiq
 
-from .. import models
+from .. import cron, models
 from ..database import get_all_appids_for_frontend, get_db
 
 
+@cron.cron("0 3 * * *")  # every day at 3am
 @dramatiq.actor
 def update_app_picks():
     with get_db("writer") as db:
