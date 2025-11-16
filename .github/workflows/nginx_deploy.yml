@@ -13,8 +13,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-24.04
-            platform: amd64
           - os: ubuntu-24.04-arm
             platform: arm64
     runs-on: ${{matrix.os}}
