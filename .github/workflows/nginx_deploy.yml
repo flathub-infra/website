@@ -10,16 +10,11 @@ on:
 
 jobs:
   docker:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-24.04-arm
-            platform: arm64
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-24.04-arm
     permissions:
       packages: write
     concurrency:
-      group: ${{matrix.platform}}-build_push_docker_nginx
+      group: arm64-build_push_docker_nginx
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v5
@@ -40,11 +35,13 @@ jobs:
           context: nginx
           file: nginx/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/${{ matrix.platform }}
+          platforms: linux/arm64
           provenance: false
           tags: |
-            ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-${{matrix.platform}}
-            ghcr.io/${{ github.repository_owner }}/nginx:latest-${{matrix.platform}}
+            ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-arm64
+            ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/nginx:arm64-latest
+            ghcr.io/${{ github.repository_owner }}/nginx:latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
@@ -53,33 +50,3 @@ jobs:
             SENTRY_RELEASE=${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  docker-manifest:
-    if: ${{ github.event_name != 'pull_request' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs:
-      - docker
-    permissions:
-      packages: write
-    steps:
-      - name: Login to ghcr.io
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create and push nginx manifest
-        run: |
-          docker manifest create \
-            ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }} \
-            --amend ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-arm64
-
-          docker manifest push ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}
-
-          docker manifest create \
-            ghcr.io/${{ github.repository_owner }}/nginx:latest \
-            --amend ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-arm64
-
-          docker manifest push ghcr.io/${{ github.repository_owner }}/nginx:latest

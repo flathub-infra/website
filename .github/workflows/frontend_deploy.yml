@@ -11,17 +11,12 @@ on:
 
 jobs:
   docker:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-24.04-arm
-            platform: arm64
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 80
     permissions:
       packages: write
     concurrency:
-      group: ${{matrix.platform}}-build_push_docker_frontend_prod
+      group: arm64-build_push_docker_frontend_prod
       cancel-in-progress: true
     steps:
       # 2025-02-02: needs: 20 GB, post-cleanup-avail: 57G
@@ -63,39 +58,11 @@ jobs:
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             GITHUB_SHA=${{ github.sha }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}-${{ matrix.platform }}
-            ghcr.io/${{ github.repository_owner }}/frontend:latest-${{ matrix.platform }}
+            ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}-arm64
+            ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/frontend:arm64-latest
+            ghcr.io/${{ github.repository_owner }}/frontend:latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
-
-  docker-manifest:
-    if: ${{ github.event_name != 'pull_request' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs:
-      - docker
-    permissions:
-      packages: write
-    steps:
-      - name: Login to ghcr.io
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create and push frontend manifest
-        run: |
-          docker manifest create \
-            ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} \
-            --amend ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}-arm64
-
-          docker manifest push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
-
-          docker manifest create \
-            ghcr.io/${{ github.repository_owner }}/frontend:latest \
-            --amend ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}-arm64
-
-          docker manifest push ghcr.io/${{ github.repository_owner }}/frontend:latest
