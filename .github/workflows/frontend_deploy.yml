@@ -49,8 +49,9 @@ jobs:
           context: frontend
           file: frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
+          load: true
           no-cache: true
-          platforms: linux/${{ matrix.platform }}
+          platforms: linux/arm64
           provenance: false
           build-args: |
             NEXT_PUBLIC_IS_PRODUCTION=true
@@ -66,3 +67,18 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
+
+      - name: Extract and upload assets
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          ASSETS_SSH_PRIVATE_KEY: ${{ secrets.ASSETS_SSH_PRIVATE_KEY }}
+        run: |
+          eval $(ssh-agent -s)
+          ssh-add - <<< "$ASSETS_SSH_PRIVATE_KEY"
+
+          IMAGE="ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}-arm64"
+          CONTAINER_ID=$(docker create "$IMAGE")
+          docker cp "$CONTAINER_ID":/app/.next/static ./static
+          docker rm -f "$CONTAINER_ID"
+
+          rsync -avz ./static/ assets@hub.flathub.org:/tank/repo/stable/assets/_next/static/

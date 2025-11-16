@@ -61,6 +61,7 @@ if (!buildId) {
 
 const nextConfig: (phase: string) => NextConfig = (phase) => ({
   output: "standalone",
+  assetPrefix: "https://dl.flathub.org/assets",
   experimental: {
     scrollRestoration: true,
     globalNotFound: true,
