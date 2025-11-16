@@ -69,7 +69,6 @@ services:
     command: dramatiq app.worker --processes 1 --threads 2 --watch app
     environment:
       <<: *backend-env
-      IS_WORKER: true
     depends_on:
       - redis
       - db

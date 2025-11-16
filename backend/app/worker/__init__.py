@@ -1,11 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from .. import cron
-
-# Background scheduler for cron-decorated Dramatiq actors.
-# We only start it inside the dedicated worker process (IS_WORKER=true) so it
-# doesn't run in the API server process.
-from ..config import settings
 from .core import broker
 from .emails import send_email_new, send_one_email_new
 from .refresh_github_repo_list import refresh_github_repo_list
@@ -34,13 +29,12 @@ def _start_background_scheduler():
 
 
 _scheduler = None
-if settings.is_worker:
-    try:
-        _scheduler = _start_background_scheduler()
-    except Exception:  # pragma: no cover - defensive; log and continue worker startup
-        import logging
+try:
+    _scheduler = _start_background_scheduler()
+except Exception:  # pragma: no cover - defensive; log and continue worker startup
+    import logging
 
-        logging.getLogger(__name__).exception("Failed to start background scheduler")
+    logging.getLogger(__name__).exception("Failed to start background scheduler")
 
 __all__ = [
     "broker",
