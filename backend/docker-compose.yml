@@ -67,9 +67,7 @@ services:
       context: .
     restart: unless-stopped
     command: dramatiq app.worker --processes 1 --threads 2 --watch app
-    environment:
-      <<: *backend-env
-      IS_WORKER: true
+    environment: *backend-env
     depends_on:
       - redis
       - db

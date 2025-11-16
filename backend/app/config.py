@@ -83,7 +83,5 @@ class Settings(BaseSettings):
 
     backend_node_url: str | None = None
 
-    is_worker: bool = False
-
 
 settings = Settings()
