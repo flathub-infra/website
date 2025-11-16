@@ -83,4 +83,4 @@ jobs:
 
           mkdir -p ~/.ssh
           ssh-keyscan -H hub.flathub.org >> ~/.ssh/known_hosts 2>/dev/null
-          rsync -avz ./static/ assets@hub.flathub.org:/tank/repo/stable/assets/_next/static/
+          rsync -avz ./static/ assets@hub.flathub.org:./
