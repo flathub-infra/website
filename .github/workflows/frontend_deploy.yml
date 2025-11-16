@@ -81,5 +81,6 @@ jobs:
           docker cp "$CONTAINER_ID":/app/.next/static ./static
           docker rm -f "$CONTAINER_ID"
 
+          mkdir -p ~/.ssh
           ssh-keyscan -H hub.flathub.org >> ~/.ssh/known_hosts 2>/dev/null
           rsync -avz ./static/ assets@hub.flathub.org:/tank/repo/stable/assets/_next/static/
