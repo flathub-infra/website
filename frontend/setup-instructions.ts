@@ -3,6 +3,7 @@ import * as fs from "fs"
 import { parse } from "yaml"
 import { simpleGit } from "simple-git"
 import * as prettier from "prettier"
+import { ASSET_BASE_URL } from "./src/env"
 
 const distroYamlPath = "src/data/distro.yml"
 const distrosTsPath = "src/components/setup/Distros.tsx"
@@ -108,7 +109,7 @@ async function generateSetupInstructions() {
       )
       fs.appendFileSync(
         tempFilePath,
-        `image="https://flathub.org/img/distro/${logo}"\n`,
+        `image="https://dl.flathub.org/assets/img/distro/${logo}"\n`,
       )
       fs.appendFileSync(
         tempFilePath,
@@ -167,7 +168,7 @@ async function generateSetupInstructions() {
 
     const darkSource = distro.logo_dark
       ? `<source
-                  srcSet={"/img/distro/${distro.logo_dark}"}
+                  srcSet={\`\${ASSET_BASE_URL}/img/distro/${distro.logo_dark}\`}
                   media="(prefers-color-scheme: dark)"
                 />`
       : ""
@@ -182,7 +183,7 @@ async function generateSetupInstructions() {
                 <Image
                   width={128}
                   height={128}
-                  src={"/img/distro/${distro.logo}"}
+                  src={\`\${ASSET_BASE_URL}/img/distro/${distro.logo}\`}
                   alt="${distro.name}"
                 />
               </picture>
@@ -224,6 +225,8 @@ async function generateSetupInstructions() {
 
   const jsxImportStatement = "import type { JSX } from 'react';\n"
 
+  const assetImportStatement = 'import { ASSET_BASE_URL } from "src/env";\n'
+
   fs.writeFileSync(
     distrosTsPath,
     useTranslationStatement +
@@ -231,6 +234,7 @@ async function generateSetupInstructions() {
       importStatement +
       jsxImportStatement +
       nextImportStatements +
+      assetImportStatement +
       fs.readFileSync(distrosTsPath, "utf8"),
   )
 

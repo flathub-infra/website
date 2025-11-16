@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises"
 import { parse } from "yaml"
+import { ASSET_BASE_URL } from "./env"
 
 export type DistroSetup = {
   name: string
@@ -19,9 +20,9 @@ export async function fetchSetupInstructions() {
   const mappedDistros = parsedDistros.map((instruction) => {
     return {
       ...instruction,
-      logo: `/img/distro/${instruction.logo}`,
+      logo: `${ASSET_BASE_URL}/img/distro/${instruction.logo}`,
       logo_dark: instruction.logo_dark
-        ? `/img/distro/${instruction.logo_dark}`
+        ? `${ASSET_BASE_URL}/img/distro/${instruction.logo_dark}`
         : null,
       translatedNameKey: `distros.${instruction.name
         .replaceAll(" ", "_")

@@ -4,6 +4,9 @@ export const APPS_IN_PREVIEW_COUNT: number = 12
 
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
 
+export const ASSET_BASE_URL: string =
+  "https://dl.flathub.org/assets/_next/public"
+
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === "true"
 

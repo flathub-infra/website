@@ -10,7 +10,7 @@ import { Metadata } from "next"
 import { bcpToPosixLocale } from "src/localize"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import cardImage from "../../public/img/card.webp"
-import { IS_PRODUCTION } from "src/env"
+import { IS_PRODUCTION, ASSET_BASE_URL } from "src/env"
 import { routing } from "src/i18n/routing"
 import { notFound } from "next/navigation"
 
@@ -49,16 +49,16 @@ export async function generateMetadata({
     icons: {
       icon: [
         {
-          url: "/favicon.svg",
+          url: `${ASSET_BASE_URL}/favicon.svg`,
           type: "image/svg+xml",
           sizes: "any",
         },
         {
-          url: "/favicon.png",
+          url: `${ASSET_BASE_URL}/favicon.png`,
           type: "image/png",
         },
       ],
-      apple: "/apple-touch-icon.png",
+      apple: `${ASSET_BASE_URL}/apple-touch-icon.png`,
     },
     twitter: {
       card: "summary_large_image",

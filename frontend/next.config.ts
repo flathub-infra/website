@@ -1,4 +1,7 @@
-import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants"
+import {
+  PHASE_DEVELOPMENT_SERVER,
+  PHASE_PRODUCTION_BUILD,
+} from "next/constants"
 import { withSentryConfig } from "@sentry/nextjs"
 import createNextIntlPlugin from "next-intl/plugin"
 import { NextConfig } from "next"
@@ -61,7 +64,10 @@ if (!buildId) {
 
 const nextConfig: (phase: string) => NextConfig = (phase) => ({
   output: "standalone",
-  assetPrefix: phase === PHASE_DEVELOPMENT_SERVER ? undefined : "https://dl.flathub.org/assets",
+  assetPrefix:
+    phase === PHASE_DEVELOPMENT_SERVER
+      ? undefined
+      : "https://dl.flathub.org/assets",
   experimental: {
     scrollRestoration: true,
     globalNotFound: true,
