@@ -74,14 +74,12 @@ jobs:
         run: |
           docker manifest create \
             ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }} \
-            --amend ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-amd64 \
             --amend ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-arm64
 
           docker manifest push ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}
 
           docker manifest create \
             ghcr.io/${{ github.repository_owner }}/nginx:latest \
-            --amend ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-amd64 \
             --amend ghcr.io/${{ github.repository_owner }}/nginx:${{ github.sha }}-arm64
 
           docker manifest push ghcr.io/${{ github.repository_owner }}/nginx:latest
