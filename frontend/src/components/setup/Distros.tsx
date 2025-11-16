@@ -3,6 +3,7 @@ import { HowToJsonLd } from "next-seo"
 import CodeCopy from "src/components/application/CodeCopy"
 import type { JSX } from "react"
 import Image from "next/image"
+import { ASSET_BASE_URL } from "src/env"
 import { Link } from "src/i18n/navigation"
 import { motion } from "framer-motion"
 
@@ -57,7 +58,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/ubuntu.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/ubuntu.svg`}
             alt="Ubuntu Logo"
           />
         </motion.picture>
@@ -69,7 +70,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.ubuntu.distroName")}
-          image="https://flathub.org/img/distro/ubuntu.svg"
+          image="https://dl.flathub.org/assets/img/distro/ubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -188,7 +189,7 @@ const Fedora = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/fedora.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/fedora.svg`}
             alt="Fedora Logo"
           />
         </motion.picture>
@@ -230,7 +231,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/manjaro.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/manjaro.svg`}
             alt="Manjaro Logo"
           />
         </motion.picture>
@@ -242,7 +243,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.manjaro.distroName")}
-          image="https://flathub.org/img/distro/manjaro.svg"
+          image="https://dl.flathub.org/assets/img/distro/manjaro.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -305,7 +306,7 @@ const Endless_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/endless.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/endless.svg`}
             alt="Endless OS Logo"
           />
         </motion.picture>
@@ -329,13 +330,13 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-ALT-Linux">
           <source
-            srcSet={"/img/distro/altlinux-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/altlinux-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/altlinux.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/altlinux.svg`}
             alt="ALT Linux Logo"
           />
         </motion.picture>
@@ -347,7 +348,7 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.alt_linux.distroName")}
-          image="https://flathub.org/img/distro/altlinux.svg"
+          image="https://dl.flathub.org/assets/img/distro/altlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -444,7 +445,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/chrome-os.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/chrome-os.svg`}
             alt="Chrome OS Logo"
           />
         </motion.picture>
@@ -456,7 +457,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.chrome_os.distroName")}
-          image="https://flathub.org/img/distro/chrome-os.svg"
+          image="https://dl.flathub.org/assets/img/distro/chrome-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -602,7 +603,7 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/redhat.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/redhat.svg`}
             alt="Red Hat Enterprise Linux Logo"
           />
         </motion.picture>
@@ -642,7 +643,7 @@ const Linux_Mint = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/mint.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/mint.svg`}
             alt="Linux Mint Logo"
           />
         </motion.picture>
@@ -668,7 +669,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/opensuse.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/opensuse.svg`}
             alt="openSUSE Logo"
           />
         </motion.picture>
@@ -680,7 +681,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.opensuse.distroName")}
-          image="https://flathub.org/img/distro/opensuse.svg"
+          image="https://dl.flathub.org/assets/img/distro/opensuse.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -777,7 +778,7 @@ const Arch = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/arch.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/arch.svg`}
             alt="Arch Logo"
           />
         </motion.picture>
@@ -789,7 +790,7 @@ const Arch = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.arch.distroName")}
-          image="https://flathub.org/img/distro/arch.svg"
+          image="https://dl.flathub.org/assets/img/distro/arch.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -852,7 +853,7 @@ const Debian = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/debian.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/debian.svg`}
             alt="Debian Logo"
           />
         </motion.picture>
@@ -864,7 +865,7 @@ const Debian = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.debian.distroName")}
-          image="https://flathub.org/img/distro/debian.svg"
+          image="https://dl.flathub.org/assets/img/distro/debian.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -991,7 +992,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/rockylinux.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/rockylinux.svg`}
             alt="Rocky Linux Logo"
           />
         </motion.picture>
@@ -1003,7 +1004,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.rocky_linux.distroName")}
-          image="https://flathub.org/img/distro/rockylinux.svg"
+          image="https://dl.flathub.org/assets/img/distro/rockylinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1099,7 +1100,7 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/centos.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/centos.svg`}
             alt="CentOS Stream Logo"
           />
         </motion.picture>
@@ -1131,7 +1132,7 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/almalinux.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/almalinux.svg`}
             alt="AlmaLinux Logo"
           />
         </motion.picture>
@@ -1163,7 +1164,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/gentoo.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/gentoo.svg`}
             alt="Gentoo Logo"
           />
         </motion.picture>
@@ -1175,7 +1176,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.gentoo.distroName")}
-          image="https://flathub.org/img/distro/gentoo.svg"
+          image="https://dl.flathub.org/assets/img/distro/gentoo.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1268,7 +1269,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/kubuntu.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/kubuntu.svg`}
             alt="Kubuntu Logo"
           />
         </motion.picture>
@@ -1280,7 +1281,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.kubuntu.distroName")}
-          image="https://flathub.org/img/distro/kubuntu.svg"
+          image="https://dl.flathub.org/assets/img/distro/kubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1387,7 +1388,7 @@ const Solus = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/solus.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/solus.svg`}
             alt="Solus Logo"
           />
         </motion.picture>
@@ -1399,7 +1400,7 @@ const Solus = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.solus.distroName")}
-          image="https://flathub.org/img/distro/solus.svg"
+          image="https://dl.flathub.org/assets/img/distro/solus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1498,7 +1499,7 @@ const Alpine = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/alpine.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/alpine.svg`}
             alt="Alpine Logo"
           />
         </motion.picture>
@@ -1510,7 +1511,7 @@ const Alpine = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.alpine.distroName")}
-          image="https://flathub.org/img/distro/alpine.svg"
+          image="https://dl.flathub.org/assets/img/distro/alpine.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1633,7 +1634,7 @@ const Mageia = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/mageia.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/mageia.svg`}
             alt="Mageia Logo"
           />
         </motion.picture>
@@ -1645,7 +1646,7 @@ const Mageia = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.mageia.distroName")}
-          image="https://flathub.org/img/distro/mageia.svg"
+          image="https://dl.flathub.org/assets/img/distro/mageia.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1743,7 +1744,7 @@ const OpenMandriva_Lx = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/openmandriva.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/openmandriva.svg`}
             alt="OpenMandriva Lx Logo"
           />
         </motion.picture>
@@ -1770,7 +1771,7 @@ const Pop_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/pop-os.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/pop-os.svg`}
             alt="Pop!_OS Logo"
           />
         </motion.picture>
@@ -1794,13 +1795,13 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-elementary-OS">
           <source
-            srcSet={"/img/distro/elementary-os-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/elementary-os-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/elementary-os.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/elementary-os.svg`}
             alt="elementary OS Logo"
           />
         </motion.picture>
@@ -1812,7 +1813,7 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.elementary_os.distroName")}
-          image="https://flathub.org/img/distro/elementary-os.svg"
+          image="https://dl.flathub.org/assets/img/distro/elementary-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1853,7 +1854,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/raspberry-pi-os.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/raspberry-pi-os.svg`}
             alt="Raspberry Pi OS Logo"
           />
         </motion.picture>
@@ -1865,7 +1866,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.raspberry_pi_os.distroName")}
-          image="https://flathub.org/img/distro/raspberry-pi-os.svg"
+          image="https://dl.flathub.org/assets/img/distro/raspberry-pi-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -1955,13 +1956,13 @@ const Void_Linux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-Void-Linux">
           <source
-            srcSet={"/img/distro/void-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/void-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/void.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/void.svg`}
             alt="Void Linux Logo"
           />
         </motion.picture>
@@ -1973,7 +1974,7 @@ const Void_Linux = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.void_linux.distroName")}
-          image="https://flathub.org/img/distro/void.svg"
+          image="https://dl.flathub.org/assets/img/distro/void.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2064,7 +2065,7 @@ const NixOS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/nixos.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/nixos.svg`}
             alt="NixOS Logo"
           />
         </motion.picture>
@@ -2076,7 +2077,7 @@ const NixOS = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.nixos.distroName")}
-          image="https://flathub.org/img/distro/nixos.svg"
+          image="https://dl.flathub.org/assets/img/distro/nixos.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2176,13 +2177,13 @@ const PureOS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-PureOS">
           <source
-            srcSet={"/img/distro/pureos-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/pureos-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/pureos.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/pureos.svg`}
             alt="PureOS Logo"
           />
         </motion.picture>
@@ -2214,7 +2215,7 @@ const Zorin_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/zorin-os.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/zorin-os.svg`}
             alt="Zorin OS Logo"
           />
         </motion.picture>
@@ -2241,7 +2242,7 @@ const Deepin = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/deepin.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/deepin.svg`}
             alt="Deepin Logo"
           />
         </motion.picture>
@@ -2253,7 +2254,7 @@ const Deepin = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.deepin.distroName")}
-          image="https://flathub.org/img/distro/deepin.svg"
+          image="https://dl.flathub.org/assets/img/distro/deepin.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2371,7 +2372,7 @@ const Pardus = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/pardus.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/pardus.svg`}
             alt="Pardus Logo"
           />
         </motion.picture>
@@ -2383,7 +2384,7 @@ const Pardus = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.pardus.distroName")}
-          image="https://flathub.org/img/distro/pardus.svg"
+          image="https://dl.flathub.org/assets/img/distro/pardus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2500,7 +2501,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/mxlinux.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/mxlinux.svg`}
             alt="MX Linux Logo"
           />
         </motion.picture>
@@ -2512,7 +2513,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.mx_linux.distroName")}
-          image="https://flathub.org/img/distro/mxlinux.svg"
+          image="https://dl.flathub.org/assets/img/distro/mxlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2573,13 +2574,13 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-Pisi-GNULinux">
           <source
-            srcSet={"/img/distro/pisi-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/pisi-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/pisi.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/pisi.svg`}
             alt="Pisi GNU/Linux Logo"
           />
         </motion.picture>
@@ -2591,7 +2592,7 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.pisi_gnulinux.distroName")}
-          image="https://flathub.org/img/distro/pisi.svg"
+          image="https://dl.flathub.org/assets/img/distro/pisi.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2680,13 +2681,13 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-EndeavourOS">
           <source
-            srcSet={"/img/distro/endeavouros-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/endeavouros-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/endeavouros.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/endeavouros.svg`}
             alt="EndeavourOS Logo"
           />
         </motion.picture>
@@ -2698,7 +2699,7 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.endeavouros.distroName")}
-          image="https://flathub.org/img/distro/endeavouros.svg"
+          image="https://dl.flathub.org/assets/img/distro/endeavouros.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2790,7 +2791,7 @@ const KDE_neon = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/kdeneon.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/kdeneon.svg`}
             alt="KDE neon Logo"
           />
         </motion.picture>
@@ -2814,13 +2815,13 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
       <div className="flex flex-col items-center">
         <motion.picture layoutId="distro-logo-GNU-Guix">
           <source
-            srcSet={"/img/distro/guix-dark.svg"}
+            srcSet={`${ASSET_BASE_URL}/img/distro/guix-dark.svg`}
             media="(prefers-color-scheme: dark)"
           />
           <Image
             width={128}
             height={128}
-            src={"/img/distro/guix.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/guix.svg`}
             alt="GNU Guix Logo"
           />
         </motion.picture>
@@ -2832,7 +2833,7 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.gnu_guix.distroName")}
-          image="https://flathub.org/img/distro/guix.svg"
+          image="https://dl.flathub.org/assets/img/distro/guix.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -2923,7 +2924,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/crystallinux.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/crystallinux.svg`}
             alt="Crystal Linux Logo"
           />
         </motion.picture>
@@ -2935,7 +2936,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
         <HowToJsonLd
           useAppDir={true}
           name={t("distros.crystal_linux.distroName")}
-          image="https://flathub.org/img/distro/crystallinux.svg"
+          image="https://dl.flathub.org/assets/img/distro/crystallinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
@@ -3031,7 +3032,7 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/vanillaos.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/vanillaos.svg`}
             alt="Vanilla OS Logo"
           />
         </motion.picture>
@@ -3066,7 +3067,7 @@ const Salix = ({ locale }: { locale: string }) => {
           <Image
             width={128}
             height={128}
-            src={"/img/distro/salix.svg"}
+            src={`${ASSET_BASE_URL}/img/distro/salix.svg`}
             alt="Salix Logo"
           />
         </motion.picture>
