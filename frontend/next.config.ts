@@ -12,7 +12,7 @@ const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   form-action 'none';
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
-  font-src 'self';
+  font-src 'self' https://dl.flathub.org;
   connect-src 'self' https://flathub.org https://flathub-vorarbeiter.apps.openshift.gnome.org/api/ https://webstats.gnome.org https://api.stripe.com https://maps.googleapis.com https://o467221.ingest.sentry.io/api/6610580/;
   img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com https://invent.kde.org data:;
   frame-ancestors 'none';
