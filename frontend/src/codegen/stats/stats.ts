@@ -23,11 +23,221 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
+  GetMonthlyPermissionStatsStatsPermissionsGetParams,
   GetStatsForAppStatsAppIdGet200,
   GetStatsForAppStatsAppIdGetParams,
   GetStatsStatsGet200,
   HTTPValidationError,
+  MonthlyPermissionStatsResult,
 } from ".././model"
+
+/**
+ * @summary Get Monthly Permission Stats
+ */
+export const getMonthlyPermissionStatsStatsPermissionsGet = (
+  params?: GetMonthlyPermissionStatsStatsPermissionsGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<MonthlyPermissionStatsResult[]>> => {
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/permissions`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    },
+  )
+}
+
+export const getGetMonthlyPermissionStatsStatsPermissionsGetQueryKey = (
+  params?: GetMonthlyPermissionStatsStatsPermissionsGetParams,
+) => {
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/permissions`,
+    ...(params ? [params] : []),
+  ] as const
+}
+
+export const getGetMonthlyPermissionStatsStatsPermissionsGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMonthlyPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetMonthlyPermissionStatsStatsPermissionsGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>>
+  > = ({ signal }) =>
+    getMonthlyPermissionStatsStatsPermissionsGet(params, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetMonthlyPermissionStatsStatsPermissionsGetQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>>
+  >
+export type GetMonthlyPermissionStatsStatsPermissionsGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetMonthlyPermissionStatsStatsPermissionsGet<
+  TData = Awaited<
+    ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetMonthlyPermissionStatsStatsPermissionsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetMonthlyPermissionStatsStatsPermissionsGet<
+  TData = Awaited<
+    ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMonthlyPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetMonthlyPermissionStatsStatsPermissionsGet<
+  TData = Awaited<
+    ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMonthlyPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Monthly Permission Stats
+ */
+
+export function useGetMonthlyPermissionStatsStatsPermissionsGet<
+  TData = Awaited<
+    ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMonthlyPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getMonthlyPermissionStatsStatsPermissionsGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetMonthlyPermissionStatsStatsPermissionsGetQueryOptions(params, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
 
 /**
  * @summary Get Stats

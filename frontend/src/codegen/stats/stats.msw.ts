@@ -12,7 +12,24 @@ import type { RequestHandlerOptions } from "msw"
 import type {
   GetStatsForAppStatsAppIdGet200,
   GetStatsStatsGet200,
+  MonthlyPermissionStatsResult,
 } from ".././model"
+
+export const getGetMonthlyPermissionStatsStatsPermissionsGetResponseMock =
+  (): MonthlyPermissionStatsResult[] =>
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      month: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      permission: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      permission_value: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([null]),
+        undefined,
+      ]),
+      created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+    }))
 
 export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
   faker.helpers.arrayElement([
@@ -88,6 +105,36 @@ export const getGetStatsForAppStatsAppIdGetResponseMock =
       null,
     ])
 
+export const getGetMonthlyPermissionStatsStatsPermissionsGetMockHandler = (
+  overrideResponse?:
+    | MonthlyPermissionStatsResult[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<MonthlyPermissionStatsResult[]>
+        | MonthlyPermissionStatsResult[]),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/stats/permissions",
+    async (info) => {
+      await delay(1000)
+
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetMonthlyPermissionStatsStatsPermissionsGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
+}
+
 export const getGetStatsStatsGetMockHandler = (
   overrideResponse?:
     | GetStatsStatsGet200
@@ -146,6 +193,7 @@ export const getGetStatsForAppStatsAppIdGetMockHandler = (
   )
 }
 export const getStatsMock = () => [
+  getGetMonthlyPermissionStatsStatsPermissionsGetMockHandler(),
   getGetStatsStatsGetMockHandler(),
   getGetStatsForAppStatsAppIdGetMockHandler(),
 ]
