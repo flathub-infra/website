@@ -13,15 +13,14 @@
     "@hono/sentry": "^1.2.2",
     "@hono/swagger-ui": "0.5.2",
     "@hono/zod-openapi": "^1.1.4",
-    "@react-email/components": "0.5.7",
+    "@react-email/components": "1.0.1",
     "@react-email/render": "2.0.0",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "hono": "^4.10.5",
     "nodemailer": "7.0.10",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-email": "4.3.2",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -32,8 +31,9 @@
     "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^9.39.1",
     "prettier": "3.6.2",
+    "react-email": "5.0.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.11.0"
 }
