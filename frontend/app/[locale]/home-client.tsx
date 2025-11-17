@@ -295,8 +295,8 @@ function HomeClient({
               "bg-repeat",
               "bg-[length:420px_420px]",
               "bg-bottom",
-              "dark:bg-[url('https://dl.flathub.org/assets/img/card-background-dark.webp')]",
-              "bg-[url('https://dl.flathub.org/assets/img/card-background.webp')]",
+              "dark:bg-[url('https://dl.flathub.org/assets/_next/public/img/card-background-dark.webp')]",
+              "bg-[url('https://dl.flathub.org/assets/_next/public/img/card-background.webp')]",
               "shadow-md",
               "overflow-hidden",
             )}
