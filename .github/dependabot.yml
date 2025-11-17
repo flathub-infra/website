@@ -10,10 +10,6 @@ updates:
         patterns:
           - "@storybook/*"
           - storybook
-      react-email:
-        patterns:
-          - "@react-email/*"
-          - "react-email"
       embla:
         patterns:
           - embla
@@ -22,6 +18,11 @@ updates:
     directory: "/backend-node"
     schedule:
       interval: "daily"
+    groups:
+      react-email:
+        patterns:
+          - "@react-email/*"
+          - "react-email"
 
   - package-ecosystem: "github-actions"
     directory: "/"
