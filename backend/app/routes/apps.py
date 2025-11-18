@@ -139,11 +139,26 @@ def get_appstream(
     locale parameter.
     """
     with get_db("replica") as db_session:
-        app = models.App.by_appid(db_session, app_id)
+        from sqlalchemy.orm import load_only
+
+        app = (
+            db_session.session.query(models.App)
+            .options(
+                load_only(
+                    models.App.appstream,
+                    models.App.localization,
+                    models.App.is_eol,
+                    models.App.eol_branches,
+                )
+            )
+            .filter(models.App.app_id == app_id)
+            .first()
+        )
+
         if not app:
             raise HTTPException(status_code=404, detail="App not found")
 
-        if models.App.is_fully_eol(db_session, app_id):
+        if models.App.is_fully_eol(db_session, app_id, app=app):
             raise HTTPException(status_code=404, detail="App not found")
 
         result = app.get_translated_appstream(locale)

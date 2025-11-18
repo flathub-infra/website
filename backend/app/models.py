@@ -27,7 +27,13 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Mapped,
+    Session,
+    mapped_column,
+    relationship,
+)
 
 from . import utils
 from .db_session import DBSession
@@ -685,7 +691,11 @@ class GithubRepository(Base):
 
     @staticmethod
     def all_by_account(db, account: GithubAccount) -> list["GithubRepository"]:
-        return db.session.query(GithubRepository).filter_by(github_account=account.id).all()
+        return (
+            db.session.query(GithubRepository)
+            .filter_by(github_account=account.id)
+            .all()
+        )
 
 
 class GitlabFlowToken(Base):
@@ -1693,9 +1703,11 @@ class ApplicationVendingConfig(Base):
         """
         Retrieve all the vending configurations for a given user
         """
-        return db.session.query(ApplicationVendingConfig).filter(
-            ApplicationVendingConfig.user == user.id
-        ).all()
+        return (
+            db.session.query(ApplicationVendingConfig)
+            .filter(ApplicationVendingConfig.user == user.id)
+            .all()
+        )
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
@@ -2499,14 +2511,17 @@ class App(Base):
         return True
 
     @classmethod
-    def is_fully_eol(cls, db, app_id: str) -> bool:
+    def is_fully_eol(cls, db, app_id: str, app: Optional["App"] = None) -> bool:
         """
         Check if an app is completely EOL (all branches are EOL).
         Returns True only if the app is EOL and has no active branches.
         If eol_branches is set, it means only specific branches are EOL,
         so there are still active branches available.
+
+        If app is provided, it will be used instead of querying the database.
         """
-        app = App.by_appid(db, app_id)
+        if app is None:
+            app = App.by_appid(db, app_id)
         if not app:
             return False
 
