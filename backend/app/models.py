@@ -685,7 +685,7 @@ class GithubRepository(Base):
 
     @staticmethod
     def all_by_account(db, account: GithubAccount) -> list["GithubRepository"]:
-        return db.session.query(GithubRepository).filter_by(github_account=account.id)
+        return db.session.query(GithubRepository).filter_by(github_account=account.id).all()
 
 
 class GitlabFlowToken(Base):
@@ -1108,11 +1108,11 @@ class AppVerification(Base):
 
     @staticmethod
     def all_by_app(db, app_id: str) -> list["AppVerification"]:
-        return db.session.query(AppVerification).filter_by(app_id=app_id)
+        return db.session.query(AppVerification).filter_by(app_id=app_id).all()
 
     @staticmethod
     def all_by_user(db, user: FlathubUser) -> list["AppVerification"]:
-        return db.session.query(AppVerification).filter_by(account=user.id)
+        return db.session.query(AppVerification).filter_by(account=user.id).all()
 
     @staticmethod
     def all_verified(db) -> list["AppVerification"]:
@@ -1120,6 +1120,7 @@ class AppVerification(Base):
             db.session.query(AppVerification)
             .filter_by(verified=True)
             .order_by(AppVerification.verified_timestamp.desc())
+            .all()
         )
 
     @staticmethod
@@ -1694,7 +1695,7 @@ class ApplicationVendingConfig(Base):
         """
         return db.session.query(ApplicationVendingConfig).filter(
             ApplicationVendingConfig.user == user.id
-        )
+        ).all()
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
