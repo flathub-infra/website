@@ -20,11 +20,19 @@ redis_conn = redis.Redis(
 writer_engine = create_engine(
     config.settings.database_url,
     poolclass=NullPool,
+    connect_args={
+        "connect_timeout": 10,
+        "options": "-c statement_timeout=30000",
+    },
 )
 
 replica_engine = create_engine(
     config.settings.database_replica_url,
     poolclass=NullPool,
+    connect_args={
+        "connect_timeout": 10,
+        "options": "-c statement_timeout=30000",
+    },
 )
 
 WriterSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=writer_engine)
@@ -47,20 +55,6 @@ def get_db(db_type: Literal["writer", "replica"] = "replica"):
 
 def get_db_session(db_type: Literal["writer", "replica"] = "replica") -> Session:
     return WriterSessionLocal() if db_type == "writer" else ReplicaSessionLocal()
-
-
-class DBSessionMiddleware:
-    def __init__(self, app):
-        self.app = app
-
-    async def __call__(self, scope, receive, send):
-        if scope["type"] != "http":
-            await self.app(scope, receive, send)
-            return
-
-        with get_db("replica") as db:
-            scope["state"]["db"] = db
-            await self.app(scope, receive, send)
 
 
 db = ReplicaSessionLocal()

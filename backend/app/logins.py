@@ -23,7 +23,7 @@ from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import apps, config, models
-from .database import DBSessionMiddleware, get_db
+from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
     LoginInformation,
@@ -1213,7 +1213,7 @@ def register_to_app(app: FastAPI):
     """
     Register the login and authentication flows with the FastAPI application
 
-    This also enables session middleware and the database middleware
+    This also enables session middleware
     """
     app.add_middleware(
         SessionMiddleware,
@@ -1221,5 +1221,4 @@ def register_to_app(app: FastAPI):
         max_age=86400,
         https_only=True,
     )
-    app.add_middleware(DBSessionMiddleware)
     app.include_router(router)
