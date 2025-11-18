@@ -2,7 +2,7 @@ from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
-from .. import database, stats
+from .. import cache, database, stats
 
 router = APIRouter(
     prefix="/stats",
@@ -51,6 +51,7 @@ class StatsResultApp(BaseModel):
         404: {"description": "Statistics not available"},
     },
 )
+@cache.cached(ttl=900)
 def get_stats(response: Response) -> StatsResult | None:
     if value := database.get_json_key("stats"):
         return value
@@ -67,6 +68,7 @@ def get_stats(response: Response) -> StatsResult | None:
         404: {"description": "App statistics not found"},
     },
 )
+@cache.cached(ttl=900)
 def get_stats_for_app(
     response: Response,
     app_id: str = Path(
