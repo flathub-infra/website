@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
-    "@types/nodemailer": "^7.0.3",
+    "@types/nodemailer": "^7.0.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/swagger-ui-dist": "^3.30.6",
