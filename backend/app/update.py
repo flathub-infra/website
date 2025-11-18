@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI, Response
 from fastapi.responses import ORJSONResponse
 
-from . import wallet, worker
+from . import cache, wallet, worker
 
 router = APIRouter(prefix="/update", default_response_class=ORJSONResponse)
 
@@ -21,6 +21,7 @@ def register_to_app(app: FastAPI):
 async def update():
     worker.update.send()
     worker.update_quality_moderation.send()
+    cache.mark_stale_by_pattern("cache:endpoint:*")
 
 
 @router.post(

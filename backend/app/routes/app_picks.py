@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
-from .. import models
+from .. import cache, models
 from ..database import get_db
 from ..login_info import quality_moderator_only
 
@@ -30,6 +30,7 @@ class AppOfTheDay(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.cached(ttl=21600)
 def get_app_of_the_day(
     date: datetime.date = Path(
         examples=[
@@ -67,6 +68,7 @@ class AppsOfTheWeek(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.cached(ttl=21600)
 def get_app_of_the_week(
     date: datetime.date = Path(
         examples=[

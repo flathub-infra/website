@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI, HTTPException, Path
 from fastapi.responses import ORJSONResponse
 
-from .. import api_models, apps, database, models, search, utils
+from .. import api_models, apps, cache, database, models, search, utils
 from ..database import get_db
 
 router = APIRouter(default_response_class=ORJSONResponse)
@@ -18,6 +18,7 @@ def register_to_app(app: FastAPI):
         200: {"description": "End-of-life rebase information"},
     },
 )
+@cache.cached(ttl=21600)
 def get_eol_rebase() -> dict[str, list[str]]:
     eol_rebase = database.get_json_key("eol_rebase")
     if eol_rebase is None:
@@ -33,6 +34,7 @@ def get_eol_rebase() -> dict[str, list[str]]:
         404: {"description": "App rebase information not found"},
     },
 )
+@cache.cached(ttl=21600)
 def get_eol_rebase_appid(
     app_id: str = Path(
         min_length=6,
@@ -53,6 +55,7 @@ def get_eol_rebase_appid(
         200: {"description": "End-of-life messages for all apps"},
     },
 )
+@cache.cached(ttl=21600)
 def get_eol_message() -> dict[str, str]:
     eol_messages = database.get_json_key("eol_message")
     if eol_messages is None:
@@ -68,6 +71,7 @@ def get_eol_message() -> dict[str, str]:
         404: {"description": "App message not found"},
     },
 )
+@cache.cached(ttl=21600)
 def get_eol_message_appid(
     app_id: str = Path(
         min_length=6,
@@ -89,6 +93,7 @@ def get_eol_message_appid(
         200: {"description": "List of all app IDs"},
     },
 )
+@cache.cached(ttl=3600)
 def list_appstream(
     filter: apps.AppType = apps.AppType.APPS,
     sort: apps.SortBy = apps.SortBy.ALPHABETICAL,
@@ -116,6 +121,7 @@ def list_appstream(
         404: {"description": "App not found"},
     },
 )
+@cache.cached(ttl=3600)
 def get_appstream(
     app_id: str = Path(
         min_length=6,
@@ -166,6 +172,7 @@ def get_appstream(
         200: {"description": "Whether the app is a fullscreen app"},
     },
 )
+@cache.cached(ttl=3600)
 def get_isFullscreenApp(
     app_id: str = Path(
         min_length=6,
@@ -228,6 +235,7 @@ def get_runtime_list() -> dict[str, int]:
         404: {"description": "App not found"},
     },
 )
+@cache.cached(ttl=3600)
 def get_summary(
     app_id: str = Path(
         min_length=6,
@@ -299,6 +307,7 @@ def get_platforms() -> dict[str, utils.Platform]:
         200: {"description": "List of addons for the app"},
     },
 )
+@cache.cached(ttl=3600)
 def get_addons(app_id: str) -> list[str]:
     """
     Get a list of addon IDs that are compatible with the specified application.

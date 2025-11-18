@@ -1,0 +1,209 @@
+import functools
+import hashlib
+import inspect
+import time
+from collections.abc import Callable
+from typing import Any, TypeVar
+
+import orjson
+from pydantic import BaseModel
+
+from . import database
+
+T = TypeVar("T")
+
+STALE_THRESHOLD = 0.8
+
+
+def _make_cache_key(func_name: str, args: tuple, kwargs: dict) -> str:
+    key_data = {
+        "func": func_name,
+        "args": args,
+        "kwargs": kwargs,
+    }
+    key_hash = hashlib.md5(orjson.dumps(key_data, default=str)).hexdigest()
+    return f"cache:endpoint:{func_name}:{key_hash}"
+
+
+def _make_refresh_lock_key(cache_key: str) -> str:
+    return f"{cache_key}:refreshing"
+
+
+def _serialize_value(value: Any) -> dict:
+    if isinstance(value, BaseModel):
+        serialized_value = value.model_dump()
+    else:
+        serialized_value = value
+
+    return {
+        "value": serialized_value,
+        "created_at": time.time(),
+        "is_stale": False,
+    }
+
+
+def _deserialize_value(data: dict, expected_type: type) -> Any:
+    if not isinstance(data, dict) or "value" not in data:
+        return data
+
+    value = data.get("value")
+
+    if expected_type and inspect.isclass(expected_type):
+        if issubclass(expected_type, BaseModel):
+            return expected_type(**value) if isinstance(value, dict) else value
+
+    return value
+
+
+def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
+    if not isinstance(cache_data, dict):
+        return True
+
+    if cache_data.get("is_stale"):
+        return True
+
+    created_at = cache_data.get("created_at")
+    if created_at:
+        age = time.time() - created_at
+        stale_threshold = ttl * STALE_THRESHOLD
+        if age > stale_threshold:
+            return True
+
+    return False
+
+
+def cached(ttl: int = 3600) -> Callable:
+    """
+    Cache decorator with stale-while-revalidate support.
+
+    When cached data is stale:
+    1. Serve the stale value immediately
+    2. Refresh cache in the same request (lazy revalidation)
+
+    Prevents cache stampede by avoiding simultaneous refreshes of the same key.
+
+    Args:
+        ttl: Time-to-live in seconds (default: 1 hour)
+
+    Usage:
+        @cached(ttl=3600)
+        def get_appstream(app_id: str) -> DesktopAppstream:
+            ...
+    """
+
+    def decorator(func: Callable[..., T]) -> Callable[..., T]:
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs) -> T:
+            cache_key = _make_cache_key(func.__name__, args, kwargs)
+            refresh_lock_key = _make_refresh_lock_key(cache_key)
+
+            try:
+                cached_data = database.redis_conn.get(cache_key)
+                if cached_data:
+                    cache_entry = orjson.loads(cached_data)
+
+                    if not _is_cache_stale(cache_entry, ttl):
+                        return _deserialize_value(
+                            cache_entry,
+                            func.__annotations__.get("return"),
+                        )
+
+                    if isinstance(cache_entry, dict) and "value" in cache_entry:
+                        stale_value = _deserialize_value(
+                            cache_entry,
+                            func.__annotations__.get("return"),
+                        )
+
+                        try:
+                            if database.redis_conn.setnx(refresh_lock_key, "1"):
+                                database.redis_conn.expire(refresh_lock_key, 10)
+                                try:
+                                    fresh_result = func(*args, **kwargs)
+                                    serialized = _serialize_value(fresh_result)
+                                    database.redis_conn.setex(
+                                        cache_key, ttl, orjson.dumps(serialized)
+                                    )
+                                    return fresh_result
+                                finally:
+                                    database.redis_conn.delete(refresh_lock_key)
+                        except Exception as e:
+                            print(f"Cache refresh error for {func.__name__}: {e}")
+
+                        return stale_value
+
+            except Exception as e:
+                print(f"Cache get error for {func.__name__}: {e}")
+
+            result = func(*args, **kwargs)
+
+            try:
+                serialized = _serialize_value(result)
+                database.redis_conn.setex(cache_key, ttl, orjson.dumps(serialized))
+            except Exception as e:
+                print(f"Cache set error for {func.__name__}: {e}")
+
+            return result
+
+        return wrapper
+
+    return decorator
+
+
+def mark_stale_by_pattern(pattern: str) -> int:
+    """
+    Mark all cache keys matching a pattern as stale (for stale-while-revalidate).
+
+    Does NOT delete cache entries - they will be served as stale and revalidated
+    lazily when requests come in.
+
+    Args:
+        pattern: Redis key pattern (e.g., "cache:endpoint:*")
+
+    Returns:
+        Number of keys marked as stale
+    """
+    try:
+        keys = database.redis_conn.keys(pattern)
+        if not keys:
+            return 0
+
+        marked_count = 0
+        for key in keys:
+            try:
+                cached_data = database.redis_conn.get(key)
+                if cached_data:
+                    cache_entry = orjson.loads(cached_data)
+
+                    if isinstance(cache_entry, dict):
+                        cache_entry["is_stale"] = True
+                        database.redis_conn.set(key, orjson.dumps(cache_entry))
+                        marked_count += 1
+            except Exception as e:
+                print(f"Error marking key {key} as stale: {e}")
+
+        return marked_count
+    except Exception as e:
+        print(f"Cache mark stale error for pattern {pattern}: {e}")
+        return 0
+
+
+def invalidate_cache_by_pattern(pattern: str) -> int:
+    """
+    Completely invalidate (delete) all cache keys matching a pattern.
+
+    Use mark_stale_by_pattern() instead for stale-while-revalidate behavior.
+
+    Args:
+        pattern: Redis key pattern (e.g., "cache:endpoint:*")
+
+    Returns:
+        Number of keys deleted
+    """
+    try:
+        keys = database.redis_conn.keys(pattern)
+        if keys:
+            return database.redis_conn.delete(*keys)
+        return 0
+    except Exception as e:
+        print(f"Cache invalidation error for pattern {pattern}: {e}")
+        return 0

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI, Response
 from feedgen.feed import FeedGenerator
 
-from .. import models
+from .. import cache, models
 from ..database import get_db
 
 router = APIRouter(prefix="/feed")
@@ -52,6 +52,7 @@ def get_new_apps_feed():
     )
 
 
+@cache.cached(ttl=600)
 def generate_feed(column_name: str, title: str, description: str, link: str):
     feed = FeedGenerator()
     feed.title(title)
