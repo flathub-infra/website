@@ -141,21 +141,10 @@ def _configure_meilisearch_index(client):
 
 
 client = meilisearch.Client(
-    config.settings.meilisearch_url, config.settings.meilisearch_master_key
+    config.settings.meilisearch_url, config.settings.meilisearch_key
 )
 
-# with how dependent we are on meilisearch, upgrading it without destroying order
-# of the applications is hopeless
-secondary_client = None
-if config.settings.meilisearch_secondary_url:
-    secondary_client = meilisearch.Client(
-        config.settings.meilisearch_secondary_url,
-        config.settings.meilisearch_secondary_master_key,
-    )
-
 _configure_meilisearch_index(client)
-if secondary_client:
-    _configure_meilisearch_index(secondary_client)
 
 
 def _translate_name_and_summary[
@@ -202,9 +191,6 @@ def _translate_name_and_summary[
 
 def create_or_update_apps(apps_to_update: list[dict]):
     client.index("apps").update_documents(apps_to_update)
-
-    if secondary_client:
-        secondary_client.index("apps").update_documents(apps_to_update)
 
 
 def delete_apps(app_id_list: list[str]) -> None:

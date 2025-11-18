@@ -14,9 +14,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
     database_replica_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
     meilisearch_url: str = "http://meilisearch:7700"
-    meilisearch_master_key: str | None = None
-    meilisearch_secondary_url: str | None = None
-    meilisearch_secondary_master_key: str | None = None
+    meilisearch_key: str | None = None
     sentry_dsn: str | None = None
     appstream_repos: str | None = None
     datadir: str = os.path.join(ROOT_DIR, "data")
