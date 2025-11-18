@@ -393,6 +393,7 @@ class SummaryResponse(BaseModel):
     timestamp: int
     download_size: int
     installed_size: int
+    commits: dict[str, str] | None = None
     metadata: SummaryMetadata | None = None
 
     class Config:
