@@ -3061,6 +3061,74 @@ class AppExtensionLookup(Base):
         db.commit()
 
 
+class MonthlyPermissionStats(Base):
+    __tablename__ = "monthly_permission_stats"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    app_id: Mapped[str] = mapped_column(String, nullable=False, index=True)
+    month: Mapped[str] = mapped_column(
+        String, nullable=False, index=True
+    )  # Format: YYYY-MM
+    permission: Mapped[str] = mapped_column(String, nullable=False, index=True)
+    # usage_count removed; permission_value stores the actual permission data
+    permission_value: Mapped[Any] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        Index(
+            "ix_monthly_permission_stats_app_id_month_permission",
+            "app_id",
+            "month",
+            "permission",
+            unique=True,
+        ),
+    )
+
+    @classmethod
+    def upsert(
+        cls, db, app_id: str, month: str, permission: str, permission_value: Any = None
+    ):
+        stat = (
+            db.query(cls)
+            .filter_by(app_id=app_id, month=month, permission=permission)
+            .first()
+        )
+        if stat:
+            stat.permission_value = permission_value
+        else:
+            stat = cls(
+                app_id=app_id,
+                month=month,
+                permission=permission,
+                permission_value=permission_value,
+            )
+            db.add(stat)
+        db.commit()
+        return stat
+
+    @classmethod
+    def get_stats_for_month(cls, db, month: str):
+        return db.query(cls).filter_by(month=month).all()
+
+    @classmethod
+    def get_stats_for_app(cls, db, app_id: str):
+        return db.query(cls).filter_by(app_id=app_id).all()
+
+    @classmethod
+    def get_stats_for_permission(cls, db, permission: str):
+        return db.query(cls).filter_by(permission=permission).all()
+
+    @classmethod
+    def get_stats(cls, db, app_id: str, month: str, permission: str):
+        return (
+            db.query(cls)
+            .filter_by(app_id=app_id, month=month, permission=permission)
+            .first()
+        )
+
+
 class AppStats(Base):
     __tablename__ = "app_stats"
 

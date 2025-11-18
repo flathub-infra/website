@@ -15,7 +15,10 @@ import { getIntlLocale } from "../../../src/localize"
 import { tryParseCategory } from "../../../src/types/Category"
 import { useUserContext } from "../../../src/context/user-info"
 import { Permission, StatsResult } from "../../../src/codegen/model"
-import { useGetQualityModerationStatsQualityModerationFailedByGuidelineGet } from "../../../src/codegen"
+import {
+  useGetMonthlyPermissionStatsStatsPermissionsGet,
+  useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
+} from "../../../src/codegen"
 import { format } from "date-fns"
 import { LineChart, XAxis, YAxis, Line, BarChart, Treemap, Bar } from "recharts"
 import {
@@ -36,6 +39,7 @@ import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
 import { getLangDir } from "rtl-detect"
 import { useRouter } from "src/i18n/navigation"
+import Spinner from "src/components/Spinner"
 
 interface StatisticsClientProps {
   stats: StatsResult
@@ -115,10 +119,13 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
     }
   }
 
-  const refs = country_data.reduce((acc, value) => {
-    acc[value.country] = createRef()
-    return acc
-  }, {})
+  const refs = country_data.reduce(
+    (acc, value) => {
+      acc[value.country] = createRef()
+      return acc
+    },
+    {} as Record<string, React.RefObject<HTMLDivElement>>,
+  )
 
   return (
     <>
@@ -464,7 +471,144 @@ const StatisticsClient = ({
       <CategoryDistribution stats={stats} />
       <RuntimeChart runtimes={runtimes} />
       <FailedByGuideline />
+      <PermissionStatsOverTime />
     </div>
+  )
+}
+
+const PermissionStatsOverTime = () => {
+  const t = useTranslations()
+  const { resolvedTheme } = useTheme()
+  const locale = useLocale()
+  const user = useUserContext()
+
+  const query = useGetMonthlyPermissionStatsStatsPermissionsGet(
+    {},
+    {
+      query: {
+        enabled: !!user.info?.permissions.some(
+          (a) => a === Permission["quality-moderation"],
+        ),
+      },
+    },
+  )
+  const data = query.data?.data
+
+  // Aggregate data: group by month and permission
+  const grouped: Record<string, Record<string, number>> = {}
+  for (const stat of data) {
+    if (!grouped[stat.month]) grouped[stat.month] = {}
+    grouped[stat.month][stat.permission] =
+      (grouped[stat.month][stat.permission] || 0) + 1
+  }
+
+  // Prepare chart data
+  // Sort months chronologically (YYYY-MM)
+  const chartData = Object.entries(grouped)
+    .map(([month, perms]) => ({
+      month,
+      ...perms,
+    }))
+    .sort((a, b) => a.month.localeCompare(b.month))
+
+  // Get all unique permissions for chart keys
+  const allPermissions = Array.from(
+    new Set(data.map((stat) => stat.permission)),
+  )
+
+  // Color palette for lines
+  const palette = [
+    "#2563eb", // blue
+    "#16a34a", // green
+    "#f59e42", // orange
+    "#e11d48", // pink/red
+    "#a21caf", // purple
+    "#fbbf24", // yellow
+    "#0ea5e9", // sky
+    "#10b981", // teal
+    "#f43f5e", // rose
+    "#6366f1", // indigo
+  ]
+
+  const chartConfig = Object.fromEntries(
+    allPermissions.map((perm, i) => [
+      perm,
+      { color: palette[i % palette.length] },
+    ]),
+  ) satisfies ChartConfig
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">
+        {t("monthly-permission-usage")}
+      </h2>
+      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
+          <LineChart accessibilityLayer data={chartData}>
+            {allPermissions.map((perm, i) => (
+              <Line
+                key={perm}
+                dataKey={perm}
+                name={perm}
+                dot={false}
+                strokeWidth={3}
+                stroke={palette[i % palette.length]}
+              />
+            ))}
+            <XAxis
+              dataKey="month"
+              name={t("month")}
+              stroke={axisStroke(resolvedTheme)}
+              tick={<RotatedAxisTick />}
+              height={80}
+            />
+            <YAxis
+              tickFormatter={(y) => y.toLocaleString(locale)}
+              stroke={axisStroke(resolvedTheme)}
+              width={80}
+            />
+            <ChartTooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload || payload.length === 0) return null
+                return (
+                  <div className="p-2 bg-white dark:bg-flathub-arsenic rounded shadow">
+                    <div className="font-bold mb-1">
+                      {t("month")}: {label}
+                    </div>
+                    {payload
+                      .slice()
+                      .sort(
+                        (a, b) =>
+                          (Number(b.value) || 0) - (Number(a.value) || 0),
+                      )
+                      .map((entry) => (
+                        <div
+                          key={entry.dataKey}
+                          className="flex items-center gap-2"
+                        >
+                          <span
+                            style={{
+                              background: entry.stroke,
+                              width: 14,
+                              height: 14,
+                              display: "inline-block",
+                              borderRadius: 3,
+                            }}
+                          />
+                          <span>
+                            {entry.name}: {entry.value}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                )
+              }}
+              labelFormatter={(x) => x}
+            />
+          </LineChart>
+        </ChartContainer>
+      </div>
+    </>
   )
 }
 

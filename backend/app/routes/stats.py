@@ -1,8 +1,10 @@
-from fastapi import APIRouter, FastAPI, Path, Response
+import datetime
+
+from fastapi import APIRouter, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
-from .. import database, stats
+from .. import database, models, stats
 
 router = APIRouter(
     prefix="/stats",
@@ -32,6 +34,50 @@ class StatsResult(BaseModel):
     updates_per_day: dict[str, int]
     delta_downloads_per_day: dict[str, int]
     category_totals: list[StatsResultCategoryTotals]
+
+
+class MonthlyPermissionStatsResult(BaseModel):
+    app_id: str
+    month: str
+    permission: str
+    # usage_count removed
+    permission_value: object | None = None
+    created_at: datetime.datetime
+
+
+# Endpoint: /stats/permissions?month=YYYY-MM&app_id=...&permission=...
+@router.get(
+    "/permissions",
+    status_code=200,
+    response_model=list[MonthlyPermissionStatsResult],
+    responses={
+        200: {"description": "Monthly permission statistics"},
+    },
+)
+def get_monthly_permission_stats(
+    month: str = Query(None, description="Month in YYYY-MM format"),
+    app_id: str = Query(None, description="App ID to filter"),
+    permission: str = Query(None, description="Permission to filter"),
+):
+    with database.get_db() as db:
+        query = db.query(models.MonthlyPermissionStats)
+        if month:
+            query = query.filter(models.MonthlyPermissionStats.month == month)
+        if app_id:
+            query = query.filter(models.MonthlyPermissionStats.app_id == app_id)
+        if permission:
+            query = query.filter(models.MonthlyPermissionStats.permission == permission)
+        results = query.all()
+        return [
+            MonthlyPermissionStatsResult(
+                app_id=r.app_id,
+                month=r.month,
+                permission=r.permission,
+                permission_value=r.permission_value,
+                created_at=r.created_at,
+            )
+            for r in results
+        ]
 
 
 class StatsResultApp(BaseModel):
