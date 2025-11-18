@@ -27,7 +27,7 @@ def get_recently_updated_apps_feed():
     )
 
     return Response(
-        content=feed,
+        content=feed.encode("utf-8"),
         media_type="application/rss+xml",
     )
 
@@ -47,7 +47,7 @@ def get_new_apps_feed():
         "https://flathub.org/apps/collection/new",
     )
     return Response(
-        content=feed,
+        content=feed.encode("utf-8"),
         media_type="application/rss+xml",
     )
 
@@ -144,4 +144,4 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
 
         entry.description("".join(content))
 
-    return feed.rss_str()
+    return feed.rss_str().decode("utf-8")
