@@ -11,16 +11,7 @@ axios.defaults.paramsSerializer = {
 
 axios.interceptors.request.use(
   (config) => {
-    if (!config.baseURL) {
-      const isAuthEndpoint = config.url?.startsWith("/auth")
-
-      if (isAuthEndpoint) {
-        config.baseURL =
-          process.env.NEXT_PUBLIC_API_BASE_URI || "https://flathub.org/api/v2"
-      } else {
-        config.baseURL = getApiBaseUrl()
-      }
-    }
+    config.baseURL = getApiBaseUrl()
     return config
   },
   (error) => {
