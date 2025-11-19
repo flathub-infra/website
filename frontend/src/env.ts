@@ -1,10 +1,9 @@
-import { getApiBaseUrl } from "./utils/api-url"
-
 const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 
 export const APPS_IN_PREVIEW_COUNT: number = 12
 
-export const LOGIN_PROVIDERS_URL: string = `${getApiBaseUrl()}/auth/login`
+const PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_BASE_URI || "https://flathub.org/api/v2"
+export const LOGIN_PROVIDERS_URL: string = `${PUBLIC_API_URL}/auth/login`
 
 export const ASSET_BASE_URL: string =
   "https://dl.flathub.org/assets/_next/public"
