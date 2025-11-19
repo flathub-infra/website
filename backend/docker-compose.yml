@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
       context: .
     restart: unless-stopped
-    command: bash -c "alembic upgrade head && granian --interface asgi app.main:router --host 0.0.0.0 --port 8000 --reload --access-log"
+    command: bash -c "alembic upgrade head && granian --interface asgi app.main:app --host 0.0.0.0 --port 8000 --reload --access-log"
     environment: &backend-env
       ENV: development
       REDIS_HOST: redis

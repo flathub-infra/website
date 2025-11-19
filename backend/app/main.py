@@ -2,6 +2,7 @@ import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from granian.utils.proxies import wrap_asgi_with_proxy_headers
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
@@ -84,6 +85,8 @@ exceptions.register_to_app(router)
 users.register_to_app(router)
 favorites.register_to_app(router)
 stats.register_to_app(router)
+
+app = wrap_asgi_with_proxy_headers(router, trusted_hosts=["*"])
 
 
 @router.get(

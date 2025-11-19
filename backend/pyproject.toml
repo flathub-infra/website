@@ -9,7 +9,6 @@ authors = [
 requires-python = "<4.0,>=3.13"
 dependencies = [
     "fastapi<1.0.0,>=0.115.8",
-    "granian[reload]<2.0.0,>=1.0.0",
     "sentry-sdk[httpx]<3.0.0,>=2.22.0",
     "lxml<6.0.0,>=5.3.1",
     "requests<3.0.0,>=2.32.3",
@@ -33,6 +32,7 @@ dependencies = [
     "publicsuffixlist<2.0.0.0,>=1.0.2.20240903",
     "httpx<1.0.0,>=0.28.1",
     "apscheduler==3.11.1",
+    "granian[reload]>=2.6.0",
 ]
 
 [dependency-groups]
@@ -46,5 +46,5 @@ dev = [
 
 [tool.ruff]
 lint.ignore = ["E501", "E402"]
-exclude = ["alembic/versions/*"]
 lint.extend-select = ["I", "W", "UP", "TCH"]
+exclude = ["alembic/versions/*"]
