@@ -12,6 +12,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import cardImage from "../../public/img/card.webp"
 import { IS_PRODUCTION, ASSET_BASE_URL } from "src/env"
 import { routing } from "src/i18n/routing"
+import { staticLocales } from "src/i18n/static-locales"
 import { notFound } from "next/navigation"
 
 const inter = Inter({
@@ -20,7 +21,7 @@ const inter = Inter({
 })
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return staticLocales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({

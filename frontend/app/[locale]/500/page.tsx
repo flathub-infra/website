@@ -1,10 +1,10 @@
 import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { routing } from "src/i18n/routing"
+import { staticLocales } from "src/i18n/static-locales"
 import ServerErrorClient from "./server-error-client"
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return staticLocales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({

@@ -20,7 +20,7 @@ import {
 import { formatISO } from "date-fns"
 import HomeClient from "../home-client"
 import { setRequestLocale } from "next-intl/server"
-import { languages } from "../../../src/localize"
+import { staticLocales } from "../../../src/i18n/static-locales"
 import { gameCategoryFilter } from "../../../src/types/Category"
 
 const categoryOrder = [
@@ -37,7 +37,7 @@ const categoryOrder = [
 ]
 
 export async function generateStaticParams() {
-  const params = languages.map((locale) => ({
+  const params = staticLocales.map((locale) => ({
     locale: locale,
   }))
 

@@ -3,7 +3,7 @@ import { fetchSetupInstructions } from "../../../../src/distro-setup"
 import { Metadata } from "next"
 import DistroSetupClient from "./distro-setup-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { languages } from "../../../../src/localize"
+import { staticLocales } from "../../../../src/i18n/static-locales"
 
 export const dynamic = "force-static"
 export const revalidate = 43200 // Revalidate twice per day (12 hours)
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
   const staticParams = []
 
   // Generate params for each locale and each distro
-  for (const locale of languages) {
+  for (const locale of staticLocales) {
     for (const instruction of instructions) {
       // Add params for the main distro name
       staticParams.push({

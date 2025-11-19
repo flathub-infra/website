@@ -1,10 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server"
-import { routing } from "src/i18n/routing"
+import { staticLocales } from "src/i18n/static-locales"
 import FeedsClient from "./feeds-client"
 import { Metadata } from "next"
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return staticLocales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({
