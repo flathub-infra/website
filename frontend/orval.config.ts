@@ -1,4 +1,4 @@
-import { InfoObject } from "openapi3-ts/oas30"
+import type { InfoObject } from "openapi3-ts/oas30"
 
 module.exports = {
   "flathub-file-transfomer": {
@@ -11,7 +11,7 @@ module.exports = {
       mock: true,
       prettier: true,
       clean: true,
-      baseUrl: "${process.env.NEXT_PUBLIC_API_BASE_URI}",
+      baseUrl: "",
       override: {
         paramsSerializerOptions: {
           qs: {

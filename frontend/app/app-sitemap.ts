@@ -2,11 +2,10 @@ import { UTCDate } from "@date-fns/utc"
 import { getServerSideSitemap } from "next-sitemap"
 import { notFound } from "next/navigation"
 import { languages } from "src/localize"
+import { getApiBaseUrl } from "src/utils/api-url"
 
 export async function createAppSitemap(chunk: number) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`,
-  )
+  const response = await fetch(`${getApiBaseUrl()}/appstream`)
 
   if (!response.ok) {
     return notFound()

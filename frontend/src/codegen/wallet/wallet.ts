@@ -47,14 +47,11 @@ This will return a list of cards which the user has saved to their account.
 export const getWalletinfoWalletWalletinfoGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<WalletInfo>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/walletinfo`,
-    options,
-  )
+  return axios.get(`/wallet/walletinfo`, options)
 }
 
 export const getGetWalletinfoWalletWalletinfoGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/walletinfo`] as const
+  return [`/wallet/walletinfo`] as const
 }
 
 export const getGetWalletinfoWalletWalletinfoGetQueryOptions = <
@@ -209,11 +206,7 @@ export const postRemovecardWalletRemovecardPost = (
   paymentCardInfo: PaymentCardInfo,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown | void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/removecard`,
-    paymentCardInfo,
-    options,
-  )
+  return axios.post(`/wallet/removecard`, paymentCardInfo, options)
 }
 
 export const getPostRemovecardWalletRemovecardPostMutationOptions = <
@@ -301,24 +294,18 @@ export const getTransactionsWalletTransactionsGet = (
   params?: GetTransactionsWalletTransactionsGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TransactionSummary[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/wallet/transactions`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetTransactionsWalletTransactionsGetQueryKey = (
   params?: GetTransactionsWalletTransactionsGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/wallet/transactions`, ...(params ? [params] : [])] as const
 }
 
 export const getGetTransactionsWalletTransactionsGetQueryOptions = <
@@ -484,11 +471,7 @@ export const createTransactionWalletTransactionsPost = (
   nascentTransaction: NascentTransaction,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<PostTransactionResponse>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions`,
-    nascentTransaction,
-    options,
-  )
+  return axios.post(`/wallet/transactions`, nascentTransaction, options)
 }
 
 export const getCreateTransactionWalletTransactionsPostMutationOptions = <
@@ -578,18 +561,13 @@ export const getTransactionByIdWalletTransactionsTxnGet = (
   txn: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<Transaction>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}`,
-    options,
-  )
+  return axios.get(`/wallet/transactions/${txn}`, options)
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryKey = (
   txn?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}`,
-  ] as const
+  return [`/wallet/transactions/${txn}`] as const
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryOptions = <
@@ -774,7 +752,7 @@ export const setTransactionCardWalletTransactionsTxnSetcardPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/setcard`,
+    `/wallet/transactions/${txn}/setcard`,
     paymentCardInfo,
     options,
   )
@@ -886,11 +864,7 @@ export const cancelTransactionWalletTransactionsTxnCancelPost = (
   txn: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown | void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/cancel`,
-    undefined,
-    options,
-  )
+  return axios.post(`/wallet/transactions/${txn}/cancel`, undefined, options)
 }
 
 export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions =
@@ -984,14 +958,11 @@ considered secret, we don't need a login or anything for this
 export const getStripedataWalletStripedataGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<StripeKeys>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/stripedata`,
-    options,
-  )
+  return axios.get(`/wallet/stripedata`, options)
 }
 
 export const getGetStripedataWalletStripedataGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/stripedata`] as const
+  return [`/wallet/stripedata`] as const
 }
 
 export const getGetStripedataWalletStripedataGetQueryOptions = <
@@ -1144,18 +1115,13 @@ export const getTxnStripedataWalletTransactionsTxnStripeGet = (
   txn: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TransactionStripeData>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/stripe`,
-    options,
-  )
+  return axios.get(`/wallet/transactions/${txn}/stripe`, options)
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryKey = (
   txn?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/stripe`,
-  ] as const
+  return [`/wallet/transactions/${txn}/stripe`] as const
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions = <
@@ -1362,7 +1328,7 @@ export const setSavecardWalletTransactionsTxnSavecardPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown | void>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/savecard`,
+    `/wallet/transactions/${txn}/savecard`,
     transactionSaveCard,
     options,
   )
@@ -1453,7 +1419,7 @@ export const setPendingWalletTransactionsTxnSetpendingPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown | void>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/transactions/${txn}/setpending`,
+    `/wallet/transactions/${txn}/setpending`,
     undefined,
     options,
   )
@@ -1534,42 +1500,33 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
   return useMutation(mutationOptions, queryClient)
 }
 /**
- * This endpoint is intended to deal with webhooks coming back from payment
-mechanisms etc.  It exists only for the deployed wallet, so its name
-will vary with the deployed wallet kind.
-
-The exact form of the content posted to the webhook will vary from wallet
-kind to wallet kind.
- * @summary Webhook
+ * Clear the fake wallet details
+ * @summary Clear Fake
  */
-export const webhookWalletWebhookStripePost = (
+export const clearFakeWalletClearfakePost = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/wallet/webhook/stripe`,
-    undefined,
-    options,
-  )
+): Promise<AxiosResponse<unknown | void>> => {
+  return axios.post(`/wallet/clearfake`, undefined, options)
 }
 
-export const getWebhookWalletWebhookStripePostMutationOptions = <
-  TError = AxiosError<void | void>,
+export const getClearFakeWalletClearfakePostMutationOptions = <
+  TError = AxiosError<void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
+    Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
     TError,
     void,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
+  Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
   TError,
   void,
   TContext
 > => {
-  const mutationKey = ["webhookWalletWebhookStripePost"]
+  const mutationKey = ["clearFakeWalletClearfakePost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1579,33 +1536,31 @@ export const getWebhookWalletWebhookStripePostMutationOptions = <
     : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
+    Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
     void
   > = () => {
-    return webhookWalletWebhookStripePost(axiosOptions)
+    return clearFakeWalletClearfakePost(axiosOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type WebhookWalletWebhookStripePostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>
+export type ClearFakeWalletClearfakePostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>
 >
 
-export type WebhookWalletWebhookStripePostMutationError = AxiosError<
-  void | void
->
+export type ClearFakeWalletClearfakePostMutationError = AxiosError<void>
 
 /**
- * @summary Webhook
+ * @summary Clear Fake
  */
-export const useWebhookWalletWebhookStripePost = <
-  TError = AxiosError<void | void>,
+export const useClearFakeWalletClearfakePost = <
+  TError = AxiosError<void>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
+      Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
       TError,
       void,
       TContext
@@ -1614,13 +1569,100 @@ export const useWebhookWalletWebhookStripePost = <
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
+  Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
   TError,
   void,
   TContext
 > => {
   const mutationOptions =
-    getWebhookWalletWebhookStripePostMutationOptions(options)
+    getClearFakeWalletClearfakePostMutationOptions(options)
+
+  return useMutation(mutationOptions, queryClient)
+}
+/**
+ * This endpoint is intended to deal with webhooks coming back from payment
+mechanisms etc.  It exists only for the deployed wallet, so its name
+will vary with the deployed wallet kind.
+
+The exact form of the content posted to the webhook will vary from wallet
+kind to wallet kind.
+ * @summary Webhook
+ */
+export const webhookWalletWebhookFakewalletPost = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(`/wallet/webhook/fakewallet`, undefined, options)
+}
+
+export const getWebhookWalletWebhookFakewalletPostMutationOptions = <
+  TError = AxiosError<void | void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+    TError,
+    void,
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["webhookWalletWebhookFakewalletPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+    void
+  > = () => {
+    return webhookWalletWebhookFakewalletPost(axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type WebhookWalletWebhookFakewalletPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>
+>
+
+export type WebhookWalletWebhookFakewalletPostMutationError = AxiosError<
+  void | void
+>
+
+/**
+ * @summary Webhook
+ */
+export const useWebhookWalletWebhookFakewalletPost = <
+  TError = AxiosError<void | void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions =
+    getWebhookWalletWebhookFakewalletPostMutationOptions(options)
 
   return useMutation(mutationOptions, queryClient)
 }

@@ -49,14 +49,11 @@ flow to be a vendor on Flathub.
 export const statusVendingStatusGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingStatus | void>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status`,
-    options,
-  )
+  return axios.get(`/vending/status`, options)
 }
 
 export const getStatusVendingStatusGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status`] as const
+  return [`/vending/status`] as const
 }
 
 export const getStatusVendingStatusGetQueryOptions = <
@@ -205,7 +202,7 @@ export const startOnboardingVendingStatusOnboardingPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingRedirect>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status/onboarding`,
+    `/vending/status/onboarding`,
     vendingOnboardingRequest,
     options,
   )
@@ -295,16 +292,11 @@ The user must be logged in and must have onboarded.
 export const getDashboardLinkVendingStatusDashboardlinkGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingRedirect>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status/dashboardlink`,
-    options,
-  )
+  return axios.get(`/vending/status/dashboardlink`, options)
 }
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryKey = () => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/status/dashboardlink`,
-  ] as const
+  return [`/vending/status/dashboardlink`] as const
 }
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
@@ -488,14 +480,11 @@ Configuration includes:
 export const getGlobalVendingConfigVendingConfigGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingConfig>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/config`,
-    options,
-  )
+  return axios.get(`/vending/config`, options)
 }
 
 export const getGetGlobalVendingConfigVendingConfigGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/vending/config`] as const
+  return [`/vending/config`] as const
 }
 
 export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
@@ -647,18 +636,13 @@ export const getAppVendingSetupVendingappAppIdSetupGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingSetup>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/setup`,
-    options,
-  )
+  return axios.get(`/vendingapp/${appId}/setup`, options)
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryKey = (
   appId?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/setup`,
-  ] as const
+  return [`/vendingapp/${appId}/setup`] as const
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
@@ -838,11 +822,7 @@ export const postAppVendingSetupVendingappAppIdSetupPost = (
   vendingSetupRequest: VendingSetupRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingSetup>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/setup`,
-    vendingSetupRequest,
-    options,
-  )
+  return axios.post(`/vendingapp/${appId}/setup`, vendingSetupRequest, options)
 }
 
 export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
@@ -938,11 +918,7 @@ export const postAppVendingStatusVendingappAppIdPost = (
   proposedPayment: ProposedPayment,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingOutput>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}`,
-    proposedPayment,
-    options,
-  )
+  return axios.post(`/vendingapp/${appId}`, proposedPayment, options)
 }
 
 export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
@@ -1032,18 +1008,13 @@ export const getRedeemableTokensVendingappAppIdTokensGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TokenList>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens`,
-    options,
-  )
+  return axios.get(`/vendingapp/${appId}/tokens`, options)
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryKey = (
   appId?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens`,
-  ] as const
+  return [`/vendingapp/${appId}/tokens`] as const
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
@@ -1235,7 +1206,7 @@ export const createTokensVendingappAppIdTokensPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TokenModel[]>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens`,
+    `/vendingapp/${appId}/tokens`,
     createTokensVendingappAppIdTokensPostBody,
     options,
   )
@@ -1325,7 +1296,7 @@ export const cancelTokensVendingappAppIdTokensCancelPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TokenCancellation[]>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens/cancel`,
+    `/vendingapp/${appId}/tokens/cancel`,
     cancelTokensVendingappAppIdTokensCancelPostBody,
     options,
   )
@@ -1421,7 +1392,7 @@ export const redeemTokenVendingappAppIdTokensRedeemTokenPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<RedemptionResult>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/tokens/redeem/${token}`,
+    `/vendingapp/${appId}/tokens/redeem/${token}`,
     undefined,
     options,
   )
@@ -1520,16 +1491,11 @@ export const appInfoVendingappAppIdInfoGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingApplicationInformation>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/info`,
-    options,
-  )
+  return axios.get(`/vendingapp/${appId}/info`, options)
 }
 
 export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId?: string) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/vendingapp/${appId}/info`,
-  ] as const
+  return [`/vendingapp/${appId}/info`] as const
 }
 
 export const getAppInfoVendingappAppIdInfoGetQueryOptions = <

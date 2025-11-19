@@ -42,7 +42,7 @@ export const usersUsersGet = (
   params?: UsersUsersGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<FlathubUsersResult>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/users`, {
+  return axios.get(`/users`, {
     ...options,
     params: { ...params, ...options?.params },
     paramsSerializer: (params) =>
@@ -51,10 +51,7 @@ export const usersUsersGet = (
 }
 
 export const getUsersUsersGetQueryKey = (params?: UsersUsersGetParams) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/users`, ...(params ? [params] : [])] as const
 }
 
 export const getUsersUsersGetQueryOptions = <
@@ -190,14 +187,11 @@ export function useUsersUsersGet<
 export const rolesUsersRolesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles`,
-    options,
-  )
+  return axios.get(`/users/roles`, options)
 }
 
 export const getRolesUsersRolesGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles`] as const
+  return [`/users/roles`] as const
 }
 
 export const getRolesUsersRolesGetQueryOptions = <
@@ -345,14 +339,11 @@ export const userUsersUserIdGet = (
   userId: number,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<UserResult>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}`,
-    options,
-  )
+  return axios.get(`/users/${userId}`, options)
 }
 
 export const getUserUsersUserIdGetQueryKey = (userId?: number) => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}`] as const
+  return [`/users/${userId}`] as const
 }
 
 export const getUserUsersUserIdGetQueryOptions = <
@@ -516,16 +507,12 @@ export const addUserRoleUsersUserIdRolePost = (
   params: AddUserRoleUsersUserIdRolePostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<UserResult>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}/role`,
-    undefined,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/users/${userId}/role`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
@@ -611,15 +598,12 @@ export const deleteUserRoleUsersUserIdRoleDelete = (
   params: DeleteUserRoleUsersUserIdRoleDeleteParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<UserResult>> => {
-  return axios.delete(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/${userId}/role`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.delete(`/users/${userId}/role`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
@@ -704,18 +688,13 @@ export const roleUsersUsersRolesRoleNameGet = (
   roleName: RoleName,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<UserResult[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles/${roleName}`,
-    options,
-  )
+  return axios.get(`/users/roles/${roleName}`, options)
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryKey = (
   roleName?: RoleName,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/users/roles/${roleName}`,
-  ] as const
+  return [`/users/roles/${roleName}`] as const
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <

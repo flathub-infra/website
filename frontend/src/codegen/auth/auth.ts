@@ -55,14 +55,11 @@ frontends with localisation may choose to render other text instead.
 export const getLoginMethodsAuthLoginGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<LoginMethod[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login`,
-    options,
-  )
+  return axios.get(`/auth/login`, options)
 }
 
 export const getGetLoginMethodsAuthLoginGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login`] as const
+  return [`/auth/login`] as const
 }
 
 export const getGetLoginMethodsAuthLoginGetQueryOptions = <
@@ -218,14 +215,11 @@ then this will return an error instead.
 export const startGithubFlowAuthLoginGithubGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`,
-    options,
-  )
+  return axios.get(`/auth/login/github`, options)
 }
 
 export const getStartGithubFlowAuthLoginGithubGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`] as const
+  return [`/auth/login/github`] as const
 }
 
 export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
@@ -399,7 +393,7 @@ export const continueGithubFlowAuthLoginGithubPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/github`,
+    `/auth/login/github`,
     continueGithubFlowAuthLoginGithubPostBody,
     options,
   )
@@ -494,14 +488,11 @@ then this will return an error instead.
 export const startGitlabFlowAuthLoginGitlabGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`,
-    options,
-  )
+  return axios.get(`/auth/login/gitlab`, options)
 }
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`] as const
+  return [`/auth/login/gitlab`] as const
 }
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
@@ -675,7 +666,7 @@ export const continueGitlabFlowAuthLoginGitlabPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gitlab`,
+    `/auth/login/gitlab`,
     continueGitlabFlowAuthLoginGitlabPostBody,
     options,
   )
@@ -770,14 +761,11 @@ then this will return an error instead.
 export const startGnomeFlowAuthLoginGnomeGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`,
-    options,
-  )
+  return axios.get(`/auth/login/gnome`, options)
 }
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`] as const
+  return [`/auth/login/gnome`] as const
 }
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
@@ -951,7 +939,7 @@ export const continueGnomeFlowAuthLoginGnomePost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/gnome`,
+    `/auth/login/gnome`,
     continueGnomeFlowAuthLoginGnomePostBody,
     options,
   )
@@ -1037,14 +1025,11 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
 export const startKdeFlowAuthLoginKdeGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`,
-    options,
-  )
+  return axios.get(`/auth/login/kde`, options)
 }
 
 export const getStartKdeFlowAuthLoginKdeGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`] as const
+  return [`/auth/login/kde`] as const
 }
 
 export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
@@ -1193,7 +1178,7 @@ export const continueKdeFlowAuthLoginKdePost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/kde`,
+    `/auth/login/kde`,
     continueKdeFlowAuthLoginKdePostBody,
     options,
   )
@@ -1305,7 +1290,7 @@ export const continueGoogleFlowAuthLoginGooglePost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/login/google`,
+    `/auth/login/google`,
     continueGoogleFlowAuthLoginGooglePostBody,
     options,
   )
@@ -1409,14 +1394,11 @@ dev_flatpaks is filtered against IDs available in AppStream
 export const getUserinfoAuthUserinfoGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetUserinfoAuthUserinfoGet200 | void>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/userinfo`,
-    options,
-  )
+  return axios.get(`/auth/userinfo`, options)
 }
 
 export const getGetUserinfoAuthUserinfoGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/userinfo`] as const
+  return [`/auth/userinfo`] as const
 }
 
 export const getGetUserinfoAuthUserinfoGetQueryOptions = <
@@ -1563,11 +1545,7 @@ export function useGetUserinfoAuthUserinfoGet<
 export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<RefreshDevFlatpaksReturn>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/refresh-dev-flatpaks`,
-    undefined,
-    options,
-  )
+  return axios.post(`/auth/refresh-dev-flatpaks`, undefined, options)
 }
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
@@ -1654,11 +1632,7 @@ and will clear the session cookie so that the user is not logged in.
 export const doLogoutAuthLogoutPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/logout`,
-    undefined,
-    options,
-  )
+  return axios.post(`/auth/logout`, undefined, options)
 }
 
 export const getDoLogoutAuthLogoutPostMutationOptions = <
@@ -1740,14 +1714,11 @@ and data.
 export const getDeleteuserAuthDeleteuserGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetDeleteUserResult>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`,
-    options,
-  )
+  return axios.get(`/auth/deleteuser`, options)
 }
 
 export const getGetDeleteuserAuthDeleteuserGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`] as const
+  return [`/auth/deleteuser`] as const
 }
 
 export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
@@ -1906,11 +1877,7 @@ export const doDeleteuserAuthDeleteuserPost = (
   userDeleteRequest: UserDeleteRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<DeleteUserResult>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/deleteuser`,
-    userDeleteRequest,
-    options,
-  )
+  return axios.post(`/auth/deleteuser`, userDeleteRequest, options)
 }
 
 export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
@@ -1992,11 +1959,7 @@ export const useDoDeleteuserAuthDeleteuserPost = <
 export const doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/accept-publisher-agreement`,
-    undefined,
-    options,
-  )
+  return axios.post(`/auth/accept-publisher-agreement`, undefined, options)
 }
 
 export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions =
@@ -2107,16 +2070,12 @@ export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
   params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/auth/change-default-account`,
-    undefined,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/auth/change-default-account`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions =

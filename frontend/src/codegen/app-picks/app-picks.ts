@@ -32,18 +32,13 @@ export const getAppOfTheDayAppPicksAppOfTheDayDateGet = (
   date: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppOfTheDay>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-day/${date}`,
-    options,
-  )
+  return axios.get(`/app-picks/app-of-the-day/${date}`, options)
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
   date?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-day/${date}`,
-  ] as const
+  return [`/app-picks/app-of-the-day/${date}`] as const
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
@@ -211,18 +206,13 @@ export const getAppOfTheWeekAppPicksAppsOfTheWeekDateGet = (
   date: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppsOfTheWeek>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/apps-of-the-week/${date}`,
-    options,
-  )
+  return axios.get(`/app-picks/apps-of-the-week/${date}`, options)
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryKey = (
   date?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/apps-of-the-week/${date}`,
-  ] as const
+  return [`/app-picks/apps-of-the-week/${date}`] as const
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
@@ -410,11 +400,7 @@ export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
   upsertAppOfTheWeek: UpsertAppOfTheWeek,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-week`,
-    upsertAppOfTheWeek,
-    options,
-  )
+  return axios.post(`/app-picks/app-of-the-week`, upsertAppOfTheWeek, options)
 }
 
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
@@ -500,11 +486,7 @@ export const setAppOfTheDayAppPicksAppOfTheDayPost = (
   appOfTheDay: AppOfTheDay,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/app-picks/app-of-the-day`,
-    appOfTheDay,
-    options,
-  )
+  return axios.post(`/app-picks/app-of-the-day`, appOfTheDay, options)
 }
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <

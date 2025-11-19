@@ -45,24 +45,18 @@ export const getStorefrontInfoPurchasesStorefrontInfoGet = (
   params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<StorefrontInfo>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/purchases/storefront-info`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryKey = (
   params?: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/purchases/storefront-info`, ...(params ? [params] : [])] as const
 }
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions = <
@@ -245,15 +239,12 @@ export const getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = (
   params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<boolean>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info/is-free-software`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/purchases/storefront-info/is-free-software`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryKey =
@@ -261,7 +252,7 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryKe
     params?: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
   ) => {
     return [
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/storefront-info/is-free-software`,
+      `/purchases/storefront-info/is-free-software`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -494,11 +485,7 @@ able to update apps without user interaction.
 export const getUpdateTokenPurchasesGenerateUpdateTokenPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GenerateUpdateTokenResponse>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/generate-update-token`,
-    undefined,
-    options,
-  )
+  return axios.post(`/purchases/generate-update-token`, undefined, options)
 }
 
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
@@ -589,7 +576,7 @@ export const checkPurchasesPurchasesCheckPurchasesPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<CheckPurchasesResponseSuccess>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/check-purchases`,
+    `/purchases/check-purchases`,
     checkPurchasesPurchasesCheckPurchasesPostBody,
     options,
   )
@@ -679,7 +666,7 @@ export const getDownloadTokenPurchasesGenerateDownloadTokenPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetDownloadTokenResponse>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/purchases/generate-download-token`,
+    `/purchases/generate-download-token`,
     bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
     options,
   )

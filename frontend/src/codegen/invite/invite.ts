@@ -40,14 +40,11 @@ export const getInviteStatusInvitesAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<InviteStatus>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}`,
-    options,
-  )
+  return axios.get(`/invites/${appId}`, options)
 }
 
 export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId?: string) => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}`] as const
+  return [`/invites/${appId}`] as const
 }
 
 export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
@@ -214,16 +211,12 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
   params: InviteDeveloperInvitesAppIdInvitePostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/invite`,
-    undefined,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/invites/${appId}/invite`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
@@ -307,11 +300,7 @@ export const acceptInviteInvitesAppIdAcceptPost = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/accept`,
-    undefined,
-    options,
-  )
+  return axios.post(`/invites/${appId}/accept`, undefined, options)
 }
 
 export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
@@ -395,11 +384,7 @@ export const declineInviteInvitesAppIdDeclinePost = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/decline`,
-    undefined,
-    options,
-  )
+  return axios.post(`/invites/${appId}/decline`, undefined, options)
 }
 
 export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
@@ -483,11 +468,7 @@ export const leaveTeamInvitesAppIdLeavePost = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/leave`,
-    undefined,
-    options,
-  )
+  return axios.post(`/invites/${appId}/leave`, undefined, options)
 }
 
 export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
@@ -571,18 +552,13 @@ export const getAppDevelopersInvitesAppIdDevelopersGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppRoutesInvitesDevelopersResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/developers`,
-    options,
-  )
+  return axios.get(`/invites/${appId}/developers`, options)
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
   appId?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/developers`,
-  ] as const
+  return [`/invites/${appId}/developers`] as const
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
@@ -753,16 +729,12 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
   params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/remove-developer`,
-    undefined,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/invites/${appId}/remove-developer`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
@@ -873,16 +845,12 @@ export const revokeInviteInvitesAppIdRevokePost = (
   params: RevokeInviteInvitesAppIdRevokePostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/invites/${appId}/revoke`,
-    undefined,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/invites/${appId}/revoke`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <

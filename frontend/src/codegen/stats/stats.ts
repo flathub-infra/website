@@ -35,11 +35,11 @@ import type {
 export const getStatsStatsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetStatsStatsGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/`, options)
+  return axios.get(`/stats/`, options)
 }
 
 export const getGetStatsStatsGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/`] as const
+  return [`/stats/`] as const
 }
 
 export const getGetStatsStatsGetQueryOptions = <
@@ -183,7 +183,7 @@ export const getStatsForAppStatsAppIdGet = (
   params?: GetStatsForAppStatsAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetStatsForAppStatsAppIdGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/${appId}`, {
+  return axios.get(`/stats/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
     paramsSerializer: (params) =>
@@ -195,10 +195,7 @@ export const getGetStatsForAppStatsAppIdGetQueryKey = (
   appId?: string,
   params?: GetStatsForAppStatsAppIdGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/stats/${appId}`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/stats/${appId}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetStatsForAppStatsAppIdGetQueryOptions = <

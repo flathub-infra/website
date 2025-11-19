@@ -25,7 +25,7 @@ export const buildNotificationEmailsBuildNotificationPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/emails/build-notification`,
+    `/emails/build-notification`,
     buildNotificationRequest,
     options,
   )

@@ -46,24 +46,18 @@ export const getQualityModerationStatusQualityModerationStatusGet = (
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<QualityModerationDashboardResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/quality-moderation/status`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetQualityModerationStatusQualityModerationStatusGetQueryKey = (
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/status`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/quality-moderation/status`, ...(params ? [params] : [])] as const
 }
 
 export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions =
@@ -284,22 +278,19 @@ export const getPassingQualityAppsQualityModerationPassingAppsGet = (
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<SimpleQualityModerationResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/quality-moderation/passing-apps`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryKey = (
   params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
 ) => {
   return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/passing-apps`,
+    `/quality-moderation/passing-apps`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -523,15 +514,12 @@ export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<AppPickRecommendationsResponse>> => {
-    return axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations`,
-      {
-        ...options,
-        params: { ...params, ...options?.params },
-        paramsSerializer: (params) =>
-          qs.stringify(params, { arrayFormat: "repeat" }),
-      },
-    )
+    return axios.get(`/quality-moderation/app-pick-recommendations`, {
+      ...options,
+      params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
   }
 
 export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryKey =
@@ -539,7 +527,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
     params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   ) => {
     return [
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/app-pick-recommendations`,
+      `/quality-moderation/app-pick-recommendations`,
       ...(params ? [params] : []),
     ] as const
   }
@@ -779,17 +767,12 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
 export const getQualityModerationStatsQualityModerationFailedByGuidelineGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<FailedByGuideline[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/failed-by-guideline`,
-    options,
-  )
+  return axios.get(`/quality-moderation/failed-by-guideline`, options)
 }
 
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryKey =
   () => {
-    return [
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/failed-by-guideline`,
-    ] as const
+    return [`/quality-moderation/failed-by-guideline`] as const
   }
 
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryOptions =
@@ -1016,18 +999,13 @@ export const getQualityModerationForAppQualityModerationAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<QualityModerationResponse>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`,
-    options,
-  )
+  return axios.get(`/quality-moderation/${appId}`, options)
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
   appId?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`,
-  ] as const
+  return [`/quality-moderation/${appId}`] as const
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions =
@@ -1245,7 +1223,7 @@ export const setQualityModerationForAppQualityModerationAppIdPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}`,
+    `/quality-moderation/${appId}`,
     upsertQualityModeration,
     options,
   )
@@ -1352,17 +1330,12 @@ export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<QualityModerationStatus>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/status`,
-    options,
-  )
+  return axios.get(`/quality-moderation/${appId}/status`, options)
 }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryKey =
   (appId?: string) => {
-    return [
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/status`,
-    ] as const
+    return [`/quality-moderation/${appId}/status`] as const
   }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryOptions =
@@ -1605,7 +1578,7 @@ export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`,
+    `/quality-moderation/${appId}/request-review`,
     undefined,
     options,
   )
@@ -1725,10 +1698,7 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
     appId: string,
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<unknown | void>> => {
-    return axios.delete(
-      `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/request-review`,
-      options,
-    )
+    return axios.delete(`/quality-moderation/${appId}/request-review`, options)
   }
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions =
@@ -1843,16 +1813,12 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
   params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/quality-moderation/${appId}/fullscreen`,
-    undefined,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/quality-moderation/${appId}/fullscreen`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions =

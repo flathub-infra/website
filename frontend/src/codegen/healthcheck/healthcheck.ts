@@ -26,11 +26,11 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 export const healthcheckStatusGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/status`, options)
+  return axios.get(`/status`, options)
 }
 
 export const getHealthcheckStatusGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/status`] as const
+  return [`/status`] as const
 }
 
 export const getHealthcheckStatusGetQueryOptions = <

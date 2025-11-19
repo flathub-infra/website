@@ -52,14 +52,11 @@ import type {
 export const getEolRebaseEolRebaseGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetEolRebaseEolRebaseGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase`,
-    options,
-  )
+  return axios.get(`/eol/rebase`, options)
 }
 
 export const getGetEolRebaseEolRebaseGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase`] as const
+  return [`/eol/rebase`] as const
 }
 
 export const getGetEolRebaseEolRebaseGetQueryOptions = <
@@ -208,25 +205,19 @@ export const getEolRebaseAppidEolRebaseAppIdGet = (
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetEolRebaseAppidEolRebaseAppIdGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase/${appId}`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/eol/rebase/${appId}`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
   appId?: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/rebase/${appId}`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/eol/rebase/${appId}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
@@ -400,14 +391,11 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 export const getEolMessageEolMessageGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetEolMessageEolMessageGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message`,
-    options,
-  )
+  return axios.get(`/eol/message`, options)
 }
 
 export const getGetEolMessageEolMessageGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message`] as const
+  return [`/eol/message`] as const
 }
 
 export const getGetEolMessageEolMessageGetQueryOptions = <
@@ -556,25 +544,19 @@ export const getEolMessageAppidEolMessageAppIdGet = (
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetEolMessageAppidEolMessageAppIdGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message/${appId}`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/eol/message/${appId}`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
   appId?: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/eol/message/${appId}`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/eol/message/${appId}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
@@ -756,7 +738,7 @@ export const listAppstreamAppstreamGet = (
   params?: ListAppstreamAppstreamGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`, {
+  return axios.get(`/appstream`, {
     ...options,
     params: { ...params, ...options?.params },
     paramsSerializer: (params) =>
@@ -767,10 +749,7 @@ export const listAppstreamAppstreamGet = (
 export const getListAppstreamAppstreamGetQueryKey = (
   params?: ListAppstreamAppstreamGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/appstream`, ...(params ? [params] : [])] as const
 }
 
 export const getListAppstreamAppstreamGetQueryOptions = <
@@ -933,25 +912,19 @@ export const getAppstreamAppstreamAppIdGet = (
   params?: GetAppstreamAppstreamAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetAppstreamAppstreamAppIdGet200>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.get(`/appstream/${appId}`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetAppstreamAppstreamAppIdGetQueryKey = (
   appId?: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/appstream/${appId}`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/appstream/${appId}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
@@ -1124,18 +1097,13 @@ export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<boolean>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/is-fullscreen-app/${appId}`,
-    options,
-  )
+  return axios.get(`/is-fullscreen-app/${appId}`, options)
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
   appId?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/is-fullscreen-app/${appId}`,
-  ] as const
+  return [`/is-fullscreen-app/${appId}`] as const
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions = <
@@ -1309,16 +1277,12 @@ export const postSearchSearchPost = (
   params?: PostSearchSearchPostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<MeilisearchResponseAppsIndex>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/search`,
-    searchQuery,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-      paramsSerializer: (params) =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-    },
-  )
+  return axios.post(`/search`, searchQuery, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getPostSearchSearchPostMutationOptions = <
@@ -1402,11 +1366,11 @@ Returns a mapping of runtime names to the number of apps using each runtime.
 export const getRuntimeListRuntimesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetRuntimeListRuntimesGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/runtimes`, options)
+  return axios.get(`/runtimes`, options)
 }
 
 export const getGetRuntimeListRuntimesGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/runtimes`] as const
+  return [`/runtimes`] as const
 }
 
 export const getGetRuntimeListRuntimesGetQueryOptions = <
@@ -1559,7 +1523,7 @@ export const getSummarySummaryAppIdGet = (
   params?: GetSummarySummaryAppIdGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<SummaryResponse>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}`, {
+  return axios.get(`/summary/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
     paramsSerializer: (params) =>
@@ -1571,10 +1535,7 @@ export const getGetSummarySummaryAppIdGetQueryKey = (
   appId?: string,
   params?: GetSummarySummaryAppIdGetParams,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/summary/${appId}`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`/summary/${appId}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetSummarySummaryAppIdGetQueryOptions = <
@@ -1748,11 +1709,11 @@ and donations APIs to address amounts to the platforms.
 export const getPlatformsPlatformsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetPlatformsPlatformsGet200>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/platforms`, options)
+  return axios.get(`/platforms`, options)
 }
 
 export const getGetPlatformsPlatformsGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/platforms`] as const
+  return [`/platforms`] as const
 }
 
 export const getGetPlatformsPlatformsGetQueryOptions = <
@@ -1903,14 +1864,11 @@ export const getAddonsAddonAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/addon/${appId}`,
-    options,
-  )
+  return axios.get(`/addon/${appId}`, options)
 }
 
 export const getGetAddonsAddonAppIdGetQueryKey = (appId?: string) => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/addon/${appId}`] as const
+  return [`/addon/${appId}`] as const
 }
 
 export const getGetAddonsAddonAppIdGetQueryOptions = <
@@ -2069,14 +2027,11 @@ export function useGetAddonsAddonAppIdGet<
 export const getExceptionsExceptionsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/`,
-    options,
-  )
+  return axios.get(`/exceptions/`, options)
 }
 
 export const getGetExceptionsExceptionsGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/`] as const
+  return [`/exceptions/`] as const
 }
 
 export const getGetExceptionsExceptionsGetQueryOptions = <
@@ -2224,18 +2179,13 @@ export const getExceptionsForAppExceptionsAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/${appId}`,
-    options,
-  )
+  return axios.get(`/exceptions/${appId}`, options)
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
   appId?: string,
 ) => {
-  return [
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/exceptions/${appId}`,
-  ] as const
+  return [`/exceptions/${appId}`] as const
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
@@ -2403,11 +2353,7 @@ export const addToFavoritesFavoritesAppIdAddPost = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}/add`,
-    undefined,
-    options,
-  )
+  return axios.post(`/favorites/${appId}/add`, undefined, options)
 }
 
 export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
@@ -2491,10 +2437,7 @@ export const removeFromFavoritesFavoritesAppIdRemoveDelete = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.delete(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}/remove`,
-    options,
-  )
+  return axios.delete(`/favorites/${appId}/remove`, options)
 }
 
 export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
@@ -2578,11 +2521,11 @@ export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
 export const getFavoritesFavoritesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<FavoriteApp[]>> => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites`, options)
+  return axios.get(`/favorites`, options)
 }
 
 export const getGetFavoritesFavoritesGetQueryKey = () => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites`] as const
+  return [`/favorites`] as const
 }
 
 export const getGetFavoritesFavoritesGetQueryOptions = <
@@ -2730,14 +2673,11 @@ export const isFavoritedFavoritesAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<boolean>> => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}`,
-    options,
-  )
+  return axios.get(`/favorites/${appId}`, options)
 }
 
 export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId?: string) => {
-  return [`${process.env.NEXT_PUBLIC_API_BASE_URI}/favorites/${appId}`] as const
+  return [`/favorites/${appId}`] as const
 }
 
 export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
