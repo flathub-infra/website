@@ -8,6 +8,7 @@ import { NextRequest } from "next/server"
 import axios from "axios"
 import { fonts } from "app/api/fontManager"
 import { fontLanguageDenyList, Language, languages } from "src/localize"
+import { getApiBaseUrl } from "src/utils/api-url"
 
 export async function GET(
   request: NextRequest,
@@ -18,7 +19,7 @@ export async function GET(
   axios.interceptors.request.use((config) => {
     return {
       ...config,
-      baseURL: process.env.NEXT_PUBLIC_API_BASE_URI,
+      baseURL: getApiBaseUrl(),
     }
   })
 
