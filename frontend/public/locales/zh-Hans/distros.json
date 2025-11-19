@@ -22,7 +22,7 @@
     "distroName": "Manjaro",
     "step-1": {
       "name": "通过软件管理器启用 Flatpak",
-      "text": "<text>Flatpak 默认安装在 Manjaro 20 或更高版本上。</text> <text>要启用其支持，请导航到 <strong>Software Manager</strong>（添加/删除程序）</text> <text>点击右侧的三条横线菜单[或点，具体取决于桌面环境]，在下拉菜单中选择“首选项”</text> <text>导航到“Flatpak”标签页，将‌切换开关滑动至启用 Flatpak 支持（推荐同时启用更新检查）。</text>"
+      "text": "<text>Flatpak 默认安装在 Manjaro 20 或更高版本上。</text> <text>要启用其支持，请导航到 <strong>Software Manager</strong>（添加/删除程序）</text> <text>点击右侧的三条横线菜单[或点，具体取决于桌面环境]，在下拉菜单中选择“首选项”</text> <text>导航到“Flatpak”标签页，将切换开关滑动至启用 Flatpak 支持（推荐同时启用更新检查）。</text>"
     },
     "step-2": {
       "name": "重启",
