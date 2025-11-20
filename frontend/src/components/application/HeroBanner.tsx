@@ -69,16 +69,28 @@ export const HeroBanner = ({
     }
     setCurrent(api.selectedScrollSnap() + 1)
 
-    api.on("select", () => {
+    const onSelect = () => {
       setCurrent(api.selectedScrollSnap() + 1)
       autoPlay.reset()
-    })
-    api.on("pointerDown", () => {
+    }
+
+    const onPointerDown = () => {
       autoPlay.stop()
-    })
-    api.on("pointerUp", () => {
+    }
+
+    const onPointerUp = () => {
       autoPlay.play()
-    })
+    }
+
+    api.on("select", onSelect)
+    api.on("pointerDown", onPointerDown)
+    api.on("pointerUp", onPointerUp)
+
+    return () => {
+      api.off("select", onSelect)
+      api.off("pointerDown", onPointerDown)
+      api.off("pointerUp", onPointerUp)
+    }
   }, [api, currentIndex])
 
   const direction = getLangDir(locale) ?? "ltr"
