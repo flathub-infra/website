@@ -32,7 +32,7 @@ def _make_refresh_lock_key(cache_key: str) -> str:
 
 def _serialize_value(value: Any) -> dict:
     if isinstance(value, BaseModel):
-        serialized_value = value.model_dump(mode='json')
+        serialized_value = value.model_dump(mode="json")
     else:
         serialized_value = value
 
@@ -60,7 +60,7 @@ def _deserialize_value(data: dict, expected_type: type) -> Any:
             union_members = get_args(union_type)
 
             for member in union_members:
-                if hasattr(member, 'model_fields'):
+                if hasattr(member, "model_fields"):
                     for field_name, field_info in member.model_fields.items():
                         if field_name in value and isinstance(value[field_name], str):
                             field_type = field_info.annotation
@@ -68,7 +68,10 @@ def _deserialize_value(data: dict, expected_type: type) -> Any:
                             if origin_type is Literal:
                                 literal_args = get_args(field_type)
                                 for arg in literal_args:
-                                    if isinstance(arg, Enum) and arg.value == value[field_name]:
+                                    if (
+                                        isinstance(arg, Enum)
+                                        and arg.value == value[field_name]
+                                    ):
                                         value[field_name] = arg
                                         break
 
