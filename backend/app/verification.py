@@ -15,7 +15,7 @@ from github.GithubException import UnknownObjectException
 from pydantic import BaseModel, Field
 from sqlalchemy.sql import func
 
-from . import config, models, utils, worker
+from . import cache, config, models, utils, worker
 from .database import get_db
 from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
@@ -491,6 +491,7 @@ def get_verified_apps():
         return verified
 
 
+@cache.cached(ttl=3600)
 @router.get(
     "/{app_id}/status",
     status_code=200,
@@ -911,6 +912,7 @@ def verify_by_login_provider(
 
     if not new_app:
         worker.republish_app.send(app_id)
+        cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
 
 
 class LinkResponse(BaseModel):
@@ -1049,6 +1051,7 @@ def confirm_website_verification(
 
         if not new_app:
             worker.republish_app.send(app_id)
+            cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
 
     return result
 
@@ -1093,6 +1096,7 @@ def unverify(
                 db.session.commit()
 
         worker.republish_app.send(app_id)
+        cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
 
 
 @router.post(
