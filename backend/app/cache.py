@@ -3,7 +3,7 @@ import hashlib
 import inspect
 import time
 from collections.abc import Callable
-from typing import Any, TypeVar
+from typing import Annotated, Any, TypeVar, get_args, get_origin
 
 import orjson
 from pydantic import BaseModel
@@ -48,7 +48,20 @@ def _deserialize_value(data: dict, expected_type: type) -> Any:
 
     value = data.get("value")
 
-    if expected_type and inspect.isclass(expected_type):
+    if not expected_type:
+        return value
+
+    origin = get_origin(expected_type)
+    if origin is Annotated:
+        args = get_args(expected_type)
+        actual_type = args[0]
+        if isinstance(value, dict):
+            try:
+                return actual_type.model_validate(value)
+            except (AttributeError, TypeError):
+                return value
+
+    if inspect.isclass(expected_type):
         if issubclass(expected_type, BaseModel):
             return expected_type(**value) if isinstance(value, dict) else value
 
