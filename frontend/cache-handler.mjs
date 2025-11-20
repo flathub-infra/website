@@ -9,8 +9,9 @@ const isSingleConnectionModeEnabled = !!process.env.REDIS_SINGLE_CONNECTION
 
 async function setupRedisClient() {
   if (PHASE_PRODUCTION_BUILD !== process.env.NEXT_PHASE) {
+    let redisClient
     try {
-      const redisClient = createClient({
+      redisClient = createClient({
         url: process.env.REDIS_URL ?? "redis://localhost:6379",
         pingInterval: 10000,
       })
