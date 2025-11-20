@@ -3,7 +3,7 @@ import hashlib
 import inspect
 import time
 from collections.abc import Callable
-from typing import Annotated, Any, TypeVar, get_args, get_origin
+from typing import Annotated, Any, TypeVar, get_origin
 
 import orjson
 from pydantic import BaseModel, TypeAdapter
