@@ -6,7 +6,7 @@ from collections.abc import Callable
 from typing import Annotated, Any, TypeVar, get_args, get_origin
 
 import orjson
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter
 
 from . import database
 
@@ -53,12 +53,10 @@ def _deserialize_value(data: dict, expected_type: type) -> Any:
 
     origin = get_origin(expected_type)
     if origin is Annotated:
-        args = get_args(expected_type)
-        actual_type = args[0]
         if isinstance(value, dict):
             try:
-                return actual_type.model_validate(value)
-            except (AttributeError, TypeError):
+                return TypeAdapter(expected_type).validate_python(value)
+            except Exception:
                 return value
 
     if inspect.isclass(expected_type):
