@@ -111,7 +111,7 @@ export async function GET(
                 filter:
                   "drop-shadow(0 4px 3px #00000009) drop-shadow(0 2px 2px #00000040)",
               }}
-              src={icon.replace(/.webp$/, ".png")}
+              src={icon}
               alt=""
             />
           )}
@@ -146,7 +146,7 @@ export async function GET(
                 width: "620px",
                 borderRadius: isFullscreenApp ? "8px" : "0px",
               }}
-              src={screenshot.src.replace(/.webp$/, ".png")}
+              src={screenshot.src}
               alt=""
             />
           )}
