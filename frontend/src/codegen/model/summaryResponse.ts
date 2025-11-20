@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { SummaryResponseBranch } from "./summaryResponseBranch"
+import type { SummaryResponseCommits } from "./summaryResponseCommits"
 import type { SummaryResponseMetadata } from "./summaryResponseMetadata"
 
 /**
@@ -19,6 +20,7 @@ export interface SummaryResponse {
   timestamp: number
   download_size: number
   installed_size: number
+  commits?: SummaryResponseCommits
   metadata?: SummaryResponseMetadata
   [key: string]: unknown
 }

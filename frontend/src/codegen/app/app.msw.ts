@@ -2703,6 +2703,17 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
   timestamp: faker.number.int({ min: undefined, max: undefined }),
   download_size: faker.number.int({ min: undefined, max: undefined }),
   installed_size: faker.number.int({ min: undefined, max: undefined }),
+  commits: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]: faker.string.alpha({
+          length: { min: 10, max: 20 },
+        }),
+      },
+      null,
+    ]),
+    undefined,
+  ]),
   metadata: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {

@@ -190,7 +190,7 @@ def parse_summary(summary, sqldb):
     refs, metadata = data.unpack()
     xa_cache = metadata["xa.cache"]
 
-    for ref, (_, _, info) in refs:
+    for ref, (commit_bytes, _, info) in refs:
         if not (valid_ref := validate_ref(ref)):
             continue
 
@@ -208,6 +208,11 @@ def parse_summary(summary, sqldb):
             ),
         )
         summary_dict[app_id]["timestamp"] = timestamp
+
+        commit_hash = OSTree.checksum_from_bytes(commit_bytes)
+        if "commits" not in summary_dict[app_id]:
+            summary_dict[app_id]["commits"] = {}
+        summary_dict[app_id]["commits"][arch] = commit_hash
 
     for ref in xa_cache:
         if not (valid_ref := validate_ref(ref)):
