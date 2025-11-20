@@ -1,5 +1,3 @@
-"use client"
-
 import { Suspense } from "react"
 import SearchBar from "./SearchBar"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
