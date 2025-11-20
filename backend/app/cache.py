@@ -3,7 +3,8 @@ import hashlib
 import inspect
 import time
 from collections.abc import Callable
-from typing import Annotated, Any, TypeVar, get_origin
+from enum import Enum
+from typing import Annotated, Any, Literal, TypeVar, get_args, get_origin
 
 import orjson
 from pydantic import BaseModel, TypeAdapter
@@ -31,7 +32,7 @@ def _make_refresh_lock_key(cache_key: str) -> str:
 
 def _serialize_value(value: Any) -> dict:
     if isinstance(value, BaseModel):
-        serialized_value = value.model_dump()
+        serialized_value = value.model_dump(mode='json')
     else:
         serialized_value = value
 
@@ -54,6 +55,23 @@ def _deserialize_value(data: dict, expected_type: type) -> Any:
     origin = get_origin(expected_type)
     if origin is Annotated:
         if isinstance(value, dict):
+            args = get_args(expected_type)
+            union_type = args[0]
+            union_members = get_args(union_type)
+
+            for member in union_members:
+                if hasattr(member, 'model_fields'):
+                    for field_name, field_info in member.model_fields.items():
+                        if field_name in value and isinstance(value[field_name], str):
+                            field_type = field_info.annotation
+                            origin_type = get_origin(field_type)
+                            if origin_type is Literal:
+                                literal_args = get_args(field_type)
+                                for arg in literal_args:
+                                    if isinstance(arg, Enum) and arg.value == value[field_name]:
+                                        value[field_name] = arg
+                                        break
+
             try:
                 return TypeAdapter(expected_type).validate_python(value)
             except Exception:
