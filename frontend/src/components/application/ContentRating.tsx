@@ -1,21 +1,19 @@
 import clsx from "clsx"
-import { useTranslation } from "next-i18next"
-import { FunctionComponent, createElement, useState } from "react"
+import { useLocale, useTranslations } from "next-intl"
+import { FunctionComponent, useState } from "react"
 import {
   getContentRating,
   contentRatingToColor,
   contentRatingToIcon,
 } from "src/contentRating"
-import {
-  Appstream,
-  ContentRatingAttribute,
-  ContentRatingLevel,
-} from "src/types/Appstream"
+import { ContentRatingAttribute, ContentRatingLevel } from "src/types/Appstream"
+import { Summary } from "src/types/Summary"
 import { StackedListBox } from "./StackedListBox"
 import Modal from "../Modal"
+import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 interface Props {
-  data: Appstream
+  data: GetAppstreamAppstreamAppIdGet200
   summary: Summary
 }
 
@@ -29,25 +27,26 @@ const ContentRatingIcon = ({
   return (
     <div
       className={clsx(
-        size === "small" ? "h-10 w-10" : "h-16 w-16",
+        "h-12 w-12",
         "rounded-full p-2",
         contentRatingToColor(level),
       )}
     >
-      {icon
-        ? createElement(icon, {
-            className: "w-full h-full",
-          })
-        : contentRatingToIcon(attr)}
+      {contentRatingToIcon(attr)}
     </div>
   )
 }
 
 const ContentRating: FunctionComponent<Props> = ({ data }) => {
-  const { t } = useTranslation()
+  const t = useTranslations()
+  const locale = useLocale()
   const [isOpen, setIsOpen] = useState(false)
 
-  const contentRating = getContentRating(data)
+  const contentRating = getContentRating(data, locale)
+
+  if (!contentRating) {
+    return null
+  }
 
   return (
     <>
@@ -60,7 +59,12 @@ const ContentRating: FunctionComponent<Props> = ({ data }) => {
         onClick={() => setIsOpen(true)}
       >
         <div className="text-lg font-bold">
-          {contentRating.minimumAge}
+          {contentRating.minimumAge === 0
+            ? t("all-ages")
+            : t("ages-x-plus", { age: contentRating.minimumAge })}
+        </div>
+        <div className="text-xs text-flathub-arsenic/60 dark:text-flathub-gainsborow/60">
+          {t("content-rating")}
         </div>
       </button>
 
@@ -68,35 +72,20 @@ const ContentRating: FunctionComponent<Props> = ({ data }) => {
         shown={isOpen}
         centerTitle
         onClose={() => setIsOpen(false)}
-        aboveTitle={
-          <div className="flex flex-col items-center pb-2">
-            {minimumAgeFormatted}
-          </div>
-        }
+        title={t("content-rating")}
       >
-        <>
-          <div className="w-full">
-            <StackedListBox
-              items={contentRating.attrs
-                .map(
-                  (
-                    {
-                      attr,
-                      level,
-                      description,
-                    },
-                    i,
-                  ) => ({
-                    id: i,
-                    header: description,
-                    icon: (
-                      <ContentRatingIcon attr={attr} level={level} />
-                    ),
-                  }),
-                )}
-            />
-          </div>
-        </>
+        <div className="w-full">
+          <StackedListBox
+            items={contentRating.attrs.map(
+              ({ attr, level, description }, i) => ({
+                id: i,
+                header: t(`content-rating-${description}`),
+                description: t(`content-rating-${level}`),
+                icon: <ContentRatingIcon attr={attr} level={level} />,
+              }),
+            )}
+          />
+        </div>
       </Modal>
     </>
   )
