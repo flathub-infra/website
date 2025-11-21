@@ -176,8 +176,11 @@ const Details: FunctionComponent<Props> = ({
     }
 
     const children = [<LicenseInfo key={"license-info"} app={app} />]
-
-    if (contentRating !== null) {
+    if (
+      "content_rating" in app &&
+      app.content_rating &&
+      app.content_rating.type !== "oars-1.0"
+    ) {
       children.unshift(
         <ContentRating key={"content-rating"} data={app} summary={summary} />,
       )

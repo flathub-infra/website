@@ -2340,7 +2340,13 @@ class App(Base):
             and not k.startswith("release_description_")
         }
 
-        return result | translation
+        result = result | translation
+
+        # Add content rating details if available
+        if self.content_rating_details:
+            result["content_rating_details"] = self.content_rating_details
+
+        return result
 
     @classmethod
     def by_appid(cls, db, app_id: str) -> Optional["App"]:
@@ -2348,8 +2354,31 @@ class App(Base):
 
     @classmethod
     def get_appstream(cls, db, app_id: str) -> dict | None:
-        app = db.session.query(App.appstream).filter(App.app_id == app_id).first()
-        return app.appstream if app else None
+        app = (
+            db.session.query(App.appstream, App.content_rating_details)
+            .filter(App.app_id == app_id)
+            .first()
+        )
+        if app and app.appstream:
+            result = app.appstream.copy()
+            if app.content_rating_details:
+                result["content_rating_details"] = app.content_rating_details
+            return result
+        return None
+
+    @classmethod
+    def get_content_rating_details(cls, db, app_id: str) -> dict | None:
+        """
+        Retrieve content rating details for a given app_id
+        """
+        app = (
+            db.session.query(App.content_rating_details)
+            .filter(App.app_id == app_id)
+            .first()
+        )
+        if app:
+            return app.content_rating_details
+        return None
 
     @classmethod
     def set_app(
