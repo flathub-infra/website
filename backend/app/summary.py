@@ -190,6 +190,8 @@ def parse_summary(summary, sqldb):
     refs, metadata = data.unpack()
     xa_cache = metadata["xa.cache"]
 
+    last_updated_updates = {}
+
     for ref, (_, _, info) in refs:
         if not (valid_ref := validate_ref(ref)):
             continue
@@ -200,14 +202,13 @@ def parse_summary(summary, sqldb):
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
 
         updated_at_dict[app_id] = timestamp
-        models.App.set_last_updated_at(
-            sqldb,
-            app_id,
-            datetime.datetime.fromtimestamp(
-                float(timestamp),
-            ),
+        last_updated_updates[app_id] = datetime.datetime.fromtimestamp(
+            float(timestamp),
         )
         summary_dict[app_id]["timestamp"] = timestamp
+
+    if last_updated_updates:
+        models.App.bulk_set_last_updated_at(sqldb, last_updated_updates)
 
     for ref in xa_cache:
         if not (valid_ref := validate_ref(ref)):

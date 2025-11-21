@@ -2418,6 +2418,23 @@ class App(Base):
             db.session.commit()
 
     @classmethod
+    def bulk_set_last_updated_at(cls, db, updates: dict[str, datetime]) -> None:
+        if not updates:
+            return
+
+        app_ids = list(updates.keys())
+        existing_apps = db.session.query(App).filter(App.app_id.in_(app_ids)).all()
+
+        for app in existing_apps:
+            if app.app_id in updates:
+                new_timestamp = updates[app.app_id]
+                if app.last_updated_at != new_timestamp:
+                    app.last_updated_at = new_timestamp
+
+        if existing_apps:
+            db.session.commit()
+
+    @classmethod
     def set_initial_release_at(
         cls, db, app_id: str, initial_release_at: datetime
     ) -> None:

@@ -352,6 +352,27 @@ def submit_review_request(
 
     app_runtime_dref: str | None = None
 
+    app_ids = list(build_appstream.keys())
+    direct_upload_apps_by_id = {}
+    apps_by_id = {}
+
+    if app_ids:
+        with get_db("writer") as db:
+            direct_upload_apps = (
+                db.session.query(models.DirectUploadApp)
+                .filter(models.DirectUploadApp.app_id.in_(app_ids))
+                .all()
+            )
+            direct_upload_apps_by_id = {app.app_id: app for app in direct_upload_apps}
+
+        with get_db("replica") as db:
+            apps = (
+                db.session.query(models.App)
+                .filter(models.App.app_id.in_(app_ids))
+                .all()
+            )
+            apps_by_id = {app.app_id: app for app in apps}
+
     for app_id, app_data in build_appstream.items():
         is_new_submission = True
 
@@ -403,86 +424,83 @@ def submit_review_request(
             current_values = {}
 
         with get_db("writer") as db:
-            if direct_upload_app := models.DirectUploadApp.by_app_id(db, app_id):
-                if not direct_upload_app.first_seen_at:
-                    direct_upload_app.first_seen_at = datetime.utcnow()
-                    db.session.commit()
-                    is_new_submission = True
-                    current_values = {"direct upload": False}
-                    keys = {"direct upload": True}
+            direct_upload_app = direct_upload_apps_by_id.get(app_id)
+            if direct_upload_app and not direct_upload_app.first_seen_at:
+                direct_upload_app.first_seen_at = datetime.utcnow()
+                db.session.merge(direct_upload_app)
+                db.session.commit()
+                is_new_submission = True
+                current_values = {"direct upload": False}
+                keys = {"direct upload": True}
 
-        with get_db("replica") as db:
-            current_summary = None
-            current_permissions = None
-            current_extradata = False
+        current_summary = None
+        current_permissions = None
+        current_extradata = False
 
-            app = models.App.by_appid(db, app_id)
-            if app and app.summary:
-                current_summary = app.summary
-                sentry_context[f"summary:{app_id}:stable"] = current_summary
+        app = apps_by_id.get(app_id)
+        if app and app.summary:
+            current_summary = app.summary
+            sentry_context[f"summary:{app_id}:stable"] = current_summary
 
-                if current_metadata := current_summary.get("metadata", {}):
-                    current_permissions = current_metadata.get("permissions")
-                    current_extradata = bool(current_metadata.get("extra-data"))
-            elif current_summary := get_json_key(f"summary:{app_id}:stable"):
-                sentry_context[f"summary:{app_id}:stable"] = current_summary
+            if current_metadata := current_summary.get("metadata", {}):
+                current_permissions = current_metadata.get("permissions")
+                current_extradata = bool(current_metadata.get("extra-data"))
+        elif current_summary := get_json_key(f"summary:{app_id}:stable"):
+            sentry_context[f"summary:{app_id}:stable"] = current_summary
 
-                if current_metadata := current_summary.get("metadata", {}):
-                    current_permissions = current_metadata.get("permissions")
-                    current_extradata = bool(current_metadata.get("extra-data"))
+            if current_metadata := current_summary.get("metadata", {}):
+                current_permissions = current_metadata.get("permissions")
+                current_extradata = bool(current_metadata.get("extra-data"))
 
-            if current_summary:
-                build_summary_app = build_summary.get(app_id) or {}
-                build_summary_metadata = build_summary_app.get("metadata") or {}
-                build_permissions = build_summary_metadata.get("permissions") or {}
-                build_extradata = bool(build_summary_metadata.get("extra-data", False))
+        if current_summary:
+            build_summary_app = build_summary.get(app_id) or {}
+            build_summary_metadata = build_summary_app.get("metadata") or {}
+            build_permissions = build_summary_metadata.get("permissions") or {}
+            build_extradata = bool(build_summary_metadata.get("extra-data", False))
 
-                app_runtime = build_summary_metadata.get(
-                    "runtime"
-                ) or build_summary_metadata.get("sdk")
-                if app_runtime:
-                    app_runtime_dref = (
-                        f"{app_runtime.split('/')[0]}//{app_runtime.split('/')[2]}"
-                        if app_runtime.count("/") == 2
-                        else None
-                    )
+            app_runtime = build_summary_metadata.get(
+                "runtime"
+            ) or build_summary_metadata.get("sdk")
+            if app_runtime:
+                app_runtime_dref = (
+                    f"{app_runtime.split('/')[0]}//{app_runtime.split('/')[2]}"
+                    if app_runtime.count("/") == 2
+                    else None
+                )
 
-                if current_extradata != build_extradata:
-                    current_values["extra-data"] = current_extradata
-                    keys["extra-data"] = build_extradata
+            if current_extradata != build_extradata:
+                current_values["extra-data"] = current_extradata
+                keys["extra-data"] = build_extradata
 
-                if current_permissions and build_permissions:
-                    if current_permissions != build_permissions:
-                        for perm in current_permissions:
-                            current_perm = current_permissions[perm]
-                            build_perm = build_permissions.get(perm)
+            if current_permissions and build_permissions:
+                if current_permissions != build_permissions:
+                    for perm in current_permissions:
+                        current_perm = current_permissions[perm]
+                        build_perm = build_permissions.get(perm)
 
-                            if isinstance(current_perm, list):
-                                if sorted(current_perm or []) != sorted(
-                                    build_perm or []
-                                ):
-                                    current_values[perm] = current_perm
-                                    keys[perm] = build_perm
+                        if isinstance(current_perm, list):
+                            if sorted(current_perm or []) != sorted(build_perm or []):
+                                current_values[perm] = current_perm
+                                keys[perm] = build_perm
 
-                            if isinstance(current_perm, dict):
-                                if build_perm is None:
-                                    build_perm = {}
+                        if isinstance(current_perm, dict):
+                            if build_perm is None:
+                                build_perm = {}
 
-                                dict_keys = current_perm.keys() | build_perm.keys()
-                                for key in dict_keys:
-                                    current_val = current_perm.get(key)
-                                    build_val = build_perm.get(key)
+                            dict_keys = current_perm.keys() | build_perm.keys()
+                            for key in dict_keys:
+                                current_val = current_perm.get(key)
+                                build_val = build_perm.get(key)
 
-                                    is_different = (
-                                        sorted(current_val or [])
-                                        != sorted(build_val or [])
-                                        if isinstance(current_val, list)
-                                        and isinstance(build_val, list)
-                                        else current_val != build_val
-                                    )
-                                    if is_different:
-                                        current_values[f"{key}-{perm}"] = current_val
-                                        keys[f"{key}-{perm}"] = build_val
+                                is_different = (
+                                    sorted(current_val or []) != sorted(build_val or [])
+                                    if isinstance(current_val, list)
+                                    and isinstance(build_val, list)
+                                    else current_val != build_val
+                                )
+                                if is_different:
+                                    current_values[f"{key}-{perm}"] = current_val
+                                    keys[f"{key}-{perm}"] = build_val
 
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
