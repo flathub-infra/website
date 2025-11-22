@@ -145,8 +145,10 @@ def get_appstream(
             db_session.session.query(models.App)
             .options(
                 load_only(
+                    models.App.app_id,
                     models.App.appstream,
                     models.App.localization,
+                    models.App.content_rating_details,
                     models.App.is_eol,
                     models.App.eol_branches,
                 )
