@@ -1873,31 +1873,34 @@ The input to this should be of the form:
 ```
  * @summary Do Deleteuser
  */
-export const doDeleteuserAuthDeleteuserPost = (
+export const doDeleteuserAuthDeleteuserDelete = (
   userDeleteRequest: UserDeleteRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<DeleteUserResult>> => {
-  return axios.post(`/auth/deleteuser`, userDeleteRequest, options)
+  return axios.delete(`/auth/deleteuser`, {
+    data: userDeleteRequest,
+    ...options,
+  })
 }
 
-export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
+export const getDoDeleteuserAuthDeleteuserDeleteMutationOptions = <
   TError = AxiosError<void | void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+    Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
     TError,
     { data: UserDeleteRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
   TError,
   { data: UserDeleteRequest },
   TContext
 > => {
-  const mutationKey = ["doDeleteuserAuthDeleteuserPost"]
+  const mutationKey = ["doDeleteuserAuthDeleteuserDelete"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1907,34 +1910,34 @@ export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
     : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+    Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
     { data: UserDeleteRequest }
   > = (props) => {
     const { data } = props ?? {}
 
-    return doDeleteuserAuthDeleteuserPost(data, axiosOptions)
+    return doDeleteuserAuthDeleteuserDelete(data, axiosOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type DoDeleteuserAuthDeleteuserPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>
+export type DoDeleteuserAuthDeleteuserDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>
 >
-export type DoDeleteuserAuthDeleteuserPostMutationBody = UserDeleteRequest
-export type DoDeleteuserAuthDeleteuserPostMutationError =
+export type DoDeleteuserAuthDeleteuserDeleteMutationBody = UserDeleteRequest
+export type DoDeleteuserAuthDeleteuserDeleteMutationError =
   AxiosError<void | void | HTTPValidationError>
 
 /**
  * @summary Do Deleteuser
  */
-export const useDoDeleteuserAuthDeleteuserPost = <
+export const useDoDeleteuserAuthDeleteuserDelete = <
   TError = AxiosError<void | void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+      Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
       TError,
       { data: UserDeleteRequest },
       TContext
@@ -1943,13 +1946,13 @@ export const useDoDeleteuserAuthDeleteuserPost = <
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
   TError,
   { data: UserDeleteRequest },
   TContext
 > => {
   const mutationOptions =
-    getDoDeleteuserAuthDeleteuserPostMutationOptions(options)
+    getDoDeleteuserAuthDeleteuserDeleteMutationOptions(options)
 
   return useMutation(mutationOptions, queryClient)
 }

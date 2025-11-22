@@ -8,7 +8,7 @@ import { Repo } from "src/types/UploadTokens"
 import {
   GetAppstreamAppstreamAppIdGet200,
   useGetUploadTokensUploadTokensAppIdGet,
-  useRevokeUploadTokenUploadTokensTokenIdRevokePost,
+  useRevokeUploadTokenUploadTokensTokenIdRevokeDelete,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { UTCDate } from "@date-fns/utc"
@@ -45,7 +45,7 @@ export default function UploadTokenControls({
     undefined,
   )
 
-  const revokeMutation = useRevokeUploadTokenUploadTokensTokenIdRevokePost({
+  const revokeMutation = useRevokeUploadTokenUploadTokensTokenIdRevokeDelete({
     axios: { withCredentials: true },
   })
 

@@ -7,7 +7,7 @@ import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import {
-  doDeleteuserAuthDeleteuserPost,
+  doDeleteuserAuthDeleteuserDelete,
   getDeleteuserAuthDeleteuserGet,
 } from "src/codegen"
 import { Input } from "@/components/ui/input"
@@ -44,7 +44,7 @@ const DeleteButton: FunctionComponent = () => {
   const deleteUserMutation = useMutation({
     mutationKey: ["delete", token],
     mutationFn: async () =>
-      doDeleteuserAuthDeleteuserPost(
+      doDeleteuserAuthDeleteuserDelete(
         { token },
         {
           withCredentials: true,

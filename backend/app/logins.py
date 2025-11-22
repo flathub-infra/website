@@ -1132,7 +1132,7 @@ def get_deleteuser(login: LoginStatusDep) -> GetDeleteUserResult:
     return GetDeleteUserResult(status="ok", token=token)
 
 
-@router.post(
+@router.delete(
     "/deleteuser",
     tags=["auth"],
     responses={

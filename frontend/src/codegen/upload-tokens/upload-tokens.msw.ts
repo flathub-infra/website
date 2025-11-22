@@ -124,15 +124,15 @@ export const getCreateUploadTokenUploadTokensAppIdPostMockHandler = (
   )
 }
 
-export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMockHandler = (
+export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.delete(
     "*/upload-tokens/:tokenId/revoke",
     async (info) => {
       await delay(1000)
@@ -147,5 +147,5 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMockHandler = (
 export const getUploadTokensMock = () => [
   getGetUploadTokensUploadTokensAppIdGetMockHandler(),
   getCreateUploadTokenUploadTokensAppIdPostMockHandler(),
-  getRevokeUploadTokenUploadTokensTokenIdRevokePostMockHandler(),
+  getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMockHandler(),
 ]

@@ -437,7 +437,7 @@ def get_app_developers(
         )
 
 
-@router.post(
+@router.delete(
     "/{app_id}/remove-developer",
     status_code=204,
     tags=["invite"],
@@ -474,7 +474,7 @@ def remove_developer(
         db_session.commit()
 
 
-@router.post(
+@router.delete(
     "/{app_id}/revoke",
     status_code=204,
     tags=["invite"],

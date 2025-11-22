@@ -255,7 +255,7 @@ def create_upload_token(
     )
 
 
-@router.post(
+@router.delete(
     "/{token_id}/revoke",
     status_code=204,
     tags=["upload-tokens"],

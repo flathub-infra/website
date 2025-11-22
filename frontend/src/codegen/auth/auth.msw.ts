@@ -236,7 +236,7 @@ export const getGetDeleteuserAuthDeleteuserGetResponseMock = (
   ...overrideResponse,
 })
 
-export const getDoDeleteuserAuthDeleteuserPostResponseMock = (
+export const getDoDeleteuserAuthDeleteuserDeleteResponseMock = (
   overrideResponse: Partial<DeleteUserResult> = {},
 ): DeleteUserResult => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -576,15 +576,15 @@ export const getGetDeleteuserAuthDeleteuserGetMockHandler = (
   )
 }
 
-export const getDoDeleteuserAuthDeleteuserPostMockHandler = (
+export const getDoDeleteuserAuthDeleteuserDeleteMockHandler = (
   overrideResponse?:
     | DeleteUserResult
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
       ) => Promise<DeleteUserResult> | DeleteUserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.delete(
     "*/auth/deleteuser",
     async (info) => {
       await delay(1000)
@@ -595,7 +595,7 @@ export const getDoDeleteuserAuthDeleteuserPostMockHandler = (
             ? typeof overrideResponse === "function"
               ? await overrideResponse(info)
               : overrideResponse
-            : getDoDeleteuserAuthDeleteuserPostResponseMock(),
+            : getDoDeleteuserAuthDeleteuserDeleteResponseMock(),
         ),
         { status: 200, headers: { "Content-Type": "application/json" } },
       )
@@ -662,7 +662,7 @@ export const getAuthMock = () => [
   getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler(),
   getDoLogoutAuthLogoutPostMockHandler(),
   getGetDeleteuserAuthDeleteuserGetMockHandler(),
-  getDoDeleteuserAuthDeleteuserPostMockHandler(),
+  getDoDeleteuserAuthDeleteuserDeleteMockHandler(),
   getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockHandler(),
   getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler(),
 ]

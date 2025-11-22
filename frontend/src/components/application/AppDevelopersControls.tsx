@@ -12,8 +12,8 @@ import {
   getAppDevelopersInvitesAppIdDevelopersGet,
   inviteDeveloperInvitesAppIdInvitePost,
   leaveTeamInvitesAppIdLeavePost,
-  removeDeveloperInvitesAppIdRemoveDeveloperPost,
-  revokeInviteInvitesAppIdRevokePost,
+  removeDeveloperInvitesAppIdRemoveDeveloperDelete,
+  revokeInviteInvitesAppIdRevokeDelete,
 } from "src/codegen"
 import { Developer, GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
@@ -191,7 +191,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
   const revokeInviteMutation = useMutation({
     mutationKey: ["revoke-invite-app", app.id, developer.id],
     mutationFn: () =>
-      revokeInviteInvitesAppIdRevokePost(
+      revokeInviteInvitesAppIdRevokeDelete(
         app.id,
         { invite_id: developer.id },
         {
@@ -207,7 +207,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
   const removeDeveloperInviteMutation = useMutation({
     mutationKey: ["remove-developer-invite-app", app.id, developer.id],
     mutationFn: () =>
-      removeDeveloperInvitesAppIdRemoveDeveloperPost(
+      removeDeveloperInvitesAppIdRemoveDeveloperDelete(
         app.id,
         { developer_id: developer.id },
         {

@@ -310,21 +310,21 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
 /**
  * @summary Revoke Upload Token
  */
-export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
+export const revokeUploadTokenUploadTokensTokenIdRevokeDelete = (
   tokenId: number,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(`/upload-tokens/${tokenId}/revoke`, undefined, options)
+  return axios.delete(`/upload-tokens/${tokenId}/revoke`, options)
 }
 
-export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
+export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions =
   <
     TError = AxiosError<void | void | void | HTTPValidationError | void>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
-        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
+        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
       >,
       TError,
       { tokenId: number },
@@ -332,12 +332,14 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
     >
     axios?: AxiosRequestConfig
   }): UseMutationOptions<
-    Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
+    Awaited<
+      ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
+    >,
     TError,
     { tokenId: number },
     TContext
   > => {
-    const mutationKey = ["revokeUploadTokenUploadTokensTokenIdRevokePost"]
+    const mutationKey = ["revokeUploadTokenUploadTokensTokenIdRevokeDelete"]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -348,13 +350,13 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
 
     const mutationFn: MutationFunction<
       Awaited<
-        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
+        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
       >,
       { tokenId: number }
     > = (props) => {
       const { tokenId } = props ?? {}
 
-      return revokeUploadTokenUploadTokensTokenIdRevokePost(
+      return revokeUploadTokenUploadTokensTokenIdRevokeDelete(
         tokenId,
         axiosOptions,
       )
@@ -363,25 +365,25 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
     return { mutationFn, ...mutationOptions }
   }
 
-export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationResult =
+export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationResult =
   NonNullable<
-    Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>
+    Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>>
   >
 
-export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationError =
+export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationError =
   AxiosError<void | void | void | HTTPValidationError | void>
 
 /**
  * @summary Revoke Upload Token
  */
-export const useRevokeUploadTokenUploadTokensTokenIdRevokePost = <
+export const useRevokeUploadTokenUploadTokensTokenIdRevokeDelete = <
   TError = AxiosError<void | void | void | HTTPValidationError | void>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<
-        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
+        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
       >,
       TError,
       { tokenId: number },
@@ -391,13 +393,13 @@ export const useRevokeUploadTokenUploadTokensTokenIdRevokePost = <
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
+  Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>>,
   TError,
   { tokenId: number },
   TContext
 > => {
   const mutationOptions =
-    getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions(options)
+    getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions(options)
 
   return useMutation(mutationOptions, queryClient)
 }
