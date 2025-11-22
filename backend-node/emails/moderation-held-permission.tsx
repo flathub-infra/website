@@ -14,6 +14,7 @@ ModerationHeldEmail.PreviewProps = {
       requestData: {
         keys: {
           "extra-data": false,
+          keywords: ["editor", "terminal", "text", "vim"],
           permissions: {
             shared: ["network"],
             sockets: ["x11"],
@@ -29,6 +30,7 @@ ModerationHeldEmail.PreviewProps = {
           developer_name: "Bram Moolenaar et al.",
           project_license: "Vim",
           "extra-data": true,
+          keywords: ["editor", "text", "vim"],
           permissions: {
             shared: ["network", "ipc"],
             sockets: ["x11"],
