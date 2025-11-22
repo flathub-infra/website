@@ -428,9 +428,12 @@ class FlathubUser(Base):
         return result
 
     @staticmethod
-    def by_normalized_email(db, normalized_email: str):
+    def by_normalized_email(db, normalized_email: str) -> Optional["FlathubUser"]:
         """
         Find a FlathubUser by normalized email across all connected account types.
+
+        Returns:
+            FlathubUser if a user is found, otherwise None.
         """
         account_classes = [
             GithubAccount,
