@@ -203,15 +203,15 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler = (
   )
 }
 
-export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMockHandler = (
+export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.delete(
     "*/invites/:appId/remove-developer",
     async (info) => {
       await delay(1000)
@@ -224,15 +224,15 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMockHandler = (
   )
 }
 
-export const getRevokeInviteInvitesAppIdRevokePostMockHandler = (
+export const getRevokeInviteInvitesAppIdRevokeDeleteMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.delete(
     "*/invites/:appId/revoke",
     async (info) => {
       await delay(1000)
@@ -251,6 +251,6 @@ export const getInviteMock = () => [
   getDeclineInviteInvitesAppIdDeclinePostMockHandler(),
   getLeaveTeamInvitesAppIdLeavePostMockHandler(),
   getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler(),
-  getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMockHandler(),
-  getRevokeInviteInvitesAppIdRevokePostMockHandler(),
+  getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMockHandler(),
+  getRevokeInviteInvitesAppIdRevokeDeleteMockHandler(),
 ]

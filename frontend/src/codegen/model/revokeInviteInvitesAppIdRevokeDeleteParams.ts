@@ -5,6 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams = {
-  developer_id: number
+export type RevokeInviteInvitesAppIdRevokeDeleteParams = {
+  invite_id: number
 }
