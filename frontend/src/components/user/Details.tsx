@@ -1,10 +1,12 @@
 import { useTranslations } from "next-intl"
-import { FunctionComponent } from "react"
+import { FunctionComponent, useState } from "react"
 import { useUserContext } from "../../context/user-info"
 import ProviderLink from "../login/ProviderLink"
 import Avatar from "./Avatar"
 import { getUserName } from "src/verificationProvider"
-import { LoginMethod } from "src/codegen"
+import { ConnectedAccountProvider, LoginMethod } from "src/codegen"
+import { useDoChangeDefaultAccountAuthChangeDefaultAccountPost } from "src/codegen/auth/auth"
+import { toast } from "sonner"
 
 interface Props {
   logins: LoginMethod[]
@@ -13,10 +15,30 @@ interface Props {
 const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
   const t = useTranslations()
+  const [changingDefault, setChangingDefault] = useState(false)
+
+  const changeDefaultMutation =
+    useDoChangeDefaultAccountAuthChangeDefaultAccountPost()
 
   // Nothing to show if not logged in
   if (!user.info) {
     return <></>
+  }
+
+  const handleSetDefault = async (provider: string) => {
+    setChangingDefault(true)
+    try {
+      await changeDefaultMutation.mutateAsync({
+        params: { provider: provider as unknown as ConnectedAccountProvider },
+      })
+      toast.success(t("default-account-changed"))
+      // Refresh user info to show updated default
+      window.location.reload()
+    } catch (error) {
+      toast.error(t("network-error-try-again"))
+    } finally {
+      setChangingDefault(false)
+    }
   }
 
   // Accounts may or may not be present in user information
@@ -27,6 +49,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
     )
     .map((provider) => {
       const authData = user.info.auths[provider.method]
+      const isDefault = user.info.default_account.login === authData.login
 
       return (
         <div
@@ -37,10 +60,26 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
             userName={user.info.displayname}
             avatarUrl={authData.avatar}
           />
-          <div className="flex flex-col">
-            <span className="font-semibold">{provider.name}</span>
+          <div className="flex flex-1 flex-col">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">{provider.name}</span>
+              {isDefault && (
+                <span className="rounded bg-flathub-celestial-blue px-2 py-0.5 text-xs font-medium text-white dark:bg-flathub-celestial-blue">
+                  {t("default-account")}
+                </span>
+              )}
+            </div>
             <span>{authData.login}</span>
           </div>
+          {!isDefault && (
+            <button
+              onClick={() => handleSetDefault(provider.method)}
+              disabled={changingDefault}
+              className="rounded bg-flathub-sonic-silver px-3 py-1.5 text-sm font-medium text-white hover:bg-flathub-dark-gunmetal disabled:opacity-50 dark:bg-flathub-arsenic dark:hover:bg-flathub-sonic-silver"
+            >
+              {t("set-as-default")}
+            </button>
+          )}
         </div>
       )
     })

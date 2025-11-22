@@ -829,7 +829,10 @@ def continue_oauth_flow(
             # in then create a user
             user = login.user
             if user is None:
-                user = models.FlathubUser(display_name=provider_data.name)
+                user = models.FlathubUser(
+                    display_name=provider_data.name,
+                    default_account=account_model.provider,
+                )
                 db.add(user)
                 db.flush()
             # Now we have a user, create the local account model for it
