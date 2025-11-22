@@ -17,40 +17,23 @@ T = TypeVar("T")
 STALE_THRESHOLD = 0.8
 
 
-def _make_cache_key(
-    func_name: str, args: tuple, kwargs: dict, func: Callable | None = None
-) -> str:
-    if func is not None:
-        try:
-            sig = inspect.signature(func)
-            bound = sig.bind_partial(*args, **kwargs)
-            bound.apply_defaults()
+def _make_cache_key(func: Callable, args: tuple, kwargs: dict) -> str:
+    sig = inspect.signature(func)
+    bound = sig.bind_partial(*args, **kwargs)
+    bound.apply_defaults()
 
-            normalized_kwargs = {}
-            for param_name, param_value in bound.arguments.items():
-                if not isinstance(param_value, Response):
-                    normalized_kwargs[param_name] = param_value
+    normalized_kwargs = {}
+    for param_name, param_value in bound.arguments.items():
+        if not isinstance(param_value, Response):
+            normalized_kwargs[param_name] = param_value
 
-            key_data = {
-                "func": func_name,
-                "kwargs": normalized_kwargs,
-            }
-        except (ValueError, TypeError) as e:
-            print(f"Warning: Failed to normalize cache key for {func_name}: {e}")
-            key_data = {
-                "func": func_name,
-                "args": args,
-                "kwargs": kwargs,
-            }
-    else:
-        key_data = {
-            "func": func_name,
-            "args": args,
-            "kwargs": kwargs,
-        }
+    key_data = {
+        "func": func.__name__,
+        "kwargs": normalized_kwargs,
+    }
 
     key_hash = hashlib.md5(orjson.dumps(key_data, default=str)).hexdigest()
-    return f"cache:endpoint:{func_name}:{key_hash}"
+    return f"cache:endpoint:{func.__name__}:{key_hash}"
 
 
 def _make_refresh_lock_key(cache_key: str) -> str:
@@ -132,28 +115,10 @@ def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
 
 
 def cached(ttl: int = 3600) -> Callable:
-    """
-    Cache decorator with stale-while-revalidate support.
-
-    When cached data is stale:
-    1. Serve the stale value immediately
-    2. Refresh cache in the same request (lazy revalidation)
-
-    Prevents cache stampede by avoiding simultaneous refreshes of the same key.
-
-    Args:
-        ttl: Time-to-live in seconds (default: 1 hour)
-
-    Usage:
-        @cached(ttl=3600)
-        def get_appstream(app_id: str) -> DesktopAppstream:
-            ...
-    """
-
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> T:
-            cache_key = _make_cache_key(func.__name__, args, kwargs, func)
+            cache_key = _make_cache_key(func, args, kwargs)
             refresh_lock_key = _make_refresh_lock_key(cache_key)
 
             try:
@@ -209,18 +174,6 @@ def cached(ttl: int = 3600) -> Callable:
 
 
 def mark_stale_by_pattern(pattern: str) -> int:
-    """
-    Mark all cache keys matching a pattern as stale (for stale-while-revalidate).
-
-    Does NOT delete cache entries - they will be served as stale and revalidated
-    lazily when requests come in.
-
-    Args:
-        pattern: Redis key pattern (e.g., "cache:endpoint:*")
-
-    Returns:
-        Number of keys marked as stale
-    """
     try:
         keys = database.redis_conn.keys(pattern)
         if not keys:
@@ -247,17 +200,6 @@ def mark_stale_by_pattern(pattern: str) -> int:
 
 
 def invalidate_cache_by_pattern(pattern: str) -> int:
-    """
-    Completely invalidate (delete) all cache keys matching a pattern.
-
-    Use mark_stale_by_pattern() instead for stale-while-revalidate behavior.
-
-    Args:
-        pattern: Redis key pattern (e.g., "cache:endpoint:*")
-
-    Returns:
-        Number of keys deleted
-    """
     try:
         keys = database.redis_conn.keys(pattern)
         if keys:
