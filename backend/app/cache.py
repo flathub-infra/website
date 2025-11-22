@@ -7,6 +7,7 @@ from enum import Enum
 from typing import Annotated, Any, Literal, TypeVar, get_args, get_origin
 
 import orjson
+from fastapi import Response
 from pydantic import BaseModel, TypeAdapter
 
 from . import database
@@ -17,39 +18,24 @@ STALE_THRESHOLD = 0.8
 
 
 def _make_cache_key(
-    func_name: str, args: tuple, kwargs: dict, func: Callable = None
+    func_name: str, args: tuple, kwargs: dict, func: Callable | None = None
 ) -> str:
-    """
-    Generate a cache key from function name and arguments.
-
-    Normalizes positional and keyword arguments to ensure consistent cache keys
-    regardless of how the function is called.
-
-    Args:
-        func_name: Name of the function
-        args: Positional arguments tuple
-        kwargs: Keyword arguments dict
-        func: Optional function object for signature inspection
-
-    Returns:
-        Cache key string in format: cache:endpoint:{func_name}:{hash}
-    """
-    # If we have the function object, normalize args/kwargs to a consistent format
     if func is not None:
         try:
             sig = inspect.signature(func)
-            # Bind all arguments to their parameter names
             bound = sig.bind_partial(*args, **kwargs)
             bound.apply_defaults()
 
-            # Use normalized kwargs only (all args converted to kwargs)
-            normalized_kwargs = dict(bound.arguments)
+            normalized_kwargs = {}
+            for param_name, param_value in bound.arguments.items():
+                if not isinstance(param_value, Response):
+                    normalized_kwargs[param_name] = param_value
+
             key_data = {
                 "func": func_name,
                 "kwargs": normalized_kwargs,
             }
         except (ValueError, TypeError) as e:
-            # Fallback to original behavior if binding fails
             print(f"Warning: Failed to normalize cache key for {func_name}: {e}")
             key_data = {
                 "func": func_name,
@@ -57,7 +43,6 @@ def _make_cache_key(
                 "kwargs": kwargs,
             }
     else:
-        # Fallback to original behavior if no function object provided
         key_data = {
             "func": func_name,
             "args": args,
