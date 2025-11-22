@@ -51,10 +51,6 @@ export const Base = ({
 
   return (
     <Html>
-      <Head>
-        <title>{subject}</title>
-      </Head>
-      <Preview>{previewText}</Preview>
       <Tailwind
         config={{
           theme: {
@@ -66,6 +62,11 @@ export const Base = ({
           },
         }}
       >
+        <Head>
+          <title>{subject}</title>
+        </Head>
+        <Preview>{previewText}</Preview>
+
         <Body className="bg-white my-auto mx-auto font-sans px-2">
           <Container className="border border-solid border-[#eaeaea] rounded-xl my-[40px] mx-auto p-[20px] max-w-[465px]">
             {!isProduction && (
