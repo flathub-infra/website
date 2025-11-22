@@ -1,4 +1,5 @@
 import dramatiq
+from fastapi import Response
 
 from .. import models
 from ..database import get_db
@@ -31,7 +32,8 @@ def prepopulate_cache():
             print(f"Error prepopulating quality moderation for {app_id}: {e}")
 
         try:
-            stats.get_stats_for_app(app_id=app_id)
+            response = Response()
+            stats.get_stats_for_app(response=response, app_id=app_id)
         except Exception as e:
             print(f"Error prepopulating stats for {app_id}: {e}")
 
