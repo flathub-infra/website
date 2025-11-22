@@ -680,5 +680,6 @@
   "no-favorites-yet": "Vous n'avez aucune app dans vos favoris. Ajoutez-en en cliquant sur l'icône de marque-page des apps qui vous plaisent !",
   "vending": {
     "purchase-not-available": "Cette application n'est pas disponible à l'achat."
-  }
+  },
+  "see-all-results": "Voir tous les résultats"
 }
