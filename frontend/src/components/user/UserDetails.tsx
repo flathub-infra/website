@@ -7,6 +7,8 @@ import { getUserName } from "src/verificationProvider"
 import { ConnectedAccountProvider, LoginMethod } from "src/codegen"
 import { useDoChangeDefaultAccountAuthChangeDefaultAccountPost } from "src/codegen/auth/auth"
 import { toast } from "sonner"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   logins: LoginMethod[]
@@ -52,35 +54,35 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       const isDefault = user.info.default_account.login === authData.login
 
       return (
-        <div
-          key={provider.method}
-          className="bg-flathub-gainsborow/40 flex w-full items-center gap-3 rounded-lg bg-flathub-white px-4 py-4 text-flathub-dark-gunmetal dark:bg-flathub-gainsborow/10 dark:text-flathub-gainsborow md:w-auto"
-        >
-          <Avatar
-            userName={user.info.displayname}
-            avatarUrl={authData.avatar}
-          />
-          <div className="flex flex-1 flex-col">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">{provider.name}</span>
-              {isDefault && (
-                <span className="rounded bg-flathub-celestial-blue px-2 py-0.5 text-xs font-medium text-white dark:bg-flathub-celestial-blue">
-                  {t("default-account")}
-                </span>
-              )}
+        <Card key={provider.method} className="w-full py-0 md:w-auto">
+          <CardContent className="flex items-center gap-3 p-5">
+            <Avatar
+              userName={user.info.displayname}
+              avatarUrl={authData.avatar}
+            />
+            <div className="flex flex-1 flex-col">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">{provider.name}</span>
+                {isDefault && (
+                  <span className="rounded bg-flathub-celestial-blue px-2 py-0.5 text-xs font-medium text-white dark:bg-flathub-celestial-blue">
+                    {t("default-account")}
+                  </span>
+                )}
+              </div>
+              <span>{authData.login}</span>
             </div>
-            <span>{authData.login}</span>
-          </div>
-          {!isDefault && (
-            <button
-              onClick={() => handleSetDefault(provider.method)}
-              disabled={changingDefault}
-              className="rounded bg-flathub-sonic-silver px-3 py-1.5 text-sm font-medium text-white hover:bg-flathub-dark-gunmetal disabled:opacity-50 dark:bg-flathub-arsenic dark:hover:bg-flathub-sonic-silver"
-            >
-              {t("set-as-default")}
-            </button>
-          )}
-        </div>
+            {!isDefault && (
+              <Button
+                onClick={() => handleSetDefault(provider.method)}
+                disabled={changingDefault}
+                variant="secondary"
+                size="sm"
+              >
+                {t("set-as-default")}
+              </Button>
+            )}
+          </CardContent>
+        </Card>
       )
     })
 
