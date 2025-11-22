@@ -16,12 +16,54 @@ T = TypeVar("T")
 STALE_THRESHOLD = 0.8
 
 
-def _make_cache_key(func_name: str, args: tuple, kwargs: dict) -> str:
-    key_data = {
-        "func": func_name,
-        "args": args,
-        "kwargs": kwargs,
-    }
+def _make_cache_key(
+    func_name: str, args: tuple, kwargs: dict, func: Callable = None
+) -> str:
+    """
+    Generate a cache key from function name and arguments.
+
+    Normalizes positional and keyword arguments to ensure consistent cache keys
+    regardless of how the function is called.
+
+    Args:
+        func_name: Name of the function
+        args: Positional arguments tuple
+        kwargs: Keyword arguments dict
+        func: Optional function object for signature inspection
+
+    Returns:
+        Cache key string in format: cache:endpoint:{func_name}:{hash}
+    """
+    # If we have the function object, normalize args/kwargs to a consistent format
+    if func is not None:
+        try:
+            sig = inspect.signature(func)
+            # Bind all arguments to their parameter names
+            bound = sig.bind_partial(*args, **kwargs)
+            bound.apply_defaults()
+
+            # Use normalized kwargs only (all args converted to kwargs)
+            normalized_kwargs = dict(bound.arguments)
+            key_data = {
+                "func": func_name,
+                "kwargs": normalized_kwargs,
+            }
+        except (ValueError, TypeError) as e:
+            # Fallback to original behavior if binding fails
+            print(f"Warning: Failed to normalize cache key for {func_name}: {e}")
+            key_data = {
+                "func": func_name,
+                "args": args,
+                "kwargs": kwargs,
+            }
+    else:
+        # Fallback to original behavior if no function object provided
+        key_data = {
+            "func": func_name,
+            "args": args,
+            "kwargs": kwargs,
+        }
+
     key_hash = hashlib.md5(orjson.dumps(key_data, default=str)).hexdigest()
     return f"cache:endpoint:{func_name}:{key_hash}"
 
@@ -126,7 +168,7 @@ def cached(ttl: int = 3600) -> Callable:
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> T:
-            cache_key = _make_cache_key(func.__name__, args, kwargs)
+            cache_key = _make_cache_key(func.__name__, args, kwargs, func)
             refresh_lock_key = _make_refresh_lock_key(cache_key)
 
             try:
