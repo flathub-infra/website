@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import DeleteButton from "../../../../src/components/user/DeleteButton"
-import UserDetails from "../../../../src/components/user/Details"
+import UserDetails from "../../../../src/components/user/UserDetails"
 import type { JSX } from "react"
 import { LoginMethod } from "src/codegen"
 
