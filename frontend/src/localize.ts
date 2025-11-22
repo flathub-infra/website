@@ -333,7 +333,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "bn":
       return "bn_IN"
     case "eo":
-      return "eo"
+      return "eo_EO"
     case "lt":
       return "lt_LT"
     case "hr":
@@ -349,7 +349,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "zh-Hant":
       return "zh_Hant"
     case "oc":
-      return "oc"
+      return "oc_FR"
     case "da":
       return "da_DK"
     case "az":
@@ -359,7 +359,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "ro":
       return "ro_RO"
     case "hy":
-      return "hy"
+      return "hy_AM"
     case "ko":
       return "ko_KR"
     case "sv":
@@ -367,17 +367,17 @@ export function bcpToPosixLocale(language?: string): string {
     case "pa":
       return "pa_IN"
     case "sq":
-      return "sq_XK"
+      return "sq_AL"
     case "ia":
-      return "ia"
+      return "ia_XX"
     case "ckb":
-      return "ckb"
+      return "ckb_IR"
     case "ga":
-      return "ga"
+      return "ga_IE"
     case "kab":
-      return "kab"
+      return "kab_DZ"
     case "fil":
-      return "fil"
+      return "fil_PH"
     case "br":
       return "br"
     case "gl":
