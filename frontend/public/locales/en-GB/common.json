@@ -680,5 +680,6 @@
   "socket-may-allow-extra-permissions": "Uses a socket that allows gaining extra permissions",
   "vending": {
     "purchase-not-available": "This application is not available for purchase."
-  }
+  },
+  "see-all-results": "See all results"
 }

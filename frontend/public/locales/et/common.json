@@ -680,5 +680,6 @@
   "no-favorites-yet": "Sul veel pole lemmikrakendusi. Klõpsides järjehoidja ikoonil saad sulle meeldivaid rakendusi lisada lemmikuks!",
   "vending": {
     "purchase-not-available": "Seda rakendust ei saa osta."
-  }
+  },
+  "see-all-results": "Vaata kõiki tulemusi"
 }
