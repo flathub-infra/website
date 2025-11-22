@@ -58,8 +58,8 @@ export async function generateMetadata({
         images: [
           {
             url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}?locale=${locale}`,
-            height: 628,
             width: 1200,
+            height: 630,
             alt: app?.name,
           },
         ],

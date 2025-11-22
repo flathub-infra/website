@@ -240,7 +240,7 @@ export async function GET(
     </div>,
     {
       width: 1200,
-      height: 628,
+      height: 630,
       fonts: fonts,
     },
   )
