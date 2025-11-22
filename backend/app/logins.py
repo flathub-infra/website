@@ -24,6 +24,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from . import apps, config, models
 from .database import get_db
+from .email_utils import normalize_email
 from .emails import EmailCategory
 from .login_info import (
     LoginInformation,
@@ -822,12 +823,19 @@ def continue_oauth_flow(
             )
         # We now have a logged in user, so let's do our best to do something useful
         provider_data = token_to_data(login_result)
-        # Do we have a provider's user noted with this ID already?
+
+        # Try to find an existing account by provider ID
         account = account_model.by_provider_id(db, provider_data.id)
+        normalized_email = (
+            normalize_email(provider_data.email) if provider_data.email else None
+        )
+        merged_user = None
+        if normalized_email:
+            merged_user = models.FlathubUser.by_normalized_email(db, normalized_email)
+
         if account is None:
-            # We've never seen this provider's user before, if we're not already logged
-            # in then create a user
-            user = login.user
+            # If merging, use the merged user, else current login user, else new user
+            user = merged_user or login.user
             if user is None:
                 user = models.FlathubUser(display_name=provider_data.name)
                 db.add(user)
@@ -855,8 +863,7 @@ def continue_oauth_flow(
             # The provider's user has been seen before, if we're logged in already and
             # things don't match then abort now
             user = login.user
-            if user is not None:
-                # Eventually we might do user-merge here?
+            if user is not None and (merged_user is None or user.id != merged_user.id):
                 db.commit()
                 return JSONResponse(
                     {"status": "error", "error": "error-already-logged-in"},
