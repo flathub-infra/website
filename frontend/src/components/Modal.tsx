@@ -119,7 +119,7 @@ const Modal: FunctionComponent<Props> = ({
 
                   {children}
 
-                  <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                  <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse gap-3">
                     {submitButton && (
                       <Button
                         size="lg"
