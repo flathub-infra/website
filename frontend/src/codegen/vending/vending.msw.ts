@@ -115,7 +115,6 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetResponseMock = (
   overrideResponse: Partial<TokenList> = {},
 ): TokenList => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  total: faker.number.int({ min: undefined, max: undefined }),
   tokens: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -137,6 +136,12 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetResponseMock = (
     created: `${faker.date.past().toISOString().split(".")[0]}Z`,
     changed: `${faker.date.past().toISOString().split(".")[0]}Z`,
   })),
+  pagination: {
+    page: faker.number.int({ min: undefined, max: undefined }),
+    page_size: faker.number.int({ min: undefined, max: undefined }),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    total_pages: faker.number.int({ min: undefined, max: undefined }),
+  },
   ...overrideResponse,
 })
 

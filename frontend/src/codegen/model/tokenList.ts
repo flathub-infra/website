@@ -5,9 +5,10 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { TokenModel } from "./tokenModel"
+import type { Pagination } from "./pagination"
 
 export interface TokenList {
   status: string
-  total: number
   tokens: TokenModel[]
+  pagination: Pagination
 }

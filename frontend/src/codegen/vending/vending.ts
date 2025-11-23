@@ -23,7 +23,10 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
+  GetRedeemableTokensVendingappAppIdTokensGetParams,
   ProposedPayment,
   RedemptionResult,
   TokenCancellation,
@@ -1001,20 +1004,27 @@ export const usePostAppVendingStatusVendingappAppIdPost = <
 
 The caller must have control of the app at some level
 
-For now, there is no pagination or filtering, all tokens will be returned
+Tokens are paginated with default page_size of 10
  * @summary Get Redeemable Tokens
  */
 export const getRedeemableTokensVendingappAppIdTokensGet = (
   appId: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TokenList>> => {
-  return axios.get(`/vendingapp/${appId}/tokens`, options)
+  return axios.get(`/vendingapp/${appId}/tokens`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryKey = (
   appId?: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
 ) => {
-  return [`/vendingapp/${appId}/tokens`] as const
+  return [`/vendingapp/${appId}/tokens`, ...(params ? [params] : [])] as const
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
@@ -1024,6 +1034,7 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
   TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1039,12 +1050,12 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getGetRedeemableTokensVendingappAppIdTokensGetQueryKey(appId)
+    getGetRedeemableTokensVendingappAppIdTokensGetQueryKey(appId, params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>>
   > = ({ signal }) =>
-    getRedeemableTokensVendingappAppIdTokensGet(appId, {
+    getRedeemableTokensVendingappAppIdTokensGet(appId, params, {
       signal,
       ...axiosOptions,
     })
@@ -1076,6 +1087,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
+  params: undefined | GetRedeemableTokensVendingappAppIdTokensGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1109,6 +1121,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1142,6 +1155,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1167,6 +1181,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TError = AxiosError<void | void | void | void | void>,
 >(
   appId: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1182,7 +1197,11 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions =
-    getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions(appId, options)
+    getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions(
+      appId,
+      params,
+      options,
+    )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

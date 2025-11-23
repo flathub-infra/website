@@ -93,7 +93,11 @@ export default function ManageClient({ app, vendingConfig }: Props) {
   ].includes(app.type)
 
   const pages = [
-    { name: t("developer-portal"), current: false, href: "/developer-portal" },
+    {
+      name: t("developer-portal.title"),
+      current: false,
+      href: "/developer-portal",
+    },
     {
       name: t("manage-x", { app_name: app.name }),
       current: true,

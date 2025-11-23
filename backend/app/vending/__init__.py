@@ -11,6 +11,7 @@ The core vending behaviours are:
 """
 
 import datetime
+from math import ceil
 from typing import Literal
 
 import gi
@@ -25,6 +26,7 @@ from ..database import get_db, get_json_key
 from ..logins import login_state
 from ..models import (
     ApplicationVendingConfig,
+    Pagination,
     RedeemableAppToken,
     RedeemableAppTokenState,
     StripeExpressAccount,
@@ -573,8 +575,8 @@ class TokenModel(BaseModel):
 
 class TokenList(BaseModel):
     status: str
-    total: int
     tokens: list[TokenModel]
+    pagination: Pagination
 
 
 @router.get(
@@ -597,6 +599,8 @@ def get_redeemable_tokens(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
+    page: int = 1,
+    page_size: int = 10,
     login=Depends(login_state),
 ) -> TokenList:
     """
@@ -604,7 +608,7 @@ def get_redeemable_tokens(
 
     The caller must have control of the app at some level
 
-    For now, there is no pagination or filtering, all tokens will be returned
+    Tokens are paginated with default page_size of 10
     """
 
     if not login["state"].logged_in():
@@ -616,7 +620,14 @@ def get_redeemable_tokens(
 
     tokens = []
     with get_db("replica") as db:
-        for token in RedeemableAppToken.by_appid(db, app_id, True):
+        offset = (page - 1) * page_size
+        query = RedeemableAppToken.by_appid(db, app_id, True)
+
+        total_count = len(query)
+
+        paginated_tokens = query[offset : offset + page_size]
+
+        for token in paginated_tokens:
             tokens.append(
                 TokenModel(
                     id=str(token.id),
@@ -628,7 +639,16 @@ def get_redeemable_tokens(
                 )
             )
 
-    return TokenList(status="ok", total=len(tokens), tokens=tokens)
+    return TokenList(
+        status="ok",
+        tokens=tokens,
+        pagination=Pagination(
+            page=page,
+            page_size=page_size,
+            total=total_count,
+            total_pages=ceil(total_count / page_size) if total_count > 0 else 0,
+        ),
+    )
 
 
 @router.post(
