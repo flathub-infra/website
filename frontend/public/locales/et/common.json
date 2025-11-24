@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Seda rakendust ei saa osta."
   },
-  "see-all-results": "Vaata kõiki tulemusi"
+  "see-all-results": "Vaata kõiki tulemusi",
+  "default-account": "Vaikimisi",
+  "set-as-default": "Määra vaikimisi kasutajakontoks",
+  "default-account-changed": "Vaikimisi kasutajakonto muutmine õnnestus"
 }

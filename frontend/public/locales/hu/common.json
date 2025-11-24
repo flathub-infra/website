@@ -677,5 +677,12 @@
   "unverified-tooltip": "A(z) <appid></appid> alkalmazásazonosító tulajdonjoga nem lett ellenőrizve, ezért lehetséges, hogy ez egy közösségi csomag",
   "install-all-favorites": "Kedvencek telepítése",
   "install-all-favorites-description": "Másolja ki ezt a parancsot az összes kedvenc alkalmazása telepítéséhez:",
-  "no-favorites-yet": "Még nincsenek kedvenc alkalmazásai. Adjon hozzá néhányat az alkalmazások melletti könyvjelző ikon megnyomásával!"
+  "no-favorites-yet": "Még nincsenek kedvenc alkalmazásai. Adjon hozzá néhányat az alkalmazások melletti könyvjelző ikon megnyomásával!",
+  "default-account-changed": "Az alapértelmezett fiók sikeresen megváltozott",
+  "see-all-results": "Az összes találat megtekintése",
+  "default-account": "Alapértelmezett",
+  "set-as-default": "Beállítás alapértelmezettként",
+  "vending": {
+    "purchase-not-available": "Az alkalmazás nem megvásárolható."
+  }
 }

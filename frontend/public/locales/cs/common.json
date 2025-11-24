@@ -680,5 +680,9 @@
   "no-favorites-yet": "Zatím nemáte žádné oblíbené aplikace. Začněte je přidávat kliknutím na ikonu záložky u aplikací, které se vám líbí!",
   "vending": {
     "purchase-not-available": "Tato aplikace není k dispozici ke koupi."
-  }
+  },
+  "see-all-results": "Zobrazit všechny výsledky",
+  "default-account": "Výchozí",
+  "set-as-default": "Nastavit jako výchozí",
+  "default-account-changed": "Výchozí účet byl úspěšně změněn"
 }

@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Esta aplicação não está disponível para compra."
   },
-  "see-all-results": "Ver todos os resultados"
+  "see-all-results": "Ver todos os resultados",
+  "default-account": "Predefinido",
+  "set-as-default": "Definir como predefinição",
+  "default-account-changed": "A predefinição da conta foi alterada com sucesso"
 }

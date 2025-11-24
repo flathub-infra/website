@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "هذا التطبيق غير متاح للشراء."
   },
-  "see-all-results": "أظهر كل النتائج"
+  "see-all-results": "أظهر كل النتائج",
+  "default-account": "مبدئي",
+  "set-as-default": "عيِّن مبدئي",
+  "default-account-changed": "غُيِّر الحساب المبدئي بنجاح"
 }
