@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Níl an feidhmchlár seo ar fáil le ceannach."
   },
-  "see-all-results": "Féach na torthaí go léir"
+  "see-all-results": "Féach na torthaí go léir",
+  "default-account": "Réamhshocrú",
+  "set-as-default": "Socraigh mar Réamhshocrú",
+  "default-account-changed": "Athraíodh an cuntas réamhshocraithe go rathúil"
 }

@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Това приложение не е налично за покупка."
   },
-  "see-all-results": "Всички резултати"
+  "see-all-results": "Всички резултати",
+  "default-account": "По подразбиране",
+  "set-as-default": "Задаване по подразбиране",
+  "default-account-changed": "Профилът по подразбиране е променен"
 }

@@ -666,5 +666,8 @@
   "vending": {
     "purchase-not-available": "Ky aplikacion s’jepet për t’u blerë."
   },
-  "see-all-results": "Shihni krejt përfundimet"
+  "see-all-results": "Shihni krejt përfundimet",
+  "default-account": "Parazgjedhje",
+  "set-as-default": "Vëre si Parazgjedhje",
+  "default-account-changed": "Llogaria parazgjedhje u ndryshua me sukses"
 }

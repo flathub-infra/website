@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Denne applikasjonen er ikke tilgjengelig for kjøp."
   },
-  "see-all-results": "Se alle resultatene"
+  "see-all-results": "Se alle resultatene",
+  "default-account": "Standard",
+  "set-as-default": "Sett som standard",
+  "default-account-changed": "Standardkonto endret"
 }
