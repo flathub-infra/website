@@ -32,7 +32,12 @@ const LogoImage: FunctionComponent<Props> = ({
           aria-hidden
           width={size}
           height={size}
-          style={{ maxHeight: "auto", maxWidth: "100%" }}
+          style={{
+            maxHeight: `min(100%, ${size}px)`,
+            maxWidth: `min(100%, ${size}px)`,
+            width: "auto",
+            height: "auto",
+          }}
           {...props}
         />
       ) : (
@@ -43,7 +48,12 @@ const LogoImage: FunctionComponent<Props> = ({
             width={size}
             height={size}
             aria-hidden
-            style={{ maxHeight: "auto", maxWidth: "100%" }}
+            style={{
+              maxHeight: `min(100%, ${size}px)`,
+              maxWidth: `min(100%, ${size}px)`,
+              width: "auto",
+              height: "auto",
+            }}
             {...props}
           />
         </div>
