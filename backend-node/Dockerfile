@@ -14,4 +14,4 @@ RUN yarn install --immutable && \
 
 EXPOSE 8001
 
-CMD ["node", "./dist/src/index.js"]
+CMD ["node", "--enable-source-maps", "./dist/src/index.js"]
