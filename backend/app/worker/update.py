@@ -2,7 +2,7 @@ from datetime import UTC, datetime
 
 import dramatiq
 
-from .. import apps, exceptions, models, search, summary, utils
+from .. import apps, cache, exceptions, models, search, summary, utils
 from ..database import get_db, get_json_key
 
 
@@ -11,6 +11,14 @@ def update():
     with get_db("writer") as db:
         apps.load_appstream(db)
         summary.update(db)
+
+    cache.invalidate_cache_by_pattern("cache:endpoint:get_appstream:*")
+    cache.invalidate_cache_by_pattern("cache:endpoint:get_summary:*")
+    cache.invalidate_cache_by_pattern("cache:endpoint:list_appstream:*")
+    cache.invalidate_cache_by_pattern("cache:endpoint:get_addons:*")
+    cache.invalidate_cache_by_pattern("cache:endpoint:get_recently_updated:*")
+    cache.invalidate_cache_by_pattern("cache:endpoint:get_recently_added:*")
+
     exceptions.update()
 
     all_apps = apps.get_appids(include_eol=True)
