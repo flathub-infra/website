@@ -9,7 +9,11 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import type { AppOfTheDay, AppsOfTheWeek } from ".././model"
+import type {
+  AppOfTheDay,
+  AppsOfTheWeek,
+  SetAppOfTheDayAppPicksAppOfTheDayPost200,
+} from ".././model"
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetResponseMock = (
   overrideResponse: Partial<AppOfTheDay> = {},
@@ -32,6 +36,16 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
   })),
   ...overrideResponse,
 })
+
+export const getSetAppOfTheDayAppPicksAppOfTheDayPostResponseMock =
+  (): SetAppOfTheDayAppPicksAppOfTheDayPost200 =>
+    faker.helpers.arrayElement([
+      {
+        app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        day: faker.date.past().toISOString().split("T")[0],
+      },
+      null,
+    ])
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetMockHandler = (
   overrideResponse?:
@@ -112,20 +126,29 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler = (
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler = (
   overrideResponse?:
-    | unknown
+    | SetAppOfTheDayAppPicksAppOfTheDayPost200
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) =>
+        | Promise<SetAppOfTheDayAppPicksAppOfTheDayPost200>
+        | SetAppOfTheDayAppPicksAppOfTheDayPost200),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/app-picks/app-of-the-day",
     async (info) => {
       await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 200 })
+
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getSetAppOfTheDayAppPicksAppOfTheDayPostResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
     },
     options,
   )

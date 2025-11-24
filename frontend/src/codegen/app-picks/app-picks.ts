@@ -23,7 +23,12 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type { AppOfTheDay, AppsOfTheWeek, UpsertAppOfTheWeek } from ".././model"
+import type {
+  AppOfTheDay,
+  AppsOfTheWeek,
+  SetAppOfTheDayAppPicksAppOfTheDayPost200,
+  UpsertAppOfTheWeek,
+} from ".././model"
 
 /**
  * @summary Get App Of The Day
@@ -485,7 +490,7 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
 export const setAppOfTheDayAppPicksAppOfTheDayPost = (
   appOfTheDay: AppOfTheDay,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<SetAppOfTheDayAppPicksAppOfTheDayPost200>> => {
   return axios.post(`/app-picks/app-of-the-day`, appOfTheDay, options)
 }
 
