@@ -400,6 +400,10 @@ def is_appid_runtime(app_id: str) -> str | bool:
     # matching tld.vendor.*, so we need to test refs against one specific ID
     # Extensions are special case maintained by other developers
     split_appid = app_id.split(".")
+
+    if len(split_appid) < 3:
+        return False
+
     if (
         split_appid[0] == "org"
         and split_appid[1] in ("gnome", "kde", "freedesktop")
