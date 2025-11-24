@@ -56,7 +56,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   })
 
   const mutateAppOfTheDay = useMutation({
-    mutationKey: ["app-of-the-day", "monday"],
+    mutationKey: ["app-of-the-day", day],
     mutationFn: async (app: { id: string; day: Date }) => {
       await setAppOfTheDayAppPicksAppOfTheDayPost(
         {
