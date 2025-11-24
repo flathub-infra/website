@@ -409,7 +409,7 @@ def is_appid_runtime(app_id: str) -> str | bool:
         and split_appid[1] in ("gnome", "kde", "freedesktop")
         and split_appid[2] in ("Platform", "Sdk")
     ):
-        if split_appid[3] == "Extension":
+        if len(split_appid) > 3 and split_appid[3] == "Extension":
             return False
         else:
             app_id = ".".join([split_appid[0], split_appid[1], "Sdk"])
