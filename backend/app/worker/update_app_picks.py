@@ -43,10 +43,23 @@ def pick_app_of_the_day_automatically(db, day):
         if app["quality-moderation-status"].passes and app["last-time-app-of-the-day"]
     ]
 
+    # Remove apps of the week from the list
+    apps_of_the_week = models.AppsOfTheWeek.by_week(
+        db, day.isocalendar().week, day.year
+    )
+    apps_of_the_week_ids = [app.app_id for app in apps_of_the_week]
+
+    all_passed_apps = [
+        app for app in all_passed_apps if app["id"] not in apps_of_the_week_ids
+    ]
+
     # Sort by last time app of the day
     all_passed_apps.sort(
         key=lambda app: (app["last-time-app-of-the-day"]),
     )
+
+    if not all_passed_apps:
+        return
 
     # Filter by oldest
     oldest_apps = [
@@ -55,15 +68,6 @@ def pick_app_of_the_day_automatically(db, day):
         if app["last-time-app-of-the-day"]
         == all_passed_apps[0]["last-time-app-of-the-day"]
     ]
-
-    # Remove apps of the week from the list
-    apps_of_the_week = models.AppsOfTheWeek.by_week(
-        db, day.isocalendar().week, day.year
-    )
-
-    for app_of_the_week in apps_of_the_week:
-        if app_of_the_week.app_id in oldest_apps:
-            oldest_apps.remove(app_of_the_week.app_id)
 
     # Pick random app
     random.shuffle(oldest_apps)
