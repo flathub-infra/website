@@ -48,9 +48,13 @@ export function pickScreenshotSize(
       }
     })
 
-  const highestResolution = orderedByResolution.find(
+  let highestResolution = orderedByResolution.find(
     (screenshot) => maxHeight === undefined || screenshot.height <= maxHeight,
   )
+
+  if (!highestResolution && orderedByResolution.length > 0) {
+    highestResolution = orderedByResolution[orderedByResolution.length - 1]
+  }
 
   const scale = parseInt(highestResolution?.key.scale.split("x")[0])
 
