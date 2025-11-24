@@ -42,10 +42,10 @@ def get_app_of_the_day(
     with get_db("replica") as db:
         app_of_the_day = models.AppOfTheDay.by_date(db, date)
 
-    if app_of_the_day is None:
-        return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
+        if app_of_the_day is None:
+            return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
 
-    return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
+        return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
 
 
 class AppOfTheWeek(BaseModel):
@@ -149,4 +149,7 @@ def set_app_of_the_day(
     with get_db("writer") as db:
         app = models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)
         cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")
-        return app
+
+        if app:
+            return AppOfTheDay(app_id=app.app_id, day=app.date)
+        return None
