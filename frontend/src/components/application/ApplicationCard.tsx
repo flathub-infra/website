@@ -77,6 +77,7 @@ export interface Props
   showId?: boolean
   showRuntime?: boolean
   className?: string
+  priority?: boolean
 }
 
 export const ApplicationCard = ({
@@ -87,6 +88,7 @@ export const ApplicationCard = ({
   link,
   showId = false,
   showRuntime = false,
+  priority = false,
   ...props
 }: Props) => {
   const t = useTranslations()
@@ -130,7 +132,11 @@ export const ApplicationCard = ({
       {...props}
     >
       <div className="relative flex h-[64px] w-[64px] shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
-        <LogoImage iconUrl={application.icon} appName={application.name} />
+        <LogoImage
+          iconUrl={application.icon}
+          appName={application.name}
+          priority={priority}
+        />
       </div>
       <div className="flex flex-col justify-center overflow-hidden">
         <div className="flex gap-1">
