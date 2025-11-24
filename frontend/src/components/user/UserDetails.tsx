@@ -51,7 +51,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
     )
     .map((provider) => {
       const authData = user.info.auths[provider.method]
-      const isDefault = user.info.default_account.login === authData.login
+      const isDefault = user.info.default_account.provider === provider.method
 
       return (
         <Card key={provider.method} className="w-full py-0 md:w-auto">

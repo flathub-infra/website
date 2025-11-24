@@ -9,7 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { Permission } from ".././model"
+import { ConnectedAccountProvider, Permission } from ".././model"
 import type {
   DeleteUserResult,
   GetDeleteUserResult,
@@ -77,6 +77,15 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
             ]),
             undefined,
           ]),
+          provider: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.helpers.arrayElement(
+                Object.values(ConnectedAccountProvider),
+              ),
+              null,
+            ]),
+            undefined,
+          ]),
         },
         auths: {
           github: faker.helpers.arrayElement([
@@ -86,6 +95,15 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
                 avatar: faker.helpers.arrayElement([
                   faker.helpers.arrayElement([
                     faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+                provider: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.helpers.arrayElement(
+                      Object.values(ConnectedAccountProvider),
+                    ),
                     null,
                   ]),
                   undefined,
@@ -106,6 +124,15 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
                   ]),
                   undefined,
                 ]),
+                provider: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.helpers.arrayElement(
+                      Object.values(ConnectedAccountProvider),
+                    ),
+                    null,
+                  ]),
+                  undefined,
+                ]),
               },
               null,
             ]),
@@ -122,6 +149,15 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
                   ]),
                   undefined,
                 ]),
+                provider: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.helpers.arrayElement(
+                      Object.values(ConnectedAccountProvider),
+                    ),
+                    null,
+                  ]),
+                  undefined,
+                ]),
               },
               null,
             ]),
@@ -134,6 +170,40 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
                 avatar: faker.helpers.arrayElement([
                   faker.helpers.arrayElement([
                     faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+                provider: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.helpers.arrayElement(
+                      Object.values(ConnectedAccountProvider),
+                    ),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
+          google: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                avatar: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+                provider: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.helpers.arrayElement(
+                      Object.values(ConnectedAccountProvider),
+                    ),
                     null,
                   ]),
                   undefined,

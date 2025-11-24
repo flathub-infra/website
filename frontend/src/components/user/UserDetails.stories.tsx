@@ -36,11 +36,13 @@ const mockUserInfoWithGitHub: UserInfo = {
   default_account: {
     login: "johndoe",
     avatar: "https://avatars.githubusercontent.com/u/1234567?v=4",
+    provider: "github",
   },
   auths: {
     github: {
       login: "johndoe",
       avatar: "https://avatars.githubusercontent.com/u/1234567?v=4",
+      provider: "github",
     },
   },
 }
@@ -56,19 +58,23 @@ const mockUserInfoWithMultipleAccounts: UserInfo = {
   default_account: {
     login: "janesmith",
     avatar: "https://avatars.githubusercontent.com/u/7654321?v=4",
+    provider: "github",
   },
   auths: {
     github: {
       login: "janesmith",
       avatar: "https://avatars.githubusercontent.com/u/7654321?v=4",
+      provider: "github",
     },
     gitlab: {
       login: "janesmith-gitlab",
       avatar: "https://secure.gravatar.com/avatar/abc123?s=80&d=identicon",
+      provider: "gitlab",
     },
     gnome: {
       login: "janesmith-gnome",
       avatar: "https://secure.gravatar.com/avatar/def456?s=80&d=identicon",
+      provider: "gnome",
     },
   },
 }
@@ -135,21 +141,25 @@ export const AllAccountsLinked: Story = {
               github: {
                 login: "user-github",
                 avatar: "https://avatars.githubusercontent.com/u/1111111?v=4",
+                provider: "github",
               },
               gitlab: {
                 login: "user-gitlab",
                 avatar:
                   "https://secure.gravatar.com/avatar/111?s=80&d=identicon",
+                provider: "gitlab",
               },
               gnome: {
                 login: "user-gnome",
                 avatar:
                   "https://secure.gravatar.com/avatar/222?s=80&d=identicon",
+                provider: "gnome",
               },
               kde: {
                 login: "user-kde",
                 avatar:
                   "https://secure.gravatar.com/avatar/333?s=80&d=identicon",
+                provider: "kde",
               },
             },
           },

@@ -914,6 +914,7 @@ def continue_oauth_flow(
 class AuthInfo(BaseModel):
     login: str
     avatar: str | None = None
+    provider: models.ConnectedAccountProvider | None = None
 
 
 class Auths(BaseModel):
@@ -921,6 +922,7 @@ class Auths(BaseModel):
     gitlab: AuthInfo | None = None
     gnome: AuthInfo | None = None
     kde: AuthInfo | None = None
+    google: AuthInfo | None = None
 
 
 class Permission(str, Enum):
@@ -1011,14 +1013,18 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
                 auths[account.provider]["login"] = account.login
             if account.avatar_url:
                 auths[account.provider]["avatar"] = account.avatar_url
+            auths[account.provider]["provider"] = account.provider
 
         default_display_name = default_account.display_name if default_account else None
         default_avatar_url = default_account.avatar_url if default_account else None
         default_login = default_account.login if default_account else None
+        default_provider = default_account.provider if default_account else None
         invite_code = user.invite_code
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
 
-    defaultAccountInfo = AuthInfo(avatar=default_avatar_url, login=default_login)
+    defaultAccountInfo = AuthInfo(
+        avatar=default_avatar_url, login=default_login, provider=default_provider
+    )
 
     return UserInfo(
         displayname=default_display_name,
