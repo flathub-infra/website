@@ -117,7 +117,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       />
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
-        {applications.map((app) => (
+        {applications.map((app, index) => (
           <div key={app.id} className="flex flex-col gap-2">
             <ApplicationCard
               application={app}
@@ -125,6 +125,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
               variant={variant}
               showId={showId}
               showRuntime={showRuntime}
+              priority={index < 6}
             />
           </div>
         ))}

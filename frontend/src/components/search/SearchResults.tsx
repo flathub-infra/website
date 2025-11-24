@@ -47,10 +47,11 @@ export const SearchResults: FunctionComponent<Props> = ({
         {/* Show actual results */}
         {allHits.length > 0 &&
           !isInitialLoading &&
-          allHits.map((app) => (
+          allHits.map((app, index) => (
             <div key={app.app_id} className="flex flex-col gap-2">
               <ApplicationCard
                 application={mapAppsIndexToAppstreamListItem(app)}
+                priority={index < 6}
               />
             </div>
           ))}
