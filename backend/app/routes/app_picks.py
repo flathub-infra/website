@@ -127,6 +127,7 @@ def set_app_of_the_week(
             body.position,
             moderator.user.id,
         )
+        cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_week:*")
 
 
 @router.post(
@@ -143,7 +144,9 @@ def set_app_of_the_week(
 def set_app_of_the_day(
     body: AppOfTheDay,
     _moderator=Depends(quality_moderator_only),
-):
+) -> AppOfTheDay | None:
     """Sets an app of the day"""
     with get_db("writer") as db:
-        models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)
+        app = models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)
+        cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")
+        return app
