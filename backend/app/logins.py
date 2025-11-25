@@ -1208,14 +1208,13 @@ def do_change_default_account(
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
-    with get_db("replica") as db:
-        account = login.user.get_connected_account(db, provider)
+    with get_db("writer") as db:
+        user = db.session.merge(login.user)
+        account = user.get_connected_account(db, provider)
         if account is None:
             raise HTTPException(status_code=404, detail="Account not found")
 
-        login.user.default_account = provider
-        with get_db("writer") as db:
-            db.commit()
+        user.default_account = provider
 
 
 def register_to_app(app: FastAPI):
