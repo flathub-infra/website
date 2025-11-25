@@ -1189,7 +1189,7 @@ def archive(
 
     with get_db("replica") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
-        if not direct_upload_app or direct_upload_app.archived:
+        if direct_upload_app and direct_upload_app.archived:
             return
 
     with get_db("writer") as db:
