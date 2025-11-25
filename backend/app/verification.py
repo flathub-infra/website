@@ -1189,14 +1189,12 @@ def archive(
 
     with get_db("replica") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
-    if direct_upload_app:
-        if direct_upload_app.archived:
+        if not direct_upload_app or direct_upload_app.archived:
             return
 
+    with get_db("writer") as db:
+        direct_upload_app = db.session.merge(direct_upload_app)
         direct_upload_app.archived = True
-        with get_db("writer") as db:
-            db.session.merge(direct_upload_app)
-            db.session.commit()
 
     if not direct_upload_app:
         gh_repo_changed = _archive_github_repo(app_id)

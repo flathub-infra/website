@@ -371,7 +371,9 @@ def submit_review_request(
                 .filter(models.App.app_id.in_(app_ids))
                 .all()
             )
-            apps_by_id = {app.app_id: app for app in apps}
+            apps_summary_by_id = {
+                app.app_id: app.summary for app in apps if app.summary is not None
+            }
 
     for app_id, app_data in build_appstream.items():
         is_new_submission = True
@@ -424,22 +426,19 @@ def submit_review_request(
             current_values = {}
 
         with get_db("writer") as db:
-            direct_upload_app = direct_upload_apps_by_id.get(app_id)
-            if direct_upload_app and not direct_upload_app.first_seen_at:
-                direct_upload_app.first_seen_at = datetime.utcnow()
-                db.session.merge(direct_upload_app)
-                db.session.commit()
-                is_new_submission = True
-                current_values = {"direct upload": False}
-                keys = {"direct upload": True}
+            if direct_upload_app := direct_upload_apps_by_id.get(app_id):
+                direct_upload_app = db.session.merge(direct_upload_app)
+                if not direct_upload_app.first_seen_at:
+                    direct_upload_app.first_seen_at = datetime.utcnow()
+                    is_new_submission = True
+                    current_values = {"direct upload": False}
+                    keys = {"direct upload": True}
 
         current_summary = None
         current_permissions = None
         current_extradata = False
 
-        app = apps_by_id.get(app_id)
-        if app and app.summary:
-            current_summary = app.summary
+        if current_summary := apps_summary_by_id.get(app_id):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
             if current_metadata := current_summary.get("metadata", {}):

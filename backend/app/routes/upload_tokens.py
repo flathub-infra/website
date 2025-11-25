@@ -164,8 +164,7 @@ def create_upload_token(
 
     with get_db("replica") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
-    if direct_upload_app:
-        if direct_upload_app.archived:
+        if direct_upload_app and direct_upload_app.archived:
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
 
     if "stable" in request.repos:
