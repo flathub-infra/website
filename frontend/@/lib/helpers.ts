@@ -101,9 +101,11 @@ export function getKeywords(app: GetAppstreamAppstreamAppIdGet200): string[] {
   if (!isDesktopAppstreamTypeGuard(app)) {
     return []
   }
+  // Ensure keywords is an array (backend may send dict/object in some cases)
+  const keywordsArray = Array.isArray(app.keywords) ? app.keywords : []
   // Remove duplicates
   const keywordSet = new Set(
-    (app.keywords ?? []).map((keyword) => keyword.toLowerCase()),
+    keywordsArray.map((keyword) => keyword.toLowerCase()),
   )
 
   if (!keywordSet.has("linux")) {
@@ -114,6 +116,5 @@ export function getKeywords(app: GetAppstreamAppstreamAppIdGet200): string[] {
     keywordSet.add("flatpak")
   }
 
-  const keywords = Array.from(keywordSet)
-  return keywords
+  return Array.from(keywordSet)
 }
