@@ -495,7 +495,6 @@ def get_verified_apps():
         return verified
 
 
-@cache.cached(ttl=3600)
 @router.get(
     "/{app_id}/status",
     status_code=200,
@@ -507,6 +506,7 @@ def get_verified_apps():
         404: {"description": "App not found"},
     },
 )
+@cache.cached(ttl=3600)
 def get_verification_status(
     app_id: str = Path(
         min_length=6,
