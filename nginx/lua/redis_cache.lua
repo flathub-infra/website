@@ -72,6 +72,12 @@ local function build_cache_key(uri, args)
         func_name = "get_eol_rebase"
     elseif uri == "/api/v2/eol/message" then
         func_name = "get_eol_message"
+    elseif uri == "/api/v2/appstream" then
+        func_name = "list_appstream"
+        kwargs = {
+            filter = args.filter or "apps",
+            sort = args.sort or "alphabetical"
+        }
     else
         local app_id_match = uri:match("/api/v2/eol/rebase/([^/]+)$")
         if app_id_match then
@@ -89,7 +95,27 @@ local function build_cache_key(uri, args)
                     branch = args.branch or "stable"
                 }
             else
-                return nil
+                app_id_match = uri:match("/api/v2/appstream/([^/]+)$")
+                if app_id_match then
+                    func_name = "get_appstream"
+                    kwargs = {
+                        app_id = app_id_match,
+                        locale = args.locale or "en"
+                    }
+                else
+                    app_id_match = uri:match("/api/v2/summary/([^/]+)$")
+                    if app_id_match then
+                        func_name = "get_summary"
+                        kwargs = {
+                            app_id = app_id_match
+                        }
+                        if args.branch then
+                            kwargs.branch = args.branch
+                        end
+                    else
+                        return nil
+                    end
+                end
             end
         end
     end
@@ -143,6 +169,7 @@ function _M.try_cache()
 
     if cached_data and cached_data.value then
         ngx.header["Content-Type"] = "application/json"
+        ngx.header["X-Cache-Status"] = "HIT"
         ngx.say(cjson.encode(cached_data.value))
         ngx.exit(ngx.HTTP_OK)
     end
