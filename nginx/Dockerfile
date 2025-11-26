@@ -1,4 +1,4 @@
-FROM openresty/openresty:latest
+FROM openresty/openresty:bookworm
 EXPOSE 8080
 
 RUN groupadd -r openresty 2>/dev/null && \
