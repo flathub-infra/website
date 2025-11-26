@@ -8349,6 +8349,7 @@ __metadata:
     meilisearch: "npm:^0.54.0"
     msw: "npm:^2.11.2"
     msw-storybook-addon: "npm:^2.0.5"
+    negotiator: "npm:^1.0.0"
     new-github-issue-url: "npm:^1.1.0"
     next: "npm:15.5.4"
     next-intl: "npm:^4.3.9"
