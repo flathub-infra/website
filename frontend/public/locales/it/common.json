@@ -679,5 +679,9 @@
   "no-favorites-yet": "Non hai ancora nessuna app preferita. Inizia ad aggiungerne qualcuna cliccando sull'icona dei segnalibri sulle app che ti piacciono!",
   "vending": {
     "purchase-not-available": "Questa applicazione non è disponibile per l'acquisto."
-  }
+  },
+  "see-all-results": "See all results",
+  "default-account": "Predefinito",
+  "set-as-default": "Imposta come predefinito",
+  "default-account-changed": "Account predefinito modificato con successo"
 }

@@ -680,5 +680,9 @@
   "no-favorites-yet": "U heeft nog geen favoriete apps. Begin met het toe­voegen hiervan door op de bladwĳzer­knop te drukken bĳ de apps die u leuk vindt!",
   "vending": {
     "purchase-not-available": "Deze app is niet te koop."
-  }
+  },
+  "see-all-results": "Alle resultaten bekĳken",
+  "default-account": "Standaard­account",
+  "set-as-default": "Instellen als standaard",
+  "default-account-changed": "Standaard­account succesvol ingesteld"
 }

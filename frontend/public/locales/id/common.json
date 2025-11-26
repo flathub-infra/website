@@ -680,5 +680,9 @@
   "no-favorites-yet": "Anda belum memiliki aplikasi favorit. Mulailah menambahkan beberapa aplikasi dengan mengklik ikon markah pada aplikasi yang Anda sukai!",
   "vending": {
     "purchase-not-available": "Aplikasi ini tidak tersedia untuk dibeli."
-  }
+  },
+  "see-all-results": "Lihat semua hasil",
+  "default-account": "Default",
+  "set-as-default": "Jadikan sebagai Default",
+  "default-account-changed": "Perubahan akun default berhasil dilakukan"
 }
