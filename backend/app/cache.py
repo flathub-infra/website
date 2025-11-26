@@ -32,7 +32,9 @@ def _make_cache_key(func: Callable, args: tuple, kwargs: dict) -> str:
         "kwargs": normalized_kwargs,
     }
 
-    key_hash = hashlib.md5(orjson.dumps(key_data, option=orjson.OPT_SORT_KEYS, default=str)).hexdigest()
+    key_hash = hashlib.md5(
+        orjson.dumps(key_data, option=orjson.OPT_SORT_KEYS, default=str)
+    ).hexdigest()
     return f"cache:endpoint:{func.__name__}:{key_hash}"
 
 
