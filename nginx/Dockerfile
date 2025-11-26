@@ -5,6 +5,7 @@ RUN groupadd -r openresty 2>/dev/null && \
     useradd -r -g openresty -s /sbin/nologin -c "OpenResty user" openresty 2>/dev/null
 
 COPY nginx.conf /etc/nginx/openresty.conf
+COPY lua/ /etc/nginx/lua/
 
 USER openresty
 CMD ["/usr/bin/openresty", "-c", "/etc/nginx/openresty.conf", "-g", "daemon off;"]
