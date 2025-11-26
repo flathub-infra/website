@@ -64,71 +64,49 @@ local function set_keepalive(red)
     end
 end
 
-local function build_cache_key(uri, args)
-    local func_name
-    local kwargs = {}
+local routes = {
+    {"^/api/v2/eol/rebase$", "get_eol_rebase", function(match, args)
+        return {}
+    end},
+    {"^/api/v2/eol/rebase/([^/]+)$", "get_eol_rebase_appid", function(match, args)
+        return {app_id = match[1], branch = args.branch or "stable"}
+    end},
+    {"^/api/v2/eol/message$", "get_eol_message", function(match, args)
+        return {}
+    end},
+    {"^/api/v2/eol/message/([^/]+)$", "get_eol_message_appid", function(match, args)
+        return {app_id = match[1], branch = args.branch or "stable"}
+    end},
+    {"^/api/v2/appstream$", "list_appstream", function(match, args)
+        return {filter = args.filter or "apps", sort = args.sort or "alphabetical"}
+    end},
+    {"^/api/v2/appstream/([^/]+)$", "get_appstream", function(match, args)
+        return {app_id = match[1], locale = args.locale or "en"}
+    end},
+    {"^/api/v2/summary/([^/]+)$", "get_summary", function(match, args)
+        local params = {app_id = match[1]}
+        if args.branch then
+            params.branch = args.branch
+        end
+        return params
+    end},
+}
 
-    if uri == "/api/v2/eol/rebase" then
-        func_name = "get_eol_rebase"
-    elseif uri == "/api/v2/eol/message" then
-        func_name = "get_eol_message"
-    elseif uri == "/api/v2/appstream" then
-        func_name = "list_appstream"
-        kwargs = {
-            filter = args.filter or "apps",
-            sort = args.sort or "alphabetical"
-        }
-    else
-        local app_id_match = uri:match("/api/v2/eol/rebase/([^/]+)$")
-        if app_id_match then
-            func_name = "get_eol_rebase_appid"
-            kwargs = {
-                app_id = app_id_match,
-                branch = args.branch or "stable"
-            }
-        else
-            app_id_match = uri:match("/api/v2/eol/message/([^/]+)$")
-            if app_id_match then
-                func_name = "get_eol_message_appid"
-                kwargs = {
-                    app_id = app_id_match,
-                    branch = args.branch or "stable"
-                }
-            else
-                app_id_match = uri:match("/api/v2/appstream/([^/]+)$")
-                if app_id_match then
-                    func_name = "get_appstream"
-                    kwargs = {
-                        app_id = app_id_match,
-                        locale = args.locale or "en"
-                    }
-                else
-                    app_id_match = uri:match("/api/v2/summary/([^/]+)$")
-                    if app_id_match then
-                        func_name = "get_summary"
-                        kwargs = {
-                            app_id = app_id_match
-                        }
-                        if args.branch then
-                            kwargs.branch = args.branch
-                        end
-                    else
-                        return nil
-                    end
-                end
-            end
+local function build_cache_key(uri, args)
+    for _, route in ipairs(routes) do
+        local pattern, func_name, param_builder = route[1], route[2], route[3]
+        local matches = {string.match(uri, pattern)}
+
+        if #matches > 0 or uri:match(pattern) then
+            local kwargs = param_builder(matches, args)
+            local key_data = {func = func_name, kwargs = kwargs}
+            local json_str = encode_sorted_json(key_data)
+            local key_hash = ngx.md5(json_str)
+            return "cache:endpoint:" .. func_name .. ":" .. key_hash
         end
     end
 
-    local key_data = {
-        func = func_name,
-        kwargs = kwargs
-    }
-
-    local json_str = encode_sorted_json(key_data)
-    local key_hash = ngx.md5(json_str)
-
-    return "cache:endpoint:" .. func_name .. ":" .. key_hash
+    return nil
 end
 
 local function get_from_cache(red, cache_key)
