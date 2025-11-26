@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Cette application n'est pas disponible à l'achat."
   },
-  "see-all-results": "Voir tous les résultats"
+  "see-all-results": "Voir tous les résultats",
+  "default-account": "Par défaut",
+  "set-as-default": "Définir par défaut",
+  "default-account-changed": "Compte par défaut modifié avec succès"
 }
