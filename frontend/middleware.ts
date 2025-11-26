@@ -1,5 +1,6 @@
+import createMiddleware from "next-intl/middleware"
 import { NextRequest, NextResponse } from "next/server"
-import { detectLocale } from "src/i18n/locale-detector"
+import { routing } from "src/i18n/routing"
 
 // Routes that require authentication - updated to match the protected route group
 const protectedRoutes = [
@@ -50,78 +51,34 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
 }
 
 export default async function middleware(request: NextRequest) {
+  // Handle internationalization first - this will redirect if locale is missing
+  const i18nResponse = createMiddleware(routing)(request)
+
+  // If i18n middleware wants to redirect, let it
+  if (i18nResponse) {
+    return i18nResponse
+  }
+
   const { pathname } = request.nextUrl
-  const { locale, localeInPath } = detectLocale(request)
 
-  const localizedPathname = localeInPath
-    ? pathname
-    : `/${locale}${pathname === "/" ? "/" : pathname}`
-
-  const response = localeInPath
-    ? NextResponse.next()
-    : NextResponse.rewrite(new URL(localizedPathname, request.url))
-
-  if (isProtectedRoute(localizedPathname)) {
+  // Then check authentication for protected routes
+  if (isProtectedRoute(pathname)) {
     const authenticated = await isAuthenticated(request)
 
     if (!authenticated) {
+      const locale = pathname.split("/")[1] || "en"
       const loginUrl = new URL(`/${locale}/login`, request.url)
       loginUrl.searchParams.set(
         "returnTo",
-        localeInPath
-          ? pathname.replace(`/${locale}`, "") || "/"
-          : pathname || "/",
+        pathname.replace(`/${locale}`, "") || "/",
       )
 
-      return withVaryHeaders(
-        persistDetectedLocale(
-          NextResponse.redirect(loginUrl),
-          localeInPath,
-          locale,
-        ),
-      )
+      return NextResponse.redirect(loginUrl)
     }
   }
 
   // If no redirect needed, let request continue
-  return withVaryHeaders(
-    persistDetectedLocale(response, localeInPath, locale),
-  )
-}
-
-const persistDetectedLocale = (
-  response: NextResponse,
-  localeInPath: boolean,
-  locale: string,
-) => {
-  if (localeInPath) {
-    return response
-  }
-
-  response.cookies.set("NEXT_LOCALE", locale, {
-    sameSite: "strict",
-    maxAge: 31536000,
-    path: "/",
-  })
-  response.headers.set("x-detected-locale", locale)
-
-  return response
-}
-
-const withVaryHeaders = (response: NextResponse) => {
-  const vary = response.headers.get("Vary")
-  const values = new Set(
-    (vary ? vary.split(",") : [])
-      .map((value) => value.trim())
-      .filter(Boolean),
-  )
-
-  values.add("Cookie")
-  values.add("Accept-Language")
-
-  response.headers.set("Vary", Array.from(values).join(", "))
-
-  return response
+  return NextResponse.next()
 }
 
 export const config = {

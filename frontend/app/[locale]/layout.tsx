@@ -14,7 +14,6 @@ import { IS_PRODUCTION, ASSET_BASE_URL } from "src/env"
 import { routing } from "src/i18n/routing"
 import { staticLocales } from "src/i18n/static-locales"
 import { notFound } from "next/navigation"
-import LocaleRedirector from "src/components/LocaleRedirector"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -96,11 +95,8 @@ export default async function LocaleLayout({
 
   return (
     <html suppressHydrationWarning lang={locale} dir={getLangDir(locale)}>
-      <head>
-        <meta name="x-detected-locale" content={locale} />
-      </head>
+      <head />
       <body className={inter.className}>
-        <LocaleRedirector />
         <NextIntlClientProvider>
           <ClientProviders locale={locale}>
             <Main>{children}</Main>
