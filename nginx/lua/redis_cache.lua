@@ -93,6 +93,42 @@ local routes = {
     {"^/api/v2/verification/([^/]+)/status$", "get_verification_status", function(match, args)
         return {app_id = match[1]}
     end},
+    {"^/api/v2/is%-fullscreen%-app/([^/]+)$", "get_isFullscreenApp", function(match, args)
+        return {app_id = match[1]}
+    end},
+    {"^/api/v2/addon/([^/]+)$", "get_addons", function(match, args)
+        return {app_id = match[1]}
+    end},
+    {"^/api/v2/stats$", "get_stats", function(match, args)
+        return {}
+    end},
+    {"^/api/v2/stats/([^/]+)$", "get_stats_for_app", function(match, args)
+        local params = {app_id = match[1]}
+
+        if args.all then
+            if args.all == "true" or args.all == "True" then
+                params.all = true
+            else
+                params.all = false
+            end
+        else
+            params.all = false
+        end
+
+        if args.days then
+            params.days = tonumber(args.days) or 180
+        else
+            params.days = 180
+        end
+
+        return params
+    end},
+    {"^/api/v2/app%-picks/app%-of%-the%-day/([^/]+)$", "get_app_of_the_day", function(match, args)
+        return {date = match[1]}
+    end},
+    {"^/api/v2/app%-picks/apps%-of%-the%-week/([^/]+)$", "get_app_of_the_week", function(match, args)
+        return {date = match[1]}
+    end},
 }
 
 local function build_cache_key(uri, args)
