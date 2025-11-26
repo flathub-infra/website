@@ -84,11 +84,10 @@ local routes = {
         return {app_id = match[1], locale = args.locale or "en"}
     end},
     {"^/api/v2/summary/([^/]+)$", "get_summary", function(match, args)
-        local params = {app_id = match[1]}
-        if args.branch then
-            params.branch = args.branch
-        end
-        return params
+        return {
+            app_id = match[1],
+            branch = args.branch or cjson.null
+        }
     end},
     {"^/api/v2/verification/([^/]+)/status$", "get_verification_status", function(match, args)
         return {app_id = match[1]}
