@@ -1,6 +1,7 @@
 import functools
 import hashlib
 import inspect
+import json
 import time
 from collections.abc import Callable
 from enum import Enum
@@ -32,7 +33,7 @@ def _make_cache_key(func: Callable, args: tuple, kwargs: dict) -> str:
         "kwargs": normalized_kwargs,
     }
 
-    key_hash = hashlib.md5(orjson.dumps(key_data, default=str)).hexdigest()
+    key_hash = hashlib.md5(json.dumps(key_data, sort_keys=True).encode()).hexdigest()
     return f"cache:endpoint:{func.__name__}:{key_hash}"
 
 
