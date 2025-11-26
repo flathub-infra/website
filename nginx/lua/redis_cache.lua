@@ -90,6 +90,9 @@ local routes = {
         end
         return params
     end},
+    {"^/api/v2/verification/([^/]+)/status$", "get_verification_status", function(match, args)
+        return {app_id = match[1]}
+    end},
 }
 
 local function build_cache_key(uri, args)
