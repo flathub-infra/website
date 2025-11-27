@@ -183,7 +183,7 @@ function _M.try_cache()
     local cached_data = get_from_cache(red, cache_key)
     set_keepalive(red)
 
-    if cached_data and cached_data.value then
+    if cached_data and cached_data.value and not cached_data.is_stale then
         ngx.header["Content-Type"] = "application/json"
         ngx.header["X-Cache-Status"] = "HIT"
         ngx.say(cjson.encode(cached_data.value))
