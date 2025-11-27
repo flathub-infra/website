@@ -1,6 +1,8 @@
 local redis = require "resty.redis"
 local cjson = require "cjson.safe"
 
+cjson.encode_empty_table_as_object(false)
+
 local _M = {}
 
 local function get_redis_host()
