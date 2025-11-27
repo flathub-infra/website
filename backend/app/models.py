@@ -2337,6 +2337,8 @@ class App(Base):
             for k, v in translation.items()
             if not k.startswith("screenshots_caption_")
             and not k.startswith("release_description_")
+            # Don't include dict values for keys that should be arrays in the result
+            and not (isinstance(v, dict) and isinstance(result.get(k), list))
         }
 
         return result | translation
