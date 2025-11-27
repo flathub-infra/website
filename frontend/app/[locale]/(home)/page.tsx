@@ -209,18 +209,18 @@ export default async function HomePage({
 
   const currentDate = formatISO(new Date(), { representation: "date" })
 
-  // Fetch all data in parallel
-  const [
-    [recentlyUpdated, popular, recentlyAdded, trending, mobile],
-    topAppsByCategory,
-    { heroBannerData, appOfTheDayAppstream },
-    [games, emulators, gameLaunchers, gameTools],
-  ] = await Promise.all([
-    getCollections(locale),
-    getCategoryData(locale),
-    getHeroBanner(currentDate, locale),
-    getGameData(locale),
-  ])
+  // Fetch all data sequentially to reduce backend load during build
+  const collections = await getCollections(locale)
+  const [recentlyUpdated, popular, recentlyAdded, trending, mobile] =
+    collections
+
+  const topAppsByCategory = await getCategoryData(locale)
+
+  const heroBanner = await getHeroBanner(currentDate, locale)
+  const { heroBannerData, appOfTheDayAppstream } = heroBanner
+
+  const gameData = await getGameData(locale)
+  const [games, emulators, gameLaunchers, gameTools] = gameData
 
   return (
     <HomeClient
