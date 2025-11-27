@@ -410,16 +410,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         and tag.text is not None
                         and tag.text.strip()
                     ]
-
-                    if elem.tag == "keywords" and translated_items:
-                        translated_items = [
-                            item
-                            for item in translated_items
-                            if isinstance(item, str)
-                            and len(item) <= 20
-                            and not any(c in item for c in "./")
-                        ][:3]
-
                     if translated_items:
                         add_translation(
                             app["locales"],
@@ -464,15 +454,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         attrs[attr] = tag.attrib[attr]
 
                     app[elem.tag].append(attrs.copy())
-
-                if elem.tag == "keywords" and elem.tag in app:
-                    app[elem.tag] = [
-                        kw
-                        for kw in app[elem.tag]
-                        if isinstance(kw, str)
-                        and len(kw) <= 10
-                        and not any(c in kw for c in " ./")
-                    ][:3]
 
         # Determine whether the app is FOSS
         app_licence = app.get("project_license", "")
