@@ -35,7 +35,10 @@ export const CarouselStrip = ({
     setCurrentIndex(ref.current?.getLightboxState()?.currentIndex)
   }, [])
 
-  const slides = app.screenshots?.map(mapScreenshot).map((screenshot) => {
+  // Handle both array and dict formats for screenshots
+  const screenshotsArray = Array.isArray(app.screenshots) ? app.screenshots : []
+
+  const slides = screenshotsArray.map(mapScreenshot).map((screenshot) => {
     return {
       ...screenshot,
       title: screenshot.caption,
@@ -63,8 +66,8 @@ export const CarouselStrip = ({
             slides={slides}
             index={currentIndex}
             render={{
-              buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
-              buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
+              buttonPrev: screenshotsArray.length <= 1 ? () => null : undefined,
+              buttonNext: screenshotsArray.length <= 1 ? () => null : undefined,
               slide: CarouselNextJsImage,
             }}
             labels={{
@@ -126,9 +129,9 @@ export const CarouselStrip = ({
                   </div>
                 ),
                 buttonPrev:
-                  app.screenshots.length <= 1 ? () => null : undefined,
+                  screenshotsArray.length <= 1 ? () => null : undefined,
                 buttonNext:
-                  app.screenshots.length <= 1 ? () => null : undefined,
+                  screenshotsArray.length <= 1 ? () => null : undefined,
                 slide: CarouselNextJsImage,
               }}
               labels={{
