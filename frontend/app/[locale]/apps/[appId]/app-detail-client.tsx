@@ -33,7 +33,7 @@ interface AppDetailClientProps {
 }
 
 function categoryToSeoCategories(categories: string[]) {
-  if (!categories) {
+  if (!Array.isArray(categories)) {
     return ""
   }
   return categories.map(categoryToSeoCategory).join(" ")
@@ -100,7 +100,9 @@ const AppDetailClient = ({
   const keywords = getKeywords(app)
 
   const screenshot =
-    isDesktopAppstreamTypeGuard(app) && app.screenshots?.length > 0
+    isDesktopAppstreamTypeGuard(app) &&
+    Array.isArray(app.screenshots) &&
+    app.screenshots.length > 0
       ? pickScreenshotSize(app.screenshots[0])
       : undefined
 

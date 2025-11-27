@@ -66,7 +66,7 @@ export async function GET(
       : undefined) ?? app.icon
 
   const screenshot =
-    app.screenshots && app.screenshots?.length > 0
+    Array.isArray(app.screenshots) && app.screenshots.length > 0
       ? mapScreenshot(app.screenshots[0])
       : null
 

@@ -197,9 +197,9 @@ const Details: FunctionComponent<Props> = ({
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}
         />
-        {isDesktopAppstreamTypeGuard(app) && app.screenshots && (
-          <CarouselStrip app={app} />
-        )}
+        {isDesktopAppstreamTypeGuard(app) &&
+          Array.isArray(app.screenshots) &&
+          app.screenshots.length > 0 && <CarouselStrip app={app} />}
         <div className="col-start-2 flex flex-col gap-6">
           {isDesktopAppstreamTypeGuard(app) && (
             <Description app={app} isQualityModalOpen={isQualityModalOpen} />
