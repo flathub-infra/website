@@ -28,12 +28,22 @@ export default {
               is_outdated: false,
               request_type: "appdata",
               request_data: {
-                keys: { developer_name: "KDE" },
+                keys: {
+                  developer_name: "KDE",
+                  keywords: [
+                    "planetarium",
+                    "science",
+                    "astronomy",
+                    "stars",
+                    "education",
+                  ],
+                },
                 current_values: {
                   name: "KStars",
                   summary: "Desktop Planetarium",
                   developer_name: null,
                   project_license: "GPL-2.0+",
+                  keywords: ["astronomy", "education", "science"],
                 },
               },
               is_new_submission: false,

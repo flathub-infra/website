@@ -37,10 +37,12 @@ export const Primary = () => {
       current_values: {
         name: "Test App",
         developer: "Kola Lamepe",
+        keywords: ["development", "testing"],
       },
       keys: {
         name: "My Awesome Test App",
         developer: "Kolja Lampe",
+        keywords: ["development", "productivity", "testing", "tools"],
       },
     },
     id: 1,
@@ -123,6 +125,7 @@ export const PermissionChangeRemoval = () => {
     request_data: {
       keys: {
         shared: ["network"],
+        keywords: ["editor", "terminal", "text", "vim"],
       },
       current_values: {
         name: "Vim",
@@ -131,6 +134,7 @@ export const PermissionChangeRemoval = () => {
         project_license: "Vim",
         shared: ["network", "ipc"],
         sockets: ["x11"],
+        keywords: ["editor", "text", "vim"],
       },
     },
     is_new_submission: false,

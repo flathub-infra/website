@@ -261,6 +261,7 @@ class ReviewItem(BaseModel):
     summary: str | None = None
     developer_name: str | None = None
     project_license: str | None = None
+    keywords: list[str] | None = None
 
 
 class ReviewRequest(BaseModel):
@@ -384,6 +385,12 @@ def submit_review_request(
             "developer_name": app_data.get("developer_name"),
             "project_license": app_data.get("project_license"),
         }
+
+        if keywords := app_data.get("keywords"):
+            keys["keywords"] = keywords
+        else:
+            keys["keywords"] = None
+
         current_values = {}
 
         # Check if the app data matches the current appstream
@@ -394,6 +401,11 @@ def submit_review_request(
             current_values["summary"] = app.get("summary")
             current_values["developer_name"] = app.get("developer_name")
             current_values["project_license"] = app.get("project_license")
+
+            if keywords := app.get("keywords"):
+                current_values["keywords"] = keywords
+            else:
+                current_values["keywords"] = None
 
             for key, value in current_values.items():
                 if value == keys[key]:
