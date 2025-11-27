@@ -59,9 +59,11 @@ export async function GET(
   ).data
 
   const icon =
-    app.icons?.sort(
-      (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
-    )?.[0]?.url ?? app.icon
+    (Array.isArray(app.icons)
+      ? app.icons.sort(
+          (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
+        )?.[0]?.url
+      : undefined) ?? app.icon
 
   const screenshot =
     app.screenshots && app.screenshots?.length > 0
