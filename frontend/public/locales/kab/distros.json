@@ -98,11 +98,11 @@
   "debian": {
     "step-1": {
       "name": "Sbedd Flatpak",
-      "text": "<text>Akemmus n flatpak yella deg Debian 10 (Buster) akked d umaynut. I wakken ad tesbeddeḍ-t, selkem am root::</text> <code></code>"
+      "text": "<text>Akemmus n flatpak yella deg Debian 10 (Buster) akked d umaynut. I wakken ad tesbeddeḍ-t, selkem am root:</text> <code></code>"
     },
     "distroName": "Debian",
     "step-4": {
-      "name": "Ales asenker",
+      "name": "Ales asekker",
       "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
     },
     "step-3": {

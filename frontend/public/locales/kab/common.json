@@ -119,7 +119,8 @@
     "app-icon": "Tignit n usnas",
     "screenshots-default-settings": "Iɣewwaṛen imezwar",
     "light": "Aceɛlal",
-    "dark": "Ubrik"
+    "dark": "Ubrik",
+    "failing-x-checks": "Tuccḍa seg {count, plural, one {# n usenqed} other {# n isenqaden}}"
   },
   "moderation-new-value": "Azal amaynut",
   "number-of-results": "{number} n igmaḍ",
@@ -305,5 +306,6 @@
   "apps-by-tag": "Isnasen s tebzimt “{tag}”",
   "verification-failed-to-connect": "Tecceḍ tuqqna ɣer {domain}.",
   "can-read-all-data": "Yezmer ad iɣer akk isefka yellan deg ukaram",
-  "can-request-data-from-system-services": "Yezmer ad yessuter isefka i yimeẓla n unagraw"
+  "can-request-data-from-system-services": "Yezmer ad yessuter isefka i yimeẓla n unagraw",
+  "user-not-found": "Ur yettwaf ara useqdac"
 }

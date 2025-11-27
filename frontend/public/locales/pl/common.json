@@ -681,5 +681,8 @@
   "vending": {
     "purchase-not-available": "Ta aplikacja nie jest dostępna do zakupu."
   },
-  "see-all-results": "Zobacz wszystkie wyniki"
+  "see-all-results": "Zobacz wszystkie wyniki",
+  "default-account-changed": "Domyślne konto zostało pomyślnie zmienione",
+  "default-account": "Domyślne",
+  "set-as-default": "Ustaw jako domyślne"
 }
