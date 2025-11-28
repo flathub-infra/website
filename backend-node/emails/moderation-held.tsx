@@ -76,13 +76,13 @@ const TableRow = ({
 }) => {
   return (
     <tr key={valueKey}>
-      <td className="align-top">{valueKey}</td>
+      <td className="align-top break-all">{valueKey}</td>
       {!isNewSubmission && (
-        <td className="align-top">
+        <td className="align-top break-all">
           <ArrayWithNewlines array={currentValueList} />
         </td>
       )}
-      <td className="align-top">
+      <td className="align-top break-all">
         <ArrayWithNewlines array={newValueList} />
       </td>
     </tr>
@@ -133,11 +133,11 @@ const DiffRow = ({
   ) {
     return (
       <tr>
-        <td className="align-top">{valueKey}</td>
+        <td className="align-top break-all">{valueKey}</td>
         {!request.isNewSubmission && (
-          <td className="align-top">{current_values?.toString()}</td>
+          <td className="align-top break-all">{current_values?.toString()}</td>
         )}
-        <td className="align-top">{newValues?.toString()}</td>
+        <td className="align-top break-all">{newValues?.toString()}</td>
       </tr>
     )
   }
@@ -208,7 +208,12 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
   return (
     <Section className="mt-8">
       {request.requestType === "appdata" && (
-        <table className="w-full table-fixed text-xs">
+        <table className="w-full text-xs" style={{ tableLayout: "fixed" }}>
+          <colgroup>
+            <col style={{ width: "20%" }} />
+            {!request.isNewSubmission && <col style={{ width: "40%" }} />}
+            <col style={{ width: request.isNewSubmission ? "80%" : "40%" }} />
+          </colgroup>
           <tr className="text-left rtl:text-right">
             <th>Field</th>
             {!request.isNewSubmission && <th>Old value</th>}
