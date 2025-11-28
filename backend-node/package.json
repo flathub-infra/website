@@ -24,6 +24,7 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@react-email/preview-server": "5.0.5",
     "@types/html-to-text": "^9.0.4",
     "@types/nodemailer": "^7.0.4",
     "@types/react": "^19",
