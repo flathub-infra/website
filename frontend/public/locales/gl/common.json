@@ -11,7 +11,7 @@
   "user-avatar": "Avatar de {user}",
   "more": "Máis",
   "number-of-results": "{number} resultados",
-  "installed-size": "Tamaño instalado",
+  "installed-size": "Tamaño da instalación",
   "download-size": "Tamaño da descarga",
   "users": "Usuarios",
   "about-description": "Flathub é o lugar para obter e distribuír aplicacións para Linux. Está fornecida por Flatpak, o cal permite ás aplicacións de Flathub executarse en case calquera distribución de Linux.",
@@ -32,5 +32,15 @@
   "mastodon": "Mastodon",
   "about": "Acerca de",
   "publish-your-app": "Publica a túa aplicación",
-  "badges": "Distintivos"
+  "badges": "Distintivos",
+  "available-architectures": "Arquitecturas dispoñibles",
+  "downloads": "Descargas",
+  "license": "Licenza",
+  "project-website": "Sitio web do proxecto",
+  "contact": "Contacto",
+  "changes-in-version": "Cambios na versión {version_number}",
+  "release-link": "Obter máis información",
+  "manual-install": "Instalación manual",
+  "run": "Executar",
+  "copy-text": "Copiar texto"
 }

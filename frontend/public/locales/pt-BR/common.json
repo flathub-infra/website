@@ -680,5 +680,9 @@
   "no-favorites-yet": "Você ainda não tem aplicativos favoritos. Comece adicionando alguns clicando no ícone de favoritar em aplicativos que você gosta!",
   "vending": {
     "purchase-not-available": "Este aplicativo não está disponível para compra."
-  }
+  },
+  "see-all-results": "Veja todos os resultados",
+  "default-account": "Padrão",
+  "set-as-default": "Definir como padrão",
+  "default-account-changed": "A conta padrão foi alterada com sucesso"
 }
