@@ -135,6 +135,11 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                     app_stats_per_day[app_id_without_architecture][date.isoformat()] = (
                         sum([i[0] - i[1] for i in app_stats.values()])
                     )
+
+    # Sort each app's stats by date
+    for app_id in app_stats_per_day:
+        app_stats_per_day[app_id] = dict(sorted(app_stats_per_day[app_id].items()))
+
     return app_stats_per_day
 
 
