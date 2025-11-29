@@ -680,5 +680,9 @@
   "no-favorites-yet": "Vi ankoraŭ ne ŝatis iun ajn programon. Eku alklakante la legosignan piktogramon ĉe tiuj programoj, kiujn vi ŝatas!",
   "vending": {
     "purchase-not-available": "Ĉi tiu programo ne estas aĉetebla."
-  }
+  },
+  "see-all-results": "Vidi ĉiujn rezultojn",
+  "default-account": "Apriora",
+  "set-as-default": "Apriorigi",
+  "default-account-changed": "La apriora konto estis sukcese ŝanĝita"
 }
