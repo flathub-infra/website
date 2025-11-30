@@ -6,12 +6,11 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from pydantic import BaseModel
 
 from ..config import settings
-from ..logins import login_state
+from ..login_info import logged_in
 from .walletbase import (
     NascentTransaction,
     PaymentCardInfo,
@@ -56,18 +55,15 @@ router = APIRouter(prefix="/wallet")
     responses={
         200: {"model": WalletInfo},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         500: {"description": "Internal server error"},
     },
 )
-def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
+def get_walletinfo(request: Request, login=Depends(logged_in)) -> WalletInfo:
     """
     Retrieve the wallet for the currently logged in user.
 
     This will return a list of cards which the user has saved to their account.
     """
-    if not login["state"].logged_in():
-        raise HTTPException(status_code=403, detail="Not logged in")
     return Wallet().info(request, login["user"])
 
 
@@ -77,24 +73,17 @@ def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
     responses={
         201: {"description": "Card removed successfully"},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
-def post_removecard(
-    request: Request, card: PaymentCardInfo, login=Depends(login_state)
-):
+def post_removecard(request: Request, card: PaymentCardInfo, login=Depends(logged_in)):
     """
     Remove a card from a user's wallet.
 
     The provided information must exactly match a card as would be returned from the
     wallet info endpoint.
     """
-    if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
     Wallet().remove_card(request, login["user"], card)
 
     return Response(None, status_code=201)
@@ -107,14 +96,13 @@ def post_removecard(
     responses={
         200: {"model": list[TransactionSummary]},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
 def get_transactions(
     request: Request,
-    login=Depends(login_state),
+    login=Depends(logged_in),
     sort: TransactionSortOrder = TransactionSortOrder.RECENT,
     since: str | None = None,
     limit: int = 100,
@@ -125,8 +113,6 @@ def get_transactions(
     If anything goes wrong, an error will be returned, otherwise a list of transaction
     summaries will be returned.
     """
-    if not login["state"].logged_in():
-        raise HTTPException(status_code=403, detail="Not logged in")
     limit = min(limit, 100)
 
     return Wallet().transactions(request, login["user"], sort, since, limit)
@@ -138,14 +124,13 @@ def get_transactions(
     responses={
         200: {"model": Transaction},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         404: {"description": "Transaction not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
 def get_transaction_by_id(
-    txn: str, request: Request, login=Depends(login_state)
+    txn: str, request: Request, login=Depends(logged_in)
 ) -> Transaction:
     """
     Retrieve a transaction by its ID
@@ -154,8 +139,6 @@ def get_transaction_by_id(
     retrieve the whole transaction, including card details and disbursement information
     if available.
     """
-    if not login["state"].logged_in():
-        raise HTTPException(status_code=403, detail="Not logged in")
 
     return Wallet().transaction(request, login["user"], transaction=txn)
 
@@ -171,13 +154,12 @@ class PostTransactionResponse(BaseModel):
     responses={
         200: {"model": PostTransactionResponse},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
 def create_transaction(
-    request: Request, data: NascentTransaction, login=Depends(login_state)
+    request: Request, data: NascentTransaction, login=Depends(logged_in)
 ) -> PostTransactionResponse:
     """
     Create a new transaction, return the ID.
@@ -185,8 +167,6 @@ def create_transaction(
     If the passed in nascent transaction is valid, this will create a transaction and
     return the ID of the newly created wallet, otherwise it'll return an error
     """
-    if not login["state"].logged_in():
-        raise HTTPException(status_code=403, detail="Not logged in")
     ret = Wallet().create_transaction(request, login["user"], data)
     return PostTransactionResponse(status="ok", id=ret)
 
@@ -197,14 +177,13 @@ def create_transaction(
     responses={
         200: {"description": "Card set successfully"},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         404: {"description": "Transaction not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
 def set_transaction_card(
-    txn: str, data: PaymentCardInfo, request: Request, login=Depends(login_state)
+    txn: str, data: PaymentCardInfo, request: Request, login=Depends(logged_in)
 ):
     """
     Set the card associated with a transaction.
@@ -212,10 +191,6 @@ def set_transaction_card(
     The posted card must exactly match one of the cards returned by the wallet
     info endpoint or else the update may not succeed
     """
-    if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
     Wallet().set_transaction_card(request, login["user"], txn, data)
     return {"status": "ok"}
 
@@ -226,13 +201,12 @@ def set_transaction_card(
     responses={
         201: {"description": "Transaction cancelled successfully"},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         404: {"description": "Transaction not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
-def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
+def cancel_transaction(txn: str, request: Request, login=Depends(logged_in)):
     """
     Cancel a transaction in the `new` or `retry` states.
 
@@ -240,10 +214,6 @@ def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
     and updates the transaction.  This API will not attempt to prevent stripe
     payments from completing.
     """
-    if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
     Wallet().cancel_transaction(request, login["user"], txn)
     return Response(None, status_code=201)
 
@@ -273,14 +243,13 @@ def get_stripedata() -> StripeKeys:
     responses={
         200: {"model": TransactionStripeData},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         404: {"description": "Transaction not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
 def get_txn_stripedata(
-    txn: str, request: Request, login=Depends(login_state)
+    txn: str, request: Request, login=Depends(logged_in)
 ) -> TransactionStripeData:
     """
     Return the Stripe data associated with the given transaction.
@@ -289,10 +258,6 @@ def get_txn_stripedata(
     will only work for transactions which *are* Stripe transactions.
     """
 
-    if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
     return Wallet().get_transaction_stripedata(request, login["user"], txn)
 
 
@@ -302,14 +267,13 @@ def get_txn_stripedata(
     responses={
         201: {"description": "Save card status set successfully"},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         404: {"description": "Transaction not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
 def set_savecard(
-    txn: str, data: TransactionSaveCard, request: Request, login=Depends(login_state)
+    txn: str, data: TransactionSaveCard, request: Request, login=Depends(logged_in)
 ):
     """
     Set the save-card status.
@@ -323,10 +287,6 @@ def set_savecard(
     re-authenticating
     """
 
-    if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
     Wallet().set_savecard(request, login["user"], txn, data.save_card)
     return Response(None, status_code=201)
 
@@ -337,21 +297,16 @@ def set_savecard(
     responses={
         201: {"description": "Transaction set as pending successfully"},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - not logged in"},
         404: {"description": "Transaction not found"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
 )
-def set_pending(txn: str, request: Request, login=Depends(login_state)):
+def set_pending(txn: str, request: Request, login=Depends(logged_in)):
     """
     Set the transaction as 'pending' so that we can recover if Stripe
     flows don't quite work (e.g. webhook goes missing)
     """
-    if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
     Wallet().set_transaction_pending(request, login["user"], txn)
     return Response(None, status_code=201)
 
