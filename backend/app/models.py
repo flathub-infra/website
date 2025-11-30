@@ -2026,67 +2026,132 @@ class QualityModeration(Base):
         )
 
     @classmethod
+    def by_appids_eol_status(cls, db, app_ids: list[str]) -> dict[str, bool]:
+        """
+        Return a dict mapping app_id to whether it uses an EOL runtime.
+        This is a batch version to avoid N+1 queries.
+        """
+        if not app_ids:
+            return {}
+
+        eol_guideline_id = "general-runtime-not-eol"
+        results = (
+            db.session.query(
+                QualityModeration.app_id,
+                QualityModeration.passed,
+            )
+            .filter(
+                QualityModeration.app_id.in_(app_ids),
+                QualityModeration.guideline_id == eol_guideline_id,
+            )
+            .all()
+        )
+
+        eol_status = {}
+        for app_id, passed in results:
+            eol_status[app_id] = not passed if passed is not None else False
+
+        return eol_status
+
+    @classmethod
     def by_appid_summarized(cls, db, app_id: str) -> QualityModerationStatus:
         """
         Return a summary of the quality moderation status for an app
         """
-        status = (
-            db.session.query(Guideline)
-            .join(
-                QualityModeration,
-                and_(
-                    Guideline.id == QualityModeration.guideline_id,
-                    QualityModeration.app_id == app_id,
-                ),
-                isouter=True,
-            )
-            .join(
-                App,
-                and_(
-                    App.app_id == app_id,
-                    or_(
-                        App.is_fullscreen_app == False,  # noqa: E712
-                        App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
-                    ),
-                ),
-            )
-            .filter(Guideline.needed_to_pass_since <= datetime.now().date())
-            .with_entities(
-                func.count(Guideline.id),
-                func.sum(func.cast(QualityModeration.passed, Integer)),
-                func.sum(func.cast(~QualityModeration.passed, Integer)),
-                func.max(QualityModeration.updated_at),
-            )
-            .first()
-        )
-
-        app_quality_request = QualityModerationRequest.by_appid(db, app_id)
-
-        if (
-            status[0] is None
-            or status[1] is None
-            or status[2] is None
-            or status[3] is None
-        ):
-            return QualityModerationStatus(
+        return cls.by_appids_summarized(db, [app_id]).get(
+            app_id,
+            QualityModerationStatus(
                 passes=False,
                 unrated=0,
                 passed=0,
                 not_passed=0,
                 last_updated=datetime.now(),
                 review_requested_at=None,
-            )
-
-        return QualityModerationStatus(
-            passes=status[0] == status[1],
-            unrated=status[0] - status[1] - status[2],
-            passed=status[1],
-            not_passed=status[2],
-            last_updated=status[3],
-            review_requested_at=(
-                app_quality_request.created_at if app_quality_request else None
             ),
         )
+
+    @classmethod
+    def by_appids_summarized(
+        cls, db, app_ids: list[str]
+    ) -> dict[str, QualityModerationStatus]:
+        """
+        Return a dict mapping app_id to quality moderation status.
+        """
+        if not app_ids:
+            return {}
+
+        now_date = datetime.now().date()
+
+        results = (
+            db.session.query(
+                App.app_id,
+                func.count(Guideline.id),
+                func.sum(func.cast(QualityModeration.passed, Integer)),
+                func.sum(func.cast(~QualityModeration.passed, Integer)),
+                func.max(QualityModeration.updated_at),
+            )
+            .select_from(App)
+            .filter(App.app_id.in_(app_ids))
+            .join(
+                Guideline,
+                or_(
+                    App.is_fullscreen_app == False,  # noqa: E712
+                    App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                ),
+            )
+            .outerjoin(
+                QualityModeration,
+                and_(
+                    Guideline.id == QualityModeration.guideline_id,
+                    QualityModeration.app_id == App.app_id,
+                ),
+            )
+            .filter(Guideline.needed_to_pass_since <= now_date)
+            .group_by(App.app_id)
+            .all()
+        )
+
+        review_requests = (
+            db.session.query(QualityModerationRequest)
+            .filter(QualityModerationRequest.app_id.in_(app_ids))
+            .all()
+        )
+        review_request_map = {r.app_id: r.created_at for r in review_requests}
+
+        status_dict = {}
+        for (
+            app_id,
+            total_count,
+            passed_count,
+            not_passed_count,
+            last_updated,
+        ) in results:
+            passed = passed_count or 0
+            not_passed = not_passed_count or 0
+            total = total_count or 0
+            unrated = total - passed - not_passed
+
+            status_dict[app_id] = QualityModerationStatus(
+                passes=total == passed,
+                unrated=unrated,
+                passed=passed,
+                not_passed=not_passed,
+                last_updated=last_updated or datetime.now(),
+                review_requested_at=review_request_map.get(app_id),
+            )
+
+        for app_id in app_ids:
+            if app_id not in status_dict:
+                status_dict[app_id] = QualityModerationStatus(
+                    passes=False,
+                    unrated=0,
+                    passed=0,
+                    not_passed=0,
+                    last_updated=datetime.now(),
+                    review_requested_at=review_request_map.get(app_id),
+                )
+
+        return status_dict
 
 
 class QualityModerationRequest(Base):
