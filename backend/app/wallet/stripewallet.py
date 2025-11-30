@@ -45,24 +45,27 @@ class StripeWallet(WalletBase):
     def stripedata(self) -> StripeKeys:
         return StripeKeys(status="ok", public_key=settings.stripe_public_key)
 
-    def _get_customer(self, user: FlathubUser) -> StripeCustomer:
+    def _get_customer(self, user: FlathubUser) -> str:
         with get_db("replica") as db:
-            cust = StripeCustomer.by_user(db, user)
-        if cust is None:
-            try:
-                cust = stripe.Customer.create(
-                    idempotency_key=f"create-user-{user.id}",
-                    description=f"Customer record for Flathub User {user.id}",
-                )
-            except Exception as stripe_error:
-                raise WalletError(
-                    error="stripe-customer-failed-to-make"
-                ) from stripe_error
-            with get_db("writer") as db:
-                db.session.add(StripeCustomer(user_id=user.id, stripe_cust=cust.id))
-                db.session.commit()
-                return StripeCustomer.by_user(db, user)
-        return cust
+            customer = StripeCustomer.by_user(db, user)
+            if customer is not None:
+                return customer.stripe_cust
+
+        # Customer doesn't exist, create a new one
+        try:
+            stripe_customer = stripe.Customer.create(
+                idempotency_key=f"create-user-{user.id}",
+                description=f"Customer record for Flathub User {user.id}",
+            )
+        except Exception as stripe_error:
+            raise WalletError(error="stripe-customer-failed-to-make") from stripe_error
+
+        with get_db("writer") as db:
+            db.session.add(
+                StripeCustomer(user_id=user.id, stripe_cust=stripe_customer.id)
+            )
+            db.session.commit()
+            return stripe_customer.id
 
     def _cardinfo(self, card: dict) -> PaymentCardInfo | None:
         return PaymentCardInfo(
@@ -75,16 +78,16 @@ class StripeWallet(WalletBase):
         )
 
     def info(self, request: Request, user: FlathubUser) -> WalletInfo:
-        customer = self._get_customer(user)
-        pms = stripe.Customer.list_payment_methods(customer.stripe_cust, type="card")
+        customer_id = self._get_customer(user)
+        pms = stripe.Customer.list_payment_methods(customer_id, type="card")
         return WalletInfo(
             status="ok",
             cards=[self._cardinfo(card) for card in pms["data"]],
         )
 
     def remove_card(self, request: Request, user: FlathubUser, card: PaymentCardInfo):
-        customer = self._get_customer(user)
-        pms = stripe.Customer.list_payment_methods(customer.stripe_cust, type="card")
+        customer_id = self._get_customer(user)
+        pms = stripe.Customer.list_payment_methods(customer_id, type="card")
         cards = [self._cardinfo(card) for card in pms["data"]]
         if card not in cards:
             raise WalletError(error="not found")
@@ -171,12 +174,12 @@ class StripeWallet(WalletBase):
                     except Exception as base_exc:
                         raise WalletError(error="not found") from base_exc
 
-                cust = self._get_customer(user)
+                customer_id = self._get_customer(user)
                 payment_intent = stripe.PaymentIntent.create(
                     amount=txn.value,
                     currency=txn.currency,
                     payment_method_types=["card"],
-                    customer=cust.stripe_cust,
+                    customer=customer_id,
                 )
 
             with get_db("writer") as db:
@@ -344,8 +347,8 @@ class StripeWallet(WalletBase):
         transaction: str,
         card: PaymentCardInfo,
     ):
-        customer = self._get_customer(user)
-        pms = stripe.Customer.list_payment_methods(customer.stripe_cust, type="card")
+        customer_id = self._get_customer(user)
+        pms = stripe.Customer.list_payment_methods(customer_id, type="card")
         cards = [self._cardinfo(card) for card in pms["data"]]
         if card not in cards:
             raise WalletError(error="not found")
