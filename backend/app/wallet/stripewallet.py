@@ -47,22 +47,24 @@ class StripeWallet(WalletBase):
 
     def _get_customer(self, user: FlathubUser) -> str:
         with get_db("replica") as db:
+            user = db.session.merge(user)
             customer = StripeCustomer.by_user(db, user)
             if customer is not None:
                 return customer.stripe_cust
+            user_id = user.id
 
         # Customer doesn't exist, create a new one
         try:
             stripe_customer = stripe.Customer.create(
-                idempotency_key=f"create-user-{user.id}",
-                description=f"Customer record for Flathub User {user.id}",
+                idempotency_key=f"create-user-{user_id}",
+                description=f"Customer record for Flathub User {user_id}",
             )
         except Exception as stripe_error:
             raise WalletError(error="stripe-customer-failed-to-make") from stripe_error
 
         with get_db("writer") as db:
             db.session.add(
-                StripeCustomer(user_id=user.id, stripe_cust=stripe_customer.id)
+                StripeCustomer(user_id=user_id, stripe_cust=stripe_customer.id)
             )
             db.session.commit()
             return stripe_customer.id
@@ -102,6 +104,7 @@ class StripeWallet(WalletBase):
         limit: int,
     ) -> list[TransactionSummary]:
         with get_db("writer") as db:
+            user = db.session.merge(user)
             txns = models.Transaction.by_user(db, user)
             if sort == TransactionSortOrder.RECENT:
                 txns = txns.order_by(models.Transaction.created.desc())
@@ -116,7 +119,7 @@ class StripeWallet(WalletBase):
 
             did_update = False
             for txn in txns:
-                if self._update_transaction(user, txn):
+                if self._update_transaction(user, txn, db):
                     db.session.add(txn)
                     did_update = True
             if did_update:
@@ -136,22 +139,35 @@ class StripeWallet(WalletBase):
                 for txn in txns
             ]
 
-    def _get_transaction(
-        self, user: FlathubUser, txn: models.Transaction
-    ) -> models.StripeTransaction:
+    def _get_transaction(self, user: FlathubUser, txn: models.Transaction) -> str:
+        """Get or create a Stripe transaction and return the payment intent ID."""
         try:
             with get_db("replica") as db:
                 stxn = models.StripeTransaction.by_transaction(db, txn)
                 if stxn is not None:
-                    return stxn
+                    return stxn.stripe_pi
+
+            # Transaction doesn't exist, need to create it
+            with get_db("replica") as db:
+                fresh_txn = db.session.query(models.Transaction).get(txn.id)
+                if fresh_txn is None:
+                    raise WalletError(error="not found")
 
                 recipients = []
+                main_app = None
                 flathub_amount = 0
-                for row in txn.rows(db):
+                for row in fresh_txn.rows(db):
                     try:
                         value = row.amount + flathub_amount
                         flathub_amount = 0
                         print(f"Considering: {row.recipient}")
+                        # Get main app name for receipt (skip Flathub and platforms)
+                        if (
+                            main_app is None
+                            and row.recipient != "org.flathub.Flathub"
+                            and row.recipient not in PLATFORMS_WITH_STRIPE
+                        ):
+                            main_app = row.recipient
                         appvc = models.ApplicationVendingConfig.by_appid(
                             db, row.recipient
                         )
@@ -174,31 +190,53 @@ class StripeWallet(WalletBase):
                     except Exception as base_exc:
                         raise WalletError(error="not found") from base_exc
 
-                customer_id = self._get_customer(user)
-                payment_intent = stripe.PaymentIntent.create(
-                    amount=txn.value,
-                    currency=txn.currency,
-                    payment_method_types=["card"],
-                    customer=customer_id,
-                )
+                txn_value = fresh_txn.value
+                txn_currency = fresh_txn.currency
+                txn_id = fresh_txn.id
+                txn_kind = fresh_txn.kind
+
+            customer_id = self._get_customer(user)
+
+            # Build description for receipt
+            if main_app:
+                if txn_kind == "purchase":
+                    description = f"Flathub purchase: {main_app}"
+                else:
+                    description = f"Flathub donation: {main_app}"
+            else:
+                description = "Flathub donation"
+
+            payment_intent = stripe.PaymentIntent.create(
+                amount=txn_value,
+                currency=txn_currency,
+                payment_method_types=["card"],
+                customer=customer_id,
+                description=description,
+            )
 
             with get_db("writer") as db:
                 stxn = models.StripeTransaction(
-                    transaction=txn.id, stripe_pi=payment_intent["id"]
+                    transaction=txn_id, stripe_pi=payment_intent["id"]
                 )
                 db.session.add(stxn)
                 db.session.flush()
+
+                # This is needed for webhook processing
+                stripe.PaymentIntent.modify(
+                    payment_intent["id"],
+                    transfer_group=f"{GROUP_PREFIX}{stxn.id}",
+                )
 
                 for account_id, amount in recipients:
                     transfer = models.StripePendingTransfer(
                         stripe_transaction=stxn.id,
                         recipient=account_id,
-                        currency=txn.currency,
+                        currency=txn_currency,
                         amount=amount,
                     )
                     db.session.add(transfer)
                 db.session.commit()
-                return stxn
+                return payment_intent["id"]
 
         except WalletError:
             raise
@@ -214,17 +252,18 @@ class StripeWallet(WalletBase):
             stxn = models.StripeTransaction.by_transaction(db, txn)
             if stxn is not None:
                 return stxn.stripe_pi
-            else:
-                stxn = self._get_transaction(user, txn)
-                return stxn.stripe_pi
 
-    def _update_transaction(self, user: FlathubUser, txn: models.Transaction) -> bool:
+        return self._get_transaction(user, txn)
+
+    def _update_transaction(
+        self, user: FlathubUser, txn: models.Transaction, db
+    ) -> bool:
         if txn.status not in ["pending", "retry"]:
             return False
         # Pending transactions may need tweaking based on Stripe status
-        stxn = self._get_transaction(user, txn)
+        stripe_pi = self._get_transaction(user, txn)
         try:
-            payment_intent = stripe.PaymentIntent.retrieve(stxn.stripe_pi)
+            payment_intent = stripe.PaymentIntent.retrieve(stripe_pi)
             pi_status = payment_intent["status"]
             if pi_status == "succeeded":
                 txn.status = "success"
@@ -236,10 +275,9 @@ class StripeWallet(WalletBase):
                 print(f"TXN {txn.id} in retry because {pi_status}")
                 txn.status = "retry"
                 txn.reason = f"Stripe status: {pi_status}"
-            with get_db("writer") as db:
-                txn.update_app_ownership(db)
-                db.session.add(txn)
-                return True
+            txn.update_app_ownership(db)
+            db.session.add(txn)
+            return True
 
         except Exception as stripe_error:
             raise WalletError(
@@ -250,10 +288,11 @@ class StripeWallet(WalletBase):
         self, request: Request, user: FlathubUser, transaction: str
     ) -> Transaction:
         with get_db("writer") as db:
+            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError(error="not found")
-            if self._update_transaction(user, txn):
+            if self._update_transaction(user, txn, db):
                 db.session.add(txn)
                 db.session.commit()
             summary = TransactionSummary(
@@ -309,6 +348,7 @@ class StripeWallet(WalletBase):
             raise WalletError(error="too complex")
 
         with get_db("writer") as db:
+            user = db.session.merge(user)
             txn = models.Transaction(
                 user_id=user.id,
                 value=transaction.summary.value,
@@ -353,66 +393,85 @@ class StripeWallet(WalletBase):
         if card not in cards:
             raise WalletError(error="not found")
         with get_db("replica") as db:
+            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError("not found")
             if txn.status not in ["new", "retry"]:
                 raise WalletError(error="bad transaction status")
-            txn = self._get_transaction(user, txn)
-            try:
-                stripe.PaymentIntent.modify(
-                    txn.stripe_pi,
-                    payment_method=card.id,
-                )
-            except WalletError:
-                raise
-            except Exception as stripe_error:
-                raise WalletError("not found") from stripe_error
+
+        stripe_pi = self._get_transaction(user, txn)
+        try:
+            stripe.PaymentIntent.modify(
+                stripe_pi,
+                payment_method=card.id,
+            )
+        except WalletError:
+            raise
+        except Exception as stripe_error:
+            raise WalletError("not found") from stripe_error
 
     def get_transaction_stripedata(
         self, request: Request, user: FlathubUser, transaction: str
     ) -> TransactionStripeData:
         with get_db("replica") as db:
+            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError(error="not found")
             if txn.status not in ["new", "retry"]:
                 raise WalletError(error="bad transaction status")
-            txn = self._get_transaction(user, txn)
-            card = None
-            try:
-                payment_intent = stripe.PaymentIntent.retrieve(txn.stripe_pi)
-                payment_method = payment_intent.get("payment_method")
-                if payment_method is not None:
-                    payment_method = stripe.PaymentMethod.retrieve(payment_method)
-                    card = self._cardinfo(payment_method)
-            except Exception as stripe_error:
-                raise WalletError("stripe error") from stripe_error
 
-            return TransactionStripeData(
-                status="ok", client_secret=payment_intent["client_secret"], card=card
-            )
+        stripe_pi = self._get_transaction(user, txn)
+        card = None
+        try:
+            payment_intent = stripe.PaymentIntent.retrieve(stripe_pi)
+            payment_method = payment_intent.get("payment_method")
+            if payment_method is not None:
+                payment_method = stripe.PaymentMethod.retrieve(payment_method)
+                card = self._cardinfo(payment_method)
+        except Exception as stripe_error:
+            raise WalletError("stripe error") from stripe_error
+
+        return TransactionStripeData(
+            status="ok", client_secret=payment_intent["client_secret"], card=card
+        )
 
     def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):
         with get_db("writer") as db:
+            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError(error="not found")
             if txn.status not in ["new", "retry"]:
                 raise WalletError(error="bad transaction status")
-            stripe_txn = self._get_transaction(user, txn)
-            try:
-                pi_data = stripe.PaymentIntent.retrieve(stripe_txn.stripe_pi)
+        stripe_pi = self._get_transaction(user, txn)
+        try:
+            pi_data = stripe.PaymentIntent.retrieve(stripe_pi)
+
+            with get_db("writer") as db:
+                user = db.session.merge(user)
+                txn = models.Transaction.by_user_and_id(db, user, transaction)
+                if txn is None:
+                    raise WalletError(error="not found")
+
+                if txn.status not in ["new", "retry", "pending"]:
+                    return
+
                 if pi_data["status"] == "succeeded":
                     txn.status = "success"
+                    txn.reason = ""
+                    db.session.add(txn)
+                    txn.update_app_ownership(db)
+                    db.session.commit()
                 else:
-                    stripe.PaymentIntent.cancel(stripe_txn.stripe_pi)
+                    stripe.PaymentIntent.cancel(stripe_pi)
                     txn.status = "cancelled"
-                db.session.add(txn)
-                txn.update_app_ownership(db)
-                db.session.commit()
-            except Exception as stripe_error:
-                raise WalletError("stripe error") from stripe_error
+                    txn.reason = "Cancelled by user"
+                    db.session.add(txn)
+                    db.session.commit()
+        except Exception as stripe_error:
+            raise WalletError("stripe error") from stripe_error
 
     def set_savecard(
         self,
@@ -422,19 +481,20 @@ class StripeWallet(WalletBase):
         state: TransactionSaveCardKind | None,
     ):
         with get_db("replica") as db:
+            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError(error="not found")
             if txn.status not in ["new", "retry"]:
                 raise WalletError(error="bad transaction status")
-            stripe_txn = self._get_transaction(user, txn)
-            try:
-                stripe.PaymentIntent.modify(
-                    stripe_txn.stripe_pi,
-                    setup_future_usage=state,
-                )
-            except Exception as stripe_error:
-                raise WalletError("stripe error") from stripe_error
+        stripe_pi = self._get_transaction(user, txn)
+        try:
+            stripe.PaymentIntent.modify(
+                stripe_pi,
+                setup_future_usage=state,
+            )
+        except Exception as stripe_error:
+            raise WalletError("stripe error") from stripe_error
 
     async def webhook(self, request: Request) -> Response:
         # Deal with the incoming webhook request
@@ -449,21 +509,57 @@ class StripeWallet(WalletBase):
         except Exception as stripe_error:
             raise WalletError(error="stripe error") from stripe_error
 
-        if event_type == "payment_intent.succeeded":
+        def get_transaction_from_webhook(
+            data: dict,
+        ) -> tuple[models.Transaction | None, models.StripeTransaction | None]:
             p_id = data["object"]["id"]
-            group = int(data["object"]["transfer_group"][len(GROUP_PREFIX) :])
+            transfer_group = data["object"].get("transfer_group")
+            if not transfer_group or not transfer_group.startswith(GROUP_PREFIX):
+                return None, None
+
+            group = int(transfer_group[len(GROUP_PREFIX) :])
             with get_db("writer") as db:
                 stripe_txn = db.session.query(models.StripeTransaction).get(group)
                 if stripe_txn is None or stripe_txn.stripe_pi != p_id:
-                    raise WalletError(error="not found")
+                    return None, None
                 transaction = db.session.query(models.Transaction).get(
                     stripe_txn.transaction
                 )
+                return db, transaction
+
+        if event_type == "payment_intent.succeeded":
+            db, transaction = get_transaction_from_webhook(data)
+            if transaction:
                 transaction.status = "success"
                 transaction.updated = datetime.now()
                 transaction.reason = ""
                 db.session.add(transaction)
                 transaction.update_app_ownership(db)
+                db.session.commit()
+
+        elif event_type == "payment_intent.payment_failed":
+            db, transaction = get_transaction_from_webhook(data)
+            if transaction:
+                last_error = data["object"].get("last_payment_error", {})
+                failure_message = last_error.get("message", "Payment failed")
+
+                transaction.status = "retry"
+                transaction.updated = datetime.now()
+                transaction.reason = f"Payment failed: {failure_message}"
+                db.session.add(transaction)
+                db.session.commit()
+
+        elif event_type == "payment_intent.canceled":
+            db, transaction = get_transaction_from_webhook(data)
+            if transaction:
+                cancellation_reason = data["object"].get(
+                    "cancellation_reason", "unknown"
+                )
+
+                transaction.status = "cancelled"
+                transaction.updated = datetime.now()
+                transaction.reason = f"Cancelled: {cancellation_reason}"
+                db.session.add(transaction)
                 db.session.commit()
 
         return Response(None, status_code=201)
@@ -472,6 +568,7 @@ class StripeWallet(WalletBase):
         self, request: Request, user: FlathubUser, transaction: str
     ):
         with get_db("writer") as db:
+            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction)
             if txn is None:
                 raise WalletError(error="not found")

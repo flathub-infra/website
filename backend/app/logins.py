@@ -1054,9 +1054,8 @@ class RefreshDevFlatpaksReturn(BaseModel):
 def do_refresh_dev_flatpaks(
     login=Depends(logged_in),
 ) -> RefreshDevFlatpaksReturn:
-    user = login.user
-
     with get_db("writer") as db:
+        user = db.merge(login.user)  # Reattach user to current session
         account = models.GithubAccount.by_user(db, user)
 
         # We need to have a github account to refresh dev flatpaks
