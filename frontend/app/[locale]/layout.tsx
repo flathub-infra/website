@@ -67,7 +67,6 @@ export async function generateMetadata({
     openGraph: {
       type: "website",
       locale: bcpToPosixLocale(locale),
-      // url,
       siteName: t("flathub-apps-for-linux"),
       images: [
         {

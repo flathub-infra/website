@@ -50,6 +50,7 @@ export async function generateMetadata({
     return {
       title: t("install-x", { app_name: app?.name }),
       description: app?.summary,
+      authors: app?.developer_name ? [{ name: app.developer_name }] : undefined,
       robots: {
         index: app.type !== "addon" && locale !== "en-GB",
       },
@@ -63,6 +64,9 @@ export async function generateMetadata({
             alt: app?.name,
           },
         ],
+      },
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/${app?.id}`,
       },
     }
   } catch (error) {

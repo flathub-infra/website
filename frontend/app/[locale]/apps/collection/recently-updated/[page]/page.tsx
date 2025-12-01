@@ -19,11 +19,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
+  const { locale, page } = await params
   const t = await getTranslations({ locale })
 
   return {
     title: t("updated-apps"),
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/collection/recently-updated/${page}`,
+    },
   }
 }
 

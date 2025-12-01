@@ -20,12 +20,15 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, developer } = await params
+  const { locale, developer, page } = await params
   const t = await getTranslations({ locale })
   const developerDecoded = decodeURIComponent(developer)
 
   return {
     title: t("apps-by-developer", { developer: developerDecoded }),
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/collection/developer/${developer}/${page}`,
+    },
   }
 }
 
