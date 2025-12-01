@@ -12,6 +12,7 @@ import {
   AppSchemasSortBy,
   DesktopAppstream,
 } from "../../../src/codegen"
+import { Metadata } from "next"
 import { APPS_IN_PREVIEW_COUNT } from "../../../src/env"
 import {
   MainCategory,
@@ -42,6 +43,20 @@ export async function generateStaticParams() {
   }))
 
   return params
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}`,
+    },
+  }
 }
 
 async function getCollections(locale: string) {

@@ -22,7 +22,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ category: string; page: string; locale: string }>
 }): Promise<Metadata> {
-  const { category: categoryParam, locale } = await params
+  const { category: categoryParam, page, locale } = await params
   const t = await getTranslations({ locale })
 
   const category = stringToCategory(categoryParam)
@@ -30,6 +30,9 @@ export async function generateMetadata({
 
   return {
     title,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/category/${categoryParam}/${page}`,
+    },
   }
 }
 
