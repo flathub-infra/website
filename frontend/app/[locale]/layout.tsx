@@ -94,7 +94,10 @@ export default async function LocaleLayout({
 
   return (
     <html suppressHydrationWarning lang={locale} dir={getLangDir(locale)}>
-      <head />
+      <head>
+        <link rel="preconnect" href="https://dl.flathub.org" />
+        <link rel="preconnect" href="https://webstats.gnome.org" />
+      </head>
       <body className={inter.className}>
         <NextIntlClientProvider>
           <ClientProviders locale={locale}>
