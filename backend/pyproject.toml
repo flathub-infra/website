@@ -38,7 +38,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff<1.0.0,>=0.9.7",
-    "pytest<9.0.0,>=8.3.4",
+    "pytest>=8.3.4,<10.0.0",
     "pytest-insta<1.0.0,>=0.3.0",
     "watchgod<1.0,>=0.8",
     "vcrpy<8.0.0,>=7.0.0",
