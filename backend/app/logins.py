@@ -104,10 +104,6 @@ def _refresh_token(
             seconds=int(login_result.get("expires_in", "7200"))
         )
 
-    with get_db("writer") as db:
-        db.add(account)
-        db.commit()
-
     return account.token
 
 
