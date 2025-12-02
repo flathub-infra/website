@@ -133,7 +133,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
       guideline: {
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         url: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
+        needed_to_pass_since: faker.date.past().toISOString().split("T")[0],
         category: faker.string.alpha({ length: { min: 10, max: 20 } }),
         read_only: faker.helpers.arrayElement([
           faker.datatype.boolean(),
@@ -151,7 +151,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
-      needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
+      needed_to_pass_since: faker.date.past().toISOString().split("T")[0],
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([

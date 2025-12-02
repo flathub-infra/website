@@ -261,3 +261,82 @@ export const useProcessTransfersUpdateProcessPendingTransfersPost = <
 
   return useMutation(mutationOptions, queryClient)
 }
+/**
+ * @summary Update App Picks
+ */
+export const updateAppPicksUpdateAppPicksPost = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(`/update/app-picks`, undefined, options)
+}
+
+export const getUpdateAppPicksUpdateAppPicksPostMutationOptions = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateAppPicksUpdateAppPicksPost>>,
+    TError,
+    void,
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateAppPicksUpdateAppPicksPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["updateAppPicksUpdateAppPicksPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateAppPicksUpdateAppPicksPost>>,
+    void
+  > = () => {
+    return updateAppPicksUpdateAppPicksPost(axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UpdateAppPicksUpdateAppPicksPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateAppPicksUpdateAppPicksPost>>
+>
+
+export type UpdateAppPicksUpdateAppPicksPostMutationError = AxiosError<void>
+
+/**
+ * @summary Update App Picks
+ */
+export const useUpdateAppPicksUpdateAppPicksPost = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateAppPicksUpdateAppPicksPost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateAppPicksUpdateAppPicksPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions =
+    getUpdateAppPicksUpdateAppPicksPostMutationOptions(options)
+
+  return useMutation(mutationOptions, queryClient)
+}
