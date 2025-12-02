@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
       context: .
     restart: unless-stopped
-    command: bash -c "alembic upgrade head && granian --interface asgi app.main:app --host 0.0.0.0 --port 8000 --reload --access-log"
+    command: bash -c "alembic upgrade head && granian --interface asgi app.main:app --host 0.0.0.0 --port 8000 --reload --reload-paths app --reload-ignore-dirs __pycache__ --access-log"
     environment: &backend-env
       ENV: development
       REDIS_HOST: redis
@@ -66,7 +66,7 @@ services:
       dockerfile: Dockerfile
       context: .
     restart: unless-stopped
-    command: dramatiq app.worker --processes 1 --threads 2 --watch app
+    command: dramatiq app.worker --processes 1 --threads 2 --watch app --watch-use-polling -x '*.pyc' -x '*/__pycache__/*'
     environment: *backend-env
     depends_on:
       - redis
