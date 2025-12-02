@@ -187,9 +187,9 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
 
       <div className="rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
         <div className="mb-6 border-b border-flathub-gainsborow pb-6 dark:border-flathub-dark-gunmetal">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex sm:gap-4 flex-row justify-between align-middle">
             <div className="flex-1">
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-2xl leading-none font-bold">
                 {title}
                 {request.is_outdated && (
                   <span className="ms-2 inline-block align-middle">
