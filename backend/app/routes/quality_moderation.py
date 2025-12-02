@@ -25,7 +25,7 @@ router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONRe
 class Guideline:
     id: str
     url: str
-    needed_to_pass_since: datetime.datetime
+    needed_to_pass_since: datetime.date
     category: str
     read_only: bool = False
 
@@ -47,7 +47,7 @@ class QualityModerationType(BaseModel):
     updated_by: int | None
     passed: bool | None
     comment: str | None
-    needed_to_pass_since: datetime.datetime
+    needed_to_pass_since: datetime.date
 
 
 class QualityModerationResponse(BaseModel):
