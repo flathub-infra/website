@@ -82,7 +82,7 @@ const PaymentForm: FunctionComponent<Props> = ({
         <Spinner size="s" />
       ) : (
         <>
-          <div className="items-top flex space-x-3 pt-2">
+          <div className="items-top flex ms-auto space-x-3 pt-2">
             <Checkbox
               id="save-card"
               checked={checked}

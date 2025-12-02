@@ -2,11 +2,11 @@ import { notFound } from "next/navigation"
 import {
   getAppstreamAppstreamAppIdGet,
   getGlobalVendingConfigVendingConfigGet,
+  getStorefrontInfoPurchasesStorefrontInfoGet,
 } from "../../../../../src/codegen"
 import { Metadata } from "next"
 import AppPurchaseClient from "./app-purchase-client"
 import { getTranslations } from "next-intl/server"
-import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen/vending/vending"
 
 interface Props {
   params: Promise<{
@@ -16,24 +16,22 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const t = await getTranslations()
   const { appId, locale } = await params
   const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
   const app = response.data
-  const t = await getTranslations()
 
-  const vendingSetup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-    withCredentials: true,
+  const storefrontInfo = await getStorefrontInfoPurchasesStorefrontInfoGet({
+    app_id: app.id,
   })
 
-  // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly = vendingSetup.data.minimum_payment === 0
-
-  const title = t(isDonationOnly ? "kind-donate-app" : "kind-purchase-app", {
-    appName: app?.name,
-  })
+  // When the minimum payment is 0 or not set, the application does not require payment
+  const isDonationOnly = !storefrontInfo.data.pricing?.minimum_payment
 
   return {
-    title,
+    title: t(isDonationOnly ? "kind-donate-app" : "kind-purchase-app", {
+      appName: app?.name,
+    }),
     robots: {
       index: false,
       follow: false,
@@ -55,5 +53,5 @@ export default async function AppPurchasePage({ params }: Props) {
   const app = appResponse.data
   const vendingConfig = vendingConfigResponse.data
 
-  return <AppPurchaseClient app={app as any} vendingConfig={vendingConfig} />
+  return <AppPurchaseClient app={app} vendingConfig={vendingConfig} />
 }

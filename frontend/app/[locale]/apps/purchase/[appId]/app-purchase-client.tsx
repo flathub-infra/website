@@ -19,6 +19,7 @@ interface Props {
   app: GetAppstreamAppstreamAppIdGet200
   vendingConfig: VendingConfig
 }
+
 export default function AppPurchaseClient({ app, vendingConfig }: Props) {
   const t = useTranslations()
 
@@ -53,6 +54,12 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
     )
   }
 
+  if (vendingSetup.isPending) {
+    return <Spinner size="s" />
+  }
+
+  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
+
   if (isDesktopAppstreamTypeGuard(app) === false) {
     return (
       <>
@@ -61,14 +68,6 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
       </>
     )
   }
-
-  // Prevent control interaction while initalising and awaiting submission redirection
-  if (vendingSetup.isPending) {
-    return <Spinner size="s" />
-  }
-
-  // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
