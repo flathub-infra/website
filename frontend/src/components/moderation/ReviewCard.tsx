@@ -185,20 +185,30 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         />
       </Modal>
 
-      <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
-        <span className="flex">
-          <h2 className="m-0 grow pb-4 text-2xl font-bold">
-            {title}
-            {request.is_outdated && (
-              <span className="ms-2">
-                <Tag text={t("moderation-outdated")} inACard={true} />
-              </span>
-            )}
-          </h2>
-          <div className="ms-auto flex gap-2 flex-col text-sm leading-none">
-            <div className="ms-auto flex gap-2">
+      <div className="rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
+        <div className="mb-6 border-b border-flathub-gainsborow pb-6 dark:border-flathub-dark-gunmetal">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold">
+                {title}
+                {request.is_outdated && (
+                  <span className="ms-2 inline-block align-middle">
+                    <Tag text={t("moderation-outdated")} inACard={true} />
+                  </span>
+                )}
+              </h2>
+              <div className="mt-3 flex items-center gap-2 text-sm">
+                <span className="font-medium text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  {t("moderation-build-id")}:
+                </span>
+                <span className="rounded bg-flathub-gainsborow px-2.5 py-1 font-mono text-xs font-medium dark:bg-flathub-dark-gunmetal">
+                  {request.build_id}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-2 text-sm">
               <span
-                className="text-gray-500 dark:text-gray-400"
+                className="text-flathub-sonic-silver dark:text-flathub-spanish-gray"
                 title={parseISO(request.created_at + "Z").toLocaleString(
                   getIntlLocale(i18n.language),
                 )}
@@ -210,34 +220,27 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
               <Link
                 id={`review-${request.id}`}
                 href={`#review-${request.id}`}
-                className="ms-3 text-gray-500 dark:text-gray-400"
+                className="font-mono text-xs text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
               >
                 #{request.id}
               </Link>
             </div>
-            <div className="ms-auto flex gap-2">
-              <span className="text-gray-500 dark:text-gray-400">
-                {t("moderation-build-id")}
-              </span>
-              <span className="text-gray-500 dark:text-gray-400">
-                {request.build_id}
-              </span>
-            </div>
           </div>
-        </span>
+        </div>
 
         {children}
 
         {user.info &&
           user.info.permissions.some((a) => a === Permission.moderation) && (
-            <CodeCopy
-              className="mt-8"
-              nested
-              text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
-            />
+            <div className="mt-6 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal">
+              <CodeCopy
+                nested
+                text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
+              />
+            </div>
           )}
 
-        <div className="flex flex-col sm:flex-row-reverse gap-2 pt-4">
+        <div className="mt-6 flex flex-col gap-3 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal sm:flex-row-reverse">
           {buttons}
         </div>
       </div>

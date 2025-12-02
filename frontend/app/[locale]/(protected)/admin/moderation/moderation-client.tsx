@@ -12,8 +12,15 @@ export default function ModerationClient() {
       }
     >
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <div className="space-y-8">
-          <h1 className="mt-8 text-4xl font-extrabold">Pending Reviews</h1>
+        <div className="space-y-10 py-8">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-extrabold tracking-tight">
+              Pending Reviews
+            </h1>
+            <p className="text-base text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+              Review and moderate app submissions and updates
+            </p>
+          </div>
           <ModerationTabs />
         </div>
       </div>
