@@ -51,3 +51,15 @@ def process_transfers():
     """
     wallet.Wallet().perform_pending_transfers()
     return Response(None, status_code=200)
+
+
+@router.post(
+    "/app-picks",
+    tags=["update"],
+    responses={
+        200: {"description": "App picks updated successfully"},
+        500: {"description": "Internal server error"},
+    },
+)
+async def update_app_picks():
+    worker.update_app_picks.send()
