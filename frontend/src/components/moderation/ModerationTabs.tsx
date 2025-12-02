@@ -93,9 +93,12 @@ const ModerationTabs: FunctionComponent = () => {
     }
 
     return (
-      <>
-        <div className="flex space-x-8">
-          <div className="items-top flex space-x-1 pt-2">
+      <div className="space-y-8">
+        <div className="flex flex-wrap items-center gap-6 border-b border-flathub-gainsborow pb-4 dark:border-flathub-dark-gunmetal">
+          <span className="text-sm font-medium text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+            Filters:
+          </span>
+          <div className="flex items-center space-x-2">
             <Checkbox
               id="filter-new"
               checked={filterNewSubmissionsQuery}
@@ -111,17 +114,15 @@ const ModerationTabs: FunctionComponent = () => {
                 )
               }}
             />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                htmlFor="filter-new"
-              >
-                Only show new submissions
-              </label>
-            </div>
+            <label
+              className="cursor-pointer text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              htmlFor="filter-new"
+            >
+              Only show new submissions
+            </label>
           </div>
 
-          <div className="items-top flex space-x-1 pt-2">
+          <div className="flex items-center space-x-2">
             <Checkbox
               id="include-handled"
               checked={showHandledQuery}
@@ -137,16 +138,15 @@ const ModerationTabs: FunctionComponent = () => {
                 )
               }}
             />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                htmlFor="include-handled"
-              >
-                Include handled requests
-              </label>
-            </div>
+            <label
+              className="cursor-pointer text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              htmlFor="include-handled"
+            >
+              Include handled requests
+            </label>
           </div>
         </div>
+
         <ApplicationCollectionSuspense
           title={undefined}
           applications={query.data.appstream}
@@ -155,7 +155,7 @@ const ModerationTabs: FunctionComponent = () => {
         />
 
         <Pagination currentPage={currentPage} pages={pages} useQueryParams />
-      </>
+      </div>
     )
   }
 }

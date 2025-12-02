@@ -109,9 +109,11 @@ const TableRow = ({
 
   return (
     <tr key={valueKey}>
-      <td className="align-top">{valueKey}</td>
+      <td className="align-top px-4 py-3 font-mono text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+        {valueKey}
+      </td>
       {!is_new_submission && (
-        <td className="align-top">
+        <td className="align-top px-4 py-3">
           <ArrayWithNewlines
             array={currentValueList}
             diffForIndex={diffForIndex}
@@ -119,7 +121,7 @@ const TableRow = ({
           />
         </td>
       )}
-      <td className="align-top">
+      <td className="align-top px-4 py-3">
         <ArrayWithNewlines
           array={newValueList}
           diffForIndex={diffForIndex}
@@ -181,13 +183,15 @@ const DiffRow = ({
 
     return (
       <tr>
-        <td className="align-top">{valueKey}</td>
+        <td className="align-top px-4 py-3 font-mono text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          {valueKey}
+        </td>
         {!request.is_new_submission && (
-          <td className="align-top">
+          <td className="align-top px-4 py-3">
             <MarkDiff diff={diffString} type="old" />
           </td>
         )}
-        <td className="align-top">
+        <td className="align-top px-4 py-3">
           <MarkDiff diff={diffString} type="new" />
         </td>
       </tr>
@@ -268,25 +272,33 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
       }
       request={request}
     >
-      <table className="w-full table-fixed">
-        <thead>
-          <tr className="text-left rtl:text-right">
-            <th>{t("moderation-key")}</th>
-            {!request.is_new_submission && <th>{t("moderation-old-value")}</th>}
-            <th>
-              {request.is_new_submission
-                ? t("moderation-value")
-                : t("moderation-new-value")}
-            </th>
-          </tr>
-        </thead>
+      <div className="overflow-x-auto rounded-lg border border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-left dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30 rtl:text-right">
+              <th className="w-1/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                {t("moderation-key")}
+              </th>
+              {!request.is_new_submission && (
+                <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  {t("moderation-old-value")}
+                </th>
+              )}
+              <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                {request.is_new_submission
+                  ? t("moderation-value")
+                  : t("moderation-new-value")}
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {uniqueKeys.map((key) => (
-            <DiffRow key={key} valueKey={key.toString()} request={request} />
-          ))}
-        </tbody>
-      </table>
+          <tbody className="divide-y divide-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:bg-flathub-arsenic">
+            {uniqueKeys.map((key) => (
+              <DiffRow key={key} valueKey={key.toString()} request={request} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </ReviewCard>
   )
 }

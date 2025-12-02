@@ -8,12 +8,14 @@ import AppstreamChangesRow from "./AppstreamChangesRow"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../Breadcrumbs"
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react"
 import {
   getModerationAppModerationAppsAppIdGet,
   getModerationAppsModerationAppsGet,
 } from "src/codegen"
 import { ModerationRequestResponse } from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button"
 import { Link, usePathname, useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 
@@ -64,11 +66,23 @@ const NavigatePreviousNext = ({ appId }) => {
   }
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2">
       {previousAppId && (
-        <Link href={`/admin/moderation/${previousAppId}`}>Previous</Link>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={`/admin/moderation/${previousAppId}`}>
+            <ChevronLeft className="me-2 h-4 w-4" />
+            Previous
+          </Link>
+        </Button>
       )}
-      {nextAppId && <Link href={`/admin/moderation/${nextAppId}`}>Next</Link>}
+      {nextAppId && (
+        <Button variant="outline" size="sm" asChild>
+          <Link href={`/admin/moderation/${nextAppId}`}>
+            Next
+            <ChevronRight className="ms-2 h-4 w-4" />
+          </Link>
+        </Button>
+      )}
     </div>
   )
 }
@@ -164,30 +178,46 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           },
         ]}
       />
-      <div className="flex flex-col">
-        <h1 className="text-4xl font-extrabold">{appInfoQuery.data[0].name}</h1>
-        <Link
-          href={`/apps/${appInfoQuery.data[0].id}`}
-          target="_blank"
-          className="text-sm no-underline hover:underline"
-        >
-          {appInfoQuery.data[0].id}
-        </Link>
-        <a
-          className="text-sm no-underline hover:underline"
-          target="_blank"
-          href={
-            appInfoQuery.data[0].metadata?.["flathub::manifest"] ??
-            `https://github.com/flathub/${appInfoQuery.data[0].id}`
-          }
-        >
-          {t("manifest")}
-        </a>
-        <NavigatePreviousNext appId={appId} />
+
+      <div className="rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
+        <div className="space-y-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex-1">
+              <h1 className="text-3xl font-extrabold tracking-tight">
+                {appInfoQuery.data[0].name}
+              </h1>
+            </div>
+            <NavigatePreviousNext appId={appId} />
+          </div>
+          <div className="flex flex-col gap-2 text-sm">
+            <Link
+              href={`/apps/${appInfoQuery.data[0].id}`}
+              target="_blank"
+              className="inline-flex items-center gap-1.5 text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              {appInfoQuery.data[0].id}
+            </Link>
+            <a
+              className="inline-flex items-center gap-1.5 text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
+              target="_blank"
+              href={
+                appInfoQuery.data[0].metadata?.["flathub::manifest"] ??
+                `https://github.com/flathub/${appInfoQuery.data[0].id}`
+              }
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              {t("manifest")}
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div className="flex space-x-8">
-        <div className="items-top flex space-x-1 pt-2">
+      <div className="flex flex-wrap items-center gap-6 border-b border-flathub-gainsborow pb-4 dark:border-flathub-dark-gunmetal">
+        <span className="text-sm font-medium text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          Filters:
+        </span>
+        <div className="flex items-center space-x-2">
           <Checkbox
             id="include-outdated"
             checked={includeOutdatedQuery}
@@ -203,17 +233,15 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
               )
             }}
           />
-          <div className="grid gap-1.5 leading-none">
-            <label
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              htmlFor="include-outdated"
-            >
-              Include outdated requests
-            </label>
-          </div>
+          <label
+            className="cursor-pointer text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="include-outdated"
+          >
+            Include outdated requests
+          </label>
         </div>
 
-        <div className="items-top flex space-x-1 pt-2">
+        <div className="flex items-center space-x-2">
           <Checkbox
             id="include-handled"
             checked={includeHandledQuery}
@@ -229,22 +257,22 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
               )
             }}
           />
-          <div className="grid gap-1.5 leading-none">
-            <label
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              htmlFor="include-handled"
-            >
-              Include handled requests
-            </label>
-          </div>
+          <label
+            className="cursor-pointer text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="include-handled"
+          >
+            Include handled requests
+          </label>
         </div>
       </div>
 
       {query.data.data.requests.length === 0 && (
-        <div>No reviews to show for this app.</div>
+        <div className="rounded-xl bg-flathub-white p-6 text-center text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic dark:text-flathub-spanish-gray">
+          No reviews to show for this app.
+        </div>
       )}
 
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-6">
         {query.data.data.requests.map(getReviewRow)}
       </div>
 
