@@ -462,29 +462,7 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
   )
 }
 
-export const getClearFakeWalletClearfakePostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | void
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown | void> | unknown | void),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/wallet/clearfake",
-    async (info) => {
-      await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
-
-export const getWebhookWalletWebhookFakewalletPostMockHandler = (
+export const getWebhookWalletWebhookStripePostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
@@ -493,7 +471,7 @@ export const getWebhookWalletWebhookFakewalletPostMockHandler = (
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
-    "*/wallet/webhook/fakewallet",
+    "*/wallet/webhook/stripe",
     async (info) => {
       await delay(1000)
       if (typeof overrideResponse === "function") {
@@ -516,6 +494,5 @@ export const getWalletMock = () => [
   getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler(),
   getSetSavecardWalletTransactionsTxnSavecardPostMockHandler(),
   getSetPendingWalletTransactionsTxnSetpendingPostMockHandler(),
-  getClearFakeWalletClearfakePostMockHandler(),
-  getWebhookWalletWebhookFakewalletPostMockHandler(),
+  getWebhookWalletWebhookStripePostMockHandler(),
 ]
