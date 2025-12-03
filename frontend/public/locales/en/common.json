@@ -187,6 +187,8 @@
   "save-card-for-reuse": "Save card for reuse",
   "saved-cards": "Saved Cards",
   "select-donation-amount": "Select an amount to donate",
+  "or-enter-custom-amount": "Or enter a custom amount",
+  "payment-details": "Payment Details",
   "status": "Status",
   "status-cancelled": "Cancelled",
   "status-new": "New",

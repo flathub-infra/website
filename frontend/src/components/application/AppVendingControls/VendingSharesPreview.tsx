@@ -58,14 +58,14 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   const flathubPercentage = (breakdown[2][1] / price) * 100
 
   return (
-    <div>
-      <div className="w-full max-w-md pt-8 px-4 pb-4">
-        <div className="relative mb-4">
+    <div className="rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/50 p-4">
+      <div className="w-full max-w-md pt-6 pb-2">
+        <div className="relative mb-5">
           <div
-            className="absolute -top-10 transform -translate-x-1/2 transition-all duration-100"
+            className="absolute -top-8 transform -translate-x-1/2 transition-all duration-200 ease-out"
             style={{ left: `${appPercentage}%` }}
           >
-            <span className="text-sm font-medium text-flathub-celestial-blue-dark dark:text-flathub-celestial-blue">
+            <span className="text-sm font-semibold text-flathub-celestial-blue px-2 py-0.5 rounded-full bg-flathub-celestial-blue/10">
               {Intl.NumberFormat(i18n.language, {
                 style: "percent",
               }).format(appPercentage / 100)}
@@ -73,7 +73,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
           </div>
 
           <Slider.Root
-            className="relative flex items-center select-none touch-none w-full h-3"
+            className="relative flex items-center select-none touch-none w-full h-4"
             value={[appPercentage]}
             onValueChange={(value) => {
               setAppShare(value[0])
@@ -84,15 +84,15 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
             aria-label={t("vendingSharesPreview.sliderLabel")}
             disabled={!interactive}
           >
-            <Slider.Track className="relative grow rounded-sm h-3 overflow-hidden">
+            <Slider.Track className="relative grow rounded-full h-4 overflow-hidden shadow-inner bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray/30">
               <div
-                className="absolute top-0 start-0 h-full bg-blue-500 transition-all duration-100"
+                className="absolute top-0 start-0 h-full bg-gradient-to-r from-flathub-celestial-blue to-blue-400 transition-all duration-200 ease-out"
                 style={{ width: `${appPercentage}%` }}
                 aria-hidden="true"
               />
 
               <div
-                className="absolute top-0 h-full bg-red-500 transition-all duration-100"
+                className="absolute top-0 h-full bg-gradient-to-r from-rose-500 to-red-400 transition-all duration-200 ease-out"
                 style={{
                   left: `${appPercentage}%`,
                   width: `${sdkPercentage}%`,
@@ -101,7 +101,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
               />
 
               <div
-                className="absolute top-0 h-full bg-orange-400 transition-all duration-100"
+                className="absolute top-0 h-full bg-gradient-to-r from-amber-500 to-orange-400 transition-all duration-200 ease-out"
                 style={{
                   left: `${appPercentage + sdkPercentage}%`,
                   width: `${flathubPercentage}%`,
@@ -130,17 +130,18 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
           </Slider.Root>
         </div>
 
-        <div className="flex justify-between items-start">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap justify-between items-start gap-4 mt-4">
+          <div className="flex items-center gap-2.5">
             <div
-              className="w-2 h-2 bg-blue-500 rounded-full"
+              className="w-3 h-3 bg-gradient-to-br from-flathub-celestial-blue to-blue-400 rounded-full shadow-sm"
               aria-hidden="true"
             ></div>
             <div className="text-sm">
-              <div className="font-semibold">
+              <div className="font-semibold text-flathub-dark-gunmetal dark:text-flathub-lotion">
                 {t("vendingSharesPreview.app")}
               </div>
               <div
+                className="text-flathub-sonic-silver dark:text-flathub-spanish-gray font-medium"
                 aria-label={t(`vendingSharesPreview.appShare`, {
                   percentage: Intl.NumberFormat(i18n.language, {
                     style: "percent",
@@ -153,18 +154,19 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
           </div>
 
           {/* Right side - SDK and Flathub */}
-          <div className="flex gap-6">
+          <div className="flex gap-5">
             {/* SDK section */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <div
-                className="w-2 h-2 bg-red-500 rounded-full"
+                className="w-3 h-3 bg-gradient-to-br from-rose-500 to-red-400 rounded-full shadow-sm"
                 aria-hidden="true"
               ></div>
               <div className="text-sm">
-                <div className="font-semibold">
+                <div className="font-semibold text-flathub-dark-gunmetal dark:text-flathub-lotion">
                   {t("vendingSharesPreview.sdk")}
                 </div>
                 <div
+                  className="text-flathub-sonic-silver dark:text-flathub-spanish-gray font-medium"
                   aria-label={t(`vendingSharesPreview.sdkShare`, {
                     percentage: Intl.NumberFormat(i18n.language, {
                       style: "percent",
@@ -177,14 +179,17 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
             </div>
 
             {/* Flathub section */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <div
-                className="w-2 h-2 bg-orange-400 rounded-full"
+                className="w-3 h-3 bg-gradient-to-br from-amber-500 to-orange-400 rounded-full shadow-sm"
                 aria-hidden="true"
               ></div>
               <div className="text-sm">
-                <div className="font-semibold">{t("flathub")}</div>
+                <div className="font-semibold text-flathub-dark-gunmetal dark:text-flathub-lotion">
+                  {t("flathub")}
+                </div>
                 <div
+                  className="text-flathub-sonic-silver dark:text-flathub-spanish-gray font-medium"
                   aria-label={t(`vendingSharesPreview.flathubShare`, {
                     percentage: Intl.NumberFormat(i18n.language, {
                       style: "percent",

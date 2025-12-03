@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl"
+import { useRouter } from "next/navigation"
 import { FunctionComponent, useState } from "react"
 import { toast } from "sonner"
 import { useUserDispatch } from "../../context/user-info"
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button"
 const DeleteButton: FunctionComponent = () => {
   const t = useTranslations()
   const dispatch = useUserDispatch()
+  const router = useRouter()
 
   const [token, setToken] = useState<string>()
   const [text, setText] = useState("")
@@ -52,6 +54,7 @@ const DeleteButton: FunctionComponent = () => {
       ),
     onSuccess: () => {
       dispatch({ type: "logout" })
+      router.push("/")
     },
     onError: (e: AxiosError<{ detail: string }>) => {
       if (e.response.data?.detail === "token mismatch") {

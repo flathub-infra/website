@@ -103,7 +103,7 @@ class StripeWallet(WalletBase):
         since: str | None,
         limit: int,
     ) -> list[TransactionSummary]:
-        with get_db("writer") as db:
+        with get_db("replica") as db:
             user = db.session.merge(user)
             txns = models.Transaction.by_user(db, user)
             if sort == TransactionSortOrder.RECENT:
@@ -111,19 +111,50 @@ class StripeWallet(WalletBase):
             else:
                 txns = txns.order_by(models.Transaction.created)
             txns = list(txns)
-            if since is not None:
+            if since:
                 txns = list(dropwhile(lambda txn: str(txn.id) != since, txns))
                 txns = txns[1:]
             if limit < len(txns):
                 txns = txns[:limit]
 
-            did_update = False
-            for txn in txns:
+            txns_needing_update = [
+                txn for txn in txns if txn.status in ["pending", "retry"]
+            ]
+
+            if not txns_needing_update:
+                return [
+                    TransactionSummary(
+                        id=str(txn.id),
+                        value=txn.value,
+                        currency=txn.currency,
+                        kind=txn.kind,
+                        status=txn.status,
+                        reason=txn.reason,
+                        created=int(txn.created.timestamp()),
+                        updated=int(txn.updated.timestamp()),
+                    )
+                    for txn in txns
+                ]
+
+        with get_db("writer") as db:
+            for txn in txns_needing_update:
+                txn = db.session.merge(txn)
                 if self._update_transaction(user, txn, db):
                     db.session.add(txn)
-                    did_update = True
-            if did_update:
-                db.session.commit()
+            db.session.commit()
+
+            user = db.session.merge(user)
+            txns = models.Transaction.by_user(db, user)
+            if sort == TransactionSortOrder.RECENT:
+                txns = txns.order_by(models.Transaction.created.desc())
+            else:
+                txns = txns.order_by(models.Transaction.created)
+            txns = list(txns)
+            if since:
+                txns = list(dropwhile(lambda txn: str(txn.id) != since, txns))
+                txns = txns[1:]
+            if limit < len(txns):
+                txns = txns[:limit]
 
             return [
                 TransactionSummary(

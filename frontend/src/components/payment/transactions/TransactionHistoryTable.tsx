@@ -53,8 +53,12 @@ export const TransactionHistoryTable = ({
     : transactions.slice(page * perPage, page * perPage + perPage)
 
   return (
-    <div className="flex flex-col gap-3 w-full lg:max-w-6xl">
-      {transactions.length === 0 && <p>{t("no-transactions")}</p>}
+    <div className="flex flex-col gap-3 w-full">
+      {transactions.length === 0 && (
+        <p className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          {t("no-transactions")}
+        </p>
+      )}
 
       {transactions.length > 0 && (
         <>

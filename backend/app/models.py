@@ -1370,7 +1370,7 @@ class Transaction(Base):
     updated = mapped_column(DateTime, nullable=False)
 
     @classmethod
-    def by_user(cls, db, user: FlathubUser):
+    def by_user(cls, db, user: FlathubUser) -> "Transaction":
         return db.session.query(Transaction).filter(Transaction.user_id == user.id)
 
     @classmethod

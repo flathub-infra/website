@@ -66,53 +66,58 @@ const VendingLink: FunctionComponent = () => {
     },
   })
 
-  if (
-    statusQuery.isPending ||
-    dashboardQuery.isLoading ||
-    // If onboarding used, show loading until redirected
-    onboarding
-  ) {
-    return <Spinner size="s" />
+  if (statusQuery.isPending || dashboardQuery.isLoading) {
+    return (
+      <div className="flex justify-center">
+        <Spinner size="s" />
+      </div>
+    )
   }
 
   if (statusQuery.isError || dashboardQuery.isError) {
+    const errorMessage =
+      statusQuery.error?.message || dashboardQuery.error?.message
     return (
-      <p className="m-0">
-        {t(statusQuery.error.message || dashboardQuery.error.message)}
-      </p>
+      <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-3">
+        <p className="m-0 text-sm text-red-800 dark:text-red-200">
+          {t(errorMessage)}
+        </p>
+      </div>
     )
   }
 
   // No status when onboarding hasn't begun
   if (!statusQuery.data.data || !statusQuery.data.data.details_submitted) {
+    const isLoading = generateOnboardingLinkMutation.isPending || onboarding
     return (
       <Button
         size="lg"
+        disabled={isLoading}
         onClick={() => {
-          if (onboarding) return
-
           generateOnboardingLinkMutation.mutate()
         }}
       >
-        {t("vending-onboard")}
+        {isLoading ? t("loading") : t("vending-onboard")}
       </Button>
     )
   }
 
   return (
-    <div className="flex- flex-col">
+    <div className="flex flex-col gap-2">
       <a
         target="_blank"
         rel="noreferrer"
-        className="no-underline hover:underline"
+        className="no-underline hover:underline text-flathub-celestial-blue font-medium"
         href={dashboardQuery.data.data.target_url}
       >
         {t("vending-dashboard")}
       </a>
-      {statusQuery.data.data.needs_attention ? (
-        <p className="m-0 text-red-600">{t("requires-attention")}</p>
-      ) : (
-        <></>
+      {statusQuery.data.data.needs_attention && (
+        <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 px-3 py-2 border-l-4 border-amber-500 dark:border-amber-400">
+          <p className="m-0 text-sm font-medium text-amber-800 dark:text-amber-200">
+            {t("requires-attention")}
+          </p>
+        </div>
       )}
     </div>
   )

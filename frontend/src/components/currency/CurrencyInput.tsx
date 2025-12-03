@@ -75,10 +75,10 @@ const CurrencyInput: FunctionComponent<Props> = ({
   )
 
   return (
-    <div className="max-w-full md:max-w-40">
-      <label className="absolute ms-1 mt-3.5 text-lg">
-        <DollarSign className="size-5" />
-      </label>
+    <div className="max-w-full md:max-w-44 relative">
+      <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-md bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray/30">
+        <DollarSign className="size-4 text-flathub-sonic-silver dark:text-flathub-spanish-gray" />
+      </div>
       <Input
         type="text"
         inputMode="numeric"
@@ -88,7 +88,7 @@ const CurrencyInput: FunctionComponent<Props> = ({
         onChange={handleChange}
         onBlur={handleBlur}
         ref={ref}
-        className={"ps-7"}
+        className="ps-12 h-12 text-lg font-medium"
         {...inputProps}
       />
     </div>

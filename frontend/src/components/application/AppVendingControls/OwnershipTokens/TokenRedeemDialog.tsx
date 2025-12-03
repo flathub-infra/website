@@ -53,19 +53,20 @@ const TokenRedeemDialog = ({
   }
 
   return (
-    <div className="inline-flex w-full flex-col gap-2 rounded-xl bg-flathub-white p-4 dark:bg-flathub-arsenic">
+    <div className="mt-4 inline-flex w-full flex-col gap-3 rounded-2xl bg-flathub-white p-5 shadow-lg dark:bg-flathub-arsenic/80 border border-flathub-gainsborow/30 dark:border-flathub-granite-gray/20">
       <Input
         type="text"
         placeholder={t("token-redeem-placeholder")}
         value={text}
         onChange={textUpdate}
-        className="w-full"
+        className="w-full h-12"
       />
       <Button
         size="xl"
+        variant="secondary"
         disabled={text.trim().length === 0}
         onClick={() => redeemVendingToken.mutate()}
-        className="h-12"
+        className="h-12 font-medium"
       >
         {t("redeem-token")}
       </Button>

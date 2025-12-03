@@ -71,13 +71,17 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
   }
 
   const presets = [5, 10, 15, 20].map((val) => {
+    const isSelected = amount.settled === val
     return (
       <Button
         size="lg"
         key={val}
-        variant="secondary"
+        variant={isSelected ? "default" : "secondary"}
         type="button"
         onClick={() => setAmount({ ...amount, settled: val })}
+        className={
+          isSelected ? "ring-2 ring-flathub-celestial-blue ring-offset-2" : ""
+        }
       >
         {formatCurrency(val, i18n.language, currency)}
       </Button>
@@ -86,16 +90,19 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
 
   return (
     <form
-      className="mx-0 mt-5 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic h-min"
+      className="mx-0 mt-5 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic h-min shadow-md"
       onSubmit={handleSubmit}
     >
-      <h4 className="m-0 text-base font-normal">
+      <h4 className="m-0 text-lg font-semibold">
         {t("select-donation-amount")}
       </h4>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 items-center justify-center gap-3">
         {presets}
       </div>
-      <div className="pt-5">
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          {t("or-enter-custom-amount")}
+        </label>
         <Currency.Input
           inputValue={amount}
           setValue={setAmount}
@@ -109,6 +116,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       </div>
       <Button
         size="lg"
+        className="w-full"
         disabled={
           amount.live < FLATHUB_MIN_PAYMENT || amount.live > STRIPE_MAX_PAYMENT
         }
