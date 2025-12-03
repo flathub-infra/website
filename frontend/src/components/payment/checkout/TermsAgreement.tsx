@@ -18,10 +18,11 @@ const TermsAgreement: FunctionComponent<Props> = ({
   const [checked, setChecked] = useState(false)
 
   return (
-    <div className="flex flex-col gap-5 p-5">
-      <div className="items-top flex space-x-3 pt-2">
+    <div className="flex flex-col gap-5 p-6 bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md max-w-2xl mx-auto">
+      <h3 className="text-xl font-semibold m-0">{t("terms-and-conditions")}</h3>
+      <div className="items-top flex space-x-3">
         <Checkbox
-          id="purcase-terms-confirm"
+          id="purchase-terms-confirm"
           checked={checked}
           onCheckedChange={(event) => {
             setChecked(Boolean(event))
@@ -29,18 +30,21 @@ const TermsAgreement: FunctionComponent<Props> = ({
         />
         <div className="grid gap-1.5 leading-none">
           <label
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            htmlFor="purcase-terms-confirm"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+            htmlFor="purchase-terms-confirm"
           >
             {t("purchase-terms-confirmation")}
           </label>
         </div>
       </div>
-      <div className="flex flex-col-reverse gap-4 sm:flex-row">
-        <TransactionCancelButtonPrep transactionId={transactionId} />
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-2">
+        <TransactionCancelButtonPrep
+          className="w-full sm:w-auto"
+          transactionId={transactionId}
+        />
         <Button
           size="lg"
-          className="ms-auto w-full sm:w-auto"
+          className="w-full sm:w-auto"
           disabled={!checked}
           onClick={onConfirm}
         >

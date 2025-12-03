@@ -18,9 +18,58 @@ import TransactionCancelButton from "./TransactionCancelButton"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Link, useRouter } from "src/i18n/navigation"
+import { Badge } from "@/components/ui/badge"
+import { CheckCircle2, XCircle, Clock, AlertCircle } from "lucide-react"
 
 interface Props {
   transaction: Transaction
+}
+
+const TransactionStatusBadge = ({ status }: { status: string }) => {
+  const t = useTranslations()
+
+  const statusConfig = {
+    success: {
+      variant: "default" as const,
+      icon: CheckCircle2,
+      className:
+        "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100",
+    },
+    cancelled: {
+      variant: "secondary" as const,
+      icon: XCircle,
+      className:
+        "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100",
+    },
+    pending: {
+      variant: "default" as const,
+      icon: Clock,
+      className:
+        "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100",
+    },
+    new: {
+      variant: "default" as const,
+      icon: AlertCircle,
+      className:
+        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100",
+    },
+    retry: {
+      variant: "default" as const,
+      icon: AlertCircle,
+      className:
+        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100",
+    },
+  }
+
+  const config = statusConfig[status] || statusConfig.new
+  const Icon = config.icon
+
+  return (
+    <Badge variant={config.variant} className={`gap-1 ${config.className}`}>
+      <Icon className="h-3 w-3" />
+      {t(`status-${status}`)}
+    </Badge>
+  )
 }
 
 const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
@@ -43,7 +92,9 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
           </div>
           <div className="grid col-span-3 md:col-span-3 grid-cols-subgrid">
             <div>{t("transaction-summary-status")}</div>
-            <div className="md:col-span-2">{t(`status-${status}`)}</div>
+            <div className="md:col-span-2">
+              <TransactionStatusBadge status={status} />
+            </div>
           </div>
           <div className="grid col-span-3 md:col-span-3 grid-cols-subgrid">
             <div>{t("transaction-summary-created")}</div>
@@ -74,14 +125,15 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             )}
             {unresolved && (
               <>
-                <Alert variant="destructive" className="flex flex-col gap-2">
+                <Alert className="flex flex-col gap-2 mt-6">
                   <AlertTitle>{t("transaction-went-wrong")}</AlertTitle>
-                  <AlertDescription className="flex gap-3">
+                  <AlertDescription className="flex gap-3 justify-between">
                     <TransactionCancelButton
+                      className="flex-1"
                       id={transaction.summary.id}
                       onSuccess={() => router.refresh()}
                     />
-                    <Button asChild size="lg">
+                    <Button asChild size="lg" className="flex-1">
                       <Link href={`/payment/${transaction.summary.id}`}>
                         {t("retry-checkout")}
                       </Link>

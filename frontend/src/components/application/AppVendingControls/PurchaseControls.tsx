@@ -89,18 +89,18 @@ const PurchaseControls: FunctionComponent<Props> = ({
 
   return (
     <form
-      className="mx-0 my-5 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
+      className="mx-0 my-5 flex flex-col gap-6 rounded-2xl bg-flathub-white p-6 shadow-lg dark:bg-flathub-arsenic/80 border border-flathub-gainsborow/30 dark:border-flathub-granite-gray/20"
       onSubmit={handleSubmit(() => submitPurchaseMutation.mutate())}
     >
       {!isDonationOnly && (
-        <div className={"mb-2 text-sm"}>
+        <div className="text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray leading-relaxed">
           {t("app-payment-information", {
             minvalue: prettyMinimum,
             recvalue: prettyRecommended,
           })}
         </div>
       )}
-      <h4 className="m-0 text-base font-normal">
+      <h4 className="m-0 text-base font-medium text-flathub-dark-gunmetal dark:text-flathub-lotion">
         {t(
           isDonationOnly ? "select-donation-amount" : "select-purchase-amount",
         )}

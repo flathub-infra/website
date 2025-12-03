@@ -4,6 +4,7 @@ import { FunctionComponent, ReactNode } from "react"
 import DeleteCardButton from "./DeleteCardButton"
 import { getWalletinfoWalletWalletinfoGet } from "src/codegen"
 import { CardInfo, CardInfoSkeleton } from "./CardInfo"
+import { CreditCardIcon } from "@heroicons/react/24/outline"
 
 const SavedCards: FunctionComponent = () => {
   const t = useTranslations()
@@ -18,18 +19,32 @@ const SavedCards: FunctionComponent = () => {
   })
 
   if (walletQuery.isPending) {
-    return <CardInfoSkeleton />
+    return (
+      <div className="rounded-2xl bg-flathub-white p-6 shadow-lg dark:bg-flathub-arsenic/80 border border-flathub-gainsborow/30 dark:border-flathub-granite-gray/20">
+        <div className="flex items-center gap-3 mb-4">
+          <CreditCardIcon className="size-6 text-flathub-celestial-blue" />
+          <h3 className="text-xl font-semibold">{t("saved-cards")}</h3>
+        </div>
+        <CardInfoSkeleton />
+      </div>
+    )
   }
 
   let content: ReactNode
   if (walletQuery.isError) {
-    content = <p>{t("failed-to-load-refresh")}</p>
+    content = (
+      <p className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+        {t("failed-to-load-refresh")}
+      </p>
+    )
   }
 
   if (walletQuery.isSuccess) {
     content =
       walletQuery.data.data.cards.length == 0 ? (
-        <p>{t("no-saved-payment-methods")}</p>
+        <p className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          {t("no-saved-payment-methods")}
+        </p>
       ) : (
         <div className="flex flex-col gap-5 md:flex-row">
           {walletQuery.data.data.cards.map((card) => (
@@ -43,8 +58,11 @@ const SavedCards: FunctionComponent = () => {
   }
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <h3 className="my-4 text-xl font-semibold">{t("saved-cards")}</h3>
+    <div className="rounded-2xl bg-flathub-white p-6 shadow-lg dark:bg-flathub-arsenic/80 border border-flathub-gainsborow/30 dark:border-flathub-granite-gray/20">
+      <div className="flex items-center gap-3 mb-4">
+        <CreditCardIcon className="size-6 text-flathub-celestial-blue" />
+        <h3 className="text-xl font-semibold">{t("saved-cards")}</h3>
+      </div>
       {content}
     </div>
   )

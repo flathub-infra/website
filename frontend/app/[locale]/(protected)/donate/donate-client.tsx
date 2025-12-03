@@ -17,7 +17,8 @@ const DonateClient = (): JSX.Element => {
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <ClientAuthGuard
         condition={(info: GetUserinfoAuthUserinfoGet200) =>
-          info.permissions.some((a) => a === Permission.moderation)
+          info.permissions.some((a) => a === Permission.moderation) ||
+          process.env.NODE_ENV === "development"
         }
       >
         <h1 className="pt-12 text-4xl font-extrabold">

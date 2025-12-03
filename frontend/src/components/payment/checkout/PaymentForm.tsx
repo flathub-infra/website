@@ -74,9 +74,10 @@ const PaymentForm: FunctionComponent<Props> = ({
 
   return (
     <form
-      className="flex flex-col gap-4 p-5 text-flathub-dark-gunmetal  dark:text-flathub-gainsborow"
+      className="flex flex-col gap-5 p-5 bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md text-flathub-dark-gunmetal  dark:text-flathub-gainsborow"
       onSubmit={handleSubmit}
     >
+      <h3 className="text-xl font-semibold m-0">{t("payment-details")}</h3>
       <PaymentElement />
       {processing ? (
         <Spinner size="s" />
