@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/next/3.27.0.json",
+  "server": {
+    "hostname": "0.0.0.0",
+    "port": "{PORT}"
+  },
+  "runtime": {
+    "workers": "{PLT_NEXT_WORKERS}"
+  },
+  "cache": {
+    "adapter": "valkey",
+    "url": "{REDIS_URL}"
+  }
+}
