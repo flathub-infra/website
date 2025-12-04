@@ -684,5 +684,7 @@
   "see-all-results": "Vaata kõiki tulemusi",
   "default-account": "Vaikimisi",
   "set-as-default": "Määra vaikimisi kasutajakontoks",
-  "default-account-changed": "Vaikimisi kasutajakonto muutmine õnnestus"
+  "default-account-changed": "Vaikimisi kasutajakonto muutmine õnnestus",
+  "or-enter-custom-amount": "Või sisesta sinu poolt määratud kogus",
+  "payment-details": "Makse üksikasjad"
 }

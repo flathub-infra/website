@@ -684,5 +684,7 @@
   "see-all-results": "Se alle resultatene",
   "default-account": "Standard",
   "set-as-default": "Sett som standard",
-  "default-account-changed": "Standardkonto endret"
+  "default-account-changed": "Standardkonto endret",
+  "or-enter-custom-amount": "Eller legg inn en egendefinert konto",
+  "payment-details": "Betalingsinformasjon"
 }
