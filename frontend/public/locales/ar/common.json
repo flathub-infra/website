@@ -684,5 +684,7 @@
   "see-all-results": "أظهر كل النتائج",
   "default-account": "مبدئي",
   "set-as-default": "عيِّن مبدئي",
-  "default-account-changed": "غُيِّر الحساب المبدئي بنجاح"
+  "default-account-changed": "غُيِّر الحساب المبدئي بنجاح",
+  "or-enter-custom-amount": "أو أدخل مبلغًا مخصصًا",
+  "payment-details": "تفاصيل الدفع"
 }

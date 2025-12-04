@@ -684,5 +684,7 @@
   "see-all-results": "檢視所有結果",
   "default-account": "預設",
   "set-as-default": "設定為預設值",
-  "default-account-changed": "預設帳號已變更成功"
+  "default-account-changed": "預設帳號已變更成功",
+  "or-enter-custom-amount": "或輸入自訂金額",
+  "payment-details": "付款詳細資訊"
 }

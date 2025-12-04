@@ -684,5 +684,7 @@
   "see-all-results": "See all results",
   "default-account": "Default",
   "set-as-default": "Set as Default",
-  "default-account-changed": "Default account changed successfully"
+  "default-account-changed": "Default account changed successfully",
+  "or-enter-custom-amount": "Or enter a custom amount",
+  "payment-details": "Payment Details"
 }

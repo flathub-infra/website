@@ -684,5 +684,7 @@
   "see-all-results": "Féach na torthaí go léir",
   "default-account": "Réamhshocrú",
   "set-as-default": "Socraigh mar Réamhshocrú",
-  "default-account-changed": "Athraíodh an cuntas réamhshocraithe go rathúil"
+  "default-account-changed": "Athraíodh an cuntas réamhshocraithe go rathúil",
+  "or-enter-custom-amount": "Nó cuir isteach méid saincheaptha",
+  "payment-details": "Sonraí Íocaíochta"
 }

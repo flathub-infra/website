@@ -43,5 +43,14 @@
   "manual-install": "Instalación manual",
   "run": "Executar",
   "copy-text": "Copiar texto",
-  "slide": "Diapositiva"
+  "slide": "Diapositiva",
+  "unknown": "Descoñecido",
+  "proprietary": "Propietario",
+  "log-out": "Pechar sesión",
+  "since": "Desde",
+  "since-x": "Desde o {date}",
+  "downloads-per-country": "Descargas por país",
+  "downloads-over-time": "Descargas sobre o tempo",
+  "home": "Inicio",
+  "subscribe": "Suscribirse"
 }

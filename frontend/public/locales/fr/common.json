@@ -684,5 +684,7 @@
   "see-all-results": "Voir tous les résultats",
   "default-account": "Par défaut",
   "set-as-default": "Définir par défaut",
-  "default-account-changed": "Compte par défaut modifié avec succès"
+  "default-account-changed": "Compte par défaut modifié avec succès",
+  "or-enter-custom-amount": "Ou renseignez un montant personnalisé",
+  "payment-details": "Modalités de paiement"
 }
