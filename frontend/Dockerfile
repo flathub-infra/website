@@ -53,4 +53,4 @@ COPY --from=builder --chown=nextjs:nextjs /app/src/data ./src/data
 RUN chown -R 1001:0 /app/.next && chgrp -R 0 /app && chmod -R g=u /app
 
 USER nextjs
-CMD ["npx", "wattpm", "start"]
+CMD ["node", "node_modules/.bin/wattpm", "start"]
