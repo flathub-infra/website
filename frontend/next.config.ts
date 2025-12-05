@@ -74,11 +74,6 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
     inlineCss: true,
   },
   serverExternalPackages: ["@resvg/resvg-js"],
-  cacheHandler:
-    process.env.NODE_ENV === "production"
-      ? require.resolve("./cache-handler.mjs")
-      : undefined,
-  cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined, // Disable in-memory caching in production
   images: {
     remotePatterns: [
       {
