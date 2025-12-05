@@ -1,13 +1,13 @@
 {
   "$schema": "https://schemas.platformatic.dev/@platformatic/next/3.27.0.json",
+  "logger": {
+    "level": "{PLT_SERVER_LOGGER_LEVEL}"
+  },
+  "server": {
+    "hostname": "0.0.0.0",
+    "port": "{PORT}"
+  },
   "runtime": {
-    "logger": {
-      "level": "{PLT_SERVER_LOGGER_LEVEL}"
-    },
-    "server": {
-      "hostname": "0.0.0.0",
-      "port": "{PORT}"
-    },
     "workers": "{PLT_NEXT_WORKERS}"
   },
   "cache": {
