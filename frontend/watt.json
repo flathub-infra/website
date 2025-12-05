@@ -12,7 +12,7 @@
   },
   "cache": {
     "adapter": "valkey",
-    "url": "{REDIS_URL}"
+    "url": "{REDIS_URL}",
     "prefix": "watt",
     "maxTTL": 604800
   }
