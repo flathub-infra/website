@@ -75,6 +75,7 @@
     "spdx-license-list": "^6.10.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
+    "wattpm": "^3.27.0",
     "yaml": "^2.8.0",
     "yet-another-react-lightbox": "^3.25.0"
   },
