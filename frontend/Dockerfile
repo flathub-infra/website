@@ -20,6 +20,7 @@ ARG GITHUB_SHA
 
 ENV GITHUB_SHA=$GITHUB_SHA
 ENV PLT_NEXT_WORKERS=1
+ENV PLT_SERVER_LOGGER_LEVEL=info
 
 WORKDIR /app
 COPY --from=dev /app/node_modules ./node_modules
