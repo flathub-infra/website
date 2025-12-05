@@ -6,9 +6,5 @@
   },
   "runtime": {
     "workers": "{PLT_NEXT_WORKERS}"
-  },
-  "cache": {
-    "adapter": "valkey",
-    "url": "{REDIS_URL}"
   }
 }
