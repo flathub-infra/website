@@ -369,7 +369,17 @@ export function getSafetyRating(
     })
   }
 
-  if (!appstream.project_license || !appstream.is_free_license) {
+  let licenseType: "proprietary" | "floss" | "special" =
+    appstream.is_free_license ? "floss" : "special"
+
+  if (
+    !appstream.project_license ||
+    appstream.project_license?.startsWith("LicenseRef-proprietary")
+  ) {
+    licenseType = "proprietary"
+  }
+
+  if (licenseType === "proprietary") {
     appSafetyRating.push({
       safetyRating: SafetyRating.probably_safe,
       title: "proprietary-code",
@@ -377,12 +387,20 @@ export function getSafetyRating(
       icon: TriangleAlertIcon,
       showOnSummaryOrDetails: "both",
     })
-  } else {
+  } else if (licenseType === "floss") {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
       title: "auditable-code",
       description: "auditable-code-description",
       icon: CircleCheckIcon,
+      showOnSummaryOrDetails: "both",
+    })
+  } else {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.probably_safe,
+      title: "special-license",
+      description: "special-code-description",
+      icon: TriangleAlertIcon,
       showOnSummaryOrDetails: "both",
     })
   }
