@@ -58,6 +58,7 @@ jobs:
             ENABLE_SENTRY=true
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             GITHUB_SHA=${{ github.sha }}
+            REDIS_URL=redis://frontend-cache.flathub.svc.cluster.local:6379
           tags: |
             ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}-arm64
             ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
