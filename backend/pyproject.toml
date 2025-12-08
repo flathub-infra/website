@@ -32,7 +32,7 @@ dependencies = [
     "publicsuffixlist<2.0.0.0,>=1.0.2.20240903",
     "httpx<1.0.0,>=0.28.1",
     "apscheduler==3.11.1",
-    "granian[reload]>=2.6.0",
+    "granian[reload,uvloop]>=2.6.0",
 ]
 
 [dependency-groups]
