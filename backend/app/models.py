@@ -2996,7 +2996,9 @@ class UserFavoriteApp(Base):
         """
         Add a user's favorite apps to hash
         """
-        apps = [app.appid for app in UserFavoriteApp.all_favorited_by_user(db, user.id)]
+        apps = [
+            app.app_id for app in UserFavoriteApp.all_favorited_by_user(db, user.id)
+        ]
         for app in apps:
             hasher.add_string(app)
 
