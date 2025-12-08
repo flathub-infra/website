@@ -8,7 +8,10 @@
     "port": "{PORT}"
   },
   "runtime": {
-    "workers": "{PLT_NEXT_WORKERS}"
+    "workers": "{PLT_NEXT_WORKERS}",
+    "application": {
+      "envfile": ".env.production"
+    }
   },
   "cache": {
     "adapter": "valkey",
