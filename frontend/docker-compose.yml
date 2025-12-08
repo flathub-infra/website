@@ -5,10 +5,12 @@ services:
       dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_IS_PRODUCTION: "true"
+        REDIS_URL: "redis://redis:6379"
     ports:
       - "3000:3000"
     environment:
       - REDIS_URL=redis://redis:6379
+      - API_BASE_URI=https://flathub.org/api/v2
     depends_on:
       - redis
 
