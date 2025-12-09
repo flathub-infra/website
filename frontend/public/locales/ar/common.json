@@ -686,5 +686,6 @@
   "set-as-default": "عيِّن مبدئي",
   "default-account-changed": "غُيِّر الحساب المبدئي بنجاح",
   "or-enter-custom-amount": "أو أدخل مبلغًا مخصصًا",
-  "payment-details": "تفاصيل الدفع"
+  "payment-details": "تفاصيل الدفع",
+  "special-code-description": "هذا التطبيق طوِّر تحت ترخيص خاص. قد يكون المصدر البرمجي متاحًا للعموم أو لا يكون."
 }
