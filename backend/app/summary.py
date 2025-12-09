@@ -12,7 +12,7 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import GLib, OSTree
 
-from . import apps, config, database, models, search, utils
+from . import apps, config, database, http_client, models, search, utils
 
 
 class JSONSetEncoder(json.JSONEncoder):
@@ -254,7 +254,7 @@ def fetch_summary_bytes(url: str) -> bytes | None:
             return None
     else:
         try:
-            response = httpx.get(url, timeout=(120.05, None))
+            response = http_client.get(url, timeout=http_client.LONG_READ_TIMEOUT)
             if response.status_code == 404:
                 return None
             response.raise_for_status()

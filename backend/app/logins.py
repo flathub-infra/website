@@ -22,7 +22,7 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import apps, config, models
+from . import apps, config, http_client, models
 from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
@@ -65,7 +65,7 @@ def _refresh_token(
     if account.token_expiry is None or account.token_expiry > datetime.now():
         return account.token
 
-    response = httpx.post(
+    response = http_client.post(
         token_endpoint,
         data={
             "grant_type": "refresh_token",
@@ -649,7 +649,7 @@ def continue_google_flow(
     def google_userdata(tokens) -> ProviderInfo:
         userinfo_endpoint = "https://www.googleapis.com/oauth2/v3/userinfo"
         access_token = tokens["access_token"]
-        gguser = httpx.get(
+        gguser = http_client.get(
             userinfo_endpoint, headers={"Authorization": f"Bearer {access_token}"}
         ).json()
         sub = gguser["sub"]
@@ -786,7 +786,7 @@ def continue_oauth_flow(
         args = oauth_args.copy()
         args["code"] = data.code
         args = urlencode(args)
-        login_result = httpx.post(
+        login_result = http_client.post(
             token_endpoint,
             data=args,
             headers={

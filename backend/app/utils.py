@@ -13,7 +13,7 @@ import jwt
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config, models
+from . import config, http_client, models
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -85,7 +85,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             appstream_url = (
                 "https://dl.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
             )
-        with httpx.stream("GET", appstream_url) as r:
+        with http_client.stream("GET", appstream_url) as r:
             appstream = gzip.decompress(r.read())
 
     root = etree.fromstring(appstream)

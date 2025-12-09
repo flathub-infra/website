@@ -7,7 +7,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from pydantic import BaseModel
 
-from .. import config, models, utils, worker
+from .. import config, http_client, models, utils, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import login_state
@@ -293,7 +293,7 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
     )
 
     # Tell flat-manager to revoke the token
-    response = httpx.post(
+    response = http_client.post(
         config.settings.flat_manager_api + "/api/v1/tokens/revoke",
         headers={"Authorization": flat_manager_jwt},
         json={"token_ids": [jti(token)]},

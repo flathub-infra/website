@@ -3,7 +3,7 @@ import typing as T
 import dramatiq
 import httpx
 
-from .. import utils
+from .. import http_client, utils
 from ..config import settings
 from ..vending import VendingError
 
@@ -51,7 +51,7 @@ def review_check(
     build_id: int | None = None,
 ):
     token = utils.create_flat_manager_token("review_check", ["reviewcheck"])
-    r = httpx.post(
+    r = http_client.post(
         f"{settings.flat_manager_api}/api/v1/job/{job_id}/check/review",
         json={"new-status": {"status": status, "reason": reason}},
         headers={"Authorization": token},
@@ -62,7 +62,7 @@ def review_check(
         token = utils.create_flat_manager_token(
             "review_check_publish_approved", ["publish"], repos=["stable"]
         )
-        r = httpx.post(
+        r = http_client.post(
             f"{settings.flat_manager_api}/api/v1/build/{build_id}/publish",
             json={},
             headers={"Authorization": token},

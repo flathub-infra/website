@@ -10,7 +10,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 from sqlalchemy import select
 
-from . import models
+from . import http_client, models
 from .config import settings
 
 
@@ -124,7 +124,7 @@ def send_email_new(payload: dict, db):
 def send_one_email_new(payload: dict, dest: str):
     payload["to"] = dest
 
-    result = httpx.post(f"{settings.backend_node_url}/emails", json=payload)
+    result = http_client.post(f"{settings.backend_node_url}/emails", json=payload)
 
     if result.status_code != 200:
         raise Exception(

@@ -12,7 +12,7 @@ from github import Github
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
-from . import config, models, summary, utils, worker
+from . import config, http_client, models, summary, utils, worker
 from .database import get_db, get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
@@ -309,7 +309,7 @@ def submit_review_request(
         "Authorization": f"{flat_manager_token}",
         "Content-Type": "application/json",
     }
-    r = httpx.get(build_extended_url, headers=build_extended_headers)
+    r = http_client.get(build_extended_url, headers=build_extended_headers)
     r.raise_for_status()
 
     # Skip beta and test builds
@@ -338,7 +338,7 @@ def submit_review_request(
         # if build_ref_arches has no elements, something went terribly wrong with the build in general
         raise HTTPException(status_code=500, detail="invalid_build")
 
-    r = httpx.get(
+    r = http_client.get(
         f"https://dl.flathub.org/build-repo/{review_request.build_id}/summary"
     )
     r.raise_for_status()

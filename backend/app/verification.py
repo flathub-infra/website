@@ -15,7 +15,7 @@ from github.GithubException import UnknownObjectException
 from pydantic import BaseModel, Field
 from sqlalchemy.sql import func
 
-from . import cache, config, models, utils, worker
+from . import cache, config, http_client, models, utils, worker
 from .database import get_db
 from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
@@ -216,7 +216,7 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
         repo_name = app_id.split(".")[-1].lower()
 
     try:
-        r = httpx.get(
+        r = http_client.get(
             f"https://gitlab.gnome.org/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap",
             follow_redirects=True,
         )
@@ -295,7 +295,7 @@ class CheckWebsiteVerification:
 
         try:
             headers = {"User-Agent": "Flathub bot"}
-            r = httpx.get(
+            r = http_client.get(
                 f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt",
                 timeout=5,
                 headers=headers,
@@ -764,7 +764,7 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
             return result
 
         # python-gitlab does not support the userinfo endpoint AFAICT, so we have to do it manually.
-        r = httpx.get(
+        r = http_client.get(
             url + "/oauth/userinfo",
             headers={"Authorization": "Bearer " + access_token},
         )
@@ -1176,7 +1176,7 @@ def archive(
         "revoke_upload_token", ["tokenmanagement"], sub=""
     )
     for token in upload_tokens:
-        response = httpx.post(
+        response = http_client.post(
             config.settings.flat_manager_api + "/api/v1/tokens/revoke",
             headers={"Authorization": flat_manager_jwt},
             json={"token_ids": [jti(token)]},

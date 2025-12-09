@@ -177,23 +177,26 @@ def cached(ttl: int = 3600) -> Callable:
 
 def mark_stale_by_pattern(pattern: str) -> int:
     try:
-        keys = database.redis_conn.keys(pattern)
-        if not keys:
-            return 0
-
         marked_count = 0
-        for key in keys:
-            try:
-                cached_data = database.redis_conn.get(key)
-                if cached_data:
-                    cache_entry = orjson.loads(cached_data)
+        cursor = 0
+        while True:
+            cursor, keys = database.redis_conn.scan(
+                cursor=cursor, match=pattern, count=100
+            )
+            for key in keys:
+                try:
+                    cached_data = database.redis_conn.get(key)
+                    if cached_data:
+                        cache_entry = orjson.loads(cached_data)
+                        if isinstance(cache_entry, dict):
+                            cache_entry["is_stale"] = True
+                            database.redis_conn.set(key, orjson.dumps(cache_entry))
+                            marked_count += 1
+                except Exception as e:
+                    print(f"Error marking key {key} as stale: {e}")
 
-                    if isinstance(cache_entry, dict):
-                        cache_entry["is_stale"] = True
-                        database.redis_conn.set(key, orjson.dumps(cache_entry))
-                        marked_count += 1
-            except Exception as e:
-                print(f"Error marking key {key} as stale: {e}")
+            if cursor == 0:
+                break
 
         return marked_count
     except Exception as e:
@@ -203,10 +206,19 @@ def mark_stale_by_pattern(pattern: str) -> int:
 
 def invalidate_cache_by_pattern(pattern: str) -> int:
     try:
-        keys = database.redis_conn.keys(pattern)
-        if keys:
-            return database.redis_conn.delete(*keys)
-        return 0
+        deleted_count = 0
+        cursor = 0
+        while True:
+            cursor, keys = database.redis_conn.scan(
+                cursor=cursor, match=pattern, count=100
+            )
+            if keys:
+                deleted_count += database.redis_conn.delete(*keys)
+
+            if cursor == 0:
+                break
+
+        return deleted_count
     except Exception as e:
         print(f"Cache invalidation error for pattern {pattern}: {e}")
         return 0
