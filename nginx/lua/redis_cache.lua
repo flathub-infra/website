@@ -1,4 +1,5 @@
 local redis = require "resty.redis"
+local http = require "resty.http"
 local cjson = require "cjson.safe"
 
 cjson.encode_empty_table_as_object(false)
@@ -271,6 +272,25 @@ local function get_from_cache(red, cache_key)
     return cache_data
 end
 
+local function async_refresh(uri, args)
+    local httpc = http.new()
+    httpc:set_timeout(10000)
+
+    local query_string = ngx.encode_args(args)
+    local full_uri = "http://backend.flathub.svc.cluster.local:8000" .. uri
+    if query_string and query_string ~= "" then
+        full_uri = full_uri .. "?" .. query_string
+    end
+
+    local res, err = httpc:request_uri(full_uri, {
+        method = "GET",
+    })
+
+    if not res then
+        ngx.log(ngx.ERR, "Async cache refresh failed: ", err)
+    end
+end
+
 function _M.try_cache()
     local red = connect_redis()
     if not red then
@@ -286,9 +306,20 @@ function _M.try_cache()
     local cached_data = get_from_cache(red, cache_key)
     set_keepalive(red)
 
-    if cached_data and cached_data.value and not cached_data.is_stale then
+    if cached_data and cached_data.value then
         ngx.header["Content-Type"] = "application/json"
-        ngx.header["X-Cache-Status"] = "HIT"
+
+        if cached_data.is_stale then
+            ngx.header["X-Cache-Status"] = "STALE"
+            local uri = ngx.var.uri
+            local args = ngx.req.get_uri_args()
+            ngx.timer.at(0, function()
+                async_refresh(uri, args)
+            end)
+        else
+            ngx.header["X-Cache-Status"] = "HIT"
+        end
+
         ngx.say(cjson.encode(cached_data.value))
         ngx.exit(ngx.HTTP_OK)
     end
