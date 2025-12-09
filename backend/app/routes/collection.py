@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI, HTTPException, Query, Response
 from fastapi.responses import ORJSONResponse
 
 from .. import schemas, search
+from ..cache import cached
 
 router = APIRouter(
     prefix="/collection",
@@ -21,6 +22,7 @@ def register_to_app(app: FastAPI):
         200: {"description": "List of all available categories"},
     },
 )
+@cached(ttl=3600)
 def get_categories() -> list[str]:
     """Get a list of all available main categories for filtering applications."""
     return [category.value for category in schemas.MainCategory]
@@ -34,6 +36,7 @@ def get_categories() -> list[str]:
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_category(
     category: schemas.MainCategory,
     exclude_subcategories: list[str] = Query(None),
@@ -75,6 +78,7 @@ def get_category(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_subcategory(
     category: schemas.MainCategory,
     subcategory: list[str] = Query(),
@@ -123,6 +127,7 @@ def get_subcategory(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_keyword(
     keyword: str,
     page: int | None = None,
@@ -160,6 +165,7 @@ def get_keyword(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=3600)
 def get_developers(
     page: int | None = None,
     per_page: int | None = None,
@@ -193,6 +199,7 @@ def get_developers(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_developer(
     developer: str,
     page: int | None = None,
@@ -230,6 +237,7 @@ def get_developer(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_recently_updated(
     page: int | None = None,
     per_page: int | None = None,
@@ -266,6 +274,7 @@ def get_recently_updated(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_recently_added(
     page: int | None = None,
     per_page: int | None = None,
@@ -302,6 +311,7 @@ def get_recently_added(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_verified(
     page: int | None = None,
     per_page: int | None = None,
@@ -339,6 +349,7 @@ def get_verified(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_mobile(
     page: int | None = None,
     per_page: int | None = None,
@@ -376,6 +387,7 @@ def get_mobile(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_popular_last_month(
     page: int | None = None,
     per_page: int | None = None,
@@ -412,6 +424,7 @@ def get_popular_last_month(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_trending_last_two_weeks(
     page: int | None = None,
     per_page: int | None = None,
@@ -449,6 +462,7 @@ def get_trending_last_two_weeks(
         400: {"description": "Invalid pagination parameters"},
     },
 )
+@cached(ttl=300)
 def get_most_favorited(
     page: int | None = None,
     per_page: int | None = None,

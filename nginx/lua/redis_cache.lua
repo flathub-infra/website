@@ -66,6 +66,28 @@ local function set_keepalive(red)
     end
 end
 
+local function add_pagination(params, args)
+    if args.page and args.per_page then
+        params.page = tonumber(args.page)
+        params.per_page = tonumber(args.per_page)
+    else
+        params.page = cjson.null
+        params.per_page = cjson.null
+    end
+end
+
+local function add_locale(params, args)
+    params.locale = args.locale or "en"
+end
+
+local function add_optional(params, args, key)
+    if args[key] then
+        params[key] = args[key]
+    else
+        params[key] = cjson.null
+    end
+end
+
 local routes = {
     {"^/api/v2/eol/rebase$", "get_eol_rebase", function(match, args)
         return {}
@@ -129,6 +151,85 @@ local routes = {
     end},
     {"^/api/v2/app%-picks/apps%-of%-the%-week/([^/]+)$", "get_app_of_the_week", function(match, args)
         return {date = match[1]}
+    end},
+    {"^/api/v2/collection/category$", "get_categories", function(match, args)
+        return {}
+    end},
+    {"^/api/v2/collection/category/([^/]+)$", "get_category", function(match, args)
+        local params = {category = match[1]}
+        add_locale(params, args)
+        add_pagination(params, args)
+        add_optional(params, args, "exclude_subcategories")
+        add_optional(params, args, "sort_by")
+        return params
+    end},
+    {"^/api/v2/collection/category/([^/]+)/subcategories$", "get_subcategory", function(match, args)
+        local params = {category = match[1]}
+        add_locale(params, args)
+        add_pagination(params, args)
+        add_optional(params, args, "subcategory")
+        add_optional(params, args, "exclude_subcategories")
+        add_optional(params, args, "sort_by")
+        return params
+    end},
+    {"^/api/v2/collection/keyword$", "get_keyword", function(match, args)
+        local params = {keyword = args.keyword}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/developer$", "get_developers", function(match, args)
+        local params = {}
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/developer/(.+)$", "get_developer", function(match, args)
+        local params = {developer = match[1]}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/recently%-updated$", "get_recently_updated", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/recently%-added$", "get_recently_added", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/verified$", "get_verified", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/mobile$", "get_mobile", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/popular$", "get_popular_last_month", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/trending$", "get_trending_last_two_weeks", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
+    end},
+    {"^/api/v2/collection/favorites$", "get_most_favorited", function(match, args)
+        local params = {}
+        add_locale(params, args)
+        add_pagination(params, args)
+        return params
     end},
 }
 
