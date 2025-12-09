@@ -2,7 +2,6 @@ import base64
 import datetime
 from enum import Enum
 
-import httpx
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from pydantic import BaseModel

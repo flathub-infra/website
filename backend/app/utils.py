@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 from typing import Any
 
 import gi
-import httpx
 import jwt
 from lxml import etree
 from pydantic import BaseModel

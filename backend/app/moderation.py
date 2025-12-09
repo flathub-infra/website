@@ -4,7 +4,6 @@ import json
 import logging
 from datetime import datetime
 
-import httpx
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer

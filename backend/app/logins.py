@@ -14,7 +14,6 @@ from enum import Enum
 from urllib.parse import urlencode
 from uuid import uuid4
 
-import httpx
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from github import Github

@@ -3,7 +3,6 @@ import datetime
 from enum import Enum
 from typing import Any
 
-import httpx
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
