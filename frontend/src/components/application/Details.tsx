@@ -15,6 +15,7 @@ import ApplicationSection from "./ApplicationSection"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import Tags from "./Tags"
 import SafetyRating from "./SafetyRating"
+import ContentRating from "./ContentRating"
 import "yet-another-react-lightbox/plugins/captions.css"
 import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
@@ -175,6 +176,15 @@ const Details: FunctionComponent<Props> = ({
     }
 
     const children = [<LicenseInfo key={"license-info"} app={app} />]
+    if (
+      "content_rating" in app &&
+      app.content_rating &&
+      app.content_rating.type !== "oars-1.0"
+    ) {
+      children.unshift(
+        <ContentRating key={"content-rating"} data={app} summary={summary} />,
+      )
+    }
 
     if (summary !== null && summary.metadata !== null) {
       const safetyRating = getSafetyRating(app, summary.metadata)
