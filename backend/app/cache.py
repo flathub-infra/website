@@ -119,12 +119,13 @@ def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
 def cached(ttl: int = 3600) -> Callable:
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @functools.wraps(func)
-        def wrapper(*args, **kwargs) -> T:
+        async def wrapper(*args, **kwargs) -> T:
+            redis = await database.get_redis()
             cache_key = _make_cache_key(func, args, kwargs)
             refresh_lock_key = _make_refresh_lock_key(cache_key)
 
             try:
-                cached_data = database.redis_conn.get(cache_key)
+                cached_data = await redis.get(cache_key)
                 if cached_data:
                     cache_entry = orjson.loads(cached_data)
 
@@ -141,17 +142,17 @@ def cached(ttl: int = 3600) -> Callable:
                         )
 
                         try:
-                            if database.redis_conn.setnx(refresh_lock_key, "1"):
-                                database.redis_conn.expire(refresh_lock_key, 10)
+                            if await redis.setnx(refresh_lock_key, "1"):
+                                await redis.expire(refresh_lock_key, 10)
                                 try:
-                                    fresh_result = func(*args, **kwargs)
+                                    fresh_result = await func(*args, **kwargs)
                                     serialized = _serialize_value(fresh_result)
-                                    database.redis_conn.setex(
+                                    await redis.setex(
                                         cache_key, ttl, orjson.dumps(serialized)
                                     )
                                     return fresh_result
                                 finally:
-                                    database.redis_conn.delete(refresh_lock_key)
+                                    await redis.delete(refresh_lock_key)
                         except Exception as e:
                             print(f"Cache refresh error for {func.__name__}: {e}")
 
@@ -160,11 +161,11 @@ def cached(ttl: int = 3600) -> Callable:
             except Exception as e:
                 print(f"Cache get error for {func.__name__}: {e}")
 
-            result = func(*args, **kwargs)
+            result = await func(*args, **kwargs)
 
             try:
                 serialized = _serialize_value(result)
-                database.redis_conn.setex(cache_key, ttl, orjson.dumps(serialized))
+                await redis.setex(cache_key, ttl, orjson.dumps(serialized))
             except Exception as e:
                 print(f"Cache set error for {func.__name__}: {e}")
 
@@ -175,22 +176,21 @@ def cached(ttl: int = 3600) -> Callable:
     return decorator
 
 
-def mark_stale_by_pattern(pattern: str) -> int:
+async def mark_stale_by_pattern(pattern: str) -> int:
     try:
+        redis = await database.get_redis()
         marked_count = 0
         cursor = 0
         while True:
-            cursor, keys = database.redis_conn.scan(
-                cursor=cursor, match=pattern, count=100
-            )
+            cursor, keys = await redis.scan(cursor=cursor, match=pattern, count=100)
             for key in keys:
                 try:
-                    cached_data = database.redis_conn.get(key)
+                    cached_data = await redis.get(key)
                     if cached_data:
                         cache_entry = orjson.loads(cached_data)
                         if isinstance(cache_entry, dict):
                             cache_entry["is_stale"] = True
-                            database.redis_conn.set(key, orjson.dumps(cache_entry))
+                            await redis.set(key, orjson.dumps(cache_entry))
                             marked_count += 1
                 except Exception as e:
                     print(f"Error marking key {key} as stale: {e}")
@@ -204,16 +204,15 @@ def mark_stale_by_pattern(pattern: str) -> int:
         return 0
 
 
-def invalidate_cache_by_pattern(pattern: str) -> int:
+async def invalidate_cache_by_pattern(pattern: str) -> int:
     try:
+        redis = await database.get_redis()
         deleted_count = 0
         cursor = 0
         while True:
-            cursor, keys = database.redis_conn.scan(
-                cursor=cursor, match=pattern, count=100
-            )
+            cursor, keys = await redis.scan(cursor=cursor, match=pattern, count=100)
             if keys:
-                deleted_count += database.redis_conn.delete(*keys)
+                deleted_count += await redis.delete(*keys)
 
             if cursor == 0:
                 break

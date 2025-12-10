@@ -52,7 +52,7 @@ class StatsResultApp(BaseModel):
     },
 )
 @cache.cached(ttl=900)
-def get_stats(response: Response) -> StatsResult | None:
+async def get_stats(response: Response) -> StatsResult | None:
     if value := database.get_json_key("stats"):
         return value
 
@@ -69,7 +69,7 @@ def get_stats(response: Response) -> StatsResult | None:
     },
 )
 @cache.cached(ttl=900)
-def get_stats_for_app(
+async def get_stats_for_app(
     response: Response,
     app_id: str = Path(
         min_length=6,

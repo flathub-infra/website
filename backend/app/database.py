@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from typing import Literal
 
 import orjson
-import redis
+import redis.asyncio as aioredis
 from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import NullPool
@@ -10,12 +10,27 @@ from sqlalchemy.pool import NullPool
 from . import config, models
 from .db_session import DBSession
 
-redis_conn = redis.Redis(
-    db=config.settings.redis_db,
-    host=config.settings.redis_host,
-    port=config.settings.redis_port,
-    decode_responses=True,
-)
+_redis: aioredis.Redis | None = None
+
+
+async def get_redis() -> aioredis.Redis:
+    global _redis
+    if _redis is None:
+        _redis = aioredis.Redis(
+            host=config.settings.redis_host,
+            port=config.settings.redis_port,
+            db=config.settings.redis_db,
+            decode_responses=True,
+        )
+    return _redis
+
+
+async def close_redis():
+    global _redis
+    if _redis is not None:
+        await _redis.close()
+        _redis = None
+
 
 writer_engine = create_engine(
     config.settings.database_url,
@@ -131,6 +146,8 @@ def get_json_key(key: str):
         with get_db() as sqldb:
             app_stats = models.AppStats.get_stats(sqldb, app_id)
             return app_stats.to_dict() if app_stats else None
+
+    from .worker.redis import redis_conn
 
     if value := redis_conn.get(key):
         return orjson.loads(value)

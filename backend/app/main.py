@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,6 +12,7 @@ from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
     config,
+    database,
     emails,
     logins,
     moderation,
@@ -47,10 +50,19 @@ if config.settings.sentry_dsn:
         ],
     )
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await database.get_redis()
+    yield
+    await database.close_redis()
+
+
 router = FastAPI(
     title=config.settings.app_name,
     default_response_class=ORJSONResponse,
     root_path="" if config.settings.env == "development" else "/api/v2",
+    lifespan=lifespan,
 )
 
 origins = config.settings.cors_origins.split(" ")

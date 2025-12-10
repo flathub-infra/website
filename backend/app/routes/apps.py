@@ -19,7 +19,7 @@ def register_to_app(app: FastAPI):
     },
 )
 @cache.cached(ttl=21600)
-def get_eol_rebase() -> dict[str, list[str]]:
+async def get_eol_rebase() -> dict[str, list[str]]:
     eol_rebase = database.get_json_key("eol_rebase")
     if eol_rebase is None:
         return {}
@@ -35,7 +35,7 @@ def get_eol_rebase() -> dict[str, list[str]]:
     },
 )
 @cache.cached(ttl=21600)
-def get_eol_rebase_appid(
+async def get_eol_rebase_appid(
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -56,7 +56,7 @@ def get_eol_rebase_appid(
     },
 )
 @cache.cached(ttl=21600)
-def get_eol_message() -> dict[str, str]:
+async def get_eol_message() -> dict[str, str]:
     eol_messages = database.get_json_key("eol_message")
     if eol_messages is None:
         return {}
@@ -72,7 +72,7 @@ def get_eol_message() -> dict[str, str]:
     },
 )
 @cache.cached(ttl=21600)
-def get_eol_message_appid(
+async def get_eol_message_appid(
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -94,7 +94,7 @@ def get_eol_message_appid(
     },
 )
 @cache.cached(ttl=3600)
-def list_appstream(
+async def list_appstream(
     filter: apps.AppType = apps.AppType.APPS,
     sort: apps.SortBy = apps.SortBy.ALPHABETICAL,
 ) -> list[str]:
@@ -122,7 +122,7 @@ def list_appstream(
     },
 )
 @cache.cached(ttl=3600)
-def get_appstream(
+async def get_appstream(
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -188,7 +188,7 @@ def get_appstream(
     },
 )
 @cache.cached(ttl=3600)
-def get_isFullscreenApp(
+async def get_isFullscreenApp(
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -251,7 +251,7 @@ def get_runtime_list() -> dict[str, int]:
     },
 )
 @cache.cached(ttl=3600)
-def get_summary(
+async def get_summary(
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -323,7 +323,7 @@ def get_platforms() -> dict[str, utils.Platform]:
     },
 )
 @cache.cached(ttl=3600)
-def get_addons(app_id: str) -> list[str]:
+async def get_addons(app_id: str) -> list[str]:
     """
     Get a list of addon IDs that are compatible with the specified application.
 

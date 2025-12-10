@@ -865,7 +865,7 @@ def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
         500: {"description": "Internal server error"},
     },
 )
-def verify_by_login_provider(
+async def verify_by_login_provider(
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -918,7 +918,7 @@ def verify_by_login_provider(
 
     if not new_app:
         worker.republish_app.send(app_id)
-        cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
+        await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
 
 
 class LinkResponse(BaseModel):
@@ -1017,7 +1017,7 @@ def setup_website_verification(
         500: {"description": "Internal server error"},
     },
 )
-def confirm_website_verification(
+async def confirm_website_verification(
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -1057,7 +1057,9 @@ def confirm_website_verification(
 
         if not new_app:
             worker.republish_app.send(app_id)
-            cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
+            await cache.mark_stale_by_pattern(
+                "cache:endpoint:get_verification_status:*"
+            )
 
     return result
 
@@ -1075,7 +1077,7 @@ def confirm_website_verification(
         500: {"description": "Internal server error"},
     },
 )
-def unverify(
+async def unverify(
     login=Depends(app_author_only),
     app_id: str = Path(
         min_length=6,
@@ -1102,7 +1104,7 @@ def unverify(
                 db.session.commit()
 
         worker.republish_app.send(app_id)
-        cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
+        await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
 
 
 @router.post(

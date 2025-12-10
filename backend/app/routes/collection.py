@@ -23,7 +23,7 @@ def register_to_app(app: FastAPI):
     },
 )
 @cached(ttl=3600)
-def get_categories() -> list[str]:
+async def get_categories() -> list[str]:
     """Get a list of all available main categories for filtering applications."""
     return [category.value for category in schemas.MainCategory]
 
@@ -37,7 +37,7 @@ def get_categories() -> list[str]:
     },
 )
 @cached(ttl=300)
-def get_category(
+async def get_category(
     category: schemas.MainCategory,
     exclude_subcategories: list[str] = Query(None),
     page: int | None = None,
@@ -79,7 +79,7 @@ def get_category(
     },
 )
 @cached(ttl=300)
-def get_subcategory(
+async def get_subcategory(
     category: schemas.MainCategory,
     subcategory: list[str] = Query(),
     exclude_subcategories: list[str] = Query(None),
@@ -128,7 +128,7 @@ def get_subcategory(
     },
 )
 @cached(ttl=300)
-def get_keyword(
+async def get_keyword(
     keyword: str,
     page: int | None = None,
     per_page: int | None = None,
@@ -166,7 +166,7 @@ def get_keyword(
     },
 )
 @cached(ttl=3600)
-def get_developers(
+async def get_developers(
     page: int | None = None,
     per_page: int | None = None,
     response: Response = Response(),
@@ -200,7 +200,7 @@ def get_developers(
     },
 )
 @cached(ttl=300)
-def get_developer(
+async def get_developer(
     developer: str,
     page: int | None = None,
     per_page: int | None = None,
@@ -238,7 +238,7 @@ def get_developer(
     },
 )
 @cached(ttl=300)
-def get_recently_updated(
+async def get_recently_updated(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -275,7 +275,7 @@ def get_recently_updated(
     },
 )
 @cached(ttl=300)
-def get_recently_added(
+async def get_recently_added(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -312,7 +312,7 @@ def get_recently_added(
     },
 )
 @cached(ttl=300)
-def get_verified(
+async def get_verified(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -350,7 +350,7 @@ def get_verified(
     },
 )
 @cached(ttl=300)
-def get_mobile(
+async def get_mobile(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -388,7 +388,7 @@ def get_mobile(
     },
 )
 @cached(ttl=300)
-def get_popular_last_month(
+async def get_popular_last_month(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -425,7 +425,7 @@ def get_popular_last_month(
     },
 )
 @cached(ttl=300)
-def get_trending_last_two_weeks(
+async def get_trending_last_two_weeks(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -463,7 +463,7 @@ def get_trending_last_two_weeks(
     },
 )
 @cached(ttl=300)
-def get_most_favorited(
+async def get_most_favorited(
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",

@@ -31,7 +31,7 @@ class AppOfTheDay(BaseModel):
     },
 )
 @cache.cached(ttl=21600)
-def get_app_of_the_day(
+async def get_app_of_the_day(
     date: datetime.date = Path(
         examples=[
             "2021-01-01",
@@ -69,7 +69,7 @@ class AppsOfTheWeek(BaseModel):
     },
 )
 @cache.cached(ttl=21600)
-def get_app_of_the_week(
+async def get_app_of_the_week(
     date: datetime.date = Path(
         examples=[
             "2021-01-01",
@@ -113,7 +113,7 @@ class UpsertAppOfTheWeek(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
-def set_app_of_the_week(
+async def set_app_of_the_week(
     body: UpsertAppOfTheWeek,
     moderator=Depends(quality_moderator_only),
 ):
@@ -127,7 +127,7 @@ def set_app_of_the_week(
             body.position,
             moderator.user.id,
         )
-        cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_week:*")
+        await cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_week:*")
 
 
 @router.post(
@@ -141,14 +141,14 @@ def set_app_of_the_week(
         500: {"description": "Internal server error"},
     },
 )
-def set_app_of_the_day(
+async def set_app_of_the_day(
     body: AppOfTheDay,
     _moderator=Depends(quality_moderator_only),
 ) -> AppOfTheDay | None:
     """Sets an app of the day"""
     with get_db("writer") as db:
         app = models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)
-        cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")
+        await cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")
 
         if app:
             return AppOfTheDay(app_id=app.app_id, day=app.date)
