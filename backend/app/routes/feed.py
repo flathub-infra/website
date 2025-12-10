@@ -18,8 +18,8 @@ def register_to_app(app: FastAPI):
         200: {"description": "RSS feed of recently updated applications"},
     },
 )
-def get_recently_updated_apps_feed():
-    feed = generate_feed(
+async def get_recently_updated_apps_feed():
+    feed = await generate_feed(
         "last_updated_at",
         "Flathub – recently updated applications",
         "Recently updated applications published on Flathub",
@@ -39,8 +39,8 @@ def get_recently_updated_apps_feed():
         200: {"description": "RSS feed of recently added applications"},
     },
 )
-def get_new_apps_feed():
-    feed = generate_feed(
+async def get_new_apps_feed():
+    feed = await generate_feed(
         "initial_release_at",
         "Flathub – recently added applications",
         "Applications recently published on Flathub",
@@ -53,7 +53,7 @@ def get_new_apps_feed():
 
 
 @cache.cached(ttl=600)
-def generate_feed(column_name: str, title: str, description: str, link: str):
+async def generate_feed(column_name: str, title: str, description: str, link: str):
     feed = FeedGenerator()
     feed.title(title)
     feed.description(description)

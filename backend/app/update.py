@@ -21,7 +21,7 @@ def register_to_app(app: FastAPI):
 async def update():
     worker.update.send()
     worker.update_quality_moderation.send()
-    cache.mark_stale_by_pattern("cache:endpoint:*")
+    await cache.mark_stale_by_pattern("cache:endpoint:*")
     worker.prepopulate_cache.send()
 
 

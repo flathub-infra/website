@@ -46,7 +46,7 @@ class ErrorDetail(str, Enum):
         200: {"description": "Storefront information for the app"},
     },
 )
-def get_storefront_info(app_id: str) -> StorefrontInfo:
+async def get_storefront_info(app_id: str) -> StorefrontInfo:
     """
     This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
     file and commit metadata.
@@ -57,7 +57,7 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     if parent_id := summary.get_parent_id(app_id):
         app_id = parent_id
 
-    verification = get_verification_status(app_id)
+    verification = await get_verification_status(app_id)
     if verification.verified:
         result.verification = verification
 

@@ -3,8 +3,9 @@ from datetime import datetime, timedelta
 
 import dramatiq
 
-from .. import cache, cron, models
+from .. import cron, models
 from ..database import get_all_appids_for_frontend, get_db
+from .redis import invalidate_cache_by_pattern
 
 
 @cron.cron("0 3 * * *")  # every day at 3am
@@ -74,4 +75,4 @@ def pick_app_of_the_day_automatically(db, day):
 
     if len(oldest_apps) > 0:
         models.AppOfTheDay.set_app_of_the_day(db, oldest_apps[0], day)
-        cache.invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")
+        invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")

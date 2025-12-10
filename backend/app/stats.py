@@ -10,6 +10,7 @@ import orjson
 from app import utils
 
 from . import config, database, models, search, zscore
+from .worker.redis import redis_conn
 
 StatsType = dict[str, dict[str, list[int]]]
 
@@ -45,7 +46,7 @@ def _get_stats_for_date(
             return None
         return stats
     redis_key = f"stats:date:{date.isoformat()}"
-    stats_txt = database.redis_conn.get(redis_key)
+    stats_txt = redis_conn.get(redis_key)
     if stats_txt is None:
         response = session.get(urlunparse(stats_json_url), timeout=30.0)
         if response.status_code == 404:
@@ -57,7 +58,7 @@ def _get_stats_for_date(
             if date > datetime.date.today() + datetime.timedelta(days=-7)
             else None
         )
-        database.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
+        redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
         stats = orjson.loads(stats_txt)
     return stats
@@ -279,7 +280,7 @@ def get_popular(days: int | None):
     )
 
     popular = [k for k, v in sorted_apps]
-    database.redis_conn.set(redis_key, orjson.dumps(popular), ex=60 * 60)
+    redis_conn.set(redis_key, orjson.dumps(popular), ex=60 * 60)
     return popular
 
 
@@ -598,5 +599,5 @@ def update(sqldb):
                 else:
                     stats_apps_dict[new_id]["installs_per_country"][country] = count
 
-    database.redis_conn.set("stats", orjson.dumps(stats_dict))
+    redis_conn.set("stats", orjson.dumps(stats_dict))
     database.bulk_set_app_stats(stats_apps_dict)
