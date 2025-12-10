@@ -509,7 +509,7 @@ def get_verified_apps():
     },
 )
 @cache.cached(ttl=3600)
-def get_verification_status(
+async def get_verification_status(
     app_id: str = Path(
         min_length=6,
         max_length=255,
