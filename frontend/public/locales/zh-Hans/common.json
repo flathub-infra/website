@@ -19,7 +19,7 @@
   "installed-size": "安装大小",
   "available-architectures": "可用架构",
   "downloads": "下载",
-  "license": "许可证",
+  "license": "许可",
   "project-website": "项目网站",
   "contact": "联系",
   "help": "帮助",
@@ -565,9 +565,9 @@
   "new-apps": "新应用",
   "developers-and-users-block": "与开发团队及社区的其他成员联系起来，询问问题、分享专业知识",
   "updated-apps": "最近更新的应用",
-  "special-license": "特殊许可证",
-  "special-license-explanation": "此应用在特殊许可证<bold>{ license }</bold>下开发。",
-  "you-may-or-may-not-be-able-to-contribute": "你也许可以为此应用做出贡献，也可能无法这么做。",
+  "special-license": "特殊许可",
+  "special-license-explanation": "此应用在特殊许可 <bold>{ license }</bold> 下开发。",
+  "you-may-or-may-not-be-able-to-contribute": "您也许可以为此应用做出贡献，也可能无法这么做。",
   "more-popular": "更多人气应用",
   "more-trending": "更多飙升应用",
   "more-new": "更多新应用",
@@ -684,5 +684,8 @@
   "see-all-results": "查看所有结果",
   "default-account": "默认",
   "set-as-default": "设为默认",
-  "default-account-changed": "默认账号已成功更改"
+  "default-account-changed": "默认账号已成功更改",
+  "or-enter-custom-amount": "或输入自定义金额",
+  "payment-details": "支付详情",
+  "special-code-description": "此应用在特殊许可下开发。源代码可能公开也可能不公开。"
 }

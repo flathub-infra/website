@@ -686,5 +686,6 @@
   "set-as-default": "Sett som standard",
   "default-account-changed": "Standardkonto endret",
   "or-enter-custom-amount": "Eller legg inn en egendefinert konto",
-  "payment-details": "Betalingsinformasjon"
+  "payment-details": "Betalingsinformasjon",
+  "special-code-description": "Denne applikasjonen er utviklet under en spesiell lisens. Det kan hende at kildekoden ikke er offentliggjort."
 }
