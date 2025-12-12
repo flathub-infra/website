@@ -1726,12 +1726,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/preview-server@npm:5.0.6":
-  version: 5.0.6
-  resolution: "@react-email/preview-server@npm:5.0.6"
+"@react-email/preview-server@npm:5.0.7":
+  version: 5.0.7
+  resolution: "@react-email/preview-server@npm:5.0.7"
   dependencies:
     next: "npm:16.0.7"
-  checksum: 10c0/cda785af82684370d4ce4eddee0f994ebdc4b59717b7947520e3fa1442b009cd9b57d004f0ef2807c1f7bc8f855ea2fa122693058eba9c5c1c3a2bc2cbc9d7d9
+  checksum: 10c0/48e450f0dcd81a16932030de25d735083469e9ec1ed052a545da1e1e8263a476c6ab9d6e85da9a874a097eccbcc351af3a086093c43f3f5d3f5942662859b710
   languageName: node
   linkType: hard
 
@@ -4411,9 +4411,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:5.0.6":
-  version: 5.0.6
-  resolution: "react-email@npm:5.0.6"
+"react-email@npm:5.0.7":
+  version: 5.0.7
+  resolution: "react-email@npm:5.0.7"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -4434,7 +4434,7 @@ __metadata:
     tsconfig-paths: "npm:4.2.0"
   bin:
     email: dist/index.js
-  checksum: 10c0/06b5861248808d24d2b2073304b128f3cbc2509e19cf78f535adbf406e61107b6e4c9e7d62ece8d2ccdcb75dcefc92167060f38438d80504fa10095dc59b126f
+  checksum: 10c0/a9d15a6ed43ca6541cfc9250e1267e96bbf7bda95e30a27268a6c5cbd52a11702b4f00f0020e9bb26c92bca66e41e12d6f3469487f81d8ef386f2c97317085a9
   languageName: node
   linkType: hard
 
@@ -4499,7 +4499,7 @@ __metadata:
     "@hono/swagger-ui": "npm:0.5.2"
     "@hono/zod-openapi": "npm:^1.1.5"
     "@react-email/components": "npm:1.0.1"
-    "@react-email/preview-server": "npm:5.0.6"
+    "@react-email/preview-server": "npm:5.0.7"
     "@react-email/render": "npm:2.0.0"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^7.0.4"
@@ -4514,7 +4514,7 @@ __metadata:
     prettier: "npm:3.7.4"
     react: "npm:19.2.3"
     react-dom: "npm:19.2.3"
-    react-email: "npm:5.0.6"
+    react-email: "npm:5.0.7"
     tsx: "npm:^4.21.0"
     typescript: "npm:^5.9.3"
     zod: "npm:^4.1.13"
