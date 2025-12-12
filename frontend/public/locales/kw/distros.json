@@ -1,0 +1,74 @@
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Lea Flatpak"
+    },
+    "step-4": {
+      "name": "Dastalleth"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Dastalleth"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Lea Flatpak"
+    },
+    "step-3": {
+      "name": "Dastalleth"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-3": {
+      "name": "Lea Flatpak"
+    },
+    "step-5": {
+      "name": "Dastalleth"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Lea Flatpak"
+    },
+    "step-3": {
+      "name": "Dastalleth"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Lea Flatpak"
+    },
+    "step-2": {
+      "name": "Dastalleth"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Lea Flatpak"
+    },
+    "step-4": {
+      "name": "Dastalleth"
+    }
+  }
+}

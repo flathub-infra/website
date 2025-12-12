@@ -684,5 +684,8 @@
   "see-all-results": "Alle resultaten bekĳken",
   "default-account": "Standaard­account",
   "set-as-default": "Instellen als standaard",
-  "default-account-changed": "Standaard­account succesvol ingesteld"
+  "default-account-changed": "Standaard­account succesvol ingesteld",
+  "or-enter-custom-amount": "Of voer een aangepast bedrag in",
+  "payment-details": "Betalings­gegevens",
+  "special-code-description": "Deze app is ontwikkeld onder een speciale licentie. De bron­code is mogelĳk niet open­baar."
 }

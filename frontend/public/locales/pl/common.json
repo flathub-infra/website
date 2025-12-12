@@ -684,5 +684,8 @@
   "see-all-results": "Zobacz wszystkie wyniki",
   "default-account-changed": "Domyślne konto zostało pomyślnie zmienione",
   "default-account": "Domyślne",
-  "set-as-default": "Ustaw jako domyślne"
+  "set-as-default": "Ustaw jako domyślne",
+  "or-enter-custom-amount": "Lub wprowadź własną kwotę",
+  "payment-details": "Szczegóły płatności",
+  "special-code-description": "Ta aplikacja jest rozwijana na podstawie specjalnej licencji. Kod źródłowy może być publiczny lub nie."
 }

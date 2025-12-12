@@ -686,5 +686,6 @@
   "set-as-default": "Määra vaikimisi kasutajakontoks",
   "default-account-changed": "Vaikimisi kasutajakonto muutmine õnnestus",
   "or-enter-custom-amount": "Või sisesta sinu poolt määratud kogus",
-  "payment-details": "Makse üksikasjad"
+  "payment-details": "Makse üksikasjad",
+  "special-code-description": "Rakendust arendatakse eraldi määratud litsentsi alusel. Lähtekood võib, kuid ei pruugi olla avatud ja avalik."
 }

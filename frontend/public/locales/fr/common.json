@@ -686,5 +686,6 @@
   "set-as-default": "Définir par défaut",
   "default-account-changed": "Compte par défaut modifié avec succès",
   "or-enter-custom-amount": "Ou renseignez un montant personnalisé",
-  "payment-details": "Modalités de paiement"
+  "payment-details": "Modalités de paiement",
+  "special-code-description": "Cette app est soumise à une licence spéciale. Le code source peut être public ou privé."
 }

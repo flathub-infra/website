@@ -684,5 +684,8 @@
   "see-all-results": "Zobrazit všechny výsledky",
   "default-account": "Výchozí",
   "set-as-default": "Nastavit jako výchozí",
-  "default-account-changed": "Výchozí účet byl úspěšně změněn"
+  "default-account-changed": "Výchozí účet byl úspěšně změněn",
+  "or-enter-custom-amount": "Nebo zadejte vlastní množství",
+  "payment-details": "Detaily platby",
+  "special-code-description": "Tato aplikace je vyvíjena pod zvláštní licencí. Zdrojový kód může i nemusí být veřejně dostupný."
 }

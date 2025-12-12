@@ -400,7 +400,8 @@
     "problems": "Se desideri porci domande su specifici problemi relativi alle linee guida sulla qualità, sentiti libero di aprire <link>un problema</link>.",
     "light": "Chiaro",
     "dark": "Scuro",
-    "general-runtime-not-eol": "Runtime non a fine vita"
+    "general-runtime-not-eol": "Runtime non a fine vita",
+    "failing-x-checks": "Fallimento {count, plural, one {# check} altro {# checks}}"
   },
   "audio-video-editing": "Montaggio Audio e Video",
   "appname-is-safety-rating-1": "{appName} è sicuro",
@@ -680,8 +681,11 @@
   "vending": {
     "purchase-not-available": "Questa applicazione non è disponibile per l'acquisto."
   },
-  "see-all-results": "See all results",
+  "see-all-results": "Vedi tutti i risultati",
   "default-account": "Predefinito",
   "set-as-default": "Imposta come predefinito",
-  "default-account-changed": "Account predefinito modificato con successo"
+  "default-account-changed": "Account predefinito modificato con successo",
+  "or-enter-custom-amount": "Oppure inserisci un importo personalizzato",
+  "payment-details": "Dettagli di pagamento",
+  "special-code-description": "Questa app è sviluppata con una licenza speciale. Il codice sorgente potrebbe essere pubblico o meno."
 }
