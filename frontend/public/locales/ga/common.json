@@ -686,5 +686,6 @@
   "set-as-default": "Socraigh mar Réamhshocrú",
   "default-account-changed": "Athraíodh an cuntas réamhshocraithe go rathúil",
   "or-enter-custom-amount": "Nó cuir isteach méid saincheaptha",
-  "payment-details": "Sonraí Íocaíochta"
+  "payment-details": "Sonraí Íocaíochta",
+  "special-code-description": "Forbraíodh an aip seo faoi cheadúnas speisialta. Féadfaidh an cód foinse a bheith poiblí nó gan a bheith."
 }

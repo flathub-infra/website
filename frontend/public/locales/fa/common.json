@@ -684,5 +684,8 @@
   "default-account-changed": "حساب پیش‌گزیده با موفّقیت عوض شد",
   "see-all-results": "دیدن همهٔ نتیجه‌ها",
   "default-account": "پیش‌گزیده",
-  "set-as-default": "تنظیم به پیش‌گزیده"
+  "set-as-default": "تنظیم به پیش‌گزیده",
+  "or-enter-custom-amount": "یا ورود مقداری سفارشی",
+  "payment-details": "جزییات پرداخت",
+  "special-code-description": "این کاره با پروانه‌ای ویژه توسعه داده شده. ممکن است کد مبدأ عمومی نباشد."
 }

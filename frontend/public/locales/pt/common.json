@@ -686,5 +686,6 @@
   "set-as-default": "Definir como predefinição",
   "default-account-changed": "A predefinição da conta foi alterada com sucesso",
   "or-enter-custom-amount": "Ou insira uma quantia personalizada",
-  "payment-details": "Detalhes do pagamento"
+  "payment-details": "Detalhes do pagamento",
+  "special-code-description": "Esta aplicação é desenvolvida sob uma licença especial. O código-fonte pode, ou não, estar disponível publicamente."
 }

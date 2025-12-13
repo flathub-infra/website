@@ -669,5 +669,8 @@
   "see-all-results": "Shihni krejt përfundimet",
   "default-account": "Parazgjedhje",
   "set-as-default": "Vëre si Parazgjedhje",
-  "default-account-changed": "Llogaria parazgjedhje u ndryshua me sukses"
+  "default-account-changed": "Llogaria parazgjedhje u ndryshua me sukses",
+  "special-code-description": "Ky aplikacion zhvillohet sipas një licence speciale. Kodi burim mund të jetë, ose jo publik.",
+  "or-enter-custom-amount": "Ose jepni një sasi vetjake",
+  "payment-details": "Hollësi Pagese"
 }

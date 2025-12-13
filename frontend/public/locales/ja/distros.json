@@ -98,6 +98,163 @@
     "step-1": {
       "name": "Flatpakをインストール"
     },
-    "distroName": "openSUSE"
+    "distroName": "openSUSE",
+    "step-2": {
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>FlathubはFlatpakアプリを入手する最適な場所です。以下を実行してください。</text> <code></code>"
+    },
+    "step-3": {
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Flatpakをインストール",
+      "text": "<text>Flatpakパッケージは、Debian 10 (Buster) およびそれ以降で利用可能です。インストールするには、rootとして以下を実行してください。</text> <code></code>"
+    },
+    "step-2": {
+      "name": "ソフトウェアFlatpakプラグインをインストール"
+    },
+    "step-3": {
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。これを有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、端末で以下を実行してください: </text> <code></code>"
+    },
+    "step-4": {
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "step-2": {
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。これを有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、端末で以下を実行してください: </text> <code></code>"
+    },
+    "step-3": {
+      "name": "再起動",
+      "text": "<text>セットアップを完了するため、システムを再起動します。あとは<link>アプリをインストールする</link>だけです!</text>"
+    }
+  },
+  "gentoo": {
+    "step-3": {
+      "name": "再起動"
+    },
+    "distroName": "Gentoo",
+    "step-2": {
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。これを有効にするには、以下を実行してください。</text> <code></code>"
+    }
+  },
+  "kubuntu": {
+    "step-4": {
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
+    },
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "distroName": "Kubuntu",
+    "step-3": {
+      "name": "Flathubリポジトリを追加"
+    }
+  },
+  "solus": {
+    "step-3": {
+      "name": "再起動"
+    },
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "step-2": {
+      "name": "Flathubリポジトリを追加"
+    }
+  },
+  "alpine": {
+    "step-4": {
+      "name": "再起動"
+    },
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "step-2": {
+      "name": "ソフトウェアFlatpakプラグインをインストール"
+    },
+    "step-3": {
+      "name": "Flathubリポジトリを追加"
+    }
+  },
+  "mageia": {
+    "step-3": {
+      "name": "再起動"
+    },
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "step-2": {
+      "name": "Flathubリポジトリを追加"
+    }
+  },
+  "void_linux": {
+    "step-3": {
+      "name": "再起動"
+    }
+  },
+  "raspberry_pi_os": {
+    "step-3": {
+      "name": "再起動"
+    },
+    "distroName": "Raspberry Pi OS"
+  },
+  "deepin": {
+    "step-4": {
+      "name": "再起動"
+    }
+  },
+  "pardus": {
+    "step-4": {
+      "name": "再起動"
+    }
+  },
+  "mx_linux": {
+    "step-2": {
+      "name": "再起動"
+    }
+  },
+  "pisi_gnulinux": {
+    "step-3": {
+      "name": "再起動"
+    }
+  },
+  "endeavouros": {
+    "step-3": {
+      "name": "再起動"
+    }
+  },
+  "gnu_guix": {
+    "step-3": {
+      "name": "再起動"
+    }
+  },
+  "crystal_linux": {
+    "step-3": {
+      "name": "再起動"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS"
   }
 }
