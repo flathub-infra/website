@@ -290,6 +290,11 @@ export default {
         icon: getLanguageFlag("gl"),
         right: "gl",
       },
+      kw: {
+        title: getLanguageName("kw"),
+        icon: getLanguageFlag("kw"),
+        right: "kw",
+      },
     },
   },
   parameters: {
