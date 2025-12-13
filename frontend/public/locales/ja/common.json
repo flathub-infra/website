@@ -262,7 +262,7 @@
   "moderation-value": "値",
   "moderation-pending-reviews": "審査待ち",
   "moderation-rejected-by": "{handledBy}により却下されました。{handledAt} ({handledAtRel})",
-  "moderation-outdated": "古い",
+  "moderation-outdated": "期限切れ",
   "moderation-appstream-changes": "アップストリームの変更",
   "moderation-appstream": "AppStream",
   "moderation-no-review-requests": "このアプリには審査はありません。",
@@ -349,7 +349,7 @@
   "information": "情報",
   "links": "リンク",
   "learn-more": "詳細",
-  "issued-to": "発行期限",
+  "issued-to": "発行先",
   "legacy-windowing-system-description": "古いウィンドウシステムを使用",
   "can-read-all-data-on-file-system": "ファイルシステム上の全データを読み取り可能",
   "public-share-subfolder-x": "公開共有サブフォルダー {folder}",
@@ -405,7 +405,8 @@
     "branding-good-primary-brand-colors": "良好なメインブランドカラー",
     "problems": "具体的な品質ガイドラインの問題について質問があれば、自由に<link>issue</link>を投稿してください。",
     "light": "ライト",
-    "dark": "ダーク"
+    "dark": "ダーク",
+    "general-runtime-not-eol": "ランタイムはサポート期限切れではありません"
   },
   "user-data-subfolder-x": "ユーザーデータサブフォルダー {folder}",
   "can-acquire-arbitrary-permissions": "任意の権限を取得可能",
@@ -424,7 +425,7 @@
   "invite-not-found-description": "承認または辞退するための招待がありません。キャンセルされたか、辞退した可能性があります。",
   "music-subfolder-x": "音楽サブフォルダー {folder}",
   "desktop-subfolder-x": "デスクトップサブフォルダー {folder}",
-  "issued": "発行",
+  "issued": "発行済み",
   "system-folder-x": "システムフォルダー {folder}",
   "user-configuration-folder": "ユーザー設定フォルダー",
   "no-user-device-access-description": "アプリはカメラやゲーム用コントローラーなどのユーザーのデバイスにアクセスできません",
@@ -462,12 +463,12 @@
   "can-read-all-data": "ディレクトリの全データを読み取り可能",
   "scope-publish": "ビルドの公開",
   "leave": "抜ける",
-  "invite-pending": "招待の待機中",
+  "invite-pending": "招待 保留中",
   "accept-invite": "招待を承認",
   "no-tokens-to-show": "表示できるトークンなし。",
   "proprietary-explanation": "このアプリの開発はオープンではありません。そのため、このアプリがどう動作しているかは開発者しか知りません。検出を難しくしており安全でなかったり、監視なく機能が変更される可能性があります。",
   "host-system-folders": "ホストシステムフォルダー",
-  "token-creation-placeholder": "名前の一覧を改行で区切って入力し、それぞれが新しい所有者トークンを識別します。",
+  "token-creation-placeholder": "新しい所有権トークンを識別するための名前を、それぞれ別々の行に入力してください。",
   "can-request-data-from-system-services": "システムサービスにデータを要求可能",
   "revoke-token-description": "本当にトークン「{name}」を取り消しますか？",
   "user-not-found": "ユーザーが見つかりません",
@@ -522,7 +523,8 @@
   "trending-apps": "急上昇中のアプリ",
   "scope-jobs": "ジョブのステータス",
   "developer-portal": {
-    "title": "開発者ポータル"
+    "title": "開発者ポータル",
+    "runtime-version": "ランタイム: {version}"
   },
   "news": "ニュース",
   "new-apps": "新着アプリ",
@@ -640,7 +642,14 @@
   },
   "count-verified-desktop-apps": "認証済みデスクトップアプリ数",
   "vendingSharesPreview": {
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "sliderLabel": "分配シェア設定スライダー",
+    "sliderThumbLabel": "アプリ分配シェア: {percentage}",
+    "app": "アプリ",
+    "appShare": "アプリのシェア: {percentage}",
+    "sdkShare": "SDKのシェア: {percentage}",
+    "flathubShare": "Flathubのシェア: {percentage}",
+    "screenReaderBreakdown": "シェアの内訳設定スライダー。矢印キーを使用して、アプリ、SDK、Flathub間の分配を調整してください。現在の内訳: アプリ: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}。総費用: {totalCost}。"
   },
   "or-enter-custom-amount": "または任意の金額を入力",
   "count": "件数",
@@ -653,5 +662,28 @@
   "default-account": "既定",
   "country-statistics": "国別統計",
   "see-all-results": "すべての結果を見る",
-  "set-as-default": "既定に設定"
+  "set-as-default": "既定に設定",
+  "position-short": "項目番号",
+  "unauthorized": "認証されていません",
+  "redeem-token": "トークンを引き換える",
+  "status-redeemed": "引き換え済み",
+  "status-unredeemed": "未引き換え",
+  "token-redeemed": "トークンが正常に引き換えられました",
+  "token-failed": "トークンの引き換えに失敗しました",
+  "install-all-favorites": "お気に入りをすべてインストール",
+  "install-all-favorites-description": "お気に入りのアプリをすべて一度にインストールするには、このコマンドをコピーしてください:",
+  "no-favorites-yet": "まだお気に入りのアプリがありません。好きなアプリのブックマークアイコンをクリックして追加しましょう！",
+  "uses-privileged-socket": "特権ソケットを使用",
+  "uses-non-portal-service": "非ポータルサービスを使用",
+  "can-talk-to-non-portal-service": "非ポータルサービスからデータを要求し、追加の権限を取得できます",
+  "socket-may-allow-extra-permissions": "追加の権限を取得できるソケットを使用",
+  "not-onboarded": "まずオンボーディングを完了してください",
+  "rebase-onto-other-app": "アプリケーションの再構築先のアプリIDを入力してください",
+  "special-code-description": "このアプリは特別なライセンスの下で開発されています。ソースコードが公開されているかどうかは不明です。",
+  "download": {
+    "install-x": "「{x}」をインストール"
+  },
+  "vending": {
+    "purchase-not-available": "このアプリケーションは購入できません。"
+  }
 }
