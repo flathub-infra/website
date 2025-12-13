@@ -299,7 +299,7 @@
   "flos": "自由與開放原始碼",
   "filters": "過濾條件",
   "moderation-outdated": "過期",
-  "runtime-distribution": "執行時期散布版",
+  "runtime-distribution": "執行環境分布",
   "flathub-index-description": "為任何 Linux 散布版取得您最愛應用程式的最新版本",
   "app-eol": "此應用程式不再於 Flathub 上提供",
   "distribution-flathub-setup": "{distribution} Flathub 設定",
@@ -581,9 +581,9 @@
   "more-apps-by-developer": "{developer} 的更多應用程式",
   "more-trending": "更多熱門的",
   "more-popular": "更多受歡迎的",
-  "more-new": "更多新品",
+  "more-new": "更多新上架",
   "more-updated": "更多更新",
-  "flathub-statistics-description": "平台上可用應用程式的使用與散布概覽。",
+  "flathub-statistics-description": "平台上可用應用程式的使用概況與分布概覽。",
   "more-pages": "更多頁面",
   "carousel": "輪播",
   "slide": "投影片",
@@ -652,18 +652,18 @@
   },
   "count-verified-desktop-apps": "已驗證的桌面應用程式",
   "vendingSharesPreview": {
-    "sliderLabel": "分享分佈滑桿",
+    "sliderLabel": "分享分布滑桿",
     "sdk": "SDK",
     "appShare": "應用程式分享：{percentage}",
     "sdkShare": "SDK 分享：{percentage}",
     "flathubShare": "Flathub 分享：{percentage}",
-    "sliderThumbLabel": "應用程式分享分佈：{percentage}",
+    "sliderThumbLabel": "應用程式分享分布：{percentage}",
     "app": "應用程式",
-    "screenReaderBreakdown": "分享細分滑桿。使用箭頭鍵調整應用程式、SDK 與 Flathub 之間的分佈。目前的分佈： App：{appPercentage}，SDK：{sdkPercentage}，Flathub：{flathubPercentage}。總花費：{totalCost}。"
+    "screenReaderBreakdown": "分享細分滑桿。使用箭頭鍵調整應用程式、SDK 與 Flathub 之間的分布。目前的分布： App：{appPercentage}，SDK：{sdkPercentage}，Flathub：{flathubPercentage}。總花費：{totalCost}。"
   },
   "download": {
     "install-x": "安裝「{x}」",
-    "fallback-instructions": "<opening>正於您的軟體管理程式開啟「{name}」……</opening><support>若沒有反應，代表您的系統可能不支援 <i>flatpak+https</i> URL。</support><listPrefix>在這種情況下，您可以：</listPrefix><ol><li>下載 <link>.flatpakref</link> 檔案</li><li>然後在您的檔案管理程式中執行該檔案</li></ol><setupLine><linkSetup>安裝 Flatpak 的說明</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>正於您的軟體管理員開啟「{name}」……</opening><support>若沒有反應，代表您的系統可能不支援 <i>flatpak+https</i> URL。</support><listPrefix>在這種情況下，您可以：</listPrefix><ol><li>下載 <link>.flatpakref</link> 檔案</li><li>然後在您的檔案管理程式中執行該檔案</li></ol><setupLine><linkSetup>安裝 Flatpak 的說明</linkSetup></setupLine>"
   },
   "country-statistics": "國家統計",
   "since-x": "從 {date} 開始",

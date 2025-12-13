@@ -641,5 +641,17 @@
   "count-verified-desktop-apps": "認証済みデスクトップアプリ数",
   "vendingSharesPreview": {
     "sdk": "SDK"
-  }
+  },
+  "or-enter-custom-amount": "または任意の金額を入力",
+  "count": "件数",
+  "since-x": "{date} 以降",
+  "positions": "項目",
+  "default-account-changed": "既定のアカウントが正常に変更されました",
+  "payment-details": "お支払い情報",
+  "unverified-tooltip": "<appid></appid> のApp IDの所有権は検証されておらず、コミュニティパッケージである可能性があります",
+  "developed-by": "開発元: {developer}",
+  "default-account": "既定",
+  "country-statistics": "国別統計",
+  "see-all-results": "すべての結果を見る",
+  "set-as-default": "既定に設定"
 }
