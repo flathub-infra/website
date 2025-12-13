@@ -4,10 +4,9 @@ from http import HTTPStatus
 from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel
 
-from .. import models
+from .. import cache, models
 from ..database import get_db
 from ..login_info import logged_in
-from .. import cache
 
 router = APIRouter()
 
@@ -24,7 +23,7 @@ def register_to_app(app):
         500: {"description": "Internal server error"},
     },
 )
-def add_to_favorites(
+async def add_to_favorites(
     app_id: str,
     login=Depends(logged_in),
 ):
@@ -35,6 +34,11 @@ def add_to_favorites(
         try:
             models.UserFavoriteApp.add_app(db_session, login["user"].id, app_id)
             db_session.commit()
+
+            # Invalidate the favorites count cache for this app
+            await cache.invalidate_cache_by_pattern(
+                f"cache:endpoint:get_app_favorites_count:*{app_id}*"
+            )
 
             return Response(status_code=HTTPStatus.OK)
         except Exception:
@@ -50,7 +54,7 @@ def add_to_favorites(
         500: {"description": "Internal server error"},
     },
 )
-def remove_from_favorites(
+async def remove_from_favorites(
     app_id: str,
     login=Depends(logged_in),
 ):
@@ -61,6 +65,11 @@ def remove_from_favorites(
         try:
             models.UserFavoriteApp.remove_app(db_session, login["user"].id, app_id)
             db_session.commit()
+
+            # Invalidate the favorites count cache for this app
+            await cache.invalidate_cache_by_pattern(
+                f"cache:endpoint:get_app_favorites_count:*{app_id}*"
+            )
 
             return Response(status_code=HTTPStatus.OK)
         except Exception:
@@ -111,6 +120,7 @@ def is_favorited(
             db_session, login["user"].id, app_id
         )
 
+
 @router.get(
     "/favorites/{app_id}/count",
     tags=["app"],
@@ -118,7 +128,6 @@ def is_favorited(
         200: {"description": "Number of users who favorited the app"},
     },
 )
-
 @cache.cached(ttl=3600)
 async def get_app_favorites_count(
     app_id: str,
@@ -127,7 +136,9 @@ async def get_app_favorites_count(
     Get the total number of users who have favorited a specific app.
     """
     with get_db("replica") as db_session:
-        count = db_session.query(models.UserFavoriteApp).filter(
-            models.UserFavoriteApp.app_id == app_id
-        ).count()
+        count = (
+            db_session.query(models.UserFavoriteApp)
+            .filter(models.UserFavoriteApp.app_id == app_id)
+            .count()
+        )
         return {"favorites_count": count}
