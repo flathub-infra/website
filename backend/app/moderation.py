@@ -500,6 +500,13 @@ def submit_review_request(
                                     current_values[f"{key}-{perm}"] = current_val
                                     keys[f"{key}-{perm}"] = build_val
 
+            current_arches = set(current_summary.get("arches", []))
+            build_arches = set(build_summary_app.get("arches", []))
+
+            if current_arches != build_arches:
+                current_values["arches"] = list(current_arches)
+                keys["arches"] = list(build_arches)
+
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
