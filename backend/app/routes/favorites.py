@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from .. import models
 from ..database import get_db
 from ..login_info import logged_in
+from .. import cache
 
 router = APIRouter()
 
@@ -109,3 +110,24 @@ def is_favorited(
         return models.UserFavoriteApp.is_favorited_by_user(
             db_session, login["user"].id, app_id
         )
+
+@router.get(
+    "/favorites/{app_id}/count",
+    tags=["app"],
+    responses={
+        200: {"description": "Number of users who favorited the app"},
+    },
+)
+
+@cache.cached(ttl=3600)
+async def get_app_favorites_count(
+    app_id: str,
+) -> dict:
+    """
+    Get the total number of users who have favorited a specific app.
+    """
+    with get_db("replica") as db_session:
+        count = db_session.query(models.UserFavoriteApp).filter(
+            models.UserFavoriteApp.app_id == app_id
+        ).count()
+        return {"favorites_count": count}
