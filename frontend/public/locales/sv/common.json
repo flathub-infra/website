@@ -187,7 +187,9 @@
   "join-discourse-forum": "Gå med i Discourse-forumet",
   "chat-on-matrix": "Chatta på Matrix",
   "news": "Nyheter",
-  "developer-portal": { "title": "Utvecklarportal" },
+  "developer-portal": {
+    "title": "Utvecklarportal"
+  },
   "archive-app": "Arkivera den här appen",
   "developers-and-users-block": "Kom i kontakt med vårt team och andra medlemmar i vår gemenskap för att ställa frågor och dela med dig av din kunskap",
   "confirm": "Bekräfta",

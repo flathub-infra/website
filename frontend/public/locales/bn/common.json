@@ -335,7 +335,9 @@
   "name": "নাম",
   "expires": "মেয়াদোত্তীর্ণ হয়",
   "confirm": "নিশ্চিতকরণ",
-  "developer-portal": { "title": "ডেভেলপার প্রবেশদ্বার" },
+  "developer-portal": {
+    "title": "ডেভেলপার প্রবেশদ্বার"
+  },
   "unverified": "অপরীক্ষিত",
   "flathub-logo": "Flathub লোগো",
   "mastodon": "মাস্টোডন",

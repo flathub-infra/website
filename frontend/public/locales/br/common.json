@@ -31,7 +31,9 @@
   "rss-feeds": "Gwazhioù RSS",
   "community": "Kumuniezh",
   "developers": "Diorroerien",
-  "developer-portal": { "title": "Porched diorroerien" },
+  "developer-portal": {
+    "title": "Porched diorroerien"
+  },
   "documentation": "Teuliadur",
   "statistics": "Stadegoù",
   "country-statistics": "Stadegoù dre vroioù",

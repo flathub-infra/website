@@ -304,5 +304,7 @@
   "close": "Bağla",
   "developer-invited": "Sizi developer olmağa dəvət ediblər",
   "news": "Xəbərlər",
-  "developer-portal": { "title": "Tərtibatçı Portalı" }
+  "developer-portal": {
+    "title": "Tərtibatçı Portalı"
+  }
 }
