@@ -56,4 +56,5 @@ LOCALES = [
     "fil",
     "br",
     "gl",
+    "kw",
 ]

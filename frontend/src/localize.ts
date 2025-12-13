@@ -101,6 +101,7 @@ export type Language =
   | "fil"
   | "br"
   | "gl"
+  | "kw"
 
 export const fontLanguageDenyList = ["ar", "fa", "ckb"]
 
@@ -158,6 +159,7 @@ export const languages: Language[] = [
   "fil",
   "br",
   "gl",
+  "kw",
 ]
 
 export function getDateFnsLocale(language?: string): Locale {
@@ -268,6 +270,8 @@ export function getDateFnsLocale(language?: string): Locale {
       return enGB // date-fns has no Breton locale
     case "gl":
       return gl
+    case "kw":
+      return enGB // date-fns has no Cornish locale
 
     default:
       return enGB
@@ -382,6 +386,8 @@ export function bcpToPosixLocale(language?: string): string {
       return "br"
     case "gl":
       return "gl_GL"
+    case "kw":
+      return "kw_GB"
 
     default:
       return "en_US"
@@ -495,6 +501,8 @@ export function getLanguageFlag(language: Language): string {
     case "br":
       return ""
     case "gl":
+      return ""
+    case "kw":
       return ""
   }
 }
@@ -635,6 +643,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("br")
     case "gl":
       return new Intl.Locale("gl")
+    case "kw":
+      return new Intl.Locale("kw")
 
     default:
       return new Intl.Locale("en")
