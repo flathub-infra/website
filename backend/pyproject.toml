@@ -10,7 +10,7 @@ requires-python = "<4.0,>=3.13"
 dependencies = [
     "fastapi<1.0.0,>=0.115.8",
     "sentry-sdk[httpx]<3.0.0,>=2.22.0",
-    "lxml<6.0.0,>=5.3.1",
+    "lxml>=5.3.1,<7.0.0",
     "requests<3.0.0,>=2.32.3",
     "redis>=5.2.1,<8.0.0",
     "feedgen<2.0.0,>=1.0.0",
