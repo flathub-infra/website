@@ -18,6 +18,7 @@ import { logger } from "hono/logger"
 import { sentry } from "@hono/sentry"
 import { env } from "hono/adapter"
 import { fromUnixTime, isBefore, subDays } from "date-fns"
+import { checkDuplicate, markAsSent } from "./email-dedup"
 
 const RequestSchema = z.object({
   requestType: z.literal("appdata"),
@@ -254,6 +255,12 @@ app.openapi(route, async (c) => {
     return c.json({})
   }
 
+  // Check for duplicate emails (prevents retries from sending duplicates)
+  if (checkDuplicate(messageId, to)) {
+    console.info(`Skipping duplicate email: ${messageId} to ${to}`)
+    return c.json({}, 200)
+  }
+
   let emailHtml: string | undefined = undefined
 
   if (messageInfo.category === "security_login") {
@@ -351,6 +358,10 @@ app.openapi(route, async (c) => {
     references:
       "references" in messageInfo ? messageInfo.references : undefined,
   })
+
+  // Only mark as sent after successful SMTP delivery
+  // If sendMail fails, markAsSent is not called, allowing retries
+  markAsSent(messageId, to)
 
   // c.status(204)
   return c.json({}, 200)
