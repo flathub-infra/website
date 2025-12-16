@@ -164,6 +164,8 @@ class Icon(BaseModel):
 
 
 class Metadata(BaseModel):
+    model_config = {"populate_by_name": True, "serialize_by_alias": True}
+
     flathub_manifest: str | None = Field(None, alias="flathub::manifest")
     flathub_verification_verified: bool | None = Field(
         None, alias="flathub::verification::verified"
@@ -186,9 +188,6 @@ class Metadata(BaseModel):
     flathub_verification_login_is_organization: bool | None = Field(
         None, alias="flathub::verification::login_is_organization"
     )
-
-    class Config:
-        populate_by_name = True
 
 
 class DesktopAppstream(BaseModel):
