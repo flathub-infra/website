@@ -230,7 +230,7 @@
   "desktop-application": "デスクトップアプリ",
   "new-app": "新しいアプリ",
   "community-repository": "コミュニティのリポジトリ",
-  "community-repository-description": "あなたのアプリを Flathub にアップロードするには、Flatpak 用の manifest と対応ファイルを GitHub のリポジトリにアップロードします。Flathub のビルド用ボットがビルドを行い、Flathub上に公開します。",
+  "community-repository-description": "Flatpakのマニフェストとサポートファイルを、私たちのGitHub組織内のリポジトリにアップロードすることで、アプリをFlathubにアップロードしてください。Flathubのビルドサービスがそのアプリをビルドし、Flathubに公開します。",
   "direct-upload-description": "あなたの継続的統合環境からアプリをビルドし、Flathubに直接アップロードします。",
   "new-direct-upload": "新しい直接アップロードアプリ",
   "app-id": "アプリID",
@@ -238,8 +238,8 @@
   "app-id-instructions": "アプリIDにはドメイン名の逆転表記法 (RDNN) を使います。例えば、GNOME Maps は <i>org.gnome.Maps</i> です。プロジェクトのサイト (や、個人としてアップロードするならあなたのサイト) など、あなたが管理できるドメインを選んでください。利用できるサイトがなければ、<i>io.github.your_username.app_name</i> のように、ソースコードを公開しているアカウントに関連するドメインを使うこともできます。",
   "app-already-exists": "このIDのアプリは既に存在します。",
   "malformed-app-id": "アプリIDが無効です。アプリIDは少なくとも3つの区分を含み、どの区分も空にできません。各区分は、文字かアンダースコアで始まり、文字、数字、アンダースコア、ハイフンのみを使うことができます。",
-  "publisher-agreement-accept": "公開者投稿規約に同意する",
-  "publisher-agreement": "公開者投稿規約",
+  "publisher-agreement-accept": "パブリッシャー提出規約に同意します",
+  "publisher-agreement": "パブリッシャー提出規約",
   "blocks": "ブロック",
   "moderation-approved-by": "{handledBy}により承認されました。{handledAt} ({handledAtRel})",
   "unverify": "認証解除",
@@ -295,7 +295,7 @@
   "distribution-flathub-setup": "{distribution}用Flathubのセットアップ",
   "no-results-found": "見つかりません",
   "direct-upload": "直接アップロード",
-  "new-community-repository": "コミュニティのリポジトリの新しいアプリ",
+  "new-community-repository": "新規コミュニティリポジトリアプリ",
   "server-returned-status-code": "サーバーはHTTP {code}を返しました。",
   "find-your-distribution": "お使いのディストリビューションを検索",
   "failed-to-find-token": "{domain}からの応答内にトークンを発見するのに失敗しました。",
@@ -303,7 +303,7 @@
   "consultants-description": "Flathubへのアプリ登録に関する相談サービス。",
   "payment-provider-error": "支払いサービスでエラーが発生しました。後で再度お試しください。",
   "login-provider-verification-main-instruction": "<loginprovider></loginprovider>上のアカウント <loginname></loginname> にログインし、アプリID<appid></appid>を使用する権利を認証します。",
-  "verification-instructions": "アプリIDを認証し、Flathubへのアップロードがアプリの開発者によって認証されていることを示します。またはアプリのソースコードを公開しているサイトのアカウントでのアクセスを確認したり、そのアプリのドメインのサイトから、あなたがアプリを管理していることを証明する必要があります。認証済みのバッジは、アプリ名、提供者名、アプリIDの検証方法とともに表示されます。",
+  "verification-instructions": "Flathubへのアップロードがアプリ開発者によって承認されていることを示すため、ご自身のアプリIDを認証してください。認証するには、アプリのドメイン上のウェブサイトを通じて、またはソースコードホスティングサイトにあるアプリのアカウントへのアクセスを確認することで、アプリの管理権限を持っていることを証明する必要があります。認証済みバッジは、アプリ名、パブリッシャー名、およびアプリIDの認証方法と並んで表示されます。詳細については、<doclink>認証ドキュメント</doclink>を参照してください。",
   "website-verification-main-instruction": "<bold>{domain}</bold>内の指定したページにトークンを配置し、アプリID <bold>{id}</bold>の使用を認証します。",
   "login-provider-verification-user-does-not-exist": "アカウント <requiredname></requiredname> は<loginprovider></loginprovider>内に存在しません。このアカウント名をあなたのアプリを認証するために使用する必要があります。または理想的には、あなたが管理できるアプリIDを選択します。優れたアプリIDについて<doclink>Flatpakの解説文書</doclink>をご覧ください。",
   "verification-warning": "Flathubチームは、独自判断でアプリから認証バッジを外すことがあります。例えば、アプリの公式な状態について人々を誤解を与えたり、商標権の混乱を招く例です。",
@@ -381,7 +381,7 @@
     "screenshots": "スクリーンショット",
     "screenshots-take-screenshots-on-linux": "Linuxで撮ったスクリーンショットにします",
     "app-icon": "アプリのアイコン",
-    "app-icon-no-baked-in-shadows": "影をつけない",
+    "app-icon-no-baked-in-shadows": "影が埋め込まれていないこと",
     "general": "全般",
     "app-name-just-the-name": "名前だけにします",
     "not-passed": "不合格",
@@ -402,11 +402,12 @@
     "branding": "ブランディング",
     "branding-has-primary-brand-colors": "メインブランドカラーあり",
     "needed-to-pass-x": "{x}に合格する必要あり",
-    "branding-good-primary-brand-colors": "良好なメインブランドカラー",
+    "branding-good-primary-brand-colors": "適切なメインブランドカラー",
     "problems": "具体的な品質ガイドラインの問題について質問があれば、自由に<link>issue</link>を投稿してください。",
     "light": "ライト",
     "dark": "ダーク",
-    "general-runtime-not-eol": "ランタイムはサポート期限切れではありません"
+    "general-runtime-not-eol": "ランタイムはサポート期限切れではありません",
+    "failing-x-checks": "{count, plural, other {# 個のチェックが失敗しています}}"
   },
   "user-data-subfolder-x": "ユーザーデータサブフォルダー {folder}",
   "can-acquire-arbitrary-permissions": "任意の権限を取得可能",
@@ -573,7 +574,7 @@
   "download-press-kit": "報道用の画像などダウンロード",
   "do-you-really-want-to-switch-to-direct-upload": "よろしいですか？アプリを直接アップロードに切り替えたら、元には戻せません。",
   "manage-x": "{app_name} の管理",
-  "do-you-really-want-to-archive-app": "よろしいですか？アップロードトークンは無効になり、アプリはアーカイブされます。",
+  "do-you-really-want-to-archive-app": "よろしいですか？アップロードトークンが無効になり、アプリケーションはアーカイブされます。",
   "special-license-explanation": "このアプリは <bold>{ license }</bold> の特殊ライセンスで開発されています。",
   "more-popular": "人気をもっと表示",
   "slide": "スライド",
@@ -600,7 +601,7 @@
   "quality": {
     "banner-preview-description": "バナーを簡単に試すには、<preview>バナーのプレビュー</preview>が使えます",
     "banner-preview": "バナーをプレビュー",
-    "missing-brand-colors": "ブランドカラーなし"
+    "missing-brand-colors": "ブランドカラーがありません"
   },
   "favorite-apps": "お気に入り",
   "integration": "<bold>内蔵のアプリストアと統合</bold> - ウェブでのダウンロードは不要です。Flathubは、アプリと<updateslink>その自動更新</updateslink>を、ユーザーが望む内臓のアプリストア用クライアントを通じ配布します",
@@ -681,7 +682,8 @@
   "rebase-onto-other-app": "アプリケーションの再構築先のアプリIDを入力してください",
   "special-code-description": "このアプリは特別なライセンスの下で開発されています。ソースコードが公開されているかどうかは不明です。",
   "download": {
-    "install-x": "「{x}」をインストール"
+    "install-x": "「{x}」をインストール",
+    "fallback-instructions": "<opening>ソフトウェアマネージャーで「{name}」を開いています…</opening><support>何も起こらない場合、システムが <i>flatpak+https</i> URLをサポートしていない可能性があります。</support><listPrefix>その場合は、以下の手順を実行してください:</listPrefix><ol><li><link>.flatpakref ファイルをダウンロード</link></li><li>その後、ファイルマネージャーから実行します</li></ol><setupLine><linkSetup>Flatpakをインストールするための手順</linkSetup></setupLine>"
   },
   "vending": {
     "purchase-not-available": "このアプリケーションは購入できません。"

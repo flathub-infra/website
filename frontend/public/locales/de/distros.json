@@ -408,12 +408,14 @@
       "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<text>Um Flatpak in Crystal Linux einzurichten musst du erst sicherstellen, dass alle Pakete auf dem aktuellen Stand sind. Führe den folgenden Code im Terminal aus:</text> <codeUpdate></codeUpdate> <text>Dann installiere Flatpak:</text> <code></code>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
-    }
+    },
+    "introduction": "<header>Flatpak ist standardmäßig unter Crystal Linux installiert.</header> <text>Wenn du Crystal nicht mit jade_gui installiert hast oder es explizit nicht installiert hast, kannst du Flatpak mittels der folgenden Schritte einrichten.</text>"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS"
