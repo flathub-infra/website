@@ -659,5 +659,22 @@
   },
   "count": "Lukumäärä",
   "developed-by": "kehittänyt {developer}",
-  "unauthorized": "Ei valtuutta"
+  "unauthorized": "Ei valtuutta",
+  "see-all-results": "Näytä kaikki tulokset",
+  "default-account": "Oletus",
+  "set-as-default": "Aseta oletukseksi",
+  "default-account-changed": "Oletustili vaihdettu onnistuneesti",
+  "or-enter-custom-amount": "Tai kirjoita omavalintainen summa",
+  "payment-details": "Maksun tiedot",
+  "install-all-favorites": "Asenna kaikki suosikit",
+  "install-all-favorites-description": "Kopioi tämä komento asentaaksesi kaikki suosikkisovelluksesi kerralla:",
+  "no-favorites-yet": "Sinulla ei ole vielä suosikkisovelluksia. Lisää suosikkisovelluksia napsauttamalla kirjanmerkin kuvaketta niiden tykkäämiesi sovellusten kohdalla!",
+  "uses-privileged-socket": "Käyttää etuoikeutettua pistoketta",
+  "uses-non-portal-service": "Käyttää portaalin ulkopuolisia palveluja",
+  "can-talk-to-non-portal-service": "Voi pyytää dataa portaalin ulkopuolisilta palveluilta ja saada lisäoikeuksia",
+  "socket-may-allow-extra-permissions": "Käyttää pistoketta, joka sallii lisäoikeuksien saamisen",
+  "special-code-description": "Tätä sovellusta kehitetään erikoislisenssin alaisesti. Lähdekoodi voi olla julkista tai suljettua.",
+  "vending": {
+    "purchase-not-available": "Tämä sovellus ei ole ostettavissa."
+  }
 }

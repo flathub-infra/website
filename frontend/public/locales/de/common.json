@@ -680,5 +680,12 @@
   "no-favorites-yet": "Sie haben noch keine Lieblings-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!",
   "vending": {
     "purchase-not-available": "Diese Anwendung ist nicht zum Kauf verfügbar."
-  }
+  },
+  "see-all-results": "Alle Ergebnisse anzeigen",
+  "default-account": "Standard",
+  "set-as-default": "Als Standard festlegen",
+  "default-account-changed": "Standard Account erfolgreich festgelegt",
+  "or-enter-custom-amount": "Oder gib einen eigenen Betrag ein",
+  "payment-details": "Zahlungsdaten",
+  "special-code-description": "Diese App wird unter einer speziellen Lizenz entwickelt. Der Quellcode kann öffentlich sein oder auch nicht."
 }
