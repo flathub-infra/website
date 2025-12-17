@@ -115,6 +115,7 @@ async def list_appstream(
     status_code=200,
     response_model=api_models.Appstream,
     response_model_exclude_none=True,
+    response_model_by_alias=True,
     tags=["app"],
     responses={
         200: {"description": "AppStream metadata for the app"},

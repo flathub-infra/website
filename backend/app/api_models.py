@@ -164,7 +164,7 @@ class Icon(BaseModel):
 
 
 class Metadata(BaseModel):
-    model_config = {"populate_by_name": True, "serialize_by_alias": True}
+    model_config = {"populate_by_name": True}
 
     flathub_manifest: str | None = Field(None, alias="flathub::manifest")
     flathub_verification_verified: bool | None = Field(
