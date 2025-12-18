@@ -15,7 +15,7 @@
     },
     "step-4": {
       "name": "再起動",
-      "text": "<text>セットアップを完了するため、システムを再起動します。あとは<link>アプリをインストールする</link>だけです!</text>"
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     }
   },
   "fedora": {
@@ -30,7 +30,7 @@
     },
     "step-2": {
       "name": "再起動",
-      "text": "<text>セットアップを完了するため、システムを再起動します。あとは<link>アプリをインストールする</link>だけです!</text>"
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     }
   },
   "endless_os": {
@@ -77,7 +77,8 @@
     }
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Red Hat Enterprise Linux Workstation 9 以降では、Flatpak はデフォルトでインストールされています。利用を開始するには、Flatpak アプリを入手するのに最適な Flathub を有効にするだけです。<filelink>Flathub リポジトリファイル</filelink>をダウンロードしてインストールしてください。</text><text>Red Hat Enterprise Linux Workstation 8 以前に Flatpak をインストールするには、端末で以下を実行してください：</text>  <code></code><text>これで、あとは<link>アプリをインストール</link>するだけです！</text><text>上記のリンクは、デフォルトの状態の Red Hat Enterprise Linux Workstation 9 で動作するはずですが、何らかの理由で失敗する場合は、以下を実行して手動で Flathub リモートを追加できます。</text><codeAddRemote></codeAddRemote>"
   },
   "arch": {
     "distroName": "Arch",
@@ -87,7 +88,7 @@
     },
     "step-2": {
       "name": "再起動",
-      "text": "<text>セットアップを完了するため、システムを再起動します。あとは<link>アプリをインストールする</link>だけです!</text>"
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     }
   },
   "linux_mint": {
@@ -96,7 +97,8 @@
   },
   "opensuse": {
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>Flatpak は、現在メンテナンスされているすべての openSUSE Leap および openSUSE Tumbleweed バージョンのデフォルトリポジトリで利用可能です。</text><text>グラフィカルなインストールを希望する場合は、<link>software.opensuse.org</link> から「1クリックインストーラー」を使用して Flatpak をインストールできます。もしお使いのディストリビューションのバージョンがデフォルトで表示されない場合は、「Unsupported distributions（サポート外のディストリビューション）」カテゴリの下にある <em>Show（表示）</em> をクリックし、リストから選択してください。</text><text>または、Zypper を使用してコマンドラインから Flatpak をインストールすることもできます：</text> <code></code>"
     },
     "distroName": "openSUSE",
     "step-2": {
@@ -115,11 +117,12 @@
       "text": "<text>Flatpakパッケージは、Debian 10 (Buster) およびそれ以降で利用可能です。インストールするには、rootとして以下を実行してください。</text> <code></code>"
     },
     "step-2": {
-      "name": "ソフトウェアFlatpakプラグインをインストール"
+      "name": "ソフトウェアのFlatpakプラグインをインストールしてください",
+      "text": "<text>GNOME を使用している場合は、GNOME ソフトウェア用の Flatpak プラグインもインストールしておくことをお勧めします。インストールするには以下を実行してください：</text> <code></code> <text>KDE を使用している場合は、代わりに Plasma Discover 用の Flatpak バックエンドをインストールしてください：</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Flathubリポジトリを追加",
-      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。これを有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、端末で以下を実行してください: </text> <code></code>"
+      "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、ターミナルで以下を実行してください： </text> <code></code>"
     },
     "step-4": {
       "name": "再起動",
@@ -129,20 +132,22 @@
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>Rocky Linux 8 以降では、GNOME を含むソフトウェア選択（「サーバー（GUI 使用）」や「ワークステーション」）でインストールした場合、Flatpak はデフォルトでインストールされています。そのようなシステムを使用している場合は、このステップをスキップできます。Rocky Linux に Flatpak をインストールするには、端末で以下を実行してください：</text> <code></code>"
     },
     "step-2": {
       "name": "Flathubリポジトリを追加",
-      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。これを有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、端末で以下を実行してください: </text> <code></code>"
+      "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、ターミナルで以下を実行してください： </text> <code></code>"
     },
     "step-3": {
       "name": "再起動",
-      "text": "<text>セットアップを完了するため、システムを再起動します。あとは<link>アプリをインストールする</link>だけです!</text>"
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     }
   },
   "gentoo": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：Gentooでは、Flatpakアプリのグラフィカルなインストールができない場合があります。</text>"
     },
     "distroName": "Gentoo",
     "step-2": {
@@ -150,7 +155,7 @@
       "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするために次を実行してください。</text> <code></code>"
     },
     "step-1": {
-      "text": "<text>FlatpakをGentooにインストールするには、ターミナルアプリを開いて次のコマンドを実行します:</text> <code></code>",
+      "text": "<text>FlatpakをGentooにインストールするには、ターミナルアプリを開いて次のコマンドを実行してください:</text> <code></code>",
       "name": "Flatpakをインストール"
     }
   },
@@ -160,16 +165,23 @@
       "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>FlatpakをKubuntuにインストールするには、Discoverを開き、「設定」に移動して、Flatpakバックエンドをインストールし、Discoverを再起動してください。</text>"
     },
     "distroName": "Kubuntu",
     "step-3": {
-      "name": "Flathubリポジトリを追加"
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>FlathubはFlatpakアプリを入手するのに最適な場所です。これを有効にするには、Discoverを開き、『設定』に移動して、Flathubリポジトリを追加してください。</text>"
+    },
+    "step-2": {
+      "name": "Flatpakのシステム設定アドオンをインストールしてください",
+      "text": "<text>FlatpakのサポートをPlasmaのシステム設定に統合するには、ターミナルアプリを開いて次のコマンドを実行してください： </text> <code></code>"
     }
   },
   "solus": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：Flatpakアプリのグラフィカルなインストールは、GNOMEソフトウェアおよび/またはKDE Discoverを通してのみ利用可能です。</text>"
     },
     "distroName": "Solus",
     "step-1": {
@@ -177,39 +189,49 @@
       "text": "<text>FlatpakをSolusにインストールするには、ターミナルアプリを開いて次のコマンドを実行します:</text> <code></code>"
     },
     "step-2": {
-      "name": "Flathubリポジトリを追加"
-    }
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、ターミナルで以下を実行してください： </text> <code></code>"
+    },
+    "introduction": "<text>Solus 4.7 以降では Flatpak が標準で組み込まれているため、セットアップは不要です！Flatpak アプリは GNOME ソフトウェアや KDE Discover からインストールできます。</text><text>もし Flatpak がインストールされていない場合は、以下の手順に従って開始してください。</text>"
   },
   "alpine": {
     "step-4": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "distroName": "Alpine",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>Flatpakはコミュニティリポジトリからインストールできます。ターミナルで次のコマンドを実行してください：</text> <code></code>"
     },
     "step-2": {
-      "name": "ソフトウェアFlatpakプラグインをインストール"
+      "name": "ソフトウェアのFlatpakプラグインをインストールしてください",
+      "text": "<text>GNOME ソフトウェア（v3.13 以降）またはKDE Discover（v3.11 以降）用の Flatpak プラグインをインストールすることで、コマンドラインを使わずにアプリをインストールできるようになります。GNOME ソフトウェアにインストールするには以下を実行してください：</text> <code></code> <text>KDE Discover の場合は以下を実行します：</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
-      "name": "Flathubリポジトリを追加"
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、ターミナルで以下を実行してください： </text> <code></code>"
     }
   },
   "mageia": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：Mageiaでは、Flatpakアプリのグラフィカルなインストールができない場合があります。</text>"
     },
     "distroName": "Mageia",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>Mageia 6 以降では Flatpak パッケージを利用できます。DNF でインストールするには、root ユーザーとして以下を実行してください：</text> <code></code> <text>または、<strong>urpmi</strong> でインストールするには以下を実行します：</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
-      "name": "Flathubリポジトリを追加"
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするには、<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールするか、ターミナルで以下を実行してください： </text> <code></code>"
     }
   },
   "void_linux": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "step-1": {
       "text": "<text>FlatpakをVoid Linuxにインストールするには、ターミナルアプリを開いて次のコマンドを実行します:</text> <code></code>",
@@ -223,55 +245,77 @@
   },
   "raspberry_pi_os": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：Raspberry Pi OSでは、Flatpakアプリのグラフィカルなインストールができない場合があります。</text>"
     },
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>Flatpakパッケージは、Raspberry Pi OS (以前の名称：Raspbian) Stretch以降で利用可能です。これをインストールするには、root権限で次のコマンドを実行してください： </text> <code></code>"
     },
     "step-2": {
-      "name": "Flathubリポジトリを追加"
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>Flathub は Flatpak アプリを入手するのに最適な場所です。有効化するには以下を実行してください：</text> <code></code> <text><strong>重要な注意点：</strong> 新しいアプリケーションは 64-bit 版のみで提供される可能性が高いため、Raspberry Pi OS 64-bit 版の使用が推奨されます。</text>"
     }
   },
   "deepin": {
     "step-4": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "distroName": "Deepin",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>FlatpakをDeepinにインストールするには、ターミナルで次のコマンドを実行してください： </text> <code></code>"
     },
     "step-2": {
       "name": "Flathubリポジトリを追加",
       "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするために次を実行してください。</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Deepinテーマをインストール",
+      "text": "<text>ライトテーマとダークテーマをインストールするには、次のコマンドを実行してください： </text> <code></code>"
     }
   },
   "pardus": {
     "step-4": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "distroName": "Pardus",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>FlatpakパッケージはPardus 2019以降で利用可能です。これをインストールするには、root権限で次のコマンドを実行してください： </text> <code></code>"
     },
     "step-3": {
       "name": "Flathubリポジトリを追加",
       "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするために次を実行してください。</text> <code></code>"
+    },
+    "step-2": {
+      "name": "ソフトウェアのFlatpakプラグインをインストールしてください",
+      "text": "<text>GNOME を使用している場合は、GNOME ソフトウェア用の Flatpak プラグインもインストールしておくことをお勧めします。インストールするには以下を実行してください：</text> <code></code>"
     }
   },
   "mx_linux": {
     "step-2": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
-    "distroName": "MX Linux"
+    "distroName": "MX Linux",
+    "step-1": {
+      "name": "Software Manager を使用して Flatpak を有効化",
+      "text": "<text>MX 18 以降では、Flatpak サポートが標準で組み込まれています。以下の手順に従って Flathub リポジトリを有効化するだけで準備は完了です：</text> <text><strong>MX パッケージインストーラー</strong>（メニューから「MX ツール」の中を確認してください）を開き、「Flatpaks」タブを選択します。リポジトリを有効化するには root パスワードの入力が必要です。</text>"
+    }
   },
   "pisi_gnulinux": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：Pisi GNU/Linuxでは、Flatpakアプリのグラフィカルなインストールができない場合があります。</text>"
     },
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>FlatpakパッケージはPisi 2.1以降で利用可能です。これをインストールするには、root権限で次のコマンドを実行してください： </text> <code></code>"
     },
     "step-2": {
       "name": "Flathubリポジトリを追加",
@@ -280,11 +324,13 @@
   },
   "endeavouros": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：EndeavourOSでは、Flatpakアプリのグラフィカルなインストールができない場合があります。</text>"
     },
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>EndeavourOS に Flatpak をインストールするには、まずシステムが最新の状態であることを確認する必要があります。端末で以下を実行してください：</text> <codeUpdate></codeUpdate> <text>次に、Flatpak をインストールします：</text> <code></code>"
     },
     "step-2": {
       "name": "Flathubリポジトリを追加",
@@ -293,11 +339,13 @@
   },
   "gnu_guix": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text> <text>注意：GNU Guixでは、Flatpakアプリのグラフィカルなインストールができない場合があります。</text>"
     },
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>FlatpakをGNU Guixにインストールするには、ターミナルで次のコマンドを実行してください：</text> <code></code>"
     },
     "step-2": {
       "name": "Flathubリポジトリを追加",
@@ -306,44 +354,59 @@
   },
   "crystal_linux": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "distroName": "Crystal Linux",
     "step-2": {
       "name": "Flathubリポジトリを追加",
       "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするために次を実行してください。</text> <code></code>"
-    }
+    },
+    "step-1": {
+      "name": "Flatpakをインストール",
+      "text": "<text>Crystal Linux に Flatpak をインストールするには、まずパッケージが最新の状態であることを確認する必要があります。端末で以下を実行してください：</text> <codeUpdate></codeUpdate> <text>次に、Flatpak をインストールします：</text> <code></code>"
+    },
+    "introduction": "<header>Crystal Linux では、Flatpak はデフォルトでインストールされています。</header><text>もし jade_gui を使用せずに Crystal Linux をインストールした場合や、インストール時に Flatpak を選択しなかった場合は、以下の手順でセットアップを行うことができます。</text>"
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<header>OpenMandriva では、安定・固定リリース版の「Rock 5.0」から開発版の「Cooker」、そしてローリングリリース版の「ROME」まで、現在サポートされているすべてのバージョンに Flatpak サポートが組み込まれています。</header><text>Flatpak には Flathub リポジトリがあらかじめ設定されています。</text>"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<text>FlatpakのサポートはPop!_OS 20.04以降に組み込まれているため、セットアップは不要です！</text>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "アプリをインストール"
+      "name": "アプリをインストール",
+      "text": "<text>elementary OS 5.1 以降には、Flatpak サポートが標準で組み込まれています。キュレート（選別）されていないアプリについては、<link>Flathub</link> にアクセスして大きな「インストール」ボタンからアプリをインストールし、ダウンロードした .flatpakref ファイルを「Sideload」で開いてください。</text> <text>注：Flathub のようなリモートからアプリを 1 つインストールすると、そのリモートにある他のすべてのアプリも AppCenter に自動的に表示されるようになります。</text>"
     }
   },
   "centos": {
-    "distroName": "CentOS Stream"
+    "distroName": "CentOS Stream",
+    "introduction": "<text>CentOS Stream 8以降でGNOMEを使用している場合、Flatpakはデフォルトでインストールされています。利用を開始するには、Flatpakアプリを入手するのに最適なFlathubを有効にするだけです。<filelink>Flathubリポジトリファイル</filelink> をダウンロードしてインストールしてください。</text><text>これで、あとは<link>アプリをインストール</link>するだけです！</text>"
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<header>Vanilla OS では、Flatpak はデフォルトでインストールされています。</header><text>「ソフトウェア」アプリを使用するか、<link>Flathub</link> をブラウズしてアプリをインストールできます。</text><text>何らかの理由で Flathub が利用できない場合は、次のコマンドを使用して手動で設定できます。</text> <code></code>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<header>Salix ではバージョン 15.0 から Flatpak がデフォルトでインストールされているため、セットアップは不要です！</header><text>Flatpak には Flathub リポジトリがあらかじめ設定されており、デスクトップ統合ツールによって Flathub からワンクリックでインストールできるようになっています。</text><text>あとは<link>アプリをインストール</link>するだけです！</text>"
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "introduction": "<text>FlatpakのサポートはKDE neon 19以降に組み込まれているため、セットアップは不要です！</text>"
   },
   "nixos": {
     "step-3": {
-      "name": "再起動"
+      "name": "再起動",
+      "text": "<text>セットアップを完了するには、システムを再起動してください。あとは<link>アプリをインストール</link>するだけです！</text>"
     },
     "step-1": {
-      "name": "Flatpakをインストール"
+      "name": "Flatpakをインストール",
+      "text": "<text>Flatpak をインストールするには、<strong>/etc/nixos/configuration.nix</strong> に以下を追記し、NixOS のオプション <strong>services.flatpak.enable</strong> を <strong>true</strong> に設定します：</text> <code></code> <text>その後、以下のコマンドを実行してシステムの再構築を行い、新しい設定に切り替えます：</text> <codeRebuild> </codeRebuild> <text>詳細は <doclink>NixOS ドキュメント</doclink> を参照してください。</text>"
     },
     "distroName": "NixOS",
     "step-2": {
@@ -352,12 +415,15 @@
     }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": "<text>PureOSでは Flatpak がデフォルトでインストールされています。利用を開始するには、Flatpak アプリを入手するのに最適な Flathub を有効にするだけです。<filelink>Flathub リポジトリファイル</filelink>をダウンロードしてインストールしてください。</text><text>これで、あとは<link>アプリをインストール</link>するだけです！</text>"
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": "<header>Zorin OS には Flatpak サポートが組み込まれています</header><text>「ソフトウェア」ストア アプリを使用して Flatpak アプリをダウンロードできます。</text>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<text>AlmaLinux 8以降でGNOMEを使用している場合、Flatpakはデフォルトでインストールされています。利用を開始するには、Flatpakアプリを入手するのに最適なFlathubを有効にするだけです。<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールしてください。</text><text>これで、あとは<link>アプリをインストール</link>するだけです！</text>"
   }
 }

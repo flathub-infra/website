@@ -684,5 +684,8 @@
   "socket-may-allow-extra-permissions": "Gumagamit ng socket na nagbibigay ng karagdagang pahintulot",
   "vending": {
     "purchase-not-available": "Hindi available ang application na ito para sa pagbili."
-  }
+  },
+  "or-enter-custom-amount": "O maglagay ng isang pasadyang halaga",
+  "payment-details": "Mga Detalye sa Pagbabayad",
+  "special-code-description": "Binuo ang app na ito sa ilalim ng isang espesyal na lisensya. Maaari o hindi maaaring publiko ang source code."
 }
