@@ -27,6 +27,7 @@ import qs from "qs"
 
 import type {
   FavoriteApp,
+  GetAppFavoritesCountFavoritesAppIdCountGet200,
   GetAppstreamAppstreamAppIdGet200,
   GetAppstreamAppstreamAppIdGetParams,
   GetEolMessageAppidEolMessageAppIdGet200,
@@ -2824,6 +2825,194 @@ export function useIsFavoritedFavoritesAppIdGet<
     appId,
     options,
   )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * Get the total number of users who have favorited a specific app.
+ * @summary Get App Favorites Count
+ */
+export const getAppFavoritesCountFavoritesAppIdCountGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<GetAppFavoritesCountFavoritesAppIdCountGet200>> => {
+  return axios.get(`/favorites/${appId}/count`, options)
+}
+
+export const getGetAppFavoritesCountFavoritesAppIdCountGetQueryKey = (
+  appId?: string,
+) => {
+  return [`/favorites/${appId}/count`] as const
+}
+
+export const getGetAppFavoritesCountFavoritesAppIdCountGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetAppFavoritesCountFavoritesAppIdCountGetQueryKey(appId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>
+  > = ({ signal }) =>
+    getAppFavoritesCountFavoritesAppIdCountGet(appId, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!appId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAppFavoritesCountFavoritesAppIdCountGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>
+>
+export type GetAppFavoritesCountFavoritesAppIdCountGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetAppFavoritesCountFavoritesAppIdCountGet<
+  TData = Awaited<
+    ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+          >,
+          TError,
+          Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAppFavoritesCountFavoritesAppIdCountGet<
+  TData = Awaited<
+    ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+          >,
+          TError,
+          Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAppFavoritesCountFavoritesAppIdCountGet<
+  TData = Awaited<
+    ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get App Favorites Count
+ */
+
+export function useGetAppFavoritesCountFavoritesAppIdCountGet<
+  TData = Awaited<
+    ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetAppFavoritesCountFavoritesAppIdCountGetQueryOptions(appId, options)
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
