@@ -19,6 +19,7 @@ import type {
   DesktopAppstream,
   FavoriteApp,
   GenericAppstream,
+  GetAppFavoritesCountFavoritesAppIdCountGet200,
   GetAppstreamAppstreamAppIdGet200,
   GetEolMessageAppidEolMessageAppIdGet200,
   GetEolMessageEolMessageGet200,
@@ -2923,6 +2924,9 @@ export const getGetFavoritesFavoritesGetResponseMock = (): FavoriteApp[] =>
 export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
   faker.datatype.boolean()
 
+export const getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock =
+  (): GetAppFavoritesCountFavoritesAppIdCountGet200 => ({})
+
 export const getGetEolRebaseEolRebaseGetMockHandler = (
   overrideResponse?:
     | GetEolRebaseEolRebaseGet200
@@ -3410,6 +3414,36 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
     options,
   )
 }
+
+export const getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler = (
+  overrideResponse?:
+    | GetAppFavoritesCountFavoritesAppIdCountGet200
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<GetAppFavoritesCountFavoritesAppIdCountGet200>
+        | GetAppFavoritesCountFavoritesAppIdCountGet200),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/favorites/:appId/count",
+    async (info) => {
+      await delay(1000)
+
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      )
+    },
+    options,
+  )
+}
 export const getAppMock = () => [
   getGetEolRebaseEolRebaseGetMockHandler(),
   getGetEolRebaseAppidEolRebaseAppIdGetMockHandler(),
@@ -3429,4 +3463,5 @@ export const getAppMock = () => [
   getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler(),
   getGetFavoritesFavoritesGetMockHandler(),
   getIsFavoritedFavoritesAppIdGetMockHandler(),
+  getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler(),
 ]
