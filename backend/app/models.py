@@ -176,7 +176,8 @@ class FlathubUser(Base):
 
     def get_default_account(self, db) -> Optional["ConnectedAccount"]:
         if self.default_account is not None:
-            if account := self.get_connected_account(db, self.default_account):
+            provider = ConnectedAccountProvider(self.default_account)
+            if account := self.get_connected_account(db, provider):
                 return account
 
         # If no default is set, or if it can't be found for some reason, return the first account we find
@@ -284,6 +285,7 @@ class FlathubUser(Base):
 
         if (
             get_github_repos
+            and default_account is not None
             and default_account.provider == ConnectedAccountProvider.GITHUB
         ):
             github_repos = GithubRepository.all_by_account(db, default_account)
@@ -377,17 +379,27 @@ class FlathubUser(Base):
 
     def add_role(self, db, roleName: "RoleName") -> "FlathubUser":
         role = Role.by_name(db, roleName)
+        if role is None:
+            raise ValueError(f"Role {roleName} not found")
         flathubuser_role.add_user_role(db, self, role)
         db.session.commit()
 
-        return self.by_id(db, self.id)
+        result = self.by_id(db, self.id)
+        if result is None:
+            raise ValueError(f"User {self.id} not found after adding role")
+        return result
 
     def remove_role(self, db, roleName: "RoleName") -> "FlathubUser":
         role = Role.by_name(db, roleName)
+        if role is None:
+            raise ValueError(f"Role {roleName} not found")
         flathubuser_role.delete_user_role(db, self, role)
         db.session.commit()
 
-        return self.by_id(db, self.id)
+        result = self.by_id(db, self.id)
+        if result is None:
+            raise ValueError(f"User {self.id} not found after removing role")
+        return result
 
     def permissions(self):
         """
@@ -2224,7 +2236,7 @@ class AppOfTheDay(Base):
         return app
 
     @classmethod
-    def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> Date:
+    def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> date:
         latest_date = (
             db.query(AppOfTheDay)
             .filter(AppOfTheDay.app_id == app_id)
