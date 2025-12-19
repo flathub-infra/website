@@ -14,7 +14,8 @@ config.set_main_option("sqlalchemy.url", app_config.settings.database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-fileConfig(config.config_file_name)
+if config.config_file_name:
+    fileConfig(config.config_file_name)
 
 
 target_metadata = models.Base.metadata
@@ -54,8 +55,11 @@ def run_migrations_online():
     connectable = config.attributes.get("connection", None)
 
     if connectable is None:
+        config_section = config.get_section(config.config_ini_section)
+        if config_section is None:
+            config_section = {}
         connectable = engine_from_config(
-            config.get_section(config.config_ini_section),
+            config_section,
             prefix="sqlalchemy.",
             poolclass=pool.NullPool,
         )

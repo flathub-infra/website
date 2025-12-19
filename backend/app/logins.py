@@ -313,8 +313,8 @@ def start_oauth_flow(
     request: Request,
     login: LoginInformation,
     method: str,
-    account_model: models.Base,
-    flowtoken_model: models.Base,
+    account_model: type[models.Base],
+    flowtoken_model: type[models.Base],
     oauth_endpoint: str,
     oauth_args: dict,
 ):
@@ -724,11 +724,11 @@ def continue_oauth_flow(
     login: LoginInformation,
     data: OauthLoginResponse,
     method: str,
-    flowtoken_model: models.Base,
+    flowtoken_model: type[models.Base],
     token_endpoint: str,
     oauth_args: dict,
     token_to_data: Callable[[dict], ProviderInfo],
-    account_model: models.Base,
+    account_model: type[models.Base],
     postlogin_handler: Callable,
 ):
     """
@@ -1003,12 +1003,12 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
 
         auths = {}
         for account in user.connected_accounts(db):
-            auths[account.provider] = {}
-            if account.login:
-                auths[account.provider]["login"] = account.login
-            if account.avatar_url:
-                auths[account.provider]["avatar"] = account.avatar_url
-            auths[account.provider]["provider"] = account.provider
+            auth_info = AuthInfo(
+                login=account.login,
+                avatar=account.avatar_url,
+                provider=account.provider,
+            )
+            auths[account.provider] = auth_info
 
         default_display_name = default_account.display_name if default_account else None
         default_avatar_url = default_account.avatar_url if default_account else None
@@ -1030,7 +1030,7 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         invite_code=invite_code,
         accepted_publisher_agreement_at=accepted_publisher_agreement_at,
         default_account=defaultAccountInfo,
-        auths=auths,
+        auths=Auths(**auths),
     )
 
 

@@ -542,12 +542,12 @@ class Platform(BaseModel):
     keep: int
     stripe_account: str | None = None
 
-    def dict(self, *args, **kwargs) -> dict[str, Any]:
+    def model_dump(self, *args, **kwargs) -> dict[str, Any]:
         """
-        Override the dict() method to always hide the optional values if None
+        Override the model_dump() method to always hide the optional values if None
         """
-        kwargs.pop("exclude_none")
-        return super().dict(*args, exclude_none=True, **kwargs)
+        kwargs.pop("exclude_none", None)
+        return super().model_dump(*args, exclude_none=True, **kwargs)
 
 
 def _load_platforms(with_stripe: bool) -> dict[str, Platform]:
@@ -609,6 +609,9 @@ def is_valid_app_id(app_id: str) -> bool:
 
 
 def create_flat_manager_token(use: str, scopes: list[str], **kwargs):
+    if config.settings.flat_manager_build_secret is None:
+        raise ValueError("flat_manager_build_secret is not configured")
+
     return "Bearer " + jwt.encode(
         {
             "sub": "build",

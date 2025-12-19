@@ -158,7 +158,9 @@ def _get_domain_name(app_id: str) -> tuple[str | None, bool]:
 
         psl = publicsuffixlist.PublicSuffixList()
         if psl.is_private(fqdn):
-            return (_demangle_name(psl.privatesuffix(fqdn)), False)
+            private_suffix = psl.privatesuffix(fqdn)
+            if private_suffix:
+                return (_demangle_name(private_suffix), False)
 
         # fallback to the top-level domain
         [tld, domain] = app_id.split(".")[0:2]
@@ -241,7 +243,7 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
             if account_tag := person_tag.find(f"{foaf_prefix}account"):
                 if online_account := account_tag.find(f"{foaf_prefix}OnlineAccount"):
                     account_name = online_account.find(f"{foaf_prefix}accountName")
-                    if account_name is not None:
+                    if account_name is not None and account_name.text:
                         maintainers.append(account_name.text)
                         break
 

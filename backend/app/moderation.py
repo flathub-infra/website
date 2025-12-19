@@ -3,6 +3,7 @@ import itertools
 import json
 import logging
 from datetime import UTC, datetime
+from typing import Any
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
@@ -287,10 +288,17 @@ def submit_review_request(
     review_request: ReviewRequest,
     authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
 ) -> ReviewRequestResponse:
+    secret = config.settings.flat_manager_build_secret
+    if secret is None:
+        raise HTTPException(
+            status_code=500,
+            detail="flat_manager_not_configured",
+        )
+
     try:
         claims = jwt.decode(
             authorization.credentials,
-            base64.b64decode(config.settings.flat_manager_build_secret),
+            base64.b64decode(secret),
             algorithms=["HS256"],
         )
         if "reviewcheck" not in claims["scope"]:
@@ -797,7 +805,7 @@ def submit_review(
     else:
         app_name = None
 
-    payload = {
+    payload: dict[str, Any] = {
         "messageId": f"{appid}/{build_id}/{'approved' if is_approved else 'rejected'}",
         "creation_timestamp": datetime.now().timestamp(),
         "subject": subject,

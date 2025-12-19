@@ -158,6 +158,12 @@ def build_notification(
 ):
     from . import worker
 
+    if settings.flat_manager_build_secret is None:
+        raise HTTPException(
+            status_code=500,
+            detail="flat_manager_not_configured",
+        )
+
     try:
         claims = jwt.decode(
             authorization.credentials,
