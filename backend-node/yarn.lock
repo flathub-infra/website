@@ -1126,27 +1126,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/zod-openapi@npm:^1.1.5":
-  version: 1.1.5
-  resolution: "@hono/zod-openapi@npm:1.1.5"
+"@hono/zod-openapi@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "@hono/zod-openapi@npm:1.1.6"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^8.1.0"
-    "@hono/zod-validator": "npm:^0.7.4"
+    "@hono/zod-validator": "npm:^0.7.6"
     openapi3-ts: "npm:^4.5.0"
   peerDependencies:
     hono: ">=4.3.6"
     zod: ^4.0.0
-  checksum: 10c0/3993197f6a75c568ec8d0f18013f2ee1da9c541e8a9a5716885da8388406e2771d1857bab93fa28e81b49c13776432801319214403b8efbb5ded148660dbf8e4
+  checksum: 10c0/7ef9f46daf2687b5e4028241879b2f260448b5cc8fbd7a84a58507613c6b312a61c0ff498143767874dc2b585a272dc084e491e2024f2897ca1caa9fceb3a94b
   languageName: node
   linkType: hard
 
-"@hono/zod-validator@npm:^0.7.4":
-  version: 0.7.4
-  resolution: "@hono/zod-validator@npm:0.7.4"
+"@hono/zod-validator@npm:^0.7.6":
+  version: 0.7.6
+  resolution: "@hono/zod-validator@npm:0.7.6"
   peerDependencies:
     hono: ">=3.9.0"
     zod: ^3.25.0 || ^4.0.0
-  checksum: 10c0/c5b24eaee784f75cb85342e9c927d6ea961d0a2161ecda75942de8a7094b9133d8142a8f5fcd511bf9be56d336e953dc6e968b1e7706ccf0af00399a4a41c7cd
+  checksum: 10c0/4fbbf0ac85bbb59c2beec09c42696fbe601bc495c977f0456139ba4d563f12eaadf34ed00a0d5790a10b8cf674c5420fe84e86f8b44759fc6bbf8cd80bbd0523
   languageName: node
   linkType: hard
 
@@ -4497,7 +4497,7 @@ __metadata:
     "@hono/node-server": "npm:^1.19.7"
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
-    "@hono/zod-openapi": "npm:^1.1.5"
+    "@hono/zod-openapi": "npm:^1.1.6"
     "@react-email/components": "npm:1.0.1"
     "@react-email/preview-server": "npm:5.0.8"
     "@react-email/render": "npm:2.0.0"

@@ -12,7 +12,7 @@
     "@hono/node-server": "^1.19.7",
     "@hono/sentry": "^1.2.2",
     "@hono/swagger-ui": "0.5.2",
-    "@hono/zod-openapi": "^1.1.5",
+    "@hono/zod-openapi": "^1.1.6",
     "@react-email/components": "1.0.1",
     "@react-email/render": "2.0.0",
     "date-fns": "^4.1.0",
