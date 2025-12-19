@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 import dramatiq
 
@@ -12,10 +12,10 @@ from .redis import invalidate_cache_by_pattern
 @dramatiq.actor
 def update_app_picks():
     with get_db("writer") as db:
-        today = datetime.utcnow().date()
+        today = datetime.now(UTC).date()
         pick_app_of_the_day_automatically(db, today)
 
-        tomorrow = (datetime.utcnow() + timedelta(days=1)).date()
+        tomorrow = (datetime.now(UTC) + timedelta(days=1)).date()
         pick_app_of_the_day_automatically(db, tomorrow)
 
 

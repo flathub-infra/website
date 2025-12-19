@@ -4,7 +4,7 @@ import hashlib
 import json
 import os
 import re
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import gi
@@ -613,8 +613,8 @@ def create_flat_manager_token(use: str, scopes: list[str], **kwargs):
         {
             "sub": "build",
             "scope": scopes,
-            "iat": datetime.utcnow(),
-            "exp": datetime.utcnow() + timedelta(minutes=5),
+            "iat": datetime.now(UTC),
+            "exp": datetime.now(UTC) + timedelta(minutes=5),
             "name": f"Backend token for internal use ({use})",
             **kwargs,
         },

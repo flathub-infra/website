@@ -2,7 +2,7 @@ import base64
 import itertools
 import json
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
@@ -428,7 +428,7 @@ def submit_review_request(
             if direct_upload_app := direct_upload_apps_by_id.get(app_id):
                 direct_upload_app = db.session.merge(direct_upload_app)
                 if not direct_upload_app.first_seen_at:
-                    direct_upload_app.first_seen_at = datetime.utcnow()
+                    direct_upload_app.first_seen_at = datetime.now(UTC)
                     is_new_submission = True
                     current_values = {"direct upload": False}
                     keys = {"direct upload": True}
