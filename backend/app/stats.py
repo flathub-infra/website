@@ -254,6 +254,12 @@ def get_installs_by_ids(ids: list[str]):
         if app_stats is None:
             continue
 
+        # Ensure installs_per_day is sorted chronologically
+        if "installs_per_day" in app_stats:
+            app_stats["installs_per_day"] = dict(
+                sorted(app_stats["installs_per_day"].items())
+            )
+
         app_stats["id"] = app_id
         result[app_id] = app_stats
     return result
