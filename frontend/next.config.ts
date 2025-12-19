@@ -63,6 +63,7 @@ if (!buildId) {
 
 const nextConfig: (phase: string) => NextConfig = (phase) => ({
   output: "standalone",
+  reactCompiler: true,
   assetPrefix:
     phase === PHASE_DEVELOPMENT_SERVER
       ? undefined
