@@ -123,10 +123,10 @@ const BadgesClient = (): JSX.Element => {
                 className="no-underline hover:underline"
                 href="https://flathub.org/badges"
               >
-                <span property="dct:title">{chunk}</span>
+                <meta property="dct:title">{chunk}</meta>
               </a>
             ),
-            badgeslink: (chunk) => <span property="dct:title">{chunk}</span>,
+            badgeslink: (chunk) => <meta property="dct:title">{chunk}</meta>,
           })}
         </p>
 

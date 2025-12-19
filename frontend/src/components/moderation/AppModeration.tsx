@@ -205,6 +205,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
                 appInfoQuery.data[0].metadata?.["flathub::manifest"] ??
                 `https://github.com/flathub/${appInfoQuery.data[0].id}`
               }
+              rel="noreferrer"
             >
               <ExternalLink className="h-3.5 w-3.5" />
               {t("manifest")}

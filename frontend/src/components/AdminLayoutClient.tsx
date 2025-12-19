@@ -85,7 +85,7 @@ const AdminLayoutClient = ({
           )}
         >
           <nav className="flex flex-1 flex-col" aria-label="Sidebar">
-            <ul role="list" className="space-y-1">
+            <ul className="space-y-1">
               {adminNavigation.map((item) => (
                 <li key={item.name}>
                   <a
