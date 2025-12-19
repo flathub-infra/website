@@ -478,10 +478,11 @@ def post_app_vending_setup(
         elif setup.recommended_donation > 0:
             if vend.user != login["user"].id:
                 raise VendingError(error="user-mismatch")
-            vend.currency = setup.currency
-            vend.appshare = setup.appshare
-            vend.recommended_donation = setup.recommended_donation
-            vend.minimum_payment = setup.minimum_payment
+            if vend:
+                vend.currency = setup.currency
+                vend.appshare = setup.appshare
+                vend.recommended_donation = setup.recommended_donation
+                vend.minimum_payment = setup.minimum_payment
         try:
             if setup.recommended_donation > 0:
                 db.add(vend)
