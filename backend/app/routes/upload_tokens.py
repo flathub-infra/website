@@ -106,7 +106,7 @@ def get_upload_tokens(
 
         if not include_expired:
             tokens = tokens.filter(
-                models.UploadToken.expires_at >= datetime.datetime.utcnow()
+                models.UploadToken.expires_at >= datetime.datetime.now(datetime.UTC)
             )
 
         tokens = tokens.order_by(models.UploadToken.issued_at.desc())
@@ -186,7 +186,7 @@ def create_upload_token(
             detail=ErrorDetail.FORBIDDEN_REPO,
         )
 
-    issued_at = datetime.datetime.utcnow()
+    issued_at = datetime.datetime.now(datetime.UTC)
     issued_to = login.user
     expires_at = issued_at + datetime.timedelta(days=180)
 

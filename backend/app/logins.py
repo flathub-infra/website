@@ -9,7 +9,7 @@ And we present the full /auth/ sub-namespace
 import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from enum import Enum
 from urllib.parse import urlencode
 from uuid import uuid4
@@ -1179,7 +1179,7 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
 
     with get_db("writer") as db:
         user = db.merge(login.user)
-        user.accepted_publisher_agreement_at = datetime.utcnow()
+        user.accepted_publisher_agreement_at = datetime.now(UTC)
         db.commit()
 
 

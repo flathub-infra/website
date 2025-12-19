@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from enum import Enum
 from uuid import uuid4
 
@@ -137,7 +137,7 @@ def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenRe
         {
             "token-id": str(uuid4()),
             "user-id": user.id,
-            "exp": datetime.utcnow() + timedelta(days=180),
+            "exp": datetime.now(UTC) + timedelta(days=180),
         },
         base64.b64decode(config.settings.update_token_secret),
         algorithm="HS256",
@@ -257,7 +257,7 @@ def get_download_token(
     encoded = jwt.encode(
         {
             "sub": "download",
-            "exp": datetime.utcnow() + timedelta(hours=24),
+            "exp": datetime.now(UTC) + timedelta(hours=24),
             "apps": appids,
         },
         base64.b64decode(config.settings.flat_manager_secret),
@@ -270,7 +270,7 @@ def get_download_token(
             # re-use the token id, just set a new expiration date
             "token-id": claims["token-id"],
             "user-id": claims["user-id"],
-            "exp": datetime.utcnow() + timedelta(days=180),
+            "exp": datetime.now(UTC) + timedelta(days=180),
         },
         base64.b64decode(config.settings.update_token_secret),
         algorithm="HS256",
