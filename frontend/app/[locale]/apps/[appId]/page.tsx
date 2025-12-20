@@ -196,7 +196,7 @@ export default async function AppDetailPage({
           id: addonApp.id,
           appstream: addonApp,
           stats: addonAppStats.find(
-            (statsResponse) => statsResponse.data.id === addonApp.id,
+            (statsResponse) => statsResponse.data?.id === addonApp.id,
           )?.data,
         }
       })
