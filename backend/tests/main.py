@@ -1049,9 +1049,9 @@ def _login(client):
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
     print(state)
     post_body = {"code": "04f6dff87ead3551df1d", "state": state}
-    response = client.post(
-        "/auth/login/github", json=post_body, cookies=response.cookies
-    )
+    client.cookies.clear()
+    client.cookies.update(response.cookies)
+    response = client.post("/auth/login/github", json=post_body)
     assert response.status_code == 200
 
 
@@ -1311,9 +1311,9 @@ def test_verification_status_not_verified(client):
 #     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
 #     print(state)
 #     post_body = {"code": "d57f9d32d58f76dfcce7", "state": state}
-#     response = client.post(
-#         "/auth/login/github", json=post_body, cookies=response.cookies
-#     )
+#     client.cookies.clear()
+#     client.cookies.update(response.cookies)
+#     response = client.post("/auth/login/github", json=post_body)
 #     assert response.status_code == 200
 
 
@@ -1330,9 +1330,9 @@ def test_auth_login_gitlab(client):
         "code": "af2cd03cdcc616e01969a7975b0ae780bd25125348c03f7e3803b6b166e1c8bd",
         "state": state,
     }
-    response = client.post(
-        "/auth/login/gitlab", json=post_body, cookies=response.cookies
-    )
+    client.cookies.clear()
+    client.cookies.update(response.cookies)
+    response = client.post("/auth/login/gitlab", json=post_body)
     assert response.status_code == 200
 
 
@@ -1352,9 +1352,9 @@ def test_auth_login_gitlab(client):
 #         "code": code,
 #         "state": state,
 #     }
-#     response = client.post(
-#         "/auth/login/google", json=post_body, cookies=response.cookies
-#     )
+#     client.cookies.clear()
+#     client.cookies.update(response.cookies)
+#     response = client.post("/auth/login/google", json=post_body)
 #     assert response.status_code == 200
 
 
@@ -1417,9 +1417,8 @@ def test_stripewallet(client):
     assert out["state"] == "ok"
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
     post_body = {"code": "7dcfd37f6ea1f0d87216", "state": state}
-    response = client.post(
-        "/auth/login/github", json=post_body, cookies=response.cookies
-    )
+    client.cookies.update(response.cookies)
+    response = client.post("/auth/login/github", json=post_body)
     assert response.status_code == 200
 
     # Test the login was success through `auth/userinfo`
@@ -1441,9 +1440,9 @@ def test_stripewallet(client):
             }
         ],
     }
-    response = client.post(
-        "/wallet/transactions", json=post_body, cookies=response.cookies
-    )
+    client.cookies.clear()
+    client.cookies.update(response.cookies)
+    response = client.post("/wallet/transactions", json=post_body)
     assert response.status_code == 200
     out = response.json()
     assert out["status"] == "ok"
