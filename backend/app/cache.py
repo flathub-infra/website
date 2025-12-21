@@ -44,7 +44,7 @@ def _make_refresh_lock_key(cache_key: str) -> str:
 
 def _serialize_value(value: Any) -> dict:
     if isinstance(value, BaseModel):
-        serialized_value = value.model_dump(mode="json")
+        serialized_value = value.model_dump(mode="json", by_alias=True)
     else:
         serialized_value = value
 
