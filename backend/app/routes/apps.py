@@ -249,6 +249,7 @@ def get_runtime_list() -> dict[str, int]:
     status_code=200,
     response_model=api_models.SummaryResponse,
     response_model_exclude_none=True,
+    response_model_by_alias=True,
     tags=["app"],
     responses={
         200: {"description": "App summary information"},
