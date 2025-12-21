@@ -166,10 +166,6 @@ async def get_appstream(
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
 
-        if metadata := result.get("metadata"):
-            meta_model = api_models.Metadata.model_validate(metadata)
-            result["metadata"] = meta_model.model_dump(by_alias=True, exclude_none=True)
-
         # Return the correct union type
         if result.get("type") == "addon":
             return api_models.AddonAppstream(**result)
