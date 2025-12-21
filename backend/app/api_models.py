@@ -8,7 +8,7 @@ enabling FastAPI to generate proper OpenAPI specifications and TypeScript types.
 import datetime
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.models import ConnectedAccountProvider
 
@@ -135,6 +135,8 @@ class Provides(BaseModel):
 class VerificationMetadata(BaseModel):
     """Verification metadata embedded in appstream."""
 
+    model_config = ConfigDict(populate_by_name=True)
+
     verified: bool = Field(False, alias="flathub::verification::verified")
     method: Literal["manual", "website", "login_provider", "none"] | None = Field(
         None, alias="flathub::verification::method"
@@ -149,9 +151,6 @@ class VerificationMetadata(BaseModel):
     website: str | None = Field(None, alias="flathub::verification::website")
     timestamp: str | None = Field(None, alias="flathub::verification::timestamp")
 
-    class Config:
-        populate_by_name = True
-
 
 class Icon(BaseModel):
     """Icon information with different sizes."""
@@ -164,7 +163,7 @@ class Icon(BaseModel):
 
 
 class Metadata(BaseModel):
-    model_config = {"populate_by_name": True}
+    model_config = ConfigDict(populate_by_name=True)
 
     flathub_manifest: str | None = Field(None, alias="flathub::manifest")
     flathub_verification_verified: bool | None = Field(
@@ -327,28 +326,25 @@ Appstream = Annotated[
 class SummaryPermissions(BaseModel):
     """Permissions required by the application."""
 
+    model_config = ConfigDict(populate_by_name=True)
+
     shared: list[str] | None = None
     sockets: list[str] | None = None
     devices: list[str] | None = None
     filesystems: list[str] | None = None
     session_bus: dict[str, list[str]] | None = Field(None, alias="session-bus")
 
-    class Config:
-        populate_by_name = True
-
 
 class SummaryExtension(BaseModel):
     """Extension information."""
+
+    model_config = ConfigDict(extra="allow")
 
     directory: str | None = None
     autodelete: str | None = None
     noAutodownload: str | None = None
     version: str | None = None
     versions: str | None = None
-
-    class Config:
-        # Allow any additional fields
-        extra = "allow"
 
 
 class SummaryExtraData(BaseModel):
@@ -363,6 +359,8 @@ class SummaryExtraData(BaseModel):
 class SummaryMetadata(BaseModel):
     """Metadata from the Flatpak summary."""
 
+    model_config = ConfigDict(extra="allow")
+
     name: str
     runtime: str
     sdk: str | None = None
@@ -374,10 +372,6 @@ class SummaryMetadata(BaseModel):
     extraData: SummaryExtraData | None = None
     runtimeIsEol: bool = False
 
-    class Config:
-        # Allow extra fields that may be added
-        extra = "allow"
-
 
 class SummaryResponse(BaseModel):
     """
@@ -387,13 +381,11 @@ class SummaryResponse(BaseModel):
     containing information about app size, architectures, and metadata.
     """
 
+    model_config = ConfigDict(extra="allow")
+
     arches: list[str]
     branch: str | None = None
     timestamp: int
     download_size: int
     installed_size: int
     metadata: SummaryMetadata | None = None
-
-    class Config:
-        # Allow extra fields for forward compatibility
-        extra = "allow"
