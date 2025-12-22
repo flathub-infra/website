@@ -1126,9 +1126,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/zod-openapi@npm:^1.1.6":
-  version: 1.1.6
-  resolution: "@hono/zod-openapi@npm:1.1.6"
+"@hono/zod-openapi@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@hono/zod-openapi@npm:1.2.0"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^8.1.0"
     "@hono/zod-validator": "npm:^0.7.6"
@@ -1136,7 +1136,7 @@ __metadata:
   peerDependencies:
     hono: ">=4.3.6"
     zod: ^4.0.0
-  checksum: 10c0/7ef9f46daf2687b5e4028241879b2f260448b5cc8fbd7a84a58507613c6b312a61c0ff498143767874dc2b585a272dc084e491e2024f2897ca1caa9fceb3a94b
+  checksum: 10c0/8424c292d450f6af0de5ea6ce49fdb5dd4ab41d02902fc8c26044153fd970af1002e68607a6d2da3190a46a6ba204c5cb40a86c6d4db73588ad86348608a3a3a
   languageName: node
   linkType: hard
 
@@ -4497,7 +4497,7 @@ __metadata:
     "@hono/node-server": "npm:^1.19.7"
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
-    "@hono/zod-openapi": "npm:^1.1.6"
+    "@hono/zod-openapi": "npm:^1.2.0"
     "@react-email/components": "npm:1.0.1"
     "@react-email/preview-server": "npm:5.0.8"
     "@react-email/render": "npm:2.0.0"
