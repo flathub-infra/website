@@ -22,4 +22,5 @@ cp tests/stats/004-two-weeks-ago.json tests/stats/$two_weeks_ago
 
 docker compose exec backend python -m pytest -vvvv \
 	tests/main.py \
-	tests/test_storefront_smoke.py
+	tests/test_storefront_smoke.py \
+	tests/test_year_in_review_smoke.py

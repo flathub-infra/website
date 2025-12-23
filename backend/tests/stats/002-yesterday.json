@@ -1,32 +1,32 @@
 {
   "countries": {
-    "AD": 10,
-    "BR": 20
+    "DE": 279,
+    "FI": 1685
   },
-  "delta_downloads": 15,
+  "delta_downloads": 485,
   "downloads": 1964,
-  "updates": 5,
+  "updates": 1480,
   "ref_by_country": {
     "com.anydesk.Anydesk": {
       "DE": [
-        5,
-        4
+        279,
+        227
       ],
       "FI": [
-        8,
-        4
+        1239,
+        1012
       ]
     },
     "org.sugarlabs.Maze": {
       "FI": [
-        51,
-        56
+        1,
+        0
       ]
     },
     "com.wps.Office": {
       "FI": [
-        161,
-        16
+        445,
+        240
       ]
     }
   },

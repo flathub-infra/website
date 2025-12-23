@@ -1,24 +1,25 @@
 {
   "countries": {
-    "AD": 15,
-    "BR": 7
+    "DE": 103,
+    "NL": 57,
+    "FI": 587
   },
-  "delta_downloads": 51,
-  "downloads": 199,
-  "updates": 56,
+  "delta_downloads": 770,
+  "downloads": 932,
+  "updates": 162,
   "ref_by_country": {
     "com.anydesk.Anydesk": {
       "DE": [
-        2,
-        0
+        46,
+        4
       ],
       "NL": [
-        1,
-        0
+        26,
+        2
       ],
       "FI": [
-        42,
-        4
+        29,
+        3
       ]
     },
     "org.sugarlabs.Maze": {
@@ -29,16 +30,16 @@
     },
     "com.wps.Office": {
       "DE": [
-        1,
-        0
+        157,
+        49
       ],
       "NL": [
-        1,
-        0
+        47,
+        16
       ],
       "FI": [
-        161,
-        16
+        111,
+        32
       ]
     }
   },
@@ -61,12 +62,12 @@
     },
     "com.wps.Office": {
       "i386": [
-        166,
-        85
+        154,
+        82
       ],
       "x86_64": [
         161,
-        16
+        15
       ]
     }
   }
