@@ -1,28 +1,27 @@
 {
   "countries": {
-    "AD": 10,
-    "BR": 20
+    "US": 703
   },
-  "delta_downloads": 15,
+  "delta_downloads": 438,
   "downloads": 703,
-  "updates": 5,
+  "updates": 265,
   "ref_by_country": {
     "com.anydesk.Anydesk": {
       "US": [
-        1,
-        0
+        272,
+        47
       ]
     },
     "org.sugarlabs.Maze": {
       "US": [
-        1,
+        6,
         0
       ]
     },
     "com.wps.Office": {
       "US": [
-        1,
-        0
+        425,
+        218
       ]
     }
   },

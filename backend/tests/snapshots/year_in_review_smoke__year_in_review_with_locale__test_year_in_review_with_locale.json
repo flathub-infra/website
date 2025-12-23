@@ -1,0 +1,135 @@
+{
+  "year": 2025,
+  "total_downloads": 2313,
+  "new_apps_count": 3,
+  "total_apps": 3,
+  "updates_count": 4486,
+  "total_downloads_change": 2313,
+  "total_downloads_change_percentage": 0.0,
+  "top_apps": [
+    {
+      "app_id": "com.wps.Office",
+      "name": "WPS Office",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
+      "summary": "WPS Office Suite",
+      "downloads": 1151
+    },
+    {
+      "app_id": "com.anydesk.Anydesk",
+      "name": "AnyDesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "summary": "Connect to a computer remotely",
+      "downloads": 653
+    }
+  ],
+  "top_games": [
+    {
+      "app_id": "org.sugarlabs.Maze",
+      "name": "Irrgarten",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "summary": "Ein simples Irrgartenspiel",
+      "downloads": 509
+    }
+  ],
+  "top_emulators": [],
+  "top_game_stores": [],
+  "top_game_utilities": [],
+  "popular_apps_by_category": [
+    {
+      "category": "office",
+      "app_id": "com.wps.Office",
+      "name": "WPS Office",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
+      "summary": "WPS Office Suite",
+      "downloads": 1151
+    },
+    {
+      "category": "network",
+      "app_id": "com.anydesk.Anydesk",
+      "name": "AnyDesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "summary": "Connect to a computer remotely",
+      "downloads": 653
+    },
+    {
+      "category": "game",
+      "app_id": "org.sugarlabs.Maze",
+      "name": "Irrgarten",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "summary": "Ein simples Irrgartenspiel",
+      "downloads": 509
+    }
+  ],
+  "biggest_growth_by_category": [],
+  "newcomers_by_category": [
+    {
+      "category": "office",
+      "app_id": "com.wps.Office",
+      "name": "WPS Office",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
+      "summary": "WPS Office Suite",
+      "downloads": 1151
+    },
+    {
+      "category": "network",
+      "app_id": "com.anydesk.Anydesk",
+      "name": "AnyDesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "summary": "Connect to a computer remotely",
+      "downloads": 653
+    },
+    {
+      "category": "game",
+      "app_id": "org.sugarlabs.Maze",
+      "name": "Irrgarten",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "summary": "Ein simples Irrgartenspiel",
+      "downloads": 509
+    }
+  ],
+  "most_improved_by_category": [],
+  "geographic_stats": {
+    "top_countries": [
+      {
+        "country_code": "FI",
+        "downloads": 1312
+      },
+      {
+        "country_code": "US",
+        "downloads": 485
+      },
+      {
+        "country_code": "DE",
+        "downloads": 246
+      },
+      {
+        "country_code": "NL",
+        "downloads": 70
+      }
+    ],
+    "total_countries": 4,
+    "fastest_growing_regions": []
+  },
+  "hidden_gems": [
+    {
+      "app_id": "com.anydesk.Anydesk",
+      "name": "AnyDesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "summary": "Connect to a computer remotely",
+      "downloads": 653
+    }
+  ],
+  "trending_categories": [],
+  "platform_stats": [
+    {
+      "architecture": "x86_64",
+      "downloads": 2198,
+      "percentage": 95.03
+    },
+    {
+      "architecture": "i386",
+      "downloads": 115,
+      "percentage": 4.97
+    }
+  ]
+}

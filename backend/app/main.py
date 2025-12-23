@@ -34,6 +34,7 @@ from .routes import (
     quality_moderation,
     stats,
     upload_tokens,
+    year_in_review,
 )
 
 if config.settings.sentry_dsn:
@@ -97,6 +98,7 @@ exceptions.register_to_app(router)
 users.register_to_app(router)
 favorites.register_to_app(router)
 stats.register_to_app(router)
+year_in_review.register_to_app(router)
 
 app = wrap_asgi_with_proxy_headers(router, trusted_hosts=["*"])
 

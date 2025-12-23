@@ -1,3 +1,5 @@
+import asyncio
+import concurrent.futures
 import datetime
 import json
 from collections import defaultdict
@@ -9,7 +11,7 @@ import orjson
 
 from app import utils
 
-from . import config, database, models, search, zscore
+from . import config, database, models, schemas, search, zscore
 from .worker.redis import redis_conn
 
 StatsType = dict[str, dict[str, list[int]]]
@@ -27,13 +29,49 @@ class StatsFromServer(TypedDict):
     refs: dict[str, dict[str, list[int]]]
 
 
-POPULAR_DAYS_NUM = 7
-
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
+
+# Download thresholds for filtering meaningful statistics
+# Used to exclude apps/categories with insufficient downloads from various calculations
+MINIMAL_USAGE_THRESHOLD = (
+    500  # Minimum downloads to indicate real usage (for hidden gems)
+)
+MEANINGFUL_DOWNLOADS_THRESHOLD = (
+    1000  # Standard threshold for meaningful download counts
+)
+HIGH_DOWNLOADS_THRESHOLD = (
+    5000  # Higher threshold for stricter filtering (percentage growth)
+)
+MINIMUM_GEM_THRESHOLD = 1000  # Minimum threshold for hidden gems calculation
+
+
+def _fetch_stats_parallel(
+    sdate: datetime.date, edate: datetime.date
+) -> list[StatsFromServer | None]:
+    dates = [
+        sdate + datetime.timedelta(days=i) for i in range((edate - sdate).days + 1)
+    ]
+
+    results: list[StatsFromServer | None] = [None] * len(dates)
+    with httpx.Client() as shared_session:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+            future_to_index = {
+                executor.submit(_get_stats_for_date, date, shared_session): idx
+                for idx, date in enumerate(dates)
+            }
+
+            for future in concurrent.futures.as_completed(future_to_index):
+                idx = future_to_index[future]
+                try:
+                    results[idx] = future.result()
+                except Exception:
+                    results[idx] = None
+
+    return results
 
 
 def _get_stats_for_date(
-    date: datetime.date, session: httpx.Client
+    date: datetime.date, session: httpx.Client | None = None
 ) -> StatsFromServer | None:
     stats_json_url = urlparse(
         config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
@@ -48,11 +86,19 @@ def _get_stats_for_date(
     redis_key = f"stats:date:{date.isoformat()}"
     stats_txt = redis_conn.get(redis_key)
     if stats_txt is None:
-        response = session.get(urlunparse(stats_json_url), timeout=30.0)
-        if response.status_code == 404:
-            return None
-        response.raise_for_status()
-        stats = response.json()
+        if session is None:
+            with httpx.Client() as temp_session:
+                response = temp_session.get(urlunparse(stats_json_url), timeout=30.0)
+                if response.status_code == 404:
+                    return None
+                response.raise_for_status()
+                stats = response.json()
+        else:
+            response = session.get(urlunparse(stats_json_url), timeout=30.0)
+            if response.status_code == 404:
+                return None
+            response.raise_for_status()
+            stats = response.json()
         expire = (
             datetime.timedelta(hours=4)
             if date > datetime.date.today() + datetime.timedelta(days=-7)
@@ -66,24 +112,23 @@ def _get_stats_for_date(
 
 def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
     totals: StatsType = {}
-    with httpx.Client() as session:
-        for i in range((edate - sdate).days + 1):
-            date = sdate + datetime.timedelta(days=i)
-            stats = _get_stats_for_date(date, session)
+    for i in range((edate - sdate).days + 1):
+        date = sdate + datetime.timedelta(days=i)
+        stats = _get_stats_for_date(date)
 
-            if stats is None or "refs" not in stats or stats["refs"] is None:
-                continue
-            for app_id, app_stats in stats["refs"].items():
-                app_id_without_architecture = _remove_architecture_from_id(app_id)
-                if app_id_without_architecture not in totals:
-                    totals[app_id_without_architecture] = {}
-                app_totals = totals[app_id_without_architecture]
-                for arch, downloads in app_stats.items():
-                    if arch not in app_totals:
-                        app_totals[arch] = [0, 0, 0]
-                    app_totals[arch][0] += downloads[0]
-                    app_totals[arch][1] += downloads[1]
-                    app_totals[arch][2] += downloads[0] - downloads[1]
+        if stats is None or "refs" not in stats or stats["refs"] is None:
+            continue
+        for app_id, app_stats in stats["refs"].items():
+            app_id_without_architecture = _remove_architecture_from_id(app_id)
+            if app_id_without_architecture not in totals:
+                totals[app_id_without_architecture] = {}
+            app_totals = totals[app_id_without_architecture]
+            for arch, downloads in app_stats.items():
+                if arch not in app_totals:
+                    app_totals[arch] = [0, 0, 0]
+                app_totals[arch][0] += downloads[0]
+                app_totals[arch][1] += downloads[1]
+                app_totals[arch][2] += downloads[0] - downloads[1]
     return totals
 
 
@@ -94,39 +139,54 @@ def _get_app_stats_per_country() -> dict[str, dict[str, int]]:
 
     app_stats_per_country: dict[str, dict[str, int]] = {}
 
-    with httpx.Client() as session:
-        for i in range((edate - sdate).days + 1):
-            date = sdate + datetime.timedelta(days=i)
-            stats = _get_stats_for_date(date, session)
+    for i in range((edate - sdate).days + 1):
+        date = sdate + datetime.timedelta(days=i)
+        stats = _get_stats_for_date(date)
 
-            if (
-                stats is not None
-                and "ref_by_country" in stats
-                and stats["ref_by_country"] is not None
-            ):
-                for app_id, app_stats in stats["ref_by_country"].items():
-                    if app_id not in app_stats_per_country:
-                        app_stats_per_country[app_id] = {}
-                    for country, downloads in app_stats.items():
-                        if country not in app_stats_per_country[app_id]:
-                            app_stats_per_country[app_id][country] = 0
-                        app_stats_per_country[app_id][country] += (
-                            downloads[0] - downloads[1]
-                        )
+        if (
+            stats is not None
+            and "ref_by_country" in stats
+            and stats["ref_by_country"] is not None
+        ):
+            for app_id, app_stats in stats["ref_by_country"].items():
+                if app_id not in app_stats_per_country:
+                    app_stats_per_country[app_id] = {}
+                for country, downloads in app_stats.items():
+                    if country not in app_stats_per_country[app_id]:
+                        app_stats_per_country[app_id][country] = 0
+                    app_stats_per_country[app_id][country] += (
+                        downloads[0] - downloads[1]
+                    )
     return app_stats_per_country
 
 
 def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     # Skip last two days as flathub-stats publishes partial statistics
+    redis_key = "app_stats_per_day"
+    cached_data = database.get_json_key(redis_key)
+    if cached_data is not None and isinstance(cached_data, dict):
+        return cached_data  # type: ignore
+
     edate = datetime.date.today() - datetime.timedelta(days=2)
     sdate = FIRST_STATS_DATE
 
     app_stats_per_day: dict[str, dict[str, int]] = {}
 
-    with httpx.Client() as session:
-        for i in range((edate - sdate).days + 1):
-            date = sdate + datetime.timedelta(days=i)
-            stats = _get_stats_for_date(date, session)
+    dates = [
+        sdate + datetime.timedelta(days=i) for i in range((edate - sdate).days + 1)
+    ]
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+        future_to_date = {
+            executor.submit(_get_stats_for_date, date): date for date in dates
+        }
+
+        for future in concurrent.futures.as_completed(future_to_date):
+            date = future_to_date[future]
+            try:
+                stats = future.result()
+            except Exception:
+                continue
 
             if stats is not None and "refs" in stats and stats["refs"] is not None:
                 for app_id, app_stats in stats["refs"].items():
@@ -134,12 +194,15 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                     if app_id_without_architecture not in app_stats_per_day:
                         app_stats_per_day[app_id_without_architecture] = {}
                     app_stats_per_day[app_id_without_architecture][date.isoformat()] = (
-                        sum([i[0] - i[1] for i in app_stats.values()])
+                        _sum_installs_by_arch(app_stats)
                     )
 
     # Sort each app's stats by date
     for app_id in app_stats_per_day:
         app_stats_per_day[app_id] = dict(sorted(app_stats_per_day[app_id].items()))
+
+    # Cache for a day; data is historical and slow to compute
+    redis_conn.set(redis_key, orjson.dumps(app_stats_per_day), ex=86400)
 
     return app_stats_per_day
 
@@ -152,41 +215,36 @@ def _get_stats(app_count: int):
     delta_downloads_per_day: dict[str, int] = {}
     updates_per_day: dict[str, int] = {}
     totals_country: dict[str, int] = {}
-    with httpx.Client() as session:
-        for i in range((edate - sdate).days + 1):
-            date = sdate + datetime.timedelta(days=i)
-            stats = _get_stats_for_date(date, session)
+    for i in range((edate - sdate).days + 1):
+        date = sdate + datetime.timedelta(days=i)
+        stats = _get_stats_for_date(date)
 
-            if (
-                stats is not None
-                and "downloads" in stats
-                and stats["downloads"] is not None
-            ):
-                downloads_per_day[date.isoformat()] = stats["downloads"]
+        if (
+            stats is not None
+            and "downloads" in stats
+            and stats["downloads"] is not None
+        ):
+            downloads_per_day[date.isoformat()] = stats["downloads"]
 
-            if (
-                stats is not None
-                and "updates" in stats
-                and stats["updates"] is not None
-            ):
-                updates_per_day[date.isoformat()] = stats["updates"]
+        if stats is not None and "updates" in stats and stats["updates"] is not None:
+            updates_per_day[date.isoformat()] = stats["updates"]
 
-            if (
-                stats is not None
-                and "delta_downloads" in stats
-                and stats["delta_downloads"] is not None
-            ):
-                delta_downloads_per_day[date.isoformat()] = stats["delta_downloads"]
+        if (
+            stats is not None
+            and "delta_downloads" in stats
+            and stats["delta_downloads"] is not None
+        ):
+            delta_downloads_per_day[date.isoformat()] = stats["delta_downloads"]
 
-            if (
-                stats is not None
-                and "countries" in stats
-                and stats["countries"] is not None
-            ):
-                for country, downloads in stats["countries"].items():
-                    if country not in totals_country:
-                        totals_country[country] = 0
-                    totals_country[country] = totals_country[country] + downloads
+        if (
+            stats is not None
+            and "countries" in stats
+            and stats["countries"] is not None
+        ):
+            for country, downloads in stats["countries"].items():
+                if country not in totals_country:
+                    totals_country[country] = 0
+                totals_country[country] = totals_country[country] + downloads
 
     category_totals = get_category_totals()
 
@@ -226,6 +284,16 @@ def get_category_totals():
         )
 
     return categories
+
+
+def _calculate_installs(downloads_data: list[int]) -> int:
+    if len(downloads_data) >= 2:
+        return downloads_data[0] - downloads_data[1]
+    return 0
+
+
+def _sum_installs_by_arch(app_stats: dict[str, list[int]]) -> int:
+    return sum(_calculate_installs(dls) for dls in app_stats.values())
 
 
 def _sort_key(
@@ -607,3 +675,779 @@ def update(sqldb):
 
     redis_conn.set("stats", orjson.dumps(stats_dict))
     database.bulk_set_app_stats(stats_apps_dict)
+
+
+def _normalize_year_date_range(year: int) -> tuple[datetime.date, datetime.date] | None:
+    sdate = datetime.date(year, 1, 1)
+    edate = datetime.date(year, 12, 31)
+    today = datetime.date.today()
+
+    if edate > today:
+        edate = today
+    if sdate < FIRST_STATS_DATE:
+        sdate = FIRST_STATS_DATE
+    if sdate > today:
+        return None
+
+    return (sdate, edate)
+
+
+def _get_country_downloads_for_year(year: int) -> dict[str, int]:
+    redis_key = f"year_country_downloads:{year}"
+    cached_data = database.get_json_key(redis_key)
+    if cached_data is not None and isinstance(cached_data, dict):
+        return cached_data  # type: ignore
+
+    date_range = _normalize_year_date_range(year)
+    if not date_range:
+        return {}
+
+    sdate, edate = date_range
+    today = datetime.date.today()
+
+    country_downloads: dict[str, int] = {}
+    stats_results = _fetch_stats_parallel(sdate, edate)
+
+    for stats in stats_results:
+        if stats and "ref_by_country" in stats and stats["ref_by_country"] is not None:
+            for app_id, country_stats in stats["ref_by_country"].items():
+                for country, downloads in country_stats.items():
+                    if country not in country_downloads:
+                        country_downloads[country] = 0
+                    new_installs = _calculate_installs(downloads)
+                    if new_installs > 0:
+                        country_downloads[country] += new_installs
+
+    cache_ttl = 86400 * 7 if edate < today else 3600
+    redis_conn.set(redis_key, orjson.dumps(country_downloads), ex=cache_ttl)
+
+    return country_downloads
+
+
+def _get_basic_year_stats(year: int) -> dict | None:
+    redis_key = f"year_basic_stats:{year}"
+    cached_data = database.get_json_key(redis_key)
+    if cached_data is not None and isinstance(cached_data, dict):
+        return cached_data  # type: ignore
+
+    date_range = _normalize_year_date_range(year)
+    if not date_range:
+        return None
+
+    sdate, edate = date_range
+    today = datetime.date.today()
+
+    total_downloads = 0
+    total_updates = 0
+
+    stats_results = _fetch_stats_parallel(sdate, edate)
+    for stats in stats_results:
+        if stats:
+            if "refs" in stats and stats["refs"] is not None:
+                for app_id, app_stats in stats["refs"].items():
+                    for arch, downloads in app_stats.items():
+                        new_installs = _calculate_installs(downloads)
+                        if new_installs > 0:
+                            total_downloads += new_installs
+            if "updates" in stats and stats["updates"] is not None:
+                total_updates += stats["updates"]
+
+    # Get app count for the year
+    new_apps_count = 0
+    with database.get_db() as sqldb:
+        new_apps_count = (
+            sqldb.query(models.App)
+            .filter(models.App.type == "desktop-application")
+            .filter(models.App.initial_release_at >= sdate)
+            .filter(models.App.initial_release_at <= edate)
+            .count()
+        )
+
+    result = {
+        "total_downloads": total_downloads,
+        "new_apps_count": new_apps_count,
+        "updates_count": total_updates,
+    }
+
+    # Cache for a long time if year is complete, shorter if current year
+    cache_ttl = 86400 * 7 if edate < today else 3600  # 7 days or 1 hour
+    redis_conn.set(redis_key, orjson.dumps(result), ex=cache_ttl)
+
+    return result
+
+
+def _get_category_downloads_for_year(year: int) -> dict[str, int]:
+    redis_key = f"year_category_downloads:{year}"
+    cached_data = database.get_json_key(redis_key)
+    if cached_data is not None:
+        return cached_data  # type: ignore
+
+    date_range = _normalize_year_date_range(year)
+    if not date_range:
+        return {}
+
+    sdate, edate = date_range
+    today = datetime.date.today()
+
+    app_downloads = defaultdict(int)
+    stats_results = _fetch_stats_parallel(sdate, edate)
+
+    for stats in stats_results:
+        if stats and "refs" in stats and stats["refs"] is not None:
+            for app_id, app_stats in stats["refs"].items():
+                app_id_clean = _remove_architecture_from_id(app_id)
+                for arch, downloads in app_stats.items():
+                    new_installs = _calculate_installs(downloads)
+                    if new_installs > 0:
+                        app_downloads[app_id_clean] += new_installs
+
+    # Map app downloads to categories
+    category_downloads = defaultdict(int)
+    with database.get_db() as sqldb:
+        if not app_downloads:
+            app_rows: list[tuple[str, str | None]] = []
+        else:
+            app_rows = (
+                sqldb.query(models.App.app_id, models.App.main_category)
+                .filter(
+                    models.App.type == "desktop-application",
+                    models.App.app_id.in_(app_downloads.keys()),
+                )
+                .all()
+            )
+
+        for app_id, main_category in app_rows:
+            if main_category:
+                category_downloads[main_category.lower()] += app_downloads[app_id]
+
+    result = dict(category_downloads)
+
+    # Cache for a long time if year is complete, shorter if current year
+    cache_ttl = 86400 * 7 if edate < today else 3600  # 7 days or 1 hour
+    redis_conn.set(redis_key, orjson.dumps(result), ex=cache_ttl)
+
+    return result
+
+
+def _get_app_downloads_for_year(year: int) -> dict[str, int]:
+    redis_key = f"year_app_downloads:{year}"
+    cached_data = database.get_json_key(redis_key)
+    if cached_data is not None and isinstance(cached_data, dict):
+        return cached_data  # type: ignore
+
+    date_range = _normalize_year_date_range(year)
+    if not date_range:
+        return {}
+
+    sdate, edate = date_range
+    today = datetime.date.today()
+
+    app_downloads = defaultdict(int)
+    stats_results = _fetch_stats_parallel(sdate, edate)
+
+    for stats in stats_results:
+        if stats and "refs" in stats and stats["refs"] is not None:
+            for app_id, app_stats in stats["refs"].items():
+                app_id_clean = _remove_architecture_from_id(app_id)
+                for arch, downloads in app_stats.items():
+                    new_installs = _calculate_installs(downloads)
+                    if new_installs > 0:
+                        app_downloads[app_id_clean] += new_installs
+
+    result = dict(app_downloads)
+
+    # Cache for a long time if year is complete, shorter if current year
+    cache_ttl = 86400 * 7 if edate < today else 3600  # 7 days or 1 hour
+    redis_conn.set(redis_key, orjson.dumps(result), ex=cache_ttl)
+
+    return result
+
+
+async def get_year_stats(year: int, locale: str = "en"):
+    sdate = datetime.date(year, 1, 1)
+    edate = datetime.date(year, 12, 31)
+
+    today = datetime.date.today()
+    if edate > today:
+        edate = today
+
+    if sdate < FIRST_STATS_DATE:
+        sdate = FIRST_STATS_DATE
+
+    if sdate > today:
+        return None
+
+    total_downloads = 0
+    total_updates = 0
+    app_downloads = defaultdict(int)
+    app_updates_dict = defaultdict(int)
+    monthly_downloads = defaultdict(lambda: defaultdict(int))
+    country_downloads = defaultdict(int)
+    arch_downloads = defaultdict(int)
+
+    dates = [
+        sdate + datetime.timedelta(days=i) for i in range((edate - sdate).days + 1)
+    ]
+
+    async def _fetch_stats_async(date):
+        cache_key = f"stats:date:{date.isoformat()}"
+        try:
+            cached_value = await redis_conn.get(cache_key)
+        except Exception:
+            cached_value = None
+
+        if cached_value:
+            try:
+                return orjson.loads(cached_value)
+            except Exception:
+                # Fallback to recomputing if cache is corrupt
+                pass
+
+        try:
+            data = await asyncio.to_thread(_get_stats_for_date, date)
+        except Exception:
+            return None
+
+        if data is not None:
+            try:
+                today = datetime.date.today()
+                if date.year == today.year:
+                    ttl_seconds = 60 * 60  # 1 hour for current year
+                else:
+                    ttl_seconds = 60 * 60 * 24 * 7  # 7 days for past years
+
+                await redis_conn.set(cache_key, orjson.dumps(data), ex=ttl_seconds)
+            except Exception:
+                # If caching fails, just proceed without cache
+                pass
+
+        return data
+
+    stats_results = await asyncio.gather(*[_fetch_stats_async(date) for date in dates])
+
+    for date_idx, stats in enumerate(stats_results):
+        if stats is None:
+            continue
+
+        date = dates[date_idx]
+
+        if "updates" in stats and stats["updates"] is not None:
+            total_updates += stats["updates"]
+
+        month_key = date.strftime("%Y-%m")
+        if "refs" in stats and stats["refs"] is not None:
+            for app_id, app_stats in stats["refs"].items():
+                app_id_clean = _remove_architecture_from_id(app_id)
+                for arch, downloads in app_stats.items():
+                    new_installs = _calculate_installs(downloads)
+                    if new_installs > 0:
+                        updates = downloads[1] if len(downloads) >= 2 else 0
+                        app_downloads[app_id_clean] += new_installs
+                        app_updates_dict[app_id_clean] += updates
+                        monthly_downloads[month_key][app_id_clean] += new_installs
+                        arch_downloads[arch] += new_installs
+                        total_downloads += new_installs
+
+        if "ref_by_country" in stats and stats["ref_by_country"] is not None:
+            for app_id, country_stats in stats["ref_by_country"].items():
+                for country, downloads in country_stats.items():
+                    new_installs = _calculate_installs(downloads)
+                    if new_installs > 0:
+                        country_downloads[country] += new_installs
+
+    loop = asyncio.get_running_loop()
+
+    def _categorize_gaming_app(
+        app, gaming_app_ids, emulator_app_ids, game_store_app_ids, game_utility_app_ids
+    ):
+        app_subcategories = set(s.lower() for s in (app.sub_categories or []))
+
+        if "emulator" in app_subcategories:
+            emulator_app_ids.add(app.app_id)
+        elif "packagemanager" in app_subcategories:
+            game_store_app_ids.add(app.app_id)
+        elif app_subcategories & {"utility", "network"}:
+            game_utility_app_ids.add(app.app_id)
+        else:
+            gaming_app_ids.add(app.app_id)
+
+    def _fetch_app_data():
+        desktop_app_ids = set()
+        gaming_app_ids = set()
+        emulator_app_ids = set()
+        game_store_app_ids = set()
+        game_utility_app_ids = set()
+        non_game_app_ids = set()
+        app_main_category = {}
+
+        with database.get_db() as sqldb:
+            all_apps = (
+                sqldb.query(models.App)
+                .filter(models.App.type == "desktop-application")
+                .all()
+            )
+
+            for app in all_apps:
+                desktop_app_ids.add(app.app_id)
+
+                is_game = app.main_category and app.main_category.lower() == "game"
+
+                if is_game:
+                    _categorize_gaming_app(
+                        app,
+                        gaming_app_ids,
+                        emulator_app_ids,
+                        game_store_app_ids,
+                        game_utility_app_ids,
+                    )
+                else:
+                    non_game_app_ids.add(app.app_id)
+
+                if app.main_category:
+                    app_main_category[app.app_id] = app.main_category
+
+        return (
+            desktop_app_ids,
+            gaming_app_ids,
+            emulator_app_ids,
+            game_store_app_ids,
+            game_utility_app_ids,
+            non_game_app_ids,
+            app_main_category,
+        )
+
+    (
+        desktop_app_ids,
+        gaming_app_ids,
+        emulator_app_ids,
+        game_store_app_ids,
+        game_utility_app_ids,
+        non_game_app_ids,
+        app_main_category,
+    ) = await loop.run_in_executor(None, _fetch_app_data)
+
+    # Manual overrides for well-known gaming apps whose subcategories don't map cleanly
+    for app_id in {"net.lutris.Lutris"}:
+        if app_id in desktop_app_ids:
+            game_store_app_ids.add(app_id)
+            gaming_app_ids.discard(app_id)
+            game_utility_app_ids.discard(app_id)
+            emulator_app_ids.discard(app_id)
+            non_game_app_ids.discard(app_id)
+
+    for app_id in {
+        "org.scummvm.ScummVM",
+        "org.prismlauncher.PrismLauncher",
+        "com.moonlight_stream.Moonlight",
+        "org.polymc.PolyMC",
+    }:
+        if app_id in desktop_app_ids:
+            game_utility_app_ids.add(app_id)
+            gaming_app_ids.discard(app_id)
+            game_store_app_ids.discard(app_id)
+            emulator_app_ids.discard(app_id)
+            non_game_app_ids.discard(app_id)
+
+    def _filter_downloads_by_ids(id_set: set) -> dict[str, int]:
+        return {
+            app_id: downloads
+            for app_id, downloads in app_downloads.items()
+            if app_id in id_set
+        }
+
+    non_game_app_downloads = _filter_downloads_by_ids(non_game_app_ids)
+    gaming_app_downloads = _filter_downloads_by_ids(gaming_app_ids)
+    emulator_app_downloads = _filter_downloads_by_ids(emulator_app_ids)
+    game_store_app_downloads = _filter_downloads_by_ids(game_store_app_ids)
+    game_utility_app_downloads = _filter_downloads_by_ids(game_utility_app_ids)
+
+    def _get_top_app_ids(downloads_dict: dict, count: int = 3) -> list[str]:
+        """Get top N app IDs from downloads dict."""
+        if not downloads_dict:
+            return []
+        sorted_items = sorted(downloads_dict.items(), key=lambda x: x[1], reverse=True)[
+            :count
+        ]
+        return [app_id for app_id, _ in sorted_items]
+
+    top_app_ids = _get_top_app_ids(non_game_app_downloads, 3)
+    top_game_ids = _get_top_app_ids(gaming_app_downloads, 3)
+    top_emulator_ids = _get_top_app_ids(emulator_app_downloads, 3)
+    top_game_store_ids = _get_top_app_ids(game_store_app_downloads, 3)
+    top_game_utility_ids = _get_top_app_ids(game_utility_app_downloads, 3)
+
+    frontend_app_ids, app_stats_per_day = await asyncio.gather(
+        loop.run_in_executor(None, database.get_all_appids_for_frontend),
+        loop.run_in_executor(None, _get_app_stats_per_day),
+    )
+
+    new_apps_count = 0
+    total_apps_at_year_end = 0
+    for app_id, daily_stats in app_stats_per_day.items():
+        if app_id in frontend_app_ids and daily_stats:
+            first_date_str = min(daily_stats.keys())
+            first_date = datetime.date.fromisoformat(first_date_str)
+            if first_date <= edate:
+                total_apps_at_year_end += 1
+            if sdate <= first_date <= edate:
+                new_apps_count += 1
+
+    total_apps = total_apps_at_year_end
+
+    def _calculate_yoy_growth(
+        prev_downloads_dict, current_downloads_dict, min_threshold
+    ):
+        growth_dict = {}
+        for app_id, current_downloads in current_downloads_dict.items():
+            prev_downloads = prev_downloads_dict.get(app_id, 0)
+            if prev_downloads >= min_threshold:
+                growth = current_downloads - prev_downloads
+                if growth > 0:
+                    growth_dict[app_id] = {
+                        "growth": growth,
+                        "growth_percentage": int((growth / prev_downloads) * 100),
+                    }
+        return growth_dict
+
+    new_apps_downloads = {}
+    for app_id, daily_stats in app_stats_per_day.items():
+        if app_id in desktop_app_ids and daily_stats:
+            first_date_str = min(daily_stats.keys())
+            first_date = datetime.date.fromisoformat(first_date_str)
+            # App is new if it first appeared in this year
+            if sdate <= first_date <= edate and app_id in app_downloads:
+                new_apps_downloads[app_id] = app_downloads[app_id]
+
+    def _get_sort_value(value, sort_key):
+        return value if isinstance(value, int) else value[sort_key]
+
+    def _build_category_list(data_dict: dict, value_key: str, sort_key: str):
+        category_data = defaultdict(dict)
+        for app_id, value in data_dict.items():
+            if app_id in app_main_category:
+                category_data[app_main_category[app_id]][app_id] = value
+
+        result = []
+        for category_name, apps in category_data.items():
+            if not apps:
+                continue
+
+            top_app_id = max(
+                apps.items(), key=lambda x: _get_sort_value(x[1], sort_key)
+            )[0]
+            top_value = apps[top_app_id]
+
+            try:
+                category_enum = schemas.MainCategory(category_name)
+            except ValueError:
+                continue
+
+            item = {
+                "category": category_enum.value,
+                "app_id": top_app_id,
+            }
+
+            if isinstance(top_value, dict):
+                item.update(top_value)
+            else:
+                item[value_key] = top_value
+
+            result.append(item)
+
+        return sorted(result, key=lambda x: x[sort_key], reverse=True)
+
+    popular_apps_by_category = _build_category_list(
+        app_downloads, "downloads", "downloads"
+    )
+
+    biggest_growth_by_category = []
+    most_improved_by_category = []
+    if year > 2018:
+        prev_year_app_downloads = await loop.run_in_executor(
+            None, _get_app_downloads_for_year, year - 1
+        )
+
+        if prev_year_app_downloads and app_downloads:
+            app_yoy_growth = _calculate_yoy_growth(
+                prev_year_app_downloads, app_downloads, MEANINGFUL_DOWNLOADS_THRESHOLD
+            )
+            biggest_growth_by_category = _build_category_list(
+                app_yoy_growth, "growth", "growth"
+            )
+
+        if prev_year_app_downloads and app_downloads:
+            app_yoy_growth = _calculate_yoy_growth(
+                prev_year_app_downloads, app_downloads, HIGH_DOWNLOADS_THRESHOLD
+            )
+            most_improved_by_category = _build_category_list(
+                app_yoy_growth, "growth_percentage", "growth_percentage"
+            )
+    newcomers_by_category = []
+    if new_apps_downloads:
+        newcomers_by_category = _build_category_list(
+            new_apps_downloads, "downloads", "downloads"
+        )
+
+    top_countries = []
+    if country_downloads:
+        sorted_countries = sorted(
+            country_downloads.items(), key=lambda x: x[1], reverse=True
+        )[:5]
+        for country_code, downloads in sorted_countries:
+            top_countries.append(
+                {
+                    "country_code": country_code,
+                    "downloads": downloads,
+                }
+            )
+
+    fastest_growing_regions = []
+    if year > 2018:  # Need previous year data
+        prev_year_countries = await loop.run_in_executor(
+            None, _get_country_downloads_for_year, year - 1
+        )
+
+        if prev_year_countries and country_downloads:
+            country_growth = []
+            for country_code, downloads in country_downloads.items():
+                prev_downloads = prev_year_countries.get(country_code, 0)
+                if prev_downloads >= MEANINGFUL_DOWNLOADS_THRESHOLD:
+                    growth = downloads - prev_downloads
+                    growth_pct = int((growth / prev_downloads) * 100)
+                    if growth > 0:
+                        country_growth.append(
+                            {
+                                "country_code": country_code,
+                                "downloads": downloads,
+                                "previous_year_downloads": prev_downloads,
+                                "growth": growth,
+                                "growth_percentage": growth_pct,
+                            }
+                        )
+
+            fastest_growing_regions = sorted(
+                country_growth, key=lambda x: x["growth_percentage"], reverse=True
+            )[:5]
+
+    geographic_stats = {
+        "top_countries": top_countries,
+        "total_countries": len(country_downloads),
+        "fastest_growing_regions": fastest_growing_regions,
+    }
+
+    total_downloads_change = 0
+    total_downloads_change_percentage = 0.0
+    if year > 2018:  # Only if we have previous year data
+        prev_year_stats = await loop.run_in_executor(
+            None, _get_basic_year_stats, year - 1
+        )
+        if prev_year_stats:
+            prev_downloads = prev_year_stats.get("total_downloads", 0)
+
+            downloads_change = total_downloads - prev_downloads
+            downloads_change_pct = (
+                (downloads_change / prev_downloads * 100) if prev_downloads > 0 else 0
+            )
+
+            total_downloads_change = downloads_change
+            total_downloads_change_percentage = round(downloads_change_pct, 1)
+
+    def _fetch_quality_apps():
+        with database.get_db() as sqldb:
+            if config.settings.env == "development":
+                return list(non_game_app_ids)
+            else:
+                quality_apps = models.QualityModeration.by_appids_summarized(
+                    sqldb, list(non_game_app_ids)
+                )
+                return [
+                    app_id for app_id, status in quality_apps.items() if status.passes
+                ]
+
+    hidden_gems = []
+    passing_apps = await loop.run_in_executor(None, _fetch_quality_apps)
+
+    if passing_apps and app_downloads:
+        non_game_downloads_list = [
+            app_downloads[app_id]
+            for app_id in non_game_app_ids
+            if app_id in app_downloads and app_downloads[app_id] > 0
+        ]
+        if non_game_downloads_list:
+            sorted_downloads = sorted(non_game_downloads_list)
+            median_downloads = sorted_downloads[len(sorted_downloads) // 2]
+            threshold_idx = int(len(sorted_downloads) * 0.3)
+            low_threshold = (
+                sorted_downloads[threshold_idx]
+                if threshold_idx < len(sorted_downloads)
+                else median_downloads
+            )
+            low_threshold = max(low_threshold, MINIMUM_GEM_THRESHOLD)
+
+            gems_candidates = []
+            for app_id in passing_apps:
+                downloads = app_downloads.get(app_id, 0)
+                if downloads >= MINIMAL_USAGE_THRESHOLD and downloads < low_threshold:
+                    gems_candidates.append(
+                        {
+                            "app_id": app_id,
+                            "downloads": downloads,
+                        }
+                    )
+
+            hidden_gems = sorted(
+                gems_candidates, key=lambda x: x["downloads"], reverse=True
+            )[:5]
+
+    trending_categories = []
+    if year > 2018:
+        prev_category_downloads = await loop.run_in_executor(
+            None, _get_category_downloads_for_year, year - 1
+        )
+        current_category_downloads = defaultdict(int)
+
+        for app_id, downloads in app_downloads.items():
+            category = app_main_category.get(app_id)
+            if category:
+                current_category_downloads[category.lower()] += downloads
+
+        for category, current_downloads in current_category_downloads.items():
+            prev_downloads = prev_category_downloads.get(category, 0)
+            if prev_downloads > MEANINGFUL_DOWNLOADS_THRESHOLD:
+                growth = current_downloads - prev_downloads
+                growth_pct = growth / prev_downloads * 100
+                if growth > 0:
+                    trending_categories.append(
+                        {
+                            "category": category,
+                            "current_year_downloads": current_downloads,
+                            "previous_year_downloads": prev_downloads,
+                            "growth": growth,
+                            "growth_percentage": round(growth_pct, 1),
+                        }
+                    )
+
+        trending_categories = sorted(
+            trending_categories, key=lambda x: x["growth_percentage"], reverse=True
+        )[:3]
+
+    platform_stats = []
+    if arch_downloads:
+        total_arch_downloads = sum(arch_downloads.values())
+        if total_arch_downloads > 0:
+            sorted_archs = sorted(
+                arch_downloads.items(), key=lambda x: x[1], reverse=True
+            )
+            for arch, downloads in sorted_archs:
+                platform_stats.append(
+                    {
+                        "architecture": arch,
+                        "downloads": downloads,
+                        "percentage": round(
+                            (downloads / total_arch_downloads) * 100, 2
+                        ),
+                    }
+                )
+
+    # Collect all app IDs that need translations
+    chosen_app_ids = set()
+    chosen_app_ids.update(top_app_ids)
+    chosen_app_ids.update(top_game_ids)
+    chosen_app_ids.update(top_emulator_ids)
+    chosen_app_ids.update(top_game_store_ids)
+    chosen_app_ids.update(top_game_utility_ids)
+    for item in popular_apps_by_category:
+        chosen_app_ids.add(item["app_id"])
+    for item in biggest_growth_by_category:
+        chosen_app_ids.add(item["app_id"])
+    for item in newcomers_by_category:
+        chosen_app_ids.add(item["app_id"])
+    for item in most_improved_by_category:
+        chosen_app_ids.add(item["app_id"])
+    for item in hidden_gems:
+        chosen_app_ids.add(item["app_id"])
+
+    # Fetch translations only for chosen apps
+    def _fetch_translations_for_apps(app_ids: set):
+        app_names = {}
+        app_icons = {}
+        app_summaries = {}
+
+        with database.get_db() as sqldb:
+            apps = sqldb.query(models.App).filter(models.App.app_id.in_(app_ids)).all()
+            for app in apps:
+                translated_appstream = app.get_translated_appstream(locale)
+                if translated_appstream:
+                    if "name" in translated_appstream:
+                        app_names[app.app_id] = translated_appstream["name"]
+                    if "icon" in translated_appstream:
+                        app_icons[app.app_id] = translated_appstream["icon"]
+                    if "summary" in translated_appstream:
+                        app_summaries[app.app_id] = translated_appstream["summary"]
+
+        return app_names, app_icons, app_summaries
+
+    app_names, app_icons, app_summaries = await loop.run_in_executor(
+        None, _fetch_translations_for_apps, chosen_app_ids
+    )
+
+    def _build_top_list(app_ids: list[str], downloads_dict: dict) -> list:
+        result = []
+        for app_id in app_ids:
+            result.append(
+                {
+                    "app_id": app_id,
+                    "name": app_names.get(app_id) or app_id,
+                    "icon": app_icons.get(app_id),
+                    "summary": app_summaries.get(app_id),
+                    "downloads": downloads_dict.get(app_id, 0),
+                }
+            )
+        return result
+
+    top_apps = _build_top_list(top_app_ids, non_game_app_downloads)
+    top_games = _build_top_list(top_game_ids, gaming_app_downloads)
+    top_emulators = _build_top_list(top_emulator_ids, emulator_app_downloads)
+    top_game_stores = _build_top_list(top_game_store_ids, game_store_app_downloads)
+    top_game_utilities = _build_top_list(
+        top_game_utility_ids, game_utility_app_downloads
+    )
+
+    def _add_translations_to_list(items: list) -> list:
+        for item in items:
+            app_id = item["app_id"]
+            item["name"] = app_names.get(app_id) or app_id
+            item["icon"] = app_icons.get(app_id)
+            item["summary"] = app_summaries.get(app_id)
+        return items
+
+    popular_apps_by_category = _add_translations_to_list(popular_apps_by_category)
+    biggest_growth_by_category = _add_translations_to_list(biggest_growth_by_category)
+    newcomers_by_category = _add_translations_to_list(newcomers_by_category)
+    most_improved_by_category = _add_translations_to_list(most_improved_by_category)
+    hidden_gems = _add_translations_to_list(hidden_gems)
+
+    result = {
+        "year": year,
+        "total_downloads": total_downloads,
+        "new_apps_count": new_apps_count,
+        "total_apps": total_apps,
+        "updates_count": total_updates,
+        "total_downloads_change": total_downloads_change,
+        "total_downloads_change_percentage": total_downloads_change_percentage,
+        "top_apps": top_apps,
+        "top_games": top_games,
+        "top_emulators": top_emulators,
+        "top_game_stores": top_game_stores,
+        "top_game_utilities": top_game_utilities,
+        "popular_apps_by_category": popular_apps_by_category,
+        "biggest_growth_by_category": biggest_growth_by_category,
+        "newcomers_by_category": newcomers_by_category,
+        "most_improved_by_category": most_improved_by_category,
+        "geographic_stats": geographic_stats,
+        "hidden_gems": hidden_gems,
+        "trending_categories": trending_categories,
+        "platform_stats": platform_stats,
+    }
+
+    return result
