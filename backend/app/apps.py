@@ -154,10 +154,32 @@ def load_appstream(sqldb) -> None:
         app_data = apps[app_id].copy()
         locales = app_data.pop("locales")
 
+        categories = apps[app_id].get("categories", [])
+        main_categories_list = [
+            category
+            for category in categories
+            if category.lower() in all_main_categories
+        ]
+        sub_categories_list = [
+            category
+            for category in categories
+            if category.lower() not in all_main_categories
+        ]
+
+        # Only keep the first main_category, move rest to sub_categories
+        main_category = None
+        if len(main_categories_list) > 0:
+            sub_categories_list = sub_categories_list + main_categories_list[1:]
+            main_category = main_categories_list[0]
+
         try:
             app = models.App.set_app(sqldb, app_id, type, locales)
             if app:
                 app.appstream = app_data
+                app.main_category = main_category
+                app.sub_categories = (
+                    sub_categories_list if sub_categories_list else None
+                )
                 sqldb.session.add(app)
                 sqldb.session.commit()
         except Exception as e:

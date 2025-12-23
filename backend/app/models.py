@@ -26,7 +26,7 @@ from sqlalchemy import (
     or_,
     text,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -2362,10 +2362,13 @@ class App(Base):
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
     eol_branches = mapped_column(JSONB, nullable=True)
     eol_message = mapped_column(String, nullable=True)
+    main_category = mapped_column(String, nullable=True, index=True)
+    sub_categories = mapped_column(ARRAY(String), nullable=True)
 
     __table_args__ = (
         Index("apps_unique", app_id, unique=True),
         Index("apps_type_is_eol", type, is_eol),
+        Index("apps_sub_categories_idx", sub_categories, postgresql_using="gin"),
     )
 
     def get_translated_appstream(self, locale: str) -> dict[str, Any] | None:
