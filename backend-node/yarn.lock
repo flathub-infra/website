@@ -1481,65 +1481,65 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/env@npm:16.0.9"
-  checksum: 10c0/06bbe92cf392b941fe61ecb4bfd1ce1f8d562acf5ace26cb46e68b8d4d3b56c26ccccca0e221411f9cd18e4921833af79c709450e131544c2d0c39991df2834e
+"@next/env@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/env@npm:16.0.10"
+  checksum: 10c0/6f2b5ba37733a49513ab3117c06f037fa962b4022fe2b4ba7801f830ab15974ad87ad8b47b6464fa5fcb3e9a3247b25f657ec97ae6eed1156b5736c6388246db
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-darwin-arm64@npm:16.0.9"
+"@next/swc-darwin-arm64@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-darwin-arm64@npm:16.0.10"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-darwin-x64@npm:16.0.9"
+"@next/swc-darwin-x64@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-darwin-x64@npm:16.0.10"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-linux-arm64-gnu@npm:16.0.9"
+"@next/swc-linux-arm64-gnu@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-linux-arm64-gnu@npm:16.0.10"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-linux-arm64-musl@npm:16.0.9"
+"@next/swc-linux-arm64-musl@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-linux-arm64-musl@npm:16.0.10"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-linux-x64-gnu@npm:16.0.9"
+"@next/swc-linux-x64-gnu@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-linux-x64-gnu@npm:16.0.10"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-linux-x64-musl@npm:16.0.9"
+"@next/swc-linux-x64-musl@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-linux-x64-musl@npm:16.0.10"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-win32-arm64-msvc@npm:16.0.9"
+"@next/swc-win32-arm64-msvc@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-win32-arm64-msvc@npm:16.0.10"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:16.0.9":
-  version: 16.0.9
-  resolution: "@next/swc-win32-x64-msvc@npm:16.0.9"
+"@next/swc-win32-x64-msvc@npm:16.0.10":
+  version: 16.0.10
+  resolution: "@next/swc-win32-x64-msvc@npm:16.0.10"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1613,9 +1613,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@react-email/components@npm:1.0.1"
+"@react-email/components@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@react-email/components@npm:1.0.2"
   dependencies:
     "@react-email/body": "npm:0.2.0"
     "@react-email/button": "npm:0.2.0"
@@ -1635,11 +1635,11 @@ __metadata:
     "@react-email/render": "npm:2.0.0"
     "@react-email/row": "npm:0.0.12"
     "@react-email/section": "npm:0.0.16"
-    "@react-email/tailwind": "npm:2.0.1"
+    "@react-email/tailwind": "npm:2.0.2"
     "@react-email/text": "npm:0.1.5"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/67dc6fc261f30808766379156604da7e56f76c192204cb2b2f964e287e3d8fb45a4aceb13dd3bdca4f0958e36cfcdbd27ed7a7ccd6edae9a39ca73f82c9678f0
+  checksum: 10c0/633214a42fea0d3fbc5a3f0f3104d38a2d305b411dfb7c60f9422bfb5af5ddafd11c7da8c162194b49e2fcec18a4fbf72cc42f6ffd150ffb6292f37a05d3e484
   languageName: node
   linkType: hard
 
@@ -1726,12 +1726,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/preview-server@npm:5.0.8":
-  version: 5.0.8
-  resolution: "@react-email/preview-server@npm:5.0.8"
+"@react-email/preview-server@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@react-email/preview-server@npm:5.1.0"
   dependencies:
-    next: "npm:16.0.9"
-  checksum: 10c0/1e5e6e0846f9def2743baca89252c36f4fb684279444f0d25561122915abc44a502ec543ff13c748d6ae255571adab37ea8e6921f142539b546cfa325d525993
+    next: "npm:16.0.10"
+  checksum: 10c0/2b290979ddcd83dfc420dee85504b24be915958874b198fb7f42accfc3a1dfbf43e50990f4461d4e23550c557f371d09d4bf26887d9709f87e586c82a5aaffcc
   languageName: node
   linkType: hard
 
@@ -1775,11 +1775,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/tailwind@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@react-email/tailwind@npm:2.0.1"
+"@react-email/tailwind@npm:2.0.2":
+  version: 2.0.2
+  resolution: "@react-email/tailwind@npm:2.0.2"
   dependencies:
-    tailwindcss: "npm:^4.1.12"
+    tailwindcss: "npm:^4.1.18"
   peerDependencies:
     "@react-email/body": 0.2.0
     "@react-email/button": 0.2.0
@@ -1814,7 +1814,7 @@ __metadata:
       optional: true
     "@react-email/preview":
       optional: true
-  checksum: 10c0/6a439ffd774fd1d0730fc3537ef4d7887a5938ba211e6e6bdd2fd71a8e00e8ffd6814e368afb3937655d1953c162ae26286c10390c3d65938d76a69513da9848
+  checksum: 10c0/b0a045b8b94aa2c5981d7e8855a9eece82499cf92f326a0ebedc36c5b143df20d209c9aa4cd7416cca67466e812abb7067b27d45fdefcfb55311d6d62dd6cc53
   languageName: node
   linkType: hard
 
@@ -4034,19 +4034,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:16.0.9":
-  version: 16.0.9
-  resolution: "next@npm:16.0.9"
+"next@npm:16.0.10":
+  version: 16.0.10
+  resolution: "next@npm:16.0.10"
   dependencies:
-    "@next/env": "npm:16.0.9"
-    "@next/swc-darwin-arm64": "npm:16.0.9"
-    "@next/swc-darwin-x64": "npm:16.0.9"
-    "@next/swc-linux-arm64-gnu": "npm:16.0.9"
-    "@next/swc-linux-arm64-musl": "npm:16.0.9"
-    "@next/swc-linux-x64-gnu": "npm:16.0.9"
-    "@next/swc-linux-x64-musl": "npm:16.0.9"
-    "@next/swc-win32-arm64-msvc": "npm:16.0.9"
-    "@next/swc-win32-x64-msvc": "npm:16.0.9"
+    "@next/env": "npm:16.0.10"
+    "@next/swc-darwin-arm64": "npm:16.0.10"
+    "@next/swc-darwin-x64": "npm:16.0.10"
+    "@next/swc-linux-arm64-gnu": "npm:16.0.10"
+    "@next/swc-linux-arm64-musl": "npm:16.0.10"
+    "@next/swc-linux-x64-gnu": "npm:16.0.10"
+    "@next/swc-linux-x64-musl": "npm:16.0.10"
+    "@next/swc-win32-arm64-msvc": "npm:16.0.10"
+    "@next/swc-win32-x64-msvc": "npm:16.0.10"
     "@swc/helpers": "npm:0.5.15"
     caniuse-lite: "npm:^1.0.30001579"
     postcss: "npm:8.4.31"
@@ -4089,7 +4089,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 10c0/42493a6a50b89aae623cfbcceaa987744a351967ccd6a15b851ebd38d9142a710ad42b8ae88ac9857d70e4c7201d466563901db84b71189dedf41284b54ac0de
+  checksum: 10c0/c0e42bfaa0d38b0ee9a7fc54c748da2dfd807a76d75278b4c4f06768965d7b1035b836cae45e24a074dcf156a13c0fa555caa652886cc0f93e8be2b296dfbb51
   languageName: node
   linkType: hard
 
@@ -4411,9 +4411,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:5.0.8":
-  version: 5.0.8
-  resolution: "react-email@npm:5.0.8"
+"react-email@npm:5.1.0":
+  version: 5.1.0
+  resolution: "react-email@npm:5.1.0"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -4434,7 +4434,7 @@ __metadata:
     tsconfig-paths: "npm:4.2.0"
   bin:
     email: dist/index.js
-  checksum: 10c0/cfb1fdbb396162e741321790c66f8034bdcf64e1b854e7c8489853476ee9563c190df8b5d91feb17fd0f2a072e3ae8f7ce5ec51eb9425298dc99742b36379ad8
+  checksum: 10c0/7dd6d344a9d27c4ac9238fe7c67ed0e9288200176a1ecdc27470163ea3ad48e3b782e895c21ee7870430dc873dbe930c7ea37d02199308d93eee25e16206db70
   languageName: node
   linkType: hard
 
@@ -4498,8 +4498,8 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.2"
     "@hono/zod-openapi": "npm:^1.2.0"
-    "@react-email/components": "npm:1.0.1"
-    "@react-email/preview-server": "npm:5.0.8"
+    "@react-email/components": "npm:1.0.2"
+    "@react-email/preview-server": "npm:5.1.0"
     "@react-email/render": "npm:2.0.0"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^7.0.4"
@@ -4514,7 +4514,7 @@ __metadata:
     prettier: "npm:3.7.4"
     react: "npm:19.2.3"
     react-dom: "npm:19.2.3"
-    react-email: "npm:5.0.8"
+    react-email: "npm:5.1.0"
     tsx: "npm:^4.21.0"
     typescript: "npm:^5.9.3"
     zod: "npm:^4.2.1"
@@ -4882,10 +4882,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^4.1.12":
-  version: 4.1.17
-  resolution: "tailwindcss@npm:4.1.17"
-  checksum: 10c0/1fecf618ba9895e068e5a6d842b978f56a815bc849a28338cebbcb07b13df763715c2f8848def938403c73d59f08ffff33a4b83a977a9e38fa56adc60d1d56c8
+"tailwindcss@npm:^4.1.18":
+  version: 4.1.18
+  resolution: "tailwindcss@npm:4.1.18"
+  checksum: 10c0/c79263cea0b2c577859b02f28284caa4eb3844e4d0f563686726ca97817c045c5c395a55bc776daaa351ba9e4aefa9a75bfbb43c22d86f3c573eecc2b87d6bf1
   languageName: node
   linkType: hard
 
