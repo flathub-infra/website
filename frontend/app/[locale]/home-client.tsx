@@ -20,6 +20,7 @@ import {
 import { ApplicationSectionGradient } from "../../src/components/application/ApplicationSectionGradient"
 import { GameControllersLogo } from "../../src/components/GameControllersLogo"
 import { ApplicationSectionGradientMultiToggle } from "../../src/components/application/ApplicationSectionGradientMultiToggle"
+import { YearInReviewBanner } from "../../src/components/YearInReviewBanner"
 import type { JSX } from "react"
 import { Link } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
@@ -278,6 +279,7 @@ function HomeClient({
 
   return (
     <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <YearInReviewBanner />
       <div className="space-y-4">
         {heroBannerData.length > 0 && (
           <HeroBanner heroBannerData={heroBannerData} aboveTheFold={true} />
