@@ -99,6 +99,10 @@ export default async function YearInReviewPage({
     notFound()
   }
 
+  const hasPreviousYear = yearInReviewData.year > MIN_YEAR
+  const hasGeographicData =
+    yearInReviewData.year >= 2024 && !!yearInReviewData.geographic_stats
+
   const availableYears: number[] = []
   for (let y = CURRENT_YEAR; y >= MIN_YEAR; y--) {
     availableYears.push(y)
@@ -141,6 +145,7 @@ export default async function YearInReviewPage({
           totalDownloadsChangePercentage={
             yearInReviewData.total_downloads_change_percentage
           }
+          hasPreviousYear={hasPreviousYear}
           topApps={yearInReviewData.top_apps}
           topGames={yearInReviewData.top_games}
           topEmulators={yearInReviewData.top_emulators}
@@ -154,6 +159,7 @@ export default async function YearInReviewPage({
           hiddenGems={yearInReviewData.hidden_gems}
           platformStats={yearInReviewData.platform_stats}
           trendingCategories={yearInReviewData.trending_categories}
+          hasGeographicData={hasGeographicData}
         />
 
         <div className="pt-4 text-center">
