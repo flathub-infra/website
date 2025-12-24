@@ -42,6 +42,8 @@ export default {
           "oklch(var(--flathub-celestial-blue-dark) / <alpha-value>)",
         "flathub-electric-red":
           "oklch(var(--flathub-electric-red) / <alpha-value>)",
+        "flathub-sunset-pink":
+          "oklch(var(--flathub-sunset-pink) / <alpha-value>)",
 
         "flathub-status-green":
           "oklch(var(--flathub-status-green) / <alpha-value>)",
@@ -135,8 +137,10 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        md: "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",
-        xl: "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 6px 6px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",
+        md:
+          "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",
+        xl:
+          "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 6px 6px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",
       },
       gridTemplateColumns: {
         details: "auto 90% auto",
@@ -145,4 +149,4 @@ export default {
     },
   },
   plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
-}
+};
