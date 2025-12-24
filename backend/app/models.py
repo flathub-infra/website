@@ -3233,3 +3233,34 @@ class AppStats(Base):
             "installs_per_day": self.installs_per_day or {},
             "installs_per_country": self.installs_per_country or {},
         }
+
+
+class YearInReviewStats(Base):
+    __tablename__ = "year_in_review_stats"
+
+    year: Mapped[int] = mapped_column(Integer, primary_key=True)
+    data: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    computed_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        server_onupdate=func.now(),
+    )
+
+    @classmethod
+    def get_for_year(cls, db, year: int) -> "YearInReviewStats | None":
+        return db.query(cls).filter(cls.year == year).first()
+
+    @classmethod
+    def set_for_year(cls, db, year: int, data: dict) -> "YearInReviewStats":
+        record = cls.get_for_year(db, year)
+
+        if record:
+            record.data = data
+            record.computed_at = func.now()
+        else:
+            record = cls(year=year, data=data)
+            db.add(record)
+
+        db.commit()
+        return record
