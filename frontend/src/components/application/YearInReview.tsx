@@ -1181,7 +1181,7 @@ export function YearInReview({
             className="inline-block group relative"
           >
             <h2 className="text-5xl lg:text-7xl font-black mb-4 tracking-tighter bg-gradient-to-r from-flathub-celestial-blue via-flathub-vivid-crimson to-flathub-celestial-blue bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient group-hover:scale-105 transition-transform duration-500">
-              {year} {t("year-in-review.title")}
+              {t("year-in-review.title", { year })}
             </h2>
             <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-flathub-celestial-blue to-flathub-sunset-pink transition-all duration-500 mx-auto rounded-full shadow-[0_0_15px_rgba(33,150,243,0.5)]" />
           </Link>

@@ -33,13 +33,13 @@ export async function generateMetadata({
   const t = await getTranslations({ locale })
 
   return {
-    title: `${year} ${t("year-in-review.title")}`,
+    title: t("year-in-review.title", { year }),
     description: t("year-in-review.description"),
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/year-in-review/${year}`,
     },
     openGraph: {
-      title: `${year} ${t("year-in-review.title")} - Flathub`,
+      title: t("year-in-review.title", { year }) + " - Flathub",
       description: t("year-in-review.description"),
       url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/year-in-review/${year}`,
       images: [
@@ -47,13 +47,13 @@ export async function generateMetadata({
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}`,
           width: 1200,
           height: 630,
-          alt: `Flathub ${year} ${t("year-in-review.title")}`,
+          alt: `Flathub ${t("year-in-review.title", { year })}`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${year} ${t("year-in-review.title")} - Flathub`,
+      title: `${t("year-in-review.title", { year })} - Flathub`,
       description: t("year-in-review.description"),
       images: [
         `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}`,
