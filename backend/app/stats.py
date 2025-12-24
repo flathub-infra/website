@@ -1,5 +1,6 @@
 import asyncio
 import concurrent.futures
+import copy
 import datetime
 import json
 from collections import defaultdict
@@ -675,6 +676,26 @@ def update(sqldb):
 
     redis_conn.set("stats", orjson.dumps(stats_dict))
     database.bulk_set_app_stats(stats_apps_dict)
+    _generate_and_store_year_in_review_stats(sqldb)
+
+
+def _generate_and_store_year_in_review_stats(sqldb):
+    current_year = datetime.date.today().year
+    first_year = FIRST_STATS_DATE.year
+
+    for year in range(first_year, current_year + 1):
+        if year < current_year:
+            existing = models.YearInReviewStats.get_for_year(sqldb, year)
+            if existing:
+                continue
+
+        try:
+            base_stats = asyncio.run(_build_year_in_review_base(year))
+        except Exception:
+            continue
+
+        if base_stats:
+            models.YearInReviewStats.set_for_year(sqldb, year, base_stats)
 
 
 def _normalize_year_date_range(year: int) -> tuple[datetime.date, datetime.date] | None:
@@ -693,17 +714,11 @@ def _normalize_year_date_range(year: int) -> tuple[datetime.date, datetime.date]
 
 
 def _get_country_downloads_for_year(year: int) -> dict[str, int]:
-    redis_key = f"year_country_downloads:{year}"
-    cached_data = database.get_json_key(redis_key)
-    if cached_data is not None and isinstance(cached_data, dict):
-        return cached_data  # type: ignore
-
     date_range = _normalize_year_date_range(year)
     if not date_range:
         return {}
 
     sdate, edate = date_range
-    today = datetime.date.today()
 
     country_downloads: dict[str, int] = {}
     stats_results = _fetch_stats_parallel(sdate, edate)
@@ -718,24 +733,15 @@ def _get_country_downloads_for_year(year: int) -> dict[str, int]:
                     if new_installs > 0:
                         country_downloads[country] += new_installs
 
-    cache_ttl = 86400 * 7 if edate < today else 3600
-    redis_conn.set(redis_key, orjson.dumps(country_downloads), ex=cache_ttl)
-
     return country_downloads
 
 
 def _get_basic_year_stats(year: int) -> dict | None:
-    redis_key = f"year_basic_stats:{year}"
-    cached_data = database.get_json_key(redis_key)
-    if cached_data is not None and isinstance(cached_data, dict):
-        return cached_data  # type: ignore
-
     date_range = _normalize_year_date_range(year)
     if not date_range:
         return None
 
     sdate, edate = date_range
-    today = datetime.date.today()
 
     total_downloads = 0
     total_updates = 0
@@ -769,25 +775,15 @@ def _get_basic_year_stats(year: int) -> dict | None:
         "updates_count": total_updates,
     }
 
-    # Cache for a long time if year is complete, shorter if current year
-    cache_ttl = 86400 * 7 if edate < today else 3600  # 7 days or 1 hour
-    redis_conn.set(redis_key, orjson.dumps(result), ex=cache_ttl)
-
     return result
 
 
 def _get_category_downloads_for_year(year: int) -> dict[str, int]:
-    redis_key = f"year_category_downloads:{year}"
-    cached_data = database.get_json_key(redis_key)
-    if cached_data is not None:
-        return cached_data  # type: ignore
-
     date_range = _normalize_year_date_range(year)
     if not date_range:
         return {}
 
     sdate, edate = date_range
-    today = datetime.date.today()
 
     app_downloads = defaultdict(int)
     stats_results = _fetch_stats_parallel(sdate, edate)
@@ -822,25 +818,15 @@ def _get_category_downloads_for_year(year: int) -> dict[str, int]:
 
     result = dict(category_downloads)
 
-    # Cache for a long time if year is complete, shorter if current year
-    cache_ttl = 86400 * 7 if edate < today else 3600  # 7 days or 1 hour
-    redis_conn.set(redis_key, orjson.dumps(result), ex=cache_ttl)
-
     return result
 
 
 def _get_app_downloads_for_year(year: int) -> dict[str, int]:
-    redis_key = f"year_app_downloads:{year}"
-    cached_data = database.get_json_key(redis_key)
-    if cached_data is not None and isinstance(cached_data, dict):
-        return cached_data  # type: ignore
-
     date_range = _normalize_year_date_range(year)
     if not date_range:
         return {}
 
     sdate, edate = date_range
-    today = datetime.date.today()
 
     app_downloads = defaultdict(int)
     stats_results = _fetch_stats_parallel(sdate, edate)
@@ -856,14 +842,35 @@ def _get_app_downloads_for_year(year: int) -> dict[str, int]:
 
     result = dict(app_downloads)
 
-    # Cache for a long time if year is complete, shorter if current year
-    cache_ttl = 86400 * 7 if edate < today else 3600  # 7 days or 1 hour
-    redis_conn.set(redis_key, orjson.dumps(result), ex=cache_ttl)
-
     return result
 
 
-async def get_year_stats(year: int, locale: str = "en"):
+def _load_year_in_review_base(year: int) -> dict | None:
+    with database.get_db() as sqldb:
+        stored_stats = models.YearInReviewStats.get_for_year(sqldb, year)
+        if stored_stats:
+            return stored_stats.data
+    return None
+
+
+def _save_year_in_review_base(year: int, base_data: dict) -> None:
+    with database.get_db("writer") as sqldb:
+        models.YearInReviewStats.set_for_year(sqldb, year, base_data)
+
+
+def _build_base_top_list(
+    app_ids: list[str], downloads_dict: dict[str, int]
+) -> list[dict]:
+    return [
+        {
+            "app_id": app_id,
+            "downloads": downloads_dict.get(app_id, 0),
+        }
+        for app_id in app_ids
+    ]
+
+
+async def _build_year_in_review_base(year: int) -> dict | None:
     sdate = datetime.date(year, 1, 1)
     edate = datetime.date(year, 12, 31)
 
@@ -911,11 +918,7 @@ async def get_year_stats(year: int, locale: str = "en"):
         if data is not None:
             try:
                 today = datetime.date.today()
-                if date.year == today.year:
-                    ttl_seconds = 60 * 60  # 1 hour for current year
-                else:
-                    ttl_seconds = 60 * 60 * 24 * 7  # 7 days for past years
-
+                ttl_seconds = 60 * 60 if date.year == today.year else 60 * 60 * 24 * 7
                 await redis_conn.set(cache_key, orjson.dumps(data), ex=ttl_seconds)
             except Exception:
                 # If caching fails, just proceed without cache
@@ -1349,26 +1352,58 @@ async def get_year_stats(year: int, locale: str = "en"):
                     }
                 )
 
-    # Collect all app IDs that need translations
-    chosen_app_ids = set()
-    chosen_app_ids.update(top_app_ids)
-    chosen_app_ids.update(top_game_ids)
-    chosen_app_ids.update(top_emulator_ids)
-    chosen_app_ids.update(top_game_store_ids)
-    chosen_app_ids.update(top_game_utility_ids)
-    for item in popular_apps_by_category:
-        chosen_app_ids.add(item["app_id"])
-    for item in biggest_growth_by_category:
-        chosen_app_ids.add(item["app_id"])
-    for item in newcomers_by_category:
-        chosen_app_ids.add(item["app_id"])
-    for item in most_improved_by_category:
-        chosen_app_ids.add(item["app_id"])
-    for item in hidden_gems:
-        chosen_app_ids.add(item["app_id"])
+    base_result = {
+        "year": year,
+        "total_downloads": total_downloads,
+        "new_apps_count": new_apps_count,
+        "total_apps": total_apps,
+        "updates_count": total_updates,
+        "total_downloads_change": total_downloads_change,
+        "total_downloads_change_percentage": total_downloads_change_percentage,
+        "top_apps": _build_base_top_list(top_app_ids, non_game_app_downloads),
+        "top_games": _build_base_top_list(top_game_ids, gaming_app_downloads),
+        "top_emulators": _build_base_top_list(top_emulator_ids, emulator_app_downloads),
+        "top_game_stores": _build_base_top_list(
+            top_game_store_ids, game_store_app_downloads
+        ),
+        "top_game_utilities": _build_base_top_list(
+            top_game_utility_ids, game_utility_app_downloads
+        ),
+        "popular_apps_by_category": popular_apps_by_category,
+        "biggest_growth_by_category": biggest_growth_by_category,
+        "newcomers_by_category": newcomers_by_category,
+        "most_improved_by_category": most_improved_by_category,
+        "geographic_stats": geographic_stats,
+        "hidden_gems": hidden_gems,
+        "trending_categories": trending_categories,
+        "platform_stats": platform_stats,
+    }
 
-    # Fetch translations only for chosen apps
-    def _fetch_translations_for_apps(app_ids: set):
+    return base_result
+
+
+async def _add_translations_to_year_in_review(base_data: dict, locale: str) -> dict:
+    loop = asyncio.get_running_loop()
+
+    def _collect_app_ids() -> set[str]:
+        app_ids: set[str] = set()
+        for key in [
+            "top_apps",
+            "top_games",
+            "top_emulators",
+            "top_game_stores",
+            "top_game_utilities",
+            "popular_apps_by_category",
+            "biggest_growth_by_category",
+            "newcomers_by_category",
+            "most_improved_by_category",
+            "hidden_gems",
+        ]:
+            for item in base_data.get(key, []):
+                app_ids.add(item["app_id"])
+        return app_ids
+
+    def _fetch_translations_for_apps(app_ids: set[str]):
         app_names = {}
         app_icons = {}
         app_summaries = {}
@@ -1388,66 +1423,62 @@ async def get_year_stats(year: int, locale: str = "en"):
         return app_names, app_icons, app_summaries
 
     app_names, app_icons, app_summaries = await loop.run_in_executor(
-        None, _fetch_translations_for_apps, chosen_app_ids
+        None, _fetch_translations_for_apps, _collect_app_ids()
     )
 
-    def _build_top_list(app_ids: list[str], downloads_dict: dict) -> list:
-        result = []
-        for app_id in app_ids:
-            result.append(
+    def _apply_translations(items: list[dict]) -> list[dict]:
+        translated_items: list[dict] = []
+        for item in items:
+            app_id = item["app_id"]
+            translated_items.append(
                 {
-                    "app_id": app_id,
+                    **item,
                     "name": app_names.get(app_id) or app_id,
                     "icon": app_icons.get(app_id),
                     "summary": app_summaries.get(app_id),
-                    "downloads": downloads_dict.get(app_id, 0),
                 }
             )
-        return result
+        return translated_items
 
-    top_apps = _build_top_list(top_app_ids, non_game_app_downloads)
-    top_games = _build_top_list(top_game_ids, gaming_app_downloads)
-    top_emulators = _build_top_list(top_emulator_ids, emulator_app_downloads)
-    top_game_stores = _build_top_list(top_game_store_ids, game_store_app_downloads)
-    top_game_utilities = _build_top_list(
-        top_game_utility_ids, game_utility_app_downloads
+    result = copy.deepcopy(base_data)
+    result["top_apps"] = _apply_translations(base_data.get("top_apps", []))
+    result["top_games"] = _apply_translations(base_data.get("top_games", []))
+    result["top_emulators"] = _apply_translations(base_data.get("top_emulators", []))
+    result["top_game_stores"] = _apply_translations(
+        base_data.get("top_game_stores", [])
     )
-
-    def _add_translations_to_list(items: list) -> list:
-        for item in items:
-            app_id = item["app_id"]
-            item["name"] = app_names.get(app_id) or app_id
-            item["icon"] = app_icons.get(app_id)
-            item["summary"] = app_summaries.get(app_id)
-        return items
-
-    popular_apps_by_category = _add_translations_to_list(popular_apps_by_category)
-    biggest_growth_by_category = _add_translations_to_list(biggest_growth_by_category)
-    newcomers_by_category = _add_translations_to_list(newcomers_by_category)
-    most_improved_by_category = _add_translations_to_list(most_improved_by_category)
-    hidden_gems = _add_translations_to_list(hidden_gems)
-
-    result = {
-        "year": year,
-        "total_downloads": total_downloads,
-        "new_apps_count": new_apps_count,
-        "total_apps": total_apps,
-        "updates_count": total_updates,
-        "total_downloads_change": total_downloads_change,
-        "total_downloads_change_percentage": total_downloads_change_percentage,
-        "top_apps": top_apps,
-        "top_games": top_games,
-        "top_emulators": top_emulators,
-        "top_game_stores": top_game_stores,
-        "top_game_utilities": top_game_utilities,
-        "popular_apps_by_category": popular_apps_by_category,
-        "biggest_growth_by_category": biggest_growth_by_category,
-        "newcomers_by_category": newcomers_by_category,
-        "most_improved_by_category": most_improved_by_category,
-        "geographic_stats": geographic_stats,
-        "hidden_gems": hidden_gems,
-        "trending_categories": trending_categories,
-        "platform_stats": platform_stats,
-    }
+    result["top_game_utilities"] = _apply_translations(
+        base_data.get("top_game_utilities", [])
+    )
+    result["popular_apps_by_category"] = _apply_translations(
+        base_data.get("popular_apps_by_category", [])
+    )
+    result["biggest_growth_by_category"] = _apply_translations(
+        base_data.get("biggest_growth_by_category", [])
+    )
+    result["newcomers_by_category"] = _apply_translations(
+        base_data.get("newcomers_by_category", [])
+    )
+    result["most_improved_by_category"] = _apply_translations(
+        base_data.get("most_improved_by_category", [])
+    )
+    result["hidden_gems"] = _apply_translations(base_data.get("hidden_gems", []))
 
     return result
+
+
+async def get_year_stats(year: int, locale: str = "en"):
+    base_data = _load_year_in_review_base(year)
+
+    if base_data is None:
+        base_data = await _build_year_in_review_base(year)
+        if base_data:
+            try:
+                _save_year_in_review_base(year, base_data)
+            except Exception:
+                pass
+
+    if base_data is None:
+        return None
+
+    return await _add_translations_to_year_in_review(base_data, locale)
