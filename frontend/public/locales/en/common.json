@@ -600,7 +600,7 @@
   "gametool": "Game Tools",
   "more-gametool": "More Game Tools",
   "year-in-review": {
-    "title": "Year in Review",
+    "title": "{year} Year in Review",
     "description": "Celebrating a year of growth and innovation on Flathub",
     "select-year": "Select Year",
     "category-highlights": "Category Highlights",
