@@ -39,6 +39,7 @@ interface YearInReviewProps {
   updatesCount: number
   totalDownloadsChange: number
   totalDownloadsChangePercentage: number
+  hasPreviousYear?: boolean
   topApps: YearInReviewMostPopularApp[]
   topGames: YearInReviewMostPopularApp[]
   topEmulators: YearInReviewMostPopularApp[]
@@ -52,6 +53,7 @@ interface YearInReviewProps {
   hiddenGems?: HiddenGem[]
   trendingCategories?: TrendingCategory[]
   platformStats?: PlatformStats[]
+  hasGeographicData?: boolean
 }
 
 interface Award {
@@ -157,6 +159,7 @@ export function YearStatsGrid({
   updatesCount,
   totalDownloadsChange,
   totalDownloadsChangePercentage,
+  hasPreviousYear = true,
 }: {
   year: number
   totalDownloads: number
@@ -165,6 +168,7 @@ export function YearStatsGrid({
   updatesCount: number
   totalDownloadsChange: number
   totalDownloadsChangePercentage: number
+  hasPreviousYear?: boolean
 }) {
   const t = useTranslations()
   const locale = useLocale()
@@ -213,39 +217,41 @@ export function YearStatsGrid({
       </div>
 
       {/* Year over year growth banner */}
-      <div className="relative overflow-hidden p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 border border-blue-300/30 dark:border-blue-500/30 shadow-lg mb-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-flathub-celestial-blue/5 via-purple-500/5 to-flathub-vivid-crimson/5 dark:from-flathub-celestial-blue/10 dark:via-purple-500/10 dark:to-flathub-vivid-crimson/10" />
-        <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-flathub-celestial-blue to-purple-500 flex items-center justify-center text-2xl sm:text-3xl shadow-lg">
-              📈
-            </div>
-            <div className="text-center sm:text-start">
-              <div className="text-sm sm:text-base font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow uppercase tracking-wide">
-                {t("year-in-review.year-over-year-growth")}
+      {hasPreviousYear && (
+        <div className="relative overflow-hidden p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 border border-blue-300/30 dark:border-blue-500/30 shadow-lg mb-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-flathub-celestial-blue/5 via-purple-500/5 to-flathub-vivid-crimson/5 dark:from-flathub-celestial-blue/10 dark:via-purple-500/10 dark:to-flathub-vivid-crimson/10" />
+          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-flathub-celestial-blue to-purple-500 flex items-center justify-center text-2xl sm:text-3xl shadow-lg">
+                📈
               </div>
-              <div className="text-xs sm:text-sm text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
-                {t("year-in-review.downloads-vs-previous-year", {
-                  year: year - 1,
-                })}
+              <div className="text-center sm:text-start">
+                <div className="text-sm sm:text-base font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow uppercase tracking-wide">
+                  {t("year-in-review.year-over-year-growth")}
+                </div>
+                <div className="text-xs sm:text-sm text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
+                  {t("year-in-review.downloads-vs-previous-year", {
+                    year: year - 1,
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-baseline gap-2">
-            <div
-              className={clsx(
-                "text-4xl sm:text-5xl lg:text-6xl font-black",
-                totalDownloadsChange >= 0
-                  ? "text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-500 dark:from-emerald-400 dark:to-green-300"
-                  : "text-transparent bg-clip-text bg-gradient-to-r from-flathub-electric-red to-flathub-vivid-crimson",
-              )}
-            >
-              {totalDownloadsChange >= 0 ? "+" : ""}
-              {totalDownloadsChangePercentage.toFixed(1)}%
+            <div className="flex items-baseline gap-2">
+              <div
+                className={clsx(
+                  "text-4xl sm:text-5xl lg:text-6xl font-black",
+                  totalDownloadsChange >= 0
+                    ? "text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-500 dark:from-emerald-400 dark:to-green-300"
+                    : "text-transparent bg-clip-text bg-gradient-to-r from-flathub-electric-red to-flathub-vivid-crimson",
+                )}
+              >
+                {totalDownloadsChange >= 0 ? "+" : ""}
+                {totalDownloadsChangePercentage.toFixed(1)}%
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   )
 }
@@ -1063,6 +1069,7 @@ export function YearInReview({
   updatesCount,
   totalDownloadsChange,
   totalDownloadsChangePercentage,
+  hasPreviousYear = true,
   topApps,
   topGames,
   topEmulators,
@@ -1076,6 +1083,7 @@ export function YearInReview({
   hiddenGems,
   trendingCategories,
   platformStats,
+  hasGeographicData = true,
 }: YearInReviewProps) {
   const t = useTranslations()
 
@@ -1198,6 +1206,7 @@ export function YearInReview({
             updatesCount={updatesCount}
             totalDownloadsChange={totalDownloadsChange}
             totalDownloadsChangePercentage={totalDownloadsChangePercentage}
+            hasPreviousYear={hasPreviousYear}
           />
         </section>
 
@@ -1213,7 +1222,7 @@ export function YearInReview({
         </section>
 
         {/* Geographic Section */}
-        {geographicStats && (
+        {hasGeographicData && geographicStats && (
           <section className="mb-24">
             <GeographicInsightsSection geographicStats={geographicStats} />
           </section>
