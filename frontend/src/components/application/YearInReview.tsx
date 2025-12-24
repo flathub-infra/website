@@ -770,7 +770,6 @@ export function CategoryHighlightsSection({
                             iconUrl={winner.icon}
                             appName={winner.name}
                             size="64"
-                            className="w-14 h-14 flex-shrink-0 rounded-lg shadow-md"
                           />
                         )}
                         <div className="flex-1 min-w-0">
@@ -876,12 +875,7 @@ export function HiddenGemsSection({ hiddenGems }: { hiddenGems: HiddenGem[] }) {
               className="flex items-center gap-3 p-3.5 rounded-xl bg-white/70 dark:bg-flathub-dark-gunmetal/40 hover:bg-white dark:hover:bg-flathub-dark-gunmetal/60 transition-all group border-2 border-purple-200/60 dark:border-purple-800/30 hover:shadow-lg hover:scale-[1.01]"
             >
               {gem.icon && (
-                <LogoImage
-                  iconUrl={gem.icon}
-                  appName={gem.name}
-                  size="64"
-                  className="w-12 h-12 rounded-lg shadow-md"
-                />
+                <LogoImage iconUrl={gem.icon} appName={gem.name} size="64" />
               )}
               <div className="flex-1 min-w-0">
                 <div className="font-black text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 dark:group-hover:from-purple-400 dark:group-hover:to-pink-400 transition-all">
