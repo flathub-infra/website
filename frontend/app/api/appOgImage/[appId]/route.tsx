@@ -1,7 +1,7 @@
 import { Resvg } from "@resvg/resvg-js"
 import satori from "satori"
 import { DesktopAppstream, getAppstreamAppstreamAppIdGet } from "src/codegen"
-import { getContrastColor } from "@/lib/helpers"
+import { getContrastColor, hexToRgb } from "@/lib/helpers"
 import { mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
@@ -9,6 +9,23 @@ import axios from "axios"
 import { fonts } from "app/api/fontManager"
 import { fontLanguageDenyList, Language, languages } from "src/localize"
 import { getApiBaseUrl } from "src/utils/api-url"
+import { getTranslations } from "next-intl/server"
+import { hasLocale } from "next-intl"
+import { routing } from "src/i18n/routing"
+
+function adjustBrightness(hex: string, percent: number): string {
+  const rgb = hexToRgb(hex)
+  if (!rgb) return hex
+
+  const adjust = (value: number) =>
+    Math.min(255, Math.max(0, Math.round(value + (255 * percent) / 100)))
+
+  const r = adjust(rgb.r).toString(16).padStart(2, "0")
+  const g = adjust(rgb.g).toString(16).padStart(2, "0")
+  const b = adjust(rgb.b).toString(16).padStart(2, "0")
+
+  return `#${r}${g}${b}`
+}
 
 export async function GET(
   request: NextRequest,
@@ -33,6 +50,13 @@ export async function GET(
     !languages.includes(locale as Language)
       ? "en"
       : locale
+
+  // Get translations for the safe locale
+  const translationLocale = hasLocale(routing.locales, safeLocale)
+    ? safeLocale
+    : "en"
+  const t = await getTranslations({ locale: translationLocale })
+  const getItOn = t("get-it-on")
 
   let app: DesktopAppstream
   try {
@@ -70,169 +94,232 @@ export async function GET(
       ? mapScreenshot(app.screenshots[0])
       : null
 
-  const branding = app.branding?.[0].value ?? "#FAFAFA"
+  const branding = app.branding?.[0].value ?? "#4A86CF"
+  const brandingLight = adjustBrightness(branding, 10)
+  const brandingDark = adjustBrightness(branding, -10)
 
   const textColor = getContrastColor(branding)
+  const subtitleColor =
+    textColor === "white" ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.8)"
+
+  const isLandscapeScreenshot =
+    screenshot && screenshot.width && screenshot.height
+      ? screenshot.width > screenshot.height
+      : true
+
+  const gradientEnd = textColor === "white" ? brandingLight : brandingDark
 
   const svg = await satori(
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: branding,
+        background: `linear-gradient(to top, ${branding} 50%, ${gradientEnd} 100%)`,
         width: "100%",
         height: "100%",
         color: textColor,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Subtle pattern overlay */}
       <div
         style={{
           display: "flex",
-          width: "100%",
-          height: "90%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `radial-gradient(circle at 20% 80%, ${textColor === "white" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)"} 0%, transparent 50%), radial-gradient(circle at 80% 20%, ${textColor === "white" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"} 0%, transparent 50%)`,
+        }}
+      />
+
+      {/* Main content area */}
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          padding: "48px",
+          paddingBottom: "24px",
+          gap: "48px",
           alignItems: "center",
-          justifyContent: "space-around",
         }}
       >
+        {/* Left side - App info */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            width: "300px",
+            width: screenshot && isLandscapeScreenshot ? "380px" : "450px",
+            flexShrink: 0,
           }}
         >
+          {/* Icon */}
           {icon && (
             <img
               style={{
                 display: "flex",
-                width: "256",
-                height: "256",
-                borderRadius: "16px",
-                filter:
-                  "drop-shadow(0 4px 3px #00000009) drop-shadow(0 2px 2px #00000040)",
+                width: "160px",
+                height: "160px",
+                marginBottom: "24px",
               }}
               src={icon.replace(/.webp$/, ".png")}
               alt=""
             />
           )}
+
+          {/* App name */}
           <h1
             style={{
               fontFamily: "Inter-Black",
-              fontSize: "40px",
-              lineHeight: "48px",
+              fontSize: "48px",
+              lineHeight: "54px",
+              margin: 0,
+              marginBottom: "12px",
               textAlign: "center",
+              textShadow:
+                textColor === "white"
+                  ? "0 2px 10px rgba(0,0,0,0.2)"
+                  : "0 1px 4px rgba(255,255,255,0.1)",
             }}
           >
             {app.name}
           </h1>
+
+          {/* Summary */}
           <div
             style={{
-              fontFamily: "Inter-Regular",
-              fontSize: "24px",
-              lineHeight: "32px",
+              fontFamily: "Inter-SemiBold",
+              fontSize: "26px",
+              lineHeight: "38px",
+              color: subtitleColor,
               textAlign: "center",
             }}
           >
             {app.summary}
           </div>
         </div>
-        {screenshot &&
-          screenshot.width &&
-          screenshot.height &&
-          screenshot.width > screenshot.height && (
+
+        {/* Right side - Screenshot */}
+        {screenshot && isLandscapeScreenshot && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <img
               style={{
                 display: "flex",
-                width: "620px",
-                borderRadius: isFullscreenApp ? "8px" : "0px",
+                width: "680px",
               }}
               src={screenshot.src.replace(/.webp$/, ".png")}
               alt=""
             />
-          )}
-        {screenshot &&
-          screenshot.width &&
-          screenshot.height &&
-          screenshot.width < screenshot.height && (
+          </div>
+        )}
+
+        {/* Portrait screenshot - displayed smaller on the right */}
+        {screenshot && !isLandscapeScreenshot && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <img
               style={{
                 display: "flex",
-                height: "420px",
-                borderRadius: isFullscreenApp ? "8px" : "0px",
+                height: "450px",
               }}
               src={screenshot.src.replace(/.webp$/, ".png")}
               alt=""
             />
-          )}
+          </div>
+        )}
       </div>
+
+      {/* Bottom bar - Flathub branding */}
       <div
         style={{
           display: "flex",
-          justifyItems: "flex-end",
           alignItems: "center",
-          gap: "8px",
-          justifySelf: "flex-end",
-          alignSelf: "flex-end",
-          paddingRight: "32px",
+          justifyContent: "space-between",
+          padding: "28px 48px",
+          borderTop: `2px solid ${textColor === "white" ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)"}`,
         }}
       >
-        <svg
-          width="36.885"
-          height="36"
-          version="1.1"
-          viewBox="0 0 66.885 64"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g transform="translate(-30.558 -32)">
-            <g
-              transform="matrix(1.7016 0 0 1.7016 -237.69 -115.36)"
-              fill="currentColor"
-            >
-              <circle
-                cx="166.69"
-                cy="95.647"
-                r="9.0478"
-                stroke-width=".58767"
-              />
-              <rect
-                x="158.41"
-                y="107.8"
-                width="16.412"
-                height="16.412"
-                rx="4.3765"
-                ry="4.3765"
-                stroke-width=".58767"
-              />
-              <path
-                transform="matrix(.9259 .53457 .53457 -.9259 99.826 110.69)"
-                d="m69.514 58.833h-1.7806-10.247a2.4441 2.4441 60 0 1-2.1167-3.6662l6.0139-10.416a2.4441 2.4441 2.522e-7 0 1 4.2333 0l6.0139 10.416a2.4441 2.4441 120 0 1-2.1167 3.6662z"
-                stroke-width=".55348"
-              />
-              <path
-                d="m194.99 116.11c0 0.87946-0.70801 1.5875-1.5875 1.5875h-12.7c-0.87946 0-1.5875-0.70802-1.5875-1.5875s0.70802-1.5875 1.5875-1.5875h12.7c0.87946 0 1.5875 0.70801 1.5875 1.5875zm-7.9375-7.9375c0.87946 0 1.5875 0.70802 1.5875 1.5875v12.7c0 0.87946-0.70802 1.5875-1.5875 1.5875-0.87947 0-1.5875-0.70802-1.5875-1.5875v-12.7c0-0.87947 0.70802-1.5875 1.5875-1.5875z"
-                stroke-width="5.8767"
-              />
-            </g>
-          </g>
-        </svg>
+        {/* Left side - "Get it on" text */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             fontFamily: "Inter-SemiBold",
-            fontSize: "12px",
-            lineHeight: "16px",
+            fontSize: "22px",
+            color: textColor,
           }}
         >
+          {getItOn}
+        </div>
+
+        {/* Right side - Flathub logo */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+          }}
+        >
+          <svg
+            width="44"
+            height="44"
+            version="1.1"
+            viewBox="0 0 66.885 64"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g transform="translate(-30.558 -32)">
+              <g
+                transform="matrix(1.7016 0 0 1.7016 -237.69 -115.36)"
+                fill="currentColor"
+              >
+                <circle
+                  cx="166.69"
+                  cy="95.647"
+                  r="9.0478"
+                  stroke-width=".58767"
+                />
+                <rect
+                  x="158.41"
+                  y="107.8"
+                  width="16.412"
+                  height="16.412"
+                  rx="4.3765"
+                  ry="4.3765"
+                  stroke-width=".58767"
+                />
+                <path
+                  transform="matrix(.9259 .53457 .53457 -.9259 99.826 110.69)"
+                  d="m69.514 58.833h-1.7806-10.247a2.4441 2.4441 60 0 1-2.1167-3.6662l6.0139-10.416a2.4441 2.4441 2.522e-7 0 1 4.2333 0l6.0139 10.416a2.4441 2.4441 120 0 1-2.1167 3.6662z"
+                  stroke-width=".55348"
+                />
+                <path
+                  d="m194.99 116.11c0 0.87946-0.70801 1.5875-1.5875 1.5875h-12.7c-0.87946 0-1.5875-0.70802-1.5875-1.5875s0.70802-1.5875 1.5875-1.5875h12.7c0.87946 0 1.5875 0.70801 1.5875 1.5875zm-7.9375-7.9375c0.87946 0 1.5875 0.70802 1.5875 1.5875v12.7c0 0.87946-0.70802 1.5875-1.5875 1.5875-0.87947 0-1.5875-0.70802-1.5875-1.5875v-12.7c0-0.87947 0.70802-1.5875 1.5875-1.5875z"
+                  stroke-width="5.8767"
+                />
+              </g>
+            </g>
+          </svg>
           <span
             style={{
               fontFamily: "Inter-SemiBold",
-              fontSize: "29px",
-              fontStyle: "normal",
-              lineHeight: "30px",
-              letterSpacing: "0px",
+              fontSize: "36px",
+              letterSpacing: "-0.5px",
             }}
           >
             Flathub
