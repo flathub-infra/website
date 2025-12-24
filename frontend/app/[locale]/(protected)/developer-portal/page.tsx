@@ -32,6 +32,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DeveloperPortalPage() {
+  let feed: DocusaurusFeed
+
   try {
     const response = await fetch("https://docs.flathub.org/blog/feed.json")
 
@@ -39,10 +41,10 @@ export default async function DeveloperPortalPage() {
       notFound()
     }
 
-    const feed: DocusaurusFeed = await response.json()
-
-    return <DeveloperPortalClient feed={feed} />
+    feed = await response.json()
   } catch (error) {
     notFound()
   }
+
+  return <DeveloperPortalClient feed={feed} />
 }

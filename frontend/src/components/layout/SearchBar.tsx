@@ -187,6 +187,8 @@ const SearchBar = ({ className }: SearchBarProps) => {
 
     const debounceTimer = setTimeout(performSearch, 300)
     return () => clearTimeout(debounceTimer)
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, searchClient, locale])
 
   const onSubmit = (e: React.FormEvent) => {
@@ -273,6 +275,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
         {isOpen && (query.trim() || isLoading) && (
           <>
             {/* Mobile overlay backdrop */}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"
               onClick={() => setIsOpen(false)}
@@ -300,6 +303,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                       onChange={(e) => setQuery(e.target.value)}
                       onKeyDown={handleKeyDown}
                       autoComplete="off"
+                      // eslint-disable-next-line jsx-a11y/no-autofocus
                       autoFocus
                       className={clsx(
                         "block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 pe-2 text-sm text-flathub-dark-gunmetal",

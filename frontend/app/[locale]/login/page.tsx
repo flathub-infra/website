@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Suspense } from "react"
-import { getLoginMethodsAuthLoginGet } from "../../../src/codegen"
+import { getLoginMethodsAuthLoginGet, LoginMethod } from "../../../src/codegen"
 import LoginClient from "./login-client"
 import Spinner from "src/components/Spinner"
 
@@ -27,20 +27,24 @@ export default async function LoginPage({
 }: {
   params: Promise<{ locale: string }>
 }) {
+  let providers: LoginMethod[]
+  let locale: string
+
   try {
     const response = await getLoginMethodsAuthLoginGet()
-    const providers = response.data
-    const { locale } = await params
+    providers = response.data
+    const resolvedParams = await params
+    locale = resolvedParams.locale
 
     // Enable static rendering
     setRequestLocale(locale)
-
-    return (
-      <Suspense fallback={<Spinner size={"m"} />}>
-        <LoginClient providers={providers} locale={locale} />
-      </Suspense>
-    )
   } catch (error) {
     notFound()
   }
+
+  return (
+    <Suspense fallback={<Spinner size={"m"} />}>
+      <LoginClient providers={providers} locale={locale} />
+    </Suspense>
+  )
 }

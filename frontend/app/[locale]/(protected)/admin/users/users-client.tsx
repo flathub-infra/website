@@ -12,7 +12,7 @@ import clsx from "clsx"
 import { format } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import React from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid"
 import {
   FlathubUsersResult,
@@ -38,8 +38,9 @@ export default function UsersClient() {
     searchParams.get("filterString") || undefined,
   )
 
-  const [page, setPage] = useState<number>(
-    searchParams.get("page") ? Number(searchParams.get("page")) : 1,
+  const page = useMemo(
+    () => (searchParams.get("page") ? Number(searchParams.get("page")) : 1),
+    [searchParams],
   )
 
   const query = useUsersUsersGet(
@@ -55,11 +56,7 @@ export default function UsersClient() {
     },
   )
 
-  const [data, setData] = useState<FlathubUsersResult>()
-
-  useEffect(() => {
-    setPage(searchParams.get("page") ? Number(searchParams.get("page")) : 1)
-  }, [searchParams])
+  const data = useMemo(() => query?.data?.data, [query.data?.data])
 
   useEffect(() => {
     const updateSearchParams = (newParams: { [key: string]: string }) => {
@@ -76,10 +73,6 @@ export default function UsersClient() {
 
     updateSearchParams({ filterString: filterString || "" })
   }, [filterString, router, pathname, searchParams])
-
-  useEffect(() => {
-    setData(query?.data?.data)
-  }, [query?.data])
 
   const pages = Array.from(
     { length: data?.pagination?.total_pages ?? 1 },

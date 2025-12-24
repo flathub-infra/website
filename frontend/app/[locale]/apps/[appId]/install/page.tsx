@@ -57,14 +57,16 @@ export default async function InstallPage({
   // Enable static rendering
   setRequestLocale(locale)
 
+  let app: any
+
   try {
     const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
-    const app = response.data
-
-    // Use the client component to handle the redirect and fallback
-    return <InstallClient app={app as any} />
+    app = response.data
   } catch (error) {
     console.error("Error fetching app data:", error)
     notFound()
   }
+
+  // Use the client component to handle the redirect and fallback
+  return <InstallClient app={app} />
 }

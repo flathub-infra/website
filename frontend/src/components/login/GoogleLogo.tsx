@@ -62,7 +62,7 @@ export const GoogleLogo = () => (
       stroke="none"
       strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
+      fillRule="evenodd"
     >
       <g id="9-PATCH" transform="translate(-608.000000, -160.000000)"></g>
       <g
@@ -75,7 +75,7 @@ export const GoogleLogo = () => (
           filter="url(#filter-1)"
         >
           <g id="button-bg">
-            <use fill="#FFFFFF" fill-rule="evenodd" xlinkHref="#path-2"></use>
+            <use fill="#FFFFFF" fillRule="evenodd" xlinkHref="#path-2"></use>
             <use fill="none" xlinkHref="#path-2"></use>
             <use fill="none" xlinkHref="#path-2"></use>
             <use fill="none" xlinkHref="#path-2"></use>

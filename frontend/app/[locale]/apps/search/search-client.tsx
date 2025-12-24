@@ -142,6 +142,8 @@ const SearchClient = (): JSX.Element => {
         },
       },
     )
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, selectedFilters, locale])
 
   return (

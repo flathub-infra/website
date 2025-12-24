@@ -9,7 +9,7 @@ import {
   getISOWeek,
   startOfISOWeek,
 } from "date-fns"
-import { ReactElement, useEffect, useState } from "react"
+import { ReactElement, useMemo, useState } from "react"
 import { FlathubCombobox } from "src/components/Combobox"
 import Spinner from "src/components/Spinner"
 import { HeroBanner } from "src/components/application/HeroBanner"
@@ -40,33 +40,6 @@ export default function AppPicksClient() {
 
   const [date, setDate] = useState(new Date())
   const [currentIndex, setCurrentIndex] = useState(-1)
-
-  const [selectableAppsAppOfTheDay, setSelectableAppsAppOfTheDay] = useState<
-    {
-      id: string
-      name: string
-      subtitle: string
-      icon: string
-      lastTimeAppOfTheDay: UTCDate
-      lastTimeAppOfTheWeek: UTCDate
-      numberOfTimesAppOfTheDay: number
-      numberOfTimesAppOfTheWeek: number
-    }[]
-  >([])
-
-  const [selectableAppsAppsOfTheWeek, setSelectableAppsAppsOfTheWeek] =
-    useState<
-      {
-        id: string
-        name: string
-        subtitle: string
-        icon: string
-        lastTimeAppOfTheDay: UTCDate
-        lastTimeAppOfTheWeek: UTCDate
-        numberOfTimesAppOfTheDay: number
-        numberOfTimesAppOfTheWeek: number
-      }[]
-    >([])
 
   const [firstApp, setFirstApp] = useState<{
     id: string
@@ -229,67 +202,91 @@ export default function AppPicksClient() {
 
   const startOfThisWeek = startOfISOWeek(date)
 
-  useEffect(() => {
-    if (queryQualityApps.data) {
-      const apps = queryQualityApps.data
-        .filter((app) => app.id !== firstApp?.id)
-        .filter((app) => app.id !== secondApp?.id)
-        .filter((app) => app.id !== thirdApp?.id)
-        .filter((app) => app.id !== fourthApp?.id)
-        .filter((app) => app.id !== fifthApp?.id)
-        .map((app) => {
-          return {
-            id: app.id,
-            name: app.appstream.name,
-            subtitle: app.appstream.summary,
-            icon: app.appstream.icon,
-            lastTimeAppOfTheDay: new UTCDate(app.lastTimeAppOfTheDay),
-            numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
-            lastTimeAppOfTheWeek: new UTCDate(app.lastTimeAppOfTheWeek),
-            numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
-          }
-        })
-
-      setSelectableAppsAppOfTheDay(
-        apps.toSorted((a, b) => {
-          if (a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay !== 0) {
-            return a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay
-          }
-
-          if (a.lastTimeAppOfTheDay && b.lastTimeAppOfTheDay) {
-            return (
-              a.lastTimeAppOfTheDay.getTime() - b.lastTimeAppOfTheDay.getTime()
-            )
-          }
-
-          return 0
-        }),
-      )
-
-      setSelectableAppsAppsOfTheWeek(
-        apps.toSorted((a, b) => {
-          if (a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek !== 0) {
-            return a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek
-          }
-
-          if (b.lastTimeAppOfTheWeek && a.lastTimeAppOfTheWeek) {
-            return (
-              a.lastTimeAppOfTheWeek.getTime() -
-              b.lastTimeAppOfTheWeek.getTime()
-            )
-          }
-
-          return 0
-        }),
-      )
+  const selectableAppsAppOfTheDay = useMemo(() => {
+    if (!queryQualityApps.data) {
+      return []
     }
+
+    const apps = queryQualityApps.data
+      .filter((app) => app.id !== firstApp?.id)
+      .filter((app) => app.id !== secondApp?.id)
+      .filter((app) => app.id !== thirdApp?.id)
+      .filter((app) => app.id !== fourthApp?.id)
+      .filter((app) => app.id !== fifthApp?.id)
+      .map((app) => {
+        return {
+          id: app.id,
+          name: app.appstream.name,
+          subtitle: app.appstream.summary,
+          icon: app.appstream.icon,
+          lastTimeAppOfTheDay: new UTCDate(app.lastTimeAppOfTheDay),
+          numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
+          lastTimeAppOfTheWeek: new UTCDate(app.lastTimeAppOfTheWeek),
+          numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
+        }
+      })
+
+    return apps.toSorted((a, b) => {
+      if (a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay !== 0) {
+        return a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay
+      }
+
+      if (a.lastTimeAppOfTheDay && b.lastTimeAppOfTheDay) {
+        return a.lastTimeAppOfTheDay.getTime() - b.lastTimeAppOfTheDay.getTime()
+      }
+
+      return 0
+    })
   }, [
     firstApp?.id,
     secondApp?.id,
     thirdApp?.id,
     fourthApp?.id,
     fifthApp?.id,
-    queryAppsOfTheWeek.data,
+    queryQualityApps.data,
+  ])
+
+  const selectableAppsAppsOfTheWeek = useMemo(() => {
+    if (!queryQualityApps.data) return []
+
+    const apps = queryQualityApps.data
+      .filter((app) => app.id !== firstApp?.id)
+      .filter((app) => app.id !== secondApp?.id)
+      .filter((app) => app.id !== thirdApp?.id)
+      .filter((app) => app.id !== fourthApp?.id)
+      .filter((app) => app.id !== fifthApp?.id)
+      .map((app) => {
+        return {
+          id: app.id,
+          name: app.appstream.name,
+          subtitle: app.appstream.summary,
+          icon: app.appstream.icon,
+          lastTimeAppOfTheDay: new UTCDate(app.lastTimeAppOfTheDay),
+          numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
+          lastTimeAppOfTheWeek: new UTCDate(app.lastTimeAppOfTheWeek),
+          numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
+        }
+      })
+
+    return apps.toSorted((a, b) => {
+      if (a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek !== 0) {
+        return a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek
+      }
+
+      if (b.lastTimeAppOfTheWeek && a.lastTimeAppOfTheWeek) {
+        return (
+          a.lastTimeAppOfTheWeek.getTime() - b.lastTimeAppOfTheWeek.getTime()
+        )
+      }
+
+      return 0
+    })
+  }, [
+    firstApp?.id,
+    secondApp?.id,
+    thirdApp?.id,
+    fourthApp?.id,
+    fifthApp?.id,
     queryQualityApps.data,
   ])
 

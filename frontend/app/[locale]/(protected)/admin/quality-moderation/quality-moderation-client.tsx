@@ -11,7 +11,7 @@ import clsx from "clsx"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useMemo, useState } from "react"
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
@@ -44,16 +44,19 @@ export default function QualityModerationClient() {
 
   const pageSize = 30
 
-  const [page, setPage] = useState<number>(
-    searchParams.get("page") ? Number(searchParams.get("page")) : 1,
+  const page = useMemo(
+    () => (searchParams.get("page") ? Number(searchParams.get("page")) : 1),
+    [searchParams],
   )
 
-  const [filteredBy, setFilteredBy] =
-    useState<GetQualityModerationStatusQualityModerationStatusGetFilter>(
-      (searchParams.get(
-        "filter",
-      ) as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
+  const filteredBy =
+    useMemo<GetQualityModerationStatusQualityModerationStatusGetFilter>(
+      () =>
+        (searchParams.get(
+          "filter",
+        ) as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
         "todo",
+      [searchParams],
     )
 
   const query = useGetQualityModerationStatusQualityModerationStatusGet(
@@ -72,19 +75,6 @@ export default function QualityModerationClient() {
       },
     },
   )
-
-  useEffect(() => {
-    setPage(searchParams.get("page") ? Number(searchParams.get("page")) : 1)
-  }, [searchParams])
-
-  useEffect(() => {
-    setFilteredBy(
-      (searchParams.get(
-        "filter",
-      ) as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
-        "todo",
-    )
-  }, [searchParams])
 
   const pages = Array.from(
     { length: query.data?.data?.pagination?.total_pages ?? 1 },
