@@ -52,5 +52,8 @@
   "downloads-per-country": "Descargas por país",
   "downloads-over-time": "Descargas sobre o tempo",
   "home": "Inicio",
-  "subscribe": "Suscribirse"
+  "subscribe": "Suscribirse",
+  "count-downloads": "Descargas totais",
+  "count-verified-desktop-apps": "Aplicacións de escritorio verificadas",
+  "linked-accounts": "Contas vinculadas"
 }

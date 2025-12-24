@@ -686,5 +686,6 @@
   "set-as-default": "Set as Default",
   "default-account-changed": "Default account changed successfully",
   "or-enter-custom-amount": "Or enter a custom amount",
-  "payment-details": "Payment Details"
+  "payment-details": "Payment Details",
+  "special-code-description": "This app is developed under a special licence. The source code may or may not be public."
 }
