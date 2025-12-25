@@ -59,7 +59,7 @@ export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -104,11 +104,11 @@ export type GetUploadTokensUploadTokensAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>
 >
 export type GetUploadTokensUploadTokensAppIdGetQueryError =
-  AxiosError<void | void | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params: undefined | GetUploadTokensUploadTokensAppIdGetParams,
@@ -136,7 +136,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 }
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -164,7 +164,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 }
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -188,7 +188,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -234,7 +234,7 @@ export const createUploadTokenUploadTokensAppIdPost = (
 }
 
 export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
-  TError = AxiosError<void | void | void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -277,13 +277,13 @@ export type CreateUploadTokenUploadTokensAppIdPostMutationResult = NonNullable<
 export type CreateUploadTokenUploadTokensAppIdPostMutationBody =
   UploadTokenRequest
 export type CreateUploadTokenUploadTokensAppIdPostMutationError =
-  AxiosError<void | void | void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Create Upload Token
  */
 export const useCreateUploadTokenUploadTokensAppIdPost = <
-  TError = AxiosError<void | void | void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -319,7 +319,7 @@ export const revokeUploadTokenUploadTokensTokenIdRevokeDelete = (
 
 export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions =
   <
-    TError = AxiosError<void | void | void | HTTPValidationError | void>,
+    TError = AxiosError<void | HTTPValidationError>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
@@ -371,13 +371,13 @@ export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationResult =
   >
 
 export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationError =
-  AxiosError<void | void | void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Revoke Upload Token
  */
 export const useRevokeUploadTokenUploadTokensTokenIdRevokeDelete = <
-  TError = AxiosError<void | void | void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
