@@ -694,9 +694,9 @@
     "category-highlights": "Kategória-kiemelések",
     "most-popular-description": "Az alkalmazás, amelyet idén a legtöbben töltöttek le",
     "total-downloads": "Összes letöltés",
-    "new-apps": "Új alkalmazások",
+    "new-apps": "Új alkalmazás",
     "total-apps": "Összes alkalmazás",
-    "app-updates": "Alkalmazásfrissítések",
+    "app-updates": "Alkalmazásfrissítés",
     "top-apps": "Legnépszerűbb alkalmazások",
     "top-games": "Legnépszerűbb játékok",
     "game-stores": "Játékáruházak",
@@ -704,6 +704,22 @@
     "biggest-growth": "Legnagyobb növekedés",
     "biggest-growth-description": "Az alkalmazás, amely az előző évhez képest a legtöbb új letöltést szerezte",
     "newcomer-of-year": "Az év újonca",
-    "newcomer-description": "Az idén megjelent legnépszerűbb alkalmazás"
-  }
+    "newcomer-description": "Az idén megjelent legnépszerűbb alkalmazás",
+    "most-improved": "Legtöbbet fejlődött",
+    "most-improved-description": "Az alkalmazás, amely az előző évhez képest a legnagyobb százalékos növekedést érte el",
+    "geographic-insights": "Földrajzi áttekintés",
+    "countries-reached": "Elért országok",
+    "fastest-growing-regions": "Leggyorsabban növekvő régiók",
+    "top-countries": "Vezető országok",
+    "trending-categories": "Feltörekvő kategóriák",
+    "trending-categories-description": "Az idei évben legnagyobb növekedést mutató kategóriák",
+    "year-over-year-growth": "Éves növekedés",
+    "downloads-vs-previous-year": "Letöltések az előző évhez képest ({year})",
+    "hidden-gems": "Rejtett gyöngyszemek",
+    "hidden-gems-description": "Egyre nagyobb népszerűségnek örvendő alkalmazások",
+    "platform-downloads": "Letöltések platform szerint",
+    "x-growth": "+{percentage}%-os növekedés"
+  },
+  "or-enter-custom-amount": "Vagy adjon meg egy egyedi összeget",
+  "special-code-description": "Ez az alkalmazás speciális licenc alatt készült. A forráskód nem feltétlenül nyilvános."
 }
