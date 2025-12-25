@@ -684,5 +684,26 @@
   "set-as-default": "Beállítás alapértelmezettként",
   "vending": {
     "purchase-not-available": "Az alkalmazás nem megvásárolható."
+  },
+  "payment-details": "Fizetési részletek",
+  "year-in-review": {
+    "select-year": "Év kiválasztása",
+    "most-popular": "Legnépszerűbb",
+    "title": "{year} éves áttekintés",
+    "description": "Egy évnyi növekedés és innováció ünneplése a Flathubon",
+    "category-highlights": "Kategória-kiemelések",
+    "most-popular-description": "Az alkalmazás, amelyet idén a legtöbben töltöttek le",
+    "total-downloads": "Összes letöltés",
+    "new-apps": "Új alkalmazások",
+    "total-apps": "Összes alkalmazás",
+    "app-updates": "Alkalmazásfrissítések",
+    "top-apps": "Legnépszerűbb alkalmazások",
+    "top-games": "Legnépszerűbb játékok",
+    "game-stores": "Játékáruházak",
+    "game-utilities": "Játékeszközök",
+    "biggest-growth": "Legnagyobb növekedés",
+    "biggest-growth-description": "Az alkalmazás, amely az előző évhez képest a legtöbb új letöltést szerezte",
+    "newcomer-of-year": "Az év újonca",
+    "newcomer-description": "Az idén megjelent legnépszerűbb alkalmazás"
   }
 }
