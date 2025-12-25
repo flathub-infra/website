@@ -405,19 +405,19 @@ export function TopAppsSection({
           {[
             {
               data: topEmulators,
-              title: t("emulators"),
+              title: t("year-in-review.top-emulators"),
               icon: "🕹️",
               color: "celestial-blue",
             },
             {
               data: topGameStores,
-              title: t("year-in-review.game-stores"),
+              title: t("year-in-review.top-game-stores"),
               icon: "🏪",
               color: "celestial-blue",
             },
             {
               data: topGameUtilities,
-              title: t("year-in-review.game-utilities"),
+              title: t("year-in-review.top-game-utilities"),
               icon: "🔧",
               color: "celestial-blue",
             },
