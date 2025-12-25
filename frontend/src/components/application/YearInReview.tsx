@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl"
 import { Link } from "src/i18n/navigation"
 import { useEffect, useState, useMemo, useCallback } from "react"
 import clsx from "clsx"
+import { cva } from "class-variance-authority"
 import LogoImage from "../LogoImage"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import type {
@@ -107,6 +108,48 @@ function AnimatedCounter({
   return <>{count.toLocaleString()}</>
 }
 
+const rankBadgeVariants = cva(
+  "flex items-center justify-center rounded-full font-black text-white shadow-md",
+  {
+    variants: {
+      size: {
+        sm: "size-5 text-[10px]",
+        md: "xl:size-8 size-12 xl:text-sm text-lg",
+        lg: "size-12 text-lg",
+      },
+      color: {
+        "celestial-blue": "bg-flathub-celestial-blue",
+      },
+      variant: {
+        absolute: "",
+        inline: "",
+      },
+    },
+    compoundVariants: [
+      {
+        variant: "absolute",
+        size: "sm",
+        className: "absolute -start-1 -top-1",
+      },
+      {
+        variant: "absolute",
+        size: "md",
+        className: "absolute xl:-start-2 xl:-top-2 -start-3 -top-3",
+      },
+      {
+        variant: "absolute",
+        size: "lg",
+        className: "absolute -start-3 -top-3",
+      },
+    ],
+    defaultVariants: {
+      size: "md",
+      color: "celestial-blue",
+      variant: "absolute",
+    },
+  },
+)
+
 function RankBadge({
   rank,
   size = "md",
@@ -118,36 +161,8 @@ function RankBadge({
   color?: "celestial-blue"
   variant?: "absolute" | "inline"
 }) {
-  const sizeClasses = {
-    sm: "w-5 h-5 text-[10px]",
-    md: "w-8 h-8 text-sm",
-    lg: "w-12 h-12 text-lg",
-  }
-
-  const colorClasses = {
-    "celestial-blue": "bg-flathub-celestial-blue",
-  }
-
-  const positionClasses = {
-    absolute: {
-      sm: "absolute -start-1 -top-1",
-      md: "absolute -start-2 -top-2",
-      lg: "absolute -start-3 -top-3",
-    },
-    inline: "",
-  }
-
   return (
-    <div
-      className={clsx(
-        "flex items-center justify-center rounded-full font-black text-white shadow-md",
-        sizeClasses[size],
-        colorClasses[color],
-        variant === "absolute" ? positionClasses.absolute[size] : "",
-      )}
-    >
-      {rank}
-    </div>
+    <div className={rankBadgeVariants({ size, color, variant })}>{rank}</div>
   )
 }
 
@@ -293,11 +308,7 @@ export function TopAppsSection({
                     className="block group"
                   >
                     <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-all">
-                      <RankBadge
-                        rank={index + 1}
-                        size="lg"
-                        color="celestial-blue"
-                      />
+                      <RankBadge rank={index + 1} size="lg" />
                       <div className="flex items-start gap-4 ms-6">
                         <div className="w-16 h-16 flex-shrink-0">
                           {app.icon && (
@@ -354,11 +365,7 @@ export function TopAppsSection({
                     className="block group"
                   >
                     <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-all">
-                      <RankBadge
-                        rank={index + 1}
-                        size="lg"
-                        color="celestial-blue"
-                      />
+                      <RankBadge rank={index + 1} size="lg" />
                       <div className="flex items-start gap-4 ms-6">
                         <div className="w-16 h-16 flex-shrink-0">
                           {game.icon && (
@@ -401,7 +408,7 @@ export function TopAppsSection({
       {(topEmulators?.length > 0 ||
         topGameStores?.length > 0 ||
         topGameUtilities?.length > 0) && (
-        <div className="grid lg:grid-cols-3 gap-6 pt-6">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 pt-6">
           {[
             {
               data: topEmulators,
@@ -429,8 +436,8 @@ export function TopAppsSection({
                 className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl"
               >
                 <CardHeader className="pb-3 px-3 sm:px-6">
-                  <CardTitle className="text-base font-bold flex items-center gap-2">
-                    <span className="text-xl">{section.icon}</span>
+                  <CardTitle className="lg:text-base text-xl font-bold flex items-center gap-2">
+                    <span className="text-2xl lg:text-xl">{section.icon}</span>
                     <span>{section.title}</span>
                   </CardTitle>
                 </CardHeader>
@@ -443,11 +450,7 @@ export function TopAppsSection({
                         className="block group"
                       >
                         <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-all">
-                          <RankBadge
-                            rank={index + 1}
-                            size="md"
-                            color="celestial-blue"
-                          />
+                          <RankBadge rank={index + 1} size="md" />
                           <div className="flex items-start gap-4 ms-6">
                             <div className="w-16 h-16 flex-shrink-0">
                               {app.icon && (
@@ -549,7 +552,6 @@ export function GeographicInsightsSection({
                           <RankBadge
                             rank={idx + 1}
                             size="sm"
-                            color="celestial-blue"
                             variant="inline"
                           />
                           <div className="flex-1 min-w-0">
@@ -586,12 +588,7 @@ export function GeographicInsightsSection({
                         key={country.country_code}
                         className="flex items-center gap-2 p-2 rounded-lg bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30"
                       >
-                        <RankBadge
-                          rank={idx + 1}
-                          size="sm"
-                          color="celestial-blue"
-                          variant="inline"
-                        />
+                        <RankBadge rank={idx + 1} size="sm" variant="inline" />
                         <div className="flex-1 min-w-0">
                           <div className="font-semibold text-xs truncate">
                             {countryName}
@@ -706,7 +703,7 @@ export function CategoryHighlightsSection({
                 />
                 {cat.category_name}
               </h4>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                 {cat.winners.map((winner) => (
                   <Link
                     key={winner.app_id}
