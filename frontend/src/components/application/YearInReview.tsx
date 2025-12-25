@@ -785,10 +785,8 @@ export function CategoryHighlightsSection({
                           let text = ""
                           let bgColor = ""
                           let textColor = ""
-                          if (
-                            award.type === "popular" ||
-                            award.type === "newcomer"
-                          ) {
+
+                          if (award.type === "popular") {
                             const downloadsCount = new Intl.NumberFormat(
                               locale,
                               {
@@ -801,21 +799,41 @@ export function CategoryHighlightsSection({
                             text = t("x-downloads", {
                               x: downloadsCount,
                             })
-                            bgColor =
-                              "bg-flathub-celestial-blue/15 dark:bg-flathub-celestial-blue/25"
-                            textColor =
-                              "text-flathub-celestial-blue dark:text-flathub-celestial-blue"
+                            bgColor = "bg-blue-100/80 dark:bg-blue-900/40"
+                            textColor = "text-blue-800 dark:text-blue-200"
+                          } else if (award.type === "growth") {
+                            text = t("year-in-review.x-growth", {
+                              percentage: (
+                                award.data as YearInReviewCategoryGrowthApp
+                              ).growth_percentage,
+                            })
+                            bgColor = "bg-purple-100/80 dark:bg-purple-900/40"
+                            textColor = "text-purple-800 dark:text-purple-200"
+                          } else if (award.type === "newcomer") {
+                            const downloadsCount = new Intl.NumberFormat(
+                              locale,
+                              {
+                                notation: "compact",
+                                maximumFractionDigits: 1,
+                              },
+                            ).format(
+                              (award.data as YearInReviewCategoryApp).downloads,
+                            )
+                            text = t("x-downloads", {
+                              x: downloadsCount,
+                            })
+                            bgColor = "bg-amber-100/80 dark:bg-amber-900/40"
+                            textColor = "text-amber-800 dark:text-amber-200"
                           } else {
                             text = t("year-in-review.x-growth", {
                               percentage: (
                                 award.data as YearInReviewCategoryGrowthApp
                               ).growth_percentage,
                             })
-                            bgColor =
-                              "bg-flathub-status-green/15 dark:bg-flathub-status-green/25"
-                            textColor =
-                              "text-flathub-status-green dark:text-flathub-status-green-dark"
+                            bgColor = "bg-emerald-100/80 dark:bg-emerald-900/40"
+                            textColor = "text-emerald-800 dark:text-emerald-200"
                           }
+
                           return (
                             <div
                               key={aidx}
@@ -1102,13 +1120,20 @@ export function YearInReview({
       if (!categoryMap.has(category)) {
         categoryMap.set(category, [])
       }
-      categoryMap.get(category)!.push({
-        app_id: app.app_id,
-        name: app.name,
-        icon: app.icon,
-        summary: app.summary,
-        awards: [{ type: awardType, data: app }],
-      })
+      const winners = categoryMap.get(category)!
+      const existingWinner = winners.find((w) => w.app_id === app.app_id)
+
+      if (existingWinner) {
+        existingWinner.awards.push({ type: awardType, data: app })
+      } else {
+        winners.push({
+          app_id: app.app_id,
+          name: app.name,
+          icon: app.icon,
+          summary: app.summary,
+          awards: [{ type: awardType, data: app }],
+        })
+      }
     }
 
     popularAppsByCategory?.forEach((app) =>
