@@ -583,7 +583,7 @@ export const checkPurchasesPurchasesCheckPurchasesPost = (
 }
 
 export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -626,13 +626,13 @@ export type CheckPurchasesPurchasesCheckPurchasesPostMutationResult =
   >
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationBody = string[]
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationError =
-  AxiosError<void | void | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Check Purchases
  */
 export const useCheckPurchasesPurchasesCheckPurchasesPost = <
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -674,7 +674,7 @@ export const getDownloadTokenPurchasesGenerateDownloadTokenPost = (
 
 export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOptions =
   <
-    TError = AxiosError<void | void | void | HTTPValidationError>,
+    TError = AxiosError<void | HTTPValidationError>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
@@ -729,13 +729,13 @@ export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationResult =
 export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationBody =
   BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost
 export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationError =
-  AxiosError<void | void | void | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Get Download Token
  */
 export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
-  TError = AxiosError<void | void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {

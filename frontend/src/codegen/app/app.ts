@@ -2191,7 +2191,7 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<void | void | void>,
+  TError = AxiosError<void>,
 >(
   appId: string,
   options?: {
@@ -2231,13 +2231,11 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
 export type GetExceptionsForAppExceptionsAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>
 >
-export type GetExceptionsForAppExceptionsAppIdGetQueryError = AxiosError<
-  void | void | void
->
+export type GetExceptionsForAppExceptionsAppIdGetQueryError = AxiosError<void>
 
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<void | void | void>,
+  TError = AxiosError<void>,
 >(
   appId: string,
   options: {
@@ -2264,7 +2262,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 }
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<void | void | void>,
+  TError = AxiosError<void>,
 >(
   appId: string,
   options?: {
@@ -2291,7 +2289,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 }
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<void | void | void>,
+  TError = AxiosError<void>,
 >(
   appId: string,
   options?: {
@@ -2314,7 +2312,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
-  TError = AxiosError<void | void | void>,
+  TError = AxiosError<void>,
 >(
   appId: string,
   options?: {

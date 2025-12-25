@@ -32,7 +32,7 @@ export const buildNotificationEmailsBuildNotificationPost = (
 }
 
 export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
-  TError = AxiosError<void | void>,
+  TError = AxiosError<void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -76,13 +76,13 @@ export type BuildNotificationEmailsBuildNotificationPostMutationResult =
 export type BuildNotificationEmailsBuildNotificationPostMutationBody =
   BuildNotificationRequest
 export type BuildNotificationEmailsBuildNotificationPostMutationError =
-  AxiosError<void | void>
+  AxiosError<void>
 
 /**
  * @summary Build Notification
  */
 export const useBuildNotificationEmailsBuildNotificationPost = <
-  TError = AxiosError<void | void>,
+  TError = AxiosError<void>,
   TContext = unknown,
 >(
   options?: {

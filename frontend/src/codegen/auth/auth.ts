@@ -400,7 +400,7 @@ export const continueGithubFlowAuthLoginGithubPost = (
 }
 
 export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -443,13 +443,13 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationResult = NonNullable<
 export type ContinueGithubFlowAuthLoginGithubPostMutationBody =
   ContinueGithubFlowAuthLoginGithubPostBody
 export type ContinueGithubFlowAuthLoginGithubPostMutationError =
-  AxiosError<void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Continue Github Flow
  */
 export const useContinueGithubFlowAuthLoginGithubPost = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -673,7 +673,7 @@ export const continueGitlabFlowAuthLoginGitlabPost = (
 }
 
 export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -716,13 +716,13 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationResult = NonNullable<
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationBody =
   ContinueGitlabFlowAuthLoginGitlabPostBody
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationError =
-  AxiosError<void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Continue Gitlab Flow
  */
 export const useContinueGitlabFlowAuthLoginGitlabPost = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -946,7 +946,7 @@ export const continueGnomeFlowAuthLoginGnomePost = (
 }
 
 export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -989,13 +989,13 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationResult = NonNullable<
 export type ContinueGnomeFlowAuthLoginGnomePostMutationBody =
   ContinueGnomeFlowAuthLoginGnomePostBody
 export type ContinueGnomeFlowAuthLoginGnomePostMutationError =
-  AxiosError<void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Continue Gnome Flow
  */
 export const useContinueGnomeFlowAuthLoginGnomePost = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -1185,7 +1185,7 @@ export const continueKdeFlowAuthLoginKdePost = (
 }
 
 export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1228,13 +1228,13 @@ export type ContinueKdeFlowAuthLoginKdePostMutationResult = NonNullable<
 export type ContinueKdeFlowAuthLoginKdePostMutationBody =
   ContinueKdeFlowAuthLoginKdePostBody
 export type ContinueKdeFlowAuthLoginKdePostMutationError =
-  AxiosError<void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Continue Kde Flow
  */
 export const useContinueKdeFlowAuthLoginKdePost = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -1297,7 +1297,7 @@ export const continueGoogleFlowAuthLoginGooglePost = (
 }
 
 export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1340,13 +1340,13 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationResult = NonNullable<
 export type ContinueGoogleFlowAuthLoginGooglePostMutationBody =
   ContinueGoogleFlowAuthLoginGooglePostBody
 export type ContinueGoogleFlowAuthLoginGooglePostMutationError =
-  AxiosError<void | HTTPValidationError | void>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Continue Google Flow
  */
 export const useContinueGoogleFlowAuthLoginGooglePost = <
-  TError = AxiosError<void | HTTPValidationError | void>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -1884,7 +1884,7 @@ export const doDeleteuserAuthDeleteuserDelete = (
 }
 
 export const getDoDeleteuserAuthDeleteuserDeleteMutationOptions = <
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1926,13 +1926,13 @@ export type DoDeleteuserAuthDeleteuserDeleteMutationResult = NonNullable<
 >
 export type DoDeleteuserAuthDeleteuserDeleteMutationBody = UserDeleteRequest
 export type DoDeleteuserAuthDeleteuserDeleteMutationError =
-  AxiosError<void | void | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Do Deleteuser
  */
 export const useDoDeleteuserAuthDeleteuserDelete = <
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
@@ -2083,7 +2083,7 @@ export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
 
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions =
   <
-    TError = AxiosError<void | void | HTTPValidationError>,
+    TError = AxiosError<void | HTTPValidationError>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
@@ -2137,13 +2137,13 @@ export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationResult =
   >
 
 export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationError =
-  AxiosError<void | void | HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 /**
  * @summary Do Change Default Account
  */
 export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
-  TError = AxiosError<void | void | HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
