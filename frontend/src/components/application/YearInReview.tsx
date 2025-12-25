@@ -510,8 +510,8 @@ export function GeographicInsightsSection({
   return (
     <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
       <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-2xl font-black flex items-center gap-2">
-          <span className="text-3xl">🌍</span>
+        <CardTitle className="text-xl font-black flex items-center gap-2">
+          <span className="text-2xl">🌍</span>
           <span>{t("year-in-review.geographic-insights")}</span>
         </CardTitle>
       </CardHeader>
@@ -533,7 +533,7 @@ export function GeographicInsightsSection({
             geographicStats.fastest_growing_regions.length > 0 && (
               <div>
                 <div className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
-                  🚀 {t("year-in-review.fastest-growing-regions")}
+                  {t("year-in-review.fastest-growing-regions")}
                 </div>
                 <div className="grid gap-1.5">
                   {geographicStats.fastest_growing_regions.map(
@@ -572,7 +572,7 @@ export function GeographicInsightsSection({
           {geographicStats.top_countries && (
             <div>
               <div className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
-                🏆 {t("year-in-review.top-countries")}
+                {t("year-in-review.top-countries")}
               </div>
               <div className="grid gap-1.5">
                 {geographicStats.top_countries
@@ -634,11 +634,8 @@ export function CategoryHighlightsSection({
   return (
     <div className="space-y-10">
       <div className="text-center space-y-6 mb-12">
-        <h3 className="inline-flex items-center gap-3 px-3 sm:px-6 py-3 rounded-2xl bg-gradient-to-r from-white/90 to-flathub-lotion/90 dark:from-flathub-arsenic/80 dark:to-flathub-dark-gunmetal/80 border lg:border-2 border-white/60 dark:border-white/10 shadow-xl backdrop-blur-md">
-          <span className="text-3xl">🎨</span>
-          <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-flathub-celestial-blue via-purple-600 to-flathub-vivid-crimson">
-            {t("year-in-review.category-highlights")}
-          </span>
+        <h3 className="text-2xl sm:text-3xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+          {t("year-in-review.category-highlights")}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
           <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/70 dark:from-blue-900/30 dark:to-blue-800/20 border lg:border-2 border-blue-200/80 dark:border-blue-700/50 shadow-lg hover:shadow-xl transition-shadow">
@@ -702,7 +699,7 @@ export function CategoryHighlightsSection({
             className="p-4 sm:p-8 rounded-2xl bg-white dark:bg-flathub-arsenic border lg:border-2 border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl"
           >
             <div>
-              <h4 className="text-2xl lg:text-3xl font-black mb-8 text-flathub-dark-gunmetal dark:text-flathub-gainsborow pb-4 ps-4 relative border-b lg:border-b-2 border-transparent">
+              <h4 className="text-xl lg:text-2xl font-black mb-8 text-flathub-dark-gunmetal dark:text-flathub-gainsborow pb-4 ps-4 relative border-b lg:border-b-2 border-transparent">
                 <span
                   aria-hidden="true"
                   className="absolute inset-x-0 bottom-0 h-1 rounded-full bg-gradient-to-r from-flathub-celestial-blue via-purple-500 to-flathub-sunset-pink rtl:bg-gradient-to-l shadow-[0_0_10px_rgba(33,150,243,0.3)]"
@@ -856,11 +853,9 @@ export function HiddenGemsSection({ hiddenGems }: { hiddenGems: HiddenGem[] }) {
   return (
     <Card className="bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20 border-0 lg:border border-purple-200/50 dark:border-purple-800/30 shadow-xl h-full">
       <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-2xl font-black flex items-center gap-2">
-          <span className="text-3xl">💎</span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">
-            {t("year-in-review.hidden-gems")}
-          </span>
+        <CardTitle className="text-xl font-black flex items-center gap-2">
+          <span className="text-2xl">💎</span>
+          <span>{t("year-in-review.hidden-gems")}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0 px-3 sm:px-6">
@@ -915,8 +910,8 @@ export function PlatformDiversitySection({
   return (
     <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
       <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-2xl font-black flex items-center gap-2">
-          <span className="text-3xl">💻</span>
+        <CardTitle className="text-xl font-black flex items-center gap-2">
+          <span className="text-2xl">💻</span>
           <span>{t("year-in-review.platform-downloads")}</span>
         </CardTitle>
       </CardHeader>
@@ -969,11 +964,9 @@ export function TrendingCategoriesSection({
   return (
     <Card className="bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20 border-0 lg:border border-blue-200/50 dark:border-blue-800/30 shadow-xl">
       <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-2xl font-black flex items-center gap-2">
-          <span className="text-3xl">🚀</span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400">
-            {t("year-in-review.trending-categories")}
-          </span>
+        <CardTitle className="text-xl font-black flex items-center gap-2">
+          <span className="text-2xl">🚀</span>
+          <span>{t("year-in-review.trending-categories")}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0 px-3 sm:px-6">
