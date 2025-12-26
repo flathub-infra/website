@@ -216,5 +216,10 @@
   "verify-app": "Patvirtinti programėlę",
   "app-is-currently-verified-by-login-provider": "Jūsų programėlė šiuo metu yra patvirtinta pagal jūsų prisijungimą <loginname></loginname> su jūsų paskyra <loginprovider></loginprovider>",
   "login-provider-verification-instruction": "Bandysime patvirtinti jūsų prieigą prie programėlės naudodami prisijungimo vardą <loginname></loginname> su paskyra <loginprovider></loginprovider>",
-  "website-verification": "Svetainės patvirtinimas"
+  "website-verification": "Svetainės patvirtinimas",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub logotipas",
+  "more-pages": "Daugiau puslapių",
+  "we-love-games": "Mes ♥ žaidimus",
+  "carousel": "Carousel"
 }

@@ -718,6 +718,9 @@
     "hidden-gems": "گوهرهای پنهان",
     "hidden-gems-description": "کاره‌هایی با جذابیت رو به رشد",
     "platform-downloads": "بارگیری‌های بن‌سازه",
-    "x-growth": "+{percentage}٪ رشد"
+    "x-growth": "+{percentage}٪ رشد",
+    "top-emulators": "برترین شبیه‌سازها",
+    "top-game-stores": "برترین فروشگاه‌های بازی",
+    "top-game-utilities": "برترین ابزارهای بازی"
   }
 }
