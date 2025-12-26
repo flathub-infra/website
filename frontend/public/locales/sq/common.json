@@ -701,6 +701,9 @@
     "downloads-vs-previous-year": "Shkarkime vs {year}",
     "hidden-gems": "Xhevahire të Fshehura",
     "platform-downloads": "Shkarkime sipas platformash",
-    "x-growth": "+{percentage}% rritjeje"
+    "x-growth": "+{percentage}% rritjeje",
+    "top-emulators": "Emuluesit Kryesues",
+    "top-game-utilities": "Mjetet Kryesuese Lojërash",
+    "top-game-stores": "Shitore Kryesuese Lojërash"
   }
 }

@@ -718,6 +718,9 @@
     "hidden-gems": "宝藏应用",
     "hidden-gems-description": "增长势头显著的应用",
     "platform-downloads": "平台下载量",
-    "x-growth": "增长 {percentage}%"
+    "x-growth": "增长 {percentage}%",
+    "top-game-stores": "热门游戏商店",
+    "top-game-utilities": "热门游戏工具",
+    "top-emulators": "热门模拟器"
   }
 }
