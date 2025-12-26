@@ -40,7 +40,7 @@
   "loading-user-apps": "Felhasználói alkalmazások betöltése…",
   "authored-apps": "Felhasználó által létrehozott alkalmazások",
   "owned-apps": "Felhasználó tulajdonában lévő alkalmazások",
-  "app-logo": "{app_name} embléma",
+  "app-logo": "{app_name} logó",
   "user-wallet": "Felhasználói pénztárca",
   "count-downloads": "Összes letöltés",
   "since": "Ettől kezdve",
@@ -716,7 +716,10 @@
     "hidden-gems": "Rejtett gyöngyszemek",
     "hidden-gems-description": "Egyre nagyobb népszerűségnek örvendő alkalmazások",
     "platform-downloads": "Letöltések platform szerint",
-    "x-growth": "+{percentage}%-os növekedés"
+    "x-growth": "+{percentage}% növekedés",
+    "top-game-stores": "Legnépszerűbb játékáruházak",
+    "top-game-utilities": "Legnépszerűbb játékeszközök",
+    "top-emulators": "Legnépszerűbb emulátorok"
   },
   "or-enter-custom-amount": "Vagy adjon meg egy egyedi összeget",
   "special-code-description": "Ez az alkalmazás speciális licenc alatt készült. A forráskód nem feltétlenül nyilvános."

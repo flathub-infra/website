@@ -718,6 +718,8 @@
     "hidden-gems": "Geheimtipps",
     "hidden-gems-description": "Apps mit wachsender Beliebtheit",
     "platform-downloads": "Plattform-Downloads",
-    "x-growth": "+{percentage} % Wachstum"
+    "x-growth": "+{percentage} % Wachstum",
+    "top-game-utilities": "Top Spiele Werkzeuge",
+    "top-emulators": "Top Emulatoren"
   }
 }
