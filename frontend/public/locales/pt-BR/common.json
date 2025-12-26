@@ -687,5 +687,17 @@
   "default-account-changed": "A conta padrão foi alterada com sucesso",
   "or-enter-custom-amount": "Ou insira um valor personalizado",
   "payment-details": "Detalhes do pagamento",
-  "special-code-description": "Este aplicativo foi desenvolvido sob uma licença especial. O código-fonte pode ou não ser público."
+  "special-code-description": "Este aplicativo foi desenvolvido sob uma licença especial. O código-fonte pode ou não ser público.",
+  "year-in-review": {
+    "title": "{year} Retrospectiva do Ano",
+    "description": "Comemorando um ano de crescimento e inovação no Flathub",
+    "select-year": "Selecione o ano",
+    "category-highlights": "Destaques da categoria",
+    "most-popular": "Mais populares",
+    "most-popular-description": "O aplicativo com o maior número de downloads este ano",
+    "total-downloads": "Total de Downloads",
+    "new-apps": "Novos Aplicativos",
+    "total-apps": "Total de Aplicativos",
+    "app-updates": "Atualizações do Aplicativo"
+  }
 }

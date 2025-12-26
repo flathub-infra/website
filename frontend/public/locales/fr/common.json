@@ -694,8 +694,8 @@
     "select-year": "Sélectionner une année",
     "category-highlights": "Faits marquants dans les catégories",
     "most-popular": "La plus populaire",
-    "most-popular-description": "L'app ayant le plus grand nombre de téléchargements cette année",
-    "total-downloads": "Total de téléchargements",
+    "most-popular-description": "L'app la plus téléchargée de l'année",
+    "total-downloads": "Téléchargements au total",
     "new-apps": "Nouvelles apps",
     "total-apps": "Total d'apps",
     "app-updates": "Mises à jour d'apps",
@@ -718,6 +718,9 @@
     "hidden-gems": "Les pépites",
     "hidden-gems-description": "Les apps qui gagnent du terrain",
     "platform-downloads": "Téléchargements par plateforme",
-    "x-growth": "+{percentage} % de croissance"
+    "x-growth": "+{percentage} % de croissance",
+    "top-game-stores": "Top des magasins de jeux",
+    "top-game-utilities": "Top des outils de jeux",
+    "top-emulators": "Top des émulateurs"
   }
 }
