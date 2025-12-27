@@ -722,5 +722,9 @@
     "top-game-stores": "热门游戏商店",
     "top-game-utilities": "热门游戏工具",
     "top-emulators": "热门模拟器"
+  },
+  "year-in-review-banner": {
+    "description": "重温年度热门应用与趋势",
+    "title": "Flathub {year} 年度回顾"
   }
 }

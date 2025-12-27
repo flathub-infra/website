@@ -358,7 +358,7 @@
   "can-access-system-devices": "Hozzáférhet a rendszereszközökhöz, amelyek magasabb jogosultságot igényelnek",
   "appname-is-safety-rating-1": "{appName} biztonságos",
   "appname-is-safety-rating-2": "{appName} valószínűleg biztonságos",
-  "appname-is-safety-rating-3": "Lehetséges, hogy {appName} nem biztonságos",
+  "appname-is-safety-rating-3": "Lehetséges, hogy a(z) {appName} nem biztonságos",
   "appname-is-safety-rating-4": "{appName} nem biztonságos",
   "software-developer-verified": "Ellenőrzött szoftverfejlesztő",
   "no-file-system-access": "Nincs hozzáférés a fájlrendszerhez",
@@ -722,5 +722,9 @@
     "top-emulators": "Legnépszerűbb emulátorok"
   },
   "or-enter-custom-amount": "Vagy adjon meg egy egyedi összeget",
-  "special-code-description": "Ez az alkalmazás speciális licenc alatt készült. A forráskód nem feltétlenül nyilvános."
+  "special-code-description": "Ez az alkalmazás speciális licenc alatt készült. A forráskód nem feltétlenül nyilvános.",
+  "year-in-review-banner": {
+    "title": "Flathub {year} éves áttekintés",
+    "description": "Tekintse át újra az év legnépszerűbb alkalmazásait és trendjeit"
+  }
 }

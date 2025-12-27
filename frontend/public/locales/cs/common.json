@@ -689,7 +689,7 @@
   "payment-details": "Detaily platby",
   "special-code-description": "Tato aplikace je vyvíjena pod zvláštní licencí. Zdrojový kód může i nemusí být veřejně dostupný.",
   "year-in-review": {
-    "title": "Rok {year} v recenzi",
+    "title": "Rok {year} v přehledu",
     "description": "Oslavte rok růstu a inovací na Flathubu",
     "select-year": "Vyberte rok",
     "category-highlights": "Nejzajímavější kategorie",
@@ -698,7 +698,7 @@
     "total-downloads": "Celkový počet stažení",
     "new-apps": "Nové aplikace",
     "total-apps": "Všechny aplikace",
-    "app-updates": "Aktualizace aplikace",
+    "app-updates": "Aktualizace aplikací",
     "top-apps": "Nejlepší aplikace",
     "top-games": "Nejlepší hry",
     "biggest-growth": "Největší růst",
@@ -715,9 +715,16 @@
     "trending-categories-description": "Kategorie s největším růstem za tento rok",
     "year-over-year-growth": "Meziroční růst",
     "downloads-vs-previous-year": "Stažení vs rok {year}",
-    "hidden-gems": "Skryté hry",
-    "hidden-gems-description": "Aplikace s rostoucí tažnou silou",
+    "hidden-gems": "Skryté poklady",
+    "hidden-gems-description": "Aplikace s rostoucí popularitou",
     "platform-downloads": "Stažení platformy",
-    "x-growth": "+{percentage}% růst"
+    "x-growth": "+{percentage}% růst",
+    "top-emulators": "Nejlepší emulátory",
+    "top-game-utilities": "Nejlepší herní nástroje",
+    "top-game-stores": "Nejlepší herní obchody"
+  },
+  "year-in-review-banner": {
+    "description": "Znovu si prohlédněte nejlepší aplikace a trendy roku",
+    "title": "Flathub rok {year} v přehledu"
   }
 }

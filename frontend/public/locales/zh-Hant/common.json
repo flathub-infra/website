@@ -722,5 +722,9 @@
     "hidden-gems-description": "日益受到歡迎的應用程式",
     "platform-downloads": "平台下載",
     "x-growth": "+{percentage}% 增長"
+  },
+  "year-in-review-banner": {
+    "title": "Flathub {year} 年度回顧",
+    "description": "重溫年度熱門應用程式與趨勢"
   }
 }

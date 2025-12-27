@@ -702,15 +702,15 @@
     "geographic-insights": "Географски данни",
     "countries-reached": "Достигнати държави",
     "fastest-growing-regions": "Най-бързо растящи региони",
-    "top-countries": "Водещи държави",
+    "top-countries": "Водещи региони",
     "trending-categories": "Известни категории",
     "year-over-year-growth": "Годишен растеж",
     "downloads-vs-previous-year": "Изтегляния спрямо {year}",
     "platform-downloads": "Изтегляния по платформа",
     "x-growth": "+{percentage}% растеж",
-    "title": "Равносметка на {year} година",
+    "title": "Равносметка за {year} година",
     "category-highlights": "Акценти по категория",
-    "app-updates": "Обновявания",
+    "app-updates": "Общо обновявания",
     "description": "Честване на година растеж и иновации във „Flathub“",
     "hidden-gems": "Скрити съкровища",
     "hidden-gems-description": "Приложения с растяща популярност",
@@ -722,5 +722,9 @@
     "top-game-stores": "Водещи магазини за игри",
     "top-game-utilities": "Водещи принадлежности",
     "top-emulators": "Водещи емулатори"
+  },
+  "year-in-review-banner": {
+    "title": "Равносметка на „Flathub“ за {year} година",
+    "description": "Прегледайте водещите приложения и тенденции от годината"
   }
 }

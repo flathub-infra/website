@@ -720,6 +720,11 @@
     "platform-downloads": "Plattform-Downloads",
     "x-growth": "+{percentage} % Wachstum",
     "top-game-utilities": "Top Spiele Werkzeuge",
-    "top-emulators": "Top Emulatoren"
+    "top-emulators": "Top Emulatoren",
+    "top-game-stores": "Top Spielebibliotheken"
+  },
+  "year-in-review-banner": {
+    "title": "Flathub Jahresrückblick {year}",
+    "description": "Rückblick auf die besten Apps und Trends des Jahres"
   }
 }

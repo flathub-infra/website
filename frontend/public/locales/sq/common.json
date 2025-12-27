@@ -704,6 +704,12 @@
     "x-growth": "+{percentage}% rritjeje",
     "top-emulators": "Emuluesit Kryesues",
     "top-game-utilities": "Mjetet Kryesuese Lojërash",
-    "top-game-stores": "Shitore Kryesuese Lojërash"
+    "top-game-stores": "Shitore Kryesuese Lojërash",
+    "category-highlights": "Në Pah Për Kategorinë",
+    "hidden-gems-description": "Aplikacione me prirje fuqizimi"
+  },
+  "year-in-review-banner": {
+    "title": "Shqyrtim i Vitit {year} për Flathub-in",
+    "description": "Rivizitoni aplikacionet kryesuese dhe modat e vitit"
   }
 }

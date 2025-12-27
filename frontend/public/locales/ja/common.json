@@ -722,5 +722,9 @@
     "hidden-gems-description": "じわじわと注目を集めているアプリ",
     "platform-downloads": "プラットフォーム別のダウンロード数",
     "x-growth": "+{percentage}% 成長"
+  },
+  "year-in-review-banner": {
+    "title": "{year}年 Flathub 年間レポート",
+    "description": "今年を彩った人気アプリやトレンドを振り返る"
   }
 }
