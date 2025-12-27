@@ -190,7 +190,7 @@ export function YearStatsGrid({
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-6">
         <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg">
           <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-flathub-celestial-blue mb-2 lg:mb-3">
             {new Intl.NumberFormat(locale, {
