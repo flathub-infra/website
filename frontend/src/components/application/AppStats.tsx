@@ -30,7 +30,7 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     }
   }
 
-  // Remove current day
+  data.sort((a, b) => a.date.localeCompare(b.date))
   data.pop()
 
   const chartConfig = {} satisfies ChartConfig
