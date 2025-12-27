@@ -67,7 +67,7 @@ async def generate_feed(column_name: str, title: str, description: str, link: st
             sqldb.query(models.App)
             .filter(column.isnot(None))
             .order_by(column.desc())
-            .limit(20)
+            .limit(60)
         )
 
         apps_data = []
@@ -87,7 +87,7 @@ async def generate_feed(column_name: str, title: str, description: str, link: st
                 apps_data.append((app.app_id, getattr(app, column_name), app.appstream))
                 batch_size += 1
 
-            if batch_size >= 10:
+            if batch_size >= 30:
                 break
 
     apps = [(app_data[2], app_data[1]) for app_data in apps_data]
