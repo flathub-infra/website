@@ -191,7 +191,7 @@ export function YearStatsGrid({
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg hover:shadow-xl transition-shadow">
+        <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg">
           <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-flathub-celestial-blue mb-2 lg:mb-3">
             {new Intl.NumberFormat(locale, {
               notation: "compact",
@@ -202,7 +202,7 @@ export function YearStatsGrid({
             {t("year-in-review.total-downloads")}
           </div>
         </div>
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-gradient-to-br from-flathub-vivid-crimson/5 to-flathub-sunset-pink/10 dark:from-flathub-vivid-crimson/10 dark:to-flathub-sunset-pink/20 border-0 lg:border border-flathub-vivid-crimson/20 dark:border-flathub-sunset-pink/30 shadow-lg hover:shadow-xl transition-shadow">
+        <div className="text-center p-4 lg:p-6 rounded-xl bg-gradient-to-br from-flathub-vivid-crimson/5 to-flathub-sunset-pink/10 dark:from-flathub-vivid-crimson/10 dark:to-flathub-sunset-pink/20 border-0 lg:border border-flathub-vivid-crimson/20 dark:border-flathub-sunset-pink/30 shadow-lg">
           <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-flathub-vivid-crimson to-flathub-sunset-pink mb-2 lg:mb-3">
             <AnimatedCounter value={newAppsCount} duration={1500} />
           </div>
@@ -210,7 +210,7 @@ export function YearStatsGrid({
             {t("year-in-review.new-apps")}
           </div>
         </div>
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg hover:shadow-xl transition-shadow">
+        <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg">
           <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-flathub-celestial-blue mb-2 lg:mb-3">
             <AnimatedCounter value={totalApps} duration={1500} />
           </div>
@@ -218,7 +218,7 @@ export function YearStatsGrid({
             {t("year-in-review.total-apps")}
           </div>
         </div>
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-gradient-to-br from-emerald-50 to-green-100/50 dark:from-emerald-950/30 dark:to-green-900/20 border-0 lg:border border-emerald-200/50 dark:border-emerald-800/30 shadow-lg hover:shadow-xl transition-shadow">
+        <div className="text-center p-4 lg:p-6 rounded-xl bg-gradient-to-br from-emerald-50 to-green-100/50 dark:from-emerald-950/30 dark:to-green-900/20 border-0 lg:border border-emerald-200/50 dark:border-emerald-800/30 shadow-lg">
           <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-flathub-status-green dark:text-flathub-status-green-dark mb-2 lg:mb-3">
             {new Intl.NumberFormat(locale, {
               notation: "compact",
@@ -635,7 +635,7 @@ export function CategoryHighlightsSection({
           {t("year-in-review.category-highlights")}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-          <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/70 dark:from-blue-900/30 dark:to-blue-800/20 border lg:border-2 border-blue-200/80 dark:border-blue-700/50 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/70 dark:from-blue-900/30 dark:to-blue-800/20 border lg:border-2 border-blue-200/80 dark:border-blue-700/50 shadow-lg">
             <div className="flex items-start gap-3">
               <span className="text-3xl">🏆</span>
               <div className="flex-1">
@@ -648,7 +648,7 @@ export function CategoryHighlightsSection({
               </div>
             </div>
           </div>
-          <div className="p-5 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-purple-900/30 dark:to-purple-800/20 border lg:border-2 border-purple-200/80 dark:border-purple-700/50 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-purple-900/30 dark:to-purple-800/20 border lg:border-2 border-purple-200/80 dark:border-purple-700/50 shadow-lg">
             <div className="flex items-start gap-3">
               <span className="text-3xl">📈</span>
               <div className="flex-1">
@@ -661,7 +661,7 @@ export function CategoryHighlightsSection({
               </div>
             </div>
           </div>
-          <div className="p-5 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100/70 dark:from-amber-900/30 dark:to-amber-800/20 border lg:border-2 border-amber-200/80 dark:border-amber-700/50 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100/70 dark:from-amber-900/30 dark:to-amber-800/20 border lg:border-2 border-amber-200/80 dark:border-amber-700/50 shadow-lg">
             <div className="flex items-start gap-3">
               <span className="text-3xl">✨</span>
               <div className="flex-1">
@@ -674,7 +674,7 @@ export function CategoryHighlightsSection({
               </div>
             </div>
           </div>
-          <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/70 dark:from-emerald-900/30 dark:to-emerald-800/20 border lg:border-2 border-emerald-200/80 dark:border-emerald-700/50 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/70 dark:from-emerald-900/30 dark:to-emerald-800/20 border lg:border-2 border-emerald-200/80 dark:border-emerald-700/50 shadow-lg">
             <div className="flex items-start gap-3">
               <span className="text-3xl">🏅</span>
               <div className="flex-1">
