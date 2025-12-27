@@ -17,6 +17,22 @@ T = TypeVar("T")
 STALE_THRESHOLD = 0.8
 
 
+def _get_response_from_args(
+    func: Callable, args: tuple, kwargs: dict
+) -> Response | None:
+    sig = inspect.signature(func)
+    bound = sig.bind_partial(*args, **kwargs)
+    bound.apply_defaults()
+    for param_value in bound.arguments.values():
+        if isinstance(param_value, Response):
+            return param_value
+    return None
+
+
+def _should_cache_response(response: Response | None) -> bool:
+    return response is None or response.status_code == 200
+
+
 def _make_cache_key(func: Callable, args: tuple, kwargs: dict) -> str:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
@@ -146,10 +162,14 @@ def cached(ttl: int = 3600) -> Callable:
                                 await redis.expire(refresh_lock_key, 10)
                                 try:
                                     fresh_result = await func(*args, **kwargs)
-                                    serialized = _serialize_value(fresh_result)
-                                    await redis.setex(
-                                        cache_key, ttl, orjson.dumps(serialized)
+                                    response_obj = _get_response_from_args(
+                                        func, args, kwargs
                                     )
+                                    if _should_cache_response(response_obj):
+                                        serialized = _serialize_value(fresh_result)
+                                        await redis.setex(
+                                            cache_key, ttl, orjson.dumps(serialized)
+                                        )
                                     return fresh_result
                                 finally:
                                     await redis.delete(refresh_lock_key)
@@ -163,11 +183,13 @@ def cached(ttl: int = 3600) -> Callable:
 
             result = await func(*args, **kwargs)
 
-            try:
-                serialized = _serialize_value(result)
-                await redis.setex(cache_key, ttl, orjson.dumps(serialized))
-            except Exception as e:
-                print(f"Cache set error for {func.__name__}: {e}")
+            response_obj = _get_response_from_args(func, args, kwargs)
+            if _should_cache_response(response_obj):
+                try:
+                    serialized = _serialize_value(result)
+                    await redis.setex(cache_key, ttl, orjson.dumps(serialized))
+                except Exception as e:
+                    print(f"Cache set error for {func.__name__}: {e}")
 
             return result
 
