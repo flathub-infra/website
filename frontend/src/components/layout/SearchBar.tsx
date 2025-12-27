@@ -382,7 +382,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                         <div className="flex-shrink-0">
                           <ChevronRight
                             aria-hidden="true"
-                            className="size-6 text-flathub-sonic-silver"
+                            className="size-6 text-flathub-sonic-silver rtl:rotate-180"
                           />
                         </div>
                       </Link>
@@ -404,7 +404,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                     >
                       <span>{t("see-all-results")}</span>
                       <span aria-hidden="true">
-                        <ArrowRight className="size-4" />
+                        <ArrowRight className="size-4 rtl:rotate-180" />
                       </span>
                     </Link>
                   </div>
