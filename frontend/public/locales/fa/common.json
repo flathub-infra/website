@@ -722,5 +722,9 @@
     "top-emulators": "برترین شبیه‌سازها",
     "top-game-stores": "برترین فروشگاه‌های بازی",
     "top-game-utilities": "برترین ابزارهای بازی"
+  },
+  "year-in-review-banner": {
+    "title": "بازبینی سال {year} فلت‌هاب",
+    "description": "مرور دوبارهٔ برترین کاره‌ها و روندهای سال"
   }
 }

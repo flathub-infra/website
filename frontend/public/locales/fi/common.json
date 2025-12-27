@@ -73,7 +73,7 @@
   "developers": "Kehittäjät",
   "open-in-new-tab": "Avaa uudessa välilehdessä",
   "download-size": "Latauksen koko",
-  "downloads": "Lataukset",
+  "downloads": "latausta",
   "flathub-description": "Löydä ja asenna satoja eri sovelluksia sekä pelejä Linuxille. Nauti Firefoxista, Telegramista, RetroArchista, GIMP:istä ja monesta muusta!",
   "categories": "Luokat",
   "linked-accounts": "Linkitetyt tilit",
@@ -676,5 +676,44 @@
   "special-code-description": "Tätä sovellusta kehitetään erikoislisenssin alaisesti. Lähdekoodi voi olla julkista tai suljettua.",
   "vending": {
     "purchase-not-available": "Tämä sovellus ei ole ostettavissa."
+  },
+  "year-in-review-banner": {
+    "title": "Flathubin vuoden {year} yhteenveto",
+    "description": "Käy läpi vuoden suosituimmat sovellukset ja trendit"
+  },
+  "year-in-review": {
+    "title": "Vuoden {year} yhteenveto",
+    "description": "Juhlitaan Flathubin tämän vuoden kasvua ja innovaatioita",
+    "select-year": "Valitse vuosi",
+    "category-highlights": "Luokan kohokohdat",
+    "most-popular": "Suosituimmat",
+    "most-popular-description": "Sovellus, jolla eniten latauksia tänä vuonna",
+    "total-downloads": "latausta yhteensä",
+    "new-apps": "uutta sovellusta",
+    "total-apps": "sovellusta yhteensä",
+    "app-updates": "sovelluspäivitystä",
+    "top-apps": "Suosituimmat sovellukset",
+    "top-games": "Suosituimmat pelit",
+    "top-game-stores": "Suosituimmat pelikaupat",
+    "top-game-utilities": "Suosituimmat pelityökalut",
+    "top-emulators": "Suosituimmat emulaattorit",
+    "biggest-growth": "Suurin kasvu",
+    "biggest-growth-description": "Sovellus, joka keräsi eniten uusia latauksia edelliseen vuoteen verrattuna",
+    "newcomer-of-year": "Vuoden tulokas",
+    "newcomer-description": "Suosituin tänä vuonna julkaistu sovellus",
+    "most-improved": "Suurin parannus",
+    "most-improved-description": "Sovellus, jolla on suurin kasvuporsentti edelliseen vuoteen verrattuna",
+    "geographic-insights": "Maantieteelliset näkökulmat",
+    "countries-reached": "Tavoitetut maat",
+    "fastest-growing-regions": "Suurimman kasvun alueet",
+    "top-countries": "Aktiivisimmat maat",
+    "trending-categories": "Nousussa olevat luokat",
+    "trending-categories-description": "Eniten kasvua keränneet luokat",
+    "year-over-year-growth": "Vuosittainen kasvu",
+    "downloads-vs-previous-year": "Latauksia vrt. {year}",
+    "hidden-gems": "Piilotetut aarteet",
+    "hidden-gems-description": "Kasvavaa vetoa keräävät sovellukset",
+    "platform-downloads": "Alustakohtaiset lataukset",
+    "x-growth": "+{percentage} % kasvu"
   }
 }

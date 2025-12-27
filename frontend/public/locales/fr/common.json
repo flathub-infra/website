@@ -722,5 +722,9 @@
     "top-game-stores": "Top des magasins de jeux",
     "top-game-utilities": "Top des outils de jeux",
     "top-emulators": "Top des émulateurs"
+  },
+  "year-in-review-banner": {
+    "title": "Récap' Flathub de l'année {year}",
+    "description": "Redécouvrez le top des apps et des tendances de cette année"
   }
 }
