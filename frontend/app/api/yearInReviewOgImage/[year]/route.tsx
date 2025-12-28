@@ -195,7 +195,7 @@ export async function GET(
               color: "rgba(255, 255, 255, 0.6)",
             }}
           >
-            {t("year-in-review.title")}
+            {t("year-in-review.title", { year })}
           </div>
         </div>
 

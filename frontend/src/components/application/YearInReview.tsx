@@ -795,6 +795,7 @@ export function CategoryHighlightsSection({
                             )
                             text = t("x-downloads", {
                               x: downloadsCount,
+                              count: downloadsCount,
                             })
                             bgColor = "bg-blue-100/80 dark:bg-blue-900/40"
                             textColor = "text-blue-800 dark:text-blue-200"
@@ -818,6 +819,7 @@ export function CategoryHighlightsSection({
                             )
                             text = t("x-downloads", {
                               x: downloadsCount,
+                              count: downloadsCount,
                             })
                             bgColor = "bg-amber-100/80 dark:bg-amber-900/40"
                             textColor = "text-amber-800 dark:text-amber-200"
