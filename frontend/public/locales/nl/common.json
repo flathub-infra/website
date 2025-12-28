@@ -687,5 +687,14 @@
   "default-account-changed": "Standaard­account succesvol ingesteld",
   "or-enter-custom-amount": "Of voer een aangepast bedrag in",
   "payment-details": "Betalings­gegevens",
-  "special-code-description": "Deze app is ontwikkeld onder een speciale licentie. De bron­code is mogelĳk niet open­baar."
+  "special-code-description": "Deze app is ontwikkeld onder een speciale licentie. De bron­code is mogelĳk niet open­baar.",
+  "year-in-review": {
+    "select-year": "Selecteer jaar",
+    "category-highlights": "Categorie-hoogtepunten",
+    "most-popular": "Populairst",
+    "total-downloads": "Aantal downloads",
+    "new-apps": "Nieuwe apps",
+    "total-apps": "Aantal apps",
+    "app-updates": "App-updates"
+  }
 }

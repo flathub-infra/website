@@ -689,6 +689,42 @@
   "payment-details": "Makse üksikasjad",
   "special-code-description": "Rakendust arendatakse eraldi määratud litsentsi alusel. Lähtekood võib, kuid ei pruugi olla avatud ja avalik.",
   "year-in-review": {
-    "title": "Aasta ülevaade: {year}"
+    "title": "Aasta ülevaade: {year}",
+    "description": "Tähistame üheskoos Flathubi kasvu ja innovatsiooni aastat",
+    "select-year": "Vali aasta",
+    "category-highlights": "Esiletõstmised kategooriate kaupa",
+    "most-popular": "Populaarseim",
+    "most-popular-description": "Suurima allalaadimiste arvuga rakendus sel aastal",
+    "total-downloads": "Allalaadimist kokku",
+    "new-apps": "Uusi rakendusi",
+    "total-apps": "Rakendusi kokku",
+    "app-updates": "Rakenduste uuendamisi",
+    "top-apps": "Lemmikrakendused",
+    "top-games": "Lemmikmängud",
+    "top-game-stores": "Populaarseimad mängupoed",
+    "top-game-utilities": "Populaarseimad mängutarvikud",
+    "top-emulators": "Populaarseimad emulaatorid",
+    "biggest-growth": "Suurim kasv",
+    "biggest-growth-description": "Rakendused, mille allalaadimiste arv kasvas eelmise aastaga võrreldes enim",
+    "newcomer-of-year": "Aasta uustulija",
+    "newcomer-description": "Sel aastal avaldatud populaarseimad rakendused",
+    "most-improved": "Suurim kasvuprotsent",
+    "most-improved-description": "Rakendused, mille allalaadimiste arvu protsentuaalne kasv eelmise aastaga võrreldes oli suurim",
+    "geographic-insights": "Jagunemine üle maailma",
+    "countries-reached": "Maade arv",
+    "fastest-growing-regions": "Kiiremini kasvavad piirkonnad",
+    "top-countries": "Suurimad kasutajad",
+    "trending-categories": "Populaarsust koguvad kategooriad",
+    "trending-categories-description": "Kategooriad, kus oli suurim kasv sel aastal",
+    "year-over-year-growth": "Aastane kasv",
+    "downloads-vs-previous-year": "Allalaadimise võrreldes {year}. aastaga",
+    "hidden-gems": "Peidetud pärlid",
+    "hidden-gems-description": "Kasvava populaarsusega rakendused",
+    "platform-downloads": "Allalaadimise platvormide kaupa",
+    "x-growth": "+{percentage}% kasvu"
+  },
+  "year-in-review-banner": {
+    "title": "Flathubi {year}. aasta kokkuvõte",
+    "description": "Vaata eelmise aasta populaarsemaid rakendusi ja olulisemaid trende"
   }
 }

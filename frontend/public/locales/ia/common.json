@@ -109,7 +109,8 @@
     "app-icon-contrast": "Bon contrasto sur fundos obscur",
     "app-icon-footprint": "Non plenar troppo o troppo pauc le telas",
     "branding-has-primary-brand-colors": "Ha colores primari de marca",
-    "branding-good-primary-brand-colors": "Bon colores primari de marca"
+    "branding-good-primary-brand-colors": "Bon colores primari de marca",
+    "failing-x-checks": "{count, plural, one {# verification} other {# verificationes}} fallite"
   },
   "since": "Desde",
   "downloads-per-country": "Discargamentos per pais",

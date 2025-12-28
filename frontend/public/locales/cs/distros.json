@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak je nainstalován na Fedoře Workstation, Fedoře Silverblue, a Fedoře Kinoite již ve výchozím nastavení. Jediné co potřebujete pro začátek, je povolit repozitář Flathub, který je nejlepším místem pro získávání aplikací Flatpak. Flathub je předkonfigurovaný jako součást <repolink>repozitářů třetích stran</repolink>. Případně můžete stáhnout a nainstalovat <filelink>soubor repositáře Flathub</filelink>.</text> <text>Teď už jen stačí <applink>nainstalovat aplikace</applink>!</text> <text>Výše uvedené odkazy by měly fungovat ve výchozích instalacích Fedory GNOME a KDE, ale pokud z jakéhokoliv důvodu selžou, můžete přidat repozitář Flathub ručně spuštěním:</text> <code></code>"
+    "introduction": "<text>Flatpak je nainstalován na Fedoře Workstation, Fedoře Silverblue, a Fedoře Kinoite již ve výchozím nastavení. Jediné co potřebujete pro začátek, je povolit repozitář Flathub, který je nejlepším místem pro získávání aplikací Flatpak. Flathub je předkonfigurovaný jako součást <repolink>repozitářů třetích stran</repolink>. Případně můžete stáhnout a nainstalovat <filelink>soubor repozitáře Flathub</filelink>.</text> <text>Teď už jen stačí <applink>nainstalovat aplikace</applink>!</text> <text>Výše uvedené odkazy by měly fungovat ve výchozích instalacích Fedory s GNOME a KDE, ale pokud z jakéhokoliv důvodu selžou, můžete přidat repozitář Flathub ručně spuštěním:</text> <code></code>"
   },
   "manjaro": {
     "step-1": {
@@ -91,7 +91,7 @@
       "text": "<text>Flatpak je k dispozici ve výchozích repozitářích všech aktuálně udržovaných verzí openSUSE Leap a openSUSE Tumbleweed.</text> <text>Pokud dáváte přednost grafické instalaci, můžete Flatpak nainstalovat pomocí „instalátoru na jedno kliknutí“ z <link>software.opensuse.org</link>. Pokud se verze vaší distribuce ve výchozím nastavení nezobrazuje, klikněte nejprve na <em>Zobrazit Flatpak pro jiné distribuce</em> a poté vyberte ze seznamu.</text> <text>Alternativně můžete Flatpak nainstalovat z příkazového řádku pomocí nástroje Zypper:</text> <code></code>"
     },
     "step-2": {
-      "name": "Přidejte repositář Flathub",
+      "name": "Přidejte repozitář Flathub",
       "text": "<text>Flathub je nejlepším místem pro získání aplikací Flatpak. Chcete-li ji povolit, spusťte:</text> <code></code>"
     },
     "step-3": {
@@ -139,7 +139,7 @@
     "distroName": "elementary OS",
     "step-1": {
       "name": "Nainstalujte aplikace",
-      "text": "<text>elementary OS 5.1 a novější přichází již s předinstalovanou podporou Flatpaku. Pro neschválené aplikace, se řiďte <link>Flathubem</link> pro instalaci jakékoliv aplikace pomocí velkého tlačítka \"Nainstalovat\" a otevřete stažený soubor `.flatpakref` pomocí Sideload.</text> <text>Poznámka: Po instalaci jedné z aplikací ze vzdáleného repozitáře jako je Flathub, se všechny aplikace z daného repositáře zobrazí v Centru aplikací.</text>"
+      "text": "<text>elementary OS 5.1 a novější přichází již s předinstalovanou podporou Flatpaku. Pro neschválené aplikace, se řiďte <link>Flathubem</link> pro instalaci jakékoliv aplikace pomocí velkého tlačítka \"Nainstalovat\" a otevřete stažený soubor `.flatpakref` pomocí Sideload.</text> <text>Poznámka: Po instalaci jedné z aplikací ze vzdáleného repozitáře jako je Flathub, se všechny aplikace z daného repozitáře zobrazí v Centru aplikací.</text>"
     }
   },
   "zorin_os": {
