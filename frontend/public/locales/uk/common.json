@@ -722,5 +722,9 @@
     "top-game-stores": "Найпопулярніші крамниці ігор",
     "top-game-utilities": "Найпопулярніші інструменти ігор",
     "top-emulators": "Найпопулярніші емулятори"
+  },
+  "year-in-review-banner": {
+    "title": "Огляд року на Flathub {year}",
+    "description": "Перегляньте найкращі програми та тренди року"
   }
 }

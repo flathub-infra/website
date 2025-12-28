@@ -349,7 +349,8 @@
       "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
     },
     "step-1": {
-      "name": "Flatpak durch den Software Manager aktivieren"
+      "name": "Flatpak durch den Software Manager aktivieren",
+      "text": "<text>Flatpak Support ist seit MX 18 integriert. Es muss lediglich das Flathub Repository wie folgt aktiviert werden:</text> <text>Öffne <strong>MX Package Installer</strong> (öffne das Menü und suche in den in MX Tools), wähle den Reiter \"Flatpaks\" und gebe dein Root Passwort ein, um das Repository zu aktivieren.</text>"
     }
   },
   "pisi_gnulinux": {
@@ -418,9 +419,11 @@
     "introduction": "<header>Flatpak ist standardmäßig unter Crystal Linux installiert.</header> <text>Wenn du Crystal nicht mit jade_gui installiert hast oder es explizit nicht installiert hast, kannst du Flatpak mittels der folgenden Schritte einrichten.</text>"
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<header>Flatpak ist unter Vanilla OS bereits vorinstalliert.</header> <text>Nutze das Softwarecenter oder die Webseite <link>Flathub</link> um Apps zu installieren.</text> <text>Sollte Flathub wider Erwarten nicht zur Verfügung stehen, dann richte es über folgendes Kommando ein:</text> <code></code>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<header>Flatpak ist seit Salix Version 15.0 bereits vorinstalliert und eingerichtet!</header> <text>Flatpak wird standardmäßig mit dem Flathub Repository und den Desktop Integration Tools ausgeliefert und ermöglicht eine einfache 1-Klick Installation über Flathub.</text> <text>Du musst nur <link>Apps installieren</link>!</text>"
   }
 }

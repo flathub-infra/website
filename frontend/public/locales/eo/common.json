@@ -722,5 +722,9 @@
     "most-improved-description": "La programo, kun la plej granda procenta kresko kompare al la lasta jaro",
     "year-over-year-growth": "Kresko kompare kun lasta jaro",
     "hidden-gems-description": "Populariĝantaj programoj"
+  },
+  "year-in-review-banner": {
+    "title": "{year} retrospekte ĉe Flathub",
+    "description": "Rememorante la plej bonajn programojn kaj modojn de la jaro"
   }
 }
