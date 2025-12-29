@@ -20,7 +20,7 @@
       "name": "重啟"
     },
     "step-2": {
-      "text": "<text>GNOME Software 外掛程式讓您無需命令列即可安裝應用程式。要安裝，請執行：</text> <code></code> <text><strong>注意：</strong>Ubuntu 在 20.04 至 23.04 版本中將 GNOME Software 以 Snap 形式散布，並在 23.10 及更新版本中以 App Center 取代 —— 它們都不支援安裝 Flatpak 應用程式。安裝 Flatpak 外掛程式時也會安裝 GNOME Software 的 deb 版本，導致在 Ubuntu 20.04 至 23.04 上同時安裝兩個 Software 應用程式，並在 Ubuntu 23.10 及更新版本上安裝一個新的 Software 應用程式。</text>",
+      "text": "<text>GNOME Software 外掛程式讓您無需命令列即可安裝應用程式。要安裝，請執行：</text> <code></code> <text><strong>注意：</strong>Ubuntu 在 20.04 至 23.04 版本中將 GNOME Software 以 Snap 形式分發，並在 23.10 及更新版本中以 App Center 取代 —— 它們都不支援安裝 Flatpak 應用程式。安裝 Flatpak 外掛程式時也會安裝 GNOME Software 的 deb 版本，導致在 Ubuntu 20.04 至 23.04 上同時安裝兩個 Software 應用程式，並在 Ubuntu 23.10 及更新版本上安裝一個新的 Software 應用程式。</text>",
       "name": "安裝 GNOME Software Flatpak 外掛程式"
     },
     "distroName": "Ubuntu",
@@ -91,7 +91,7 @@
       "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>"
     },
     "step-1": {
-      "text": "<text>Flatpak 已包含於所有現行維護版本的 openSUSE Leap 與 openSUSE Tumbleweed 預設軟體庫中。</text> <text>若您偏好圖形化安裝，可透過 <link>software.opensuse.org</link> 的「一鍵安裝程式」安裝 Flatpak。若您的散布版版本未預設顯示，請點擊「未支援散布版」類別下的<em>顯示</em>，再從清單中選擇。</text> <text>另可透過 Zypper 在命令列安裝 Flatpak：</text> <code></code>",
+      "text": "<text>Flatpak 已包含於所有現行維護版本的 openSUSE Leap 與 openSUSE Tumbleweed 預設軟體庫中。</text> <text>若您偏好圖形化安裝，可透過 <link>software.opensuse.org</link> 的「一鍵安裝程式」安裝 Flatpak。若您的發行版版本未預設顯示，請點擊「未支援發行版」類別下的<em>顯示</em>，再從清單中選擇。</text> <text>另可透過 Zypper 在命令列安裝 Flatpak：</text> <code></code>",
       "name": "安裝 Flatpak"
     },
     "step-2": {
@@ -419,7 +419,7 @@
     "distroName": "KDE neon"
   },
   "openmandriva_lx": {
-    "introduction": "<header>Flatpak 支援功能已內建於所有積極維護的 OpenMandriva 版本中，涵蓋從穩定/修正版「Rock 5.0」、開發版「Cooker」直至滾動更新版「ROME」的所有散布版本。</header> <text>Flatpak 隨附預先配置的 Flathub 軟體庫。</text>",
+    "introduction": "<header>Flatpak 支援功能已內建於所有積極維護的 OpenMandriva 版本中，涵蓋從穩定/修正版「Rock 5.0」、開發版「Cooker」直至滾動更新版「ROME」的所有發行版本。</header> <text>Flatpak 隨附預先配置的 Flathub 軟體庫。</text>",
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
