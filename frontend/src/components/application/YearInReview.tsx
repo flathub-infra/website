@@ -897,11 +897,12 @@ export function HiddenGemsSection({ hiddenGems }: { hiddenGems: HiddenGem[] }) {
                   {gem.summary}
                 </div>
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-200 shadow-sm">
-                  {new Intl.NumberFormat(locale, {
-                    notation: "compact",
-                    maximumFractionDigits: 1,
-                  }).format(gem.downloads)}{" "}
-                  {t("downloads")}
+                  {t("x-downloads", {
+                    x: new Intl.NumberFormat(locale, {
+                      notation: "compact",
+                      maximumFractionDigits: 1,
+                    }).format(gem.downloads),
+                  })}
                 </span>
               </div>
             </Link>
