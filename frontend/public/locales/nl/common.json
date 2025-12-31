@@ -695,6 +695,36 @@
     "total-downloads": "Aantal downloads",
     "new-apps": "Nieuwe apps",
     "total-apps": "Aantal apps",
-    "app-updates": "App-updates"
+    "app-updates": "App-updates",
+    "title": "Jaar­overzicht {year}",
+    "description": "Flathub viert een jaar van groei en innovatie",
+    "most-popular-description": "De app met het hoogste aantal downloads dit jaar",
+    "top-apps": "Populairste apps",
+    "top-games": "Populairste games",
+    "top-game-stores": "Populairste game­winkels",
+    "top-game-utilities": "Populairste game­gereedschap",
+    "top-emulators": "Populairste emulatoren",
+    "biggest-growth": "Grootste groei",
+    "biggest-growth-description": "De app die de meeste nieuwe downloads heeft behaald in vergelĳking met het voorgaande jaar",
+    "newcomer-of-year": "Nieuw­komer van het jaar",
+    "newcomer-description": "De populairste app die dit jaar is uitgebracht",
+    "most-improved": "Meest verbeterd",
+    "most-improved-description": "De app met de hoogste procentuele groei ten opzichte van het voorgaande jaar",
+    "geographic-insights": "Geografische inzichten",
+    "countries-reached": "Bereikte landen",
+    "fastest-growing-regions": "Snelst­groeiende regio's",
+    "trending-categories": "Trending categorieën",
+    "trending-categories-description": "Categorieën met de grootste groei dit jaar",
+    "year-over-year-growth": "Groei op jaar­basis",
+    "downloads-vs-previous-year": "Downloads t.o.v. {year}",
+    "hidden-gems": "Verborgen pareltjes",
+    "hidden-gems-description": "Apps die steeds populairder worden",
+    "platform-downloads": "Downloads per platform",
+    "x-growth": "{percentage}% gegroeid",
+    "top-countries": "Populairste landen"
+  },
+  "year-in-review-banner": {
+    "title": "Flathub - Jaar­overzicht {year}",
+    "description": "Herbeleef de populairste apps en trends van het jaar"
   }
 }
