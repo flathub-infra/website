@@ -300,7 +300,7 @@
   "filters": "過濾條件",
   "moderation-outdated": "過期",
   "runtime-distribution": "執行環境分布",
-  "flathub-index-description": "為任何 Linux 發行版獲取您最愛應用程式的最新版本",
+  "flathub-index-description": "在任何 Linux 發行版中獲取您所有喜愛應用程式的最新版本",
   "app-eol": "此應用程式不再於 Flathub 上提供",
   "distribution-flathub-setup": "{distribution} Flathub 設定",
   "find-your-distribution": "尋找您的發行版",
@@ -535,7 +535,7 @@
   "rebase-onto-other-app": "輸入您的應用程式將要重新變更基底的應用程式 ID",
   "manage-x": "管理 {app_name}",
   "install-x": "在 Linux 上安裝 {app_name}",
-  "flathub-the-linux-app-store": "Flathub 是適用於 Linux 的應用程式商店",
+  "flathub-the-linux-app-store": "Flathub 是 Linux 的應用程式商店",
   "nothing-to-do": "無事可做",
   "news": "新聞",
   "developer-portal": {

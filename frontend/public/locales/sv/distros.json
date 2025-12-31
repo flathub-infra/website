@@ -1,1 +1,8 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Installera Flatpak"
+    }
+  }
+}

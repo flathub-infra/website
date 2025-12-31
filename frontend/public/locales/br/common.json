@@ -190,7 +190,8 @@
     "general": "Hollek"
   },
   "vendingSharesPreview": {
-    "app": "Arload"
+    "app": "Arload",
+    "sdk": "SDK"
   },
   "chat-on-matrix": "Flapiñ war Matrix",
   "developers-and-users": "Diorroerien hag implijerien",
@@ -212,5 +213,20 @@
   "carousel": "Karousel",
   "run": "Lañsañ",
   "page-not-found": "{errorCode} – N'eo ket bet kavet ar bajenn",
-  "an-error-occurred-server": "{errorCode} - Ur fazi zo c'hoarvezet war ar servijer."
+  "an-error-occurred-server": "{errorCode} - Ur fazi zo c'hoarvezet war ar servijer.",
+  "year-in-review": {
+    "select-year": "Dibab ur bloavezh",
+    "most-popular-description": "An arload a oa bet pellgarget ar muiañ ar bloaz-mañ",
+    "total-downloads": "Niver hollek a bellgargadurioù",
+    "new-apps": "Arloadoù nevez",
+    "total-apps": "Niver hollek a arloadoù",
+    "top-apps": "Top an arloadoù",
+    "top-games": "Top ar c'hoarioù",
+    "top-game-stores": "Top stalioù ar c'hoarioù",
+    "top-game-utilities": "Top ostilhoù ar c'hoarioù",
+    "biggest-growth": "Ar c'hresk brasañ",
+    "top-countries": "Top ar broioù",
+    "x-growth": "+{percentage} % a-gresk",
+    "year-over-year-growth": "Kresk a vloaz da vloaz"
+  }
 }

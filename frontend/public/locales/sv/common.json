@@ -215,5 +215,13 @@
   "updated": "Uppdaterad",
   "developers-and-users": "Utvecklare och användare",
   "reporting-issues": "Rapportering av fel",
-  "reporting-issues-description": "Vi tar säkerhetsproblem och juridiska frågor på allvar"
+  "reporting-issues-description": "Vi tar säkerhetsproblem och juridiska frågor på allvar",
+  "flathub": "Flathub",
+  "install": "Installera",
+  "donate": "Donera",
+  "action-donate": "Donera",
+  "donate-to": "Donera till {project}",
+  "kind-donate-app": "Donera till {appName}",
+  "flathub-logo": "Flathub-loggan",
+  "see-all-results": "Visa alla resultat"
 }
