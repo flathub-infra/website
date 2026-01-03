@@ -232,7 +232,7 @@ export function YearStatsGrid({
       </div>
 
       {/* Year over year growth banner */}
-      {hasPreviousYear && (
+      {hasPreviousYear && totalDownloadsChange > 0 && totalDownloadsChangePercentage > 0 && (
         <div className="relative overflow-hidden p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 border-0 lg:border border-blue-300/30 dark:border-blue-500/30 shadow-lg mb-10">
           <div className="absolute inset-0 bg-gradient-to-r from-flathub-celestial-blue/5 via-purple-500/5 to-flathub-vivid-crimson/5 dark:from-flathub-celestial-blue/10 dark:via-purple-500/10 dark:to-flathub-vivid-crimson/10" />
           <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
