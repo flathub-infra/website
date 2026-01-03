@@ -66,3 +66,18 @@ jobs:
         run: |
           docker compose --env-file .env.ci up --no-build -d
           bash tests/run_tests.sh
+
+      - name: Update test snapshots
+        if: failure() || cancelled()
+        run: |
+          bash tests/update_snapshots.sh || true
+
+      - name: Upload test snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: error
+          overwrite: true
+          name: snapshots
+          path: |
+            backend/tests/
