@@ -57,5 +57,7 @@
   "count-verified-desktop-apps": "Aplicacións de escritorio verificadas",
   "linked-accounts": "Contas vinculadas",
   "count-desktop-apps": "Total de aplicacións de escritorio",
-  "flathub-description": "Atope e instale centos de aplicacións e xogos para Linux. Goce de Firefox, Telegram, RetroArch, GIMP e moitos máis!"
+  "flathub-description": "Atope e instale centos de aplicacións e xogos para Linux. Goce de Firefox, Telegram, RetroArch, GIMP e moitos máis!",
+  "open-in-new-tab": "Abrir nunha nova lapela",
+  "help": "Axuda"
 }
