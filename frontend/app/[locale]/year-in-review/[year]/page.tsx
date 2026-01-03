@@ -10,15 +10,22 @@ import { Link } from "src/i18n/navigation"
 import clsx from "clsx"
 
 const MIN_YEAR = 2018
-const CURRENT_YEAR = new Date().getFullYear()
+
+function getMaxAvailableYear(): number {
+  const now = new Date()
+  const currentYear = now.getFullYear()
+  const currentMonth = now.getMonth()
+  const currentDay = now.getDate()
+
+  const isLateDecember = currentMonth === 11 && currentDay >= 15
+
+  return isLateDecember ? currentYear : currentYear - 1
+}
 
 export async function generateStaticParams() {
+  const maxYear = getMaxAvailableYear()
   const years: { year: string }[] = []
-  for (
-    let year = CURRENT_YEAR;
-    year >= CURRENT_YEAR - 5 && year >= MIN_YEAR;
-    year--
-  ) {
+  for (let year = maxYear; year >= maxYear - 5 && year >= MIN_YEAR; year--) {
     years.push({ year: year.toString() })
   }
   return years
@@ -77,8 +84,9 @@ export default async function YearInReviewPage({
   const t = await getTranslations({ locale })
 
   const year = parseInt(yearParam, 10)
+  const maxYear = getMaxAvailableYear()
 
-  if (isNaN(year) || year < MIN_YEAR || year > CURRENT_YEAR) {
+  if (isNaN(year) || year < MIN_YEAR || year > maxYear) {
     notFound()
   }
 
@@ -104,7 +112,7 @@ export default async function YearInReviewPage({
     yearInReviewData.year >= 2024 && !!yearInReviewData.geographic_stats
 
   const availableYears: number[] = []
-  for (let y = CURRENT_YEAR; y >= MIN_YEAR; y--) {
+  for (let y = maxYear; y >= MIN_YEAR; y--) {
     availableYears.push(y)
   }
 

@@ -126,10 +126,17 @@ async def get_year_in_review(
     ),
     locale: str = "en",
 ) -> YearInReviewResult:
-    current_year = datetime.datetime.now().year
-    if year > current_year:
+    now = datetime.datetime.now()
+    current_year = now.year
+    current_month = now.month
+    current_day = now.day
+
+    is_late_december = current_month == 12 and current_day >= 15
+    max_year = current_year if is_late_december else current_year - 1
+
+    if year > max_year:
         raise HTTPException(
-            status_code=422, detail=f"Year must be between 2018 and {current_year}"
+            status_code=422, detail=f"Year must be between 2018 and {max_year}"
         )
 
     if value := await stats.get_year_stats(year, locale):
