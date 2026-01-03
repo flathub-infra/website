@@ -286,7 +286,7 @@
   "player": "Přehrávač",
   "recorder": "Záznamník",
   "flos": "Bezplatný/Svobodný open-source",
-  "moderation-no-review-requests": "Nejsou k dispozici žádné recenze k této aplikaci.",
+  "moderation-no-review-requests": "Nejsou k dispozici žádné kontroly k této aplikaci.",
   "moderation-outdated": "Zastaralé",
   "moderation-approved-by": "Schválil {handledBy}, dne {handledAt} ({handledAtRel})",
   "moderation-rejected-by": "Zamítnul {handledBy}, dne {handledAt} ({handledAtRel})",
