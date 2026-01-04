@@ -1103,12 +1103,10 @@ export function YearInReview({
   )
 
   const filteredPlatformStats = useMemo(() => {
-    if (!platformStats) return undefined
-    return platformStats.filter(
-      (stat) =>
-        stat.architecture.toLowerCase() !== "i386" &&
-        stat.architecture.toLowerCase() !== "arm",
-    )
+    if (!platformStats) {
+      return undefined
+    }
+    return platformStats.filter((stat) => stat.percentage > 0.1)
   }, [platformStats])
 
   const categoriesData = useMemo(() => {
