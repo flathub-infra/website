@@ -178,34 +178,30 @@ def get_quality_moderation_for_app(
     with get_db("replica") as db:
         items = [
             QualityModerationType(
-                guideline_id=item.Guideline.id,
+                guideline_id=guideline.id,
                 app_id=app_id,
                 updated_at=(
-                    item.QualityModeration.updated_at
-                    if item.QualityModeration
+                    quality_moderation.updated_at
+                    if quality_moderation
                     else datetime.datetime.min
                 ),
                 updated_by=(
-                    item.QualityModeration.updated_by
-                    if item.QualityModeration
-                    else None
+                    quality_moderation.updated_by if quality_moderation else None
                 ),
-                passed=(
-                    item.QualityModeration.passed if item.QualityModeration else None
-                ),
-                comment=(
-                    item.QualityModeration.comment if item.QualityModeration else None
-                ),
+                passed=(quality_moderation.passed if quality_moderation else None),
+                comment=(quality_moderation.comment if quality_moderation else None),
                 guideline=Guideline(
-                    id=item.Guideline.id,
-                    url=item.Guideline.url,
-                    needed_to_pass_since=item.Guideline.needed_to_pass_since,
-                    read_only=item.Guideline.read_only,
-                    category=item.Guideline.guideline_category_id,
+                    id=guideline.id,
+                    url=guideline.url,
+                    needed_to_pass_since=guideline.needed_to_pass_since,
+                    read_only=guideline.read_only,
+                    category=guideline.guideline_category_id,
                 ),
-                needed_to_pass_since=item.Guideline.needed_to_pass_since,
+                needed_to_pass_since=guideline.needed_to_pass_since,
             )
-            for item in QualityModeration.by_appid(db, app_id)
+            for guideline, quality_moderation, app in QualityModeration.by_appid(
+                db, app_id
+            )
         ]
 
         review_request = QualityModerationRequest.by_appid(db, app_id)
