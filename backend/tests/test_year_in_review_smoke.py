@@ -31,7 +31,7 @@ def mock_date() -> Callable[[int, int, int], Generator[MagicMock]]:
 
 def test_year_in_review(client, snapshot, mock_date):
     """Smoke test for GET /year-in-review/{year}"""
-    current_year = 2025
+    current_year = 2024
 
     with mock_date(current_year, 12, 20):
         response = client.get("/year-in-review/" + str(current_year))
@@ -42,7 +42,7 @@ def test_year_in_review(client, snapshot, mock_date):
 
 def test_year_in_review_with_locale(client, snapshot, mock_date):
     """Test year in review with specific locale"""
-    current_year = 2025
+    current_year = 2024
 
     with mock_date(current_year, 12, 20):
         response = client.get(
