@@ -220,9 +220,9 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                                 "height": height,
                                 "scale": scale if scale is not None else "1x",
                                 "src": (
-                                    f"{media_base_url}/{re.sub('.png$', '.webp', image.text)}"
+                                    f"{media_base_url}/{image.text}"
                                     if not image.text.startswith("http")
-                                    else re.sub(".png$", ".webp", image.text)
+                                    else image.text
                                 ),
                             }
                         )

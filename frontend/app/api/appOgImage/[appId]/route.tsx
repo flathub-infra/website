@@ -166,7 +166,7 @@ export async function GET(
                 height: "160px",
                 marginBottom: "24px",
               }}
-              src={icon.replace(/.webp$/, ".png")}
+              src={icon}
               alt=""
             />
           )}
@@ -218,7 +218,7 @@ export async function GET(
                 display: "flex",
                 width: "680px",
               }}
-              src={screenshot.src.replace(/.webp$/, ".png")}
+              src={screenshot.src}
               alt=""
             />
           </div>
@@ -239,7 +239,7 @@ export async function GET(
                 display: "flex",
                 height: "450px",
               }}
-              src={screenshot.src.replace(/.webp$/, ".png")}
+              src={screenshot.src}
               alt=""
             />
           </div>
