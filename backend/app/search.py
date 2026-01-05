@@ -228,7 +228,7 @@ def get_by_selected_categories(
                 {
                     "filter": [
                         category_list,
-                        exclude_subcategories_list,
+                        *exclude_subcategories_list,
                         "type IN [console-application, desktop-application]",
                         "NOT icon IS NULL",
                     ],
@@ -277,7 +277,7 @@ def get_by_selected_category_and_subcategory(
                     "filter": [
                         f"main_categories = {selected_category.value}",
                         selected_subcategory_list,
-                        exclude_subcategories_list,
+                        *exclude_subcategories_list,
                         "type IN [console-application, desktop-application]",
                         "NOT icon IS NULL",
                     ],
