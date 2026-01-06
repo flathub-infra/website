@@ -314,7 +314,7 @@
   "direct-upload": "Subida directa",
   "new-direct-upload": "Aplicación de subida directa nueva",
   "app-already-exists": "Ya existe una aplicación con este ID.",
-  "community-repository-description": "Suba su aplicación a Flathub subiendo su manifiesto Flatpak y los archivos de soporte a un repositorio en nuestra organización GitHub. El buildbot de Flathub creará la aplicación y la publicará en Flathub.",
+  "community-repository-description": "Suba su aplicación a Flathub subiendo su manifiesto Flatpak y los archivos de soporte a un repositorio en nuestra organización GitHub. El servicio de construcción de Flathub creará la aplicación y la publicará en Flathub.",
   "app-id": "ID de la aplicación",
   "verify-app-id": "Verificar ID de la aplicación",
   "direct-upload-description": "Cree su aplicación en su propio entorno de integración continua y súbala directamente a Flathub.",
@@ -487,7 +487,9 @@
     "needed-to-pass-x": "Necesario para aprobar {x}",
     "problems": "Si le gustaría preguntarnos acerca de problemas específicos en la guía de calidad, siéntase libre de abrir <link>una incidencia</link>.",
     "light": "Claro",
-    "dark": "Oscuro"
+    "dark": "Oscuro",
+    "general-runtime-not-eol": "Tiempo de ejecución no al final de la vida útil",
+    "failing-x-checks": "Fallo {count, plural, one {# check} other {# checks}}"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación",
@@ -536,7 +538,8 @@
   "flathub-the-linux-app-store": "Flathub es la tienda de aplicaciones para Linux",
   "news": "Noticias",
   "developer-portal": {
-    "title": "Portal para desarrolladores"
+    "title": "Portal para desarrolladores",
+    "runtime-version": "Tiempo de ejecución: {version}"
   },
   "nothing-to-do": "Nada que hacer",
   "unverified": "Sin verificar",
@@ -654,7 +657,9 @@
     "sdk": "SDK",
     "appShare": "Cuota de la aplicación: {percentage}",
     "sdkShare": "Cuota del SDK: {percentage}",
-    "flathubShare": "Cuota de Flathub: {percentage}"
+    "flathubShare": "Cuota de Flathub: {percentage}",
+    "sliderLabel": "Deslizador para compartir distribución",
+    "screenReaderBreakdown": "Deslizador de distribución compartida. Use las teclas de flecha para ajustar la distribución entre la aplicación, el SDK y Flathub. Distribución actual: Aplicación: {appPercentage}, SDK: {sdkPercentage}, Flathub: {flathubPercentage}. Coste total: {totalCost}."
   },
   "download": {
     "install-x": "Instalar «{x}»",
@@ -668,5 +673,58 @@
   "uses-non-portal-service": "Usa servicios que no son de los portales",
   "can-talk-to-non-portal-service": "Puede solicitar datos de servicios que no pertenecen a los portales y obtener permisos adicionales",
   "socket-may-allow-extra-permissions": "Usa un socket que permite obtener permisos adicionales",
-  "developed-by": "desarrollado por {developer}"
+  "developed-by": "desarrollado por {developer}",
+  "see-all-results": "Ver todos los resultados",
+  "default-account": "Predeterminado",
+  "set-as-default": "Establecer como predeterminado",
+  "default-account-changed": "Cuenta predeterminada cambiada correctamente",
+  "unverified-tooltip": "La propiedad del ID de aplicación <appid></appid> no se ha verificado y puede tratarse de un paquete comunitario",
+  "or-enter-custom-amount": "O introduzca una cantidad personalizada",
+  "payment-details": "Detalles del pago",
+  "install-all-favorites": "Instalar todos los favoritos",
+  "install-all-favorites-description": "Copie este comando para instalar todas sus aplicaciones favoritas a la vez:",
+  "no-favorites-yet": "Aún no tiene ninguna aplicación favorita. ¡Empiece a añadir algunas haciendo clic en el icono de marcador de las aplicaciones que le gusten!",
+  "special-code-description": "Esta aplicación se ha desarrollado bajo una licencia especial. El código fuente puede ser público o no.",
+  "year-in-review-banner": {
+    "title": "Flathub {year} Resumen del año",
+    "description": "Vuelva a ver el top de aplicaciones y tendencias del año"
+  },
+  "year-in-review": {
+    "title": "{year} Resumen del año",
+    "description": "Celebrando un año de crecimiento e innovación en Flathub",
+    "select-year": "Seleccionar año",
+    "most-improved-description": "La aplicación con la mayor tasa de crecimiento porcentual en comparación con el año anterior",
+    "category-highlights": "Destacadas por categoría",
+    "most-popular": "Más popular",
+    "most-popular-description": "La aplicación con el mayor número de descargas este año",
+    "total-downloads": "Descargas totales",
+    "new-apps": "Aplicaciones nuevas",
+    "total-apps": "Aplicaciones totales",
+    "app-updates": "Actualizaciones de aplicaciones",
+    "top-apps": "Top de aplicaciones",
+    "top-games": "Top de juegos",
+    "top-game-stores": "Top de tiendas de juegos",
+    "top-game-utilities": "Top de herramientas de juegos",
+    "top-emulators": "Top de emuladores",
+    "biggest-growth": "Mayor crecimiento",
+    "biggest-growth-description": "La aplicación que obtuvo más descargas nuevas en comparación con el año anterior",
+    "newcomer-of-year": "Recién llegada del año",
+    "newcomer-description": "La aplicación más popular lanzada este año",
+    "most-improved": "Mayor mejora",
+    "geographic-insights": "Perspectivas geográficas",
+    "countries-reached": "Países alcanzados",
+    "fastest-growing-regions": "Regiones de más rápido crecimiento",
+    "top-countries": "Top de países",
+    "trending-categories": "Tendencias en categorías",
+    "trending-categories-description": "Categorías con mayor crecimiento este año",
+    "year-over-year-growth": "Crecimiento interanual",
+    "downloads-vs-previous-year": "Descargas frente al {year}",
+    "hidden-gems": "Gemas ocultas",
+    "hidden-gems-description": "Aplicaciones con creciente popularidad",
+    "platform-downloads": "Descargas de la plataforma",
+    "x-growth": "crecimiento de +{percentage}%"
+  },
+  "vending": {
+    "purchase-not-available": "Esta aplicación no está disponible para su compra."
+  }
 }
