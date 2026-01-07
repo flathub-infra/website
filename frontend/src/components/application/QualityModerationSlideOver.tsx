@@ -162,7 +162,7 @@ const BrandingPreview = ({
               "lg:line-clamp-3 pb-8",
             )}
           >
-            {color?.value}
+            {color.value}
           </div>
         </div>
       </div>
