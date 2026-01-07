@@ -76,7 +76,9 @@ export function chooseBrandingColor(
     return brandingColor
   }
 
-  return branding.find((a) => a.scheme_preference === undefined)
+  return branding.find(
+    (a) => a.scheme_preference === undefined || a.scheme_preference === null,
+  )
 }
 
 export function isDesktopAppstreamTypeGuard(
