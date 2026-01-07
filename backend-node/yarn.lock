@@ -1613,9 +1613,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@react-email/components@npm:1.0.3"
+"@react-email/components@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@react-email/components@npm:1.0.4"
   dependencies:
     "@react-email/body": "npm:0.2.1"
     "@react-email/button": "npm:0.2.1"
@@ -1632,14 +1632,14 @@ __metadata:
     "@react-email/link": "npm:0.0.13"
     "@react-email/markdown": "npm:0.0.18"
     "@react-email/preview": "npm:0.0.14"
-    "@react-email/render": "npm:2.0.1"
+    "@react-email/render": "npm:2.0.2"
     "@react-email/row": "npm:0.0.13"
     "@react-email/section": "npm:0.0.17"
     "@react-email/tailwind": "npm:2.0.3"
     "@react-email/text": "npm:0.1.6"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/2b7a5ee93c048158bb82cbd1da056873d70f523f571db9f7e28e72059e1fa591497f63482df760eea80a6a674a7aa6eed0d27d740b410965cc60161e10406375
+  checksum: 10c0/52e7f708bfec387f69837c7a8d90e2870c2953fa558e0e629de3b4e5ad952ce8959f31d66f4c06fc2cec75a07cb7d27537d595b99d98037d43666a74dbaa2841
   languageName: node
   linkType: hard
 
@@ -1726,12 +1726,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/preview-server@npm:5.1.1":
-  version: 5.1.1
-  resolution: "@react-email/preview-server@npm:5.1.1"
+"@react-email/preview-server@npm:5.2.1":
+  version: 5.2.1
+  resolution: "@react-email/preview-server@npm:5.2.1"
   dependencies:
     next: "npm:16.0.10"
-  checksum: 10c0/b96bb2b440a47fb9bdcdd899492daef6ca110acbb503fecd7e1a989869a84ccaa69075f5606470a53d8a86625ebc3d5d51c8b67191c5b77f074e60dd4e3d0cad
+  checksum: 10c0/0c24766f79d600fa16bf10edc52d8e7212ced995684f90d701aaf028331b033d15b19c67127f89160b5c0fbc416957b543eeef618c05fd34a08d9195108fe7dc
   languageName: node
   linkType: hard
 
@@ -1744,16 +1744,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/render@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@react-email/render@npm:2.0.1"
+"@react-email/render@npm:2.0.2":
+  version: 2.0.2
+  resolution: "@react-email/render@npm:2.0.2"
   dependencies:
     html-to-text: "npm:^9.0.5"
     prettier: "npm:^3.5.3"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/cca58ccbd90d9a3496db6e89ce2d3eeff0e79a226bb981f29276751b2ffc07ddd675239f8553a04b6f33396790c59cff077e696799d539d2433efdcc1e101843
+  checksum: 10c0/c6975b42728ab1aafd7fd1b36b027825ba9c300eeb1533ae606505840438069e51a0d86774c807866c1c53f55c8b760811bbefef380dddb4f555684261611cb2
   languageName: node
   linkType: hard
 
@@ -4411,9 +4411,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:5.1.1":
-  version: 5.1.1
-  resolution: "react-email@npm:5.1.1"
+"react-email@npm:5.2.1":
+  version: 5.2.1
+  resolution: "react-email@npm:5.2.1"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -4434,7 +4434,7 @@ __metadata:
     tsconfig-paths: "npm:4.2.0"
   bin:
     email: dist/index.js
-  checksum: 10c0/83d9ec43ec58a68d6acc86a42a0c8b89c2e1aab0378bc121bde51ddb19c77693b41659b22f6fe824196d86d62b492d7f91c42c14e2e6338bb20618f7226ef995
+  checksum: 10c0/5093ec5b3ee7bfae9d6b08d20635f3150fedfb0b3c38e4acde7ae2017920ee6e0c2698f99d39fb2904bbd56a51dd8894226d5cc07eccce57c83a5189ccdae4d3
   languageName: node
   linkType: hard
 
@@ -4498,9 +4498,9 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.3"
     "@hono/zod-openapi": "npm:^1.2.0"
-    "@react-email/components": "npm:1.0.3"
-    "@react-email/preview-server": "npm:5.1.1"
-    "@react-email/render": "npm:2.0.1"
+    "@react-email/components": "npm:1.0.4"
+    "@react-email/preview-server": "npm:5.2.1"
+    "@react-email/render": "npm:2.0.2"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^7.0.4"
     "@types/react": "npm:^19"
@@ -4514,7 +4514,7 @@ __metadata:
     prettier: "npm:3.7.4"
     react: "npm:19.2.3"
     react-dom: "npm:19.2.3"
-    react-email: "npm:5.1.1"
+    react-email: "npm:5.2.1"
     tsx: "npm:^4.21.0"
     typescript: "npm:^5.9.3"
     zod: "npm:^4.3.5"
