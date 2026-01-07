@@ -398,13 +398,9 @@ def submit_review_request(
                 if value == keys[key]:
                     keys.pop(key, None)
 
-        # Don't consider the first "official" buildbot build as a new submission
+        # Don't consider the first "official" vorarbeiter build as a new submission
         # as it has been already reviewed manually on GitHub
-        if is_new_submission and build_metadata.get("token_name") in (
-            "default",
-            "flathub-ci",
-            "buildbot",
-        ):
+        if is_new_submission and build_metadata.get("token_name") == "vorarbeiter":
             continue
 
         if app_id in (
