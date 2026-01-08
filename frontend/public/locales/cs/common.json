@@ -203,7 +203,7 @@
   "open-user-menu": "Otevřít uživatelskou nabídku",
   "show-more": "Zobrazit více",
   "show-less": "Zobrazit méně",
-  "verified": "Ověřené",
+  "verified": "Ověřeno",
   "app-is-verified": "Tato aplikace je ověřená",
   "verified-login-provider": "@{login_name} na {login_provider}",
   "x-downloads": "{x} stažení",
@@ -542,7 +542,7 @@
     "title": "Portál vývojáře",
     "runtime-version": "Prostředí: {version}"
   },
-  "unverified": "Neověřené",
+  "unverified": "Neověřeno",
   "new": "Nové",
   "updated": "Aktualizované",
   "trending": "Trendy",
