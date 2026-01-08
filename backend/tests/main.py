@@ -897,9 +897,15 @@ def test_stats(client):
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
     two_weeks_ago = today - datetime.timedelta(days=14)
+    day_in_2024 = datetime.date(2024, 6, 1)
+    day_before_in_2024 = datetime.date(2024, 5, 31)
+    two_days_ago_in_2024 = datetime.date(2024, 5, 30)
+    three_days_ago_in_2024 = datetime.date(2024, 5, 29)
+    two_weeks_ago_in_2024 = datetime.date(2024, 5, 18)
+
     expected = {
         "totals": {
-            "downloads": 6798,
+            "downloads": 13596,
             "number_of_apps": 3,
             "verified_apps": 0,
         },
@@ -908,22 +914,37 @@ def test_stats(client):
             {"category": "Network", "count": 1},
             {"category": "Office", "count": 1},
         ],
-        "countries": {"DE": 426, "FI": 2786, "NL": 72, "US": 1522},
+        "countries": {"DE": 852, "FI": 5572, "NL": 144, "US": 3044},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
         "updates_per_day": {},
     }
 
+    expected["delta_downloads_per_day"][two_weeks_ago_in_2024.isoformat()] = 573
+    expected["delta_downloads_per_day"][three_days_ago_in_2024.isoformat()] = 770
+    expected["delta_downloads_per_day"][two_days_ago_in_2024.isoformat()] = 438
+    expected["delta_downloads_per_day"][day_before_in_2024.isoformat()] = 485
+    expected["delta_downloads_per_day"][day_in_2024.isoformat()] = 47
     expected["delta_downloads_per_day"][two_weeks_ago.isoformat()] = 573
     expected["delta_downloads_per_day"][three_days_ago.isoformat()] = 770
     expected["delta_downloads_per_day"][day_before_yesterday.isoformat()] = 438
     expected["delta_downloads_per_day"][yesterday.isoformat()] = 485
     expected["delta_downloads_per_day"][today.isoformat()] = 47
+    expected["downloads_per_day"][two_weeks_ago_in_2024.isoformat()] = 2380
+    expected["downloads_per_day"][three_days_ago_in_2024.isoformat()] = 932
+    expected["downloads_per_day"][two_days_ago_in_2024.isoformat()] = 703
+    expected["downloads_per_day"][day_before_in_2024.isoformat()] = 1964
+    expected["downloads_per_day"][day_in_2024.isoformat()] = 819
     expected["downloads_per_day"][two_weeks_ago.isoformat()] = 2380
     expected["downloads_per_day"][three_days_ago.isoformat()] = 932
     expected["downloads_per_day"][day_before_yesterday.isoformat()] = 703
     expected["downloads_per_day"][yesterday.isoformat()] = 1964
     expected["downloads_per_day"][today.isoformat()] = 819
+    expected["updates_per_day"][two_weeks_ago_in_2024.isoformat()] = 1807
+    expected["updates_per_day"][three_days_ago_in_2024.isoformat()] = 162
+    expected["updates_per_day"][two_days_ago_in_2024.isoformat()] = 265
+    expected["updates_per_day"][day_before_in_2024.isoformat()] = 1480
+    expected["updates_per_day"][day_in_2024.isoformat()] = 772
     expected["updates_per_day"][two_weeks_ago.isoformat()] = 1807
     expected["updates_per_day"][three_days_ago.isoformat()] = 162
     expected["updates_per_day"][day_before_yesterday.isoformat()] = 265
@@ -941,21 +962,26 @@ def test_app_stats_by_id(client):
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
     two_weeks_ago = today - datetime.timedelta(days=14)
+    day_before_in_2024 = datetime.date(2024, 5, 31)
+    two_days_ago_in_2024 = datetime.date(2024, 5, 30)
+    three_days_ago_in_2024 = datetime.date(2024, 5, 29)
+    two_weeks_ago_in_2024 = datetime.date(2024, 5, 18)
+
     expected = {
         "id": "org.sugarlabs.Maze",
-        "installs_total": 509,
+        "installs_total": 1018,
         "installs_per_day": {
+            two_weeks_ago_in_2024.isoformat(): 42,
+            three_days_ago_in_2024.isoformat(): 460,
+            two_days_ago_in_2024.isoformat(): 6,
+            day_before_in_2024.isoformat(): 1,
             three_days_ago.isoformat(): 460,
             day_before_yesterday.isoformat(): 6,
             two_weeks_ago.isoformat(): 42,
         },
         "installs_last_month": 509,
         "installs_last_7_days": 467,
-        "installs_per_country": {
-            "DE": 42,
-            "FI": 460,
-            "US": 6,
-        },
+        "installs_per_country": {"DE": 84, "FI": 921, "US": 12},
     }
 
     assert response.status_code == 200
