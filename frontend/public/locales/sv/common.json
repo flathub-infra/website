@@ -23,7 +23,7 @@
   "number-of-results": "{number} resultat",
   "downloads-per-country": "Hämtningar per land",
   "run": "Kör",
-  "authored-apps": "Autentiserade appar",
+  "authored-apps": "Skapade appar",
   "forum": "Forum",
   "installs-over-time": "Installationer över tid",
   "contact": "Kontakt",
@@ -212,7 +212,7 @@
   "you-may-or-may-not-be-able-to-contribute": "Du kan eventuellt bidra till den här appen.",
   "get-it-on": "Finns på",
   "app-of-the-day": "Dagens app",
-  "updated": "Uppdaterad",
+  "updated": "Uppdaterat",
   "developers-and-users": "Utvecklare och användare",
   "reporting-issues": "Rapportering av fel",
   "reporting-issues-description": "Vi tar säkerhetsrapporter och juridiska frågor på största allvar",
@@ -395,5 +395,7 @@
   "role-playing": "Rollspel",
   "strategy": "Strategi",
   "amount": "Belopp",
-  "total": "Summa"
+  "total": "Summa",
+  "default-account-changed": "Standardkontot har ändrats",
+  "safe-to-close-page": "Du kan stänga den här sidan nu."
 }
