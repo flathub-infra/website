@@ -3,12 +3,13 @@ import asyncio
 import dramatiq
 from fastapi import Response
 
-from .. import models
+from .. import cache, models
 from ..database import get_db
 
 
 @dramatiq.actor(time_limit=1000 * 60 * 60)
-def prepopulate_cache():
+def refresh_cache():
+    asyncio.run(cache.mark_stale_by_pattern("cache:endpoint:*"))
     asyncio.run(_prepopulate_cache())
 
 
