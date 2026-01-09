@@ -2,73 +2,214 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Lea Flatpak"
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak war <strong>Ubuntu 18.10 (Cosmic Cuttlefish) po diwettha</strong>, ygeri an app Termynal hag eksekutya:</text><code></code>"
     },
     "step-4": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
+    },
+    "step-2": {
+      "name": "Lea ystynnans Flatpak rag GNOME Medhelweyth",
+      "text": "<text>An ystynnans GNOME Medhelweyth gul galladow dhe lea appys heb res an linen arghadow. Rag lea, eksekutya:</text><code></code><text><strong>Notya:</strong> Ubuntu distributya GNOME Medhelweyth avel unn Snap yn versyons 20.04 dhe 23.04, hag asleys y'n gans App Center yn 23.10 ha diwettha—naneyl skoodhya ow lea appys Flatpak. Ow lea an ystynnans Flatpak a wra lea unn versyon deb a GNOME Medhelweyth, ow sewya yn dew appys \"Medhelweyth\" leys yn kettermyn war Ubuntu 20.04 dhe 23.04, hag unn app unnik nowydh \"Medhelweyth\" war Ubuntu 23.10 ha diwettha.</text>"
+    },
+    "step-3": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi, eksekutya:</text><code></code>"
     }
   },
   "fedora": {
-    "distroName": "Fedora"
+    "distroName": "Fedora",
+    "introduction": "<text>Flatpak yw leys yn defowt war Fedora Workstation, Fedora Silverblue, ha Fedora Kinoite. Rag dalleth, gallosegi yn sempel Flathub, le mayth an agwedh gwella dhe kavos appys Flatpak. Flathub yw ragselys avel rann an <repolink>Repositorys Parti Nessa</repolink>. Yn tereylys, ty gallos iskarga ha lea an restren <filelink>repositori Flathub</filelink>.</text><text>Lemmyn, <applink>lea appys</applink>!</text><text>An gorgevren a-ugh kodh oberi yn ewn war an leyansow defowt GNOME ha KDE, mes mars i fyllel neb acheson ty allos addya dre dhorn an repositori Flathub gans owth eksekutya:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-2": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
+    },
+    "step-1": {
+      "name": "Gallosegi Flatpak ow devnydhya an Dyghtyer Medhelweyth",
+      "text": "<text>Flatpak yw leys yn defowt war Manjaro 20 po ughella.</text> <text>Rag gallosegi skoodhyans, mos dhe an <strong>Dyghtyer Medhelweyth</strong> (Addya/Remova Towlennow)</text> <text>Klyckya war an rol trylinen [po dyjynnow ow kregi war an Kerghynnedh Desktop] a-dhyghow, yn an rol dewis \"Settyansow\"</text> <text>Mos dhe an tabb \"Flatpak\" ha slynkya an skwychell dhe Gallosegi Skoodhyans Flatpak (yma maga ta galladow dhe gallosegi checkyansow nowedhyans, may komendys.)</text>"
     }
   },
   "endless_os": {
-    "distroName": "Endless OS"
+    "distroName": "Endless OS",
+    "introduction": "<text>Skoodhyans Flatpak yw byldys yn Endless OS 3.0.0 ha diwettha—selyans vyth a res!</text>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-1": {
-      "name": "Lea Flatpak"
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak war systemow a an teylu Alt, ygeri an app Termynal hag eksekutya:</text><code></code>"
     },
     "step-3": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Dastalleth dha devis rag kowlwul an leyans Flatpak. Lemmyn ty gallos <link>lea appys</link>!</text>"
+    },
+    "step-2": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw unn le bryntin dhe kavos appys Flatpak. Rag gallosegi y;n war dha system Alt, eksekutya:</text> <code></code>"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-3": {
-      "name": "Lea Flatpak"
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak, eksekutya a sew yn an termynal:</text> <code></code>"
     },
     "step-5": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth Linux. Ty gallos gul ma gans ow klyckya-dyghow termynal, hag ena ow klyckya \"Shut down Linux\". Lemmyn, <link>lea appys</link>!</text>"
+    },
+    "introduction": "<text>Appys Flatpak gallos bos leys war ChromeOS gans an gwiskas Crostini Linux. Y'n na kavadow rag oll devisyow ChromeOS, ytho ty kodh surhe dha devis yw kesplegadow kyns ow procedya. Unn rol devisyow kesplegadow yw gwithys <link>omma</link>.</text>",
+    "step-1": {
+      "name": "Gallosegi skoodhyans Linux",
+      "text": "<text>Mos dhe <settingslink>chrome://os-settings</settingslink>, ha mos war-woles dhe <strong>Developers</strong> ha gallosegi <em>Linux development environment</em>. ChromeOS a wra iskarga ha lea Linux.</text>"
+    },
+    "step-2": {
+      "name": "Dalleth unn termynal Linux",
+      "text": "<text>Tava an alhwedhen Hwilas/Lonchyer, jynnskrifa \"Terminal\", ha lonchya an app Terminal.</text>"
+    },
+    "step-4": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi, eksekutya:</text><code></code>"
     }
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Flatpak yw leys yn defowt war Red Hat Enterprise Linux Workstation 9 ha diwettha. Rag dalleth, gallosegi yn sempel Flatpak, le may an agwedh gwella dhe kavos appys Flatpak. Yn sempel, iskarga ha lea an <filelink>restren repositori Flathub</filelink>.</text> <text>Rag lea Flatpak war Red Hat Enterprise Linux Workstation 8 po henavek, eksekutya anarghadow a sew yn unn termynal:</text>  <code></code> <text>Lemmyn, <link>lea appys</link>!</text> <text>An gorgevrennow a-ugh kodh oberi yn ewn war an leys defowt Red Hat Enterprise Linux Workstation 9, mes mars i fyllel neb acheson ty gallos addya dre dhorn an repositori Flathub gans owth eksekutya:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<text>Skoodhyans Flatpak yw byldys yn Linux Mint 18.3 ha diwettha—selyans vyth a res!</text>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Lea Flatpak"
+      "name": "Lea Flatpak",
+      "text": "<text>Flatpak yw kavadow yn an repositorys defowt a oll versyons mentenys openSSUE Leap hag openSUSE Tumbleweed.</text> <text>Mar ty preferya unn leyans grafek, ty gallos lea Flatpak ow devnydhya unn \"leyer 1-klyck\" a <link>software.opensuse.org</link>. Mar dha versyon lesrannans na diskwedhys yn defowt, klyckya <em>DIskwedhes</em> yn klass Lesranansow anskoodhys hag ena dewis dhyworth an rol.</text> <text>Yn tereylys, lea Flatpak a an linen arghadow ow devnydhya Zypper:</text> <code></code>"
     },
     "step-3": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
+    },
+    "step-2": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi, eksekutya:</text><code></code>"
     }
   },
   "arch": {
     "distroName": "Arch",
     "step-1": {
-      "name": "Lea Flatpak"
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak war Arch, ygeri an app Termynal hag eksekutya:</text> <code></code>"
     },
     "step-2": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
     }
   },
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "Lea Flatpak"
+      "name": "Lea Flatpak",
+      "text": "<text>Unn fardel flatpak yw kavadow yn Debian 10 (Buster) ha diwettha. Rag lea y'n, eksekutya an arghadow a sew avel root:</text> <code></code>"
     },
     "step-4": {
-      "name": "Dastalleth"
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
+    },
+    "step-2": {
+      "name": "Lea an ystynnans Medhelweyth Flatpak",
+      "text": "<text>Mar ty ow devnydhya GNOME, yth yw unn tybyans da dhe lea an ystynnans Flatpak rag GNOME Medhelweyth. Rag gul ma, eksekutya:</text> <code></code> <text>Mar ty ow devnydhya KDE, ty kodh lea yn le an \"backend\" Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
+    },
+    "step-3": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi y'n, iskarga ha lea an <filelink>restren repositori Flathub</filelink> po eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Lea Flatpak",
+      "text": "<text>Flatpak yw leys yn defowt war Rocky Linux 8 ha diwettha, pan leys gans unn dewis medhelweyth ow komprehendya GNOME (Servell gans ynterfas, Workstation). Mar ty ow devnydhya unn system yndelma, ty gallos skyppya an tregh ma. Rag lea Flatpak war Rocky Linux, eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
+    },
+    "step-2": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi y'n, iskarga ha lea an <filelink>restren repositori Flathub</filelink> po eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS Stream",
+    "introduction": "<text>Flatpak yw leys yn defowt war CentOS Stream 8 ha diwettha, pan ow devnydhya GNOME. Rag dalleth, gallosegi yn sempel Flathub, le may an agwedh gwella rag kavos appys Flatpak. Yn sempel, iskarga ha lea an <filelink>restren repositori Flathub</filelink>.</text> <text>Lemmyn, <link>lea appys</link>!</text>"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux",
+    "introduction": "<text>Flatpak yw leys yn defowt war AlmaLinux 8 ha diwettha, pan ow devnydhya GNOME. Rag dalleth, gallosegi yn sempel Flathub, le may an agwedh gwella rag kavos appys Flatpak. Yn sempel, iskarga ha lea an <filelink>restren repositori Flathub</filelink>.</text> <text>Lemmyn, <link>lea appys</link>!</text>"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak war Gentoo, ygeri an app Termynal hag eksekutya:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text> <text>Notya: leyans grafek a appys Flatpak res na bos galladow gans Gentoo.</text>"
+    },
+    "step-2": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi, eksekutya:</text><code></code>"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak war Kubuntu, ygeri Discover, mos dhe Settyansow, lea an \"backend\" Flatpak ha dastalleth Discover.</text>"
+    },
+    "step-2": {
+      "name": "Lea an ystynnans Flatpak rag settyansow system",
+      "text": "<text>Rag ewngemyskya skoodhyans Flatpak yn an Settyansow System Plasma, ygeri an app Termynal hag eksekutya:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi y'n, ygeri Discover, mos dhe Settyansow, hag addya an repositori Flathub.</text>"
+    },
+    "step-4": {
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "introduction": "<text>Skoodhyans Flatpak yw byldys yn Solus 4.7 ha diwettha—selyans vyth a res! Appys Flatpak gallos bos leys ow devnydhay GNOME Medhelweyth ha/po KDE Discover.</text> <text>Mar Flatpak na leys, holya an danvonadow a-woles rag dalleth.</text>",
+    "step-1": {
+      "name": "Lea Flatpak",
+      "text": "<text>Rag lea Flatpak war Solus, ygeri an app Termynal hag eksekutya:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Addya an repositori Flathub",
+      "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi y'n, iskarga ha lea an <filelink>restren repositori Flathub</filelink> po eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Dastalleth",
+      "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text> <text>Notya: leyans grafek a appys Flatpak yw kavadow hepken ow devnydhya GNOME Medhelweyth ha/po KDE Discover.</text>"
+    }
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Lea Flatpak",
+      "text": "<text>Flatpak gallos bos leys a an repositori kemeneth. Eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Lea an ystynnans Medhelweyth Flatpak"
     }
   }
 }
