@@ -117,16 +117,28 @@ const BadgesClient = (): JSX.Element => {
           </a>
           <br />
           {t.rich("badge-copyright", {
-            author: (chunk) => (
-              <a
-                rel="dct:publisher"
-                className="no-underline hover:underline"
-                href="https://flathub.org/badges"
-              >
-                <span property="dct:title">{chunk}</span>
-              </a>
-            ),
-            badgeslink: (chunk) => <span property="dct:title">{chunk}</span>,
+            author: (chunk) => {
+              const content = String(chunk)
+              return (
+                <a
+                  rel="dct:publisher"
+                  className="no-underline hover:underline"
+                  href="https://flathub.org/badges"
+                >
+                  <meta property="dct:title" content={content} />
+                  {chunk}
+                </a>
+              )
+            },
+            badgeslink: (chunk) => {
+              const content = String(chunk)
+              return (
+                <>
+                  <meta property="dct:title" content={content} />
+                  {chunk}
+                </>
+              )
+            },
           })}
         </p>
 

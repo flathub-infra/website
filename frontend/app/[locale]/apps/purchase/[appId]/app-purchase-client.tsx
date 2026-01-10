@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useTranslations } from "next-intl"
 import clsx from "clsx"
 import * as AppVendingControls from "../../../../../src/components/application/AppVendingControls"
@@ -24,10 +24,9 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
   const t = useTranslations()
 
   // Need app vending configuration to initialize payment value
-  const [amount, setAmount] = useState<NumericInputValue>({
-    live: 0,
-    settled: 0,
-  })
+  const [manualAmount, setManualAmount] = useState<NumericInputValue | null>(
+    null,
+  )
 
   const vendingSetup = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
     axios: { withCredentials: true },
@@ -36,14 +35,18 @@ export default function AppPurchaseClient({ app, vendingConfig }: Props) {
     },
   })
 
-  useEffect(() => {
-    if (vendingSetup.data) {
-      setAmount({
-        live: vendingSetup.data.data.recommended_donation / 100,
-        settled: vendingSetup.data.data.recommended_donation / 100,
-      })
-    }
-  }, [vendingSetup.data])
+  const amount =
+    manualAmount ??
+    (vendingSetup.data
+      ? {
+          live: vendingSetup.data.data.recommended_donation / 100,
+          settled: vendingSetup.data.data.recommended_donation / 100,
+        }
+      : { live: 0, settled: 0 })
+
+  const setAmount = (newAmount: NumericInputValue) => {
+    setManualAmount(newAmount)
+  }
 
   if (vendingSetup.isError) {
     return (

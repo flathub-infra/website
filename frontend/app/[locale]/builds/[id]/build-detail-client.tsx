@@ -74,6 +74,7 @@ export default function BuildDetailClient({ pipelineId }: Props) {
                 href={query.data.data.log_url}
                 className="size-4 me-2"
                 target="_blank"
+                rel="noreferrer"
               >
                 View build log
               </a>
@@ -85,6 +86,7 @@ export default function BuildDetailClient({ pipelineId }: Props) {
                 href={`https://hub.flathub.org/status/${query.data.data.update_repo_job_id}`}
                 className="size-4 me-2"
                 target="_blank"
+                rel="noreferrer"
               >
                 View publish job
               </a>
