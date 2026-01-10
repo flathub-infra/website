@@ -32,16 +32,18 @@ export async function generateStaticParams() {
 }
 
 export default async function LoginServicePage() {
+  let services: string[]
+
   try {
     const providers = await getLoginMethodsAuthLoginGet()
-    const services = providers.data.map((d) => d.method)
-
-    return (
-      <Suspense fallback={<Spinner size={"m"} />}>
-        <LoginServiceClient services={services} />
-      </Suspense>
-    )
+    services = providers.data.map((d) => d.method)
   } catch (error) {
     notFound()
   }
+
+  return (
+    <Suspense fallback={<Spinner size={"m"} />}>
+      <LoginServiceClient services={services} />
+    </Suspense>
+  )
 }

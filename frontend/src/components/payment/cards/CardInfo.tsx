@@ -60,7 +60,15 @@ export const CardInfo: FunctionComponent<Props> = ({
   }
 
   return (
-    <div className={classes.join(" ")} onClick={onClick}>
+    <div
+      className={classes.join(" ")}
+      onClick={onClick}
+      onKeyDown={
+        onClick ? (e) => e.key === "Enter" && onClick(e as any) : undefined
+      }
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+    >
       <span className="col-span-3 row-start-1 flex">
         <div className="ms-auto">
           <ReactCountryFlag countryCode={card.country} />

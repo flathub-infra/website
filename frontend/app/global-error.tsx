@@ -15,7 +15,7 @@ export default function GlobalError({ error, reset }: Props) {
   }, [error])
 
   return (
-    <html>
+    <html lang="en">
       <head>
         <meta
           httpEquiv="Cache-Control"
