@@ -2407,13 +2407,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/nodemailer@npm:^7.0.4":
-  version: 7.0.4
-  resolution: "@types/nodemailer@npm:7.0.4"
+"@types/nodemailer@npm:^7.0.5":
+  version: 7.0.5
+  resolution: "@types/nodemailer@npm:7.0.5"
   dependencies:
     "@aws-sdk/client-sesv2": "npm:^3.839.0"
     "@types/node": "npm:*"
-  checksum: 10c0/8c98d4fc33a84ab0ba82d6f5a79ad9f70ae9cd86da857ef16f7896fa78203ed66c2f9f2440a0eb04ea0ab3d69c03252c8b1e5bab9371871080d223cfbdef41a4
+  checksum: 10c0/8a5f62ca9865d79e7b311bc5095fd474080c1550bd11bc18522c232c9a023d198bc1291e13994b618a27ffc629c692047f805afeabcbc02bb0b9854b9ece3f98
   languageName: node
   linkType: hard
 
@@ -4502,7 +4502,7 @@ __metadata:
     "@react-email/preview-server": "npm:5.2.1"
     "@react-email/render": "npm:2.0.2"
     "@types/html-to-text": "npm:^9.0.4"
-    "@types/nodemailer": "npm:^7.0.4"
+    "@types/nodemailer": "npm:^7.0.5"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     "@types/swagger-ui-dist": "npm:^3.30.6"
