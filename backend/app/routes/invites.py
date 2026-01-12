@@ -228,13 +228,19 @@ def accept_invite(
         if invite is None:
             raise HTTPException(status_code=404, detail=ErrorDetail.INVITE_NOT_FOUND)
 
-        developer = DirectUploadAppDeveloper(
-            app_id=app.id,
-            developer_id=login.user.id,
-            is_primary=False,
-        )
+        existing_developer = db_session.query(DirectUploadAppDeveloper).filter(
+            DirectUploadAppDeveloper.app_id == app.id,
+            DirectUploadAppDeveloper.developer_id == login.user.id,
+        ).first()
 
-        db_session.add(developer)
+        if existing_developer is None:
+            developer = DirectUploadAppDeveloper(
+                app_id=app.id,
+                developer_id=login.user.id,
+                is_primary=False,
+            )
+            db_session.add(developer)
+
         db_session.delete(invite)
         db_session.commit()
 
