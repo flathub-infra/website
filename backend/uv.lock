@@ -275,7 +275,7 @@ dev = [
 requires-dist = [
     { name = "alembic", specifier = ">=1.14.1,<2.0.0" },
     { name = "apscheduler", specifier = "==3.11.2" },
-    { name = "dramatiq", extras = ["redis", "watch"], specifier = ">=1.17.1,<3.0.0" },
+    { name = "dramatiq", extras = ["redis", "watch", "prometheus-client"], specifier = ">=1.17.1,<3.0.0" },
     { name = "fastapi", specifier = ">=0.115.8,<1.0.0" },
     { name = "feedgen", specifier = ">=1.0.0,<2.0.0" },
     { name = "granian", extras = ["reload", "uvloop"], specifier = ">=2.6.0" },
