@@ -38,11 +38,7 @@ def pick_app_of_the_day_automatically(db, day):
         for appId in get_all_appids_for_frontend()
     ]
 
-    all_passed_apps = [
-        app
-        for app in x
-        if app["quality-moderation-status"].passes and app["last-time-app-of-the-day"]
-    ]
+    all_passed_apps = [app for app in x if app["quality-moderation-status"].passes]
 
     # Remove apps of the week from the list
     apps_of_the_week = models.AppsOfTheWeek.by_week(
