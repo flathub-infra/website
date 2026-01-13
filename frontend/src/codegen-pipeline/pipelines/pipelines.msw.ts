@@ -9,7 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { PipelineStatus, PipelineTrigger } from ".././model"
+import { PipelineStatus, PipelineTrigger, PipelineType } from ".././model"
 import type {
   PipelineResponse,
   PipelineSummary,
@@ -28,6 +28,10 @@ export const getListPipelinesApiPipelinesGetResponseMock =
     ).map(() => ({
       id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      type: faker.helpers.arrayElement([
+        faker.helpers.arrayElement(Object.values(PipelineType)),
+        undefined,
+      ]),
       status: faker.helpers.arrayElement(Object.values(PipelineStatus)),
       repo: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -145,6 +149,13 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
   ]),
   repro_pipeline_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.uuid(), null]),
+    undefined,
+  ]),
+  total_cost: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      faker.number.float({ min: undefined, max: undefined, fractionDigits: 2 }),
+      null,
+    ]),
     undefined,
   ]),
   created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -368,6 +379,28 @@ export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
     )
   }
 
+export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMockHandler =
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<unknown> | unknown),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/api/pipelines/:pipelineId/callback/cost",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+      options,
+    )
+  }
+
 export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler = (
   overrideResponse?:
     | unknown
@@ -437,6 +470,48 @@ export const getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler = (
     options,
   )
 }
+
+export const getProcessGithubTasksApiGithubTasksProcessPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/api/github-tasks/process",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
+}
+
+export const getCleanupGithubTasksApiGithubTasksCleanupPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/api/github-tasks/cleanup",
+    async (info) => {
+      await delay(1000)
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
+}
 export const getPipelinesMock = () => [
   getTriggerPipelineApiPipelinesPostMockHandler(),
   getListPipelinesApiPipelinesGetMockHandler(),
@@ -445,7 +520,10 @@ export const getPipelinesMock = () => [
   getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMockHandler(),
   getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMockHandler(),
   getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMockHandler(),
+  getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMockHandler(),
   getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler(),
   getPublishPipelinesApiPipelinesPublishPostMockHandler(),
   getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler(),
+  getProcessGithubTasksApiGithubTasksProcessPostMockHandler(),
+  getCleanupGithubTasksApiGithubTasksCleanupPostMockHandler(),
 ]

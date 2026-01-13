@@ -1,4 +1,5 @@
-export * from "./health/health"
-export * from "./webhooks/webhooks"
+export * from "./dashboard/dashboard"
+export * from "./diffoscope/diffoscope"
 export * from "./pipelines/pipelines"
+export * from "./webhooks/webhooks"
 export * from "./model"
