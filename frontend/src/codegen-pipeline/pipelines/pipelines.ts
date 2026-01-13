@@ -24,8 +24,10 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
+  CleanupGithubTasksApiGithubTasksCleanupPostParams,
   HTTPValidationError,
   ListPipelinesApiPipelinesGetParams,
+  PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
   PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody,
   PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody,
   PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody,
@@ -1014,6 +1016,141 @@ export const usePipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
     return useMutation(mutationOptions, queryClient)
   }
 /**
+ * @summary Pipeline Cost Callback
+ */
+export const pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = (
+  pipelineId: string,
+  pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/cost`,
+    pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
+    options,
+  )
+}
+
+export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
+        >
+      >,
+      TError,
+      {
+        pipelineId: string
+        data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
+      >
+    >,
+    TError,
+    {
+      pipelineId: string
+      data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+    },
+    TContext
+  > => {
+    const mutationKey = [
+      "pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
+        >
+      >,
+      {
+        pipelineId: string
+        data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+      }
+    > = (props) => {
+      const { pipelineId, data } = props ?? {}
+
+      return pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost(
+        pipelineId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
+      >
+    >
+  >
+export type PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationBody =
+  PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+export type PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Pipeline Cost Callback
+ */
+export const usePipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
+        >
+      >,
+      TError,
+      {
+        pipelineId: string
+        data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<
+      typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
+    >
+  >,
+  TError,
+  {
+    pipelineId: string
+    data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+  },
+  TContext
+> => {
+  const mutationOptions =
+    getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationOptions(
+      options,
+    )
+
+  return useMutation(mutationOptions, queryClient)
+}
+/**
  * @summary Redirect To Log Url
  */
 export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = (
@@ -1389,6 +1526,182 @@ export const useCheckPipelineJobsApiPipelinesCheckJobsPost = <
 > => {
   const mutationOptions =
     getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions(options)
+
+  return useMutation(mutationOptions, queryClient)
+}
+/**
+ * @summary Process Github Tasks
+ */
+export const processGithubTasksApiGithubTasksProcessPost = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/github-tasks/process`,
+    undefined,
+    options,
+  )
+}
+
+export const getProcessGithubTasksApiGithubTasksProcessPostMutationOptions = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof processGithubTasksApiGithubTasksProcessPost>>,
+    TError,
+    void,
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof processGithubTasksApiGithubTasksProcessPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["processGithubTasksApiGithubTasksProcessPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof processGithubTasksApiGithubTasksProcessPost>>,
+    void
+  > = () => {
+    return processGithubTasksApiGithubTasksProcessPost(axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type ProcessGithubTasksApiGithubTasksProcessPostMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof processGithubTasksApiGithubTasksProcessPost>>
+  >
+
+export type ProcessGithubTasksApiGithubTasksProcessPostMutationError =
+  AxiosError<unknown>
+
+/**
+ * @summary Process Github Tasks
+ */
+export const useProcessGithubTasksApiGithubTasksProcessPost = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof processGithubTasksApiGithubTasksProcessPost>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof processGithubTasksApiGithubTasksProcessPost>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions =
+    getProcessGithubTasksApiGithubTasksProcessPostMutationOptions(options)
+
+  return useMutation(mutationOptions, queryClient)
+}
+/**
+ * @summary Cleanup Github Tasks
+ */
+export const cleanupGithubTasksApiGithubTasksCleanupPost = (
+  params?: CleanupGithubTasksApiGithubTasksCleanupPostParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/github-tasks/cleanup`,
+    undefined,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
+}
+
+export const getCleanupGithubTasksApiGithubTasksCleanupPostMutationOptions = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof cleanupGithubTasksApiGithubTasksCleanupPost>>,
+    TError,
+    { params?: CleanupGithubTasksApiGithubTasksCleanupPostParams },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof cleanupGithubTasksApiGithubTasksCleanupPost>>,
+  TError,
+  { params?: CleanupGithubTasksApiGithubTasksCleanupPostParams },
+  TContext
+> => {
+  const mutationKey = ["cleanupGithubTasksApiGithubTasksCleanupPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof cleanupGithubTasksApiGithubTasksCleanupPost>>,
+    { params?: CleanupGithubTasksApiGithubTasksCleanupPostParams }
+  > = (props) => {
+    const { params } = props ?? {}
+
+    return cleanupGithubTasksApiGithubTasksCleanupPost(params, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type CleanupGithubTasksApiGithubTasksCleanupPostMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof cleanupGithubTasksApiGithubTasksCleanupPost>>
+  >
+
+export type CleanupGithubTasksApiGithubTasksCleanupPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Cleanup Github Tasks
+ */
+export const useCleanupGithubTasksApiGithubTasksCleanupPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof cleanupGithubTasksApiGithubTasksCleanupPost>>,
+      TError,
+      { params?: CleanupGithubTasksApiGithubTasksCleanupPostParams },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof cleanupGithubTasksApiGithubTasksCleanupPost>>,
+  TError,
+  { params?: CleanupGithubTasksApiGithubTasksCleanupPostParams },
+  TContext
+> => {
+  const mutationOptions =
+    getCleanupGithubTasksApiGithubTasksCleanupPostMutationOptions(options)
 
   return useMutation(mutationOptions, queryClient)
 }

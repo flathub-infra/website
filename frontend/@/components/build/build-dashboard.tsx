@@ -36,7 +36,7 @@ export function BuildDashboard({
 const Builds = ({ appId, statusFilter, repoFilter }) => {
   const query = useListPipelinesApiPipelinesGet({
     app_id: appId,
-    status_filter: statusFilter === "all" ? undefined : statusFilter,
+    status: statusFilter === "all" ? undefined : statusFilter,
     target_repo: repoFilter === "all" ? undefined : repoFilter,
     limit: 51,
   })

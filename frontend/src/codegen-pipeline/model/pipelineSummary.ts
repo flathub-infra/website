@@ -4,6 +4,7 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { PipelineType } from "./pipelineType"
 import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
 import type { PipelineTrigger } from "./pipelineTrigger"
@@ -19,6 +20,7 @@ import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
 export interface PipelineSummary {
   id: string
   app_id: string
+  type?: PipelineType
   status: PipelineStatus
   repo?: PipelineSummaryRepo
   triggered_by: PipelineTrigger
