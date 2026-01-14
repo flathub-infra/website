@@ -689,7 +689,7 @@
   "payment-details": "Detalhes do pagamento",
   "special-code-description": "Este aplicativo foi desenvolvido sob uma licença especial. O código-fonte pode ou não ser público.",
   "year-in-review": {
-    "title": "{year} Retrospectiva do Ano",
+    "title": "Retrospectiva do Ano {year}",
     "description": "Comemorando um ano de crescimento e inovação no Flathub",
     "select-year": "Selecione o ano",
     "category-highlights": "Destaques da categoria",
@@ -698,6 +698,33 @@
     "total-downloads": "Total de Downloads",
     "new-apps": "Novos Aplicativos",
     "total-apps": "Total de Aplicativos",
-    "app-updates": "Atualizações do Aplicativo"
+    "app-updates": "Atualizações do Aplicativo",
+    "top-apps": "Aplicativos Mais Populares",
+    "top-games": "Jogos Mais Populares",
+    "top-game-stores": "Lojas de Jogos Mais Populares",
+    "top-game-utilities": "Ferramentas de Jogos Mais Populares",
+    "top-emulators": "Emuladores Mais Populares",
+    "biggest-growth": "Maior Crescimento",
+    "biggest-growth-description": "O aplicativo que obteve o maior número de novos downloads em comparação com o ano anterior",
+    "newcomer-of-year": "Revelação do Ano",
+    "newcomer-description": "O aplicativo mais popular lançado este ano",
+    "most-improved": "Mais Aprimorado",
+    "most-improved-description": "O aplicativo com a maior taxa de crescimento percentual em comparação com o ano anterior",
+    "geographic-insights": "Informações Geográficas",
+    "countries-reached": "Países Alcançados",
+    "fastest-growing-regions": "Regiões de Crescimento Mais Rápido",
+    "top-countries": "Principais Países",
+    "trending-categories": "Categorias em Destaque",
+    "trending-categories-description": "Categorias com maior crescimento este ano",
+    "year-over-year-growth": "Crescimento ano a ano",
+    "downloads-vs-previous-year": "Downloads em relação a {year}",
+    "hidden-gems": "Tesouros Escondidos",
+    "hidden-gems-description": "Aplicativos com crescente popularidade",
+    "platform-downloads": "Downloads por plataforma",
+    "x-growth": "Crescimento de +{percentage}%"
+  },
+  "year-in-review-banner": {
+    "title": "Flathub {year}, o Resumo do Ano",
+    "description": "Relembre os principais aplicativos e tendências do ano"
   }
 }
