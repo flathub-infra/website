@@ -1097,12 +1097,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/node-server@npm:^1.19.8":
-  version: 1.19.8
-  resolution: "@hono/node-server@npm:1.19.8"
+"@hono/node-server@npm:^1.19.9":
+  version: 1.19.9
+  resolution: "@hono/node-server@npm:1.19.9"
   peerDependencies:
     hono: ^4
-  checksum: 10c0/47955a497523f7c90db83e9a7a3cf589a824a9ddc8b0ba80c11f849638f6b9a08f519df4e15facd69381a1993ae19bb3fa5fe31b3d562b0341940eb51b99848b
+  checksum: 10c0/de18c06b6b266dc45fe55fb82053bd1da8fe84939c49b6fbab4d2448b679d54ab5affbf8b15de9bead26f29b1755284d770aafb5ad14a8e4b3cfb4f79334554e
   languageName: node
   linkType: hard
 
@@ -4494,7 +4494,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@hono/node-server": "npm:^1.19.8"
+    "@hono/node-server": "npm:^1.19.9"
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.3"
     "@hono/zod-openapi": "npm:^1.2.0"
