@@ -35,17 +35,14 @@ export const dashboardGet = (
   params?: DashboardGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
-  return axios.get(`https://flathub-vorarbeiter.apps.openshift.gnome.org/`, {
+  return axios.get(`https://builds.flathub.org/`, {
     ...options,
     params: { ...params, ...options?.params },
   })
 }
 
 export const getDashboardGetQueryKey = (params?: DashboardGetParams) => {
-  return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/`,
-    ...(params ? [params] : []),
-  ] as const
+  return [`https://builds.flathub.org/`, ...(params ? [params] : [])] as const
 }
 
 export const getDashboardGetQueryOptions = <
@@ -179,20 +176,17 @@ export const buildsTableApiHtmxBuildsGet = (
   params?: BuildsTableApiHtmxBuildsGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/htmx/builds`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+  return axios.get(`https://builds.flathub.org/api/htmx/builds`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
 export const getBuildsTableApiHtmxBuildsGetQueryKey = (
   params?: BuildsTableApiHtmxBuildsGetParams,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/htmx/builds`,
+    `https://builds.flathub.org/api/htmx/builds`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -354,18 +348,13 @@ export const appStatusStatusAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/status/${appId}`,
-    {
-      ...options,
-    },
-  )
+  return axios.get(`https://builds.flathub.org/status/${appId}`, {
+    ...options,
+  })
 }
 
 export const getAppStatusStatusAppIdGetQueryKey = (appId?: string) => {
-  return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/status/${appId}`,
-  ] as const
+  return [`https://builds.flathub.org/status/${appId}`] as const
 }
 
 export const getAppStatusStatusAppIdGetQueryOptions = <
@@ -526,20 +515,17 @@ export const reproducibleStatusReproducibleGet = (
   params?: ReproducibleStatusReproducibleGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/reproducible`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+  return axios.get(`https://builds.flathub.org/reproducible`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
 export const getReproducibleStatusReproducibleGetQueryKey = (
   params?: ReproducibleStatusReproducibleGetParams,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/reproducible`,
+    `https://builds.flathub.org/reproducible`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -702,20 +688,17 @@ export const reproducibleTableApiHtmxReproducibleGet = (
   params?: ReproducibleTableApiHtmxReproducibleGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/htmx/reproducible`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+  return axios.get(`https://builds.flathub.org/api/htmx/reproducible`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
 export const getReproducibleTableApiHtmxReproducibleGetQueryKey = (
   params?: ReproducibleTableApiHtmxReproducibleGetParams,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/htmx/reproducible`,
+    `https://builds.flathub.org/api/htmx/reproducible`,
     ...(params ? [params] : []),
   ] as const
 }

@@ -24,7 +24,7 @@ export const receiveGithubWebhookApiWebhooksGithubPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/webhooks/github`,
+    `https://builds.flathub.org/api/webhooks/github`,
     undefined,
     options,
   )
