@@ -1,41 +1,66 @@
 import { Skeleton } from "@/components/ui/skeleton"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 
 export function LoadingDashboard() {
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row gap-4 justify-between">
-        <Skeleton className="h-10 w-full md:w-64" />
-        <Skeleton className="h-10 w-32" />
+      {/* Repo Filter Skeleton */}
+      <div className="p-5 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg">
+        <Skeleton className="h-10 w-48" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <LoadingCard key={i} />
-        ))}
-      </div>
-    </div>
-  )
-}
+      {/* Section Skeletons */}
+      {Array.from({ length: 3 }).map((_, sectionIdx) => (
+        <div key={sectionIdx} className="space-y-3">
+          {/* Section Header */}
+          <div className="p-4 bg-card border rounded-lg flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-5 w-5 rounded" />
+              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-6 w-20 rounded-full" />
+            </div>
+            <Skeleton className="h-5 w-5" />
+          </div>
 
-function LoadingCard() {
-  return (
-    <Card>
-      <CardHeader className="pb-2">
-        <Skeleton className="h-6 w-3/4 mb-2" />
-        <Skeleton className="h-4 w-full" />
-      </CardHeader>
-      <CardContent className="pb-2">
-        <div className="flex items-center justify-between mb-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-5 w-5 rounded-full" />
-          ))}
+          {/* Table Skeleton */}
+          <div className="border rounded-lg overflow-hidden">
+            {/* Desktop Table */}
+            <div className="hidden md:block">
+              <div className="bg-gradient-to-r from-muted to-muted/60 border-b-2 grid grid-cols-7 gap-4 p-4">
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <Skeleton key={i} className="h-4 w-full" />
+                ))}
+              </div>
+              <div className="space-y-2">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="grid grid-cols-7 gap-4 p-4 border-b">
+                    {Array.from({ length: 7 }).map((_, j) => (
+                      <Skeleton key={j} className="h-5 w-full" />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <Skeleton className="h-5 w-24" />
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                  </div>
+                  <Skeleton className="h-4 w-3/4" />
+                  <div className="flex items-center justify-between">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-16" />
+                  </div>
+                  <Skeleton className="h-8 w-full" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <Skeleton className="h-4 w-1/2 mt-4" />
-      </CardContent>
-      <CardFooter className="pt-2">
-        <Skeleton className="h-9 w-full" />
-      </CardFooter>
-    </Card>
+      ))}
+    </div>
   )
 }
