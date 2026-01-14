@@ -131,7 +131,7 @@ class FlathubUser(Base):
     deleted: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=false(), index=True
     )
-    accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
+    accepted_publisher_agreement_at: Mapped[datetime | None] = mapped_column(
         DateTime, nullable=True, server_default=None
     )
 
