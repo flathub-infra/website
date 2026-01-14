@@ -47,7 +47,7 @@ export const triggerPipelineApiPipelinesPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TriggerPipelineApiPipelinesPost201>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`,
+    `https://builds.flathub.org/api/pipelines`,
     pipelineTriggerRequest,
     options,
   )
@@ -133,20 +133,17 @@ export const listPipelinesApiPipelinesGet = (
   params?: ListPipelinesApiPipelinesGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<PipelineSummary[]>> => {
-  return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    },
-  )
+  return axios.get(`https://builds.flathub.org/api/pipelines`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
 export const getListPipelinesApiPipelinesGetQueryKey = (
   params?: ListPipelinesApiPipelinesGetParams,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines`,
+    `https://builds.flathub.org/api/pipelines`,
     ...(params ? [params] : []),
   ] as const
 }
@@ -309,7 +306,7 @@ export const getPipelineApiPipelinesPipelineIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<PipelineResponse>> => {
   return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}`,
+    `https://builds.flathub.org/api/pipelines/${pipelineId}`,
     options,
   )
 }
@@ -317,9 +314,7 @@ export const getPipelineApiPipelinesPipelineIdGet = (
 export const getGetPipelineApiPipelinesPipelineIdGetQueryKey = (
   pipelineId?: string,
 ) => {
-  return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}`,
-  ] as const
+  return [`https://builds.flathub.org/api/pipelines/${pipelineId}`] as const
 }
 
 export const getGetPipelineApiPipelinesPipelineIdGetQueryOptions = <
@@ -491,7 +486,7 @@ export const pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost 
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<unknown>> => {
     return axios.post(
-      `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/metadata`,
+      `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/metadata`,
       pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody,
       options,
     )
@@ -624,7 +619,7 @@ export const pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/log_url`,
+    `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/log_url`,
     pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody,
     options,
   )
@@ -757,7 +752,7 @@ export const pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/status`,
+    `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/status`,
     pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody,
     options,
   )
@@ -891,7 +886,7 @@ export const pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckP
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<unknown>> => {
     return axios.post(
-      `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/reprocheck`,
+      `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/reprocheck`,
       pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody,
       options,
     )
@@ -1024,7 +1019,7 @@ export const pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/callback/cost`,
+    `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/cost`,
     pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
     options,
   )
@@ -1158,7 +1153,7 @@ export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/log_url`,
+    `https://builds.flathub.org/api/pipelines/${pipelineId}/log_url`,
     options,
   )
 }
@@ -1167,7 +1162,7 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryKey = (
   pipelineId?: string,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/${pipelineId}/log_url`,
+    `https://builds.flathub.org/api/pipelines/${pipelineId}/log_url`,
   ] as const
 }
 
@@ -1367,7 +1362,7 @@ export const publishPipelinesApiPipelinesPublishPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<PublishSummary>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/publish`,
+    `https://builds.flathub.org/api/pipelines/publish`,
     undefined,
     options,
   )
@@ -1451,7 +1446,7 @@ export const checkPipelineJobsApiPipelinesCheckJobsPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/pipelines/check-jobs`,
+    `https://builds.flathub.org/api/pipelines/check-jobs`,
     undefined,
     options,
   )
@@ -1536,7 +1531,7 @@ export const processGithubTasksApiGithubTasksProcessPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/github-tasks/process`,
+    `https://builds.flathub.org/api/github-tasks/process`,
     undefined,
     options,
   )
@@ -1622,7 +1617,7 @@ export const cleanupGithubTasksApiGithubTasksCleanupPost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/api/github-tasks/cleanup`,
+    `https://builds.flathub.org/api/github-tasks/cleanup`,
     undefined,
     {
       ...options,

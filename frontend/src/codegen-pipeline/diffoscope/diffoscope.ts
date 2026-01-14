@@ -30,7 +30,7 @@ export const viewDiffoscopeDiffoscopePipelineIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/diffoscope/${pipelineId}`,
+    `https://builds.flathub.org/diffoscope/${pipelineId}`,
     options,
   )
 }
@@ -38,9 +38,7 @@ export const viewDiffoscopeDiffoscopePipelineIdGet = (
 export const getViewDiffoscopeDiffoscopePipelineIdGetQueryKey = (
   pipelineId?: string,
 ) => {
-  return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/diffoscope/${pipelineId}`,
-  ] as const
+  return [`https://builds.flathub.org/diffoscope/${pipelineId}`] as const
 }
 
 export const getViewDiffoscopeDiffoscopePipelineIdGetQueryOptions = <
@@ -210,7 +208,7 @@ export const diffoscopeCssDiffoscopePipelineIdCommonCssGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/diffoscope/${pipelineId}/common.css`,
+    `https://builds.flathub.org/diffoscope/${pipelineId}/common.css`,
     options,
   )
 }
@@ -219,7 +217,7 @@ export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetQueryKey = (
   pipelineId?: string,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/diffoscope/${pipelineId}/common.css`,
+    `https://builds.flathub.org/diffoscope/${pipelineId}/common.css`,
   ] as const
 }
 
@@ -420,7 +418,7 @@ export const diffoscopeIconDiffoscopePipelineIdIconPngGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/diffoscope/${pipelineId}/icon.png`,
+    `https://builds.flathub.org/diffoscope/${pipelineId}/icon.png`,
     options,
   )
 }
@@ -429,7 +427,7 @@ export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetQueryKey = (
   pipelineId?: string,
 ) => {
   return [
-    `https://flathub-vorarbeiter.apps.openshift.gnome.org/diffoscope/${pipelineId}/icon.png`,
+    `https://builds.flathub.org/diffoscope/${pipelineId}/icon.png`,
   ] as const
 }
 
