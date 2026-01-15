@@ -7,10 +7,14 @@ from .. import cache, models
 from ..database import get_db
 
 
+async def _refresh_cache_impl():
+    await cache.mark_stale_by_pattern("cache:endpoint:*")
+    await _prepopulate_cache()
+
+
 @dramatiq.actor(time_limit=1000 * 60 * 60)
 def refresh_cache():
-    asyncio.run(cache.mark_stale_by_pattern("cache:endpoint:*"))
-    asyncio.run(_prepopulate_cache())
+    asyncio.run(_refresh_cache_impl())
 
 
 async def _prepopulate_cache():
