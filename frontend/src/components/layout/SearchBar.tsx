@@ -372,7 +372,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                           <LogoImage
                             iconUrl={app.icon}
                             appName={app.name}
-                            size="64"
+                            size={64}
                           />
                         </div>
                         <div className="flex-1 min-w-0">

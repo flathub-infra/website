@@ -136,6 +136,7 @@ export const ApplicationCard = ({
           iconUrl={application.icon}
           appName={application.name}
           priority={priority}
+          size={96}
         />
       </div>
       <div className="flex flex-col justify-center overflow-hidden">

@@ -6,10 +6,13 @@ export type AppstreamListItem = Pick<
 > &
   Partial<Pick<GetAppstreamAppstreamAppIdGet200, "bundle">>
 
-export function pickScreenshotSize(
-  screenshot?: Screenshot,
-  maxHeight?: number,
-):
+/**
+ * Always returns the biggest screenshot available, as the image proxy will resize it as needed.
+ *
+ * @param screenshot - The screenshot object containing sizes and caption.
+ * @returns The biggest screenshot
+ */
+export function findBiggestScreenshotSize(screenshot?: Screenshot):
   | {
       src: string
       width: number
@@ -48,25 +51,21 @@ export function pickScreenshotSize(
       }
     })
 
-  let highestResolution = orderedByResolution.find(
-    (screenshot) => maxHeight === undefined || screenshot.height <= maxHeight,
-  )
+  const highestResolution = orderedByResolution[0]
 
-  if (!highestResolution && orderedByResolution.length > 0) {
-    highestResolution = orderedByResolution[orderedByResolution.length - 1]
+  if (!highestResolution) {
+    return undefined
   }
 
-  const scale = parseInt(highestResolution?.key.scale.split("x")[0])
+  const scale = parseInt(highestResolution.key.scale.split("x")[0])
 
-  return highestResolution
-    ? {
-        src: highestResolution.key.src,
-        width: highestResolution.width,
-        height: highestResolution.height,
-        caption: screenshot.caption,
-        scale: scale,
-      }
-    : undefined
+  return {
+    src: highestResolution.key.src,
+    width: highestResolution.width,
+    height: highestResolution.height,
+    caption: screenshot.caption,
+    scale: scale,
+  }
 }
 
 export function mapScreenshot(screenshot: Screenshot) {
@@ -93,7 +92,7 @@ export function mapScreenshot(screenshot: Screenshot) {
   }
 
   return {
-    ...pickScreenshotSize(screenshot),
+    ...findBiggestScreenshotSize(screenshot),
     srcSet: screenshotVariant,
   }
 }

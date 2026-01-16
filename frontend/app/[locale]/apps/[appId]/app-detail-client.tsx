@@ -9,7 +9,7 @@ import { QualityModeration } from "../../../../src/components/application/Qualit
 import { isDesktopAppstreamTypeGuard, getKeywords } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "../../../../src/size"
 import { bcpToPosixLocale } from "../../../../src/localize"
-import { pickScreenshotSize } from "../../../../src/types/Appstream"
+import { findBiggestScreenshotSize } from "../../../../src/types/Appstream"
 import type { JSX } from "react"
 import type { Summary } from "../../../../src/types/Summary"
 import type {
@@ -103,7 +103,7 @@ const AppDetailClient = ({
     isDesktopAppstreamTypeGuard(app) &&
     Array.isArray(app.screenshots) &&
     app.screenshots.length > 0
-      ? pickScreenshotSize(app.screenshots[0])
+      ? findBiggestScreenshotSize(app.screenshots[0])
       : undefined
 
   const lastStableVersion =

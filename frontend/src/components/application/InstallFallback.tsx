@@ -24,6 +24,7 @@ export default function InstallFallback({
                   iconUrl={app.icon}
                   appName={app.name}
                   quality={100}
+                  size={128}
                   priority
                 />
               </div>

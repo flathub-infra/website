@@ -141,7 +141,7 @@ const QualityModerationTable = ({
           <Link href={`/apps/${row.original.id}`}>
             <div className="relative m-2 flex h-[64px] min-w-[64px] self-center drop-shadow-md">
               <LogoImage
-                size="64"
+                size={64}
                 iconUrl={
                   (row.original.appstream as GetAppstreamAppstreamAppIdGet200)
                     .icon

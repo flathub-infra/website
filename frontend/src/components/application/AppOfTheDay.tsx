@@ -79,7 +79,7 @@ export const AppOfTheDay = ({
         <div className="col-start-2 row-start-1 row-span-2 relative h-[128px] justify-center flex overflow-hidden">
           <div className="absolute drop-shadow-md">
             <LogoImage
-              size="128"
+              size={128}
               priority
               quality={100}
               iconUrl={appOfTheDay.icon}

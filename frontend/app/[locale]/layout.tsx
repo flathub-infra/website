@@ -97,6 +97,7 @@ export default async function LocaleLayout({
       <head>
         <link rel="preconnect" href="https://dl.flathub.org" />
         <link rel="preconnect" href="https://webstats.gnome.org" />
+        <link rel="preconnect" href="https://imgproxy.flathub.org" />
       </head>
       <body className={inter.className}>
         <NextIntlClientProvider>

@@ -3,19 +3,21 @@ import { FunctionComponent } from "react"
 import Image from "next/image"
 
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
-import flathubImageLoader from "src/image-loader"
+import { Imgproxy } from "./ImgproxyImage"
 
 interface Props {
   iconUrl: string
   appName: string
-  size?: "24" | "64" | "128" | "256"
+  size: 24 | 64 | 96 | 128 | 256
+  priority?: boolean
   [key: string]: unknown
 }
 
 const LogoImage: FunctionComponent<Props> = ({
   iconUrl,
   appName,
-  size = "128",
+  size,
+  priority = false,
   ...props
 }) => {
   const t = useTranslations()
@@ -25,14 +27,13 @@ const LogoImage: FunctionComponent<Props> = ({
       {iconUrl &&
       (iconUrl.startsWith("https://dl.flathub.org") ||
         iconUrl.startsWith("https://flathub.org")) ? (
-        <Image
-          loader={flathubImageLoader}
+        <Imgproxy
           src={iconUrl}
           alt={t("app-logo", { app_name: appName })}
           aria-hidden
+          fetchPriority={priority ? "high" : "auto"}
           width={size}
           height={size}
-          style={{ maxHeight: "auto", maxWidth: "100%" }}
           {...props}
         />
       ) : (

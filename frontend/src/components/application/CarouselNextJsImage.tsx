@@ -1,15 +1,17 @@
 "use client"
 
-import Image from "next/image"
-import flathubImageLoader from "src/image-loader"
 import {
   isImageFitCover,
   isImageSlide,
+  RenderSlideProps,
+  SlideImage,
   useLightboxProps,
   useLightboxState,
 } from "yet-another-react-lightbox"
+import { Imgproxy } from "../ImgproxyImage"
+import clsx from "clsx"
 
-function isNextJsImage(slide) {
+function isNextJsImage(slide: SlideImage): boolean {
   return (
     isImageSlide(slide) &&
     typeof slide.width === "number" &&
@@ -17,7 +19,11 @@ function isNextJsImage(slide) {
   )
 }
 
-export default function CarouselNextJsImage({ slide, offset, rect }) {
+export default function CarouselNextJsImage({
+  slide,
+  offset,
+  rect,
+}: RenderSlideProps<SlideImage>) {
   const {
     on: { click },
     carousel: { imageFit },
@@ -27,7 +33,9 @@ export default function CarouselNextJsImage({ slide, offset, rect }) {
 
   const cover = isImageSlide(slide) && isImageFitCover(slide, imageFit)
 
-  if (!isNextJsImage(slide)) return undefined
+  if (!isNextJsImage(slide)) {
+    return undefined
+  }
 
   const width = !cover
     ? Math.round(
@@ -42,25 +50,19 @@ export default function CarouselNextJsImage({ slide, offset, rect }) {
     : rect.height
 
   return (
-    <div style={{ position: "relative", width, height }}>
-      <Image
-        fill
-        alt=""
-        loader={flathubImageLoader}
-        src={slide}
-        loading="eager"
-        draggable={false}
-        priority={offset === 0}
-        placeholder={slide.blurDataURL ? "blur" : undefined}
-        style={{
-          objectFit: cover ? "cover" : "contain",
-          cursor: click ? "pointer" : undefined,
-        }}
-        sizes={`${Math.ceil((width / window.innerWidth) * 100)}vw`}
-        onClick={
-          offset === 0 ? () => click?.({ index: currentIndex }) : undefined
-        }
-      />
-    </div>
+    <Imgproxy
+      pictureClassName="relative w-full h-full"
+      fill
+      alt=""
+      src={slide.src}
+      loading="eager"
+      draggable={false}
+      fetchPriority={offset === 0 ? "high" : "auto"}
+      className={clsx(cover && "object-cover", !cover && "object-contain")}
+      sizes={`${Math.ceil((width / window.innerWidth) * 100)}vw`}
+      onClick={
+        offset === 0 ? () => click?.({ index: currentIndex }) : undefined
+      }
+    />
   )
 }
