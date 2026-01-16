@@ -16,7 +16,7 @@ export const Default: Story = {
     appName: "Kodi",
     iconUrl:
       "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    size: "128",
+    size: 128,
   },
 }
 
@@ -25,7 +25,7 @@ export const Small: Story = {
     appName: "Kodi",
     iconUrl:
       "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    size: "24",
+    size: 24,
   },
 }
 
@@ -34,7 +34,7 @@ export const Medium: Story = {
     appName: "Kodi",
     iconUrl:
       "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    size: "64",
+    size: 64,
   },
 }
 
@@ -43,7 +43,7 @@ export const Large: Story = {
     appName: "Kodi",
     iconUrl:
       "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
-    size: "256",
+    size: 256,
   },
 }
 
@@ -51,7 +51,7 @@ export const Fallback: Story = {
   args: {
     appName: "Kodi",
     iconUrl: "",
-    size: "128",
+    size: 128,
   },
 }
 
@@ -59,6 +59,6 @@ export const ExternalUrl: Story = {
   args: {
     appName: "Kodi",
     iconUrl: "https://example.com/icon.png",
-    size: "128",
+    size: 128,
   },
 }

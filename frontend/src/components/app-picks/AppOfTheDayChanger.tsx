@@ -124,7 +124,7 @@ const ComboboxItem = ({
 }): ReactElement => {
   return (
     <div className="flex gap-2 items-center cursor-pointer">
-      <LogoImage iconUrl={item.icon} appName={item.name} size="24" />
+      <LogoImage iconUrl={item.icon} appName={item.name} size={24} />
       <div className="flex flex-col w-full pe-4">
         <span
           className={clsx(

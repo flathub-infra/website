@@ -84,7 +84,7 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
               "bg-flathub-white",
             )}
           >
-            <LogoImage iconUrl={app.icon} appName="" size="256" quality={100} />
+            <LogoImage iconUrl={app.icon} appName="" size={256} quality={100} />
             <div className="z-10 absolute">
               <IconGridOverlay />
             </div>
@@ -96,7 +96,7 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
               "bg-flathub-dark-gunmetal",
             )}
           >
-            <LogoImage iconUrl={app.icon} appName="" size="256" quality={100} />
+            <LogoImage iconUrl={app.icon} appName="" size={256} quality={100} />
             <div className="z-10 absolute">
               <IconGridOverlay />
             </div>
@@ -134,7 +134,12 @@ const BrandingPreview = ({
       >
         <div className="flex flex-col justify-center items-center h-auto w-full">
           <div className="relative flex shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
-            <LogoImage iconUrl={app.icon} appName={app.name} quality={100} />
+            <LogoImage
+              iconUrl={app.icon}
+              appName={app.name}
+              quality={100}
+              size={128}
+            />
           </div>
           <div className="flex pt-3">
             <span

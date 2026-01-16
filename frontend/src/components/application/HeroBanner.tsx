@@ -6,10 +6,9 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 import clsx from "clsx"
-import { pickScreenshotSize } from "src/types/Appstream"
+import { findBiggestScreenshotSize } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
-import Image from "next/image"
 
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
@@ -20,8 +19,8 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
 import { getLangDir } from "rtl-detect"
 import { useLocale } from "next-intl"
 import { Link } from "src/i18n/navigation"
-import flathubImageLoader from "src/image-loader"
 import { DesktopAppstream } from "src/codegen"
+import { Imgproxy } from "../ImgproxyImage"
 
 export const HeroBanner = ({
   heroBannerData,
@@ -155,6 +154,7 @@ export const HeroBanner = ({
                         appName={data.appstream.name}
                         loading="eager"
                         quality={100}
+                        size={128}
                         fetchPriority={
                           aboveTheFold && i === 0 ? "high" : "auto"
                         }
@@ -180,20 +180,21 @@ export const HeroBanner = ({
                       {data.appstream.summary}
                     </div>
                   </div>
-                  <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
-                    <Image
-                      src={pickScreenshotSize(data.appstream.screenshots?.[0])}
+                  {data.appstream.screenshots?.[0] && (
+                    <Imgproxy
+                      pictureClassName="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto"
+                      {...findBiggestScreenshotSize(
+                        data.appstream.screenshots[0],
+                      )}
                       alt={data.appstream.name}
-                      priority={aboveTheFold && i === 0}
                       loading="eager"
-                      loader={flathubImageLoader}
                       className={clsx(
                         "absolute rounded-lg",
                         data.app.isFullscreen ? "top-20" : "top-10 ",
                       )}
                       fetchPriority={aboveTheFold && i === 0 ? "high" : "auto"}
                     />
-                  </div>
+                  )}
                 </div>
               </Link>
             </CarouselItem>

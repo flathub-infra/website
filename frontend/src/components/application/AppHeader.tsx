@@ -120,6 +120,7 @@ export function AppHeader({
             appName={app.name}
             quality={100}
             priority
+            size={128}
           />
         </div>
       )}

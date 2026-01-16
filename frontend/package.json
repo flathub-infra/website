@@ -19,6 +19,7 @@
     "@date-fns/utc": "^2.1.1",
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
+    "@imgproxy/imgproxy-node": "^1.1.0",
     "@meilisearch/instant-meilisearch": "^0.29.0",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@platformatic/next": "^3.27.0",

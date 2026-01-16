@@ -126,7 +126,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
                   href={`/apps/${app.id}`}
                   className="no-underline hover:underline flex gap-3 items-center"
                 >
-                  <LogoImage iconUrl={app.icon} appName={app.name} size="64" />
+                  <LogoImage iconUrl={app.icon} appName={app.name} size={64} />
                   <h1 className="text-4xl font-extrabold">{app.name}</h1>
                 </Link>
                 <div className="*:py-3 divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
