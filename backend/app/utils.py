@@ -214,16 +214,27 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                             scale = image.attrib.get("scale")
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
+
+                        if image.text.startswith("http"):
+                            if image.text.startswith(
+                                "https://dl.flathub.org/repo/screenshots/"
+                            ):
+                                src = image.text.replace(
+                                    "https://dl.flathub.org/repo/screenshots/",
+                                    "https://dl.flathub.org/media/",
+                                    1,
+                                )
+                            else:
+                                src = image.text
+                        else:
+                            src = f"{media_base_url}/{image.text}"
+
                         attrs["sizes"].append(
                             {
                                 "width": width,
                                 "height": height,
                                 "scale": scale if scale is not None else "1x",
-                                "src": (
-                                    f"{media_base_url}/{image.text}"
-                                    if not image.text.startswith("http")
-                                    else image.text
-                                ),
+                                "src": src,
                             }
                         )
 
@@ -307,7 +318,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     if icon_type == "cached":
                         if "icon" not in app:
                             app["icon"] = (
-                                f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                                f"https://dl.flathub.org/media/icons/128x128/{icon.text}"
                             )
                         attrs = {}
                         for attr in icon.attrib:
@@ -315,7 +326,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         scaleSuffix = f"@{attrs['scale']}" if "scale" in attrs else ""
                         attrs.update(
                             {
-                                "url": f"https://dl.flathub.org/repo/appstream/x86_64/icons/{attrs['height']}x{attrs['width']}{scaleSuffix}/{icon.text}"
+                                "url": f"https://dl.flathub.org/media/icons/{attrs['height']}x{attrs['width']}{scaleSuffix}/{icon.text}"
                             }
                         )
                         iconListOldLocation.append(attrs)

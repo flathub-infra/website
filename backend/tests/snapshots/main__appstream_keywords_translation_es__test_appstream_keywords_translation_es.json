@@ -1,6 +1,6 @@
 {
   "id": "org.sugarlabs.Maze",
-  "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+  "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
   "name": "Laberinto",
   "type": "desktop-application",
   "urls": {
@@ -8,9 +8,7 @@
     "bugtracker": "https://github.com/sugarlabs/maze-activity"
   },
   "icons": [],
-  "kudos": [
-    "HiDpiIcon"
-  ],
+  "kudos": ["HiDpiIcon"],
   "bundle": {
     "sdk": "org.gnome.Sdk/x86_64/3.36",
     "type": "flatpak",
@@ -18,20 +16,14 @@
     "runtime": "org.gnome.Platform/x86_64/3.36"
   },
   "summary": "Un simple juego de laberintos",
-  "keywords": [
-    "laberinto",
-    "rompecabezas",
-    "juego"
-  ],
+  "keywords": ["laberinto", "rompecabezas", "juego"],
   "releases": [
     {
       "version": "30",
       "timestamp": "1582070400"
     }
   ],
-  "categories": [
-    "Game"
-  ],
+  "categories": ["Game"],
   "launchable": {
     "type": "desktop-id",
     "value": "org.sugarlabs.Maze.desktop"
@@ -47,25 +39,25 @@
           "height": "500"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
           "scale": "1x",
           "width": "624",
           "height": "351"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
           "scale": "1x",
           "width": "112",
           "height": "63"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
           "scale": "1x",
           "width": "224",
           "height": "126"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
           "scale": "1x",
           "width": "752",
           "height": "423"
@@ -82,25 +74,25 @@
           "height": "500"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
           "scale": "1x",
           "width": "624",
           "height": "351"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
           "scale": "1x",
           "width": "112",
           "height": "63"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
           "scale": "1x",
           "width": "224",
           "height": "126"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
           "scale": "1x",
           "width": "752",
           "height": "423"
@@ -118,25 +110,25 @@
           "height": "500"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
           "scale": "1x",
           "width": "624",
           "height": "351"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
           "scale": "1x",
           "width": "112",
           "height": "63"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
           "scale": "1x",
           "width": "224",
           "height": "126"
         },
         {
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
           "scale": "1x",
           "width": "752",
           "height": "423"

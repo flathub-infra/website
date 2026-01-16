@@ -2,11 +2,7 @@
   "hits": [
     {
       "name": "Laberinto",
-      "keywords": [
-        "laberinto",
-        "rompecabezas",
-        "juego"
-      ],
+      "keywords": ["laberinto", "rompecabezas", "juego"],
       "summary": "Un simple juego de laberintos",
       "description": "\u00bfEres bueno encontrando la salida de situaciones dif\u00edciles?",
       "id": "org_sugarlabs_Maze",
@@ -14,7 +10,7 @@
       "project_license": "GPL-3.0-or-later",
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
       "main_categories": "game",
       "sub_categories": [],
       "developer_name": "Sugar Labs Community",
@@ -27,9 +23,7 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": [
-        "x86_64"
-      ],
+      "arches": ["x86_64"],
       "added_at": 1610973680,
       "trending": 5.0,
       "installs_last_month": 509,
@@ -47,7 +41,7 @@
       "project_license": "LicenseRef-proprietary=http://wps-community.org/license.md",
       "is_free_license": false,
       "app_id": "com.wps.Office",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
+      "icon": "https://dl.flathub.org/media/icons/128x128/com.wps.Office.png",
       "main_categories": "office",
       "sub_categories": [],
       "developer_name": "Kingsoft Office Corporation",
@@ -60,9 +54,7 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973768,
-      "arches": [
-        "x86_64"
-      ],
+      "arches": ["x86_64"],
       "added_at": 1610973768,
       "trending": 15.150000000000034,
       "installs_last_month": 1151,
@@ -79,7 +71,7 @@
       "project_license": "LicenseRef-proprietary",
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "icon": "https://dl.flathub.org/media/icons/128x128/com.anydesk.Anydesk.png",
       "main_categories": "network",
       "sub_categories": [],
       "developer_name": "AnyDesk Software GmbH",
@@ -92,9 +84,7 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": [
-        "x86_64"
-      ],
+      "arches": ["x86_64"],
       "added_at": 1610973790,
       "trending": 13.650000000000034,
       "installs_last_month": 653,
