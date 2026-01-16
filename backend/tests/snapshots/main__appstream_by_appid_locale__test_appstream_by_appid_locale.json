@@ -15,25 +15,25 @@
           "width": "624",
           "height": "351",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
         },
         {
           "width": "112",
           "height": "63",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
         },
         {
           "width": "224",
           "height": "126",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
         },
         {
           "width": "752",
           "height": "423",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
         }
       ]
     },
@@ -51,25 +51,25 @@
           "width": "624",
           "height": "351",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         },
         {
           "width": "112",
           "height": "63",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         },
         {
           "width": "224",
           "height": "126",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         },
         {
           "width": "752",
           "height": "423",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         }
       ]
     },
@@ -85,25 +85,25 @@
           "width": "624",
           "height": "351",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
         },
         {
           "width": "112",
           "height": "63",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
         },
         {
           "width": "224",
           "height": "126",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
         },
         {
           "width": "752",
           "height": "423",
           "scale": "1x",
-          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+          "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
         }
       ]
     }
@@ -121,7 +121,7 @@
     "bugtracker": "https://github.com/sugarlabs/maze-activity",
     "homepage": "https://github.com/sugarlabs/maze-activity"
   },
-  "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+  "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
   "icons": [],
   "id": "org.sugarlabs.Maze",
   "translation": {
@@ -131,22 +131,14 @@
   "name": "Irrgarten",
   "summary": "Ein simples Irrgartenspiel",
   "developer_name": "Sugar Labs Community",
-  "categories": [
-    "Game"
-  ],
-  "kudos": [
-    "HiDpiIcon"
-  ],
+  "categories": ["Game"],
+  "kudos": ["HiDpiIcon"],
   "project_license": "GPL-3.0-or-later",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
     "type": "desktop-id"
   },
-  "keywords": [
-    "Labyrinth",
-    "R\u00e4tsel",
-    "Spiel"
-  ],
+  "keywords": ["Labyrinth", "R\u00e4tsel", "Spiel"],
   "bundle": {
     "value": "app/org.sugarlabs.Maze/x86_64/stable",
     "type": "flatpak",
