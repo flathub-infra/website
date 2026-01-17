@@ -6,8 +6,8 @@
       "text": "<text>Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </text> <code></code>"
     },
     "step-2": {
-      "name": "Nainstalujte zásuvný model pro Flatpak do GNOME Software",
-      "text": "<text>Plugin GNOME Softwaru umožňuje nainstalovat aplikace bez potřeby příkazového řádku. Pro instalaci spusťte:</text> <code></code> <text><strong>Poznámka:</strong> Ubuntu distribuuje GNOME Software jako Snap ve verzích 20.04 až 23.04 a nahradilo jej aplikací App Center ve verzi 23.10 a novější–ani jeden z nich nepodporuje instalaci aplikací Flatpak. Instalací doplňku Flatpak se nainstaluje také deb verze GNOME Software, což vede k tomu, že v Ubuntu 20.04 až 23.04 se nainstalují dvě aplikace „Software“ najednou a v Ubuntu 23.10 a novějším jedna nová aplikace „Software“.</text>"
+      "name": "Nainstalujte zásuvný modul pro Flatpak do GNOME Software",
+      "text": "<text>Zásuvný modul GNOME Softwaru umožňuje nainstalovat aplikace bez potřeby příkazového řádku. Pro instalaci spusťte:</text> <code></code> <text><strong>Poznámka:</strong> Ubuntu distribuuje GNOME Software jako Snap ve verzích 20.04 až 23.04 a nahradilo jej aplikací App Center ve verzi 23.10 a novější–ani jeden z nich nepodporuje instalaci aplikací Flatpak. Instalací doplňku Flatpak se nainstaluje také deb verze GNOME Software, což vede k tomu, že v Ubuntu 20.04 až 23.04 se nainstalují dvě aplikace „Software“ najednou a v Ubuntu 23.10 a novějším jedna nová aplikace „Software“.</text>"
     },
     "step-3": {
       "name": "Přidejte repozitář Flathub",

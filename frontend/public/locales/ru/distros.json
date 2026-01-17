@@ -237,10 +237,12 @@
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<header>Поддержка Flatpak встроена в OpenMandriva для всех активно поддерживаемых версий, начиная со стабильной версии \"Rock 5.0\", версии для разработчиков \"Cooker\" и заканчивая текущей версией \"ROME\".</header> <text>Flatpak поставляется с предварительно настроенным Flathub репозиторием.</text>"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<text>Поддержка Flatpak встроена в Pop!_O 20.04 и новее — настройки не требуется!</text>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
