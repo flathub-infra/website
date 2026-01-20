@@ -84,7 +84,7 @@ const Builds = ({ appId, repoFilter, expandedGroups, toggleGroup }) => {
   const query = useListPipelinesApiPipelinesGet({
     app_id: appId || undefined,
     target_repo: repoFilter === "all" ? undefined : repoFilter,
-    limit: 200,
+    limit: 100,
   })
 
   // Auto-refresh every 30 seconds
