@@ -117,6 +117,12 @@ const Builds = ({ appId, repoFilter, expandedGroups, toggleGroup }) => {
 
     // Distribute pipelines to groups
     filteredPipelines.forEach((pipeline) => {
+      // Test builds that are committed should be in completed, not awaiting-publishing
+      if (pipeline.status === "committed" && pipeline.repo === "test") {
+        groups.get("completed")?.push(pipeline)
+        return
+      }
+
       for (const [group, statuses] of Object.entries(STATUS_GROUPS)) {
         if ((statuses as PipelineStatus[]).includes(pipeline.status)) {
           groups.get(group as StatusGroup)?.push(pipeline)
