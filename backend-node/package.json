@@ -31,7 +31,7 @@
     "@types/react-dom": "^19",
     "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^9.39.2",
-    "prettier": "3.8.0",
+    "prettier": "3.8.1",
     "react-email": "5.2.5",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
