@@ -1,1 +1,20 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instal·lar Flatpak",
+      "text": "<text>Per instal·lar Flatpak a <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o posterior</strong>, obriu l’aplicació Terminal i executeu:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Instal·la el connector Flatpak del GNOME Software",
+      "text": "<text>El connector del GNOME Software permet instal·lar aplicacions sense necessitat d’utilitzar la línia d’ordres. Per instal·lar-lo, executeu:</text> <code></code> <text><strong>Nota:</strong> Ubuntu distribueix GNOME Software com a Snap a les versions 20.04 a 23.04, i l’ha substituït per l’App Center a partir de la versió 23.10; cap d’aquests permet instal·lar aplicacions Flatpak. En instal·lar el connector Flatpak també s’instal·larà una versió deb del GNOME Software, fet que comportarà que hi hagi dues aplicacions \"Programari\" instal·lades alhora a Ubuntu 20.04 a 23.04, i una única aplicació nova \"Programari\" a Ubuntu 23.10 i versions posteriors.</text>"
+    },
+    "step-3": {
+      "name": "Afegir el repositori Flathub",
+      "text": "<text>Flathub és el millor lloc per obtenir aplicacions Flatpak. Per activar-lo, executeu:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Reiniciar"
+    }
+  }
+}

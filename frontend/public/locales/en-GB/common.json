@@ -687,5 +687,19 @@
   "default-account-changed": "Default account changed successfully",
   "or-enter-custom-amount": "Or enter a custom amount",
   "payment-details": "Payment Details",
-  "special-code-description": "This app is developed under a special licence. The source code may or may not be public."
+  "special-code-description": "This app is developed under a special licence. The source code may or may not be public.",
+  "year-in-review-banner": {
+    "title": "Flathub {year} Year in Review",
+    "description": "Revisit the top apps and trends from the year"
+  },
+  "year-in-review": {
+    "title": "{year} Year in Review",
+    "description": "Celebrating a year of growth and innovation on Flathub",
+    "select-year": "Select Year",
+    "category-highlights": "Category Highlights",
+    "most-popular": "Most Popular",
+    "most-popular-description": "The app with the highest number of downloads this year",
+    "total-downloads": "Total Downloads",
+    "new-apps": "New Apps"
+  }
 }

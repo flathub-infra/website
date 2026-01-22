@@ -522,5 +522,6 @@
   "created": "Creat",
   "kind-purchase-app": "Compra {appName}",
   "kind-donate-app": "Dona a {appName}",
-  "millions-users": "<bold> Arribeu a milions d'usuaris </bold> Flathub ve instal·lada en múltiples distribucions Linux, en la resta és <installlink>fàcilment instal·lable</installlink>, i té més d'un milió d'usuaris actius"
+  "millions-users": "<bold> Arribeu a milions d'usuaris </bold> Flathub ve instal·lada en múltiples distribucions Linux, en la resta és <installlink>fàcilment instal·lable</installlink>, i té més d'un milió d'usuaris actius",
+  "slide": "Diapositiva"
 }
