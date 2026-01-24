@@ -300,22 +300,32 @@ export default {
   parameters: {
     nextIntl,
     mockingDate: new Date(2024, 0, 1),
+
     viewport: {
-      viewports: {
+      options: {
         small: { name: "Small", styles: { width: "640px", height: "800px" } },
         large: { name: "Large", styles: { width: "1024px", height: "1000px" } },
       },
     },
+
     backgrounds: {
-      values: [
-        { name: "light", value: "#fafafa" },
-        { name: "dark", value: "#251f32" },
-      ],
+      options: {
+        light: { name: "light", value: "#fafafa" },
+        dark: { name: "dark", value: "#251f32" },
+      },
     },
+
     chromatic: {
       modes: {
         dark: allModes["dark"],
       },
+    },
+
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: "todo",
     },
   },
   loaders: [mswLoader],
