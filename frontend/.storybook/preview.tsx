@@ -301,16 +301,16 @@ export default {
     nextIntl,
     mockingDate: new Date(2024, 0, 1),
     viewport: {
-      options: {
+      viewports: {
         small: { name: "Small", styles: { width: "640px", height: "800px" } },
         large: { name: "Large", styles: { width: "1024px", height: "1000px" } },
       },
     },
     backgrounds: {
-      options: {
-        light: { name: "light", value: "#fafafa" },
-        dark: { name: "dark", value: "#251f32" }
-      },
+      values: [
+        { name: "light", value: "#fafafa" },
+        { name: "dark", value: "#251f32" },
+      ],
     },
     chromatic: {
       modes: {
