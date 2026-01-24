@@ -30,7 +30,7 @@
     },
     "step-1": {
       "name": "Gallosegi Flatpak ow devnydhya an Dyghtyer Medhelweyth",
-      "text": "<text>Flatpak yw leys yn defowt war Manjaro 20 po ughella.</text> <text>Rag gallosegi skoodhyans, mos dhe an <strong>Dyghtyer Medhelweyth</strong> (Addya/Remova Towlennow)</text> <text>Klyckya war an rol trylinen [po dyjynnow ow kregi war an Kerghynnedh Desktop] a-dhyghow, yn an rol dewis \"Settyansow\"</text> <text>Mos dhe an tabb \"Flatpak\" ha slynkya an skwychell dhe Gallosegi Skoodhyans Flatpak (yma maga ta galladow dhe gallosegi checkyansow nowedhyans, may komendys.)</text>"
+      "text": "<text>Flatpak yw leys yn defowt war Manjaro 20 po ughella.</text> <text>Rag gallosegi skoodhyans, mos dhe an <strong>Dyghtyer Medhelweyth</strong> (Addya/Remova Towlennow)</text> <text>Klyckya war an rol trylinen [po dyjynnow ow kregi war an Kerghynnedh Desktop] a-dhyghow, y'n rol dewis \"Settyansow\"</text> <text>Mos dhe an tabb \"Flatpak\" ha slynkya an skwychell dhe Gallosegi Skoodhyans Flatpak (yma maga ta galladow dhe gallosegi checkyansow nowedhyans, may komendys.)</text>"
     }
   },
   "endless_os": {
@@ -56,7 +56,7 @@
     "distroName": "ChromeOS",
     "step-3": {
       "name": "Lea Flatpak",
-      "text": "<text>Rag lea Flatpak, eksekutya a sew yn an termynal:</text> <code></code>"
+      "text": "<text>Rag lea Flatpak, eksekutya a sew y'n termynal:</text> <code></code>"
     },
     "step-5": {
       "name": "Dastalleth",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Lea Flatpak",
-      "text": "<text>Flatpak yw kavadow yn an repositorys defowt a oll versyons mentenys openSSUE Leap hag openSUSE Tumbleweed.</text> <text>Mar ty preferya unn leyans grafek, ty gallos lea Flatpak ow devnydhya unn \"leyer 1-klyck\" a <link>software.opensuse.org</link>. Mar dha versyon lesrannans na diskwedhys yn defowt, klyckya <em>DIskwedhes</em> yn klass Lesranansow anskoodhys hag ena dewis dhyworth an rol.</text> <text>Yn tereylys, lea Flatpak a an linen arghadow ow devnydhya Zypper:</text> <code></code>"
+      "text": "<text>Flatpak yw kavadow y'n repositorys defowt a oll versyons mentenys openSSUE Leap hag openSUSE Tumbleweed.</text> <text>Mar ty preferya unn leyans grafek, ty gallos lea Flatpak ow devnydhya unn \"leyer 1-klyck\" a <link>software.opensuse.org</link>. Mar dha versyon lesrannans na diskwedhys yn defowt, klyckya <em>DIskwedhes</em> yn klass Lesranansow anskoodhys hag ena dewis dhyworth an rol.</text> <text>Yn tereylys, lea Flatpak a an linen arghadow ow devnydhya Zypper:</text> <code></code>"
     },
     "step-3": {
       "name": "Dastalleth",
