@@ -1,6 +1,6 @@
+import { userEvent, within } from "storybook/test"
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import InstallButton from "./InstallButton"
-import { userEvent, within } from "storybook/internal/test"
 
 const meta = {
   title: "Components/InstallButton",
