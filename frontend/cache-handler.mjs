@@ -5,6 +5,8 @@ let sharedHandler = null
 function getHandler() {
   if (!sharedHandler) {
     sharedHandler = new RedisStringsHandler({
+      database: 0,
+      keyPrefix: 'nextjs_',
       // L1 in-memory cache: 10 seconds (reduces Redis calls)
       inMemoryCachingTime: 10000,
       // Dedup identical Redis calls within same request
