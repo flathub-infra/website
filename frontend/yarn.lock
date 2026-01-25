@@ -1221,24 +1221,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortedigital/nextjs-cache-handler@npm:2.3.1":
-  version: 2.3.1
-  resolution: "@fortedigital/nextjs-cache-handler@npm:2.3.1"
-  dependencies:
-    "@rollup/rollup-linux-x64-gnu": "npm:^4.53.3"
-    cluster-key-slot: "npm:1.1.2"
-    lru-cache: "npm:11.2.2"
-    p-limit: "npm:^7.2.0"
-  peerDependencies:
-    "@redis/client": ">= 5.5.6"
-    next: ">=15.2.4"
-  dependenciesMeta:
-    "@rollup/rollup-linux-x64-gnu":
-      optional: true
-  checksum: 10c0/b662025adc72288f25bbb36aaee904426f4592a752b9d64df92fd0c8642f8f2f5508fdbb6c10f47f8cdf35766e0ad86668656f767d180e9f8e3d3080f2565e0b
-  languageName: node
-  linkType: hard
-
 "@gerrit0/mini-shiki@npm:^3.17.0":
   version: 3.20.0
   resolution: "@gerrit0/mini-shiki@npm:3.20.0"
@@ -4537,13 +4519,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-gnu@npm:^4.53.3":
-  version: 4.53.3
-  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.53.3"
-  conditions: os=linux & cpu=x64 & libc=glibc
-  languageName: node
-  linkType: hard
-
 "@rollup/rollup-linux-x64-musl@npm:4.50.0":
   version: 4.50.0
   resolution: "@rollup/rollup-linux-x64-musl@npm:4.50.0"
@@ -5771,6 +5746,16 @@ __metadata:
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
   checksum: 10c0/75fea130a52bf320d35d46ed54f3eec77e71a56911b8b69a3fe29497b0b9947b2dc80d30f04054ad4ce7f577856ae3e5397ea7dff0ef14944d3909784c7a93fe
+  languageName: node
+  linkType: hard
+
+"@trieb.work/nextjs-turbo-redis-cache@npm:^1.10.3":
+  version: 1.10.3
+  resolution: "@trieb.work/nextjs-turbo-redis-cache@npm:1.10.3"
+  peerDependencies:
+    next: ">=15.0.3 <= 16.1.1"
+    redis: 4.7.0
+  checksum: 10c0/58f8071c36628737b07a2081ee42e368d61b0078b83e7746141aa755db3447db34dfd7c85bc83414318d17046a6f070ea4bbb5ebe9a773527a3f781c524e22c8
   languageName: node
   linkType: hard
 
@@ -9415,7 +9400,6 @@ __metadata:
     "@date-fns/utc": "npm:^2.1.1"
     "@eslint/js": "npm:^9.39.2"
     "@faker-js/faker": "npm:^10.0.0"
-    "@fortedigital/nextjs-cache-handler": "npm:2.3.1"
     "@headlessui/react": "npm:^2.2.9"
     "@heroicons/react": "npm:^2.2.0"
     "@imgproxy/imgproxy-node": "npm:^1.1.0"
@@ -9448,6 +9432,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.90.2"
     "@tanstack/react-query-devtools": "npm:^5.90.2"
     "@tanstack/react-table": "npm:^8.21.3"
+    "@trieb.work/nextjs-turbo-redis-cache": "npm:^1.10.3"
     "@types/node": "npm:^24.6.2"
     "@types/qs": "npm:^6"
     "@types/react": "npm:19.1.12"
@@ -11245,13 +11230,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:11.2.2":
-  version: 11.2.2
-  resolution: "lru-cache@npm:11.2.2"
-  checksum: 10c0/72d7831bbebc85e2bdefe01047ee5584db69d641c48d7a509e86f66f6ee111b30af7ec3bd68a967d47b69a4b1fa8bbf3872630bd06a63b6735e6f0a5f1c8e83d
-  languageName: node
-  linkType: hard
-
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
@@ -12288,15 +12266,6 @@ __metadata:
   dependencies:
     yocto-queue: "npm:^1.0.0"
   checksum: 10c0/a56af34a77f8df2ff61ddfb29431044557fcbcb7642d5a3233143ebba805fc7306ac1d448de724352861cb99de934bc9ab74f0d16fe6a5460bdbdf938de875ad
-  languageName: node
-  linkType: hard
-
-"p-limit@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "p-limit@npm:7.2.0"
-  dependencies:
-    yocto-queue: "npm:^1.2.1"
-  checksum: 10c0/18e5ea305c31fdc0cf5260da7b63adfd46748cd72d4b40a31a13bd23eeece729c9308047fb5d848d7fa006d1b2fc2f36bb0d9dd173a300c38cd6dc1ed3355382
   languageName: node
   linkType: hard
 
@@ -15748,7 +15717,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yocto-queue@npm:^1.0.0, yocto-queue@npm:^1.2.1":
+"yocto-queue@npm:^1.0.0":
   version: 1.2.2
   resolution: "yocto-queue@npm:1.2.2"
   checksum: 10c0/36d4793e9cf7060f9da543baf67c55e354f4862c8d3d34de1a1b1d7c382d44171315cc54abf84d8900b8113d742b830108a1434f4898fb244f9b7e8426d4b8f5
