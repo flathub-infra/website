@@ -277,7 +277,7 @@ local function async_refresh(uri, args)
     httpc:set_timeout(10000)
 
     local query_string = ngx.encode_args(args)
-    local full_uri = "http://backend.flathub.svc.cluster.local:8000" .. uri
+    local full_uri = "http://127.0.0.1:8000" .. uri
     if query_string and query_string ~= "" then
         full_uri = full_uri .. "?" .. query_string
     end
