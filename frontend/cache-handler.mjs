@@ -1,8 +1,10 @@
 import { RedisStringsHandler } from "@trieb.work/nextjs-turbo-redis-cache"
 
-class CacheHandler {
-  constructor() {
-    this.handler = new RedisStringsHandler({
+let sharedHandler = null
+
+function getHandler() {
+  if (!sharedHandler) {
+    sharedHandler = new RedisStringsHandler({
       // L1 in-memory cache: 10 seconds (reduces Redis calls)
       inMemoryCachingTime: 10000,
       // Dedup identical Redis calls within same request
@@ -12,6 +14,13 @@ class CacheHandler {
       // Timeout for Redis operations
       getTimeoutMs: 500,
     })
+  }
+  return sharedHandler
+}
+
+class CacheHandler {
+  constructor() {
+    this.handler = getHandler()
   }
 
   async get(...args) {
