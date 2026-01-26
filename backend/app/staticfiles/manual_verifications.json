@@ -1,4 +1,5 @@
 {
 	"org.flathub.invalid.test": "flathub.org",
-	"de.desy.constellation": "resource.desy.de"
+	"de.desy.constellation": "resource.desy.de",
+	"edu.stanford.protege": "protege.stanford.edu"
 }
