@@ -96,3 +96,20 @@ export function mapScreenshot(screenshot: Screenshot) {
     srcSet: screenshotVariant,
   }
 }
+
+export function findBiggestIcon(
+  icons: GetAppstreamAppstreamAppIdGet200["icons"],
+): string | undefined {
+  if (!icons || icons.length === 0) {
+    return undefined
+  }
+
+  const orderedBySize = icons.sort((a, b) => {
+    if (a.height !== b.height) {
+      return a.height - b.height
+    }
+    return a.scale - b.scale
+  })
+
+  return orderedBySize[orderedBySize.length - 1].url
+}
