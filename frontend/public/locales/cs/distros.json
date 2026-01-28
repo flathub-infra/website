@@ -276,7 +276,7 @@
   "nixos": {
     "step-1": {
       "name": "Nainstalujte Flatpak",
-      "text": "<text>Pro instalaci Flatpaku, nastavte NixOS možnost <strong>services.flatpak.enable</strong> na <strong>true</strong> tak, že vložíte následující do <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Následně spusťte rebuild a přepněte na novou konfiguraci pomocí:</text> <codeRebuild></codeRebuild> <text>Pro více informací se podívejte na <doclink>dokumentaci NixOS</doclink>.</text>"
+      "text": "<text>Chcete-li nainstalovat Flatpak, nastavte možnost NixOS <strong>services. flatpak.enable</strong> nastavte na <strong>true</strong> vložením následujícího textu do souboru <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Poté proveďte přestavbu a přepněte na novou konfiguraci pomocí:</text> <codeRebuild></codeRebuild> <text>Další podrobnosti najdete v <doclink>dokumentaci NixOS</doclink>.</text>"
     },
     "step-2": {
       "name": "Přidejte repozitář Flathub",
@@ -393,8 +393,8 @@
       "text": "<text>Pro dokončení nastavení restartujte váš systém. Teď už stačí jen <link>nainstalovat aplikace</link>!</text>"
     },
     "step-1": {
-      "name": "Povolte Flatpak skrze Manažer softwaru",
-      "text": "<text>Podpora Flatpaku je již zabudovaná v MX 18 a novějším. Je vyžadována pouze aktivace repozitáře Flathub pomocí těchto instrukcí:</text> <text>Otevřete <strong>Instalátor balíčků MX</strong> (otevřete menu a podívejte se do nástrojů MX), vyberte kartu \"Flatpaks\", pro aktivaci repozitáře budete potřebovat heslo root.</text>"
+      "name": "Povolte Flatpak v Centru softwaru",
+      "text": "<text>Podpora Flatpak je integrována od verze MX 18 a novějších. Je pouze nutné aktivovat repozitář Flathub podle těchto pokynů:</text> <text>Otevřete <strong>MX Package Installer</strong> (otevřete nabídku a podívejte se do MX Tools), vyberte kartu „Flatpaks“ a pro aktivaci repozitáře budete muset zadat heslo root.</text>"
     },
     "distroName": "MX Linux"
   },
