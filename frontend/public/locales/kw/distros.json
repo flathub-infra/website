@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak yw leys yn defowt war Fedora Workstation, Fedora Silverblue, ha Fedora Kinoite. Rag dalleth, gallosegi yn sempel Flathub, le mayth an agwedh gwella dhe kavos appys Flatpak. Flathub yw ragselys avel rann an <repolink>Repositorys Parti Nessa</repolink>. Yn tereylys, ty gallos iskarga ha lea an restren <filelink>repositori Flathub</filelink>.</text><text>Lemmyn, <applink>lea appys</applink>!</text><text>An gorgevren a-ugh kodh oberi yn ewn war an leyansow defowt GNOME ha KDE, mes mars i fyllel neb acheson ty allos addya dre dhorn an repositori Flathub gans owth eksekutya:</text> <code></code>"
+    "introduction": "<text>Flatpak yw leys yn defowt war Fedora Workstation, Fedora Silverblue, ha Fedora Kinoite. Rag dalleth, gallosegi yn sempel Flathub, le mayth an agwedh gwella dhe kavos appys Flatpak. Flathub yw ragselys avel rann an <repolink>Repositorys Parti Nessa</repolink>. Yn tereylys, ty gallos iskarga ha lea an restren <filelink>repositori Flathub</filelink>.</text><text>Lemmyn, <applink>lea appys</applink>!</text><text>An gorgevren a-ugh kodh oberi yn ewn war'n leyansow defowt GNOME ha KDE, mes mars i fyllel neb acheson ty allos addya dre dhorn an repositori Flathub gans owth eksekutya:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -30,7 +30,7 @@
     },
     "step-1": {
       "name": "Gallosegi Flatpak ow devnydhya an Dyghtyer Medhelweyth",
-      "text": "<text>Flatpak yw leys yn defowt war Manjaro 20 po ughella.</text> <text>Rag gallosegi skoodhyans, mos dhe an <strong>Dyghtyer Medhelweyth</strong> (Addya/Remova Towlennow)</text> <text>Klyckya war an rol trylinen [po dyjynnow ow kregi war an Kerghynnedh Desktop] a-dhyghow, y'n rol dewis \"Settyansow\"</text> <text>Mos dhe an tabb \"Flatpak\" ha slynkya an skwychell dhe Gallosegi Skoodhyans Flatpak (yma maga ta galladow dhe gallosegi checkyansow nowedhyans, may komendys.)</text>"
+      "text": "<text>Flatpak yw leys yn defowt war Manjaro 20 po ughella.</text> <text>Rag gallosegi skoodhyans, mos dhe'n <strong>Dyghtyer Medhelweyth</strong> (Addya/Remova Towlennow)</text> <text>Klyckya war'n rol trylinen [po dyjynnow ow kregi war'n Kerghynnedh Desktop] a-dhyghow, y'n rol dewis \"Settyansow\"</text> <text>Mos dhe'n tabb \"Flatpak\" ha slynkya an skwychell dhe Gallosegi Skoodhyans Flatpak (yma maga ta galladow dhe gallosegi checkyansow nowedhyans, may komendys.)</text>"
     }
   },
   "endless_os": {
@@ -41,7 +41,7 @@
     "distroName": "ALT Linux",
     "step-1": {
       "name": "Lea Flatpak",
-      "text": "<text>Rag lea Flatpak war systemow a an teylu Alt, ygeri an app Termynal hag eksekutya:</text><code></code>"
+      "text": "<text>Rag lea Flatpak war systemow a'n teylu Alt, ygeri an app Termynal hag eksekutya:</text><code></code>"
     },
     "step-3": {
       "name": "Dastalleth",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak yw leys yn defowt war Red Hat Enterprise Linux Workstation 9 ha diwettha. Rag dalleth, gallosegi yn sempel Flatpak, le may an agwedh gwella dhe kavos appys Flatpak. Yn sempel, iskarga ha lea an <filelink>restren repositori Flathub</filelink>.</text> <text>Rag lea Flatpak war Red Hat Enterprise Linux Workstation 8 po henavek, eksekutya anarghadow a sew yn unn termynal:</text>  <code></code> <text>Lemmyn, <link>lea appys</link>!</text> <text>An gorgevrennow a-ugh kodh oberi yn ewn war an leys defowt Red Hat Enterprise Linux Workstation 9, mes mars i fyllel neb acheson ty gallos addya dre dhorn an repositori Flathub gans owth eksekutya:</text> <codeAddRemote></codeAddRemote>"
+    "introduction": "<text>Flatpak yw leys yn defowt war Red Hat Enterprise Linux Workstation 9 ha diwettha. Rag dalleth, gallosegi yn sempel Flatpak, le may an agwedh gwella dhe kavos appys Flatpak. Yn sempel, iskarga ha lea an <filelink>restren repositori Flathub</filelink>.</text> <text>Rag lea Flatpak war Red Hat Enterprise Linux Workstation 8 po henavek, eksekutya anarghadow a sew yn unn termynal:</text>  <code></code> <text>Lemmyn, <link>lea appys</link>!</text> <text>An gorgevrennow a-ugh kodh oberi yn ewn war'n leys defowt Red Hat Enterprise Linux Workstation 9, mes mars i fyllel neb acheson ty gallos addya dre dhorn an repositori Flathub gans owth eksekutya:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -88,7 +88,7 @@
     "distroName": "openSUSE",
     "step-1": {
       "name": "Lea Flatpak",
-      "text": "<text>Flatpak yw kavadow y'n repositorys defowt a oll versyons mentenys openSSUE Leap hag openSUSE Tumbleweed.</text> <text>Mar ty preferya unn leyans grafek, ty gallos lea Flatpak ow devnydhya unn \"leyer 1-klyck\" a <link>software.opensuse.org</link>. Mar dha versyon lesrannans na diskwedhys yn defowt, klyckya <em>DIskwedhes</em> yn klass Lesranansow anskoodhys hag ena dewis dhyworth an rol.</text> <text>Yn tereylys, lea Flatpak a an linen arghadow ow devnydhya Zypper:</text> <code></code>"
+      "text": "<text>Flatpak yw kavadow y'n repositorys defowt a oll versyons mentenys openSSUE Leap hag openSUSE Tumbleweed.</text> <text>Mar ty preferya unn leyans grafek, ty gallos lea Flatpak ow devnydhya unn \"leyer 1-klyck\" a <link>software.opensuse.org</link>. Mar dha versyon lesrannans na diskwedhys yn defowt, klyckya <em>DIskwedhes</em> yn klass Lesranansow anskoodhys hag ena dewis dhyworth an rol.</text> <text>Yn tereylys, lea Flatpak dhyworth an linen arghadow ow devnydhya Zypper:</text> <code></code>"
     },
     "step-3": {
       "name": "Dastalleth",
@@ -206,7 +206,7 @@
     "distroName": "Alpine",
     "step-1": {
       "name": "Lea Flatpak",
-      "text": "<text>Flatpak gallos bos leys a an repositori kemeneth. Eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
+      "text": "<text>Flatpak gallos bos leys a'n repositori kemeneth. Eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
     },
     "step-2": {
       "name": "Lea an ystynnans Medhelweyth Flatpak",
@@ -248,7 +248,7 @@
     "distroName": "elementary OS",
     "step-1": {
       "name": "Lea Appys",
-      "text": "<text>elementary OS 5.1 ha diwettha kavos skoodhyans Flatpak yn awtomatek. Rag appys andyghtys, mos dhe <link>Flathub</link> rag lea neb app ow devnydhya an boton bras \"Lea\", hag ygeri an restren iskargys `.flatpakref` ow devnydhya Sideload.</text> <text>Notya: Wosa ow lea unn app gans unn repositori avel Flathub, oll appys ken a an repositori na a wra diskwedhes yn awtomatek yn AppCenter.</text>"
+      "text": "<text>elementary OS 5.1 ha diwettha kavos skoodhyans Flatpak yn awtomatek. Rag appys andyghtys, mos dhe <link>Flathub</link> rag lea neb app ow devnydhya an boton bras \"Lea\", hag ygeri an restren iskargys `.flatpakref` ow devnydhya Sideload.</text> <text>Notya: Wosa ow lea unn app gans unn repositori avel Flathub, oll appys ken a'n repositori na a wra diskwedhes yn awtomatek yn AppCenter.</text>"
     }
   },
   "raspberry_pi_os": {
@@ -285,7 +285,7 @@
     "distroName": "NixOS",
     "step-1": {
       "name": "Lea Flatpak",
-      "text": "<text>Rag lea Flatpak, gorra dewis NixOS <strong>services.flatpak.enable</strong> dhe <strong>true</strong> gans ow gorra a sew yn dha <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Dhanna, dasbyldya ha skwychella dhe an selyans nowydh gans:</text> <codeRebuild></codeRebuild> <text>Rag moy manylyon redya an <doclink>kowethlyver NixOS</doclink>.</text>"
+      "text": "<text>Rag lea Flatpak, gorra dewis NixOS <strong>services.flatpak.enable</strong> dhe <strong>true</strong> gans ow gorra a sew yn dha <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Dhanna, dasbyldya ha skwychella dhe'n selyans nowydh gans:</text> <codeRebuild></codeRebuild> <text>Rag moy manylyon redya an <doclink>kowethlyver NixOS</doclink>.</text>"
     },
     "step-2": {
       "name": "Addya an repositori Flathub",
