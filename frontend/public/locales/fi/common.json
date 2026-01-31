@@ -311,7 +311,7 @@
   "community-repository": "Yhteisön tietovarasto",
   "malformed-app-id": "Sovellus-ID on muodostettu väärin. Sovellus-ID:n tulee sisältää kolme osaa, eikä yksikään osa voi olla tyhjä. Jokaisen osan tulee alkaa kirjaimella tai alaviivalla, ja osa voi sisältää vain kirjaimia, numeroita, alaviivoja ja tavuviivoja.",
   "new-app": "Uusi sovellus",
-  "community-repository-description": "Lähetä sovellus Flathubiin lähettämällä Flatpak-seloste ja sitä tukevat tiedostot GitHub-organisaatiosi tietovarastoon. Flathubin koostamisbotti koostaa sovelluksen ja julkaisee sen Flathubiin.",
+  "community-repository-description": "Lähetä sovellus Flathubiin lähettämällä Flatpak-seloste ja sitä tukevat tiedostot GitHub-organisaatiomme tietovarastoon. Flathubin koostamispalvelu koostaa sovelluksen ja julkaisee sen Flathubiin.",
   "new-community-repository": "Uusi yhteisön tietovaraston sovellus",
   "direct-upload": "Suora lähetys",
   "direct-upload-description": "Koosta sovelluksesi omassa jatkuvan integraation ympäristössä ja lähetä valmis sovellus Flathubiin.",
