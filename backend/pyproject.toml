@@ -33,6 +33,7 @@ dependencies = [
     "httpx<1.0.0,>=0.28.1",
     "apscheduler==3.11.2",
     "granian[reload,uvloop]>=2.6.0",
+    "memray>=1.19.1",
 ]
 
 [dependency-groups]

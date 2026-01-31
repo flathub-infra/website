@@ -13,7 +13,15 @@ if settings.sentry_dsn:
         integrations=[DramatiqIntegration()],
     )
 
+import os
+
 broker = dramatiq.brokers.redis.RedisBroker(
     host=settings.redis_host, port=settings.redis_port, db=1
 )
+
+if os.getenv("MEMRAY_PROFILING", "").lower() == "true":
+    from .profiling import MemrayMiddleware
+
+    broker.add_middleware(MemrayMiddleware())
+
 dramatiq.set_broker(broker)
