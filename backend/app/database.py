@@ -5,7 +5,6 @@ import orjson
 import redis.asyncio as aioredis
 from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.pool import NullPool
 
 from . import config, models
 from .db_session import DBSession
@@ -34,7 +33,10 @@ async def close_redis():
 
 writer_engine = create_engine(
     config.settings.database_url,
-    poolclass=NullPool,
+    pool_size=4,
+    max_overflow=0,
+    pool_pre_ping=True,
+    pool_recycle=300,
     connect_args={
         "connect_timeout": 10,
         "options": "-c statement_timeout=30000",
@@ -43,7 +45,10 @@ writer_engine = create_engine(
 
 replica_engine = create_engine(
     config.settings.database_replica_url,
-    poolclass=NullPool,
+    pool_size=4,
+    max_overflow=0,
+    pool_pre_ping=True,
+    pool_recycle=300,
     connect_args={
         "connect_timeout": 10,
         "options": "-c statement_timeout=30000",

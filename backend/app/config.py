@@ -11,8 +11,8 @@ class Settings(BaseSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
     redis_db: int = 0
-    database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
-    database_replica_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
+    database_url: str = "postgresql+psycopg://postgres:postgres@db:5432"
+    database_replica_url: str = "postgresql+psycopg://postgres:postgres@db:5432"
     meilisearch_url: str = "http://meilisearch:7700"
     meilisearch_key: str | None = None
     sentry_dsn: str | None = None
