@@ -53,4 +53,4 @@ COPY --from=builder --chown=nextjs:nextjs /app/src/data ./src/data
 RUN chown -R 1001:0 /app/.next && chgrp -R 0 /app && chmod -R g=u /app
 
 USER nextjs
-CMD ["sh", "-c", "LD_PRELOAD=/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/libjemalloc.so.2 exec node server.js"]
+CMD ["node", "server.js"]
