@@ -37,6 +37,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 EXPOSE 3000
 
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends libjemalloc2 && \
+  rm -rf /var/lib/apt/lists/*
+
 RUN addgroup --system --gid 1001 nextjs && \
   adduser --system --uid 1001 nextjs
 
@@ -49,4 +53,4 @@ COPY --from=builder --chown=nextjs:nextjs /app/src/data ./src/data
 RUN chown -R 1001:0 /app/.next && chgrp -R 0 /app && chmod -R g=u /app
 
 USER nextjs
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "LD_PRELOAD=/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/libjemalloc.so.2 exec node server.js"]
