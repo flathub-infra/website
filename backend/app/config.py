@@ -81,5 +81,7 @@ class Settings(BaseSettings):
 
     backend_node_url: str | None = None
 
+    force_recompute_stats: bool = False
+
 
 settings = Settings()
