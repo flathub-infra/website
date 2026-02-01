@@ -219,34 +219,6 @@ def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
     return totals
 
 
-def _get_app_stats_per_country() -> dict[str, dict[str, int]]:
-    # Skip last two days as flathub-stats publishes partial statistics
-    edate = datetime.date.today() - datetime.timedelta(days=2)
-    sdate = FIRST_STATS_DATE
-
-    app_stats_per_country: dict[str, dict[str, int]] = {}
-
-    for i in range((edate - sdate).days + 1):
-        date = sdate + datetime.timedelta(days=i)
-        stats = _get_stats_for_date(date)
-
-        if (
-            stats is not None
-            and "ref_by_country" in stats
-            and stats["ref_by_country"] is not None
-        ):
-            for app_id, app_stats in stats["ref_by_country"].items():
-                if app_id not in app_stats_per_country:
-                    app_stats_per_country[app_id] = {}
-                for country, downloads in app_stats.items():
-                    if country not in app_stats_per_country[app_id]:
-                        app_stats_per_country[app_id][country] = 0
-                    app_stats_per_country[app_id][country] += (
-                        downloads[0] - downloads[1]
-                    )
-    return app_stats_per_country
-
-
 def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     # Skip last two days as flathub-stats publishes partial statistics
     redis_key = "app_stats_per_day"
@@ -292,61 +264,6 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     redis_conn.set(redis_key, orjson.dumps(app_stats_per_day), ex=86400)
 
     return app_stats_per_day
-
-
-def _get_stats(app_count: int):
-    edate = datetime.date.today()
-    sdate = FIRST_STATS_DATE
-
-    downloads_per_day: dict[str, int] = {}
-    delta_downloads_per_day: dict[str, int] = {}
-    updates_per_day: dict[str, int] = {}
-    totals_country: dict[str, int] = {}
-    for i in range((edate - sdate).days + 1):
-        date = sdate + datetime.timedelta(days=i)
-        stats = _get_stats_for_date(date)
-
-        if (
-            stats is not None
-            and "downloads" in stats
-            and stats["downloads"] is not None
-        ):
-            downloads_per_day[date.isoformat()] = stats["downloads"]
-
-        if stats is not None and "updates" in stats and stats["updates"] is not None:
-            updates_per_day[date.isoformat()] = stats["updates"]
-
-        if (
-            stats is not None
-            and "delta_downloads" in stats
-            and stats["delta_downloads"] is not None
-        ):
-            delta_downloads_per_day[date.isoformat()] = stats["delta_downloads"]
-
-        if (
-            stats is not None
-            and "countries" in stats
-            and stats["countries"] is not None
-        ):
-            for country, downloads in stats["countries"].items():
-                if country not in totals_country:
-                    totals_country[country] = 0
-                totals_country[country] = totals_country[country] + downloads
-
-    category_totals = get_category_totals()
-
-    return {
-        "totals": {
-            "downloads": sum(downloads_per_day.values()),
-            "number_of_apps": app_count,
-            "verified_apps": search.get_number_of_verified_apps(),
-        },
-        "countries": totals_country,
-        "downloads_per_day": downloads_per_day,
-        "updates_per_day": updates_per_day,
-        "delta_downloads_per_day": delta_downloads_per_day,
-        "category_totals": category_totals,
-    }
 
 
 def get_category_totals():
@@ -443,6 +360,17 @@ def get_popular(days: int | None):
     popular = [k for k, v in sorted_apps]
     redis_conn.set(redis_key, orjson.dumps(popular), ex=60 * 60)
     return popular
+
+
+def _calculate_quality_passed_ratio(app_quality_status) -> float:
+    if app_quality_status is None:
+        return 0.0
+    total = (
+        app_quality_status.passed
+        + app_quality_status.not_passed
+        + app_quality_status.unrated
+    )
+    return app_quality_status.passed / total if total > 0 else 0.0
 
 
 def _calculate_trending_score(
@@ -666,21 +594,7 @@ def update(sqldb):
 
             is_new_app = len(agg["per_day"][app_id]) <= 14
 
-            app_quality_status = quality_status_batch.get(app_id)
-            if app_quality_status is None:
-                quality_passed_ratio = 0.0
-            else:
-                total_quality_checks = (
-                    app_quality_status.passed
-                    + app_quality_status.not_passed
-                    + app_quality_status.unrated
-                )
-
-                quality_passed_ratio = (
-                    app_quality_status.passed / total_quality_checks
-                    if total_quality_checks > 0
-                    else 0.0
-                )
+            quality_passed_ratio = _calculate_quality_passed_ratio(quality_status_batch.get(app_id))
 
             is_eol = eol_status_batch.get(app_id, False)
 
