@@ -157,6 +157,28 @@ def _init_empty_aggregates() -> dict:
     }
 
 
+def _update_global_stats_for_date(
+    date: datetime.date, stats: dict | None, global_dict: dict
+) -> None:
+    """Update global stats dict with data from a single date."""
+    if stats is None:
+        return
+
+    date_str = date.isoformat()
+
+    if stats.get("downloads") is not None:
+        global_dict["downloads_per_day"][date_str] = stats["downloads"]
+    if stats.get("updates") is not None:
+        global_dict["updates_per_day"][date_str] = stats["updates"]
+    if stats.get("delta_downloads") is not None:
+        global_dict["delta_downloads_per_day"][date_str] = stats["delta_downloads"]
+    if stats.get("countries"):
+        for country, downloads in stats["countries"].items():
+            global_dict["totals_country"][country] = (
+                global_dict["totals_country"].get(country, 0) + downloads
+            )
+
+
 def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> None:
     if stats is None:
         return
@@ -184,17 +206,7 @@ def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> 
                     country_for_app.get(country, 0) + downloads[0] - downloads[1]
                 )
 
-    if stats.get("downloads"):
-        agg["global"]["downloads_per_day"][date_str] = stats["downloads"]
-    if stats.get("updates"):
-        agg["global"]["updates_per_day"][date_str] = stats["updates"]
-    if stats.get("delta_downloads"):
-        agg["global"]["delta_downloads_per_day"][date_str] = stats["delta_downloads"]
-    if stats.get("countries"):
-        for country, downloads in stats["countries"].items():
-            agg["global"]["totals_country"][country] = (
-                agg["global"]["totals_country"].get(country, 0) + downloads
-            )
+    _update_global_stats_for_date(date, stats, agg["global"])
 
 
 def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
@@ -580,37 +592,41 @@ def update(sqldb):
 
     trending_apps: list = []
     for app_id in agg["per_day"]:
-        if app_id in frontend_app_ids:
-            stats_dict_for_app = agg["per_day"][app_id]
-            sorted_stats = dict(sorted(stats_dict_for_app.items()))
-            installs = list(sorted_stats.values())
+        if app_id not in frontend_app_ids:
+            continue
 
-            max_history_length = 21
-            if len(installs) > 1:
-                install_history_length = min(len(installs), max_history_length + 1)
-                installs_over_days = installs[-install_history_length:-1]
-            else:
-                installs_over_days = []
+        stats_dict_for_app = agg["per_day"][app_id]
+        sorted_stats = dict(sorted(stats_dict_for_app.items()))
+        installs = list(sorted_stats.values())
 
-            is_new_app = len(agg["per_day"][app_id]) <= 14
+        max_history_length = 21
+        if len(installs) > 1:
+            install_history_length = min(len(installs), max_history_length + 1)
+            installs_over_days = installs[-install_history_length:-1]
+        else:
+            installs_over_days = []
 
-            quality_passed_ratio = _calculate_quality_passed_ratio(quality_status_batch.get(app_id))
+        is_new_app = len(agg["per_day"][app_id]) <= 14
 
-            is_eol = eol_status_batch.get(app_id, False)
+        quality_passed_ratio = _calculate_quality_passed_ratio(
+            quality_status_batch.get(app_id)
+        )
 
-            trending_score = _calculate_trending_score(
-                installs_over_days=installs_over_days,
-                quality_passed_ratio=quality_passed_ratio,
-                is_eol=is_eol,
-                is_new_app=is_new_app,
-            )
+        is_eol = eol_status_batch.get(app_id, False)
 
-            trending_apps.append(
-                {
-                    "id": utils.get_clean_app_id(app_id),
-                    "trending": trending_score,
-                }
-            )
+        trending_score = _calculate_trending_score(
+            installs_over_days=installs_over_days,
+            quality_passed_ratio=quality_passed_ratio,
+            is_eol=is_eol,
+            is_new_app=is_new_app,
+        )
+
+        trending_apps.append(
+            {
+                "id": utils.get_clean_app_id(app_id),
+                "trending": trending_score,
+            }
+        )
     search.create_or_update_apps(trending_apps)
 
     for app_id, arch_stats in agg["totals"].items():
