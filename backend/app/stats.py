@@ -32,6 +32,14 @@ class StatsFromServer(TypedDict):
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
 
+AGGREGATES_KEYS = {
+    "totals": "stats:agg:totals",
+    "per_day": "stats:agg:per_day",
+    "per_country": "stats:agg:per_country",
+    "global": "stats:agg:global",
+    "last_date": "stats:agg:last_date",
+}
+
 # Download thresholds for filtering meaningful statistics
 # Used to exclude apps/categories with insufficient downloads from various calculations
 MINIMAL_USAGE_THRESHOLD = (
@@ -109,6 +117,88 @@ def _get_stats_for_date(
     else:
         stats = orjson.loads(stats_txt)
     return stats
+
+
+def _load_aggregates() -> dict:
+    result = {}
+    for key, redis_key in AGGREGATES_KEYS.items():
+        data = redis_conn.get(redis_key)
+        result[key] = orjson.loads(data) if data else None
+    return result
+
+
+def _save_aggregates(agg: dict):
+    pipe = redis_conn.pipeline()
+    for key, redis_key in AGGREGATES_KEYS.items():
+        if agg.get(key) is not None:
+            pipe.set(redis_key, orjson.dumps(agg[key]))
+    pipe.execute()
+
+
+def _delete_aggregates():
+    pipe = redis_conn.pipeline()
+    for redis_key in AGGREGATES_KEYS.values():
+        pipe.delete(redis_key)
+    pipe.execute()
+
+
+def _init_empty_aggregates() -> dict:
+    return {
+        "totals": {},
+        "per_day": {},
+        "per_country": {},
+        "global": {
+            "downloads_per_day": {},
+            "updates_per_day": {},
+            "delta_downloads_per_day": {},
+            "totals_country": {},
+        },
+        "last_date": None,
+    }
+
+
+def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict):
+    if stats is None:
+        return
+
+    date_str = date.isoformat()
+
+    if stats.get("refs"):
+        for app_id, app_stats in stats["refs"].items():
+            clean_id = _remove_architecture_from_id(app_id)
+            if clean_id not in agg["totals"]:
+                agg["totals"][clean_id] = {}
+            for arch, downloads in app_stats.items():
+                if arch not in agg["totals"][clean_id]:
+                    agg["totals"][clean_id][arch] = [0, 0, 0]
+                agg["totals"][clean_id][arch][0] += downloads[0]
+                agg["totals"][clean_id][arch][1] += downloads[1]
+                agg["totals"][clean_id][arch][2] += downloads[0] - downloads[1]
+
+            if clean_id not in agg["per_day"]:
+                agg["per_day"][clean_id] = {}
+            agg["per_day"][clean_id][date_str] = _sum_installs_by_arch(app_stats)
+
+    if stats.get("ref_by_country"):
+        for app_id, country_stats in stats["ref_by_country"].items():
+            if app_id not in agg["per_country"]:
+                agg["per_country"][app_id] = {}
+            for country, downloads in country_stats.items():
+                if country not in agg["per_country"][app_id]:
+                    agg["per_country"][app_id][country] = 0
+                agg["per_country"][app_id][country] += downloads[0] - downloads[1]
+
+    if stats.get("downloads"):
+        agg["global"]["downloads_per_day"][date_str] = stats["downloads"]
+    if stats.get("updates"):
+        agg["global"]["updates_per_day"][date_str] = stats["updates"]
+    if stats.get("delta_downloads"):
+        agg["global"]["delta_downloads_per_day"][date_str] = stats["delta_downloads"]
+    if stats.get("countries"):
+        for country, downloads in stats["countries"].items():
+            agg["global"]["totals_country"][country] = (
+                agg["global"]["totals_country"].get(country, 0) + downloads
+            )
 
 
 def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
@@ -383,8 +473,6 @@ def _calculate_trending_score(
     """
     # Penalty multiplier for apps using EOL runtimes
     eol_penalty = 0.5
-
-    # Maximum quality bonus points for apps with 100% passed quality checks
     quality_bonus_max = 15.0
 
     # Quality bonus: Scale by quality ratio
@@ -424,7 +512,7 @@ def _calculate_trending_score(
     if older_avg > 0:
         momentum = (recent_avg - older_avg) / older_avg
     elif recent_avg > 0:
-        momentum = 1.0  # New activity where there was none
+        momentum = 1.0
     else:
         momentum = 0.0
 
@@ -470,23 +558,94 @@ def _calculate_trending_score(
     return base_score + quality_bonus
 
 
+def _build_or_update_aggregates() -> dict:
+    edate = datetime.date.today() - datetime.timedelta(days=2)
+
+    if config.settings.force_recompute_stats:
+        _delete_aggregates()
+
+    agg = _load_aggregates()
+
+    if agg["last_date"] is None:
+        agg = _init_empty_aggregates()
+        sdate = FIRST_STATS_DATE
+    else:
+        last_date = datetime.date.fromisoformat(agg["last_date"])
+        sdate = last_date + datetime.timedelta(days=1)
+        if sdate > edate:
+            return agg
+
+    checkpoint_interval = 100
+    days_processed = 0
+    current_date = sdate
+
+    while current_date <= edate:
+        stats = _get_stats_for_date(current_date)
+        _update_aggregates_for_date(current_date, stats, agg)
+        agg["last_date"] = current_date.isoformat()
+        days_processed += 1
+
+        if days_processed % checkpoint_interval == 0:
+            _save_aggregates(agg)
+
+        current_date += datetime.timedelta(days=1)
+
+    _save_aggregates(agg)
+    return agg
+
+
+def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
+    downloads_per_day = dict(agg["global"]["downloads_per_day"])
+    updates_per_day = dict(agg["global"]["updates_per_day"])
+    delta_downloads_per_day = dict(agg["global"]["delta_downloads_per_day"])
+    totals_country = dict(agg["global"]["totals_country"])
+
+    edate = datetime.date.today()
+    sdate = edate - datetime.timedelta(days=1)
+    for i in range(2):
+        date = sdate + datetime.timedelta(days=i)
+        stats = _get_stats_for_date(date)
+        if stats is None:
+            continue
+        date_str = date.isoformat()
+        if stats.get("downloads") is not None:
+            downloads_per_day[date_str] = stats["downloads"]
+        if stats.get("updates") is not None:
+            updates_per_day[date_str] = stats["updates"]
+        if stats.get("delta_downloads") is not None:
+            delta_downloads_per_day[date_str] = stats["delta_downloads"]
+        if stats.get("countries"):
+            for country, downloads in stats["countries"].items():
+                totals_country[country] = totals_country.get(country, 0) + downloads
+
+    category_totals = get_category_totals()
+
+    return {
+        "totals": {
+            "downloads": sum(downloads_per_day.values()),
+            "number_of_apps": app_count,
+            "verified_apps": search.get_number_of_verified_apps(),
+        },
+        "countries": totals_country,
+        "downloads_per_day": downloads_per_day,
+        "updates_per_day": updates_per_day,
+        "delta_downloads_per_day": delta_downloads_per_day,
+        "category_totals": category_totals,
+    }
+
+
 def update(sqldb):
     stats_apps_dict = defaultdict(lambda: {})
 
     edate = datetime.date.today()
-    sdate = datetime.date(2018, 4, 29)
 
     frontend_app_ids = database.get_all_appids_for_frontend()
 
-    stats_total = _get_stats_for_period(sdate, edate)
-    stats_dict = _get_stats(len(frontend_app_ids))
+    agg = _build_or_update_aggregates()
+    stats_dict = _build_stats_dict_from_aggregates(agg, len(frontend_app_ids))
 
-    app_stats_per_day = _get_app_stats_per_day()
-    app_stats_per_country = _get_app_stats_per_country()
-
-    # Pre-fetch quality moderation data for all apps to avoid N+1 queries
     apps_with_stats = [
-        app_id for app_id in app_stats_per_day.keys() if app_id in frontend_app_ids
+        app_id for app_id in agg["per_day"].keys() if app_id in frontend_app_ids
     ]
     quality_status_batch = models.QualityModeration.by_appids_summarized(
         sqldb, apps_with_stats
@@ -496,26 +655,23 @@ def update(sqldb):
     )
 
     trending_apps: list = []
-    for app_id, stats_dict_for_app in app_stats_per_day.items():
+    for app_id in agg["per_day"]:
         if app_id in frontend_app_ids:
-            installs = list(stats_dict_for_app.values())
+            stats_dict_for_app = agg["per_day"][app_id]
+            sorted_stats = dict(sorted(stats_dict_for_app.items()))
+            installs = list(sorted_stats.values())
 
             max_history_length = 21
-            # first item is the oldest, last item is the most recent
-            # only use the last x values minus the last one
             if len(installs) > 1:
                 install_history_length = min(len(installs), max_history_length + 1)
                 installs_over_days = installs[-install_history_length:-1]
             else:
                 installs_over_days = []
 
-            # Determine if this is a "new" app (limited history)
-            is_new_app = len(installs) <= 14
+            is_new_app = len(agg["per_day"].get(app_id, {})) <= 14
 
-            # Get quality moderation status from pre-fetched batch
             app_quality_status = quality_status_batch.get(app_id)
             if app_quality_status is None:
-                # Fallback for apps not in batch (shouldn't happen normally)
                 quality_passed_ratio = 0.0
             else:
                 total_quality_checks = (
@@ -530,7 +686,6 @@ def update(sqldb):
                     else 0.0
                 )
 
-            # Check if app runtime is EOL from pre-fetched batch
             is_eol = eol_status_batch.get(app_id, False)
 
             trending_score = _calculate_trending_score(
@@ -548,27 +703,34 @@ def update(sqldb):
             )
     search.create_or_update_apps(trending_apps)
 
-    for app_id, dict in stats_total.items():
-        # Index 0 is install and update count index 1 would be the update count
-        # Index 2 is the install count
-        stats_apps_dict[app_id]["installs_total"] = sum([i[2] for i in dict.values()])
+    for app_id, arch_stats in agg["totals"].items():
+        stats_apps_dict[app_id]["installs_total"] = sum(
+            [s[2] for s in arch_stats.values()]
+        )
 
-        if app_id in app_stats_per_day:
-            stats_apps_dict[app_id]["installs_per_day"] = app_stats_per_day[app_id]
+        if app_id in agg["per_day"]:
+            stats_apps_dict[app_id]["installs_per_day"] = dict(
+                sorted(agg["per_day"][app_id].items())
+            )
 
-        if app_id in app_stats_per_country:
-            stats_apps_dict[app_id]["installs_per_country"] = app_stats_per_country[
-                app_id
-            ]
+        if app_id in agg["per_country"]:
+            stats_apps_dict[app_id]["installs_per_country"] = agg["per_country"][app_id]
+
+    recent_sdate = edate - datetime.timedelta(days=1)
+    recent_stats = _get_stats_for_period(recent_sdate, edate)
+    for app_id, app_dict in recent_stats.items():
+        recent_installs = sum([i[2] for i in app_dict.values()])
+        if app_id in stats_apps_dict:
+            stats_apps_dict[app_id]["installs_total"] = (
+                stats_apps_dict[app_id].get("installs_total", 0) + recent_installs
+            )
 
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
     stats_installs: list = []
-    for app_id, dict in stats_30_days.items():
-        # Index 0 is install and update count index 1 would be the update count
-        # Index 2 is the install count
-        installs_last_month = sum([i[2] for i in dict.values()])
+    for app_id, app_dict in stats_30_days.items():
+        installs_last_month = sum([i[2] for i in app_dict.values()])
         stats_apps_dict[app_id]["installs_last_month"] = installs_last_month
         if app_id in frontend_app_ids:
             stats_installs.append(
@@ -579,7 +741,6 @@ def update(sqldb):
             )
     search.create_or_update_apps(stats_installs)
 
-    # Get favorites count per app and update meilisearch
     favorites_count_dict = models.UserFavoriteApp.get_favorites_count_per_app(sqldb)
     favorites_list: list = []
     for app_id in frontend_app_ids:
@@ -597,11 +758,9 @@ def update(sqldb):
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)
 
-    for app_id, dict in stats_7_days.items():
-        # Index 0 is install and update count index 1 would be the update count
-        # Index 2 is the install count
+    for app_id, app_dict in stats_7_days.items():
         stats_apps_dict[app_id]["installs_last_7_days"] = sum(
-            [i[2] for i in dict.values()]
+            [i[2] for i in app_dict.values()]
         )
 
     for app_id in stats_apps_dict:
@@ -609,7 +768,6 @@ def update(sqldb):
             sqldb, app_id, stats_apps_dict[app_id].get("installs_last_7_days", 0)
         )
 
-    # Make sure the Apps has all Keys
     for app_id in stats_apps_dict:
         stats_apps_dict[app_id]["installs_total"] = stats_apps_dict[app_id].get(
             "installs_total", 0
