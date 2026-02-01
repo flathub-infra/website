@@ -268,7 +268,6 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                         _sum_installs_by_arch(app_stats)
                     )
 
-    # Sort each app's stats by date
     for app_id in app_stats_per_day:
         app_stats_per_day[app_id] = dict(sorted(app_stats_per_day[app_id].items()))
 
@@ -338,7 +337,6 @@ def get_installs_by_ids(ids: list[str]):
         if app_stats is None:
             continue
 
-        # Ensure installs_per_day is sorted chronologically
         if "installs_per_day" in app_stats:
             app_stats["installs_per_day"] = dict(
                 sorted(app_stats["installs_per_day"].items())
@@ -407,7 +405,6 @@ def _calculate_trending_score(
         is_eol: Whether the app uses an EOL runtime
         is_new_app: Whether the app has limited install history
     """
-    # Penalty multiplier for apps using EOL runtimes
     eol_penalty = 0.5
     quality_bonus_max = 15.0
 
@@ -421,11 +418,10 @@ def _calculate_trending_score(
         if len(installs_over_days) == 1:
             base_score = installs_over_days[0] * 0.1
             if is_new_app:
-                base_score *= 1.5  # Small boost for new apps
+                base_score *= 1.5
             if is_eol:
                 base_score *= eol_penalty
             return base_score + quality_bonus
-        # No data at all - just return quality bonus
         return quality_bonus
 
     # Calculate moving averages for momentum detection
@@ -481,7 +477,6 @@ def _calculate_trending_score(
         + (velocity / max(recent_avg, 1)) * 5.0  # Normalize velocity by app size
     )
 
-    # Apply penalties
     if is_eol:
         base_score = base_score * eol_penalty
 
@@ -833,7 +828,6 @@ def _get_basic_year_stats(year: int) -> dict | None:
             if "updates" in stats and stats["updates"] is not None:
                 total_updates += stats["updates"]
 
-    # Get app count for the year
     new_apps_count = 0
     with database.get_db() as sqldb:
         new_apps_count = (
@@ -872,7 +866,6 @@ def _get_category_downloads_for_year(year: int) -> dict[str, int]:
                     if new_installs > 0:
                         app_downloads[app_id_clean] += new_installs
 
-    # Map app downloads to categories
     category_downloads = defaultdict(int)
     with database.get_db() as sqldb:
         if not app_downloads:
@@ -1192,7 +1185,6 @@ async def _build_year_in_review_base(year: int) -> dict | None:
         if app_id in desktop_app_ids and daily_stats:
             first_date_str = min(daily_stats.keys())
             first_date = datetime.date.fromisoformat(first_date_str)
-            # App is new if it first appeared in this year
             if sdate <= first_date <= edate and app_id in app_downloads:
                 new_apps_downloads[app_id] = app_downloads[app_id]
 
