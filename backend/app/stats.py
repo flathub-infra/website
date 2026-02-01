@@ -531,41 +531,32 @@ def _build_or_update_aggregates() -> dict:
 
 
 def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
-    downloads_per_day = dict(agg["global"]["downloads_per_day"])
-    updates_per_day = dict(agg["global"]["updates_per_day"])
-    delta_downloads_per_day = dict(agg["global"]["delta_downloads_per_day"])
-    totals_country = dict(agg["global"]["totals_country"])
+    global_dict = {
+        "downloads_per_day": dict(agg["global"]["downloads_per_day"]),
+        "updates_per_day": dict(agg["global"]["updates_per_day"]),
+        "delta_downloads_per_day": dict(agg["global"]["delta_downloads_per_day"]),
+        "totals_country": dict(agg["global"]["totals_country"]),
+    }
 
     edate = datetime.date.today()
     sdate = edate - datetime.timedelta(days=1)
     for i in range(2):
         date = sdate + datetime.timedelta(days=i)
         stats = _get_stats_for_date(date)
-        if stats is None:
-            continue
-        date_str = date.isoformat()
-        if stats.get("downloads") is not None:
-            downloads_per_day[date_str] = stats["downloads"]
-        if stats.get("updates") is not None:
-            updates_per_day[date_str] = stats["updates"]
-        if stats.get("delta_downloads") is not None:
-            delta_downloads_per_day[date_str] = stats["delta_downloads"]
-        if stats.get("countries"):
-            for country, downloads in stats["countries"].items():
-                totals_country[country] = totals_country.get(country, 0) + downloads
+        _update_global_stats_for_date(date, stats, global_dict)
 
     category_totals = get_category_totals()
 
     return {
         "totals": {
-            "downloads": sum(downloads_per_day.values()),
+            "downloads": sum(global_dict["downloads_per_day"].values()),
             "number_of_apps": app_count,
             "verified_apps": search.get_number_of_verified_apps(),
         },
-        "countries": totals_country,
-        "downloads_per_day": downloads_per_day,
-        "updates_per_day": updates_per_day,
-        "delta_downloads_per_day": delta_downloads_per_day,
+        "countries": global_dict["totals_country"],
+        "downloads_per_day": global_dict["downloads_per_day"],
+        "updates_per_day": global_dict["updates_per_day"],
+        "delta_downloads_per_day": global_dict["delta_downloads_per_day"],
         "category_totals": category_totals,
     }
 
