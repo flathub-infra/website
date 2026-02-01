@@ -157,7 +157,7 @@ def _init_empty_aggregates() -> dict:
     }
 
 
-def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict):
+def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> None:
     if stats is None:
         return
 
@@ -166,27 +166,23 @@ def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict):
     if stats.get("refs"):
         for app_id, app_stats in stats["refs"].items():
             clean_id = _remove_architecture_from_id(app_id)
-            if clean_id not in agg["totals"]:
-                agg["totals"][clean_id] = {}
+            totals_for_app = agg["totals"].setdefault(clean_id, {})
             for arch, downloads in app_stats.items():
-                if arch not in agg["totals"][clean_id]:
-                    agg["totals"][clean_id][arch] = [0, 0, 0]
-                agg["totals"][clean_id][arch][0] += downloads[0]
-                agg["totals"][clean_id][arch][1] += downloads[1]
-                agg["totals"][clean_id][arch][2] += downloads[0] - downloads[1]
+                arch_totals = totals_for_app.setdefault(arch, [0, 0, 0])
+                arch_totals[0] += downloads[0]
+                arch_totals[1] += downloads[1]
+                arch_totals[2] += downloads[0] - downloads[1]
 
-            if clean_id not in agg["per_day"]:
-                agg["per_day"][clean_id] = {}
-            agg["per_day"][clean_id][date_str] = _sum_installs_by_arch(app_stats)
+            per_day_for_app = agg["per_day"].setdefault(clean_id, {})
+            per_day_for_app[date_str] = _sum_installs_by_arch(app_stats)
 
     if stats.get("ref_by_country"):
         for app_id, country_stats in stats["ref_by_country"].items():
-            if app_id not in agg["per_country"]:
-                agg["per_country"][app_id] = {}
+            country_for_app = agg["per_country"].setdefault(app_id, {})
             for country, downloads in country_stats.items():
-                if country not in agg["per_country"][app_id]:
-                    agg["per_country"][app_id][country] = 0
-                agg["per_country"][app_id][country] += downloads[0] - downloads[1]
+                country_for_app[country] = (
+                    country_for_app.get(country, 0) + downloads[0] - downloads[1]
+                )
 
     if stats.get("downloads"):
         agg["global"]["downloads_per_day"][date_str] = stats["downloads"]
@@ -668,7 +664,7 @@ def update(sqldb):
             else:
                 installs_over_days = []
 
-            is_new_app = len(agg["per_day"].get(app_id, {})) <= 14
+            is_new_app = len(agg["per_day"][app_id]) <= 14
 
             app_quality_status = quality_status_batch.get(app_id)
             if app_quality_status is None:
