@@ -17,7 +17,7 @@ ARG SENTRY_RELEASE
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 \
-    libgirepository-2.0-0 gir1.2-ostree-1.0 gir1.2-appstream-1.0 && \
+    libgirepository-2.0-0 gir1.2-ostree-1.0 gir1.2-appstream-1.0 libjemalloc2 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /.venv /.venv
