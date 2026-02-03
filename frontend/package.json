@@ -76,6 +76,7 @@
     "@chromatic-com/storybook": "^5.0.1",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.0.0",
+    "@next/eslint-plugin-next": "^16.1.6",
     "@storybook/addon-a11y": "^10.3.3",
     "@storybook/addon-docs": "^10.3.3",
     "@storybook/addon-links": "^10.3.3",
@@ -98,10 +99,15 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "16.2.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^10.2.15",
+    "globals": "^17.3.0",
     "msw": "^2.11.2",
     "msw-storybook-addon": "^2.0.6",
+    "openapi3-ts": "^4.5.0",
     "orval": "8.5.3",
     "playwright": "^1.55.1",
     "postcss": "^8.5.3",
@@ -118,10 +124,12 @@
     "typescript-eslint": "^8.57.2",
     "vitest": "^3.2.4"
   },
-  "packageManager": "yarn@4.7.0",
-  "resolutions": {
-    "react-is": "19.2.4",
-    "@types/react": "19.2.14"
+  "packageManager": "pnpm@10.28.2",
+  "pnpm": {
+    "overrides": {
+      "react-is": "19.2.4",
+      "@types/react": "19.2.14"
+    }
   },
   "eslintConfig": {
     "extends": [
