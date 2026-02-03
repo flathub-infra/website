@@ -1,16 +1,15 @@
 FROM node:24 AS base
 
-RUN corepack enable
+RUN corepack enable pnpm
 
 FROM base AS dev
 
 WORKDIR /app
-COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn/releases .yarn/releases
-RUN yarn install --immutable
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 COPY . .
-CMD ["yarn", "dev"]
+CMD ["pnpm", "dev"]
 
 FROM base AS builder
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
@@ -24,8 +23,8 @@ WORKDIR /app
 COPY --from=dev /app/node_modules ./node_modules
 COPY . .
 
-RUN yarn build
-RUN yarn postbuild
+RUN pnpm build
+RUN pnpm postbuild
 
 FROM node:24-slim AS prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false

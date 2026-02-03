@@ -37,7 +37,8 @@ const cardVariants = cva(
 )
 
 export interface SkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
   className?: string
 }
@@ -70,7 +71,8 @@ export const ApplicationCardSkeleton = ({
 ApplicationCardSkeleton.displayName = "ApplicationCardSkeleton"
 
 export interface Props
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  extends
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
     VariantProps<typeof cardVariants> {
   application: AppstreamListItem
   link?: (appid: string) => string

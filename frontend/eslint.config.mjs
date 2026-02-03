@@ -14,7 +14,6 @@ export default typescriptEslint.config(
       "**/node_modules/**",
       "**/.next/**",
       "**/out/**",
-      "**/.yarn/**",
       "**/dist/**",
       "**/build/**",
       "**/.storybook/**",

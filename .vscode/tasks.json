@@ -1,99 +1,98 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "start backend",
-            "type": "docker-compose",
-            "group": "build",
-            "dockerCompose": {
-                "up": {
-                    "detached": false,
-                    "build": false,
-                    "customOptions": "--remove-orphans"
-                },
-                "files": [
-                    "${workspaceFolder}/backend/docker-compose.yml"
-                ]
-            },
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start backend",
+      "type": "docker-compose",
+      "group": "build",
+      "dockerCompose": {
+        "up": {
+          "detached": false,
+          "build": false,
+          "customOptions": "--remove-orphans"
         },
-        {
-            "label": "fill database",
-            "type": "shell",
-            "command": "curl -X POST localhost:8000/update",
+        "files": ["${workspaceFolder}/backend/docker-compose.yml"]
+      }
+    },
+    {
+      "label": "fill database",
+      "type": "shell",
+      "command": "curl -X POST localhost:8000/update"
+    },
+    {
+      "label": "wipe backend",
+      "type": "docker-compose",
+      "group": "build",
+      "dockerCompose": {
+        "down": {
+          "detached": false,
+          "removeImages": "all",
+          "removeVolumes": true,
+          "customOptions": "--remove-orphans"
         },
-        {
-            "label": "wipe backend",
-            "type": "docker-compose",
-            "group": "build",
-            "dockerCompose": {
-                "down": {
-                    "detached": false,
-                    "removeImages": "all",
-                    "removeVolumes": true,
-                    "customOptions": "--remove-orphans"
-                },
-                "files": [
-                    "${workspaceFolder}/backend/docker-compose.yml"
-                ]
-            }
+        "files": ["${workspaceFolder}/backend/docker-compose.yml"]
+      }
+    },
+    {
+      "label": "wipe volumes",
+      "type": "docker-compose",
+      "group": "build",
+      "dockerCompose": {
+        "down": {
+          "detached": false,
+          "removeVolumes": true
         },
-        {
-            "label": "wipe volumes",
-            "type": "docker-compose",
-            "group": "build",
-            "dockerCompose": {
-                "down": {
-                    "detached": false,
-                    "removeVolumes": true,
-                },
-                "files": [
-                    "${workspaceFolder}/backend/docker-compose.yml"
-                ]
-            }
-        },
-        {
-            "label": "start frontend",
-            "type": "shell",
-            "group": "build",
-            "command": "yarn dev",
-            "options": {
-                "cwd": "${workspaceFolder}/frontend"
-            },
-            "problemMatcher": [
-                "$tsc-watch"
-            ]
-        },
-        {
-            "label": "fix format frontend",
-            "type": "shell",
-            "group": "build",
-            "command": "yarn format:fix",
-            "problemMatcher": [
-                "$tsc-watch"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/frontend"
-            },
-        },
-        {
-            "label": "fix format backend",
-            "type": "shell",
-            "group": "build",
-            "command": "uvx ruff format . && uvx ruff check . --fix",
-            "options": {
-                "cwd": "${workspaceFolder}/backend"
-            },
-        },
-        {
-            "label": "codegen frontend",
-            "type": "shell",
-            "group": "build",
-            "command": "yarn openapi-codegen",
-            "options": {
-                "cwd": "${workspaceFolder}/frontend"
-            },
-        },
-    ]
+        "files": ["${workspaceFolder}/backend/docker-compose.yml"]
+      }
+    },
+    {
+      "label": "start frontend",
+      "type": "shell",
+      "group": "build",
+      "command": "pnpm dev",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": ["$tsc-watch"]
+    },
+    {
+      "label": "fix format frontend",
+      "type": "shell",
+      "group": "build",
+      "command": "pnpm format:fix",
+      "problemMatcher": ["$tsc-watch"],
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      }
+    },
+    {
+      "label": "fix format backend",
+      "type": "shell",
+      "group": "build",
+      "command": "uvx ruff format . && uvx ruff check . --fix",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      }
+    },
+    {
+      "label": "codegen frontend",
+      "type": "shell",
+      "group": "build",
+      "command": "pnpm openapi-codegen",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      }
+    },
+    {
+      "label": "fix format backend-node",
+      "type": "shell",
+      "group": "build",
+      "command": "pnpm format:fix",
+      "options": {
+        "cwd": "${workspaceFolder}/backend-node"
+      }
+    }
+  ]
 }
