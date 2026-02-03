@@ -84,6 +84,15 @@
       "options": {
         "cwd": "${workspaceFolder}/frontend"
       }
+    },
+    {
+      "label": "fix format backend-node",
+      "type": "shell",
+      "group": "build",
+      "command": "pnpm format:fix",
+      "options": {
+        "cwd": "${workspaceFolder}/backend-node"
+      }
     }
   ]
 }
