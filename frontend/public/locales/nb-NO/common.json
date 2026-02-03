@@ -687,5 +687,12 @@
   "default-account-changed": "Standardkonto endret",
   "or-enter-custom-amount": "Eller legg inn en egendefinert konto",
   "payment-details": "Betalingsinformasjon",
-  "special-code-description": "Denne applikasjonen er utviklet under en spesiell lisens. Det kan hende at kildekoden ikke er offentliggjort."
+  "special-code-description": "Denne applikasjonen er utviklet under en spesiell lisens. Det kan hende at kildekoden ikke er offentliggjort.",
+  "year-in-review-banner": {
+    "title": "Flathubs årsoversikt {year}",
+    "description": "Se gjennom de mest populære appene og trendene til dette året"
+  },
+  "year-in-review": {
+    "title": "Årsoversikt {year}"
+  }
 }
