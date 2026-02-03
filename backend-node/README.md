@@ -5,13 +5,13 @@
 First run
 
 ```
-yarn install
+pnpm install
 ```
 
 You can start the api via
 
 ```
-yarn dev
+pnpm dev
 ```
 
 It should launch on http://localhost:8001
@@ -21,7 +21,7 @@ It should launch on http://localhost:8001
 If you want to preview the emails use
 
 ```
-yarn email-dev
+pnpm email-dev
 ```
 
 Then open http://localhost:3001

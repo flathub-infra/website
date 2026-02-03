@@ -24,9 +24,9 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/frontend/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-pnpm-
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -34,10 +34,10 @@ jobs:
           node-version: "24"
 
       - name: Corepack enable
-        run: corepack enable
+        run: corepack enable pnpm
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Run Chromatic
         uses: chromaui/action@latest
