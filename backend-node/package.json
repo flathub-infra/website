@@ -15,6 +15,7 @@
     "@hono/zod-openapi": "^1.2.1",
     "@react-email/components": "1.0.6",
     "@react-email/render": "2.0.4",
+    "@react-email/tailwind": "^2.0.3",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "hono": "^4.11.7",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@react-email/preview-server": "5.2.5",
     "@types/html-to-text": "^9.0.4",
+    "@types/node": "^25.2.0",
     "@types/nodemailer": "^7.0.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -36,5 +38,5 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
-  "packageManager": "yarn@4.11.0"
+  "packageManager": "pnpm@10.28.2"
 }

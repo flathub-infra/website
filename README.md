@@ -66,7 +66,7 @@ block-beta
 
 ### Development
 
-You'll need `git`, `yarn`, `docker` and `docker-compose-plugin`.
+You'll need `git`, `pnpm`, `docker` and `docker-compose-plugin`.
 
 Go to the folder where you manage your projects and checkout this project.
 
@@ -90,13 +90,13 @@ Then open a terminal and go to the frontend folder.
 If it's the first time you run it, run
 
 ```sh
-yarn
+pnpm install
 ```
 
 Then you should be able to start the dev server and see changes to the code:
 
 ```sh
-yarn dev
+pnpm dev
 ```
 
 ### Generating api client
@@ -104,7 +104,7 @@ yarn dev
 We're generating the api client from the openapi spec. To do so, make sure the backend is running and then run:
 
 ```sh
-yarn openapi-codegen
+pnpm openapi-codegen
 ```
 
 ### Storybook
@@ -112,7 +112,7 @@ yarn openapi-codegen
 You can also start the storybook via:
 
 ```sh
-yarn storybook
+pnpm storybook
 ```
 
 Or [view the current state of our storybook](https://main--6676acc57f6288e909a4e184.chromatic.com/)
