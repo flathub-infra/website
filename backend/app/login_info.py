@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request
@@ -8,7 +8,7 @@ from . import models
 from .database import get_db
 
 
-class LoginState(str, Enum):
+class LoginState(StrEnum):
     """Login state, used to track state machine for login flows etc."""
 
     LOGGED_OUT = "logged-out"
