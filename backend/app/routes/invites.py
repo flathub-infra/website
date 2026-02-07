@@ -1,5 +1,5 @@
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from pydantic import BaseModel
@@ -19,7 +19,7 @@ from ..models import (
 router = APIRouter(prefix="/invites")
 
 
-class ErrorDetail(str, Enum):
+class ErrorDetail(StrEnum):
     APP_NOT_FOUND = "app_not_found"
     NOT_LOGGED_IN = "not_logged_in"
     # You must be a developer of the app to perform this action.
