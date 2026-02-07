@@ -1,4 +1,6 @@
-from typing import TypeVar
+import json
+import logging
+from typing import Any, TypeVar
 
 import meilisearch
 from pydantic import BaseModel, field_validator
@@ -9,6 +11,9 @@ from . import config, schemas
 from .verification_method import VerificationMethod
 
 T = TypeVar("T")
+logger = logging.getLogger(__name__)
+
+ALLOWED_TRANSLATION_KEYS = {"name", "summary", "description", "keywords"}
 
 
 class MeilisearchResponse[T](BaseModel):
@@ -189,8 +194,208 @@ def _translate_name_and_summary[
     return searchResults
 
 
+def _sanitize_string(value: str) -> str:
+    # Drop invalid unicode code points that cannot be encoded in UTF-8.
+    return value.encode("utf-8", errors="ignore").decode("utf-8")
+
+
+def _sanitize_string_list(value: list[Any]) -> list[str]:
+    clean_values = []
+
+    for item in value:
+        if not isinstance(item, str):
+            continue
+
+        clean_item = _sanitize_string(item)
+        if clean_item:
+            clean_values.append(clean_item)
+
+    return clean_values
+
+
+def _normalize_translation_value(value: Any) -> dict[str, str | list[str]] | None:
+    normalized_value = value
+    if isinstance(normalized_value, str):
+        stripped = normalized_value.strip()
+        if stripped.startswith("{"):
+            try:
+                normalized_value = json.loads(stripped)
+            except json.JSONDecodeError:
+                return None
+        else:
+            return None
+
+    if not isinstance(normalized_value, dict):
+        return None
+
+    clean_translation = {}
+    for key, key_value in normalized_value.items():
+        if key not in ALLOWED_TRANSLATION_KEYS:
+            continue
+
+        if key == "keywords":
+            if isinstance(key_value, list):
+                clean_keywords = _sanitize_string_list(key_value)
+                if clean_keywords:
+                    clean_translation[key] = clean_keywords
+            continue
+
+        if isinstance(key_value, str):
+            clean_value = _sanitize_string(key_value)
+            if clean_value:
+                clean_translation[key] = clean_value
+
+    if not clean_translation:
+        return None
+
+    return clean_translation
+
+
+def _sanitize_translations(
+    value: Any,
+) -> dict[str, dict[str, str | list[str]]]:
+    if not isinstance(value, dict):
+        return {}
+
+    clean_translations = {}
+    for locale, translation in value.items():
+        if not isinstance(locale, str):
+            continue
+
+        clean_translation = _normalize_translation_value(translation)
+        if clean_translation:
+            clean_locale = _sanitize_string(locale)
+            if clean_locale:
+                clean_translations[clean_locale] = clean_translation
+
+    return clean_translations
+
+
+def _validate_json_safe(document: dict[str, Any]) -> tuple[bool, str | None]:
+    try:
+        # `allow_nan=False` keeps payload strict-JSON (Meilisearch rejects NaN/Infinity).
+        json.dumps(document, ensure_ascii=False, allow_nan=False)
+    except (TypeError, ValueError, OverflowError, UnicodeError) as err:
+        return False, str(err)
+
+    return True, None
+
+
+def _sanitize_index_document(
+    document: dict[str, Any],
+) -> tuple[dict[str, Any] | None, str | None]:
+    if not isinstance(document, dict):
+        return None, "document is not a dictionary"
+
+    clean_document = dict(document)
+
+    document_id = clean_document.get("id")
+    if not isinstance(document_id, str) or not document_id.strip():
+        return None, "missing or invalid `id`"
+    clean_document["id"] = _sanitize_string(document_id)
+    if not clean_document["id"]:
+        return None, "missing or invalid `id`"
+
+    if "translations" in clean_document:
+        clean_translations = _sanitize_translations(clean_document["translations"])
+        if clean_translations:
+            clean_document["translations"] = clean_translations
+        else:
+            clean_document.pop("translations", None)
+
+    if "keywords" in clean_document:
+        keywords = clean_document["keywords"]
+        if isinstance(keywords, list):
+            clean_keywords = _sanitize_string_list(keywords)
+            if clean_keywords:
+                clean_document["keywords"] = clean_keywords
+            else:
+                clean_document.pop("keywords", None)
+        elif keywords is not None:
+            clean_document.pop("keywords", None)
+
+    json_safe, reason = _validate_json_safe(clean_document)
+    if not json_safe:
+        return None, f"document is not JSON-safe: {reason}"
+
+    return clean_document, None
+
+
+def _get_doc_identifier(document: dict[str, Any]) -> str:
+    if isinstance(document.get("app_id"), str):
+        return document["app_id"]
+    if isinstance(document.get("id"), str):
+        return document["id"]
+    return "<unknown>"
+
+
+def _update_documents_with_fallback(
+    index: Any, documents: list[dict[str, Any]]
+) -> tuple[int, list[tuple[dict[str, Any], str]]]:
+    if not documents:
+        return 0, []
+
+    try:
+        index.update_documents(documents)
+        return len(documents), []
+    except meilisearch.errors.MeilisearchApiError as err:
+        if len(documents) == 1:
+            return 0, [(documents[0], str(err))]
+
+        midpoint = len(documents) // 2
+        accepted_left, skipped_left = _update_documents_with_fallback(
+            index, documents[:midpoint]
+        )
+        accepted_right, skipped_right = _update_documents_with_fallback(
+            index, documents[midpoint:]
+        )
+        return accepted_left + accepted_right, skipped_left + skipped_right
+
+
 def create_or_update_apps(apps_to_update: list[dict]):
-    client.index("apps").update_documents(apps_to_update)
+    sanitized_documents = []
+    skipped_for_sanitization = []
+
+    for document in apps_to_update:
+        clean_document, reason = _sanitize_index_document(document)
+        if clean_document:
+            sanitized_documents.append(clean_document)
+            continue
+
+        skipped_for_sanitization.append((document, reason or "unknown reason"))
+
+    for document, reason in skipped_for_sanitization:
+        logger.warning(
+            "Skipping Meilisearch document %s during sanitization: %s",
+            _get_doc_identifier(document),
+            reason,
+        )
+
+    if not sanitized_documents:
+        logger.info(
+            "Meilisearch index update skipped: total=%d indexed=0 skipped=%d",
+            len(apps_to_update),
+            len(skipped_for_sanitization),
+        )
+        return
+
+    accepted_count, skipped_for_meili = _update_documents_with_fallback(
+        client.index("apps"), sanitized_documents
+    )
+
+    for document, reason in skipped_for_meili:
+        logger.warning(
+            "Skipping Meilisearch document %s due to Meilisearch error: %s",
+            _get_doc_identifier(document),
+            reason,
+        )
+
+    logger.info(
+        "Meilisearch index update complete: total=%d indexed=%d skipped=%d",
+        len(apps_to_update),
+        accepted_count,
+        len(skipped_for_sanitization) + len(skipped_for_meili),
+    )
 
 
 def delete_apps(app_id_list: list[str]) -> None:

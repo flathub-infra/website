@@ -63,6 +63,9 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
     translations = {}
     for key, apps in apps_locale.items():
         if key in localize.LOCALES:
+            if not isinstance(apps, dict):
+                continue
+
             filtered_translations = {}
             for k, v in apps.items():
                 if k in ("name", "summary", "description"):
@@ -70,14 +73,21 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
                         filtered_translations[k] = v
                 elif k == "keywords":
                     if isinstance(v, list) and len(v) > 0:
-                        filtered_translations[k] = v
+                        keywords = [
+                            keyword
+                            for keyword in v
+                            if isinstance(keyword, str) and len(keyword) > 0
+                        ]
+                        if keywords:
+                            filtered_translations[k] = keywords
 
             if "description" in filtered_translations:
                 filtered_translations["description"] = re.sub(
                     clean_html_re, "", filtered_translations["description"]
                 )
 
-            translations[key] = filtered_translations
+            if filtered_translations:
+                translations[key] = filtered_translations
 
     # order of the dict is important for attribute ranking
     return {
