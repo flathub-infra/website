@@ -78,6 +78,8 @@ jobs:
           docker compose --env-file .env.ci down -v --remove-orphans
           docker volume prune -f
 
+          docker compose --env-file .env.ci up --no-build -d
+
           bash tests/update_snapshots.sh
 
       - name: Upload test snapshots
