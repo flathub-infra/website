@@ -1,5 +1,6 @@
 {
 	"org.flathub.invalid.test": "flathub.org",
 	"de.desy.constellation": "resource.desy.de",
-	"edu.stanford.protege": "protege.stanford.edu"
+	"edu.stanford.protege": "protege.stanford.edu",
+	"org.develz.Crawl": "crawl.develz.org"
 }
