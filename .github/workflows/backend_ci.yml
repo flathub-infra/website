@@ -69,8 +69,16 @@ jobs:
 
       - name: Update test snapshots
         if: failure() || cancelled()
+        continue-on-error: true
         run: |
-          bash tests/update_snapshots.sh || true
+          sudo chown -R $(id -u):$(id -g) tests/
+          git restore tests/
+          git clean -fdX tests/
+
+          docker compose --env-file .env.ci down -v --remove-orphans
+          docker volume prune -f
+
+          bash tests/update_snapshots.sh
 
       - name: Upload test snapshots
         if: always()
@@ -78,6 +86,6 @@ jobs:
         with:
           if-no-files-found: error
           overwrite: true
-          name: snapshots
+          name: snapshots-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             backend/tests/
