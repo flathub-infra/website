@@ -113,7 +113,7 @@ const BrandingPreview = ({
   name,
 }: {
   app: Pick<DesktopAppstream, "icon" | "name" | "summary">
-  color: Branding
+  color: Branding | undefined
   name: string
 }) => {
   const textColor = color
@@ -126,7 +126,7 @@ const BrandingPreview = ({
     <div className="flex flex-col pt-4 text-center">
       {name}
       <div
-        style={{ backgroundColor: color && color.value }}
+        style={{ backgroundColor: color ? color.value : undefined }}
         className={clsx(
           "relative m-2 flex h-[256px] min-w-[256px] self-center border",
           "text-flathub-white",
@@ -167,7 +167,7 @@ const BrandingPreview = ({
               "lg:line-clamp-3 pb-8",
             )}
           >
-            {color.value}
+            {color?.value ?? "No branding color"}
           </div>
         </div>
       </div>
@@ -187,8 +187,14 @@ const ShowBrandingButton = ({
     return null
   }
 
-  const primaryLight = chooseBrandingColor(app.branding, "light")
-  const primaryDark = chooseBrandingColor(app.branding, "dark")
+  const primaryLight: Branding | undefined = chooseBrandingColor(
+    app.branding,
+    "light",
+  )
+  const primaryDark: Branding | undefined = chooseBrandingColor(
+    app.branding,
+    "dark",
+  )
 
   return (
     <div>
