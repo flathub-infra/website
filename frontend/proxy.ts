@@ -50,7 +50,7 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
   }
 }
 
-export default async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   // Handle internationalization first - this will redirect if locale is missing
   const i18nResponse = createMiddleware(routing)(request)
 
