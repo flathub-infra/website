@@ -243,7 +243,7 @@
   "blocks": "ブロック",
   "moderation-approved-by": "{handledBy}により承認されました。{handledAt} ({handledAtRel})",
   "unverify": "認証解除",
-  "role-playing": "RPG",
+  "role-playing": "ロールプレイング",
   "shooter": "射撃",
   "setup-flathub-description": "このシステムにアプリをインストールし更新するためFlathubをセットアップしよう。",
   "tuner": "チューナー",

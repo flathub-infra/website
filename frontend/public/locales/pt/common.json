@@ -521,7 +521,7 @@
   "get-it-on": "Tem tudo no",
   "app-of-the-day": "Aplicação do dia",
   "cannot-abandon-app": "Não é possível abandonar a aplicação",
-  "invalid-appid": "O ID da aplicação está inválido",
+  "invalid-appid": "O id da aplicação está inválido",
   "not-onboarded": "Registe-se primeiro, por favor",
   "not-logged-in": "Não tem a sessão iniciada",
   "updated-apps": "Aplicações Atualizadas",
@@ -665,7 +665,7 @@
   },
   "download": {
     "install-x": "Instalar “{x}”",
-    "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software…</opening><support>Se não acontecer nada, é provável que o seu sistema não suporte URLs <i>flatpak+https</i>.</support><listPrefix>Neste caso, pode:</listPrefix><ol><li>Transferir o ficheiro <link>.flatpakref</link></li><li>De seguida, execute esse ficheiro no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Consulte as instruções para instalar o Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software…</opening><support>Se não acontecer nada, é provável que o seu sistema não suporte URL's <i>flatpak+https</i>.</support><listPrefix>Neste caso, pode:</listPrefix><ol><li>transferir o ficheiro <link>.flatpakref</link></li><li>De seguida, execute esse ficheiro no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Consulte as instruções para instalar o Flatpak</linkSetup></setupLine>"
   },
   "count": "Contagem",
   "developed-by": "desenvolvido por {developer}",
