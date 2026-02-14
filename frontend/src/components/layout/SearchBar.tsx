@@ -30,6 +30,35 @@ const SearchBar = ({ className }: SearchBarProps) => {
   const searchRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const isEditableElement = (element: Element | null) => {
+    if (!element) {
+      return false
+    }
+
+    if (element instanceof HTMLInputElement) {
+      const nonTextTypes = new Set([
+        "button",
+        "checkbox",
+        "color",
+        "file",
+        "hidden",
+        "image",
+        "radio",
+        "range",
+        "reset",
+        "submit",
+      ])
+
+      return !nonTextTypes.has(element.type)
+    }
+
+    return (
+      element instanceof HTMLTextAreaElement ||
+      element instanceof HTMLSelectElement ||
+      (element as HTMLElement).isContentEditable
+    )
+  }
+
   // Create the Meilisearch client
   const searchClient = useMemo(() => {
     const meilisearchUrl = process.env.NEXT_PUBLIC_MEILISEARCH_URL
@@ -70,7 +99,13 @@ const SearchBar = ({ className }: SearchBarProps) => {
   // Handle keyboard shortcut (/)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "/" && document.activeElement !== inputRef.current) {
+      const activeElement = document.activeElement
+
+      if (
+        event.key === "/" &&
+        activeElement !== inputRef.current &&
+        !isEditableElement(activeElement)
+      ) {
         event.preventDefault()
         inputRef.current?.focus()
       }
