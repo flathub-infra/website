@@ -41,7 +41,7 @@
     "distroName": "ALT Linux",
     "step-1": {
       "name": "Flatpakをインストール",
-      "text": "<text>AltファミリーのOSにFlatpakをインストールするには、ターミナルアプリを開いて次のコマンドを実行します:</text> <code></code>"
+      "text": "<text>AltファミリーのオペレーティングシステムにFlatpakをインストールするには、ターミナルアプリを開いて次のコマンドを実行します:</text> <code></code>"
     },
     "step-2": {
       "name": "Flathubリポジトリを追加",

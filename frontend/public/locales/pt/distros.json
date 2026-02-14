@@ -175,7 +175,7 @@
     },
     "step-2": {
       "name": "Instalar o complemento de configurações do sistema Flatpak",
-      "text": "<text>Para integrar o suporte Flatpak nas Configurações de Sistema do KDE Plasma, abra a aplicação Terminal e execute o seguinte comando:</text> <code></code>"
+      "text": "<text>Para integrar o suporte Flatpak nas Definições do sistema no KDE Plasma, abra a aplicação Terminal e execute o seguinte comando:</text> <code></code>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
