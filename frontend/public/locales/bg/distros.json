@@ -41,11 +41,11 @@
     "distroName": "ALT Linux",
     "step-1": {
       "name": "Инсталирайте „Flatpak“",
-      "text": "<text>Изпълнете следните команди в терминала на „ALT Linux“:</text> <code></code>"
+      "text": "<text>Изпълнете следните команди в терминала на „Alt Linux“:</text> <code></code>"
     },
     "step-3": {
       "name": "Рестартирайте",
-      "text": "<text>Вече може да инсталирате <link>приложенията</link> в „ALT Linux“!</text>"
+      "text": "<text>Вече може да инсталирате <link>приложенията</link> в „Alt Linux“!</text>"
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
