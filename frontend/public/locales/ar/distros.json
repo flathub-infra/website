@@ -142,7 +142,8 @@
     },
     "step-2": {
       "name": "أضف مستودع Flathub"
-    }
+    },
+    "distroName": "ماجيا"
   },
   "pardus": {
     "step-1": {

@@ -242,7 +242,7 @@
   "page-not-found": "{errorCode} - لم يُعثر على الصفحة",
   "could-not-find-page": "لم نتمكَّن من العثور على الصفحة.",
   "verified-website-tooltip": "أُكِّدت ملكية معرِّف التطبيق <appid></appid> باستخدام <website></website>",
-  "verified-login-provider-tooltip": "أكَّد <appid></appid> ملكية معرِّف التطبيق <loginname></loginname> في <loginprovider></loginprovider>",
+  "verified-login-provider-tooltip": "أُكِّدت ملكية معرِّف التطبيق <appid></appid> بواسطة <loginname></loginname> على <loginprovider></loginprovider>",
   "verified-manually-tooltip": "أكَّد فريق فلاتهب ملكية معرِّف التطبيق <appid></appid> يدويًّا",
   "verification-warning": "لدى فريق فلاتهب الحقُّ في إزالة شارة التأكيد من أيِّ تطبيق حسب ما يراه مناسبًا، مثلًا في حال كان وجودها قد يضلِّل حقيقة حالة التطبيق الرسمية أو عند تسبُّبها بلبس في علامة تجارية.",
   "refresh": "حدِّث",
