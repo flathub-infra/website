@@ -1573,12 +1573,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/nodemailer@npm:^7.0.9":
-  version: 7.0.9
-  resolution: "@types/nodemailer@npm:7.0.9"
+"@types/nodemailer@npm:^7.0.10":
+  version: 7.0.10
+  resolution: "@types/nodemailer@npm:7.0.10"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10c0/8751a0fbad2fd3e5c7c8ae66b13c2581c71a272c6e8da81c2f50e1d55bd49093033b3507750b1a7b2ee9fedae69cbb533f8924d366e3deaa9f7556d2adcc2b6b
+  checksum: 10c0/14e4389a71a154cad898c6ad21fbf12309f86fa504c6d11bf0911190697164f1c3b0c0d9f6cb425c189af73137cc49eb10dbb41574174bf822cfe37755b87c03
   languageName: node
   linkType: hard
 
@@ -3748,7 +3748,7 @@ __metadata:
     "@react-email/preview-server": "npm:5.2.8"
     "@react-email/render": "npm:2.0.4"
     "@types/html-to-text": "npm:^9.0.4"
-    "@types/nodemailer": "npm:^7.0.9"
+    "@types/nodemailer": "npm:^7.0.10"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     "@types/swagger-ui-dist": "npm:^3.30.6"
