@@ -1,6 +1,6 @@
 "use client"
 
-import WorldMap, { CountryContext } from "react-svg-worldmap"
+import { WorldMap, CountryContext } from "../../../src/components/map"
 
 import styles from "./statistics.module.scss"
 import {
