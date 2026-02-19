@@ -4,20 +4,15 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryExtensionDirectory } from "./summaryExtensionDirectory"
-import type { SummaryExtensionAutodelete } from "./summaryExtensionAutodelete"
-import type { SummaryExtensionNoAutodownload } from "./summaryExtensionNoAutodownload"
-import type { SummaryExtensionVersion } from "./summaryExtensionVersion"
-import type { SummaryExtensionVersions } from "./summaryExtensionVersions"
 
 /**
  * Extension information.
  */
 export interface SummaryExtension {
-  directory?: SummaryExtensionDirectory
-  autodelete?: SummaryExtensionAutodelete
-  noAutodownload?: SummaryExtensionNoAutodownload
-  version?: SummaryExtensionVersion
-  versions?: SummaryExtensionVersions
+  directory?: string | null
+  autodelete?: string | null
+  noAutodownload?: string | null
+  version?: string | null
+  versions?: string | null
   [key: string]: unknown
 }

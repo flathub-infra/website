@@ -5,12 +5,10 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { QualityModerationStatus } from "./qualityModerationStatus"
-import type { QualityModerationDashboardRowAppstream } from "./qualityModerationDashboardRowAppstream"
-import type { QualityModerationDashboardRowInstallsLast7Days } from "./qualityModerationDashboardRowInstallsLast7Days"
 
 export interface QualityModerationDashboardRow {
   id: string
   quality_moderation_status: QualityModerationStatus
-  appstream?: QualityModerationDashboardRowAppstream
-  installs_last_7_days?: QualityModerationDashboardRowInstallsLast7Days
+  appstream?: unknown | null
+  installs_last_7_days?: number | null
 }

@@ -4,16 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { GenericAppstreamReleases } from "./genericAppstreamReleases"
-import type { Urls } from "./urls"
-import type { GenericAppstreamCategories } from "./genericAppstreamCategories"
-import type { GenericAppstreamIcon } from "./genericAppstreamIcon"
-import type { GenericAppstreamIcons } from "./genericAppstreamIcons"
-import type { GenericAppstreamDeveloperName } from "./genericAppstreamDeveloperName"
-import type { GenericAppstreamProjectLicense } from "./genericAppstreamProjectLicense"
 import type { Bundle } from "./bundle"
-import type { GenericAppstreamMetadata } from "./genericAppstreamMetadata"
-import type { GenericAppstreamIsMobileFriendly } from "./genericAppstreamIsMobileFriendly"
+import type { Icon } from "./icon"
+import type { Metadata } from "./metadata"
+import type { Release } from "./release"
+import type { Urls } from "./urls"
 
 /**
  * Generic Appstream metadata
@@ -23,15 +18,15 @@ export interface GenericAppstream {
   id: string
   name: string
   summary: string
-  releases?: GenericAppstreamReleases
+  releases?: Release[] | null
   urls: Urls
-  categories?: GenericAppstreamCategories
-  icon?: GenericAppstreamIcon
-  icons?: GenericAppstreamIcons
-  developer_name?: GenericAppstreamDeveloperName
-  project_license?: GenericAppstreamProjectLicense
+  categories?: string[] | null
+  icon?: string | null
+  icons?: Icon[] | null
+  developer_name?: string | null
+  project_license?: string | null
   bundle: Bundle
-  metadata?: GenericAppstreamMetadata
-  isMobileFriendly?: GenericAppstreamIsMobileFriendly
+  metadata?: Metadata | null
+  isMobileFriendly?: boolean | null
   is_free_license: boolean
 }

@@ -4,13 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AppPickRecommendationLastTimeAppOfTheWeek } from "./appPickRecommendationLastTimeAppOfTheWeek"
-import type { AppPickRecommendationLastTimeAppOfTheDay } from "./appPickRecommendationLastTimeAppOfTheDay"
 
 export interface AppPickRecommendation {
   app_id: string
   numberOfTimesAppOfTheWeek: number
-  lastTimeAppOfTheWeek: AppPickRecommendationLastTimeAppOfTheWeek
+  lastTimeAppOfTheWeek: string | null
   numberOfTimesAppOfTheDay: number
-  lastTimeAppOfTheDay: AppPickRecommendationLastTimeAppOfTheDay
+  lastTimeAppOfTheDay: string | null
 }

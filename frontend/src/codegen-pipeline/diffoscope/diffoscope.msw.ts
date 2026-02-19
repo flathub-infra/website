@@ -4,7 +4,7 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 export const getViewDiffoscopeDiffoscopePipelineIdGetMockHandler = (
@@ -17,11 +17,11 @@ export const getViewDiffoscopeDiffoscopePipelineIdGetMockHandler = (
 ) => {
   return http.get(
     "*/diffoscope/:pipelineId",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -38,11 +38,11 @@ export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetMockHandler = (
 ) => {
   return http.get(
     "*/diffoscope/:pipelineId/common.css",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -59,11 +59,11 @@ export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetMockHandler = (
 ) => {
   return http.get(
     "*/diffoscope/:pipelineId/icon.png",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,

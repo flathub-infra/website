@@ -8,7 +8,6 @@
 export type GetQualityModerationStatusQualityModerationStatusGetFilter =
   (typeof GetQualityModerationStatusQualityModerationStatusGetFilter)[keyof typeof GetQualityModerationStatusQualityModerationStatusGetFilter]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetQualityModerationStatusQualityModerationStatusGetFilter = {
   all: "all",
   passing: "passing",

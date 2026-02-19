@@ -5,17 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { Guideline } from "./guideline"
-import type { QualityModerationTypeUpdatedBy } from "./qualityModerationTypeUpdatedBy"
-import type { QualityModerationTypePassed } from "./qualityModerationTypePassed"
-import type { QualityModerationTypeComment } from "./qualityModerationTypeComment"
 
 export interface QualityModerationType {
   guideline_id: string
   guideline: Guideline
   app_id: string
   updated_at: string
-  updated_by: QualityModerationTypeUpdatedBy
-  passed: QualityModerationTypePassed
-  comment: QualityModerationTypeComment
+  updated_by: number | null
+  passed: boolean | null
+  comment: string | null
   needed_to_pass_since: string
 }

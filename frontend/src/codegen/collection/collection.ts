@@ -190,9 +190,7 @@ export function useGetCategoriesCollectionCategoryGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -215,7 +213,7 @@ export const getCategoryCollectionCategoryCategoryGet = (
 }
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
-  category?: MainCategory,
+  category: MainCategory,
   params?: GetCategoryCollectionCategoryCategoryGetParams,
 ) => {
   return [
@@ -384,9 +382,7 @@ export function useGetCategoryCollectionCategoryCategoryGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -411,7 +407,7 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
   (
-    category?: MainCategory,
+    category: MainCategory,
     params?: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
   ) => {
     return [
@@ -647,9 +643,7 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -821,9 +815,7 @@ export function useGetKeywordCollectionKeywordGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -996,9 +988,7 @@ export function useGetDevelopersCollectionDeveloperGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1021,7 +1011,7 @@ export const getDeveloperCollectionDeveloperDeveloperGet = (
 }
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
-  developer?: string,
+  developer: string,
   params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
 ) => {
   return [
@@ -1210,9 +1200,7 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1418,9 +1406,7 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1608,9 +1594,7 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1784,9 +1768,7 @@ export function useGetVerifiedCollectionVerifiedGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1959,9 +1941,7 @@ export function useGetMobileCollectionMobileGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2134,9 +2114,7 @@ export function useGetPopularLastMonthCollectionPopularGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2340,9 +2318,7 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2516,7 +2492,5 @@ export function useGetMostFavoritedCollectionFavoritesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

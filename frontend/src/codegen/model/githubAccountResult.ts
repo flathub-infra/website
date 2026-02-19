@@ -5,18 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ConnectedAccountProvider } from "./connectedAccountProvider"
-import type { GithubAccountResultAvatarUrl } from "./githubAccountResultAvatarUrl"
-import type { GithubAccountResultDisplayName } from "./githubAccountResultDisplayName"
-import type { GithubAccountResultEmail } from "./githubAccountResultEmail"
-import type { GithubAccountResultLastUsed } from "./githubAccountResultLastUsed"
 
 export interface GithubAccountResult {
   provider: ConnectedAccountProvider
   id: number
   github_userid: number
   login: string
-  avatar_url: GithubAccountResultAvatarUrl
-  display_name: GithubAccountResultDisplayName
-  email: GithubAccountResultEmail
-  last_used: GithubAccountResultLastUsed
+  avatar_url: string | null
+  display_name: string | null
+  email: string | null
+  last_used: string | null
 }

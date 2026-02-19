@@ -4,27 +4,18 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UrlsBugtracker } from "./urlsBugtracker"
-import type { UrlsHomepage } from "./urlsHomepage"
-import type { UrlsHelp } from "./urlsHelp"
-import type { UrlsDonation } from "./urlsDonation"
-import type { UrlsTranslate } from "./urlsTranslate"
-import type { UrlsFaq } from "./urlsFaq"
-import type { UrlsContact } from "./urlsContact"
-import type { UrlsVcsBrowser } from "./urlsVcsBrowser"
-import type { UrlsContribute } from "./urlsContribute"
 
 /**
  * Various URLs related to the app.
  */
 export interface Urls {
-  bugtracker?: UrlsBugtracker
-  homepage?: UrlsHomepage
-  help?: UrlsHelp
-  donation?: UrlsDonation
-  translate?: UrlsTranslate
-  faq?: UrlsFaq
-  contact?: UrlsContact
-  vcs_browser?: UrlsVcsBrowser
-  contribute?: UrlsContribute
+  bugtracker?: string | null
+  homepage?: string | null
+  help?: string | null
+  donation?: string | null
+  translate?: string | null
+  faq?: string | null
+  contact?: string | null
+  vcs_browser?: string | null
+  contribute?: string | null
 }

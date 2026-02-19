@@ -4,16 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { LocalizationAppstreamReleases } from "./localizationAppstreamReleases"
-import type { Urls } from "./urls"
-import type { LocalizationAppstreamCategories } from "./localizationAppstreamCategories"
-import type { LocalizationAppstreamIcon } from "./localizationAppstreamIcon"
-import type { LocalizationAppstreamIcons } from "./localizationAppstreamIcons"
-import type { LocalizationAppstreamDeveloperName } from "./localizationAppstreamDeveloperName"
-import type { LocalizationAppstreamProjectLicense } from "./localizationAppstreamProjectLicense"
 import type { Bundle } from "./bundle"
-import type { LocalizationAppstreamMetadata } from "./localizationAppstreamMetadata"
-import type { LocalizationAppstreamIsMobileFriendly } from "./localizationAppstreamIsMobileFriendly"
+import type { Icon } from "./icon"
+import type { Metadata } from "./metadata"
+import type { Release } from "./release"
+import type { Urls } from "./urls"
 
 /**
  * Localization Appstream metadata
@@ -23,15 +18,15 @@ export interface LocalizationAppstream {
   id: string
   name: string
   summary: string
-  releases?: LocalizationAppstreamReleases
+  releases?: Release[] | null
   urls: Urls
-  categories?: LocalizationAppstreamCategories
-  icon?: LocalizationAppstreamIcon
-  icons?: LocalizationAppstreamIcons
-  developer_name?: LocalizationAppstreamDeveloperName
-  project_license?: LocalizationAppstreamProjectLicense
+  categories?: string[] | null
+  icon?: string | null
+  icons?: Icon[] | null
+  developer_name?: string | null
+  project_license?: string | null
   bundle: Bundle
-  metadata?: LocalizationAppstreamMetadata
-  isMobileFriendly?: LocalizationAppstreamIsMobileFriendly
+  metadata?: Metadata | null
+  isMobileFriendly?: boolean | null
   is_free_license: boolean
 }

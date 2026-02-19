@@ -29,12 +29,15 @@ import type {
   ArchiveRequest,
   AvailableMethods,
   ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams,
+  ErrorReturn,
   GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
-  GetVerificationStatusVerificationAppIdStatusGet200,
   HTTPValidationError,
   LinkResponse,
   SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams,
-  VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200,
+  VerificationStatusLoginProvider,
+  VerificationStatusManual,
+  VerificationStatusNone,
+  VerificationStatusWebsite,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams,
   WebsiteVerificationResult,
   WebsiteVerificationToken,
@@ -48,13 +51,18 @@ export const getVerificationStatusVerificationAppIdStatusGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<
-  AxiosResponse<GetVerificationStatusVerificationAppIdStatusGet200>
+  AxiosResponse<
+    | VerificationStatusNone
+    | VerificationStatusManual
+    | VerificationStatusWebsite
+    | VerificationStatusLoginProvider
+  >
 > => {
   return axios.get(`/verification/${appId}/status`, options)
 }
 
 export const getGetVerificationStatusVerificationAppIdStatusGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/verification/${appId}/status`] as const
 }
@@ -243,9 +251,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -267,7 +273,7 @@ export const getAvailableMethodsVerificationAppIdAvailableMethodsGet = (
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryKey =
   (
-    appId?: string,
+    appId: string,
     params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
   ) => {
     return [
@@ -500,9 +506,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -514,9 +518,7 @@ export const verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost = (
   appId: string,
   params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams,
   options?: AxiosRequestConfig,
-): Promise<
-  AxiosResponse<VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200>
-> => {
+): Promise<AxiosResponse<ErrorReturn | null>> => {
   return axios.post(
     `/verification/${appId}/verify-by-login-provider`,
     undefined,
@@ -639,12 +641,12 @@ export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost 
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * Returns the URL to request access to the organization so we can verify the user's membership.
@@ -874,9 +876,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1011,12 +1011,12 @@ export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * Checks website verification, and if it succeeds, marks the app as verified for the current account.
@@ -1150,12 +1150,12 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * If the current account has verified the given app, mark it as no longer verified.
@@ -1236,10 +1236,10 @@ export const useUnverifyVerificationAppIdUnverifyPost = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
-    getUnverifyVerificationAppIdUnverifyPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getUnverifyVerificationAppIdUnverifyPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Switch To Direct Upload
@@ -1349,12 +1349,12 @@ export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
     { appId: string },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * @summary Archive
@@ -1434,8 +1434,8 @@ export const useArchiveVerificationAppIdArchivePost = <
   { appId: string; data: ArchiveRequest },
   TContext
 > => {
-  const mutationOptions =
-    getArchiveVerificationAppIdArchivePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getArchiveVerificationAppIdArchivePostMutationOptions(options),
+    queryClient,
+  )
 }

@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AppsIndexTranslationsAnyOf } from "./appsIndexTranslationsAnyOf"
 
-export type AppsIndexTranslations = AppsIndexTranslationsAnyOf | null
+export type AppsIndexTranslations = {
+  [key: string]: { [key: string]: string | string[] }
+} | null

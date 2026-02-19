@@ -4,11 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SearchQueryFilters } from "./searchQueryFilters"
+import type { Filter } from "./filter"
 
 export interface SearchQuery {
   query: string
-  filters?: SearchQueryFilters
+  filters?: Filter[] | null
   hits_per_page?: number
   page?: number
 }

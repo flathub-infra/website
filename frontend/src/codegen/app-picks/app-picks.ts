@@ -23,12 +23,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type {
-  AppOfTheDay,
-  AppsOfTheWeek,
-  SetAppOfTheDayAppPicksAppOfTheDayPost200,
-  UpsertAppOfTheWeek,
-} from ".././model"
+import type { AppOfTheDay, AppsOfTheWeek, UpsertAppOfTheWeek } from ".././model"
 
 /**
  * @summary Get App Of The Day
@@ -41,7 +36,7 @@ export const getAppOfTheDayAppPicksAppOfTheDayDateGet = (
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
-  date?: string,
+  date: string,
 ) => {
   return [`/app-picks/app-of-the-day/${date}`] as const
 }
@@ -197,9 +192,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -214,7 +207,7 @@ export const getAppOfTheWeekAppPicksAppsOfTheWeekDateGet = (
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryKey = (
-  date?: string,
+  date: string,
 ) => {
   return [`/app-picks/apps-of-the-week/${date}`] as const
 }
@@ -390,9 +383,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -475,10 +466,10 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
   { data: UpsertAppOfTheWeek },
   TContext
 > => {
-  const mutationOptions =
-    getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Sets an app of the day
@@ -487,7 +478,7 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
 export const setAppOfTheDayAppPicksAppOfTheDayPost = (
   appOfTheDay: AppOfTheDay,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<SetAppOfTheDayAppPicksAppOfTheDayPost200>> => {
+): Promise<AxiosResponse<AppOfTheDay | null>> => {
   return axios.post(`/app-picks/app-of-the-day`, appOfTheDay, options)
 }
 
@@ -559,8 +550,8 @@ export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
   { data: AppOfTheDay },
   TContext
 > => {
-  const mutationOptions =
-    getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions(options),
+    queryClient,
+  )
 }

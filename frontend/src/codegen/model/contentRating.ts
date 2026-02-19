@@ -4,65 +4,37 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ContentRatingType } from "./contentRatingType"
-import type { ContentRatingViolenceCartoon } from "./contentRatingViolenceCartoon"
-import type { ContentRatingViolenceFantasy } from "./contentRatingViolenceFantasy"
-import type { ContentRatingViolenceRealistic } from "./contentRatingViolenceRealistic"
-import type { ContentRatingViolenceBloodshed } from "./contentRatingViolenceBloodshed"
-import type { ContentRatingViolenceSexual } from "./contentRatingViolenceSexual"
-import type { ContentRatingViolenceDesecration } from "./contentRatingViolenceDesecration"
-import type { ContentRatingViolenceSlavery } from "./contentRatingViolenceSlavery"
-import type { ContentRatingViolenceWorship } from "./contentRatingViolenceWorship"
-import type { ContentRatingDrugsAlcohol } from "./contentRatingDrugsAlcohol"
-import type { ContentRatingDrugsNarcotics } from "./contentRatingDrugsNarcotics"
-import type { ContentRatingDrugsTobacco } from "./contentRatingDrugsTobacco"
-import type { ContentRatingSexNudity } from "./contentRatingSexNudity"
-import type { ContentRatingSexThemes } from "./contentRatingSexThemes"
-import type { ContentRatingSexHomosexuality } from "./contentRatingSexHomosexuality"
-import type { ContentRatingSexProstitution } from "./contentRatingSexProstitution"
-import type { ContentRatingSexAdultery } from "./contentRatingSexAdultery"
-import type { ContentRatingSexAppearance } from "./contentRatingSexAppearance"
-import type { ContentRatingLanguageProfanity } from "./contentRatingLanguageProfanity"
-import type { ContentRatingLanguageHumor } from "./contentRatingLanguageHumor"
-import type { ContentRatingLanguageDiscrimination } from "./contentRatingLanguageDiscrimination"
-import type { ContentRatingSocialChat } from "./contentRatingSocialChat"
-import type { ContentRatingSocialInfo } from "./contentRatingSocialInfo"
-import type { ContentRatingSocialAudio } from "./contentRatingSocialAudio"
-import type { ContentRatingSocialLocation } from "./contentRatingSocialLocation"
-import type { ContentRatingSocialContacts } from "./contentRatingSocialContacts"
-import type { ContentRatingMoneyPurchasing } from "./contentRatingMoneyPurchasing"
-import type { ContentRatingMoneyGambling } from "./contentRatingMoneyGambling"
 
 /**
  * Content rating information.
  */
 export interface ContentRating {
-  type?: ContentRatingType
-  violence_cartoon?: ContentRatingViolenceCartoon
-  violence_fantasy?: ContentRatingViolenceFantasy
-  violence_realistic?: ContentRatingViolenceRealistic
-  violence_bloodshed?: ContentRatingViolenceBloodshed
-  violence_sexual?: ContentRatingViolenceSexual
-  violence_desecration?: ContentRatingViolenceDesecration
-  violence_slavery?: ContentRatingViolenceSlavery
-  violence_worship?: ContentRatingViolenceWorship
-  drugs_alcohol?: ContentRatingDrugsAlcohol
-  drugs_narcotics?: ContentRatingDrugsNarcotics
-  drugs_tobacco?: ContentRatingDrugsTobacco
-  sex_nudity?: ContentRatingSexNudity
-  sex_themes?: ContentRatingSexThemes
-  sex_homosexuality?: ContentRatingSexHomosexuality
-  sex_prostitution?: ContentRatingSexProstitution
-  sex_adultery?: ContentRatingSexAdultery
-  sex_appearance?: ContentRatingSexAppearance
-  language_profanity?: ContentRatingLanguageProfanity
-  language_humor?: ContentRatingLanguageHumor
-  language_discrimination?: ContentRatingLanguageDiscrimination
-  social_chat?: ContentRatingSocialChat
-  social_info?: ContentRatingSocialInfo
-  social_audio?: ContentRatingSocialAudio
-  social_location?: ContentRatingSocialLocation
-  social_contacts?: ContentRatingSocialContacts
-  money_purchasing?: ContentRatingMoneyPurchasing
-  money_gambling?: ContentRatingMoneyGambling
+  type?: string | null
+  violence_cartoon?: "none" | "mild" | "moderate" | "intense" | null
+  violence_fantasy?: "none" | "mild" | "moderate" | "intense" | null
+  violence_realistic?: "none" | "mild" | "moderate" | "intense" | null
+  violence_bloodshed?: "none" | "mild" | "moderate" | "intense" | null
+  violence_sexual?: "none" | "mild" | "moderate" | "intense" | null
+  violence_desecration?: "none" | "mild" | "moderate" | "intense" | null
+  violence_slavery?: "none" | "mild" | "moderate" | "intense" | null
+  violence_worship?: "none" | "mild" | "moderate" | "intense" | null
+  drugs_alcohol?: "none" | "mild" | "moderate" | "intense" | null
+  drugs_narcotics?: "none" | "mild" | "moderate" | "intense" | null
+  drugs_tobacco?: "none" | "mild" | "moderate" | "intense" | null
+  sex_nudity?: "none" | "mild" | "moderate" | "intense" | null
+  sex_themes?: "none" | "mild" | "moderate" | "intense" | null
+  sex_homosexuality?: "none" | "mild" | "moderate" | "intense" | null
+  sex_prostitution?: "none" | "mild" | "moderate" | "intense" | null
+  sex_adultery?: "none" | "mild" | "moderate" | "intense" | null
+  sex_appearance?: "none" | "mild" | "moderate" | "intense" | null
+  language_profanity?: "none" | "mild" | "moderate" | "intense" | null
+  language_humor?: "none" | "mild" | "moderate" | "intense" | null
+  language_discrimination?: "none" | "mild" | "moderate" | "intense" | null
+  social_chat?: "none" | "mild" | "moderate" | "intense" | null
+  social_info?: "none" | "mild" | "moderate" | "intense" | null
+  social_audio?: "none" | "mild" | "moderate" | "intense" | null
+  social_location?: "none" | "mild" | "moderate" | "intense" | null
+  social_contacts?: "none" | "mild" | "moderate" | "intense" | null
+  money_purchasing?: "none" | "mild" | "moderate" | "intense" | null
+  money_gambling?: "none" | "mild" | "moderate" | "intense" | null
 }

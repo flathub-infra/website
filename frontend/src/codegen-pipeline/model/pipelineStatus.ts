@@ -8,7 +8,6 @@
 export type PipelineStatus =
   (typeof PipelineStatus)[keyof typeof PipelineStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PipelineStatus = {
   pending: "pending",
   running: "running",

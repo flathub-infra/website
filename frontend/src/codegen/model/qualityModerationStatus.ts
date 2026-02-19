@@ -4,14 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { QualityModerationStatusLastUpdated } from "./qualityModerationStatusLastUpdated"
-import type { QualityModerationStatusReviewRequestedAt } from "./qualityModerationStatusReviewRequestedAt"
 
 export interface QualityModerationStatus {
   passes: boolean
   unrated: number
   passed: number
   not_passed: number
-  last_updated: QualityModerationStatusLastUpdated
-  review_requested_at?: QualityModerationStatusReviewRequestedAt
+  last_updated: string | null
+  review_requested_at?: string | null
 }

@@ -4,7 +4,5 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryPermissionsSessionBusAnyOf } from "./summaryPermissionsSessionBusAnyOf"
 
-export type SummaryPermissionsSessionBus =
-  SummaryPermissionsSessionBusAnyOf | null
+export type SummaryPermissionsSessionBus = { [key: string]: string[] } | null

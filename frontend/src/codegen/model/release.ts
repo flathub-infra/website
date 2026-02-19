@@ -4,25 +4,17 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ReleaseTimestamp } from "./releaseTimestamp"
-import type { ReleaseVersion } from "./releaseVersion"
-import type { ReleaseDate } from "./releaseDate"
-import type { ReleaseType } from "./releaseType"
-import type { ReleaseUrgency } from "./releaseUrgency"
-import type { ReleaseDescription } from "./releaseDescription"
-import type { ReleaseUrl } from "./releaseUrl"
-import type { ReleaseDateEol } from "./releaseDateEol"
 
 /**
  * A release/version entry.
  */
 export interface Release {
-  timestamp?: ReleaseTimestamp
-  version?: ReleaseVersion
-  date?: ReleaseDate
-  type?: ReleaseType
-  urgency?: ReleaseUrgency
-  description?: ReleaseDescription
-  url?: ReleaseUrl
-  date_eol?: ReleaseDateEol
+  timestamp?: string | null
+  version?: string | null
+  date?: string | null
+  type?: "stable" | "development" | "snapshot" | null
+  urgency?: "low" | "medium" | "high" | "critical" | null
+  description?: string | null
+  url?: string | null
+  date_eol?: string | null
 }

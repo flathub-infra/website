@@ -4,11 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { StorefrontInfoVerification } from "./storefrontInfoVerification"
-import type { StorefrontInfoPricing } from "./storefrontInfoPricing"
+import type { PricingInfo } from "./pricingInfo"
+import type { VerificationStatusLoginProvider } from "./verificationStatusLoginProvider"
+import type { VerificationStatusManual } from "./verificationStatusManual"
+import type { VerificationStatusNone } from "./verificationStatusNone"
+import type { VerificationStatusWebsite } from "./verificationStatusWebsite"
 
 export interface StorefrontInfo {
-  verification?: StorefrontInfoVerification
-  pricing?: StorefrontInfoPricing
+  verification?:
+    | VerificationStatusNone
+    | VerificationStatusManual
+    | VerificationStatusWebsite
+    | VerificationStatusLoginProvider
+    | null
+  pricing?: PricingInfo | null
   is_free_software?: boolean
 }

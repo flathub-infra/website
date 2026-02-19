@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import {
@@ -20,10 +20,7 @@ import type {
   FavoriteApp,
   GenericAppstream,
   GetAppFavoritesCountFavoritesAppIdCountGet200,
-  GetAppstreamAppstreamAppIdGet200,
-  GetEolMessageAppidEolMessageAppIdGet200,
   GetEolMessageEolMessageGet200,
-  GetEolRebaseAppidEolRebaseAppIdGet200,
   GetEolRebaseEolRebaseGet200,
   GetPlatformsPlatformsGet200,
   GetRuntimeListRuntimesGet200,
@@ -41,12 +38,13 @@ export const getGetEolRebaseEolRebaseGetResponseMock =
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   })
 
-export const getGetEolRebaseAppidEolRebaseAppIdGetResponseMock =
-  (): GetEolRebaseAppidEolRebaseAppIdGet200 =>
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ])
+export const getGetEolRebaseAppidEolRebaseAppIdGetResponseMock = ():
+  | string
+  | null =>
+  faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ])
 
 export const getGetEolMessageEolMessageGetResponseMock =
   (): GetEolMessageEolMessageGet200 => ({
@@ -55,12 +53,13 @@ export const getGetEolMessageEolMessageGetResponseMock =
     }),
   })
 
-export const getGetEolMessageAppidEolMessageAppIdGetResponseMock =
-  (): GetEolMessageAppidEolMessageAppIdGet200 =>
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ])
+export const getGetEolMessageAppidEolMessageAppIdGetResponseMock = ():
+  | string
+  | null =>
+  faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ])
 
 export const getListAppstreamAppstreamGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
@@ -108,24 +107,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -194,7 +184,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       date: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.date.past().toISOString().split("T")[0],
+          faker.date.past().toISOString().slice(0, 10),
           null,
         ]),
         undefined,
@@ -238,7 +228,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       date_eol: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.date.past().toISOString().split("T")[0],
+          faker.date.past().toISOString().slice(0, 10),
           null,
         ]),
         undefined,
@@ -894,7 +884,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
           ]),
           date: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -938,7 +928,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
           ]),
           date_eol: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -1389,24 +1379,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -1560,7 +1541,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
             ]),
             date: faker.helpers.arrayElement([
               faker.helpers.arrayElement([
-                faker.date.past().toISOString().split("T")[0],
+                faker.date.past().toISOString().slice(0, 10),
                 null,
               ]),
               undefined,
@@ -1604,7 +1585,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
             ]),
             date_eol: faker.helpers.arrayElement([
               faker.helpers.arrayElement([
-                faker.date.past().toISOString().split("T")[0],
+                faker.date.past().toISOString().slice(0, 10),
                 null,
               ]),
               undefined,
@@ -1710,24 +1691,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
               undefined,
             ]),
             width: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                null,
-              ]),
+              faker.helpers.arrayElement([faker.number.int(), null]),
               undefined,
             ]),
             height: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                null,
-              ]),
+              faker.helpers.arrayElement([faker.number.int(), null]),
               undefined,
             ]),
             scale: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                null,
-              ]),
+              faker.helpers.arrayElement([faker.number.int(), null]),
               undefined,
             ]),
             type: faker.helpers.arrayElement([
@@ -1881,7 +1853,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
           ]),
           date: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -1925,7 +1897,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
           ]),
           date_eol: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -2031,24 +2003,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -2207,7 +2170,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
           ]),
           date: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -2251,7 +2214,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
           ]),
           date_eol: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -2357,24 +2320,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -2496,23 +2450,25 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
   ...overrideResponse,
 })
 
-export const getGetAppstreamAppstreamAppIdGetResponseMock =
-  (): GetAppstreamAppstreamAppIdGet200 =>
-    faker.helpers.arrayElement([
-      { ...getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock() },
-      { ...getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock() },
-      {
-        ...getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock(),
-      },
-      { ...getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock() },
-      { ...getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock() },
-    ])
+export const getGetAppstreamAppstreamAppIdGetResponseMock = ():
+  | DesktopAppstream
+  | AddonAppstream
+  | LocalizationAppstream
+  | GenericAppstream
+  | RuntimeAppstream =>
+  faker.helpers.arrayElement([
+    { ...getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock() },
+    { ...getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock() },
+    { ...getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock() },
+    { ...getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock() },
+    { ...getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock() },
+  ])
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock =
   (): boolean => faker.datatype.boolean()
 
 export const getPostSearchSearchPostResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2600,7 +2556,7 @@ export const getPostSearchSearchPostResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2609,53 +2565,37 @@ export const getPostSearchSearchPostResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -2666,10 +2606,7 @@ export const getPostSearchSearchPostResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -2681,14 +2618,11 @@ export const getPostSearchSearchPostResponseMock = (
 
 export const getGetRuntimeListRuntimesGetResponseMock =
   (): GetRuntimeListRuntimesGet200 => ({
-    [faker.string.alphanumeric(5)]: faker.number.int({
-      min: undefined,
-      max: undefined,
-    }),
+    [faker.string.alphanumeric(5)]: faker.number.int(),
   })
 
 export const getGetSummarySummaryAppIdGetResponseMock = (
-  overrideResponse: Partial<SummaryResponse> = {},
+  overrideResponse: Partial<Extract<SummaryResponse, object>> = {},
 ): SummaryResponse => ({
   arches: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2701,9 +2635,9 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
     ]),
     undefined,
   ]),
-  timestamp: faker.number.int({ min: undefined, max: undefined }),
-  download_size: faker.number.int({ min: undefined, max: undefined }),
-  installed_size: faker.number.int({ min: undefined, max: undefined }),
+  timestamp: faker.number.int(),
+  download_size: faker.number.int(),
+  installed_size: faker.number.int(),
   metadata: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
@@ -2896,7 +2830,7 @@ export const getGetPlatformsPlatformsGetResponseMock =
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      keep: faker.number.int({ min: undefined, max: undefined }),
+      keep: faker.number.int(),
       stripe_account: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -2918,7 +2852,7 @@ export const getGetFavoritesFavoritesGetResponseMock = (): FavoriteApp[] =>
     (_, i) => i + 1,
   ).map(() => ({
     app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+    created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   }))
 
 export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
@@ -2937,18 +2871,14 @@ export const getGetEolRebaseEolRebaseGetMockHandler = (
 ) => {
   return http.get(
     "*/eol/rebase",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolRebaseEolRebaseGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolRebaseEolRebaseGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2957,28 +2887,23 @@ export const getGetEolRebaseEolRebaseGetMockHandler = (
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetMockHandler = (
   overrideResponse?:
-    | GetEolRebaseAppidEolRebaseAppIdGet200
+    | string
+    | null
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) =>
-        | Promise<GetEolRebaseAppidEolRebaseAppIdGet200>
-        | GetEolRebaseAppidEolRebaseAppIdGet200),
+      ) => Promise<string | null> | string | null),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/eol/rebase/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2997,18 +2922,14 @@ export const getGetEolMessageEolMessageGetMockHandler = (
 ) => {
   return http.get(
     "*/eol/message",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolMessageEolMessageGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolMessageEolMessageGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3017,28 +2938,23 @@ export const getGetEolMessageEolMessageGetMockHandler = (
 
 export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
   overrideResponse?:
-    | GetEolMessageAppidEolMessageAppIdGet200
+    | string
+    | null
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) =>
-        | Promise<GetEolMessageAppidEolMessageAppIdGet200>
-        | GetEolMessageAppidEolMessageAppIdGet200),
+      ) => Promise<string | null> | string | null),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/eol/message/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3055,18 +2971,14 @@ export const getListAppstreamAppstreamGetMockHandler = (
 ) => {
   return http.get(
     "*/appstream",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getListAppstreamAppstreamGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getListAppstreamAppstreamGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3075,28 +2987,38 @@ export const getListAppstreamAppstreamGetMockHandler = (
 
 export const getGetAppstreamAppstreamAppIdGetMockHandler = (
   overrideResponse?:
-    | GetAppstreamAppstreamAppIdGet200
+    | DesktopAppstream
+    | AddonAppstream
+    | LocalizationAppstream
+    | GenericAppstream
+    | RuntimeAppstream
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<GetAppstreamAppstreamAppIdGet200>
-        | GetAppstreamAppstreamAppIdGet200),
+        | Promise<
+            | DesktopAppstream
+            | AddonAppstream
+            | LocalizationAppstream
+            | GenericAppstream
+            | RuntimeAppstream
+          >
+        | DesktopAppstream
+        | AddonAppstream
+        | LocalizationAppstream
+        | GenericAppstream
+        | RuntimeAppstream),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/appstream/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAppstreamAppstreamAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAppstreamAppstreamAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3113,18 +3035,14 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/is-fullscreen-app/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3143,18 +3061,14 @@ export const getPostSearchSearchPostMockHandler = (
 ) => {
   return http.post(
     "*/search",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getPostSearchSearchPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getPostSearchSearchPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3173,18 +3087,14 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
 ) => {
   return http.get(
     "*/runtimes",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetRuntimeListRuntimesGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetRuntimeListRuntimesGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3201,18 +3111,14 @@ export const getGetSummarySummaryAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/summary/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetSummarySummaryAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetSummarySummaryAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3229,18 +3135,14 @@ export const getGetPlatformsPlatformsGetMockHandler = (
 ) => {
   return http.get(
     "*/platforms",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetPlatformsPlatformsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPlatformsPlatformsGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3257,18 +3159,14 @@ export const getGetAddonsAddonAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/addon/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAddonsAddonAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAddonsAddonAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3285,11 +3183,11 @@ export const getGetExceptionsExceptionsGetMockHandler = (
 ) => {
   return http.get(
     "*/exceptions/",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3306,11 +3204,11 @@ export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/exceptions/:appId",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3327,11 +3225,11 @@ export const getAddToFavoritesFavoritesAppIdAddPostMockHandler = (
 ) => {
   return http.post(
     "*/favorites/:appId/add",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3348,11 +3246,11 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler = (
 ) => {
   return http.delete(
     "*/favorites/:appId/remove",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3369,18 +3267,14 @@ export const getGetFavoritesFavoritesGetMockHandler = (
 ) => {
   return http.get(
     "*/favorites",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetFavoritesFavoritesGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetFavoritesFavoritesGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3397,18 +3291,14 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/favorites/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getIsFavoritedFavoritesAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getIsFavoritedFavoritesAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3427,18 +3317,14 @@ export const getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler = (
 ) => {
   return http.get(
     "*/favorites/:appId/count",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock(),
+        { status: 200 },
       )
     },
     options,

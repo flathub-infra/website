@@ -97,8 +97,8 @@ export const useReceiveGithubWebhookApiWebhooksGithubPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions(options),
+    queryClient,
+  )
 }

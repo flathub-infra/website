@@ -4,13 +4,13 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { YearInReviewMostPopularApp } from "./yearInReviewMostPopularApp"
+import type { HiddenGem } from "./hiddenGem"
+import type { PlatformStats } from "./platformStats"
+import type { TrendingCategory } from "./trendingCategory"
 import type { YearInReviewCategoryApp } from "./yearInReviewCategoryApp"
 import type { YearInReviewCategoryGrowthApp } from "./yearInReviewCategoryGrowthApp"
-import type { YearInReviewResultGeographicStats } from "./yearInReviewResultGeographicStats"
-import type { HiddenGem } from "./hiddenGem"
-import type { TrendingCategory } from "./trendingCategory"
-import type { PlatformStats } from "./platformStats"
+import type { YearInReviewGeographicStats } from "./yearInReviewGeographicStats"
+import type { YearInReviewMostPopularApp } from "./yearInReviewMostPopularApp"
 
 export interface YearInReviewResult {
   year: number
@@ -29,7 +29,7 @@ export interface YearInReviewResult {
   biggest_growth_by_category: YearInReviewCategoryGrowthApp[]
   newcomers_by_category: YearInReviewCategoryApp[]
   most_improved_by_category: YearInReviewCategoryGrowthApp[]
-  geographic_stats?: YearInReviewResultGeographicStats
+  geographic_stats?: YearInReviewGeographicStats | null
   hidden_gems?: HiddenGem[]
   trending_categories?: TrendingCategory[]
   platform_stats?: PlatformStats[]

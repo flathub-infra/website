@@ -4,17 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AddonAppstreamReleases } from "./addonAppstreamReleases"
-import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
-import type { AddonAppstreamUrls } from "./addonAppstreamUrls"
-import type { AddonAppstreamCategories } from "./addonAppstreamCategories"
-import type { AddonAppstreamIcon } from "./addonAppstreamIcon"
-import type { AddonAppstreamIcons } from "./addonAppstreamIcons"
-import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
-import type { AddonAppstreamProjectLicense } from "./addonAppstreamProjectLicense"
 import type { Bundle } from "./bundle"
-import type { AddonAppstreamMetadata } from "./addonAppstreamMetadata"
-import type { AddonAppstreamIsMobileFriendly } from "./addonAppstreamIsMobileFriendly"
+import type { ContentRating } from "./contentRating"
+import type { Icon } from "./icon"
+import type { Metadata } from "./metadata"
+import type { Release } from "./release"
+import type { Urls } from "./urls"
 
 /**
  * Addon Appstream metadata
@@ -24,17 +19,17 @@ export interface AddonAppstream {
   id: string
   name: string
   summary: string
-  releases?: AddonAppstreamReleases
-  content_rating?: AddonAppstreamContentRating
-  urls?: AddonAppstreamUrls
-  categories?: AddonAppstreamCategories
-  icon?: AddonAppstreamIcon
-  icons?: AddonAppstreamIcons
-  developer_name?: AddonAppstreamDeveloperName
-  project_license?: AddonAppstreamProjectLicense
+  releases?: Release[] | null
+  content_rating?: ContentRating | null
+  urls?: Urls | null
+  categories?: string[] | null
+  icon?: string | null
+  icons?: Icon[] | null
+  developer_name?: string | null
+  project_license?: string | null
   extends: string
   bundle: Bundle
-  metadata?: AddonAppstreamMetadata
-  isMobileFriendly?: AddonAppstreamIsMobileFriendly
+  metadata?: Metadata | null
+  isMobileFriendly?: boolean | null
   is_free_license: boolean
 }

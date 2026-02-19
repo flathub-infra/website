@@ -4,21 +4,34 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserResultDisplayName } from "./userResultDisplayName"
-import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
-import type { UserResultConnectedAccountsItem } from "./userResultConnectedAccountsItem"
-import type { UserResultAcceptedPublisherAgreementAt } from "./userResultAcceptedPublisherAgreementAt"
+import type { GithubAccountResult } from "./githubAccountResult"
+import type { GithubRepositoryResult } from "./githubRepositoryResult"
+import type { GitlabAccountResult } from "./gitlabAccountResult"
+import type { GnomeAccountResult } from "./gnomeAccountResult"
+import type { GoogleAccountResult } from "./googleAccountResult"
+import type { KdeAccountResult } from "./kdeAccountResult"
+import type { UserOwnedAppResult } from "./userOwnedAppResult"
 import type { UserRoleResult } from "./userRoleResult"
-import type { UserResultGithubRepos } from "./userResultGithubRepos"
-import type { UserResultOwnedApps } from "./userResultOwnedApps"
 
 export interface UserResult {
   id: number
-  display_name: UserResultDisplayName
-  default_account: UserResultDefaultAccount
-  connected_accounts: UserResultConnectedAccountsItem[]
-  accepted_publisher_agreement_at: UserResultAcceptedPublisherAgreementAt
+  display_name: string | null
+  default_account:
+    | GithubAccountResult
+    | GitlabAccountResult
+    | GnomeAccountResult
+    | GoogleAccountResult
+    | KdeAccountResult
+    | null
+  connected_accounts: (
+    | GithubAccountResult
+    | GitlabAccountResult
+    | GnomeAccountResult
+    | GoogleAccountResult
+    | KdeAccountResult
+  )[]
+  accepted_publisher_agreement_at: string | null
   roles: UserRoleResult[]
-  github_repos: UserResultGithubRepos
-  owned_apps: UserResultOwnedApps
+  github_repos: GithubRepositoryResult[] | null
+  owned_apps: UserOwnedAppResult[] | null
 }

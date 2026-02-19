@@ -7,7 +7,6 @@
 
 export type LoginProvider = (typeof LoginProvider)[keyof typeof LoginProvider]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LoginProvider = {
   github: "github",
   gitlab: "gitlab",

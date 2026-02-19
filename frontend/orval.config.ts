@@ -1,6 +1,7 @@
 import type { InfoObject } from "openapi3-ts/oas30"
+import { defineConfig } from "orval"
 
-module.exports = {
+export default defineConfig({
   "flathub-file-transfomer": {
     output: {
       mode: "tags-split",
@@ -8,6 +9,7 @@ module.exports = {
       target: "./",
       schemas: "./model",
       client: "react-query",
+      httpClient: "axios",
       mock: true,
       prettier: true,
       clean: true,
@@ -38,6 +40,7 @@ module.exports = {
       target: "./",
       schemas: "./model",
       client: "react-query",
+      httpClient: "axios",
       mock: true,
       prettier: true,
       clean: true,
@@ -56,4 +59,4 @@ module.exports = {
       target: "https://builds.flathub.org/openapi.json",
     },
   },
-}
+})

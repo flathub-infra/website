@@ -4,13 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { BrandingSchemePreference } from "./brandingSchemePreference"
 
 /**
  * Branding color information.
  */
 export interface Branding {
   value: string
-  scheme_preference?: BrandingSchemePreference
+  scheme_preference?: "light" | "dark" | null
   type: "primary"
 }

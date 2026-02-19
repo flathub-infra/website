@@ -51,7 +51,7 @@ export const getUploadTokensUploadTokensAppIdGet = (
 }
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
 ) => {
   return [`/upload-tokens/${appId}`, ...(params ? [params] : [])] as const
@@ -217,9 +217,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -302,10 +300,10 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
   { appId: string; data: UploadTokenRequest },
   TContext
 > => {
-  const mutationOptions =
-    getCreateUploadTokenUploadTokensAppIdPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCreateUploadTokenUploadTokensAppIdPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Revoke Upload Token
@@ -398,8 +396,8 @@ export const useRevokeUploadTokenUploadTokensTokenIdRevokeDelete = <
   { tokenId: number },
   TContext
 > => {
-  const mutationOptions =
-    getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions(options),
+    queryClient,
+  )
 }

@@ -4,16 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AuthsGithub } from "./authsGithub"
-import type { AuthsGitlab } from "./authsGitlab"
-import type { AuthsGnome } from "./authsGnome"
-import type { AuthsKde } from "./authsKde"
-import type { AuthsGoogle } from "./authsGoogle"
+import type { AuthInfo } from "./authInfo"
 
 export interface Auths {
-  github?: AuthsGithub
-  gitlab?: AuthsGitlab
-  gnome?: AuthsGnome
-  kde?: AuthsKde
-  google?: AuthsGoogle
+  github?: AuthInfo | null
+  gitlab?: AuthInfo | null
+  gnome?: AuthInfo | null
+  kde?: AuthInfo | null
+  google?: AuthInfo | null
 }

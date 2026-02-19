@@ -4,14 +4,13 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TransactionSummary } from "./transactionSummary"
-import type { TransactionCard } from "./transactionCard"
+import type { PaymentCardInfo } from "./paymentCardInfo"
 import type { TransactionRow } from "./transactionRow"
-import type { TransactionReceipt } from "./transactionReceipt"
+import type { TransactionSummary } from "./transactionSummary"
 
 export interface Transaction {
   summary: TransactionSummary
-  card?: TransactionCard
+  card?: PaymentCardInfo | null
   details: TransactionRow[]
-  receipt?: TransactionReceipt
+  receipt?: string | null
 }
