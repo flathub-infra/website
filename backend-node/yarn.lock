@@ -1267,9 +1267,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:1.0.7":
-  version: 1.0.7
-  resolution: "@react-email/components@npm:1.0.7"
+"@react-email/components@npm:1.0.8":
+  version: 1.0.8
+  resolution: "@react-email/components@npm:1.0.8"
   dependencies:
     "@react-email/body": "npm:0.2.1"
     "@react-email/button": "npm:0.2.1"
@@ -1289,11 +1289,11 @@ __metadata:
     "@react-email/render": "npm:2.0.4"
     "@react-email/row": "npm:0.0.13"
     "@react-email/section": "npm:0.0.17"
-    "@react-email/tailwind": "npm:2.0.4"
+    "@react-email/tailwind": "npm:2.0.5"
     "@react-email/text": "npm:0.1.6"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/870202c80bc18950f78fe687ea3b7f15a514aee350eae8611c8e2a458794c20635036d501b43f9e97224e2134e465de78360351262e77b2461d15bef4ee3980d
+  checksum: 10c0/4555e2cabaeb5a7da2d82ece93e2003096d2b9efa0b792d1cd0cca823c5120e81525d131341fb8d00d7ea1c2cb1410cdd81035f91a7f151b0ef5018376ca9e8f
   languageName: node
   linkType: hard
 
@@ -1430,9 +1430,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/tailwind@npm:2.0.4":
-  version: 2.0.4
-  resolution: "@react-email/tailwind@npm:2.0.4"
+"@react-email/tailwind@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@react-email/tailwind@npm:2.0.5"
   dependencies:
     tailwindcss: "npm:^4.1.18"
   peerDependencies:
@@ -1469,7 +1469,7 @@ __metadata:
       optional: true
     "@react-email/preview":
       optional: true
-  checksum: 10c0/1420baa01380c62c7abb609a3f011f2af326b440c9941527a91ca56b14c8a902e1ed823124b04a3001fd726d363092405758a4f251d3b330097896d20a6a1f92
+  checksum: 10c0/b26363dc977cb39a9d7df7663a4ddc47c677290b945735c1a7644ed352c20514c31f97b1b5cc112e780db1797b6f93ae2355dc9e7973525d1b24770c5f231ea5
   languageName: node
   linkType: hard
 
@@ -3744,7 +3744,7 @@ __metadata:
     "@hono/sentry": "npm:^1.2.2"
     "@hono/swagger-ui": "npm:0.5.3"
     "@hono/zod-openapi": "npm:^1.2.2"
-    "@react-email/components": "npm:1.0.7"
+    "@react-email/components": "npm:1.0.8"
     "@react-email/preview-server": "npm:5.2.8"
     "@react-email/render": "npm:2.0.4"
     "@types/html-to-text": "npm:^9.0.4"
