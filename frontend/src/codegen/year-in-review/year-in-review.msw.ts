@@ -6,25 +6,21 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import type { YearInReviewResult } from ".././model"
 
 export const getGetYearInReviewYearInReviewYearGetResponseMock = (
-  overrideResponse: Partial<YearInReviewResult> = {},
+  overrideResponse: Partial<Extract<YearInReviewResult, object>> = {},
 ): YearInReviewResult => ({
-  year: faker.number.int({ min: undefined, max: undefined }),
-  total_downloads: faker.number.int({ min: undefined, max: undefined }),
-  new_apps_count: faker.number.int({ min: undefined, max: undefined }),
-  total_apps: faker.number.int({ min: undefined, max: undefined }),
-  updates_count: faker.number.int({ min: undefined, max: undefined }),
-  total_downloads_change: faker.number.int({ min: undefined, max: undefined }),
-  total_downloads_change_percentage: faker.number.float({
-    min: undefined,
-    max: undefined,
-    fractionDigits: 2,
-  }),
+  year: faker.number.int(),
+  total_downloads: faker.number.int(),
+  new_apps_count: faker.number.int(),
+  total_apps: faker.number.int(),
+  updates_count: faker.number.int(),
+  total_downloads_change: faker.number.int(),
+  total_downloads_change_percentage: faker.number.float({ fractionDigits: 2 }),
   top_apps: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -33,7 +29,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   top_games: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -43,7 +39,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   top_emulators: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -53,7 +49,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   top_game_stores: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -63,7 +59,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   top_game_utilities: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -73,7 +69,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   popular_apps_by_category: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -84,7 +80,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   biggest_growth_by_category: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -95,8 +91,8 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    growth: faker.number.int({ min: undefined, max: undefined }),
-    growth_percentage: faker.number.int({ min: undefined, max: undefined }),
+    growth: faker.number.int(),
+    growth_percentage: faker.number.int(),
   })),
   newcomers_by_category: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -107,7 +103,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    downloads: faker.number.int({ min: undefined, max: undefined }),
+    downloads: faker.number.int(),
   })),
   most_improved_by_category: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -118,8 +114,8 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    growth: faker.number.int({ min: undefined, max: undefined }),
-    growth_percentage: faker.number.int({ min: undefined, max: undefined }),
+    growth: faker.number.int(),
+    growth_percentage: faker.number.int(),
   })),
   geographic_stats: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
@@ -130,12 +126,12 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
             (_, i) => i + 1,
           ).map(() => ({
             country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-            downloads: faker.number.int({ min: undefined, max: undefined }),
+            downloads: faker.number.int(),
           })),
           undefined,
         ]),
         total_countries: faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
+          faker.number.int(),
           undefined,
         ]),
         fastest_growing_regions: faker.helpers.arrayElement([
@@ -144,16 +140,10 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
             (_, i) => i + 1,
           ).map(() => ({
             country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-            downloads: faker.number.int({ min: undefined, max: undefined }),
-            previous_year_downloads: faker.number.int({
-              min: undefined,
-              max: undefined,
-            }),
-            growth: faker.number.int({ min: undefined, max: undefined }),
-            growth_percentage: faker.number.int({
-              min: undefined,
-              max: undefined,
-            }),
+            downloads: faker.number.int(),
+            previous_year_downloads: faker.number.int(),
+            growth: faker.number.int(),
+            growth_percentage: faker.number.int(),
           })),
           undefined,
         ]),
@@ -171,7 +161,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
       name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       icon: faker.string.alpha({ length: { min: 10, max: 20 } }),
       summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      downloads: faker.number.int({ min: undefined, max: undefined }),
+      downloads: faker.number.int(),
     })),
     undefined,
   ]),
@@ -181,20 +171,10 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
       (_, i) => i + 1,
     ).map(() => ({
       category: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      current_year_downloads: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
-      previous_year_downloads: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
-      growth: faker.number.int({ min: undefined, max: undefined }),
-      growth_percentage: faker.number.float({
-        min: undefined,
-        max: undefined,
-        fractionDigits: 2,
-      }),
+      current_year_downloads: faker.number.int(),
+      previous_year_downloads: faker.number.int(),
+      growth: faker.number.int(),
+      growth_percentage: faker.number.float({ fractionDigits: 2 }),
     })),
     undefined,
   ]),
@@ -204,12 +184,8 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
       (_, i) => i + 1,
     ).map(() => ({
       architecture: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      downloads: faker.number.int({ min: undefined, max: undefined }),
-      percentage: faker.number.float({
-        min: undefined,
-        max: undefined,
-        fractionDigits: 2,
-      }),
+      downloads: faker.number.int(),
+      percentage: faker.number.float({ fractionDigits: 2 }),
     })),
     undefined,
   ]),
@@ -226,18 +202,14 @@ export const getGetYearInReviewYearInReviewYearGetMockHandler = (
 ) => {
   return http.get(
     "*/year-in-review/:year",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetYearInReviewYearInReviewYearGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetYearInReviewYearInReviewYearGetResponseMock(),
+        { status: 200 },
       )
     },
     options,

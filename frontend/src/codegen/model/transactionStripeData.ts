@@ -4,10 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TransactionStripeDataCard } from "./transactionStripeDataCard"
+import type { PaymentCardInfo } from "./paymentCardInfo"
 
 export interface TransactionStripeData {
   status: string
   client_secret: string
-  card?: TransactionStripeDataCard
+  card?: PaymentCardInfo | null
 }

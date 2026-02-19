@@ -4,8 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { PlatformDepends } from "./platformDepends"
-import type { PlatformStripeAccount } from "./platformStripeAccount"
 
 /**
  * A platform is an expression of dependencies which an application may have.
@@ -16,8 +14,8 @@ If no platform is specified for an application, it's worth getting the default
 platform and using that.
  */
 export interface Platform {
-  depends?: PlatformDepends
+  depends?: string | null
   aliases: string[]
   keep: number
-  stripe_account?: PlatformStripeAccount
+  stripe_account?: string | null
 }

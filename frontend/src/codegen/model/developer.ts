@@ -4,12 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { DeveloperName } from "./developerName"
-import type { DeveloperIsPrimary } from "./developerIsPrimary"
 
 export interface Developer {
   id: number
   is_self: boolean
-  name: DeveloperName
-  is_primary?: DeveloperIsPrimary
+  name: string | null
+  is_primary?: boolean | null
 }

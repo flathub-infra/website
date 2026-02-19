@@ -4,8 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { RequestDataKeysAnyOf } from "./requestDataKeysAnyOf"
 
 export type RequestDataKeys = {
-  [key: string]: string | unknown[] | RequestDataKeysAnyOf | boolean | null
+  [key: string]:
+    | string
+    | unknown[]
+    | { [key: string]: unknown }
+    | boolean
+    | null
 }

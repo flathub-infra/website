@@ -4,19 +4,14 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { IconUrl } from "./iconUrl"
-import type { IconWidth } from "./iconWidth"
-import type { IconHeight } from "./iconHeight"
-import type { IconScale } from "./iconScale"
-import type { IconType } from "./iconType"
 
 /**
  * Icon information with different sizes.
  */
 export interface Icon {
-  url?: IconUrl
-  width?: IconWidth
-  height?: IconHeight
-  scale?: IconScale
-  type?: IconType
+  url?: string | null
+  width?: number | null
+  height?: number | null
+  scale?: number | null
+  type?: "remote" | "cached" | null
 }

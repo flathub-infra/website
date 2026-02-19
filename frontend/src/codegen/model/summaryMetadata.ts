@@ -4,13 +4,9 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryMetadataSdk } from "./summaryMetadataSdk"
-import type { SummaryMetadataTags } from "./summaryMetadataTags"
-import type { SummaryMetadataCommand } from "./summaryMetadataCommand"
-import type { SummaryMetadataPermissions } from "./summaryMetadataPermissions"
+import type { SummaryExtraData } from "./summaryExtraData"
 import type { SummaryMetadataExtensions } from "./summaryMetadataExtensions"
-import type { SummaryMetadataBuiltExtensions } from "./summaryMetadataBuiltExtensions"
-import type { SummaryMetadataExtraData } from "./summaryMetadataExtraData"
+import type { SummaryPermissions } from "./summaryPermissions"
 
 /**
  * Metadata from the Flatpak summary.
@@ -18,13 +14,13 @@ import type { SummaryMetadataExtraData } from "./summaryMetadataExtraData"
 export interface SummaryMetadata {
   name: string
   runtime: string
-  sdk?: SummaryMetadataSdk
-  tags?: SummaryMetadataTags
-  command?: SummaryMetadataCommand
-  permissions?: SummaryMetadataPermissions
+  sdk?: string | null
+  tags?: string[] | null
+  command?: string | null
+  permissions?: SummaryPermissions | null
   extensions?: SummaryMetadataExtensions
-  builtExtensions?: SummaryMetadataBuiltExtensions
-  extraData?: SummaryMetadataExtraData
+  builtExtensions?: string[] | null
+  extraData?: SummaryExtraData | null
   runtimeIsEol?: boolean
   [key: string]: unknown
 }

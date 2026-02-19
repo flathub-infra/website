@@ -4,7 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { MeilisearchResponseAppsIndexFacetDistributionAnyOf } from "./meilisearchResponseAppsIndexFacetDistributionAnyOf"
 
-export type MeilisearchResponseAppsIndexFacetDistribution =
-  MeilisearchResponseAppsIndexFacetDistributionAnyOf | null
+export type MeilisearchResponseAppsIndexFacetDistribution = {
+  [key: string]: { [key: string]: number }
+} | null

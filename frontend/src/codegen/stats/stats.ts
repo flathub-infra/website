@@ -23,10 +23,10 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
-  GetStatsForAppStatsAppIdGet200,
   GetStatsForAppStatsAppIdGetParams,
-  GetStatsStatsGet200,
   HTTPValidationError,
+  StatsResult,
+  StatsResultApp,
 } from ".././model"
 
 /**
@@ -34,7 +34,7 @@ import type {
  */
 export const getStatsStatsGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetStatsStatsGet200>> => {
+): Promise<AxiosResponse<StatsResult | null>> => {
   return axios.get(`/stats/`, options)
 }
 
@@ -170,9 +170,7 @@ export function useGetStatsStatsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -182,7 +180,7 @@ export const getStatsForAppStatsAppIdGet = (
   appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetStatsForAppStatsAppIdGet200>> => {
+): Promise<AxiosResponse<StatsResultApp | null>> => {
   return axios.get(`/stats/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -192,7 +190,7 @@ export const getStatsForAppStatsAppIdGet = (
 }
 
 export const getGetStatsForAppStatsAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
 ) => {
   return [`/stats/${appId}`, ...(params ? [params] : [])] as const
@@ -355,7 +353,5 @@ export function useGetStatsForAppStatsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

@@ -6,16 +6,13 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import type {
-  AppRoutesInvitesDevelopersResponse,
-  InviteStatus,
-} from ".././model"
+import type { DevelopersResponse, InviteStatus } from ".././model"
 
 export const getGetInviteStatusInvitesAppIdGetResponseMock = (
-  overrideResponse: Partial<InviteStatus> = {},
+  overrideResponse: Partial<Extract<InviteStatus, object>> = {},
 ): InviteStatus => ({
   is_pending: faker.datatype.boolean(),
   is_direct_upload_app: faker.helpers.arrayElement([
@@ -26,13 +23,13 @@ export const getGetInviteStatusInvitesAppIdGetResponseMock = (
 })
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
-  overrideResponse: Partial<AppRoutesInvitesDevelopersResponse> = {},
-): AppRoutesInvitesDevelopersResponse => ({
+  overrideResponse: Partial<Extract<DevelopersResponse, object>> = {},
+): DevelopersResponse => ({
   developers: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int(),
     is_self: faker.datatype.boolean(),
     name: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -47,7 +44,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int(),
     is_self: faker.datatype.boolean(),
     name: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -71,18 +68,14 @@ export const getGetInviteStatusInvitesAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/invites/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetInviteStatusInvitesAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetInviteStatusInvitesAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -99,11 +92,11 @@ export const getInviteDeveloperInvitesAppIdInvitePostMockHandler = (
 ) => {
   return http.post(
     "*/invites/:appId/invite",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,
@@ -120,11 +113,11 @@ export const getAcceptInviteInvitesAppIdAcceptPostMockHandler = (
 ) => {
   return http.post(
     "*/invites/:appId/accept",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,
@@ -141,11 +134,11 @@ export const getDeclineInviteInvitesAppIdDeclinePostMockHandler = (
 ) => {
   return http.post(
     "*/invites/:appId/decline",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,
@@ -162,11 +155,11 @@ export const getLeaveTeamInvitesAppIdLeavePostMockHandler = (
 ) => {
   return http.post(
     "*/invites/:appId/leave",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,
@@ -175,28 +168,22 @@ export const getLeaveTeamInvitesAppIdLeavePostMockHandler = (
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler = (
   overrideResponse?:
-    | AppRoutesInvitesDevelopersResponse
+    | DevelopersResponse
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) =>
-        | Promise<AppRoutesInvitesDevelopersResponse>
-        | AppRoutesInvitesDevelopersResponse),
+      ) => Promise<DevelopersResponse> | DevelopersResponse),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/invites/:appId/developers",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -213,11 +200,11 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMockHandler = (
 ) => {
   return http.delete(
     "*/invites/:appId/remove-developer",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,
@@ -234,11 +221,11 @@ export const getRevokeInviteInvitesAppIdRevokeDeleteMockHandler = (
 ) => {
   return http.delete(
     "*/invites/:appId/revoke",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,

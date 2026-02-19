@@ -4,8 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TransactionSaveCardSaveCard } from "./transactionSaveCardSaveCard"
 
 export interface TransactionSaveCard {
-  save_card?: TransactionSaveCardSaveCard
+  save_card?: "off_session" | "on_session" | null
 }

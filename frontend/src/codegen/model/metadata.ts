@@ -4,22 +4,20 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { MetadataFlathubManifest } from "./metadataFlathubManifest"
-import type { MetadataFlathubVerificationVerified } from "./metadataFlathubVerificationVerified"
-import type { MetadataFlathubVerificationMethod } from "./metadataFlathubVerificationMethod"
-import type { MetadataFlathubVerificationLoginName } from "./metadataFlathubVerificationLoginName"
-import type { MetadataFlathubVerificationLoginProvider } from "./metadataFlathubVerificationLoginProvider"
-import type { MetadataFlathubVerificationWebsite } from "./metadataFlathubVerificationWebsite"
-import type { MetadataFlathubVerificationTimestamp } from "./metadataFlathubVerificationTimestamp"
-import type { MetadataFlathubVerificationLoginIsOrganization } from "./metadataFlathubVerificationLoginIsOrganization"
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface Metadata {
-  "flathub::manifest"?: MetadataFlathubManifest
-  "flathub::verification::verified"?: MetadataFlathubVerificationVerified
-  "flathub::verification::method"?: MetadataFlathubVerificationMethod
-  "flathub::verification::login_name"?: MetadataFlathubVerificationLoginName
-  "flathub::verification::login_provider"?: MetadataFlathubVerificationLoginProvider
-  "flathub::verification::website"?: MetadataFlathubVerificationWebsite
-  "flathub::verification::timestamp"?: MetadataFlathubVerificationTimestamp
-  "flathub::verification::login_is_organization"?: MetadataFlathubVerificationLoginIsOrganization
+  "flathub::manifest"?: string | null
+  "flathub::verification::verified"?: boolean | null
+  "flathub::verification::method"?:
+    | "manual"
+    | "website"
+    | "login_provider"
+    | "none"
+    | null
+  "flathub::verification::login_name"?: string | null
+  "flathub::verification::login_provider"?: ConnectedAccountProvider | null
+  "flathub::verification::website"?: string | null
+  "flathub::verification::timestamp"?: string | null
+  "flathub::verification::login_is_organization"?: boolean | null
 }

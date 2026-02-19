@@ -5,11 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ModerationRequestType } from "./moderationRequestType"
-import type { ModerationRequestResponseRequestData } from "./moderationRequestResponseRequestData"
-import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
-import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
-import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
-import type { ModerationRequestResponseComment } from "./moderationRequestResponseComment"
+import type { RequestData } from "./requestData"
 
 export interface ModerationRequestResponse {
   id: number
@@ -19,10 +15,10 @@ export interface ModerationRequestResponse {
   job_id: number
   is_outdated: boolean
   request_type: ModerationRequestType
-  request_data?: ModerationRequestResponseRequestData
+  request_data?: RequestData | null
   is_new_submission: boolean
-  handled_by?: ModerationRequestResponseHandledBy
-  handled_at?: ModerationRequestResponseHandledAt
-  is_approved?: ModerationRequestResponseIsApproved
-  comment?: ModerationRequestResponseComment
+  handled_by?: string | null
+  handled_at?: string | null
+  is_approved?: boolean | null
+  comment?: string | null
 }

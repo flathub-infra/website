@@ -5,14 +5,12 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ScreenshotSize } from "./screenshotSize"
-import type { ScreenshotCaption } from "./screenshotCaption"
-import type { ScreenshotDefault } from "./screenshotDefault"
 
 /**
  * A screenshot with multiple size variants.
  */
 export interface Screenshot {
   sizes: ScreenshotSize[]
-  caption?: ScreenshotCaption
-  default?: ScreenshotDefault
+  caption?: string | null
+  default?: boolean | null
 }

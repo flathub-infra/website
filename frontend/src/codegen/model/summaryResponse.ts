@@ -4,8 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryResponseBranch } from "./summaryResponseBranch"
-import type { SummaryResponseMetadata } from "./summaryResponseMetadata"
+import type { SummaryMetadata } from "./summaryMetadata"
 
 /**
  * Summary information response for an application.
@@ -15,10 +14,10 @@ containing information about app size, architectures, and metadata.
  */
 export interface SummaryResponse {
   arches: string[]
-  branch?: SummaryResponseBranch
+  branch?: string | null
   timestamp: number
   download_size: number
   installed_size: number
-  metadata?: SummaryResponseMetadata
+  metadata?: SummaryMetadata | null
   [key: string]: unknown
 }

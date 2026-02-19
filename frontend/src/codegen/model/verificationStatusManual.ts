@@ -4,11 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { VerificationStatusManualDetail } from "./verificationStatusManualDetail"
 
 export interface VerificationStatusManual {
   verified: true
   timestamp: string
   method: "manual"
-  detail?: VerificationStatusManualDetail
+  detail?: string | null
 }

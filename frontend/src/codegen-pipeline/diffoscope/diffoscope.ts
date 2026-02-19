@@ -36,7 +36,7 @@ export const viewDiffoscopeDiffoscopePipelineIdGet = (
 }
 
 export const getViewDiffoscopeDiffoscopePipelineIdGetQueryKey = (
-  pipelineId?: string,
+  pipelineId: string,
 ) => {
   return [`https://builds.flathub.org/diffoscope/${pipelineId}`] as const
 }
@@ -195,9 +195,7 @@ export function useViewDiffoscopeDiffoscopePipelineIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -214,7 +212,7 @@ export const diffoscopeCssDiffoscopePipelineIdCommonCssGet = (
 }
 
 export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetQueryKey = (
-  pipelineId?: string,
+  pipelineId: string,
 ) => {
   return [
     `https://builds.flathub.org/diffoscope/${pipelineId}/common.css`,
@@ -405,9 +403,7 @@ export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -424,7 +420,7 @@ export const diffoscopeIconDiffoscopePipelineIdIconPngGet = (
 }
 
 export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetQueryKey = (
-  pipelineId?: string,
+  pipelineId: string,
 ) => {
   return [
     `https://builds.flathub.org/diffoscope/${pipelineId}/icon.png`,
@@ -615,7 +611,5 @@ export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

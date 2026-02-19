@@ -4,37 +4,26 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { PipelineStatus } from "./pipelineStatus"
-import type { PipelineResponseRepo } from "./pipelineResponseRepo"
 import type { PipelineResponseParams } from "./pipelineResponseParams"
+import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineTrigger } from "./pipelineTrigger"
-import type { PipelineResponseLogUrl } from "./pipelineResponseLogUrl"
-import type { PipelineResponseBuildId } from "./pipelineResponseBuildId"
-import type { PipelineResponseCommitJobId } from "./pipelineResponseCommitJobId"
-import type { PipelineResponsePublishJobId } from "./pipelineResponsePublishJobId"
-import type { PipelineResponseUpdateRepoJobId } from "./pipelineResponseUpdateRepoJobId"
-import type { PipelineResponseReproPipelineId } from "./pipelineResponseReproPipelineId"
-import type { PipelineResponseTotalCost } from "./pipelineResponseTotalCost"
-import type { PipelineResponseStartedAt } from "./pipelineResponseStartedAt"
-import type { PipelineResponseFinishedAt } from "./pipelineResponseFinishedAt"
-import type { PipelineResponsePublishedAt } from "./pipelineResponsePublishedAt"
 
 export interface PipelineResponse {
   id: string
   app_id: string
   status: PipelineStatus
-  repo?: PipelineResponseRepo
+  repo?: string | null
   params: PipelineResponseParams
   triggered_by: PipelineTrigger
-  log_url?: PipelineResponseLogUrl
-  build_id?: PipelineResponseBuildId
-  commit_job_id?: PipelineResponseCommitJobId
-  publish_job_id?: PipelineResponsePublishJobId
-  update_repo_job_id?: PipelineResponseUpdateRepoJobId
-  repro_pipeline_id?: PipelineResponseReproPipelineId
-  total_cost?: PipelineResponseTotalCost
+  log_url?: string | null
+  build_id?: number | null
+  commit_job_id?: number | null
+  publish_job_id?: number | null
+  update_repo_job_id?: number | null
+  repro_pipeline_id?: string | null
+  total_cost?: number | null
   created_at: string
-  started_at?: PipelineResponseStartedAt
-  finished_at?: PipelineResponseFinishedAt
-  published_at?: PipelineResponsePublishedAt
+  started_at?: string | null
+  finished_at?: string | null
+  published_at?: string | null
 }

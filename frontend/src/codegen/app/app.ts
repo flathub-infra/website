@@ -26,14 +26,14 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
+  AddonAppstream,
+  DesktopAppstream,
   FavoriteApp,
+  GenericAppstream,
   GetAppFavoritesCountFavoritesAppIdCountGet200,
-  GetAppstreamAppstreamAppIdGet200,
   GetAppstreamAppstreamAppIdGetParams,
-  GetEolMessageAppidEolMessageAppIdGet200,
   GetEolMessageAppidEolMessageAppIdGetParams,
   GetEolMessageEolMessageGet200,
-  GetEolRebaseAppidEolRebaseAppIdGet200,
   GetEolRebaseAppidEolRebaseAppIdGetParams,
   GetEolRebaseEolRebaseGet200,
   GetPlatformsPlatformsGet200,
@@ -41,8 +41,10 @@ import type {
   GetSummarySummaryAppIdGetParams,
   HTTPValidationError,
   ListAppstreamAppstreamGetParams,
+  LocalizationAppstream,
   MeilisearchResponseAppsIndex,
   PostSearchSearchPostParams,
+  RuntimeAppstream,
   SearchQuery,
   SummaryResponse,
 } from ".././model"
@@ -193,9 +195,7 @@ export function useGetEolRebaseEolRebaseGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -205,7 +205,7 @@ export const getEolRebaseAppidEolRebaseAppIdGet = (
   appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetEolRebaseAppidEolRebaseAppIdGet200>> => {
+): Promise<AxiosResponse<string | null>> => {
   return axios.get(`/eol/rebase/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -215,7 +215,7 @@ export const getEolRebaseAppidEolRebaseAppIdGet = (
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
 ) => {
   return [`/eol/rebase/${appId}`, ...(params ? [params] : [])] as const
@@ -381,9 +381,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -532,9 +530,7 @@ export function useGetEolMessageEolMessageGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -544,7 +540,7 @@ export const getEolMessageAppidEolMessageAppIdGet = (
   appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetEolMessageAppidEolMessageAppIdGet200>> => {
+): Promise<AxiosResponse<string | null>> => {
   return axios.get(`/eol/message/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -554,7 +550,7 @@ export const getEolMessageAppidEolMessageAppIdGet = (
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetEolMessageAppidEolMessageAppIdGetParams,
 ) => {
   return [`/eol/message/${appId}`, ...(params ? [params] : [])] as const
@@ -720,9 +716,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -895,9 +889,7 @@ export function useListAppstreamAppstreamGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -912,7 +904,15 @@ export const getAppstreamAppstreamAppIdGet = (
   appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetAppstreamAppstreamAppIdGet200>> => {
+): Promise<
+  AxiosResponse<
+    | DesktopAppstream
+    | AddonAppstream
+    | LocalizationAppstream
+    | GenericAppstream
+    | RuntimeAppstream
+  >
+> => {
   return axios.get(`/appstream/${appId}`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -922,7 +922,7 @@ export const getAppstreamAppstreamAppIdGet = (
 }
 
 export const getGetAppstreamAppstreamAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetAppstreamAppstreamAppIdGetParams,
 ) => {
   return [`/appstream/${appId}`, ...(params ? [params] : [])] as const
@@ -1085,9 +1085,7 @@ export function useGetAppstreamAppstreamAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1102,7 +1100,7 @@ export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/is-fullscreen-app/${appId}`] as const
 }
@@ -1261,9 +1259,7 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1354,9 +1350,10 @@ export const usePostSearchSearchPost = <
   { data: SearchQuery; params?: PostSearchSearchPostParams },
   TContext
 > => {
-  const mutationOptions = getPostSearchSearchPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getPostSearchSearchPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Get a list of available Flatpak runtimes with usage counts.
@@ -1507,9 +1504,7 @@ export function useGetRuntimeListRuntimesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1533,7 +1528,7 @@ export const getSummarySummaryAppIdGet = (
 }
 
 export const getGetSummarySummaryAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetSummarySummaryAppIdGetParams,
 ) => {
   return [`/summary/${appId}`, ...(params ? [params] : [])] as const
@@ -1696,9 +1691,7 @@ export function useGetSummarySummaryAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1850,9 +1843,7 @@ export function useGetPlatformsPlatformsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1868,7 +1859,7 @@ export const getAddonsAddonAppIdGet = (
   return axios.get(`/addon/${appId}`, options)
 }
 
-export const getGetAddonsAddonAppIdGetQueryKey = (appId?: string) => {
+export const getGetAddonsAddonAppIdGetQueryKey = (appId: string) => {
   return [`/addon/${appId}`] as const
 }
 
@@ -2017,9 +2008,7 @@ export function useGetAddonsAddonAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2168,9 +2157,7 @@ export function useGetExceptionsExceptionsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2184,7 +2171,7 @@ export const getExceptionsForAppExceptionsAppIdGet = (
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/exceptions/${appId}`] as const
 }
@@ -2339,9 +2326,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2423,10 +2408,10 @@ export const useAddToFavoritesFavoritesAppIdAddPost = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
-    getAddToFavoritesFavoritesAppIdAddPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getAddToFavoritesFavoritesAppIdAddPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Remove an app from a users favorites. The appid is the ID of the app to remove.
@@ -2508,10 +2493,10 @@ export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
-    getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Get a list of the users favorite apps.
@@ -2660,9 +2645,7 @@ export function useGetFavoritesFavoritesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2675,7 +2658,7 @@ export const isFavoritedFavoritesAppIdGet = (
   return axios.get(`/favorites/${appId}`, options)
 }
 
-export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId?: string) => {
+export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId: string) => {
   return [`/favorites/${appId}`] as const
 }
 
@@ -2829,9 +2812,7 @@ export function useIsFavoritedFavoritesAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -2846,7 +2827,7 @@ export const getAppFavoritesCountFavoritesAppIdCountGet = (
 }
 
 export const getGetAppFavoritesCountFavoritesAppIdCountGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/favorites/${appId}/count`] as const
 }
@@ -3017,7 +2998,5 @@ export function useGetAppFavoritesCountFavoritesAppIdCountGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

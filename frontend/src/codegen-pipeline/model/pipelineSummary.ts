@@ -4,33 +4,24 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { PipelineType } from "./pipelineType"
 import type { PipelineStatus } from "./pipelineStatus"
-import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
 import type { PipelineTrigger } from "./pipelineTrigger"
-import type { PipelineSummaryBuildId } from "./pipelineSummaryBuildId"
-import type { PipelineSummaryCommitJobId } from "./pipelineSummaryCommitJobId"
-import type { PipelineSummaryPublishJobId } from "./pipelineSummaryPublishJobId"
-import type { PipelineSummaryUpdateRepoJobId } from "./pipelineSummaryUpdateRepoJobId"
-import type { PipelineSummaryReproPipelineId } from "./pipelineSummaryReproPipelineId"
-import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
-import type { PipelineSummaryFinishedAt } from "./pipelineSummaryFinishedAt"
-import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
+import type { PipelineType } from "./pipelineType"
 
 export interface PipelineSummary {
   id: string
   app_id: string
   type?: PipelineType
   status: PipelineStatus
-  repo?: PipelineSummaryRepo
+  repo?: string | null
   triggered_by: PipelineTrigger
-  build_id?: PipelineSummaryBuildId
-  commit_job_id?: PipelineSummaryCommitJobId
-  publish_job_id?: PipelineSummaryPublishJobId
-  update_repo_job_id?: PipelineSummaryUpdateRepoJobId
-  repro_pipeline_id?: PipelineSummaryReproPipelineId
+  build_id?: number | null
+  commit_job_id?: number | null
+  publish_job_id?: number | null
+  update_repo_job_id?: number | null
+  repro_pipeline_id?: string | null
   created_at: string
-  started_at?: PipelineSummaryStartedAt
-  finished_at?: PipelineSummaryFinishedAt
-  published_at?: PipelineSummaryPublishedAt
+  started_at?: string | null
+  finished_at?: string | null
+  published_at?: string | null
 }

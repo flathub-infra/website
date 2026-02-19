@@ -4,19 +4,15 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryPermissionsShared } from "./summaryPermissionsShared"
-import type { SummaryPermissionsSockets } from "./summaryPermissionsSockets"
-import type { SummaryPermissionsDevices } from "./summaryPermissionsDevices"
-import type { SummaryPermissionsFilesystems } from "./summaryPermissionsFilesystems"
 import type { SummaryPermissionsSessionBus } from "./summaryPermissionsSessionBus"
 
 /**
  * Permissions required by the application.
  */
 export interface SummaryPermissions {
-  shared?: SummaryPermissionsShared
-  sockets?: SummaryPermissionsSockets
-  devices?: SummaryPermissionsDevices
-  filesystems?: SummaryPermissionsFilesystems
+  shared?: string[] | null
+  sockets?: string[] | null
+  devices?: string[] | null
+  filesystems?: string[] | null
   "session-bus"?: SummaryPermissionsSessionBus
 }

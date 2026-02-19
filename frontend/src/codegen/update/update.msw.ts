@@ -4,7 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 export const getUpdateUpdatePostMockHandler = (
@@ -17,11 +17,11 @@ export const getUpdateUpdatePostMockHandler = (
 ) => {
   return http.post(
     "*/update",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -38,11 +38,11 @@ export const getUpdateStatsUpdateStatsPostMockHandler = (
 ) => {
   return http.post(
     "*/update/stats",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -59,11 +59,11 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMockHandler = (
 ) => {
   return http.post(
     "*/update/process-pending-transfers",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -80,11 +80,11 @@ export const getUpdateAppPicksUpdateAppPicksPostMockHandler = (
 ) => {
   return http.post(
     "*/update/app-picks",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,

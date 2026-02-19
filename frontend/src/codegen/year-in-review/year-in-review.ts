@@ -45,7 +45,7 @@ export const getYearInReviewYearInReviewYearGet = (
 }
 
 export const getGetYearInReviewYearInReviewYearGetQueryKey = (
-  year?: number,
+  year: number,
   params?: GetYearInReviewYearInReviewYearGetParams,
 ) => {
   return [`/year-in-review/${year}`, ...(params ? [params] : [])] as const
@@ -211,7 +211,5 @@ export function useGetYearInReviewYearInReviewYearGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

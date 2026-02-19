@@ -6,19 +6,19 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import type { NewTokenResponse, TokensResponse } from ".././model"
 
 export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
-  overrideResponse: Partial<TokensResponse> = {},
+  overrideResponse: Partial<Extract<TokensResponse, object>> = {},
 ): TokensResponse => ({
   tokens: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int(),
     comment: faker.string.alpha({ length: { min: 10, max: 20 } }),
     app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     scopes: Array.from(
@@ -29,12 +29,12 @@ export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-    issued_at: faker.number.int({ min: undefined, max: undefined }),
+    issued_at: faker.number.int(),
     issued_to: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    expires_at: faker.number.int({ min: undefined, max: undefined }),
+    expires_at: faker.number.int(),
     revoked: faker.datatype.boolean(),
   })),
   is_direct_upload_app: faker.datatype.boolean(),
@@ -42,11 +42,11 @@ export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
 })
 
 export const getCreateUploadTokenUploadTokensAppIdPostResponseMock = (
-  overrideResponse: Partial<NewTokenResponse> = {},
+  overrideResponse: Partial<Extract<NewTokenResponse, object>> = {},
 ): NewTokenResponse => ({
   token: faker.string.alpha({ length: { min: 10, max: 20 } }),
   details: {
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int(),
     comment: faker.string.alpha({ length: { min: 10, max: 20 } }),
     app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     scopes: Array.from(
@@ -57,12 +57,12 @@ export const getCreateUploadTokenUploadTokensAppIdPostResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-    issued_at: faker.number.int({ min: undefined, max: undefined }),
+    issued_at: faker.number.int(),
     issued_to: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    expires_at: faker.number.int({ min: undefined, max: undefined }),
+    expires_at: faker.number.int(),
     revoked: faker.datatype.boolean(),
   },
   ...overrideResponse,
@@ -78,18 +78,14 @@ export const getGetUploadTokensUploadTokensAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/upload-tokens/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetUploadTokensUploadTokensAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetUploadTokensUploadTokensAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -106,18 +102,14 @@ export const getCreateUploadTokenUploadTokensAppIdPostMockHandler = (
 ) => {
   return http.post(
     "*/upload-tokens/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getCreateUploadTokenUploadTokensAppIdPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCreateUploadTokenUploadTokensAppIdPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -134,11 +126,11 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMockHandler = (
 ) => {
   return http.delete(
     "*/upload-tokens/:tokenId/revoke",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 204 })
     },
     options,

@@ -5,18 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ConnectedAccountProvider } from "./connectedAccountProvider"
-import type { KdeAccountResultAvatarUrl } from "./kdeAccountResultAvatarUrl"
-import type { KdeAccountResultDisplayName } from "./kdeAccountResultDisplayName"
-import type { KdeAccountResultEmail } from "./kdeAccountResultEmail"
-import type { KdeAccountResultLastUsed } from "./kdeAccountResultLastUsed"
 
 export interface KdeAccountResult {
   provider: ConnectedAccountProvider
   id: number
   kde_userid: number
   login: string
-  avatar_url: KdeAccountResultAvatarUrl
-  display_name: KdeAccountResultDisplayName
-  email: KdeAccountResultEmail
-  last_used: KdeAccountResultLastUsed
+  avatar_url: string | null
+  display_name: string | null
+  email: string | null
+  last_used: string | null
 }

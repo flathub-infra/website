@@ -4,11 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AuthInfoAvatar } from "./authInfoAvatar"
-import type { AuthInfoProvider } from "./authInfoProvider"
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface AuthInfo {
   login: string
-  avatar?: AuthInfoAvatar
-  provider?: AuthInfoProvider
+  avatar?: string | null
+  provider?: ConnectedAccountProvider | null
 }

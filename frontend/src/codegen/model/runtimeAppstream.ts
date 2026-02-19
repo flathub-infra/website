@@ -4,17 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { RuntimeAppstreamDescription } from "./runtimeAppstreamDescription"
-import type { RuntimeAppstreamReleases } from "./runtimeAppstreamReleases"
-import type { Urls } from "./urls"
-import type { RuntimeAppstreamCategories } from "./runtimeAppstreamCategories"
-import type { RuntimeAppstreamIcon } from "./runtimeAppstreamIcon"
-import type { RuntimeAppstreamIcons } from "./runtimeAppstreamIcons"
-import type { RuntimeAppstreamDeveloperName } from "./runtimeAppstreamDeveloperName"
-import type { RuntimeAppstreamProjectLicense } from "./runtimeAppstreamProjectLicense"
 import type { Bundle } from "./bundle"
-import type { RuntimeAppstreamMetadata } from "./runtimeAppstreamMetadata"
-import type { RuntimeAppstreamIsMobileFriendly } from "./runtimeAppstreamIsMobileFriendly"
+import type { Icon } from "./icon"
+import type { Metadata } from "./metadata"
+import type { Release } from "./release"
+import type { Urls } from "./urls"
 
 /**
  * Runtime Appstream metadata
@@ -24,16 +18,16 @@ export interface RuntimeAppstream {
   id: string
   name: string
   summary: string
-  description?: RuntimeAppstreamDescription
-  releases?: RuntimeAppstreamReleases
+  description?: string | null
+  releases?: Release[] | null
   urls: Urls
-  categories?: RuntimeAppstreamCategories
-  icon?: RuntimeAppstreamIcon
-  icons?: RuntimeAppstreamIcons
-  developer_name?: RuntimeAppstreamDeveloperName
-  project_license?: RuntimeAppstreamProjectLicense
+  categories?: string[] | null
+  icon?: string | null
+  icons?: Icon[] | null
+  developer_name?: string | null
+  project_license?: string | null
   bundle: Bundle
-  metadata?: RuntimeAppstreamMetadata
-  isMobileFriendly?: RuntimeAppstreamIsMobileFriendly
+  metadata?: Metadata | null
+  isMobileFriendly?: boolean | null
   is_free_license: boolean
 }

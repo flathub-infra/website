@@ -4,11 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { WebsiteVerificationResultDetail } from "./websiteVerificationResultDetail"
-import type { WebsiteVerificationResultStatusCode } from "./websiteVerificationResultStatusCode"
+import type { ErrorDetail } from "./errorDetail"
 
 export interface WebsiteVerificationResult {
   verified: boolean
-  detail?: WebsiteVerificationResultDetail
-  status_code?: WebsiteVerificationResultStatusCode
+  detail?: ErrorDetail | null
+  status_code?: number | null
 }

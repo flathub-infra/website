@@ -26,19 +26,16 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
-  ContinueGithubFlowAuthLoginGithubPostBody,
-  ContinueGitlabFlowAuthLoginGitlabPostBody,
-  ContinueGnomeFlowAuthLoginGnomePostBody,
-  ContinueGoogleFlowAuthLoginGooglePostBody,
-  ContinueKdeFlowAuthLoginKdePostBody,
   DeleteUserResult,
   DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
   GetDeleteUserResult,
-  GetUserinfoAuthUserinfoGet200,
   HTTPValidationError,
   LoginMethod,
+  OauthLoginResponseFailure,
+  OauthLoginResponseSuccess,
   RefreshDevFlatpaksReturn,
   UserDeleteRequest,
+  UserInfo,
 } from ".././model"
 
 /**
@@ -195,9 +192,7 @@ export function useGetLoginMethodsAuthLoginGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -356,9 +351,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -389,12 +382,14 @@ of whether or not the login sequence completed OK.
  * @summary Continue Github Flow
  */
 export const continueGithubFlowAuthLoginGithubPost = (
-  continueGithubFlowAuthLoginGithubPostBody: ContinueGithubFlowAuthLoginGithubPostBody,
+  oauthLoginResponseSuccessOauthLoginResponseFailure:
+    | OauthLoginResponseSuccess
+    | OauthLoginResponseFailure,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
     `/auth/login/github`,
-    continueGithubFlowAuthLoginGithubPostBody,
+    oauthLoginResponseSuccessOauthLoginResponseFailure,
     options,
   )
 }
@@ -406,14 +401,14 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
     TError,
-    { data: ContinueGithubFlowAuthLoginGithubPostBody },
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError,
-  { data: ContinueGithubFlowAuthLoginGithubPostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
   const mutationKey = ["continueGithubFlowAuthLoginGithubPost"]
@@ -427,7 +422,7 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
-    { data: ContinueGithubFlowAuthLoginGithubPostBody }
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -441,7 +436,8 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>
 >
 export type ContinueGithubFlowAuthLoginGithubPostMutationBody =
-  ContinueGithubFlowAuthLoginGithubPostBody
+  | OauthLoginResponseSuccess
+  | OauthLoginResponseFailure
 export type ContinueGithubFlowAuthLoginGithubPostMutationError =
   AxiosError<void | HTTPValidationError>
 
@@ -456,7 +452,7 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
       TError,
-      { data: ContinueGithubFlowAuthLoginGithubPostBody },
+      { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
       TContext
     >
     axios?: AxiosRequestConfig
@@ -465,13 +461,13 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError,
-  { data: ContinueGithubFlowAuthLoginGithubPostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGithubFlowAuthLoginGithubPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGithubFlowAuthLoginGithubPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Starts a gitlab login flow.  This will set session cookie values and
@@ -629,9 +625,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -662,12 +656,14 @@ of whether or not the login sequence completed OK.
  * @summary Continue Gitlab Flow
  */
 export const continueGitlabFlowAuthLoginGitlabPost = (
-  continueGitlabFlowAuthLoginGitlabPostBody: ContinueGitlabFlowAuthLoginGitlabPostBody,
+  oauthLoginResponseSuccessOauthLoginResponseFailure:
+    | OauthLoginResponseSuccess
+    | OauthLoginResponseFailure,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
     `/auth/login/gitlab`,
-    continueGitlabFlowAuthLoginGitlabPostBody,
+    oauthLoginResponseSuccessOauthLoginResponseFailure,
     options,
   )
 }
@@ -679,14 +675,14 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
     TError,
-    { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError,
-  { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
   const mutationKey = ["continueGitlabFlowAuthLoginGitlabPost"]
@@ -700,7 +696,7 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
-    { data: ContinueGitlabFlowAuthLoginGitlabPostBody }
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -714,7 +710,8 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>
 >
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationBody =
-  ContinueGitlabFlowAuthLoginGitlabPostBody
+  | OauthLoginResponseSuccess
+  | OauthLoginResponseFailure
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationError =
   AxiosError<void | HTTPValidationError>
 
@@ -729,7 +726,7 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
       TError,
-      { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+      { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
       TContext
     >
     axios?: AxiosRequestConfig
@@ -738,13 +735,13 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError,
-  { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGitlabFlowAuthLoginGitlabPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGitlabFlowAuthLoginGitlabPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Starts a GNOME login flow.  This will set session cookie values and
@@ -902,9 +899,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -935,12 +930,14 @@ of whether or not the login sequence completed OK.
  * @summary Continue Gnome Flow
  */
 export const continueGnomeFlowAuthLoginGnomePost = (
-  continueGnomeFlowAuthLoginGnomePostBody: ContinueGnomeFlowAuthLoginGnomePostBody,
+  oauthLoginResponseSuccessOauthLoginResponseFailure:
+    | OauthLoginResponseSuccess
+    | OauthLoginResponseFailure,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
     `/auth/login/gnome`,
-    continueGnomeFlowAuthLoginGnomePostBody,
+    oauthLoginResponseSuccessOauthLoginResponseFailure,
     options,
   )
 }
@@ -952,14 +949,14 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
     TError,
-    { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError,
-  { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
   const mutationKey = ["continueGnomeFlowAuthLoginGnomePost"]
@@ -973,7 +970,7 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
-    { data: ContinueGnomeFlowAuthLoginGnomePostBody }
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -987,7 +984,8 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>
 >
 export type ContinueGnomeFlowAuthLoginGnomePostMutationBody =
-  ContinueGnomeFlowAuthLoginGnomePostBody
+  | OauthLoginResponseSuccess
+  | OauthLoginResponseFailure
 export type ContinueGnomeFlowAuthLoginGnomePostMutationError =
   AxiosError<void | HTTPValidationError>
 
@@ -1002,7 +1000,7 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
       TError,
-      { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+      { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1011,13 +1009,13 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError,
-  { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGnomeFlowAuthLoginGnomePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGnomeFlowAuthLoginGnomePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Start Kde Flow
@@ -1165,21 +1163,21 @@ export function useStartKdeFlowAuthLoginKdeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
  * @summary Continue Kde Flow
  */
 export const continueKdeFlowAuthLoginKdePost = (
-  continueKdeFlowAuthLoginKdePostBody: ContinueKdeFlowAuthLoginKdePostBody,
+  oauthLoginResponseSuccessOauthLoginResponseFailure:
+    | OauthLoginResponseSuccess
+    | OauthLoginResponseFailure,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
     `/auth/login/kde`,
-    continueKdeFlowAuthLoginKdePostBody,
+    oauthLoginResponseSuccessOauthLoginResponseFailure,
     options,
   )
 }
@@ -1191,14 +1189,14 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
     TError,
-    { data: ContinueKdeFlowAuthLoginKdePostBody },
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError,
-  { data: ContinueKdeFlowAuthLoginKdePostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
   const mutationKey = ["continueKdeFlowAuthLoginKdePost"]
@@ -1212,7 +1210,7 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
-    { data: ContinueKdeFlowAuthLoginKdePostBody }
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1226,7 +1224,8 @@ export type ContinueKdeFlowAuthLoginKdePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>
 >
 export type ContinueKdeFlowAuthLoginKdePostMutationBody =
-  ContinueKdeFlowAuthLoginKdePostBody
+  | OauthLoginResponseSuccess
+  | OauthLoginResponseFailure
 export type ContinueKdeFlowAuthLoginKdePostMutationError =
   AxiosError<void | HTTPValidationError>
 
@@ -1241,7 +1240,7 @@ export const useContinueKdeFlowAuthLoginKdePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
       TError,
-      { data: ContinueKdeFlowAuthLoginKdePostBody },
+      { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1250,13 +1249,13 @@ export const useContinueKdeFlowAuthLoginKdePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError,
-  { data: ContinueKdeFlowAuthLoginKdePostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
-  const mutationOptions =
-    getContinueKdeFlowAuthLoginKdePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueKdeFlowAuthLoginKdePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Process the result of the Google oauth flow
@@ -1286,12 +1285,14 @@ of whether or not the login sequence completed OK.
  * @summary Continue Google Flow
  */
 export const continueGoogleFlowAuthLoginGooglePost = (
-  continueGoogleFlowAuthLoginGooglePostBody: ContinueGoogleFlowAuthLoginGooglePostBody,
+  oauthLoginResponseSuccessOauthLoginResponseFailure:
+    | OauthLoginResponseSuccess
+    | OauthLoginResponseFailure,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(
     `/auth/login/google`,
-    continueGoogleFlowAuthLoginGooglePostBody,
+    oauthLoginResponseSuccessOauthLoginResponseFailure,
     options,
   )
 }
@@ -1303,14 +1304,14 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
     TError,
-    { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError,
-  { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
   const mutationKey = ["continueGoogleFlowAuthLoginGooglePost"]
@@ -1324,7 +1325,7 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
-    { data: ContinueGoogleFlowAuthLoginGooglePostBody }
+    { data: OauthLoginResponseSuccess | OauthLoginResponseFailure }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1338,7 +1339,8 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationResult = NonNullable<
   Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>
 >
 export type ContinueGoogleFlowAuthLoginGooglePostMutationBody =
-  ContinueGoogleFlowAuthLoginGooglePostBody
+  | OauthLoginResponseSuccess
+  | OauthLoginResponseFailure
 export type ContinueGoogleFlowAuthLoginGooglePostMutationError =
   AxiosError<void | HTTPValidationError>
 
@@ -1353,7 +1355,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
       TError,
-      { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+      { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1362,13 +1364,13 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError,
-  { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+  { data: OauthLoginResponseSuccess | OauthLoginResponseFailure },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGoogleFlowAuthLoginGooglePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGoogleFlowAuthLoginGooglePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Retrieve the current login's user information.  If the user is not logged in
@@ -1393,7 +1395,7 @@ dev_flatpaks is filtered against IDs available in AppStream
  */
 export const getUserinfoAuthUserinfoGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetUserinfoAuthUserinfoGet200 | void>> => {
+): Promise<AxiosResponse<UserInfo | null | void>> => {
   return axios.get(`/auth/userinfo`, options)
 }
 
@@ -1534,9 +1536,7 @@ export function useGetUserinfoAuthUserinfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1619,10 +1619,10 @@ export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Clear the login state. This will discard tokens which access socials,
@@ -1700,9 +1700,10 @@ export const useDoLogoutAuthLogoutPost = <
   void,
   TContext
 > => {
-  const mutationOptions = getDoLogoutAuthLogoutPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDoLogoutAuthLogoutPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Delete a user's login information.
@@ -1855,9 +1856,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1951,10 +1950,10 @@ export const useDoDeleteuserAuthDeleteuserDelete = <
   { data: UserDeleteRequest },
   TContext
 > => {
-  const mutationOptions =
-    getDoDeleteuserAuthDeleteuserDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDoDeleteuserAuthDeleteuserDeleteMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Do Agree To Publisher Agreement
@@ -2058,12 +2057,12 @@ export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * Changes the user's default account, which determines which display name and email we use.
@@ -2166,10 +2165,10 @@ export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
   { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }

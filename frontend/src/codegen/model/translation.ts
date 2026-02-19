@@ -4,13 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TranslationValue } from "./translationValue"
-import type { TranslationType } from "./translationType"
 
 /**
  * Translation information.
  */
 export interface Translation {
-  value?: TranslationValue
-  type?: TranslationType
+  value?: string | null
+  type?: string | null
 }

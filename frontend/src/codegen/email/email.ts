@@ -101,8 +101,8 @@ export const useBuildNotificationEmailsBuildNotificationPost = <
   { data: BuildNotificationRequest },
   TContext
 > => {
-  const mutationOptions =
-    getBuildNotificationEmailsBuildNotificationPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getBuildNotificationEmailsBuildNotificationPostMutationOptions(options),
+    queryClient,
+  )
 }

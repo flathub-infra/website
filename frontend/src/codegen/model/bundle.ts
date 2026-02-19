@@ -4,8 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { BundleRuntime } from "./bundleRuntime"
-import type { BundleSdk } from "./bundleSdk"
 
 /**
  * Bundle information.
@@ -13,6 +11,6 @@ import type { BundleSdk } from "./bundleSdk"
 export interface Bundle {
   value: string
   type: string
-  runtime?: BundleRuntime
-  sdk?: BundleSdk
+  runtime?: string | null
+  sdk?: string | null
 }

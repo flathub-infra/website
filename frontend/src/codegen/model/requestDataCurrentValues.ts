@@ -4,13 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { RequestDataCurrentValuesAnyOf } from "./requestDataCurrentValuesAnyOf"
 
 export type RequestDataCurrentValues = {
   [key: string]:
     | string
     | unknown[]
-    | RequestDataCurrentValuesAnyOf
+    | { [key: string]: unknown }
     | boolean
     | null
 }

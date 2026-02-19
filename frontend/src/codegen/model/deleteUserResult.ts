@@ -4,9 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { DeleteUserResultMessage } from "./deleteUserResultMessage"
 
 export interface DeleteUserResult {
   status: string
-  message?: DeleteUserResultMessage
+  message?: string | null
 }

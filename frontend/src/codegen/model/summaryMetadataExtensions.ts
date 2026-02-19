@@ -4,6 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryMetadataExtensionsAnyOf } from "./summaryMetadataExtensionsAnyOf"
+import type { SummaryExtension } from "./summaryExtension"
 
-export type SummaryMetadataExtensions = SummaryMetadataExtensionsAnyOf | null
+export type SummaryMetadataExtensions = {
+  [key: string]: SummaryExtension
+} | null

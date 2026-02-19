@@ -4,26 +4,18 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { DesktopAppstreamType } from "./desktopAppstreamType"
-import type { DesktopAppstreamDeveloperName } from "./desktopAppstreamDeveloperName"
-import type { DesktopAppstreamIcon } from "./desktopAppstreamIcon"
-import type { DesktopAppstreamIcons } from "./desktopAppstreamIcons"
-import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
-import type { Release } from "./release"
-import type { DesktopAppstreamContentRating } from "./desktopAppstreamContentRating"
-import type { DesktopAppstreamUrls } from "./desktopAppstreamUrls"
-import type { DesktopAppstreamCategories } from "./desktopAppstreamCategories"
-import type { DesktopAppstreamKudos } from "./desktopAppstreamKudos"
-import type { DesktopAppstreamKeywords } from "./desktopAppstreamKeywords"
-import type { DesktopAppstreamMimetypes } from "./desktopAppstreamMimetypes"
-import type { DesktopAppstreamProjectLicense } from "./desktopAppstreamProjectLicense"
-import type { DesktopAppstreamProvides } from "./desktopAppstreamProvides"
-import type { DesktopAppstreamLaunchable } from "./desktopAppstreamLaunchable"
+import type { Branding } from "./branding"
 import type { Bundle } from "./bundle"
-import type { DesktopAppstreamTranslation } from "./desktopAppstreamTranslation"
-import type { DesktopAppstreamMetadata } from "./desktopAppstreamMetadata"
-import type { DesktopAppstreamIsMobileFriendly } from "./desktopAppstreamIsMobileFriendly"
-import type { DesktopAppstreamBranding } from "./desktopAppstreamBranding"
+import type { ContentRating } from "./contentRating"
+import type { DesktopAppstreamType } from "./desktopAppstreamType"
+import type { Icon } from "./icon"
+import type { Launchable } from "./launchable"
+import type { Metadata } from "./metadata"
+import type { Provides } from "./provides"
+import type { Release } from "./release"
+import type { Screenshot } from "./screenshot"
+import type { Translation } from "./translation"
+import type { Urls } from "./urls"
 
 /**
  * Desktop application Appstream metadata, matching frontend DesktopAppstream type.
@@ -34,24 +26,24 @@ export interface DesktopAppstream {
   name: string
   summary: string
   description: string
-  developer_name?: DesktopAppstreamDeveloperName
-  icon?: DesktopAppstreamIcon
-  icons?: DesktopAppstreamIcons
-  screenshots?: DesktopAppstreamScreenshots
+  developer_name?: string | null
+  icon?: string | null
+  icons?: Icon[] | null
+  screenshots?: Screenshot[] | null
   releases: Release[]
-  content_rating?: DesktopAppstreamContentRating
-  urls?: DesktopAppstreamUrls
-  categories?: DesktopAppstreamCategories
-  kudos?: DesktopAppstreamKudos
-  keywords?: DesktopAppstreamKeywords
-  mimetypes?: DesktopAppstreamMimetypes
-  project_license?: DesktopAppstreamProjectLicense
-  provides?: DesktopAppstreamProvides
-  launchable?: DesktopAppstreamLaunchable
+  content_rating?: ContentRating | null
+  urls?: Urls | null
+  categories?: string[] | null
+  kudos?: string[] | null
+  keywords?: string[] | null
+  mimetypes?: string[] | null
+  project_license?: string | null
+  provides?: (Provides | string)[] | null
+  launchable?: Launchable | null
   bundle: Bundle
-  translation?: DesktopAppstreamTranslation
-  metadata?: DesktopAppstreamMetadata
+  translation?: Translation | null
+  metadata?: Metadata | null
   is_free_license: boolean
-  isMobileFriendly?: DesktopAppstreamIsMobileFriendly
-  branding?: DesktopAppstreamBranding
+  isMobileFriendly?: boolean | null
+  branding?: Branding[] | null
 }

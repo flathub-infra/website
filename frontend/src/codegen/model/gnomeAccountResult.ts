@@ -5,18 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ConnectedAccountProvider } from "./connectedAccountProvider"
-import type { GnomeAccountResultAvatarUrl } from "./gnomeAccountResultAvatarUrl"
-import type { GnomeAccountResultDisplayName } from "./gnomeAccountResultDisplayName"
-import type { GnomeAccountResultEmail } from "./gnomeAccountResultEmail"
-import type { GnomeAccountResultLastUsed } from "./gnomeAccountResultLastUsed"
 
 export interface GnomeAccountResult {
   provider: ConnectedAccountProvider
   id: number
   gnome_userid: number
   login: string
-  avatar_url: GnomeAccountResultAvatarUrl
-  display_name: GnomeAccountResultDisplayName
-  email: GnomeAccountResultEmail
-  last_used: GnomeAccountResultLastUsed
+  avatar_url: string | null
+  display_name: string | null
+  email: string | null
+  last_used: string | null
 }

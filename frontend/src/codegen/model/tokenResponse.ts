@@ -4,7 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TokenResponseIssuedTo } from "./tokenResponseIssuedTo"
 
 export interface TokenResponse {
   id: number
@@ -13,7 +12,7 @@ export interface TokenResponse {
   scopes: string[]
   repos: string[]
   issued_at: number
-  issued_to: TokenResponseIssuedTo
+  issued_to: string | null
   expires_at: number
   revoked: boolean
 }

@@ -4,28 +4,14 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AppsIndexKeywords } from "./appsIndexKeywords"
 import type { AppsIndexTranslations } from "./appsIndexTranslations"
-import type { AppsIndexIcon } from "./appsIndexIcon"
-import type { AppsIndexMainCategories } from "./appsIndexMainCategories"
-import type { AppsIndexSubCategories } from "./appsIndexSubCategories"
-import type { AppsIndexDeveloperName } from "./appsIndexDeveloperName"
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
+import type { MainCategory } from "./mainCategory"
 import type { VerificationMethod } from "./verificationMethod"
-import type { AppsIndexVerificationLoginName } from "./appsIndexVerificationLoginName"
-import type { AppsIndexVerificationLoginProvider } from "./appsIndexVerificationLoginProvider"
-import type { AppsIndexVerificationLoginIsOrganization } from "./appsIndexVerificationLoginIsOrganization"
-import type { AppsIndexVerificationWebsite } from "./appsIndexVerificationWebsite"
-import type { AppsIndexVerificationTimestamp } from "./appsIndexVerificationTimestamp"
-import type { AppsIndexRuntime } from "./appsIndexRuntime"
-import type { AppsIndexArches } from "./appsIndexArches"
-import type { AppsIndexAddedAt } from "./appsIndexAddedAt"
-import type { AppsIndexTrending } from "./appsIndexTrending"
-import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
-import type { AppsIndexFavoritesCount } from "./appsIndexFavoritesCount"
 
 export interface AppsIndex {
   name: string
-  keywords: AppsIndexKeywords
+  keywords: string[] | null
   summary: string
   description: string
   id: string
@@ -34,23 +20,23 @@ export interface AppsIndex {
   project_license: string
   is_free_license: boolean
   app_id: string
-  icon: AppsIndexIcon
-  main_categories: AppsIndexMainCategories
-  sub_categories?: AppsIndexSubCategories
-  developer_name: AppsIndexDeveloperName
+  icon: string | null
+  main_categories: MainCategory | MainCategory[]
+  sub_categories?: string[] | null
+  developer_name: string | null
   verification_verified: boolean
   verification_method: VerificationMethod
-  verification_login_name: AppsIndexVerificationLoginName
-  verification_login_provider: AppsIndexVerificationLoginProvider
-  verification_login_is_organization: AppsIndexVerificationLoginIsOrganization
-  verification_website: AppsIndexVerificationWebsite
-  verification_timestamp: AppsIndexVerificationTimestamp
-  runtime: AppsIndexRuntime
+  verification_login_name: string | null
+  verification_login_provider: ConnectedAccountProvider | null
+  verification_login_is_organization: boolean | null
+  verification_website: string | null
+  verification_timestamp: string | null
+  runtime: string | null
   updated_at: number
-  arches: AppsIndexArches
-  added_at?: AppsIndexAddedAt
-  trending?: AppsIndexTrending
-  installs_last_month?: AppsIndexInstallsLastMonth
-  favorites_count?: AppsIndexFavoritesCount
+  arches: string[] | null
+  added_at?: number | null
+  trending?: number | null
+  installs_last_month?: number | null
+  favorites_count?: number | null
   isMobileFriendly: boolean
 }

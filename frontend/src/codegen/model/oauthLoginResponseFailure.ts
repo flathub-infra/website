@@ -4,12 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { OauthLoginResponseFailureErrorDescription } from "./oauthLoginResponseFailureErrorDescription"
-import type { OauthLoginResponseFailureErrorUri } from "./oauthLoginResponseFailureErrorUri"
 
 export interface OauthLoginResponseFailure {
   state: string
   error: string
-  error_description?: OauthLoginResponseFailureErrorDescription
-  error_uri?: OauthLoginResponseFailureErrorUri
+  error_description?: string | null
+  error_uri?: string | null
 }
