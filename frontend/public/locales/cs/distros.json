@@ -25,7 +25,7 @@
   "manjaro": {
     "step-1": {
       "name": "Povolit Flatpak skrze ve Správci softwaru",
-      "text": "<text>Flatpak je nainstalován již ve výchozím nastavení na Manjaro 20 nebo vyšším.</text> <text>Pro povolení jeho podpory, přejděte do <strong>Správce softwaru</strong> (Nainstalovat/Odstranit software)</text> <text>Klikněte na tříčárkovanou nabídku [nebo tečky v závislosti na desktopovém prostředí] vpravo, v rolovací nabídce zvolte \"Předvolby\"</text> <text>Přejděte na kartu \"Flatpak\" a posuňte přepínač pro Povolení podpory Flatpak (je také možné povolit kontrolu aktualizací, což je doporučováno).</text>"
+      "text": "<text>Flatpak je nainstalován již ve výchozím nastavení na Manjaro 20 nebo vyšším.</text> <text>Pro povolení jeho podpory, přejděte do <strong>Správce softwaru</strong> (Nainstalovat/Odstranit software)</text> <text>Klikněte na tříčárkovanou nabídku [nebo tečky v závislosti na desktopovém prostředí] vpravo, v rolovací nabídce zvolte \"Předvolby\"</text> <text>Přejděte na kartu „Flatpak“ a posuňte přepínač pro Povolení podpory Flatpak (je také možné povolit kontrolu aktualizací, což je doporučováno).</text>"
     },
     "step-2": {
       "name": "Restartujte",

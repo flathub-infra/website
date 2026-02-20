@@ -417,5 +417,17 @@
   "stripe-error-incorrect_number": "ਕਾਰਡ ਦਾ ਨੰਬਰ ਗਲਤ ਹੈ। ਕਾਰਡ ਦੇ ਨੰਬਰ ਦੀ ਜਾਂਚ ਕਰੋ ਜਾਂ ਵੱਖਰੇ ਕਾਰਡ ਨੂੰ ਵਰਤੋਂ।",
   "read-announcements": "ਐਲਾਨ ਨੂੰ ਪੜ੍ਹੋ",
   "count-verified-desktop-apps": "ਪ੍ਰਮਾਣਿਤ ਡੈਸਕਟਾਪ ਐਪਸ",
-  "flathub-statistics-description": "ਪਲੇਟਫਾਰਮ 'ਤੇ ਉਪਲਬਧ ਐਪਸ ਦੀ ਵਰਤੋਂ ਅਤੇ ਵੰਡ ਦਾ ਸੰਖੇਪ ਜਾਣਕਾਰੀ।"
+  "flathub-statistics-description": "ਪਲੇਟਫਾਰਮ 'ਤੇ ਉਪਲਬਧ ਐਪਸ ਦੀ ਵਰਤੋਂ ਅਤੇ ਵੰਡ ਦਾ ਸੰਖੇਪ ਜਾਣਕਾਰੀ।",
+  "see-all-results": "ਸਾਰੇ ਨਤੀਜਿਆਂ ਨੂੰ ਵੇਖੋ",
+  "count": "ਗਿਣਤੀ",
+  "country-statistics": "ਦੇਸ਼ ਅੰਕੜੇ",
+  "since-x": "{date} ਤੋਂ",
+  "default-account": "ਮੂਲ",
+  "set-as-default": "ਮੂਲ ਵਜੋਂ ਸੈੱਟ ਕਰੋ",
+  "default-account-changed": "ਮੂਲ ਖਾਤੇ ਨੂੰ ਕਾਮਯਾਬੀ ਨਾਲ ਬਦਲਿਆ ਗਿਆ ਹੈ",
+  "developed-by": "{developer} ਵਲੋਂ ਡਿਵੈਲਪ ਕੀਤਾ",
+  "date": "ਤਾਰੀਖ",
+  "get-apps": "ਐਪਾਂ ਲਵੋ",
+  "action-donate": "ਦਾਨ ਦਿਓ",
+  "action-purchase": "ਖਰੀਦੋ"
 }
