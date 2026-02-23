@@ -1,1 +1,80 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Tải xuống Flatpak",
+      "text": "<text>Để tải xuống Flatpak trên <strong>Ubuntu 18.10 (Cosmic Cuttlefish) hoặc mới hơn</strong>, mở Terminal và chạy:</text> <code></code>"
+    },
+    "step-2": {
+      "text": "<text>Plugin GNOME Software giúp tải ứng dụng mà không cần dòng lệnh. Để tải xuống, chạy:</text> <code></code> <text><strong>Ghi chú:</strong> Ubuntu phân phối GNOME Software dưới dạng Snap từ phiên bản 20.04 tới 23.04, và thay thế nó với App Center từ 23.10 trở đi — Cả hai đều không hỗ trợ cài đặt ứng dụng Flatpak. Tải xuống plugin Flatpak cũng sẽ tải xuống phiên bản deb của GNOME Software, dẫn đến 2 ứng dụng \"Phần mềm\" được cài đặt cùng lúc trên Ubuntu 20.04 tới 23.04, và 1 ứng dụng \"Phần mềm\" trên Ubuntu 23.10 trở đi.</text>"
+    },
+    "step-3": {
+      "name": "Thêm repository Flathub",
+      "text": "<text>Flathub là nơi tốt nhất để lấy ứng dụng Flatpak. Để bật nó, chạy:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Khởi động lại",
+      "text": "<text>Để hoàn tất thiết lập, hãy khởi động lại hệ thống của bạn. Bây giờ tất cả những gì bạn cần làm là <link>Tải xuống ứng dụng</link>!</text>"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Khởi động lại",
+      "text": "<text>Để hoàn tất thiết lập, hãy khởi động lại hệ thống của bạn. Bây giờ tất cả những gì bạn cần làm là <link>Tải xuống ứng dụng</link>!</text>"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Tải xuống Flatpak",
+      "text": "<text>Để tải xuống Flatpak trên hệ điều hành của Alt family, mở Terminal và chạy:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Thêm repository Flathub"
+    },
+    "step-3": {
+      "name": "Khởi động lại",
+      "text": "<text>Khởi động lại thiết bị của bạn để hoàn tất tải xuống Flatpak. Bây giờ bạn có thể <link>Tải xuống ứng dụng</link>!</text>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-1": {
+      "name": "Kích hoạt hỗ trợ Linux"
+    },
+    "step-2": {
+      "name": "Khởi động terminal Linux"
+    },
+    "step-3": {
+      "name": "Tải xuống Flatpak",
+      "text": "<text>Để tải xuống Flatpak, chạy lệnh sau trong terminal:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Thêm repository Flathub"
+    },
+    "step-5": {
+      "name": "Khởi động lại"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "debian": {
+    "step-4": {
+      "name": "Khởi động lại"
+    },
+    "step-1": {
+      "name": "Tải xuống Flatpak"
+    }
+  }
+}
