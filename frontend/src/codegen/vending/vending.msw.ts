@@ -220,12 +220,16 @@ export const getStatusVendingStatusGetMockHandler = (
   return http.get(
     "*/vending/status",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
+      const resolvedBody =
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getStatusVendingStatusGetResponseMock(),
+          : getStatusVendingStatusGetResponseMock()
+      return HttpResponse.json(
+        resolvedBody === undefined || resolvedBody === null
+          ? null
+          : (resolvedBody as VendingStatus),
         { status: 200 },
       )
     },

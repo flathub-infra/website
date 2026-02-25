@@ -466,12 +466,16 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
   return http.get(
     "*/auth/userinfo",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
+      const resolvedBody =
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetUserinfoAuthUserinfoGetResponseMock(),
+          : getGetUserinfoAuthUserinfoGetResponseMock()
+      return HttpResponse.json(
+        resolvedBody === undefined || resolvedBody === null
+          ? null
+          : (resolvedBody as GetUserinfoAuthUserinfoGet200),
         { status: 200 },
       )
     },
