@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { SummaryExtensionDirectory } from "./summaryExtensionDirectory"
 import type { SummaryExtensionAutodelete } from "./summaryExtensionAutodelete"
+import type { SummaryExtensionDirectory } from "./summaryExtensionDirectory"
 import type { SummaryExtensionNoAutodownload } from "./summaryExtensionNoAutodownload"
 import type { SummaryExtensionVersion } from "./summaryExtensionVersion"
 import type { SummaryExtensionVersions } from "./summaryExtensionVersions"

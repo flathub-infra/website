@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TranslationValue } from "./translationValue"
 import type { TranslationType } from "./translationType"
+import type { TranslationValue } from "./translationValue"
 
 /**
  * Translation information.

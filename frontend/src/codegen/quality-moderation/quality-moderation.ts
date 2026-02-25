@@ -266,9 +266,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -501,9 +499,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -756,9 +752,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -987,9 +981,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1003,7 +995,7 @@ export const getQualityModerationForAppQualityModerationAppIdGet = (
 }
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/quality-moderation/${appId}`] as const
 }
@@ -1209,9 +1201,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1313,12 +1303,12 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
   { appId: string; data: UpsertQualityModeration },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getSetQualityModerationForAppQualityModerationAppIdPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * @summary Get Quality Moderation Status For App
@@ -1331,7 +1321,7 @@ export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet = (
 }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryKey =
-  (appId?: string) => {
+  (appId: string) => {
     return [`/quality-moderation/${appId}/status`] as const
   }
 
@@ -1562,9 +1552,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1677,12 +1665,12 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * @summary Delete Review Request For App
@@ -1789,12 +1777,12 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
     { appId: string },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * @summary Set Fullscreen App
@@ -1910,10 +1898,10 @@ export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
   },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }

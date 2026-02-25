@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AppType } from "./appType"
 import type { AppAppsSortBy } from "./appAppsSortBy"
+import type { AppType } from "./appType"
 
 export type ListAppstreamAppstreamGetParams = {
   filter?: AppType

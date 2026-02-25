@@ -8,7 +8,6 @@
 export type ModerationRequestType =
   (typeof ModerationRequestType)[keyof typeof ModerationRequestType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ModerationRequestType = {
   appdata: "appdata",
 } as const

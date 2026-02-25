@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 export const getDashboardGetResponseMock = (): string => faker.word.sample()
@@ -33,19 +33,18 @@ export const getDashboardGetMockHandler = (
 ) => {
   return http.get(
     "*/",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getDashboardGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      )
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      const resolvedBody =
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDashboardGetResponseMock()
+      const textBody =
+        typeof resolvedBody === "string"
+          ? resolvedBody
+          : JSON.stringify(resolvedBody ?? null)
+      return HttpResponse.html(textBody, { status: 200 })
     },
     options,
   )
@@ -61,19 +60,18 @@ export const getBuildsTableApiHtmxBuildsGetMockHandler = (
 ) => {
   return http.get(
     "*/api/htmx/builds",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getBuildsTableApiHtmxBuildsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      )
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      const resolvedBody =
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getBuildsTableApiHtmxBuildsGetResponseMock()
+      const textBody =
+        typeof resolvedBody === "string"
+          ? resolvedBody
+          : JSON.stringify(resolvedBody ?? null)
+      return HttpResponse.html(textBody, { status: 200 })
     },
     options,
   )
@@ -89,19 +87,18 @@ export const getAppStatusStatusAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/status/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getAppStatusStatusAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      )
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      const resolvedBody =
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getAppStatusStatusAppIdGetResponseMock()
+      const textBody =
+        typeof resolvedBody === "string"
+          ? resolvedBody
+          : JSON.stringify(resolvedBody ?? null)
+      return HttpResponse.html(textBody, { status: 200 })
     },
     options,
   )
@@ -117,19 +114,18 @@ export const getReproducibleStatusReproducibleGetMockHandler = (
 ) => {
   return http.get(
     "*/reproducible",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getReproducibleStatusReproducibleGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      )
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      const resolvedBody =
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getReproducibleStatusReproducibleGetResponseMock()
+      const textBody =
+        typeof resolvedBody === "string"
+          ? resolvedBody
+          : JSON.stringify(resolvedBody ?? null)
+      return HttpResponse.html(textBody, { status: 200 })
     },
     options,
   )
@@ -145,19 +141,18 @@ export const getReproducibleTableApiHtmxReproducibleGetMockHandler = (
 ) => {
   return http.get(
     "*/api/htmx/reproducible",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getReproducibleTableApiHtmxReproducibleGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      )
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      const resolvedBody =
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getReproducibleTableApiHtmxReproducibleGetResponseMock()
+      const textBody =
+        typeof resolvedBody === "string"
+          ? resolvedBody
+          : JSON.stringify(resolvedBody ?? null)
+      return HttpResponse.html(textBody, { status: 200 })
     },
     options,
   )

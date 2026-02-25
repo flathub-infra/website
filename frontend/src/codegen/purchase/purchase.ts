@@ -225,9 +225,7 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -471,9 +469,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -559,10 +555,10 @@ export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Checks whether the logged in user is able to download all of the given app refs.
@@ -651,10 +647,10 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
   { data: string[] },
   TContext
 > => {
-  const mutationOptions =
-    getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
@@ -758,10 +754,10 @@ export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
   { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }

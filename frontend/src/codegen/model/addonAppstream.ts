@@ -4,17 +4,17 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AddonAppstreamReleases } from "./addonAppstreamReleases"
-import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
-import type { AddonAppstreamUrls } from "./addonAppstreamUrls"
 import type { AddonAppstreamCategories } from "./addonAppstreamCategories"
+import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
+import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
 import type { AddonAppstreamIcon } from "./addonAppstreamIcon"
 import type { AddonAppstreamIcons } from "./addonAppstreamIcons"
-import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
-import type { AddonAppstreamProjectLicense } from "./addonAppstreamProjectLicense"
-import type { Bundle } from "./bundle"
-import type { AddonAppstreamMetadata } from "./addonAppstreamMetadata"
 import type { AddonAppstreamIsMobileFriendly } from "./addonAppstreamIsMobileFriendly"
+import type { AddonAppstreamMetadata } from "./addonAppstreamMetadata"
+import type { AddonAppstreamProjectLicense } from "./addonAppstreamProjectLicense"
+import type { AddonAppstreamReleases } from "./addonAppstreamReleases"
+import type { AddonAppstreamUrls } from "./addonAppstreamUrls"
+import type { Bundle } from "./bundle"
 
 /**
  * Addon Appstream metadata

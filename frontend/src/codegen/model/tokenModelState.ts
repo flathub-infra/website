@@ -8,7 +8,6 @@
 export type TokenModelState =
   (typeof TokenModelState)[keyof typeof TokenModelState]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TokenModelState = {
   unredeemed: "unredeemed",
   redeemed: "redeemed",

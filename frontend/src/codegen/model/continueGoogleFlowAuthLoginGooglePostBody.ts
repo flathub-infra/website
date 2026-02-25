@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { OauthLoginResponseSuccess } from "./oauthLoginResponseSuccess"
 import type { OauthLoginResponseFailure } from "./oauthLoginResponseFailure"
+import type { OauthLoginResponseSuccess } from "./oauthLoginResponseSuccess"
 
 export type ContinueGoogleFlowAuthLoginGooglePostBody =
   | OauthLoginResponseSuccess

@@ -4,10 +4,13 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ValidationErrorCtx } from "./validationErrorCtx"
 import type { ValidationErrorLocItem } from "./validationErrorLocItem"
 
 export interface ValidationError {
   loc: ValidationErrorLocItem[]
   msg: string
   type: string
+  input?: unknown
+  ctx?: ValidationErrorCtx
 }

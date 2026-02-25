@@ -8,7 +8,6 @@
 export type AvailableMethodType =
   (typeof AvailableMethodType)[keyof typeof AvailableMethodType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AvailableMethodType = {
   website: "website",
   login_provider: "login_provider",

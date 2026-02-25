@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import { ModerationRequestType } from ".././model"
@@ -18,7 +18,7 @@ import type {
 } from ".././model"
 
 export const getGetModerationAppsModerationAppsGetResponseMock = (
-  overrideResponse: Partial<ModerationAppsResponse> = {},
+  overrideResponse: Partial<Extract<ModerationAppsResponse, object>> = {},
 ): ModerationAppsResponse => ({
   apps: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -28,7 +28,7 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
     is_new_submission: faker.datatype.boolean(),
     updated_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split(".")[0]}Z`,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
         null,
       ]),
       undefined,
@@ -37,22 +37,22 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
       Object.values(ModerationRequestType),
     ),
   })),
-  apps_count: faker.number.int({ min: undefined, max: undefined }),
+  apps_count: faker.number.int(),
   ...overrideResponse,
 })
 
 export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
-  overrideResponse: Partial<ModerationApp> = {},
+  overrideResponse: Partial<Extract<ModerationApp, object>> = {},
 ): ModerationApp => ({
   requests: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
+    id: faker.number.int(),
     app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
-    build_id: faker.number.int({ min: undefined, max: undefined }),
-    job_id: faker.number.int({ min: undefined, max: undefined }),
+    created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+    build_id: faker.number.int(),
+    job_id: faker.number.int(),
     is_outdated: faker.datatype.boolean(),
     request_type: faker.helpers.arrayElement(
       Object.values(ModerationRequestType),
@@ -97,7 +97,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
     ]),
     handled_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split(".")[0]}Z`,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
         null,
       ]),
       undefined,
@@ -114,20 +114,20 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       undefined,
     ]),
   })),
-  requests_count: faker.number.int({ min: undefined, max: undefined }),
+  requests_count: faker.number.int(),
   ...overrideResponse,
 })
 
 export const getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock =
   (
-    overrideResponse: Partial<ReviewRequestResponse> = {},
+    overrideResponse: Partial<Extract<ReviewRequestResponse, object>> = {},
   ): ReviewRequestResponse => ({
     requires_review: faker.datatype.boolean(),
     ...overrideResponse,
   })
 
 export const getSubmitReviewModerationRequestsIdReviewPostResponseMock = (
-  overrideResponse: Partial<ReviewResponse> = {},
+  overrideResponse: Partial<Extract<ReviewResponse, object>> = {},
 ): ReviewResponse => ({
   github_issue_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
@@ -143,18 +143,14 @@ export const getGetModerationAppsModerationAppsGetMockHandler = (
 ) => {
   return http.get(
     "*/moderation/apps",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetModerationAppsModerationAppsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetModerationAppsModerationAppsGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -171,18 +167,14 @@ export const getGetModerationAppModerationAppsAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/moderation/apps/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetModerationAppModerationAppsAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetModerationAppModerationAppsAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -200,18 +192,14 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMockHandler 
   ) => {
     return http.post(
       "*/moderation/submit_review_request",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -228,18 +216,14 @@ export const getSubmitReviewModerationRequestsIdReviewPostMockHandler = (
 ) => {
   return http.post(
     "*/moderation/requests/:id/review",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getSubmitReviewModerationRequestsIdReviewPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getSubmitReviewModerationRequestsIdReviewPostResponseMock(),
+        { status: 200 },
       )
     },
     options,

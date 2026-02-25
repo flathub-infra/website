@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import { ConnectedAccountProvider, Permission } from ".././model"
@@ -38,34 +38,22 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
           ]),
           undefined,
         ]),
-        dev_flatpaks: faker.helpers.arrayElement([
-          Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1,
-          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-          undefined,
-        ]),
-        permissions: faker.helpers.arrayElement([
-          faker.helpers.arrayElements(Object.values(Permission)),
-          undefined,
-        ]),
-        owned_flatpaks: faker.helpers.arrayElement([
-          Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1,
-          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-          undefined,
-        ]),
-        invited_flatpaks: faker.helpers.arrayElement([
-          Array.from(
-            { length: faker.number.int({ min: 1, max: 10 }) },
-            (_, i) => i + 1,
-          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-          undefined,
-        ]),
+        dev_flatpaks: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        permissions: faker.helpers.arrayElements(Object.values(Permission)),
+        owned_flatpaks: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        invited_flatpaks: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
         invite_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
         accepted_publisher_agreement_at: faker.helpers.arrayElement([
-          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
         default_account: {
@@ -219,7 +207,7 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
     ])
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock = (
-  overrideResponse: Partial<RefreshDevFlatpaksReturn> = {},
+  overrideResponse: Partial<Extract<RefreshDevFlatpaksReturn, object>> = {},
 ): RefreshDevFlatpaksReturn => ({
   dev_flatpaks: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -229,7 +217,7 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock = (
 })
 
 export const getGetDeleteuserAuthDeleteuserGetResponseMock = (
-  overrideResponse: Partial<GetDeleteUserResult> = {},
+  overrideResponse: Partial<Extract<GetDeleteUserResult, object>> = {},
 ): GetDeleteUserResult => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   token: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -237,7 +225,7 @@ export const getGetDeleteuserAuthDeleteuserGetResponseMock = (
 })
 
 export const getDoDeleteuserAuthDeleteuserDeleteResponseMock = (
-  overrideResponse: Partial<DeleteUserResult> = {},
+  overrideResponse: Partial<Extract<DeleteUserResult, object>> = {},
 ): DeleteUserResult => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   message: faker.helpers.arrayElement([
@@ -260,18 +248,14 @@ export const getGetLoginMethodsAuthLoginGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/login",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetLoginMethodsAuthLoginGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetLoginMethodsAuthLoginGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -288,11 +272,11 @@ export const getStartGithubFlowAuthLoginGithubGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/login/github",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -309,11 +293,11 @@ export const getContinueGithubFlowAuthLoginGithubPostMockHandler = (
 ) => {
   return http.post(
     "*/auth/login/github",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -330,11 +314,11 @@ export const getStartGitlabFlowAuthLoginGitlabGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/login/gitlab",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -351,11 +335,11 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMockHandler = (
 ) => {
   return http.post(
     "*/auth/login/gitlab",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -372,11 +356,11 @@ export const getStartGnomeFlowAuthLoginGnomeGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/login/gnome",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -393,11 +377,11 @@ export const getContinueGnomeFlowAuthLoginGnomePostMockHandler = (
 ) => {
   return http.post(
     "*/auth/login/gnome",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -414,11 +398,11 @@ export const getStartKdeFlowAuthLoginKdeGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/login/kde",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -435,11 +419,11 @@ export const getContinueKdeFlowAuthLoginKdePostMockHandler = (
 ) => {
   return http.post(
     "*/auth/login/kde",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -456,11 +440,11 @@ export const getContinueGoogleFlowAuthLoginGooglePostMockHandler = (
 ) => {
   return http.post(
     "*/auth/login/google",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -481,18 +465,14 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/userinfo",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetUserinfoAuthUserinfoGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetUserinfoAuthUserinfoGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -509,18 +489,14 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler = (
 ) => {
   return http.post(
     "*/auth/refresh-dev-flatpaks",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -537,11 +513,11 @@ export const getDoLogoutAuthLogoutPostMockHandler = (
 ) => {
   return http.post(
     "*/auth/logout",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -558,18 +534,14 @@ export const getGetDeleteuserAuthDeleteuserGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/deleteuser",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetDeleteuserAuthDeleteuserGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetDeleteuserAuthDeleteuserGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -586,18 +558,14 @@ export const getDoDeleteuserAuthDeleteuserDeleteMockHandler = (
 ) => {
   return http.delete(
     "*/auth/deleteuser",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getDoDeleteuserAuthDeleteuserDeleteResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDoDeleteuserAuthDeleteuserDeleteResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -615,11 +583,11 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockH
   ) => {
     return http.post(
       "*/auth/accept-publisher-agreement",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -637,11 +605,11 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler =
   ) => {
     return http.post(
       "*/auth/change-default-account",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 204 })
       },
       options,

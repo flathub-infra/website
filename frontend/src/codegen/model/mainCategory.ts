@@ -7,7 +7,6 @@
 
 export type MainCategory = (typeof MainCategory)[keyof typeof MainCategory]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MainCategory = {
   audiovideo: "audiovideo",
   development: "development",

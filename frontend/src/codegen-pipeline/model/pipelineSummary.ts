@@ -4,18 +4,18 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { PipelineType } from "./pipelineType"
 import type { PipelineStatus } from "./pipelineStatus"
-import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
-import type { PipelineTrigger } from "./pipelineTrigger"
 import type { PipelineSummaryBuildId } from "./pipelineSummaryBuildId"
 import type { PipelineSummaryCommitJobId } from "./pipelineSummaryCommitJobId"
-import type { PipelineSummaryPublishJobId } from "./pipelineSummaryPublishJobId"
-import type { PipelineSummaryUpdateRepoJobId } from "./pipelineSummaryUpdateRepoJobId"
-import type { PipelineSummaryReproPipelineId } from "./pipelineSummaryReproPipelineId"
-import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
 import type { PipelineSummaryFinishedAt } from "./pipelineSummaryFinishedAt"
 import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
+import type { PipelineSummaryPublishJobId } from "./pipelineSummaryPublishJobId"
+import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
+import type { PipelineSummaryReproPipelineId } from "./pipelineSummaryReproPipelineId"
+import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
+import type { PipelineSummaryUpdateRepoJobId } from "./pipelineSummaryUpdateRepoJobId"
+import type { PipelineTrigger } from "./pipelineTrigger"
+import type { PipelineType } from "./pipelineType"
 
 export interface PipelineSummary {
   id: string

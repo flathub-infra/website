@@ -7,7 +7,6 @@
 
 export type PipelineType = (typeof PipelineType)[keyof typeof PipelineType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PipelineType = {
   build: "build",
   reprocheck: "reprocheck",

@@ -173,9 +173,7 @@ export function useUsersUsersGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -324,9 +322,7 @@ export function useRolesUsersRolesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -340,7 +336,7 @@ export const userUsersUserIdGet = (
   return axios.get(`/users/${userId}`, options)
 }
 
-export const getUserUsersUserIdGetQueryKey = (userId?: number) => {
+export const getUserUsersUserIdGetQueryKey = (userId: number) => {
   return [`/users/${userId}`] as const
 }
 
@@ -489,9 +485,7 @@ export function useUserUsersUserIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -578,10 +572,10 @@ export const useAddUserRoleUsersUserIdRolePost = <
   { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
   TContext
 > => {
-  const mutationOptions =
-    getAddUserRoleUsersUserIdRolePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getAddUserRoleUsersUserIdRolePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Remove a role from a user
@@ -667,10 +661,10 @@ export const useDeleteUserRoleUsersUserIdRoleDelete = <
   { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
   TContext
 > => {
-  const mutationOptions =
-    getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Return all users with a specific role
@@ -684,7 +678,7 @@ export const roleUsersUsersRolesRoleNameGet = (
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryKey = (
-  roleName?: RoleName,
+  roleName: RoleName,
 ) => {
   return [`/users/roles/${roleName}`] as const
 }
@@ -839,7 +833,5 @@ export function useRoleUsersUsersRolesRoleNameGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

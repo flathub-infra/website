@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import { LoginProvider } from ".././model"
@@ -104,7 +104,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
   })
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
-  overrideResponse: Partial<StorefrontInfo> = {},
+  overrideResponse: Partial<Extract<StorefrontInfo, object>> = {},
 ): StorefrontInfo => ({
   verification: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
@@ -130,17 +130,11 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
     faker.helpers.arrayElement([
       {
         recommended_donation: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            null,
-          ]),
+          faker.helpers.arrayElement([faker.number.int(), null]),
           undefined,
         ]),
         minimum_payment: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            null,
-          ]),
+          faker.helpers.arrayElement([faker.number.int(), null]),
           undefined,
         ]),
       },
@@ -148,10 +142,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
     ]),
     undefined,
   ]),
-  is_free_software: faker.helpers.arrayElement([
-    faker.datatype.boolean(),
-    undefined,
-  ]),
+  is_free_software: faker.datatype.boolean(),
   ...overrideResponse,
 })
 
@@ -159,25 +150,24 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetRespons
   (): boolean => faker.datatype.boolean()
 
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostResponseMock = (
-  overrideResponse: Partial<GenerateUpdateTokenResponse> = {},
+  overrideResponse: Partial<Extract<GenerateUpdateTokenResponse, object>> = {},
 ): GenerateUpdateTokenResponse => ({
   token: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getCheckPurchasesPurchasesCheckPurchasesPostResponseMock = (
-  overrideResponse: Partial<CheckPurchasesResponseSuccess> = {},
+  overrideResponse: Partial<
+    Extract<CheckPurchasesResponseSuccess, object>
+  > = {},
 ): CheckPurchasesResponseSuccess => ({
-  status: faker.helpers.arrayElement([
-    faker.string.alpha({ length: { min: 10, max: 20 } }),
-    undefined,
-  ]),
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
 
 export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock =
   (
-    overrideResponse: Partial<GetDownloadTokenResponse> = {},
+    overrideResponse: Partial<Extract<GetDownloadTokenResponse, object>> = {},
   ): GetDownloadTokenResponse => ({
     token: faker.string.alpha({ length: { min: 10, max: 20 } }),
     update_token: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -194,18 +184,14 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetMockHandler = (
 ) => {
   return http.get(
     "*/purchases/storefront-info",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -223,18 +209,14 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetMockHan
   ) => {
     return http.get(
       "*/purchases/storefront-info/is-free-software",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -251,18 +233,14 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMockHandler = (
 ) => {
   return http.post(
     "*/purchases/generate-update-token",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetUpdateTokenPurchasesGenerateUpdateTokenPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetUpdateTokenPurchasesGenerateUpdateTokenPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -281,18 +259,14 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMockHandler = (
 ) => {
   return http.post(
     "*/purchases/check-purchases",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getCheckPurchasesPurchasesCheckPurchasesPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCheckPurchasesPurchasesCheckPurchasesPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -310,18 +284,14 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMockHandler =
   ) => {
     return http.post(
       "*/purchases/generate-download-token",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock(),
+          { status: 200 },
         )
       },
       options,

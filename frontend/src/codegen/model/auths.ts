@@ -7,8 +7,8 @@
 import type { AuthsGithub } from "./authsGithub"
 import type { AuthsGitlab } from "./authsGitlab"
 import type { AuthsGnome } from "./authsGnome"
-import type { AuthsKde } from "./authsKde"
 import type { AuthsGoogle } from "./authsGoogle"
+import type { AuthsKde } from "./authsKde"
 
 export interface Auths {
   github?: AuthsGithub

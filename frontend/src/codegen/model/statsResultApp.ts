@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { StatsResultAppInstallsPerDay } from "./statsResultAppInstallsPerDay"
 import type { StatsResultAppInstallsPerCountry } from "./statsResultAppInstallsPerCountry"
+import type { StatsResultAppInstallsPerDay } from "./statsResultAppInstallsPerDay"
 
 export interface StatsResultApp {
   installs_total: number

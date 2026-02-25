@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import type {
@@ -20,7 +20,9 @@ import type {
 
 export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock =
   (
-    overrideResponse: Partial<QualityModerationDashboardResponse> = {},
+    overrideResponse: Partial<
+      Extract<QualityModerationDashboardResponse, object>
+    > = {},
   ): QualityModerationDashboardResponse => ({
     apps: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
@@ -29,16 +31,16 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
       id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       quality_moderation_status: {
         passes: faker.datatype.boolean(),
-        unrated: faker.number.int({ min: undefined, max: undefined }),
-        passed: faker.number.int({ min: undefined, max: undefined }),
-        not_passed: faker.number.int({ min: undefined, max: undefined }),
+        unrated: faker.number.int(),
+        passed: faker.number.int(),
+        not_passed: faker.number.int(),
         last_updated: faker.helpers.arrayElement([
-          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
         review_requested_at: faker.helpers.arrayElement([
           faker.helpers.arrayElement([
-            `${faker.date.past().toISOString().split(".")[0]}Z`,
+            faker.date.past().toISOString().slice(0, 19) + "Z",
             null,
           ]),
           undefined,
@@ -49,62 +51,57 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
         undefined,
       ]),
       installs_last_7_days: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
     })),
     pagination: {
-      page: faker.number.int({ min: undefined, max: undefined }),
-      page_size: faker.number.int({ min: undefined, max: undefined }),
-      total: faker.number.int({ min: undefined, max: undefined }),
-      total_pages: faker.number.int({ min: undefined, max: undefined }),
+      page: faker.number.int(),
+      page_size: faker.number.int(),
+      total: faker.number.int(),
+      total_pages: faker.number.int(),
     },
     ...overrideResponse,
   })
 
 export const getGetPassingQualityAppsQualityModerationPassingAppsGetResponseMock =
   (
-    overrideResponse: Partial<SimpleQualityModerationResponse> = {},
+    overrideResponse: Partial<
+      Extract<SimpleQualityModerationResponse, object>
+    > = {},
   ): SimpleQualityModerationResponse => ({
     apps: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     pagination: {
-      page: faker.number.int({ min: undefined, max: undefined }),
-      page_size: faker.number.int({ min: undefined, max: undefined }),
-      total: faker.number.int({ min: undefined, max: undefined }),
-      total_pages: faker.number.int({ min: undefined, max: undefined }),
+      page: faker.number.int(),
+      page_size: faker.number.int(),
+      total: faker.number.int(),
+      total_pages: faker.number.int(),
     },
     ...overrideResponse,
   })
 
 export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseMock =
   (
-    overrideResponse: Partial<AppPickRecommendationsResponse> = {},
+    overrideResponse: Partial<
+      Extract<AppPickRecommendationsResponse, object>
+    > = {},
   ): AppPickRecommendationsResponse => ({
     recommendations: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      numberOfTimesAppOfTheWeek: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
+      numberOfTimesAppOfTheWeek: faker.number.int(),
       lastTimeAppOfTheWeek: faker.helpers.arrayElement([
-        faker.date.past().toISOString().split("T")[0],
+        faker.date.past().toISOString().slice(0, 10),
         null,
       ]),
-      numberOfTimesAppOfTheDay: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
+      numberOfTimesAppOfTheDay: faker.number.int(),
       lastTimeAppOfTheDay: faker.helpers.arrayElement([
-        faker.date.past().toISOString().split("T")[0],
+        faker.date.past().toISOString().slice(0, 10),
         null,
       ]),
     })),
@@ -118,12 +115,12 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetRe
       (_, i) => i + 1,
     ).map(() => ({
       guideline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      not_passed: faker.number.int({ min: undefined, max: undefined }),
+      not_passed: faker.number.int(),
     }))
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock =
   (
-    overrideResponse: Partial<QualityModerationResponse> = {},
+    overrideResponse: Partial<Extract<QualityModerationResponse, object>> = {},
   ): QualityModerationResponse => ({
     guidelines: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
@@ -133,30 +130,24 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
       guideline: {
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         url: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        needed_to_pass_since: faker.date.past().toISOString().split("T")[0],
+        needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
         category: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        read_only: faker.helpers.arrayElement([
-          faker.datatype.boolean(),
-          undefined,
-        ]),
+        read_only: faker.datatype.boolean(),
       },
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      updated_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
-      updated_by: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      updated_by: faker.helpers.arrayElement([faker.number.int(), null]),
       passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       comment: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
-      needed_to_pass_since: faker.date.past().toISOString().split("T")[0],
+      needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split(".")[0]}Z`,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
         null,
       ]),
       undefined,
@@ -166,19 +157,19 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseMock =
   (
-    overrideResponse: Partial<QualityModerationStatus> = {},
+    overrideResponse: Partial<Extract<QualityModerationStatus, object>> = {},
   ): QualityModerationStatus => ({
     passes: faker.datatype.boolean(),
-    unrated: faker.number.int({ min: undefined, max: undefined }),
-    passed: faker.number.int({ min: undefined, max: undefined }),
-    not_passed: faker.number.int({ min: undefined, max: undefined }),
+    unrated: faker.number.int(),
+    passed: faker.number.int(),
+    not_passed: faker.number.int(),
     last_updated: faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split(".")[0]}Z`,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
       null,
     ]),
     review_requested_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split(".")[0]}Z`,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
         null,
       ]),
       undefined,
@@ -199,18 +190,14 @@ export const getGetQualityModerationStatusQualityModerationStatusGetMockHandler 
   ) => {
     return http.get(
       "*/quality-moderation/status",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetQualityModerationStatusQualityModerationStatusGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetQualityModerationStatusQualityModerationStatusGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -230,18 +217,14 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetMockHandler 
   ) => {
     return http.get(
       "*/quality-moderation/passing-apps",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetPassingQualityAppsQualityModerationPassingAppsGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetPassingQualityAppsQualityModerationPassingAppsGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -261,18 +244,14 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
   ) => {
     return http.get(
       "*/quality-moderation/app-pick-recommendations",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -290,18 +269,14 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetMo
   ) => {
     return http.get(
       "*/quality-moderation/failed-by-guideline",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetQualityModerationStatsQualityModerationFailedByGuidelineGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetQualityModerationStatsQualityModerationFailedByGuidelineGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -319,18 +294,14 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetMockHandler =
   ) => {
     return http.get(
       "*/quality-moderation/:appId",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetQualityModerationForAppQualityModerationAppIdGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetQualityModerationForAppQualityModerationAppIdGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -348,11 +319,11 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMockHandler 
   ) => {
     return http.post(
       "*/quality-moderation/:appId",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -370,18 +341,14 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetM
   ) => {
     return http.get(
       "*/quality-moderation/:appId/status",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
@@ -399,11 +366,11 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMockHa
   ) => {
     return http.post(
       "*/quality-moderation/:appId/request-review",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -422,11 +389,11 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
   ) => {
     return http.delete(
       "*/quality-moderation/:appId/request-review",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -444,11 +411,11 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMockHandler 
   ) => {
     return http.post(
       "*/quality-moderation/:appId/fullscreen",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,

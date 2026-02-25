@@ -4,13 +4,13 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserResultDisplayName } from "./userResultDisplayName"
-import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
-import type { UserResultConnectedAccountsItem } from "./userResultConnectedAccountsItem"
 import type { UserResultAcceptedPublisherAgreementAt } from "./userResultAcceptedPublisherAgreementAt"
-import type { UserRoleResult } from "./userRoleResult"
+import type { UserResultConnectedAccountsItem } from "./userResultConnectedAccountsItem"
+import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
+import type { UserResultDisplayName } from "./userResultDisplayName"
 import type { UserResultGithubRepos } from "./userResultGithubRepos"
 import type { UserResultOwnedApps } from "./userResultOwnedApps"
+import type { UserRoleResult } from "./userRoleResult"
 
 export interface UserResult {
   id: number
