@@ -23,6 +23,7 @@ from sqlalchemy import (
     desc,
     false,
     func,
+    literal,
     or_,
     text,
 )
@@ -437,6 +438,49 @@ class FlathubUser(Base):
         )
 
         return result
+
+    @staticmethod
+    def by_normalized_email(db, normalized_email: str) -> Optional["FlathubUser"]:
+        """
+        Find a FlathubUser by normalized email across all connected account types.
+
+        Returns:
+            FlathubUser if a user is found, otherwise None.
+        """
+        account_classes = [
+            GithubAccount,
+            GitlabAccount,
+            GnomeAccount,
+            GoogleAccount,
+            KdeAccount,
+        ]
+        for acc_cls in account_classes:
+            # Normalize email: lowercase, remove anything after '+' in local part, keep domain
+            norm_expr = func.lower(
+                func.concat(
+                    func.substring(
+                        acc_cls.email,
+                        1,
+                        func.nullif(func.position(literal("+"), acc_cls.email) - 1, -1),
+                    )
+                    if func.position(literal("+"), acc_cls.email) > 0
+                    else func.substring(
+                        acc_cls.email, 1, func.position(literal("@"), acc_cls.email) - 1
+                    ),
+                    literal("@"),
+                    func.substring(
+                        acc_cls.email, func.position(literal("@"), acc_cls.email) + 1
+                    ),
+                )
+            )
+            match = (
+                db.session.query(acc_cls)
+                .filter(acc_cls.email.isnot(None), norm_expr == normalized_email)
+                .first()
+            )
+            if match:
+                return match.user_entity
+        return None
 
 
 class flathubuser_role(Base):
