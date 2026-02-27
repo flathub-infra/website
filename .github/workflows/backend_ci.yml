@@ -84,7 +84,7 @@ jobs:
 
       - name: Upload test snapshots
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           if-no-files-found: error
           overwrite: true
