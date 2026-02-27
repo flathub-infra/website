@@ -1,5 +1,5 @@
 import re
-from enum import Enum
+from enum import StrEnum
 
 import gi
 
@@ -12,7 +12,7 @@ clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()
 
 
-class AppType(str, Enum):
+class AppType(StrEnum):
     APPS = "apps"
     DESKTOP = "desktop"
     DESKTOP_APPLICATION = "desktop-application"
@@ -24,7 +24,7 @@ class AppType(str, Enum):
     RUNTIME = "runtime"
 
 
-class SortBy(str, Enum):
+class SortBy(StrEnum):
     ALPHABETICAL = "alphabetical"
     CREATED_AT = "created-at"
     LAST_UPDATED_AT = "last-updated-at"

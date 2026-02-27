@@ -1,6 +1,6 @@
 import base64
 import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 import jwt
@@ -13,7 +13,7 @@ from . import http_client, models
 from .config import settings
 
 
-class EmailCategory(str, Enum):
+class EmailCategory(StrEnum):
     BUILD_NOTIFICATION = "build_notification"
     DEVELOPER_INVITE = "developer_invite"
     DEVELOPER_INVITE_ACCEPTED = "developer_invite_accepted"

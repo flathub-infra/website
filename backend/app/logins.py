@@ -10,7 +10,7 @@ import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
-from enum import Enum
+from enum import StrEnum
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -920,7 +920,7 @@ class Auths(BaseModel):
     google: AuthInfo | None = None
 
 
-class Permission(str, Enum):
+class Permission(StrEnum):
     QUALITY_MODERATION = "quality-moderation"
     MODERATION = "moderation"
     PAYMENT = "payment"

@@ -2,7 +2,11 @@
   "hits": [
     {
       "name": "Maze",
-      "keywords": ["maze", "puzzle", "game"],
+      "keywords": [
+        "maze",
+        "puzzle",
+        "game"
+      ],
       "summary": "A simple maze game",
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
@@ -23,7 +27,9 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973680,
       "trending": 5.0,
       "installs_last_month": 509,
@@ -54,7 +60,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973768,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973768,
       "trending": 15.150000000000034,
       "installs_last_month": 1151,
@@ -84,7 +92,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 13.650000000000034,
       "installs_last_month": 653,

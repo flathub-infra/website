@@ -23,7 +23,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 0,
       "installs_last_month": 653,
@@ -54,7 +56,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973768,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973768,
       "trending": 0,
       "installs_last_month": 1151,
@@ -63,7 +67,11 @@
     },
     {
       "name": "Laberinto",
-      "keywords": ["laberinto", "rompecabezas", "juego"],
+      "keywords": [
+        "laberinto",
+        "rompecabezas",
+        "juego"
+      ],
       "summary": "Un simple juego de laberintos",
       "description": "\u00bfEres bueno encontrando la salida de situaciones dif\u00edciles?",
       "id": "org_sugarlabs_Maze",
@@ -84,7 +92,9 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973680,
       "trending": 0,
       "installs_last_month": 509,
