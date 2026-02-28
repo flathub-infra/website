@@ -4,16 +4,16 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { LocalizationAppstreamReleases } from "./localizationAppstreamReleases"
-import type { Urls } from "./urls"
+import type { Bundle } from "./bundle"
 import type { LocalizationAppstreamCategories } from "./localizationAppstreamCategories"
+import type { LocalizationAppstreamDeveloperName } from "./localizationAppstreamDeveloperName"
 import type { LocalizationAppstreamIcon } from "./localizationAppstreamIcon"
 import type { LocalizationAppstreamIcons } from "./localizationAppstreamIcons"
-import type { LocalizationAppstreamDeveloperName } from "./localizationAppstreamDeveloperName"
-import type { LocalizationAppstreamProjectLicense } from "./localizationAppstreamProjectLicense"
-import type { Bundle } from "./bundle"
-import type { LocalizationAppstreamMetadata } from "./localizationAppstreamMetadata"
 import type { LocalizationAppstreamIsMobileFriendly } from "./localizationAppstreamIsMobileFriendly"
+import type { LocalizationAppstreamMetadata } from "./localizationAppstreamMetadata"
+import type { LocalizationAppstreamProjectLicense } from "./localizationAppstreamProjectLicense"
+import type { LocalizationAppstreamReleases } from "./localizationAppstreamReleases"
+import type { Urls } from "./urls"
 
 /**
  * Localization Appstream metadata

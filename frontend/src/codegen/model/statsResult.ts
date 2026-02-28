@@ -4,12 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { StatsResultTotals } from "./statsResultTotals"
-import type { StatsResultCountries } from "./statsResultCountries"
-import type { StatsResultDownloadsPerDay } from "./statsResultDownloadsPerDay"
-import type { StatsResultUpdatesPerDay } from "./statsResultUpdatesPerDay"
-import type { StatsResultDeltaDownloadsPerDay } from "./statsResultDeltaDownloadsPerDay"
 import type { StatsResultCategoryTotals } from "./statsResultCategoryTotals"
+import type { StatsResultCountries } from "./statsResultCountries"
+import type { StatsResultDeltaDownloadsPerDay } from "./statsResultDeltaDownloadsPerDay"
+import type { StatsResultDownloadsPerDay } from "./statsResultDownloadsPerDay"
+import type { StatsResultTotals } from "./statsResultTotals"
+import type { StatsResultUpdatesPerDay } from "./statsResultUpdatesPerDay"
 
 export interface StatsResult {
   totals: StatsResultTotals

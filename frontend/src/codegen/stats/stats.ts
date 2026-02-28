@@ -170,9 +170,7 @@ export function useGetStatsStatsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -192,7 +190,7 @@ export const getStatsForAppStatsAppIdGet = (
 }
 
 export const getGetStatsForAppStatsAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetStatsForAppStatsAppIdGetParams,
 ) => {
   return [`/stats/${appId}`, ...(params ? [params] : [])] as const
@@ -355,7 +353,5 @@ export function useGetStatsForAppStatsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

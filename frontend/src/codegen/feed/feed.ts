@@ -205,9 +205,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -356,7 +354,5 @@ export function useGetNewAppsFeedFeedNewGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

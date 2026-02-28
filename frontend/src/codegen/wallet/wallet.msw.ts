@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import type {
@@ -19,7 +19,7 @@ import type {
 } from ".././model"
 
 export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
-  overrideResponse: Partial<WalletInfo> = {},
+  overrideResponse: Partial<Extract<WalletInfo, object>> = {},
 ): WalletInfo => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   cards: Array.from(
@@ -29,8 +29,8 @@ export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
     brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
     country: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    exp_month: faker.number.int({ min: undefined, max: undefined }),
-    exp_year: faker.number.int({ min: undefined, max: undefined }),
+    exp_month: faker.number.int(),
+    exp_year: faker.number.int(),
     last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
   })),
   ...overrideResponse,
@@ -43,7 +43,7 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
       (_, i) => i + 1,
     ).map(() => ({
       id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      value: faker.number.int({ min: undefined, max: undefined }),
+      value: faker.number.int(),
       currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
       kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
       status: faker.helpers.arrayElement([
@@ -61,23 +61,17 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         undefined,
       ]),
       created: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       updated: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
     }))
 
 export const getCreateTransactionWalletTransactionsPostResponseMock = (
-  overrideResponse: Partial<PostTransactionResponse> = {},
+  overrideResponse: Partial<Extract<PostTransactionResponse, object>> = {},
 ): PostTransactionResponse => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -85,11 +79,11 @@ export const getCreateTransactionWalletTransactionsPostResponseMock = (
 })
 
 export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
-  overrideResponse: Partial<Transaction> = {},
+  overrideResponse: Partial<Extract<Transaction, object>> = {},
 ): Transaction => ({
   summary: {
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    value: faker.number.int({ min: undefined, max: undefined }),
+    value: faker.number.int(),
     currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
     status: faker.helpers.arrayElement([
@@ -107,17 +101,11 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
       undefined,
     ]),
     created: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     updated: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
   },
@@ -127,8 +115,8 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
         country: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        exp_month: faker.number.int({ min: undefined, max: undefined }),
-        exp_year: faker.number.int({ min: undefined, max: undefined }),
+        exp_month: faker.number.int(),
+        exp_year: faker.number.int(),
         last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
       },
       null,
@@ -140,7 +128,7 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
     (_, i) => i + 1,
   ).map(() => ({
     recipient: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    amount: faker.number.int({ min: undefined, max: undefined }),
+    amount: faker.number.int(),
     currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
   })),
@@ -155,7 +143,7 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
 })
 
 export const getGetStripedataWalletStripedataGetResponseMock = (
-  overrideResponse: Partial<StripeKeys> = {},
+  overrideResponse: Partial<Extract<StripeKeys, object>> = {},
 ): StripeKeys => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   public_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -163,7 +151,7 @@ export const getGetStripedataWalletStripedataGetResponseMock = (
 })
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
-  overrideResponse: Partial<TransactionStripeData> = {},
+  overrideResponse: Partial<Extract<TransactionStripeData, object>> = {},
 ): TransactionStripeData => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   client_secret: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -173,8 +161,8 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
         country: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        exp_month: faker.number.int({ min: undefined, max: undefined }),
-        exp_year: faker.number.int({ min: undefined, max: undefined }),
+        exp_month: faker.number.int(),
+        exp_year: faker.number.int(),
         last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
       },
       null,
@@ -194,18 +182,14 @@ export const getGetWalletinfoWalletWalletinfoGetMockHandler = (
 ) => {
   return http.get(
     "*/wallet/walletinfo",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetWalletinfoWalletWalletinfoGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetWalletinfoWalletWalletinfoGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -223,11 +207,11 @@ export const getPostRemovecardWalletRemovecardPostMockHandler = (
 ) => {
   return http.post(
     "*/wallet/removecard",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -244,18 +228,14 @@ export const getGetTransactionsWalletTransactionsGetMockHandler = (
 ) => {
   return http.get(
     "*/wallet/transactions",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetTransactionsWalletTransactionsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetTransactionsWalletTransactionsGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -272,18 +252,14 @@ export const getCreateTransactionWalletTransactionsPostMockHandler = (
 ) => {
   return http.post(
     "*/wallet/transactions",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getCreateTransactionWalletTransactionsPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCreateTransactionWalletTransactionsPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -300,18 +276,14 @@ export const getGetTransactionByIdWalletTransactionsTxnGetMockHandler = (
 ) => {
   return http.get(
     "*/wallet/transactions/:txn",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetTransactionByIdWalletTransactionsTxnGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetTransactionByIdWalletTransactionsTxnGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -329,11 +301,11 @@ export const getSetTransactionCardWalletTransactionsTxnSetcardPostMockHandler =
   ) => {
     return http.post(
       "*/wallet/transactions/:txn/setcard",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -351,11 +323,11 @@ export const getCancelTransactionWalletTransactionsTxnCancelPostMockHandler = (
 ) => {
   return http.post(
     "*/wallet/transactions/:txn/cancel",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -372,18 +344,14 @@ export const getGetStripedataWalletStripedataGetMockHandler = (
 ) => {
   return http.get(
     "*/wallet/stripedata",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetStripedataWalletStripedataGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetStripedataWalletStripedataGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -400,18 +368,14 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler = (
 ) => {
   return http.get(
     "*/wallet/transactions/:txn/stripe",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -429,11 +393,11 @@ export const getSetSavecardWalletTransactionsTxnSavecardPostMockHandler = (
 ) => {
   return http.post(
     "*/wallet/transactions/:txn/savecard",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -451,11 +415,11 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
 ) => {
   return http.post(
     "*/wallet/transactions/:txn/setpending",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -472,11 +436,11 @@ export const getWebhookWalletWebhookStripePostMockHandler = (
 ) => {
   return http.post(
     "*/wallet/webhook/stripe",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,

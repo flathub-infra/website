@@ -4,10 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { VerificationStatusNone } from "./verificationStatusNone"
-import type { VerificationStatusManual } from "./verificationStatusManual"
-import type { VerificationStatusWebsite } from "./verificationStatusWebsite"
 import type { VerificationStatusLoginProvider } from "./verificationStatusLoginProvider"
+import type { VerificationStatusManual } from "./verificationStatusManual"
+import type { VerificationStatusNone } from "./verificationStatusNone"
+import type { VerificationStatusWebsite } from "./verificationStatusWebsite"
 
 export type GetVerificationStatusVerificationAppIdStatusGet200 =
   | VerificationStatusNone

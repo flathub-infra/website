@@ -25,6 +25,7 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
   CleanupGithubTasksApiGithubTasksCleanupPostParams,
+  CleanupStalePipelinesApiPipelinesCleanupStalePostParams,
   HTTPValidationError,
   ListPipelinesApiPipelinesGetParams,
   PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
@@ -121,10 +122,10 @@ export const useTriggerPipelineApiPipelinesPost = <
   { data: PipelineTriggerRequest },
   TContext
 > => {
-  const mutationOptions =
-    getTriggerPipelineApiPipelinesPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getTriggerPipelineApiPipelinesPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary List Pipelines
@@ -293,9 +294,7 @@ export function useListPipelinesApiPipelinesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -312,7 +311,7 @@ export const getPipelineApiPipelinesPipelineIdGet = (
 }
 
 export const getGetPipelineApiPipelinesPipelineIdGetQueryKey = (
-  pipelineId?: string,
+  pipelineId: string,
 ) => {
   return [`https://builds.flathub.org/api/pipelines/${pipelineId}`] as const
 }
@@ -471,9 +470,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -603,12 +600,12 @@ export const usePipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * @summary Pipeline Log Url Callback
@@ -736,12 +733,12 @@ export const usePipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost =
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * @summary Pipeline Status Callback
@@ -869,12 +866,12 @@ export const usePipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost =
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * @summary Pipeline Reprocheck Callback
@@ -1003,12 +1000,12 @@ export const usePipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
     },
     TContext
   > => {
-    const mutationOptions =
+    return useMutation(
       getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationOptions(
         options,
-      )
-
-    return useMutation(mutationOptions, queryClient)
+      ),
+      queryClient,
+    )
   }
 /**
  * @summary Pipeline Cost Callback
@@ -1138,12 +1135,12 @@ export const usePipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = <
   },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * @summary Redirect To Log Url
@@ -1159,7 +1156,7 @@ export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = (
 }
 
 export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryKey = (
-  pipelineId?: string,
+  pipelineId: string,
 ) => {
   return [
     `https://builds.flathub.org/api/pipelines/${pipelineId}/log_url`,
@@ -1350,9 +1347,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1434,10 +1429,10 @@ export const usePublishPipelinesApiPipelinesPublishPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getPublishPipelinesApiPipelinesPublishPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getPublishPipelinesApiPipelinesPublishPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Check Pipeline Jobs
@@ -1519,10 +1514,10 @@ export const useCheckPipelineJobsApiPipelinesCheckJobsPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCheckPipelineJobsApiPipelinesCheckJobsPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Process Github Tasks
@@ -1604,10 +1599,10 @@ export const useProcessGithubTasksApiGithubTasksProcessPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getProcessGithubTasksApiGithubTasksProcessPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getProcessGithubTasksApiGithubTasksProcessPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Cleanup Github Tasks
@@ -1695,8 +1690,112 @@ export const useCleanupGithubTasksApiGithubTasksCleanupPost = <
   { params?: CleanupGithubTasksApiGithubTasksCleanupPostParams },
   TContext
 > => {
-  const mutationOptions =
-    getCleanupGithubTasksApiGithubTasksCleanupPostMutationOptions(options)
+  return useMutation(
+    getCleanupGithubTasksApiGithubTasksCleanupPostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * @summary Cleanup Stale Pipelines
+ */
+export const cleanupStalePipelinesApiPipelinesCleanupStalePost = (
+  params?: CleanupStalePipelinesApiPipelinesCleanupStalePostParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(
+    `https://builds.flathub.org/api/pipelines/cleanup-stale`,
+    undefined,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+    },
+  )
+}
 
-  return useMutation(mutationOptions, queryClient)
+export const getCleanupStalePipelinesApiPipelinesCleanupStalePostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof cleanupStalePipelinesApiPipelinesCleanupStalePost>
+      >,
+      TError,
+      { params?: CleanupStalePipelinesApiPipelinesCleanupStalePostParams },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof cleanupStalePipelinesApiPipelinesCleanupStalePost>
+    >,
+    TError,
+    { params?: CleanupStalePipelinesApiPipelinesCleanupStalePostParams },
+    TContext
+  > => {
+    const mutationKey = ["cleanupStalePipelinesApiPipelinesCleanupStalePost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof cleanupStalePipelinesApiPipelinesCleanupStalePost>
+      >,
+      { params?: CleanupStalePipelinesApiPipelinesCleanupStalePostParams }
+    > = (props) => {
+      const { params } = props ?? {}
+
+      return cleanupStalePipelinesApiPipelinesCleanupStalePost(
+        params,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type CleanupStalePipelinesApiPipelinesCleanupStalePostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof cleanupStalePipelinesApiPipelinesCleanupStalePost>
+    >
+  >
+
+export type CleanupStalePipelinesApiPipelinesCleanupStalePostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Cleanup Stale Pipelines
+ */
+export const useCleanupStalePipelinesApiPipelinesCleanupStalePost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof cleanupStalePipelinesApiPipelinesCleanupStalePost>
+      >,
+      TError,
+      { params?: CleanupStalePipelinesApiPipelinesCleanupStalePostParams },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof cleanupStalePipelinesApiPipelinesCleanupStalePost>>,
+  TError,
+  { params?: CleanupStalePipelinesApiPipelinesCleanupStalePostParams },
+  TContext
+> => {
+  return useMutation(
+    getCleanupStalePipelinesApiPipelinesCleanupStalePostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
 }

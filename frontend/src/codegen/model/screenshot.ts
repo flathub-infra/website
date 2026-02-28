@@ -4,9 +4,9 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ScreenshotSize } from "./screenshotSize"
 import type { ScreenshotCaption } from "./screenshotCaption"
 import type { ScreenshotDefault } from "./screenshotDefault"
+import type { ScreenshotSize } from "./screenshotSize"
 
 /**
  * A screenshot with multiple size variants.

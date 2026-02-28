@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import type {
@@ -18,41 +18,26 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
   faker.helpers.arrayElement([
     {
       totals: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        [faker.string.alphanumeric(5)]: faker.number.int(),
       },
       countries: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        [faker.string.alphanumeric(5)]: faker.number.int(),
       },
       downloads_per_day: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        [faker.string.alphanumeric(5)]: faker.number.int(),
       },
       updates_per_day: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        [faker.string.alphanumeric(5)]: faker.number.int(),
       },
       delta_downloads_per_day: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        [faker.string.alphanumeric(5)]: faker.number.int(),
       },
       category_totals: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
         category: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        count: faker.number.int({ min: undefined, max: undefined }),
+        count: faker.number.int(),
       })),
     },
     null,
@@ -62,27 +47,15 @@ export const getGetStatsForAppStatsAppIdGetResponseMock =
   (): GetStatsForAppStatsAppIdGet200 =>
     faker.helpers.arrayElement([
       {
-        installs_total: faker.number.int({ min: undefined, max: undefined }),
+        installs_total: faker.number.int(),
         installs_per_day: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
         installs_per_country: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
-        installs_last_month: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-        installs_last_7_days: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
+        installs_last_month: faker.number.int(),
+        installs_last_7_days: faker.number.int(),
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       },
       null,
@@ -98,18 +71,14 @@ export const getGetStatsStatsGetMockHandler = (
 ) => {
   return http.get(
     "*/stats/",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetStatsStatsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetStatsStatsGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -128,18 +97,14 @@ export const getGetStatsForAppStatsAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/stats/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetStatsForAppStatsAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetStatsForAppStatsAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,

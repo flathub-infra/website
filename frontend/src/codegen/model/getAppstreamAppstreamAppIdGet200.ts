@@ -4,10 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { DesktopAppstream } from "./desktopAppstream"
 import type { AddonAppstream } from "./addonAppstream"
-import type { LocalizationAppstream } from "./localizationAppstream"
+import type { DesktopAppstream } from "./desktopAppstream"
 import type { GenericAppstream } from "./genericAppstream"
+import type { LocalizationAppstream } from "./localizationAppstream"
 import type { RuntimeAppstream } from "./runtimeAppstream"
 
 export type GetAppstreamAppstreamAppIdGet200 =

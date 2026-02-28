@@ -4,24 +4,24 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AppsIndexKeywords } from "./appsIndexKeywords"
-import type { AppsIndexTranslations } from "./appsIndexTranslations"
-import type { AppsIndexIcon } from "./appsIndexIcon"
-import type { AppsIndexMainCategories } from "./appsIndexMainCategories"
-import type { AppsIndexSubCategories } from "./appsIndexSubCategories"
+import type { AppsIndexAddedAt } from "./appsIndexAddedAt"
+import type { AppsIndexArches } from "./appsIndexArches"
 import type { AppsIndexDeveloperName } from "./appsIndexDeveloperName"
-import type { VerificationMethod } from "./verificationMethod"
+import type { AppsIndexFavoritesCount } from "./appsIndexFavoritesCount"
+import type { AppsIndexIcon } from "./appsIndexIcon"
+import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
+import type { AppsIndexKeywords } from "./appsIndexKeywords"
+import type { AppsIndexMainCategories } from "./appsIndexMainCategories"
+import type { AppsIndexRuntime } from "./appsIndexRuntime"
+import type { AppsIndexSubCategories } from "./appsIndexSubCategories"
+import type { AppsIndexTranslations } from "./appsIndexTranslations"
+import type { AppsIndexTrending } from "./appsIndexTrending"
+import type { AppsIndexVerificationLoginIsOrganization } from "./appsIndexVerificationLoginIsOrganization"
 import type { AppsIndexVerificationLoginName } from "./appsIndexVerificationLoginName"
 import type { AppsIndexVerificationLoginProvider } from "./appsIndexVerificationLoginProvider"
-import type { AppsIndexVerificationLoginIsOrganization } from "./appsIndexVerificationLoginIsOrganization"
-import type { AppsIndexVerificationWebsite } from "./appsIndexVerificationWebsite"
 import type { AppsIndexVerificationTimestamp } from "./appsIndexVerificationTimestamp"
-import type { AppsIndexRuntime } from "./appsIndexRuntime"
-import type { AppsIndexArches } from "./appsIndexArches"
-import type { AppsIndexAddedAt } from "./appsIndexAddedAt"
-import type { AppsIndexTrending } from "./appsIndexTrending"
-import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
-import type { AppsIndexFavoritesCount } from "./appsIndexFavoritesCount"
+import type { AppsIndexVerificationWebsite } from "./appsIndexVerificationWebsite"
+import type { VerificationMethod } from "./verificationMethod"
 
 export interface AppsIndex {
   name: string

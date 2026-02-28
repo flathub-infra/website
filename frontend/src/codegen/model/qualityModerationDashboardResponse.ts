@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { QualityModerationDashboardRow } from "./qualityModerationDashboardRow"
 import type { Pagination } from "./pagination"
+import type { QualityModerationDashboardRow } from "./qualityModerationDashboardRow"
 
 export interface QualityModerationDashboardResponse {
   apps: QualityModerationDashboardRow[]

@@ -8,7 +8,6 @@
 export type NascentTransactionSummaryKind =
   (typeof NascentTransactionSummaryKind)[keyof typeof NascentTransactionSummaryKind]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const NascentTransactionSummaryKind = {
   donation: "donation",
   purchase: "purchase",

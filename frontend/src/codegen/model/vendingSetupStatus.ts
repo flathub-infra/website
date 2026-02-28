@@ -8,7 +8,6 @@
 export type VendingSetupStatus =
   (typeof VendingSetupStatus)[keyof typeof VendingSetupStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const VendingSetupStatus = {
   ok: "ok",
   "no-config": "no-config",

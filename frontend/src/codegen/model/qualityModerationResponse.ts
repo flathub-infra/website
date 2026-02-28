@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { QualityModerationType } from "./qualityModerationType"
 import type { QualityModerationResponseReviewRequestedAt } from "./qualityModerationResponseReviewRequestedAt"
+import type { QualityModerationType } from "./qualityModerationType"
 
 export interface QualityModerationResponse {
   guidelines: QualityModerationType[]

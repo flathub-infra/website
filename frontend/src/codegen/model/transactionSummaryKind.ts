@@ -8,7 +8,6 @@
 export type TransactionSummaryKind =
   (typeof TransactionSummaryKind)[keyof typeof TransactionSummaryKind]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TransactionSummaryKind = {
   donation: "donation",
   purchase: "purchase",

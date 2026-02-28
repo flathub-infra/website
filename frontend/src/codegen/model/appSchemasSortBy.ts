@@ -8,7 +8,6 @@
 export type AppSchemasSortBy =
   (typeof AppSchemasSortBy)[keyof typeof AppSchemasSortBy]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AppSchemasSortBy = {
   trending: "trending",
   installs_last_month: "installs_last_month",

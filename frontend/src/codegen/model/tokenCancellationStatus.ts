@@ -8,7 +8,6 @@
 export type TokenCancellationStatus =
   (typeof TokenCancellationStatus)[keyof typeof TokenCancellationStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TokenCancellationStatus = {
   invalid: "invalid",
   cancelled: "cancelled",
