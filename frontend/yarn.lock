@@ -8492,15 +8492,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-array@npm:^2.5.0":
-  version: 2.12.1
-  resolution: "d3-array@npm:2.12.1"
-  dependencies:
-    internmap: "npm:^1.0.0"
-  checksum: 10c0/7eca10427a9f113a4ca6a0f7301127cab26043fd5e362631ef5a0edd1c4b2dd70c56ed317566700c31e4a6d88b55f3951aaba192291817f243b730cb2352882e
-  languageName: node
-  linkType: hard
-
 "d3-color@npm:1 - 3":
   version: 3.1.0
   resolution: "d3-color@npm:3.1.0"
@@ -8519,15 +8510,6 @@ __metadata:
   version: 3.1.0
   resolution: "d3-format@npm:3.1.0"
   checksum: 10c0/049f5c0871ebce9859fc5e2f07f336b3c5bfff52a2540e0bac7e703fce567cd9346f4ad1079dd18d6f1e0eaa0599941c1810898926f10ac21a31fd0a34b4aa75
-  languageName: node
-  linkType: hard
-
-"d3-geo@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "d3-geo@npm:2.0.2"
-  dependencies:
-    d3-array: "npm:^2.5.0"
-  checksum: 10c0/6836feb33036f03ec1dc728d64171f3eb40ee2c1c0f2e28232055aa317e5e2d481075294babb9553596e2080496eda119b8a43c51f71c893e6258ccf002bd7f8
   languageName: node
   linkType: hard
 
@@ -10121,7 +10103,6 @@ __metadata:
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:19.1.1"
     react-hook-form: "npm:^7.63.0"
-    react-svg-worldmap: "npm:2.0.0-alpha.16"
     recharts: "npm:^2.15.4"
     redis: "npm:4.7.0"
     rtl-detect: "npm:^1.1.2"
@@ -10841,13 +10822,6 @@ __metadata:
   version: 2.0.3
   resolution: "internmap@npm:2.0.3"
   checksum: 10c0/8cedd57f07bbc22501516fbfc70447f0c6812871d471096fad9ea603516eacc2137b633633daf432c029712df0baefd793686388ddf5737e3ea15074b877f7ed
-  languageName: node
-  linkType: hard
-
-"internmap@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "internmap@npm:1.0.1"
-  checksum: 10c0/60942be815ca19da643b6d4f23bd0bf4e8c97abbd080fb963fe67583b60bdfb3530448ad4486bae40810e92317bded9995cc31411218acc750d72cd4e8646eee
   languageName: node
   linkType: hard
 
@@ -13684,16 +13658,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-path-tooltip@npm:^1.0.25":
-  version: 1.0.25
-  resolution: "react-path-tooltip@npm:1.0.25"
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16.0.0"
-  checksum: 10c0/1eb272149e4da2083cb832a158682f94a4a85fdafe63d9e210cdfb9007662129878ff2ccff19dfc42e54ee1087e4d6f8c404b3fd3299aa83adbc6f6b4546128c
-  languageName: node
-  linkType: hard
-
 "react-remove-scroll-bar@npm:^2.3.7":
   version: 2.3.8
   resolution: "react-remove-scroll-bar@npm:2.3.8"
@@ -13756,20 +13720,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/841938ff16d16a6b76895f4cb2e1fea957e5fe3b30febbf03a54892dae1c9153f2383e231dea0b3ba41192ad2f2849448fa859caccd288943bce32639e971bee
-  languageName: node
-  linkType: hard
-
-"react-svg-worldmap@npm:2.0.0-alpha.16":
-  version: 2.0.0-alpha.16
-  resolution: "react-svg-worldmap@npm:2.0.0-alpha.16"
-  dependencies:
-    d3-geo: "npm:^2.0.2"
-    react-path-tooltip: "npm:^1.0.25"
-    tslib: "npm:^2.4.0"
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16.0.0"
-  checksum: 10c0/6570e3a3f3f102dd5cd68d7a0587751aee03a7e8acd4f11aa7766a59139698e987c41ab407500b8164455572e99f0649b6d981dea1e8713f424723ae125f3a52
   languageName: node
   linkType: hard
 
