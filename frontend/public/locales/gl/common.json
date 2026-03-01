@@ -155,5 +155,22 @@
   "languages": "Idiomas",
   "languages-summary": "Escolla o idioma no que quere ver o sitio web.",
   "languages-description": "Escolla un idioma ao que cambiar:",
-  "contribute-languages": "Todas estas traducións foron contribuídas pola comunidade. Se quere axudar a traducir Flathub, por favor únase ao <link>equipo de tradución de Flathub</link>."
+  "contribute-languages": "Todas estas traducións foron contribuídas pola comunidade. Se quere axudar a traducir Flathub, por favor únase ao <link>equipo de tradución de Flathub</link>.",
+  "install": "Instalar",
+  "donate": "Doar",
+  "donate-to": "Doar a {project}",
+  "action-donate": "Doar",
+  "kind-donate-app": "Doar a {appName}",
+  "select-donation-amount": "Seleccione unha cantidade a doar",
+  "manual-install-instructions": "Asegúrese de seguir a <distroguide>guía de configuración inicial para a súa distribución</distroguide> antes da instalación",
+  "new-apps": "Aplicacións novas",
+  "more-new": "Máis novo",
+  "new-app": "Nova aplicación",
+  "new": "Novo",
+  "less": "Menos",
+  "show-less": "Amosar menos",
+  "safe": "Segura",
+  "probably-safe": "Probablemente segura",
+  "get-involved": "Involucrarse",
+  "no-results-found": "Non se atoparon resultados"
 }
