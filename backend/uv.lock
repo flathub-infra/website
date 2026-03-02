@@ -363,7 +363,7 @@ requires-dist = [
     { name = "pygithub", specifier = ">=2.6,<3.0" },
     { name = "pygobject", specifier = ">=3.50.0,<4.0.0" },
     { name = "pyjwt", specifier = ">=2.10.1,<3.0.0" },
-    { name = "python-gitlab", specifier = ">=5.6,<8.0" },
+    { name = "python-gitlab", specifier = ">=5.6,<9.0" },
     { name = "python-multipart", specifier = ">=0.0.20,<1.0.0" },
     { name = "redis", specifier = ">=5.2.1,<8.0.0" },
     { name = "requests", specifier = ">=2.32.3,<3.0.0" },
@@ -1072,15 +1072,15 @@ wheels = [
 
 [[package]]
 name = "python-gitlab"
-version = "7.1.0"
+version = "8.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "requests" },
     { name = "requests-toolbelt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/31/98/0b5d0a0367b90aec818298390b60ae65e6a08989cf5140271d0ee0206882/python_gitlab-7.1.0.tar.gz", hash = "sha256:1c34da3de40ad21675d788136f73d20a60649513e692f52c5a9720434db97c46", size = 401058, upload-time = "2025-12-28T01:27:01.369Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/20/1d/a62fea1f3312fd9e58af41466ae072796a09684dd0cd825cc042ba39488c/python_gitlab-8.1.0.tar.gz", hash = "sha256:660f15e3f889ec430797d260322bc61d90f8d90accfc10ba37593b11aed371bd", size = 401576, upload-time = "2026-02-28T01:26:32.757Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/14/44/70fa1e395731b6a4b1f249d5f7326f3bb6281e2cf94d6535f679239f4b93/python_gitlab-7.1.0-py3-none-any.whl", hash = "sha256:8e42030cf27674e7ec9ea1f6d2fedcaaef0a6210f5fa22c80721abaa3a4fec90", size = 144441, upload-time = "2025-12-28T01:26:59.726Z" },
+    { url = "https://files.pythonhosted.org/packages/79/d4/9848be62ef23fcac203f4386faf43a2cc13a4888447b3f5fbf7346f31374/python_gitlab-8.1.0-py3-none-any.whl", hash = "sha256:b1a59e81e5e0363185b446a707dc92c27ee8bf1fc14ce75ed8eafa58cbdce63a", size = 144498, upload-time = "2026-02-28T01:26:31.14Z" },
 ]
 
 [[package]]
