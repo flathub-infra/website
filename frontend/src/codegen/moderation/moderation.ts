@@ -203,9 +203,7 @@ export function useGetModerationAppsModerationAppsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -226,7 +224,7 @@ export const getModerationAppModerationAppsAppIdGet = (
 }
 
 export const getGetModerationAppModerationAppsAppIdGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetModerationAppModerationAppsAppIdGetParams,
 ) => {
   return [`/moderation/apps/${appId}`, ...(params ? [params] : [])] as const
@@ -391,9 +389,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -489,12 +485,12 @@ export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
   { data: ReviewRequest },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
@@ -578,8 +574,8 @@ export const useSubmitReviewModerationRequestsIdReviewPost = <
   { id: number; data: Review },
   TContext
 > => {
-  const mutationOptions =
-    getSubmitReviewModerationRequestsIdReviewPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getSubmitReviewModerationRequestsIdReviewPostMutationOptions(options),
+    queryClient,
+  )
 }

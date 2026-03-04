@@ -4,14 +4,14 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ReleaseTimestamp } from "./releaseTimestamp"
-import type { ReleaseVersion } from "./releaseVersion"
 import type { ReleaseDate } from "./releaseDate"
+import type { ReleaseDateEol } from "./releaseDateEol"
+import type { ReleaseDescription } from "./releaseDescription"
+import type { ReleaseTimestamp } from "./releaseTimestamp"
 import type { ReleaseType } from "./releaseType"
 import type { ReleaseUrgency } from "./releaseUrgency"
-import type { ReleaseDescription } from "./releaseDescription"
 import type { ReleaseUrl } from "./releaseUrl"
-import type { ReleaseDateEol } from "./releaseDateEol"
+import type { ReleaseVersion } from "./releaseVersion"
 
 /**
  * A release/version entry.

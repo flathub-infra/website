@@ -7,7 +7,6 @@
 
 export type RoleName = (typeof RoleName)[keyof typeof RoleName]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RoleName = {
   admin: "admin",
   moderator: "moderator",

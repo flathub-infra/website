@@ -4,13 +4,13 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { AvailableMethodLoginIsOrganization } from "./availableMethodLoginIsOrganization"
+import type { AvailableMethodLoginName } from "./availableMethodLoginName"
+import type { AvailableMethodLoginProvider } from "./availableMethodLoginProvider"
+import type { AvailableMethodLoginStatus } from "./availableMethodLoginStatus"
 import type { AvailableMethodType } from "./availableMethodType"
 import type { AvailableMethodWebsite } from "./availableMethodWebsite"
 import type { AvailableMethodWebsiteToken } from "./availableMethodWebsiteToken"
-import type { AvailableMethodLoginProvider } from "./availableMethodLoginProvider"
-import type { AvailableMethodLoginName } from "./availableMethodLoginName"
-import type { AvailableMethodLoginIsOrganization } from "./availableMethodLoginIsOrganization"
-import type { AvailableMethodLoginStatus } from "./availableMethodLoginStatus"
 
 export interface AvailableMethod {
   method: AvailableMethodType

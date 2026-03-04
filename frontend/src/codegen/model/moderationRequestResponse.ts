@@ -4,12 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ModerationRequestType } from "./moderationRequestType"
-import type { ModerationRequestResponseRequestData } from "./moderationRequestResponseRequestData"
-import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
-import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
-import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
 import type { ModerationRequestResponseComment } from "./moderationRequestResponseComment"
+import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
+import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
+import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
+import type { ModerationRequestResponseRequestData } from "./moderationRequestResponseRequestData"
+import type { ModerationRequestType } from "./moderationRequestType"
 
 export interface ModerationRequestResponse {
   id: number

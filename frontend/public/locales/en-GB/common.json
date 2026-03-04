@@ -700,6 +700,12 @@
     "most-popular": "Most Popular",
     "most-popular-description": "The app with the highest number of downloads this year",
     "total-downloads": "Total Downloads",
-    "new-apps": "New Apps"
+    "new-apps": "New Apps",
+    "total-apps": "Total Apps",
+    "app-updates": "App Updates",
+    "top-apps": "Top Apps",
+    "top-games": "Top Games",
+    "top-game-stores": "Top Game Stores",
+    "top-game-utilities": "Top Game Tools"
   }
 }

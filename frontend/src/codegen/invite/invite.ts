@@ -43,7 +43,7 @@ export const getInviteStatusInvitesAppIdGet = (
   return axios.get(`/invites/${appId}`, options)
 }
 
-export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId?: string) => {
+export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId: string) => {
   return [`/invites/${appId}`] as const
 }
 
@@ -196,9 +196,7 @@ export function useGetInviteStatusInvitesAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -285,10 +283,10 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
   { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
   TContext
 > => {
-  const mutationOptions =
-    getInviteDeveloperInvitesAppIdInvitePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getInviteDeveloperInvitesAppIdInvitePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Accept Invite
@@ -367,10 +365,10 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
-    getAcceptInviteInvitesAppIdAcceptPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getAcceptInviteInvitesAppIdAcceptPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Decline Invite
@@ -449,10 +447,10 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
-    getDeclineInviteInvitesAppIdDeclinePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDeclineInviteInvitesAppIdDeclinePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Leave Team
@@ -531,10 +529,10 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
   { appId: string },
   TContext
 > => {
-  const mutationOptions =
-    getLeaveTeamInvitesAppIdLeavePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getLeaveTeamInvitesAppIdLeavePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Get App Developers
@@ -547,7 +545,7 @@ export const getAppDevelopersInvitesAppIdDevelopersGet = (
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/invites/${appId}/developers`] as const
 }
@@ -706,9 +704,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -821,10 +817,10 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperDelete = <
   },
   TContext
 > => {
-  const mutationOptions =
-    getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Revoke Invite
@@ -909,8 +905,8 @@ export const useRevokeInviteInvitesAppIdRevokeDelete = <
   { appId: string; params: RevokeInviteInvitesAppIdRevokeDeleteParams },
   TContext
 > => {
-  const mutationOptions =
-    getRevokeInviteInvitesAppIdRevokeDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getRevokeInviteInvitesAppIdRevokeDeleteMutationOptions(options),
+    queryClient,
+  )
 }

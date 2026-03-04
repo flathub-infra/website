@@ -8,7 +8,6 @@
 export type DesktopAppstreamType =
   (typeof DesktopAppstreamType)[keyof typeof DesktopAppstreamType]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DesktopAppstreamType = {
   "desktop-application": "desktop-application",
   "console-application": "console-application",

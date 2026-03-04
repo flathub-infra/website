@@ -4,11 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserInfoDisplayname } from "./userInfoDisplayname"
-import type { Permission } from "./permission"
-import type { UserInfoAcceptedPublisherAgreementAt } from "./userInfoAcceptedPublisherAgreementAt"
 import type { AuthInfo } from "./authInfo"
 import type { Auths } from "./auths"
+import type { Permission } from "./permission"
+import type { UserInfoAcceptedPublisherAgreementAt } from "./userInfoAcceptedPublisherAgreementAt"
+import type { UserInfoDisplayname } from "./userInfoDisplayname"
 
 export interface UserInfo {
   displayname?: UserInfoDisplayname

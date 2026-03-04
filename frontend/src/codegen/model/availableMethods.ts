@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { AvailableMethodsMethods } from "./availableMethodsMethods"
 import type { AvailableMethodsDetail } from "./availableMethodsDetail"
+import type { AvailableMethodsMethods } from "./availableMethodsMethods"
 
 export interface AvailableMethods {
   methods?: AvailableMethodsMethods

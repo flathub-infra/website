@@ -8,7 +8,6 @@
 export type TransactionRowKind =
   (typeof TransactionRowKind)[keyof typeof TransactionRowKind]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TransactionRowKind = {
   donation: "donation",
   purchase: "purchase",
