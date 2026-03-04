@@ -1380,13 +1380,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/preview-server@npm:5.2.8":
-  version: 5.2.8
-  resolution: "@react-email/preview-server@npm:5.2.8"
+"@react-email/preview-server@npm:5.2.9":
+  version: 5.2.9
+  resolution: "@react-email/preview-server@npm:5.2.9"
   dependencies:
     esbuild: "npm:0.25.10"
     next: "npm:16.1.6"
-  checksum: 10c0/e3832f80d73aeab214423c8675072eb8ce635d0750fec5b3683359ed4a7b69451ebcef314e3a27b0b8d9c58c009005cea426e83706557d386c4e420fb74c6d83
+  checksum: 10c0/267c103d26ce849f373367181e7f0166b914765afb68528f6b5dd21e4b76d412efe2579cb7c33a20e87d192ba23792373ed620c1d385af37fbd1d540b759233f
   languageName: node
   linkType: hard
 
@@ -3657,9 +3657,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:5.2.8":
-  version: 5.2.8
-  resolution: "react-email@npm:5.2.8"
+"react-email@npm:5.2.9":
+  version: 5.2.9
+  resolution: "react-email@npm:5.2.9"
   dependencies:
     "@babel/parser": "npm:^7.27.0"
     "@babel/traverse": "npm:^7.27.0"
@@ -3680,7 +3680,7 @@ __metadata:
     tsconfig-paths: "npm:4.2.0"
   bin:
     email: dist/index.js
-  checksum: 10c0/8ea4adc33562af89a7a0a755828b55540ec13e3b5c93abec2a454630e814311a2f6d52e79efbcdce96f75c4703d696c5c23c326e53cfec9e571c3006083734c1
+  checksum: 10c0/9f4bd8530d139b0f73ca00b725bb84b170c8252a546b0b67b5502c62e65acbbb06efd8a4a61209959e7afddd6ffed3ec1a0d7669735d4dcc86e203021d42caa3
   languageName: node
   linkType: hard
 
@@ -3745,7 +3745,7 @@ __metadata:
     "@hono/swagger-ui": "npm:0.6.0"
     "@hono/zod-openapi": "npm:^1.2.2"
     "@react-email/components": "npm:1.0.8"
-    "@react-email/preview-server": "npm:5.2.8"
+    "@react-email/preview-server": "npm:5.2.9"
     "@react-email/render": "npm:2.0.4"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^7.0.11"
@@ -3760,7 +3760,7 @@ __metadata:
     prettier: "npm:3.8.1"
     react: "npm:19.2.4"
     react-dom: "npm:19.2.4"
-    react-email: "npm:5.2.8"
+    react-email: "npm:5.2.9"
     tsx: "npm:^4.21.0"
     typescript: "npm:^5.9.3"
     zod: "npm:^4.3.6"
