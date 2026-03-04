@@ -771,12 +771,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/swagger-ui@npm:0.5.3":
-  version: 0.5.3
-  resolution: "@hono/swagger-ui@npm:0.5.3"
+"@hono/swagger-ui@npm:0.6.0":
+  version: 0.6.0
+  resolution: "@hono/swagger-ui@npm:0.6.0"
   peerDependencies:
     hono: ">=4.0.0"
-  checksum: 10c0/c1acf638aa8b2fdf1c237f15233a8071621f7a65a29a179296141aa019208c89fb4e9bf76139fdf9589e2b505ebf96e89db088a8783c3d60eeacf7d5d5d1a5a5
+  checksum: 10c0/d9a49a449f3d2a65855564b6437c6dbde75eca47666ed2197003837c2abd110ad7bca6d6d7c274daead19f281ff85bb3d47744825237d99b728bb850c5044b3b
   languageName: node
   linkType: hard
 
@@ -3742,7 +3742,7 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:^1.19.10"
     "@hono/sentry": "npm:^1.2.2"
-    "@hono/swagger-ui": "npm:0.5.3"
+    "@hono/swagger-ui": "npm:0.6.0"
     "@hono/zod-openapi": "npm:^1.2.2"
     "@react-email/components": "npm:1.0.8"
     "@react-email/preview-server": "npm:5.2.8"
