@@ -8,7 +8,6 @@
 export type VendingApplicationInformationKind =
   (typeof VendingApplicationInformationKind)[keyof typeof VendingApplicationInformationKind]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const VendingApplicationInformationKind = {
   GAME: "GAME",
   PRODUCTIVITY: "PRODUCTIVITY",

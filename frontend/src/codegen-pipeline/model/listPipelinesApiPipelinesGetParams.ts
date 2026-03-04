@@ -4,9 +4,9 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { PipelineType } from "./pipelineType"
 import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineTrigger } from "./pipelineTrigger"
+import type { PipelineType } from "./pipelineType"
 
 export type ListPipelinesApiPipelinesGetParams = {
   app_id?: string | null

@@ -8,7 +8,6 @@
 export type AvailableLoginMethodStatus =
   (typeof AvailableLoginMethodStatus)[keyof typeof AvailableLoginMethodStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AvailableLoginMethodStatus = {
   ready: "ready",
   user_does_not_exist: "user_does_not_exist",

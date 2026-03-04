@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import { PipelineStatus, PipelineTrigger, PipelineType } from ".././model"
@@ -28,10 +28,7 @@ export const getListPipelinesApiPipelinesGetResponseMock =
     ).map(() => ({
       id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      type: faker.helpers.arrayElement([
-        faker.helpers.arrayElement(Object.values(PipelineType)),
-        undefined,
-      ]),
+      type: faker.helpers.arrayElement(Object.values(PipelineType)),
       status: faker.helpers.arrayElement(Object.values(PipelineStatus)),
       repo: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -42,55 +39,43 @@ export const getListPipelinesApiPipelinesGetResponseMock =
       ]),
       triggered_by: faker.helpers.arrayElement(Object.values(PipelineTrigger)),
       build_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       commit_job_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       publish_job_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       update_repo_job_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       repro_pipeline_id: faker.helpers.arrayElement([
         faker.helpers.arrayElement([faker.string.uuid(), null]),
         undefined,
       ]),
-      created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+      created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
       started_at: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
         undefined,
       ]),
       finished_at: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
         undefined,
       ]),
       published_at: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
         undefined,
@@ -98,7 +83,7 @@ export const getListPipelinesApiPipelinesGetResponseMock =
     }))
 
 export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
-  overrideResponse: Partial<PipelineResponse> = {},
+  overrideResponse: Partial<Extract<PipelineResponse, object>> = {},
 ): PipelineResponse => ({
   id: faker.string.alpha({ length: { min: 10, max: 20 } }),
   app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -120,31 +105,19 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
     undefined,
   ]),
   build_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      null,
-    ]),
+    faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
   commit_job_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      null,
-    ]),
+    faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
   publish_job_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      null,
-    ]),
+    faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
   update_repo_job_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      null,
-    ]),
+    faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
   repro_pipeline_id: faker.helpers.arrayElement([
@@ -153,29 +126,29 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
   ]),
   total_cost: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.number.float({ min: undefined, max: undefined, fractionDigits: 2 }),
+      faker.number.float({ fractionDigits: 2 }),
       null,
     ]),
     undefined,
   ]),
-  created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+  created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   started_at: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split(".")[0]}Z`,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
       null,
     ]),
     undefined,
   ]),
   finished_at: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split(".")[0]}Z`,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
       null,
     ]),
     undefined,
   ]),
   published_at: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split(".")[0]}Z`,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
       null,
     ]),
     undefined,
@@ -184,7 +157,7 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
 })
 
 export const getPublishPipelinesApiPipelinesPublishPostResponseMock = (
-  overrideResponse: Partial<PublishSummary> = {},
+  overrideResponse: Partial<Extract<PublishSummary, object>> = {},
 ): PublishSummary => ({
   published: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -217,18 +190,14 @@ export const getTriggerPipelineApiPipelinesPostMockHandler = (
 ) => {
   return http.post(
     "*/api/pipelines",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getTriggerPipelineApiPipelinesPostResponseMock(),
-        ),
-        { status: 201, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getTriggerPipelineApiPipelinesPostResponseMock(),
+        { status: 201 },
       )
     },
     options,
@@ -245,18 +214,14 @@ export const getListPipelinesApiPipelinesGetMockHandler = (
 ) => {
   return http.get(
     "*/api/pipelines",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getListPipelinesApiPipelinesGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getListPipelinesApiPipelinesGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -273,18 +238,14 @@ export const getGetPipelineApiPipelinesPipelineIdGetMockHandler = (
 ) => {
   return http.get(
     "*/api/pipelines/:pipelineId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetPipelineApiPipelinesPipelineIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPipelineApiPipelinesPipelineIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -302,11 +263,11 @@ export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
   ) => {
     return http.post(
       "*/api/pipelines/:pipelineId/callback/metadata",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -324,11 +285,11 @@ export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMo
   ) => {
     return http.post(
       "*/api/pipelines/:pipelineId/callback/log_url",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -346,11 +307,11 @@ export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMo
   ) => {
     return http.post(
       "*/api/pipelines/:pipelineId/callback/status",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -368,11 +329,11 @@ export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
   ) => {
     return http.post(
       "*/api/pipelines/:pipelineId/callback/reprocheck",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -390,11 +351,11 @@ export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMockHa
   ) => {
     return http.post(
       "*/api/pipelines/:pipelineId/callback/cost",
-      async (info) => {
-        await delay(1000)
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
+
         return new HttpResponse(null, { status: 200 })
       },
       options,
@@ -411,11 +372,11 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler = (
 ) => {
   return http.get(
     "*/api/pipelines/:pipelineId/log_url",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -432,18 +393,14 @@ export const getPublishPipelinesApiPipelinesPublishPostMockHandler = (
 ) => {
   return http.post(
     "*/api/pipelines/publish",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getPublishPipelinesApiPipelinesPublishPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getPublishPipelinesApiPipelinesPublishPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -460,11 +417,11 @@ export const getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler = (
 ) => {
   return http.post(
     "*/api/pipelines/check-jobs",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -481,11 +438,11 @@ export const getProcessGithubTasksApiGithubTasksProcessPostMockHandler = (
 ) => {
   return http.post(
     "*/api/github-tasks/process",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -502,11 +459,32 @@ export const getCleanupGithubTasksApiGithubTasksCleanupPostMockHandler = (
 ) => {
   return http.post(
     "*/api/github-tasks/cleanup",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
+}
+
+export const getCleanupStalePipelinesApiPipelinesCleanupStalePostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/api/pipelines/cleanup-stale",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -526,4 +504,5 @@ export const getPipelinesMock = () => [
   getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler(),
   getProcessGithubTasksApiGithubTasksProcessPostMockHandler(),
   getCleanupGithubTasksApiGithubTasksCleanupPostMockHandler(),
+  getCleanupStalePipelinesApiPipelinesCleanupStalePostMockHandler(),
 ]

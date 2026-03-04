@@ -188,9 +188,7 @@ export function useGetWalletinfoWalletWalletinfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -274,10 +272,10 @@ export const usePostRemovecardWalletRemovecardPost = <
   { data: PaymentCardInfo },
   TContext
 > => {
-  const mutationOptions =
-    getPostRemovecardWalletRemovecardPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getPostRemovecardWalletRemovecardPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Return a list of transactions associated with this user.
@@ -449,9 +447,7 @@ export function useGetTransactionsWalletTransactionsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -537,10 +533,10 @@ export const useCreateTransactionWalletTransactionsPost = <
   { data: NascentTransaction },
   TContext
 > => {
-  const mutationOptions =
-    getCreateTransactionWalletTransactionsPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCreateTransactionWalletTransactionsPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Retrieve a transaction by its ID
@@ -558,7 +554,7 @@ export const getTransactionByIdWalletTransactionsTxnGet = (
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryKey = (
-  txn?: string,
+  txn: string,
 ) => {
   return [`/wallet/transactions/${txn}`] as const
 }
@@ -726,9 +722,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -834,12 +828,12 @@ export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
   { txn: string; data: PaymentCardInfo },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getSetTransactionCardWalletTransactionsTxnSetcardPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * Cancel a transaction in the `new` or `retry` states.
@@ -931,10 +925,10 @@ export const useCancelTransactionWalletTransactionsTxnCancelPost = <
   { txn: string },
   TContext
 > => {
-  const mutationOptions =
-    getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Return the stripe public key to use in the frontend.  Since this is not
@@ -1085,9 +1079,7 @@ export function useGetStripedataWalletStripedataGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1105,7 +1097,7 @@ export const getTxnStripedataWalletTransactionsTxnStripeGet = (
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryKey = (
-  txn?: string,
+  txn: string,
 ) => {
   return [`/wallet/transactions/${txn}/stripe`] as const
 }
@@ -1291,9 +1283,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1390,10 +1380,10 @@ export const useSetSavecardWalletTransactionsTxnSavecardPost = <
   { txn: string; data: TransactionSaveCard },
   TContext
 > => {
-  const mutationOptions =
-    getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Set the transaction as 'pending' so that we can recover if Stripe
@@ -1480,10 +1470,10 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
   { txn: string },
   TContext
 > => {
-  const mutationOptions =
-    getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * This endpoint is intended to deal with webhooks coming back from payment
@@ -1565,8 +1555,8 @@ export const useWebhookWalletWebhookStripePost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getWebhookWalletWebhookStripePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getWebhookWalletWebhookStripePostMutationOptions(options),
+    queryClient,
+  )
 }

@@ -195,9 +195,7 @@ export function useGetLoginMethodsAuthLoginGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -356,9 +354,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -468,10 +464,10 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
   { data: ContinueGithubFlowAuthLoginGithubPostBody },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGithubFlowAuthLoginGithubPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGithubFlowAuthLoginGithubPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Starts a gitlab login flow.  This will set session cookie values and
@@ -629,9 +625,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -741,10 +735,10 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
   { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGitlabFlowAuthLoginGitlabPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGitlabFlowAuthLoginGitlabPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Starts a GNOME login flow.  This will set session cookie values and
@@ -902,9 +896,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1014,10 +1006,10 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
   { data: ContinueGnomeFlowAuthLoginGnomePostBody },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGnomeFlowAuthLoginGnomePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGnomeFlowAuthLoginGnomePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Start Kde Flow
@@ -1165,9 +1157,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1253,10 +1243,10 @@ export const useContinueKdeFlowAuthLoginKdePost = <
   { data: ContinueKdeFlowAuthLoginKdePostBody },
   TContext
 > => {
-  const mutationOptions =
-    getContinueKdeFlowAuthLoginKdePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueKdeFlowAuthLoginKdePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Process the result of the Google oauth flow
@@ -1365,10 +1355,10 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
   { data: ContinueGoogleFlowAuthLoginGooglePostBody },
   TContext
 > => {
-  const mutationOptions =
-    getContinueGoogleFlowAuthLoginGooglePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getContinueGoogleFlowAuthLoginGooglePostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Retrieve the current login's user information.  If the user is not logged in
@@ -1534,9 +1524,7 @@ export function useGetUserinfoAuthUserinfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1619,10 +1607,10 @@ export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Clear the login state. This will discard tokens which access socials,
@@ -1700,9 +1688,10 @@ export const useDoLogoutAuthLogoutPost = <
   void,
   TContext
 > => {
-  const mutationOptions = getDoLogoutAuthLogoutPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDoLogoutAuthLogoutPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Delete a user's login information.
@@ -1855,9 +1844,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1951,10 +1938,10 @@ export const useDoDeleteuserAuthDeleteuserDelete = <
   { data: UserDeleteRequest },
   TContext
 > => {
-  const mutationOptions =
-    getDoDeleteuserAuthDeleteuserDeleteMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getDoDeleteuserAuthDeleteuserDeleteMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * @summary Do Agree To Publisher Agreement
@@ -2058,12 +2045,12 @@ export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }
 /**
  * Changes the user's default account, which determines which display name and email we use.
@@ -2166,10 +2153,10 @@ export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
   { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
   TContext
 > => {
-  const mutationOptions =
+  return useMutation(
     getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions(
       options,
-    )
-
-  return useMutation(mutationOptions, queryClient)
+    ),
+    queryClient,
+  )
 }

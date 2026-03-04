@@ -4,26 +4,26 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { DesktopAppstreamType } from "./desktopAppstreamType"
+import type { Bundle } from "./bundle"
+import type { DesktopAppstreamBranding } from "./desktopAppstreamBranding"
+import type { DesktopAppstreamCategories } from "./desktopAppstreamCategories"
+import type { DesktopAppstreamContentRating } from "./desktopAppstreamContentRating"
 import type { DesktopAppstreamDeveloperName } from "./desktopAppstreamDeveloperName"
 import type { DesktopAppstreamIcon } from "./desktopAppstreamIcon"
 import type { DesktopAppstreamIcons } from "./desktopAppstreamIcons"
-import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
-import type { Release } from "./release"
-import type { DesktopAppstreamContentRating } from "./desktopAppstreamContentRating"
-import type { DesktopAppstreamUrls } from "./desktopAppstreamUrls"
-import type { DesktopAppstreamCategories } from "./desktopAppstreamCategories"
-import type { DesktopAppstreamKudos } from "./desktopAppstreamKudos"
+import type { DesktopAppstreamIsMobileFriendly } from "./desktopAppstreamIsMobileFriendly"
 import type { DesktopAppstreamKeywords } from "./desktopAppstreamKeywords"
+import type { DesktopAppstreamKudos } from "./desktopAppstreamKudos"
+import type { DesktopAppstreamLaunchable } from "./desktopAppstreamLaunchable"
+import type { DesktopAppstreamMetadata } from "./desktopAppstreamMetadata"
 import type { DesktopAppstreamMimetypes } from "./desktopAppstreamMimetypes"
 import type { DesktopAppstreamProjectLicense } from "./desktopAppstreamProjectLicense"
 import type { DesktopAppstreamProvides } from "./desktopAppstreamProvides"
-import type { DesktopAppstreamLaunchable } from "./desktopAppstreamLaunchable"
-import type { Bundle } from "./bundle"
+import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
 import type { DesktopAppstreamTranslation } from "./desktopAppstreamTranslation"
-import type { DesktopAppstreamMetadata } from "./desktopAppstreamMetadata"
-import type { DesktopAppstreamIsMobileFriendly } from "./desktopAppstreamIsMobileFriendly"
-import type { DesktopAppstreamBranding } from "./desktopAppstreamBranding"
+import type { DesktopAppstreamType } from "./desktopAppstreamType"
+import type { DesktopAppstreamUrls } from "./desktopAppstreamUrls"
+import type { Release } from "./release"
 
 /**
  * Desktop application Appstream metadata, matching frontend DesktopAppstream type.
