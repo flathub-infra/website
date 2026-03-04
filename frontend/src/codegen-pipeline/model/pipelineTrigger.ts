@@ -8,7 +8,6 @@
 export type PipelineTrigger =
   (typeof PipelineTrigger)[keyof typeof PipelineTrigger]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PipelineTrigger = {
   webhook: "webhook",
   manual: "manual",

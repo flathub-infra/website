@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserResult } from "./userResult"
 import type { Pagination } from "./pagination"
+import type { UserResult } from "./userResult"
 
 export interface FlathubUsersResult {
   users: UserResult[]

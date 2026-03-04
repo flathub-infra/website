@@ -5,13 +5,13 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { MetadataFlathubManifest } from "./metadataFlathubManifest"
-import type { MetadataFlathubVerificationVerified } from "./metadataFlathubVerificationVerified"
-import type { MetadataFlathubVerificationMethod } from "./metadataFlathubVerificationMethod"
+import type { MetadataFlathubVerificationLoginIsOrganization } from "./metadataFlathubVerificationLoginIsOrganization"
 import type { MetadataFlathubVerificationLoginName } from "./metadataFlathubVerificationLoginName"
 import type { MetadataFlathubVerificationLoginProvider } from "./metadataFlathubVerificationLoginProvider"
-import type { MetadataFlathubVerificationWebsite } from "./metadataFlathubVerificationWebsite"
+import type { MetadataFlathubVerificationMethod } from "./metadataFlathubVerificationMethod"
 import type { MetadataFlathubVerificationTimestamp } from "./metadataFlathubVerificationTimestamp"
-import type { MetadataFlathubVerificationLoginIsOrganization } from "./metadataFlathubVerificationLoginIsOrganization"
+import type { MetadataFlathubVerificationVerified } from "./metadataFlathubVerificationVerified"
+import type { MetadataFlathubVerificationWebsite } from "./metadataFlathubVerificationWebsite"
 
 export interface Metadata {
   "flathub::manifest"?: MetadataFlathubManifest

@@ -11,7 +11,6 @@
 export type TransactionSortOrder =
   (typeof TransactionSortOrder)[keyof typeof TransactionSortOrder]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TransactionSortOrder = {
   recent: "recent",
   oldest: "oldest",

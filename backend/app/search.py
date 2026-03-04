@@ -41,7 +41,7 @@ class MeilisearchResponseLimited[T](BaseModel):
 
 class AppsIndex(BaseModel):
     name: str
-    keywords: list[str] | None
+    keywords: list[str] | None = None
     summary: str
     description: str
     id: str

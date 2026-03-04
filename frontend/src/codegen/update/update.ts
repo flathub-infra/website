@@ -89,9 +89,7 @@ export const useUpdateUpdatePost = <
   void,
   TContext
 > => {
-  const mutationOptions = getUpdateUpdatePostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(getUpdateUpdatePostMutationOptions(options), queryClient)
 }
 /**
  * @summary Update Stats
@@ -167,9 +165,10 @@ export const useUpdateStatsUpdateStatsPost = <
   void,
   TContext
 > => {
-  const mutationOptions = getUpdateStatsUpdateStatsPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getUpdateStatsUpdateStatsPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Process any pending transfers which may be in the system
@@ -256,10 +255,12 @@ export const useProcessTransfersUpdateProcessPendingTransfersPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
 }
 /**
  * @summary Update App Picks
@@ -335,8 +336,8 @@ export const useUpdateAppPicksUpdateAppPicksPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getUpdateAppPicksUpdateAppPicksPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getUpdateAppPicksUpdateAppPicksPostMutationOptions(options),
+    queryClient,
+  )
 }

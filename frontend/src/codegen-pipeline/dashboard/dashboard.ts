@@ -36,6 +36,7 @@ export const dashboardGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
   return axios.get(`https://builds.flathub.org/`, {
+    responseType: "text",
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -164,9 +165,7 @@ export function useDashboardGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -177,6 +176,7 @@ export const buildsTableApiHtmxBuildsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
   return axios.get(`https://builds.flathub.org/api/htmx/builds`, {
+    responseType: "text",
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -336,9 +336,7 @@ export function useBuildsTableApiHtmxBuildsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -349,11 +347,12 @@ export const appStatusStatusAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
   return axios.get(`https://builds.flathub.org/status/${appId}`, {
+    responseType: "text",
     ...options,
   })
 }
 
-export const getAppStatusStatusAppIdGetQueryKey = (appId?: string) => {
+export const getAppStatusStatusAppIdGetQueryKey = (appId: string) => {
   return [`https://builds.flathub.org/status/${appId}`] as const
 }
 
@@ -503,9 +502,7 @@ export function useAppStatusStatusAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -516,6 +513,7 @@ export const reproducibleStatusReproducibleGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
   return axios.get(`https://builds.flathub.org/reproducible`, {
+    responseType: "text",
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -676,9 +674,7 @@ export function useReproducibleStatusReproducibleGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -689,6 +685,7 @@ export const reproducibleTableApiHtmxReproducibleGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string>> => {
   return axios.get(`https://builds.flathub.org/api/htmx/reproducible`, {
+    responseType: "text",
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -849,7 +846,5 @@ export function useReproducibleTableApiHtmxReproducibleGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }

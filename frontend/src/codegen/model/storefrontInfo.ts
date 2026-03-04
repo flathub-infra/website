@@ -4,8 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { StorefrontInfoVerification } from "./storefrontInfoVerification"
 import type { StorefrontInfoPricing } from "./storefrontInfoPricing"
+import type { StorefrontInfoVerification } from "./storefrontInfoVerification"
 
 export interface StorefrontInfo {
   verification?: StorefrontInfoVerification

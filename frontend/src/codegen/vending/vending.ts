@@ -191,9 +191,7 @@ export function useStatusVendingStatusGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -281,10 +279,10 @@ export const useStartOnboardingVendingStatusOnboardingPost = <
   { data: VendingOnboardingRequest },
   TContext
 > => {
-  const mutationOptions =
-    getStartOnboardingVendingStatusOnboardingPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getStartOnboardingVendingStatusOnboardingPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Retrieve a link to the logged in user's Stripe express dashboard.
@@ -466,9 +464,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -626,9 +622,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -643,7 +637,7 @@ export const getAppVendingSetupVendingappAppIdSetupGet = (
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryKey = (
-  appId?: string,
+  appId: string,
 ) => {
   return [`/vendingapp/${appId}/setup`] as const
 }
@@ -802,9 +796,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -901,10 +893,10 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
   { appId: string; data: VendingSetupRequest },
   TContext
 > => {
-  const mutationOptions =
-    getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Construct a transaction for the given application with the proposed payment.
@@ -992,10 +984,10 @@ export const usePostAppVendingStatusVendingappAppIdPost = <
   { appId: string; data: ProposedPayment },
   TContext
 > => {
-  const mutationOptions =
-    getPostAppVendingStatusVendingappAppIdPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getPostAppVendingStatusVendingappAppIdPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Retrieve the redeemable tokens for the given application.
@@ -1019,7 +1011,7 @@ export const getRedeemableTokensVendingappAppIdTokensGet = (
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryKey = (
-  appId?: string,
+  appId: string,
   params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
 ) => {
   return [`/vendingapp/${appId}/tokens`, ...(params ? [params] : [])] as const
@@ -1205,9 +1197,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
@@ -1296,10 +1286,10 @@ export const useCreateTokensVendingappAppIdTokensPost = <
   { appId: string; data: string[] },
   TContext
 > => {
-  const mutationOptions =
-    getCreateTokensVendingappAppIdTokensPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCreateTokensVendingappAppIdTokensPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * Cancel a set of tokens
@@ -1390,10 +1380,10 @@ export const useCancelTokensVendingappAppIdTokensCancelPost = <
   { appId: string; data: string[] },
   TContext
 > => {
-  const mutationOptions =
-    getCancelTokensVendingappAppIdTokensCancelPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getCancelTokensVendingappAppIdTokensCancelPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * This redeems the given token for the logged in user.
@@ -1490,10 +1480,10 @@ export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
   { appId: string; token: string },
   TContext
 > => {
-  const mutationOptions =
-    getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions(options),
+    queryClient,
+  )
 }
 /**
  * This determines the vending info for the app and returns it
@@ -1506,7 +1496,7 @@ export const appInfoVendingappAppIdInfoGet = (
   return axios.get(`/vendingapp/${appId}/info`, options)
 }
 
-export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId?: string) => {
+export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId: string) => {
   return [`/vendingapp/${appId}/info`] as const
 }
 
@@ -1659,7 +1649,5 @@ export function useAppInfoVendingappAppIdInfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { ...query, queryKey: queryOptions.queryKey }
 }
