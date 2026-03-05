@@ -2,7 +2,8 @@ import { Meta } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
 import AppDevelopersControls from "./AppDevelopersControls"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { AppRoutesInvitesDevelopersResponse } from "src/codegen/model"
+import { AppRoutesInvitesDevelopersResponse } from "../../codegen/model"
+import { UserInfoProvider } from "../../context/user-info"
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity, refetchOnMount: true } },
@@ -44,9 +45,11 @@ export const PrimaryDeveloperOnly = {
         } as AppRoutesInvitesDevelopersResponse,
       })
       return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
+        <UserInfoProvider>
+          <QueryClientProvider client={queryClient}>
+            <Story />
+          </QueryClientProvider>
+        </UserInfoProvider>
       )
     },
   ],
@@ -70,9 +73,11 @@ export const WithInvites = {
         } as AppRoutesInvitesDevelopersResponse,
       })
       return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
+        <UserInfoProvider>
+          <QueryClientProvider client={queryClient}>
+            <Story />
+          </QueryClientProvider>
+        </UserInfoProvider>
       )
     },
   ],
@@ -98,9 +103,11 @@ export const WithOtherDevs = {
         } as AppRoutesInvitesDevelopersResponse,
       })
       return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
+        <UserInfoProvider>
+          <QueryClientProvider client={queryClient}>
+            <Story />
+          </QueryClientProvider>
+        </UserInfoProvider>
       )
     },
   ],
@@ -131,9 +138,11 @@ export const NotPrimaryDev = {
         } as AppRoutesInvitesDevelopersResponse,
       })
       return (
-        <QueryClientProvider client={queryClient}>
-          <Story />
-        </QueryClientProvider>
+        <UserInfoProvider>
+          <QueryClientProvider client={queryClient}>
+            <Story />
+          </QueryClientProvider>
+        </UserInfoProvider>
       )
     },
   ],

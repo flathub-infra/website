@@ -1,4 +1,8 @@
 import type { StorybookConfig } from "@storybook/nextjs-vite"
+import path from "path"
+import { fileURLToPath } from "url"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const config: StorybookConfig = {
   stories: ["../**/*.mdx", "../**/*.stories.@(js|jsx|ts|tsx)"],
@@ -21,6 +25,19 @@ const config: StorybookConfig = {
   },
 
   staticDirs: ["../public"],
+
+  async viteFinal(config) {
+    return {
+      ...config,
+      resolve: {
+        ...(config.resolve ?? {}),
+        alias: {
+          ...(config.resolve?.alias ?? {}),
+          "@": path.resolve(__dirname, "../@"),
+        },
+      },
+    }
+  },
 }
 
 export default config
