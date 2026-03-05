@@ -9977,7 +9977,7 @@ __metadata:
     sonner: "npm:^2.0.7"
     spdx-license-list: "npm:^6.10.0"
     storybook: "npm:^9.1.19"
-    storybook-addon-mock-date: "npm:^1.0.1"
+    storybook-addon-mock-date: "npm:^2.0.0"
     storybook-next-intl: "npm:^2.0.13"
     tailwind-merge: "npm:^3.3.1"
     tailwindcss: "npm:^4.1.14"
@@ -14240,12 +14240,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook-addon-mock-date@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "storybook-addon-mock-date@npm:1.0.1"
+"storybook-addon-mock-date@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "storybook-addon-mock-date@npm:2.0.0"
   peerDependencies:
-    storybook: ^9.0.0
-  checksum: 10c0/be03fa7a68fc3dfc0a4c47809628cb29b1e134aaa67aea4850f52bdfbcb8f720bd910d7024d0a419fea53f4be13b34f6f9ffa69836ad4b8924cd052bbe06d4d7
+    storybook: ^10.0.0
+  checksum: 10c0/23325e73eee569534f4a9351969ed0b6532eec6498cae8892b8146f9d3e1abbcbc4908bf9cd4f1df3fe168d194c90b2f1fd66d3451818a2780f0415a222eaef8
   languageName: node
   linkType: hard
 
