@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { useMemo, useState, useRef, useEffect } from "react"
 import { useTranslations } from "next-intl"
-import { sanitizeAppstreamDescription } from "@/lib/helpers"
+import { sanitizeAppstreamDescription } from "@/lib/sanitizeAppstreamDescription"
 import linkifyHtml from "linkify-html"
 import { DesktopAppstream } from "src/codegen"
 

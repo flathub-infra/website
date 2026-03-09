@@ -4,7 +4,7 @@ import { FunctionComponent, useState, useRef, useEffect } from "react"
 import { getIntlLocale } from "../../localize"
 
 import { clsx } from "clsx"
-import { sanitizeAppstreamDescription } from "@/lib/helpers"
+import { sanitizeAppstreamDescription } from "@/lib/sanitizeAppstreamDescription"
 import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
 import { ExternalLinkIcon } from "lucide-react"

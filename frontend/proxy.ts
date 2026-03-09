@@ -50,7 +50,7 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
   }
 }
 
-export default async function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Handle internationalization first - this will redirect if locale is missing
   const i18nResponse = createMiddleware(routing)(request)
 
@@ -80,6 +80,10 @@ export default async function proxy(request: NextRequest) {
   // If no redirect needed, let request continue
   return NextResponse.next()
 }
+
+export const middleware = proxy
+
+export default proxy
 
 export const config = {
   // Match all pathnames except for

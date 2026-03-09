@@ -1,14 +1,17 @@
-FROM node:24 AS base
+FROM node:22 AS base
 
 RUN corepack enable
 
-FROM base AS dev
+FROM base AS deps
 
 WORKDIR /app
 COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn/releases .yarn/releases
+COPY .yarn ./.yarn
 RUN yarn install --immutable
 
+FROM deps AS dev
+
+WORKDIR /app
 COPY . .
 CMD ["yarn", "dev"]
 
@@ -21,13 +24,21 @@ ARG GITHUB_SHA
 ENV GITHUB_SHA=$GITHUB_SHA
 
 WORKDIR /app
-COPY --from=dev /app/node_modules ./node_modules
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/.yarn ./.yarn
+COPY --from=deps /app/.yarnrc.yml ./.yarnrc.yml
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/yarn.lock ./yarn.lock
 COPY . .
 
 RUN yarn build
-RUN yarn postbuild
 
-FROM node:24-slim AS prod
+FROM deps AS prod-deps
+
+WORKDIR /app
+RUN yarn workspaces focus --all --production
+
+FROM node:22-slim AS prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG GITHUB_SHA
 
@@ -45,12 +56,11 @@ RUN addgroup --system --gid 1001 nextjs && \
   adduser --system --uid 1001 nextjs
 
 WORKDIR /app
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
+COPY --from=prod-deps --chown=nextjs:nextjs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nextjs /app/dist ./dist
 COPY --from=builder --chown=nextjs:nextjs /app/src/data ./src/data
-RUN chown -R 1001:0 /app/.next && chgrp -R 0 /app && chmod -R g=u /app
+RUN chown -R 1001:0 /app && chgrp -R 0 /app && chmod -R g=u /app
 
 USER nextjs
-CMD ["node", "server.js"]
+CMD ["node", "./node_modules/vinext/dist/cli.js", "start"]

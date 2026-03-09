@@ -1,4 +1,8 @@
-export default {
+import type { Config } from "tailwindcss"
+import typography from "@tailwindcss/typography"
+import tailwindcssAnimate from "tailwindcss-animate"
+
+const config = {
   darkMode: ["selector"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -146,5 +150,7 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
-}
+  plugins: [typography, tailwindcssAnimate],
+} satisfies Config
+
+export default config

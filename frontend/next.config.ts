@@ -2,11 +2,15 @@ import {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD,
 } from "next/constants"
+import { fileURLToPath } from "node:url"
 import { withSentryConfig } from "@sentry/nextjs"
 import createNextIntlPlugin from "next-intl/plugin"
-import { NextConfig } from "next"
+import type { NextConfig } from "next"
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts")
+const cacheHandlerPath = fileURLToPath(
+  new URL("./cache-handler.mjs", import.meta.url),
+)
 
 const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
@@ -61,7 +65,7 @@ if (!buildId) {
   )
 }
 
-const nextConfig: (phase: string) => NextConfig = (phase) => ({
+const createNextConfig = (phase: string): NextConfig => ({
   output: "standalone",
   assetPrefix:
     phase === PHASE_DEVELOPMENT_SERVER
@@ -74,9 +78,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
   },
   serverExternalPackages: ["@resvg/resvg-js"],
   cacheHandler:
-    process.env.NODE_ENV === "production"
-      ? require.resolve("./cache-handler.mjs")
-      : undefined,
+    process.env.NODE_ENV === "production" ? cacheHandlerPath : undefined,
   cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
   images: {
     remotePatterns: [
@@ -387,14 +389,14 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
     : undefined,
 })
 
-module.exports = async (phase) => {
+export default async function config(phase: string) {
   const config =
     process.env.ENABLE_SENTRY === "true"
       ? withSentryConfig(
-          withNextIntl(nextConfig(phase)),
+          withNextIntl(createNextConfig(phase)),
           sentryWebpackPluginOptions,
         )
-      : withNextIntl(nextConfig(phase))
+      : withNextIntl(createNextConfig(phase))
 
   return config
 }
