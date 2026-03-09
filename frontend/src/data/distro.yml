@@ -497,3 +497,9 @@
     <h2>Flatpak is installed by default on Salix since version 15.0—no setup required!</h2>
     <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p>
     <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>
+
+- name: postmarketOS
+  logo: "postmarketOS.svg"
+  introduction: >
+    <h2>Flatpak is installed by default on postmarketOS!</h2>
+    <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>
