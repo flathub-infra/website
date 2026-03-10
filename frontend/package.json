@@ -105,7 +105,7 @@
     "eslint-plugin-storybook": "^10.2.15",
     "msw": "^2.11.2",
     "msw-storybook-addon": "^2.0.6",
-    "orval": "8.5.1",
+    "orval": "8.5.3",
     "playwright": "^1.55.1",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
