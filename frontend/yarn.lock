@@ -9616,7 +9616,7 @@ __metadata:
     rtl-detect: "npm:^1.1.2"
     sass: "npm:^1.93.2"
     satori: "npm:^0.18.3"
-    simple-git: "npm:^3.28.0"
+    simple-git: "npm:^3.32.3"
     sonner: "npm:^2.0.7"
     spdx-license-list: "npm:^6.10.0"
     storybook: "npm:^10.2.17"
@@ -13659,14 +13659,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^3.28.0":
-  version: 3.28.0
-  resolution: "simple-git@npm:3.28.0"
+"simple-git@npm:^3.32.3":
+  version: 3.33.0
+  resolution: "simple-git@npm:3.33.0"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
     debug: "npm:^4.4.0"
-  checksum: 10c0/d78b8f5884967513efa3d3ee419be421207367c65b680ee45f4c9571f909ba89933ffa27d6d7972fbb759bb30b00e435e35ade2b9e788661feb996da6f461932
+  checksum: 10c0/463e91f3ee04b7fc445284c64502a4ee3d607f626f18c8bcc036815a30fe178d2216976e683c6368edd7b3093801d6e534deeb8e700a4863a76ef23f881a0712
   languageName: node
   linkType: hard
 
