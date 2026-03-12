@@ -30,7 +30,7 @@ class CacheHandler {
   }
 
   async set(key, data, ctx) {
-    if (data?.kind === 'APP_PAGE' && data?.status === 404) {
+    if (data?.kind === "APP_PAGE" && data?.status === 404) {
       ctx = { ...ctx, revalidate: 60 }
     }
     return this.handler.set(key, data, ctx)
