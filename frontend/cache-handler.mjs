@@ -29,8 +29,11 @@ class CacheHandler {
     return this.handler.get(...args)
   }
 
-  async set(...args) {
-    return this.handler.set(...args)
+  async set(key, data, ctx) {
+    if (data?.kind === 'APP_PAGE' && data?.status === 404) {
+      ctx = { ...ctx, revalidate: 60 }
+    }
+    return this.handler.set(key, data, ctx)
   }
 
   async revalidateTag(...args) {
