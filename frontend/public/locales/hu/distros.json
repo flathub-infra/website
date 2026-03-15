@@ -197,7 +197,7 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak telepítéséhez állítsa a NixOS <strong>services.flatpak.enable</strong> beállítását <strong>true</strong> értékre úgy, hogy beírja a következőket az <strong>/etc/nixos/configuration.nix</strong> fájlba:</text> <code></code> <text>Ezután építse újra, és váltson át az új konfigurációra. </text>További részletekért lásd az OS-t a következővel: <codeRebuild></codeRebuild>.<text><doclink> dokumentáció</doclink>.</text>"
+      "text": "<text>A Flatpak telepítéséhez állítsa a NixOS <strong>services.flatpak.enable</strong> beállítását <strong>true</strong> értékre úgy, hogy beírja a következőket az <strong>/etc/nixos/configuration.nix</strong> fájlba:</text> <code></code> <text>Ezután építse újra, és váltson át az új konfigurációra. </text>További részletekért nézze meg a <codeRebuild></codeRebuild>.<text><doclink>NixOS dokumentációt</doclink>.</text>"
     },
     "distroName": "NixOS"
   },
