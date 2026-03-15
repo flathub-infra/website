@@ -307,5 +307,8 @@
   "verification-failed-to-connect": "Tecceḍ tuqqna ɣer {domain}.",
   "can-read-all-data": "Yezmer ad iɣer akk isefka yellan deg ukaram",
   "can-request-data-from-system-services": "Yezmer ad yessuter isefka i yimeẓla n unagraw",
-  "user-not-found": "Ur yettwaf ara useqdac"
+  "user-not-found": "Ur yettwaf ara useqdac",
+  "create-tokens": "Snulfu-d tiddas",
+  "create-token": "Snulfu-d tiddest",
+  "token-name": "Isem n tiddest"
 }
