@@ -292,7 +292,7 @@
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
-      "text": "<text>A Flatpak alapértelmezés szerint a Manjaro 20 vagy újabb verziókra van telepítve.</text> <text>Támogatásának engedélyezéséhez lépjen a <strong>Szoftverkezelő</strong> (Programok hozzáadása/eltávolítása)</text> <text>Kattintson a háromsoros menüre [vagy az asztali környezettől függően pontokra] a jobb oldalon, a legördülő menüben válassza a „Beállítások” lehetőséget</text> <text>Lépjen a „Flatpak” fülre, és csúsztassa a kapcsolót a Flatpak támogatás engedélyezése lehetőségre (a frissítések keresése is engedélyezhető, ami ajánlott).</text>",
+      "text": "<text>A Flatpak a Manjaro 20 vagy újabb verziókra alapértelmezetten telepítve van.</text> <text>Támogatásának engedélyezéséhez lépjen a <strong>Szoftverkezelő</strong> (Programok hozzáadása/eltávolítása)</text> <text>Kattintson a háromsoros menüre [vagy az asztali környezettől függően pontokra] a jobb oldalon, a legördülő menüben válassza a „Beállítások” lehetőséget</text> <text>Lépjen a „Flatpak” fülre, és csúsztassa a kapcsolót a Flatpak támogatás engedélyezése lehetőségre (a frissítések keresése is engedélyezhető, ami ajánlott).</text>",
       "name": "A Flatpak engedélyezése a Szoftverkezelőn keresztül"
     },
     "step-2": {
