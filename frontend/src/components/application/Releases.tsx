@@ -9,6 +9,12 @@ import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
 import { ExternalLinkIcon } from "lucide-react"
 import { Release } from "src/codegen"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface Props {
   latestRelease: Release | null
@@ -100,29 +106,32 @@ const Releases: FunctionComponent<Props> = ({
                 </h3>
                 <div className="flex gap-2 items-center">
                   {latestReleaseTimestamp && (
-                    <div
-                      className="text-xs rounded-full bg-flathub-lotion px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
-                      title={latestReleaseTimestamp.toLocaleString(locale)}
-                    >
-                      {formatDistanceToNow(latestReleaseTimestamp, {
-                        addSuffix: true,
-                      })}
-                    </div>
-                  )}
-                  {summary.timestamp && (
-                    <div
-                      className="text-xs rounded-full bg-flathub-lotion px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
-                      title={new UTCDate(
-                        summary.timestamp * 1000,
-                      ).toLocaleDateString(getIntlLocale(locale))}
-                    >
-                      {t("build-x", {
-                        build_ago: formatDistanceToNow(
-                          new UTCDate(summary.timestamp * 1000),
-                          { addSuffix: true },
-                        ),
-                      })}
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="text-xs rounded-full bg-flathub-lotion px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray">
+                            {formatDistanceToNow(latestReleaseTimestamp, {
+                              addSuffix: true,
+                            })}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div>
+                            {latestReleaseTimestamp.toLocaleDateString(locale)}
+                          </div>
+                          {summary.timestamp && (
+                            <div>
+                              {t("build-x", {
+                                build_ago: formatDistanceToNow(
+                                  new UTCDate(summary.timestamp * 1000),
+                                  { addSuffix: true },
+                                ),
+                              })}
+                            </div>
+                          )}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   )}
                 </div>
               </header>
