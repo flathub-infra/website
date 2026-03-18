@@ -1,6 +1,7 @@
 import datetime
 import gzip
 import json
+import re
 import struct
 from collections import defaultdict
 from typing import Any
@@ -231,6 +232,14 @@ def parse_summary(summary, sqldb):
         summary_dict[app_id]["metadata"] = parsed_metadata
         summary_dict[app_id]["arches"].add(arch)
 
+        # Store per-branch size data so multiple branches don't overwrite each other
+        if "branches" not in summary_dict[app_id]:
+            summary_dict[app_id]["branches"] = {}
+        branch_sizes = {
+            "download_size": download_size,
+            "installed_size": installed_size,
+        }
+
         # flatpak cannot know how much application will weight after
         # apply_extra is executed, so let's estimate it by combining installed
         # and download sizes
@@ -238,6 +247,21 @@ def parse_summary(summary, sqldb):
             "extra-data"
         ):
             summary_dict[app_id]["installed_size"] += download_size
+            branch_sizes["installed_size"] += download_size
+
+        summary_dict[app_id]["branches"][branch] = branch_sizes
+
+    # Resolve runtime installed size for each app using the branch-specific data
+    for app_id, data in summary_dict.items():
+        if data.get("metadata") and data["metadata"].get("runtime"):
+            runtime_appid, _, runtime_branch = data["metadata"]["runtime"].split("/")
+            runtime_data = summary_dict.get(runtime_appid)
+            if runtime_data:
+                branches = runtime_data.get("branches", {})
+                if runtime_branch in branches:
+                    data["metadata"]["runtimeInstalledSize"] = branches[runtime_branch][
+                        "installed_size"
+                    ]
 
     return summary_dict, updated_at_dict, metadata
 
@@ -351,6 +375,38 @@ def update(sqldb) -> None:
             if app_id in non_eol_apps
         ]
     )
+
+    # Resolve runtime names from the DB and store on per-branch data
+    runtime_appids = set()
+    for app_id, data in summary_dict.items():
+        if data.get("metadata") and data["metadata"].get("runtime"):
+            runtime_appid = data["metadata"]["runtime"].split("/")[0]
+            runtime_appids.add(runtime_appid)
+
+    runtime_names = {}
+    for runtime_appid in runtime_appids:
+        runtime_app = models.App.by_appid(sqldb, runtime_appid)
+        if runtime_app and runtime_app.appstream and "name" in runtime_app.appstream:
+            runtime_names[runtime_appid] = runtime_app.appstream["name"]
+
+    # Store versioned names on each branch of the runtime entries
+    for runtime_appid, base_name in runtime_names.items():
+        # Strip existing version suffix (e.g. "GNOME Application Platform version 50")
+        clean_name = re.sub(r"\s+version\s+\S+$", "", base_name)
+        runtime_data = summary_dict.get(runtime_appid)
+        if runtime_data and runtime_data.get("branches"):
+            for branch, branch_data in runtime_data["branches"].items():
+                branch_data["name"] = f"{clean_name} version {branch}"
+
+    # Inject runtimeName into each app's metadata from the branch-specific data
+    for app_id, data in summary_dict.items():
+        if data.get("metadata") and data["metadata"].get("runtime"):
+            runtime_appid, _, runtime_branch = data["metadata"]["runtime"].split("/")
+            runtime_data = summary_dict.get(runtime_appid)
+            if runtime_data:
+                branch_data = runtime_data.get("branches", {}).get(runtime_branch, {})
+                if "name" in branch_data:
+                    data["metadata"]["runtimeName"] = branch_data["name"]
 
     # collect all app IDs to update
     apps_to_update = {}
