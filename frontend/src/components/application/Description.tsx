@@ -13,7 +13,7 @@ export const Description = ({
   isQualityModalOpen: boolean
 }) => {
   const t = useTranslations()
-  const collapsedHeight = 356
+  const collapsedHeight = 1000
 
   const description = useMemo(
     () =>
