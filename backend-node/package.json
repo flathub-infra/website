@@ -13,7 +13,7 @@
     "@hono/sentry": "^1.2.2",
     "@hono/swagger-ui": "0.6.1",
     "@hono/zod-openapi": "^1.2.2",
-    "@react-email/components": "1.0.9",
+    "@react-email/components": "1.0.10",
     "@react-email/render": "2.0.4",
     "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
@@ -24,7 +24,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@react-email/preview-server": "5.2.9",
+    "@react-email/preview-server": "5.2.10",
     "@types/html-to-text": "^9.0.4",
     "@types/nodemailer": "^7.0.11",
     "@types/react": "^19",
@@ -32,7 +32,7 @@
     "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^10.0.3",
     "prettier": "3.8.1",
-    "react-email": "5.2.9",
+    "react-email": "5.2.10",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
