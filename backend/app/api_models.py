@@ -371,6 +371,8 @@ class SummaryMetadata(BaseModel):
     builtExtensions: list[str] | None = None
     extraData: SummaryExtraData | None = None
     runtimeIsEol: bool = False
+    runtimeInstalledSize: int | None = None
+    runtimeName: str | None = None
 
 
 class SummaryResponse(BaseModel):
