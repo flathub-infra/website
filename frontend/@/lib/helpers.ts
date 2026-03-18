@@ -93,12 +93,6 @@ export function isDesktopAppstreamTypeGuard(
   )
 }
 
-export function isRuntimeAppstreamTypeGuard(
-  app: GetAppstreamAppstreamAppIdGet200,
-): app is GetAppstreamAppstreamAppIdGet200 & { type: "runtime" } {
-  return app.type === "runtime"
-}
-
 export function getKeywords(app: GetAppstreamAppstreamAppIdGet200): string[] {
   if (!isDesktopAppstreamTypeGuard(app)) {
     return []

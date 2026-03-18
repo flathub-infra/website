@@ -1,11 +1,15 @@
 import { ParsedUrlQuery } from "querystring"
 import { Dispatch } from "react"
 import { LOGIN_PROVIDERS_URL } from "../env"
-import { APIResponseError } from "../types/API"
 import { UserStateAction } from "../types/Login"
 import { AxiosResponse } from "axios"
 import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import { getUserinfoAuthUserinfoGet } from "src/codegen"
+
+export interface APIResponseError {
+  status: "error"
+  error: string
+}
 
 /**
  * Performs the callback POST request to check 3rd party authentication
