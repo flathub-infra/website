@@ -142,20 +142,21 @@ export const CarouselStrip = ({
           </div>
         </div>
         {slides?.length > 0 && slides[currentIndex]?.title && (
-          <div className="flex justify-center text-center pb-4">
+          <div className="flex justify-center text-center pb-4 text-sm">
             {slides[currentIndex]?.title}
           </div>
         )}
         {slides?.length > 1 && (
           <div>
-            <ul className="flex flex-wrap list-none justify-center gap-4 pb-8 px-16">
+            <ul className="flex flex-wrap list-none justify-center gap-3 pb-8 px-16">
               {slides?.map((screenshot, index) => (
                 <li key={index} value={index}>
                   <button
                     className={clsx(
-                      index !== currentIndex && "opacity-50",
-                      "size-2 cursor-pointer rounded-full bg-flathub-dark-gunmetal transition duration-200 dark:bg-flathub-gainsborow",
-                      "hover:opacity-100",
+                      "size-2.5 cursor-pointer rounded-full transition-all duration-200",
+                      index === currentIndex
+                        ? "bg-flathub-celestial-blue scale-110"
+                        : "bg-flathub-dark-gunmetal/30 dark:bg-flathub-gainsborow/40 hover:bg-flathub-dark-gunmetal/60 dark:hover:bg-flathub-gainsborow/70",
                     )}
                     aria-label={
                       screenshot.caption ??

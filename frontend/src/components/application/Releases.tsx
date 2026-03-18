@@ -84,7 +84,7 @@ const Releases: FunctionComponent<Props> = ({
   return (
     <>
       {latestRelease && (
-        <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
+        <div className="rounded-xl border border-flathub-gainsborow/80 bg-flathub-white shadow-sm dark:border-flathub-granite-gray/30 dark:bg-flathub-arsenic">
           <div>
             <div
               className={clsx(
@@ -92,16 +92,16 @@ const Releases: FunctionComponent<Props> = ({
                 (!showCollapseButton || isExpanded) && "pb-4",
               )}
             >
-              <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-                <h3 className="my-0 text-xl font-semibold ">
+              <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <h3 className="my-0 text-lg font-semibold">
                   {t("changes-in-version", {
                     version_number: latestRelease.version,
                   })}
                 </h3>
-                <div className="flex gap-1">
+                <div className="flex gap-2 items-center">
                   {latestReleaseTimestamp && (
                     <div
-                      className="text-sm"
+                      className="text-xs rounded-full bg-flathub-lotion px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
                       title={latestReleaseTimestamp.toLocaleString(locale)}
                     >
                       {formatDistanceToNow(latestReleaseTimestamp, {
@@ -111,19 +111,17 @@ const Releases: FunctionComponent<Props> = ({
                   )}
                   {summary.timestamp && (
                     <div
-                      className="text-sm"
+                      className="text-xs rounded-full bg-flathub-lotion px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
                       title={new UTCDate(
                         summary.timestamp * 1000,
                       ).toLocaleDateString(getIntlLocale(locale))}
                     >
-                      (
                       {t("build-x", {
                         build_ago: formatDistanceToNow(
                           new UTCDate(summary.timestamp * 1000),
                           { addSuffix: true },
                         ),
                       })}
-                      )
                     </div>
                   )}
                 </div>

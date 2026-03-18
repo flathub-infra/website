@@ -22,7 +22,7 @@ const AdditionalInfo = ({
   const locale = useLocale()
 
   return (
-    <div className="relative flex flex-wrap gap-2">
+    <div className="relative flex flex-wrap gap-3">
       <ListBox
         inACard
         items={[

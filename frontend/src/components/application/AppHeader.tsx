@@ -112,27 +112,30 @@ export function AppHeader({
   }
 
   return (
-    <header className="col-start-2 flex w-full flex-col gap-7 py-7 sm:flex-row">
+    <header className="col-start-2 flex w-full flex-col gap-7 py-8 pb-6 sm:flex-row">
       {app.icon && (
-        <div className="relative m-2 flex h-[128px] min-w-[128px] self-center drop-shadow-md">
-          <LogoImage
-            iconUrl={app.icon}
-            appName={app.name}
-            quality={100}
-            priority
-            size={128}
-          />
+        <div className="relative m-2 flex h-[128px] min-w-[128px] self-center">
+          <div className="absolute inset-0 rounded-[28px] bg-flathub-celestial-blue/8 dark:bg-flathub-celestial-blue/10 blur-xl scale-110" />
+          <div className="relative drop-shadow-lg">
+            <LogoImage
+              iconUrl={app.icon}
+              appName={app.name}
+              quality={100}
+              priority
+              size={128}
+            />
+          </div>
         </div>
       )}
 
       <div
         className={clsx(
-          "flex flex-col my-auto gap-1",
+          "flex flex-col my-auto gap-1.5",
           !isQualityModalOpen && "overflow-hidden",
         )}
       >
         <div className="flex items-center justify-center space-x-3 sm:justify-start">
-          <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start truncate">
+          <h1 className="my-0 text-center text-4xl font-extrabold tracking-tight sm:text-start truncate">
             {app.name.length > 20 && isQualityModalOpen ? (
               <>
                 <span>{app.name.slice(0, 20)}</span>{" "}
@@ -144,7 +147,7 @@ export function AppHeader({
           </h1>
         </div>
         {app.developer_name?.trim().length > 0 && (
-          <div className="text-center text-sm font-light text-flathub-arsenic dark:text-flathub-spanish-gray sm:text-start">
+          <div className="text-center text-sm font-normal text-flathub-granite-gray dark:text-flathub-spanish-gray sm:text-start">
             {t(verificationStatus.verified ? "by" : "developed-by", {
               developer: app.developer_name,
             })}

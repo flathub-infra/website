@@ -200,7 +200,7 @@ const Details: FunctionComponent<Props> = ({
         {isDesktopAppstreamTypeGuard(app) &&
           Array.isArray(app.screenshots) &&
           app.screenshots.length > 0 && <CarouselStrip app={app} />}
-        <div className="col-start-2 flex flex-col gap-6">
+        <div className="col-start-2 flex flex-col gap-8 pt-2">
           {isDesktopAppstreamTypeGuard(app) && (
             <Description app={app} isQualityModalOpen={isQualityModalOpen} />
           )}
@@ -216,21 +216,23 @@ const Details: FunctionComponent<Props> = ({
           </div>
 
           {developerApps && developerApps.totalHits > 0 && (
-            <ApplicationSection
-              type="withTitle"
-              href={`/apps/collection/developer/${app.developer_name}`}
-              title={t("other-apps-by-developer", {
-                developer: app.developer_name,
-              })}
-              moreText={t("more-apps-by-developer", {
-                developer: app.developer_name,
-              })}
-              applications={developerApps.hits
-                .slice(0, 6)
-                .map(mapAppsIndexToAppstreamListItem)}
-              numberOfApps={developerApps.totalHits}
-              showMore={developerApps.totalHits > 6}
-            />
+            <div className="mt-2">
+              <ApplicationSection
+                type="withTitle"
+                href={`/apps/collection/developer/${app.developer_name}`}
+                title={t("other-apps-by-developer", {
+                  developer: app.developer_name,
+                })}
+                moreText={t("more-apps-by-developer", {
+                  developer: app.developer_name,
+                })}
+                applications={developerApps.hits
+                  .slice(0, 6)
+                  .map(mapAppsIndexToAppstreamListItem)}
+                numberOfApps={developerApps.totalHits}
+                showMore={developerApps.totalHits > 6}
+              />
+            </div>
           )}
 
           <Tags keywords={keywords} />
