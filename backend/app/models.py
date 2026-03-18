@@ -2222,6 +2222,10 @@ class AppOfTheDay(Base):
 
     @classmethod
     def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
+        app_obj = App.by_appid(db, app_id)
+        if app_obj and app_obj.excluded_from_app_picks:
+            raise HTTPException(400, "App is excluded from app picks")
+
         app = AppOfTheDay.by_date(db, date)
         if app:
             app.app_id = app_id
@@ -2290,6 +2294,10 @@ class AppsOfTheWeek(Base):
         position: int,
         user_id: int,
     ) -> Optional["AppsOfTheWeek"]:
+        app_obj = App.by_appid(db, app_id)
+        if app_obj and app_obj.excluded_from_app_picks:
+            raise HTTPException(400, "App is excluded from app picks")
+
         app = (
             db.session.query(AppsOfTheWeek)
             .filter(AppsOfTheWeek.position == position)
@@ -2376,6 +2384,9 @@ class App(Base):
     eol_message = mapped_column(String, nullable=True)
     main_category = mapped_column(String, nullable=True, index=True)
     sub_categories = mapped_column(ARRAY(String), nullable=True)
+    excluded_from_app_picks = mapped_column(
+        Boolean, nullable=False, server_default=false(), default=False
+    )
 
     __table_args__ = (
         Index("apps_unique", app_id, unique=True),
@@ -2724,6 +2735,7 @@ class App(Base):
             )
             .where(
                 App.is_eol == false(),
+                App.excluded_from_app_picks == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",
@@ -2877,6 +2889,7 @@ class App(Base):
             )
             .where(
                 App.is_eol == false(),
+                App.excluded_from_app_picks == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",

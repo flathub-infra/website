@@ -45,6 +45,10 @@ async def get_app_of_the_day(
         if app_of_the_day is None:
             return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
 
+        app = models.App.by_appid(db, app_of_the_day.app_id)
+        if app and app.excluded_from_app_picks:
+            return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
+
         return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
 
 
@@ -91,6 +95,10 @@ async def get_app_of_the_week(
                     isFullscreen=models.App.get_fullscreen_app(db, app.app_id),
                 )
                 for app in apps_of_the_week
+                if (
+                    (db_app := models.App.by_appid(db, app.app_id)) is not None
+                    and not db_app.excluded_from_app_picks
+                )
             ]
         )
 

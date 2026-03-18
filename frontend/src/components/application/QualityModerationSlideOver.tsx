@@ -632,7 +632,14 @@ export const QualityModerationSlideOver = ({
         signal,
       }),
     enabled: !!app.id,
+    retry: (failureCount, error: any) =>
+      error?.response?.status !== 404 && failureCount < 3,
   })
+
+  const errorStatus = (query.error as any)?.response?.status
+  const errorDetail = (query.error as any)?.response?.data?.detail
+  const is404 = query.isError && errorStatus === 404
+  const isExcluded = is404 && errorDetail === "App excluded from app picks"
 
   return (
     <SlideOver
@@ -644,6 +651,10 @@ export const QualityModerationSlideOver = ({
         {query.isPending ? (
           <div className="flex justify-center">
             <Spinner size={"l"} />
+          </div>
+        ) : isExcluded ? (
+          <div className="flex justify-center">
+            <span>{t("quality-moderation-excluded")}</span>
           </div>
         ) : query.isError ? (
           <div className="flex justify-center">

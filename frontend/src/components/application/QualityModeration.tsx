@@ -181,6 +181,8 @@ export const QualityModeration = ({
       axios: { withCredentials: true },
       query: {
         enabled: !!requirement,
+        retry: (failureCount, error: any) =>
+          error?.response?.status !== 404 && failureCount < 3,
       },
     })
 
@@ -218,6 +220,12 @@ export const QualityModeration = ({
     return null
   }
 
+  const errorStatus = (query.error as any)?.response?.status
+  const errorDetail = (query.error as any)?.response?.data?.detail
+  const is404 = query.isError && errorStatus === 404
+  const isExcluded = is404 && errorDetail === "App excluded from app picks"
+  const isGeneric404 = is404 && !isExcluded
+
   const mode = isQualityModerator ? "qualityModerator" : "developer"
 
   return (
@@ -225,17 +233,31 @@ export const QualityModeration = ({
       <div
         className={clsx(
           "flex px-8 h-16 items-center",
-          query.data?.data.passes
-            ? "bg-flathub-celestial-blue/40"
-            : query.data?.data["not_passed"] === 0
-              ? "bg-flathub-gainsborow/40"
-              : "bg-flathub-electric-red/40",
+          isExcluded
+            ? "bg-flathub-gainsborow/40"
+            : isGeneric404
+              ? "bg-flathub-electric-red/40"
+              : query.data?.data.passes
+                ? "bg-flathub-celestial-blue/40"
+                : query.data?.data["not_passed"] === 0
+                  ? "bg-flathub-gainsborow/40"
+                  : "bg-flathub-electric-red/40",
         )}
       >
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center">
             {query.isPending ? (
               <Spinner size={"s"} orientation="row" />
+            ) : isExcluded ? (
+              <div className="flex gap-1">
+                <QuestionMarkCircleIcon className="text-2xl size-6" />
+                <span>{t("quality-moderation-excluded")}</span>
+              </div>
+            ) : isGeneric404 ? (
+              <div className="flex gap-1">
+                <ExclamationTriangleIcon className="text-2xl size-6" />
+                <span className="text-flathub-red">{t("server-error")}</span>
+              </div>
             ) : (
               <QualityModerationStatusComponent status={query?.data?.data} />
             )}
@@ -252,37 +274,41 @@ export const QualityModeration = ({
                 </Link>
               </Button>
             )}
-          <QualityReviewButton
-            app_id={app.id}
-            status={query?.data?.data}
-            review_requested_at={query?.data?.data?.review_requested_at}
-            buttonClicked={() => {
-              query.refetch()
-            }}
-            mode={mode}
-          />
-          <Button
-            size="lg"
-            onClick={() => {
-              setIsQualityModalOpen(true)
-            }}
-            className="flex items-center gap-1"
-          >
-            {mode === "qualityModerator" && (
-              <>
-                <Cog6ToothIcon className="size-5" />
-                <div className="hidden sm:block">Moderate</div>
-              </>
-            )}
-            {mode === "developer" && (
-              <>
-                <EyeIcon className="size-5" />
-                <div className="hidden sm:block">
-                  {t("quality-guideline.details")}
-                </div>
-              </>
-            )}
-          </Button>
+          {!isExcluded && (
+            <QualityReviewButton
+              app_id={app.id}
+              status={query?.data?.data}
+              review_requested_at={query?.data?.data?.review_requested_at}
+              buttonClicked={() => {
+                query.refetch()
+              }}
+              mode={mode}
+            />
+          )}
+          {!(isExcluded || isGeneric404) && (
+            <Button
+              size="lg"
+              onClick={() => {
+                setIsQualityModalOpen(true)
+              }}
+              className="flex items-center gap-1"
+            >
+              {mode === "qualityModerator" && (
+                <>
+                  <Cog6ToothIcon className="size-5" />
+                  <div className="hidden sm:block">Moderate</div>
+                </>
+              )}
+              {mode === "developer" && (
+                <>
+                  <EyeIcon className="size-5" />
+                  <div className="hidden sm:block">
+                    {t("quality-guideline.details")}
+                  </div>
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </div>
 

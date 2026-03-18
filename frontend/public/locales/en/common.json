@@ -81,6 +81,7 @@
   "new-description": "New apps published on Flathub in the last few days.",
   "page-not-found": "{errorCode} - Page not found",
   "server-error": "Server Error",
+  "quality-moderation-excluded": "This app is excluded from quality checks",
   "an-error-occurred-server": "{errorCode} - An error occurred on the server.",
   "whoops": "Whoops!",
   "could-not-find-page": "We couldn't find the page you were looking for.",
