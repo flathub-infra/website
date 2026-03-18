@@ -15,7 +15,7 @@ export const HorizontalStackedListBox = ({
     <ul
       className={clsx(
         "flex flex-col sm:flex-row rounded-xl grow",
-        "shadow-md bg-white divide-flathub-gainsborow dark:bg-flathub-arsenic dark:divide-flathub-dark-gunmetal",
+        "shadow-sm border border-flathub-gainsborow/80 bg-white divide-flathub-gainsborow dark:bg-flathub-arsenic dark:divide-flathub-dark-gunmetal dark:border-flathub-granite-gray/30",
         "sm:divide-x-2 sm:divide-y-0 divide-y-2",
       )}
     >

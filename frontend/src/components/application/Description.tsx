@@ -51,7 +51,7 @@ export const Description = ({
   return (
     <>
       <div>
-        <h2 className="my-4 text-xl font-semibold">
+        <h2 className="my-4 text-2xl font-medium tracking-tight text-flathub-dark-gunmetal/85 dark:text-flathub-gainsborow/90">
           {app.summary.length > 35 && isQualityModalOpen ? (
             <>
               <span>{app.summary.slice(0, 35)}</span>
@@ -85,7 +85,7 @@ export const Description = ({
 
       {showCollapseButton && (
         <button onClick={() => setIsExpanded(!isExpanded)}>
-          <span className="m-0 w-full rounded-xl bg-flathub-white px-6 py-2 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 dark:hover:bg-flathub-arsenic">
+          <span className="m-0 w-full rounded-xl border border-flathub-gainsborow bg-flathub-white px-6 py-2 font-semibold shadow-sm transition hover:cursor-pointer hover:shadow-md hover:bg-flathub-lotion dark:border-flathub-granite-gray/50 dark:bg-flathub-arsenic/80 dark:hover:bg-flathub-arsenic">
             {isExpanded ? t(`show-less`) : t(`show-more`)}
           </span>
         </button>
