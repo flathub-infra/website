@@ -1,6 +1,9 @@
 "use client"
 
-import WorldMap, { CountryContext } from "react-svg-worldmap"
+import WorldMap, {
+  type CountryContext,
+  type DataItem,
+} from "react-svg-worldmap"
 
 import styles from "./statistics.module.scss"
 import {
@@ -47,7 +50,7 @@ export const FlathubWorldMap = ({
   country_data,
   refs,
 }: {
-  country_data: { country: string; value: number }[]
+  country_data: DataItem<number>[]
   refs?: { [key: string]: React.RefObject<HTMLDivElement> }
 }) => {
   const t = useTranslations()
@@ -108,10 +111,13 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
   const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
   const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
 
-  let country_data: { country: string; value: number }[] = []
+  let country_data: DataItem<number>[] = []
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
-      country_data.push({ country: key, value: value })
+      country_data.push({
+        country: key as DataItem<number>["country"],
+        value: value,
+      })
     }
   }
 

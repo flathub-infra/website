@@ -10,17 +10,18 @@ export const StackedListBox = ({
   }[]
 }) => {
   return (
-    <ul className="flex flex-col shadow-md dark:bg-flathub-arsenic rounded-xl py-2 divide-y dark:divide-flathub-dark-gunmetal">
+    <ul className="flex flex-col rounded-xl bg-flathub-lotion dark:bg-flathub-arsenic/80 ring-1 ring-flathub-gainsborow/60 dark:ring-flathub-granite-gray/30 divide-y divide-flathub-gainsborow/40 dark:divide-flathub-granite-gray/30">
       {items.map((x) => (
-        <li
-          key={x.id}
-          className="flex items-center gap-3 px-5 pb-2 pt-2 first:pt-0 last:pb-0"
-        >
-          <div>{x.icon}</div>
-          <div className="flex flex-col gap-1">
-            <div className="leading-none">{x.header}</div>
+        <li key={x.id} className="flex items-center gap-3 px-5 py-3">
+          <div className="flex-shrink-0 flex items-center justify-center">
+            {x.icon}
+          </div>
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <div className="text-sm font-semibold leading-snug text-flathub-dark-gunmetal dark:text-flathub-gainsborow text-left">
+              {x.header}
+            </div>
             {x.description && (
-              <div className="text-xs text-flathub-sonic-silver dark:text-flathub-gray-x11 leading-none">
+              <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray leading-snug text-left whitespace-pre-line break-words">
                 {x.description}
               </div>
             )}

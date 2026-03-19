@@ -43,13 +43,13 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
     <>
       {addons && addons.length > 0 && (
         <>
-          <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
+          <div className="flex flex-col divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
             {addons.slice(0, 5).map((addon) => (
               <AddonRow key={addon.id} addon={addon} />
             ))}
             {addons.length > 5 ? (
               <button
-                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t border-flathub-gainsborow dark:border-flathub-granite-gray px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
                 onClick={() => setIsModalOpen(true)}
               >
                 <span>{t("more")}</span>
@@ -70,7 +70,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
               "flex flex-col min-w-0 gap-5 rounded-xl bg-flathub-white duration-500",
             )}
           >
-            <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
+            <div className="flex flex-col divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
               {addons.map((addon) => (
                 <AddonRow key={addon.id} addon={addon} />
               ))}
