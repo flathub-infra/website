@@ -8755,7 +8755,7 @@ __metadata:
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:19.2.3"
     react-hook-form: "npm:^7.71.2"
-    react-svg-worldmap: "npm:2.0.0-alpha.16"
+    react-svg-worldmap: "npm:2.0.0"
     recharts: "npm:^2.15.4"
     redis: "npm:4.7.0"
     rtl-detect: "npm:^1.1.2"
@@ -11775,17 +11775,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-svg-worldmap@npm:2.0.0-alpha.16":
-  version: 2.0.0-alpha.16
-  resolution: "react-svg-worldmap@npm:2.0.0-alpha.16"
+"react-svg-worldmap@npm:2.0.0":
+  version: 2.0.0
+  resolution: "react-svg-worldmap@npm:2.0.0"
   dependencies:
     d3-geo: "npm:^2.0.2"
     react-path-tooltip: "npm:^1.0.25"
     tslib: "npm:^2.4.0"
   peerDependencies:
-    react: ">=16"
-    react-dom: ">=16.0.0"
-  checksum: 10c0/6570e3a3f3f102dd5cd68d7a0587751aee03a7e8acd4f11aa7766a59139698e987c41ab407500b8164455572e99f0649b6d981dea1e8713f424723ae125f3a52
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+  checksum: 10c0/f4545ecf0105796f6d5c0e78275927fb5f3345dbcf9ffb102f202706fff27490bae8cfa6a862b071324a2337d42d373f3829b525f8266e248d6acc2447adca6f
   languageName: node
   linkType: hard
 

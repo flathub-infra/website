@@ -44,9 +44,7 @@ const ApplicationSection: FunctionComponent<
     <div className="w-full">
       {prop.type === "withTitle" && (
         <header className="mb-4 flex max-w-full flex-row content-center justify-between">
-          <h2 className="my-auto text-2xl font-bold tracking-tight">
-            {prop.title}
-          </h2>
+          <h2 className="my-auto text-lg font-semibold">{prop.title}</h2>
         </header>
       )}
 
