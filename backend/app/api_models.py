@@ -219,6 +219,7 @@ class DesktopAppstream(BaseModel):
     is_free_license: bool
     isMobileFriendly: bool | None = None
     branding: list[Branding] | None = None
+    is_eol: bool = False
 
 
 class AddonAppstream(BaseModel):
@@ -243,6 +244,7 @@ class AddonAppstream(BaseModel):
     metadata: Metadata | None = None
     isMobileFriendly: bool | None = None
     is_free_license: bool
+    is_eol: bool = False
 
 
 class RuntimeAppstream(BaseModel):
@@ -266,6 +268,7 @@ class RuntimeAppstream(BaseModel):
     metadata: Metadata | None = None
     isMobileFriendly: bool | None = None
     is_free_license: bool
+    is_eol: bool = False
 
 
 class GenericAppstream(BaseModel):
@@ -288,6 +291,7 @@ class GenericAppstream(BaseModel):
     metadata: Metadata | None = None
     isMobileFriendly: bool | None = None
     is_free_license: bool
+    is_eol: bool = False
 
 
 class LocalizationAppstream(BaseModel):
@@ -310,6 +314,7 @@ class LocalizationAppstream(BaseModel):
     metadata: Metadata | None = None
     isMobileFriendly: bool | None = None
     is_free_license: bool
+    is_eol: bool = False
 
 
 Appstream = Annotated[

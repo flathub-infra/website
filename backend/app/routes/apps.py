@@ -166,6 +166,8 @@ async def get_appstream(
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
 
+        result["is_eol"] = app.is_eol
+
         # Return the correct union type
         if result.get("type") == "addon":
             return api_models.AddonAppstream(**result)
