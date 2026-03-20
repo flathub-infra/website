@@ -6,6 +6,7 @@
  */
 import type { AddonAppstreamCategories } from "./addonAppstreamCategories"
 import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
+import type { AddonAppstreamContentRatingDetails } from "./addonAppstreamContentRatingDetails"
 import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
 import type { AddonAppstreamIcon } from "./addonAppstreamIcon"
 import type { AddonAppstreamIcons } from "./addonAppstreamIcons"
@@ -26,6 +27,7 @@ export interface AddonAppstream {
   summary: string
   releases?: AddonAppstreamReleases
   content_rating?: AddonAppstreamContentRating
+  content_rating_details?: AddonAppstreamContentRatingDetails
   urls?: AddonAppstreamUrls
   categories?: AddonAppstreamCategories
   icon?: AddonAppstreamIcon
@@ -37,4 +39,5 @@ export interface AddonAppstream {
   metadata?: AddonAppstreamMetadata
   isMobileFriendly?: AddonAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

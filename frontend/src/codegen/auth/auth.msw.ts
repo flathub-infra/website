@@ -9,14 +9,14 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { ConnectedAccountProvider, Permission } from ".././model"
+import { ConnectedAccountProvider, Permission } from "../model"
 import type {
   DeleteUserResult,
   GetDeleteUserResult,
   GetUserinfoAuthUserinfoGet200,
   LoginMethod,
   RefreshDevFlatpaksReturn,
-} from ".././model"
+} from "../model"
 
 export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
   Array.from(
@@ -466,16 +466,12 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
   return http.get(
     "*/auth/userinfo",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
+      return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetUserinfoAuthUserinfoGetResponseMock()
-      return HttpResponse.json(
-        resolvedBody === undefined || resolvedBody === null
-          ? null
-          : (resolvedBody as GetUserinfoAuthUserinfoGet200),
+          : getGetUserinfoAuthUserinfoGetResponseMock(),
         { status: 200 },
       )
     },

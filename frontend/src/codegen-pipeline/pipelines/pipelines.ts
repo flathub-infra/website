@@ -38,7 +38,7 @@ import type {
   PipelineTriggerRequest,
   PublishSummary,
   TriggerPipelineApiPipelinesPost201,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Trigger Pipeline

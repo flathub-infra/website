@@ -9,7 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import type { YearInReviewResult } from ".././model"
+import type { YearInReviewResult } from "../model"
 
 export const getGetYearInReviewYearInReviewYearGetResponseMock = (
   overrideResponse: Partial<Extract<YearInReviewResult, object>> = {},

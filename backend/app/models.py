@@ -2404,6 +2404,10 @@ class App(Base):
         # Remove languages field from API response - it's internal data not needed by clients
         result.pop("languages", None)
 
+        # Add content rating details if available (must happen before early returns)
+        if self.content_rating_details:
+            result["content_rating_details"] = self.content_rating_details
+
         if not self.localization:
             return result
 
@@ -2434,10 +2438,6 @@ class App(Base):
         }
 
         result = result | translation
-
-        # Add content rating details if available
-        if self.content_rating_details:
-            result["content_rating_details"] = self.content_rating_details
 
         return result
 

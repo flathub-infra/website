@@ -18,6 +18,13 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 \
     libgirepository-2.0-0 gir1.2-ostree-1.0 gir1.2-appstream-1.0 libjemalloc2 && \
+    # Install appstream and extract its .mo translation files manually,
+    # bypassing the slim image's /usr/share/locale/* dpkg exclusion filter
+    apt-get download appstream && \
+    dpkg -x appstream_*.deb /tmp/appstream-deb && \
+    find /tmp/appstream-deb/usr/share/locale -name 'appstream.mo' \
+        -exec sh -c 'mkdir -p "$(dirname "/usr/share/locale/${1#/tmp/appstream-deb/usr/share/locale/}")" && cp "$1" "/usr/share/locale/${1#/tmp/appstream-deb/usr/share/locale/}"' _ {} \; && \
+    rm -rf /tmp/appstream-deb appstream_*.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /.venv /.venv

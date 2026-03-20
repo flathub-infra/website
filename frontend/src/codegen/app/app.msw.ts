@@ -13,7 +13,7 @@ import {
   ConnectedAccountProvider,
   MainCategory,
   VerificationMethod,
-} from ".././model"
+} from "../model"
 import type {
   AddonAppstream,
   DesktopAppstream,
@@ -31,7 +31,7 @@ import type {
   MeilisearchResponseAppsIndex,
   RuntimeAppstream,
   SummaryResponse,
-} from ".././model"
+} from "../model"
 
 export const getGetEolRebaseEolRebaseGetResponseMock =
   (): GetEolRebaseEolRebaseGet200 => ({
@@ -571,6 +571,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       undefined,
     ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
+      undefined,
+    ]),
     urls: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
@@ -848,6 +852,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       undefined,
     ]),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -1275,6 +1280,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       ]),
       undefined,
     ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
+      undefined,
+    ]),
     urls: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
@@ -1504,6 +1513,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -1591,6 +1601,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
           })),
           null,
         ]),
+        undefined,
+      ]),
+      content_rating_details: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([null]),
         undefined,
       ]),
       urls: {
@@ -1817,6 +1831,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
         undefined,
       ]),
       is_free_license: faker.datatype.boolean(),
+      is_eol: faker.datatype.boolean(),
     },
     ...overrideResponse,
   })
@@ -1903,6 +1918,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
         })),
         null,
       ]),
+      undefined,
+    ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: {
@@ -2127,6 +2146,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -2222,6 +2242,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
       ]),
       undefined,
     ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
+      undefined,
+    ]),
     urls: {
       bugtracker: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -2444,6 +2468,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -2804,6 +2829,17 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
           undefined,
         ]),
         runtimeIsEol: faker.datatype.boolean(),
+        runtimeInstalledSize: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([faker.number.int(), null]),
+          undefined,
+        ]),
+        runtimeName: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          undefined,
+        ]),
       },
       null,
     ]),

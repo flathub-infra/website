@@ -37,7 +37,7 @@ import type {
   SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
   SimpleQualityModerationResponse,
   UpsertQualityModeration,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Get Quality Moderation Status

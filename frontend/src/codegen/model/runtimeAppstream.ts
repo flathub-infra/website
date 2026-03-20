@@ -6,6 +6,7 @@
  */
 import type { Bundle } from "./bundle"
 import type { RuntimeAppstreamCategories } from "./runtimeAppstreamCategories"
+import type { RuntimeAppstreamContentRatingDetails } from "./runtimeAppstreamContentRatingDetails"
 import type { RuntimeAppstreamDescription } from "./runtimeAppstreamDescription"
 import type { RuntimeAppstreamDeveloperName } from "./runtimeAppstreamDeveloperName"
 import type { RuntimeAppstreamIcon } from "./runtimeAppstreamIcon"
@@ -26,6 +27,7 @@ export interface RuntimeAppstream {
   summary: string
   description?: RuntimeAppstreamDescription
   releases?: RuntimeAppstreamReleases
+  content_rating_details?: RuntimeAppstreamContentRatingDetails
   urls: Urls
   categories?: RuntimeAppstreamCategories
   icon?: RuntimeAppstreamIcon
@@ -36,4 +38,5 @@ export interface RuntimeAppstream {
   metadata?: RuntimeAppstreamMetadata
   isMobileFriendly?: RuntimeAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

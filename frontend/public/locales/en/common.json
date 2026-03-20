@@ -749,7 +749,7 @@
   "vending": {
     "purchase-not-available": "This application is not available for purchase."
   },
-  "content-rating": "Content Rating",
+  "content-rating": "Age Rating",
   "all-ages": "All Ages",
   "ages-x-plus": "Ages {age}+",
   "content-rating-none": "None",
@@ -782,5 +782,17 @@
   "content-rating-social_location": "Location",
   "content-rating-social_contacts": "Contacts",
   "content-rating-money_purchasing": "Purchasing",
-  "content-rating-money_gambling": "Gambling"
+  "content-rating-money_gambling": "Gambling",
+  "content-rating-category-violence": "Violence",
+  "content-rating-category-drugs": "Drugs",
+  "content-rating-category-sex": "Nudity",
+  "content-rating-category-language": "Strong Language",
+  "content-rating-category-social": "Social",
+  "content-rating-category-money": "Money",
+  "content-rating-category-none-violence": "Does not contain violence",
+  "content-rating-category-none-drugs": "Does not include references to drugs",
+  "content-rating-category-none-sex": "Does not include sex or nudity",
+  "content-rating-category-none-language": "Does not include swearing, profanity, and other kinds of strong language",
+  "content-rating-category-none-social": "Does not include uncontrolled chat functionality",
+  "content-rating-category-none-money": "Does not include ads or monetary transactions"
 }

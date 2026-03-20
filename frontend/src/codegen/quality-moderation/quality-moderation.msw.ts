@@ -16,7 +16,7 @@ import type {
   QualityModerationResponse,
   QualityModerationStatus,
   SimpleQualityModerationResponse,
-} from ".././model"
+} from "../model"
 
 export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock =
   (

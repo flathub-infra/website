@@ -20,7 +20,7 @@ import type {
   VendingRedirect,
   VendingSetup,
   VendingStatus,
-} from ".././model"
+} from "../model"
 
 export const getStatusVendingStatusGetResponseMock = (
   overrideResponse: Partial<Extract<VendingStatus | void, object>> = {},
@@ -220,16 +220,12 @@ export const getStatusVendingStatusGetMockHandler = (
   return http.get(
     "*/vending/status",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
+      return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getStatusVendingStatusGetResponseMock()
-      return HttpResponse.json(
-        resolvedBody === undefined || resolvedBody === null
-          ? null
-          : (resolvedBody as VendingStatus),
+          : getStatusVendingStatusGetResponseMock(),
         { status: 200 },
       )
     },

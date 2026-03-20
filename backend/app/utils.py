@@ -1,5 +1,6 @@
 import base64
 import ctypes
+import gettext
 import gzip
 import hashlib
 import json
@@ -287,7 +288,8 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             for attr in content_rating:
                 attr_name = attr.attrib.get("id")
                 if attr_name:
-                    app["content_rating"][attr_name] = attr.text
+                    # Store with underscores to match the Pydantic ContentRating model
+                    app["content_rating"][attr_name.replace("-", "_")] = attr.text
             component.remove(content_rating)
 
         urls = component.findall("url")
@@ -523,6 +525,31 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     return apps
 
 
+_APPSTREAM_LOCALE_DIR = "/usr/share/locale"
+_translation_cache: dict[str, gettext.GNUTranslations | None] = {}
+
+
+def _get_appstream_translation(
+    posix_locale: str,
+) -> gettext.GNUTranslations | None:
+    """Return a GNUTranslations object for the given POSIX locale (e.g. 'de_DE'),
+    or None if no translation is available. Results are cached."""
+    if posix_locale in _translation_cache:
+        return _translation_cache[posix_locale]
+
+    # Try the full locale first (de_DE), then the language part (de)
+    languages = [posix_locale, posix_locale.split("_")[0]]
+    try:
+        t = gettext.translation(
+            "appstream", localedir=_APPSTREAM_LOCALE_DIR, languages=languages
+        )
+    except FileNotFoundError:
+        t = None
+
+    _translation_cache[posix_locale] = t
+    return t
+
+
 def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     if content_rating is None or content_rating.get("type") is None:
         return {}
@@ -532,30 +559,43 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     rating.set_kind(content_rating["type"])
     contentRatingResult: dict[str, Any] = {"details": []}
 
+    translation = _get_appstream_translation(locale)
+
     for attr, level in content_rating.items():
         if attr == "kind" or attr == "type" or attr == "none":
             continue
         c_level = AppStream.ContentRatingValue.from_string(level)
-        rating.add_attribute(attr, c_level)
-        description = AppStream.ContentRating.attribute_get_description(attr, c_level)
+        # Skip attributes rated 'none' - they are not relevant for display
+        if c_level == AppStream.ContentRatingValue.NONE:
+            continue
+        hyphen_attr = attr.replace("_", "-")
+        rating.add_attribute(hyphen_attr, c_level)
+        en_description = AppStream.ContentRating.attribute_get_description(
+            hyphen_attr, c_level
+        )
+        description = (
+            translation.gettext(en_description) if translation else en_description
+        )
         contentRatingResult["details"].append(
             {
-                "id": attr,
+                "id": hyphen_attr,
                 "level": level,
                 "description": description,
             }
         )
 
     min_age = AppStream.ContentRating.get_minimum_age(rating)
-    # Maxint is used for no details available
+    # Maxint is used when there are no non-none attributes (unknown / all-ages)
     contentRatingResult["contentRatingSystem"] = (
         AppStream.ContentRatingSystem.to_string(system)
     )
     if min_age == MAXUINT:
         contentRatingResult["minimumAge"] = None
+        contentRatingResult["minimumAgeText"] = None
     else:
-        contentRatingResult["minimumAge"] = AppStream.ContentRatingSystem.format_age(
-            system, min_age
+        contentRatingResult["minimumAge"] = min_age
+        contentRatingResult["minimumAgeText"] = (
+            AppStream.ContentRatingSystem.format_age(system, min_age)
         )
 
     return contentRatingResult
