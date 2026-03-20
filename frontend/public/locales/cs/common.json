@@ -376,7 +376,6 @@
   "can-acquire-arbitrary-permissions": "Může získat libovolná oprávnění",
   "links": "Odkazy",
   "uses-eol-runtime": "Používá běhové prostředí s ukončenou životností",
-  "information": "Informace",
   "proprietary-explanation": "Tato aplikace není vyvíjena otevřeně, takže jen její vývojáři ví jak funguje. Může být nezabezpečena způsobem, který je obtížné odhalit, a může se měnit bez dohledu.",
   "community-built": "Vyvíjené komunitou",
   "community-built-explanation": "Tato aplikace je vyvíjena otevřeně mezinárodní komunitou a je uvolněna pod licencí <bold>{ license }</bold>.",
@@ -726,5 +725,25 @@
   "year-in-review-banner": {
     "description": "Znovu si prohlédněte nejlepší aplikace a trendy roku",
     "title": "Flathub rok {year} v přehledu"
-  }
+  },
+  "app-information": "Informace o aplikaci",
+  "sub-header": {
+    "download": "Stáhnout",
+    "free": "Zdarma",
+    "desktop-only": "Pouze pro počítače",
+    "desktop-and-mobile": "Počítač a mobil",
+    "downloads-per-month": "Stažení/měsíc",
+    "amount-to-download": "Množství pro stažení z internetu",
+    "size-on-disk": "Velikost na disku",
+    "installed-runtime-size": "Instalovaná velikost běhového prostředí",
+    "appname-works-best-on-specific-hardware": "{appName} funguje nejlépe na konkrétním hardwaru",
+    "appname-works-on-all-devices": "{appName} funguje na všech zařízeních",
+    "mobile-support": "Podpora pro mobily",
+    "desktop-support": "Podpora pro počítače",
+    "works-well-on-large-screens": "Funguje dobře na velkých obrazovkách",
+    "may-not-work-well-on-mobile": "Nemusí skvěle fungovat na mobilních zařízeních",
+    "works-well-on-mobile": "Funguje skvěle na mobilních zařízeních",
+    "total-installs": "Instalací celkem"
+  },
+  "quality-moderation-excluded": "Tato aplikace je vyloučena z kontrol kvality"
 }

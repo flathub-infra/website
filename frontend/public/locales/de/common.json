@@ -372,7 +372,6 @@
   "can-acquire-arbitrary-permissions": "Kann beliebige Berechtigungen erlangen",
   "links": "Links",
   "uses-eol-runtime": "Verwendet eine ausgediente Laufzeitumgebung",
-  "information": "Information",
   "proprietary-explanation": "Diese App wird nicht öffentlich entwickelt, sodass nur ihre Entwickler die Funktionsweise kennen. Sie kann in einer schwer zu erkennenden Weise unsicher sein und sich unbemerkt verändern.",
   "learn-more": "Mehr erfahren",
   "can-read-all-data-on-file-system": "Kann alle Daten auf dem Dateisystem lesen",
@@ -726,5 +725,25 @@
   "year-in-review-banner": {
     "title": "Flathub Jahresrückblick {year}",
     "description": "Rückblick auf die besten Apps und Trends des Jahres"
-  }
+  },
+  "app-information": "App-Informationen",
+  "sub-header": {
+    "download": "Herunterladen",
+    "free": "Frei",
+    "desktop-only": "Nur Desktop",
+    "desktop-and-mobile": "Desktop & Mobil",
+    "downloads-per-month": "Heruntergeladen/Monat",
+    "amount-to-download": "Herrunter zu laden aus dem Internet",
+    "size-on-disk": "Größe auf der Festplatte",
+    "installed-runtime-size": "Installierte Laufzeitgröße",
+    "appname-works-best-on-specific-hardware": "{appName} funktioniert am besten auf bestimmter Hardware",
+    "appname-works-on-all-devices": "{appName} funktioniert auf allen Geräten",
+    "mobile-support": "Mobile Unterstützung",
+    "desktop-support": "Desktop-Unterstützung",
+    "works-well-on-large-screens": "Funktioniert gut auf großen Bildschirmen",
+    "may-not-work-well-on-mobile": "Funktionieren unter Umständen nicht gut auf mobilen Geräten",
+    "works-well-on-mobile": "Funktioniert gut auf mobilen Geräten",
+    "total-installs": "Summe Installiert"
+  },
+  "quality-moderation-excluded": "Diese App ist von Qualitätskontrollen ausgeschlossen"
 }

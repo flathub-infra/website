@@ -371,7 +371,6 @@
   "add-ons": "Dodatki",
   "addon-install-info-text": "Aby zainstalować dodatki, użyj menedżera flatpak dostarczonego przez Twoją dystrybucję.",
   "addon-install-info": "Jak zainstalować dodatki",
-  "information": "Informacja",
   "community-built": "Zbudowana przez społeczność",
   "learn-more": "Dowiedz się więcej",
   "get-involved": "Dołącz do społeczności",
@@ -641,7 +640,7 @@
   "launcher": "Programy uruchamiające",
   "tool": "Narzędzia",
   "more-gametool": "Więcej narzędzi do gier",
-  "count-verified-desktop-apps": "Zweryfikowane aplikacje komputerowe",
+  "count-verified-desktop-apps": "Zweryfikowane aplikacje na komputer",
   "lightbox": {
     "close": "Zamknij",
     "zoom-out": "Pomniejszenie",
@@ -726,5 +725,25 @@
     "hidden-gems": "Ukryte perełki",
     "x-growth": "Wzrost o +{percentage}%",
     "platform-downloads": "Pobrania według platformy"
+  },
+  "quality-moderation-excluded": "Ta aplikacja nie podlega kontroli jakości",
+  "app-information": "Informacje o aplikacji",
+  "sub-header": {
+    "download": "Do pobrania",
+    "free": "Licencja wolna",
+    "desktop-only": "Tylko na komputery stacjonarne",
+    "desktop-and-mobile": "Komputery stacjonarne i urządzenia mobilne",
+    "downloads-per-month": "Pobrań/Miesiąc",
+    "amount-to-download": "Ilość danych do pobrania z internetu",
+    "size-on-disk": "Rozmiar na dysku",
+    "installed-runtime-size": "Rozmiar po zainstalowaniu",
+    "appname-works-best-on-specific-hardware": "{appName} działa najlepiej na określonym sprzęcie",
+    "appname-works-on-all-devices": "{appName} działa na wszystkich urządzeniach",
+    "mobile-support": "Obsługa urządzeń mobilnych",
+    "desktop-support": "Obsługa komputerów stacjonarnych",
+    "works-well-on-large-screens": "Działa bez zarzutu na dużych ekranach",
+    "may-not-work-well-on-mobile": "Może nie działać poprawnie na urządzeniach mobilnych",
+    "works-well-on-mobile": "Działa poprawnie na urządzeniach mobilnych",
+    "total-installs": "Łączna liczba instalacji"
   }
 }

@@ -325,7 +325,6 @@
   "appname-is-safety-rating-1": "{appName} é seguro",
   "network-access": "Acesso à rede",
   "appname-is-safety-rating-3": "{appName} é potencialmente inseguro",
-  "information": "Informação",
   "cannot-access-the-internet": "Não acessa a internet",
   "can-read-write-all-data-on-file-system": "Pode ler e gravar todos os dados no sistema de arquivos",
   "community-built-explanation": "Este aplicativo foi desenvolvido abertamente por uma comunidade internacional e disponibilizado sob a licença <bold>{ license }</bold>.",

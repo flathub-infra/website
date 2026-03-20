@@ -370,7 +370,6 @@
   "add-ons": "Lisäosat",
   "addon-install-info-text": "Käytä jakelusi Flatpak-hallintaohjelmaa asentaaksesi lisäosia.",
   "addon-install-info": "Miten asentaa lisäosia",
-  "information": "Tiedot",
   "community-built": "Yhteisön rakentama",
   "proprietary-explanation": "Tätä sovellusta ei kehitetä avoimesti, joten vain sovelluksen kehittäjät tietävät, miten se toimii. Sovellus saattaa muuttua yllättäen ja tietoturvan tason määrittäminen on vaikeaa.",
   "learn-more": "Lue lisää",
@@ -715,5 +714,25 @@
     "hidden-gems-description": "Kasvavaa vetoa keräävät sovellukset",
     "platform-downloads": "Alustakohtaiset lataukset",
     "x-growth": "+{percentage} % kasvu"
-  }
+  },
+  "app-information": "Sovelluksen tiedot",
+  "sub-header": {
+    "download": "Lataus",
+    "free": "Ilmainen/vapaa",
+    "desktop-only": "Vain työpöydälle",
+    "desktop-and-mobile": "Työpöytä ja mobiili",
+    "downloads-per-month": "Latauksia/kk",
+    "amount-to-download": "Internetistä ladattava koko",
+    "size-on-disk": "Koko levyllä",
+    "installed-runtime-size": "Asennetun suoritusaikaisen koko",
+    "appname-works-best-on-specific-hardware": "{appName} toimii parhaiten tietynlaisella laitteistolla",
+    "appname-works-on-all-devices": "{appName} toimii kaikilla laitteilla",
+    "mobile-support": "Mobiilituki",
+    "desktop-support": "Työpöytätuki",
+    "works-well-on-large-screens": "Toimii hyvin suurilla näytöillä",
+    "may-not-work-well-on-mobile": "Ei välttämättä toimi hyvin mobiililaitteilla",
+    "works-well-on-mobile": "Toimii hyvin mobiililaitteilla",
+    "total-installs": "asennusta yhteensä"
+  },
+  "quality-moderation-excluded": "Tämä sovellus ei kuulu laaduntarkistuksen piiriin"
 }

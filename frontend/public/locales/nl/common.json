@@ -371,7 +371,6 @@
   "add-ons": "Uitbreidingen",
   "addon-install-info-text": "Gebruik het Flatpak-beheer van uw distributie om uitbreidingen te installeren.",
   "close": "Sluiten",
-  "information": "Informatie",
   "community-built": "Gemaakt door gemeenschap",
   "uses-eol-runtime": "Maakt gebruik van een uitvoerings­omgeving die niet meer wordt ondersteund",
   "can-acquire-arbitrary-permissions": "Kan willekeurige rechten verkrĳgen",
@@ -726,5 +725,25 @@
   "year-in-review-banner": {
     "title": "Flathub - Jaar­overzicht {year}",
     "description": "Herbeleef de populairste apps en trends van het jaar"
-  }
+  },
+  "app-information": "App-informatie",
+  "sub-header": {
+    "download": "Download­grootte",
+    "free": "Vrij",
+    "desktop-only": "Enkel desktop",
+    "desktop-and-mobile": "Desktop en mobiel",
+    "downloads-per-month": "Downloads per maand",
+    "mobile-support": "Onder­steuning voor mobiel",
+    "desktop-support": "Onder­steuning voor bureau­blad",
+    "total-installs": "Totaal aantal installaties",
+    "size-on-disk": "Grootte op schijf",
+    "installed-runtime-size": "Grootte van geïnstalleerde runtime",
+    "appname-works-on-all-devices": "{appName} werkt op alle apparaten",
+    "works-well-on-large-screens": "Werkt goed op grote schermen",
+    "works-well-on-mobile": "Werkt goed op mobiele apparaten",
+    "amount-to-download": "Hoeveel­heid gegevens die van internet gedownload moeten worden",
+    "appname-works-best-on-specific-hardware": "{appName} werkt het beste op specifieke hardware",
+    "may-not-work-well-on-mobile": "Werkt mogelijk niet goed op mobiele apparaten"
+  },
+  "quality-moderation-excluded": "Deze app is uit­gesloten van kwaliteits­controles"
 }

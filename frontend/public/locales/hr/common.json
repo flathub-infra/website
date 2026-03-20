@@ -594,7 +594,6 @@
   "appname-is-safety-rating-2": "Aplikacija {appName} je vjerojatno sigurna",
   "appname-is-safety-rating-4": "Aplikacija {appName} je nesigurna",
   "software-developer-verified": "Programer softvera je potvrđen",
-  "information": "Informacije",
   "developer-portal": {
     "title": "Portal programera",
     "runtime-version": "Izvršno okruženje: {version}"

@@ -149,7 +149,6 @@
   "no-network-access": "Ingen nätverksåtkomst",
   "appname-is-safety-rating-1": "{appName} är säker",
   "appname-is-safety-rating-3": "{appName} är potentiellt säker",
-  "information": "Information",
   "can-read-write-all-data-on-file-system": "Kan läsa och skriva all data på filsystemet",
   "add-ons": "Tillägg",
   "no-file-system-access": "Ingen åtkomst till filsystemet",
