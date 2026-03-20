@@ -36,4 +36,5 @@ export interface RuntimeAppstream {
   metadata?: RuntimeAppstreamMetadata
   isMobileFriendly?: RuntimeAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

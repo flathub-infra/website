@@ -1,4 +1,5 @@
 import { FunctionComponent, type JSX } from "react"
+import React from "react"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
@@ -21,6 +22,9 @@ interface Props {
   showId?: boolean
   showRuntime?: boolean
   customButtons?: JSX.Element
+  endAdornment?: (
+    app: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => React.ReactNode
 }
 
 const Header = ({
@@ -70,6 +74,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showId = false,
   showRuntime = false,
   customButtons,
+  endAdornment,
 }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
@@ -126,6 +131,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
               showId={showId}
               showRuntime={showRuntime}
               priority={index < 6}
+              endAdornment={endAdornment?.(app)}
             />
           </div>
         ))}

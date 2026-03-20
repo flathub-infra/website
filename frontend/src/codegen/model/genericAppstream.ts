@@ -34,4 +34,5 @@ export interface GenericAppstream {
   metadata?: GenericAppstreamMetadata
   isMobileFriendly?: GenericAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }
