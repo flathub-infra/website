@@ -146,5 +146,6 @@
   "developer_name": "Sugar Labs Community",
   "is_free_license": true,
   "project_license": "GPL-3.0-or-later",
-  "isMobileFriendly": false
+  "isMobileFriendly": false,
+  "is_eol": false
 }

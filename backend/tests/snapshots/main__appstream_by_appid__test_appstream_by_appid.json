@@ -146,5 +146,6 @@
     "sdk": "org.gnome.Sdk/x86_64/3.36"
   },
   "is_free_license": true,
-  "isMobileFriendly": false
+  "isMobileFriendly": false,
+  "is_eol": false
 }
