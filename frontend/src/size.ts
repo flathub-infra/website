@@ -1,4 +1,4 @@
-export function calculateHumanReadableSize(size: number) {
+export function calculateHumanReadableSize(size: number, rounded = false) {
   // First letters of multiples of 2, more precisely of 2^10.
   const UNIT_CHARS = ["B", "K", "M", "G", "T", "P", "E", "Z", "Y"]
   const i = "i" // From "binary".
@@ -12,11 +12,10 @@ export function calculateHumanReadableSize(size: number) {
     UNIT_CHARS.length - 1,
   )
   const value = size / Math.pow(POW10, pow10Count)
-  return (
-    // .toFixed() will round to fixed number of digits,
-    // parseFloat() will convert strings like 1.00 to 1 and 1.10 to 1.1.
-    parseFloat(value.toFixed(2)).toString() +
-    " " +
-    `${UNIT_CHARS[pow10Count]}${i}${UNIT_CHARS[0]}`
-  )
+  const formatted = rounded
+    ? Math.round(value).toString()
+    : // .toFixed() will round to fixed number of digits,
+      // parseFloat() will convert strings like 1.00 to 1 and 1.10 to 1.1.
+      parseFloat(value.toFixed(2)).toString()
+  return formatted + " " + `${UNIT_CHARS[pow10Count]}${i}${UNIT_CHARS[0]}`
 }
