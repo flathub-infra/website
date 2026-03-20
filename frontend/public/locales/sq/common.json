@@ -175,7 +175,6 @@
   "can-access-some-specific-files": "Mund të hyjë në disa kartela specifike",
   "can-access-and-change-user-settings": "Mund të hyjë dhe të ndryshojë rregullime përdoruesi",
   "can-acquire-arbitrary-permissions": "Mund të përfitojë arbitrarisht leje",
-  "information": "Hollësi",
   "auditable-code": "Kod i kontrollueshëm",
   "no-file-system-access": "Pa hyrje në sistem kartelash",
   "addon-install-info": "Si të instalohen shtesa",
@@ -711,5 +710,6 @@
   "year-in-review-banner": {
     "title": "Shqyrtim i Vitit {year} për Flathub-in",
     "description": "Rivizitoni aplikacionet kryesuese dhe modat e vitit"
-  }
+  },
+  "quality-moderation-excluded": "Ky aplikacion është përjashtuar nga kontrolle cilësie"
 }

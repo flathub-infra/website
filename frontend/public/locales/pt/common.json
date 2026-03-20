@@ -432,7 +432,6 @@
   "revoke-token": "Revogar Token",
   "network-access": "Acesso à rede",
   "appname-is-safety-rating-3": "{appName} é potencialmente inseguro",
-  "information": "Informação",
   "leave-confirmation": "Tem certeza de que deseja sair de {app}?",
   "cannot-access-the-internet": "Não consegue aceder à Internet",
   "build-x": "Criado {build_ago}",
@@ -726,5 +725,6 @@
     "hidden-gems-description": "Aplicações em crescimento",
     "platform-downloads": "Transferências por plataformas",
     "x-growth": "+{percentage}% crescimento"
-  }
+  },
+  "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade"
 }

@@ -371,7 +371,6 @@
   "no-user-device-access": "Aucun accès aux périphériques utilisateur",
   "can-access-hardware-devices": "Peut accéder à des périphériques matériels tels que des webcams ou des contrôleurs de jeu",
   "can-access-system-devices": "Peut accéder aux périphériques du système qui requièrent des autorisations élevées",
-  "information": "Informations",
   "can-acquire-arbitrary-permissions": "Peut obtenir des autorisations arbitraires",
   "uses-eol-runtime": "Utilise un environnement d'exécution en fin de vie",
   "proprietary-explanation": "Cette app n'est pas développée de manière ouverte : seuls ses développeurs connaissent son fonctionnement. Elle est susceptible de comporter des failles de sécurité difficiles à détecter et peut être modifiée sans aucun contrôle préalable.",
@@ -726,5 +725,25 @@
   "year-in-review-banner": {
     "title": "Récap' Flathub de l'année {year}",
     "description": "Redécouvrez le top des apps et des tendances de l'année"
+  },
+  "quality-moderation-excluded": "Cette app est exclue des vérifications de qualité",
+  "app-information": "Informations sur l'app",
+  "sub-header": {
+    "download": "À télécharger",
+    "free": "Libre",
+    "desktop-only": "PC uniquement",
+    "desktop-and-mobile": "PC et mobile",
+    "downloads-per-month": "Téléchargements/mois",
+    "amount-to-download": "Quantité de données à télécharger depuis Internet",
+    "size-on-disk": "Taille sur disque",
+    "installed-runtime-size": "Taille de l'environnement d'exécution après installation",
+    "appname-works-best-on-specific-hardware": "{appName} fonctionne mieux sur certains appareils",
+    "appname-works-on-all-devices": "{appName} fonctionne sur tous les appareils",
+    "mobile-support": "Prise en charge mobile",
+    "desktop-support": "Prise en charge PC",
+    "works-well-on-large-screens": "Fonctionne bien sur les grands écrans",
+    "may-not-work-well-on-mobile": "Peut ne pas fonctionner correctement sur les appareils mobiles",
+    "works-well-on-mobile": "Fonctionne bien sur les appareils mobiles",
+    "total-installs": "installations au total"
   }
 }

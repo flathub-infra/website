@@ -443,7 +443,6 @@
   "add-ons": "Mga Add-on",
   "addon-install-info": "Paano mag-install ng mga add-on",
   "addon-install-info-text": "Mangyaring gamitin ang flatpak manager na binibigay ng iyong distribution para mag-install ng mga add-on.",
-  "information": "Impormasyon",
   "proprietary-explanation": "Ang app na ito ay hindi binuo sa bukas, kaya ang mga developer lamang nito ang nakakaalam kung paano ito gumagana. Maaaring hindi ito secure sa mga paraan na mahirap matukoy, at maaari itong magbago nang walang pangangasiwa.",
   "community-built": "Binuo ng komunidad",
   "community-built-explanation": "Ang app na ito ay na-develop sa bukas ng isang international na komunidad, at na-release sa ilalim ng <bold>{ license }</bold>.",

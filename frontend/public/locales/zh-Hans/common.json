@@ -366,7 +366,6 @@
   "appname-is-safety-rating-2": "{appName} 很可能安全",
   "close": "关闭",
   "community-built": "社区共建",
-  "information": "信息",
   "learn-more": "了解详情",
   "can-acquire-arbitrary-permissions": "可以获取任意权限",
   "links": "链接",
@@ -726,5 +725,25 @@
   "year-in-review-banner": {
     "description": "重温年度热门应用与趋势",
     "title": "Flathub {year} 年度回顾"
+  },
+  "quality-moderation-excluded": "此应用已被排除在质量检查之外",
+  "app-information": "应用信息",
+  "sub-header": {
+    "download": "下载",
+    "free": "自由",
+    "desktop-only": "仅限桌面端",
+    "desktop-and-mobile": "桌面端和移动端",
+    "downloads-per-month": "每月下载量",
+    "amount-to-download": "从互联网下载的大小",
+    "size-on-disk": "磁盘占用大小",
+    "installed-runtime-size": "安装后运行时大小",
+    "appname-works-best-on-specific-hardware": "{appName} 在特定硬件上运行效果最佳",
+    "appname-works-on-all-devices": "{appName} 在所有设备上均可运行",
+    "mobile-support": "移动端支持",
+    "desktop-support": "桌面端支持",
+    "works-well-on-large-screens": "在大屏幕上运行效果良好",
+    "may-not-work-well-on-mobile": "在移动设备上可能运行不佳",
+    "works-well-on-mobile": "在移动设备上运行效果良好",
+    "total-installs": "总安装量"
   }
 }

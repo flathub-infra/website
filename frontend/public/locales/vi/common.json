@@ -206,7 +206,6 @@
   "app-install-error-try-again": "Không thể cài ứng dụng. Thử trở lại cửa hàng ứng dụng và cài lại.",
   "appname-is-safety-rating-3": "{appName} có thể không an toàn",
   "uses-eol-runtime-description": "Runtime được ứng dụng này sử dụng không còn được nhận cập nhật bảo mật",
-  "information": "Thông tin",
   "leave-confirmation": "Bạn có chắc chắn bạn muốn rời {app}?",
   "cannot-access-the-internet": "Không thể truy cập internet",
   "community-repository-description": "Tải lên Flathub ứng dụng của bạn bằng cách tải lên tập tin kê khai Flatpak của bạn và những tập tin đi kèm tới một repository trong tổ chức Github của chúng tôi. Buildbot của Flathub sẽ dựng ứng dụng và phát hành nó lên Flathub.",

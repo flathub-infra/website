@@ -99,7 +99,6 @@
   "server-error": "Tuccḍa n uqeddac",
   "login": "Tuqqna",
   "add-ons": "Izegrar",
-  "information": "Talɣut",
   "archive": "Aɣbar",
   "quality-guideline": {
     "general": "Amatu",
@@ -310,5 +309,11 @@
   "user-not-found": "Ur yettwaf ara useqdac",
   "create-tokens": "Snulfu-d tiddas",
   "create-token": "Snulfu-d tiddest",
-  "token-name": "Isem n tiddest"
+  "token-name": "Isem n tiddest",
+  "sub-header": {
+    "download": "Sader",
+    "free": "Baṭel",
+    "downloads-per-month": "Isadaren/Ayyur"
+  },
+  "app-id": "Asulay n wesnas"
 }
