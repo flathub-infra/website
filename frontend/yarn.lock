@@ -6972,7 +6972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^13.2.0, chromatic@npm:^13.3.4":
+"chromatic@npm:^13.3.4":
   version: 13.3.5
   resolution: "chromatic@npm:13.3.5"
   peerDependencies:
@@ -6988,6 +6988,25 @@ __metadata:
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
   checksum: 10c0/58b3d7984db000f8c7b605788569a24c3f3cd41bb6b2d3a94f18acc9ff11ce6c6881f795c8390a94ff721ccfcf8a2d7942e78a54a1f70294a7b3d35ccc382154
+  languageName: node
+  linkType: hard
+
+"chromatic@npm:^15.3.0":
+  version: 15.3.0
+  resolution: "chromatic@npm:15.3.0"
+  peerDependencies:
+    "@chromatic-com/cypress": ^0.*.* || ^1.0.0
+    "@chromatic-com/playwright": ^0.*.* || ^1.0.0
+  peerDependenciesMeta:
+    "@chromatic-com/cypress":
+      optional: true
+    "@chromatic-com/playwright":
+      optional: true
+  bin:
+    chroma: dist/bin.js
+    chromatic: dist/bin.js
+    chromatic-cli: dist/bin.js
+  checksum: 10c0/0145783d5a38c10e60a8d9d630dd971f5544353cd359b7b74b01904003a20720acabf0b370ff821dcf976ee5b077687430d810e2658b0fb01ae209edf50e9c29
   languageName: node
   linkType: hard
 
@@ -8715,7 +8734,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:^3.2.4"
     axios: "npm:^1.13.5"
     boring-avatars: "npm:^2.0.1"
-    chromatic: "npm:^13.2.0"
+    chromatic: "npm:^15.3.0"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     date-fns: "npm:^4.1.0"
