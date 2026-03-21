@@ -379,13 +379,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@corex/deepmerge@npm:^4.0.43":
-  version: 4.0.43
-  resolution: "@corex/deepmerge@npm:4.0.43"
-  checksum: 10c0/3dc31721d10c0552c667392e01a67034d9f39417d275fb2f986140592fbdb5cbcf5ac82b45bcbaf9747fd659017bc7857283019d11929e8b03e8966934ab34b9
-  languageName: node
-  linkType: hard
-
 "@csstools/color-helpers@npm:^5.1.0":
   version: 5.1.0
   resolution: "@csstools/color-helpers@npm:5.1.0"
@@ -1665,13 +1658,6 @@ __metadata:
   version: 16.2.0
   resolution: "@next/env@npm:16.2.0"
   checksum: 10c0/5d7e9276f7ad828d495e8d4de9b0f661fa3ed7ffb21c872c1144dbc9e5ff2aa40ee42868a2c09d694607546bea3ddbc66ea6334db487693ba90402eaae2a932f
-  languageName: node
-  linkType: hard
-
-"@next/env@npm:^13.4.3":
-  version: 13.5.11
-  resolution: "@next/env@npm:13.5.11"
-  checksum: 10c0/5274248b8f53fe5ec330d55c771387645aaa85adf4de41b6e770e884d8bf1f5417509bbdc22edecd0e0882f5e6d5e6b8d1214a7471d5c1183ae3e6f0bfa359d3
   languageName: node
   linkType: hard
 
@@ -8546,7 +8532,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.12, fast-glob@npm:^3.3.3":
+"fast-glob@npm:^3.3.3":
   version: 3.3.3
   resolution: "fast-glob@npm:3.3.3"
   dependencies:
@@ -8742,7 +8728,6 @@ __metadata:
     next: "npm:16.2.0"
     next-intl: "npm:^4.6.1"
     next-seo: "npm:^6.7.1"
-    next-sitemap: "npm:^4.2.3"
     next-themes: "npm:^0.4.6"
     orval: "npm:8.5.3"
     playwright: "npm:^1.55.1"
@@ -10477,7 +10462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.2.0, minimist@npm:^1.2.6, minimist@npm:^1.2.8":
+"minimist@npm:^1.2.0, minimist@npm:^1.2.6":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
   checksum: 10c0/19d3fcdca050087b84c2029841a093691a91259a47def2f18222f41e7645a0b7c44ef4b40e88a1e58a40c84d2ef0ee6047c55594d298146d0eb3f6b737c20ce6
@@ -10732,23 +10717,6 @@ __metadata:
     react: ">=16.0.0"
     react-dom: ">=16.0.0"
   checksum: 10c0/63fe63dfb7e5dc8438185f698bec1428925b667808bc6ba5fc4f39758545c50ce049bc48c937d43246ee51913796673b995bd39afd10a8742108db89f0d11e52
-  languageName: node
-  linkType: hard
-
-"next-sitemap@npm:^4.2.3":
-  version: 4.2.3
-  resolution: "next-sitemap@npm:4.2.3"
-  dependencies:
-    "@corex/deepmerge": "npm:^4.0.43"
-    "@next/env": "npm:^13.4.3"
-    fast-glob: "npm:^3.2.12"
-    minimist: "npm:^1.2.8"
-  peerDependencies:
-    next: "*"
-  bin:
-    next-sitemap: bin/next-sitemap.mjs
-    next-sitemap-cjs: bin/next-sitemap.cjs
-  checksum: 10c0/8a367c9db84ca249797ec900d06c267434265bf635a82bc0896d35bc0ce85eee0cf115d4340baa93dd20fde081e513115d38776b5e8a5b3fb604c7b34a8542ea
   languageName: node
   linkType: hard
 
