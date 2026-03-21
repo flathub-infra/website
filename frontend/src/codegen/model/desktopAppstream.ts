@@ -54,4 +54,5 @@ export interface DesktopAppstream {
   is_free_license: boolean
   isMobileFriendly?: DesktopAppstreamIsMobileFriendly
   branding?: DesktopAppstreamBranding
+  is_eol?: boolean
 }

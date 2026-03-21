@@ -4,7 +4,7 @@ export type AppstreamListItem = Pick<
   GetAppstreamAppstreamAppIdGet200,
   "id" | "summary" | "icon" | "name" | "metadata"
 > &
-  Partial<Pick<GetAppstreamAppstreamAppIdGet200, "bundle">>
+  Partial<Pick<GetAppstreamAppstreamAppIdGet200, "bundle" | "is_eol">>
 
 /**
  * Always returns the biggest screenshot available, as the image proxy will resize it as needed.

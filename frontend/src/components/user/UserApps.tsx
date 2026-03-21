@@ -7,6 +7,7 @@ import Spinner from "../Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
 import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "src/codegen"
+import { EolBadge } from "../application/EolBadge"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
@@ -96,6 +97,7 @@ const UserApps: FunctionComponent<Props> = ({
         showId
         showRuntime
         link={link}
+        endAdornment={(app) => app.is_eol && <EolBadge />}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />
     </>

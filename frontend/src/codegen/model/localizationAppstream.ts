@@ -34,4 +34,5 @@ export interface LocalizationAppstream {
   metadata?: LocalizationAppstreamMetadata
   isMobileFriendly?: LocalizationAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

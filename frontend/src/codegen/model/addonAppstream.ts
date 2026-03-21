@@ -37,4 +37,5 @@ export interface AddonAppstream {
   metadata?: AddonAppstreamMetadata
   isMobileFriendly?: AddonAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

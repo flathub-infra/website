@@ -1,6 +1,7 @@
 import { Meta } from "@storybook/nextjs-vite"
 import Collection from "./Collection"
 import { faker } from "@faker-js/faker"
+import { EolBadge } from "./EolBadge"
 
 export default {
   title: "Components/Application/Collection",
@@ -23,4 +24,22 @@ export const Generated = () => {
   )
 
   return <Collection applications={myApps} title={"My apps"} />
+}
+
+export const WithEolApps = () => {
+  const myApps = [...Array(6)].map((item, index) => ({
+    id: `org.example.App${index}`,
+    icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+    name: faker.commerce.product(),
+    summary: faker.commerce.productDescription(),
+    is_eol: index === 1 || index === 3,
+  }))
+
+  return (
+    <Collection
+      applications={myApps}
+      title={"Apps with EOL"}
+      endAdornment={(app) => app.is_eol && <EolBadge />}
+    />
+  )
 }
