@@ -11,7 +11,6 @@
     "format:fix": "prettier --write .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "postbuild": "next-sitemap",
     "update-setup-instructions": "tsx ./setup-instructions.ts",
     "openapi-codegen": "orval"
   },
@@ -52,7 +51,6 @@
     "next": "16.2.0",
     "next-intl": "^4.6.1",
     "next-seo": "^6.7.1",
-    "next-sitemap": "^4.2.3",
     "next-themes": "^0.4.6",
     "qs": "^6.14.2",
     "radix-ui": "^1.4.3",
