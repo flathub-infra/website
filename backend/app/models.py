@@ -2377,6 +2377,7 @@ class App(Base):
     )
     last_updated_at = mapped_column(DateTime, nullable=True)
     localization = mapped_column(JSONB, nullable=True)
+    content_rating_details = mapped_column(JSONB, nullable=True)
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
@@ -2402,6 +2403,10 @@ class App(Base):
 
         # Remove languages field from API response - it's internal data not needed by clients
         result.pop("languages", None)
+
+        # Add content rating details if available (must happen before early returns)
+        if self.content_rating_details:
+            result["content_rating_details"] = self.content_rating_details
 
         if not self.localization:
             return result
@@ -2432,7 +2437,9 @@ class App(Base):
             and not (isinstance(v, dict) and isinstance(result.get(k), list))
         }
 
-        return result | translation
+        result = result | translation
+
+        return result
 
     @classmethod
     def by_appid(cls, db, app_id: str) -> Optional["App"]:
@@ -2440,20 +2447,53 @@ class App(Base):
 
     @classmethod
     def get_appstream(cls, db, app_id: str) -> dict | None:
-        app = db.session.query(App.appstream).filter(App.app_id == app_id).first()
-        return app.appstream if app else None
+        app = (
+            db.session.query(App.appstream, App.content_rating_details)
+            .filter(App.app_id == app_id)
+            .first()
+        )
+        if app and app.appstream:
+            result = app.appstream.copy()
+            if app.content_rating_details:
+                result["content_rating_details"] = app.content_rating_details
+            return result
+        return None
 
     @classmethod
-    def set_app(cls, db, app_id: str, type, app_locales) -> Optional["App"]:
+    def get_content_rating_details(cls, db, app_id: str) -> dict | None:
+        """
+        Retrieve content rating details for a given app_id
+        """
+        app = (
+            db.session.query(App.content_rating_details)
+            .filter(App.app_id == app_id)
+            .first()
+        )
+        if app:
+            return app.content_rating_details
+        return None
+
+    @classmethod
+    def set_app(
+        cls, db, app_id: str, type, app_locales, content_rating_details
+    ) -> Optional["App"]:
         app = App.by_appid(db, app_id)
 
         if bool(app_locales) is False:
             app_locales = None
 
+        if bool(content_rating_details) is False:
+            content_rating_details = None
+
         if app:
-            if app.type == type and app.localization == app_locales:
+            if (
+                app.type == type
+                and app.localization == app_locales
+                and app.content_rating_details == content_rating_details
+            ):
                 return app
             app.localization = app_locales
+            app.content_rating_details = content_rating_details
             app.type = type
             db.session.commit()
             return app
@@ -2462,6 +2502,7 @@ class App(Base):
                 app_id=app_id,
                 type=type,
                 localization=app_locales,
+                content_rating_details=content_rating_details,
             )
             db.session.add(app)
             db.session.commit()
