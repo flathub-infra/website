@@ -16,7 +16,7 @@ import type {
   TransactionStripeData,
   TransactionSummary,
   WalletInfo,
-} from ".././model"
+} from "../model"
 
 export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
   overrideResponse: Partial<Extract<WalletInfo, object>> = {},
@@ -426,7 +426,29 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
   )
 }
 
-export const getWebhookWalletWebhookStripePostMockHandler = (
+export const getClearFakeWalletClearfakePostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown | void> | unknown | void),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/wallet/clearfake",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
+}
+
+export const getWebhookWalletWebhookFakewalletPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
@@ -435,7 +457,7 @@ export const getWebhookWalletWebhookStripePostMockHandler = (
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
-    "*/wallet/webhook/stripe",
+    "*/wallet/webhook/fakewallet",
     async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
@@ -458,5 +480,6 @@ export const getWalletMock = () => [
   getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler(),
   getSetSavecardWalletTransactionsTxnSavecardPostMockHandler(),
   getSetPendingWalletTransactionsTxnSetpendingPostMockHandler(),
-  getWebhookWalletWebhookStripePostMockHandler(),
+  getClearFakeWalletClearfakePostMockHandler(),
+  getWebhookWalletWebhookFakewalletPostMockHandler(),
 ]

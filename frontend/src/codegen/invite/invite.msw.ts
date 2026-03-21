@@ -9,10 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import type {
-  AppRoutesInvitesDevelopersResponse,
-  InviteStatus,
-} from ".././model"
+import type { AppRoutesInvitesDevelopersResponse, InviteStatus } from "../model"
 
 export const getGetInviteStatusInvitesAppIdGetResponseMock = (
   overrideResponse: Partial<Extract<InviteStatus, object>> = {},

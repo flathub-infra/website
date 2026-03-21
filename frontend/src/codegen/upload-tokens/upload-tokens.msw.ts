@@ -9,7 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import type { NewTokenResponse, TokensResponse } from ".././model"
+import type { NewTokenResponse, TokensResponse } from "../model"
 
 export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
   overrideResponse: Partial<Extract<TokensResponse, object>> = {},

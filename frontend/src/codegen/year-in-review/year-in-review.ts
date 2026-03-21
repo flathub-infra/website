@@ -26,7 +26,7 @@ import type {
   GetYearInReviewYearInReviewYearGetParams,
   HTTPValidationError,
   YearInReviewResult,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Get Year In Review

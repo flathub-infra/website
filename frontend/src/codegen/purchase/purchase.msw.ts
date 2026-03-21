@@ -9,7 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { LoginProvider } from ".././model"
+import { LoginProvider } from "../model"
 import type {
   CheckPurchasesResponseSuccess,
   GenerateUpdateTokenResponse,
@@ -19,7 +19,7 @@ import type {
   VerificationStatusManual,
   VerificationStatusNone,
   VerificationStatusWebsite,
-} from ".././model"
+} from "../model"
 
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusNoneMock =
   (

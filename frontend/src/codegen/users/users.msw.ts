@@ -9,8 +9,8 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { ConnectedAccountProvider } from ".././model"
-import type { FlathubUsersResult, UserResult } from ".././model"
+import { ConnectedAccountProvider } from "../model"
+import type { FlathubUsersResult, UserResult } from "../model"
 
 export const getUsersUsersGetResponseMock = (
   overrideResponse: Partial<Extract<FlathubUsersResult, object>> = {},

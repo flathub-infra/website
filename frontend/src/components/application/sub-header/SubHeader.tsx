@@ -23,6 +23,8 @@ import LicenseModal from "./LicenseModal"
 import SafetyModal from "./SafetyModal"
 import PlatformModal from "./PlatformModal"
 import StatsModal from "./StatsModal"
+import ContentRatingModal from "./ContentRatingModal"
+import { getContentRating } from "src/contentRating"
 
 interface SubHeaderProps {
   app: GetAppstreamAppstreamAppIdGet200
@@ -45,6 +47,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
   const [safetyOpen, setSafetyOpen] = useState(false)
   const [platformOpen, setPlatformOpen] = useState(false)
   const [statsOpen, setStatsOpen] = useState(false)
+  const [contentRatingOpen, setContentRatingOpen] = useState(false)
 
   const highestSafetyRating =
     safetyRating.length > 0
@@ -69,6 +72,13 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     )
     .sort((a, b) => b.safetyRating - a.safetyRating)
     .slice(0, 3)
+
+  // Resolve content rating for the user's current locale
+  const contentRating =
+    ("content_rating" in app && app.content_rating) ||
+    ("content_rating_details" in app && app.content_rating_details)
+      ? getContentRating(app, locale)
+      : null
 
   const items: React.ReactNode[] = []
 
@@ -151,6 +161,28 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     </SubHeaderItem>,
   )
 
+  // Content Rating
+  if (contentRating) {
+    const ageLabel =
+      contentRating.minimumAge === null
+        ? "3+"
+        : `${Math.max(contentRating.minimumAge, 3)}+`
+
+    items.push(
+      <SubHeaderItem
+        key="content-rating"
+        onClick={() => setContentRatingOpen(true)}
+      >
+        <span className="inline-flex items-center rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-sm font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
+          {ageLabel}
+        </span>
+        <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray/80">
+          {t("content-rating")}
+        </span>
+      </SubHeaderItem>,
+    )
+  }
+
   // Downloads/Month - always show, defaulting to 0
   const installsLastMonth = stats?.installs_last_month ?? 0
   items.push(
@@ -194,6 +226,14 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
           onClose={() => setSafetyOpen(false)}
           appName={app.name}
           safetyRating={safetyRating}
+        />
+      )}
+
+      {contentRating && (
+        <ContentRatingModal
+          isOpen={contentRatingOpen}
+          onClose={() => setContentRatingOpen(false)}
+          contentRating={contentRating}
         />
       )}
 

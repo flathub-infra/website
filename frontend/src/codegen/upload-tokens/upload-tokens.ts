@@ -31,7 +31,7 @@ import type {
   NewTokenResponse,
   TokensResponse,
   UploadTokenRequest,
-} from ".././model"
+} from "../model"
 
 /**
  * Get all upload tokens for the given app

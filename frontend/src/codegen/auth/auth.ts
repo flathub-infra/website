@@ -39,7 +39,7 @@ import type {
   LoginMethod,
   RefreshDevFlatpaksReturn,
   UserDeleteRequest,
-} from ".././model"
+} from "../model"
 
 /**
  * Retrieve the login methods available from the backend.

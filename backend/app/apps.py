@@ -163,6 +163,7 @@ def load_appstream(sqldb) -> None:
 
         app_data = apps[app_id].copy()
         locales = app_data.pop("locales")
+        content_rating_details = app_data.pop("content_rating_details", None)
 
         categories = apps[app_id].get("categories", [])
         main_categories_list = [
@@ -183,7 +184,9 @@ def load_appstream(sqldb) -> None:
             main_category = main_categories_list[0]
 
         try:
-            app = models.App.set_app(sqldb, app_id, type, locales)
+            app = models.App.set_app(
+                sqldb, app_id, type, locales, content_rating_details
+            )
             if app:
                 app.appstream = app_data
                 app.main_category = main_category

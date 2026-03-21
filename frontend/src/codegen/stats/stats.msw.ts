@@ -12,7 +12,7 @@ import type { RequestHandlerOptions } from "msw"
 import type {
   GetStatsForAppStatsAppIdGet200,
   GetStatsStatsGet200,
-} from ".././model"
+} from "../model"
 
 export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
   faker.helpers.arrayElement([

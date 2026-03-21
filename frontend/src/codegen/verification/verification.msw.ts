@@ -14,7 +14,7 @@ import {
   AvailableMethodType,
   ErrorDetail,
   LoginProvider,
-} from ".././model"
+} from "../model"
 import type {
   AvailableMethods,
   GetVerificationStatusVerificationAppIdStatusGet200,
@@ -26,7 +26,7 @@ import type {
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200,
   WebsiteVerificationResult,
   WebsiteVerificationToken,
-} from ".././model"
+} from "../model"
 
 export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusNoneMock =
   (
