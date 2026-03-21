@@ -1,6 +1,6 @@
 import base64
 import datetime
-from enum import Enum
+from enum import StrEnum
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
@@ -15,7 +15,7 @@ from ..utils import jti
 router = APIRouter(prefix="/upload-tokens")
 
 
-class ErrorDetail(str, Enum):
+class ErrorDetail(StrEnum):
     # The flat-manager endpoint is not configured
     FLAT_MANAGER_NOT_CONFIGURED = "flat_manager_not_configured"
     # flat-manager returned an error

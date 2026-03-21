@@ -76,7 +76,7 @@ ConnectedAccountResult = Union[
 ]
 
 
-class ConnectedAccountProvider(str, enum.Enum):
+class ConnectedAccountProvider(enum.StrEnum):
     GITHUB = "github"
     GITLAB = "gitlab"
     GNOME = "gnome"
@@ -84,7 +84,7 @@ class ConnectedAccountProvider(str, enum.Enum):
     KDE = "kde"
 
 
-class RoleName(str, enum.Enum):
+class RoleName(enum.StrEnum):
     ADMIN = "admin"
     MODERATOR = "moderator"
     QUALITY_MODERATOR = "quality-moderator"
