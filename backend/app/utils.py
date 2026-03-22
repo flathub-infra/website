@@ -281,17 +281,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 app["releases"].append(attrs.copy())
             component.remove(releases)
 
-        content_rating = component.find("content_rating")
-        if content_rating is not None:
-            app["content_rating"] = {}
-            app["content_rating"]["type"] = content_rating.attrib.get("type")
-            for attr in content_rating:
-                attr_name = attr.attrib.get("id")
-                if attr_name:
-                    # Store with underscores to match the Pydantic ContentRating model
-                    app["content_rating"][attr_name.replace("-", "_")] = attr.text
-            component.remove(content_rating)
-
         urls = component.findall("url")
         if len(urls):
             app["urls"] = {}

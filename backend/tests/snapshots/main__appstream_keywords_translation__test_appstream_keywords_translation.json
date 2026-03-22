@@ -148,9 +148,6 @@
     "type": "gettext",
     "value": "org.sugarlabs.Maze"
   },
-  "content_rating": {
-    "type": "oars-1.1"
-  },
   "developer_name": "Sugar Labs Community",
   "is_free_license": true,
   "project_license": "GPL-3.0-or-later",
