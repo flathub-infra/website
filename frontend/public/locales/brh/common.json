@@ -3,5 +3,26 @@
   "help": "کمک",
   "open-in-new-tab": "پوسکنو ٹیب سے ٹی",
   "search-apps": "ایپ پٹ",
-  "see-all-results": "کل نتیجہ غاتے ار"
+  "see-all-results": "کل نتیجہ غاتے ار",
+  "more-pages": "پین صفحہ",
+  "developers": "ڈیویلپراک",
+  "news": "احوال",
+  "count": "حساب",
+  "publish-your-app": "تینا ایپ اے چاپ کبو",
+  "documentation": "دستاویزاک",
+  "badges": "نشان اک",
+  "installed-size": "انسٹال ٹی کچ",
+  "download-size": "ڈاونلوڈ کچ",
+  "available-architectures": "موجود آرکیٹیکچراک",
+  "app-information": "ایپ ناباروٹ",
+  "sub-header": {
+    "download": "ڈاونلوڈ",
+    "free": "آزاد",
+    "desktop-only": "بیرہ ڈیسک ٹاپ",
+    "desktop-and-mobile": "ڈیسک ٹاپ و موبائل",
+    "works-well-on-large-screens": "بھلا اسکرین تے جوان اے",
+    "may-not-work-well-on-mobile": "موبائل آتئے جوان کاریم کپرو",
+    "works-well-on-mobile": "موبائل اتئے جوان کاریم کیک",
+    "total-installs": "کل انسٹال اک"
+  }
 }

@@ -1,1 +1,16 @@
-{}
+{
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub logoa",
+  "more-pages": "Orri gehiago",
+  "slide": "Diapositiba",
+  "setup": "Konfigurazioa",
+  "close": "Itxi",
+  "go-home": "Joan orri nagusira",
+  "search-apps": "Bilatu aplikazioak",
+  "see-all-results": "Ikusi emaitza guztiak",
+  "publish": "Argitaratu",
+  "forum": "Foroa",
+  "mastodon": "Mastodon",
+  "about": "Honi buruz",
+  "users": "Erabiltzaileak"
+}

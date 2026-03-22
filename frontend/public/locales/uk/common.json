@@ -725,5 +725,11 @@
   "year-in-review-banner": {
     "title": "Огляд року на Flathub {year}",
     "description": "Перегляньте найкращі програми та тренди року"
+  },
+  "app-information": "Інформація про застосунок",
+  "sub-header": {
+    "download": "Завантажити",
+    "downloads-per-month": "Завантажень на місяць",
+    "total-installs": "Всього встановлень"
   }
 }

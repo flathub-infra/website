@@ -726,5 +726,24 @@
     "platform-downloads": "Transferências por plataformas",
     "x-growth": "+{percentage}% crescimento"
   },
-  "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade"
+  "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade",
+  "app-information": "Informação da aplicação",
+  "sub-header": {
+    "download": "Transferir",
+    "free": "Grátis",
+    "desktop-only": "Só para computador",
+    "desktop-and-mobile": "Computador & Dispositivos móveis",
+    "downloads-per-month": "Transferências/Mês",
+    "amount-to-download": "Tamanho da transferência a partir da internet",
+    "size-on-disk": "Tamanho no disco",
+    "installed-runtime-size": "Tamanho do tempo de execução instalado",
+    "appname-works-best-on-specific-hardware": "{appName} funciona melhor em hardware especifico",
+    "appname-works-on-all-devices": "{appName} funciona em todos os dispositivos",
+    "mobile-support": "Suporte para dispositivos móveis",
+    "desktop-support": "Suporte para computador",
+    "works-well-on-large-screens": "Funciona corretamente em ecrãs grandes",
+    "may-not-work-well-on-mobile": "Pode não funcionar corretamente em dispositivos móveis",
+    "works-well-on-mobile": "Funciona corretamente em dispositivos móveis",
+    "total-installs": "Total de instalações"
+  }
 }
