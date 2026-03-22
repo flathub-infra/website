@@ -6,7 +6,7 @@ enabling FastAPI to generate proper OpenAPI specifications and TypeScript types.
 """
 
 import datetime
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -45,39 +45,6 @@ class Release(BaseModel):
     description: str | None = None
     url: str | None = None
     date_eol: datetime.date | None = None
-
-
-class ContentRating(BaseModel):
-    """Content rating information."""
-
-    type: str | None = None
-    violence_cartoon: Severity | None = None
-    violence_fantasy: Severity | None = None
-    violence_realistic: Severity | None = None
-    violence_bloodshed: Severity | None = None
-    violence_sexual: Severity | None = None
-    violence_desecration: Severity | None = None
-    violence_slavery: Severity | None = None
-    violence_worship: Severity | None = None
-    drugs_alcohol: Severity | None = None
-    drugs_narcotics: Severity | None = None
-    drugs_tobacco: Severity | None = None
-    sex_nudity: Severity | None = None
-    sex_themes: Severity | None = None
-    sex_homosexuality: Severity | None = None
-    sex_prostitution: Severity | None = None
-    sex_adultery: Severity | None = None
-    sex_appearance: Severity | None = None
-    language_profanity: Severity | None = None
-    language_humor: Severity | None = None
-    language_discrimination: Severity | None = None
-    social_chat: Severity | None = None
-    social_info: Severity | None = None
-    social_audio: Severity | None = None
-    social_location: Severity | None = None
-    social_contacts: Severity | None = None
-    money_purchasing: Severity | None = None
-    money_gambling: Severity | None = None
 
 
 class Urls(BaseModel):
@@ -204,7 +171,7 @@ class DesktopAppstream(BaseModel):
     icons: list[Icon] | None = None
     screenshots: list[Screenshot] | None = None
     releases: list[Release]
-    content_rating: ContentRating | None = None
+    content_rating_details: dict[str, Any] | None = None
     urls: Urls | None = None
     categories: list[str] | None = None
     kudos: list[str] | None = None
@@ -232,7 +199,7 @@ class AddonAppstream(BaseModel):
     name: str
     summary: str
     releases: list[Release] | None = None
-    content_rating: ContentRating | None = None
+    content_rating_details: dict[str, Any] | None = None
     urls: Urls | None = None
     categories: list[str] | None = None
     icon: str | None = None
@@ -258,6 +225,7 @@ class RuntimeAppstream(BaseModel):
     summary: str
     description: str | None = None
     releases: list[Release] | None = None
+    content_rating_details: dict[str, Any] | None = None
     urls: Urls
     categories: list[str] | None = None
     icon: str | None = None
@@ -281,6 +249,7 @@ class GenericAppstream(BaseModel):
     name: str
     summary: str
     releases: list[Release] | None = None
+    content_rating_details: dict[str, Any] | None = None
     urls: Urls
     categories: list[str] | None = None
     icon: str | None = None
@@ -304,6 +273,7 @@ class LocalizationAppstream(BaseModel):
     name: str
     summary: str
     releases: list[Release] | None = None
+    content_rating_details: dict[str, Any] | None = None
     urls: Urls
     categories: list[str] | None = None
     icon: str | None = None

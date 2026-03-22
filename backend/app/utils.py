@@ -1,4 +1,6 @@
 import base64
+import ctypes
+import gettext
 import gzip
 import hashlib
 import json
@@ -12,13 +14,15 @@ import jwt
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config, http_client, models
+from . import config, http_client, localize, models
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 remove_desktop_re = re.compile(r"\.desktop$")
+
+MAXUINT = ctypes.c_uint(-1).value
 
 mobile_min_size = 360
 mobile_max_size = 768
@@ -96,6 +100,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     for component in root:
         appid = re.sub(remove_desktop_re, "", component.find("id").text)
         app = {}
+        parsed_content_rating = None
 
         app["type"] = component.attrib.get("type", "generic")
         app["locales"] = {}
@@ -279,12 +284,11 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
         content_rating = component.find("content_rating")
         if content_rating is not None:
-            app["content_rating"] = {}
-            app["content_rating"]["type"] = content_rating.attrib.get("type")
+            parsed_content_rating = {"type": content_rating.attrib.get("type")}
             for attr in content_rating:
                 attr_name = attr.attrib.get("id")
                 if attr_name:
-                    app["content_rating"][attr_name] = attr.text
+                    parsed_content_rating[attr_name.replace("-", "_")] = attr.text
             component.remove(content_rating)
 
         urls = component.findall("url")
@@ -508,7 +512,92 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         app["id"] = appid
         apps[appid] = app
 
+        if parsed_content_rating and parsed_content_rating.get("type") is not None:
+            content_rating = {}
+            for lang in localize.LOCALES:
+                content_rating[lang] = get_content_rating_details(
+                    parsed_content_rating, lang
+                )
+
+            apps[appid]["content_rating_details"] = content_rating
+
     return apps
+
+
+_APPSTREAM_LOCALE_DIR = "/usr/share/locale"
+_translation_cache: dict[str, gettext.GNUTranslations | None] = {}
+
+
+def _get_appstream_translation(
+    posix_locale: str,
+) -> gettext.GNUTranslations | None:
+    """Return a GNUTranslations object for the given POSIX locale (e.g. 'de_DE'),
+    or None if no translation is available. Results are cached."""
+    if posix_locale in _translation_cache:
+        return _translation_cache[posix_locale]
+
+    # Try the full locale first (de_DE), then the language part (de)
+    languages = [posix_locale, posix_locale.split("_")[0]]
+    try:
+        t = gettext.translation(
+            "appstream", localedir=_APPSTREAM_LOCALE_DIR, languages=languages
+        )
+    except FileNotFoundError:
+        t = None
+
+    _translation_cache[posix_locale] = t
+    return t
+
+
+def get_content_rating_details(content_rating: dict, locale: str) -> dict:
+    if content_rating is None or content_rating.get("type") is None:
+        return {}
+    system = AppStream.ContentRatingSystem.from_locale(locale)
+    rating = AppStream.ContentRating()
+
+    rating.set_kind(content_rating["type"])
+    contentRatingResult: dict[str, Any] = {"details": []}
+
+    translation = _get_appstream_translation(locale)
+
+    for attr, level in content_rating.items():
+        if attr == "kind" or attr == "type" or attr == "none":
+            continue
+        c_level = AppStream.ContentRatingValue.from_string(level)
+        # Skip attributes rated 'none' - they are not relevant for display
+        if c_level == AppStream.ContentRatingValue.NONE:
+            continue
+        hyphen_attr = attr.replace("_", "-")
+        rating.add_attribute(hyphen_attr, c_level)
+        en_description = AppStream.ContentRating.attribute_get_description(
+            hyphen_attr, c_level
+        )
+        description = (
+            translation.gettext(en_description) if translation else en_description
+        )
+        contentRatingResult["details"].append(
+            {
+                "id": hyphen_attr,
+                "level": level,
+                "description": description,
+            }
+        )
+
+    min_age = AppStream.ContentRating.get_minimum_age(rating)
+    # Maxint is used when there are no non-none attributes (unknown / all-ages)
+    contentRatingResult["contentRatingSystem"] = (
+        AppStream.ContentRatingSystem.to_string(system)
+    )
+    if min_age == MAXUINT:
+        contentRatingResult["minimumAge"] = None
+        contentRatingResult["minimumAgeText"] = None
+    else:
+        contentRatingResult["minimumAge"] = min_age
+        contentRatingResult["minimumAgeText"] = (
+            AppStream.ContentRatingSystem.format_age(system, min_age)
+        )
+
+    return contentRatingResult
 
 
 def display_length_supports_mobile(display_lengths: list[etree.Element]) -> bool:

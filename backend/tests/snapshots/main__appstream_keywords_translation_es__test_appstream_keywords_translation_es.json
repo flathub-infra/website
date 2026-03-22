@@ -8,7 +8,9 @@
     "bugtracker": "https://github.com/sugarlabs/maze-activity"
   },
   "icons": [],
-  "kudos": ["HiDpiIcon"],
+  "kudos": [
+    "HiDpiIcon"
+  ],
   "bundle": {
     "sdk": "org.gnome.Sdk/x86_64/3.36",
     "type": "flatpak",
@@ -16,19 +18,25 @@
     "runtime": "org.gnome.Platform/x86_64/3.36"
   },
   "summary": "Un simple juego de laberintos",
-  "keywords": ["laberinto", "rompecabezas", "juego"],
+  "keywords": [
+    "laberinto",
+    "rompecabezas",
+    "juego"
+  ],
   "releases": [
     {
       "version": "30",
       "timestamp": "1582070400"
     }
   ],
-  "categories": ["Game"],
+  "categories": [
+    "Game"
+  ],
   "launchable": {
     "type": "desktop-id",
     "value": "org.sugarlabs.Maze.desktop"
   },
-  "description": "<p>\u00bfEres bueno encontrando la salida de situaciones dif\u00edciles?</p>",
+  "description": "<p>¿Eres bueno encontrando la salida de situaciones difíciles?</p>",
   "screenshots": [
     {
       "sizes": [
@@ -140,12 +148,305 @@
     "type": "gettext",
     "value": "org.sugarlabs.Maze"
   },
-  "content_rating": {
-    "type": "oars-1.1"
-  },
   "developer_name": "Sugar Labs Community",
   "is_free_license": true,
   "project_license": "GPL-3.0-or-later",
   "isMobileFriendly": false,
-  "is_eol": false
+  "is_eol": false,
+  "content_rating_details": {
+    "en_US": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": "Early Childhood",
+      "contentRatingSystem": "ESRB"
+    },
+    "en_GB": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "de_DE": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": "0",
+      "contentRatingSystem": "USK"
+    },
+    "fr_FR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "nb_NO": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "tr_TR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "fi_FI": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "KAVI"
+    },
+    "id_ID": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "pl_PL": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "pt_BR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": "L",
+      "contentRatingSystem": "DJCTQ"
+    },
+    "it_IT": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ru_RU": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": "0+",
+      "contentRatingSystem": "RUSSIA"
+    },
+    "si_LK": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "vi_VN": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "es_ES": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ja_JP": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": "A",
+      "contentRatingSystem": "CERO"
+    },
+    "cs_CZ": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "zh_Hans": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "bg_BG": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "uk_UA": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "et_EE": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ca_ES": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "el_GR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ta_IN": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "fa_IR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "ESRA"
+    },
+    "hi_IN": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "bn_IN": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "eo_EO": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "lt_LT": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "hr_HR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "be_BY": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "hu_HU": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "nl_NL": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "zh_Hant": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "oc_FR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "da_DK": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "az_AZ": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "he_IL": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ro_RO": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "hy_AM": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ko_KR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": "ALL",
+      "contentRatingSystem": "GRAC"
+    },
+    "sv_SE": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "pa_IN": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "sq_AL": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
+    },
+    "ia_XX": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "ckb_IR": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "ESRA"
+    },
+    "ga_IE": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "kab_DZ": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    },
+    "fil_PH": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "IARC"
+    }
+  }
 }
