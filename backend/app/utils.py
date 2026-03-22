@@ -100,6 +100,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     for component in root:
         appid = re.sub(remove_desktop_re, "", component.find("id").text)
         app = {}
+        parsed_content_rating = None
 
         app["type"] = component.attrib.get("type", "generic")
         app["locales"] = {}
@@ -280,6 +281,15 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
                 app["releases"].append(attrs.copy())
             component.remove(releases)
+
+        content_rating = component.find("content_rating")
+        if content_rating is not None:
+            parsed_content_rating = {"type": content_rating.attrib.get("type")}
+            for attr in content_rating:
+                attr_name = attr.attrib.get("id")
+                if attr_name:
+                    parsed_content_rating[attr_name.replace("-", "_")] = attr.text
+            component.remove(content_rating)
 
         urls = component.findall("url")
         if len(urls):
@@ -502,11 +512,11 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         app["id"] = appid
         apps[appid] = app
 
-        if "content_rating" in app:
+        if parsed_content_rating and parsed_content_rating.get("type") is not None:
             content_rating = {}
             for lang in localize.LOCALES:
                 content_rating[lang] = get_content_rating_details(
-                    app["content_rating"], lang
+                    parsed_content_rating, lang
                 )
 
             apps[appid]["content_rating_details"] = content_rating
