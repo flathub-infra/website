@@ -725,5 +725,25 @@
     "hidden-gems-description": "Apps with growing traction",
     "platform-downloads": "Platform downloads",
     "x-growth": "+{percentage}% growth"
-  }
+  },
+  "app-information": "App information",
+  "sub-header": {
+    "download": "Download",
+    "free": "Free",
+    "desktop-only": "Desktop Only",
+    "desktop-and-mobile": "Desktop & Mobile",
+    "downloads-per-month": "Downloads/Month",
+    "amount-to-download": "Amount to download from the Internet",
+    "size-on-disk": "Size on Disk",
+    "installed-runtime-size": "Installed Runtime Size",
+    "appname-works-best-on-specific-hardware": "{appName} works best on specific hardware",
+    "appname-works-on-all-devices": "{appName} works on all devices",
+    "mobile-support": "Mobile support",
+    "desktop-support": "Desktop support",
+    "works-well-on-large-screens": "Works well on large screens",
+    "may-not-work-well-on-mobile": "May not work well on mobile devices",
+    "works-well-on-mobile": "Works well on mobile devices",
+    "total-installs": "Total Installs"
+  },
+  "quality-moderation-excluded": "This app is excluded from quality checks"
 }
