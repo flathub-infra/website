@@ -13,11 +13,11 @@ import {
   ConnectedAccountProvider,
   MainCategory,
   VerificationMethod,
-} from ".././model"
+} from "../model"
 import type {
   AppSearchDevelopersResponse,
   MeilisearchResponseAppsIndex,
-} from ".././model"
+} from "../model"
 
 export const getGetCategoriesCollectionCategoryGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>

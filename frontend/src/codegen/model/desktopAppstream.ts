@@ -7,7 +7,7 @@
 import type { Bundle } from "./bundle"
 import type { DesktopAppstreamBranding } from "./desktopAppstreamBranding"
 import type { DesktopAppstreamCategories } from "./desktopAppstreamCategories"
-import type { DesktopAppstreamContentRating } from "./desktopAppstreamContentRating"
+import type { DesktopAppstreamContentRatingDetails } from "./desktopAppstreamContentRatingDetails"
 import type { DesktopAppstreamDeveloperName } from "./desktopAppstreamDeveloperName"
 import type { DesktopAppstreamIcon } from "./desktopAppstreamIcon"
 import type { DesktopAppstreamIcons } from "./desktopAppstreamIcons"
@@ -39,7 +39,7 @@ export interface DesktopAppstream {
   icons?: DesktopAppstreamIcons
   screenshots?: DesktopAppstreamScreenshots
   releases: Release[]
-  content_rating?: DesktopAppstreamContentRating
+  content_rating_details?: DesktopAppstreamContentRatingDetails
   urls?: DesktopAppstreamUrls
   categories?: DesktopAppstreamCategories
   kudos?: DesktopAppstreamKudos
@@ -54,4 +54,5 @@ export interface DesktopAppstream {
   is_free_license: boolean
   isMobileFriendly?: DesktopAppstreamIsMobileFriendly
   branding?: DesktopAppstreamBranding
+  is_eol?: boolean
 }

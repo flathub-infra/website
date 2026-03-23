@@ -13,7 +13,7 @@ import {
   ConnectedAccountProvider,
   MainCategory,
   VerificationMethod,
-} from ".././model"
+} from "../model"
 import type {
   AddonAppstream,
   DesktopAppstream,
@@ -31,7 +31,7 @@ import type {
   MeilisearchResponseAppsIndex,
   RuntimeAppstream,
   SummaryResponse,
-} from ".././model"
+} from "../model"
 
 export const getGetEolRebaseEolRebaseGetResponseMock =
   (): GetEolRebaseEolRebaseGet200 => ({
@@ -232,343 +232,8 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
         undefined,
       ]),
     })),
-    content_rating: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_cartoon: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_fantasy: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_realistic: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_bloodshed: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_sexual: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_desecration: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_slavery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_worship: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_alcohol: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_narcotics: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_tobacco: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_nudity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_themes: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_homosexuality: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_prostitution: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_adultery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_appearance: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_profanity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_humor: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_discrimination: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_chat: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_info: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_audio: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_location: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_contacts: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_purchasing: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_gambling: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-        },
-        null,
-      ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: faker.helpers.arrayElement([
@@ -848,6 +513,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       undefined,
     ]),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -936,343 +602,8 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       ]),
       undefined,
     ]),
-    content_rating: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_cartoon: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_fantasy: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_realistic: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_bloodshed: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_sexual: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_desecration: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_slavery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_worship: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_alcohol: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_narcotics: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_tobacco: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_nudity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_themes: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_homosexuality: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_prostitution: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_adultery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_appearance: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_profanity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_humor: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_discrimination: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_chat: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_info: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_audio: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_location: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_contacts: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_purchasing: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_gambling: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-        },
-        null,
-      ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: faker.helpers.arrayElement([
@@ -1504,6 +835,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -1591,6 +923,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
           })),
           null,
         ]),
+        undefined,
+      ]),
+      content_rating_details: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([null]),
         undefined,
       ]),
       urls: {
@@ -1817,6 +1153,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
         undefined,
       ]),
       is_free_license: faker.datatype.boolean(),
+      is_eol: faker.datatype.boolean(),
     },
     ...overrideResponse,
   })
@@ -1903,6 +1240,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
         })),
         null,
       ]),
+      undefined,
+    ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: {
@@ -2127,6 +1468,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -2222,6 +1564,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
       ]),
       undefined,
     ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
+      undefined,
+    ]),
     urls: {
       bugtracker: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -2444,6 +1790,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -2804,6 +2151,17 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
           undefined,
         ]),
         runtimeIsEol: faker.datatype.boolean(),
+        runtimeInstalledSize: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([faker.number.int(), null]),
+          undefined,
+        ]),
+        runtimeName: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          undefined,
+        ]),
       },
       null,
     ]),

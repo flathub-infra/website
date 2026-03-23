@@ -26,7 +26,7 @@ import type {
   HTTPValidationError,
   ReproducibleStatusReproducibleGetParams,
   ReproducibleTableApiHtmxReproducibleGetParams,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Dashboard

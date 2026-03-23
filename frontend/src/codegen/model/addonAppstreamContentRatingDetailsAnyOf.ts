@@ -5,9 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ContentRatingSexProstitution =
-  | "none"
-  | "mild"
-  | "moderate"
-  | "intense"
-  | null
+export type AddonAppstreamContentRatingDetailsAnyOf = { [key: string]: unknown }

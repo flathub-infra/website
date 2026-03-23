@@ -38,7 +38,7 @@ import type {
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams,
   WebsiteVerificationResult,
   WebsiteVerificationToken,
-} from ".././model"
+} from "../model"
 
 /**
  * Gets the verification status of the given app.
