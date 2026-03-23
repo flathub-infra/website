@@ -45,7 +45,7 @@ import type {
   PostSearchSearchPostParams,
   SearchQuery,
   SummaryResponse,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Get Eol Rebase

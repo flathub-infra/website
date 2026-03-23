@@ -27,7 +27,7 @@ import type {
   GetStatsForAppStatsAppIdGetParams,
   GetStatsStatsGet200,
   HTTPValidationError,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Get Stats

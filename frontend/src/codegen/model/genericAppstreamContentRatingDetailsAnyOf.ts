@@ -5,9 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ContentRatingSexAppearance =
-  | "none"
-  | "mild"
-  | "moderate"
-  | "intense"
-  | null
+export type GenericAppstreamContentRatingDetailsAnyOf = {
+  [key: string]: unknown
+}

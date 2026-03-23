@@ -39,7 +39,7 @@ import type {
   HTTPValidationError,
   MainCategory,
   MeilisearchResponseAppsIndex,
-} from ".././model"
+} from "../model"
 
 /**
  * Get a list of all available main categories for filtering applications.

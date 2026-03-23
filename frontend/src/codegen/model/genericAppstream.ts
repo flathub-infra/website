@@ -6,6 +6,7 @@
  */
 import type { Bundle } from "./bundle"
 import type { GenericAppstreamCategories } from "./genericAppstreamCategories"
+import type { GenericAppstreamContentRatingDetails } from "./genericAppstreamContentRatingDetails"
 import type { GenericAppstreamDeveloperName } from "./genericAppstreamDeveloperName"
 import type { GenericAppstreamIcon } from "./genericAppstreamIcon"
 import type { GenericAppstreamIcons } from "./genericAppstreamIcons"
@@ -24,6 +25,7 @@ export interface GenericAppstream {
   name: string
   summary: string
   releases?: GenericAppstreamReleases
+  content_rating_details?: GenericAppstreamContentRatingDetails
   urls: Urls
   categories?: GenericAppstreamCategories
   icon?: GenericAppstreamIcon
@@ -34,4 +36,5 @@ export interface GenericAppstream {
   metadata?: GenericAppstreamMetadata
   isMobileFriendly?: GenericAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

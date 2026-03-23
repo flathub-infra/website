@@ -5,9 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ContentRatingViolenceDesecration =
-  | "none"
-  | "mild"
-  | "moderate"
-  | "intense"
-  | null
+export type DesktopAppstreamContentRatingDetailsAnyOf = {
+  [key: string]: unknown
+}

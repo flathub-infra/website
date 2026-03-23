@@ -9,13 +9,13 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { PipelineStatus, PipelineTrigger, PipelineType } from ".././model"
+import { PipelineStatus, PipelineTrigger, PipelineType } from "../model"
 import type {
   PipelineResponse,
   PipelineSummary,
   PublishSummary,
   TriggerPipelineApiPipelinesPost201,
-} from ".././model"
+} from "../model"
 
 export const getTriggerPipelineApiPipelinesPostResponseMock =
   (): TriggerPipelineApiPipelinesPost201 => ({})

@@ -36,7 +36,7 @@ import type {
   TransactionStripeData,
   TransactionSummary,
   WalletInfo,
-} from ".././model"
+} from "../model"
 
 /**
  * Retrieve the wallet for the currently logged in user.
