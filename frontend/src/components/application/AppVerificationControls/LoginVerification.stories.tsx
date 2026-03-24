@@ -2,10 +2,32 @@ import { faker } from "@faker-js/faker"
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import LoginVerification from "./LoginVerification"
 import { expect, userEvent, waitFor, within } from "storybook/test"
+import { UserInfoProvider } from "../../../context/user-info"
+import {
+  getGetLoginMethodsAuthLoginGetMockHandler,
+  getGetUserinfoAuthUserinfoGetMockHandler,
+} from "../../../codegen/auth/auth.msw"
+import { getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetMockHandler } from "../../../codegen/verification/verification.msw"
 
 const meta = {
   component: LoginVerification,
   title: "Components/Application/AppVerificationControls/LoginVerification",
+  parameters: {
+    msw: {
+      handlers: [
+        getGetLoginMethodsAuthLoginGetMockHandler([]),
+        getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetMockHandler(),
+        getGetUserinfoAuthUserinfoGetMockHandler(),
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
 } satisfies Meta<typeof LoginVerification>
 
 export default meta
