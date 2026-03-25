@@ -45,6 +45,7 @@ import {
   ckb,
   ptBR,
   gl,
+  eu,
 } from "date-fns/locale"
 
 export type Language =
@@ -102,6 +103,7 @@ export type Language =
   | "br"
   | "gl"
   | "kw"
+  | "eu"
 
 export const fontLanguageDenyList = ["ar", "fa", "ckb"]
 
@@ -160,6 +162,7 @@ export const languages: Language[] = [
   "br",
   "gl",
   "kw",
+  "eu",
 ]
 
 export function getDateFnsLocale(language?: string): Locale {
@@ -272,6 +275,8 @@ export function getDateFnsLocale(language?: string): Locale {
       return gl
     case "kw":
       return enGB // date-fns has no Cornish locale
+    case "eu":
+      return eu
 
     default:
       return enGB
@@ -388,6 +393,8 @@ export function bcpToPosixLocale(language?: string): string {
       return "gl_GL"
     case "kw":
       return "kw_GB"
+    case "eu":
+      return "eu_ES"
 
     default:
       return "en_US"
@@ -503,6 +510,8 @@ export function getLanguageFlag(language: Language): string {
     case "gl":
       return ""
     case "kw":
+      return ""
+    case "eu":
       return ""
   }
 }
@@ -645,6 +654,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("gl")
     case "kw":
       return new Intl.Locale("kw")
+    case "eu":
+      return new Intl.Locale("eu")
 
     default:
       return new Intl.Locale("en")
