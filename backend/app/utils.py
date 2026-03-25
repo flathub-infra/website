@@ -549,6 +549,38 @@ def _get_appstream_translation(
     return t
 
 
+# All OARS 1.1 attribute IDs in category order
+_ALL_OARS_ATTRS = [
+    "violence-cartoon",
+    "violence-fantasy",
+    "violence-realistic",
+    "violence-bloodshed",
+    "violence-sexual",
+    "violence-desecration",
+    "violence-slavery",
+    "violence-worship",
+    "drugs-alcohol",
+    "drugs-narcotics",
+    "drugs-tobacco",
+    "sex-nudity",
+    "sex-themes",
+    "sex-homosexuality",
+    "sex-prostitution",
+    "sex-adultery",
+    "sex-appearance",
+    "language-profanity",
+    "language-humor",
+    "language-discrimination",
+    "social-chat",
+    "social-info",
+    "social-audio",
+    "social-location",
+    "social-contacts",
+    "money-purchasing",
+    "money-gambling",
+]
+
+
 def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     if content_rating is None or content_rating.get("type") is None:
         return {}
@@ -560,24 +592,31 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
 
     translation = _get_appstream_translation(locale)
 
+    # Collect explicitly set attributes
+    explicit_attrs: dict[str, str] = {}
     for attr, level in content_rating.items():
         if attr == "kind" or attr == "type" or attr == "none":
             continue
-        c_level = AppStream.ContentRatingValue.from_string(level)
-        # Skip attributes rated 'none' - they are not relevant for display
-        if c_level == AppStream.ContentRatingValue.NONE:
-            continue
         hyphen_attr = attr.replace("_", "-")
-        rating.add_attribute(hyphen_attr, c_level)
+        explicit_attrs[hyphen_attr] = level
+
+    # Build details for ALL known OARS attributes, using "none" for unset ones
+    for attr in _ALL_OARS_ATTRS:
+        level = explicit_attrs.get(attr, "none")
+        c_level = AppStream.ContentRatingValue.from_string(level)
+        if c_level != AppStream.ContentRatingValue.NONE:
+            rating.add_attribute(attr, c_level)
         en_description = AppStream.ContentRating.attribute_get_description(
-            hyphen_attr, c_level
+            attr, c_level
         )
         description = (
-            translation.gettext(en_description) if translation else en_description
+            translation.gettext(en_description)
+            if translation and en_description
+            else en_description
         )
         contentRatingResult["details"].append(
             {
-                "id": hyphen_attr,
+                "id": attr,
                 "level": level,
                 "description": description,
             }
