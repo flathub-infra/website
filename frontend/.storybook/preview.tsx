@@ -295,6 +295,11 @@ export default {
         icon: getLanguageFlag("kw"),
         right: "kw",
       },
+      eu: {
+        title: getLanguageName("eu"),
+        icon: getLanguageFlag("eu"),
+        right: "eu",
+      },
     },
   },
   parameters: {

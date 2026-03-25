@@ -447,6 +447,12 @@
       "minimumAge": 0,
       "minimumAgeText": null,
       "contentRatingSystem": "IARC"
+    },
+    "eu_ES": {
+      "details": [],
+      "minimumAge": 0,
+      "minimumAgeText": null,
+      "contentRatingSystem": "PEGI"
     }
   }
 }
