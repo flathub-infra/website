@@ -18,8 +18,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 \
     libgirepository-2.0-0 gir1.2-ostree-1.0 gir1.2-appstream-1.0 libjemalloc2 && \
-    # Remove slim image's locale exclusion so appstream .mo files get installed
-    rm -f /etc/dpkg/dpkg.cfg.d/excludes && \
+    # Remove slim image's locale exclusions so appstream .mo files get installed
+    sed -i '\|path-exclude /usr/share/locale|d' /etc/dpkg/dpkg.cfg.d/docker && \
     apt-get install -y --no-install-recommends --reinstall appstream && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
