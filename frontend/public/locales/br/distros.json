@@ -304,5 +304,8 @@
   },
   "salix": {
     "distroName": "Salix"
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
   }
 }
