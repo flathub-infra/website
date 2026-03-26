@@ -1,4 +1,7 @@
 import { RedisStringsHandler } from "@trieb.work/nextjs-turbo-redis-cache"
+import { zstdCompressSync, zstdDecompressSync } from "node:zlib"
+
+const COMPRESSED_PREFIX = "zstd:"
 
 let sharedHandler = null
 
@@ -7,17 +10,27 @@ function getHandler() {
     sharedHandler = new RedisStringsHandler({
       database: 0,
       keyPrefix: "nextjs_",
-      // L1 in-memory cache: 10 seconds (reduces Redis calls)
       inMemoryCachingTime: 10000,
-      // Dedup identical Redis calls within same request
       redisGetDeduplication: true,
-      // Batch tag operations
       revalidateTagQuerySize: 500,
-      // Timeout for Redis operations
       getTimeoutMs: 500,
     })
   }
   return sharedHandler
+}
+
+function compressData(data) {
+  const json = JSON.stringify(data)
+  const compressed = zstdCompressSync(json)
+  return { body: COMPRESSED_PREFIX + compressed.toString("base64") }
+}
+
+function decompressData(data) {
+  if (typeof data?.body === "string" && data.body.startsWith(COMPRESSED_PREFIX)) {
+    const buf = Buffer.from(data.body.slice(COMPRESSED_PREFIX.length), "base64")
+    return JSON.parse(zstdDecompressSync(buf).toString())
+  }
+  return data
 }
 
 class CacheHandler {
@@ -26,14 +39,18 @@ class CacheHandler {
   }
 
   async get(...args) {
-    return this.handler.get(...args)
+    const result = await this.handler.get(...args)
+    if (result?.value) {
+      result.value = decompressData(result.value)
+    }
+    return result
   }
 
   async set(key, data, ctx) {
     if (data?.kind === "APP_PAGE" && data?.status === 404) {
       ctx = { ...ctx, revalidate: 60 }
     }
-    return this.handler.set(key, data, ctx)
+    return this.handler.set(key, compressData(data), ctx)
   }
 
   async revalidateTag(...args) {
