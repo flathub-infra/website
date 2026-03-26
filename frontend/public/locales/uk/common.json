@@ -730,6 +730,12 @@
   "sub-header": {
     "download": "Завантажити",
     "downloads-per-month": "Завантажень на місяць",
-    "total-installs": "Всього встановлень"
+    "total-installs": "Всього встановлень",
+    "desktop-only": "Лише для ПК",
+    "desktop-and-mobile": "ПК та мобільні",
+    "size-on-disk": "Розмір на диску",
+    "installed-runtime-size": "Розмір середовища",
+    "mobile-support": "Підтримка мобільних",
+    "desktop-support": "Підтримка ПК"
   }
 }

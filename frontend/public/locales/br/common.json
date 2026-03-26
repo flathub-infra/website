@@ -228,5 +228,11 @@
     "top-countries": "Top ar broioù",
     "x-growth": "+{percentage} % a-gresk",
     "year-over-year-growth": "Kresk a vloaz da vloaz"
-  }
+  },
+  "sub-header": {
+    "downloads-per-month": "Pellgargadurioù/miz",
+    "free": "Frank",
+    "download": "Pellgargañ"
+  },
+  "app-information": "Titouroù diwar-benn an arload"
 }
