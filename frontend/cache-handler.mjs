@@ -19,10 +19,24 @@ function getHandler() {
   return sharedHandler
 }
 
+function replacer(_key, value) {
+  if (value instanceof Map) {
+    return { __type: "Map", entries: [...value.entries()] }
+  }
+  return value
+}
+
+function reviver(_key, value) {
+  if (value?.__type === "Map") {
+    return new Map(value.entries)
+  }
+  return value
+}
+
 function compressData(data) {
-  const json = JSON.stringify(data)
+  const json = JSON.stringify(data, replacer)
   const compressed = zstdCompressSync(json)
-  return { body: COMPRESSED_PREFIX + compressed.toString("base64") }
+  return { ...data, body: COMPRESSED_PREFIX + compressed.toString("base64") }
 }
 
 function decompressData(data) {
@@ -31,7 +45,7 @@ function decompressData(data) {
     data.body.startsWith(COMPRESSED_PREFIX)
   ) {
     const buf = Buffer.from(data.body.slice(COMPRESSED_PREFIX.length), "base64")
-    return JSON.parse(zstdDecompressSync(buf).toString())
+    return JSON.parse(zstdDecompressSync(buf).toString(), reviver)
   }
   return data
 }
