@@ -580,6 +580,35 @@ _ALL_OARS_ATTRS = [
     "money-gambling",
 ]
 
+# Mapping from attr prefix to display category
+_ATTR_CATEGORY = {
+    "violence": "violence",
+    "drugs": "drugs",
+    "sex": "sex",
+    "language": "language",
+    "social": "social",
+    "money": "money",
+}
+
+# Fixed display order for categories
+_CATEGORY_ORDER = ["social", "drugs", "language", "money", "sex", "violence"]
+
+# Attributes added in OARS 1.1 that don't exist in 1.0
+_OARS_11_ONLY_ATTRS = {
+    "violence-desecration",
+    "violence-slavery",
+    "violence-worship",
+    "sex-homosexuality",
+    "sex-prostitution",
+    "sex-adultery",
+    "sex-appearance",
+}
+
+
+def _attr_to_category(attr: str) -> str | None:
+    prefix = attr.split("-", 1)[0]
+    return _ATTR_CATEGORY.get(prefix)
+
 
 def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     if content_rating is None or content_rating.get("type") is None:
@@ -588,9 +617,12 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     rating = AppStream.ContentRating()
 
     rating.set_kind(content_rating["type"])
-    contentRatingResult: dict[str, Any] = {"details": []}
 
     translation = _get_appstream_translation(locale)
+
+    # For oars-1.0, the 1.1-only attrs don't exist and are truly unknown
+    oars_type = content_rating["type"]
+    is_oars_11 = oars_type != "oars-1.0"
 
     # Collect explicitly set attributes
     explicit_attrs: dict[str, str] = {}
@@ -600,12 +632,26 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
         hyphen_attr = attr.replace("_", "-")
         explicit_attrs[hyphen_attr] = level
 
-    # Build details for ALL known OARS attributes, using "none" for unset ones
+    # Group by category, tracking worst level and descriptions
+    categories: dict[str, dict[str, Any]] = {}
+
+    # Track which attrs we've processed from the known list
+    processed_attrs: set[str] = set()
+
     for attr in _ALL_OARS_ATTRS:
+        processed_attrs.add(attr)
+        is_explicit = attr in explicit_attrs
+        # An attr is "known" if explicitly set, or if it exists in the OARS version
+        is_known = is_explicit or is_oars_11 or attr not in _OARS_11_ONLY_ATTRS
         level = explicit_attrs.get(attr, "none")
         c_level = AppStream.ContentRatingValue.from_string(level)
         if c_level != AppStream.ContentRatingValue.NONE:
             rating.add_attribute(attr, c_level)
+
+        cat = _attr_to_category(attr)
+        if not cat:
+            continue
+
         en_description = AppStream.ContentRating.attribute_get_description(
             attr, c_level
         )
@@ -614,27 +660,123 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
             if translation and en_description
             else en_description
         )
-        contentRatingResult["details"].append(
-            {
-                "id": attr,
-                "level": level,
-                "description": description,
+
+        if cat not in categories:
+            categories[cat] = {
+                "id": cat,
+                "level": "none",
+                "all_known": True,
+                "descriptions": [],
+                "none_descriptions": [],
             }
+
+        entry = categories[cat]
+
+        if not is_known:
+            entry["all_known"] = False
+
+        # Track worst level
+        level_order = ["none", "mild", "moderate", "intense"]
+        if level_order.index(level) > level_order.index(entry["level"]):
+            entry["level"] = level
+
+        if description:
+            if level != "none":
+                entry["descriptions"].append(description)
+            else:
+                entry["none_descriptions"].append(description)
+
+    # Also process any explicit attrs not in _ALL_OARS_ATTRS (forward compat)
+    for attr, level in explicit_attrs.items():
+        if attr in processed_attrs:
+            continue
+
+        cat = _attr_to_category(attr)
+        if not cat:
+            continue
+
+        c_level = AppStream.ContentRatingValue.from_string(level)
+        if c_level != AppStream.ContentRatingValue.NONE:
+            rating.add_attribute(attr, c_level)
+
+        en_description = AppStream.ContentRating.attribute_get_description(
+            attr, c_level
+        )
+        description = (
+            translation.gettext(en_description)
+            if translation and en_description
+            else en_description
         )
 
+        if cat not in categories:
+            categories[cat] = {
+                "id": cat,
+                "level": "none",
+                "all_known": True,
+                "descriptions": [],
+                "none_descriptions": [],
+            }
+
+        entry = categories[cat]
+
+        level_order = ["none", "mild", "moderate", "intense"]
+        if level in level_order and level_order.index(level) > level_order.index(
+            entry["level"]
+        ):
+            entry["level"] = level
+
+        if description:
+            if level != "none":
+                entry["descriptions"].append(description)
+            else:
+                entry["none_descriptions"].append(description)
+
+    # Build final category list:
+    # - non-none descriptions always shown (joined with bullet)
+    # - all-none categories with ALL attrs explicit: show first none description
+    # - incomplete categories (missing attrs): unknown, no description
+    result_categories = []
+    for cat in _CATEGORY_ORDER:
+        entry = categories.get(cat)
+        if entry is None:
+            result_categories.append(
+                {"id": cat, "level": "unknown", "description": None}
+            )
+            continue
+
+        if entry["descriptions"]:
+            desc = " \u2022 ".join(entry["descriptions"])
+            level = entry["level"]
+        elif entry["all_known"] and entry["none_descriptions"]:
+            desc = entry["none_descriptions"][0]
+            level = "none"
+        else:
+            desc = None
+            level = "unknown"
+
+        result_categories.append({"id": cat, "level": level, "description": desc})
+
+    # Sort: non-none first, then none, then unknown last
+    _level_sort_order = {
+        "intense": 0,
+        "moderate": 1,
+        "mild": 2,
+        "none": 3,
+        "unknown": 4,
+    }
+    result_categories.sort(key=lambda c: _level_sort_order.get(c["level"], 5))
+
     min_age = AppStream.ContentRating.get_minimum_age(rating)
-    # Maxint is used when there are no non-none attributes (unknown / all-ages)
-    contentRatingResult["contentRatingSystem"] = (
-        AppStream.ContentRatingSystem.to_string(system)
-    )
-    if min_age == MAXUINT:
-        contentRatingResult["minimumAge"] = None
-        contentRatingResult["minimumAgeText"] = None
-    else:
-        contentRatingResult["minimumAge"] = min_age
-        contentRatingResult["minimumAgeText"] = (
-            AppStream.ContentRatingSystem.format_age(system, min_age)
-        )
+    contentRatingResult: dict[str, Any] = {
+        "categories": result_categories,
+        "contentRatingSystem": AppStream.ContentRatingSystem.to_string(system),
+        "minimumAge": max(min_age, 3) if min_age != MAXUINT else 3,
+        "minimumAgeText": (
+            AppStream.ContentRatingSystem.format_age(system, max(min_age, 3))
+            if min_age != MAXUINT
+            else AppStream.ContentRatingSystem.format_age(system, 3)
+        ),
+    }
 
     return contentRatingResult
 

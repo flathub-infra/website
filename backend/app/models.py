@@ -2404,9 +2404,35 @@ class App(Base):
         # Remove languages field from API response - it's internal data not needed by clients
         result.pop("languages", None)
 
-        # Add content rating details if available (must happen before early returns)
+        # Add content rating details filtered to the requested locale
         if self.content_rating_details:
-            result["content_rating_details"] = self.content_rating_details
+            posix_locale = locale.replace("-", "_")
+            # Try exact match first
+            entry = self.content_rating_details.get(posix_locale)
+            # Then prefix match (e.g. "de" -> "de_DE"), keeping the actual key
+            # Prefer _US suffix for bare language codes (e.g. "en" -> "en_US")
+            if not entry:
+                us_key = posix_locale + "_US"
+                if us_key in self.content_rating_details:
+                    posix_locale = us_key
+                    entry = self.content_rating_details[us_key]
+                else:
+                    match = next(
+                        (
+                            (k, v)
+                            for k, v in self.content_rating_details.items()
+                            if k.startswith(posix_locale + "_")
+                        ),
+                        None,
+                    )
+                    if match:
+                        posix_locale, entry = match
+            # Fall back to en_US
+            if not entry:
+                posix_locale = "en_US"
+                entry = self.content_rating_details.get("en_US")
+            if entry:
+                result["content_rating_details"] = {posix_locale: entry}
 
         if not self.localization:
             return result
