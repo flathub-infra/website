@@ -36,7 +36,11 @@ function reviver(_key, value) {
 function compressData(data) {
   const json = JSON.stringify(data, replacer)
   const compressed = zstdCompressSync(json)
-  return { ...data, body: COMPRESSED_PREFIX + compressed.toString("base64") }
+  return {
+    kind: data.kind,
+    status: data.status,
+    body: COMPRESSED_PREFIX + compressed.toString("base64"),
+  }
 }
 
 function decompressData(data) {
