@@ -26,10 +26,7 @@ function compressData(data) {
 }
 
 function decompressData(data) {
-  if (
-    typeof data?.body === "string" &&
-    data.body.startsWith(COMPRESSED_PREFIX)
-  ) {
+  if (typeof data?.body === "string" && data.body.startsWith(COMPRESSED_PREFIX)) {
     const buf = Buffer.from(data.body.slice(COMPRESSED_PREFIX.length), "base64")
     return JSON.parse(zstdDecompressSync(buf).toString())
   }
