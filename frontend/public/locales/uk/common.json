@@ -736,6 +736,13 @@
     "size-on-disk": "Розмір на диску",
     "installed-runtime-size": "Розмір середовища",
     "mobile-support": "Підтримка мобільних",
-    "desktop-support": "Підтримка ПК"
-  }
+    "desktop-support": "Підтримка ПК",
+    "appname-works-on-all-devices": "{appName} працює на більшості пристроїв",
+    "works-well-on-large-screens": "Добре працює на великих екранах",
+    "works-well-on-mobile": "Працює на мобільних пристроях",
+    "free": "Вільна",
+    "appname-works-best-on-specific-hardware": "{appName} краще працює на певному обладнанні",
+    "may-not-work-well-on-mobile": "Обмежена підтримка на мобільних"
+  },
+  "quality-moderation-excluded": "Застосунок виключено з перевірок якості"
 }

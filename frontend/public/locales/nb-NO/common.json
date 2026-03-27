@@ -692,6 +692,29 @@
     "description": "Se gjennom de mest populære appene og trendene til dette året"
   },
   "year-in-review": {
-    "title": "Årsoversikt {year}"
-  }
+    "title": "Årsoversikt {year}",
+    "description": "Ett års vekst og innovasjon på Flathub",
+    "select-year": "Velg år",
+    "most-popular": "Mest populære"
+  },
+  "app-information": "Appinformasjon",
+  "sub-header": {
+    "download": "Last ned",
+    "free": "Fri",
+    "desktop-only": "Kun til skrivebordsmaskiner",
+    "desktop-and-mobile": "Til alle enheter",
+    "downloads-per-month": "Nedlastinger/Måned",
+    "amount-to-download": "Mengde som må lastes ned fra internett",
+    "size-on-disk": "Størrelse på disk",
+    "installed-runtime-size": "Størrelse på baseinstallasjon",
+    "appname-works-best-on-specific-hardware": "{appName} fungerer best på spesifikk maskinvare",
+    "appname-works-on-all-devices": "{appName} fungerer på alle enheter",
+    "mobile-support": "Mobilstøtte",
+    "desktop-support": "Skrivebordsstøtte",
+    "works-well-on-large-screens": "Fungerer bra på store skjermer",
+    "may-not-work-well-on-mobile": "Fungerer kanskje ikke bra på mobile enheter",
+    "works-well-on-mobile": "Fungerer bra på mobile enheter",
+    "total-installs": "Totalt antall installasjoner"
+  },
+  "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll"
 }
