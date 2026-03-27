@@ -1,7 +1,7 @@
 import { isDesktopAppstreamTypeGuard } from "@/lib/helpers"
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 
 import { Summary } from "../../types/Summary"
 
@@ -51,7 +51,6 @@ const Details: FunctionComponent<Props> = ({
   keywords,
 }) => {
   const t = useTranslations()
-  const locale = useLocale()
 
   const { data: vendingSetup } = useQuery({
     queryKey: ["appVendingSetup", app.id],

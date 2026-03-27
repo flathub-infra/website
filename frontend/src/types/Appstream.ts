@@ -1,5 +1,13 @@
 import { GetAppstreamAppstreamAppIdGet200, Screenshot } from "src/codegen"
 
+export enum ContentRatingLevel {
+  none = "none",
+  mild = "mild",
+  moderate = "moderate",
+  intense = "intense",
+  unknown = "unknown",
+}
+
 export type AppstreamListItem = Pick<
   GetAppstreamAppstreamAppIdGet200,
   "id" | "summary" | "icon" | "name" | "metadata"
