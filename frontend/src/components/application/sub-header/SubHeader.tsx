@@ -23,6 +23,8 @@ import LicenseModal from "./LicenseModal"
 import SafetyModal from "./SafetyModal"
 import PlatformModal from "./PlatformModal"
 import StatsModal from "./StatsModal"
+import ContentRatingModal from "./ContentRatingModal"
+import { getContentRating, ageToColor } from "src/contentRating"
 
 interface SubHeaderProps {
   app: GetAppstreamAppstreamAppIdGet200
@@ -45,6 +47,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
   const [safetyOpen, setSafetyOpen] = useState(false)
   const [platformOpen, setPlatformOpen] = useState(false)
   const [statsOpen, setStatsOpen] = useState(false)
+  const [contentRatingOpen, setContentRatingOpen] = useState(false)
 
   const highestSafetyRating =
     safetyRating.length > 0
@@ -69,6 +72,11 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     )
     .sort((a, b) => b.safetyRating - a.safetyRating)
     .slice(0, 3)
+
+  const contentRating =
+    "content_rating_details" in app && app.content_rating_details
+      ? getContentRating(app, locale)
+      : null
 
   const items: React.ReactNode[] = []
 
@@ -151,6 +159,33 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     </SubHeaderItem>,
   )
 
+  // Age Rating
+  if (contentRating) {
+    const ageLabel =
+      contentRating.minimumAge === null
+        ? "3+"
+        : `${Math.max(contentRating.minimumAge, 3)}+`
+
+    items.push(
+      <SubHeaderItem
+        key="content-rating"
+        onClick={() => setContentRatingOpen(true)}
+      >
+        <span
+          className={clsx(
+            "inline-flex items-center rounded-full px-3 py-1 text-sm font-bold leading-none tabular-nums",
+            ageToColor(contentRating.minimumAge),
+          )}
+        >
+          {ageLabel}
+        </span>
+        <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray/80">
+          {t("sub-header.age-rating")}
+        </span>
+      </SubHeaderItem>,
+    )
+  }
+
   // Downloads/Month - always show, defaulting to 0
   const installsLastMonth = stats?.installs_last_month ?? 0
   items.push(
@@ -194,6 +229,15 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
           onClose={() => setSafetyOpen(false)}
           appName={app.name}
           safetyRating={safetyRating}
+        />
+      )}
+
+      {contentRating && (
+        <ContentRatingModal
+          isOpen={contentRatingOpen}
+          onClose={() => setContentRatingOpen(false)}
+          contentRating={contentRating}
+          appName={app.name}
         />
       )}
 
