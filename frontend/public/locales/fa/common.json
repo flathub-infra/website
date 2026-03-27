@@ -725,5 +725,25 @@
   "year-in-review-banner": {
     "title": "بازبینی سال {year} فلت‌هاب",
     "description": "مرور دوبارهٔ برترین کاره‌ها و روندهای سال"
-  }
+  },
+  "app-information": "اطَلاعات کاره",
+  "sub-header": {
+    "download": "بارگیری",
+    "free": "آزاد",
+    "desktop-only": "فقط میزکار",
+    "desktop-and-mobile": "میزکار و همراه",
+    "downloads-per-month": "بارگیری در ماه",
+    "amount-to-download": "مقدار بارگیری از اینترنت",
+    "size-on-disk": "اندازه روی دیسک",
+    "installed-runtime-size": "اندازهٔ زمان اجرای نصب شده",
+    "appname-works-best-on-specific-hardware": "‫‏{appName} روی سخت‌افزارهای خاصی بهتر کار می‌کند",
+    "appname-works-on-all-devices": "‫‏{appName} روی همهٔ افزاره‌ها کار می‌کند",
+    "mobile-support": "پشتیبانی همراه",
+    "desktop-support": "پشتیبانی میزکار",
+    "works-well-on-large-screens": "روی صفحه‌های بزرگ خوب کار می‌کند",
+    "may-not-work-well-on-mobile": "ممکن است روی افزاره‌های همراه خوب کار نکند",
+    "works-well-on-mobile": "روی افزاره‌های همراه خوب کار می‌کند",
+    "total-installs": "مجموع نصب‌ها"
+  },
+  "quality-moderation-excluded": "این کاره از بررسی‌های کیفی کنار گذاشته شده"
 }
