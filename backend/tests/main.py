@@ -641,6 +641,27 @@ def test_collection_keyword_invalid_pagination(client):
     assert response.status_code == 400
 
 
+def test_collection_keywords_list(client, snapshot):
+    response = client.get("/collection/keywords")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_keywords_list.json"
+    )
+
+
+def test_collection_keywords_list_with_pagination(client):
+    response = client.get("/collection/keywords?page=1&per_page=2")
+    assert response.status_code == 200
+    data = response.json()
+    assert "keywords" in data
+    assert len(data["keywords"]) == 2
+
+
+def test_collection_keywords_list_invalid_pagination(client):
+    response = client.get("/collection/keywords?page=1")
+    assert response.status_code == 400
+
+
 def test_collection_developers_list(client, snapshot):
     """Smoke test for GET /collection/developer endpoint (list all developers)"""
     response = client.get("/collection/developer")
