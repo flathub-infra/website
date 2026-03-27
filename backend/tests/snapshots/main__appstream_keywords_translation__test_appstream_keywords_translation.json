@@ -117,7 +117,8 @@
   "releases": [
     {
       "timestamp": "1582070400",
-      "version": "30"
+      "version": "30",
+      "type": "stable"
     }
   ],
   "content_rating_details": {

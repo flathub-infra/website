@@ -40,7 +40,7 @@ class Release(BaseModel):
     timestamp: str | None = None
     version: str | None = None
     date: datetime.date | None = None
-    type: Literal["stable", "development", "snapshot"] | None = None
+    type: Literal["stable", "development", "snapshot"] = "stable"
     urgency: Literal["low", "medium", "high", "critical"] | None = None
     description: str | None = None
     url: str | None = None
