@@ -695,7 +695,22 @@
     "title": "Årsoversikt {year}",
     "description": "Ett års vekst og innovasjon på Flathub",
     "select-year": "Velg år",
-    "most-popular": "Mest populære"
+    "most-popular": "Mest populære",
+    "category-highlights": "Kategorienes beste",
+    "most-popular-description": "Appen med flest nedlastinger dette året",
+    "total-downloads": "Totalt antall nedlastinger",
+    "new-apps": "Nye apper",
+    "total-apps": "Totalt antall apper",
+    "app-updates": "Appoppdateringer",
+    "top-apps": "Topp-apper",
+    "top-games": "Topp-spill",
+    "top-game-stores": "Topp-spillbutikker",
+    "top-game-utilities": "Topp-spillverktøy",
+    "top-emulators": "Topp-emulatorer",
+    "biggest-growth": "Største vekst",
+    "newcomer-of-year": "Årets nykommer",
+    "newcomer-description": "Den mest populære appen som kom ut dette året",
+    "most-improved": "Mest forbedret"
   },
   "app-information": "Appinformasjon",
   "sub-header": {
@@ -714,7 +729,8 @@
     "works-well-on-large-screens": "Fungerer bra på store skjermer",
     "may-not-work-well-on-mobile": "Fungerer kanskje ikke bra på mobile enheter",
     "works-well-on-mobile": "Fungerer bra på mobile enheter",
-    "total-installs": "Totalt antall installasjoner"
+    "total-installs": "Totalt antall installasjoner",
+    "age-rating": "Aldersgrense"
   },
   "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll"
 }

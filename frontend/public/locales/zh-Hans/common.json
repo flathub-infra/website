@@ -744,6 +744,23 @@
     "works-well-on-large-screens": "在大屏幕上运行效果良好",
     "may-not-work-well-on-mobile": "在移动设备上可能运行不佳",
     "works-well-on-mobile": "在移动设备上运行效果良好",
-    "total-installs": "总安装量"
+    "total-installs": "总安装量",
+    "age-rating": "年龄分级"
+  },
+  "content-rating": {
+    "subtitle": "{appName} 适合 {age} 岁",
+    "category-violence": "暴力",
+    "category-drugs": "药物",
+    "category-sex": "裸露",
+    "category-language": "强烈语言",
+    "category-social": "社交",
+    "category-money": "金钱",
+    "unknown": "未提供信息",
+    "none-violence": "不含暴力内容",
+    "none-drugs": "不含药物相关内容",
+    "none-sex": "不含色情内容或裸露",
+    "none-language": "不含粗俗语言或低俗语言",
+    "none-social": "无社交功能",
+    "none-money": "不含广告或金钱交易"
   }
 }

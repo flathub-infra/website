@@ -743,7 +743,24 @@
     "works-well-on-large-screens": "Nagy képernyőkön jól működik",
     "may-not-work-well-on-mobile": "Mobil eszközökön nem biztos, hogy jól működik",
     "works-well-on-mobile": "Mobil eszközökön jól működik",
-    "total-installs": "Összes telepítés"
+    "total-installs": "Összes telepítés",
+    "age-rating": "Korhatár-besorolás"
   },
-  "quality-moderation-excluded": "Ez az alkalmazás ki van zárva a minőségellenőrzésből"
+  "quality-moderation-excluded": "Ez az alkalmazás ki van zárva a minőségellenőrzésből",
+  "content-rating": {
+    "subtitle": "A(z) {appName} a következő korosztály számára ajánlott: {age}",
+    "category-violence": "Erőszak",
+    "category-drugs": "Drogok",
+    "category-sex": "Meztelenség",
+    "category-language": "Durva nyelvezet",
+    "category-social": "Közösségi funkciók",
+    "category-money": "Pénzügyek",
+    "unknown": "Nincs megadott információ",
+    "none-violence": "Nem tartalmaz erőszakot",
+    "none-drugs": "Nem tartalmaz utalást drogra",
+    "none-sex": "Nem tartalmaz szexuális tartalmat vagy meztelenséget",
+    "none-language": "Nem tartalmaz káromkodást vagy durva kifejezéseket",
+    "none-social": "Nincsenek közösségi funkciók",
+    "none-money": "Nem tartalmaz hirdetéseket vagy pénzügyi tranzakciókat"
+  }
 }

@@ -744,6 +744,23 @@
     "works-well-on-large-screens": "Funciona corretamente em ecrãs grandes",
     "may-not-work-well-on-mobile": "Pode não funcionar corretamente em dispositivos móveis",
     "works-well-on-mobile": "Funciona corretamente em dispositivos móveis",
-    "total-installs": "Total de instalações"
+    "total-installs": "Total de instalações",
+    "age-rating": "Classificação etária"
+  },
+  "content-rating": {
+    "subtitle": "{appName} é apropriado para idades {age}",
+    "category-violence": "Violência",
+    "category-drugs": "Drogas",
+    "category-sex": "Nudez",
+    "category-language": "Linguagem forte",
+    "category-social": "Social",
+    "category-money": "Dinheiro",
+    "unknown": "Nenhuma informação fornecida",
+    "none-violence": "Não contém violência",
+    "none-drugs": "Não contém referências a drogas",
+    "none-sex": "Não contém conteúdo sexual ou nudez",
+    "none-language": "Não contém profanidades ou linguagem vulgar",
+    "none-social": "Não contém funcionalidades sociais",
+    "none-money": "Não contém anúncios ou transações monetárias"
   }
 }

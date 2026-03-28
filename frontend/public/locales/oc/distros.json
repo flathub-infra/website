@@ -1,1 +1,80 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Installar Flatpak"
+    },
+    "step-2": {
+      "name": "Installar l’empeuton Flatpak dins GNOME Logicials"
+    },
+    "step-3": {
+      "name": "Apondre lo depaus Flathub"
+    },
+    "step-4": {
+      "name": "Reaviar"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Reaviar"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Installar Flatpak"
+    },
+    "step-2": {
+      "name": "Apondre lo depaus Flathub"
+    },
+    "step-3": {
+      "name": "Reaviar"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-1": {
+      "name": "Activar la compatibilitat amb Linux"
+    },
+    "step-2": {
+      "name": "Lançar un terminal Linux"
+    },
+    "step-3": {
+      "name": "Installar Flatpak"
+    }
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Installar Flatpak"
+    },
+    "step-3": {
+      "name": "Reaviar"
+    }
+  },
+  "arch": {
+    "distroName": "Arch"
+  },
+  "debian": {
+    "distroName": "Debian"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Installar Flatpak"
+    }
+  },
+  "gentoo": {
+    "distroName": "Gentoo"
+  },
+  "solus": {
+    "distroName": "Solus"
+  }
+}

@@ -743,7 +743,24 @@
     "works-well-on-large-screens": "روی صفحه‌های بزرگ خوب کار می‌کند",
     "may-not-work-well-on-mobile": "ممکن است روی افزاره‌های همراه خوب کار نکند",
     "works-well-on-mobile": "روی افزاره‌های همراه خوب کار می‌کند",
-    "total-installs": "مجموع نصب‌ها"
+    "total-installs": "مجموع نصب‌ها",
+    "age-rating": "رتبه بندی سنی"
   },
-  "quality-moderation-excluded": "این کاره از بررسی‌های کیفی کنار گذاشته شده"
+  "quality-moderation-excluded": "این کاره از بررسی‌های کیفی کنار گذاشته شده",
+  "content-rating": {
+    "subtitle": "‫‏{appName} برای سنین {age} مناسب است",
+    "category-violence": "خشونت",
+    "category-drugs": "مواد",
+    "category-sex": "برهنگی",
+    "category-language": "زبان خشن",
+    "category-social": "اجتماعی",
+    "category-money": "پول",
+    "unknown": "هیچ اطّلاعاتی فراهم نشده",
+    "none-violence": "بدون خشونت",
+    "none-drugs": "بدون ارجاع به مواد",
+    "none-sex": "بدون محتوای جنسی یا برهنگی",
+    "none-language": "بدون توهین و الفاظ رکیک",
+    "none-social": "بدون ویژگی‌های اجتماعی",
+    "none-money": "بدون تبلیغ یا تراکنش‌های مالی"
+  }
 }

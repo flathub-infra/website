@@ -743,7 +743,24 @@
     "mobile-support": "Поддръжка на мобилни устройства",
     "desktop-support": "Поддръжка на настолни компютри",
     "appname-works-best-on-specific-hardware": "„{appName}“ работи на определени устройства",
-    "appname-works-on-all-devices": "„{appName}“ работи на всички устройства"
+    "appname-works-on-all-devices": "„{appName}“ работи на всички устройства",
+    "age-rating": "Възрастово ограничение"
   },
-  "app-information": "Информация за приложението"
+  "app-information": "Информация за приложението",
+  "content-rating": {
+    "category-violence": "Насилие",
+    "category-sex": "Голота",
+    "category-language": "Нецензурни думи",
+    "category-social": "Общуване",
+    "category-money": "Пари",
+    "subtitle": "„{appName}“ е подходящо за лица на {age} години",
+    "category-drugs": "Психоактивни вещества",
+    "unknown": "Няма налична информация",
+    "none-violence": "Не съдържа насилие",
+    "none-drugs": "Не съдържа препратки към психоактивни вещества",
+    "none-sex": "Не съдържа сексуално съдържание или голота",
+    "none-language": "Не съдържа вулгарен език или нецензурни думи",
+    "none-social": "Няма функции за общуване",
+    "none-money": "Не съдържа реклами или парични транзакции"
+  }
 }

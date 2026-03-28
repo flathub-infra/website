@@ -206,7 +206,10 @@
     "hide-icon": "Amagar l'icòna",
     "show-icon": "Mostrar l'icòna",
     "app-summary": "Resumit",
-    "branding": "Marca"
+    "branding": "Marca",
+    "light": "Clar",
+    "dark": "Escur",
+    "details": "Detalhs"
   },
   "no-network-access": "Cap d'accès ret",
   "no-file-system-access-description": "Accès impossible al sistèma de fichièrs",
@@ -373,7 +376,35 @@
   "launcher": "Aviadors",
   "lightbox": {
     "show-screenshot-fullscreen": "Afichar la captura d'ecran en plen ecran",
-    "screenshot": "Captura d'ecran"
+    "screenshot": "Captura d'ecran",
+    "close": "Tampar",
+    "next": "Seguent",
+    "previous": "Precedent"
   },
-  "developed-by": "desvolopat per {developer}"
+  "developed-by": "desvolopat per {developer}",
+  "see-all-results": "Veire totes los resultats",
+  "count": "Total",
+  "country-statistics": "Estatisticas per país",
+  "sub-header": {
+    "download": "de telecargament",
+    "free": "Liure",
+    "desktop-only": "solament PC",
+    "desktop-and-mobile": "PC e mobil",
+    "downloads-per-month": "Telecargaments/mes",
+    "amount-to-download": "Quantitat de donadas a telecargament d’Internet",
+    "size-on-disk": "Talha sul disc",
+    "installed-runtime-size": "Talha de l’environament d’execucion aprèp installacion",
+    "total-installs": "Total d’installacions",
+    "age-rating": "Restriccion d’atge"
+  },
+  "count-verified-desktop-apps": "Aplicacions de burèu verificadas",
+  "since-x": "Dempuèi {date}",
+  "default-account": "Per defaut",
+  "content-rating": {
+    "category-money": "Moneda",
+    "subtitle": "{appName} es adequat pels {age} ans"
+  },
+  "download": {
+    "install-x": "Installar « {x} »"
+  }
 }
