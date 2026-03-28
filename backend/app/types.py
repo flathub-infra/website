@@ -1,5 +1,5 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ModerationRequestType(str, Enum):
+class ModerationRequestType(StrEnum):
     APPDATA = "appdata"

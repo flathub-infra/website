@@ -1,6 +1,6 @@
 import base64
 from datetime import UTC, datetime, timedelta
-from enum import Enum
+from enum import StrEnum
 from uuid import uuid4
 
 import gi
@@ -30,7 +30,7 @@ class StorefrontInfo(BaseModel):
     is_free_software: bool = False
 
 
-class ErrorDetail(str, Enum):
+class ErrorDetail(StrEnum):
     # The user is not logged in
     NOT_LOGGED_IN = "not_logged_in"
     # The app is not purchased
