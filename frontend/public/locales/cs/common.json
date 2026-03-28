@@ -743,7 +743,24 @@
     "works-well-on-large-screens": "Funguje dobře na velkých obrazovkách",
     "may-not-work-well-on-mobile": "Nemusí skvěle fungovat na mobilních zařízeních",
     "works-well-on-mobile": "Funguje skvěle na mobilních zařízeních",
-    "total-installs": "Instalací celkem"
+    "total-installs": "Instalací celkem",
+    "age-rating": "Věkové hodnocení"
   },
-  "quality-moderation-excluded": "Tato aplikace je vyloučena z kontrol kvality"
+  "quality-moderation-excluded": "Tato aplikace je vyloučena z kontrol kvality",
+  "content-rating": {
+    "category-violence": "Násilí",
+    "category-drugs": "Drogy",
+    "category-sex": "Nahota",
+    "category-money": "Peníze",
+    "unknown": "Nebyly poskytnuty žádné informace",
+    "none-violence": "Neobsahuje žádné násilí",
+    "none-drugs": "Neobsahuje žádné odkazy na drogy",
+    "none-sex": "Neobsahuje žádný sexuální obsah ani nahotu",
+    "none-social": "Neobsahuje žádné sociální funkce",
+    "none-money": "Neobsahuje žádné reklamy ani platební transakce",
+    "subtitle": "Aplikace {appName} je vhodná pro věk {age}",
+    "category-language": "Hrubý jazyk",
+    "category-social": "Sociální funkce",
+    "none-language": "Neobsahuje žádné nadávky ani vulgární výrazy"
+  }
 }

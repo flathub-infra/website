@@ -742,7 +742,13 @@
     "works-well-on-mobile": "Працює на мобільних пристроях",
     "free": "Вільна",
     "appname-works-best-on-specific-hardware": "{appName} краще працює на певному обладнанні",
-    "may-not-work-well-on-mobile": "Обмежена підтримка на мобільних"
+    "may-not-work-well-on-mobile": "Обмежена підтримка на мобільних",
+    "age-rating": "Вікова категорія"
   },
-  "quality-moderation-excluded": "Застосунок виключено з перевірок якості"
+  "quality-moderation-excluded": "Застосунок виключено з перевірок якості",
+  "content-rating": {
+    "category-drugs": "Речовини",
+    "category-sex": "Оголення",
+    "unknown": "Інформація не надана"
+  }
 }
