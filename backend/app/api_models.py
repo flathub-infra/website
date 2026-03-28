@@ -8,7 +8,7 @@ enabling FastAPI to generate proper OpenAPI specifications and TypeScript types.
 import datetime
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.models import ConnectedAccountProvider
 
@@ -45,6 +45,17 @@ class Release(BaseModel):
     description: str | None = None
     url: str | None = None
     date_eol: datetime.date | None = None
+
+    @field_validator("type", mode="before")
+    @classmethod
+    def default_type_to_stable(cls, v):
+        """Per the AppStream spec, releases without an explicit type default to 'stable'.
+
+        Legacy cached data may contain null values for the type field.
+        """
+        if v is None:
+            return "stable"
+        return v
 
 
 class Urls(BaseModel):

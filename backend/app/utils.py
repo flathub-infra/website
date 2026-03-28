@@ -255,6 +255,11 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 for attr in release.attrib:
                     attrs[attr] = release.attrib[attr]
 
+                # Per the AppStream spec, releases without an explicit type
+                # default to "stable"
+                if "type" not in attrs:
+                    attrs["type"] = "stable"
+
                 descs = release.findall("description")
                 for desc in descs:
                     if desc is not None:
