@@ -206,7 +206,6 @@
   "app-install-error-try-again": "Không thể cài ứng dụng. Thử trở lại cửa hàng ứng dụng và cài lại.",
   "appname-is-safety-rating-3": "{appName} có thể không an toàn",
   "uses-eol-runtime-description": "Runtime được ứng dụng này sử dụng không còn được nhận cập nhật bảo mật",
-  "information": "Thông tin",
   "leave-confirmation": "Bạn có chắc chắn bạn muốn rời {app}?",
   "cannot-access-the-internet": "Không thể truy cập internet",
   "community-repository-description": "Tải lên Flathub ứng dụng của bạn bằng cách tải lên tập tin kê khai Flatpak của bạn và những tập tin đi kèm tới một repository trong tổ chức Github của chúng tôi. Buildbot của Flathub sẽ dựng ứng dụng và phát hành nó lên Flathub.",
@@ -450,7 +449,9 @@
     "branding-has-primary-brand-colors": "Có các màu sắc thương hiệu chủ đạo",
     "branding-good-primary-brand-colors": "Màu sắc thương hiệu chủ đạo tốt",
     "needed-to-pass-x": "Cần đạt {x}",
-    "app-icon-contrast": "Độ tương phản trên nền tối tốt"
+    "app-icon-contrast": "Độ tương phản trên nền tối tốt",
+    "light": "Sáng",
+    "dark": "Tối"
   },
   "potentially-unsafe": "Có thể không an toàn",
   "invited-apps": "Lời mời",
@@ -605,5 +606,40 @@
   "flathub-logo": "Logo Flathub",
   "kind-purchase-app": "Mua {appName}",
   "recipient": "Người nhận",
-  "mastodon": "Mastodon"
+  "mastodon": "Mastodon",
+  "see-all-results": "Xem tất cả kết quả",
+  "vending": {
+    "purchase-not-available": "Ứng dụng này không được bán."
+  },
+  "lightbox": {
+    "close": "Đóng",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "zoom-in": "Phóng to",
+    "zoom-out": "Thu nhỏ",
+    "show-screenshot-fullscreen": "Hiện ảnh chụp toàn màn hình",
+    "screenshot": "Ảnh chụp màn hình"
+  },
+  "download": {
+    "install-x": "Tải xuống “{x}”"
+  },
+  "year-in-review": {
+    "select-year": "Chọn năm",
+    "most-popular": "Phổ biến nhất",
+    "most-popular-description": "Ứng dụng được tải xuống nhiều nhất năm",
+    "total-downloads": "Tổng lượt tải xuống",
+    "new-apps": "Ứng dụng mới",
+    "total-apps": "Tổng số ứng dụng",
+    "app-updates": "Cập nhật ứng dụng",
+    "top-apps": "Ứng dụng hàng đầu",
+    "top-games": "Trò chơi hàng đầu",
+    "top-game-stores": "Cửa hàng trò chơi hàng đầu",
+    "top-game-utilities": "Công cụ trò chơi hàng đầu",
+    "top-emulators": "Giả lập hàng đầu",
+    "biggest-growth": "Tăng trưởng lớn nhất",
+    "biggest-growth-description": "Ứng dụng được tải xuống nhiều nhất khi so sánh với năm trước đó",
+    "newcomer-description": "Ứng dụng phổ biến nhất được phát hành năm nay",
+    "most-improved": "Cải thiện nhất",
+    "most-improved-description": "Ứng dụng có tỉ lệ phần trăm tăng trưởng lớn nhất khi so sánh với năm trước đó"
+  }
 }

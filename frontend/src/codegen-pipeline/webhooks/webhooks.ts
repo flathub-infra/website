@@ -15,7 +15,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type { HTTPValidationError } from ".././model"
+import type { HTTPValidationError } from "../model"
 
 /**
  * @summary Receive Github Webhook
@@ -97,8 +97,8 @@ export const useReceiveGithubWebhookApiWebhooksGithubPost = <
   void,
   TContext
 > => {
-  const mutationOptions =
-    getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions(options),
+    queryClient,
+  )
 }

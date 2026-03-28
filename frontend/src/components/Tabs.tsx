@@ -24,7 +24,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
         <LayoutGroup
           id={tabsIdentifier + "-" + tabs.map((tab) => tab.name).join("-")}
         >
-          <TabList className="flex flex-wrap gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
+          <TabList className="flex flex-wrap gap-3 rounded-t-xl border border-b-0 border-flathub-gainsborow/80 bg-flathub-white px-3 shadow-sm dark:bg-flathub-arsenic dark:border-flathub-granite-gray/30">
             {tabs.map((tab, index) => (
               <Tab
                 key={index}
@@ -64,7 +64,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
               key={index}
               className={clsx(
                 tab.replacePadding ?? "p-4",
-                "rounded-b-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic",
+                "rounded-b-xl border border-t-0 border-flathub-gainsborow/80 bg-flathub-white shadow-sm dark:bg-flathub-arsenic dark:border-flathub-granite-gray/30",
                 "focus:outline-hidden data-focus:outline-1 data-focus:outline-flathub-celestial-blue",
               )}
             >

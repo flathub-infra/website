@@ -143,7 +143,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
     <>
       {links && links.length > 0 && (
         <>
-          <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
+          <div className="flex flex-col divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
             {links.map((link) => {
               const linkClicked = () => {
                 trackEvent({

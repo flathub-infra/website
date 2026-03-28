@@ -8,7 +8,6 @@
 export type VerificationMethod =
   (typeof VerificationMethod)[keyof typeof VerificationMethod]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const VerificationMethod = {
   none: "none",
   manual: "manual",

@@ -2,10 +2,22 @@ import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
 import WebsiteVerification from "./WebsiteVerification"
 import { expect, userEvent, waitFor, within } from "storybook/test"
+import {
+  getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMockHandler,
+  getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMockHandler,
+} from "../../../codegen/verification/verification.msw"
 
 const meta = {
   component: WebsiteVerification,
   title: "Components/Application/AppVerificationControls/WebsiteVerification",
+  parameters: {
+    msw: {
+      handlers: [
+        getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMockHandler(),
+        getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMockHandler(),
+      ],
+    },
+  },
 } satisfies Meta<typeof WebsiteVerification>
 
 export default meta

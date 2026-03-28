@@ -39,6 +39,8 @@ export interface Metadata {
   builtExtensions: string[]
   extraData: ExtraData
   runtimeIsEol: boolean
+  runtimeInstalledSize?: number
+  runtimeName?: string
 }
 
 export interface Summary {

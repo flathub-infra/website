@@ -1,1 +1,32 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instalatu Flatpak",
+      "text": "<text>Flatpak <strong>Ubuntu 18.10 (Cosmic Cuttlefish) edo berriagoan</strong> instalatzeko, ireki terminala eta exekutatu:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Instalatu GNOME Software aplikaziorako Flatpak plugina"
+    },
+    "step-3": {
+      "name": "Gehitu Flathub biltegia",
+      "text": "<text>FlathubFlatpak aplikazioak eskuratzeko gunerik onena da. Hura gaitzeko, exekutatu honakoa::</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Berrabiarazi",
+      "text": "<text>Konfigurazio osatzeko, berrabiarazi zure sistema. Orain, jadanik <link>app-ak instalatu</link> ditzakezu!</text>"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Gaitu Flatpak software-kudeatzailearen bidez"
+    },
+    "step-2": {
+      "name": "Berrabiarazi"
+    }
+  }
+}

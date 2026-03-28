@@ -242,7 +242,7 @@
   "page-not-found": "{errorCode} - لم يُعثر على الصفحة",
   "could-not-find-page": "لم نتمكَّن من العثور على الصفحة.",
   "verified-website-tooltip": "أُكِّدت ملكية معرِّف التطبيق <appid></appid> باستخدام <website></website>",
-  "verified-login-provider-tooltip": "أكَّد <appid></appid> ملكية معرِّف التطبيق <loginname></loginname> في <loginprovider></loginprovider>",
+  "verified-login-provider-tooltip": "أُكِّدت ملكية معرِّف التطبيق <appid></appid> بواسطة <loginname></loginname> على <loginprovider></loginprovider>",
   "verified-manually-tooltip": "أكَّد فريق فلاتهب ملكية معرِّف التطبيق <appid></appid> يدويًّا",
   "verification-warning": "لدى فريق فلاتهب الحقُّ في إزالة شارة التأكيد من أيِّ تطبيق حسب ما يراه مناسبًا، مثلًا في حال كان وجودها قد يضلِّل حقيقة حالة التطبيق الرسمية أو عند تسبُّبها بلبس في علامة تجارية.",
   "refresh": "حدِّث",
@@ -373,7 +373,6 @@
   "addon-install-info-text": "استعمل مدير فلاتباك الموجود في توزيعتك لتثبِّت الإضافات.",
   "uses-eol-runtime": "يستخدم بيئة تشغيل تكاد تُترك",
   "can-acquire-arbitrary-permissions": "يؤذَن له بأذونات كيفية",
-  "information": "معلومات",
   "proprietary-explanation": "لا تُطوَّر هذه البرمجية علنًا، فلا يعرف خفاياها إلا مطوِّروها، ولعل فيها شيئًا لا يُعرف يجعلها غير آمنة، وقد تتغيَّر دون إشراف.",
   "community-built": "بناها مجتمع",
   "community-built-explanation": "يطوِّر هذا التطبيق من قِبل المجتمع الدولي علنًا، وينشرونها وفق <bold>{ license }</bold>.",
@@ -690,5 +689,25 @@
   "special-code-description": "هذا التطبيق طوِّر تحت ترخيص خاص. قد يكون المصدر البرمجي متاحًا للعموم أو لا يكون.",
   "year-in-review-banner": {
     "description": "أعد زيارة أفضل التطبيقات والمتداولات من العام"
+  },
+  "quality-moderation-excluded": "هذا التطبيق مستثنى من فحص الجودة",
+  "app-information": "معلومات التطبيق",
+  "sub-header": {
+    "download": "نزِّل",
+    "free": "مجانًا",
+    "desktop-only": "سطح المكتب فقط",
+    "desktop-and-mobile": "سطح المكتب والجوّال",
+    "downloads-per-month": "تنزيلات/شهر",
+    "amount-to-download": "حجم البيانات المراد تنزيلها من الإنترنت",
+    "size-on-disk": "الحجم على القرص",
+    "installed-runtime-size": "حجم بيئة التشغيل المثبتة",
+    "appname-works-best-on-specific-hardware": "يعمل {appName} بشكل أفضل على أجهزة محدّدة",
+    "appname-works-on-all-devices": "يعمل {appName} على جميع الأجهزة",
+    "mobile-support": "دعم الجوّال",
+    "desktop-support": "دعم سطح المكتب",
+    "works-well-on-large-screens": "يعمل جيدًا على الشاشات الكبيرة",
+    "may-not-work-well-on-mobile": "قد لا يعمل جيدًا على أجهزة الجوّال",
+    "works-well-on-mobile": "يعمل جيدًا على أجهزة الجوّال",
+    "total-installs": "إجمالي التثبيتات"
   }
 }

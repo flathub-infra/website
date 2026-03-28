@@ -146,8 +146,10 @@ async def get_appstream(
             db_session.session.query(models.App)
             .options(
                 load_only(
+                    models.App.app_id,
                     models.App.appstream,
                     models.App.localization,
+                    models.App.content_rating_details,
                     models.App.is_eol,
                     models.App.eol_branches,
                 )
@@ -165,6 +167,8 @@ async def get_appstream(
         result = app.get_translated_appstream(locale)
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
+
+        result["is_eol"] = app.is_eol
 
         # Return the correct union type
         if result.get("type") == "addon":
@@ -290,6 +294,29 @@ async def get_summary(
                     db_session, runtime_appid, runtime_branch
                 )
                 summary["metadata"]["runtimeIsEol"] = runtime_is_eol
+
+                # Resolve runtime size and name from the runtime's stored
+                # branch-specific data if not already present
+                if (
+                    "runtimeInstalledSize" not in summary["metadata"]
+                    or "runtimeName" not in summary["metadata"]
+                ):
+                    runtime_app = models.App.by_appid(db_session, runtime_appid)
+                    if runtime_app and runtime_app.summary:
+                        branches = runtime_app.summary.get("branches", {})
+                        branch_data = branches.get(runtime_branch, {})
+                        if (
+                            "runtimeInstalledSize" not in summary["metadata"]
+                            and "installed_size" in branch_data
+                        ):
+                            summary["metadata"]["runtimeInstalledSize"] = branch_data[
+                                "installed_size"
+                            ]
+                        if (
+                            "runtimeName" not in summary["metadata"]
+                            and "name" in branch_data
+                        ):
+                            summary["metadata"]["runtimeName"] = branch_data["name"]
 
             # FastAPI will automatically validate and convert this dict
             # to SummaryResponse based on response_model

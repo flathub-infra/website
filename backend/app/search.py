@@ -4,10 +4,12 @@ from typing import Any, TypeVar
 
 import meilisearch
 from pydantic import BaseModel, field_validator
+from sqlalchemy import text
 
 from app.models import ConnectedAccountProvider
 
 from . import config, schemas
+from .database import get_db
 from .verification_method import VerificationMethod
 
 T = TypeVar("T")
@@ -41,7 +43,7 @@ class MeilisearchResponseLimited[T](BaseModel):
 
 class AppsIndex(BaseModel):
     name: str
-    keywords: list[str] | None
+    keywords: list[str] | None = None
     summary: str
     description: str
     id: str
@@ -781,6 +783,18 @@ class DevelopersResponse(BaseModel):
     per_page: int
 
 
+class KeywordCount(BaseModel):
+    keyword: str
+    count: int
+
+
+class KeywordsResponse(BaseModel):
+    keywords: list[KeywordCount]
+    total: int
+    page: int
+    per_page: int
+
+
 def get_developers(page: int | None, hits_per_page: int | None) -> DevelopersResponse:
     result = client.index("apps").search(
         "",
@@ -799,6 +813,46 @@ def get_developers(page: int | None, hits_per_page: int | None) -> DevelopersRes
             "total": len(facet_distribution),
             "page": page or 1,
             "per_page": hits_per_page or 250,
+        }
+    )
+
+
+def get_keywords(page: int | None, hits_per_page: int | None) -> KeywordsResponse:
+    current_page = page or 1
+    current_hits_per_page = hits_per_page or 250
+
+    with get_db() as sqldb:
+        keyword_counts = sqldb.session.execute(
+            text(
+                """
+                WITH app_keywords AS (
+                    SELECT DISTINCT apps.app_id, keyword.value AS keyword
+                    FROM apps
+                    CROSS JOIN LATERAL jsonb_array_elements_text(
+                        COALESCE(appstream -> 'keywords', '[]'::jsonb)
+                    ) AS keyword(value)
+                    WHERE apps.is_eol = false
+                      AND apps.type IN ('desktop-application', 'console-application')
+                      AND COALESCE(appstream ->> 'icon', '') <> ''
+                )
+                SELECT keyword, COUNT(*) AS count
+                FROM app_keywords
+                GROUP BY keyword
+                ORDER BY LOWER(keyword), keyword
+                """
+            )
+        ).mappings()
+        all_keywords = list(keyword_counts)
+
+    start = (current_page - 1) * current_hits_per_page
+    end = start + current_hits_per_page
+
+    return KeywordsResponse.model_validate(
+        {
+            "keywords": all_keywords[start:end],
+            "total": len(all_keywords),
+            "page": current_page,
+            "per_page": current_hits_per_page,
         }
     )
 

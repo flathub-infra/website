@@ -6,14 +6,14 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import {
   ConnectedAccountProvider,
   MainCategory,
   VerificationMethod,
-} from ".././model"
+} from "../model"
 import type {
   AddonAppstream,
   DesktopAppstream,
@@ -31,7 +31,7 @@ import type {
   MeilisearchResponseAppsIndex,
   RuntimeAppstream,
   SummaryResponse,
-} from ".././model"
+} from "../model"
 
 export const getGetEolRebaseEolRebaseGetResponseMock =
   (): GetEolRebaseEolRebaseGet200 => ({
@@ -108,24 +108,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -152,10 +143,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
           ).map(() => ({
             width: faker.string.alpha({ length: { min: 10, max: 20 } }),
             height: faker.string.alpha({ length: { min: 10, max: 20 } }),
-            scale: faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              undefined,
-            ]),
+            scale: faker.string.alpha({ length: { min: 10, max: 20 } }),
             src: faker.string.alpha({ length: { min: 10, max: 20 } }),
           })),
           caption: faker.helpers.arrayElement([
@@ -194,22 +182,16 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       date: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.date.past().toISOString().split("T")[0],
+          faker.date.past().toISOString().slice(0, 10),
           null,
         ]),
         undefined,
       ]),
       type: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            "stable",
-            "development",
-            "snapshot",
-          ] as const),
-          null,
-        ]),
-        undefined,
-      ]),
+        "stable",
+        "development",
+        "snapshot",
+      ] as const),
       urgency: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.helpers.arrayElement([
@@ -238,349 +220,14 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       date_eol: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.date.past().toISOString().split("T")[0],
+          faker.date.past().toISOString().slice(0, 10),
           null,
         ]),
         undefined,
       ]),
     })),
-    content_rating: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_cartoon: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_fantasy: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_realistic: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_bloodshed: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_sexual: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_desecration: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_slavery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_worship: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_alcohol: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_narcotics: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_tobacco: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_nudity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_themes: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_homosexuality: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_prostitution: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_adultery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_appearance: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_profanity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_humor: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_discrimination: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_chat: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_info: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_audio: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_location: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_contacts: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_purchasing: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_gambling: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-        },
-        null,
-      ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: faker.helpers.arrayElement([
@@ -860,6 +507,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
       undefined,
     ]),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -894,22 +542,16 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
           ]),
           date: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "stable",
-                "development",
-                "snapshot",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
+            "stable",
+            "development",
+            "snapshot",
+          ] as const),
           urgency: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.helpers.arrayElement([
@@ -938,7 +580,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
           ]),
           date_eol: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -948,343 +590,8 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       ]),
       undefined,
     ]),
-    content_rating: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_cartoon: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_fantasy: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_realistic: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_bloodshed: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_sexual: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_desecration: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_slavery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          violence_worship: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_alcohol: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_narcotics: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          drugs_tobacco: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_nudity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_themes: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_homosexuality: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_prostitution: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_adultery: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          sex_appearance: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_profanity: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_humor: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          language_discrimination: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_chat: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_info: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_audio: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_location: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          social_contacts: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_purchasing: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-          money_gambling: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "none",
-                "mild",
-                "moderate",
-                "intense",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
-        },
-        null,
-      ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: faker.helpers.arrayElement([
@@ -1389,24 +696,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -1525,6 +823,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -1560,22 +859,16 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
             ]),
             date: faker.helpers.arrayElement([
               faker.helpers.arrayElement([
-                faker.date.past().toISOString().split("T")[0],
+                faker.date.past().toISOString().slice(0, 10),
                 null,
               ]),
               undefined,
             ]),
             type: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                  "stable",
-                  "development",
-                  "snapshot",
-                ] as const),
-                null,
-              ]),
-              undefined,
-            ]),
+              "stable",
+              "development",
+              "snapshot",
+            ] as const),
             urgency: faker.helpers.arrayElement([
               faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
@@ -1604,7 +897,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
             ]),
             date_eol: faker.helpers.arrayElement([
               faker.helpers.arrayElement([
-                faker.date.past().toISOString().split("T")[0],
+                faker.date.past().toISOString().slice(0, 10),
                 null,
               ]),
               undefined,
@@ -1612,6 +905,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
           })),
           null,
         ]),
+        undefined,
+      ]),
+      content_rating_details: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([null]),
         undefined,
       ]),
       urls: {
@@ -1710,24 +1007,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
               undefined,
             ]),
             width: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                null,
-              ]),
+              faker.helpers.arrayElement([faker.number.int(), null]),
               undefined,
             ]),
             height: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                null,
-              ]),
+              faker.helpers.arrayElement([faker.number.int(), null]),
               undefined,
             ]),
             scale: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                null,
-              ]),
+              faker.helpers.arrayElement([faker.number.int(), null]),
               undefined,
             ]),
             type: faker.helpers.arrayElement([
@@ -1847,6 +1135,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
         undefined,
       ]),
       is_free_license: faker.datatype.boolean(),
+      is_eol: faker.datatype.boolean(),
     },
     ...overrideResponse,
   })
@@ -1881,22 +1170,16 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
           ]),
           date: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "stable",
-                "development",
-                "snapshot",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
+            "stable",
+            "development",
+            "snapshot",
+          ] as const),
           urgency: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.helpers.arrayElement([
@@ -1925,7 +1208,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
           ]),
           date_eol: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -1933,6 +1216,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
         })),
         null,
       ]),
+      undefined,
+    ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: {
@@ -2031,24 +1318,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -2166,6 +1444,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -2207,22 +1486,16 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
           ]),
           date: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "stable",
-                "development",
-                "snapshot",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
+            "stable",
+            "development",
+            "snapshot",
+          ] as const),
           urgency: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.helpers.arrayElement([
@@ -2251,7 +1524,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
           ]),
           date_eol: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
-              faker.date.past().toISOString().split("T")[0],
+              faker.date.past().toISOString().slice(0, 10),
               null,
             ]),
             undefined,
@@ -2259,6 +1532,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
         })),
         null,
       ]),
+      undefined,
+    ]),
+    content_rating_details: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([null]),
       undefined,
     ]),
     urls: {
@@ -2357,24 +1634,15 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
             undefined,
           ]),
           width: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           height: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           scale: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.number.int({ min: undefined, max: undefined }),
-              null,
-            ]),
+            faker.helpers.arrayElement([faker.number.int(), null]),
             undefined,
           ]),
           type: faker.helpers.arrayElement([
@@ -2492,6 +1760,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
       undefined,
     ]),
     is_free_license: faker.datatype.boolean(),
+    is_eol: faker.datatype.boolean(),
   },
   ...overrideResponse,
 })
@@ -2512,7 +1781,7 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock =
   (): boolean => faker.datatype.boolean()
 
 export const getPostSearchSearchPostResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2520,11 +1789,14 @@ export const getPostSearchSearchPostResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -2600,7 +1872,7 @@ export const getPostSearchSearchPostResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2609,53 +1881,37 @@ export const getPostSearchSearchPostResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -2666,10 +1922,7 @@ export const getPostSearchSearchPostResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -2681,14 +1934,11 @@ export const getPostSearchSearchPostResponseMock = (
 
 export const getGetRuntimeListRuntimesGetResponseMock =
   (): GetRuntimeListRuntimesGet200 => ({
-    [faker.string.alphanumeric(5)]: faker.number.int({
-      min: undefined,
-      max: undefined,
-    }),
+    [faker.string.alphanumeric(5)]: faker.number.int(),
   })
 
 export const getGetSummarySummaryAppIdGetResponseMock = (
-  overrideResponse: Partial<SummaryResponse> = {},
+  overrideResponse: Partial<Extract<SummaryResponse, object>> = {},
 ): SummaryResponse => ({
   arches: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -2701,9 +1951,9 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
     ]),
     undefined,
   ]),
-  timestamp: faker.number.int({ min: undefined, max: undefined }),
-  download_size: faker.number.int({ min: undefined, max: undefined }),
-  installed_size: faker.number.int({ min: undefined, max: undefined }),
+  timestamp: faker.number.int(),
+  download_size: faker.number.int(),
+  installed_size: faker.number.int(),
   metadata: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
@@ -2870,8 +2120,16 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
           ]),
           undefined,
         ]),
-        runtimeIsEol: faker.helpers.arrayElement([
-          faker.datatype.boolean(),
+        runtimeIsEol: faker.datatype.boolean(),
+        runtimeInstalledSize: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([faker.number.int(), null]),
+          undefined,
+        ]),
+        runtimeName: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
           undefined,
         ]),
       },
@@ -2896,7 +2154,7 @@ export const getGetPlatformsPlatformsGetResponseMock =
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      keep: faker.number.int({ min: undefined, max: undefined }),
+      keep: faker.number.int(),
       stripe_account: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -2918,7 +2176,7 @@ export const getGetFavoritesFavoritesGetResponseMock = (): FavoriteApp[] =>
     (_, i) => i + 1,
   ).map(() => ({
     app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+    created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   }))
 
 export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
@@ -2937,18 +2195,14 @@ export const getGetEolRebaseEolRebaseGetMockHandler = (
 ) => {
   return http.get(
     "*/eol/rebase",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolRebaseEolRebaseGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolRebaseEolRebaseGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2967,18 +2221,14 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/eol/rebase/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2997,18 +2247,14 @@ export const getGetEolMessageEolMessageGetMockHandler = (
 ) => {
   return http.get(
     "*/eol/message",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolMessageEolMessageGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolMessageEolMessageGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3027,18 +2273,14 @@ export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/eol/message/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3055,18 +2297,14 @@ export const getListAppstreamAppstreamGetMockHandler = (
 ) => {
   return http.get(
     "*/appstream",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getListAppstreamAppstreamGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getListAppstreamAppstreamGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3085,18 +2323,14 @@ export const getGetAppstreamAppstreamAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/appstream/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAppstreamAppstreamAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAppstreamAppstreamAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3113,18 +2347,14 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/is-fullscreen-app/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3143,18 +2373,14 @@ export const getPostSearchSearchPostMockHandler = (
 ) => {
   return http.post(
     "*/search",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getPostSearchSearchPostResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getPostSearchSearchPostResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3173,18 +2399,14 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
 ) => {
   return http.get(
     "*/runtimes",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetRuntimeListRuntimesGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetRuntimeListRuntimesGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3201,18 +2423,14 @@ export const getGetSummarySummaryAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/summary/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetSummarySummaryAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetSummarySummaryAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3229,18 +2447,14 @@ export const getGetPlatformsPlatformsGetMockHandler = (
 ) => {
   return http.get(
     "*/platforms",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetPlatformsPlatformsGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPlatformsPlatformsGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3257,18 +2471,14 @@ export const getGetAddonsAddonAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/addon/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAddonsAddonAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAddonsAddonAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3285,11 +2495,11 @@ export const getGetExceptionsExceptionsGetMockHandler = (
 ) => {
   return http.get(
     "*/exceptions/",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3306,11 +2516,11 @@ export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/exceptions/:appId",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3327,11 +2537,11 @@ export const getAddToFavoritesFavoritesAppIdAddPostMockHandler = (
 ) => {
   return http.post(
     "*/favorites/:appId/add",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3348,11 +2558,11 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler = (
 ) => {
   return http.delete(
     "*/favorites/:appId/remove",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -3369,18 +2579,14 @@ export const getGetFavoritesFavoritesGetMockHandler = (
 ) => {
   return http.get(
     "*/favorites",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetFavoritesFavoritesGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetFavoritesFavoritesGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3397,18 +2603,14 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
 ) => {
   return http.get(
     "*/favorites/:appId",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getIsFavoritedFavoritesAppIdGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getIsFavoritedFavoritesAppIdGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -3427,18 +2629,14 @@ export const getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler = (
 ) => {
   return http.get(
     "*/favorites/:appId/count",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock(),
+        { status: 200 },
       )
     },
     options,

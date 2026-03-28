@@ -444,7 +444,6 @@
   "updated": "Actualitzat",
   "can-access-input-devices": "Pot accedir a dispositius d'entrada com teclats, ratolins o controladors de joc",
   "can-read-all-data-on-file-system": "Pot llegir totes les dades del sistema de fitxers",
-  "information": "Informació",
   "community-built-explanation": "Aquesta aplicació es desenvolupa en obert per una comunitat internacional, i s'allibera sota <bold>{ license }</bold>.",
   "music-subfolder-x": "Subcarpeta de música {folder}",
   "pictures-folder": "Carpeta d'imatges",

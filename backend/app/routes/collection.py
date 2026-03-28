@@ -120,6 +120,35 @@ async def get_subcategory(
 
 
 @router.get(
+    "/keywords",
+    response_model=search.KeywordsResponse,
+    responses={
+        200: {"description": "List of keywords with app counts"},
+        400: {"description": "Invalid pagination parameters"},
+    },
+)
+@cached(ttl=3600)
+async def get_keywords(
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
+) -> search.KeywordsResponse:
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        raise HTTPException(
+            status_code=400,
+        )
+
+    if page is not None and page < 0:
+        raise HTTPException(
+            status_code=400,
+        )
+
+    return search.get_keywords(page, per_page)
+
+
+@router.get(
     "/keyword",
     response_model=search.MeilisearchResponse[search.AppsIndex],
     responses={

@@ -291,7 +291,7 @@
   "category-distribution": "Distribution des catégories",
   "logic": "Logique",
   "shooter": "Shooter",
-  "flos": "Libre et open-source",
+  "flos": "Libre et open source",
   "moderation-approved-by": "Approuvé par {handledBy} le {handledAt} ({handledAtRel})",
   "consultants": "Consultants",
   "moderation-pending-reviews": "Examens en attente",
@@ -371,7 +371,6 @@
   "no-user-device-access": "Aucun accès aux périphériques utilisateur",
   "can-access-hardware-devices": "Peut accéder à des périphériques matériels tels que des webcams ou des contrôleurs de jeu",
   "can-access-system-devices": "Peut accéder aux périphériques du système qui requièrent des autorisations élevées",
-  "information": "Informations",
   "can-acquire-arbitrary-permissions": "Peut obtenir des autorisations arbitraires",
   "uses-eol-runtime": "Utilise un environnement d'exécution en fin de vie",
   "proprietary-explanation": "Cette app n'est pas développée de manière ouverte : seuls ses développeurs connaissent son fonctionnement. Elle est susceptible de comporter des failles de sécurité difficiles à détecter et peut être modifiée sans aucun contrôle préalable.",
@@ -600,7 +599,7 @@
   "integration": "<bold>Une intégration au magasin d'applications natif</bold> — Oubliez les téléchargements sur le Web ; Flathub fournit aux utilisateurs des apps <updateslink>mises à jour automatiquement</updateslink> accessibles depuis leur client d'app store natif, là où ils s'y attendent",
   "users": "Utilisateurs",
   "about-claim": "<text>Que vous soyez un utilisateur à la recherche d'applications ou un développeur cherchant à atteindre plus d'utilisateurs, <bold>Flathub est le meilleur choix pour les applications sous Linux.</bold></text>",
-  "transparent-safety": "<bold>Une sécurité transparente</bold> — Sachez facilement si une application est <verifiedlink>validée</verifiedlink> comme provenant de son développeur, les autorisations dont elle a besoin et si elle est open-source et auditable",
+  "transparent-safety": "<bold>Une sécurité transparente</bold> — Sachez facilement si une application est <verifiedlink>validée</verifiedlink> comme provenant de son développeur, les autorisations dont elle a besoin et si elle est open source et auditable",
   "transparent": "<bold>Indépendant et transparent</bold> — Nous sommes une communauté open source de terrain qui administre ce que l'écosystème a de mieux à offrir",
   "slide": "Diapositive",
   "created": "Créé",
@@ -726,5 +725,25 @@
   "year-in-review-banner": {
     "title": "Récap' Flathub de l'année {year}",
     "description": "Redécouvrez le top des apps et des tendances de l'année"
+  },
+  "quality-moderation-excluded": "Cette app est exclue des vérifications de qualité",
+  "app-information": "Informations sur l'app",
+  "sub-header": {
+    "download": "À télécharger",
+    "free": "Libre",
+    "desktop-only": "PC uniquement",
+    "desktop-and-mobile": "PC et mobile",
+    "downloads-per-month": "Téléchargements/mois",
+    "amount-to-download": "Quantité de données à télécharger depuis Internet",
+    "size-on-disk": "Taille sur disque",
+    "installed-runtime-size": "Taille de l'environnement d'exécution après installation",
+    "appname-works-best-on-specific-hardware": "{appName} fonctionne mieux sur certains appareils",
+    "appname-works-on-all-devices": "{appName} fonctionne sur tous les appareils",
+    "mobile-support": "Prise en charge mobile",
+    "desktop-support": "Prise en charge PC",
+    "works-well-on-large-screens": "Fonctionne bien sur les grands écrans",
+    "may-not-work-well-on-mobile": "Peut ne pas fonctionner correctement sur les appareils mobiles",
+    "works-well-on-mobile": "Fonctionne bien sur les appareils mobiles",
+    "total-installs": "installations au total"
   }
 }

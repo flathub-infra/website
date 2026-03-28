@@ -285,7 +285,7 @@
     "distroName": "NixOS",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<text>Para instalar o Flatpak no NixOS altere a definição <strong>services.flatpak.enable</strong> para <strong>true</strong> ao colocar o seguinte comando no Terminal: <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text> De seguida, volte a recompilar e faça a alteração para a nova configuração usando o seguinte comando:</text> <codeRebuild></codeRebuild> <text>Para mais detalhes, consulte a <doclink>documentação do NixOS</doclink>.</text>"
+      "text": "<text>Para instalar o Flatpak no NixOS altere a definição <strong>services.flatpak.enable</strong> para <strong>verdadeiro</strong> ao inserir o seguinte no <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text> De seguida, volte a recompilar e faça a alteração para a nova configuração usando o seguinte comando:</text> <codeRebuild></codeRebuild> <text>Para mais detalhes, consulte a <doclink>documentação do NixOS</doclink>.</text>"
     },
     "step-2": {
       "name": "Adicione o repositório Flathub",
@@ -357,7 +357,7 @@
     "distroName": "Pisi GNU/Linux",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<text> Está disponível um pacote flatpak nas versões do Pisi 2.1 e posteriores. Para instalá-lo, execute o seguinte comando no Terminal como Administrador (root):</text> <code></code>"
+      "text": "<text> Está disponível um pacote flatpak nas versões do Pisi 2.1 e posteriores. Para instalá-lo, execute o seguinte comando no Terminal como Administrador:</text> <code></code>"
     },
     "step-2": {
       "name": "Adicione o repositório Flathub",

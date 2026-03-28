@@ -377,7 +377,6 @@
   "can-acquire-arbitrary-permissions": "Может получать произвольные разрешения",
   "links": "Ссылки",
   "uses-eol-runtime": "Использует среду выполнения с истёкшим сроком поддержки",
-  "information": "Информация",
   "proprietary-explanation": "Это приложение не разрабатывается открыто, поэтому только его разработчики знают, как оно работает. Оно может быть небезопасно, и его изменения нельзя проверить.",
   "community-built-explanation": "Это приложение открыто разрабатывается международным сообществом и выпускается под <bold>{ license }</bold>.",
   "legacy-windowing-system-description": "Использует устаревшую оконную систему",
@@ -726,5 +725,25 @@
     "hidden-gems-description": "Приложения, набирающие популярность",
     "platform-downloads": "Скачивания по платформам",
     "x-growth": "Рост: +{percentage} %"
-  }
+  },
+  "app-information": "Сведения о приложении",
+  "sub-header": {
+    "download": "Размер загрузки",
+    "free": "Свободное ПО",
+    "downloads-per-month": "Загрузок в месяц",
+    "amount-to-download": "Будет загружено из Интернета",
+    "size-on-disk": "Будет занимать места на диске",
+    "installed-runtime-size": "Размер среды выполнения",
+    "appname-works-best-on-specific-hardware": "{appName} работает лучше на определённом виде устройств",
+    "appname-works-on-all-devices": "{appName} работает на всех устройствах",
+    "mobile-support": "Поддержка мобильных устройств",
+    "desktop-support": "Поддержка настольных устройств",
+    "works-well-on-large-screens": "Хорошо работает на больших экранах",
+    "may-not-work-well-on-mobile": "Может плохо работать на мобильных устройствах",
+    "works-well-on-mobile": "Хорошо работает на мобильных устройствах",
+    "total-installs": "установок всего",
+    "desktop-only": "Только настольные",
+    "desktop-and-mobile": "Все устройства"
+  },
+  "quality-moderation-excluded": "Это приложение исключено из системы проверок качества"
 }

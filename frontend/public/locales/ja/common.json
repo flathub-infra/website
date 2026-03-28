@@ -108,7 +108,7 @@
   "status-retry": "再試行",
   "transaction-history": "取引履歴",
   "transaction-summary": "取引概要",
-  "manual-install-instructions": "次の手順でのインストール前に、お使いのLinux用の<distroguide>セットアップガイド</distroguide>に従ってください",
+  "manual-install-instructions": "次の手順でのインストール前に、お使いのLinux用の <distroguide>セットアップガイド</distroguide> に従ってください",
   "make-donation": "寄付",
   "select-donation-amount": "寄付する金額を選択してください",
   "kind-purchase": "購入",
@@ -129,7 +129,7 @@
   "stripe-error-incorrect_number": "カード番号が間違っています。番号を確認するか、別のカードを使ってください。",
   "stripe-error-payment_intent_authentication_failure": "支払い方法の認証に失敗しました。別の支払い方法で再度お試しください。",
   "thank-you-for-your-purchase": "ご購入ありがとうございます！",
-  "request-new-app": "お探しのアプリがFlathubになければ、<forumLink>ここからリクエスト</forumLink>してください。",
+  "request-new-app": "お探しのアプリがFlathubになければ、<forumLink>ここからリクエスト</forumLink> してください。",
   "app-install-error-try-again": "アプリをインストールできませんでした。アプリストアに戻り、再度インストールしてください。",
   "stripe-validation-error": "無効なカード情報です。",
   "stripe-error-processing_error": "カードの処理中にエラーが発生しました。再度お試しください。または別のカードを使ってください。",
@@ -223,7 +223,7 @@
   "consultants": "コンサルタント",
   "flathub-index-description": "どのディストリビューションでも、お気に入りのアプリを使おう",
   "count-desktop-apps": "デスクトップ用アプリの総数",
-  "rss-apps": "RSS用のアプリをお探しですか？<link>Flathub</link>で見つけましょう。",
+  "rss-apps": "RSS用のアプリをお探しですか？ <link>Flathub</link> で見つけましょう。",
   "apps-by-developer": "{developer} によるアプリ",
   "tags-colon": "タグ:",
   "flos": "オープンソース",
@@ -302,12 +302,12 @@
   "app-is-currently-verified-by-login-provider": "あなたのアプリは、<loginprovider></loginprovider>にログインしたあなたのアカウント <loginname></loginname> により認証済みです",
   "consultants-description": "Flathubへのアプリ登録に関する相談サービス。",
   "payment-provider-error": "支払いサービスでエラーが発生しました。後で再度お試しください。",
-  "login-provider-verification-main-instruction": "<loginprovider></loginprovider>上のアカウント <loginname></loginname> にログインし、アプリID<appid></appid>を使用する権利を認証します。",
-  "verification-instructions": "Flathubへのアップロードがアプリ開発者によって承認されていることを示すため、ご自身のアプリIDを認証してください。認証するには、アプリのドメイン上のウェブサイトを通じて、またはソースコードホスティングサイトにあるアプリのアカウントへのアクセスを確認することで、アプリの管理権限を持っていることを証明する必要があります。認証済みバッジは、アプリ名、パブリッシャー名、およびアプリIDの認証方法と並んで表示されます。詳細については、<doclink>認証ドキュメント</doclink>を参照してください。",
-  "website-verification-main-instruction": "<bold>{domain}</bold>内の指定したページにトークンを配置し、アプリID <bold>{id}</bold>の使用を認証します。",
+  "login-provider-verification-main-instruction": "<loginprovider></loginprovider> 上のアカウント <loginname></loginname> にログインし、アプリID <appid></appid> を使用する権利を認証します。",
+  "verification-instructions": "Flathubへのアップロードがアプリ開発者によって承認されていることを示すため、ご自身のアプリIDを認証してください。認証するには、アプリのドメイン上のウェブサイトを通じて、またはソースコードホスティングサイトにあるアプリのアカウントへのアクセスを確認することで、アプリの管理権限を持っていることを証明する必要があります。認証済みバッジは、アプリ名、パブリッシャー名、およびアプリIDの認証方法と並んで表示されます。詳細については、<doclink>認証ドキュメント</doclink> を参照してください。",
+  "website-verification-main-instruction": "<bold>{domain}</bold> 内の指定したページにトークンを配置し、アプリID <bold>{id}</bold> の使用を認証します。",
   "login-provider-verification-user-does-not-exist": "アカウント <requiredname></requiredname> は<loginprovider></loginprovider>内に存在しません。このアカウント名をあなたのアプリを認証するために使用する必要があります。または理想的には、あなたが管理できるアプリIDを選択します。優れたアプリIDについて<doclink>Flatpakの解説文書</doclink>をご覧ください。",
   "verification-warning": "Flathubチームは、独自判断でアプリから認証バッジを外すことがあります。例えば、アプリの公式な状態について人々を誤解を与えたり、商標権の混乱を招く例です。",
-  "website-validation-instruction": "<link>{webpage}</link>に次のトークンを含むページを作成します: <i>{token}</i> ページがすでにあれば、トークンを追加してください。",
+  "website-validation-instruction": "<link>{webpage}</link> に次のトークンを含むページを作成します: <i>{token}</i> ページがすでにあれば、トークンを追加してください。",
   "login-provider-verification-main-instruction-organization": "<loginprovider></loginprovider>上の組織 <orgname></orgname> に管理者権限を持つアカウントにログインして、アプリID <appid></appid>を使用する権利を認証します。",
   "login-provider-verification-enable-github-app": "認証を続けるために、組織 <orgname></orgname> でのあなたのメンバーシップの役割権限を、Flathubが読み取る許可が必要です。この権限は<settingslink> GitHub の設定</settingslink>から許可できます。",
   "login-provider-verification-main-instruction-unknown-is-organization": "<loginprovider></loginprovider>上のアカウント <loginname></loginname> (または <orgname></orgname> が組織であれば、その組織にアクセスできるアカウント) にログインして、アプリID <appid></appid>を使用する権利を認証します。",
@@ -346,7 +346,6 @@
   "close": "閉じる",
   "remove-developer": "開発者を削除",
   "remove": "削除",
-  "information": "情報",
   "links": "リンク",
   "learn-more": "詳細",
   "issued-to": "発行先",
@@ -593,7 +592,7 @@
   "get-apps": "アプリを入手",
   "about-claim": "<text>アプリを探しているユーザーから、多くのユーザーにアプリを使ってほしい開発者まで、<bold>FlathubはLinuxアプリのための最高の場所です。</bold></text>",
   "all-the-apps-you-want": "<bold>ほしいアプリのすべて</bold> — 期待を集める有名なものから、駆け出しの開発者のアプリまで、Flathubにはあなたの望みを叶える数千のアプリがあります。",
-  "transparent-safety": "<bold>透明性のある安全性</bold> — 開発者がいつアプリを<verifiedlink>認証</verifiedlink>したか、どんな許可が必要か、また監査可能なオープンソースで公開されているかが明確",
+  "transparent-safety": "<bold>透明性のある安全性</bold> — 開発者がいつアプリを <verifiedlink>認証</verifiedlink> したか、どんな許可が必要か、また監査可能なオープンソースで公開されているかが明確",
   "favorite": "お気に入り",
   "kind-donate-app": "{appName} に寄付",
   "apps-for-you-where-you-are": "<bold>どんな場所にもアプリを</bold> - パワフルなLinuxワークステーションやSteam Deck、Raspberry Piでも、珍しいLinux製携帯電話でも、Flathubにはあなたのためのアプリがあります",
@@ -604,7 +603,7 @@
     "missing-brand-colors": "ブランドカラーがありません"
   },
   "favorite-apps": "お気に入り",
-  "integration": "<bold>内蔵のアプリストアと統合</bold> - ウェブでのダウンロードは不要です。Flathubは、アプリと<updateslink>その自動更新</updateslink>を、ユーザーが望む内臓のアプリストア用クライアントを通じ配布します",
+  "integration": "<bold>内蔵のアプリストアと統合</bold> - ウェブでのダウンロードは不要です。Flathubは、アプリと <updateslink>その自動更新</updateslink> を、ユーザーが望む内臓のアプリストア用クライアントを通じ配布します",
   "total": "合計",
   "created": "作成済み",
   "tastefully-curated": "<bold>収集と選別</bold> - Flathubで興味をそそる、質の高いアプリを探してみましょう。私たちの仲間が収集整理し、最高のアプリを紹介しています",
@@ -726,5 +725,8 @@
   "year-in-review-banner": {
     "title": "{year}年 Flathub 年間レポート",
     "description": "今年を彩った人気アプリやトレンドを振り返る"
+  },
+  "sub-header": {
+    "download": "ダウンロード"
   }
 }

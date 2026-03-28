@@ -1,9 +1,14 @@
 {
   "type": "desktop-application",
+  "id": "org.sugarlabs.Maze",
+  "name": "Maze",
+  "summary": "A simple maze game",
   "description": "<p>Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.</p>",
+  "developer_name": "Sugar Labs Community",
+  "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
+  "icons": [],
   "screenshots": [
     {
-      "caption": "Player navigating through maze",
       "sizes": [
         {
           "width": "800",
@@ -35,11 +40,10 @@
           "scale": "1x",
           "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
         }
-      ]
+      ],
+      "caption": "Player navigating through maze"
     },
     {
-      "caption": "Main game screen showing the maze",
-      "default": true,
       "sizes": [
         {
           "width": "800",
@@ -71,7 +75,9 @@
           "scale": "1x",
           "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         }
-      ]
+      ],
+      "caption": "Main game screen showing the maze",
+      "default": true
     },
     {
       "sizes": [
@@ -111,29 +117,64 @@
   "releases": [
     {
       "timestamp": "1582070400",
-      "version": "30"
+      "version": "30",
+      "type": "stable"
     }
   ],
-  "content_rating": {
-    "type": "oars-1.1"
+  "content_rating_details": {
+    "en_US": {
+      "categories": [
+        {
+          "id": "social",
+          "level": "none",
+          "description": "No way to chat with other users"
+        },
+        {
+          "id": "drugs",
+          "level": "none",
+          "description": "No references to alcohol"
+        },
+        {
+          "id": "language",
+          "level": "none",
+          "description": "No profanity of any kind"
+        },
+        {
+          "id": "money",
+          "level": "none",
+          "description": "No ability to spend money"
+        },
+        {
+          "id": "sex",
+          "level": "none",
+          "description": "No nudity of any sort"
+        },
+        {
+          "id": "violence",
+          "level": "none",
+          "description": "No cartoon violence"
+        }
+      ],
+      "minimumAge": 3,
+      "minimumAgeText": "Early Childhood",
+      "contentRatingSystem": "ESRB"
+    }
   },
   "urls": {
     "bugtracker": "https://github.com/sugarlabs/maze-activity",
     "homepage": "https://github.com/sugarlabs/maze-activity"
   },
-  "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
-  "icons": [],
-  "id": "org.sugarlabs.Maze",
-  "keywords": ["maze", "puzzle", "game"],
-  "translation": {
-    "value": "org.sugarlabs.Maze",
-    "type": "gettext"
-  },
-  "name": "Maze",
-  "summary": "A simple maze game",
-  "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
-  "kudos": ["HiDpiIcon"],
+  "categories": [
+    "Game"
+  ],
+  "kudos": [
+    "HiDpiIcon"
+  ],
+  "keywords": [
+    "maze",
+    "puzzle",
+    "game"
+  ],
   "project_license": "GPL-3.0-or-later",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
@@ -145,6 +186,11 @@
     "runtime": "org.gnome.Platform/x86_64/3.36",
     "sdk": "org.gnome.Sdk/x86_64/3.36"
   },
+  "translation": {
+    "value": "org.sugarlabs.Maze",
+    "type": "gettext"
+  },
   "is_free_license": true,
-  "isMobileFriendly": false
+  "isMobileFriendly": false,
+  "is_eol": false
 }

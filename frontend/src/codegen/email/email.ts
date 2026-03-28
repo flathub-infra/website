@@ -15,7 +15,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type { BuildNotificationRequest } from ".././model"
+import type { BuildNotificationRequest } from "../model"
 
 /**
  * @summary Build Notification
@@ -101,8 +101,8 @@ export const useBuildNotificationEmailsBuildNotificationPost = <
   { data: BuildNotificationRequest },
   TContext
 > => {
-  const mutationOptions =
-    getBuildNotificationEmailsBuildNotificationPostMutationOptions(options)
-
-  return useMutation(mutationOptions, queryClient)
+  return useMutation(
+    getBuildNotificationEmailsBuildNotificationPostMutationOptions(options),
+    queryClient,
+  )
 }

@@ -4,17 +4,18 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { RuntimeAppstreamDescription } from "./runtimeAppstreamDescription"
-import type { RuntimeAppstreamReleases } from "./runtimeAppstreamReleases"
-import type { Urls } from "./urls"
+import type { Bundle } from "./bundle"
 import type { RuntimeAppstreamCategories } from "./runtimeAppstreamCategories"
+import type { RuntimeAppstreamContentRatingDetails } from "./runtimeAppstreamContentRatingDetails"
+import type { RuntimeAppstreamDescription } from "./runtimeAppstreamDescription"
+import type { RuntimeAppstreamDeveloperName } from "./runtimeAppstreamDeveloperName"
 import type { RuntimeAppstreamIcon } from "./runtimeAppstreamIcon"
 import type { RuntimeAppstreamIcons } from "./runtimeAppstreamIcons"
-import type { RuntimeAppstreamDeveloperName } from "./runtimeAppstreamDeveloperName"
-import type { RuntimeAppstreamProjectLicense } from "./runtimeAppstreamProjectLicense"
-import type { Bundle } from "./bundle"
-import type { RuntimeAppstreamMetadata } from "./runtimeAppstreamMetadata"
 import type { RuntimeAppstreamIsMobileFriendly } from "./runtimeAppstreamIsMobileFriendly"
+import type { RuntimeAppstreamMetadata } from "./runtimeAppstreamMetadata"
+import type { RuntimeAppstreamProjectLicense } from "./runtimeAppstreamProjectLicense"
+import type { RuntimeAppstreamReleases } from "./runtimeAppstreamReleases"
+import type { Urls } from "./urls"
 
 /**
  * Runtime Appstream metadata
@@ -26,6 +27,7 @@ export interface RuntimeAppstream {
   summary: string
   description?: RuntimeAppstreamDescription
   releases?: RuntimeAppstreamReleases
+  content_rating_details?: RuntimeAppstreamContentRatingDetails
   urls: Urls
   categories?: RuntimeAppstreamCategories
   icon?: RuntimeAppstreamIcon
@@ -36,4 +38,5 @@ export interface RuntimeAppstream {
   metadata?: RuntimeAppstreamMetadata
   isMobileFriendly?: RuntimeAppstreamIsMobileFriendly
   is_free_license: boolean
+  is_eol?: boolean
 }

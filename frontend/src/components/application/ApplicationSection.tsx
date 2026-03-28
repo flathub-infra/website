@@ -43,8 +43,8 @@ const ApplicationSection: FunctionComponent<
   return (
     <div className="w-full">
       {prop.type === "withTitle" && (
-        <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-          <h2 className="my-auto text-2xl font-bold">{prop.title}</h2>
+        <header className="mb-4 flex max-w-full flex-row content-center justify-between">
+          <h2 className="my-auto text-lg font-semibold">{prop.title}</h2>
         </header>
       )}
 

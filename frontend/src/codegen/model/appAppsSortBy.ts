@@ -7,7 +7,6 @@
 
 export type AppAppsSortBy = (typeof AppAppsSortBy)[keyof typeof AppAppsSortBy]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AppAppsSortBy = {
   alphabetical: "alphabetical",
   "created-at": "created-at",

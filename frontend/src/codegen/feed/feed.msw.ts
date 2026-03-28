@@ -4,7 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler = (
@@ -17,11 +17,11 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler = (
 ) => {
   return http.get(
     "*/feed/recently-updated",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,
@@ -38,11 +38,11 @@ export const getGetNewAppsFeedFeedNewGetMockHandler = (
 ) => {
   return http.get(
     "*/feed/new",
-    async (info) => {
-      await delay(1000)
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
+
       return new HttpResponse(null, { status: 200 })
     },
     options,

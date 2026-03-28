@@ -77,7 +77,7 @@ export function categoryToName(category: MainCategory, t): string {
   }
 }
 
-export enum GameCategory {
+enum GameCategory {
   ActionGame = "ActionGame",
   AdventureGame = "AdventureGame",
   ArcadeGame = "ArcadeGame",
@@ -94,7 +94,7 @@ export enum GameCategory {
   StrategyGame = "StrategyGame",
 }
 
-export function gameCategoryToName(category: GameCategory, t): string {
+function gameCategoryToName(category: GameCategory, t): string {
   switch (category) {
     case GameCategory.ActionGame:
       return t("action")
@@ -129,7 +129,7 @@ export function gameCategoryToName(category: GameCategory, t): string {
   }
 }
 
-export enum AudioVideoCategory {
+enum AudioVideoCategory {
   AudioVideoEditing = "AudioVideoEditing",
   // Database = "Database", //no apps in this category yet
   // DiscBurning = "DiscBurning", //only one app
@@ -143,10 +143,7 @@ export enum AudioVideoCategory {
   TV = "TV",
 }
 
-export function audioVideoCategoryToName(
-  category: AudioVideoCategory,
-  t,
-): string {
+function audioVideoCategoryToName(category: AudioVideoCategory, t): string {
   switch (category) {
     // case AudioVideoCategory.Database:
     //   return t("database")

@@ -197,6 +197,9 @@ def get_moderation_app(
     offset: int = 0,
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
+    if login.user is None:
+        raise HTTPException(status_code=401, detail="not_logged_in")
+
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "moderation" not in user.permissions():

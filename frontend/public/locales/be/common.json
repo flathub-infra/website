@@ -363,7 +363,6 @@
   "appname-is-safety-rating-1": "{appName} бяспечная",
   "network-access": "Доступ да сеткі",
   "appname-is-safety-rating-3": "{appName} патэнцыйна небяспечная",
-  "information": "Інфармацыя",
   "app-already-exists": "Праграма з такім ідэнтыфікатарам ужо існуе.",
   "can-read-write-all-data-on-file-system": "Можа чытаць і запісваць усе даныя ў файлавай сістэме",
   "community-built-explanation": "Гэтая праграма адкрыта распрацоўваецца міжнароднай супольнасцю і выпускаецца пад <bold>{ license }</bold>.",

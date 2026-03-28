@@ -6,18 +6,19 @@
  */
 import { faker } from "@faker-js/faker"
 
-import { HttpResponse, delay, http } from "msw"
+import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
 import {
   ConnectedAccountProvider,
   MainCategory,
   VerificationMethod,
-} from ".././model"
+} from "../model"
 import type {
   AppSearchDevelopersResponse,
+  KeywordsResponse,
   MeilisearchResponseAppsIndex,
-} from ".././model"
+} from "../model"
 
 export const getGetCategoriesCollectionCategoryGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
@@ -25,7 +26,7 @@ export const getGetCategoriesCollectionCategoryGetResponseMock = (): string[] =>
   )
 
 export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -33,11 +34,14 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -113,7 +117,7 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -122,53 +126,37 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -179,10 +167,7 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -194,7 +179,9 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponseMock =
   (
-    overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+    overrideResponse: Partial<
+      Extract<MeilisearchResponseAppsIndex, object>
+    > = {},
   ): MeilisearchResponseAppsIndex => ({
     hits: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
@@ -202,11 +189,14 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
     ).map(() => ({
       name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       keywords: faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-        null,
+        faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          null,
+        ]),
+        undefined,
       ]),
       summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
       description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -284,7 +274,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
-      updated_at: faker.number.int({ min: undefined, max: undefined }),
+      updated_at: faker.number.int(),
       arches: faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
@@ -293,53 +283,37 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
         null,
       ]),
       added_at: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       trending: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
-          faker.number.float({
-            min: undefined,
-            max: undefined,
-            fractionDigits: 2,
-          }),
+          faker.number.float({ fractionDigits: 2 }),
           null,
         ]),
         undefined,
       ]),
       installs_last_month: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       favorites_count: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
+        faker.helpers.arrayElement([faker.number.int(), null]),
         undefined,
       ]),
       isMobileFriendly: faker.datatype.boolean(),
     })),
     query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-    hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-    page: faker.number.int({ min: undefined, max: undefined }),
-    totalPages: faker.number.int({ min: undefined, max: undefined }),
-    totalHits: faker.number.int({ min: undefined, max: undefined }),
+    processingTimeMs: faker.number.int(),
+    hitsPerPage: faker.number.int(),
+    page: faker.number.int(),
+    totalPages: faker.number.int(),
+    totalHits: faker.number.int(),
     facetDistribution: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.number.int({
-              min: undefined,
-              max: undefined,
-            }),
+            [faker.string.alphanumeric(5)]: faker.number.int(),
           },
         },
         null,
@@ -350,10 +324,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
       faker.helpers.arrayElement([
         {
           [faker.string.alphanumeric(5)]: {
-            [faker.string.alphanumeric(5)]: faker.number.int({
-              min: undefined,
-              max: undefined,
-            }),
+            [faker.string.alphanumeric(5)]: faker.number.int(),
           },
         },
         null,
@@ -363,8 +334,24 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
     ...overrideResponse,
   })
 
+export const getGetKeywordsCollectionKeywordsGetResponseMock = (
+  overrideResponse: Partial<Extract<KeywordsResponse, object>> = {},
+): KeywordsResponse => ({
+  keywords: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    keyword: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    count: faker.number.int(),
+  })),
+  total: faker.number.int(),
+  page: faker.number.int(),
+  per_page: faker.number.int(),
+  ...overrideResponse,
+})
+
 export const getGetKeywordCollectionKeywordGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -372,11 +359,14 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -452,7 +442,7 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -461,53 +451,37 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -518,10 +492,7 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -532,20 +503,20 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
 })
 
 export const getGetDevelopersCollectionDeveloperGetResponseMock = (
-  overrideResponse: Partial<AppSearchDevelopersResponse> = {},
+  overrideResponse: Partial<Extract<AppSearchDevelopersResponse, object>> = {},
 ): AppSearchDevelopersResponse => ({
   developers: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-  total: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  per_page: faker.number.int({ min: undefined, max: undefined }),
+  total: faker.number.int(),
+  page: faker.number.int(),
+  per_page: faker.number.int(),
   ...overrideResponse,
 })
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -553,11 +524,14 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -633,7 +607,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -642,53 +616,37 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -699,10 +657,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -713,7 +668,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
 })
 
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -721,11 +676,14 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -801,7 +759,7 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -810,53 +768,37 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -867,10 +809,7 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -881,7 +820,7 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
 })
 
 export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -889,11 +828,14 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -969,7 +911,7 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -978,53 +920,37 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1035,10 +961,7 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1049,7 +972,7 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
 })
 
 export const getGetVerifiedCollectionVerifiedGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1057,11 +980,14 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1137,7 +1063,7 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1146,53 +1072,37 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1203,10 +1113,7 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1217,7 +1124,7 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
 })
 
 export const getGetMobileCollectionMobileGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1225,11 +1132,14 @@ export const getGetMobileCollectionMobileGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1305,7 +1215,7 @@ export const getGetMobileCollectionMobileGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1314,53 +1224,37 @@ export const getGetMobileCollectionMobileGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1371,10 +1265,7 @@ export const getGetMobileCollectionMobileGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1385,7 +1276,7 @@ export const getGetMobileCollectionMobileGetResponseMock = (
 })
 
 export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1393,11 +1284,14 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1473,7 +1367,7 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1482,53 +1376,37 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1539,10 +1417,7 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1553,7 +1428,7 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
 })
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1561,11 +1436,14 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1641,7 +1519,7 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1650,53 +1528,37 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1707,10 +1569,7 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1721,7 +1580,7 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
 })
 
 export const getGetMostFavoritedCollectionFavoritesGetResponseMock = (
-  overrideResponse: Partial<MeilisearchResponseAppsIndex> = {},
+  overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
 ): MeilisearchResponseAppsIndex => ({
   hits: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1729,11 +1588,14 @@ export const getGetMostFavoritedCollectionFavoritesGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-      null,
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
     ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1809,7 +1671,7 @@ export const getGetMostFavoritedCollectionFavoritesGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    updated_at: faker.number.int({ min: undefined, max: undefined }),
+    updated_at: faker.number.int(),
     arches: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1818,53 +1680,37 @@ export const getGetMostFavoritedCollectionFavoritesGetResponseMock = (
       null,
     ]),
     added_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     trending: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.number.float({
-          min: undefined,
-          max: undefined,
-          fractionDigits: 2,
-        }),
+        faker.number.float({ fractionDigits: 2 }),
         null,
       ]),
       undefined,
     ]),
     installs_last_month: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     favorites_count: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     isMobileFriendly: faker.datatype.boolean(),
   })),
   query: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  processingTimeMs: faker.number.int({ min: undefined, max: undefined }),
-  hitsPerPage: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  totalPages: faker.number.int({ min: undefined, max: undefined }),
-  totalHits: faker.number.int({ min: undefined, max: undefined }),
+  processingTimeMs: faker.number.int(),
+  hitsPerPage: faker.number.int(),
+  page: faker.number.int(),
+  totalPages: faker.number.int(),
+  totalHits: faker.number.int(),
   facetDistribution: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1875,10 +1721,7 @@ export const getGetMostFavoritedCollectionFavoritesGetResponseMock = (
     faker.helpers.arrayElement([
       {
         [faker.string.alphanumeric(5)]: {
-          [faker.string.alphanumeric(5)]: faker.number.int({
-            min: undefined,
-            max: undefined,
-          }),
+          [faker.string.alphanumeric(5)]: faker.number.int(),
         },
       },
       null,
@@ -1898,18 +1741,14 @@ export const getGetCategoriesCollectionCategoryGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/category",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetCategoriesCollectionCategoryGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetCategoriesCollectionCategoryGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -1928,18 +1767,14 @@ export const getGetCategoryCollectionCategoryCategoryGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/category/:category",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetCategoryCollectionCategoryCategoryGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetCategoryCollectionCategoryCategoryGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -1959,23 +1794,43 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHand
   ) => {
     return http.get(
       "*/collection/category/:category/subcategories",
-      async (info) => {
-        await delay(1000)
-
-        return new HttpResponse(
-          JSON.stringify(
-            overrideResponse !== undefined
-              ? typeof overrideResponse === "function"
-                ? await overrideResponse(info)
-                : overrideResponse
-              : getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponseMock(),
-          ),
-          { status: 200, headers: { "Content-Type": "application/json" } },
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponseMock(),
+          { status: 200 },
         )
       },
       options,
     )
   }
+
+export const getGetKeywordsCollectionKeywordsGetMockHandler = (
+  overrideResponse?:
+    | KeywordsResponse
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<KeywordsResponse> | KeywordsResponse),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/collection/keywords",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetKeywordsCollectionKeywordsGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
 
 export const getGetKeywordCollectionKeywordGetMockHandler = (
   overrideResponse?:
@@ -1989,18 +1844,14 @@ export const getGetKeywordCollectionKeywordGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/keyword",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetKeywordCollectionKeywordGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetKeywordCollectionKeywordGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2017,18 +1868,14 @@ export const getGetDevelopersCollectionDeveloperGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/developer",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetDevelopersCollectionDeveloperGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetDevelopersCollectionDeveloperGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2047,18 +1894,14 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/developer/:developer",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetDeveloperCollectionDeveloperDeveloperGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetDeveloperCollectionDeveloperDeveloperGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2077,18 +1920,14 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/recently-updated",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2107,18 +1946,14 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/recently-added",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2137,18 +1972,14 @@ export const getGetVerifiedCollectionVerifiedGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/verified",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetVerifiedCollectionVerifiedGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetVerifiedCollectionVerifiedGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2167,18 +1998,14 @@ export const getGetMobileCollectionMobileGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/mobile",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetMobileCollectionMobileGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetMobileCollectionMobileGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2197,18 +2024,14 @@ export const getGetPopularLastMonthCollectionPopularGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/popular",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetPopularLastMonthCollectionPopularGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPopularLastMonthCollectionPopularGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2227,18 +2050,14 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/trending",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2257,18 +2076,14 @@ export const getGetMostFavoritedCollectionFavoritesGetMockHandler = (
 ) => {
   return http.get(
     "*/collection/favorites",
-    async (info) => {
-      await delay(1000)
-
-      return new HttpResponse(
-        JSON.stringify(
-          overrideResponse !== undefined
-            ? typeof overrideResponse === "function"
-              ? await overrideResponse(info)
-              : overrideResponse
-            : getGetMostFavoritedCollectionFavoritesGetResponseMock(),
-        ),
-        { status: 200, headers: { "Content-Type": "application/json" } },
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetMostFavoritedCollectionFavoritesGetResponseMock(),
+        { status: 200 },
       )
     },
     options,
@@ -2278,6 +2093,7 @@ export const getCollectionMock = () => [
   getGetCategoriesCollectionCategoryGetMockHandler(),
   getGetCategoryCollectionCategoryCategoryGetMockHandler(),
   getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHandler(),
+  getGetKeywordsCollectionKeywordsGetMockHandler(),
   getGetKeywordCollectionKeywordGetMockHandler(),
   getGetDevelopersCollectionDeveloperGetMockHandler(),
   getGetDeveloperCollectionDeveloperDeveloperGetMockHandler(),

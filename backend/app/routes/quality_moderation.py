@@ -176,6 +176,10 @@ def get_quality_moderation_for_app(
     ),
 ) -> QualityModerationResponse:
     with get_db("replica") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
+
         items = [
             QualityModerationType(
                 guideline_id=guideline.id,
@@ -237,6 +241,9 @@ def set_quality_moderation_for_app(
     moderator=Depends(quality_moderator_only),
 ):
     with get_db("writer") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
         QualityModeration.upsert(
             db, app_id, body.guideline_id, body.passed, moderator.user.id
         )
@@ -264,6 +271,9 @@ def get_quality_moderation_status_for_app(
     _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationStatus:
     with get_db("replica") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
         app_quality_status = QualityModeration.by_appid_summarized(db, app_id)
 
     return app_quality_status
@@ -291,6 +301,9 @@ def request_review_for_app(
     moderator=Depends(quality_moderator_or_app_author_only),
 ):
     with get_db("writer") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
         QualityModerationRequest.create(db, app_id, moderator.user.id)
 
 
@@ -316,6 +329,9 @@ def delete_review_request_for_app(
     _moderator=Depends(quality_moderator_only),
 ):
     with get_db("writer") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
         QualityModerationRequest.delete(db, app_id)
 
 
@@ -342,4 +358,7 @@ def set_fullscreen_app(
     moderator=Depends(quality_moderator_only),
 ):
     with get_db("writer") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
         App.set_fullscreen_app(db, app_id, is_fullscreen_app)

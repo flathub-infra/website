@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl"
 import { XMarkIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 interface Props {
   shown: boolean
@@ -31,6 +32,8 @@ interface Props {
     disabled?: boolean
     variant?: "default" | "secondary" | "destructive"
   }
+  className?: string
+  size?: "sm" | "md" | "lg" | "xl"
 }
 
 const Modal: FunctionComponent<Props> = ({
@@ -43,9 +46,18 @@ const Modal: FunctionComponent<Props> = ({
   aboveTitle,
   cancelButton,
   submitButton,
+  className,
+  size = "md",
 }) => {
   const t = useTranslations()
   const ref = useRef(null)
+
+  const sizeClass = {
+    sm: "sm:max-w-md",
+    md: "sm:max-w-xl",
+    lg: "sm:max-w-3xl",
+    xl: "sm:max-w-5xl",
+  }[size]
 
   return (
     <>
@@ -80,7 +92,13 @@ const Modal: FunctionComponent<Props> = ({
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <DialogPanel className="relative transform w-full overflow-hidden rounded-xl bg-flathub-white px-4 pb-4 pt-5 text-start shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
+                <DialogPanel
+                  className={cn(
+                    "relative transform w-full overflow-hidden rounded-2xl border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal/70 bg-white/90 dark:bg-flathub-dark-gunmetal/95 px-6 pb-6 pt-7 text-start shadow-2xl transition-all sm:my-10 sm:w-full sm:p-8 backdrop-blur-xl",
+                    sizeClass,
+                    className,
+                  )}
+                >
                   <div className="absolute end-0 top-0 pe-6 pt-6">
                     <button
                       type="button"

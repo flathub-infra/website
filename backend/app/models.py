@@ -2222,6 +2222,10 @@ class AppOfTheDay(Base):
 
     @classmethod
     def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
+        app_obj = App.by_appid(db, app_id)
+        if app_obj and app_obj.excluded_from_app_picks:
+            raise HTTPException(400, "App is excluded from app picks")
+
         app = AppOfTheDay.by_date(db, date)
         if app:
             app.app_id = app_id
@@ -2290,6 +2294,10 @@ class AppsOfTheWeek(Base):
         position: int,
         user_id: int,
     ) -> Optional["AppsOfTheWeek"]:
+        app_obj = App.by_appid(db, app_id)
+        if app_obj and app_obj.excluded_from_app_picks:
+            raise HTTPException(400, "App is excluded from app picks")
+
         app = (
             db.session.query(AppsOfTheWeek)
             .filter(AppsOfTheWeek.position == position)
@@ -2369,6 +2377,7 @@ class App(Base):
     )
     last_updated_at = mapped_column(DateTime, nullable=True)
     localization = mapped_column(JSONB, nullable=True)
+    content_rating_details = mapped_column(JSONB, nullable=True)
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
@@ -2376,6 +2385,9 @@ class App(Base):
     eol_message = mapped_column(String, nullable=True)
     main_category = mapped_column(String, nullable=True, index=True)
     sub_categories = mapped_column(ARRAY(String), nullable=True)
+    excluded_from_app_picks = mapped_column(
+        Boolean, nullable=False, server_default=false(), default=False
+    )
 
     __table_args__ = (
         Index("apps_unique", app_id, unique=True),
@@ -2391,6 +2403,36 @@ class App(Base):
 
         # Remove languages field from API response - it's internal data not needed by clients
         result.pop("languages", None)
+
+        # Add content rating details filtered to the requested locale
+        if self.content_rating_details:
+            posix_locale = locale.replace("-", "_")
+            # Try exact match first
+            entry = self.content_rating_details.get(posix_locale)
+            # Then prefix match (e.g. "de" -> "de_DE"), keeping the actual key
+            # Prefer _US suffix for bare language codes (e.g. "en" -> "en_US")
+            if not entry:
+                us_key = posix_locale + "_US"
+                if us_key in self.content_rating_details:
+                    posix_locale = us_key
+                    entry = self.content_rating_details[us_key]
+                else:
+                    match = next(
+                        (
+                            (k, v)
+                            for k, v in self.content_rating_details.items()
+                            if k.startswith(posix_locale + "_")
+                        ),
+                        None,
+                    )
+                    if match:
+                        posix_locale, entry = match
+            # Fall back to en_US
+            if not entry:
+                posix_locale = "en_US"
+                entry = self.content_rating_details.get("en_US")
+            if entry:
+                result["content_rating_details"] = {posix_locale: entry}
 
         if not self.localization:
             return result
@@ -2421,7 +2463,9 @@ class App(Base):
             and not (isinstance(v, dict) and isinstance(result.get(k), list))
         }
 
-        return result | translation
+        result = result | translation
+
+        return result
 
     @classmethod
     def by_appid(cls, db, app_id: str) -> Optional["App"]:
@@ -2429,20 +2473,53 @@ class App(Base):
 
     @classmethod
     def get_appstream(cls, db, app_id: str) -> dict | None:
-        app = db.session.query(App.appstream).filter(App.app_id == app_id).first()
-        return app.appstream if app else None
+        app = (
+            db.session.query(App.appstream, App.content_rating_details)
+            .filter(App.app_id == app_id)
+            .first()
+        )
+        if app and app.appstream:
+            result = app.appstream.copy()
+            if app.content_rating_details:
+                result["content_rating_details"] = app.content_rating_details
+            return result
+        return None
 
     @classmethod
-    def set_app(cls, db, app_id: str, type, app_locales) -> Optional["App"]:
+    def get_content_rating_details(cls, db, app_id: str) -> dict | None:
+        """
+        Retrieve content rating details for a given app_id
+        """
+        app = (
+            db.session.query(App.content_rating_details)
+            .filter(App.app_id == app_id)
+            .first()
+        )
+        if app:
+            return app.content_rating_details
+        return None
+
+    @classmethod
+    def set_app(
+        cls, db, app_id: str, type, app_locales, content_rating_details
+    ) -> Optional["App"]:
         app = App.by_appid(db, app_id)
 
         if bool(app_locales) is False:
             app_locales = None
 
+        if bool(content_rating_details) is False:
+            content_rating_details = None
+
         if app:
-            if app.type == type and app.localization == app_locales:
+            if (
+                app.type == type
+                and app.localization == app_locales
+                and app.content_rating_details == content_rating_details
+            ):
                 return app
             app.localization = app_locales
+            app.content_rating_details = content_rating_details
             app.type = type
             db.session.commit()
             return app
@@ -2451,6 +2528,7 @@ class App(Base):
                 app_id=app_id,
                 type=type,
                 localization=app_locales,
+                content_rating_details=content_rating_details,
             )
             db.session.add(app)
             db.session.commit()
@@ -2724,6 +2802,7 @@ class App(Base):
             )
             .where(
                 App.is_eol == false(),
+                App.excluded_from_app_picks == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",
@@ -2877,6 +2956,7 @@ class App(Base):
             )
             .where(
                 App.is_eol == false(),
+                App.excluded_from_app_picks == false(),
                 or_(
                     App.type == "desktop-application",
                     App.type == "console-application",

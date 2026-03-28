@@ -5,14 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { UrlsBugtracker } from "./urlsBugtracker"
-import type { UrlsHomepage } from "./urlsHomepage"
-import type { UrlsHelp } from "./urlsHelp"
-import type { UrlsDonation } from "./urlsDonation"
-import type { UrlsTranslate } from "./urlsTranslate"
-import type { UrlsFaq } from "./urlsFaq"
 import type { UrlsContact } from "./urlsContact"
-import type { UrlsVcsBrowser } from "./urlsVcsBrowser"
 import type { UrlsContribute } from "./urlsContribute"
+import type { UrlsDonation } from "./urlsDonation"
+import type { UrlsFaq } from "./urlsFaq"
+import type { UrlsHelp } from "./urlsHelp"
+import type { UrlsHomepage } from "./urlsHomepage"
+import type { UrlsTranslate } from "./urlsTranslate"
+import type { UrlsVcsBrowser } from "./urlsVcsBrowser"
 
 /**
  * Various URLs related to the app.

@@ -113,6 +113,11 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
         hostname: "invent.kde.org",
       },
     ],
+    localPatterns: [
+      {
+        pathname: "/api/badge",
+      },
+    ],
   },
   async redirects() {
     return [

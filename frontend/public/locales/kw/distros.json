@@ -62,7 +62,7 @@
       "name": "Dastalleth",
       "text": "<text>Rag kowlwul selyans, dastalleth Linux. Ty gallos gul ma gans ow klyckya-dyghow termynal, hag ena ow klyckya \"Shut down Linux\". Lemmyn, <link>lea appys</link>!</text>"
     },
-    "introduction": "<text>Appys Flatpak gallos bos leys war ChromeOS gans an gwiskas Crostini Linux. Y'n na kavadow rag oll devisyow ChromeOS, ytho ty kodh surhe dha devis yw kesplegadow kyns ow procedya. Unn rol devisyow kesplegadow yw gwithys <link>omma</link>.</text>",
+    "introduction": "<text>Appys Flatpak a yll bos leys war ChromeOS gans an gwiskas Crostini Linux. Y'n na kavadow rag oll devisyow ChromeOS, ytho ty kodh surhe dha devis yw kesplegadow kyns ow procedya. Unn rol devisyow kesplegadow yw gwithys <link>omma</link>.</text>",
     "step-1": {
       "name": "Gallosegi skoodhyans Linux",
       "text": "<text>Mos dhe <settingslink>chrome://os-settings</settingslink>, ha mos war-woles dhe <strong>Developers</strong> ha gallosegi <em>Linux development environment</em>. ChromeOS a wra iskarga ha lea Linux.</text>"

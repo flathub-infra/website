@@ -18,9 +18,11 @@ const Tags: FunctionComponent<Props> = ({ keywords }) => {
   return (
     <>
       {keywordSet.size > 0 && (
-        <div className="flex gap-2 text-sm">
-          <div>{t("tags-colon")}</div>
-          <div className="flex flex-wrap gap-2 lowercase">
+        <div className="flex gap-2 text-sm items-baseline">
+          <div className="font-medium text-flathub-granite-gray dark:text-flathub-spanish-gray">
+            {t("tags-colon")}
+          </div>
+          <div className="flex flex-wrap gap-1.5 lowercase">
             {Array.from(keywordSet).map((item, index) => {
               const synteticTag = item === "linux" || item === "flatpak"
 

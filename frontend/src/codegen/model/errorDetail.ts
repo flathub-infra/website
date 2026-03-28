@@ -7,7 +7,6 @@
 
 export type ErrorDetail = (typeof ErrorDetail)[keyof typeof ErrorDetail]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ErrorDetail = {
   malformed_app_id: "malformed_app_id",
   not_app_developer: "not_app_developer",

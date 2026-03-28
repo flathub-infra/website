@@ -3,12 +3,18 @@ import { useLocale, useTranslations } from "next-intl"
 import { FunctionComponent, useState, useRef, useEffect } from "react"
 import { getIntlLocale } from "../../localize"
 
-import { clsx } from "clsx"
+import clsx from "clsx"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
 import { ExternalLinkIcon } from "lucide-react"
 import { Release } from "src/codegen"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface Props {
   latestRelease: Release | null
@@ -84,7 +90,7 @@ const Releases: FunctionComponent<Props> = ({
   return (
     <>
       {latestRelease && (
-        <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
+        <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic dark:shadow-none">
           <div>
             <div
               className={clsx(
@@ -92,39 +98,40 @@ const Releases: FunctionComponent<Props> = ({
                 (!showCollapseButton || isExpanded) && "pb-4",
               )}
             >
-              <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-                <h3 className="my-0 text-xl font-semibold ">
+              <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <h3 className="my-0 text-lg font-semibold">
                   {t("changes-in-version", {
                     version_number: latestRelease.version,
                   })}
                 </h3>
-                <div className="flex gap-1">
+                <div className="flex gap-2 items-center">
                   {latestReleaseTimestamp && (
-                    <div
-                      className="text-sm"
-                      title={latestReleaseTimestamp.toLocaleString(locale)}
-                    >
-                      {formatDistanceToNow(latestReleaseTimestamp, {
-                        addSuffix: true,
-                      })}
-                    </div>
-                  )}
-                  {summary.timestamp && (
-                    <div
-                      className="text-sm"
-                      title={new UTCDate(
-                        summary.timestamp * 1000,
-                      ).toLocaleDateString(getIntlLocale(locale))}
-                    >
-                      (
-                      {t("build-x", {
-                        build_ago: formatDistanceToNow(
-                          new UTCDate(summary.timestamp * 1000),
-                          { addSuffix: true },
-                        ),
-                      })}
-                      )
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="text-xs rounded-full bg-flathub-gainsborow px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray">
+                            {formatDistanceToNow(latestReleaseTimestamp, {
+                              addSuffix: true,
+                            })}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div>
+                            {latestReleaseTimestamp.toLocaleDateString(locale)}
+                          </div>
+                          {summary.timestamp && (
+                            <div>
+                              {t("build-x", {
+                                build_ago: formatDistanceToNow(
+                                  new UTCDate(summary.timestamp * 1000),
+                                  { addSuffix: true },
+                                ),
+                              })}
+                            </div>
+                          )}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   )}
                 </div>
               </header>
@@ -169,7 +176,7 @@ const Releases: FunctionComponent<Props> = ({
             </div>
             {showCollapseButton && (
               <button
-                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 dark:border-zinc-600"
+                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t border-flathub-gainsborow dark:border-flathub-granite-gray px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? (

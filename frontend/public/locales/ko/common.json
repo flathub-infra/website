@@ -137,7 +137,6 @@
   "app-install-error-try-again": "앱을 설치할 수 없습니다. 앱스토어로 돌아가서 다시 설치해 보십시오.",
   "appname-is-safety-rating-3": "{appName} 은 안전하지 않을 수 있습니다",
   "uses-eol-runtime-description": "이 앱에서 사용한 런타임이 더 이상 보안 업데이트를 받지 않습니다",
-  "information": "정보",
   "leave-confirmation": "{app}을(를) 종료하시겠습니까?",
   "cannot-access-the-internet": "인터넷에 접속할 수 없습니다",
   "manifest": "매니페스트",
