@@ -1,4 +1,4 @@
-import { sanitize } from "isomorphic-dompurify"
+import DOMPurify from "isomorphic-dompurify"
 import { Branding, GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>
@@ -17,7 +17,7 @@ export const isValidAppId = (appId: string) => {
 }
 
 export const sanitizeAppstreamDescription = (str: string) => {
-  return sanitize(str, {
+  return DOMPurify.sanitize(str, {
     ALLOWED_TAGS: ["p", "ul", "li", "ol", "em", "code"],
     ALLOWED_ATTR: [],
   })
