@@ -188,16 +188,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
         undefined,
       ]),
       type: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            "stable",
-            "development",
-            "snapshot",
-          ] as const),
-          null,
-        ]),
-        undefined,
-      ]),
+        "stable",
+        "development",
+        "snapshot",
+      ] as const),
       urgency: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.helpers.arrayElement([
@@ -554,16 +548,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
             undefined,
           ]),
           type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "stable",
-                "development",
-                "snapshot",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
+            "stable",
+            "development",
+            "snapshot",
+          ] as const),
           urgency: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.helpers.arrayElement([
@@ -877,16 +865,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
               undefined,
             ]),
             type: faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                faker.helpers.arrayElement([
-                  "stable",
-                  "development",
-                  "snapshot",
-                ] as const),
-                null,
-              ]),
-              undefined,
-            ]),
+              "stable",
+              "development",
+              "snapshot",
+            ] as const),
             urgency: faker.helpers.arrayElement([
               faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
@@ -1194,16 +1176,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
             undefined,
           ]),
           type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "stable",
-                "development",
-                "snapshot",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
+            "stable",
+            "development",
+            "snapshot",
+          ] as const),
           urgency: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.helpers.arrayElement([
@@ -1516,16 +1492,10 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
             undefined,
           ]),
           type: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement([
-                "stable",
-                "development",
-                "snapshot",
-              ] as const),
-              null,
-            ]),
-            undefined,
-          ]),
+            "stable",
+            "development",
+            "snapshot",
+          ] as const),
           urgency: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.helpers.arrayElement([

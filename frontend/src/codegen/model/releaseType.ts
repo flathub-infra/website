@@ -5,4 +5,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ReleaseType = "stable" | "development" | "snapshot" | null
+export type ReleaseType = (typeof ReleaseType)[keyof typeof ReleaseType]
+
+export const ReleaseType = {
+  stable: "stable",
+  development: "development",
+  snapshot: "snapshot",
+} as const
