@@ -745,22 +745,22 @@
     "may-not-work-well-on-mobile": "Może nie działać poprawnie na urządzeniach mobilnych",
     "works-well-on-mobile": "Działa poprawnie na urządzeniach mobilnych",
     "total-installs": "Łączna liczba instalacji",
-    "age-rating": "Próg wiekowy"
+    "age-rating": "Kategoria wiekowa"
   },
   "content-rating": {
-    "subtitle": "Aplikacja {appName} jest odpowiednia dla {age} latków",
+    "subtitle": "Aplikacja {appName} jest odpowiednia dla {age}-latków",
     "category-violence": "Przemoc",
     "category-drugs": "Używki",
     "category-sex": "Nagość",
-    "category-language": "Mocny język",
-    "category-social": "Społeczność",
+    "category-language": "Wulgarny język",
+    "category-social": "Funkcje społecznościowe",
     "category-money": "Pieniądze",
     "unknown": "Brak podanej informacji",
     "none-violence": "Nie zawiera przemocy",
     "none-drugs": "Nie zawiera odniesień do używek",
-    "none-sex": "Nie zawiera odniesień do seksualizmu ani nagości",
+    "none-sex": "Nie zawiera treści o charakterze seksualnym ani nagości",
     "none-language": "Nie zawiera profanacji ani wulgarnego języka",
-    "none-social": "Nie zawiera funkcji społecznych",
+    "none-social": "Nie zawiera funkcji społecznościowych",
     "none-money": "Nie zawiera reklam ani transakcji pieniężnych"
   }
 }
