@@ -8902,7 +8902,7 @@ __metadata:
     qs: "npm:^6.14.2"
     radix-ui: "npm:^1.4.3"
     react: "npm:19.2.4"
-    react-copy-to-clipboard-ts: "npm:^1.3.0"
+    react-copy-to-clipboard-ts: "npm:^1.3.1"
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:19.2.4"
     react-hook-form: "npm:^7.71.2"
@@ -11760,14 +11760,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-copy-to-clipboard-ts@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "react-copy-to-clipboard-ts@npm:1.3.0"
+"react-copy-to-clipboard-ts@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "react-copy-to-clipboard-ts@npm:1.3.1"
   dependencies:
     copy-to-clipboard: "npm:^3.3.3"
   peerDependencies:
     react: ">=18.0.0"
-  checksum: 10c0/e6ecbbc7d95fc089b158d149d0ff5f19500db511bb4bb645ea668c0462dde8c00ca281ef1ab66aee9badc5c2a6684d09e8071b2ed3a6ebc7125ee889b7c41c48
+  checksum: 10c0/c67aae90b3f540a4a0de97f3de912d8d3a2ac439f8a88209a23be44068acfdb12dbad2edf7b3a9eb440a98e9c231a48a14d11a3b44794c4cc16f3a9f7c6b0110
   languageName: node
   linkType: hard
 
