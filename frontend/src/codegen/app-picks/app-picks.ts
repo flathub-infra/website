@@ -28,7 +28,7 @@ import type {
   AppsOfTheWeek,
   SetAppOfTheDayAppPicksAppOfTheDayPost200,
   UpsertAppOfTheWeek,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Get App Of The Day

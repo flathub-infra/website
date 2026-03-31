@@ -31,7 +31,7 @@ import type {
   InviteStatus,
   RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams,
   RevokeInviteInvitesAppIdRevokeDeleteParams,
-} from ".././model"
+} from "../model"
 
 /**
  * @summary Get Invite Status

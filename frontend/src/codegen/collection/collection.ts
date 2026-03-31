@@ -28,6 +28,7 @@ import type {
   GetDeveloperCollectionDeveloperDeveloperGetParams,
   GetDevelopersCollectionDeveloperGetParams,
   GetKeywordCollectionKeywordGetParams,
+  GetKeywordsCollectionKeywordsGetParams,
   GetMobileCollectionMobileGetParams,
   GetMostFavoritedCollectionFavoritesGetParams,
   GetPopularLastMonthCollectionPopularGetParams,
@@ -37,9 +38,10 @@ import type {
   GetTrendingLastTwoWeeksCollectionTrendingGetParams,
   GetVerifiedCollectionVerifiedGetParams,
   HTTPValidationError,
+  KeywordsResponse,
   MainCategory,
   MeilisearchResponseAppsIndex,
-} from ".././model"
+} from "../model"
 
 /**
  * Get a list of all available main categories for filtering applications.
@@ -637,6 +639,176 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
       params,
       options,
     )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
+ * @summary Get Keywords
+ */
+export const getKeywordsCollectionKeywordsGet = (
+  params?: GetKeywordsCollectionKeywordsGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<KeywordsResponse>> => {
+  return axios.get(`/collection/keywords`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
+}
+
+export const getGetKeywordsCollectionKeywordsGetQueryKey = (
+  params?: GetKeywordsCollectionKeywordsGetParams,
+) => {
+  return [`/collection/keywords`, ...(params ? [params] : [])] as const
+}
+
+export const getGetKeywordsCollectionKeywordsGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetKeywordsCollectionKeywordsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetKeywordsCollectionKeywordsGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>
+  > = ({ signal }) =>
+    getKeywordsCollectionKeywordsGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetKeywordsCollectionKeywordsGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>
+>
+export type GetKeywordsCollectionKeywordsGetQueryError =
+  AxiosError<void | HTTPValidationError>
+
+export function useGetKeywordsCollectionKeywordsGet<
+  TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params: undefined | GetKeywordsCollectionKeywordsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+          TError,
+          Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetKeywordsCollectionKeywordsGet<
+  TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetKeywordsCollectionKeywordsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+          TError,
+          Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetKeywordsCollectionKeywordsGet<
+  TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetKeywordsCollectionKeywordsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Keywords
+ */
+
+export function useGetKeywordsCollectionKeywordsGet<
+  TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: GetKeywordsCollectionKeywordsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetKeywordsCollectionKeywordsGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

@@ -9,6 +9,7 @@ import { QualityModeration } from "../../../../src/components/application/Qualit
 import { isDesktopAppstreamTypeGuard, getKeywords } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "../../../../src/size"
 import { bcpToPosixLocale } from "../../../../src/localize"
+import { getContentRating } from "../../../../src/contentRating"
 import { findBiggestScreenshotSize } from "../../../../src/types/Appstream"
 import type { JSX } from "react"
 import type { Summary } from "../../../../src/types/Summary"
@@ -112,6 +113,9 @@ const AppDetailClient = ({
       (release) => release.type === undefined || release.type === "stable",
     )?.[0]?.version
 
+  const contentRating = getContentRating(app, locale)
+  const contentRatingText = contentRating?.minimumAgeText ?? undefined
+
   return (
     <>
       {isDesktopAppstreamTypeGuard(app) && (
@@ -158,6 +162,7 @@ const AppDetailClient = ({
             ? calculateHumanReadableSize(summary.installed_size)
             : t("unknown")
         }
+        contentRating={contentRatingText}
       />
       {isDesktopAppstreamTypeGuard(app) && app.categories?.includes("Game") && (
         <VideoGameJsonLd
@@ -199,6 +204,7 @@ const AppDetailClient = ({
               ? calculateHumanReadableSize(summary.installed_size)
               : t("unknown")
           }
+          contentRating={contentRatingText}
         />
       )}
       <ApplicationDetails

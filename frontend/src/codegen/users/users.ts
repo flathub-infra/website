@@ -32,7 +32,7 @@ import type {
   RoleName,
   UserResult,
   UsersUsersGetParams,
-} from ".././model"
+} from "../model"
 
 /**
  * Return a list of all known users

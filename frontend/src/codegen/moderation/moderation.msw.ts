@@ -9,13 +9,13 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { ModerationRequestType } from ".././model"
+import { ModerationRequestType } from "../model"
 import type {
   ModerationApp,
   ModerationAppsResponse,
   ReviewRequestResponse,
   ReviewResponse,
-} from ".././model"
+} from "../model"
 
 export const getGetModerationAppsModerationAppsGetResponseMock = (
   overrideResponse: Partial<Extract<ModerationAppsResponse, object>> = {},

@@ -77,24 +77,22 @@ const StatsModal = ({
     })
   }
 
-  if (countryData.length > 0) {
-    tabs.push({
-      name: t("country-statistics"),
-      content: (
-        <div className="flex flex-col items-center p-4 w-full">
-          <ContainerWorldMap countryData={countryData} />
-          <p className="mt-2 text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-            {t("since-x", {
-              date: countryStatisticsStartDate.toLocaleDateString(
-                getIntlLocale(locale),
-              ),
-            })}
-          </p>
-        </div>
-      ),
-      replacePadding: "p-0",
-    })
-  }
+  tabs.push({
+    name: t("country-statistics"),
+    content: (
+      <div className="flex flex-col items-center p-4 w-full">
+        <ContainerWorldMap countryData={countryData} />
+        <p className="mt-2 text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+          {t("since-x", {
+            date: countryStatisticsStartDate.toLocaleDateString(
+              getIntlLocale(locale),
+            ),
+          })}
+        </p>
+      </div>
+    ),
+    replacePadding: "p-0",
+  })
 
   return (
     <Modal
@@ -108,14 +106,7 @@ const StatsModal = ({
         {stats.installs_total.toLocaleString(getIntlLocale(locale))}{" "}
         {t("sub-header.total-installs")}
       </div>
-      {tabs.length > 0 ? (
-        <Tabs tabs={tabs} tabsIdentifier="stats-modal" />
-      ) : (
-        <div className="text-center text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-          {t("installs")}:{" "}
-          {stats.installs_total.toLocaleString(getIntlLocale(locale))}
-        </div>
-      )}
+      <Tabs tabs={tabs} tabsIdentifier="stats-modal" />
     </Modal>
   )
 }

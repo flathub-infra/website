@@ -40,7 +40,7 @@ import type {
   VendingSetup,
   VendingSetupRequest,
   VendingStatus,
-} from ".././model"
+} from "../model"
 
 /**
  * Retrieve the vending status of the logged in user.

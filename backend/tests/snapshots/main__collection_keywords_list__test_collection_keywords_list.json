@@ -1,0 +1,19 @@
+{
+  "keywords": [
+    {
+      "keyword": "game",
+      "count": 1
+    },
+    {
+      "keyword": "maze",
+      "count": 1
+    },
+    {
+      "keyword": "puzzle",
+      "count": 1
+    }
+  ],
+  "total": 3,
+  "page": 1,
+  "per_page": 250
+}

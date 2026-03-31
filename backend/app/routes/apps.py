@@ -146,8 +146,10 @@ async def get_appstream(
             db_session.session.query(models.App)
             .options(
                 load_only(
+                    models.App.app_id,
                     models.App.appstream,
                     models.App.localization,
+                    models.App.content_rating_details,
                     models.App.is_eol,
                     models.App.eol_branches,
                 )
@@ -165,6 +167,8 @@ async def get_appstream(
         result = app.get_translated_appstream(locale)
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
+
+        result["is_eol"] = app.is_eol
 
         # Return the correct union type
         if result.get("type") == "addon":

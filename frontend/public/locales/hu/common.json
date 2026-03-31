@@ -725,5 +725,42 @@
   "year-in-review-banner": {
     "title": "Flathub {year} éves áttekintés",
     "description": "Tekintse át újra az év legnépszerűbb alkalmazásait és trendjeit"
+  },
+  "app-information": "Alkalmazásinformációk",
+  "sub-header": {
+    "download": "Letöltés",
+    "free": "Ingyenes",
+    "desktop-only": "Csak asztali gépen",
+    "desktop-and-mobile": "Asztali gépen és mobilon",
+    "downloads-per-month": "Letöltések havonta",
+    "amount-to-download": "Internetről letöltendő adatmennyiség",
+    "size-on-disk": "Lemezen foglalt hely",
+    "installed-runtime-size": "Telepített futtatókörnyezet mérete",
+    "appname-works-best-on-specific-hardware": "A(z) {appName} bizonyos hardvereken működik a legjobban",
+    "appname-works-on-all-devices": "A(z) {appName} minden eszközön működik",
+    "mobile-support": "Mobil támogatás",
+    "desktop-support": "Asztali támogatás",
+    "works-well-on-large-screens": "Nagy képernyőkön jól működik",
+    "may-not-work-well-on-mobile": "Mobil eszközökön nem biztos, hogy jól működik",
+    "works-well-on-mobile": "Mobil eszközökön jól működik",
+    "total-installs": "Összes telepítés",
+    "age-rating": "Korhatár-besorolás"
+  },
+  "quality-moderation-excluded": "Ez az alkalmazás ki van zárva a minőségellenőrzésből",
+  "content-rating": {
+    "subtitle": "A(z) {appName} a következő korosztály számára ajánlott: {age}",
+    "category-violence": "Erőszak",
+    "category-drugs": "Drogok",
+    "category-sex": "Meztelenség",
+    "category-language": "Durva nyelvezet",
+    "category-social": "Közösségi funkciók",
+    "category-money": "Pénzügyek",
+    "unknown": "Nincs megadott információ",
+    "none-violence": "Nem tartalmaz erőszakot",
+    "none-drugs": "Nem tartalmaz utalást drogra",
+    "none-sex": "Nem tartalmaz szexuális tartalmat vagy meztelenséget",
+    "none-language": "Nem tartalmaz káromkodást vagy durva kifejezéseket",
+    "none-social": "Nincsenek közösségi funkciók",
+    "none-money": "Nem tartalmaz hirdetéseket vagy pénzügyi tranzakciókat"
   }
 }

@@ -13,11 +13,12 @@ import {
   ConnectedAccountProvider,
   MainCategory,
   VerificationMethod,
-} from ".././model"
+} from "../model"
 import type {
   AppSearchDevelopersResponse,
+  KeywordsResponse,
   MeilisearchResponseAppsIndex,
-} from ".././model"
+} from "../model"
 
 export const getGetCategoriesCollectionCategoryGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
@@ -332,6 +333,22 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
     ]),
     ...overrideResponse,
   })
+
+export const getGetKeywordsCollectionKeywordsGetResponseMock = (
+  overrideResponse: Partial<Extract<KeywordsResponse, object>> = {},
+): KeywordsResponse => ({
+  keywords: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    keyword: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    count: faker.number.int(),
+  })),
+  total: faker.number.int(),
+  page: faker.number.int(),
+  per_page: faker.number.int(),
+  ...overrideResponse,
+})
 
 export const getGetKeywordCollectionKeywordGetResponseMock = (
   overrideResponse: Partial<Extract<MeilisearchResponseAppsIndex, object>> = {},
@@ -1791,6 +1808,30 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHand
     )
   }
 
+export const getGetKeywordsCollectionKeywordsGetMockHandler = (
+  overrideResponse?:
+    | KeywordsResponse
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<KeywordsResponse> | KeywordsResponse),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/collection/keywords",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetKeywordsCollectionKeywordsGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
 export const getGetKeywordCollectionKeywordGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
@@ -2052,6 +2093,7 @@ export const getCollectionMock = () => [
   getGetCategoriesCollectionCategoryGetMockHandler(),
   getGetCategoryCollectionCategoryCategoryGetMockHandler(),
   getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHandler(),
+  getGetKeywordsCollectionKeywordsGetMockHandler(),
   getGetKeywordCollectionKeywordGetMockHandler(),
   getGetDevelopersCollectionDeveloperGetMockHandler(),
   getGetDeveloperCollectionDeveloperDeveloperGetMockHandler(),

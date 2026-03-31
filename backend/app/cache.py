@@ -158,8 +158,7 @@ def cached(ttl: int = 3600) -> Callable:
                         )
 
                         try:
-                            if await redis.setnx(refresh_lock_key, "1"):
-                                await redis.expire(refresh_lock_key, 10)
+                            if await redis.set(refresh_lock_key, "1", ex=10, nx=True):
                                 try:
                                     fresh_result = await func(*args, **kwargs)
                                     response_obj = _get_response_from_args(

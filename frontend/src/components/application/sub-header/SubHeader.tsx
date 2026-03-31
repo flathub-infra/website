@@ -23,6 +23,8 @@ import LicenseModal from "./LicenseModal"
 import SafetyModal from "./SafetyModal"
 import PlatformModal from "./PlatformModal"
 import StatsModal from "./StatsModal"
+import ContentRatingModal from "./ContentRatingModal"
+import { getContentRating, ageToColor } from "src/contentRating"
 
 interface SubHeaderProps {
   app: GetAppstreamAppstreamAppIdGet200
@@ -45,6 +47,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
   const [safetyOpen, setSafetyOpen] = useState(false)
   const [platformOpen, setPlatformOpen] = useState(false)
   const [statsOpen, setStatsOpen] = useState(false)
+  const [contentRatingOpen, setContentRatingOpen] = useState(false)
 
   const highestSafetyRating =
     safetyRating.length > 0
@@ -70,6 +73,11 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     .sort((a, b) => b.safetyRating - a.safetyRating)
     .slice(0, 3)
 
+  const contentRating =
+    "content_rating_details" in app && app.content_rating_details
+      ? getContentRating(app, locale)
+      : null
+
   const items: React.ReactNode[] = []
 
   // Download Size
@@ -77,7 +85,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     items.push(
       <SubHeaderItem key="download" onClick={() => setDownloadSizeOpen(true)}>
         <span className="inline-flex items-center rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-sm font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
-          {calculateHumanReadableSize(summary.download_size)}
+          {calculateHumanReadableSize(summary.download_size, true)}
         </span>
         <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray/80">
           {t("sub-header.download")}
@@ -151,25 +159,51 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     </SubHeaderItem>,
   )
 
-  // Downloads/Month
-  if (stats && stats.installs_last_month > 0) {
+  // Age Rating
+  if (contentRating) {
+    const ageLabel =
+      contentRating.minimumAge === null
+        ? "3+"
+        : `${Math.max(contentRating.minimumAge, 3)}+`
+
     items.push(
-      <SubHeaderItem key="stats" onClick={() => setStatsOpen(true)}>
-        <span className="inline-flex items-center rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-sm font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
-          {stats.installs_last_month.toLocaleString(getIntlLocale(locale))}
+      <SubHeaderItem
+        key="content-rating"
+        onClick={() => setContentRatingOpen(true)}
+      >
+        <span
+          className={clsx(
+            "inline-flex items-center rounded-full px-3 py-1 text-sm font-bold leading-none tabular-nums",
+            ageToColor(contentRating.minimumAge),
+          )}
+        >
+          {ageLabel}
         </span>
         <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray/80">
-          {t("sub-header.downloads-per-month")}
+          {t("sub-header.age-rating")}
         </span>
       </SubHeaderItem>,
     )
   }
 
+  // Downloads/Month - always show, defaulting to 0
+  const installsLastMonth = stats?.installs_last_month ?? 0
+  items.push(
+    <SubHeaderItem key="stats" onClick={() => setStatsOpen(true)}>
+      <span className="inline-flex items-center rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-sm font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
+        {installsLastMonth.toLocaleString(getIntlLocale(locale))}
+      </span>
+      <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray/80">
+        {t("sub-header.downloads-per-month")}
+      </span>
+    </SubHeaderItem>,
+  )
+
   return (
     <>
       <section
         aria-label={t("app-information")}
-        className="col-start-2 flex flex-wrap items-stretch justify-between pb-4"
+        className="col-start-2 flex flex-wrap items-stretch justify-between pb-4 lg:px-16 xl:px-24 2xl:px-32"
       >
         {items}
       </section>
@@ -198,6 +232,15 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
         />
       )}
 
+      {contentRating && (
+        <ContentRatingModal
+          isOpen={contentRatingOpen}
+          onClose={() => setContentRatingOpen(false)}
+          contentRating={contentRating}
+          appName={app.name}
+        />
+      )}
+
       <PlatformModal
         isOpen={platformOpen}
         onClose={() => setPlatformOpen(false)}
@@ -205,14 +248,21 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
         isMobileFriendly={isMobileFriendly}
       />
 
-      {stats && (
-        <StatsModal
-          isOpen={statsOpen}
-          onClose={() => setStatsOpen(false)}
-          stats={stats}
-          locale={locale}
-        />
-      )}
+      <StatsModal
+        isOpen={statsOpen}
+        onClose={() => setStatsOpen(false)}
+        stats={
+          stats ?? {
+            installs_total: 0,
+            installs_per_day: {},
+            installs_per_country: {},
+            installs_last_month: 0,
+            installs_last_7_days: 0,
+            id: app.id,
+          }
+        }
+        locale={locale}
+      />
     </>
   )
 }

@@ -85,7 +85,8 @@
   "terms-and-conditions": "Termos e condicións",
   "terms-and-conditions-description": "Ao usar este sitio web, acepta os Termos e Condicións.",
   "developer-portal": {
-    "title": "Portal para desenvolvedores"
+    "title": "Portal para desenvolvedores",
+    "runtime-version": "Tempo de execución: {version}"
   },
   "trending": "Tendencias",
   "code-examples": "Exemplos de código",
@@ -114,7 +115,12 @@
   "default-account": "Predeterminada",
   "default-account-changed": "Conta predeterminada cambiada correctamente",
   "quality-guideline": {
-    "screenshots-default-settings": "Configuración predeterminada"
+    "screenshots-default-settings": "Configuración predeterminada",
+    "app-icon-size": "SVG ou PNG de polo menos 256px",
+    "general-runtime-not-eol": "Tempo de execución dentro da vida útil",
+    "pending": "Pendente",
+    "app-data-review-pending": "Revisión dos datos da aplicación pendente",
+    "screenshots-just-the-app-window": "Só a xanela da aplicación"
   },
   "link-more-accounts": "Vincular máis contas",
   "delete-account": "Eliminar conta",
@@ -205,7 +211,11 @@
     "most-popular-description": "A aplicación co maior número de descargas este ano",
     "newcomer-description": "A aplicación máis popular publicada este ano",
     "top-game-stores": "Top tendas de xogos",
-    "top-game-utilities": "Top ferramentas para xogos"
+    "top-game-utilities": "Top ferramentas para xogos",
+    "total-downloads": "Descargas totais",
+    "trending-categories": "Categorías en tendencia",
+    "trending-categories-description": "Categorías co maior crecemento este ano",
+    "total-apps": "Aplicacións totais"
   },
   "launcher": "Lanzadores",
   "gamelauncher": "Lanzadores de xogos",
@@ -384,8 +394,53 @@
   "cannot-access-the-internet": "Non pode acceder ao internet",
   "no-permissions-description": "A aplicación está completamente illada",
   "screen-contents-access": "Acceso ao contido en pantalla",
-  "can-read-write-home-folder": "Pode ler e escribir todos os datos no cartafol de descargas",
+  "can-read-write-home-folder": "Pode ler e escribir todos os datos do cartafol persoal",
   "can-access-system-devices": "Pode acceder a dispositivos do sistema que requiren permisos elevados",
   "can-read-all-data-on-file-system": "Pode ler todos os datos do sistema de ficheiros",
-  "can-read-home-folder": "Pode ler todos os datos do seu cartafol persoal"
+  "can-read-home-folder": "Pode ler todos os datos do cartafol persoal",
+  "sub-header": {
+    "download": "Descarga",
+    "downloads-per-month": "Descargas/Mes",
+    "amount-to-download": "Cantidade a descargar do internet",
+    "size-on-disk": "Tamaño no disco",
+    "installed-runtime-size": "Tamaño do tempo de execución instalado",
+    "free": "Libre",
+    "desktop-only": "Só para escritorio",
+    "desktop-and-mobile": "Escritorio e móbil",
+    "desktop-support": "Soporte para escritorio",
+    "appname-works-on-all-devices": "{appName} funciona en todos os dispositivos",
+    "may-not-work-well-on-mobile": "Pode non funcionar ben en dispositivos móbiles",
+    "works-well-on-mobile": "Funciona ben en dispositivos móbiles",
+    "mobile-support": "Soporte para móbil",
+    "works-well-on-large-screens": "Funciona ben en pantallas grandes",
+    "total-installs": "Instalacións totais"
+  },
+  "runtime-distribution": "Distribución dos tempos de execución",
+  "uses-eol-runtime": "Usa un tempo de execución fóra da vida útil",
+  "user-runtime-folder": "Cartafol de tempos de execución do usuario",
+  "user-runtime-subfolder-x": "Subcartafol {folder} do tempo de execución do usuario",
+  "uses-eol-runtime-description": "O tempo de execución usado por esta aplicación xa non está a recibir actualizacións de seguridade",
+  "enter-end-of-life-message": "Introduza a mensaxe de fin de vida útil",
+  "vendingSharesPreview": {
+    "app": "Aplicación",
+    "sdk": "SDK"
+  },
+  "desktop-folder": "Cartafol do escritorio",
+  "desktop-subfolder-x": "Subcartafol {folder} do escritorio",
+  "arbitrary-permissions": "Permisos arbitrarios",
+  "home-folder-read-write-access": "Acceso de lectura/escritura ao cartafol persoal",
+  "can-access-hardware-devices": "Pode acceder aos dispositivos de hardware como cámaras web ou controladores de xogos",
+  "can-access-input-devices": "Pode acceder aos dispositivos de entrada como teclados, ratos ou controladores para xogos",
+  "user-device-access": "Acceso aos dispositivo do usuario",
+  "system-device-access": "Acceso aos dispositivos do sistema",
+  "no-user-device-access-description": "Esta aplicación non pode acceder ningún dispositivo do usuario como cámaras web ou controladores para xogos",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Pode acceder ao contido da pantalla ou outras xanelas",
+  "can-read-write-all-data-on-file-system": "Pode ler e escribir todos os datos no sistema de ficheiros",
+  "can-read-write-your-downloads": "Pode ler e escribir todos os datos do cartafol de descargas",
+  "can-read-all-data": "Pode ler todos os datos no directorio",
+  "no-file-system-access-description": "Non pode acceder ao sistema de ficheiros",
+  "socket-may-allow-extra-permissions": "Usa un socket que permite obter permisos extra",
+  "auditable-code-description": "O código fonte é público e pode ser independente auditado, o que fai a aplicación probablemente segura",
+  "proprietary-code-description": "O código fonte non é público, polo que non pode ser independentemente auditado e pode ser inseguro",
+  "special-code-description": "Esta aplicación é desenvolvida baixo unha licenza especial. O código fonte pode ser ou non ser público."
 }

@@ -5,7 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { AddonAppstreamCategories } from "./addonAppstreamCategories"
-import type { AddonAppstreamContentRating } from "./addonAppstreamContentRating"
+import type { AddonAppstreamContentRatingDetails } from "./addonAppstreamContentRatingDetails"
 import type { AddonAppstreamDeveloperName } from "./addonAppstreamDeveloperName"
 import type { AddonAppstreamIcon } from "./addonAppstreamIcon"
 import type { AddonAppstreamIcons } from "./addonAppstreamIcons"
@@ -25,7 +25,7 @@ export interface AddonAppstream {
   name: string
   summary: string
   releases?: AddonAppstreamReleases
-  content_rating?: AddonAppstreamContentRating
+  content_rating_details?: AddonAppstreamContentRatingDetails
   urls?: AddonAppstreamUrls
   categories?: AddonAppstreamCategories
   icon?: AddonAppstreamIcon

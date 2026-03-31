@@ -45,6 +45,7 @@ import {
   ckb,
   ptBR,
   gl,
+  eu,
 } from "date-fns/locale"
 
 export type Language =
@@ -102,6 +103,7 @@ export type Language =
   | "br"
   | "gl"
   | "kw"
+  | "eu"
 
 export const fontLanguageDenyList = ["ar", "fa", "ckb"]
 
@@ -160,6 +162,7 @@ export const languages: Language[] = [
   "br",
   "gl",
   "kw",
+  "eu",
 ]
 
 export function getDateFnsLocale(language?: string): Locale {
@@ -272,6 +275,8 @@ export function getDateFnsLocale(language?: string): Locale {
       return gl
     case "kw":
       return enGB // date-fns has no Cornish locale
+    case "eu":
+      return eu
 
     default:
       return enGB
@@ -337,7 +342,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "bn":
       return "bn_IN"
     case "eo":
-      return "eo"
+      return "eo_EO"
     case "lt":
       return "lt_LT"
     case "hr":
@@ -353,7 +358,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "zh-Hant":
       return "zh_Hant"
     case "oc":
-      return "oc"
+      return "oc_FR"
     case "da":
       return "da_DK"
     case "az":
@@ -363,7 +368,7 @@ export function bcpToPosixLocale(language?: string): string {
     case "ro":
       return "ro_RO"
     case "hy":
-      return "hy"
+      return "hy_AM"
     case "ko":
       return "ko_KR"
     case "sv":
@@ -371,23 +376,25 @@ export function bcpToPosixLocale(language?: string): string {
     case "pa":
       return "pa_IN"
     case "sq":
-      return "sq_XK"
+      return "sq_AL"
     case "ia":
-      return "ia"
+      return "ia_XX"
     case "ckb":
-      return "ckb"
+      return "ckb_IR"
     case "ga":
-      return "ga"
+      return "ga_IE"
     case "kab":
-      return "kab"
+      return "kab_DZ"
     case "fil":
-      return "fil"
+      return "fil_PH"
     case "br":
       return "br"
     case "gl":
       return "gl_GL"
     case "kw":
       return "kw_GB"
+    case "eu":
+      return "eu_ES"
 
     default:
       return "en_US"
@@ -503,6 +510,8 @@ export function getLanguageFlag(language: Language): string {
     case "gl":
       return ""
     case "kw":
+      return ""
+    case "eu":
       return ""
   }
 }
@@ -645,6 +654,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("gl")
     case "kw":
       return new Intl.Locale("kw")
+    case "eu":
+      return new Intl.Locale("eu")
 
     default:
       return new Intl.Locale("en")

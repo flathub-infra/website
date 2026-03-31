@@ -16,7 +16,7 @@ import type {
   TransactionStripeData,
   TransactionSummary,
   WalletInfo,
-} from ".././model"
+} from "../model"
 
 export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
   overrideResponse: Partial<Extract<WalletInfo, object>> = {},

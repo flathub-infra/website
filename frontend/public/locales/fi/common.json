@@ -721,7 +721,7 @@
     "free": "Ilmainen/vapaa",
     "desktop-only": "Vain työpöydälle",
     "desktop-and-mobile": "Työpöytä ja mobiili",
-    "downloads-per-month": "Latauksia/kk",
+    "downloads-per-month": "Latauksia kuukaudessa",
     "amount-to-download": "Internetistä ladattava koko",
     "size-on-disk": "Koko levyllä",
     "installed-runtime-size": "Asennetun suoritusaikaisen koko",
@@ -732,7 +732,24 @@
     "works-well-on-large-screens": "Toimii hyvin suurilla näytöillä",
     "may-not-work-well-on-mobile": "Ei välttämättä toimi hyvin mobiililaitteilla",
     "works-well-on-mobile": "Toimii hyvin mobiililaitteilla",
-    "total-installs": "asennusta yhteensä"
+    "total-installs": "asennusta yhteensä",
+    "age-rating": "Ikäluokitus"
   },
-  "quality-moderation-excluded": "Tämä sovellus ei kuulu laaduntarkistuksen piiriin"
+  "quality-moderation-excluded": "Tämä sovellus ei kuulu laaduntarkistuksen piiriin",
+  "content-rating": {
+    "subtitle": "Sovelluksen {appName} ikäsuositus on {age}",
+    "category-violence": "Väkivalta",
+    "category-drugs": "Päihteet",
+    "category-sex": "Alastomuus",
+    "category-language": "Karkea kielenkäyttö",
+    "category-social": "Sosiaalisuus",
+    "category-money": "Raha",
+    "unknown": "Tietoa ei ole kerrottu",
+    "none-violence": "Ei sisällä väkivaltaa",
+    "none-drugs": "Ei sisällä viittauksia päihteisiin tai huumeisiin",
+    "none-sex": "Ei sisällä seksuaalista sisältöä tai alastomuutta",
+    "none-language": "Ei sisällä kiroilua tai alatyylistä kielenkäyttöä",
+    "none-social": "Ei sosiaalisia ominaisuuksia",
+    "none-money": "Ei sisällä mainostamista tai rahansiirtoa"
+  }
 }

@@ -3,8 +3,9 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import PublisherAgreement from "./PublisherAgreement"
 import { UserState } from "../../types/Login"
 import { Permission } from "../../codegen/model"
-import { UserContext } from "../../context/user-info"
+import { UserContext, UserInfoProvider } from "../../context/user-info"
 import { expect, within } from "storybook/test"
+import { getGetUserinfoAuthUserinfoGetMockHandler } from "../../codegen/auth/auth.msw"
 
 const meta = {
   component: PublisherAgreement,
@@ -13,7 +14,17 @@ const meta = {
     nextjs: {
       appDirectory: true,
     },
+    msw: {
+      handlers: [getGetUserinfoAuthUserinfoGetMockHandler()],
+    },
   },
+  decorators: [
+    (Story) => (
+      <UserInfoProvider>
+        <Story />
+      </UserInfoProvider>
+    ),
+  ],
 } satisfies Meta<typeof PublisherAgreement>
 
 export default meta

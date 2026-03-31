@@ -15,7 +15,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type { BuildNotificationRequest } from ".././model"
+import type { BuildNotificationRequest } from "../model"
 
 /**
  * @summary Build Notification

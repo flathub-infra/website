@@ -725,5 +725,8 @@
   "year-in-review-banner": {
     "title": "{year}年 Flathub 年間レポート",
     "description": "今年を彩った人気アプリやトレンドを振り返る"
+  },
+  "sub-header": {
+    "download": "ダウンロード"
   }
 }

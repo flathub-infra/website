@@ -34,7 +34,7 @@ import type {
   ReviewRequest,
   ReviewRequestResponse,
   ReviewResponse,
-} from ".././model"
+} from "../model"
 
 /**
  * Get a list of apps with unhandled moderation requests.

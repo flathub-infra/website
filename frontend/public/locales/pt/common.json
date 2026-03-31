@@ -726,5 +726,41 @@
     "platform-downloads": "Transferências por plataformas",
     "x-growth": "+{percentage}% crescimento"
   },
-  "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade"
+  "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade",
+  "app-information": "Informação da aplicação",
+  "sub-header": {
+    "download": "Transferir",
+    "free": "Grátis",
+    "desktop-only": "Só para computador",
+    "desktop-and-mobile": "Computador & Dispositivos móveis",
+    "downloads-per-month": "Transferências/Mês",
+    "amount-to-download": "Tamanho da transferência a partir da internet",
+    "size-on-disk": "Tamanho no disco",
+    "installed-runtime-size": "Tamanho do tempo de execução instalado",
+    "appname-works-best-on-specific-hardware": "{appName} funciona melhor em hardware especifico",
+    "appname-works-on-all-devices": "{appName} funciona em todos os dispositivos",
+    "mobile-support": "Suporte para dispositivos móveis",
+    "desktop-support": "Suporte para computador",
+    "works-well-on-large-screens": "Funciona corretamente em ecrãs grandes",
+    "may-not-work-well-on-mobile": "Pode não funcionar corretamente em dispositivos móveis",
+    "works-well-on-mobile": "Funciona corretamente em dispositivos móveis",
+    "total-installs": "Total de instalações",
+    "age-rating": "Classificação etária"
+  },
+  "content-rating": {
+    "subtitle": "{appName} é apropriado para idades {age}",
+    "category-violence": "Violência",
+    "category-drugs": "Drogas",
+    "category-sex": "Nudez",
+    "category-language": "Linguagem forte",
+    "category-social": "Social",
+    "category-money": "Dinheiro",
+    "unknown": "Nenhuma informação fornecida",
+    "none-violence": "Não contém violência",
+    "none-drugs": "Não contém referências a drogas",
+    "none-sex": "Não contém conteúdo sexual ou nudez",
+    "none-language": "Não contém profanidades ou linguagem vulgar",
+    "none-social": "Não contém funcionalidades sociais",
+    "none-money": "Não contém anúncios ou transações monetárias"
+  }
 }

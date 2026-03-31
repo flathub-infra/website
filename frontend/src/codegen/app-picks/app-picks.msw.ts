@@ -13,7 +13,7 @@ import type {
   AppOfTheDay,
   AppsOfTheWeek,
   SetAppOfTheDayAppPicksAppOfTheDayPost200,
-} from ".././model"
+} from "../model"
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetResponseMock = (
   overrideResponse: Partial<Extract<AppOfTheDay, object>> = {},

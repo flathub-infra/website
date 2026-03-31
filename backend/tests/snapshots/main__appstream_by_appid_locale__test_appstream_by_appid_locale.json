@@ -1,9 +1,14 @@
 {
   "type": "desktop-application",
+  "id": "org.sugarlabs.Maze",
+  "name": "Irrgarten",
+  "summary": "Ein simples Irrgartenspiel",
   "description": "<p>Gut deinen Weg aus einer schwierigen Situation zu finden?</p>",
+  "developer_name": "Sugar Labs Community",
+  "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
+  "icons": [],
   "screenshots": [
     {
-      "caption": "Spieler navigiert durch das Labyrinth",
       "sizes": [
         {
           "width": "800",
@@ -35,11 +40,10 @@
           "scale": "1x",
           "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
         }
-      ]
+      ],
+      "caption": "Spieler navigiert durch das Labyrinth"
     },
     {
-      "caption": "Hauptspielbildschirm mit dem Labyrinth",
-      "default": true,
       "sizes": [
         {
           "width": "800",
@@ -71,7 +75,9 @@
           "scale": "1x",
           "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         }
-      ]
+      ],
+      "caption": "Hauptspielbildschirm mit dem Labyrinth",
+      "default": true
     },
     {
       "sizes": [
@@ -111,40 +117,80 @@
   "releases": [
     {
       "timestamp": "1582070400",
-      "version": "30"
+      "version": "30",
+      "type": "stable"
     }
   ],
-  "content_rating": {
-    "type": "oars-1.1"
+  "content_rating_details": {
+    "de_DE": {
+      "categories": [
+        {
+          "id": "social",
+          "level": "none",
+          "description": "Keine M\u00f6glichkeit, mit anderen Nutzern zu chatten"
+        },
+        {
+          "id": "drugs",
+          "level": "none",
+          "description": "Keine Bezugnahme auf Alkohol"
+        },
+        {
+          "id": "language",
+          "level": "none",
+          "description": "Keine Obsz\u00f6nit\u00e4t irgendeiner Art"
+        },
+        {
+          "id": "money",
+          "level": "none",
+          "description": "Keine M\u00f6glichkeit, reales Geld auszugeben"
+        },
+        {
+          "id": "sex",
+          "level": "none",
+          "description": "Keine Nacktszenen irgendeiner Form"
+        },
+        {
+          "id": "violence",
+          "level": "none",
+          "description": "Keine Cartoon-Gewalt"
+        }
+      ],
+      "minimumAge": 3,
+      "minimumAgeText": "0",
+      "contentRatingSystem": "USK"
+    }
   },
   "urls": {
     "bugtracker": "https://github.com/sugarlabs/maze-activity",
     "homepage": "https://github.com/sugarlabs/maze-activity"
   },
-  "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
-  "icons": [],
-  "id": "org.sugarlabs.Maze",
-  "translation": {
-    "value": "org.sugarlabs.Maze",
-    "type": "gettext"
-  },
-  "name": "Irrgarten",
-  "summary": "Ein simples Irrgartenspiel",
-  "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
-  "kudos": ["HiDpiIcon"],
+  "categories": [
+    "Game"
+  ],
+  "kudos": [
+    "HiDpiIcon"
+  ],
+  "keywords": [
+    "Labyrinth",
+    "R\u00e4tsel",
+    "Spiel"
+  ],
   "project_license": "GPL-3.0-or-later",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
     "type": "desktop-id"
   },
-  "keywords": ["Labyrinth", "R\u00e4tsel", "Spiel"],
   "bundle": {
     "value": "app/org.sugarlabs.Maze/x86_64/stable",
     "type": "flatpak",
     "runtime": "org.gnome.Platform/x86_64/3.36",
     "sdk": "org.gnome.Sdk/x86_64/3.36"
   },
+  "translation": {
+    "value": "org.sugarlabs.Maze",
+    "type": "gettext"
+  },
   "is_free_license": true,
-  "isMobileFriendly": false
+  "isMobileFriendly": false,
+  "is_eol": false
 }

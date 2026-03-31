@@ -34,7 +34,7 @@ import type {
   GetStorefrontInfoPurchasesStorefrontInfoGetParams,
   HTTPValidationError,
   StorefrontInfo,
-} from ".././model"
+} from "../model"
 
 /**
  * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream

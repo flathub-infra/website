@@ -637,7 +637,9 @@
     "screenshot": "Foto ekrani",
     "previous": "E mëparshmja",
     "close": "Mbylle",
-    "show-screenshot-fullscreen": "Shfaqe foton e ekranit sa tërë ekrani"
+    "show-screenshot-fullscreen": "Shfaqe foton e ekranit sa tërë ekrani",
+    "zoom-in": "Zmadhoje",
+    "zoom-out": "Zvogëloje"
   },
   "count-verified-desktop-apps": "Aplikacione desktop të verifikuar",
   "vendingSharesPreview": {
@@ -711,5 +713,41 @@
     "title": "Shqyrtim i Vitit {year} për Flathub-in",
     "description": "Rivizitoni aplikacionet kryesuese dhe modat e vitit"
   },
-  "quality-moderation-excluded": "Ky aplikacion është përjashtuar nga kontrolle cilësie"
+  "quality-moderation-excluded": "Ky aplikacion është përjashtuar nga kontrolle cilësie",
+  "app-information": "Informacion aplikacioni",
+  "sub-header": {
+    "download": "Shkarko",
+    "free": "Falas",
+    "desktop-only": "Vetëm Për Desktop",
+    "desktop-and-mobile": "Desktop & Celular",
+    "downloads-per-month": "Shkarkime/Muaj",
+    "size-on-disk": "Madhësi në Disk",
+    "appname-works-best-on-specific-hardware": "{appName} funksionon më mirë në pajisje specifike",
+    "appname-works-on-all-devices": "{appName} funksionon në krejt pajisjet",
+    "mobile-support": "Mbulim për celular",
+    "desktop-support": "Mbulim për desktop",
+    "works-well-on-large-screens": "Funksionon mirë në ekrane të mëdhenj",
+    "may-not-work-well-on-mobile": "Mund të mos punojë mirë në pajisje celulare",
+    "works-well-on-mobile": "Punon mirë në pajisje celulare",
+    "total-installs": "Instalime Gjithsej",
+    "amount-to-download": "Sasi për shkarkim nga interneti",
+    "installed-runtime-size": "Madhësi Runtime-i të Instaluar",
+    "age-rating": "Klasifikim për Mosha"
+  },
+  "content-rating": {
+    "subtitle": "{appName} është i përshtatshëm për moshën {age}",
+    "category-violence": "Dhunë",
+    "category-drugs": "Droga",
+    "category-sex": "Lakuriqësi",
+    "category-language": "Gjuhë e Ashpër",
+    "category-social": "Shoqërore",
+    "category-money": "Para",
+    "unknown": "S’është dhënë informacion",
+    "none-violence": "S’përmban dhunë",
+    "none-drugs": "S’përmban referenca për droga",
+    "none-sex": "S’përmban lëndë seksuale apo lakuriqësi",
+    "none-language": "S’përmban",
+    "none-social": "Pa veçori shoqërorësh",
+    "none-money": "S’përmban reklama, apo transaksione monetare"
+  }
 }
