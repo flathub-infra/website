@@ -24,7 +24,6 @@ COPY --from=dev /app/node_modules ./node_modules
 COPY . .
 
 RUN pnpm build
-RUN pnpm postbuild
 
 FROM node:24-slim AS prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
