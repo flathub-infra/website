@@ -313,7 +313,17 @@
   "sub-header": {
     "download": "Sader",
     "free": "Baṭel",
-    "downloads-per-month": "Isadaren/Ayyur"
+    "downloads-per-month": "Isadaren/Ayyur",
+    "size-on-disk": "Tiddi ɣef uḍebsi"
   },
-  "app-id": "Asulay n wesnas"
+  "app-id": "Asulay n wesnas",
+  "popular-apps": "Isnasen iɣerfanen",
+  "purchase-apps-title": "Aɣ-d isnasen",
+  "confirm-selection": "Sergeg tafrayt",
+  "transaction-summary-created": "Azemz n usnulfu:",
+  "transaction-summary-updated": "Aleqqem aneggaru:",
+  "year-in-review": {
+    "select-year": "Fren aseggas",
+    "new-apps": "Isnasen imaynuten"
+  }
 }

@@ -743,7 +743,24 @@
     "works-well-on-large-screens": "Works well on large screens",
     "may-not-work-well-on-mobile": "May not work well on mobile devices",
     "works-well-on-mobile": "Works well on mobile devices",
-    "total-installs": "Total Installs"
+    "total-installs": "Total Installs",
+    "age-rating": "Age Rating"
   },
-  "quality-moderation-excluded": "This app is excluded from quality checks"
+  "quality-moderation-excluded": "This app is excluded from quality checks",
+  "content-rating": {
+    "subtitle": "{appName} is suitable for ages {age}",
+    "category-violence": "Violence",
+    "category-drugs": "Drugs",
+    "category-sex": "Nudity",
+    "category-language": "Strong Language",
+    "category-social": "Social",
+    "category-money": "Money",
+    "unknown": "No information provided",
+    "none-violence": "Contains no violence",
+    "none-drugs": "Contains no references to drugs",
+    "none-sex": "Contains no sexual content or nudity",
+    "none-language": "Contains no profanity or vulgar language",
+    "none-social": "No social features",
+    "none-money": "Contains no advertising or monetary transactions"
+  }
 }

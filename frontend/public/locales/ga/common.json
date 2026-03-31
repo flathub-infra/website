@@ -743,7 +743,24 @@
     "works-well-on-large-screens": "Oibríonn go maith ar scáileáin mhóra",
     "may-not-work-well-on-mobile": "B’fhéidir nach n-oibreoidh sé go maith ar ghléasanna soghluaiste",
     "works-well-on-mobile": "Oibríonn go maith ar ghléasanna soghluaiste",
-    "total-installs": "Suiteálacha Iomlána"
+    "total-installs": "Suiteálacha Iomlána",
+    "age-rating": "Rátáil Aois"
   },
-  "quality-moderation-excluded": "Tá an aip seo eisiata ó sheiceálacha cáilíochta"
+  "quality-moderation-excluded": "Tá an aip seo eisiata ó sheiceálacha cáilíochta",
+  "content-rating": {
+    "subtitle": "Tá {appName} oiriúnach do dhaoine aoise {age}",
+    "category-violence": "Foréigean",
+    "category-drugs": "Drugaí",
+    "category-sex": "Nochtacht",
+    "category-language": "Teanga Láidir",
+    "category-social": "Sóisialta",
+    "category-money": "Airgead",
+    "unknown": "Níor cuireadh aon fhaisnéis ar fáil",
+    "none-violence": "Níl aon fhoréigean ann",
+    "none-drugs": "Níl aon tagairtí ann do dhrugaí",
+    "none-sex": "Níl aon ábhar gnéasach ná nocht ann",
+    "none-language": "Níl aon mhasla ná teanga ghránna ann",
+    "none-social": "Gan aon ghnéithe sóisialta",
+    "none-money": "Níl aon fhógraíocht ná idirbhearta airgid ann"
+  }
 }

@@ -708,6 +708,23 @@
     "works-well-on-large-screens": "يعمل جيدًا على الشاشات الكبيرة",
     "may-not-work-well-on-mobile": "قد لا يعمل جيدًا على أجهزة الجوّال",
     "works-well-on-mobile": "يعمل جيدًا على أجهزة الجوّال",
-    "total-installs": "إجمالي التثبيتات"
+    "total-installs": "إجمالي التثبيتات",
+    "age-rating": "التصنيف العمري"
+  },
+  "content-rating": {
+    "subtitle": "{appName} مناسب للأعمار من {age}",
+    "category-violence": "عُنف",
+    "category-drugs": "مخدرات",
+    "category-sex": "عري",
+    "category-language": "لُغة عَنيفة",
+    "category-social": "اجتماعي",
+    "category-money": "المال",
+    "unknown": "لا توجد معلومات مقدمة",
+    "none-violence": "لا يحتوي على أي عُنف",
+    "none-drugs": "لا يحتوي على أي إشارات للمخدرات",
+    "none-sex": "لا يحتوي على أي محتوى جنسي أو عري",
+    "none-language": "لا يحتوي على أي ألفاظ نابية أو لغة بذيئة",
+    "none-social": "لا توجد ميزات اجتماعية",
+    "none-money": "لا يحتوي على إعلانات أو معاملات مالية"
   }
 }
