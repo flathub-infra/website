@@ -738,12 +738,29 @@
     "installed-runtime-size": "Installierte Laufzeitgröße",
     "appname-works-best-on-specific-hardware": "{appName} funktioniert am besten auf bestimmter Hardware",
     "appname-works-on-all-devices": "{appName} funktioniert auf allen Geräten",
-    "mobile-support": "Mobile Unterstützung",
+    "mobile-support": "Mobilgerätunterstützung",
     "desktop-support": "Desktop-Unterstützung",
     "works-well-on-large-screens": "Funktioniert gut auf großen Bildschirmen",
     "may-not-work-well-on-mobile": "Funktionieren unter Umständen nicht gut auf mobilen Geräten",
     "works-well-on-mobile": "Funktioniert gut auf mobilen Geräten",
-    "total-installs": "Summe Installiert"
+    "total-installs": "Summe Installiert",
+    "age-rating": "Altersfreigabe"
   },
-  "quality-moderation-excluded": "Diese App ist von Qualitätskontrollen ausgeschlossen"
+  "quality-moderation-excluded": "Diese App ist von Qualitätskontrollen ausgeschlossen",
+  "content-rating": {
+    "subtitle": "{appName} ist geeignet ab einem Alter von {age}",
+    "category-violence": "Gewalt",
+    "category-drugs": "Drogen",
+    "category-sex": "Nacktheit",
+    "category-language": "Kraftausdrücke",
+    "category-social": "Sozial",
+    "category-money": "Geld",
+    "unknown": "Keine Informationen angegeben",
+    "none-violence": "Enthält keine Gewalt",
+    "none-drugs": "Enthält keine Bezüge zu Drogen",
+    "none-sex": "Enthält keinen sexuellen Inhalt oder Nacktheit",
+    "none-language": "Enthält keine Schimpfwörter oder vulgäre Sprache",
+    "none-money": "Enthält keine Werbung oder Geldtransaktionen",
+    "none-social": "Keine Funktionen für soziale Netzwerke"
+  }
 }

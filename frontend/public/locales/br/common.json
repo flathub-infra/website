@@ -232,7 +232,14 @@
   "sub-header": {
     "downloads-per-month": "Pellgargadurioù/miz",
     "free": "Frank",
-    "download": "Pellgargañ"
+    "download": "Pellgargañ",
+    "age-rating": "Rummatadur dre oad"
   },
-  "app-information": "Titouroù diwar-benn an arload"
+  "app-information": "Titouroù diwar-benn an arload",
+  "content-rating": {
+    "category-money": "Arc'hant",
+    "category-social": "Sokial",
+    "category-drugs": "Drammoù",
+    "category-violence": "Feulster"
+  }
 }

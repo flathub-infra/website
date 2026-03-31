@@ -119,7 +119,8 @@
     "app-icon-size": "SVG ou PNG de polo menos 256px",
     "general-runtime-not-eol": "Tempo de execución dentro da vida útil",
     "pending": "Pendente",
-    "app-data-review-pending": "Revisión dos datos da aplicación pendente"
+    "app-data-review-pending": "Revisión dos datos da aplicación pendente",
+    "screenshots-just-the-app-window": "Só a xanela da aplicación"
   },
   "link-more-accounts": "Vincular máis contas",
   "delete-account": "Eliminar conta",
@@ -213,7 +214,8 @@
     "top-game-utilities": "Top ferramentas para xogos",
     "total-downloads": "Descargas totais",
     "trending-categories": "Categorías en tendencia",
-    "trending-categories-description": "Categorías co maior crecemento este ano"
+    "trending-categories-description": "Categorías co maior crecemento este ano",
+    "total-apps": "Aplicacións totais"
   },
   "launcher": "Lanzadores",
   "gamelauncher": "Lanzadores de xogos",
@@ -408,7 +410,10 @@
     "desktop-support": "Soporte para escritorio",
     "appname-works-on-all-devices": "{appName} funciona en todos os dispositivos",
     "may-not-work-well-on-mobile": "Pode non funcionar ben en dispositivos móbiles",
-    "works-well-on-mobile": "Funciona ben en dispositivos móbiles"
+    "works-well-on-mobile": "Funciona ben en dispositivos móbiles",
+    "mobile-support": "Soporte para móbil",
+    "works-well-on-large-screens": "Funciona ben en pantallas grandes",
+    "total-installs": "Instalacións totais"
   },
   "runtime-distribution": "Distribución dos tempos de execución",
   "uses-eol-runtime": "Usa un tempo de execución fóra da vida útil",
@@ -428,5 +433,14 @@
   "can-access-input-devices": "Pode acceder aos dispositivos de entrada como teclados, ratos ou controladores para xogos",
   "user-device-access": "Acceso aos dispositivo do usuario",
   "system-device-access": "Acceso aos dispositivos do sistema",
-  "no-user-device-access-description": "Esta aplicación non pode acceder ningún dispositivo do usuario como cámaras web ou controladores para xogos"
+  "no-user-device-access-description": "Esta aplicación non pode acceder ningún dispositivo do usuario como cámaras web ou controladores para xogos",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Pode acceder ao contido da pantalla ou outras xanelas",
+  "can-read-write-all-data-on-file-system": "Pode ler e escribir todos os datos no sistema de ficheiros",
+  "can-read-write-your-downloads": "Pode ler e escribir todos os datos do cartafol de descargas",
+  "can-read-all-data": "Pode ler todos os datos no directorio",
+  "no-file-system-access-description": "Non pode acceder ao sistema de ficheiros",
+  "socket-may-allow-extra-permissions": "Usa un socket que permite obter permisos extra",
+  "auditable-code-description": "O código fonte é público e pode ser independente auditado, o que fai a aplicación probablemente segura",
+  "proprietary-code-description": "O código fonte non é público, polo que non pode ser independentemente auditado e pode ser inseguro",
+  "special-code-description": "Esta aplicación é desenvolvida baixo unha licenza especial. O código fonte pode ser ou non ser público."
 }
