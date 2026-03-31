@@ -129,6 +129,8 @@ We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate t
 <img src="https://hosted.weblate.org/widgets/flathub/-/glossary/multi-auto.svg" alt="Translation status" />
 </a>
 
+There are some translations, that get reused from [Appstreams Translations](https://hosted.weblate.org/projects/appstream/) for e.g. age ratings.
+
 ## Stripe payment testing
 
 In both staging and development environments, Stripe is running in test mode (all data is fake).
