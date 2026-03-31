@@ -63,7 +63,6 @@ export default typescriptEslint.config(
       ...jsxA11yPlugin.configs.recommended.rules,
       "react-compiler/react-compiler": "error",
       "prettier/prettier": "error",
-      "react-hooks/set-state-in-effect": "warn",
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
     },
