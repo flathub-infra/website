@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Endless OS 3.0.0 en nieuwer. Geen installatie vereist!</text>"
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Endless OS 3.0.0 en nieuwer; geen installatie vereist!</text>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -82,7 +82,7 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Linux Mint 18.3 en nieuwer, geen installatie vereist!</text>"
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Linux Mint 18.3 en nieuwer; geen installatie vereist!</text>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -147,7 +147,8 @@
   "gentoo": {
     "distroName": "Gentoo",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Gentoo te installeren, opent u de Terminal-app en voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-2": {
       "name": "De Flathub-pakket­bron toe­voegen"
@@ -166,19 +167,24 @@
     },
     "step-4": {
       "name": "Opnieuw opstarten"
+    },
+    "step-2": {
+      "name": "Installeer de Flatpak-add-on voor systeem­instellingen"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Solus te installeren, opent u de Terminal-app en voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-2": {
       "name": "De Flathub-pakket­bron toe­voegen"
     },
     "step-3": {
       "name": "Opnieuw opstarten"
-    }
+    },
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Solus 4.7 en nieuwer; geen installatie vereist! Flatpak-apps kunnen worden geïnstalleerd met GNOME Software en/of KDE Discover.</text>\n<text>Als Flatpak niet is geïnstalleerd, volg dan de onder­staande instructies om aan de slag te gaan.</text>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -211,7 +217,8 @@
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Pop!_OS 20.04 en nieuwer; geen installatie vereist!</text>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -270,7 +277,8 @@
       "name": "De Flathub-pakket­bron toe­voegen"
     },
     "step-3": {
-      "name": "De Deepin-thema's installeren"
+      "name": "De Deepin-thema's installeren",
+      "text": "<text>Om het lichte en donkere thema te installeren, voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-4": {
       "name": "Opnieuw opstarten"
@@ -295,6 +303,9 @@
     "distroName": "MX Linux",
     "step-2": {
       "name": "Opnieuw opstarten"
+    },
+    "step-1": {
+      "name": "Schakel Flatpak in via de Software Manager"
     }
   },
   "pisi_gnulinux": {
@@ -322,7 +333,8 @@
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in KDE neon 19 en nieuwer; geen installatie vereist!</text>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
@@ -349,9 +361,11 @@
     }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<header>Flatpak is standaard geïnstalleerd op Vanilla OS.</header> <text>U kunt de Software-app gebruiken of naar <link>Flathub</link> gaan om apps te installeren.</text> <text>Als Flathub om de een of andere reden niet beschikbaar is, kunt u het hand­matig configureren met de volgende opdracht:</text> <code></code>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<header>Flatpak is standaard geïnstalleerd op Salix sinds versie 15.0; geen installatie vereist!</header> <text>Flatpak wordt geleverd met de Flathub-pakketbron en desktop­integratietools, waardoor installatie met één klik vanuit Flathub mogelijk is.</text> <text>Het enige wat u hoeft te doen is <link>apps installeren</link>!</text>"
   }
 }

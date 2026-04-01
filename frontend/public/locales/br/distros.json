@@ -131,7 +131,8 @@
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Staliañ Flatpak"
+      "name": "Staliañ Flatpak",
+      "text": "<text>Evit staliañ Flatpak war Solus, digerit an arload Termenell ha sevenit :</text> <code></code>"
     },
     "step-2": {
       "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
