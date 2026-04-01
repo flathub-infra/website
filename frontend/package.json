@@ -118,7 +118,7 @@
     "storybook": "^10.3.3",
     "storybook-addon-mock-date": "^2.0.0",
     "storybook-next-intl": "^10.0.1",
-    "tailwindcss": "^4.1.14",
+    "tailwindcss": "^4.2.2",
     "tsx": "^4.20.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.2",
