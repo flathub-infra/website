@@ -44,3 +44,6 @@ jobs:
         with:
           projectToken: chpt_683b948867f365a
           workingDir: ./frontend
+          onlyChanged: true
+          externals: |
+            public/**
