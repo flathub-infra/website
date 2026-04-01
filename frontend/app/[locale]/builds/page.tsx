@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { setRequestLocale } from "next-intl/server"
 import BuildsClient from "./builds-client"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Builds",

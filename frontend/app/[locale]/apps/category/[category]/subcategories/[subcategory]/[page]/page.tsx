@@ -12,6 +12,9 @@ import {
 import SubcategoryPageClient from "./subcategory-page-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 
+export const dynamic = "force-static"
+export const revalidate = 3600
+
 interface Params {
   locale: string
   category: string

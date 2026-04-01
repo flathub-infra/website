@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import PrivacyPolicyClient from "./privacy-policy-client"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata({
   params,
 }: {

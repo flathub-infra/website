@@ -7,6 +7,8 @@ import {
 } from "../../../src/codegen"
 import StatisticsClient from "./statistics-client"
 
+export const revalidate = 3600
+
 export async function generateMetadata({
   params,
 }: {

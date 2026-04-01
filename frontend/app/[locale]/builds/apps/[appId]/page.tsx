@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import AppBuildStatusClient from "./app-build-status-client"
 
+export const dynamic = "force-static"
+
 interface Props {
   params: Promise<{
     appId: string

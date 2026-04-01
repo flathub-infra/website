@@ -6,6 +6,9 @@ import { getLoginMethodsAuthLoginGet } from "../../../../src/codegen"
 import LoginServiceClient from "./login-service-client"
 import Spinner from "src/components/Spinner"
 
+export const dynamic = "force-static"
+export const revalidate = 86400
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
