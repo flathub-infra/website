@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import BadgesClient from "./badges-client"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata({
   params,
 }: {

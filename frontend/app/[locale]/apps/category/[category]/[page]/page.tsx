@@ -12,6 +12,9 @@ import {
 } from "../../../../../../src/types/Category"
 import CategoryPageClient from "./category-page-client"
 
+export const dynamic = "force-static"
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   // Return empty array to enable ISR for all category/page combinations
   return []

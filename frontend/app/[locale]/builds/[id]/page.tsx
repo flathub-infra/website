@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import BuildDetailClient from "./build-detail-client"
 
+export const dynamic = "force-static"
+
 interface Props {
   params: Promise<{
     id: string

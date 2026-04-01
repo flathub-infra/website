@@ -3,6 +3,8 @@ import { staticLocales } from "src/i18n/static-locales"
 import FeedsClient from "./feeds-client"
 import { Metadata } from "next"
 
+export const dynamic = "force-static"
+
 export function generateStaticParams() {
   return staticLocales.map((locale) => ({ locale }))
 }

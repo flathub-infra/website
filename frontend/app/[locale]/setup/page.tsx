@@ -5,7 +5,6 @@ import SetupClient from "./setup-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 
 export const dynamic = "force-static"
-export const revalidate = 43200 // Revalidate twice per day (12 hours)
 
 export async function generateStaticParams() {
   return []

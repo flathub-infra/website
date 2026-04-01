@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import PublisherAgreementClient from "./publisher-agreement-client"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 

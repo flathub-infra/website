@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import ConsultantsClient from "./consultants-client"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata({
   params,
 }: {

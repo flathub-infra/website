@@ -3,6 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { staticLocales } from "src/i18n/static-locales"
 import LanguagesClient from "./languages-client"
 
+export const dynamic = "force-static"
+
 export function generateStaticParams() {
   return staticLocales.map((locale) => ({ locale }))
 }

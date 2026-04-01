@@ -4,6 +4,8 @@ import { Suspense } from "react"
 import SearchClient from "./search-client"
 import Spinner from "src/components/Spinner"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata({
   searchParams,
 }: {
