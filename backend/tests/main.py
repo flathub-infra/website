@@ -1086,6 +1086,237 @@ def test_verification_domain_names():
     assert _get_domain_name("org.flathub.invalid.test") == ("flathub.org", True)
 
 
+def _load_verification_module(monkeypatch):
+    import importlib
+    import sys
+    import types
+
+    fake_worker = types.ModuleType("app.worker")
+    fake_worker.republish_app = types.SimpleNamespace(send=lambda _app_id: None)
+
+    fake_logins = types.ModuleType("app.logins")
+    fake_logins.LoginInformation = type("LoginInformation", (), {})
+    fake_logins.refresh_oauth_token = lambda _account: None
+
+    monkeypatch.setitem(sys.modules, "app.worker", fake_worker)
+    monkeypatch.setitem(sys.modules, "app.logins", fake_logins)
+    sys.modules.pop("app.verification", None)
+
+    import app.verification as verification_module
+
+    return importlib.reload(verification_module)
+
+
+def test_verification_cleanup_stale_records_query(monkeypatch):
+    from sqlalchemy.sql import operators
+
+    from app import models
+
+    verification_module = _load_verification_module(monkeypatch)
+
+    class FakeQuery:
+        def __init__(self):
+            self.criteria = None
+            self.deleted = False
+
+        def filter(self, *criteria):
+            self.criteria = criteria
+            return self
+
+        def delete(self):
+            self.deleted = True
+
+    class FakeSession:
+        def __init__(self):
+            self.model = None
+            self.query_result = FakeQuery()
+
+        def query(self, model):
+            self.model = model
+            return self.query_result
+
+    class FakeDB:
+        def __init__(self):
+            self.session = FakeSession()
+
+    db = FakeDB()
+
+    verification_module._cleanup_stale_verifications(db, "org.gnome.Maps", 42)
+
+    assert db.session.model is models.AppVerification
+    assert db.session.query_result.deleted is True
+
+    criteria_by_key = {
+        criterion.left.key: criterion for criterion in db.session.query_result.criteria
+    }
+    assert set(criteria_by_key) == {"app_id", "account", "verified", "method"}
+    assert criteria_by_key["app_id"].operator is operators.eq
+    assert criteria_by_key["app_id"].right.value == "org.gnome.Maps"
+    assert criteria_by_key["account"].operator is operators.ne
+    assert criteria_by_key["account"].right.value == 42
+    assert criteria_by_key["verified"].operator is operators.eq
+    assert str(criteria_by_key["verified"].right).lower() == "false"
+    assert criteria_by_key["method"].operator is operators.ne
+    assert criteria_by_key["method"].right.value == "manual"
+
+
+def test_verification_confirm_website_cleans_stale_records(monkeypatch):
+    import asyncio
+    from contextlib import contextmanager
+    from types import SimpleNamespace
+
+    verification_module = _load_verification_module(monkeypatch)
+    WebsiteVerificationResult = verification_module.WebsiteVerificationResult
+    confirm_website_verification = verification_module.confirm_website_verification
+
+    class FakeSession:
+        def __init__(self, events):
+            self.events = events
+
+        def merge(self, _verification):
+            self.events.append("merge")
+
+        def commit(self):
+            self.events.append("commit")
+
+    events = []
+    verification = SimpleNamespace(
+        method="website",
+        token="token",
+        verified=False,
+        verified_timestamp=None,
+    )
+    writer_db = SimpleNamespace(session=FakeSession(events))
+    replica_db = SimpleNamespace()
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        yield writer_db if db_type == "writer" else replica_db
+
+    monkeypatch.setattr(verification_module, "_check_app_id", lambda *args: None)
+    monkeypatch.setattr(verification_module, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        verification_module.models.AppVerification,
+        "by_app_and_user",
+        lambda _db, _app_id, _user: verification,
+    )
+    monkeypatch.setattr(
+        verification_module,
+        "_cleanup_stale_verifications",
+        lambda _db, app_id, account: events.append(("cleanup", app_id, account)),
+    )
+    monkeypatch.setattr(
+        verification_module.worker.republish_app,
+        "send",
+        lambda app_id: events.append(("republish", app_id)),
+    )
+
+    async def fake_mark_stale(pattern):
+        events.append(("cache", pattern))
+
+    monkeypatch.setattr(
+        verification_module.cache, "mark_stale_by_pattern", fake_mark_stale
+    )
+
+    login = SimpleNamespace(user=SimpleNamespace(id=42))
+
+    result = asyncio.run(
+        confirm_website_verification(
+            login=login,
+            app_id="org.gnome.Maps",
+            new_app=False,
+            check=lambda _app_id, _token: WebsiteVerificationResult(verified=True),
+        )
+    )
+
+    assert result == WebsiteVerificationResult(verified=True)
+    assert verification.verified is True
+    assert events == [
+        "merge",
+        ("cleanup", "org.gnome.Maps", 42),
+        "commit",
+        ("republish", "org.gnome.Maps"),
+        ("cache", "cache:endpoint:get_verification_status:*"),
+    ]
+
+
+def test_verification_login_provider_cleans_stale_records(monkeypatch):
+    import asyncio
+    from contextlib import contextmanager
+    from types import SimpleNamespace
+
+    verification_module = _load_verification_module(monkeypatch)
+    AvailableLoginMethodStatus = verification_module.AvailableLoginMethodStatus
+    AvailableMethod = verification_module.AvailableMethod
+    AvailableMethodType = verification_module.AvailableMethodType
+    verify_by_login_provider = verification_module.verify_by_login_provider
+
+    class FakeSession:
+        def __init__(self, events):
+            self.events = events
+
+        def merge(self, _verification):
+            self.events.append("merge")
+
+        def commit(self):
+            self.events.append("commit")
+
+    events = []
+    writer_db = SimpleNamespace(session=FakeSession(events))
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        assert db_type == "writer"
+        yield writer_db
+
+    monkeypatch.setattr(
+        verification_module,
+        "_check_login_provider_verification",
+        lambda _app_id, _new_app, _login: AvailableMethod(
+            method=AvailableMethodType.LOGIN_PROVIDER,
+            login_status=AvailableLoginMethodStatus.READY,
+            login_is_organization=False,
+        ),
+    )
+    monkeypatch.setattr(verification_module, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        verification_module,
+        "_cleanup_stale_verifications",
+        lambda _db, app_id, account: events.append(("cleanup", app_id, account)),
+    )
+    monkeypatch.setattr(
+        verification_module.worker.republish_app,
+        "send",
+        lambda app_id: events.append(("republish", app_id)),
+    )
+
+    async def fake_mark_stale(pattern):
+        events.append(("cache", pattern))
+
+    monkeypatch.setattr(
+        verification_module.cache, "mark_stale_by_pattern", fake_mark_stale
+    )
+
+    login = SimpleNamespace(user=SimpleNamespace(id=42))
+
+    result = asyncio.run(
+        verify_by_login_provider(
+            login=login,
+            app_id="io.github.ajr0d.FlathubTestApp",
+            new_app=False,
+        )
+    )
+
+    assert result is None
+    assert events == [
+        "merge",
+        ("cleanup", "io.github.ajr0d.FlathubTestApp", 42),
+        "commit",
+        ("republish", "io.github.ajr0d.FlathubTestApp"),
+        ("cache", "cache:endpoint:get_verification_status:*"),
+    ]
+
+
 @pytest.mark.xfail
 @vcr.use_cassette("login_cassette")
 def _login(client):

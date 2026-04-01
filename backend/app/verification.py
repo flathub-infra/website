@@ -447,6 +447,15 @@ def _get_existing_verification(app_id: str) -> models.AppVerification | None:
         return None
 
 
+def _cleanup_stale_verifications(db, app_id: str, current_account: int):
+    db.session.query(models.AppVerification).filter(
+        models.AppVerification.app_id == app_id,
+        models.AppVerification.account != current_account,
+        models.AppVerification.verified == False,  # noqa: E712
+        models.AppVerification.method != "manual",
+    ).delete()
+
+
 def _check_app_id(
     app_id: str,
     new_app: bool,
@@ -916,6 +925,7 @@ async def verify_by_login_provider(
         if new_app:
             _create_direct_upload_app(login.user, app_id)
 
+        _cleanup_stale_verifications(db, app_id, login.user.id)
         db.session.commit()
 
     if not new_app:
@@ -1055,6 +1065,7 @@ async def confirm_website_verification(
 
         with get_db("writer") as db:
             db.session.merge(verification)
+            _cleanup_stale_verifications(db, app_id, login.user.id)
             db.session.commit()
 
         if not new_app:
