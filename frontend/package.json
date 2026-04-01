@@ -10,7 +10,7 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build --stats-json",
     "update-setup-instructions": "tsx ./setup-instructions.ts",
     "openapi-codegen": "orval"
   },
