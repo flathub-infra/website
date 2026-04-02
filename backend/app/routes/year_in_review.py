@@ -1,10 +1,12 @@
 import datetime
 
-from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from .. import cache, stats
+from ..database import get_db
+from ..login_info import LoginInformation, login_state
 
 router = APIRouter(
     prefix="/year-in-review",
@@ -125,6 +127,7 @@ async def get_year_in_review(
         description="Year to get statistics for",
     ),
     locale: str = "en",
+    login: LoginInformation = Depends(login_state),
 ) -> YearInReviewResult:
     now = datetime.datetime.now()
     current_year = now.year
@@ -134,7 +137,14 @@ async def get_year_in_review(
     is_late_december = current_month == 12 and current_day >= 15
     max_year = current_year if is_late_december else current_year - 1
 
-    if year > max_year:
+    is_admin = False
+    if login.state.logged_in() and login.user:
+        with get_db("replica") as db:
+            user = db.session.merge(login.user)
+            if "quality-moderation" in user.permissions():
+                is_admin = True
+
+    if year > max_year and not (is_admin and year == current_year):
         raise HTTPException(
             status_code=422, detail=f"Year must be between 2018 and {max_year}"
         )
