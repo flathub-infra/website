@@ -743,7 +743,8 @@
     "free": "Вільна",
     "appname-works-best-on-specific-hardware": "{appName} краще працює на певному обладнанні",
     "may-not-work-well-on-mobile": "Обмежена підтримка на мобільних",
-    "age-rating": "Вікова категорія"
+    "age-rating": "Вікова категорія",
+    "amount-to-download": "Повний розмір завантаження"
   },
   "quality-moderation-excluded": "Застосунок виключено з перевірок якості",
   "content-rating": {

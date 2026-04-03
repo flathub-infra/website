@@ -406,5 +406,9 @@
   },
   "download": {
     "install-x": "Installar « {x} »"
-  }
+  },
+  "app-eol": "Aquesta aplicacion es pas mai disponiblas sus Flathub",
+  "more-science": "Mai de sciéncia",
+  "more-utility": "Mai d’utilitaris",
+  "more-mobile-apps": "Mai d’aplicacions mobil"
 }
