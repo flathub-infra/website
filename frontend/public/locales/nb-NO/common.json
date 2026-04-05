@@ -710,7 +710,12 @@
     "biggest-growth": "Største vekst",
     "newcomer-of-year": "Årets nykommer",
     "newcomer-description": "Den mest populære appen som kom ut dette året",
-    "most-improved": "Mest forbedret"
+    "most-improved": "Mest forbedret",
+    "countries-reached": "Land nådd",
+    "fastest-growing-regions": "Raskest-voksende regioner",
+    "top-countries": "Toppland",
+    "trending-categories": "Trendende kategorier",
+    "trending-categories-description": "Kategorier som vokste mest dette året"
   },
   "app-information": "Appinformasjon",
   "sub-header": {

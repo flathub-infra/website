@@ -161,7 +161,8 @@
       "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text> <text>Opmerking: het is mogelijk dat de grafische installatie van Flatpak-apps niet werkt met Gentoo.</text>"
     }
   },
   "kubuntu": {
@@ -190,7 +191,8 @@
       "text": "<text>Om Flatpak op Solus te installeren, opent u de Terminal-app en voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om dit in te schakelen, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-3": {
       "name": "Opnieuw opstarten"
@@ -207,7 +209,8 @@
       "name": "De Flatpak-plug-in voor Software installeren"
     },
     "step-3": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om dit in te schakelen, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-4": {
       "name": "Opnieuw opstarten",
@@ -242,7 +245,8 @@
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Er is een Flatpak-pakket beschikbaar voor Raspberry Pi OS (voorheen Raspbian) Stretch en nieuwere versies. Voer het volgende als root uit om het te installeren:</text> <code></code>"
     },
     "step-2": {
       "name": "De Flathub-pakket­bron toe­voegen"
@@ -313,7 +317,8 @@
       "text": "<text>Er is een Flatpak-pakket beschikbaar voor Pardus 2019 en nieuwer. Voer het volgende als root uit om het te installeren:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren"
+      "name": "De Flatpak-plug-in voor Software installeren",
+      "text": "<text>Als u GNOME gebruikt, is het ook een goed idee om de Flatpak-plug-in voor GNOME Software te installeren. Voer hiervoor het volgende uit:</text> <code></code>"
     },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
