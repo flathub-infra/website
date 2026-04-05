@@ -743,7 +743,24 @@
     "works-well-on-mobile": "Хорошо работает на мобильных устройствах",
     "total-installs": "установок всего",
     "desktop-only": "Только настольные",
-    "desktop-and-mobile": "Все устройства"
+    "desktop-and-mobile": "Все устройства",
+    "age-rating": "Возрастной рейтинг"
   },
-  "quality-moderation-excluded": "Это приложение исключено из системы проверок качества"
+  "quality-moderation-excluded": "Это приложение исключено из системы проверок качества",
+  "content-rating": {
+    "subtitle": "{appName} подходит для возрастной категории {age}",
+    "category-violence": "Насилие",
+    "category-drugs": "Вещества",
+    "category-sex": "Нагота",
+    "category-language": "Обсценная лексика",
+    "category-social": "Социальные взаимодействия",
+    "category-money": "Денежные расходы",
+    "unknown": "Нет информации",
+    "none-violence": "Не содержит насилия",
+    "none-drugs": "Не содержит упоминаний веществ",
+    "none-sex": "Не содержит сексуального контента и наготы",
+    "none-language": "Не содержит ругательств и вульгарной лексики",
+    "none-social": "Не имеет возможностей социального взаимодействия",
+    "none-money": "Не содержит рекламы и денежных операций"
+  }
 }
