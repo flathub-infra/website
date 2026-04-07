@@ -710,7 +710,21 @@
     "biggest-growth": "Største vekst",
     "newcomer-of-year": "Årets nykommer",
     "newcomer-description": "Den mest populære appen som kom ut dette året",
-    "most-improved": "Mest forbedret"
+    "most-improved": "Mest forbedret",
+    "countries-reached": "Land nådd",
+    "fastest-growing-regions": "Raskest-voksende regioner",
+    "top-countries": "Toppland",
+    "trending-categories": "Trendende kategorier",
+    "trending-categories-description": "Kategorier som vokste mest dette året",
+    "biggest-growth-description": "Appen som ble lastet ned mest sammenlignet med det forrige året",
+    "most-improved-description": "Appen med størst vekst i prosent sammenlignet med det forrige året",
+    "geographic-insights": "Geografiske innsikter",
+    "year-over-year-growth": "Vekst fra år til år",
+    "downloads-vs-previous-year": "Nedlasinger sammenlignet med {year}",
+    "hidden-gems": "Skjulte perler",
+    "hidden-gems-description": "Apper på fremmarsj",
+    "platform-downloads": "Plattformsnedlastinger",
+    "x-growth": "+{percentage}% vekst"
   },
   "app-information": "Appinformasjon",
   "sub-header": {
@@ -732,5 +746,21 @@
     "total-installs": "Totalt antall installasjoner",
     "age-rating": "Aldersgrense"
   },
-  "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll"
+  "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll",
+  "content-rating": {
+    "subtitle": "{appName} er egnet for barn i alderen {age}",
+    "category-violence": "Vold",
+    "category-drugs": "Narkotika",
+    "category-sex": "Nakenhet",
+    "category-language": "Sterkt språk",
+    "category-social": "Sosialt",
+    "category-money": "Penger",
+    "unknown": "Ingen informasjon angitt",
+    "none-violence": "Inneholder ingen vold",
+    "none-drugs": "Inneholder ingen referanser til narkotika",
+    "none-sex": "Inneholder ikke seksuelt innhold eller nakenhet",
+    "none-language": "Inneholder ikke banning eller sterkt språk",
+    "none-social": "Ingen sosiale funksjoner",
+    "none-money": "Inneholder ingen reklame eller handlinger som involverer penger"
+  }
 }

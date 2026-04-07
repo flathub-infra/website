@@ -761,6 +761,6 @@
     "none-language": "Aucune grossièreté ni utilisation d'un langage vulgaire",
     "none-social": "Aucune fonctionnalité sociale",
     "none-money": "Dépourvu de publicités et de transactions monétaires",
-    "subtitle": "{appName} est adapté pour les {age} ans"
+    "subtitle": "{appName} est destiné aux {age} ans"
   }
 }
