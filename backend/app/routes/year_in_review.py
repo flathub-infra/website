@@ -110,6 +110,18 @@ class YearInReviewResult(BaseModel):
     platform_stats: list[PlatformStats] = []
 
 
+@cache.cached(ttl=86400)  # 1 day cache
+async def _get_year_in_review_cached(
+    response: Response,
+    year: int,
+    locale: str = "en",
+) -> YearInReviewResult:
+    if value := await stats.get_year_stats(year, locale):
+        return value
+
+    raise HTTPException(status_code=404, detail="Year statistics not available")
+
+
 @router.get(
     "/{year}",
     status_code=200,
@@ -118,7 +130,6 @@ class YearInReviewResult(BaseModel):
         404: {"description": "Year statistics not available"},
     },
 )
-@cache.cached(ttl=86400)  # 1 day cache
 async def get_year_in_review(
     response: Response,
     year: int = Path(
@@ -149,7 +160,4 @@ async def get_year_in_review(
             status_code=422, detail=f"Year must be between 2018 and {max_year}"
         )
 
-    if value := await stats.get_year_stats(year, locale):
-        return value
-
-    raise HTTPException(status_code=404, detail="Year statistics not available")
+    return await _get_year_in_review_cached(response, year, locale)
