@@ -293,7 +293,8 @@
     "close": "Stäng",
     "next": "Nästa",
     "previous": "Föregående",
-    "screenshot": "Skärmbild"
+    "screenshot": "Skärmbild",
+    "show-screenshot-fullscreen": "Visa skärmbild i helskärmsläge"
   },
   "vendingSharesPreview": {
     "app": "App",
@@ -396,5 +397,32 @@
   "amount": "Belopp",
   "total": "Summa",
   "default-account-changed": "Standardkontot har ändrats",
-  "safe-to-close-page": "Du kan stänga den här sidan nu."
+  "safe-to-close-page": "Du kan stänga den här sidan nu.",
+  "on-the-go": "I farten",
+  "mobile-apps-description": "Appar för dina Linux-telefoner och -surfplattor",
+  "probably-safe": "Förmodligen säker",
+  "network-access": "Nätverksåtkomst",
+  "sub-header": {
+    "age-rating": "Åldersgräns",
+    "download": "Ladda ned",
+    "free": "Fri",
+    "downloads-per-month": "Nedladdningar/månad",
+    "amount-to-download": "Mängd att ladda ner från internet",
+    "size-on-disk": "Storlek på hårddisken",
+    "appname-works-on-all-devices": "{appName} fungerar på alla enheter",
+    "works-well-on-large-screens": "Fungerar bra på stora skärmar",
+    "may-not-work-well-on-mobile": "Fungerar kanske inte så bra på mobila enheter",
+    "works-well-on-mobile": "Fungerar bra på mobila enheter",
+    "total-installs": "Totalt antal installationer"
+  },
+  "content-rating": {
+    "subtitle": "{appName} är lämpligt för barn i åldern {age}",
+    "category-language": "Grovt språk",
+    "none-language": "Innehåller inga svordomar eller vulgärt språk"
+  },
+  "slide": "Bild",
+  "setup": "Ställ in",
+  "country-statistics": "Statistik per land",
+  "app-information": "Appinformation",
+  "user-wallet": "Användarplånbok"
 }
