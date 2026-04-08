@@ -145,10 +145,12 @@
     }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op CentOS Stream 8 en nieuwer, wanneer u GNOME gebruikt. Om aan de slag te gaan, hoeft u alleen maar Flathub in te schakelen; dit is de beste manier om Flatpak-apps te downloaden. Download en installeer gewoon het <filelink>Flathub-pakketbron­bestand</filelink>.</text> <text>Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op AlmaLinux 8 en nieuwer, wanneer u GNOME gebruikt. Om aan de slag te gaan, hoeft u alleen maar Flathub in te schakelen; dit is de beste manier om Flatpak-apps te downloaden. Download en installeer gewoon het <filelink>Flathub-pakketbron­bestand</filelink>.</text> <text>Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -195,9 +197,10 @@
       "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om dit in te schakelen, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text> <text>Opmerking: grafische installatie van Flatpak-apps is alleen mogelijk via GNOME Software en/of KDE Discover.</text>"
     },
-    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Solus 4.7 en nieuwer; geen installatie vereist! Flatpak-apps kunnen worden geïnstalleerd met GNOME Software en/of KDE Discover.</text>\n<text>Als Flatpak niet is geïnstalleerd, volg dan de onder­staande instructies om aan de slag te gaan.</text>"
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Solus 4.7 en nieuwer; geen installatie vereist! Flatpak-apps kunnen worden geïnstalleerd met GNOME Software en/of KDE Discover.</text> <text>Als Flatpak niet is geïnstalleerd, volg dan de onder­staande instructies om aan de slag te gaan.</text>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -206,7 +209,8 @@
       "text": "<text>Flatpak kan worden geïnstalleerd vanuit de community-pakketbron. Voer het volgende uit in een terminal:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren"
+      "name": "De Flatpak-plug-in voor Software installeren",
+      "text": "<text>U kunt de Flatpak-plug-in installeren voor GNOME Software (vanaf versie 3.13) of KDE Discover (vanaf versie 3.11), waardoor u apps kunt installeren zonder de opdracht­regel te hoeven gebruiken. Om de plug-in te installeren, voert u voor GNOME Software het volgende uit:</text> <code></code> <text>Voor KDE Discover voert u het volgende uit:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
