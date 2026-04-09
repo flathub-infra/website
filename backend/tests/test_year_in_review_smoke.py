@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from unittest.mock import MagicMock, patch
 
 import pytest
+from fastapi import Request
 from fastapi.testclient import TestClient
 
 from app import main
@@ -40,7 +41,7 @@ def admin_client(mock_date):
         mock_user.permissions.return_value = {"quality-moderation"}
         mock_user.deleted = False
 
-        def mock_login_state(request):
+        def mock_login_state(request: Request):
             return LoginInformation(
                 state=LoginState.LOGGED_IN,
                 user=mock_user,
@@ -51,14 +52,16 @@ def admin_client(mock_date):
         mock_db = MagicMock()
         mock_db.session.merge.return_value = mock_user
 
+        @contextmanager
+        def mock_get_db(*args, **kwargs):
+            yield mock_db
+
         main.router.dependency_overrides[login_state] = mock_login_state
         try:
             with (
                 mock_date(year, month, day),
-                patch("app.routes.year_in_review.get_db", return_value=mock_db),
+                patch("app.routes.year_in_review.get_db", mock_get_db),
             ):
-                mock_db.__enter__ = MagicMock(return_value=mock_db)
-                mock_db.__exit__ = MagicMock(return_value=False)
                 with TestClient(main.router) as client_:
                     yield client_
         finally:
@@ -77,7 +80,7 @@ def non_admin_client(mock_date):
         mock_user.permissions.return_value = set()
         mock_user.deleted = False
 
-        def mock_login_state(request):
+        def mock_login_state(request: Request):
             return LoginInformation(
                 state=LoginState.LOGGED_IN,
                 user=mock_user,
@@ -88,14 +91,16 @@ def non_admin_client(mock_date):
         mock_db = MagicMock()
         mock_db.session.merge.return_value = mock_user
 
+        @contextmanager
+        def mock_get_db(*args, **kwargs):
+            yield mock_db
+
         main.router.dependency_overrides[login_state] = mock_login_state
         try:
             with (
                 mock_date(year, month, day),
-                patch("app.routes.year_in_review.get_db", return_value=mock_db),
+                patch("app.routes.year_in_review.get_db", mock_get_db),
             ):
-                mock_db.__enter__ = MagicMock(return_value=mock_db)
-                mock_db.__exit__ = MagicMock(return_value=False)
                 with TestClient(main.router) as client_:
                     yield client_
         finally:
