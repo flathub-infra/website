@@ -1,10 +1,12 @@
 import datetime
 
-from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from .. import cache, stats
+from ..database import get_db
+from ..login_info import LoginInformation, login_state
 
 router = APIRouter(
     prefix="/year-in-review",
@@ -108,6 +110,18 @@ class YearInReviewResult(BaseModel):
     platform_stats: list[PlatformStats] = []
 
 
+@cache.cached(ttl=86400)  # 1 day cache
+async def _get_year_in_review_cached(
+    response: Response,
+    year: int,
+    locale: str = "en",
+) -> YearInReviewResult:
+    if value := await stats.get_year_stats(year, locale):
+        return value
+
+    raise HTTPException(status_code=404, detail="Year statistics not available")
+
+
 @router.get(
     "/{year}",
     status_code=200,
@@ -116,7 +130,6 @@ class YearInReviewResult(BaseModel):
         404: {"description": "Year statistics not available"},
     },
 )
-@cache.cached(ttl=86400)  # 1 day cache
 async def get_year_in_review(
     response: Response,
     year: int = Path(
@@ -125,6 +138,7 @@ async def get_year_in_review(
         description="Year to get statistics for",
     ),
     locale: str = "en",
+    login: LoginInformation = Depends(login_state),
 ) -> YearInReviewResult:
     now = datetime.datetime.now()
     current_year = now.year
@@ -134,12 +148,16 @@ async def get_year_in_review(
     is_late_december = current_month == 12 and current_day >= 15
     max_year = current_year if is_late_december else current_year - 1
 
-    if year > max_year:
+    is_admin = False
+    if login.state.logged_in() and login.user:
+        with get_db("replica") as db:
+            user = db.session.merge(login.user)
+            if "quality-moderation" in user.permissions():
+                is_admin = True
+
+    if year > max_year and not (is_admin and year == current_year):
         raise HTTPException(
             status_code=422, detail=f"Year must be between 2018 and {max_year}"
         )
 
-    if value := await stats.get_year_stats(year, locale):
-        return value
-
-    raise HTTPException(status_code=404, detail="Year statistics not available")
+    return await _get_year_in_review_cached(response, year, locale)
