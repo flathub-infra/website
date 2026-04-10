@@ -3,6 +3,7 @@
     {
       "name": "WPS Office",
       "keywords": null,
+      "localized_keywords": null,
       "summary": "WPS Office Suite",
       "description": "WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation",
       "id": "com_wps_Office",
@@ -24,7 +25,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973768,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973768,
       "trending": 15.150000000000034,
       "installs_last_month": 1151,
@@ -34,6 +37,7 @@
     {
       "name": "AnyDesk",
       "keywords": null,
+      "localized_keywords": null,
       "summary": "Connect to a computer remotely",
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
@@ -54,7 +58,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 13.650000000000034,
       "installs_last_month": 653,
@@ -63,7 +69,25 @@
     },
     {
       "name": "Maze",
-      "keywords": ["maze", "puzzle", "game"],
+      "keywords": [
+        "maze",
+        "puzzle",
+        "game"
+      ],
+      "localized_keywords": [
+        "Labyrinth",
+        "Rätsel",
+        "Spiel",
+        "casse-tête",
+        "game",
+        "jeu",
+        "juego",
+        "laberinto",
+        "labyrinthe",
+        "maze",
+        "puzzle",
+        "rompecabezas"
+      ],
       "summary": "A simple maze game",
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
@@ -84,7 +108,9 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973680,
       "trending": 5.0,
       "installs_last_month": 509,
