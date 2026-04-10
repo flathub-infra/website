@@ -3,6 +3,7 @@
     {
       "name": "Maze",
       "keywords": ["maze", "puzzle", "game"],
+      "localized_keywords": ["Labyrinth", "R\u00e4tsel", "Spiel", "casse-t\u00eate", "game", "jeu", "juego", "laberinto", "labyrinthe", "maze", "puzzle", "rompecabezas"],
       "summary": "A simple maze game",
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
