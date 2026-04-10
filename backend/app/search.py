@@ -44,6 +44,7 @@ class MeilisearchResponseLimited[T](BaseModel):
 class AppsIndex(BaseModel):
     name: str
     keywords: list[str] | None = None
+    localized_keywords: list[str] | None = None
     summary: str
     description: str
     id: str
@@ -142,6 +143,7 @@ def _configure_meilisearch_index(client):
             "arches",
             "icon",
             "keywords",
+            "localized_keywords",
             "isMobileFriendly",
         ]
     )
@@ -698,7 +700,7 @@ def get_by_keyword(
                 "",
                 {
                     "filter": [
-                        f"keywords = '{escaped_keyword}'",
+                        f"localized_keywords = '{escaped_keyword}'",
                         "type IN [console-application, desktop-application]",
                         "NOT icon IS NULL",
                     ],
