@@ -744,6 +744,23 @@
     "works-well-on-large-screens": "在大螢幕上運作良好",
     "may-not-work-well-on-mobile": "在行動裝置上可能無法正常運作",
     "works-well-on-mobile": "在行動裝置上運作良好",
-    "total-installs": "總安裝數"
+    "total-installs": "總安裝數",
+    "age-rating": "年齡分級"
+  },
+  "content-rating": {
+    "subtitle": "{appName} 適合 {age} 歲以上的使用者",
+    "category-violence": "暴力",
+    "category-drugs": "藥物",
+    "category-sex": "裸露",
+    "category-language": "粗俗語言",
+    "category-social": "社交",
+    "category-money": "金錢",
+    "unknown": "未提供資訊",
+    "none-violence": "不包含暴力",
+    "none-drugs": "未提及任何藥物",
+    "none-sex": "不含任何色情內容或裸露畫面",
+    "none-language": "不含任何粗俗或低俗的語言",
+    "none-social": "無社交功能",
+    "none-money": "不含任何廣告或金錢交易"
   }
 }

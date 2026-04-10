@@ -34,7 +34,7 @@
   "unknown": "Nekonata",
   "log-out": "Adiaŭi",
   "network-error-try-again": "Okazis reta eraro. Reprovu.",
-  "proprietary": "Proprietaj",
+  "proprietary": "Proprieta",
   "owned-apps": "Posedataj programoj",
   "loading-user-apps": "Ŝargante programojn de uzanto…",
   "count-downloads": "Nombro de elŝutoj",
@@ -725,5 +725,42 @@
   "year-in-review-banner": {
     "title": "{year} retrospekte ĉe Flathub",
     "description": "Rememorante la plej bonajn programojn kaj modojn de la jaro"
-  }
+  },
+  "sub-header": {
+    "download": "Elŝuto",
+    "free": "Libera",
+    "desktop-only": "Nur por tabla komputilo",
+    "desktop-and-mobile": "Por tabla komputilo & poŝaparato",
+    "mobile-support": "Subteno por poŝaparato",
+    "desktop-support": "Subteno por tabla komputilo",
+    "size-on-disk": "Grando ĉe disko",
+    "downloads-per-month": "Nombro de elŝutoj en monato",
+    "total-installs": "Totala nombro de instaloj",
+    "installed-runtime-size": "Instalita grando de rultempa medio",
+    "works-well-on-large-screens": "Funkcias bone sur granda ekrano",
+    "may-not-work-well-on-mobile": "Eble ne funkcias bone ĉe poŝaparato",
+    "works-well-on-mobile": "Funkcias bone ĉe poŝaparato",
+    "amount-to-download": "Kvanto de datenoj elŝutotaj el Interreto",
+    "appname-works-best-on-specific-hardware": "{appName} funkcias plej bone sur specifaj aparatoj",
+    "appname-works-on-all-devices": "{appName} funkcias sur ĉiaj aparatoj",
+    "age-rating": "Enhavotakso"
+  },
+  "app-information": "Informoj pri programo",
+  "content-rating": {
+    "category-violence": "Violento",
+    "category-drugs": "Drogo",
+    "category-sex": "Nudeco",
+    "category-language": "Filingvo",
+    "category-money": "Mono",
+    "subtitle": "{appName} taŭgas por aĝoj {age}",
+    "none-violence": "Mankas violento",
+    "none-drugs": "Mankas mencioj pri drogoj",
+    "none-sex": "Mankas seksaĵo aŭ nudeco",
+    "none-language": "Mankas filingvo",
+    "unknown": "Informoj ne providiĝis",
+    "none-money": "Mankas reklamo aŭ mona transakcio",
+    "category-social": "Socia reto",
+    "none-social": "Mankas sociaj funkcioj"
+  },
+  "quality-moderation-excluded": "Jen programo ekskluzivita el kontroloj pri kvalito"
 }
