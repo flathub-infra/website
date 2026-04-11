@@ -627,8 +627,8 @@
     "banner-preview": "Voor­vertoning van banier",
     "banner-preview-description": "Om eenvoudig met uw banier te experimenteren, gebruikt u <preview>de banier­voorvertoning</preview>"
   },
-  "favorite-apps": "Favorieten",
-  "favorite": "Opslaan als favoriet",
+  "favorite-apps": "Blad­wijzers",
+  "favorite": "Opslaan als blad­wijzer",
   "gameemulator": "Emulatoren",
   "we-love-games": "Wĳ ♥ games",
   "emulator": "Emulatoren",
@@ -674,9 +674,9 @@
   "unauthorized": "Ongeautoriseerd",
   "developed-by": "ontwikkeld door {developer}",
   "unverified-tooltip": "Het eigendom van de app-id <appid></appid> is niet geverifieerd, het kan een gemeenschaps­pakket zĳn",
-  "install-all-favorites": "Alle favorieten installeren",
-  "install-all-favorites-description": "Kopieer deze opdracht om al uw favoriete apps in één keer te installeren:",
-  "no-favorites-yet": "U heeft nog geen favoriete apps. Begin met het toe­voegen hiervan door op de bladwĳzer­knop te drukken bĳ de apps die u leuk vindt!",
+  "install-all-favorites": "Alle blad­wijzers installeren",
+  "install-all-favorites-description": "Kopieer deze opdracht om al uw als bladwijzer opgeslagen apps in één keer te installeren:",
+  "no-favorites-yet": "U heeft nog geen als blad­wijzer opgeslagen apps. Begin met het toe­voegen hiervan door op de bladwĳzer­knop te drukken bĳ de apps die u leuk vindt!",
   "vending": {
     "purchase-not-available": "Deze app is niet te koop."
   },

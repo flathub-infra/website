@@ -597,8 +597,8 @@
     "banner-preview-description": "استفاده از <preview>پیش‌نمایش بیرق</preview> برای آزمایش آسان بیرقتان",
     "banner-preview": "پیش‌نمایش بیرق"
   },
-  "favorite": "برگزیدن",
-  "favorite-apps": "برگزیده‌ها",
+  "favorite": "نشانک",
+  "favorite-apps": "نشانک‌ها",
   "tool": "ابزارها",
   "more-gametool": "ابزارهای بازی بیش‌تر",
   "we-love-games": "ما ♥ بازی",
@@ -674,9 +674,9 @@
   "unauthorized": "غیرمجاز",
   "developed-by": "توسعه داده به دست {developer}",
   "unverified-tooltip": "مالکیت شناسهٔ کارهٔ <appid></appid> تأیید نشده و ممکن است بسته‌بندی اجتماع باشد",
-  "install-all-favorites": "نصب همهٔ برگزیده‌ها",
-  "install-all-favorites-description": "رونوشت از این فرمان برای نصب یک‌جای همهٔ کاره‌های برگزیده‌تان:",
-  "no-favorites-yet": "هنوز هیچ کارهٔ برگزیده‌ای ندارید. با زدن روی نقشک نشانک روی کاره‌هایی که دوست دارید بیفزاییدشان!",
+  "install-all-favorites": "نصب همهٔ نشانک‌ها",
+  "install-all-favorites-description": "رونوشت از این فرمان برای نصب یک‌جای همهٔ کاره‌های نشانک شده:",
+  "no-favorites-yet": "هنوز هیچ کارهٔ نشانک شده‌ای ندارید. با زدن روی نقشک نشانک روی کاره‌هایی که دوست دارید بیفزاییدشان!",
   "vending": {
     "purchase-not-available": "این برنامه برای خرید در دسترس نیست."
   },
