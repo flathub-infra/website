@@ -468,7 +468,7 @@
   "user-device-access": "Acceso aos dispositivo do usuario",
   "system-device-access": "Acceso aos dispositivos do sistema",
   "no-user-device-access-description": "Esta aplicación non pode acceder ningún dispositivo do usuario como cámaras web ou controladores para xogos",
-  "can-access-the-contents-of-the-screen-or-other-windows": "Pode acceder ao contido da pantalla ou outras xanelas",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Pode acceder ao contido da pantalla ou doutras xanelas",
   "can-read-write-all-data-on-file-system": "Pode ler e escribir todos os datos no sistema de ficheiros",
   "can-read-write-your-downloads": "Pode ler e escribir todos os datos do cartafol de descargas",
   "can-read-all-data": "Pode ler todos os datos no directorio",

@@ -627,8 +627,8 @@
     "banner-preview-description": "Chun triail a bhaint as do bhratach go héasca, úsáid <preview>réamhamharc na meirge</preview>",
     "banner-preview": "Réamhamharc ar an mbratach"
   },
-  "favorite": "Is fearr leat",
-  "favorite-apps": "Ceanáin",
+  "favorite": "Leabharmharc",
+  "favorite-apps": "Leabharmharcanna",
   "gameemulator": "Aithriseoirí",
   "more-emulator": "Tuilleadh Aithriseoirí",
   "launcher": "Lainseálaithe",
@@ -674,9 +674,9 @@
   "unauthorized": "Neamhúdaraithe",
   "developed-by": "forbartha ag {developer}",
   "unverified-tooltip": "Níl úinéireacht aitheantóir aip <appid></appid> fíoraithe agus d'fhéadfadh gur pacáiste pobail atá ann",
-  "install-all-favorites": "Suiteáil Gach Rogha",
-  "install-all-favorites-description": "Cóipeáil an t-ordú seo chun do chuid aipeanna is fearr leat go léir a shuiteáil ag an am céanna:",
-  "no-favorites-yet": "Níl aon aipeanna is fearr leat fós. Tosaigh ag cur cuid acu leis trí chliceáil ar an deilbhín leabharmharcanna ar aipeanna is maith leat!",
+  "install-all-favorites": "Suiteáil Gach Leabharmharc",
+  "install-all-favorites-description": "Cóipeáil an t-ordú seo chun do chuid aipeanna leabharmharcáilte go léir a shuiteáil ag an am céanna:",
+  "no-favorites-yet": "Níl aon aipeanna leabharmharcáilte agat go fóill. Tosaigh ag cur cuid acu leis trí chliceáil ar dheilbhín na leabharmharcanna ar aipeanna is maith leat!",
   "vending": {
     "purchase-not-available": "Níl an feidhmchlár seo ar fáil le ceannach."
   },

@@ -670,7 +670,7 @@
   "developed-by": "desenvolvido por {developer}",
   "unverified-tooltip": "O proprietário do ID da aplicação <appid></appid> não foi verificado e pode ser um pacote criado pela comunidade",
   "unauthorized": "Não autorizado",
-  "install-all-favorites": "Instalar Todos os Favoritos",
+  "install-all-favorites": "Instalar todos os favoritos",
   "install-all-favorites-description": "Copie este comando para instalar, de uma só vez, as suas aplicações favoritas:",
   "no-favorites-yet": "Ainda não tem nenhuma aplicação favorita. Comece por adicionar alguma ao clicar no ícone de marcador em aplicações que gostar!",
   "uses-privileged-socket": "Usa um socket privilegiado",

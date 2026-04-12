@@ -627,8 +627,8 @@
     "banner-preview-description": "Et lihtsam oleks reklaampildi kujundust sättida, kasuta <preview>reklaampildi eelvaadet</preview>",
     "banner-preview": "Reklaampildi eelvaade"
   },
-  "favorite-apps": "Lemmikud",
-  "favorite": "Lemmik",
+  "favorite-apps": "Järjehoidjad",
+  "favorite": "Järjehoidja",
   "more-gametool": "Vaata veel mängude tarvikuid",
   "more-gamelauncher": "Vaata veel mängude käivitajaid",
   "game-section-description": "Sinu lemmikmängud ning tarvikud nende jaoks",
@@ -674,9 +674,9 @@
   "unauthorized": "Pole lubatud",
   "developed-by": "arendajaks on {developer}",
   "unverified-tooltip": "<appid></appid> rakenduse tunnuse omand on arendaja poolt kinnitamata ning tegemist võib olla kogukonna poolt pakendatud variandiga",
-  "install-all-favorites": "Paigalda kõik lemmikud",
-  "install-all-favorites-description": "Kopeeri see käsk ja saad paigaldada kõiki oma lemmikrakendusi ühe korraga:",
-  "no-favorites-yet": "Sul veel pole lemmikrakendusi. Klõpsides järjehoidja ikoonil saad sulle meeldivaid rakendusi lisada lemmikuks!",
+  "install-all-favorites": "Paigalda kõik rakendused, millele oled lisanud järjehoidja",
+  "install-all-favorites-description": "Kopeeri see käsk ja saad paigaldada kõiki oma järjehoidjaga märgitud rakendused ühe korraga:",
+  "no-favorites-yet": "Sul veel pole rakendusi, millele oled lisanud järjehoidja. Klõpsides järjehoidja ikoonil saad sulle meeldivaid rakendusi lisada lemmikuks!",
   "vending": {
     "purchase-not-available": "Seda rakendust ei saa osta."
   },
