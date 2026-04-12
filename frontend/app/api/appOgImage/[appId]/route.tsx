@@ -141,6 +141,8 @@ export async function GET(
           screenshot.height &&
           screenshot.width > screenshot.height && (
             <img
+              width={screenshot.width}
+              height={screenshot.height}
               style={{
                 display: "flex",
                 width: "620px",
@@ -155,6 +157,8 @@ export async function GET(
           screenshot.height &&
           screenshot.width < screenshot.height && (
             <img
+              width={screenshot.width}
+              height={screenshot.height}
               style={{
                 display: "flex",
                 height: "420px",
