@@ -46,7 +46,6 @@ def admin_client(mock_date):
                 state=LoginState.LOGGED_IN,
                 user=mock_user,
                 method=None,
-                method_intermediate=None,
             )
 
         mock_db = MagicMock()
@@ -85,7 +84,6 @@ def non_admin_client(mock_date):
                 state=LoginState.LOGGED_IN,
                 user=mock_user,
                 method=None,
-                method_intermediate=None,
             )
 
         mock_db = MagicMock()
