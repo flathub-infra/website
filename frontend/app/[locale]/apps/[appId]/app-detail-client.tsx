@@ -1,6 +1,6 @@
 "use client"
 
-import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
+import { BreadcrumbJsonLd, SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import ApplicationDetails from "../../../../src/components/application/Details"
@@ -11,6 +11,10 @@ import { calculateHumanReadableSize } from "../../../../src/size"
 import { bcpToPosixLocale } from "../../../../src/localize"
 import { getContentRating } from "../../../../src/contentRating"
 import { findBiggestScreenshotSize } from "../../../../src/types/Appstream"
+import {
+  stringToCategory,
+  categoryToName,
+} from "../../../../src/types/Category"
 import type { JSX } from "react"
 import type { Summary } from "../../../../src/types/Summary"
 import type {
@@ -111,8 +115,50 @@ const AppDetailClient = ({
   const contentRating = getContentRating(app, locale)
   const contentRatingText = contentRating?.minimumAgeText ?? undefined
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"
+
+  // Derive a breadcrumb category from the app's categories list
+  const firstCategory =
+    isDesktopAppstreamTypeGuard(app) && Array.isArray(app.categories)
+      ? stringToCategory(app.categories[0])
+      : undefined
+  const categoryLabel = firstCategory
+    ? categoryToName(firstCategory, t)
+    : undefined
+  const categorySlug = firstCategory?.toLowerCase()
+
   return (
     <>
+      <BreadcrumbJsonLd
+        useAppDir={true}
+        itemListElements={[
+          {
+            position: 1,
+            name: t("home"),
+            item: siteUrl,
+          },
+          ...(categoryLabel && categorySlug
+            ? [
+                {
+                  position: 2,
+                  name: categoryLabel,
+                  item: `${siteUrl}/apps/category/${categorySlug}`,
+                },
+                {
+                  position: 3,
+                  name: app.name,
+                  item: `${siteUrl}/apps/${app.id}`,
+                },
+              ]
+            : [
+                {
+                  position: 2,
+                  name: app.name,
+                  item: `${siteUrl}/apps/${app.id}`,
+                },
+              ]),
+        ]}
+      />
       {isDesktopAppstreamTypeGuard(app) && (
         <QualityModeration
           app={app}
