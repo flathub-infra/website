@@ -86,12 +86,7 @@ const AppDetailClient = ({
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
 
   if (eolMessage) {
-    return (
-      <>
-        {/* <meta name="robots" content="noindex" /> */}
-        <EolMessageDetails message={eolMessage} />
-      </>
-    )
+    return <EolMessageDetails message={eolMessage} />
   }
 
   if (!app) {
