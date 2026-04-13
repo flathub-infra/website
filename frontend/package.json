@@ -75,7 +75,7 @@
     "@babel/core": "^7.28.4",
     "@chromatic-com/storybook": "^5.0.1",
     "@eslint/js": "^10.0.1",
-    "@faker-js/faker": "^10.0.0",
+    "@faker-js/faker": "^10.4.0",
     "@next/eslint-plugin-next": "^16.1.6",
     "@storybook/addon-a11y": "^10.3.5",
     "@storybook/addon-docs": "^10.3.5",
