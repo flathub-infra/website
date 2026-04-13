@@ -21,6 +21,9 @@ export async function generateMetadata({
   return {
     title: t("setup-flathub"),
     description: t("setup-flathub-description"),
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/setup`,
+    },
   }
 }
 

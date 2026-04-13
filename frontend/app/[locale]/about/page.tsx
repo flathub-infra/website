@@ -15,6 +15,9 @@ export async function generateMetadata({
   return {
     title: t("about-pagename"),
     description: t("about-description"),
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/about`,
+    },
   }
 }
 
