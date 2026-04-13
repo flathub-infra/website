@@ -98,6 +98,18 @@ export default async function LocaleLayout({
         <link rel="preconnect" href="https://dl.flathub.org" />
         <link rel="preconnect" href="https://webstats.gnome.org" />
         <link rel="preconnect" href="https://imgproxy.flathub.org" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Flathub – New Apps"
+          href="/feed/new"
+        />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Flathub – Recently Updated Apps"
+          href="/feed/recently-updated"
+        />
       </head>
       <body className={inter.className}>
         <NextIntlClientProvider>

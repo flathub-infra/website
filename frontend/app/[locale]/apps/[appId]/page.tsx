@@ -44,15 +44,19 @@ export async function generateMetadata({
   const t = await getTranslations({ locale })
 
   try {
-    const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
+    const [response, eolMessageResponse] = await Promise.all([
+      getAppstreamAppstreamAppIdGet(appId, { locale }),
+      getEolMessageAppidEolMessageAppIdGet(appId).catch(() => ({ data: null })),
+    ])
     const app = response.data
+    const isEol = !!eolMessageResponse.data
 
     return {
       title: t("install-x", { app_name: app?.name }),
       description: app?.summary,
       authors: app?.developer_name ? [{ name: app.developer_name }] : undefined,
       robots: {
-        index: app.type !== "addon" && locale !== "en-GB",
+        index: app.type !== "addon" && locale !== "en-GB" && !isEol,
       },
       openGraph: {
         url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/${app?.id}`,
