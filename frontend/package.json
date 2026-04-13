@@ -105,7 +105,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^10.2.15",
     "globals": "^17.4.0",
-    "msw": "^2.12.14",
+    "msw": "^2.13.2",
     "msw-storybook-addon": "^2.0.6",
     "openapi3-ts": "^4.5.0",
     "orval": "8.5.3",
