@@ -122,7 +122,9 @@ class GenerateUpdateTokenResponse(BaseModel):
         401: {"description": "Not logged in"},
     },
 )
-def get_update_token(login=Depends(login_info.login_state)) -> GenerateUpdateTokenResponse:
+def get_update_token(
+    login=Depends(login_info.login_state),
+) -> GenerateUpdateTokenResponse:
     """
     Generates an update token for a user account. This token allows the user to generate download tokens for apps they
     already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is
