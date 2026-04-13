@@ -31,14 +31,17 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { subcategory, locale } = await params
+  const { category, subcategory, page, locale } = await params
 
   const t = await getTranslations({ locale })
-  let subcategoryName =
+  const subcategoryName =
     tryParseSubCategory(subcategory, t) ?? t(subcategory.toLowerCase())
 
   return {
     title: `${subcategoryName}`,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/category/${category}/subcategories/${subcategory}/${page}`,
+    },
   }
 }
 

@@ -7,6 +7,7 @@ import {
 } from "../../../../../../src/codegen"
 import {
   categoryToName,
+  categoryToDescription,
   stringToCategory,
   gameCategoryFilter,
 } from "../../../../../../src/types/Category"
@@ -30,9 +31,11 @@ export async function generateMetadata({
 
   const category = stringToCategory(categoryParam)
   const title = category ? categoryToName(category, t) : categoryParam
+  const description = category ? categoryToDescription(category, t) : undefined
 
   return {
     title,
+    description,
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/category/${categoryParam}/${page}`,
     },
