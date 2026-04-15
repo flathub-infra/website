@@ -263,5 +263,8 @@
   "arch": "Arch",
   "links": "Liammoù",
   "learn-more": "Gouzout hiroc'h",
-  "confirm": "Kadarnaat"
+  "confirm": "Kadarnaat",
+  "favorite": "Sined",
+  "favorite-apps": "Sinedoù",
+  "install-all-favorites": "Staliañ an holl sinedoù"
 }
