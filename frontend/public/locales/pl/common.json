@@ -762,5 +762,18 @@
     "none-language": "Nie zawiera profanacji ani wulgarnego języka",
     "none-social": "Nie zawiera funkcji społecznościowych",
     "none-money": "Nie zawiera reklam ani transakcji pieniężnych"
-  }
+  },
+  "trending-apps-description": "Aplikacje Linux, które zyskały najwięcej instalacji na Flathub w ciągu ostatnich dwóch tygodni.",
+  "popular-apps-description": "Najczęściej instalowane aplikacje Linux na Flathub w ciągu ostatniego miesiąca.",
+  "verified-apps-description": "Aplikacje na Flathub, których tożsamość dewelopera została zweryfikowana.",
+  "audio-and-video-description": "Odtwarzacze muzyki, edytory wideo, narzędzia do podcastów i aplikacje multimedialne na system Linux.",
+  "developer-tools-description": "Środowiska programistyczne (IDE), edytory kodu, terminale i narzędzia programistyczne na system Linux.",
+  "games-description": "Gry, emulatory i programy uruchamiające gry (launchery) na system Linux.",
+  "graphics-and-photography-description": "Edytory obrazu, narzędzia do tworzenia ilustracji i aplikacje fotograficzne na system Linux.",
+  "networking-description": "Przeglądarki internetowe, klienty poczty e-mail, narzędzia VPN i inne aplikacje sieciowe na system Linux.",
+  "productivity-description": "Pakiety biurowe, notatniki, narzędzia do zarządzania projektami i aplikacje zwiększające produktywność na system Linux.",
+  "utilities-description": "Narzędzia systemowe, menedżery plików, kalkulatory i narzędzia codziennego użytku na system Linux.",
+  "science-description": "Obliczenia naukowe, analiza danych i aplikacje badawcze na system Linux.",
+  "education-description": "Aplikacje do nauki, narzędzia językowe i oprogramowanie edukacyjne na system Linux.",
+  "system-description": "Narzędzia do zarządzania systemem, monitorowania i administracji dla systemu Linux."
 }

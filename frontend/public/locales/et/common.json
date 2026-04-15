@@ -649,7 +649,7 @@
     "screenshot": "Ekraanitõmmis",
     "show-screenshot-fullscreen": "Näita ekraanitõmmist täisekraanivaates"
   },
-  "count-verified-desktop-apps": "Verifitseeritud töölauarakendused",
+  "count-verified-desktop-apps": "Verifitseeritud töölauarakendusi",
   "vendingSharesPreview": {
     "sdk": "SDK",
     "app": "Rakendus",
@@ -762,5 +762,18 @@
     "none-language": "Ei sisalda roppu või ebasobilikku teksti",
     "none-social": "Ei sisalda sotsiaalset funktsionaalsust",
     "none-money": "Ei sisalda reklaami ega rahalisi tehinguid"
-  }
+  },
+  "trending-apps-description": "Linuxi rakendused, millel on viimase kahe nädala jooksul tekkinud enim paigaldusi.",
+  "popular-apps-description": "Linuxi rakendused, millel on viimase kahe kuu jooksul olnud enim paigaldusi.",
+  "verified-apps-description": "Flathubis leiduvad rakendused, mille arendaja on verifitseeritud.",
+  "audio-and-video-description": "Muusikapleierid, videomontaaži rakendused, taskuhäälingu tarvikud ja multimeediarakendused kasutamiseks Linuxis..",
+  "system-description": "Süsteemihalduse, monitooringu ja peakasutaja tarvikud kasutamiseks Linuxis.",
+  "education-description": "Õpperakendused, keeletarvikud ja hariduslik tarkvara kasutamiseks Linuxis.",
+  "science-description": "Teadusarvutuse, andmeanalüüsi ja uurimistöö rakendused kasutamiseks Linuxis.",
+  "utilities-description": "Süsteemitarvikud, failihaldurid, kalkulaatorid ja igapäevased töövahendid kasutamiseks Linuxis.",
+  "productivity-description": "Kontoritarkvara, märkmete koostamine, projektihaldus ja muu tarbetarkvara kasutamiseks Linuxis.",
+  "networking-description": "Veebibrauserid, e-posti kliendid, VPN-i tarvikud ja muud võrguvahendid kasutamiseks Linuxis.",
+  "graphics-and-photography-description": "Pildiredigeerimisprogrammid, illustratsioonitööriistad ja fotograafia-rakendused kasutamiseks Linuxis.",
+  "games-description": "Mängud, emulaatorid ja mängude käivitajad kasutamiseks Linuxis.",
+  "developer-tools-description": "Lõimitud arenduskeskonnad (IDE-d), koodiredaktorid, terminalid ja arendusvahendid kasutamiseks Linuxis."
 }

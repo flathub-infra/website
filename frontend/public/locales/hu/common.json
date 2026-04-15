@@ -762,5 +762,18 @@
     "none-language": "Nem tartalmaz káromkodást vagy durva kifejezéseket",
     "none-social": "Nincsenek közösségi funkciók",
     "none-money": "Nem tartalmaz hirdetéseket vagy pénzügyi tranzakciókat"
-  }
+  },
+  "trending-apps-description": "Az elmúlt két hétben a Flathubon legtöbb telepítést szerző Linux-alkalmazások.",
+  "popular-apps-description": "Az elmúlt hónapban a Flathubon legtöbbet telepített Linux-alkalmazások.",
+  "verified-apps-description": "Ellenőrzött fejlesztőktől származó, hiteles Linux alkalmazások a Flathubon.",
+  "audio-and-video-description": "Zenelejátszók, videószerkesztők, podcast eszközök és multimédiás Linux alkalmazások.",
+  "developer-tools-description": "IDE-k, kódszerkesztők, terminálok és fejlesztői eszközök Linuxra.",
+  "games-description": "Játékok, emulátorok és játékindítók Linuxra.",
+  "graphics-and-photography-description": "Képszerkesztők, illusztrációs eszközök és fotós alkalmazások Linuxra.",
+  "networking-description": "Webböngészők, e-mail kliensek, VPN-eszközök és egyéb hálózati alkalmazások Linuxra.",
+  "productivity-description": "Irodai programcsomagok, jegyzetelő alkalmazások, projektmenedzsment és produktivitási eszközök Linuxra.",
+  "utilities-description": "Rendszereszközök, fájlkezelők, számológépek és mindennapi segédprogramok Linuxra.",
+  "science-description": "Tudományos számításokhoz, adatelemzéshez és kutatáshoz készült alkalmazások Linuxra.",
+  "education-description": "Oktatási alkalmazások, nyelvtanuló eszközök és tanulást segítő szoftverek Linuxra.",
+  "system-description": "Rendszerkezelési, monitorozási és adminisztrációs eszközök Linuxra."
 }

@@ -627,8 +627,8 @@
     "missing-brand-colors": "缺少品牌色彩",
     "banner-preview": "橫幅預覽"
   },
-  "favorite": "收藏",
-  "favorite-apps": "收藏",
+  "favorite": "書籤",
+  "favorite-apps": "書籤",
   "we-love-games": "我們 ♥ 遊戲",
   "game-section-description": "可執行您最喜愛的遊戲與應用程式",
   "emulator": "模擬器",
@@ -674,9 +674,9 @@
   "unauthorized": "未授權",
   "developed-by": "由 {developer} 開發",
   "unverified-tooltip": "<appid></appid> 應用程式識別碼的所有權尚未驗證，可能屬於社群軟體包",
-  "install-all-favorites": "安裝所有收藏",
-  "install-all-favorites-description": "複製此命令即可一次安裝所有您喜愛的應用程式：",
-  "no-favorites-yet": "您目前尚未收藏任何應用程式。點選您喜愛的應用程式上的書籤圖示，開始新增收藏吧！",
+  "install-all-favorites": "安裝所有書籤",
+  "install-all-favorites-description": "複製此命令即可一次安裝所有您加入書籤的應用程式：",
+  "no-favorites-yet": "您目前尚未將任何應用程式加入書籤。點選您喜愛的應用程式上的書籤圖示，開始新增吧！",
   "vending": {
     "purchase-not-available": "無法購買此應用程式。"
   },
@@ -762,5 +762,18 @@
     "none-language": "不含任何粗俗或低俗的語言",
     "none-social": "無社交功能",
     "none-money": "不含任何廣告或金錢交易"
-  }
+  },
+  "trending-apps-description": "過去兩週在 Flathub 上安裝次數最多的 Linux 應用程式。",
+  "popular-apps-description": "過去一個月在 Flathub 上安裝次數最多的 Linux 應用程式。",
+  "verified-apps-description": "Flathub 上已通過開發者身分驗證的應用程式。",
+  "audio-and-video-description": "適用於 Linux 的音樂播放器、影片編輯器、podcast 工具及多媒體應用程式。",
+  "developer-tools-description": "適用於 Linux 的 IDE、程式碼編輯器、終端機及開發者工具。",
+  "games-description": "適用於 Linux 的遊戲、模擬器及遊戲啟動器。",
+  "graphics-and-photography-description": "適用於 Linux 的影像編輯器、插畫工具及攝影應用程式。",
+  "networking-description": "適用於 Linux 的網頁瀏覽器、電子郵件客戶端、VPN 工具及其他網路應用程式。",
+  "productivity-description": "適用於 Linux 的辦公室套裝軟體、筆記軟體、專案管理及生產力應用程式。",
+  "utilities-description": "適用於 Linux 的系統工具、檔案管理程式、計算機及日常工具。",
+  "science-description": "Linux 系統的科學運算、資料分析與研究應用。",
+  "education-description": "適用於 Linux 的學習應用程式、語言工具及教育軟體。",
+  "system-description": "適用於 Linux 的系統管理、監控及管理工具。"
 }
