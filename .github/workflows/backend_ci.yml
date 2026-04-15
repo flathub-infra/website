@@ -45,7 +45,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Run unit tests
-        run: uv run --only-group dev pytest tests/ -v --ignore=tests/main.py --ignore=tests/test_storefront_smoke.py --ignore=tests/test_year_in_review_smoke.py
+        run: uv run --only-group dev pytest tests/unit/ -v
 
   smoketests:
     runs-on: ubuntu-latest
