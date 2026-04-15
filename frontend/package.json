@@ -121,7 +121,7 @@
     "tailwindcss": "^4.2.2",
     "tsx": "^4.20.3",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.2",
+    "typescript-eslint": "^8.58.2",
     "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.28.2",
