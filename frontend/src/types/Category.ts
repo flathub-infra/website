@@ -77,6 +77,33 @@ export function categoryToName(category: MainCategory, t): string {
   }
 }
 
+export function categoryToDescription(category: MainCategory, t): string {
+  switch (category) {
+    case MainCategory.audiovideo:
+      return t("audio-and-video-description")
+    case MainCategory.development:
+      return t("developer-tools-description")
+    case MainCategory.game:
+      return t("games-description")
+    case MainCategory.graphics:
+      return t("graphics-and-photography-description")
+    case MainCategory.network:
+      return t("networking-description")
+    case MainCategory.office:
+      return t("productivity-description")
+    case MainCategory.utility:
+      return t("utilities-description")
+    case MainCategory.science:
+      return t("science-description")
+    case MainCategory.education:
+      return t("education-description")
+    case MainCategory.system:
+      return t("system-description")
+    default:
+      assertUnreachable(category)
+  }
+}
+
 enum GameCategory {
   ActionGame = "ActionGame",
   AdventureGame = "AdventureGame",

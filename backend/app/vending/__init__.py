@@ -23,7 +23,7 @@ from pydantic import BaseModel
 from .. import worker
 from ..config import settings
 from ..database import get_db, get_json_key
-from ..logins import login_state
+from ..login_info import login_state
 from ..models import (
     ApplicationVendingConfig,
     Pagination,

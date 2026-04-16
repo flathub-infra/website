@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: t("popular-apps"),
+    description: t("popular-apps-description"),
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/collection/popular/${page}`,
     },
