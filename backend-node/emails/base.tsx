@@ -10,7 +10,7 @@ import {
   Preview,
   Section,
   Text,
-} from "@react-email/components"
+} from "react-email"
 import { Tailwind } from "@react-email/tailwind"
 import * as React from "react"
 

@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
+    "module": "node20",
     "strict": true,
     "types": ["node"],
     "jsx": "react-jsx",
     "outDir": "./dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node16"
   },
   "exclude": ["node_modules"]
 }
