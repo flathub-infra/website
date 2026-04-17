@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
-    "@chromatic-com/storybook": "^5.0.1",
+    "@chromatic-com/storybook": "^5.1.2",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.4.0",
     "@next/eslint-plugin-next": "^16.2.3",
