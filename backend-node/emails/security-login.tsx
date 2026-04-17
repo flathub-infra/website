@@ -1,4 +1,4 @@
-import { Link, Text } from "@react-email/components"
+import { Link, Text } from "react-email"
 import { format } from "date-fns"
 import { Base } from "./base"
 
