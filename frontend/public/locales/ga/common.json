@@ -762,5 +762,18 @@
     "none-language": "Níl aon mhasla ná teanga ghránna ann",
     "none-social": "Gan aon ghnéithe sóisialta",
     "none-money": "Níl aon fhógraíocht ná idirbhearta airgid ann"
-  }
+  },
+  "trending-apps-description": "Aipeanna Linux a fuair an líon is mó suiteálacha ar Flathub le dhá sheachtain anuas.",
+  "popular-apps-description": "Na haipeanna Linux is mó suiteáilte ar Flathub le mí anuas.",
+  "verified-apps-description": "Aipeanna ar Flathub a bhfuil a gcéannacht forbróra fíoraithe.",
+  "audio-and-video-description": "Seinnteoirí ceoil, eagarthóirí físe, uirlisí podchraolta, agus aipeanna ilmheán do Linux.",
+  "developer-tools-description": "IDEanna, eagarthóirí cóid, teirminéil, agus fóntais forbróra do Linux.",
+  "games-description": "Cluichí, aithriseoirí, agus lainseálaithe cluichí do Linux.",
+  "graphics-and-photography-description": "Eagarthóirí íomhá, uirlisí léirithe, agus aipeanna grianghrafadóireachta do Linux.",
+  "networking-description": "Brabhsálaithe gréasáin, cliaint ríomhphoist, uirlisí VPN, agus aipeanna líonraithe eile do Linux.",
+  "productivity-description": "Sraitheanna oifige, nótaí a ghlacadh, bainistíocht tionscadal, agus aipeanna táirgiúlachta do Linux.",
+  "utilities-description": "Fóntais chórais, bainisteoirí comhad, áireamháin, agus uirlisí laethúla do Linux.",
+  "science-description": "Feidhmchláir ríomhaireachta eolaíochta, anailíse sonraí, agus taighde do Linux.",
+  "education-description": "Aipeanna foghlama, uirlisí teanga, agus bogearraí oideachais do Linux.",
+  "system-description": "Uirlisí bainistíochta córais, monatóireachta agus riaracháin do Linux."
 }
