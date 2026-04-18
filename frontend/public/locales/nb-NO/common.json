@@ -628,7 +628,7 @@
     "zoom-out": "Zoom ut",
     "show-screenshot-fullscreen": "Vis skjermbildet i fullskjerm"
   },
-  "favorite-apps": "Favoritter",
+  "favorite-apps": "Bokmerker",
   "on-the-go": "På farten",
   "we-love-games": "Vi ♥ Spill",
   "game-section-description": "Spill og programmer som hjelper deg kjøre favorittspillene dine",
@@ -644,7 +644,7 @@
     "banner-preview": "Bannerforhåndsvisning"
   },
   "mobile-apps": "Mobilapper",
-  "favorite": "Favoritt",
+  "favorite": "Bokmerke",
   "more-gametool": "Flere spillverktøy",
   "tool": "Verktøy",
   "gametool": "Spillverktøy",
@@ -674,9 +674,9 @@
   "unauthorized": "Uautorisert",
   "developed-by": "utviklet av {developer}",
   "unverified-tooltip": "Eierskapet til <appid></appid>-app-ID-en har ikke blitt bekreftet, og pakken kan derfor være samlet av fellesskapet",
-  "install-all-favorites": "Installer alle favoritter",
-  "install-all-favorites-description": "Kopier denne kommandoen for å installere alle favorittappene dine samtidig:",
-  "no-favorites-yet": "Du har ingen favorittapper ennå. Legg til noen som favoritter ved å klikke på bokmerkeikonet på apper du liker!",
+  "install-all-favorites": "Installer alle bokmerker",
+  "install-all-favorites-description": "Kopier denne kommandoen for å installere alle appene du har markert med bokmerke samtidig:",
+  "no-favorites-yet": "Du har ingen apper markert med bokmerke ennå. Legg til noen ved å klikke på bokmerkeikonet på apper du liker!",
   "vending": {
     "purchase-not-available": "Denne applikasjonen er ikke tilgjengelig for kjøp."
   },
@@ -710,7 +710,21 @@
     "biggest-growth": "Største vekst",
     "newcomer-of-year": "Årets nykommer",
     "newcomer-description": "Den mest populære appen som kom ut dette året",
-    "most-improved": "Mest forbedret"
+    "most-improved": "Mest forbedret",
+    "countries-reached": "Land nådd",
+    "fastest-growing-regions": "Raskest-voksende regioner",
+    "top-countries": "Toppland",
+    "trending-categories": "Trendende kategorier",
+    "trending-categories-description": "Kategorier som vokste mest dette året",
+    "biggest-growth-description": "Appen som ble lastet ned mest sammenlignet med det forrige året",
+    "most-improved-description": "Appen med størst vekst i prosent sammenlignet med det forrige året",
+    "geographic-insights": "Geografiske innsikter",
+    "year-over-year-growth": "Vekst fra år til år",
+    "downloads-vs-previous-year": "Nedlasinger sammenlignet med {year}",
+    "hidden-gems": "Skjulte perler",
+    "hidden-gems-description": "Apper på fremmarsj",
+    "platform-downloads": "Plattformsnedlastinger",
+    "x-growth": "+{percentage}% vekst"
   },
   "app-information": "Appinformasjon",
   "sub-header": {
@@ -732,5 +746,22 @@
     "total-installs": "Totalt antall installasjoner",
     "age-rating": "Aldersgrense"
   },
-  "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll"
+  "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll",
+  "content-rating": {
+    "subtitle": "{appName} er egnet for barn i alderen {age}",
+    "category-violence": "Vold",
+    "category-drugs": "Narkotika",
+    "category-sex": "Nakenhet",
+    "category-language": "Sterkt språk",
+    "category-social": "Sosialt",
+    "category-money": "Penger",
+    "unknown": "Ingen informasjon angitt",
+    "none-violence": "Inneholder ingen vold",
+    "none-drugs": "Inneholder ingen referanser til narkotika",
+    "none-sex": "Inneholder ikke seksuelt innhold eller nakenhet",
+    "none-language": "Inneholder ikke banning eller sterkt språk",
+    "none-social": "Ingen sosiale funksjoner",
+    "none-money": "Inneholder ingen reklame eller handlinger som involverer penger"
+  },
+  "games-description": "Spill, emulatorer og spillprogram til Linux."
 }

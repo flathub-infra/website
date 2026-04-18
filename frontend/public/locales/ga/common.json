@@ -627,8 +627,8 @@
     "banner-preview-description": "Chun triail a bhaint as do bhratach go héasca, úsáid <preview>réamhamharc na meirge</preview>",
     "banner-preview": "Réamhamharc ar an mbratach"
   },
-  "favorite": "Is fearr leat",
-  "favorite-apps": "Ceanáin",
+  "favorite": "Leabharmharc",
+  "favorite-apps": "Leabharmharcanna",
   "gameemulator": "Aithriseoirí",
   "more-emulator": "Tuilleadh Aithriseoirí",
   "launcher": "Lainseálaithe",
@@ -674,9 +674,9 @@
   "unauthorized": "Neamhúdaraithe",
   "developed-by": "forbartha ag {developer}",
   "unverified-tooltip": "Níl úinéireacht aitheantóir aip <appid></appid> fíoraithe agus d'fhéadfadh gur pacáiste pobail atá ann",
-  "install-all-favorites": "Suiteáil Gach Rogha",
-  "install-all-favorites-description": "Cóipeáil an t-ordú seo chun do chuid aipeanna is fearr leat go léir a shuiteáil ag an am céanna:",
-  "no-favorites-yet": "Níl aon aipeanna is fearr leat fós. Tosaigh ag cur cuid acu leis trí chliceáil ar an deilbhín leabharmharcanna ar aipeanna is maith leat!",
+  "install-all-favorites": "Suiteáil Gach Leabharmharc",
+  "install-all-favorites-description": "Cóipeáil an t-ordú seo chun do chuid aipeanna leabharmharcáilte go léir a shuiteáil ag an am céanna:",
+  "no-favorites-yet": "Níl aon aipeanna leabharmharcáilte agat go fóill. Tosaigh ag cur cuid acu leis trí chliceáil ar dheilbhín na leabharmharcanna ar aipeanna is maith leat!",
   "vending": {
     "purchase-not-available": "Níl an feidhmchlár seo ar fáil le ceannach."
   },
@@ -743,7 +743,37 @@
     "works-well-on-large-screens": "Oibríonn go maith ar scáileáin mhóra",
     "may-not-work-well-on-mobile": "B’fhéidir nach n-oibreoidh sé go maith ar ghléasanna soghluaiste",
     "works-well-on-mobile": "Oibríonn go maith ar ghléasanna soghluaiste",
-    "total-installs": "Suiteálacha Iomlána"
+    "total-installs": "Suiteálacha Iomlána",
+    "age-rating": "Rátáil Aois"
   },
-  "quality-moderation-excluded": "Tá an aip seo eisiata ó sheiceálacha cáilíochta"
+  "quality-moderation-excluded": "Tá an aip seo eisiata ó sheiceálacha cáilíochta",
+  "content-rating": {
+    "subtitle": "Tá {appName} oiriúnach do dhaoine aoise {age}",
+    "category-violence": "Foréigean",
+    "category-drugs": "Drugaí",
+    "category-sex": "Nochtacht",
+    "category-language": "Teanga Láidir",
+    "category-social": "Sóisialta",
+    "category-money": "Airgead",
+    "unknown": "Níor cuireadh aon fhaisnéis ar fáil",
+    "none-violence": "Níl aon fhoréigean ann",
+    "none-drugs": "Níl aon tagairtí ann do dhrugaí",
+    "none-sex": "Níl aon ábhar gnéasach ná nocht ann",
+    "none-language": "Níl aon mhasla ná teanga ghránna ann",
+    "none-social": "Gan aon ghnéithe sóisialta",
+    "none-money": "Níl aon fhógraíocht ná idirbhearta airgid ann"
+  },
+  "trending-apps-description": "Aipeanna Linux a fuair an líon is mó suiteálacha ar Flathub le dhá sheachtain anuas.",
+  "popular-apps-description": "Na haipeanna Linux is mó suiteáilte ar Flathub le mí anuas.",
+  "verified-apps-description": "Aipeanna ar Flathub a bhfuil a gcéannacht forbróra fíoraithe.",
+  "audio-and-video-description": "Seinnteoirí ceoil, eagarthóirí físe, uirlisí podchraolta, agus aipeanna ilmheán do Linux.",
+  "developer-tools-description": "IDEanna, eagarthóirí cóid, teirminéil, agus fóntais forbróra do Linux.",
+  "games-description": "Cluichí, aithriseoirí, agus lainseálaithe cluichí do Linux.",
+  "graphics-and-photography-description": "Eagarthóirí íomhá, uirlisí léirithe, agus aipeanna grianghrafadóireachta do Linux.",
+  "networking-description": "Brabhsálaithe gréasáin, cliaint ríomhphoist, uirlisí VPN, agus aipeanna líonraithe eile do Linux.",
+  "productivity-description": "Sraitheanna oifige, nótaí a ghlacadh, bainistíocht tionscadal, agus aipeanna táirgiúlachta do Linux.",
+  "utilities-description": "Fóntais chórais, bainisteoirí comhad, áireamháin, agus uirlisí laethúla do Linux.",
+  "science-description": "Feidhmchláir ríomhaireachta eolaíochta, anailíse sonraí, agus taighde do Linux.",
+  "education-description": "Aipeanna foghlama, uirlisí teanga, agus bogearraí oideachais do Linux.",
+  "system-description": "Uirlisí bainistíochta córais, monatóireachta agus riaracháin do Linux."
 }

@@ -7,10 +7,14 @@ import {
 } from "../../../../../../src/codegen"
 import {
   categoryToName,
+  categoryToDescription,
   stringToCategory,
   gameCategoryFilter,
 } from "../../../../../../src/types/Category"
 import CategoryPageClient from "./category-page-client"
+
+export const dynamic = "force-static"
+export const revalidate = 3600
 
 export async function generateStaticParams() {
   // Return empty array to enable ISR for all category/page combinations
@@ -27,9 +31,11 @@ export async function generateMetadata({
 
   const category = stringToCategory(categoryParam)
   const title = category ? categoryToName(category, t) : categoryParam
+  const description = category ? categoryToDescription(category, t) : undefined
 
   return {
     title,
+    description,
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/category/${categoryParam}/${page}`,
     },

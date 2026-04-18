@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import About from "./about-client"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata({
   params,
 }: {
@@ -13,6 +15,9 @@ export async function generateMetadata({
   return {
     title: t("about-pagename"),
     description: t("about-description"),
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/about`,
+    },
   }
 }
 

@@ -1,7 +1,7 @@
 import importlib.resources
 import json
 import xml.etree.ElementTree as ET
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated, Literal
 from uuid import uuid4
 
@@ -23,7 +23,7 @@ from .utils import jti
 from .verification_method import VerificationMethod
 
 
-class ErrorDetail(str, Enum):
+class ErrorDetail(StrEnum):
     # The app ID is not syntactically correct
     MALFORMED_APP_ID = "malformed_app_id"
     # The current user does not have access to the app's repository on github.com/flathub
@@ -323,7 +323,7 @@ class CheckWebsiteVerification:
             )
 
 
-class LoginProvider(Enum):
+class LoginProvider(StrEnum):
     GITHUB = "github"
     GITLAB = "gitlab"
     GNOME_GITLAB = "gnome"
@@ -447,6 +447,15 @@ def _get_existing_verification(app_id: str) -> models.AppVerification | None:
         return None
 
 
+def _cleanup_stale_verifications(db, app_id: str, current_account: int):
+    db.session.query(models.AppVerification).filter(
+        models.AppVerification.app_id == app_id,
+        models.AppVerification.account != current_account,
+        models.AppVerification.verified == False,  # noqa: E712
+        models.AppVerification.method != "manual",
+    ).delete()
+
+
 def _check_app_id(
     app_id: str,
     new_app: bool,
@@ -561,12 +570,12 @@ async def get_verification_status(
     )
 
 
-class AvailableMethodType(Enum):
+class AvailableMethodType(StrEnum):
     WEBSITE = "website"
     LOGIN_PROVIDER = "login_provider"
 
 
-class AvailableLoginMethodStatus(str, Enum):
+class AvailableLoginMethodStatus(StrEnum):
     READY = "ready"
     USER_DOES_NOT_EXIST = ErrorDetail.USER_DOES_NOT_EXIST.value
     USERNAME_DOES_NOT_MATCH = ErrorDetail.USERNAME_DOES_NOT_MATCH.value
@@ -916,6 +925,7 @@ async def verify_by_login_provider(
         if new_app:
             _create_direct_upload_app(login.user, app_id)
 
+        _cleanup_stale_verifications(db, app_id, login.user.id)
         db.session.commit()
 
     if not new_app:
@@ -1055,6 +1065,7 @@ async def confirm_website_verification(
 
         with get_db("writer") as db:
             db.session.merge(verification)
+            _cleanup_stale_verifications(db, app_id, login.user.id)
             db.session.commit()
 
         if not new_app:

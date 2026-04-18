@@ -3,6 +3,7 @@
     {
       "name": "AnyDesk",
       "keywords": null,
+      "localized_keywords": null,
       "summary": "Connect to a computer remotely",
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
@@ -23,7 +24,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 13.650000000000034,
       "installs_last_month": 653,

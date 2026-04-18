@@ -35,7 +35,7 @@
   },
   "endless_os": {
     "distroName": "Endless OS",
-    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Endless OS 3.0.0 en nieuwer. Geen installatie vereist!</text>"
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Endless OS 3.0.0 en nieuwer; geen installatie vereist!</text>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -82,18 +82,21 @@
   },
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Linux Mint 18.3 en nieuwer, geen installatie vereist!</text>"
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Linux Mint 18.3 en nieuwer; geen installatie vereist!</text>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Flatpak is beschikbaar in de standaard­pakketbronnen van alle momenteel onderhouden versies van openSUSE Leap en openSUSE Tumbleweed.</text> <text>Als u de voorkeur geeft aan een grafische installatie, kunt u Flatpak installeren met behulp van een ‘1-klik-installatie’ via <link>software.opensuse.org</link>. Als uw distributie­versie niet standaard wordt weer­gegeven, drukt u op <em>Tonen</em> onder de categorie ‘Niet-ondersteunde distributies’ en selecteert u vervolgens uit de lijst.</text> <text>U kunt Flatpak ook vanaf de opdracht­regel installeren met Zypper:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "arch": {
@@ -129,70 +132,93 @@
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Flatpak is standaard geïnstalleerd op Rocky Linux 8 en nieuwer, mits het systeem is geïnstalleerd met een software­pakket dat GNOME bevat (Server met GUI, Workstation). Als u zo’n systeem gebruikt, kunt u deze stap overslaan. Om Flatpak op Rocky Linux te installeren, voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om dit in te schakelen, download en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op CentOS Stream 8 en nieuwer, wanneer u GNOME gebruikt. Om aan de slag te gaan, hoeft u alleen maar Flathub in te schakelen; dit is de beste manier om Flatpak-apps te downloaden. Download en installeer gewoon het <filelink>Flathub-pakketbron­bestand</filelink>.</text> <text>Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<text>Flatpak is standaard geïnstalleerd op AlmaLinux 8 en nieuwer, wanneer u GNOME gebruikt. Om aan de slag te gaan, hoeft u alleen maar Flathub in te schakelen; dit is de beste manier om Flatpak-apps te downloaden. Download en installeer gewoon het <filelink>Flathub-pakketbron­bestand</filelink>.</text> <text>Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Gentoo te installeren, opent u de Terminal-app en voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text> <text>Opmerking: het is mogelijk dat de grafische installatie van Flatpak-apps niet werkt met Gentoo.</text>"
     }
   },
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Kubuntu te installeren, opent u Discover, gaat u naar Instellingen, installeert u de Flatpak-back-end en start u Discover opnieuw op.</text>"
     },
     "step-3": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te vinden. Om dit in te schakelen, opent u Discover, gaat u naar Instellingen en voegt u de Flathub-pakketbron toe.</text>"
     },
     "step-4": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
+    },
+    "step-2": {
+      "name": "Installeer de Flatpak-add-on voor systeem­instellingen",
+      "text": "<text>Om Flatpak-ondersteuning in de Plasma-systeeminstellingen te integreren, opent u de Terminal-app en voert u het volgende uit:</text> <code></code>"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Solus te installeren, opent u de Terminal-app en voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om dit in te schakelen, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
-    }
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text> <text>Opmerking: grafische installatie van Flatpak-apps is alleen mogelijk via GNOME Software en/of KDE Discover.</text>"
+    },
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Solus 4.7 en nieuwer; geen installatie vereist! Flatpak-apps kunnen worden geïnstalleerd met GNOME Software en/of KDE Discover.</text> <text>Als Flatpak niet is geïnstalleerd, volg dan de onder­staande instructies om aan de slag te gaan.</text>"
   },
   "alpine": {
     "distroName": "Alpine",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Flatpak kan worden geïnstalleerd vanuit de community-pakketbron. Voer het volgende uit in een terminal:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren"
+      "name": "De Flatpak-plug-in voor Software installeren",
+      "text": "<text>U kunt de Flatpak-plug-in installeren voor GNOME Software (vanaf versie 3.13) of KDE Discover (vanaf versie 3.11), waardoor u apps kunt installeren zonder de opdracht­regel te hoeven gebruiken. Om de plug-in te installeren, voert u voor GNOME Software het volgende uit:</text> <code></code> <text>Voor KDE Discover voert u het volgende uit:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Om dit in te schakelen, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-4": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "mageia": {
@@ -211,7 +237,8 @@
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in Pop!_OS 20.04 en nieuwer; geen installatie vereist!</text>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -222,7 +249,8 @@
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Er is een Flatpak-pakket beschikbaar voor Raspberry Pi OS (voorheen Raspbian) Stretch en nieuwere versies. Voer het volgende als root uit om het te installeren:</text> <code></code>"
     },
     "step-2": {
       "name": "De Flathub-pakket­bron toe­voegen"
@@ -234,13 +262,16 @@
   "void_linux": {
     "distroName": "Void Linux",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Void Linux te installeren, voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "nixos": {
@@ -249,61 +280,78 @@
       "name": "Flatpak installeren"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "pureos": {
     "distroName": "PureOS"
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": "<header>Flatpak-ondersteuning is ingebouwd in Zorin OS</header> <text>U kunt de Software Store-app gebruiken om Flatpak-apps te downloaden.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op Deepin te installeren, voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "De Deepin-thema's installeren"
+      "name": "De Deepin-thema's installeren",
+      "text": "<text>Om het lichte en donkere thema te installeren, voert u de volgende opdracht uit:</text> <code></code>"
     },
     "step-4": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "pardus": {
     "distroName": "Pardus",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Er is een Flatpak-pakket beschikbaar voor Pardus 2019 en nieuwer. Voer het volgende als root uit om het te installeren:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren"
+      "name": "De Flatpak-plug-in voor Software installeren",
+      "text": "<text>Als u GNOME gebruikt, is het ook een goed idee om de Flatpak-plug-in voor GNOME Software te installeren. Voer hiervoor het volgende uit:</text> <code></code>"
     },
     "step-3": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-4": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "mx_linux": {
     "distroName": "MX Linux",
     "step-2": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
+    },
+    "step-1": {
+      "name": "Schakel Flatpak in via de Software Manager"
     }
   },
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Er is een Flatpak-pakket beschikbaar in Pisi 2.1 en nieuwer. Voer het volgende als root uit om het te installeren:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
       "name": "Opnieuw opstarten"
@@ -315,22 +363,26 @@
       "name": "Flatpak installeren"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
       "name": "Opnieuw opstarten"
     }
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "introduction": "<text>Flatpak-ondersteuning is ingebouwd in KDE neon 19 en nieuwer; geen installatie vereist!</text>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Flatpak installeren"
+      "name": "Flatpak installeren",
+      "text": "<text>Om Flatpak op GNU Guix te installeren, voert u het volgende uit in een terminal:</text> <code></code>"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
       "name": "Opnieuw opstarten"
@@ -342,16 +394,20 @@
       "name": "Flatpak installeren"
     },
     "step-2": {
-      "name": "De Flathub-pakket­bron toe­voegen"
+      "name": "De Flathub-pakket­bron toe­voegen",
+      "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om het in te schakelen:</text> <code></code>"
     },
     "step-3": {
-      "name": "Opnieuw opstarten"
+      "name": "Opnieuw opstarten",
+      "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
     }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<header>Flatpak is standaard geïnstalleerd op Vanilla OS.</header> <text>U kunt de Software-app gebruiken of naar <link>Flathub</link> gaan om apps te installeren.</text> <text>Als Flathub om de een of andere reden niet beschikbaar is, kunt u het hand­matig configureren met de volgende opdracht:</text> <code></code>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<header>Flatpak is standaard geïnstalleerd op Salix sinds versie 15.0; geen installatie vereist!</header> <text>Flatpak wordt geleverd met de Flathub-pakketbron en desktop­integratietools, waardoor installatie met één klik vanuit Flathub mogelijk is.</text> <text>Het enige wat u hoeft te doen is <link>apps installeren</link>!</text>"
   }
 }

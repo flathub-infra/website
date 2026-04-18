@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server"
 import { swaggerUI } from "@hono/swagger-ui"
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi"
-import { render } from "@react-email/render"
+import { render } from "react-email"
 import SecurityLoginEmail from "../emails/security-login"
 import { sendMail } from "./mail"
 import "dotenv/config"

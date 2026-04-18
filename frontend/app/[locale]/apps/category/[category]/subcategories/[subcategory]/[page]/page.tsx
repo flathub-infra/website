@@ -12,6 +12,9 @@ import {
 import SubcategoryPageClient from "./subcategory-page-client"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 
+export const dynamic = "force-static"
+export const revalidate = 3600
+
 interface Params {
   locale: string
   category: string
@@ -28,14 +31,17 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { subcategory, locale } = await params
+  const { category, subcategory, page, locale } = await params
 
   const t = await getTranslations({ locale })
-  let subcategoryName =
+  const subcategoryName =
     tryParseSubCategory(subcategory, t) ?? t(subcategory.toLowerCase())
 
   return {
     title: `${subcategoryName}`,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/apps/category/${category}/subcategories/${subcategory}/${page}`,
+    },
   }
 }
 

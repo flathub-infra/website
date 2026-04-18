@@ -6,6 +6,8 @@ import { getLoginMethodsAuthLoginGet, LoginMethod } from "../../../src/codegen"
 import LoginClient from "./login-client"
 import Spinner from "src/components/Spinner"
 
+export const revalidate = 86400
+
 export async function generateMetadata({
   params,
 }: {

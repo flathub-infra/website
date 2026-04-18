@@ -154,7 +154,7 @@
       "name": "Instalar o Flatpak",
       "text": "<text>Para instalar o Flatpak no Crystal Linux, você deve primeiro certificar-se de que seus pacotes estão atualizados. Execute o seguinte em um terminal:</text> <codeUpdate></codeUpdate> <text>Então instale o Flatpak:</text> <code></code>"
     },
-    "introduction": "<header>Flatpak é instalado por padrão no Crystal Linux.</header> <text> Se você não usou jade_gui para instalar cristal ou selecionado para não instalá-lo, você pode configurar Flatpak usando as seguintes etapas.</text>"
+    "introduction": "<header>O Flatpak é instalado por padrão no Crystal Linux.</header> <text> Se você não usou jade_gui para instalar cristal ou selecionado para não instalá-lo, você pode configurar Flatpak usando as seguintes etapas.</text>"
   },
   "ubuntu": {
     "distroName": "Ubuntu",

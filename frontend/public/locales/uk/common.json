@@ -743,12 +743,24 @@
     "free": "Вільна",
     "appname-works-best-on-specific-hardware": "{appName} краще працює на певному обладнанні",
     "may-not-work-well-on-mobile": "Обмежена підтримка на мобільних",
-    "age-rating": "Вікова категорія"
+    "age-rating": "Вікова категорія",
+    "amount-to-download": "Повний розмір завантаження"
   },
   "quality-moderation-excluded": "Застосунок виключено з перевірок якості",
   "content-rating": {
     "category-drugs": "Речовини",
     "category-sex": "Оголення",
-    "unknown": "Інформація не надана"
+    "unknown": "Інформація не надана",
+    "category-violence": "Жорстокість",
+    "category-language": "Грубощі",
+    "category-social": "Спілкування",
+    "category-money": "Гроші",
+    "none-violence": "Не містить жорстокости",
+    "none-drugs": "Не містить згадок або зображення п'янких речовин",
+    "none-sex": "Не містить оголености або сексу",
+    "none-language": "Не містить грубощів або недоречного гумору",
+    "none-social": "Не має можливості спілкуватися з іншими користувачами",
+    "none-money": "Не містить реклами або грошових операцій",
+    "subtitle": "{appName} підходить для віку {age}"
   }
 }

@@ -1,16 +1,17 @@
 FROM node:24
 
+RUN corepack enable pnpm
+
 WORKDIR /app
 
-COPY package.json yarn.lock tsconfig.json .yarnrc.yml ./
+COPY package.json pnpm-lock.yaml tsconfig.json ./
 
-COPY .yarn ./.yarn
 COPY emails ./emails
 COPY src ./src
 
-RUN yarn install --immutable && \
-    yarn build && \
-    yarn cache clean
+RUN pnpm install --frozen-lockfile && \
+    pnpm build && \
+    pnpm store prune
 
 EXPOSE 8001
 

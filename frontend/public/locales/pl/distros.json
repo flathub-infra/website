@@ -28,7 +28,7 @@
       "text": "<text>Przejdź do <settingslink>chrome://os-settings</settingslink>, przewiń w dół do <strong>Programiści</strong> i włącz <em>Środowisko programistyczne Linux</em>. ChromeOS będzie potrzebował trochę czasu na pobranie i zainstalowanie Linuksa.</text>",
       "name": "Włącz obsługę systemu Linux"
     },
-    "introduction": "<text> Aplikacje Flatpak mogą być instalowane na ChromeOS z warstwą kompatybilności Crostini Linux. Nie jest to dostępne dla wszystkich urządzeń z systemem ChromeOS, więc przed kontynuowaniem należy upewnić się, że urządzenie jest kompatybilne. Lista kompatybilnych urządzeń znajduje się <link>tutaj</link>.</text>",
+    "introduction": "<text>Aplikacje Flatpak mogą być instalowane na ChromeOS z warstwą kompatybilności Crostini Linux. Nie jest to dostępne dla wszystkich urządzeń z systemem ChromeOS, więc przed kontynuowaniem należy upewnić się, że urządzenie jest kompatybilne. Lista kompatybilnych urządzeń znajduje się <link>tutaj</link>.</text>",
     "step-2": {
       "name": "Uruchom terminal Linux",
       "text": "<text>Naciśnij klawisz Wyszukiwania/Uruchamiania, wpisz „Terminal” i uruchom aplikację Terminal.</text>"
@@ -210,7 +210,7 @@
     "distroName": "Manjaro",
     "step-1": {
       "name": "Włącz Flatpak za pomocą Menedżera oprogramowania",
-      "text": "<text> Flatpak jest zainstalowany domyślnie na Manjaro 20 lub nowszym. </text> <text>Aby włączyć jego obsługę, należy przejść do <strong>Menedżera oprogramowania</strong> (Dodaj/Usuń programy)</text> <text>Kliknąć menu [lub kropki w zależności od środowiska graficznego] po prawej stronie, z rozwijanego menu wybrać „Preferencje”</text> <text>Przejść do zakładki „Flatpak” i przesunąć przełącznik na Włącz obsługę Flatpak (możliwe jest również włączenie sprawdzania aktualizacji, co jest zalecane).</text>"
+      "text": "<text>Flatpak jest zainstalowany domyślnie na Manjaro 20 lub nowszym.</text><text>Aby włączyć jego obsługę, należy przejść do <strong>Menedżera oprogramowania</strong> (Dodaj/Usuń programy)</text><text>Kliknąć menu [lub kropki w zależności od środowiska graficznego] po prawej stronie, z rozwijanego menu wybrać „Preferencje”</text><text>Przejść do zakładki „Flatpak” i przesunąć przełącznik na Włącz obsługę Flatpak (możliwe jest również włączenie sprawdzania aktualizacji, co jest zalecane).</text>"
     },
     "step-2": {
       "name": "Uruchom ponownie",

@@ -30,16 +30,16 @@ jobs:
           node-version: "24"
 
       - name: Corepack enable
-        run: corepack enable
+        run: corepack enable pnpm
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Format
-        run: yarn format
+        run: pnpm format
 
       - name: Build application
-        run: yarn build
+        run: pnpm build
         env:
           CI: true
           GITHUB_SHA: ${{ github.sha }}

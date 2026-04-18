@@ -2,7 +2,20 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Instalar Flatpak"
+      "name": "Instalar Flatpak",
+      "text": "<text>Para instalar Flatpak en <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posterior</strong>, abra a aplicación Terminal e execute:</text><code></code>"
+    },
+    "step-2": {
+      "name": "Instalar engadido de GNOME Software para Flatpak",
+      "text": "<text>O engadido de GNOME Software para Flatpak fai posible instalar aplicacións sen necesitar a liña de comandos. Para instalalo, execute:</text><code></code><text><strong>Nota:</strong> Ubuntu distribúe GNOME Software como Snap nas versións desde 20.04 ata 23.04, e substitúeo na versión 23.10 e posteriores polo Centro de aplicacións—Dos cales ningún soporta instalar aplicacións Flatpak. Instalar o engadido de Flatpak instalará a versión deb de GNOME Software, resultando en dúas aplicacións «Software» á vez en Ubuntu 20.04 a 23.04, e unha nova aplicación «Software» en Ubuntu 23.04 e posteriores.</text>"
+    },
+    "step-3": {
+      "name": "Engadir o repositorio de Flathub",
+      "text": "<text>Flathub é o mellor sitio para conseguir aplicacións Flatpak. Para habilitalo, execute:</text><code></code>"
+    },
+    "step-4": {
+      "name": "Reiniciar",
+      "text": "<text>Para completar a configuración, reinicie o sistema. Agora o único que ten que facer e <link>instalar aplicacións</link>!</text>"
     }
   }
 }

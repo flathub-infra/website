@@ -27,7 +27,7 @@
   "contact": "Kestava",
   "help": "Gweres",
   "contribute-translations": "Kevri Treylyansow",
-  "report-an-issue": "Derivas unn Kudyn",
+  "report-an-issue": "Derivas Kudyn",
   "contribute": "Kevri dhe'n App",
   "run": "Eksekutya",
   "copy-text": "Dasskrif Tekst",
@@ -669,7 +669,8 @@
     "works-well-on-large-screens": "Oberi da war skrinyow bras",
     "may-not-work-well-on-mobile": "Martesen ny vydh oberi da war dhevisyow gwayadow",
     "works-well-on-mobile": "Oberi da war dhevisyow gwayadow",
-    "total-installs": "Leyansow Kowal"
+    "total-installs": "Leyansow Kowal",
+    "age-rating": "Talvos Bloodh"
   },
   "quality-moderation-excluded": "An app ma yw eskelmys dhyworth checkyansow kwalita",
   "quality-guideline": {
@@ -745,5 +746,21 @@
   },
   "vending": {
     "purchase-not-available": "An app na yw ankavadow rag prenas."
+  },
+  "content-rating": {
+    "subtitle": "{appName} yw fytti rag bloodh {age}",
+    "category-violence": "Garowder",
+    "category-drugs": "Droggys",
+    "category-sex": "Nothedh",
+    "category-language": "Tavas Krev",
+    "category-social": "Kowethasek",
+    "category-money": "Arghans",
+    "unknown": "Kedhlow provys vyth",
+    "none-violence": "Synsi garowder vyth",
+    "none-drugs": "Synsi kampollansow dhe dhroggys vyth",
+    "none-sex": "Synsi dalgh reydhel po nothedh vyth",
+    "none-language": "Synsi tavas isel vyth",
+    "none-social": "Nasyow kowethasek vyth",
+    "none-money": "Synsi argemynnow po talasow vyth"
   }
 }

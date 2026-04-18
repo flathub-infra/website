@@ -1,4 +1,4 @@
-import { Button, Text } from "@react-email/components"
+import { Button, Text } from "react-email"
 import { Base, buildAppName } from "./base"
 
 interface DeveloperInviteEmailProps {

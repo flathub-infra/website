@@ -762,5 +762,18 @@
     "none-language": "不含粗俗语言或低俗语言",
     "none-social": "无社交功能",
     "none-money": "不含广告或金钱交易"
-  }
+  },
+  "trending-apps-description": "过去两周在 Flathub 上安装量增长最快的 Linux 应用。",
+  "popular-apps-description": "过去一个月在 Flathub 上安装量最高的 Linux 应用。",
+  "verified-apps-description": "Flathub 上开发者身份已通过验证的应用。",
+  "audio-and-video-description": "适用于 Linux 的音乐播放器、视频编辑器、播客工具和多媒体应用。",
+  "developer-tools-description": "适用于 Linux 的集成开发环境（IDE）、代码编辑器、终端和开发者工具。",
+  "games-description": "适用于 Linux 的游戏、模拟器和游戏启动器。",
+  "graphics-and-photography-description": "适用于 Linux 的图像编辑器、插画工具和摄影应用。",
+  "networking-description": "适用于 Linux 的网络浏览器、电子邮件客户端、VPN 工具和其他网络应用。",
+  "productivity-description": "适用于 Linux 的办公套件、笔记工具、项目管理和生产力应用。",
+  "utilities-description": "适用于 Linux 的系统工具、文件管理器、计算器和日常实用工具。",
+  "science-description": "适用于 Linux 的科学计算、数据分析和科研类应用。",
+  "education-description": "适用于 Linux 的学习应用、语言工具和教育类软件。",
+  "system-description": "适用于 Linux 的系统管理、监控和管理工具。"
 }

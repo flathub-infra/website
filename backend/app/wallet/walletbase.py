@@ -5,7 +5,7 @@ Wallets, be they fake or Stripey, support a number of operations which are
 common.  This class provides the basis for wallet operations
 """
 
-from enum import Enum
+from enum import StrEnum
 from typing import Literal
 
 from fastapi import Request, Response
@@ -108,7 +108,7 @@ class TransactionSaveCard(BaseModel):
     save_card: TransactionSaveCardKind | None = None
 
 
-class TransactionSortOrder(Enum):
+class TransactionSortOrder(StrEnum):
     """
     Sorting of transactions, either most-recent first, or oldest first
     """

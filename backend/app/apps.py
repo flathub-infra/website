@@ -1,5 +1,5 @@
 import re
-from enum import Enum
+from enum import StrEnum
 
 import gi
 
@@ -12,7 +12,7 @@ clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()
 
 
-class AppType(str, Enum):
+class AppType(StrEnum):
     APPS = "apps"
     DESKTOP = "desktop"
     DESKTOP_APPLICATION = "desktop-application"
@@ -24,7 +24,7 @@ class AppType(str, Enum):
     RUNTIME = "runtime"
 
 
-class SortBy(str, Enum):
+class SortBy(StrEnum):
     ALPHABETICAL = "alphabetical"
     CREATED_AT = "created-at"
     LAST_UPDATED_AT = "last-updated-at"
@@ -61,6 +61,7 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
     type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
 
     translations = {}
+    localized_keywords_set: set[str] = set(search_keywords or [])
     for key, apps in apps_locale.items():
         if key in localize.LANGUAGES:
             if not isinstance(apps, dict):
@@ -80,6 +81,7 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
                         ]
                         if keywords:
                             filtered_translations[k] = keywords
+                            localized_keywords_set.update(keywords)
 
             if "description" in filtered_translations:
                 filtered_translations["description"] = re.sub(
@@ -88,6 +90,10 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
 
             if filtered_translations:
                 translations[key] = filtered_translations
+
+    localized_keywords = (
+        sorted(localized_keywords_set) if localized_keywords_set else None
+    )
 
     # order of the dict is important for attribute ranking
     return {
@@ -98,6 +104,7 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
         "summary": app["summary"],
         "translations": translations,
         "keywords": search_keywords,
+        "localized_keywords": localized_keywords,
         "project_license": project_license,
         "is_free_license": AppStream.license_is_free_license(project_license),
         "app_id": app_id,

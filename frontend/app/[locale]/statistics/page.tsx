@@ -7,6 +7,8 @@ import {
 } from "../../../src/codegen"
 import StatisticsClient from "./statistics-client"
 
+export const revalidate = 3600
+
 export async function generateMetadata({
   params,
 }: {
@@ -18,6 +20,9 @@ export async function generateMetadata({
   return {
     title: t("statistics"),
     description: t("flathub-statistics-description"),
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/statistics`,
+    },
   }
 }
 

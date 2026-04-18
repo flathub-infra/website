@@ -12,6 +12,7 @@ export const staticPages = [
   "",
   "/about",
   "/statistics",
+  "/setup",
   "/languages",
   "/consultants",
   "/badges",

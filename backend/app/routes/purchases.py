@@ -1,6 +1,6 @@
 import base64
 from datetime import UTC, datetime, timedelta
-from enum import Enum
+from enum import StrEnum
 from uuid import uuid4
 
 import gi
@@ -9,7 +9,7 @@ from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
 from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
 
-from .. import config, logins, models, summary
+from .. import config, login_info, models, summary
 from ..database import get_db, get_json_key
 from ..verification import VerificationStatus, get_verification_status, is_appid_runtime
 
@@ -30,7 +30,7 @@ class StorefrontInfo(BaseModel):
     is_free_software: bool = False
 
 
-class ErrorDetail(str, Enum):
+class ErrorDetail(StrEnum):
     # The user is not logged in
     NOT_LOGGED_IN = "not_logged_in"
     # The app is not purchased
@@ -122,7 +122,9 @@ class GenerateUpdateTokenResponse(BaseModel):
         401: {"description": "Not logged in"},
     },
 )
-def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenResponse:
+def get_update_token(
+    login=Depends(login_info.login_state),
+) -> GenerateUpdateTokenResponse:
     """
     Generates an update token for a user account. This token allows the user to generate download tokens for apps they
     already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is
@@ -189,7 +191,7 @@ class CheckPurchasesResponseSuccess(BaseModel):
     },
 )
 def check_purchases(
-    appids: list[str], login=Depends(logins.login_state)
+    appids: list[str], login=Depends(login_info.login_state)
 ) -> CheckPurchasesResponseSuccess:
     """
     Checks whether the logged in user is able to download all of the given app refs.

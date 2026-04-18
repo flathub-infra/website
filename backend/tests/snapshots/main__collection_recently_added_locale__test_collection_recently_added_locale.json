@@ -3,8 +3,9 @@
     {
       "name": "AnyDesk",
       "keywords": null,
-      "summary": "Con\u00e9ctese a un ordenador de forma remota",
-      "description": "Gracias a AnyDesk, contar\u00e1 con conexiones seguras y fiables de escritorio remoto para profesionales inform\u00e1ticos y usuarios en movimiento.",
+      "localized_keywords": null,
+      "summary": "Conéctese a un ordenador de forma remota",
+      "description": "Gracias a AnyDesk, contará con conexiones seguras y fiables de escritorio remoto para profesionales informáticos y usuarios en movimiento.",
       "id": "com_anydesk_Anydesk",
       "type": "desktop-application",
       "project_license": "LicenseRef-proprietary",
@@ -23,7 +24,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973790,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973790,
       "trending": 0,
       "installs_last_month": 653,
@@ -33,6 +36,7 @@
     {
       "name": "WPS Office",
       "keywords": null,
+      "localized_keywords": null,
       "summary": "WPS Office Suite",
       "description": "WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation",
       "id": "com_wps_Office",
@@ -54,7 +58,9 @@
       "verification_timestamp": null,
       "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "updated_at": 1610973768,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973768,
       "trending": 0,
       "installs_last_month": 1151,
@@ -63,9 +69,27 @@
     },
     {
       "name": "Laberinto",
-      "keywords": ["laberinto", "rompecabezas", "juego"],
+      "keywords": [
+        "laberinto",
+        "rompecabezas",
+        "juego"
+      ],
+      "localized_keywords": [
+        "Labyrinth",
+        "Rätsel",
+        "Spiel",
+        "casse-tête",
+        "game",
+        "jeu",
+        "juego",
+        "laberinto",
+        "labyrinthe",
+        "maze",
+        "puzzle",
+        "rompecabezas"
+      ],
       "summary": "Un simple juego de laberintos",
-      "description": "\u00bfEres bueno encontrando la salida de situaciones dif\u00edciles?",
+      "description": "¿Eres bueno encontrando la salida de situaciones difíciles?",
       "id": "org_sugarlabs_Maze",
       "type": "desktop-application",
       "project_license": "GPL-3.0-or-later",
@@ -84,7 +108,9 @@
       "verification_timestamp": null,
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "updated_at": 1610973680,
-      "arches": ["x86_64"],
+      "arches": [
+        "x86_64"
+      ],
       "added_at": 1610973680,
       "trending": 0,
       "installs_last_month": 509,

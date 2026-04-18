@@ -37,7 +37,8 @@ const cardVariants = cva(
 )
 
 export interface SkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
   className?: string
 }
@@ -70,12 +71,14 @@ export const ApplicationCardSkeleton = ({
 ApplicationCardSkeleton.displayName = "ApplicationCardSkeleton"
 
 export interface Props
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  extends
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
     VariantProps<typeof cardVariants> {
   application: AppstreamListItem
   link?: (appid: string) => string
   showId?: boolean
   showRuntime?: boolean
+  endAdornment?: React.ReactNode
   className?: string
   priority?: boolean
 }
@@ -88,6 +91,7 @@ export const ApplicationCard = ({
   link,
   showId = false,
   showRuntime = false,
+  endAdornment,
   priority = false,
   ...props
 }: Props) => {
@@ -139,7 +143,7 @@ export const ApplicationCard = ({
           size={96}
         />
       </div>
-      <div className="flex flex-col justify-center overflow-hidden">
+      <div className="flex flex-1 min-w-0 flex-col justify-center overflow-hidden">
         <div className="flex gap-1">
           <span className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
             {application.name}
@@ -165,6 +169,9 @@ export const ApplicationCard = ({
           </div>
         )}
       </div>
+      {endAdornment && (
+        <div className="ml-auto shrink-0 self-start">{endAdornment}</div>
+      )}
     </Link>
   )
 }

@@ -95,6 +95,7 @@ const UserApps: FunctionComponent<Props> = ({
         variant="nested"
         showId
         showRuntime
+        showEolBadge
         link={link}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />

@@ -8,6 +8,7 @@ import { ApplicationCard } from "./ApplicationCard"
 import { Button } from "@/components/ui/button"
 import { useSearchParams } from "next/navigation"
 import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model/getAppstreamAppstreamAppIdGet200"
+import { EolBadge } from "./EolBadge"
 
 interface Props {
   applications: GetAppstreamAppstreamAppIdGet200[] | AppstreamListItem[]
@@ -20,6 +21,7 @@ interface Props {
   variant?: "default" | "nested" | "flat"
   showId?: boolean
   showRuntime?: boolean
+  showEolBadge?: boolean
   customButtons?: JSX.Element
 }
 
@@ -69,6 +71,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   variant = "default",
   showId = false,
   showRuntime = false,
+  showEolBadge = false,
   customButtons,
 }) => {
   const t = useTranslations()
@@ -126,6 +129,9 @@ const ApplicationCollection: FunctionComponent<Props> = ({
               showId={showId}
               showRuntime={showRuntime}
               priority={index < 6}
+              endAdornment={
+                showEolBadge && app.is_eol ? <EolBadge /> : undefined
+              }
             />
           </div>
         ))}

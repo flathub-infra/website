@@ -36,7 +36,7 @@
   },
   "documentation": "Teuliadur",
   "statistics": "Stadegoù",
-  "country-statistics": "Stadegoù dre vroioù",
+  "country-statistics": "Stadegoù dre vro",
   "downloads": "Pellgargadurioù",
   "copy-text": "Eilañ an destenn",
   "installs": "Staliadurioù",
@@ -232,7 +232,39 @@
   "sub-header": {
     "downloads-per-month": "Pellgargadurioù/miz",
     "free": "Frank",
-    "download": "Pellgargañ"
+    "download": "Pellgargañ",
+    "age-rating": "Rummatadur dre oad"
   },
-  "app-information": "Titouroù diwar-benn an arload"
+  "app-information": "Titouroù diwar-benn an arload",
+  "content-rating": {
+    "category-money": "Arc'hant",
+    "category-social": "Sokial",
+    "category-drugs": "Drammoù",
+    "category-violence": "Feulster"
+  },
+  "developed-by": "diorroet gant {developer}",
+  "proprietary": "Perc'henn",
+  "default-account": "Dre ziouer",
+  "frequently-asked-questions": "Foar ar goulennoù",
+  "thank-you-for-your-purchase": "Trugarez deoc'h evit ho prenadenn !",
+  "error": "Fazi",
+  "error-code": "Kod ar fazi : {code}",
+  "name": "Anv",
+  "begin": "Kregiñ",
+  "id": "ID",
+  "my-flathub": "Ma Flathub",
+  "kids": "Bugel",
+  "card": "Kartenn",
+  "sports": "Sportoù",
+  "midi": "Midi",
+  "tv": "Skinwel",
+  "music": "Sonerezh",
+  "recorder": "Sonenroller",
+  "arch": "Arch",
+  "links": "Liammoù",
+  "learn-more": "Gouzout hiroc'h",
+  "confirm": "Kadarnaat",
+  "favorite": "Sined",
+  "favorite-apps": "Sinedoù",
+  "install-all-favorites": "Staliañ an holl sinedoù"
 }

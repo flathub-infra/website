@@ -68,7 +68,7 @@
     "distroName": "ChromeOS",
     "step-5": {
       "name": "Restartigi",
-      "text": "<text>Por fini la instaladon, restartigu Linux. Vi povas fari tion dekstre alklakante la terminalon kaj poste alklakante «Shut down Linux». Nun vi pretas<link>instali programojn</link>!</text>"
+      "text": "<text>Por fini la instaladon, restartigu Linux. Vi povas fari tion dekstre alklakante la terminalon kaj poste alklakante «Shut down Linux». Nun vi pretas <link>instali programojn</link>!</text>"
     },
     "introduction": "<text>Flatpak-programoj estas instaleblaj sur ChromeOS per la kongruiga tavolo Crostini Linux. Tio ĉi ne estas havebla por ĉiuj aparatoj kun ChromeOS; tial certigu la kongruecon de via aparato antaŭ ol instalado. <link>Jen</link> la listo de kongruaj aparatoj.</text>"
   },

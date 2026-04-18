@@ -248,7 +248,7 @@
     "distroName": "elementary OS",
     "step-1": {
       "name": "Suiteáil Aipeanna",
-      "text": "Tagann <text> bunrang OS 5.1 agus níos nuaí le tacaíocht Flatpak as an mbosca. Le haghaidh aipeanna neamhchoimeádta, téigh chuig <link>Fathub</link> chun aon aip a shuiteáil leis an gcnaipe mór \"Suiteáil\", agus oscail an comhad `.flatpakref` íoslódáilte le Sideload.</text> <text>Nóta: Tar éis agus aip amháin á shuiteáil ó chianchlár ar nós Flathub, taispeánfar gach aip eile ón gcianrialtán sin go huathoibríoch in AppCenter freisin.</text>"
+      "text": "<text>Tagann elementary OS 5.1 agus níos nuaí le tacaíocht Flatpak díreach as an mbosca. I gcás aipeanna nach bhfuil coimeádaithe, téigh chuig <link>Flathub</link> chun aon aip a shuiteáil ag baint úsáide as an gcnaipe mór \"Suiteáil\", agus oscail an comhad `.flatpakref` íoslódáilte le Sideload.</text> <text>Nóta: Tar éis aip amháin a shuiteáil ó chianrialtán cosúil le Flathub, taispeánfar gach aip eile ón gcianrialtán sin go huathoibríoch in AppCenter freisin.</text>"
     }
   },
   "raspberry_pi_os": {

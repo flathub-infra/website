@@ -718,7 +718,7 @@
   "app-information": "Sovelluksen tiedot",
   "sub-header": {
     "download": "Lataus",
-    "free": "Ilmainen/vapaa",
+    "free": "Vapaa/ilmainen",
     "desktop-only": "Vain työpöydälle",
     "desktop-and-mobile": "Työpöytä ja mobiili",
     "downloads-per-month": "Latauksia kuukaudessa",
@@ -729,7 +729,7 @@
     "appname-works-on-all-devices": "{appName} toimii kaikilla laitteilla",
     "mobile-support": "Mobiilituki",
     "desktop-support": "Työpöytätuki",
-    "works-well-on-large-screens": "Toimii hyvin suurilla näytöillä",
+    "works-well-on-large-screens": "Toimii hyvin suurella näytöllä",
     "may-not-work-well-on-mobile": "Ei välttämättä toimi hyvin mobiililaitteilla",
     "works-well-on-mobile": "Toimii hyvin mobiililaitteilla",
     "total-installs": "asennusta yhteensä",

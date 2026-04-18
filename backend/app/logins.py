@@ -10,10 +10,10 @@ import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
-from enum import Enum
-from urllib.parse import urlencode
-from uuid import uuid4
+from enum import StrEnum
 
+import httpx
+from authlib.oauth2.base import OAuth2Error
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from github import Github
@@ -21,7 +21,7 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import apps, config, http_client, models
+from . import apps, config, http_client, models, oauth_providers
 from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
@@ -29,7 +29,6 @@ from .login_info import (
     LoginState,
     LoginStatusDep,
     logged_in,
-    login_state,
 )
 
 
@@ -52,25 +51,56 @@ class UserDeleteRequest(BaseModel):
     token: str
 
 
+OAUTH_STATE_TTL_SECONDS = 15 * 60
+
+
+def _oauth_state_key(method: str) -> str:
+    return f"_oauth_state_{method}"
+
+
+def _get_oauth_state(request: Request, method: str) -> tuple[str, float] | None:
+    stored = request.session.get(_oauth_state_key(method))
+    if not isinstance(stored, dict):
+        return None
+
+    state = stored.get("state")
+    created = stored.get("created")
+    if not isinstance(state, str) or not isinstance(created, (int, float)):
+        return None
+
+    return state, float(created)
+
+
+def _clear_oauth_session(request: Request, method: str | None = None):
+    request.session.pop("active-login-flow", None)
+    request.session.pop("active-login-flow-intermediate", None)
+
+    if method is None:
+        for provider in oauth_providers.PROVIDERS:
+            request.session.pop(_oauth_state_key(provider), None)
+        return
+
+    request.session.pop(_oauth_state_key(method), None)
+
+
 def refresh_repo_list(gh_access_token: str, accountId: int):
     from .worker.refresh_github_repo_list import refresh_github_repo_list
 
     refresh_github_repo_list.send(gh_access_token, accountId)
 
 
-def _refresh_token(
-    account, method: str, token_endpoint: str, client_id: str, client_secret: str
-) -> str:
+def _refresh_token(account, method: str) -> str:
     if account.token_expiry is None or account.token_expiry > datetime.now():
         return account.token
 
+    provider = oauth_providers.get_provider_config(method)
     response = http_client.post(
-        token_endpoint,
+        provider.token_url,
         data={
             "grant_type": "refresh_token",
             "refresh_token": account.refresh_token,
-            "client_id": client_id,
-            "client_secret": client_secret,
+            "client_id": provider.client_id(),
+            "client_secret": provider.client_secret(),
         },
         headers={
             "Content-Type": "application/x-www-form-urlencoded",
@@ -112,34 +142,7 @@ def refresh_oauth_token(account) -> str:
 
     with get_db("writer") as db:
         account = db.merge(account)
-
-        match account:
-            case models.GitlabAccount():
-                return _refresh_token(
-                    account,
-                    "gitlab",
-                    "https://gitlab.com/oauth/token",
-                    config.settings.gitlab_client_id,
-                    config.settings.gitlab_client_secret,
-                )
-            case models.GnomeAccount():
-                return _refresh_token(
-                    account,
-                    "gnome",
-                    "https://gitlab.gnome.org/oauth/token",
-                    config.settings.gnome_client_id,
-                    config.settings.gnome_client_secret,
-                )
-            case models.KdeAccount():
-                return _refresh_token(
-                    account,
-                    "kde",
-                    "https://invent.kde.org/oauth/token",
-                    config.settings.kde_client_id,
-                    config.settings.kde_client_secret,
-                )
-            case _:
-                raise ValueError(f"Unsupported account type: {type(account)}")
+        return _refresh_token(account, account.provider.value)
 
 
 router = APIRouter(prefix="/auth")
@@ -201,14 +204,6 @@ def start_github_flow(request: Request, login: LoginStatusDep):
         login,
         "github",
         models.GithubAccount,
-        models.GithubFlowToken,
-        "https://github.com/login/oauth/authorize",
-        {
-            "client_id": config.settings.github_client_id,
-            "redirect_uri": config.settings.github_return_url,
-            "allow_signup": "false",
-            "scope": "read:user read:org user:email",
-        },
     )
 
 
@@ -237,14 +232,6 @@ def start_gitlab_flow(request: Request, login: LoginStatusDep):
         login,
         "gitlab",
         models.GitlabAccount,
-        models.GitlabFlowToken,
-        "https://gitlab.com/oauth/authorize",
-        {
-            "client_id": config.settings.gitlab_client_id,
-            "redirect_uri": config.settings.gitlab_return_url,
-            "scope": "read_user openid",
-            "response_type": "code",
-        },
     )
 
 
@@ -273,14 +260,6 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
         login,
         "gnome",
         models.GnomeAccount,
-        models.GnomeFlowToken,
-        "https://gitlab.gnome.org/oauth/authorize",
-        {
-            "client_id": config.settings.gnome_client_id,
-            "redirect_uri": config.settings.gnome_return_url,
-            "scope": "read_user openid",
-            "response_type": "code",
-        },
     )
 
 
@@ -292,20 +271,12 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
         400: {"description": "User already logged in with KDE GitLab"},
     },
 )
-def start_kde_flow(request: Request, login=Depends(login_state)):
+def start_kde_flow(request: Request, login: LoginStatusDep):
     return start_oauth_flow(
         request,
         login,
         "kde",
         models.KdeAccount,
-        models.KdeFlowToken,
-        "https://invent.kde.org/oauth/authorize",
-        {
-            "client_id": config.settings.kde_client_id,
-            "redirect_uri": config.settings.kde_return_url,
-            "scope": "read_user openid",
-            "response_type": "code",
-        },
     )
 
 
@@ -314,13 +285,11 @@ def start_oauth_flow(
     login: LoginInformation,
     method: str,
     account_model: type[models.Base],
-    flowtoken_model: type[models.Base],
-    oauth_endpoint: str,
-    oauth_args: dict,
 ):
     """
-    Start an oauth login flow.  This uses the database flow tokens, the login
-    state, and handles getting logins started assuming they follow a basic oauth model.
+    Start an oauth login flow. This uses the session-backed flow state, the
+    login state, and handles getting logins started assuming they follow a
+    basic oauth model.
 
     Examples of oauth flows include Github and Gitlab.
     """
@@ -332,10 +301,7 @@ def start_oauth_flow(
             pass
         else:
             request.session.pop("user-id", None)
-            request.session.pop("active-login-flow", None)
-            request.session.pop("active-login-flow-intermediate", None)
-            with get_db("writer") as db:
-                flowtoken_model.housekeeping(db)
+            _clear_oauth_session(request)
 
     user = login["user"]
     if user:
@@ -347,37 +313,39 @@ def start_oauth_flow(
                     status_code=400,
                 )
 
-    # Create new intermediate token within a single database session
-    with get_db("writer") as db:
-        flowtoken_model.housekeeping(db)
-        intermediate = login["method_intermediate"]
+    provider = oauth_providers.get_provider_config(method)
+    if provider.authorize_url is None:
+        raise HTTPException(
+            status_code=500, detail=f"{method} login flow is not configured"
+        )
 
-        if intermediate:
-            intermediate = db.get(flowtoken_model, intermediate)
+    state: str | None = None
+    created = datetime.now(UTC).timestamp()
+    existing_state = _get_oauth_state(request, method)
+    if (
+        login["state"].logging_in()
+        and login["method"] == method
+        and existing_state is not None
+        and created - existing_state[1] <= OAUTH_STATE_TTL_SECONDS
+    ):
+        state, created = existing_state
 
-        if not intermediate:
-            randomtoken = uuid4().hex
-            intermediate = flowtoken_model(
-                state=randomtoken,
-                created=datetime.now(),
-            )
-            db.add(intermediate)
-            db.flush()  # Ensure the intermediate object is created in the database
+    with oauth_providers.get_oauth_client(method) as client:
+        url, state = client.create_authorization_url(
+            provider.authorize_url,
+            state=state,
+            **provider.authorize_params,
+        )
 
-        # Get the state while the session is still open
-        state = intermediate.state
-        intermediate_id = intermediate.id
-        db.commit()
-
-    # Copy the oauth arguments so we can add our state to them
-    args = oauth_args.copy()
-    args["state"] = state
-    args = urlencode(args)
     request.session["active-login-flow"] = method
-    request.session["active-login-flow-intermediate"] = intermediate_id
+    request.session.pop("active-login-flow-intermediate", None)
+    request.session[_oauth_state_key(method)] = {
+        "state": state,
+        "created": created,
+    }
     return {
         "state": "ok",
-        "redirect": f"{oauth_endpoint}?{args}",
+        "redirect": url,
     }
 
 
@@ -415,7 +383,7 @@ def continue_github_flow(
     ```
 
     On failure, the frontend should pass through the state and error so that
-    the backend can clear the flow tokens
+    the backend can clear the stored flow state
 
     ```
     {
@@ -453,12 +421,6 @@ def continue_github_flow(
         login,
         data,
         "github",
-        models.GithubFlowToken,
-        "https://github.com/login/oauth/access_token",
-        {
-            "client_id": config.settings.github_client_id,
-            "client_secret": config.settings.github_client_secret,
-        },
         github_userdata,
         models.GithubAccount,
         github_postlogin,
@@ -503,7 +465,7 @@ def continue_gitlab_flow(
     ```
 
     On failure, the frontend should pass through the state and error so that
-    the backend can clear the flow tokens
+    the backend can clear the stored flow state
 
     ```
     {
@@ -520,25 +482,13 @@ def continue_gitlab_flow(
     def gitlab_userdata(tokens) -> ProviderInfo:
         return _gitlab_provider_info("https://gitlab.com", tokens)
 
-    def gitlab_postlogin(tokens, account):
-        pass
-
     return continue_oauth_flow(
         request,
         login,
         data,
         "gitlab",
-        models.GitlabFlowToken,
-        "https://gitlab.com/oauth/token",
-        {
-            "client_id": config.settings.gitlab_client_id,
-            "client_secret": config.settings.gitlab_client_secret,
-            "grant_type": "authorization_code",
-            "redirect_uri": config.settings.gitlab_return_url,
-        },
         gitlab_userdata,
         models.GitlabAccount,
-        gitlab_postlogin,
     )
 
 
@@ -567,7 +517,7 @@ def continue_gnome_flow(
     ```
 
     On failure, the frontend should pass through the state and error so that
-    the backend can clear the flow tokens
+    the backend can clear the stored flow state
 
     ```
     {
@@ -584,25 +534,13 @@ def continue_gnome_flow(
     def gnome_userdata(tokens) -> ProviderInfo:
         return _gitlab_provider_info("https://gitlab.gnome.org", tokens)
 
-    def gnome_postlogin(tokens, account):
-        pass
-
     return continue_oauth_flow(
         request,
         login,
         data,
         "gnome",
-        models.GnomeFlowToken,
-        "https://gitlab.gnome.org/oauth/token",
-        {
-            "client_id": config.settings.gnome_client_id,
-            "client_secret": config.settings.gnome_client_secret,
-            "grant_type": "authorization_code",
-            "redirect_uri": config.settings.gnome_return_url,
-        },
         gnome_userdata,
         models.GnomeAccount,
-        gnome_postlogin,
     )
 
 
@@ -631,7 +569,7 @@ def continue_google_flow(
     ```
 
     On failure, the frontend should pass through the state and error so that
-    the backend can clear the flow tokens
+    the backend can clear the stored flow state
 
     ```
     {
@@ -660,25 +598,13 @@ def continue_google_flow(
             avatar_url=gguser.get("picture"),
         )
 
-    def google_postlogin(tokens, account):
-        pass
-
     return continue_oauth_flow(
         request,
         login,
         data,
         "google",
-        models.GoogleFlowToken,
-        "https://www.googleapis.com/oauth2/v4/token",
-        {
-            "client_id": config.settings.google_client_id,
-            "client_secret": config.settings.google_client_secret,
-            "grant_type": "authorization_code",
-            "redirect_uri": config.settings.google_return_url,
-        },
         google_userdata,
         models.GoogleAccount,
-        google_postlogin,
     )
 
 
@@ -697,25 +623,13 @@ def continue_kde_flow(
     def kde_userdata(tokens) -> ProviderInfo:
         return _gitlab_provider_info("https://invent.kde.org", tokens)
 
-    def kde_postlogin(tokens, account):
-        pass
-
     return continue_oauth_flow(
         request,
         login,
         data,
         "kde",
-        models.KdeFlowToken,
-        "https://invent.kde.org/oauth/token",
-        {
-            "client_id": config.settings.kde_client_id,
-            "client_secret": config.settings.kde_client_secret,
-            "grant_type": "authorization_code",
-            "redirect_uri": config.settings.kde_return_url,
-        },
         kde_userdata,
         models.KdeAccount,
-        kde_postlogin,
     )
 
 
@@ -724,12 +638,9 @@ def continue_oauth_flow(
     login: LoginInformation,
     data: OauthLoginResponse,
     method: str,
-    flowtoken_model: type[models.Base],
-    token_endpoint: str,
-    oauth_args: dict,
     token_to_data: Callable[[dict], ProviderInfo],
     account_model: type[models.Base],
-    postlogin_handler: Callable,
+    postlogin_handler: Callable | None = None,
 ):
     """
     Continue an oauth login flow.  This will complete the user's login using the
@@ -746,77 +657,77 @@ def continue_oauth_flow(
             },
             status_code=400,
         )
-    with get_db("writer") as db:
-        flowtoken_model.housekeeping(db)
-        flowtokens = db.get(flowtoken_model, login.method_intermediate)
-        del request.session["active-login-flow"]
-        del request.session["active-login-flow-intermediate"]
+    stored = _get_oauth_state(request, method)
+    _clear_oauth_session(request, method)
 
-        if flowtokens is None:
-            return JSONResponse(
-                {
-                    "state": "error",
-                    "error": "Login token has expired, please try again",
-                },
-                status_code=400,
-            )
-
-        if flowtokens.state != data.state:
-            return JSONResponse(
-                {
-                    "state": "error",
-                    "error": f"{method} authentication flow token does not match",
-                },
-                status_code=400,
-            )
-
-        # Token is present and good, let's clean up the flowtokens
-        db.delete(flowtokens)
-        if isinstance(data, OauthLoginResponseFailure):
-            # We are dealing with a login failure, we've cleared the flow out of
-            # the session cookie, and we're ready to clear from the database session
-            # so just return a 'successfully not logged in' return
-            db.commit()
-            return {
-                "status": "ok",
-                "result": "flow_abandoned",
-            }
-        # And acquire the bearer info from the oauth provider
-        args = oauth_args.copy()
-        args["code"] = data.code
-        args = urlencode(args)
-        login_result = http_client.post(
-            token_endpoint,
-            data=args,
-            headers={
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accept": "application/json",
+    if (
+        stored is None
+        or datetime.now(UTC).timestamp() - stored[1] > OAUTH_STATE_TTL_SECONDS
+    ):
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": "Login token has expired, please try again",
             },
-        ).json()
+            status_code=400,
+        )
 
-        if "error" in login_result:
-            return JSONResponse(
-                {
-                    "state": "error",
-                    "error": (
-                        f"{method} login flow had an error: "
-                        + repr(
-                            login_result.get("error_description", login_result["error"])
-                        )
-                    ),
-                },
-                status_code=500,
+    if stored[0] != data.state:
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": f"{method} authentication flow token does not match",
+            },
+            status_code=400,
+        )
+
+    if isinstance(data, OauthLoginResponseFailure):
+        return {
+            "status": "ok",
+            "result": "flow_abandoned",
+        }
+
+    provider = oauth_providers.get_provider_config(method)
+    try:
+        with oauth_providers.get_oauth_client(method) as client:
+            login_result = client.fetch_token(
+                provider.token_url,
+                code=data.code,
             )
-        if login_result["token_type"].lower() != "bearer":
-            return JSONResponse(
-                {
-                    "state": "error",
-                    "error": f"{method} login flow did not return a bearer token",
-                },
-                status_code=500,
-            )
-        # We now have a logged in user, so let's do our best to do something useful
-        provider_data = token_to_data(login_result)
+    except OAuth2Error as e:
+        detail = e.description or e.error or str(e)
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": f"{method} login flow had an error: {repr(detail)}",
+            },
+            status_code=500,
+        )
+    except httpx.HTTPError as e:
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": f"{method} login flow had an error: {repr(str(e))}",
+            },
+            status_code=500,
+        )
+
+    if (
+        login_result.get("token_type", "").lower() != "bearer"
+        or "access_token" not in login_result
+    ):
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": f"{method} login flow did not return a bearer token",
+            },
+            status_code=500,
+        )
+
+    # We now have a logged in user, so let's do our best to do something useful
+    provider_data = token_to_data(login_result)
+
+    with get_db("writer") as db:
         # Do we have a provider's user noted with this ID already?
         account = account_model.by_provider_id(db, provider_data.id)
         if account is None:
@@ -879,7 +790,8 @@ def continue_oauth_flow(
 
         # Let's find the set of repos the user has write access to in the flathub
         # org since we have a functional token
-        postlogin_handler(login_result, account)
+        if postlogin_handler is not None:
+            postlogin_handler(login_result, account)
 
         payload = {
             "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
@@ -920,7 +832,7 @@ class Auths(BaseModel):
     google: AuthInfo | None = None
 
 
-class Permission(str, Enum):
+class Permission(StrEnum):
     QUALITY_MODERATION = "quality-moderation"
     MODERATION = "moderation"
     PAYMENT = "payment"
@@ -1086,10 +998,7 @@ def do_logout(request: Request, login: LoginStatusDep):
 
         if login.state.logging_in():
             # Also clear any pending login-flow from the session
-            if "active-login-flow" in request.session:
-                del request.session["active-login-flow"]
-            if "active-login-flow-intermediate" in request.session:
-                del request.session["active-login-flow-intermediate"]
+            _clear_oauth_session(request)
 
     except KeyError as e:
         raise HTTPException(status_code=500, detail=f"Session error: {str(e)}")

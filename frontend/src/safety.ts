@@ -571,8 +571,8 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
 
   // pipewire access
   if (
-    permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-run/pipewire-0",
+    permissions.filesystems?.some((x) =>
+      fsValueMatchesPrefix(x, "xdg-run/pipewire-0"),
     )
   ) {
     appSafetyRating.push(microphoneAccess)
@@ -720,7 +720,7 @@ function specificFileHandling(
       x.toLowerCase() !== "xdg-download:rw" &&
       x.toLowerCase() !== "xdg-download:ro" &&
       x.toLowerCase() !== "xdg-config/kdeglobals:ro" &&
-      x.toLowerCase() !== "xdg-run/pipewire-0",
+      !fsValueMatchesPrefix(x, "xdg-run/pipewire-0"),
   )
 
   if (prefilteredPermissions?.length > 0) {

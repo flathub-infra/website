@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Link } from "src/i18n/navigation"
 
+export const dynamic = "force-static"
+
 export async function generateMetadata({
   params,
 }: {

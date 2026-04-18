@@ -20,9 +20,10 @@ import {
 } from "../../../src/codegen"
 import { formatISO } from "date-fns"
 import HomeClient from "../home-client"
-import { setRequestLocale } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { staticLocales } from "../../../src/i18n/static-locales"
 import { gameCategoryFilter } from "../../../src/types/Category"
+import cardImage from "../../../public/img/card.webp"
 
 const categoryOrder = [
   MainCategory.office,
@@ -51,10 +52,32 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
+  const t = await getTranslations({ locale })
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"
 
   return {
+    title: t("flathub-apps-for-linux"),
+    description: t("flathub-description"),
+    openGraph: {
+      title: t("flathub-apps-for-linux"),
+      description: t("flathub-description"),
+      url: `${siteUrl}/${locale}`,
+      images: [
+        {
+          url: cardImage.src,
+          width: cardImage.width,
+          height: cardImage.height,
+          alt: t("flathub-apps-for-linux"),
+        },
+      ],
+    },
+    twitter: {
+      title: t("flathub-apps-for-linux"),
+      description: t("flathub-description"),
+      images: [cardImage.src],
+    },
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}`,
+      canonical: `${siteUrl}/${locale}`,
     },
   }
 }
