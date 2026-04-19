@@ -8,7 +8,7 @@ from typing import Any
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from github import Github
+from github import Github, GithubException
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
@@ -79,6 +79,17 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     if not repo:
         return
 
+    recent_merged_by = None
+    try:
+        prs = repo.get_pulls(state="closed", sort="updated", direction="desc")
+        latest_pr = next((pr for pr in prs if pr.merged_at), None)
+        if latest_pr and latest_pr.merged_by:
+            login = latest_pr.merged_by.login
+            if login not in ("web-flow", "flathubbot", "github-actions[bot]"):
+                recent_merged_by = login
+    except GithubException:
+        pass
+
     title = f"Change in build {build_id} rejected"
     body = (
         f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team (@flathub/build-moderation), and rejected for the following reason:\n"
@@ -96,7 +107,15 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
         new_val = request_data["keys"][field]
         body += f"| {field} | {old_val} | {new_val} |\n"
 
-    return repo.create_issue(title=title, body=body)
+    ret = repo.create_issue(title=title, body=body)
+
+    if recent_merged_by:
+        try:
+            ret.add_to_assignees(recent_merged_by)
+        except GithubException:
+            pass
+
+    return ret
 
 
 def sort_lists_in_dict(data: dict) -> dict:
