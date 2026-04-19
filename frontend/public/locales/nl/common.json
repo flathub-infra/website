@@ -762,5 +762,18 @@
     "none-language": "Bevat geen vloek­woorden of vulgaire taal",
     "none-social": "Geen sociale functies",
     "none-money": "Bevat geen reclame of financiële transacties"
-  }
+  },
+  "trending-apps-description": "Linux-apps die de afgelopen twee weken de meeste installaties hebben gekregen op Flathub.",
+  "popular-apps-description": "De meest geïnstalleerde Linux-apps op Flathub van de afgelopen maand.",
+  "verified-apps-description": "Apps op Flathub waarvan de identiteit van de ontwikkelaar is geverifieerd.",
+  "audio-and-video-description": "Muziek­spelers, video­bewerkers, podcast­tools en multimedia-apps voor Linux.",
+  "developer-tools-description": "IDE's, code-editors, terminals en ontwikkel­gereedschap voor Linux.",
+  "games-description": "Games, emulators en game-launchers voor Linux.",
+  "graphics-and-photography-description": "Afbeeldings­bewerkers, illustratie­gereedschap en fotografie-apps voor Linux.",
+  "networking-description": "Webbrowsers, e-mail-cliënten, VPN-tools en andere netwerk-apps voor Linux.",
+  "productivity-description": "Kantoor­suites, notitie-apps, projectbeheer-apps en productiviteits-apps voor Linux.",
+  "utilities-description": "Systeem­hulpprogramma’s, bestands­beheerders, reken­machines en handige tools voor dagelijks gebruik onder Linux.",
+  "science-description": "Weten­schappelijke berekenings-, gegevens­analyse- en onderzoeks-apps voor Linux.",
+  "education-description": "Leer-apps, taal­gereedschap en educatieve software voor Linux.",
+  "system-description": "Gereedschap voor systeembeheer, monitoring en administratie voor Linux."
 }
