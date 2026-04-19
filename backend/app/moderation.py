@@ -74,6 +74,7 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     build_id = request.build_id
     build_log_url = request.build_log_url
     comment = request.comment
+    quoted_comment = "\n".join(f"> {line}" for line in comment.rstrip().splitlines())
 
     repo = gh.get_repo(f"flathub/{app_id}")
     if not repo:
@@ -94,7 +95,7 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     body = (
         f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team (@flathub/build-moderation), and rejected for the following reason:\n"
         "\n"
-        f"> {comment}"
+        f"{quoted_comment}\n"
         "\n"
         "## Changes\n"
         "| Field | Old value | New value |\n"
