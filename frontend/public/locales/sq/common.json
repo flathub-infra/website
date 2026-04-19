@@ -749,5 +749,9 @@
     "none-language": "S’përmban",
     "none-social": "Pa veçori shoqërorësh",
     "none-money": "S’përmban reklama, apo transaksione monetare"
-  }
+  },
+  "trending-apps-description": "Aplikacione Linux me më shumë instalime në Flathub përgjatë dy javëve të kaluara.",
+  "popular-apps-description": "Aplikacionet Linux më të instaluara në Flathub gjatë muajit të kaluar.",
+  "verified-apps-description": "Aplikacione në Flathub për zhvilluesit e të cilëve është verifikuar identiteti.",
+  "audio-and-video-description": "Lojtës muzike, përpunues videosh, mjete “podcasting” dhe aplikacione multimedia për Linux."
 }
