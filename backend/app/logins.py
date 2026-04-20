@@ -13,6 +13,7 @@ from datetime import UTC, datetime, timedelta
 from enum import StrEnum
 
 import httpx
+from authlib.integrations.base_client.errors import OAuthError
 from authlib.oauth2.base import OAuth2Error
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
@@ -694,7 +695,7 @@ def continue_oauth_flow(
                 provider.token_url,
                 code=data.code,
             )
-    except OAuth2Error as e:
+    except (OAuth2Error, OAuthError) as e:
         detail = e.description or e.error or str(e)
         return JSONResponse(
             {
