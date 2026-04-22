@@ -65,6 +65,9 @@ export default typescriptEslint.config(
       "prettier/prettier": "error",
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
+      // New rules added in eslint-plugin-react-hooks v7 — downgraded until addressed
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/error-boundaries": "warn",
     },
   },
   prettierConfig,
