@@ -541,5 +541,8 @@
   },
   "all-the-apps-you-want": "<bold>Todas as aplicacións que queira</bold> — Desde grandes nomes ata desenolvedores independentes, Flathub ten miles de aplicacións para satisfacer as súas necesidades.",
   "confirm-selection": "Confirmar selección",
-  "no-permissions": "Sen permisos"
+  "no-permissions": "Sen permisos",
+  "lightbox": {
+    "screenshot": "Captura de pantalla"
+  }
 }

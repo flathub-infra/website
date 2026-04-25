@@ -621,8 +621,8 @@
   "mobile-apps-description": "Aplikace pro vaše linuxové telefony a tablety",
   "more-mobile-apps": "Více z Mobilních aplikací",
   "on-the-go": "Na cestách",
-  "favorite": "Oblíbené",
-  "favorite-apps": "Oblíbené",
+  "favorite": "Přidat do záložek",
+  "favorite-apps": "Záložky",
   "quality": {
     "banner-preview": "Náhled banneru",
     "missing-brand-colors": "Chybí barvy značky",
@@ -674,9 +674,9 @@
   "unauthorized": "Neautorizované",
   "developed-by": "vyvinuto vývojářem {developer}",
   "unverified-tooltip": "Vlastnictví ID aplikace <appid></appid> nebylo ověřeno a může se jednat o komunitní balíček",
-  "install-all-favorites": "Nainstalovat všechny oblíbené",
-  "install-all-favorites-description": "Zkopírujte tento příkaz pro instalaci všech vašich aplikací najednou:",
-  "no-favorites-yet": "Zatím nemáte žádné oblíbené aplikace. Začněte je přidávat kliknutím na ikonu záložky u aplikací, které se vám líbí!",
+  "install-all-favorites": "Instalace všech aplikací v záložkách",
+  "install-all-favorites-description": "Zkopírujte tento příkaz pro instalaci všech vašich aplikací v záložkách najednou:",
+  "no-favorites-yet": "Zatím v záložkách nemáte žádné aplikace. Začněte je přidávat kliknutím na ikonu záložky u aplikací, které se vám líbí!",
   "vending": {
     "purchase-not-available": "Tato aplikace není k dispozici ke koupi."
   },
@@ -736,8 +736,8 @@
     "amount-to-download": "Množství ke stažení z internetu",
     "size-on-disk": "Velikost na disku",
     "installed-runtime-size": "Velikost instalace běhového prostředí",
-    "appname-works-best-on-specific-hardware": "{appName} funguje nejlépe na konkrétním hardwaru",
-    "appname-works-on-all-devices": "{appName} funguje na všech zařízeních",
+    "appname-works-best-on-specific-hardware": "Aplikace {appName} funguje nejlépe na konkrétním hardwaru",
+    "appname-works-on-all-devices": "Aplikace {appName} funguje na všech zařízeních",
     "mobile-support": "Podpora pro mobily",
     "desktop-support": "Podpora pro počítače",
     "works-well-on-large-screens": "Funguje dobře na velkých obrazovkách",
@@ -762,5 +762,18 @@
     "category-language": "Hrubý jazyk",
     "category-social": "Sociální funkce",
     "none-language": "Neobsahuje žádné nadávky ani vulgární výrazy"
-  }
+  },
+  "trending-apps-description": "Aplikace pro Linux, které na Flathubu za poslední dva týdny získaly nejvíce instalací.",
+  "popular-apps-description": "Nejvíce instalované aplikace pro Linux na Flathubu za poslední měsíc.",
+  "verified-apps-description": "Aplikace na Flathubu, u kterých byla ověřena identita vývojáře.",
+  "audio-and-video-description": "Hudební přehrávače, video editory, nástroje pro podcasty a multimediální aplikace pro Linux.",
+  "developer-tools-description": "IDE, editory kódu, terminály a vývojářské nástroje pro Linux.",
+  "games-description": "Hry, emulátory a spouštěče her pro Linux.",
+  "graphics-and-photography-description": "Editory obrázků, nástroje pro ilustraci a fotografické aplikace pro Linux.",
+  "networking-description": "Webové prohlížeče, e-mailové klienty, VPN nástroje a další síťové aplikace pro Linux.",
+  "productivity-description": "Kancelářské balíky, aplikace pro poznámky, správu projektů a produktivitu pro Linux.",
+  "utilities-description": "Systémové nástroje, správci souborů, kalkulačky a každodenní nástroje pro Linux.",
+  "science-description": "Vědecké výpočty, analýza dat a výzkumné aplikace pro Linux.",
+  "education-description": "Výukové aplikace, jazykové nástroje a vzdělávací software pro Linux.",
+  "system-description": "Správa systému, monitorování a administrátorské nástroje pro Linux."
 }
