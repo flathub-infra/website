@@ -56,6 +56,30 @@ const ConsultantsClient = (): JSX.Element => {
         for more details and contact information.
       </p>
 
+      <h2>Hylke Bons</h2>
+
+      <p>
+        Hylke Bons is a product designer and maintainer of{" "}
+        <a target="_blank" rel="noreferrer" href="https://sparkleshare.org/">
+          SparkleShare
+        </a>{" "}
+        and{" "}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://planetpeanut.studio/bobby"
+        >
+          Bobby
+        </a>
+        . Funded by community sponsors, he provides
+        free design services such as application icon
+        creation for Free and Open Source projects. See{" "}
+        <a target="_blank" rel="noreferrer" href="https://planetpeanut.studio/">
+          his website
+        </a>{" "}
+        for more details and contact information.
+      </p>
+
       <h2>Mazhar Hussain</h2>
 
       <p>
