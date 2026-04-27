@@ -27,7 +27,7 @@ dependencies = [
     "python-multipart<1.0.0,>=0.0.20",
     "dramatiq[redis,watch,prometheus_client]>=2.1.0,<3.0.0",
     "sqlalchemy==2.0.49",
-    "pydantic-settings<3.0.0,>=2.8.0",
+    "pydantic-settings>=2.14.0,<3.0.0",
     "publicsuffixlist>=1.0.2.20260417,<2.0.0.0",
     "httpx<1.0.0,>=0.28.1",
     "apscheduler==3.11.2",
