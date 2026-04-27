@@ -32,6 +32,21 @@ jobs:
       - name: Check for code errors
         run: uvx ruff check .
 
+  unittests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Run unit tests
+        run: uv run --only-group dev pytest tests/unit/ -v
+
   smoketests:
     runs-on: ubuntu-latest
     defaults:
