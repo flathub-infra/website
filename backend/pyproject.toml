@@ -39,7 +39,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "ruff>=0.15.11,<1.0.0",
+    "ruff>=0.15.12,<1.0.0",
     "pytest>=9.0.3,<10.0.0",
     "pytest-insta<1.0.0,>=0.3.0",
     "watchgod<1.0,>=0.8",
