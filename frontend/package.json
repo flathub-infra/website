@@ -103,7 +103,7 @@
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-storybook": "^10.2.15",
+    "eslint-plugin-storybook": "^10.3.5",
     "globals": "^17.5.0",
     "msw": "^2.13.4",
     "msw-storybook-addon": "^2.0.7",
