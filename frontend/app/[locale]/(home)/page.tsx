@@ -34,6 +34,7 @@ const categoryOrder = [
   MainCategory.network,
   MainCategory.development,
   MainCategory.science,
+  MainCategory.healthfitness,
   MainCategory.system,
   MainCategory.utility,
 ]
