@@ -214,8 +214,6 @@ export async function GET(
             }}
           >
             <img
-              width={screenshot.width}
-              height={screenshot.height}
               style={{
                 display: "flex",
                 width: "680px",
@@ -237,8 +235,6 @@ export async function GET(
             }}
           >
             <img
-              width={screenshot.width}
-              height={screenshot.height}
               style={{
                 display: "flex",
                 height: "450px",
