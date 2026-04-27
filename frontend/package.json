@@ -113,7 +113,7 @@
     "postcss": "^8.5.12",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.7.1",
-    "redis": "4.7.0",
+    "redis": "5.12.1",
     "simple-git": "^3.36.0",
     "storybook": "^10.3.5",
     "storybook-addon-mock-date": "^2.0.0",
