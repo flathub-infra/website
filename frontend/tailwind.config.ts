@@ -142,7 +142,7 @@ export default {
       },
       gridTemplateColumns: {
         details: "auto 90% auto",
-        details2xl: "auto 1400px auto",
+        details2xl: "auto 1024px auto",
       },
     },
   },
