@@ -751,5 +751,18 @@
     "none-language": "Ei sisällä kiroilua tai alatyylistä kielenkäyttöä",
     "none-social": "Ei sosiaalisia ominaisuuksia",
     "none-money": "Ei sisällä mainostamista tai rahansiirtoa"
-  }
+  },
+  "trending-apps-description": "Linux-sovellukset, jotka ovat olleet eniten asennettuja Flathubista viimeisen kahden viikon aikana.",
+  "popular-apps-description": "Eniten asennetut Linux-sovellukset Flathubista viimeisen kuukauden aikana.",
+  "verified-apps-description": "Sovellukset Flathubissa, joiden kehittäjän henkilöys on vahvistettu.",
+  "audio-and-video-description": "Musiikkisoittimet, videoeditorit, podcast-työkalut ja multimediasovellukset Linuxille.",
+  "developer-tools-description": "Sovelluskehitysympäristöt, koodieditorit, päätteet ja kehittäjätyökalut Linuxille.",
+  "games-description": "Pelit, emulaattorit ja pelikäynnistimet Linuxille.",
+  "graphics-and-photography-description": "Kuvaeditorit, kuvitystyökalut ja valokuvasovellukset Linuxille.",
+  "networking-description": "Verkkoselaimet, sähköpostisovellukset, VPN-työkalut ja muut verkkotyökalut Linuxille.",
+  "productivity-description": "Toimisto-ohjelmistot, muistiinpanot, projektinhallinta ja tuottavuussovellukset Linuxille.",
+  "utilities-description": "Järjestelmätyökalut, tiedostonhallintasovellukset, laskimet ja arkiset työkalut Linuxille.",
+  "science-description": "Tieteellistä laskentaa, data-analyysia ja tutkimussovelluksia Linuxille.",
+  "education-description": "Oppimissovellukset, kielityökalut ja koulutukseen tarkoitetut ohjelmistot Linuxille.",
+  "system-description": "Järjestelmänhallinta, -valvonta ja ylläpitotyökalut Linuxille."
 }

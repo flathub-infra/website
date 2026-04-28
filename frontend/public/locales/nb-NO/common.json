@@ -763,5 +763,17 @@
     "none-social": "Ingen sosiale funksjoner",
     "none-money": "Inneholder ingen reklame eller handlinger som involverer penger"
   },
-  "games-description": "Spill, emulatorer og spillprogram til Linux."
+  "games-description": "Spill, emulatorer og spillprogram til Linux.",
+  "trending-apps-description": "Linux-apper som har blitt installert mest gjennom Flathub i løpet av de siste to ukene.",
+  "popular-apps-description": "De hyppigst installerte Linux-appene på Flathub i løpet av den siste måneden.",
+  "verified-apps-description": "Apper på Flathub med en verifisert utvikler.",
+  "audio-and-video-description": "Musikkspillere, videoredigeringsprogrammer, podkasingverktøy, og andre multimediaapper til Linux.",
+  "developer-tools-description": "IDE-er, koderedigeringsprogrammer, terminalprogrammer og utviklerverktøy til Linux.",
+  "graphics-and-photography-description": "Bilderedigeringsprogrammer, illustrasjonsverktøy og fotografiapper til Linux.",
+  "networking-description": "Nettleser, e-post-klienter, VPN-verktøy og andre nettverksapper til Linux.",
+  "productivity-description": "Kontorprogrammer, skriveprogrammer, prosjektledelse og produktivitetsapper til Linux.",
+  "utilities-description": "Systemverktøy, filprogrammer, kalkulatorer og andre hverdagslige verktøy til Linux.",
+  "science-description": "Programmer til vitenskapelig utregning, dataanalyse og forskning til Linux.",
+  "education-description": "Læreapper, språkverktøy og utdanningsprogramvare til Linux.",
+  "system-description": "Systemadministrasjon, overvåking og administrative verktøy til Linux."
 }
