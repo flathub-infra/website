@@ -1,10 +1,13 @@
 import datetime
 import gzip
 import json
+import logging
 import re
 import struct
 from collections import defaultdict
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 import gi
 import httpx
@@ -64,6 +67,11 @@ def parse_eol_data(metadata):
         ):
             if "eolr" in eol_dict:
                 new_id = eol_dict["eolr"].split("/")[1]
+                if new_id == app_id:
+                    logger.warning(
+                        "Skipping self-referential eolr for %s/%s", app_id, branch
+                    )
+                    continue
                 if new_id in eol_rebase:
                     app_id_with_branch = f"{app_id}:{branch}"
                     if app_id_with_branch not in eol_rebase[new_id]:
@@ -488,8 +496,11 @@ def update(sqldb) -> None:
 
         processed_rebases[new_app_id] = processed_old_ids
 
-    for new_app_id, old_ids in processed_rebases.items():
-        models.AppEolRebase.set_rebases(sqldb, new_app_id, old_ids)
+    try:
+        models.AppEolRebase.reconcile(sqldb, processed_rebases)
+    except Exception:
+        sqldb.session.rollback()
+        logger.exception("Error reconciling EOL rebases")
 
     reverse_lookup = {}
     for ref in metadata["xa.cache"]:

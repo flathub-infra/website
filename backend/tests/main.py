@@ -1761,3 +1761,78 @@ def test_is_free_software_non_free_software(client):
     )
     assert response.status_code == 200
     assert response.text == "false"
+
+
+def test_parse_eol_data_skips_self_reference():
+    from app.summary import parse_eol_data
+
+    metadata = {
+        "xa.sparse-cache": {
+            "app/com.example.Self/x86_64/stable": {
+                "eolr": "stable/com.example.Self"
+            },
+        }
+    }
+    eol_rebase, eol_message = parse_eol_data(metadata)
+    assert eol_rebase == {}
+    assert "com.example.Self" not in eol_rebase
+
+
+def test_parse_eol_data_simple_chain():
+    from app.summary import parse_eol_data
+
+    metadata = {
+        "xa.sparse-cache": {
+            "app/com.example.Old/x86_64/stable": {"eolr": "stable/com.example.New"},
+        }
+    }
+    eol_rebase, _ = parse_eol_data(metadata)
+    assert eol_rebase == {"com.example.New": ["com.example.Old:stable"]}
+
+
+def test_parse_eol_data_multi_step_chain_collapses():
+    from app.summary import parse_eol_data
+
+    metadata = {
+        "xa.sparse-cache": {
+            "app/com.example.A/x86_64/stable": {"eolr": "stable/com.example.B"},
+            "app/com.example.B/x86_64/stable": {"eolr": "stable/com.example.C"},
+        }
+    }
+    eol_rebase, _ = parse_eol_data(metadata)
+    assert set(eol_rebase.keys()) == {"com.example.C"}
+    assert set(eol_rebase["com.example.C"]) == {
+        "com.example.A:stable",
+        "com.example.B:stable",
+    }
+
+
+def test_app_eol_rebase_reconcile_deletes_stale_rows():
+    from app import models
+    from app.database import get_db
+
+    keep_id = "com.example.ReconcileKeep"
+    stale_id = "com.example.ReconcileStale"
+
+    with get_db("writer") as sqldb:
+        models.AppEolRebase.set_rebases(sqldb, keep_id, ["old.keep.one"])
+        models.AppEolRebase.set_rebases(sqldb, stale_id, ["old.stale.one"])
+
+    try:
+        with get_db("writer") as sqldb:
+            models.AppEolRebase.reconcile(
+                sqldb, {keep_id: ["old.keep.one", "old.keep.two"]}
+            )
+
+        with get_db("writer") as sqldb:
+            assert (
+                models.AppEolRebase.get_old_app_ids(sqldb, keep_id)
+                == ["old.keep.one", "old.keep.two"]
+            )
+            assert models.AppEolRebase.get_old_app_ids(sqldb, stale_id) == []
+    finally:
+        with get_db("writer") as sqldb:
+            sqldb.query(models.AppEolRebase).filter(
+                models.AppEolRebase.app_id.in_([keep_id, stale_id])
+            ).delete(synchronize_session=False)
+            sqldb.commit()

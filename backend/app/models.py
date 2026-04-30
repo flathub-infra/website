@@ -3209,6 +3209,18 @@ class AppEolRebase(Base):
         rebases = db.query(cls).all()
         return {rebase.app_id: rebase.old_app_ids for rebase in rebases}
 
+    @classmethod
+    def reconcile(cls, db, current: dict[str, list[str]]) -> None:
+        existing_app_ids = {row[0] for row in db.query(cls.app_id).all()}
+        for app_id, old_app_ids in current.items():
+            cls.set_rebases(db, app_id, old_app_ids)
+        stale = existing_app_ids - current.keys()
+        if stale:
+            db.query(cls).filter(cls.app_id.in_(stale)).delete(
+                synchronize_session=False
+            )
+            db.commit()
+
 
 class AppExtensionLookup(Base):
     """Maps extension IDs to their parent app IDs for flathub-hooks"""
