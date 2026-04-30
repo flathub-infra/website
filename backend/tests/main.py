@@ -1788,7 +1788,7 @@ def test_parse_eol_data_simple_chain():
     assert eol_rebase == {"com.example.New": ["com.example.Old:stable"]}
 
 
-def test_parse_eol_data_multi_step_chain_collapses():
+def test_parse_eol_data_records_direct_pointers():
     from app.summary import parse_eol_data
 
     metadata = {
@@ -1798,10 +1798,9 @@ def test_parse_eol_data_multi_step_chain_collapses():
         }
     }
     eol_rebase, _ = parse_eol_data(metadata)
-    assert set(eol_rebase.keys()) == {"com.example.C"}
-    assert set(eol_rebase["com.example.C"]) == {
-        "com.example.A:stable",
-        "com.example.B:stable",
+    assert eol_rebase == {
+        "com.example.B": ["com.example.A:stable"],
+        "com.example.C": ["com.example.B:stable"],
     }
 
 
