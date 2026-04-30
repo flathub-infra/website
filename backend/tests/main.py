@@ -1768,9 +1768,7 @@ def test_parse_eol_data_skips_self_reference():
 
     metadata = {
         "xa.sparse-cache": {
-            "app/com.example.Self/x86_64/stable": {
-                "eolr": "stable/com.example.Self"
-            },
+            "app/com.example.Self/x86_64/stable": {"eolr": "stable/com.example.Self"},
         }
     }
     eol_rebase, eol_message = parse_eol_data(metadata)
@@ -1825,10 +1823,10 @@ def test_app_eol_rebase_reconcile_deletes_stale_rows():
             )
 
         with get_db("writer") as sqldb:
-            assert (
-                models.AppEolRebase.get_old_app_ids(sqldb, keep_id)
-                == ["old.keep.one", "old.keep.two"]
-            )
+            assert models.AppEolRebase.get_old_app_ids(sqldb, keep_id) == [
+                "old.keep.one",
+                "old.keep.two",
+            ]
             assert models.AppEolRebase.get_old_app_ids(sqldb, stale_id) == []
     finally:
         with get_db("writer") as sqldb:
