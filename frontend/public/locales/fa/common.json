@@ -43,7 +43,7 @@
   "loading-user-apps": "بار کردن کاره‌های کاربر…",
   "authored-apps": "برنامه‌های نگاشته",
   "owned-apps": "کاره‌های داشته",
-  "app-logo": "لوگوی {app_name}",
+  "app-logo": "نشان {app_name}",
   "count-downloads": "مجموع بارگیری‌ها",
   "since": "شروع از",
   "downloads-over-time": "بارگیری‌ها در طول زمان",

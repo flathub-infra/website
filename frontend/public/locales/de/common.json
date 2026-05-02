@@ -627,8 +627,8 @@
     "banner-preview-description": "Um leicht mit deinem Banner zu experimentieren, verwende <preview>die Bannervorschau</preview>",
     "banner-preview": "Bannervorschau"
   },
-  "favorite": "Favorit",
-  "favorite-apps": "Favoriten",
+  "favorite": "Lesezeichen",
+  "favorite-apps": "Lesezeichen",
   "we-love-games": "Wir ♥ Spiele",
   "emulator": "Emulatoren",
   "gameemulator": "Emulatoren",
@@ -674,7 +674,7 @@
   "uses-non-portal-service": "Nutzt Nicht-Portal Dienste",
   "can-talk-to-non-portal-service": "Kann Daten von Nicht-Portal-Diensten anfordern und zusätzliche Berechtigungen erhalten",
   "socket-may-allow-extra-permissions": "Verwendet einen Socket, der zusätzliche Berechtigungen ermöglicht",
-  "install-all-favorites": "Alle Favoriten installieren",
+  "install-all-favorites": "Alle Lesezeichen installieren",
   "install-all-favorites-description": "Kopieren Sie diesen Befehl, um alle Ihre Lieblings-Apps auf einmal zu installieren:",
   "no-favorites-yet": "Sie haben noch keine Lieblings-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!",
   "vending": {
@@ -762,5 +762,16 @@
     "none-language": "Enthält keine Schimpfwörter oder vulgäre Sprache",
     "none-money": "Enthält keine Werbung oder Geldtransaktionen",
     "none-social": "Keine Funktionen für soziale Netzwerke"
-  }
+  },
+  "trending-apps-description": "Die Linux-Apps mit den meisten Installationen auf Flathub in den letzten zwei Wochen.",
+  "popular-apps-description": "Die am häufigsten installierten Linux-Apps auf Flathub im letzten Monat.",
+  "verified-apps-description": "Apps auf Flathub, bei denen die Identität des Entwicklers verifiziert wurde.",
+  "developer-tools-description": "IDEs, Code-Editoren, Terminals und Entwicklerwerkzeuge für Linux.",
+  "graphics-and-photography-description": "Bildbearbeitungsprogramme, Illustrationswerkzeuge und Foto-Apps für Linux.",
+  "networking-description": "Webbrowser, E-Mail-Programme, VPN-Werkzeuge und andere Netzwerk-Apps für Linux.",
+  "productivity-description": "Office-Pakete, Notiz-Apps, Projektmanagement- und Produktivitäts-Apps für Linux.",
+  "utilities-description": "Systemdienstprogramme, Dateimanager, Taschenrechner und alltägliche Werkzeuge für Linux.",
+  "science-description": "Wissenschaftliches Rechnen, Datenanalyse und Forschungsanwendungen für Linux.",
+  "education-description": "Lern-Apps, Sprachwerkzeuge und Lernsoftware für Linux.",
+  "system-description": "Werkzeuge für die Systemverwaltung, -überwachung und -administration für Linux."
 }
