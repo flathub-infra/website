@@ -13,7 +13,7 @@
   "ubuntu": {
     "step-3": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳場所。要啟用它，請執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。要啟用它，請執行：</text> <code></code>"
     },
     "step-4": {
       "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>",
@@ -31,7 +31,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak 預設已安裝於 Fedora Workstation、Fedora Silverblue 及 Fedora Kinoite 系統中。開始使用時，您只需啟用 Flathub 即可——這是獲取 Flatpak 應用程式的最佳途徑。Flathub 已預先配置為<repolink>第三方軟體庫</repolink>的一部分。您亦可下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>現在您只需<applink>安裝應用程式</applink>即可！</text> <text>上述連結應適用於預設的 GNOME 與 KDE Fedora 系統，若因故無法運作，可手動執行以下指令新增 Flathub 遠端軟體庫：</text> <code></code>"
+    "introduction": "<text>Flatpak 預設已安裝於 Fedora Workstation、Fedora Silverblue 及 Fedora Kinoite 系統中。開始使用時，您只需啟用 Flathub 即可——這是取得 Flatpak 應用程式的最佳途徑。Flathub 已預先配置為<repolink>第三方軟體庫</repolink>的一部分。您亦可下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>現在您只需<applink>安裝應用程式</applink>即可！</text> <text>上述連結應適用於預設的 GNOME 與 KDE Fedora 系統，若因故無法運作，可手動執行以下指令新增 Flathub 遠端軟體庫：</text> <code></code>"
   },
   "endless_os": {
     "introduction": "<text>Endless OS 3.0.0 及更新版本內建 Flatpak 支援 - 無需設定！ </text>",
@@ -49,7 +49,7 @@
     },
     "step-2": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的好地方。若要在您的 Alt 系統上啟用它，請執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的好地方。若要在您的 Alt 系統上啟用它，請執行：</text> <code></code>"
     }
   },
   "chrome_os": {
@@ -57,7 +57,7 @@
       "name": "安裝 Flatpak",
       "text": "<text>要安裝 Flatpak，請在終端機中執行下列指令：</text> <code></code>"
     },
-    "introduction": "<text>Flatpak 應用程式可以透過 Crostini Linux 相容層安裝在 ChromeOS 上。此功能並不適用於所有 ChromeOS 設備，因此在繼續操作之前，您應確保您的裝置相容。相容設備的清單保存在<link>此處</link>。</text>",
+    "introduction": "<text>Flatpak 應用程式可以透過 Crostini Linux 相容層安裝在 ChromeOS 上。此功能並不適用於所有 ChromeOS 裝置，因此在繼續操作之前，您應確保您的裝置相容。相容裝置的清單儲存在<link>此處</link>。</text>",
     "step-1": {
       "name": "啟用 Linux 支援",
       "text": "<text>導覽至 <settingslink>chrome://os-settings</settingslink>，向下捲動至<strong>開發人員</strong>並開啟 <em>Linux 開發環境</em>。 ChromeOS 將需要一些時間下載並安裝 Linux。</text>"
@@ -67,12 +67,12 @@
       "name": "啟動 Linux 終端"
     },
     "step-5": {
-      "text": "<text>要完成設置，請重新啟動 Linux。您可以透過右鍵單擊終端，然後按一下「關閉 Linux」來執行此操作。現在您要做的就是<link>安裝應用程式</link>！</text>",
+      "text": "<text>要完成設定，請重新啟動 Linux。您可以透過右鍵單擊終端，然後按一下「關閉 Linux」來執行此操作。現在您要做的就是<link>安裝應用程式</link>！</text>",
       "name": "重啟"
     },
     "step-4": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳場所。要啟用它，請執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。要啟用它，請執行：</text> <code></code>"
     },
     "distroName": "ChromeOS"
   },
@@ -82,7 +82,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak 預設已安裝於 Red Hat Enterprise Linux Workstation 9 及更新版本。開始使用時，您只需啟用 Flathub，這是獲取 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>若要在 Red Hat Enterprise Linux Workstation 8 或更舊版本安裝 Flatpak，請在終端機執行以下指令：</text>  <code></code> <text>現在您只需<link>安裝應用程式</link>即可！</text> <text>上述連結應可在預設安裝的 Red Hat Enterprise Linux Workstation 9 上運作，若因故失敗，可手動執行以下指令新增 Flathub 遠端軟體庫：</text> <codeAddRemote></codeAddRemote>"
+    "introduction": "<text>Flatpak 預設已安裝於 Red Hat Enterprise Linux Workstation 9 及更新版本。開始使用時，您只需啟用 Flathub，這是取得 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>若要在 Red Hat Enterprise Linux Workstation 8 或更舊版本安裝 Flatpak，請在終端機執行以下指令：</text>  <code></code> <text>現在您只需<link>安裝應用程式</link>即可！</text> <text>上述連結應可在預設安裝的 Red Hat Enterprise Linux Workstation 9 上運作，若因故失敗，可手動執行以下指令新增 Flathub 遠端軟體庫：</text> <codeAddRemote></codeAddRemote>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -96,12 +96,12 @@
     },
     "step-2": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>"
     }
   },
   "mageia": {
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "distroName": "Mageia",
@@ -122,7 +122,7 @@
     "distroName": "Debian",
     "step-3": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text> <code></code>"
     },
     "step-2": {
       "text": "<text>如果您正在使用的是 GNOME 桌面環境，建議同時安裝 GNOME Software 的 Flatpak 外掛程式。請執行以下指令：</text> <code></code> <text>如果您正在使用的是 KDE 桌面環境，則應改為安裝 Plasma Discover 的 Flatpak 後端：</text> <codeDiscover></codeDiscover>",
@@ -135,7 +135,7 @@
   },
   "rocky_linux": {
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "distroName": "Rocky Linux",
@@ -171,7 +171,7 @@
     },
     "step-3": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。若要啟用此功能，請開啟 Discover，前往設定並新增 Flathub 軟體庫。</text>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。若要啟用此功能，請開啟 Discover，前往設定並新增 Flathub 軟體庫。</text>"
     },
     "step-2": {
       "text": "<text>要將 Flatpak 支援整合至 Plasma 系統設定，請開啟終端機應用程式並執行：</text> <code></code>",
@@ -184,7 +184,7 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>PureOS 預設已安裝 Flatpak。要開始使用，您只需啟用 Flathub——這是獲取 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>即可。</text> <text>現在您只需<link>安裝應用程式</link>！</text>"
+    "introduction": "<text>PureOS 預設已安裝 Flatpak。要開始使用，您只需啟用 Flathub——這是取得 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>即可。</text> <text>現在您只需<link>安裝應用程式</link>！</text>"
   },
   "gnu_guix": {
     "step-1": {
@@ -192,7 +192,7 @@
       "name": "安裝 Flatpak"
     },
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
@@ -212,7 +212,7 @@
     },
     "distroName": "Gentoo",
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     }
   },
@@ -231,7 +231,7 @@
       "name": "安裝 Software Flatpak 外掛程式"
     },
     "step-3": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     }
   },
@@ -241,7 +241,7 @@
       "name": "安裝 Flatpak"
     },
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
@@ -252,7 +252,7 @@
   },
   "nixos": {
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請執行以下指令：</text><code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請執行以下指令：</text><code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
@@ -267,16 +267,16 @@
   },
   "raspberry_pi_os": {
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請執行以下指令：</text><code></code> <text><strong>重要提示：</strong>建議使用樹莓派作業系統 64 位元版本，因較新的應用程式往往僅支援此平台。</text>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請執行以下指令：</text><code></code> <text><strong>重要提示：</strong>建議使用 Raspberry Pi OS 64 位元版本，因較新的應用程式往往僅支援此平台。</text>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-1": {
-      "text": "<text>在 Raspberry Pi 作業系統（舊稱 Raspbian）Stretch 及更新版本中，可獲取 Flatpak 軟體包。若要安裝，請以 root 身分執行以下指令：</text> <code></code>",
+      "text": "<text>在 Raspberry Pi 作業系統（舊稱 Raspbian）Stretch 及更新版本中，可取得 Flatpak 軟體包。若要安裝，請以 root 身分執行以下指令：</text> <code></code>",
       "name": "安裝 Flatpak"
     },
     "distroName": "Raspberry Pi OS",
     "step-3": {
-      "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text> <text>注意：在樹莓派作業系統上，可能無法透過圖形介面安裝 Flatpak 應用程式。</text>",
+      "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text> <text>注意：在 Raspberry Pi OS 上，可能無法透過圖形介面安裝 Flatpak 應用程式。</text>",
       "name": "重啟"
     }
   },
@@ -295,7 +295,7 @@
     },
     "step-3": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>"
     },
     "distroName": "Alpine"
   },
@@ -310,7 +310,7 @@
       "text": "<text>要安裝淺色與深色主題，請執行：</text> <code></code>"
     },
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-4": {
@@ -325,7 +325,7 @@
     },
     "step-2": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>"
     },
     "step-3": {
       "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>",
@@ -336,7 +336,7 @@
   },
   "pisi_gnulinux": {
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "distroName": "Pisi GNU/Linux",
@@ -355,7 +355,7 @@
   },
   "solus": {
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
@@ -371,7 +371,7 @@
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>在 AlmaLinux 8 及更新版本中，若使用 GNOME 桌面環境，Flatpak 會預設安裝。開始使用時，您只需啟用 Flathub 即可——這是獲取 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>現在您只需<link>安裝應用程式</link>即可！</text>"
+    "introduction": "<text>在 AlmaLinux 8 及更新版本中，若使用 GNOME 桌面環境，Flatpak 會預設安裝。開始使用時，您只需啟用 Flathub 即可——這是取得 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>現在您只需<link>安裝應用程式</link>即可！</text>"
   },
   "arch": {
     "step-1": {
@@ -398,7 +398,7 @@
     },
     "distroName": "EndeavourOS",
     "step-2": {
-      "text": "<text>Flathub 是獲取 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
@@ -408,7 +408,7 @@
   },
   "centos": {
     "distroName": "CentOS Stream",
-    "introduction": "<text>在 CentOS Stream 8 及更新版本中，若使用 GNOME 桌面環境，Flatpak 會預設安裝。開始使用時，您只需啟用 Flathub 即可——這是獲取 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>現在您只需<link>安裝應用程式</link>即可！</text>"
+    "introduction": "<text>在 CentOS Stream 8 及更新版本中，若使用 GNOME 桌面環境，Flatpak 會預設安裝。開始使用時，您只需啟用 Flathub 即可——這是取得 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>。</text> <text>現在您只需<link>安裝應用程式</link>即可！</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",

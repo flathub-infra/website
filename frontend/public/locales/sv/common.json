@@ -97,7 +97,7 @@
   "transaction-cancel": "Avbryt överföring",
   "value-at-most": "Du måste ange ett värde som högst {value}",
   "filters": "Filter",
-  "app-type": "Typ av app",
+  "app-type": "Apptyp",
   "delete": "Ta bort",
   "select-purchase-amount": "Ange summan som du önskar betala",
   "continue": "Fortsätt",
@@ -456,5 +456,7 @@
   "blocks": "Block",
   "board": "Brädspel",
   "card": "Kortspel",
-  "shooter": "Skjutspel"
+  "shooter": "Skjutspel",
+  "safe": "Säker",
+  "unsafe": "Osäker"
 }
