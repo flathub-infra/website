@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import Spinner from "../Spinner"
@@ -71,24 +72,26 @@ const QualityReviewButton = ({
   review_requested_at,
   status,
   app_id,
-  buttonClicked,
   mode,
 }: {
   review_requested_at?: string
   status?: QualityModerationStatus
   app_id: string
-  buttonClicked?: () => void
   mode?: "qualityModerator" | "developer"
 }) => {
   const t = useTranslations()
+  const queryClient = useQueryClient()
 
   const [modalVisible, setModalVisible] = useState(false)
 
   const requestReviewMutation =
     useRequestReviewForAppQualityModerationAppIdRequestReviewPost({
       mutation: {
-        onSuccess: () => {
-          buttonClicked?.()
+        onSuccess: (data) => {
+          queryClient.setQueryData(
+            [`/quality-moderation/${app_id}/status`],
+            data,
+          )
           setModalVisible(false)
         },
       },
@@ -279,9 +282,6 @@ export const QualityModeration = ({
               app_id={app.id}
               status={query?.data?.data}
               review_requested_at={query?.data?.data?.review_requested_at}
-              buttonClicked={() => {
-                query.refetch()
-              }}
               mode={mode}
             />
           )}

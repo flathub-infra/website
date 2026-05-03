@@ -1561,7 +1561,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
 export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<QualityModerationStatus>> => {
   return axios.post(
     `/quality-moderation/${appId}/request-review`,
     undefined,
