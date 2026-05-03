@@ -19,7 +19,7 @@ importers:
         version: 0.6.1(hono@4.12.15)
       '@hono/zod-openapi':
         specifier: ^1.3.0
-        version: 1.3.0(hono@4.12.15)(zod@4.3.6)
+        version: 1.3.0(hono@4.12.15)(zod@4.4.2)
       '@react-email/render':
         specifier: 2.0.8
         version: 2.0.8(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -48,8 +48,8 @@ importers:
         specifier: 6.0.5
         version: 6.0.5(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       zod:
-        specifier: ^4.3.6
-        version: 4.3.6
+        specifier: ^4.4.2
+        version: 4.4.2
     devDependencies:
       '@react-email/ui':
         specifier: 6.0.5
@@ -1623,15 +1623,15 @@ packages:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
 
-  zod@4.3.6:
-    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+  zod@4.4.2:
+    resolution: {integrity: sha512-IynmDyxsEsb9RKzO3J9+4SxXnl2FTFSzNBaKKaMV6tsSk0rw9gYw9gs+JFCq/qk2LCZ78KDwyj+Z289TijSkUw==}
 
 snapshots:
 
-  '@asteasolutions/zod-to-openapi@8.5.0(zod@4.3.6)':
+  '@asteasolutions/zod-to-openapi@8.5.0(zod@4.4.2)':
     dependencies:
       openapi3-ts: 4.5.0
-      zod: 4.3.6
+      zod: 4.4.2
 
   '@babel/code-frame@7.29.0':
     dependencies:
@@ -1886,18 +1886,18 @@ snapshots:
     dependencies:
       hono: 4.12.15
 
-  '@hono/zod-openapi@1.3.0(hono@4.12.15)(zod@4.3.6)':
+  '@hono/zod-openapi@1.3.0(hono@4.12.15)(zod@4.4.2)':
     dependencies:
-      '@asteasolutions/zod-to-openapi': 8.5.0(zod@4.3.6)
-      '@hono/zod-validator': 0.7.6(hono@4.12.15)(zod@4.3.6)
+      '@asteasolutions/zod-to-openapi': 8.5.0(zod@4.4.2)
+      '@hono/zod-validator': 0.7.6(hono@4.12.15)(zod@4.4.2)
       hono: 4.12.15
       openapi3-ts: 4.5.0
-      zod: 4.3.6
+      zod: 4.4.2
 
-  '@hono/zod-validator@0.7.6(hono@4.12.15)(zod@4.3.6)':
+  '@hono/zod-validator@0.7.6(hono@4.12.15)(zod@4.4.2)':
     dependencies:
       hono: 4.12.15
-      zod: 4.3.6
+      zod: 4.4.2
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -2931,4 +2931,4 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod@4.3.6: {}
+  zod@4.4.2: {}
