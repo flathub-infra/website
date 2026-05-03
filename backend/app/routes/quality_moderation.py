@@ -239,7 +239,7 @@ def set_quality_moderation_for_app(
         examples=["org.gnome.Glade"],
     ),
     moderator=Depends(quality_moderator_only),
-):
+) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
@@ -247,6 +247,43 @@ def set_quality_moderation_for_app(
         QualityModeration.upsert(
             db, app_id, body.guideline_id, body.passed, moderator.user.id
         )
+
+        items = [
+            QualityModerationType(
+                guideline_id=guideline.id,
+                app_id=app_id,
+                updated_at=(
+                    quality_moderation.updated_at
+                    if quality_moderation
+                    else datetime.datetime.min
+                ),
+                updated_by=(
+                    quality_moderation.updated_by if quality_moderation else None
+                ),
+                passed=(quality_moderation.passed if quality_moderation else None),
+                comment=(quality_moderation.comment if quality_moderation else None),
+                guideline=Guideline(
+                    id=guideline.id,
+                    url=guideline.url,
+                    needed_to_pass_since=guideline.needed_to_pass_since,
+                    read_only=guideline.read_only,
+                    category=guideline.guideline_category_id,
+                ),
+                needed_to_pass_since=guideline.needed_to_pass_since,
+            )
+            for guideline, quality_moderation, app in QualityModeration.by_appid(
+                db, app_id
+            )
+        ]
+
+        review_request = QualityModerationRequest.by_appid(db, app_id)
+        is_fullscreen_app = App.get_fullscreen_app(db, app_id)
+
+    return QualityModerationResponse(
+        guidelines=items,
+        is_fullscreen_app=is_fullscreen_app,
+        review_requested_at=review_request.created_at if review_request else None,
+    )
 
 
 @router.get(
