@@ -295,8 +295,8 @@ const QualityCategories = ({
           withCredentials: true,
         },
       ),
-    onSuccess: () => {
-      query.refetch()
+    onSuccess: (data) => {
+      queryClient.setQueryData(["qualityModeration", { appId: app.id }], data)
     },
   })
 
@@ -526,6 +526,8 @@ const ScreenShotTypeItem = ({
     setToggle(is_fullscreen_app)
   }, [is_fullscreen_app])
 
+  const queryClient = useQueryClient()
+
   const mutation = useMutation({
     mutationFn: ({ is_fullscreen_app }: { is_fullscreen_app: boolean }) =>
       setFullscreenAppQualityModerationAppIdFullscreenPost(
@@ -536,9 +538,9 @@ const ScreenShotTypeItem = ({
         },
       ),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       setToggle(variables.is_fullscreen_app)
-      query.refetch()
+      queryClient.setQueryData(["qualityModeration", { appId }], data)
     },
   })
 

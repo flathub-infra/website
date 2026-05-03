@@ -1679,7 +1679,7 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
   (
     appId: string,
     options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<unknown | void>> => {
+  ): Promise<AxiosResponse<QualityModerationResponse>> => {
     return axios.delete(`/quality-moderation/${appId}/request-review`, options)
   }
 
@@ -1791,7 +1791,7 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
   appId: string,
   params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<QualityModerationResponse>> => {
   return axios.post(`/quality-moderation/${appId}/fullscreen`, undefined, {
     ...options,
     params: { ...params, ...options?.params },
