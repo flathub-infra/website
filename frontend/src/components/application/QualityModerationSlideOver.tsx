@@ -1,4 +1,9 @@
-import { UseQueryResult, useMutation, useQuery } from "@tanstack/react-query"
+import {
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
@@ -253,6 +258,8 @@ const QualityCategories = ({
 }) => {
   const t = useTranslations()
 
+  const queryClient = useQueryClient()
+
   const passAllMutation = useMutation({
     mutationFn: () => {
       return Promise.all(
@@ -270,8 +277,13 @@ const QualityCategories = ({
       )
     },
 
-    onSuccess: (_data, variables) => {
-      query.refetch()
+    onSuccess: (data) => {
+      if (data.length > 0) {
+        queryClient.setQueryData(
+          ["qualityModeration", { appId: app.id }],
+          data[data.length - 1],
+        )
+      }
     },
   })
 
@@ -420,6 +432,8 @@ const QualityItem = ({
     setToggle(qualityModeration?.passed)
   }, [qualityModeration])
 
+  const queryClient = useQueryClient()
+
   const mutation = useMutation({
     mutationFn: ({ passed }: { passed: boolean }) =>
       setQualityModerationForAppQualityModerationAppIdPost(
@@ -430,9 +444,9 @@ const QualityItem = ({
         },
       ),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       setToggle(variables.passed)
-      query.refetch()
+      queryClient.setQueryData(["qualityModeration", { appId }], data)
     },
   })
 

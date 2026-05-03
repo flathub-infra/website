@@ -1211,7 +1211,7 @@ export const setQualityModerationForAppQualityModerationAppIdPost = (
   appId: string,
   upsertQualityModeration: UpsertQualityModeration,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<QualityModerationResponse>> => {
   return axios.post(
     `/quality-moderation/${appId}`,
     upsertQualityModeration,
