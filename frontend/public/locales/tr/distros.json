@@ -53,6 +53,10 @@
     }
   },
   "chrome_os": {
-    "distroName": "ChromeOS"
+    "distroName": "ChromeOS",
+    "introduction": "<text>Flatpak uygulamaları, Crostini Linux uyumluluk katmanı aracılığıyla ChromeOS'a yüklenebilir. Bu özellik tüm ChromeOS cihazlarında mevcut değildir; bu nedenle devam etmeden önce cihazınızın uyumlu olup olmadığını kontrol etmelisiniz. Uyumlu cihazların listesi <link>burada bulunmaktadır</link>.</text>",
+    "step-1": {
+      "name": "Linux desteğini etkinleştir"
+    }
   }
 }

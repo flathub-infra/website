@@ -676,5 +676,6 @@
   },
   "install-all-favorites": "Tüm Favorileri Yükle",
   "install-all-favorites-description": "Tüm favori uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
-  "no-favorites-yet": "Henüz favori uygulamanız yok. Beğendiğiniz uygulamaların yer imlerine tıklayarak favori uygulamalarınızı eklemeye başlayın!"
+  "no-favorites-yet": "Henüz favori uygulamanız yok. Beğendiğiniz uygulamaların yer imlerine tıklayarak favori uygulamalarınızı eklemeye başlayın!",
+  "see-all-results": "Tüm sonuçları gör"
 }
