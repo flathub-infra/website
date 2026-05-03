@@ -342,6 +342,7 @@ def request_review_for_app(
         if app and app.excluded_from_app_picks:
             raise HTTPException(status_code=404, detail="App excluded from app picks")
         QualityModerationRequest.create(db, app_id, moderator.user.id)
+        return QualityModeration.by_appid_summarized(db, app_id)
 
 
 @router.delete(
