@@ -33,7 +33,7 @@ dependencies = [
     "apscheduler==3.11.2",
     "granian[reload,uvloop]>=2.7.4",
     "memray>=1.19.1",
-    "psycopg[binary]>=3.3.3",
+    "psycopg[binary]>=3.3.4",
     "authlib>=1.7.0,<2.0",
 ]
 
