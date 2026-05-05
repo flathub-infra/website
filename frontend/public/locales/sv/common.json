@@ -148,7 +148,7 @@
   "system-folder-x": "System-mapp {folder}",
   "no-network-access": "Ingen nätverksåtkomst",
   "appname-is-safety-rating-1": "{appName} är säker",
-  "appname-is-safety-rating-3": "{appName} är potentiellt säker",
+  "appname-is-safety-rating-3": "{appName} är potentiellt osäker",
   "can-read-write-all-data-on-file-system": "Kan läsa och skriva all data på filsystemet",
   "add-ons": "Tillägg",
   "no-file-system-access": "Ingen åtkomst till filsystemet",
@@ -205,7 +205,7 @@
   "retry-or-go-home": "Prova igen eller gå till <link>startsidan</link>.",
   "invalid-appid": "Ogiltigt app-ID",
   "rebase-onto-other-app": "Skriv in det app-ID som appen ska byta till",
-  "press": "Tryck",
+  "press": "Press",
   "new": "Nytt",
   "trending-apps": "Aktuella appar",
   "individual-contributors": "Individuella bidragsgivare",
@@ -339,7 +339,8 @@
   },
   "vendingSharesPreview": {
     "app": "App",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "sdkShare": "SDK-andel: {percentage}"
   },
   "privacy-policy": "Integritetspolicy",
   "developer-settings": "Utvecklarinställningar",
