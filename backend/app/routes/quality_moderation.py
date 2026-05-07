@@ -209,12 +209,13 @@ def get_quality_moderation_for_app(
         ]
 
         review_request = QualityModerationRequest.by_appid(db, app_id)
+        review_requested_at = review_request.created_at if review_request else None
         is_fullscreen_app = App.get_fullscreen_app(db, app_id)
 
     return QualityModerationResponse(
         guidelines=items,
         is_fullscreen_app=is_fullscreen_app,
-        review_requested_at=review_request.created_at if review_request else None,
+        review_requested_at=review_requested_at,
     )
 
 
@@ -277,12 +278,13 @@ def set_quality_moderation_for_app(
         ]
 
         review_request = QualityModerationRequest.by_appid(db, app_id)
+        review_requested_at = review_request.created_at if review_request else None
         is_fullscreen_app = App.get_fullscreen_app(db, app_id)
 
     return QualityModerationResponse(
         guidelines=items,
         is_fullscreen_app=is_fullscreen_app,
-        review_requested_at=review_request.created_at if review_request else None,
+        review_requested_at=review_requested_at,
     )
 
 
