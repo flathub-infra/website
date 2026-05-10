@@ -459,7 +459,9 @@
     "installed-runtime-size": "Installerad runtime-storlek",
     "appname-works-best-on-specific-hardware": "{appName} fungerar bäst på specifik maskinvara",
     "mobile-support": "Stöd för mobila enheter",
-    "desktop-support": "Stöd för skrivbord"
+    "desktop-support": "Stöd för skrivbord",
+    "desktop-only": "Endast för dator",
+    "desktop-and-mobile": "Datorer & mobiltelefoner"
   },
   "content-rating": {
     "subtitle": "{appName} är lämpligt för barn i åldern {age}",
@@ -646,5 +648,8 @@
   "videos-folder": "Videomapp",
   "videos-subfolder-x": "Videomappen {folder}",
   "templates-folder": "Mallmapp",
-  "templates-subfolder-x": "Mallmappen {folder}"
+  "templates-subfolder-x": "Mallmappen {folder}",
+  "moderation-appstream": "Appstream",
+  "moderation-pending-reviews": "Väntande granskningar",
+  "moderation-appstream-changes": "Appstream-förändringar"
 }
