@@ -24,7 +24,7 @@ dependencies = [
     "PyJWT<3.0.0,>=2.10.1",
     "meilisearch>=0.41.0,<1.0.0",
     "orjson<4.0.0,>=3.10.15",
-    "python-multipart<1.0.0,>=0.0.20",
+    "python-multipart>=0.0.28,<1.0.0",
     "dramatiq[redis,watch,prometheus_client]>=2.1.0,<3.0.0",
     "sqlalchemy==2.0.49",
     "pydantic-settings>=2.14.0,<3.0.0",
