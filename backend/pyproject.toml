@@ -23,7 +23,7 @@ dependencies = [
     "stripe>=15.1.0,<16.0",
     "PyJWT<3.0.0,>=2.10.1",
     "meilisearch>=0.41.0,<1.0.0",
-    "orjson<4.0.0,>=3.10.15",
+    "orjson>=3.11.9,<4.0.0",
     "python-multipart>=0.0.28,<1.0.0",
     "dramatiq[redis,watch,prometheus_client]>=2.1.0,<3.0.0",
     "sqlalchemy==2.0.49",
