@@ -373,7 +373,7 @@ requires-dist = [
     { name = "memray", specifier = ">=1.19.1" },
     { name = "orjson", specifier = ">=3.10.15,<4.0.0" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.3.4" },
-    { name = "publicsuffixlist", specifier = ">=1.0.2.20260502,<2.0.0.0" },
+    { name = "publicsuffixlist", specifier = ">=1.0.2.20260508,<2.0.0.0" },
     { name = "pydantic-settings", specifier = ">=2.14.0,<3.0.0" },
     { name = "pygithub", specifier = ">=2.6,<3.0" },
     { name = "pygobject", specifier = ">=3.50.0,<4.0.0" },
@@ -908,11 +908,11 @@ wheels = [
 
 [[package]]
 name = "publicsuffixlist"
-version = "1.0.2.20260502"
+version = "1.0.2.20260508"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/40/fe/1a4e3869178f43ef932dfc777f445706fa2783e8267b4317dc5970dbe249/publicsuffixlist-1.0.2.20260502.tar.gz", hash = "sha256:eff7b85e2b4bea972ff6a972a9794ba7058288798b7588f9840134fd87e59401", size = 108716, upload-time = "2026-05-02T05:42:40.46Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/49/6f4792627ad2914149511c9e9fbdfecedeec0e0104ff14cc138b5c86b42f/publicsuffixlist-1.0.2.20260508.tar.gz", hash = "sha256:acb2154148e8ca7776d00bca47104f34c80b5dbdf3059b51344718ad9babd43b", size = 108688, upload-time = "2026-05-08T05:34:23.024Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/84/b5/5f23336099cc708df2e5b6670479a55000e208126b43a8051aa0b7cdecbc/publicsuffixlist-1.0.2.20260502-py2.py3-none-any.whl", hash = "sha256:da40b4f63e22e311a1df25507dc038f24d338af7c917a1af07890eb7fb58a210", size = 108547, upload-time = "2026-05-02T05:42:38.932Z" },
+    { url = "https://files.pythonhosted.org/packages/f3/83/f2e61c4232646b252f033998064f2f99d10cd441af0167d475df4def4011/publicsuffixlist-1.0.2.20260508-py2.py3-none-any.whl", hash = "sha256:08d7495d4c709fc0879414bdccd8d42dd67a53b8f22386826e071d70ce1f5bc5", size = 108501, upload-time = "2026-05-08T05:34:21.404Z" },
 ]
 
 [[package]]
