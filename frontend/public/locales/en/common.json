@@ -101,7 +101,7 @@
   "new-description": "New apps published on Flathub in the last few days.",
   "trending-apps-description": "Linux apps gaining the most installs on Flathub over the past two weeks.",
   "popular-apps-description": "The most-installed Linux apps on Flathub over the past month.",
-  "verified-apps-description": "Apps on Flathub whose developer identity has been verified.",
+  "verified-apps-description": "Apps on Flathub with verified developers.",
   "audio-and-video-description": "Music players, video editors, podcasting tools, and multimedia apps for Linux.",
   "developer-tools-description": "IDEs, code editors, terminals, and developer utilities for Linux.",
   "games-description": "Games, emulators, and game launchers for Linux.",
