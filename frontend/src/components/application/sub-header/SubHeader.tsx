@@ -113,7 +113,11 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
         )}
       </div>
       <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray/80">
-        {licenseType === "floss" ? t("sub-header.free") : t("proprietary")}
+        {licenseType === "floss"
+          ? t("sub-header.free")
+          : licenseType === "special"
+            ? t("special-license")
+            : t("proprietary")}
       </span>
     </SubHeaderItem>,
   )
