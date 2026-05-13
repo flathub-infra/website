@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from typing import Literal
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
@@ -74,11 +74,13 @@ class FailedByGuideline(BaseModel):
     },
 )
 def get_quality_moderation_status(
+    response: Response,
     page: int = 1,
     page_size: int = 25,
     filter: Literal["all", "passing", "todo"] = "all",
     _moderator=Depends(quality_moderator_only),
 ) -> QualityModerationDashboardResponse:
+    response.headers["Surrogate-Control"] = "no-store"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -104,9 +106,11 @@ def get_quality_moderation_status(
     },
 )
 def get_passing_quality_apps(
+    response: Response,
     page: int = 1,
     page_size: int = 25,
 ) -> SimpleQualityModerationResponse:
+    response.headers["Surrogate-Control"] = "no-store"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -133,9 +137,11 @@ def get_passing_quality_apps(
     },
 )
 def get_app_pick_recommendations(
+    response: Response,
     recommendation_date: datetime.date = datetime.date.today(),
     _moderator=Depends(quality_moderator_only),
 ) -> AppPickRecommendationsResponse:
+    response.headers["Surrogate-Control"] = "no-store"
     with get_db("replica") as db:
         return App.app_pick_recommendations(db, recommendation_date)
 
@@ -151,8 +157,10 @@ def get_app_pick_recommendations(
     },
 )
 def get_quality_moderation_stats(
+    response: Response,
     _moderator=Depends(quality_moderator_only),
 ) -> list[FailedByGuideline]:
+    response.headers["Surrogate-Control"] = "no-store"
     with get_db("replica") as db:
         return QualityModeration.group_by_guideline(db)
 
@@ -168,6 +176,7 @@ def get_quality_moderation_stats(
     },
 )
 def get_quality_moderation_for_app(
+    response: Response,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -175,6 +184,7 @@ def get_quality_moderation_for_app(
         examples=["org.gnome.Glade"],
     ),
 ) -> QualityModerationResponse:
+    response.headers["Surrogate-Control"] = "no-store"
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
@@ -301,6 +311,7 @@ def set_quality_moderation_for_app(
     },
 )
 def get_quality_moderation_status_for_app(
+    response: Response,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -309,6 +320,7 @@ def get_quality_moderation_status_for_app(
     ),
     _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationStatus:
+    response.headers["Surrogate-Control"] = "no-store"
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
