@@ -32,7 +32,7 @@
   "installs-over-time": "Telepítések idő szerint",
   "installs": "Telepítések",
   "unknown": "Ismeretlen",
-  "proprietary": "Zárt forráskódú",
+  "proprietary": "Zárt szoftver",
   "log-out": "Kijelentkezés",
   "network-error-try-again": "Hálózati hiba történt. Próbálja újra.",
   "error-already-logged-in": "A kijelölt fiók már be van jelentkezve.",
@@ -729,7 +729,7 @@
   "app-information": "Alkalmazásinformációk",
   "sub-header": {
     "download": "Letöltés",
-    "free": "Ingyenes",
+    "free": "Szabad szoftver",
     "desktop-only": "Csak asztali gépen",
     "desktop-and-mobile": "Asztali gépen és mobilon",
     "downloads-per-month": "Letöltések havonta",

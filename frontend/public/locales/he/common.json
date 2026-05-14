@@ -303,7 +303,7 @@
   "app-is-currently-verified-manually": "היישום שלך כרגע מאומת על ידי צוות Flathub",
   "begin": "להתחיל",
   "failed-to-find-token": "מציאת הטוקן בתגובה מ{domain} נכשלה.",
-  "emulators": "אמולטורים",
+  "emulators": "מדמים",
   "distribution-flathub-setup": "הגדרת Flathub ב־{distribution}",
   "find-your-distribution": "איתור ההפצה שלך",
   "no-results-found": "לא נמצאו תוצאות",
@@ -472,5 +472,21 @@
   "action-donate": "תרומה",
   "action-purchase": "רכישה",
   "kind-donate-app": "תרומה ל־{appName}",
-  "favorite-apps": "מועדפים"
+  "favorite-apps": "מועדפים",
+  "more-emulator": "עוד מדמים",
+  "gameemulator": "מדמים",
+  "emulator": "חקאיים",
+  "launcher": "משגרים",
+  "gamelauncher": "משגרי משחקים",
+  "more-gamelauncher": "משגרי משחקים נוספים",
+  "tool": "כלים",
+  "gametool": "כלי משחקים",
+  "more-gametool": "כלי משחקים נוספים",
+  "year-in-review-banner": {
+    "title": "סיכום שנת {year} ב־Flathub",
+    "description": "חזרה ליישומים והמגמות המובילים של השנה"
+  },
+  "year-in-review": {
+    "title": "סיכום שנת {year}"
+  }
 }
