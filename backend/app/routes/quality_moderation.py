@@ -80,7 +80,7 @@ def get_quality_moderation_status(
     filter: Literal["all", "passing", "todo"] = "all",
     _moderator=Depends(quality_moderator_only),
 ) -> QualityModerationDashboardResponse:
-    response.headers["Surrogate-Control"] = "no-store"
+    response.headers["Cache-Control"] = "private"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -110,7 +110,7 @@ def get_passing_quality_apps(
     page: int = 1,
     page_size: int = 25,
 ) -> SimpleQualityModerationResponse:
-    response.headers["Surrogate-Control"] = "no-store"
+    response.headers["Cache-Control"] = "private"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -141,7 +141,7 @@ def get_app_pick_recommendations(
     recommendation_date: datetime.date = datetime.date.today(),
     _moderator=Depends(quality_moderator_only),
 ) -> AppPickRecommendationsResponse:
-    response.headers["Surrogate-Control"] = "no-store"
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         return App.app_pick_recommendations(db, recommendation_date)
 
@@ -160,7 +160,7 @@ def get_quality_moderation_stats(
     response: Response,
     _moderator=Depends(quality_moderator_only),
 ) -> list[FailedByGuideline]:
-    response.headers["Surrogate-Control"] = "no-store"
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         return QualityModeration.group_by_guideline(db)
 
@@ -184,7 +184,7 @@ def get_quality_moderation_for_app(
         examples=["org.gnome.Glade"],
     ),
 ) -> QualityModerationResponse:
-    response.headers["Surrogate-Control"] = "no-store"
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
@@ -320,7 +320,7 @@ def get_quality_moderation_status_for_app(
     ),
     _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationStatus:
-    response.headers["Surrogate-Control"] = "no-store"
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
