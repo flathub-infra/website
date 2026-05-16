@@ -109,6 +109,7 @@ export async function GET(
 
   const gradientEnd = textColor === "white" ? brandingLight : brandingDark
 
+  const scale = 2
   const svg = await satori(
     <div
       style={{
@@ -140,9 +141,9 @@ export async function GET(
         style={{
           display: "flex",
           flex: 1,
-          padding: "48px",
-          paddingBottom: "24px",
-          gap: "48px",
+          padding: `${48 * scale}px`,
+          paddingBottom: `${24 * scale}px`,
+          gap: `${48 * scale}px`,
           alignItems: "center",
         }}
       >
@@ -153,7 +154,10 @@ export async function GET(
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            width: screenshot && isLandscapeScreenshot ? "380px" : "450px",
+            width:
+              screenshot && isLandscapeScreenshot
+                ? `${380 * scale}px`
+                : `${450 * scale}px`,
             flexShrink: 0,
           }}
         >
@@ -162,9 +166,9 @@ export async function GET(
             <img
               style={{
                 display: "flex",
-                width: "160px",
-                height: "160px",
-                marginBottom: "24px",
+                width: `${160 * scale}px`,
+                height: `${160 * scale}px`,
+                marginBottom: `${24 * scale}px`,
               }}
               src={icon}
               alt=""
@@ -175,15 +179,15 @@ export async function GET(
           <h1
             style={{
               fontFamily: "Inter-Black",
-              fontSize: "48px",
-              lineHeight: "54px",
+              fontSize: `${48 * scale}px`,
+              lineHeight: `${54 * scale}px`,
               margin: 0,
-              marginBottom: "12px",
+              marginBottom: `${12 * scale}px`,
               textAlign: "center",
               textShadow:
                 textColor === "white"
-                  ? "0 2px 10px rgba(0,0,0,0.2)"
-                  : "0 1px 4px rgba(255,255,255,0.1)",
+                  ? `0 ${2 * scale}px ${10 * scale}px rgba(0,0,0,0.2)`
+                  : `0 ${1 * scale}px ${4 * scale}px rgba(255,255,255,0.1)`,
             }}
           >
             {app.name}
@@ -193,8 +197,8 @@ export async function GET(
           <div
             style={{
               fontFamily: "Inter-SemiBold",
-              fontSize: "26px",
-              lineHeight: "38px",
+              fontSize: `${26 * scale}px`,
+              lineHeight: `${38 * scale}px`,
               color: subtitleColor,
               textAlign: "center",
             }}
@@ -212,16 +216,18 @@ export async function GET(
               screenshot.height &&
               !isNaN(screenshot.width) &&
               !isNaN(screenshot.height)
+            const maxW = 680 * scale
+            const maxH = 480 * scale
             const computedHeight = hasValidDims
-              ? Math.round(680 * (screenshot.height! / screenshot.width!))
+              ? Math.round(maxW * (screenshot.height! / screenshot.width!))
               : null
             const clampedWidth =
-              computedHeight && computedHeight > 480
-                ? Math.round(480 * (screenshot.width! / screenshot.height!))
-                : 680
+              computedHeight && computedHeight > maxH
+                ? Math.round(maxH * (screenshot.width! / screenshot.height!))
+                : maxW
             const clampedHeight = computedHeight
-              ? Math.min(computedHeight, 480)
-              : 480
+              ? Math.min(computedHeight, maxH)
+              : maxH
             return (
               <div
                 style={{
@@ -255,17 +261,18 @@ export async function GET(
               screenshot.height &&
               !isNaN(screenshot.width) &&
               !isNaN(screenshot.height)
+            const maxPortraitWidth = 350 * scale
+            const targetH = 450 * scale
             const computedWidth = hasValidDims
-              ? Math.round(450 * (screenshot.width! / screenshot.height!))
+              ? Math.round(targetH * (screenshot.width! / screenshot.height!))
               : null
-            const maxPortraitWidth = 350
-            const rawWidth = computedWidth ?? 253
+            const rawWidth = computedWidth ?? 253 * scale
             const height =
               rawWidth > maxPortraitWidth
                 ? Math.round(
                     maxPortraitWidth * (screenshot.height! / screenshot.width!),
                   )
-                : 450
+                : targetH
             const width = Math.min(rawWidth, maxPortraitWidth)
             return (
               <div
@@ -298,8 +305,8 @@ export async function GET(
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "28px 48px",
-          borderTop: `2px solid ${textColor === "white" ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)"}`,
+          padding: `${28 * scale}px ${48 * scale}px`,
+          borderTop: `${2 * scale}px solid ${textColor === "white" ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)"}`,
         }}
       >
         {/* Left side - "Get it on" text */}
@@ -307,7 +314,7 @@ export async function GET(
           style={{
             display: "flex",
             fontFamily: "Inter-SemiBold",
-            fontSize: "22px",
+            fontSize: `${22 * scale}px`,
             color: textColor,
           }}
         >
@@ -319,12 +326,12 @@ export async function GET(
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
+            gap: `${12 * scale}px`,
           }}
         >
           <svg
-            width="44"
-            height="44"
+            width={44 * scale}
+            height={44 * scale}
             version="1.1"
             viewBox="0 0 66.885 64"
             xmlns="http://www.w3.org/2000/svg"
@@ -364,8 +371,8 @@ export async function GET(
           <span
             style={{
               fontFamily: "Inter-SemiBold",
-              fontSize: "36px",
-              letterSpacing: "-0.5px",
+              fontSize: `${36 * scale}px`,
+              letterSpacing: `${-0.5 * scale}px`,
             }}
           >
             Flathub
@@ -374,8 +381,8 @@ export async function GET(
       </div>
     </div>,
     {
-      width: 1200,
-      height: 630,
+      width: 1200 * scale,
+      height: 630 * scale,
       fonts: fonts,
     },
   )
