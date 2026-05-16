@@ -11,6 +11,7 @@ import type { AppsIndexFavoritesCount } from "./appsIndexFavoritesCount"
 import type { AppsIndexIcon } from "./appsIndexIcon"
 import type { AppsIndexInstallsLastMonth } from "./appsIndexInstallsLastMonth"
 import type { AppsIndexKeywords } from "./appsIndexKeywords"
+import type { AppsIndexLocalizedKeywords } from "./appsIndexLocalizedKeywords"
 import type { AppsIndexMainCategories } from "./appsIndexMainCategories"
 import type { AppsIndexRuntime } from "./appsIndexRuntime"
 import type { AppsIndexSubCategories } from "./appsIndexSubCategories"
@@ -26,6 +27,7 @@ import type { VerificationMethod } from "./verificationMethod"
 export interface AppsIndex {
   name: string
   keywords?: AppsIndexKeywords
+  localized_keywords?: AppsIndexLocalizedKeywords
   summary: string
   description: string
   id: string

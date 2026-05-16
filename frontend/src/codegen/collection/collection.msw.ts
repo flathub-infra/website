@@ -43,6 +43,16 @@ export const getGetCategoryCollectionCategoryCategoryGetResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -189,6 +199,16 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetResponse
     ).map(() => ({
       name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       keywords: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          null,
+        ]),
+        undefined,
+      ]),
+      localized_keywords: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -368,6 +388,16 @@ export const getGetKeywordCollectionKeywordGetResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -533,6 +563,16 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -676,6 +716,16 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
+    localized_keywords: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
@@ -837,6 +887,16 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -980,6 +1040,16 @@ export const getGetVerifiedCollectionVerifiedGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
+    localized_keywords: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1141,6 +1211,16 @@ export const getGetMobileCollectionMobileGetResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1284,6 +1364,16 @@ export const getGetPopularLastMonthCollectionPopularGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
+    localized_keywords: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1445,6 +1535,16 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -1588,6 +1688,16 @@ export const getGetMostFavoritedCollectionFavoritesGetResponseMock = (
   ).map(() => ({
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
+    localized_keywords: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },

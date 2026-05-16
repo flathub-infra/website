@@ -392,6 +392,234 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
 }
 
 /**
+ * Returns apps of the week for the admin page, bypassing CDN cache
+ * @summary Get App Of The Week Admin
+ */
+export const getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet = (
+  date: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<AppsOfTheWeek>> => {
+  return axios.get(`/app-picks/admin/apps-of-the-week/${date}`, options)
+}
+
+export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryKey =
+  (date: string) => {
+    return [`/app-picks/admin/apps-of-the-week/${date}`] as const
+  }
+
+export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+    >,
+    TError = AxiosError<void>,
+  >(
+    date: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryKey(date)
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+      >
+    > = ({ signal }) =>
+      getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet(date, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: !!date,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+    >
+  >
+export type GetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryError =
+  AxiosError<void>
+
+export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get App Of The Week Admin
+ */
+
+export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryOptions(
+      date,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
  * Sets an app of the week
  * @summary Set App Of The Week
  */

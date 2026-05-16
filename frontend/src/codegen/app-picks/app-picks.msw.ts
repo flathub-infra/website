@@ -37,6 +37,21 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
   ...overrideResponse,
 })
 
+export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<AppsOfTheWeek, object>> = {},
+  ): AppsOfTheWeek => ({
+    apps: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      position: faker.number.int(),
+      isFullscreen: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+  })
+
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostResponseMock =
   (): SetAppOfTheDayAppPicksAppOfTheDayPost200 =>
     faker.helpers.arrayElement([
@@ -95,6 +110,31 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetMockHandler = (
   )
 }
 
+export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetMockHandler =
+  (
+    overrideResponse?:
+      | AppsOfTheWeek
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<AppsOfTheWeek> | AppsOfTheWeek),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/app-picks/admin/apps-of-the-week/:date",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler = (
   overrideResponse?:
     | unknown
@@ -144,6 +184,7 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler = (
 export const getAppPicksMock = () => [
   getGetAppOfTheDayAppPicksAppOfTheDayDateGetMockHandler(),
   getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetMockHandler(),
+  getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetMockHandler(),
   getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler(),
   getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler(),
 ]

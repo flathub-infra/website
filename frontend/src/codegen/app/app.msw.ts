@@ -1798,6 +1798,16 @@ export const getPostSearchSearchPostResponseMock = (
       ]),
       undefined,
     ]),
+    localized_keywords: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        null,
+      ]),
+      undefined,
+    ]),
     summary: faker.string.alpha({ length: { min: 10, max: 20 } }),
     description: faker.string.alpha({ length: { min: 10, max: 20 } }),
     id: faker.string.alpha({ length: { min: 10, max: 20 } }),
