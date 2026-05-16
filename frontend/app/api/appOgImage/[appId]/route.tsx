@@ -142,7 +142,7 @@ export async function GET(
           display: "flex",
           flex: 1,
           padding: `${48 * scale}px`,
-          paddingBottom: `${24 * scale}px`,
+          paddingBottom: `${40 * scale}px`,
           gap: `${48 * scale}px`,
           alignItems: "center",
         }}
@@ -217,7 +217,7 @@ export async function GET(
               !isNaN(screenshot.width) &&
               !isNaN(screenshot.height)
             const maxW = 680 * scale
-            const maxH = 480 * scale
+            const maxH = 450 * scale
             const computedHeight = hasValidDims
               ? Math.round(maxW * (screenshot.height! / screenshot.width!))
               : null
@@ -262,7 +262,7 @@ export async function GET(
               !isNaN(screenshot.width) &&
               !isNaN(screenshot.height)
             const maxPortraitWidth = 350 * scale
-            const targetH = 450 * scale
+            const targetH = 420 * scale
             const computedWidth = hasValidDims
               ? Math.round(targetH * (screenshot.width! / screenshot.height!))
               : null
@@ -382,7 +382,7 @@ export async function GET(
     </div>,
     {
       width: 1200 * scale,
-      height: 630 * scale,
+      height: 600 * scale,
       fonts: fonts,
     },
   )
