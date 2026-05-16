@@ -204,46 +204,92 @@ export async function GET(
         </div>
 
         {/* Right side - Screenshot */}
-        {screenshot && isLandscapeScreenshot && (
-          <div
-            style={{
-              display: "flex",
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              style={{
-                display: "flex",
-                width: "680px",
-              }}
-              src={screenshot.src}
-              alt=""
-            />
-          </div>
-        )}
+        {screenshot &&
+          isLandscapeScreenshot &&
+          (() => {
+            const hasValidDims =
+              screenshot.width &&
+              screenshot.height &&
+              !isNaN(screenshot.width) &&
+              !isNaN(screenshot.height)
+            const computedHeight = hasValidDims
+              ? Math.round(680 * (screenshot.height! / screenshot.width!))
+              : null
+            const clampedWidth =
+              computedHeight && computedHeight > 480
+                ? Math.round(480 * (screenshot.width! / screenshot.height!))
+                : 680
+            const clampedHeight = computedHeight
+              ? Math.min(computedHeight, 480)
+              : 480
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  width={clampedWidth}
+                  height={clampedHeight}
+                  style={{
+                    display: "flex",
+                    width: `${clampedWidth}px`,
+                    height: `${clampedHeight}px`,
+                  }}
+                  src={screenshot.src}
+                  alt=""
+                />
+              </div>
+            )
+          })()}
 
         {/* Portrait screenshot - displayed smaller on the right */}
-        {screenshot && !isLandscapeScreenshot && (
-          <div
-            style={{
-              display: "flex",
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              style={{
-                display: "flex",
-                height: "450px",
-              }}
-              src={screenshot.src}
-              alt=""
-            />
-          </div>
-        )}
+        {screenshot &&
+          !isLandscapeScreenshot &&
+          (() => {
+            const hasValidDims =
+              screenshot.width &&
+              screenshot.height &&
+              !isNaN(screenshot.width) &&
+              !isNaN(screenshot.height)
+            const computedWidth = hasValidDims
+              ? Math.round(450 * (screenshot.width! / screenshot.height!))
+              : null
+            const maxPortraitWidth = 350
+            const rawWidth = computedWidth ?? 253
+            const height =
+              rawWidth > maxPortraitWidth
+                ? Math.round(
+                    maxPortraitWidth * (screenshot.height! / screenshot.width!),
+                  )
+                : 450
+            const width = Math.min(rawWidth, maxPortraitWidth)
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  width={width}
+                  height={height}
+                  style={{
+                    display: "flex",
+                    width: `${width}px`,
+                    height: `${height}px`,
+                  }}
+                  src={screenshot.src}
+                  alt=""
+                />
+              </div>
+            )
+          })()}
       </div>
 
       {/* Bottom bar - Flathub branding */}
