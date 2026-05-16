@@ -370,7 +370,7 @@ This expects to have some JSON posted to it which (on success) contains:
 ```
 
 On failure, the frontend should pass through the state and error so that
-the backend can clear the flow tokens
+the backend can clear the stored flow state
 
 ```
 {
@@ -641,7 +641,7 @@ This expects to have some JSON posted to it which (on success) contains:
 ```
 
 On failure, the frontend should pass through the state and error so that
-the backend can clear the flow tokens
+the backend can clear the stored flow state
 
 ```
 {
@@ -912,7 +912,7 @@ This expects to have some JSON posted to it which (on success) contains:
 ```
 
 On failure, the frontend should pass through the state and error so that
-the backend can clear the flow tokens
+the backend can clear the stored flow state
 
 ```
 {
@@ -1261,7 +1261,7 @@ This expects to have some JSON posted to it which (on success) contains:
 ```
 
 On failure, the frontend should pass through the state and error so that
-the backend can clear the flow tokens
+the backend can clear the stored flow state
 
 ```
 {

@@ -16,7 +16,7 @@ import { HeroBanner } from "src/components/application/HeroBanner"
 import { useUserContext } from "src/context/user-info"
 import {
   DesktopAppstream,
-  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
+  getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet,
   getAppstreamAppstreamAppIdGet,
 } from "src/codegen"
 import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
@@ -88,9 +88,11 @@ export default function AppPicksClient() {
   const queryAppsOfTheWeek = useQuery({
     queryKey: ["apps-of-the-week", date],
     queryFn: async () => {
-      const response = await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
-        formatISO(date, { representation: "date" }),
-      )
+      const response =
+        await getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet(
+          formatISO(date, { representation: "date" }),
+          { withCredentials: true },
+        )
 
       const getAppsOfTheWeek = response.data
 

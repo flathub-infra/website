@@ -6,8 +6,6 @@
  */
 
 export * from "./buildsTableApiHtmxBuildsGetParams"
-export * from "./cleanupGithubTasksApiGithubTasksCleanupPostParams"
-export * from "./cleanupStalePipelinesApiPipelinesCleanupStalePostParams"
 export * from "./dashboardGetParams"
 export * from "./hTTPValidationError"
 export * from "./listPipelinesApiPipelinesGetParams"
@@ -44,8 +42,6 @@ export * from "./pipelineTrigger"
 export * from "./pipelineTriggerRequest"
 export * from "./pipelineTriggerRequestParams"
 export * from "./pipelineType"
-export * from "./publishSummary"
-export * from "./publishSummaryErrorsItem"
 export * from "./reproducibleStatusReproducibleGetParams"
 export * from "./reproducibleTableApiHtmxReproducibleGetParams"
 export * from "./triggerPipelineApiPipelinesPost201"

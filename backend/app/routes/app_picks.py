@@ -1,6 +1,6 @@
 import datetime
 
-from fastapi import APIRouter, Depends, FastAPI, Path
+from fastapi import APIRouter, Depends, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
@@ -83,6 +83,50 @@ async def get_app_of_the_week(
 ) -> AppsOfTheWeek:
     """Returns apps of the week"""
     with get_db("replica") as db:
+        apps_of_the_week = models.AppsOfTheWeek.by_week(
+            db, date.isocalendar().week, date.year
+        )
+
+        return AppsOfTheWeek(
+            apps=[
+                AppOfTheWeek(
+                    app_id=app.app_id,
+                    position=app.position,
+                    isFullscreen=models.App.get_fullscreen_app(db, app.app_id),
+                )
+                for app in apps_of_the_week
+                if (
+                    (db_app := models.App.by_appid(db, app.app_id)) is not None
+                    and not db_app.excluded_from_app_picks
+                )
+            ]
+        )
+
+
+@router.get(
+    "/admin/apps-of-the-week/{date}",
+    tags=["app-picks"],
+    responses={
+        200: {"description": "Apps of the week"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+async def get_app_of_the_week_admin(
+    response: Response,
+    date: datetime.date = Path(
+        examples=[
+            "2021-01-01",
+            "2023-10-21",
+        ],
+    ),
+    _moderator=Depends(quality_moderator_only),
+) -> AppsOfTheWeek:
+    """Returns apps of the week for the admin page, bypassing CDN cache"""
+    response.headers["Cache-Control"] = "private"
+    with get_db("writer") as db:
         apps_of_the_week = models.AppsOfTheWeek.by_week(
             db, date.isocalendar().week, date.year
         )

@@ -13,7 +13,6 @@ import { PipelineStatus, PipelineTrigger, PipelineType } from "../model"
 import type {
   PipelineResponse,
   PipelineSummary,
-  PublishSummary,
   TriggerPipelineApiPipelinesPost201,
 } from "../model"
 
@@ -153,28 +152,6 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
     ]),
     undefined,
   ]),
-  ...overrideResponse,
-})
-
-export const getPublishPipelinesApiPipelinesPublishPostResponseMock = (
-  overrideResponse: Partial<Extract<PublishSummary, object>> = {},
-): PublishSummary => ({
-  published: Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-  superseded: Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-  errors: Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    [faker.string.alphanumeric(5)]: faker.string.alpha({
-      length: { min: 10, max: 20 },
-    }),
-  })),
   ...overrideResponse,
 })
 
@@ -382,114 +359,6 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler = (
     options,
   )
 }
-
-export const getPublishPipelinesApiPipelinesPublishPostMockHandler = (
-  overrideResponse?:
-    | PublishSummary
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<PublishSummary> | PublishSummary),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/api/pipelines/publish",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      return HttpResponse.json(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getPublishPipelinesApiPipelinesPublishPostResponseMock(),
-        { status: 200 },
-      )
-    },
-    options,
-  )
-}
-
-export const getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/api/pipelines/check-jobs",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
-
-export const getProcessGithubTasksApiGithubTasksProcessPostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/api/github-tasks/process",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
-
-export const getCleanupGithubTasksApiGithubTasksCleanupPostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/api/github-tasks/cleanup",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
-
-export const getCleanupStalePipelinesApiPipelinesCleanupStalePostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<unknown> | unknown),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/api/pipelines/cleanup-stale",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
 export const getPipelinesMock = () => [
   getTriggerPipelineApiPipelinesPostMockHandler(),
   getListPipelinesApiPipelinesGetMockHandler(),
@@ -500,9 +369,4 @@ export const getPipelinesMock = () => [
   getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMockHandler(),
   getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMockHandler(),
   getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler(),
-  getPublishPipelinesApiPipelinesPublishPostMockHandler(),
-  getCheckPipelineJobsApiPipelinesCheckJobsPostMockHandler(),
-  getProcessGithubTasksApiGithubTasksProcessPostMockHandler(),
-  getCleanupGithubTasksApiGithubTasksCleanupPostMockHandler(),
-  getCleanupStalePipelinesApiPipelinesCleanupStalePostMockHandler(),
 ]

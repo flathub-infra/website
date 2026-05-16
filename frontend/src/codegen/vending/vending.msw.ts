@@ -221,11 +221,11 @@ export const getStatusVendingStatusGetMockHandler = (
     "*/vending/status",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
       return HttpResponse.json(
-        (overrideResponse !== undefined
+        overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getStatusVendingStatusGetResponseMock()) as VendingStatus,
+          : getStatusVendingStatusGetResponseMock(),
         { status: 200 },
       )
     },
