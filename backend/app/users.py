@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Response
 from fastapi.responses import ORJSONResponse
 
 from . import models
@@ -25,6 +25,7 @@ def register_to_app(app: FastAPI):
     },
 )
 def users(
+    response: Response,
     page: int = 1,
     page_size: int = 30,
     filterString: str | None = None,
@@ -33,6 +34,7 @@ def users(
     """
     Return a list of all known users
     """
+    response.headers["Cache-Control"] = "private"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -52,10 +54,11 @@ def users(
         500: {"description": "Internal server error"},
     },
 )
-def roles(_admin=Depends(view_users_only)) -> list[str]:
+def roles(response: Response, _admin=Depends(view_users_only)) -> list[str]:
     """
     Return a list of all known role names
     """
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         return [role.name for role in models.Role.all(db_session)]
 
@@ -72,10 +75,13 @@ def roles(_admin=Depends(view_users_only)) -> list[str]:
         500: {"description": "Internal server error"},
     },
 )
-def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
+def user(
+    response: Response, user_id: int, _moderator=Depends(moderator_only)
+) -> models.UserResult:
     """
     Return the current user
     """
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         user = models.FlathubUser.by_id_result(db_session, user_id)
 
@@ -156,11 +162,12 @@ def delete_user_role(
     },
 )
 def role_users(
-    role_name: models.RoleName, _admin=Depends(view_users_only)
+    response: Response, role_name: models.RoleName, _admin=Depends(view_users_only)
 ) -> list[models.UserResult]:
     """
     Return all users with a specific role
     """
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         return [
             user.to_result(db_session)
