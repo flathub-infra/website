@@ -883,6 +883,8 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
 
     dev_flatpaks is filtered against IDs available in AppStream
     """
+    response.headers["Cache-Control"] = "private"
+
     if not login.user or not login.state.logged_in():
         response.status_code = 204
         return None
