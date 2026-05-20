@@ -5,7 +5,9 @@ import sys
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-from app.models import FlathubUser
+from sqlalchemy.dialects import postgresql
+
+from app.models import FlathubUser, OidcAccessToken, OidcAuthorizationCode
 from app.oidc import (
     ensure_oidc_subject,
     generate_token,
@@ -26,6 +28,27 @@ class FakeDb:
 
     def flush(self):
         self.flushes += 1
+
+
+class StatementSession:
+    def __init__(self):
+        self.statements = []
+
+    def execute(self, statement):
+        self.statements.append(statement)
+
+
+class StatementDb:
+    def __init__(self):
+        self.session = StatementSession()
+
+
+def compile_statement(statement):
+    return str(
+        statement.compile(
+            dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
+        )
+    )
 
 
 def test_client_secret_hash_verification():
@@ -74,3 +97,26 @@ def test_lazy_subject_generation_persists_subject_once():
     assert user.oidc_subject == first_subject
     assert db.added == [user]
     assert db.flushes == 1
+
+
+def test_oidc_rows_are_handled_by_user_delete_flow():
+    assert OidcAuthorizationCode in FlathubUser.TABLES_FOR_DELETE
+    assert OidcAccessToken in FlathubUser.TABLES_FOR_DELETE
+
+
+def test_oidc_user_delete_hooks_remove_codes_and_revoke_tokens():
+    user = FlathubUser(id=42)
+    code_db = StatementDb()
+    token_db = StatementDb()
+
+    OidcAuthorizationCode.delete_user(code_db, user)
+    OidcAccessToken.delete_user(token_db, user)
+
+    code_sql = compile_statement(code_db.session.statements[0])
+    token_sql = compile_statement(token_db.session.statements[0])
+
+    assert "DELETE FROM oidcauthorizationcode" in code_sql
+    assert "oidcauthorizationcode.user_id = 42" in code_sql
+    assert "UPDATE oidcaccesstoken SET revoked_at=" in token_sql
+    assert "oidcaccesstoken.user_id = 42" in token_sql
+    assert "oidcaccesstoken.revoked_at IS NULL" in token_sql

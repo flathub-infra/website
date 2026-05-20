@@ -26,6 +26,7 @@ from sqlalchemy import (
     or_,
     text,
     true,
+    update,
 )
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import (
@@ -1147,6 +1148,18 @@ class OidcAuthorizationCode(Base):
     )
     user_entity: Mapped["FlathubUser"] = relationship("FlathubUser")
 
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        pass
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            delete(OidcAuthorizationCode).where(
+                OidcAuthorizationCode.user_id == user.id
+            )
+        )
+
 
 class OidcAccessToken(Base):
     __tablename__ = "oidcaccesstoken"
@@ -1178,6 +1191,24 @@ class OidcAccessToken(Base):
         "OidcClient", back_populates="access_tokens"
     )
     user_entity: Mapped["FlathubUser"] = relationship("FlathubUser")
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        pass
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            update(OidcAccessToken)
+            .where(
+                OidcAccessToken.user_id == user.id,
+                OidcAccessToken.revoked_at.is_(None),
+            )
+            .values(revoked_at=datetime.now())
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.extend([OidcAuthorizationCode, OidcAccessToken])
 
 
 class AppVerification(Base):
