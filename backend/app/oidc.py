@@ -4,9 +4,12 @@ import base64
 import hashlib
 import hmac
 import secrets
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol, cast
 
 from sqlalchemy import select, update
+
+if TYPE_CHECKING:
+    from .models import FlathubUser
 
 TOKEN_BYTES = 32
 PBKDF2_ITERATIONS = 600_000
@@ -65,7 +68,7 @@ def ensure_oidc_subject(db: Any, user: OidcSubjectUser) -> str:
         return user.oidc_subject
 
     session = getattr(db, "session", db)
-    user_model = type(user)
+    user_model = cast("type[FlathubUser]", type(user))
 
     subject = session.execute(
         update(user_model)
