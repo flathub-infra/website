@@ -25,6 +25,7 @@ from sqlalchemy import (
     func,
     or_,
     text,
+    true,
 )
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import (
@@ -133,6 +134,9 @@ class FlathubUser(Base):
     )
     accepted_publisher_agreement_at: Mapped[datetime | None] = mapped_column(
         DateTime, nullable=True, server_default=None
+    )
+    oidc_subject: Mapped[str | None] = mapped_column(
+        String, nullable=True, unique=True, index=True
     )
 
     invite_code: Mapped[str | None] = mapped_column(
@@ -1080,6 +1084,100 @@ ConnectedAccountTables = [
 ConnectedAccount = (
     GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
 )
+
+
+class OidcClient(Base):
+    __tablename__ = "oidcclient"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    client_id: Mapped[str] = mapped_column(
+        String, nullable=False, unique=True, index=True
+    )
+    client_secret_hash: Mapped[str] = mapped_column(String, nullable=False)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    redirect_uris: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
+    allowed_scopes: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
+    enabled: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=true()
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    authorization_codes: Mapped[list["OidcAuthorizationCode"]] = relationship(
+        "OidcAuthorizationCode", back_populates="client"
+    )
+    access_tokens: Mapped[list["OidcAccessToken"]] = relationship(
+        "OidcAccessToken", back_populates="client"
+    )
+
+
+class OidcAuthorizationCode(Base):
+    __tablename__ = "oidcauthorizationcode"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    client_id: Mapped[str] = mapped_column(
+        String,
+        ForeignKey("oidcclient.client_id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    user_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    code_hash: Mapped[str] = mapped_column(
+        String, nullable=False, unique=True, index=True
+    )
+    redirect_uri: Mapped[str] = mapped_column(String, nullable=False)
+    scope: Mapped[str] = mapped_column(String, nullable=False)
+    nonce: Mapped[str | None] = mapped_column(String, nullable=True)
+    code_challenge: Mapped[str | None] = mapped_column(String, nullable=True)
+    code_challenge_method: Mapped[str | None] = mapped_column(String, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    consumed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+    client: Mapped["OidcClient"] = relationship(
+        "OidcClient", back_populates="authorization_codes"
+    )
+    user_entity: Mapped["FlathubUser"] = relationship("FlathubUser")
+
+
+class OidcAccessToken(Base):
+    __tablename__ = "oidcaccesstoken"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    client_id: Mapped[str] = mapped_column(
+        String,
+        ForeignKey("oidcclient.client_id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    user_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    access_token_hash: Mapped[str] = mapped_column(
+        String, nullable=False, unique=True, index=True
+    )
+    scope: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+    client: Mapped["OidcClient"] = relationship(
+        "OidcClient", back_populates="access_tokens"
+    )
+    user_entity: Mapped["FlathubUser"] = relationship("FlathubUser")
 
 
 class AppVerification(Base):

@@ -24,6 +24,13 @@ class Settings(BaseSettings):
 
     frontend_url: str = "http://localhost:3000"
 
+    oidc_enabled: bool = False
+    oidc_issuer: str = "http://localhost:8000"
+    oidc_private_jwks: str | None = None
+    oidc_code_lifetime_seconds: int = 600
+    oidc_access_token_lifetime_seconds: int = 3600
+    oidc_jwt_alg: str = "RS256"
+
     github_client_id: str = "71dbddbdb4288fe96a58"
     github_client_secret: str = "4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5"
     github_return_url: str = "http://localhost:3000/login/github"
