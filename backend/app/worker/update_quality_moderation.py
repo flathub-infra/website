@@ -2,6 +2,10 @@ import dramatiq
 
 from .. import apps, models
 from ..database import get_db, get_json_key
+from ..quality_moderation_checks import (
+    summary_doesnt_repeat_app_name,
+    summary_doesnt_start_with_article,
+)
 
 
 @dramatiq.actor
@@ -105,6 +109,26 @@ def update_quality_moderation():
                     ),
                     None,
                 )
+
+                name = value.get("name", "")
+                summary = value.get("summary", "")
+
+                models.QualityModeration.upsert(
+                    db,
+                    app_id,
+                    "app-summary-dont-start-with-an-article",
+                    summary_doesnt_start_with_article(summary),
+                    None,
+                )
+
+                models.QualityModeration.upsert(
+                    db,
+                    app_id,
+                    "app-summary-dont-repeat-app-name",
+                    summary_doesnt_repeat_app_name(name, summary),
+                    None,
+                )
+
                 if summary_dict := get_json_key(f"summary:{app_id}:stable"):
                     runtime_is_not_eol = True
                     if (
