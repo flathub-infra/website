@@ -18,29 +18,29 @@ from app.oidc import (
 )
 
 
-class FakeDb:
-    def __init__(self):
-        self.added = []
-        self.flushes = 0
+class ScalarResult:
+    def __init__(self, value):
+        self.value = value
 
-    def add(self, item):
-        self.added.append(item)
-
-    def flush(self):
-        self.flushes += 1
+    def scalar_one_or_none(self):
+        return self.value
 
 
 class StatementSession:
-    def __init__(self):
+    def __init__(self, results=None):
         self.statements = []
+        self.results = [] if results is None else list(results)
 
     def execute(self, statement):
         self.statements.append(statement)
+        if self.results:
+            return self.results.pop(0)
+        return ScalarResult(None)
 
 
 class StatementDb:
-    def __init__(self):
-        self.session = StatementSession()
+    def __init__(self, results=None):
+        self.session = StatementSession(results)
 
 
 def compile_statement(statement):
@@ -86,17 +86,46 @@ def test_generate_token_returns_distinct_high_entropy_values():
     assert len(first_token) >= 32
 
 
-def test_lazy_subject_generation_persists_subject_once():
-    db = FakeDb()
+def test_lazy_subject_generation_uses_atomic_update():
+    db = StatementDb([ScalarResult("assigned-subject")])
     user = FlathubUser(id=1)
 
-    first_subject = ensure_oidc_subject(db, user)
-    second_subject = ensure_oidc_subject(db, user)
+    subject = ensure_oidc_subject(db, user)
 
-    assert first_subject == second_subject
-    assert user.oidc_subject == first_subject
-    assert db.added == [user]
-    assert db.flushes == 1
+    assert subject == "assigned-subject"
+    assert user.oidc_subject == "assigned-subject"
+    assert len(db.session.statements) == 1
+
+    update_sql = compile_statement(db.session.statements[0])
+
+    assert "UPDATE flathubuser SET oidc_subject=" in update_sql
+    assert "flathubuser.id = 1" in update_sql
+    assert "flathubuser.oidc_subject IS NULL" in update_sql
+    assert "RETURNING flathubuser.oidc_subject" in update_sql
+
+
+def test_lazy_subject_generation_reuses_concurrent_subject():
+    db = StatementDb([ScalarResult(None), ScalarResult("existing-subject")])
+    user = FlathubUser(id=1)
+
+    subject = ensure_oidc_subject(db, user)
+
+    assert subject == "existing-subject"
+    assert user.oidc_subject == "existing-subject"
+    assert len(db.session.statements) == 2
+
+    select_sql = compile_statement(db.session.statements[1])
+
+    assert "SELECT flathubuser.oidc_subject" in select_sql
+    assert "flathubuser.id = 1" in select_sql
+
+
+def test_existing_lazy_subject_does_not_write():
+    db = StatementDb()
+    user = FlathubUser(id=1, oidc_subject="existing-subject")
+
+    assert ensure_oidc_subject(db, user) == "existing-subject"
+    assert db.session.statements == []
 
 
 def test_oidc_rows_are_handled_by_user_delete_flow():

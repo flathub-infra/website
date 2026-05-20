@@ -6,6 +6,8 @@ import hmac
 import secrets
 from typing import Any, Protocol
 
+from sqlalchemy import select, update
+
 TOKEN_BYTES = 32
 PBKDF2_ITERATIONS = 600_000
 PBKDF2_SALT_BYTES = 32
@@ -13,6 +15,7 @@ CLIENT_SECRET_HASH_SCHEME = "pbkdf2_sha256"
 
 
 class OidcSubjectUser(Protocol):
+    id: int
     oidc_subject: str | None
 
 
@@ -58,12 +61,29 @@ def verify_client_secret(secret: str, stored_hash: str) -> bool:
 
 
 def ensure_oidc_subject(db: Any, user: OidcSubjectUser) -> str:
-    if user.oidc_subject is None:
-        user.oidc_subject = generate_token()
-        db.add(user)
-        db.flush()
+    if user.oidc_subject is not None:
+        return user.oidc_subject
 
-    return user.oidc_subject
+    session = getattr(db, "session", db)
+    user_model = type(user)
+
+    subject = session.execute(
+        update(user_model)
+        .where(user_model.id == user.id, user_model.oidc_subject.is_(None))
+        .values(oidc_subject=generate_token())
+        .returning(user_model.oidc_subject)
+    ).scalar_one_or_none()
+
+    if subject is None:
+        subject = session.execute(
+            select(user_model.oidc_subject).where(user_model.id == user.id)
+        ).scalar_one_or_none()
+
+    if subject is None:
+        raise ValueError(f"User {user.id} has no OIDC subject")
+
+    user.oidc_subject = subject
+    return subject
 
 
 def _pbkdf2(secret: str, salt: bytes, iterations: int) -> bytes:
