@@ -14,7 +14,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 
-
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from joserfc import jwk, jwt
@@ -98,7 +97,6 @@ def client():
     app.add_middleware(cast("Any", SessionMiddleware), secret_key="test-session-secret")
     with TestClient(app, raise_server_exceptions=False) as client_:
         yield client_
-
 
 
 def enable_oidc(monkeypatch, private_jwks=None):
@@ -355,14 +353,22 @@ def test_oidc_client_has_refresh_tokens_enabled():
 def test_oidc_refresh_token_lifetime_config_default():
     """Verify the default refresh token lifetime config value."""
     from app import config
-    assert config.Settings.model_fields["oidc_refresh_token_lifetime_seconds"].default == 2592000
+
+    assert (
+        config.Settings.model_fields["oidc_refresh_token_lifetime_seconds"].default
+        == 2592000
+    )
 
 
 def test_access_token_scope_removes_offline_access():
     """_access_token_scope helper removes offline_access from scope string."""
     from app.routes.oidc import _access_token_scope
+
     assert _access_token_scope("openid profile email") == "openid profile email"
-    assert _access_token_scope("openid profile email offline_access") == "openid profile email"
+    assert (
+        _access_token_scope("openid profile email offline_access")
+        == "openid profile email"
+    )
     assert _access_token_scope("openid offline_access") == "openid"
     assert _access_token_scope("openid") == "openid"
 
@@ -370,9 +376,19 @@ def test_access_token_scope_removes_offline_access():
 def test_scope_subset_or_invalid_allows_narrowing():
     """_scope_subset_or_invalid allows narrowing but not expanding scopes."""
     from app.routes.oidc import _scope_subset_or_invalid
-    assert _scope_subset_or_invalid("openid profile", "openid profile email") == "openid profile"
-    assert _scope_subset_or_invalid("openid profile email", "openid profile email") == "openid profile email"
-    assert _scope_subset_or_invalid("openid profile email admin", "openid profile email") is None
+
+    assert (
+        _scope_subset_or_invalid("openid profile", "openid profile email")
+        == "openid profile"
+    )
+    assert (
+        _scope_subset_or_invalid("openid profile email", "openid profile email")
+        == "openid profile email"
+    )
+    assert (
+        _scope_subset_or_invalid("openid profile email admin", "openid profile email")
+        is None
+    )
     assert _scope_subset_or_invalid("", "openid profile email") == ""
 
 
@@ -400,7 +416,9 @@ def test_revoke_refresh_family_compiles_expected_sql():
     assert "oidcaccesstoken.revoked_at IS NULL" in access_sql
 
 
-def test_discovery_advertises_refresh_token_grant_and_offline_access(client, monkeypatch):
+def test_discovery_advertises_refresh_token_grant_and_offline_access(
+    client, monkeypatch
+):
     enable_oidc(monkeypatch)
     response = client.get("/.well-known/openid-configuration")
     assert response.status_code == 200
@@ -444,8 +462,12 @@ def test_redirect_uri_helper_requires_exact_match():
 
     assert redirect_uri_allowed(REDIRECT_URI, allowed_redirect_uris)
     assert not redirect_uri_allowed(f"{REDIRECT_URI}/", allowed_redirect_uris)
-    assert not redirect_uri_allowed(f"{REDIRECT_URI}?next=/admin", allowed_redirect_uris)
-    assert not redirect_uri_allowed("https://evil.example.com/callback", allowed_redirect_uris)
+    assert not redirect_uri_allowed(
+        f"{REDIRECT_URI}?next=/admin", allowed_redirect_uris
+    )
+    assert not redirect_uri_allowed(
+        "https://evil.example.com/callback", allowed_redirect_uris
+    )
 
 
 def test_scope_helper_requires_openid_and_client_allowed_scopes():
@@ -504,7 +526,6 @@ def authorize_client(client, monkeypatch):
     return client
 
 
-
 def test_authorize_returns_404_when_disabled(client, monkeypatch):
     monkeypatch.setattr(config.settings, "oidc_enabled", False)
 
@@ -516,7 +537,9 @@ def test_authorize_returns_404_when_disabled(client, monkeypatch):
 def test_authorize_invalid_client_returns_400(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=None)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
@@ -532,7 +555,9 @@ def test_authorize_disabled_client_returns_400(authorize_client):
     disabled_client = _make_client(enabled=False)
     get_db_mock = _mock_db_ctx(client_obj=disabled_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
@@ -548,11 +573,16 @@ def test_authorize_redirect_mismatch_returns_400(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
-                params={**AUTHORIZE_PARAMS, "redirect_uri": "https://evil.example.com/callback"},
+                params={
+                    **AUTHORIZE_PARAMS,
+                    "redirect_uri": "https://evil.example.com/callback",
+                },
                 follow_redirects=False,
             )
     finally:
@@ -566,7 +596,9 @@ def test_authorize_unsupported_response_type(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
@@ -586,7 +618,9 @@ def test_authorize_pkce_parameters_are_rejected(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
@@ -610,7 +644,9 @@ def test_authorize_missing_openid_scope(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
@@ -629,7 +665,9 @@ def test_authorize_disallowed_scope(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
@@ -648,7 +686,9 @@ def test_authorize_unauthenticated_redirects_to_login(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
@@ -658,8 +698,11 @@ def test_authorize_unauthenticated_redirects_to_login(authorize_client):
 
     assert response.status_code == 302
     location = response.headers["location"]
-    assert location.startswith("http://localhost:3000/login?returnTo=%2Foidc%2Fauthorize"), location
+    assert location.startswith(
+        "http://localhost:3000/login?returnTo=%2Foidc%2Fauthorize"
+    ), location
     assert "redirect_uri" not in location
+
 
 def test_authorize_authenticated_issues_code(authorize_client):
     valid_client = _make_client()
@@ -668,10 +711,14 @@ def test_authorize_authenticated_issues_code(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
@@ -701,10 +748,13 @@ def test_authorize_deleted_user_is_denied(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject"
-        ) as ensure_subject:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+        ):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
@@ -725,10 +775,14 @@ def test_authorize_nonce_persisted(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize",
                 params={**AUTHORIZE_PARAMS, "nonce": "test-nonce"},
@@ -749,10 +803,14 @@ def test_authorize_state_preserved(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize",
                 params={**AUTHORIZE_PARAMS, "state": "custom-state-42"},
@@ -805,15 +863,21 @@ def test_authorize_revalidates_client_on_writer(authorize_client):
     user = FlathubUser(id=1, oidc_subject="sub-1")
     added = []
     get_db_mock = _mock_db_ctx_split(
-        replica_client=valid_client, writer_client=disabled_client,
-        user=user, added=added,
+        replica_client=valid_client,
+        writer_client=disabled_client,
+        user=user,
+        added=added,
     )
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
@@ -825,7 +889,9 @@ def test_authorize_revalidates_client_on_writer(authorize_client):
     assert len(added) == 0
 
 
-NESTED_REDIRECT_URI = "https://test-client.example.com/oauth2/callback%3Fnext%3D%252Fadmin%26foo%3Dbar"
+NESTED_REDIRECT_URI = (
+    "https://test-client.example.com/oauth2/callback%3Fnext%3D%252Fadmin%26foo%3Dbar"
+)
 
 
 def test_authorize_preserves_nested_encoded_redirect_uri(authorize_client):
@@ -843,10 +909,14 @@ def test_authorize_preserves_nested_encoded_redirect_uri(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=nested_client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize",
                 params={
@@ -877,6 +947,7 @@ def make_client_with_redirect(redirect_uri):
         refresh_tokens_enabled=False,
     )
 
+
 def test_authorize_fresh_request_ignores_stale_session(authorize_client):
     client = make_client_with_redirect(REDIRECT_URI)
     user = FlathubUser(id=1, oidc_subject="sub-1")
@@ -884,16 +955,22 @@ def test_authorize_fresh_request_ignores_stale_session(authorize_client):
     get_db_mock = _mock_db_ctx(client_obj=client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
 
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="fresh-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="fresh-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize",
                 params={
@@ -918,7 +995,9 @@ def test_authorize_round_trip_preserves_nested_encoded_redirect_uri(authorize_cl
     get_db_mock = _mock_db_ctx(client_obj=nested_client, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
@@ -933,16 +1012,20 @@ def test_authorize_round_trip_preserves_nested_encoded_redirect_uri(authorize_cl
 
         assert response.status_code == 302
         location = response.headers["location"]
-        assert location.startswith("http://localhost:3000/login?returnTo=%2Foidc%2Fauthorize")
+        assert location.startswith(
+            "http://localhost:3000/login?returnTo=%2Foidc%2Fauthorize"
+        )
         assert "redirect_uri" not in location
 
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
-            response = authorize_client.get(
-                "/oidc/authorize", follow_redirects=False
-            )
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
+            response = authorize_client.get("/oidc/authorize", follow_redirects=False)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -956,13 +1039,17 @@ def test_authorize_malformed_fresh_request_ignores_stale_session(authorize_clien
     get_db_mock = _mock_db_ctx(client_obj=stale_client)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
 
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize?foo=bar", follow_redirects=False
@@ -974,14 +1061,18 @@ def test_authorize_malformed_fresh_request_ignores_stale_session(authorize_clien
     assert response.json() == {"detail": "invalid_request"}
 
 
-
 def test_authorize_offline_access_rejected_if_client_refresh_disabled(authorize_client):
     """offline_access scope is rejected when client refresh_tokens_enabled=False."""
-    client_obj = _make_client(refresh_tokens_enabled=False, allowed_scopes=["openid", "profile", "email", "offline_access"])
+    client_obj = _make_client(
+        refresh_tokens_enabled=False,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
+    )
     get_db_mock = _mock_db_ctx(client_obj=client_obj)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
@@ -1004,16 +1095,23 @@ def test_authorize_offline_access_rejected_if_client_refresh_disabled(authorize_
 
 def test_authorize_offline_access_allowed_if_client_refresh_enabled(authorize_client):
     """offline_access scope is allowed when client has refresh_tokens_enabled=True."""
-    client_obj = _make_client(refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"])
+    client_obj = _make_client(
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
+    )
     user = FlathubUser(id=1, oidc_subject="sub-1")
     added = []
     get_db_mock = _mock_db_ctx(client_obj=client_obj, user=user, added=added)
 
     try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize",
                 params={
@@ -1046,7 +1144,9 @@ def _generate_test_jwks():
     return json.dumps({"keys": [key.as_dict(private=True)]})
 
 
-def _make_token_client(secret=CLIENT_SECRET, refresh_tokens_enabled=False, allowed_scopes=None):
+def _make_token_client(
+    secret=CLIENT_SECRET, refresh_tokens_enabled=False, allowed_scopes=None
+):
     return OidcClient(
         id=1,
         client_id="test-client",
@@ -1094,7 +1194,9 @@ def _make_auth_code_row(
         redirect_uri=redirect_uri,
         scope=scope,
         nonce=nonce,
-        expires_at=now + timedelta(seconds=600) if not expired else now - timedelta(seconds=1),
+        expires_at=now + timedelta(seconds=600)
+        if not expired
+        else now - timedelta(seconds=1),
     )
 
 
@@ -1160,9 +1262,11 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1206,9 +1310,11 @@ def test_token_valid_exchange_with_client_secret_basic(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1235,9 +1341,11 @@ def test_token_includes_nonce_in_id_token(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1369,9 +1477,10 @@ def test_token_deleted_user_returns_invalid_grant(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject"
-    ) as ensure_subject:
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1502,9 +1611,11 @@ def test_token_id_token_signature_verifiable(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1534,12 +1645,10 @@ def test_token_id_token_signature_verifiable(token_client):
     assert "exp" in claims
 
 
-
-
-
 def test_token_auth_code_with_offline_access_returns_refresh_token(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
     user = FlathubUser(id=1, oidc_subject="sub-1")
@@ -1548,9 +1657,14 @@ def test_token_auth_code_with_offline_access_returns_refresh_token(token_client)
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", side_effect=["test-family-id", "test-refresh-token", "test-access-token"]):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch(
+            "app.routes.oidc.generate_token",
+            side_effect=["test-family-id", "test-refresh-token", "test-access-token"],
+        ),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1588,9 +1702,11 @@ def test_token_auth_code_without_offline_access_no_refresh_token(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1608,8 +1724,13 @@ def test_token_auth_code_without_offline_access_no_refresh_token(token_client):
     assert not any(isinstance(o, OidcRefreshToken) for o in added)
 
 
-def test_token_auth_code_offline_access_ignored_if_client_refresh_disabled(token_client):
-    client_obj = _make_token_client(refresh_tokens_enabled=False, allowed_scopes=["openid", "profile", "email", "offline_access"])
+def test_token_auth_code_offline_access_ignored_if_client_refresh_disabled(
+    token_client,
+):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=False,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
+    )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
     user = FlathubUser(id=1, oidc_subject="sub-1")
     added = []
@@ -1617,9 +1738,11 @@ def test_token_auth_code_offline_access_ignored_if_client_refresh_disabled(token
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1639,7 +1762,8 @@ def test_token_auth_code_offline_access_ignored_if_client_refresh_disabled(token
 
 def test_token_refresh_token_stored_hashed_only(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
     user = FlathubUser(id=1, oidc_subject="sub-1")
@@ -1648,9 +1772,14 @@ def test_token_refresh_token_stored_hashed_only(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", side_effect=["test-family-id", "test-refresh-token", "test-access-token"]):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch(
+            "app.routes.oidc.generate_token",
+            side_effect=["test-family-id", "test-refresh-token", "test-access-token"],
+        ),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1670,7 +1799,8 @@ def test_token_refresh_token_stored_hashed_only(token_client):
 
 def test_token_access_token_scope_excludes_offline_access(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
     user = FlathubUser(id=1, oidc_subject="sub-1")
@@ -1679,9 +1809,14 @@ def test_token_access_token_scope_excludes_offline_access(token_client):
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", side_effect=["test-family-id", "test-refresh-token", "test-access-token"]):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch(
+            "app.routes.oidc.generate_token",
+            side_effect=["test-family-id", "test-refresh-token", "test-access-token"],
+        ),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1697,6 +1832,8 @@ def test_token_access_token_scope_excludes_offline_access(token_client):
     access_token_obj = next(o for o in added if isinstance(o, OidcAccessToken))
     assert "offline_access" not in access_token_obj.scope
     assert "openid" in access_token_obj.scope
+
+
 # ---------------------------------------------------------------------------
 # Refresh grant tests
 # ---------------------------------------------------------------------------
@@ -1795,9 +1932,11 @@ def _mock_refresh_db(
     _ctx.session = writer_session
     return _ctx
 
+
 def test_refresh_grant_valid(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow()
     user = FlathubUser(id=1, oidc_subject="sub-1")
@@ -1806,9 +1945,14 @@ def test_refresh_grant_valid(token_client):
         client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", side_effect=["new-refresh-token", "new-access-token"]):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch(
+            "app.routes.oidc.generate_token",
+            side_effect=["new-refresh-token", "new-access-token"],
+        ),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1836,14 +1980,13 @@ def test_refresh_grant_valid(token_client):
 
 def test_refresh_grant_expired_token(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     now = datetime.now(UTC)
     rt_row = _RefreshTokenRow(expires_at=now - timedelta(seconds=1))
     user = FlathubUser(id=1, oidc_subject="sub-1")
-    get_db_mock = _mock_refresh_db(
-        client_obj=client_obj, rt_row=rt_row, user_obj=user
-    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = token_client.post(
@@ -1863,7 +2006,8 @@ def test_refresh_grant_expired_token(token_client):
 def test_refresh_grant_revoked_token(token_client):
     now = datetime.now(UTC)
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     replay_obj = _RtObjForReplay(revoked_at=now - timedelta(seconds=1))
     get_db_mock = _mock_refresh_db(
@@ -1887,11 +2031,10 @@ def test_refresh_grant_revoked_token(token_client):
 
 def test_refresh_grant_wrong_client(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
-    get_db_mock = _mock_refresh_db(
-        client_obj=client_obj, rt_row=None
-    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=None)
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = token_client.post(
@@ -1910,7 +2053,8 @@ def test_refresh_grant_wrong_client(token_client):
 
 def test_refresh_grant_disabled_client(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     client_obj.enabled = False
     get_db_mock = _mock_refresh_db(client_obj=client_obj)
@@ -1932,7 +2076,8 @@ def test_refresh_grant_disabled_client(token_client):
 
 def test_refresh_grant_client_refresh_disabled(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=False, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=False,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     get_db_mock = _mock_refresh_db(client_obj=client_obj)
 
@@ -1953,18 +2098,18 @@ def test_refresh_grant_client_refresh_disabled(token_client):
 
 def test_refresh_grant_deleted_user(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow()
     user = FlathubUser(id=1, oidc_subject="sub-1")
     user.deleted = True
-    get_db_mock = _mock_refresh_db(
-        client_obj=client_obj, rt_row=rt_row, user_obj=user
-    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject"
-    ) as ensure_subject:
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -1982,7 +2127,8 @@ def test_refresh_grant_deleted_user(token_client):
 
 def test_refresh_grant_missing_token(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     get_db_mock = _mock_refresh_db(client_obj=client_obj)
 
@@ -2002,7 +2148,8 @@ def test_refresh_grant_missing_token(token_client):
 
 def test_refresh_grant_scope_narrowing(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow(scope="openid profile email offline_access")
     user = FlathubUser(id=1, oidc_subject="sub-1")
@@ -2011,9 +2158,14 @@ def test_refresh_grant_scope_narrowing(token_client):
         client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch("app.routes.oidc.generate_token", side_effect=["new-refresh-token", "new-access-token"]):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch(
+            "app.routes.oidc.generate_token",
+            side_effect=["new-refresh-token", "new-access-token"],
+        ),
+    ):
         response = token_client.post(
             "/oidc/token",
             data={
@@ -2034,13 +2186,12 @@ def test_refresh_grant_scope_narrowing(token_client):
 
 def test_refresh_grant_scope_expansion_rejected(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow(scope="openid profile")
     user = FlathubUser(id=1, oidc_subject="sub-1")
-    get_db_mock = _mock_refresh_db(
-        client_obj=client_obj, rt_row=rt_row, user_obj=user
-    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = token_client.post(
@@ -2061,7 +2212,8 @@ def test_refresh_grant_scope_expansion_rejected(token_client):
 def test_refresh_grant_replay_revokes_family(token_client):
     now = datetime.now(UTC)
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     replay_obj = _RtObjForReplay(rotated_at=now - timedelta(seconds=1))
     added = []
@@ -2091,9 +2243,7 @@ def test_refresh_grant_replay_revokes_family(token_client):
 
     # Inspect the actual SQL issued by _revoke_refresh_family
     execute_calls = session.execute.call_args_list
-    sql_strings = [
-        compile_statement(call[0][0]) for call in execute_calls
-    ]
+    sql_strings = [compile_statement(call[0][0]) for call in execute_calls]
     refresh_revocation = any(
         "UPDATE oidcrefreshtoken SET revoked_at=" in s
         and "oidcrefreshtoken.family_id" in s
@@ -2106,11 +2256,16 @@ def test_refresh_grant_replay_revokes_family(token_client):
     )
     assert refresh_revocation, "no refresh-token family revocation UPDATE found"
     assert access_revocation, "no access-token family revocation UPDATE found"
+
+
 def test_refresh_grant_unknown_token_returns_invalid_grant(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
-    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=None, replay_obj=None, user_obj=None)
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=None, replay_obj=None, user_obj=None
+    )
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = token_client.post(
@@ -2129,7 +2284,8 @@ def test_refresh_grant_unknown_token_returns_invalid_grant(token_client):
 
 def test_refresh_grant_bad_client_secret(token_client):
     client_obj = _make_token_client(
-        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     get_db_mock = _mock_refresh_db(client_obj=client_obj)
 
@@ -2146,6 +2302,8 @@ def test_refresh_grant_bad_client_secret(token_client):
 
     assert response.status_code == 401
     assert response.json() == {"detail": "invalid_client"}
+
+
 USERINFO_TOKEN = "test-userinfo-token"
 
 
@@ -2166,13 +2324,15 @@ def _make_access_token_obj(
     token.expires_at = (
         now + timedelta(seconds=3600) if not expired else now - timedelta(seconds=1)
     )
-    token.revoked_at = (
-        now - timedelta(seconds=1) if revoked else None
-    )
+    token.revoked_at = now - timedelta(seconds=1) if revoked else None
     return token
 
 
-def _make_connected_account(login="testuser", avatar_url="https://example.com/avatar.png", email="test@example.com"):
+def _make_connected_account(
+    login="testuser",
+    avatar_url="https://example.com/avatar.png",
+    email="test@example.com",
+):
     account = MagicMock()
     account.login = login
     account.avatar_url = avatar_url
@@ -2196,7 +2356,6 @@ def _mock_userinfo_db(
         token_query.first.return_value = None
     writer_session.query.return_value = token_query
 
-
     writer_session.get.return_value = user_obj
 
     writer_db = MagicMock()
@@ -2219,9 +2378,11 @@ def test_userinfo_valid(client, monkeypatch):
         access_token_obj=access_token_obj, user_obj=user
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch.object(FlathubUser, "get_default_account", return_value=default_account):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch.object(FlathubUser, "get_default_account", return_value=default_account),
+    ):
         response = client.get(
             "/oidc/userinfo",
             headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
@@ -2267,7 +2428,9 @@ def test_userinfo_invalid_token(client, monkeypatch):
 def test_userinfo_expired_token(client, monkeypatch):
     """Expired tokens are excluded by the expires_at filter in the query."""
     enable_oidc(monkeypatch)
-    get_db_mock, writer_session = _mock_userinfo_db(access_token_obj=None, user_obj=None)
+    get_db_mock, writer_session = _mock_userinfo_db(
+        access_token_obj=None, user_obj=None
+    )
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = client.get(
@@ -2278,7 +2441,11 @@ def test_userinfo_expired_token(client, monkeypatch):
     assert response.status_code == 401
     filter_args = writer_session.query.return_value.filter.call_args[0]
     sql_fragments = [
-        str(arg.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}))
+        str(
+            arg.compile(
+                dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
+            )
+        )
         for arg in filter_args
     ]
     assert any("oidcaccesstoken.expires_at >" in s for s in sql_fragments)
@@ -2287,7 +2454,9 @@ def test_userinfo_expired_token(client, monkeypatch):
 def test_userinfo_revoked_token(client, monkeypatch):
     """Revoked tokens are excluded by the revoked_at IS NULL filter in the query."""
     enable_oidc(monkeypatch)
-    get_db_mock, writer_session = _mock_userinfo_db(access_token_obj=None, user_obj=None)
+    get_db_mock, writer_session = _mock_userinfo_db(
+        access_token_obj=None, user_obj=None
+    )
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = client.get(
@@ -2298,7 +2467,11 @@ def test_userinfo_revoked_token(client, monkeypatch):
     assert response.status_code == 401
     filter_args = writer_session.query.return_value.filter.call_args[0]
     sql_fragments = [
-        str(arg.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}))
+        str(
+            arg.compile(
+                dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
+            )
+        )
         for arg in filter_args
     ]
     assert any("oidcaccesstoken.revoked_at IS NULL" in s for s in sql_fragments)
@@ -2313,9 +2486,10 @@ def test_userinfo_deleted_user_returns_invalid_token(client, monkeypatch):
         access_token_obj=access_token_obj, user_obj=user
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject"
-    ) as ensure_subject:
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+    ):
         response = client.get(
             "/oidc/userinfo",
             headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
@@ -2336,9 +2510,11 @@ def test_userinfo_no_profile_scope(client, monkeypatch):
         access_token_obj=access_token_obj, user_obj=user
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch.object(FlathubUser, "get_default_account", return_value=default_account):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch.object(FlathubUser, "get_default_account", return_value=default_account),
+    ):
         response = client.get(
             "/oidc/userinfo",
             headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
@@ -2364,9 +2540,11 @@ def test_userinfo_no_email_scope(client, monkeypatch):
         access_token_obj=access_token_obj, user_obj=user
     )
 
-    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
-        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
-    ), patch.object(FlathubUser, "get_default_account", return_value=default_account):
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch.object(FlathubUser, "get_default_account", return_value=default_account),
+    ):
         response = client.get(
             "/oidc/userinfo",
             headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},

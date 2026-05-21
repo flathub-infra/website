@@ -78,7 +78,9 @@ def oidc_client_enabled(client: OidcClientRecord | None) -> TypeGuard[OidcClient
     return client is not None and client.enabled
 
 
-def redirect_uri_allowed(redirect_uri: str, allowed_redirect_uris: Sequence[str]) -> bool:
+def redirect_uri_allowed(
+    redirect_uri: str, allowed_redirect_uris: Sequence[str]
+) -> bool:
     return redirect_uri in allowed_redirect_uris
 
 
