@@ -24,6 +24,8 @@ class ErrorDetail(StrEnum):
     NOT_LOGGED_IN = "not_logged_in"
     # The user is not a developer of the app
     NOT_APP_DEVELOPER = "not_app_developer"
+    # The user does not have permission to manage upload tokens
+    NOT_UPLOADER = "not_uploader"
     # One or more of the requested scopes is not allowed
     FORBIDDEN_SCOPE = "forbidden_scope"
     # One or more of the requested repos is not allowed
@@ -60,6 +62,19 @@ class TokensResponse(BaseModel):
     is_direct_upload_app: bool
 
 
+UPLOAD_TOKEN_PERMISSION = "direct-upload"
+
+
+def _require_upload_token_access(app_id: str, login):
+    with get_db("replica") as db:
+        user = db.session.merge(login.user)
+        if UPLOAD_TOKEN_PERMISSION not in user.permissions():
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
+        if app_id not in user.dev_flatpaks(db):
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+        login.user = user
+
+
 def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenResponse:
     return TokenResponse(
         id=token.id,
@@ -81,7 +96,7 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
     responses={
         200: {"description": "Upload tokens for the app"},
         401: {"description": "Not logged in"},
-        403: {"description": "Not an app developer"},
+        403: {"description": "Not an app developer or uploader"},
     },
 )
 def get_upload_tokens(
@@ -93,9 +108,7 @@ def get_upload_tokens(
 
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    with get_db("replica") as db:
-        if app_id not in login.user.dev_flatpaks(db):
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    _require_upload_token_access(app_id, login)
 
     with get_db("replica") as db:
         tokens = (
@@ -138,7 +151,7 @@ class UploadTokenRequest(BaseModel):
         200: {"description": "Upload token created successfully"},
         400: {"description": "Invalid request parameters"},
         401: {"description": "Not logged in"},
-        403: {"description": "Not an app developer"},
+        403: {"description": "Not an app developer or uploader"},
         500: {"description": "Flat manager not configured or server error"},
     },
 )
@@ -157,9 +170,7 @@ def create_upload_token(
 
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    with get_db("replica") as db:
-        if app_id not in login.user.dev_flatpaks(db):
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    _require_upload_token_access(app_id, login)
 
     with get_db("replica") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
@@ -280,12 +291,7 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
     if token is None:
         raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
 
-    with get_db("replica") as db:
-        if token.app_id not in login.user.dev_flatpaks(db):
-            raise HTTPException(
-                status_code=403,
-                detail=ErrorDetail.NOT_APP_DEVELOPER,
-            )
+    _require_upload_token_access(token.app_id, login)
 
     flat_manager_jwt = utils.create_flat_manager_token(
         "revoke_upload_token", ["tokenmanagement"], sub=""

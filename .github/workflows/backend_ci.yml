@@ -48,7 +48,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Run unit tests
-        run: uv run pytest -vvvv tests/test_login_info.py tests/test_oidc.py
+        run: uv run pytest -vvvv tests/test_login_info.py tests/test_oidc.py teats/test_upload_tokens.py
 
   smoketests:
     runs-on: ubuntu-latest
