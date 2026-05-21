@@ -641,40 +641,29 @@ def make_client_with_redirect(redirect_uri):
 
 
 def test_authorize_fresh_request_ignores_stale_session(authorize_client):
-    stale_client = make_client_with_redirect("https://stale.example.com/callback")
-    fresh_client = make_client_with_redirect(REDIRECT_URI)
+    client = make_client_with_redirect(REDIRECT_URI)
     user = FlathubUser(id=1, oidc_subject="sub-1")
     added = []
-
-    call_count = 0
-
-    @contextmanager
-    def _ctx(*_args, **_kwargs):
-        nonlocal call_count
-        call_count += 1
-        session = MagicMock()
-        query_chain = MagicMock()
-        query_chain.first.return_value = fresh_client if call_count > 1 else stale_client
-        session.query.return_value.filter.return_value = query_chain
-        session.merge.return_value = user
-        session.add.side_effect = lambda obj: added.append(obj)
-        db = MagicMock()
-        db.session = session
-        yield db
+    get_db_mock = _mock_db_ctx(client_obj=client, user=user, added=added)
 
     try:
         authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
-        with patch("app.routes.oidc.get_db", side_effect=_ctx):
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
 
         authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
-        with patch("app.routes.oidc.get_db", side_effect=_ctx), patch(
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
             "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
         ), patch("app.routes.oidc.generate_token", return_value="fresh-code"):
             response = authorize_client.get(
-                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+                "/oidc/authorize",
+                params={
+                    **AUTHORIZE_PARAMS,
+                    "state": "fresh-state",
+                },
+                follow_redirects=False,
             )
     finally:
         authorize_client.app.dependency_overrides.clear()
@@ -682,7 +671,7 @@ def test_authorize_fresh_request_ignores_stale_session(authorize_client):
     assert response.status_code == 302
     assert len(added) == 1
     assert added[0].redirect_uri == REDIRECT_URI
-    assert added[0].client_id == "forgejo"
+    assert "state=fresh-state" in response.headers["location"]
 
 
 def test_authorize_round_trip_preserves_nested_encoded_redirect_uri(authorize_client):
