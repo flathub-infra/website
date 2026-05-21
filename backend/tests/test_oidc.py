@@ -723,3 +723,26 @@ def test_authorize_round_trip_preserves_nested_encoded_redirect_uri(authorize_cl
     assert response.status_code == 302
     assert len(added) == 1
     assert added[0].redirect_uri == NESTED_REDIRECT_URI
+
+
+def test_authorize_malformed_fresh_request_ignores_stale_session(authorize_client):
+    stale_client = make_client_with_redirect(REDIRECT_URI)
+    get_db_mock = _mock_db_ctx(client_obj=stale_client)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+
+        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize?foo=bar", follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_request"}
