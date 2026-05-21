@@ -15,9 +15,13 @@ from .. import config, models
 from ..database import get_db
 from ..login_info import LoginStatusDep
 from ..oidc import (
+    deferred_authorize_parameters_requested,
     ensure_oidc_subject,
     generate_token,
     hash_token,
+    oidc_client_enabled,
+    redirect_uri_allowed,
+    requested_scopes_allowed,
     verify_client_secret,
 )
 
@@ -145,21 +149,20 @@ def authorize(
             .first()
         )
 
-    if client is None or not client.enabled:
+    if not oidc_client_enabled(client):
         raise HTTPException(status_code=400, detail="invalid_client")
 
-    if redirect_uri not in client.redirect_uris:
+    if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
         raise HTTPException(status_code=400, detail="invalid_redirect_uri")
 
     if response_type != "code":
         return _error_redirect(redirect_uri, "unsupported_response_type", state)
 
-    requested_scopes = scope.split()
-    if "openid" not in requested_scopes:
+    if not requested_scopes_allowed(scope, client.allowed_scopes):
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
-    if not set(requested_scopes).issubset(set(client.allowed_scopes)):
-        return _error_redirect(redirect_uri, "invalid_scope", state)
+    if deferred_authorize_parameters_requested(code_challenge, code_challenge_method):
+        return _error_redirect(redirect_uri, "invalid_request", state)
 
     if not login.state.logged_in() or login.user is None:
         request.session["oidc_authorize_params"] = {
@@ -186,14 +189,16 @@ def authorize(
             .filter(models.OidcClient.client_id == client_id)
             .first()
         )
-        if client is None or not client.enabled:
+        if not oidc_client_enabled(client):
             raise HTTPException(status_code=400, detail="invalid_client")
-        if redirect_uri not in client.redirect_uris:
+        if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
             raise HTTPException(status_code=400, detail="invalid_redirect_uri")
-        if not set(requested_scopes).issubset(set(client.allowed_scopes)):
+        if not requested_scopes_allowed(scope, client.allowed_scopes):
             return _error_redirect(redirect_uri, "invalid_scope", state)
 
         user = db.session.merge(login.user)
+        if user.deleted:
+            return _error_redirect(redirect_uri, "access_denied", state)
         ensure_oidc_subject(db, user)
         authz_code = models.OidcAuthorizationCode(
             client_id=client.client_id,
@@ -313,7 +318,7 @@ def token(
             .filter(models.OidcClient.client_id == client_id)
             .first()
         )
-        if client is None or not client.enabled:
+        if not oidc_client_enabled(client):
             raise HTTPException(status_code=401, detail="invalid_client")
         if not verify_client_secret(client_secret, client.client_secret_hash):
             raise HTTPException(status_code=401, detail="invalid_client")
@@ -348,7 +353,7 @@ def token(
             raise HTTPException(status_code=400, detail="invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
-        if user is None:
+        if user is None or user.deleted:
             raise HTTPException(status_code=400, detail="invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
@@ -432,7 +437,7 @@ def userinfo(request: Request):
             raise HTTPException(status_code=401, detail="invalid_token")
 
         user = db.session.get(models.FlathubUser, access_token_obj.user_id)
-        if user is None:
+        if user is None or user.deleted:
             raise HTTPException(status_code=401, detail="invalid_token")
 
         subject = ensure_oidc_subject(db, user)

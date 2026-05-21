@@ -5,6 +5,7 @@ import os
 import sys
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
+from typing import Any, cast
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -29,10 +30,14 @@ from app.models import (
     OidcClient,
 )
 from app.oidc import (
+    deferred_authorize_parameters_requested,
     ensure_oidc_subject,
     generate_token,
     hash_client_secret,
     hash_token,
+    oidc_client_enabled,
+    redirect_uri_allowed,
+    requested_scopes_allowed,
     verify_client_secret,
     verify_token,
 )
@@ -90,9 +95,7 @@ def compile_statement(statement):
 def client():
     app = FastAPI()
     oidc_routes.register_to_app(app)
-    app.add_middleware(
-        SessionMiddleware, secret_key="test-session-secret"
-    )
+    app.add_middleware(cast("Any", SessionMiddleware), secret_key="test-session-secret")
     with TestClient(app, raise_server_exceptions=False) as client_:
         yield client_
 
@@ -139,6 +142,20 @@ def test_oidc_discovery_content(client, monkeypatch):
     }
 
 
+def test_oidc_discovery_does_not_advertise_deferred_features(client, monkeypatch):
+    enable_oidc(monkeypatch)
+
+    response = client.get("/.well-known/openid-configuration")
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["response_types_supported"] == ["code"]
+    assert body["grant_types_supported"] == ["authorization_code"]
+    assert "registration_endpoint" not in body
+    assert "code_challenge_methods_supported" not in body
+    assert "refresh_token" not in body["grant_types_supported"]
+
+
 def test_oidc_jwks_requires_key_config(client, monkeypatch):
     enable_oidc(monkeypatch)
 
@@ -164,6 +181,27 @@ def test_oidc_jwks_returns_public_key_material(client, monkeypatch):
         key: private_key[key] for key in ("alg", "e", "kid", "kty", "n", "use")
     }
     assert PRIVATE_JWK_FIELDS.isdisjoint(public_key)
+
+
+def test_oidc_openapi_does_not_include_secret_material(client, monkeypatch):
+    private_key = jwk.generate_key(
+        "RSA",
+        2048,
+        parameters={"alg": "RS256", "kid": "test-key", "use": "sig"},
+    ).as_dict(private=True)
+    enable_oidc(monkeypatch, json.dumps({"keys": [private_key]}))
+
+    response = client.get("/openapi.json")
+
+    assert response.status_code == 200
+    schema_text = json.dumps(response.json())
+    assert "oidc_private_jwks" not in schema_text
+    assert "client_secret_hash" not in schema_text
+    for field in PRIVATE_JWK_FIELDS:
+        if field in private_key:
+            private_value = private_key[field]
+            if isinstance(private_value, str):
+                assert private_value not in schema_text
 
 
 def test_client_secret_hash_verification():
@@ -289,6 +327,36 @@ def _make_client(enabled=True):
     return client
 
 
+def test_oidc_client_enabled_helper_rejects_disabled_clients():
+    assert oidc_client_enabled(_make_client())
+    assert not oidc_client_enabled(_make_client(enabled=False))
+    assert not oidc_client_enabled(None)
+
+
+def test_redirect_uri_helper_requires_exact_match():
+    allowed_redirect_uris = [REDIRECT_URI]
+
+    assert redirect_uri_allowed(REDIRECT_URI, allowed_redirect_uris)
+    assert not redirect_uri_allowed(f"{REDIRECT_URI}/", allowed_redirect_uris)
+    assert not redirect_uri_allowed(f"{REDIRECT_URI}?next=/admin", allowed_redirect_uris)
+    assert not redirect_uri_allowed("https://evil.example.com/callback", allowed_redirect_uris)
+
+
+def test_scope_helper_requires_openid_and_client_allowed_scopes():
+    allowed_scopes = ["openid", "profile", "email"]
+
+    assert requested_scopes_allowed("openid profile email", allowed_scopes)
+    assert requested_scopes_allowed("openid", allowed_scopes)
+    assert not requested_scopes_allowed("profile email", allowed_scopes)
+    assert not requested_scopes_allowed("openid profile admin", allowed_scopes)
+
+
+def test_deferred_authorize_parameters_helper_detects_pkce():
+    assert not deferred_authorize_parameters_requested(None, None)
+    assert deferred_authorize_parameters_requested("challenge", None)
+    assert deferred_authorize_parameters_requested(None, "S256")
+
+
 def _make_logged_in_login(user_id=1):
     user = FlathubUser(id=user_id, oidc_subject="sub-1")
     return LoginInformation(state=LoginState.LOGGED_IN, user=user, method=None)
@@ -408,6 +476,30 @@ def test_authorize_unsupported_response_type(authorize_client):
     assert "state=test-state" in response.headers["location"]
 
 
+def test_authorize_pkce_parameters_are_rejected(authorize_client):
+    valid_client = _make_client()
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={
+                    **AUTHORIZE_PARAMS,
+                    "code_challenge": "test-challenge",
+                    "code_challenge_method": "S256",
+                },
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=invalid_request" in response.headers["location"]
+    assert "state=test-state" in response.headers["location"]
+
+
 def test_authorize_missing_openid_scope(authorize_client):
     valid_client = _make_client()
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
@@ -494,6 +586,31 @@ def test_authorize_authenticated_issues_code(authorize_client):
     assert authz_code.code_hash == hash_token("test-auth-code")
     assert authz_code.redirect_uri == REDIRECT_URI
     assert authz_code.scope == "openid profile email"
+
+
+def test_authorize_deleted_user_is_denied(authorize_client):
+    valid_client = _make_client()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user.deleted = True
+    added = []
+    get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+            "app.routes.oidc.ensure_oidc_subject"
+        ) as ensure_subject:
+            response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=access_denied" in response.headers["location"]
+    assert added == []
+    ensure_subject.assert_not_called()
 
 
 def test_authorize_nonce_persisted(authorize_client):
@@ -905,6 +1022,7 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
     assert body["expires_in"] == 3600
     assert body["scope"] == "openid profile"
     assert "id_token" in body
+    assert "refresh_token" not in body
 
     # Verify ID token is a valid JWT
     id_token = body["id_token"]
@@ -1000,6 +1118,27 @@ def test_token_bad_client_secret(token_client):
     assert response.json() == {"detail": "invalid_client"}
 
 
+def test_token_disabled_client_returns_401(token_client):
+    client_obj = _make_token_client()
+    client_obj.enabled = False
+    get_db_mock = _mock_token_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
+
+
 def test_token_client_secret_post_missing_secret(token_client):
     client_obj = _make_token_client()
     get_db_mock = _mock_token_db(client_obj=client_obj)
@@ -1061,6 +1200,36 @@ def test_token_expired_code(token_client):
 
     assert response.status_code == 400
     assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_deleted_user_returns_invalid_grant(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user.deleted = True
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject"
+    ) as ensure_subject:
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+    assert added == []
+    ensure_subject.assert_not_called()
 
 
 def test_token_code_replay(token_client):
@@ -1374,6 +1543,28 @@ def test_userinfo_revoked_token(client, monkeypatch):
         for arg in filter_args
     ]
     assert any("oidcaccesstoken.revoked_at IS NULL" in s for s in sql_fragments)
+
+
+def test_userinfo_deleted_user_returns_invalid_token(client, monkeypatch):
+    enable_oidc(monkeypatch)
+    access_token_obj = _make_access_token_obj(scope="openid profile email")
+    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    user.deleted = True
+    get_db_mock, _session = _mock_userinfo_db(
+        access_token_obj=access_token_obj, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject"
+    ) as ensure_subject:
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_token"}
+    ensure_subject.assert_not_called()
 
 
 def test_userinfo_no_profile_scope(client, monkeypatch):
