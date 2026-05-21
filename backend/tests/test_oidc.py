@@ -13,6 +13,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 
+
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from joserfc import jwk, jwt
@@ -104,7 +105,7 @@ def enable_oidc(monkeypatch, private_jwks=None):
 
 
 @pytest.mark.parametrize(
-    "path", ["/.well-known/openid-configuration", "/oidc/jwks.json"]
+    "path", ["/.well-known/openid-configuration", "/oidc/jwks.json", "/oidc/userinfo"]
 )
 def test_oidc_endpoints_return_404_when_disabled(client, monkeypatch, path):
     monkeypatch.setattr(config.settings, "oidc_enabled", False)
@@ -1211,3 +1212,220 @@ def test_token_id_token_signature_verifiable(token_client):
     assert claims["nonce"] == "sig-test-nonce"
     assert "iat" in claims
     assert "exp" in claims
+
+
+# ---------------------------------------------------------------------------
+# Userinfo endpoint tests
+# ---------------------------------------------------------------------------
+
+USERINFO_TOKEN = "test-userinfo-token"
+
+
+def _make_access_token_obj(
+    client_id="test-client",
+    user_id=1,
+    scope="openid profile email",
+    expired=False,
+    revoked=False,
+):
+    now = datetime.now(UTC)
+    token = MagicMock()
+    token.client_id = client_id
+    token.user_id = user_id
+    token.access_token_hash = hash_token(USERINFO_TOKEN)
+    token.scope = scope
+    token.created_at = now - timedelta(seconds=60)
+    token.expires_at = (
+        now + timedelta(seconds=3600) if not expired else now - timedelta(seconds=1)
+    )
+    token.revoked_at = (
+        now - timedelta(seconds=1) if revoked else None
+    )
+    return token
+
+
+def _make_connected_account(login="testuser", avatar_url="https://example.com/avatar.png", email="test@example.com"):
+    account = MagicMock()
+    account.login = login
+    account.avatar_url = avatar_url
+    account.email = email
+    return account
+
+
+def _mock_userinfo_db(
+    access_token_obj=None,
+    user_obj=None,
+):
+    """Mock get_db for the userinfo endpoint."""
+    writer_session = MagicMock()
+
+    token_query = MagicMock()
+
+    token_query.filter.return_value = token_query
+    if access_token_obj is not None:
+        token_query.first.return_value = access_token_obj
+    else:
+        token_query.first.return_value = None
+    writer_session.query.return_value = token_query
+
+
+    writer_session.get.return_value = user_obj
+
+    writer_db = MagicMock()
+    writer_db.session = writer_session
+
+    @contextmanager
+    def _ctx(db_type="writer", **_kwargs):
+        yield writer_db
+
+    return _ctx, writer_session
+
+
+def test_userinfo_valid(client, monkeypatch):
+    """Valid Bearer token returns correct claims for all scopes."""
+    enable_oidc(monkeypatch)
+    access_token_obj = _make_access_token_obj(scope="openid profile email")
+    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    default_account = _make_connected_account()
+    get_db_mock, _session = _mock_userinfo_db(
+        access_token_obj=access_token_obj, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch.object(FlathubUser, "get_default_account", return_value=default_account):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["sub"] == "sub-1"
+    assert body["name"] == "Test User"
+    assert body["preferred_username"] == "testuser"
+    assert body["picture"] == "https://example.com/avatar.png"
+    assert body["email"] == "test@example.com"
+
+    assert "roles" not in body
+    assert "permissions" not in body
+
+
+def test_userinfo_missing_token(client, monkeypatch):
+    """Missing Authorization header returns 401."""
+    enable_oidc(monkeypatch)
+
+    response = client.get("/oidc/userinfo")
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_token"}
+
+
+def test_userinfo_invalid_token(client, monkeypatch):
+    """Invalid (non-existent) token returns 401."""
+    enable_oidc(monkeypatch)
+    get_db_mock, _session = _mock_userinfo_db(access_token_obj=None, user_obj=None)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": "Bearer nonexistent-token"},
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_token"}
+
+
+def test_userinfo_expired_token(client, monkeypatch):
+    """Expired tokens are excluded by the expires_at filter in the query."""
+    enable_oidc(monkeypatch)
+    get_db_mock, writer_session = _mock_userinfo_db(access_token_obj=None, user_obj=None)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 401
+    filter_args = writer_session.query.return_value.filter.call_args[0]
+    sql_fragments = [
+        str(arg.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}))
+        for arg in filter_args
+    ]
+    assert any("oidcaccesstoken.expires_at >" in s for s in sql_fragments)
+
+
+def test_userinfo_revoked_token(client, monkeypatch):
+    """Revoked tokens are excluded by the revoked_at IS NULL filter in the query."""
+    enable_oidc(monkeypatch)
+    get_db_mock, writer_session = _mock_userinfo_db(access_token_obj=None, user_obj=None)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 401
+    filter_args = writer_session.query.return_value.filter.call_args[0]
+    sql_fragments = [
+        str(arg.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}))
+        for arg in filter_args
+    ]
+    assert any("oidcaccesstoken.revoked_at IS NULL" in s for s in sql_fragments)
+
+
+def test_userinfo_no_profile_scope(client, monkeypatch):
+    """Without profile scope, name/preferred_username/picture are omitted."""
+    enable_oidc(monkeypatch)
+    access_token_obj = _make_access_token_obj(scope="openid email")
+    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    default_account = _make_connected_account()
+    get_db_mock, _session = _mock_userinfo_db(
+        access_token_obj=access_token_obj, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch.object(FlathubUser, "get_default_account", return_value=default_account):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["sub"] == "sub-1"
+    assert "name" not in body
+    assert "preferred_username" not in body
+    assert "picture" not in body
+
+    assert body["email"] == "test@example.com"
+
+
+def test_userinfo_no_email_scope(client, monkeypatch):
+    """Without email scope, email/email_verified are omitted."""
+    enable_oidc(monkeypatch)
+    access_token_obj = _make_access_token_obj(scope="openid profile")
+    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    default_account = _make_connected_account()
+    get_db_mock, _session = _mock_userinfo_db(
+        access_token_obj=access_token_obj, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch.object(FlathubUser, "get_default_account", return_value=default_account):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["sub"] == "sub-1"
+    assert body["name"] == "Test User"
+    assert body["preferred_username"] == "testuser"
+    assert "email" not in body
+    assert "email_verified" not in body

@@ -391,3 +391,67 @@ def token(
         "scope": scope_value,
         "id_token": id_token,
     }
+
+
+@router.get(
+    "/oidc/userinfo",
+    responses={
+        200: {"description": "UserInfo claims"},
+        401: {"description": "Invalid or missing bearer token"},
+        404: {"description": "OIDC is disabled"},
+    },
+)
+def userinfo(request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="invalid_token")
+
+    parts = auth_header.split(" ", 1)
+    if len(parts) != 2 or parts[0] != "Bearer":
+        raise HTTPException(status_code=401, detail="invalid_token")
+
+    token_value = parts[1].strip()
+    if not token_value:
+        raise HTTPException(status_code=401, detail="invalid_token")
+
+    token_hash_value = hash_token(token_value)
+    now = datetime.now(UTC)
+
+    with get_db("writer") as db:
+        access_token_obj = (
+            db.session.query(models.OidcAccessToken)
+            .filter(
+                models.OidcAccessToken.access_token_hash == token_hash_value,
+                models.OidcAccessToken.expires_at > now,
+                models.OidcAccessToken.revoked_at.is_(None),
+            )
+            .first()
+        )
+
+        if access_token_obj is None:
+            raise HTTPException(status_code=401, detail="invalid_token")
+
+        user = db.session.get(models.FlathubUser, access_token_obj.user_id)
+        if user is None:
+            raise HTTPException(status_code=401, detail="invalid_token")
+
+        subject = ensure_oidc_subject(db, user)
+        scopes = access_token_obj.scope.split()
+
+        claims: dict[str, Any] = {"sub": subject}
+
+        if "profile" in scopes:
+            claims["name"] = user.display_name
+            default_account = user.get_default_account(db)
+            if default_account is not None:
+                claims["preferred_username"] = default_account.login
+                if getattr(default_account, "avatar_url", None) is not None:
+                    claims["picture"] = default_account.avatar_url
+
+        if "email" in scopes:
+            default_account = user.get_default_account(db)
+            if default_account is not None:
+                if getattr(default_account, "email", None) is not None:
+                    claims["email"] = default_account.email
+
+        return claims
