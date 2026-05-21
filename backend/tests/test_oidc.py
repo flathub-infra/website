@@ -28,6 +28,7 @@ from app.models import (
     OidcAccessToken,
     OidcAuthorizationCode,
     OidcClient,
+    OidcRefreshToken,
 )
 from app.oidc import (
     deferred_authorize_parameters_requested,
@@ -51,7 +52,6 @@ def _decode_jwt_payload(token_str):
     parts = token_str.split(".")
     assert len(parts) == 3, f"Expected 3 JWT parts, got {len(parts)}"
     payload_b64 = parts[1]
-    # Add padding if needed
     padding = 4 - len(payload_b64) % 4
     if padding != 4:
         payload_b64 += "=" * padding
@@ -131,8 +131,8 @@ def test_oidc_discovery_content(client, monkeypatch):
         "userinfo_endpoint": "https://flathub.org/oidc/userinfo",
         "jwks_uri": "https://flathub.org/oidc/jwks.json",
         "response_types_supported": ["code"],
-        "grant_types_supported": ["authorization_code"],
-        "scopes_supported": ["openid", "profile", "email"],
+        "grant_types_supported": ["authorization_code", "refresh_token"],
+        "scopes_supported": ["openid", "profile", "email", "offline_access"],
         "token_endpoint_auth_methods_supported": [
             "client_secret_basic",
             "client_secret_post",
@@ -150,10 +150,9 @@ def test_oidc_discovery_does_not_advertise_deferred_features(client, monkeypatch
     assert response.status_code == 200
     body = response.json()
     assert body["response_types_supported"] == ["code"]
-    assert body["grant_types_supported"] == ["authorization_code"]
+    assert body["grant_types_supported"] == ["authorization_code", "refresh_token"]
     assert "registration_endpoint" not in body
     assert "code_challenge_methods_supported" not in body
-    assert "refresh_token" not in body["grant_types_supported"]
 
 
 def test_oidc_jwks_requires_key_config(client, monkeypatch):
@@ -202,6 +201,9 @@ def test_oidc_openapi_does_not_include_secret_material(client, monkeypatch):
             private_value = private_key[field]
             if isinstance(private_value, str):
                 assert private_value not in schema_text
+
+    assert "refresh_token_hash" not in schema_text
+    assert "access_token_hash" not in schema_text
 
 
 def test_client_secret_hash_verification():
@@ -304,6 +306,109 @@ def test_oidc_user_delete_hooks_remove_codes_and_revoke_tokens():
     assert "oidcaccesstoken.revoked_at IS NULL" in token_sql
 
 
+def test_oidc_refresh_token_in_tables_for_delete():
+    assert OidcRefreshToken in FlathubUser.TABLES_FOR_DELETE
+
+
+def test_oidc_refresh_token_delete_hook_revokes_tokens():
+    user = FlathubUser(id=42)
+    refresh_db = StatementDb()
+
+    OidcRefreshToken.delete_user(refresh_db, user)
+
+    refresh_sql = compile_statement(refresh_db.session.statements[0])
+
+    assert "UPDATE oidcrefreshtoken SET revoked_at=" in refresh_sql
+    assert "oidcrefreshtoken.user_id = 42" in refresh_sql
+    assert "oidcrefreshtoken.revoked_at IS NULL" in refresh_sql
+
+
+def test_oidc_refresh_token_model_has_hash_only_storage():
+    """Verify OidcRefreshToken stores only the hash, not the plaintext token."""
+    column_names = {c.name for c in OidcRefreshToken.__table__.columns}
+    assert "refresh_token_hash" in column_names
+    assert "refresh_token" not in column_names
+    assert "plaintext" not in column_names
+
+
+def test_oidc_refresh_token_model_has_family_fields():
+    """Verify family/rotation fields exist on OidcRefreshToken."""
+    column_names = {c.name for c in OidcRefreshToken.__table__.columns}
+    assert "family_id" in column_names
+    assert "rotated_at" in column_names
+    assert "revoked_at" in column_names
+    assert "replaced_by_id" in column_names
+
+
+def test_oidc_access_token_has_refresh_token_family_id():
+    """Verify OidcAccessToken has refresh_token_family_id for replay handling."""
+    column_names = {c.name for c in OidcAccessToken.__table__.columns}
+    assert "refresh_token_family_id" in column_names
+
+
+def test_oidc_client_has_refresh_tokens_enabled():
+    """Verify OidcClient has refresh_tokens_enabled flag."""
+    column_names = {c.name for c in OidcClient.__table__.columns}
+    assert "refresh_tokens_enabled" in column_names
+
+
+def test_oidc_refresh_token_lifetime_config_default():
+    """Verify the default refresh token lifetime config value."""
+    from app import config
+    assert config.Settings.model_fields["oidc_refresh_token_lifetime_seconds"].default == 2592000
+
+
+def test_access_token_scope_removes_offline_access():
+    """_access_token_scope helper removes offline_access from scope string."""
+    from app.routes.oidc import _access_token_scope
+    assert _access_token_scope("openid profile email") == "openid profile email"
+    assert _access_token_scope("openid profile email offline_access") == "openid profile email"
+    assert _access_token_scope("openid offline_access") == "openid"
+    assert _access_token_scope("openid") == "openid"
+
+
+def test_scope_subset_or_invalid_allows_narrowing():
+    """_scope_subset_or_invalid allows narrowing but not expanding scopes."""
+    from app.routes.oidc import _scope_subset_or_invalid
+    assert _scope_subset_or_invalid("openid profile", "openid profile email") == "openid profile"
+    assert _scope_subset_or_invalid("openid profile email", "openid profile email") == "openid profile email"
+    assert _scope_subset_or_invalid("openid profile email admin", "openid profile email") is None
+    assert _scope_subset_or_invalid("", "openid profile email") == ""
+
+
+def test_revoke_refresh_family_compiles_expected_sql():
+    """_revoke_refresh_family issues UPDATE statements for refresh and access tokens."""
+    from app.routes.oidc import _revoke_refresh_family
+
+    now = datetime.now(UTC)
+
+    combined_session = StatementSession()
+
+    combined_db = MagicMock()
+    combined_db.session = combined_session
+
+    _revoke_refresh_family(combined_db, "family-abc", now)
+
+    assert len(combined_session.statements) == 2
+    refresh_sql = compile_statement(combined_session.statements[0])
+    access_sql = compile_statement(combined_session.statements[1])
+    assert "UPDATE oidcrefreshtoken SET revoked_at=" in refresh_sql
+    assert "oidcrefreshtoken.family_id = 'family-abc'" in refresh_sql
+    assert "oidcrefreshtoken.revoked_at IS NULL" in refresh_sql
+    assert "UPDATE oidcaccesstoken SET revoked_at=" in access_sql
+    assert "oidcaccesstoken.refresh_token_family_id = 'family-abc'" in access_sql
+    assert "oidcaccesstoken.revoked_at IS NULL" in access_sql
+
+
+def test_discovery_advertises_refresh_token_grant_and_offline_access(client, monkeypatch):
+    enable_oidc(monkeypatch)
+    response = client.get("/.well-known/openid-configuration")
+    assert response.status_code == 200
+    body = response.json()
+    assert "refresh_token" in body["grant_types_supported"]
+    assert "offline_access" in body["scopes_supported"]
+
+
 REDIRECT_URI = "https://test-client.example.com/oauth2/callback"
 AUTHORIZE_PARAMS = {
     "client_id": "test-client",
@@ -314,15 +419,16 @@ AUTHORIZE_PARAMS = {
 }
 
 
-def _make_client(enabled=True):
+def _make_client(enabled=True, refresh_tokens_enabled=False, allowed_scopes=None):
     client = OidcClient(
         id=1,
         client_id="test-client",
         name="Test Client",
         client_secret_hash="hash",
         redirect_uris=[REDIRECT_URI],
-        allowed_scopes=["openid", "profile", "email"],
+        allowed_scopes=allowed_scopes or ["openid", "profile", "email"],
         enabled=enabled,
+        refresh_tokens_enabled=refresh_tokens_enabled,
     )
     return client
 
@@ -553,7 +659,6 @@ def test_authorize_unauthenticated_redirects_to_login(authorize_client):
     assert response.status_code == 302
     location = response.headers["location"]
     assert location.startswith("http://localhost:3000/login?returnTo=%2Foidc%2Fauthorize"), location
-    # returnTo is just the bare path — no query params, no external redirect_uri embedded
     assert "redirect_uri" not in location
 
 def test_authorize_authenticated_issues_code(authorize_client):
@@ -769,8 +874,8 @@ def make_client_with_redirect(redirect_uri):
         redirect_uris=[redirect_uri],
         allowed_scopes=["openid", "profile", "email"],
         enabled=True,
+        refresh_tokens_enabled=False,
     )
-
 
 def test_authorize_fresh_request_ignores_stale_session(authorize_client):
     client = make_client_with_redirect(REDIRECT_URI)
@@ -869,6 +974,65 @@ def test_authorize_malformed_fresh_request_ignores_stale_session(authorize_clien
     assert response.json() == {"detail": "invalid_request"}
 
 
+
+def test_authorize_offline_access_rejected_if_client_refresh_disabled(authorize_client):
+    """offline_access scope is rejected when client refresh_tokens_enabled=False."""
+    client_obj = _make_client(refresh_tokens_enabled=False, allowed_scopes=["openid", "profile", "email", "offline_access"])
+    get_db_mock = _mock_db_ctx(client_obj=client_obj)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_out_login()
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={
+                    "client_id": "test-client",
+                    "redirect_uri": REDIRECT_URI,
+                    "response_type": "code",
+                    "scope": "openid profile email offline_access",
+                    "state": "test-state",
+                },
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=invalid_scope" in response.headers["location"]
+
+
+def test_authorize_offline_access_allowed_if_client_refresh_enabled(authorize_client):
+    """offline_access scope is allowed when client has refresh_tokens_enabled=True."""
+    client_obj = _make_client(refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"])
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_db_ctx(client_obj=client_obj, user=user, added=added)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: _make_logged_in_login()
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+            "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+        ), patch("app.routes.oidc.generate_token", return_value="test-auth-code"):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={
+                    "client_id": "test-client",
+                    "redirect_uri": REDIRECT_URI,
+                    "response_type": "code",
+                    "scope": "openid profile email offline_access",
+                    "state": "test-state",
+                },
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert len(added) == 1
+    assert added[0].scope == "openid profile email offline_access"
+
+
 # ── Token endpoint tests ──
 
 TOKEN_REDIRECT_URI = REDIRECT_URI
@@ -882,15 +1046,16 @@ def _generate_test_jwks():
     return json.dumps({"keys": [key.as_dict(private=True)]})
 
 
-def _make_token_client(secret=CLIENT_SECRET):
+def _make_token_client(secret=CLIENT_SECRET, refresh_tokens_enabled=False, allowed_scopes=None):
     return OidcClient(
         id=1,
         client_id="test-client",
         name="Test Client",
         client_secret_hash=hash_client_secret(secret),
         redirect_uris=[TOKEN_REDIRECT_URI],
-        allowed_scopes=["openid", "profile", "email"],
+        allowed_scopes=allowed_scopes or ["openid", "profile", "email"],
         enabled=True,
+        refresh_tokens_enabled=refresh_tokens_enabled,
     )
 
 
@@ -947,20 +1112,16 @@ def _mock_token_db(
     - session.get() for user lookup
     - session.add() for access token persistence
     """
-    # Writer session
     writer_session = MagicMock()
 
-    # Client query: session.query(OidcClient).filter(...).first()
     client_query = MagicMock()
     client_query.first.return_value = client_obj
     writer_session.query.return_value.filter.return_value = client_query
 
-    # UPDATE...RETURNING: session.execute(update...).first()
     execute_result = MagicMock()
     execute_result.first.return_value = auth_code_row
     writer_session.execute.return_value = execute_result
 
-    # User lookup: session.get(FlathubUser, user_id)
     writer_session.get.return_value = user_obj
 
     if added is not None:
@@ -971,8 +1132,6 @@ def _mock_token_db(
     writer_db = MagicMock()
     writer_db.session = writer_session
 
-    # Both replica and writer contexts yield the same writer_db
-    # since the token endpoint does all work on the writer
     @contextmanager
     def _ctx(db_type="replica", **_kwargs):
         yield writer_db
@@ -1024,7 +1183,6 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
     assert "id_token" in body
     assert "refresh_token" not in body
 
-    # Verify ID token is a valid JWT
     id_token = body["id_token"]
     claims = _decode_jwt_payload(id_token)
     assert claims["iss"] == "https://flathub.org"
@@ -1034,7 +1192,6 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
     assert "exp" in claims
     assert "nonce" not in claims
 
-    # Access token object was persisted
     assert len(added) == 1
     assert isinstance(added[0], OidcAccessToken)
     assert added[0].access_token_hash == hash_token("test-access-token")
@@ -1233,7 +1390,6 @@ def test_token_deleted_user_returns_invalid_grant(token_client):
 
 
 def test_token_code_replay(token_client):
-    # Already-consumed code: UPDATE WHERE consumed_at IS NULL returns no rows
     client_obj = _make_token_client()
     get_db_mock = _mock_token_db(client_obj=client_obj, auth_code_row=None)
 
@@ -1255,7 +1411,6 @@ def test_token_code_replay(token_client):
 
 def test_token_wrong_client(token_client):
     client_obj = _make_token_client()
-    # Code was issued to a different client; UPDATE returns the row but client_id check fails
     auth_code_row = _make_auth_code_row(client_id="other-client")
     user = FlathubUser(id=1, oidc_subject="sub-1")
     get_db_mock = _mock_token_db(
@@ -1280,7 +1435,6 @@ def test_token_wrong_client(token_client):
 
 def test_token_wrong_redirect_uri(token_client):
     client_obj = _make_token_client()
-    # Code's redirect_uri doesn't match the request; UPDATE returns the row but check fails
     auth_code_row = _make_auth_code_row()
     user = FlathubUser(id=1, oidc_subject="sub-1")
     get_db_mock = _mock_token_db(
@@ -1305,7 +1459,6 @@ def test_token_wrong_redirect_uri(token_client):
 
 def test_token_unknown_code(token_client):
     client_obj = _make_token_client()
-    # No auth code found for this hash: UPDATE matches no rows
     get_db_mock = _mock_token_db(client_obj=client_obj, auth_code_row=None)
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
@@ -1366,12 +1519,10 @@ def test_token_id_token_signature_verifiable(token_client):
     assert response.status_code == 200
     id_token_str = response.json()["id_token"]
 
-    # Verify using the public key from JWKS endpoint
     jwks_response = token_client.get("/oidc/jwks.json")
     assert jwks_response.status_code == 200
     key_set = jwk.KeySet.import_key_set(jwks_response.json())
 
-    # Decode and verify signature
     token_obj = jwt.decode(id_token_str, key=key_set, algorithms=["RS256"])
     claims = token_obj.claims
 
@@ -1383,10 +1534,618 @@ def test_token_id_token_signature_verifiable(token_client):
     assert "exp" in claims
 
 
+
+
+
+def test_token_auth_code_with_offline_access_returns_refresh_token(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", side_effect=["test-family-id", "test-refresh-token", "test-access-token"]):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["access_token"] == "test-access-token"
+    assert "refresh_token" in body
+    assert body["refresh_token"] == "test-refresh-token"
+    assert body["scope"] == "openid profile email"
+
+    access_token_obj = next(o for o in added if isinstance(o, OidcAccessToken))
+    assert "offline_access" not in access_token_obj.scope
+    assert access_token_obj.refresh_token_family_id == "test-family-id"
+
+    refresh_obj = next(o for o in added if isinstance(o, OidcRefreshToken))
+    assert refresh_obj.refresh_token_hash == hash_token("test-refresh-token")
+    assert refresh_obj.family_id == "test-family-id"
+    assert refresh_obj.scope == "openid profile email offline_access"
+
+
+def test_token_auth_code_without_offline_access_no_refresh_token(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(scope="openid profile")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert "refresh_token" not in body
+    assert not any(isinstance(o, OidcRefreshToken) for o in added)
+
+
+def test_token_auth_code_offline_access_ignored_if_client_refresh_disabled(token_client):
+    client_obj = _make_token_client(refresh_tokens_enabled=False, allowed_scopes=["openid", "profile", "email", "offline_access"])
+    auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert "refresh_token" not in body
+    assert not any(isinstance(o, OidcRefreshToken) for o in added)
+
+
+def test_token_refresh_token_stored_hashed_only(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", side_effect=["test-family-id", "test-refresh-token", "test-access-token"]):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    refresh_obj = next(o for o in added if isinstance(o, OidcRefreshToken))
+    assert refresh_obj.refresh_token_hash == hash_token("test-refresh-token")
+    assert refresh_obj.refresh_token_hash != "test-refresh-token"
+
+
+def test_token_access_token_scope_excludes_offline_access(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", side_effect=["test-family-id", "test-refresh-token", "test-access-token"]):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    access_token_obj = next(o for o in added if isinstance(o, OidcAccessToken))
+    assert "offline_access" not in access_token_obj.scope
+    assert "openid" in access_token_obj.scope
 # ---------------------------------------------------------------------------
-# Userinfo endpoint tests
+# Refresh grant tests
 # ---------------------------------------------------------------------------
 
+
+class _RefreshTokenRow:
+    """Simulates a RETURNING row from UPDATE ... RETURNING."""
+
+    def __init__(
+        self,
+        id=1,
+        user_id=1,
+        family_id="test-family",
+        scope="openid profile email offline_access",
+        expires_at=None,
+    ):
+        self.id = id
+        self.user_id = user_id
+        self.family_id = family_id
+        self.scope = scope
+        now = datetime.now(UTC)
+        self.expires_at = expires_at or (now + timedelta(days=30))
+
+
+class _RtObjForReplay:
+    """Simulates an OidcRefreshToken ORM object found during replay check."""
+
+    def __init__(
+        self,
+        family_id="test-family",
+        rotated_at=None,
+        revoked_at=None,
+    ):
+        self.family_id = family_id
+        self.rotated_at = rotated_at
+        self.revoked_at = revoked_at
+
+
+def _mock_refresh_db(
+    client_obj=None,
+    rt_row=None,
+    replay_obj=None,
+    user_obj=None,
+    added=None,
+):
+    writer_session = MagicMock()
+
+    client_query = MagicMock()
+    client_query.first.return_value = client_obj
+    replay_query = MagicMock()
+    replay_query.first.return_value = replay_obj
+
+    query_count = [0]
+
+    def _query_side_effect(*args, **kwargs):
+        query_count[0] += 1
+        if query_count[0] == 1:
+            return MagicMock(filter=MagicMock(return_value=client_query))
+        else:
+            return MagicMock(filter=MagicMock(return_value=replay_query))
+
+    writer_session.query = MagicMock(side_effect=_query_side_effect)
+
+    writer_session.get.return_value = user_obj
+
+    if added is not None:
+        writer_session.add.side_effect = lambda obj: added.append(obj)
+    else:
+        writer_session.add = MagicMock()
+
+    writer_session.flush = MagicMock()
+
+    execute_call_count = [0]
+    execute_results = []
+
+    def _execute_side_effect(statement, *args, **kwargs):
+        execute_call_count[0] += 1
+        if execute_results:
+            result_mock = MagicMock()
+            result_mock.first.return_value = execute_results.pop(0)
+            return result_mock
+        result_mock = MagicMock()
+        result_mock.first.return_value = rt_row
+        return result_mock
+
+    writer_session.execute = MagicMock(side_effect=_execute_side_effect)
+    writer_session.commit = MagicMock()
+
+    writer_db = MagicMock()
+    writer_db.session = writer_session
+
+    @contextmanager
+    def _ctx(db_type="replica", **_kwargs):
+        yield writer_db
+
+    _ctx.session = writer_session
+    return _ctx
+
+def test_refresh_grant_valid(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    rt_row = _RefreshTokenRow()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", side_effect=["new-refresh-token", "new-access-token"]):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["access_token"] == "new-access-token"
+    assert body["refresh_token"] == "new-refresh-token"
+    assert body["token_type"] == "Bearer"
+    assert "offline_access" not in body["scope"]
+    assert "id_token" in body
+
+    new_rt = next(o for o in added if isinstance(o, OidcRefreshToken))
+    assert new_rt.refresh_token_hash == hash_token("new-refresh-token")
+    assert new_rt.family_id == "test-family"
+    new_at = next(o for o in added if isinstance(o, OidcAccessToken))
+    assert "offline_access" not in new_at.scope
+
+
+def test_refresh_grant_expired_token(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    now = datetime.now(UTC)
+    rt_row = _RefreshTokenRow(expires_at=now - timedelta(seconds=1))
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=rt_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_refresh_grant_revoked_token(token_client):
+    now = datetime.now(UTC)
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    replay_obj = _RtObjForReplay(revoked_at=now - timedelta(seconds=1))
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=None, replay_obj=replay_obj
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_refresh_grant_wrong_client(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=None
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_refresh_grant_disabled_client(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    client_obj.enabled = False
+    get_db_mock = _mock_refresh_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
+
+
+def test_refresh_grant_client_refresh_disabled(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=False, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
+
+
+def test_refresh_grant_deleted_user(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    rt_row = _RefreshTokenRow()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user.deleted = True
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=rt_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject"
+    ) as ensure_subject:
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+    ensure_subject.assert_not_called()
+
+
+def test_refresh_grant_missing_token(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_request"}
+
+
+def test_refresh_grant_scope_narrowing(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    rt_row = _RefreshTokenRow(scope="openid profile email offline_access")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", side_effect=["new-refresh-token", "new-access-token"]):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "scope": "openid profile",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["scope"] == "openid profile"
+    new_rt = next(o for o in added if isinstance(o, OidcRefreshToken))
+    assert new_rt.scope == "openid profile"
+
+
+def test_refresh_grant_scope_expansion_rejected(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    rt_row = _RefreshTokenRow(scope="openid profile")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=rt_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "scope": "openid profile email",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_scope"}
+
+
+def test_refresh_grant_replay_revokes_family(token_client):
+    now = datetime.now(UTC)
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    replay_obj = _RtObjForReplay(rotated_at=now - timedelta(seconds=1))
+    added = []
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=None, replay_obj=replay_obj, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+    assert not any(isinstance(o, OidcRefreshToken) for o in added)
+    assert not any(isinstance(o, OidcAccessToken) for o in added)
+
+    session = get_db_mock.session
+    session.commit.assert_called()
+    assert session.execute.call_count >= 3
+
+    # Inspect the actual SQL issued by _revoke_refresh_family
+    execute_calls = session.execute.call_args_list
+    sql_strings = [
+        compile_statement(call[0][0]) for call in execute_calls
+    ]
+    refresh_revocation = any(
+        "UPDATE oidcrefreshtoken SET revoked_at=" in s
+        and "oidcrefreshtoken.family_id" in s
+        for s in sql_strings
+    )
+    access_revocation = any(
+        "UPDATE oidcaccesstoken SET revoked_at=" in s
+        and "oidcaccesstoken.refresh_token_family_id" in s
+        for s in sql_strings
+    )
+    assert refresh_revocation, "no refresh-token family revocation UPDATE found"
+    assert access_revocation, "no access-token family revocation UPDATE found"
+def test_refresh_grant_unknown_token_returns_invalid_grant(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=None, replay_obj=None, user_obj=None)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "unknown-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_refresh_grant_bad_client_secret(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True, allowed_scopes=["openid", "profile", "email", "offline_access"]
+    )
+    get_db_mock = _mock_refresh_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": "wrong-secret",
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
 USERINFO_TOKEN = "test-userinfo-token"
 
 

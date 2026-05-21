@@ -1101,6 +1101,9 @@ class OidcClient(Base):
     enabled: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=true()
     )
+    refresh_tokens_enabled: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=false()
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
@@ -1110,6 +1113,9 @@ class OidcClient(Base):
     )
     access_tokens: Mapped[list["OidcAccessToken"]] = relationship(
         "OidcAccessToken", back_populates="client"
+    )
+    refresh_tokens: Mapped[list["OidcRefreshToken"]] = relationship(
+        "OidcRefreshToken", back_populates="client"
     )
 
 
@@ -1186,6 +1192,9 @@ class OidcAccessToken(Base):
     )
     expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    refresh_token_family_id: Mapped[str | None] = mapped_column(
+        String, nullable=True, index=True
+    )
 
     client: Mapped["OidcClient"] = relationship(
         "OidcClient", back_populates="access_tokens"
@@ -1208,7 +1217,66 @@ class OidcAccessToken(Base):
         )
 
 
-FlathubUser.TABLES_FOR_DELETE.extend([OidcAuthorizationCode, OidcAccessToken])
+
+class OidcRefreshToken(Base):
+    __tablename__ = "oidcrefreshtoken"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    client_id: Mapped[str] = mapped_column(
+        String,
+        ForeignKey("oidcclient.client_id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    user_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    refresh_token_hash: Mapped[str] = mapped_column(
+        String, nullable=False, unique=True, index=True
+    )
+    family_id: Mapped[str] = mapped_column(
+        String, nullable=False, index=True
+    )
+    scope: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    rotated_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    replaced_by_id: Mapped[int | None] = mapped_column(
+        Integer,
+        ForeignKey("oidcrefreshtoken.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    client: Mapped["OidcClient"] = relationship(
+        "OidcClient", back_populates="refresh_tokens"
+    )
+    user_entity: Mapped["FlathubUser"] = relationship("FlathubUser")
+    replaced_by: Mapped["OidcRefreshToken | None"] = relationship(
+        "OidcRefreshToken", remote_side="OidcRefreshToken.id", foreign_keys=[replaced_by_id]
+    )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        pass
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            update(OidcRefreshToken)
+            .where(
+                OidcRefreshToken.user_id == user.id,
+                OidcRefreshToken.revoked_at.is_(None),
+            )
+            .values(revoked_at=datetime.now())
+        )
+
+FlathubUser.TABLES_FOR_DELETE.extend([OidcAuthorizationCode, OidcAccessToken, OidcRefreshToken])
 
 
 class AppVerification(Base):

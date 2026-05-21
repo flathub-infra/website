@@ -30,6 +30,7 @@ class OidcClientRecord(Protocol):
     redirect_uris: Sequence[str]
     allowed_scopes: Sequence[str]
     enabled: bool
+    refresh_tokens_enabled: bool
 
 
 def generate_token(num_bytes: int = TOKEN_BYTES) -> str:
