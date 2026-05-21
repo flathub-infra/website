@@ -1,12 +1,18 @@
 import hashlib
+import json
 import os
 import sys
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
+import pytest
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+from joserfc import jwk
 from sqlalchemy.dialects import postgresql
 
+from app import config
 from app.models import FlathubUser, OidcAccessToken, OidcAuthorizationCode
 from app.oidc import (
     ensure_oidc_subject,
@@ -16,6 +22,9 @@ from app.oidc import (
     verify_client_secret,
     verify_token,
 )
+from app.routes import oidc
+
+PRIVATE_JWK_FIELDS = {"d", "p", "q", "dp", "dq", "qi", "oth"}
 
 
 class ScalarResult:
@@ -49,6 +58,82 @@ def compile_statement(statement):
             dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
         )
     )
+
+
+@pytest.fixture
+def client():
+    app = FastAPI()
+    oidc.register_to_app(app)
+    with TestClient(app) as client_:
+        yield client_
+
+
+def enable_oidc(monkeypatch, private_jwks=None):
+    monkeypatch.setattr(config.settings, "oidc_enabled", True)
+    monkeypatch.setattr(config.settings, "oidc_issuer", "https://flathub.org")
+    monkeypatch.setattr(config.settings, "oidc_private_jwks", private_jwks)
+
+
+@pytest.mark.parametrize(
+    "path", ["/.well-known/openid-configuration", "/oidc/jwks.json"]
+)
+def test_oidc_endpoints_return_404_when_disabled(client, monkeypatch, path):
+    monkeypatch.setattr(config.settings, "oidc_enabled", False)
+
+    response = client.get(path)
+
+    assert response.status_code == 404
+
+
+def test_oidc_discovery_content(client, monkeypatch):
+    enable_oidc(monkeypatch)
+
+    response = client.get("/.well-known/openid-configuration")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "issuer": "https://flathub.org",
+        "authorization_endpoint": "https://flathub.org/oidc/authorize",
+        "token_endpoint": "https://flathub.org/oidc/token",
+        "userinfo_endpoint": "https://flathub.org/oidc/userinfo",
+        "jwks_uri": "https://flathub.org/oidc/jwks.json",
+        "response_types_supported": ["code"],
+        "grant_types_supported": ["authorization_code"],
+        "scopes_supported": ["openid", "profile", "email"],
+        "token_endpoint_auth_methods_supported": [
+            "client_secret_basic",
+            "client_secret_post",
+        ],
+        "subject_types_supported": ["public"],
+        "id_token_signing_alg_values_supported": ["RS256"],
+    }
+
+
+def test_oidc_jwks_requires_key_config(client, monkeypatch):
+    enable_oidc(monkeypatch)
+
+    response = client.get("/oidc/jwks.json")
+
+    assert response.status_code == 500
+    assert response.json() == {"detail": "OIDC JWKS is not configured"}
+
+
+def test_oidc_jwks_returns_public_key_material(client, monkeypatch):
+    private_key = jwk.generate_key(
+        "RSA",
+        2048,
+        parameters={"alg": "RS256", "kid": "test-key", "use": "sig"},
+    ).as_dict(private=True)
+    enable_oidc(monkeypatch, json.dumps({"keys": [private_key]}))
+
+    response = client.get("/oidc/jwks.json")
+
+    assert response.status_code == 200
+    public_key = response.json()["keys"][0]
+    assert public_key == {
+        key: private_key[key] for key in ("alg", "e", "kid", "kty", "n", "use")
+    }
+    assert PRIVATE_JWK_FIELDS.isdisjoint(public_key)
 
 
 def test_client_secret_hash_verification():

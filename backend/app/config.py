@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     frontend_url: str = "http://localhost:3000"
 
     oidc_enabled: bool = False
-    oidc_issuer: str = "http://localhost:8000"
+    oidc_issuer: str = "https://flathub.org"
     oidc_private_jwks: str | None = None
     oidc_code_lifetime_seconds: int = 600
     oidc_access_token_lifetime_seconds: int = 3600

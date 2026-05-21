@@ -30,6 +30,7 @@ from .routes import (
     favorites,
     feed,
     invites,
+    oidc,
     purchases,
     quality_moderation,
     stats,
@@ -94,6 +95,7 @@ feed.register_to_app(router)
 quality_moderation.register_to_app(router)
 upload_tokens.register_to_app(router)
 exceptions.register_to_app(router)
+oidc.register_to_app(router)
 
 users.register_to_app(router)
 favorites.register_to_app(router)
