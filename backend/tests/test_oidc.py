@@ -1,8 +1,10 @@
+import base64
 import hashlib
 import json
 import os
 import sys
 from contextlib import contextmanager
+from datetime import UTC, datetime, timedelta
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -13,7 +15,7 @@ sys.path.append(ROOT_DIR)
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from joserfc import jwk
+from joserfc import jwk, jwt
 from sqlalchemy.dialects import postgresql
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -36,6 +38,18 @@ from app.oidc import (
 from app.routes import oidc as oidc_routes
 
 PRIVATE_JWK_FIELDS = {"d", "p", "q", "dp", "dq", "qi", "oth"}
+
+
+def _decode_jwt_payload(token_str):
+    """Decode JWT claims without signature verification (for test inspection)."""
+    parts = token_str.split(".")
+    assert len(parts) == 3, f"Expected 3 JWT parts, got {len(parts)}"
+    payload_b64 = parts[1]
+    # Add padding if needed
+    padding = 4 - len(payload_b64) % 4
+    if padding != 4:
+        payload_b64 += "=" * padding
+    return json.loads(base64.urlsafe_b64decode(payload_b64))
 
 
 class ScalarResult:
@@ -735,3 +749,465 @@ def test_authorize_malformed_fresh_request_ignores_stale_session(authorize_clien
 
     assert response.status_code == 400
     assert response.json() == {"detail": "invalid_request"}
+
+
+# ── Token endpoint tests ──
+
+TOKEN_REDIRECT_URI = REDIRECT_URI
+CLIENT_SECRET = "s3cret"
+
+
+def _generate_test_jwks():
+    key = jwk.generate_key(
+        "RSA", 2048, parameters={"alg": "RS256", "kid": "test-key", "use": "sig"}
+    )
+    return json.dumps({"keys": [key.as_dict(private=True)]})
+
+
+def _make_token_client(secret=CLIENT_SECRET):
+    return OidcClient(
+        id=1,
+        client_id="test-client",
+        name="Test Client",
+        client_secret_hash=hash_client_secret(secret),
+        redirect_uris=[TOKEN_REDIRECT_URI],
+        allowed_scopes=["openid", "profile", "email"],
+        enabled=True,
+    )
+
+
+class _AuthCodeRow:
+    """Simulates a RETURNING row from UPDATE ... RETURNING."""
+
+    def __init__(
+        self,
+        client_id,
+        user_id,
+        redirect_uri,
+        scope,
+        nonce,
+        expires_at,
+    ):
+        self.client_id = client_id
+        self.user_id = user_id
+        self.redirect_uri = redirect_uri
+        self.scope = scope
+        self.nonce = nonce
+        self.expires_at = expires_at
+
+
+def _make_auth_code_row(
+    client_id="test-client",
+    user_id=1,
+    redirect_uri=TOKEN_REDIRECT_URI,
+    scope="openid profile",
+    nonce=None,
+    expired=False,
+):
+    now = datetime.now(UTC)
+    return _AuthCodeRow(
+        client_id=client_id,
+        user_id=user_id,
+        redirect_uri=redirect_uri,
+        scope=scope,
+        nonce=nonce,
+        expires_at=now + timedelta(seconds=600) if not expired else now - timedelta(seconds=1),
+    )
+
+
+def _mock_token_db(
+    client_obj=None,
+    auth_code_row=None,
+    user_obj=None,
+    added=None,
+):
+    """Mock get_db for the token endpoint (writer-only flow).
+
+    Writer session handles:
+    - session.query().filter().first() for client lookup
+    - session.execute(UPDATE...RETURNING) for code consumption
+    - session.get() for user lookup
+    - session.add() for access token persistence
+    """
+    # Writer session
+    writer_session = MagicMock()
+
+    # Client query: session.query(OidcClient).filter(...).first()
+    client_query = MagicMock()
+    client_query.first.return_value = client_obj
+    writer_session.query.return_value.filter.return_value = client_query
+
+    # UPDATE...RETURNING: session.execute(update...).first()
+    execute_result = MagicMock()
+    execute_result.first.return_value = auth_code_row
+    writer_session.execute.return_value = execute_result
+
+    # User lookup: session.get(FlathubUser, user_id)
+    writer_session.get.return_value = user_obj
+
+    if added is not None:
+        writer_session.add.side_effect = lambda obj: added.append(obj)
+    else:
+        writer_session.add = MagicMock()
+
+    writer_db = MagicMock()
+    writer_db.session = writer_session
+
+    # Both replica and writer contexts yield the same writer_db
+    # since the token endpoint does all work on the writer
+    @contextmanager
+    def _ctx(db_type="replica", **_kwargs):
+        yield writer_db
+
+    return _ctx
+
+
+@pytest.fixture
+def token_client(client, monkeypatch):
+    enable_oidc(monkeypatch, _generate_test_jwks())
+    return client
+
+
+def _basic_auth_header(client_id, client_secret):
+    creds = f"{client_id}:{client_secret}"
+    encoded = base64.b64encode(creds.encode()).decode()
+    return {"Authorization": f"Basic {encoded}"}
+
+
+def test_token_valid_exchange_with_client_secret_post(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["access_token"] == "test-access-token"
+    assert body["token_type"] == "Bearer"
+    assert body["expires_in"] == 3600
+    assert body["scope"] == "openid profile"
+    assert "id_token" in body
+
+    # Verify ID token is a valid JWT
+    id_token = body["id_token"]
+    claims = _decode_jwt_payload(id_token)
+    assert claims["iss"] == "https://flathub.org"
+    assert claims["sub"] == "sub-1"
+    assert claims["aud"] == "test-client"
+    assert "iat" in claims
+    assert "exp" in claims
+    assert "nonce" not in claims
+
+    # Access token object was persisted
+    assert len(added) == 1
+    assert isinstance(added[0], OidcAccessToken)
+    assert added[0].access_token_hash == hash_token("test-access-token")
+
+
+def test_token_valid_exchange_with_client_secret_basic(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+            },
+            headers=_basic_auth_header("test-client", CLIENT_SECRET),
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["access_token"] == "test-access-token"
+    assert body["token_type"] == "Bearer"
+    assert "id_token" in body
+
+
+def test_token_includes_nonce_in_id_token(token_client):
+    auth_code_row = _make_auth_code_row(nonce="test-nonce")
+    client_obj = _make_token_client()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    id_token = response.json()["id_token"]
+    claims = _decode_jwt_payload(id_token)
+    assert claims["nonce"] == "test-nonce"
+
+
+def test_token_bad_client_secret(token_client):
+    client_obj = _make_token_client()
+    get_db_mock = _mock_token_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": "wrong-secret",
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
+
+
+def test_token_client_secret_post_missing_secret(token_client):
+    client_obj = _make_token_client()
+    get_db_mock = _mock_token_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
+
+
+def test_token_unsupported_grant_type(token_client):
+    client_obj = _make_token_client()
+    get_db_mock = _mock_token_db(client_obj=client_obj)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "client_credentials",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "unsupported_grant_type"}
+
+
+def test_token_expired_code(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(expired=True)
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_code_replay(token_client):
+    # Already-consumed code: UPDATE WHERE consumed_at IS NULL returns no rows
+    client_obj = _make_token_client()
+    get_db_mock = _mock_token_db(client_obj=client_obj, auth_code_row=None)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_wrong_client(token_client):
+    client_obj = _make_token_client()
+    # Code was issued to a different client; UPDATE returns the row but client_id check fails
+    auth_code_row = _make_auth_code_row(client_id="other-client")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_wrong_redirect_uri(token_client):
+    client_obj = _make_token_client()
+    # Code's redirect_uri doesn't match the request; UPDATE returns the row but check fails
+    auth_code_row = _make_auth_code_row()
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": "https://evil.example.com/callback",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_unknown_code(token_client):
+    client_obj = _make_token_client()
+    # No auth code found for this hash: UPDATE matches no rows
+    get_db_mock = _mock_token_db(client_obj=client_obj, auth_code_row=None)
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "nonexistent-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_no_client_credentials(token_client):
+    with patch("app.routes.oidc.get_db", side_effect=_mock_token_db()):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+            },
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_client"}
+
+
+def test_token_id_token_signature_verifiable(token_client):
+    """Verify that the ID token can be verified with the public JWKS key."""
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(nonce="sig-test-nonce")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock), patch(
+        "app.routes.oidc.ensure_oidc_subject", return_value="sub-1"
+    ), patch("app.routes.oidc.generate_token", return_value="test-access-token"):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    id_token_str = response.json()["id_token"]
+
+    # Verify using the public key from JWKS endpoint
+    jwks_response = token_client.get("/oidc/jwks.json")
+    assert jwks_response.status_code == 200
+    key_set = jwk.KeySet.import_key_set(jwks_response.json())
+
+    # Decode and verify signature
+    token_obj = jwt.decode(id_token_str, key=key_set, algorithms=["RS256"])
+    claims = token_obj.claims
+
+    assert claims["iss"] == "https://flathub.org"
+    assert claims["sub"] == "sub-1"
+    assert claims["aud"] == "test-client"
+    assert claims["nonce"] == "sig-test-nonce"
+    assert "iat" in claims
+    assert "exp" in claims

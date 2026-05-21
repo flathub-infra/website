@@ -1,18 +1,25 @@
+import base64
 import json
 from datetime import UTC, datetime, timedelta
 from typing import Any
 from urllib.parse import urlencode
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
 from fastapi.responses import ORJSONResponse
-from joserfc import jwk
+from joserfc import jwk, jwt
 from joserfc.errors import JoseError
+from sqlalchemy import update
 from starlette.responses import RedirectResponse
 
 from .. import config, models
 from ..database import get_db
 from ..login_info import LoginStatusDep
-from ..oidc import ensure_oidc_subject, generate_token, hash_token
+from ..oidc import (
+    ensure_oidc_subject,
+    generate_token,
+    hash_token,
+    verify_client_secret,
+)
 
 
 def require_oidc_enabled():
@@ -207,3 +214,180 @@ def authorize(
     separator = "&" if "?" in redirect_uri else "?"
     location = f"{redirect_uri}{separator}{urlencode(params)}"
     return RedirectResponse(url=location, status_code=302)
+
+
+def _get_signing_key():
+    """Load the first RSA signing key from the configured private JWKS."""
+    if config.settings.oidc_private_jwks is None:
+        raise HTTPException(status_code=500, detail="OIDC JWKS is not configured")
+
+    try:
+        private_jwks = json.loads(config.settings.oidc_private_jwks)
+        key_set = jwk.KeySet.import_key_set(private_jwks)
+    except (json.JSONDecodeError, KeyError, TypeError, JoseError) as e:
+        raise HTTPException(status_code=500, detail="OIDC JWKS is invalid") from e
+
+    for key in key_set:
+        if key.key_type == "RSA":
+            return key
+
+    raise HTTPException(status_code=500, detail="OIDC JWKS is invalid")
+
+
+def _resolve_client_credentials(
+    request: Request,
+    post_client_id: str | None,
+    post_client_secret: str | None,
+) -> tuple[str, str]:
+    """Extract client_id and client_secret from request headers or form body.
+
+    Returns (client_id, client_secret) or raises HTTPException.
+    """
+    auth_header = request.headers.get("authorization", "")
+    basic_client_id: str | None = None
+    basic_client_secret: str | None = None
+
+    # Try client_secret_basic (Authorization: Basic base64(client_id:client_secret))
+    if auth_header.startswith("Basic "):
+        try:
+            decoded = base64.b64decode(auth_header[6:]).decode("utf-8")
+            basic_client_id, basic_client_secret = decoded.split(":", 1)
+        except (ValueError, UnicodeDecodeError):
+            raise HTTPException(status_code=401, detail="invalid_client")
+
+    # Mutually exclusive: cannot use both methods
+    if basic_client_id and post_client_id:
+        raise HTTPException(status_code=400, detail="invalid_request")
+
+    if basic_client_id:
+        # basic_client_secret is guaranteed non-None after split(":", 1)
+        assert basic_client_secret is not None
+        return basic_client_id, basic_client_secret
+    if not post_client_id:
+        raise HTTPException(status_code=401, detail="invalid_client")
+    if not post_client_secret:
+        raise HTTPException(status_code=401, detail="invalid_client")
+
+    return post_client_id, post_client_secret
+
+
+@router.post(
+    "/oidc/token",
+    responses={
+        200: {"description": "Token response"},
+        400: {"description": "Invalid request"},
+        401: {"description": "Invalid client"},
+        404: {"description": "OIDC is disabled"},
+    },
+)
+def token(
+    request: Request,
+    grant_type: str = Form(None),
+    code: str = Form(None),
+    redirect_uri: str = Form(None),
+    client_id: str | None = Form(None),
+    client_secret: str | None = Form(None),
+):
+    client_id, client_secret = _resolve_client_credentials(
+        request, client_id, client_secret
+    )
+
+    if grant_type != "authorization_code":
+        raise HTTPException(status_code=400, detail="unsupported_grant_type")
+
+    if not code:
+        raise HTTPException(status_code=400, detail="invalid_request")
+
+    # Authenticate client and atomically consume the code in one writer transaction
+    code_hash_value = hash_token(code)
+    access_token = generate_token()
+    now = datetime.now(UTC)
+    access_token_expires_at = now + timedelta(
+        seconds=config.settings.oidc_access_token_lifetime_seconds
+    )
+
+    with get_db("writer") as db:
+        # Authenticate client against the writer to avoid stale replica data
+        client = (
+            db.session.query(models.OidcClient)
+            .filter(models.OidcClient.client_id == client_id)
+            .first()
+        )
+        if client is None or not client.enabled:
+            raise HTTPException(status_code=401, detail="invalid_client")
+        if not verify_client_secret(client_secret, client.client_secret_hash):
+            raise HTTPException(status_code=401, detail="invalid_client")
+
+        # Atomically claim the code: UPDATE ... WHERE unconsumed RETURNING ...
+        result = db.session.execute(
+            update(models.OidcAuthorizationCode)
+            .where(
+                models.OidcAuthorizationCode.code_hash == code_hash_value,
+                models.OidcAuthorizationCode.consumed_at.is_(None),
+            )
+            .values(consumed_at=now)
+            .returning(
+                models.OidcAuthorizationCode.client_id,
+                models.OidcAuthorizationCode.user_id,
+                models.OidcAuthorizationCode.redirect_uri,
+                models.OidcAuthorizationCode.scope,
+                models.OidcAuthorizationCode.nonce,
+                models.OidcAuthorizationCode.expires_at,
+            )
+        )
+        row = result.first()
+
+        if row is None:
+            raise HTTPException(status_code=400, detail="invalid_grant")
+
+        if row.client_id != client_id:
+            raise HTTPException(status_code=400, detail="invalid_grant")
+        if row.redirect_uri != redirect_uri:
+            raise HTTPException(status_code=400, detail="invalid_grant")
+        if now > row.expires_at.replace(tzinfo=UTC):
+            raise HTTPException(status_code=400, detail="invalid_grant")
+
+        user = db.session.get(models.FlathubUser, row.user_id)
+        if user is None:
+            raise HTTPException(status_code=400, detail="invalid_grant")
+        subject = ensure_oidc_subject(db, user)
+
+        # Build and sign ID token BEFORE committing the mutation
+        signing_key = _get_signing_key()
+        issuer = config.settings.oidc_issuer.rstrip("/")
+        now_epoch = int(now.timestamp())
+        id_claims: dict[str, Any] = {
+            "iss": issuer,
+            "sub": subject,
+            "aud": client_id,
+            "iat": now_epoch,
+            "exp": now_epoch + config.settings.oidc_access_token_lifetime_seconds,
+        }
+        if row.nonce is not None:
+            id_claims["nonce"] = row.nonce
+
+        header = {"alg": config.settings.oidc_jwt_alg, "kid": signing_key.kid}
+        id_token = jwt.encode(
+            header, id_claims, signing_key, algorithms=[config.settings.oidc_jwt_alg]
+        )
+
+        # Persist access token (hash only)
+        access_token_obj = models.OidcAccessToken(
+            client_id=client_id,
+            user_id=row.user_id,
+            access_token_hash=hash_token(access_token),
+            scope=row.scope,
+            expires_at=access_token_expires_at,
+        )
+        db.session.add(access_token_obj)
+
+        # Capture scalar values before commit expires ORM instances
+        scope_value = row.scope
+
+    return {
+        "access_token": access_token,
+        "token_type": "Bearer",
+        "expires_in": config.settings.oidc_access_token_lifetime_seconds,
+        "scope": scope_value,
+        "id_token": id_token,
+    }
