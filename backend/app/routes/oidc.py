@@ -96,7 +96,9 @@ def jwks():
     return {"keys": keys}
 
 
-def _error_redirect(redirect_uri: str, error: str, state: str | None) -> RedirectResponse:
+def _error_redirect(
+    redirect_uri: str, error: str, state: str | None
+) -> RedirectResponse:
     params: dict[str, str] = {"error": error}
     if state is not None:
         params["state"] = state
@@ -164,7 +166,6 @@ def authorize(
     requested_scope_set = set(scope.split())
     if "offline_access" in requested_scope_set and not client.refresh_tokens_enabled:
         return _error_redirect(redirect_uri, "invalid_scope", state)
-
 
     if deferred_authorize_parameters_requested(code_challenge, code_challenge_method):
         return _error_redirect(redirect_uri, "invalid_request", state)
@@ -261,7 +262,9 @@ def _load_enabled_client_or_401(db, client_id: str):
     return client
 
 
-def _sign_id_token(client_id: str, subject: str, now: datetime, nonce: str | None = None) -> str:
+def _sign_id_token(
+    client_id: str, subject: str, now: datetime, nonce: str | None = None
+) -> str:
     """Build and sign a JWT ID token."""
     signing_key = _get_signing_key()
     issuer = config.settings.oidc_issuer.rstrip("/")
@@ -289,7 +292,12 @@ def _access_token_scope(scope: str) -> str:
 
 
 def _create_access_token(
-    db, client_id: str, user_id: int, scope: str, now: datetime, family_id: str | None = None
+    db,
+    client_id: str,
+    user_id: int,
+    scope: str,
+    now: datetime,
+    family_id: str | None = None,
 ):
     """Create and persist an OidcAccessToken (hash only)."""
     access_token = generate_token()
@@ -414,7 +422,11 @@ def token(
 
 
 def _handle_authorization_code_grant(
-    client_id: str, client_secret: str, code: str | None, redirect_uri: str | None, now: datetime
+    client_id: str,
+    client_secret: str,
+    code: str | None,
+    redirect_uri: str | None,
+    now: datetime,
 ):
     if not code:
         raise HTTPException(status_code=400, detail="invalid_request")
@@ -498,7 +510,6 @@ def _handle_authorization_code_grant(
     return response
 
 
-
 def _handle_refresh_token_grant(
     client_id: str,
     client_secret: str,
@@ -517,7 +528,6 @@ def _handle_refresh_token_grant(
             raise HTTPException(status_code=401, detail="invalid_client")
         if not client.refresh_tokens_enabled:
             raise HTTPException(status_code=401, detail="invalid_client")
-
 
         result = db.session.execute(
             update(models.OidcRefreshToken)

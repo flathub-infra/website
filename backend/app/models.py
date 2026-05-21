@@ -1217,7 +1217,6 @@ class OidcAccessToken(Base):
         )
 
 
-
 class OidcRefreshToken(Base):
     __tablename__ = "oidcrefreshtoken"
 
@@ -1237,9 +1236,7 @@ class OidcRefreshToken(Base):
     refresh_token_hash: Mapped[str] = mapped_column(
         String, nullable=False, unique=True, index=True
     )
-    family_id: Mapped[str] = mapped_column(
-        String, nullable=False, index=True
-    )
+    family_id: Mapped[str] = mapped_column(String, nullable=False, index=True)
     scope: Mapped[str] = mapped_column(String, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
@@ -1258,7 +1255,9 @@ class OidcRefreshToken(Base):
     )
     user_entity: Mapped["FlathubUser"] = relationship("FlathubUser")
     replaced_by: Mapped["OidcRefreshToken | None"] = relationship(
-        "OidcRefreshToken", remote_side="OidcRefreshToken.id", foreign_keys=[replaced_by_id]
+        "OidcRefreshToken",
+        remote_side="OidcRefreshToken.id",
+        foreign_keys=[replaced_by_id],
     )
 
     @staticmethod
@@ -1276,7 +1275,10 @@ class OidcRefreshToken(Base):
             .values(revoked_at=datetime.now())
         )
 
-FlathubUser.TABLES_FOR_DELETE.extend([OidcAuthorizationCode, OidcAccessToken, OidcRefreshToken])
+
+FlathubUser.TABLES_FOR_DELETE.extend(
+    [OidcAuthorizationCode, OidcAccessToken, OidcRefreshToken]
+)
 
 
 class AppVerification(Base):
