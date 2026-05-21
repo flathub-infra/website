@@ -4,11 +4,13 @@ import base64
 import hashlib
 import hmac
 import secrets
-from typing import TYPE_CHECKING, Any, Protocol, cast
+from typing import TYPE_CHECKING, Any, Protocol, TypeGuard, cast
 
 from sqlalchemy import select, update
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from .models import FlathubUser
 
 TOKEN_BYTES = 32
@@ -20,6 +22,14 @@ CLIENT_SECRET_HASH_SCHEME = "pbkdf2_sha256"
 class OidcSubjectUser(Protocol):
     id: int
     oidc_subject: str | None
+
+
+class OidcClientRecord(Protocol):
+    client_id: str
+    client_secret_hash: str
+    redirect_uris: Sequence[str]
+    allowed_scopes: Sequence[str]
+    enabled: bool
 
 
 def generate_token(num_bytes: int = TOKEN_BYTES) -> str:
@@ -61,6 +71,27 @@ def verify_client_secret(secret: str, stored_hash: str) -> bool:
 
     calculated_hash = _pbkdf2(secret, salt, iteration_count)
     return hmac.compare_digest(calculated_hash, secret_hash)
+
+
+def oidc_client_enabled(client: OidcClientRecord | None) -> TypeGuard[OidcClientRecord]:
+    return client is not None and client.enabled
+
+
+def redirect_uri_allowed(redirect_uri: str, allowed_redirect_uris: Sequence[str]) -> bool:
+    return redirect_uri in allowed_redirect_uris
+
+
+def requested_scopes_allowed(scope: str, allowed_scopes: Sequence[str]) -> bool:
+    requested_scopes = scope.split()
+    return "openid" in requested_scopes and set(requested_scopes).issubset(
+        set(allowed_scopes)
+    )
+
+
+def deferred_authorize_parameters_requested(
+    code_challenge: str | None, code_challenge_method: str | None
+) -> bool:
+    return code_challenge is not None or code_challenge_method is not None
 
 
 def ensure_oidc_subject(db: Any, user: OidcSubjectUser) -> str:
