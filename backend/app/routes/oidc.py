@@ -114,9 +114,9 @@ def authorize(
     code_challenge: str | None = Query(None),
     code_challenge_method: str | None = Query(None),
 ):
-    has_fresh_params = client_id is not None
+    has_query_string = bool(request.url.query)
 
-    if has_fresh_params:
+    if has_query_string:
         request.session.pop("oidc_authorize_params", None)
     else:
         pending = request.session.pop("oidc_authorize_params", None)
@@ -129,7 +129,6 @@ def authorize(
             nonce = pending.get("nonce")
             code_challenge = pending.get("code_challenge")
             code_challenge_method = pending.get("code_challenge_method")
-
     if not client_id or not redirect_uri or not response_type or not scope:
         raise HTTPException(status_code=400, detail="invalid_request")
     with get_db("replica") as db:
