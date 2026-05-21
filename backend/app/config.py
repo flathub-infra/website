@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     oidc_private_jwks: str | None = None
     oidc_code_lifetime_seconds: int = 600
     oidc_access_token_lifetime_seconds: int = 3600
+    oidc_refresh_token_lifetime_seconds: int = 2592000
     oidc_jwt_alg: str = "RS256"
 
     github_client_id: str = "71dbddbdb4288fe96a58"

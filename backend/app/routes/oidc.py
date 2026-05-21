@@ -58,8 +58,8 @@ def openid_configuration():
         "userinfo_endpoint": f"{issuer}/oidc/userinfo",
         "jwks_uri": f"{issuer}/oidc/jwks.json",
         "response_types_supported": ["code"],
-        "grant_types_supported": ["authorization_code"],
-        "scopes_supported": ["openid", "profile", "email"],
+        "grant_types_supported": ["authorization_code", "refresh_token"],
+        "scopes_supported": ["openid", "profile", "email", "offline_access"],
         "token_endpoint_auth_methods_supported": [
             "client_secret_basic",
             "client_secret_post",
@@ -161,6 +161,11 @@ def authorize(
     if not requested_scopes_allowed(scope, client.allowed_scopes):
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
+    requested_scope_set = set(scope.split())
+    if "offline_access" in requested_scope_set and not client.refresh_tokens_enabled:
+        return _error_redirect(redirect_uri, "invalid_scope", state)
+
+
     if deferred_authorize_parameters_requested(code_challenge, code_challenge_method):
         return _error_redirect(redirect_uri, "invalid_request", state)
 
@@ -194,6 +199,8 @@ def authorize(
         if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
             raise HTTPException(status_code=400, detail="invalid_redirect_uri")
         if not requested_scopes_allowed(scope, client.allowed_scopes):
+            return _error_redirect(redirect_uri, "invalid_scope", state)
+        if "offline_access" in set(scope.split()) and not client.refresh_tokens_enabled:
             return _error_redirect(redirect_uri, "invalid_scope", state)
 
         user = db.session.merge(login.user)
@@ -239,6 +246,100 @@ def _get_signing_key():
     raise HTTPException(status_code=500, detail="OIDC JWKS is invalid")
 
 
+def _load_enabled_client_or_401(db, client_id: str):
+    """Load an OIDC client by client_id and return it only if enabled.
+
+    Raises HTTPException(401, invalid_client) if the client is missing or disabled.
+    """
+    client = (
+        db.session.query(models.OidcClient)
+        .filter(models.OidcClient.client_id == client_id)
+        .first()
+    )
+    if not oidc_client_enabled(client):
+        raise HTTPException(status_code=401, detail="invalid_client")
+    return client
+
+
+def _sign_id_token(client_id: str, subject: str, now: datetime, nonce: str | None = None) -> str:
+    """Build and sign a JWT ID token."""
+    signing_key = _get_signing_key()
+    issuer = config.settings.oidc_issuer.rstrip("/")
+    now_epoch = int(now.timestamp())
+    id_claims: dict[str, Any] = {
+        "iss": issuer,
+        "sub": subject,
+        "aud": client_id,
+        "iat": now_epoch,
+        "exp": now_epoch + config.settings.oidc_access_token_lifetime_seconds,
+    }
+    if nonce is not None:
+        id_claims["nonce"] = nonce
+
+    header = {"alg": config.settings.oidc_jwt_alg, "kid": signing_key.kid}
+    return jwt.encode(
+        header, id_claims, signing_key, algorithms=[config.settings.oidc_jwt_alg]
+    )
+
+
+def _access_token_scope(scope: str) -> str:
+    """Remove offline_access from the scope string for access-token storage."""
+    scopes = scope.split()
+    return " ".join(s for s in scopes if s != "offline_access")
+
+
+def _create_access_token(
+    db, client_id: str, user_id: int, scope: str, now: datetime, family_id: str | None = None
+):
+    """Create and persist an OidcAccessToken (hash only)."""
+    access_token = generate_token()
+    expires_at = now + timedelta(
+        seconds=config.settings.oidc_access_token_lifetime_seconds
+    )
+    access_token_obj = models.OidcAccessToken(
+        client_id=client_id,
+        user_id=user_id,
+        access_token_hash=hash_token(access_token),
+        scope=scope,
+        expires_at=expires_at,
+        refresh_token_family_id=family_id,
+    )
+    db.session.add(access_token_obj)
+    return access_token, expires_at
+
+
+def _scope_subset_or_invalid(requested: str, original: str) -> str | None:
+    """Validate that requested scopes are a subset of original scopes.
+
+    Returns the validated scope string, or None if invalid.
+    """
+    requested_set = set(requested.split()) if requested else set()
+    original_set = set(original.split())
+    if not requested_set.issubset(original_set):
+        return None
+    return requested
+
+
+def _revoke_refresh_family(db, family_id: str, now: datetime):
+    """Revoke all refresh tokens and active access tokens in a family."""
+    db.session.execute(
+        update(models.OidcRefreshToken)
+        .where(
+            models.OidcRefreshToken.family_id == family_id,
+            models.OidcRefreshToken.revoked_at.is_(None),
+        )
+        .values(revoked_at=now)
+    )
+    db.session.execute(
+        update(models.OidcAccessToken)
+        .where(
+            models.OidcAccessToken.refresh_token_family_id == family_id,
+            models.OidcAccessToken.revoked_at.is_(None),
+        )
+        .values(revoked_at=now)
+    )
+
+
 def _resolve_client_credentials(
     request: Request,
     post_client_id: str | None,
@@ -252,7 +353,6 @@ def _resolve_client_credentials(
     basic_client_id: str | None = None
     basic_client_secret: str | None = None
 
-    # Try client_secret_basic (Authorization: Basic base64(client_id:client_secret))
     if auth_header.startswith("Basic "):
         try:
             decoded = base64.b64decode(auth_header[6:]).decode("utf-8")
@@ -292,34 +392,37 @@ def token(
     redirect_uri: str = Form(None),
     client_id: str | None = Form(None),
     client_secret: str | None = Form(None),
+    refresh_token: str | None = Form(None),
+    scope: str | None = Form(None),
 ):
     client_id, client_secret = _resolve_client_credentials(
         request, client_id, client_secret
     )
 
-    if grant_type != "authorization_code":
+    now = datetime.now(UTC)
+
+    if grant_type == "authorization_code":
+        return _handle_authorization_code_grant(
+            client_id, client_secret, code, redirect_uri, now
+        )
+    elif grant_type == "refresh_token":
+        return _handle_refresh_token_grant(
+            client_id, client_secret, refresh_token, scope, now
+        )
+    else:
         raise HTTPException(status_code=400, detail="unsupported_grant_type")
 
+
+def _handle_authorization_code_grant(
+    client_id: str, client_secret: str, code: str | None, redirect_uri: str | None, now: datetime
+):
     if not code:
         raise HTTPException(status_code=400, detail="invalid_request")
 
-    # Authenticate client and atomically consume the code in one writer transaction
     code_hash_value = hash_token(code)
-    access_token = generate_token()
-    now = datetime.now(UTC)
-    access_token_expires_at = now + timedelta(
-        seconds=config.settings.oidc_access_token_lifetime_seconds
-    )
 
     with get_db("writer") as db:
-        # Authenticate client against the writer to avoid stale replica data
-        client = (
-            db.session.query(models.OidcClient)
-            .filter(models.OidcClient.client_id == client_id)
-            .first()
-        )
-        if not oidc_client_enabled(client):
-            raise HTTPException(status_code=401, detail="invalid_client")
+        client = _load_enabled_client_or_401(db, client_id)
         if not verify_client_secret(client_secret, client.client_secret_hash):
             raise HTTPException(status_code=401, detail="invalid_client")
 
@@ -357,44 +460,150 @@ def token(
             raise HTTPException(status_code=400, detail="invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
-        # Build and sign ID token BEFORE committing the mutation
-        signing_key = _get_signing_key()
-        issuer = config.settings.oidc_issuer.rstrip("/")
-        now_epoch = int(now.timestamp())
-        id_claims: dict[str, Any] = {
-            "iss": issuer,
-            "sub": subject,
-            "aud": client_id,
-            "iat": now_epoch,
-            "exp": now_epoch + config.settings.oidc_access_token_lifetime_seconds,
-        }
-        if row.nonce is not None:
-            id_claims["nonce"] = row.nonce
+        id_token = _sign_id_token(client_id, subject, now, nonce=row.nonce)
 
-        header = {"alg": config.settings.oidc_jwt_alg, "kid": signing_key.kid}
-        id_token = jwt.encode(
-            header, id_claims, signing_key, algorithms=[config.settings.oidc_jwt_alg]
+        at_scope = _access_token_scope(row.scope)
+
+        refresh_token_value = None
+        family_id = None
+        if "offline_access" in set(row.scope.split()) and client.refresh_tokens_enabled:
+            family_id = generate_token()
+            refresh_token_value = generate_token()
+            refresh_expires_at = now + timedelta(
+                seconds=config.settings.oidc_refresh_token_lifetime_seconds
+            )
+            refresh_obj = models.OidcRefreshToken(
+                client_id=client_id,
+                user_id=row.user_id,
+                refresh_token_hash=hash_token(refresh_token_value),
+                family_id=family_id,
+                scope=row.scope,
+                expires_at=refresh_expires_at,
+            )
+            db.session.add(refresh_obj)
+
+        access_token, _ = _create_access_token(
+            db, client_id, row.user_id, at_scope, now, family_id=family_id
         )
 
-        # Persist access token (hash only)
-        access_token_obj = models.OidcAccessToken(
+    response: dict[str, Any] = {
+        "access_token": access_token,
+        "token_type": "Bearer",
+        "expires_in": config.settings.oidc_access_token_lifetime_seconds,
+        "scope": at_scope,
+        "id_token": id_token,
+    }
+    if refresh_token_value is not None:
+        response["refresh_token"] = refresh_token_value
+    return response
+
+
+
+def _handle_refresh_token_grant(
+    client_id: str,
+    client_secret: str,
+    refresh_token_value: str | None,
+    requested_scope: str | None,
+    now: datetime,
+):
+    if not refresh_token_value:
+        raise HTTPException(status_code=400, detail="invalid_request")
+
+    token_hash = hash_token(refresh_token_value)
+
+    with get_db("writer") as db:
+        client = _load_enabled_client_or_401(db, client_id)
+        if not verify_client_secret(client_secret, client.client_secret_hash):
+            raise HTTPException(status_code=401, detail="invalid_client")
+        if not client.refresh_tokens_enabled:
+            raise HTTPException(status_code=401, detail="invalid_client")
+
+
+        result = db.session.execute(
+            update(models.OidcRefreshToken)
+            .where(
+                models.OidcRefreshToken.refresh_token_hash == token_hash,
+                models.OidcRefreshToken.client_id == client_id,
+                models.OidcRefreshToken.rotated_at.is_(None),
+                models.OidcRefreshToken.revoked_at.is_(None),
+            )
+            .values(rotated_at=now)
+            .returning(
+                models.OidcRefreshToken.id,
+                models.OidcRefreshToken.user_id,
+                models.OidcRefreshToken.family_id,
+                models.OidcRefreshToken.scope,
+                models.OidcRefreshToken.expires_at,
+            )
+        )
+        row = result.first()
+
+        if row is None:
+            replay_obj = (
+                db.session.query(models.OidcRefreshToken)
+                .filter(
+                    models.OidcRefreshToken.refresh_token_hash == token_hash,
+                    models.OidcRefreshToken.client_id == client_id,
+                )
+                .first()
+            )
+            if replay_obj is not None and (
+                replay_obj.rotated_at is not None or replay_obj.revoked_at is not None
+            ):
+                _revoke_refresh_family(db, replay_obj.family_id, now)
+                db.session.commit()
+            raise HTTPException(status_code=400, detail="invalid_grant")
+
+        if now > row.expires_at.replace(tzinfo=UTC):
+            raise HTTPException(status_code=400, detail="invalid_grant")
+
+        user = db.session.get(models.FlathubUser, row.user_id)
+        if user is None or user.deleted:
+            raise HTTPException(status_code=400, detail="invalid_grant")
+        subject = ensure_oidc_subject(db, user)
+
+        effective_scope = row.scope
+        if requested_scope is not None:
+            validated = _scope_subset_or_invalid(requested_scope, row.scope)
+            if validated is None:
+                raise HTTPException(status_code=400, detail="invalid_scope")
+            effective_scope = validated
+
+        new_rt_value = generate_token()
+        new_rt_expires_at = now + timedelta(
+            seconds=config.settings.oidc_refresh_token_lifetime_seconds
+        )
+        new_rt_obj = models.OidcRefreshToken(
             client_id=client_id,
             user_id=row.user_id,
-            access_token_hash=hash_token(access_token),
-            scope=row.scope,
-            expires_at=access_token_expires_at,
+            refresh_token_hash=hash_token(new_rt_value),
+            family_id=row.family_id,
+            scope=effective_scope,
+            expires_at=new_rt_expires_at,
         )
-        db.session.add(access_token_obj)
+        db.session.add(new_rt_obj)
 
-        # Capture scalar values before commit expires ORM instances
-        scope_value = row.scope
+        db.session.flush()
+        db.session.execute(
+            update(models.OidcRefreshToken)
+            .where(models.OidcRefreshToken.id == row.id)
+            .values(replaced_by_id=new_rt_obj.id)
+        )
+
+        at_scope = _access_token_scope(effective_scope)
+        access_token, _ = _create_access_token(
+            db, client_id, row.user_id, at_scope, now, family_id=row.family_id
+        )
+
+        id_token = _sign_id_token(client_id, subject, now)
 
     return {
         "access_token": access_token,
         "token_type": "Bearer",
         "expires_in": config.settings.oidc_access_token_lifetime_seconds,
-        "scope": scope_value,
+        "scope": at_scope,
         "id_token": id_token,
+        "refresh_token": new_rt_value,
     }
 
 
