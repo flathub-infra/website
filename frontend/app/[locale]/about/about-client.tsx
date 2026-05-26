@@ -13,7 +13,11 @@ const Acknowledgments = () => {
     <div>
       <h2 className="mb-6 mt-12 text-2xl font-bold">{t("acknowledgements")}</h2>
       {t.rich("acknowledgements-block", {
-        p: (chunk) => <p>{chunk}</p>,
+        p: (chunk) => (
+          <p className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+            {chunk}
+          </p>
+        ),
       })}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <div>
@@ -21,9 +25,11 @@ const Acknowledgments = () => {
             {t("organizations-and-infrastructure")}
           </h3>
           <div className="ps-4">
-            <ul className="list-outside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-              <li>Codethink</li>
+            <ul className="list-outside list-disc text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+              <li>AWS</li>
               <li>Cloud Native Computing Foundation</li>
+              <li>Codethink</li>
+              <li>Equinix WorksOnARM</li>
               <li>Fastly</li>
               <li>Mythic Beasts</li>
               <li>Prerender.io</li>
@@ -33,10 +39,10 @@ const Acknowledgments = () => {
         </div>
         <div>
           <h3 className="my-4 text-xl font-semibold">
-            {t("individual-contributors")}
+            {t("founding-supporters")}
           </h3>
           <div className="ps-4">
-            <ul className="list-outside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+            <ul className="list-outside list-disc text-flathub-sonic-silver dark:text-flathub-spanish-gray">
               <li>Alex Larsson</li>
               <li>Andreas Nilsson</li>
               <li>Arun Raghavan</li>
@@ -51,11 +57,11 @@ const Acknowledgments = () => {
               <li>Joaquim Rocha</li>
               <li>Jorge García Oncins</li>
               <li>Lubomír Sedlář</li>
-              <li>Nathan Dyer</li>
-              <li>Nick Richards</li>
               <li>Mario Sanchez Prada</li>
               <li>Matthias Clasen</li>
               <li>Michael Doherty</li>
+              <li>Nathan Dyer</li>
+              <li>Nick Richards</li>
               <li>Robert McQueen</li>
               <li>Zach Oglesby</li>
             </ul>
