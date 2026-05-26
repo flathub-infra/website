@@ -1,12 +1,12 @@
 {
   "linux_mint": {
     "distroName": "Linux Mint",
-    "introduction": "<text>A Flatpak támogatás be van építve a Linux Mint 18.3-as és újabb operációs rendszerébe—nincs szükség beállításra!</text>"
+    "introduction": "<text>A Flatpak-támogatás be van építve a Linux Mint 18.3-as és újabb verzióiba—nincs szükség beállításra!</text>"
   },
   "chrome_os": {
     "step-5": {
       "name": "Újraindítás",
-      "text": "<text>A telepítés befejezéséhez indítsa újra a Linux operációs rendszert. Ezt megteheti a jobb gombbal a terminálra, majd a „Linux leállítása” lehetőségre kattintva. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
+      "text": "<text>A telepítés befejezéséhez indítsa újra a Linux operációs rendszert. Ezt megteheti, ha jobb gombbal a terminálra kattint, majd a „Linux leállítása” lehetőségre. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
     },
     "step-4": {
       "name": "A Flathub-tároló hozzáadása",
@@ -15,7 +15,7 @@
     "distroName": "ChromeOS",
     "step-1": {
       "name": "Linux-támogatás engedélyezése",
-      "text": "<text>Lépjen a <settingslink>chrome://os-settings</settingslink> oldalra, görgessen le a <strong>Fejlesztők</strong> részhez, és kapcsolja be a <em>Linux fejlesztői környezetet</em>. A ChromeOS-hez eltart egy ideig a Linux letöltése és telepítése.</text>"
+      "text": "<text>Lépjen a <settingslink>chrome://os-settings</settingslink> oldalra, görgessen le a <strong>Fejlesztők</strong> részhez, és kapcsolja be a <em>Linux fejlesztői környezetet</em>. A ChromeOS rendszernek eltart egy ideig a Linux letöltése és telepítése.</text>"
     },
     "step-3": {
       "name": "A Flatpak telepítése",
@@ -23,15 +23,15 @@
     },
     "step-2": {
       "name": "Linux-terminál megnyitása",
-      "text": "<text>Nyomja meg a Keresés/indító gombot, írja be a „Terminal” szót, és indítsa el a Terminál alkalmazást.</text>"
+      "text": "<text>Nyomja meg a Keresés/indító gombot, írja be a „Terminál” szót, és indítsa el a Terminál alkalmazást.</text>"
     },
-    "introduction": "<text>A Flatpak-alkalmazások a Crostini Linux kompatibilitási réteggel telepíthetők ChromeOS rendszerre. Ez nem érhető el minden ChromeOS-eszközön, ezért a folytatás előtt győződjön meg arról, hogy eszköze kompatibilis. A kompatibilis eszközök listája <link>itt</link> található.</text>"
+    "introduction": "<text>A Flatpak-alkalmazások a Crostini Linux-kompatibilitási réteggel telepíthetők ChromeOS rendszerre. Ez nem érhető el minden ChromeOS-eszközön, ezért a folytatás előtt győződjön meg arról, hogy eszköze kompatibilis. A kompatibilis eszközök listája <link>itt</link> található.</text>"
   },
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak elérhető az összes jelenleg karbantartott openSUSE Leap és openSUSE Tumbleweed verzió alapértelmezett tárolójában.</text> <text>Ha a grafikus telepítést részesíti előnyben, telepítheti a Flatpak-ot a <link>software.opensuse.org</link> webhelyről származó „1-kattintásos telepítő” használatával. Ha az Ön disztribúciójának verziója alapértelmezés szerint nem jelenik meg, kattintson a <em>Megjelenítés</em> lehetőségre a Nem támogatott terjesztések kategória alatt, majd válasszon a listából.</text> <text>Alternatív megoldásként telepítse a Flatpak csomagot a parancssorból a Zypper használatával:</text> <code></code>"
+      "text": "<text>A Flatpak elérhető az összes jelenleg karbantartott openSUSE Leap és openSUSE Tumbleweed verzió alapértelmezett tárolójában.</text> <text>Ha a grafikus telepítést részesíti előnyben, telepítheti a Flatpak-csomagot a <link>software.opensuse.org</link> webhelyről származó „1-kattintásos telepítő” használatával. Ha az Ön disztribúciójának verziója alapértelmezés szerint nem jelenik meg, kattintson a <em>Megjelenítés</em> lehetőségre a Nem támogatott terjesztések kategória alatt, majd válasszon a listából.</text> <text>Alternatív megoldásként telepítse a Flatpak-csomagot a parancssorból a Zypper használatával:</text> <code></code>"
     },
     "step-3": {
       "name": "Újraindítás",
@@ -49,18 +49,18 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak Arch operációs rendszerre való telepítéséhez nyissa meg a terminálalkalmazást, és futtassa:</text> <code></code>"
+      "text": "<text>A Flatpak Arch Linuxra való telepítéséhez nyissa meg a terminálalkalmazást, és futtassa:</text> <code></code>"
     },
     "distroName": "Arch"
   },
   "debian": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>Egy flatpak csomag elérhető a Debian 10 (Buster) és újabb verziókban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
+      "text": "<text>A Flatpak-csomag elérhető a Debian 10 (Buster) és újabb verziókban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
     },
     "step-2": {
       "name": "A Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>Ha GNOME-ot használ, érdemes a Flatpak-bővítményt is telepíteni a GNOME Szoftverhez. Ehhez futtassa a következőt:</text> <code></code> <text>Ha KDE van a rendszeren, helyette telepítse a Plasma Discover Flatpak háttérprogramot:</text> <codeDiscover></codeDiscover>"
+      "text": "<text>Ha GNOME-ot használ, érdemes a Flatpak-bővítményt is telepíteni a GNOME Szoftverhez. Ehhez futtassa a következőt:</text> <code></code> <text>Ha KDE van a rendszeren, helyette telepítse a Plasma Discover Flatpak-háttérprogramját:</text> <codeDiscover></codeDiscover>"
     },
     "step-4": {
       "name": "Újraindítás",
@@ -75,7 +75,7 @@
   "rocky_linux": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak alapértelmezés szerint telepítve van a Rocky Linux 8-as és újabb verzióira, ha olyan szoftverrel van telepítve, amely tartalmazza a GNOME-ot (GUI-kiszolgáló, munkaállomás). Ha ilyen rendszert használ, kihagyhatja ezt a lépést. A Flatpak Rocky Linux rendszerre történő telepítéséhez futtassa a következőt egy terminálon:</text> <code></code>"
+      "text": "<text>A Flatpak alapértelmezés szerint telepítve van a Rocky Linux 8-as és újabb verzióira, ha olyan szoftverválogatással telepítette, amely tartalmazza a GNOME-ot (szerver felülettel, Workstation). Ha ilyen rendszert használ, kihagyhatja ezt a lépést. A Flatpak Rocky Linux rendszerre történő telepítéséhez futtassa a következőt egy terminálon:</text> <code></code>"
     },
     "step-2": {
       "name": "A Flathub-tároló hozzáadása",
@@ -98,14 +98,14 @@
     },
     "step-3": {
       "name": "Újraindítás",
-      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: előfordulhat, hogy a Flatpak alkalmazások grafikus telepítése nem lehetséges a Gentoora.</text>"
+      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: előfordulhat, hogy a Flatpak alkalmazások grafikus telepítése nem lehetséges a Gentoo alatt.</text>"
     },
     "distroName": "Gentoo"
   },
   "kubuntu": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak Kubuntu telepítéséhez nyissa meg a Discover-t, lépjen a Beállításokba, telepítse a Flatpak háttérprogramot, majd indítsa újra a Discover-t.</text>"
+      "text": "<text>A Flatpak Kubuntu telepítéséhez nyissa meg a Discover alkalmazást, lépjen a Beállításokba, telepítse a Flatpak háttérprogramot, majd indítsa újra a Discover alkalmazást.</text>"
     },
     "step-3": {
       "name": "A Flathub-tároló hozzáadása",
@@ -118,7 +118,7 @@
     "distroName": "Kubuntu",
     "step-2": {
       "name": "A Flatpak rendszerbeállítások bővítményének telepítése",
-      "text": "<text>A Flatpak támogatás plazmarendszerbeállításokba való integrálásához nyissa meg a terminál alkalmazást, és futtassa:</text> <code></code>"
+      "text": "<text>A Flatpak-támogatás a Plasma Rendszerbeállításokba való integrálásához nyissa meg a terminálalkalmazást, és futtassa:</text> <code></code>"
     }
   },
   "solus": {
@@ -134,7 +134,7 @@
       "name": "A Flathub-tároló hozzáadása",
       "text": "<text>A Flathub a legjobb hely a Flatpak-alkalmazások beszerzésére. Az engedélyezéséhez töltse le és telepítse a <filelink>Flathub-tárolófájlt</filelink>, vagy futtassa a következőket egy terminálon:</text> <code></code>"
     },
-    "introduction": "<text>A Flatpak támogatás be van építve a Solus 4.7-es és újabb operációs rendszerébe—nincs szükség beállításra! A Flatpak-alkalmazások telepíthetők a GNOME Szoftver és/vagy a KDE Discover segítségével.</text> <text>Ha a Flatpak nincs telepítve, kövesse az alábbi utasításokat a kezdéshez.</text>",
+    "introduction": "<text>A Flatpak támogatás be van építve a Solus 4.7-es és újabb verzióiba—nincs szükség beállításra! A Flatpak alkalmazások telepíthetők a GNOME Szoftver és/vagy a KDE Discover segítségével.</text> <text>Ha a Flatpak nincs telepítve, kövesse az alábbi utasításokat a kezdéshez.</text>",
     "distroName": "Solus"
   },
   "alpine": {
@@ -148,7 +148,7 @@
     },
     "step-2": {
       "name": "A Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>A Flatpak bővítményt a GNOME Szoftverhez (v3.13 óta) vagy a KDE Discoverhez (v3.11 óta) telepítheti, lehetővé téve az alkalmazások telepítését a parancssor nélkül. A telepítéshez a GNOME Szoftver futtatásához:</text> <code></code> <text>KDE Discover esetén futtassa a következőt:</text> <codeDiscover></codeDiscover>"
+      "text": "<text>A Flatpak bővítményt a GNOME Szoftverhez (v3.13 óta) vagy a KDE Discoverhez (v3.11 óta) telepítheti, lehetővé téve az alkalmazások telepítését a parancssor nélkül. A telepítéshez GNOME Szoftver esetén futtassa a következőt:</text> <code></code> <text>KDE Discover esetén futtassa a következőt:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "A Flathub-tároló hozzáadása",
@@ -159,7 +159,7 @@
   "mageia": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak csomag elérhető a Mageia 6-os és újabb verzióihoz. A DNF használatával történő telepítéshez futtassa a következőt root felhasználóként:</text> <code></code> <text>Vagy az <strong>urpmi</strong> használatával történő telepítéshez futtassa:</text> <codeUrpmi></codeUrpmi>"
+      "text": "<text>A Flatpak-csomag elérhető a Mageia 6-os és újabb verzióihoz. A DNF használatával történő telepítéshez futtassa a következőt root felhasználóként:</text> <code></code> <text>Vagy az <strong>urpmi</strong> használatával történő telepítéshez futtassa:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-3": {
       "name": "Újraindítás",
@@ -197,7 +197,7 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak telepítéséhez állítsa a NixOS <strong>services.flatpak.enable</strong> beállítását <strong>true</strong> értékre úgy, hogy beírja a következőket az <strong>/etc/nixos/configuration.nix</strong> fájlba:</text> <code></code> <text>Ezután építse újra, és váltson át az új konfigurációra a következővel:</text> <codeRebuild></codeRebuild> <text>További részletekért nézze meg a <doclink>NixOS dokumentációt</doclink>.</text>"
+      "text": "<text>A Flatpak telepítéséhez állítsa a NixOS <strong>services.flatpak.enable</strong> beállítását <strong>true</strong> értékre úgy, hogy beírja a következőket az <strong>/etc/nixos/configuration.nix</strong> fájlba:</text> <code></code> <text>Ezután konfigurálja újra a rendszert és váltson át az új beállításokra a következővel:</text> <codeRebuild></codeRebuild> <text>További részletekért nézze meg a <doclink>NixOS dokumentációt</doclink>.</text>"
     },
     "distroName": "NixOS"
   },
@@ -215,7 +215,7 @@
       "text": "<text>A Flatpak Deepin operációs rendszerre történő telepítéséhez futtassa a következőket egy terminálon:</text> <code></code>"
     },
     "step-3": {
-      "name": "Deepin témák telepítése",
+      "name": "Deepin-témák telepítése",
       "text": "<text>A világos és sötét témák telepítéséhez futtassa:</text> <code></code>"
     },
     "distroName": "Deepin"
@@ -223,7 +223,7 @@
   "pardus": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak csomag elérhető a Pardus 2019-es és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
+      "text": "<text>A Flatpak-csomag elérhető a Pardus 2019-es és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
     },
     "step-2": {
       "name": "A Szoftver Flatpak-bővítmény telepítése",
@@ -242,7 +242,7 @@
   "pisi_gnulinux": {
     "step-3": {
       "name": "Újraindítás",
-      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak-alkalmazások grafikus telepítése nem lehetséges Pisi GNU/Linux-ra.</text>"
+      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak-alkalmazások grafikus telepítése nem lehetséges Pisi GNU/Linux rendszeren.</text>"
     },
     "step-2": {
       "name": "A Flathub-tároló hozzáadása",
@@ -250,7 +250,7 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A flatpak csomag elérhető a Pisi 2.1-es és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
+      "text": "<text>A flatpak-csomag elérhető a Pisi 2.1-es és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
     },
     "distroName": "Pisi GNU/Linux"
   },
@@ -260,7 +260,7 @@
       "text": "<text>A Flatpak GNU Guix operációs rendszerre történő telepítéséhez futtassa a következőt egy terminálon:</text> <code></code>"
     },
     "step-3": {
-      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak alkalmazások grafikus telepítése nem lehetséges a GNU Guix-ra.</text>",
+      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak alkalmazások grafikus telepítése nem lehetséges a GNU Guix rendszeren.</text>",
       "name": "Újraindítás"
     },
     "step-2": {
@@ -272,7 +272,7 @@
   "crystal_linux": {
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak Crystal Linux operációs rendszerbe történő telepítéséhez először meg kell győződnie arról, hogy a csomagok naprakészek. Futtassa a következőket egy terminálon:</text> <codeUpdate></codeUpdate> <text>Ezután telepítse a Flatpak-ot:</text> <code></code>"
+      "text": "<text>A Flatpak Crystal Linux operációs rendszerbe történő telepítéséhez először meg kell győződnie arról, hogy a csomagok naprakészek. Futtassa a következőket egy terminálon:</text> <codeUpdate></codeUpdate> <text>Ezután telepítse a Flatpakot:</text> <code></code>"
     },
     "step-3": {
       "name": "Újraindítás",
@@ -283,16 +283,16 @@
       "name": "A Flathub-tároló hozzáadása"
     },
     "distroName": "Crystal Linux",
-    "introduction": "<header>A Flatpak alapértelmezés szerint telepítve van a Crystal Linuxon.</header> <text>Ha nem a „jade_gui”-t használtad a Crystal telepítéséhez, vagy úgy döntöttél, hogy nem telepíted, a következő lépésekkel állíthatod be a Flatpak-ot.</text>"
+    "introduction": "<header>A Flatpak alapértelmezés szerint telepítve van a Crystal Linuxon.</header> <text>Ha nem a „jade_gui” eszközt használta a Crystal telepítéséhez, vagy úgy döntött, hogy nem telepíti, a következő lépésekkel állíthatja be a Flatpakot.</text>"
   },
   "salix": {
-    "introduction": "<header>A Flatpak támogatás be van építve a Salix 15.0-ás és újabb verzióiba—nincs szükség beállításra!</header> <text>A Flatpak előre van beállítva a Flathub-tárolóval, és az asztali integrációs eszközök a Flathubból egy kattintással történő telepítést tesznek lehetővé.</text> <text>Mindössze annyit kell tennie, hogy <link>telepíti az alkalmazásokat</link>!</text>",
+    "introduction": "<header>A Flatpak alapértelmezés szerint telepítve van a Salix 15.0-s és újabb verzióiban—nincs szükség beállításra!</header> <text>A Flatpak előre van beállítva a Flathub-tárolóval, és az asztali integrációs eszközök a Flathubból egy kattintással történő telepítést tesznek lehetővé.</text> <text>Mindössze annyit kell tennie, hogy <link>telepíti az alkalmazásokat</link>!</text>",
     "distroName": "Salix"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
-      "text": "<text>A Flatpak a Manjaro 20 vagy újabb verziókra alapértelmezetten telepítve van.</text> <text>Támogatásának engedélyezéséhez lépjen a <strong>Szoftverkezelő</strong> (Programok hozzáadása/eltávolítása)</text> <text>Kattintson a háromsoros menüre [vagy az asztali környezettől függően pontokra] a jobb oldalon, a legördülő menüben válassza a „Beállítások” lehetőséget</text> <text>Lépjen a „Flatpak” fülre, és csúsztassa a kapcsolót a Flatpak támogatás engedélyezése lehetőségre (a frissítések keresése is engedélyezhető, ami ajánlott).</text>",
+      "text": "<text>A Flatpak a Manjaro 20 vagy újabb verziókra alapértelmezetten telepítve van.</text> <text>Támogatásának engedélyezéséhez lépjen a <strong>Szoftverkezelő</strong> (Programok hozzáadása/eltávolítása)</text> <text>Kattintson a háromsoros menüre [vagy az asztali környezettől függően pontokra] a jobb oldalon, a legördülő menüben válassza a „Beállítások” (Preferences) lehetőséget</text> <text>Lépjen a „Flatpak” fülre, és kapcsolja be a Flatpak-támogatás engedélyezése opciót (a frissítések keresése is engedélyezhető, ami ajánlott).</text>",
       "name": "A Flatpak engedélyezése a Szoftverkezelőn keresztül"
     },
     "step-2": {
@@ -307,7 +307,7 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak Alt család operációs rendszerekre való telepítéséhez nyissa meg a terminálalkalmazást, és futtassa:</text> <code></code>"
+      "text": "<text>A Flatpak ALT Linux családba tartozó operációs rendszerekre való telepítéséhez nyissa meg a terminálalkalmazást, és futtassa:</text> <code></code>"
     },
     "step-2": {
       "name": "A Flathub-tároló hozzáadása",
@@ -322,7 +322,7 @@
     },
     "step-1": {
       "name": "A Flatpak engedélyezése a Szoftverkezelőn keresztül",
-      "text": "<text>A Flatpak támogatás az MX 18-as és újabb verzióiban van beépítve. Csak a Flathub-tárolót kell aktiválni az alábbi utasításokat követve:</text> <text>Nyissa meg az <strong>MX csomagtelepítőt</strong> (nyissa meg a menüt, és keresse meg az MX eszközöket), válassza ki a „Flatpaks” lapot, a tároló aktiválásához meg kell adnia a root jelszót.</text>"
+      "text": "<text>A Flatpak támogatás az MX 18-as és újabb verzióiban van beépítve. Csak a Flathub-tárolót kell aktiválni az alábbi utasításokat követve:</text> <text>Nyissa meg az <strong>MX csomagtelepítőt</strong> (nyissa meg a menüt, és keresse meg az MX eszközöket), válassza ki a „Flatpaks” fület, a tároló aktiválásához meg kell adnia a root jelszót.</text>"
     },
     "distroName": "MX Linux"
   },
@@ -330,7 +330,7 @@
     "distroName": "Raspberry Pi OS",
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak csomag elérhető a Raspberry Pi OS (korábbi nevén Raspbian) Stretch és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
+      "text": "<text>A Flatpak-csomag elérhető a Raspberry Pi OS (korábbi nevén Raspbian) Stretch és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
     },
     "step-2": {
       "name": "A Flathub-tároló hozzáadása",
@@ -338,11 +338,11 @@
     },
     "step-3": {
       "name": "Újraindítás",
-      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak-alkalmazások grafikus telepítése nem lehetséges a Raspberry Pi OS-re.</text>"
+      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak-alkalmazások grafikus telepítése nem lehetséges Raspberry Pi OS alatt.</text>"
     }
   },
   "pop_os": {
-    "introduction": "<text>A Flatpak támogatás be van építve a Pop!_OS 20.04-es és újabb operációs rendszerébe—nincs szükség beállításra!</text>",
+    "introduction": "<text>A Flatpak támogatás be van építve a Pop!_OS 20.04-es és újabb verzióiba—nincs szükség beállításra!</text>",
     "distroName": "Pop!_OS"
   },
   "endeavouros": {
@@ -352,20 +352,20 @@
     },
     "step-1": {
       "name": "A Flatpak telepítése",
-      "text": "<text>A Flatpak EndeavourOS operációs rendszerre történő telepítéséhez először meg kell győződnie arról, hogy a telepítés naprakész, és futtassa a következőket egy terminálon:</text> <codeUpdate></codeUpdate> <text>Ezután telepítse a Flatpak-ot:</text> <code></code>"
+      "text": "<text>A Flatpak EndeavourOS operációs rendszerre történő telepítéséhez először meg kell győződnie arról, hogy a telepítés naprakész, és futtassa a következőket egy terminálon:</text> <codeUpdate></codeUpdate> <text>Ezután telepítse a Flatpakot:</text> <code></code>"
     },
     "step-3": {
       "name": "Újraindítás",
-      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak-alkalmazások grafikus telepítése nem lehetséges az EndeavourOS-re.</text>"
+      "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text> <text>Megjegyzés: Előfordulhat, hogy a Flatpak-alkalmazások grafikus telepítése nem lehetséges az EndeavourOS alatt.</text>"
     },
     "distroName": "EndeavourOS"
   },
   "kde_neon": {
-    "introduction": "<text>A Flatpak támogatás be van építve a KDE neon operációs rendszer 19-es és újabb verzióiba—nincs szükség beállításra!</text>",
+    "introduction": "<text>A Flatpak támogatás be van építve a KDE neon 19-es és újabb verzióiba—nincs szükség beállításra!</text>",
     "distroName": "KDE neon"
   },
   "endless_os": {
-    "introduction": "<text>A Flatpak támogatás be van építve az Endless OS 3.0.0 és újabb operációs rendszerébe—nincs szükség beállításra!</text>",
+    "introduction": "<text>A Flatpak-támogatás be van építve az Endless OS 3.0.0 és újabb verzióiba—nincs szükség beállításra!</text>",
     "distroName": "Endless OS"
   },
   "ubuntu": {
@@ -376,7 +376,7 @@
     "distroName": "Ubuntu",
     "step-2": {
       "name": "GNOME Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>A GNOME Szoftver bővítménye lehetővé teszi alkalmazások telepítését parancssor nélkül. A telepítéshez futtassa:</text> <code></code> <text><strong>Megjegyzés:</strong> Az Ubuntu a GNOME Szoftvert Snap-ként terjeszti a 20.04–23.04-es verziókban, és lecserélte az Alkalmazásközpontra a 23.10-es és újabb verziókban—egyik sem támogatja a Flatpak-alkalmazások telepítését. A Flatpak-bővítmény telepítése a GNOME Szoftver deb verzióját is telepíti, aminek eredményeként egyszerre két „Szoftver” alkalmazás kerül telepítésre az Ubuntu 20.04–23.04-es verzióiban, és egyetlen új „Szoftver” alkalmazás az Ubuntu 23.10-es és újabb verzióiban.</text>"
+      "text": "<text>A GNOME Szoftver bővítménye lehetővé teszi alkalmazások telepítését parancssor nélkül. A telepítéshez futtassa:</text> <code></code> <text><strong>Megjegyzés:</strong> Az Ubuntu a GNOME Szoftvert Snap-ként terjeszti a 20.04–23.04-es verziókban, és lecserélte az Alkalmazásközpontra a 23.10-es és újabb verziókban—egyik sem támogatja a Flatpak alkalmazások telepítését. A Flatpak-bővítmény telepítése a GNOME Szoftver deb verzióját is telepíti, aminek eredményeként egyszerre két „Szoftver” alkalmazás kerül telepítésre az Ubuntu 20.04–23.04-es verzióiban, és egyetlen új „Szoftver” alkalmazás az Ubuntu 23.10-es és újabb verzióiban.</text>"
     },
     "step-4": {
       "name": "Újraindítás",
@@ -389,11 +389,11 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>A Flatpak alapértelmezetten telepítve van a Fedora Workstation, Fedora Silverblue és Fedora Kinoite rendszereken. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a legjobb módja a Flatpak-alkalmazások beszerzésének. A Flathub előre be van állítva a <repolink>Harmadik féltől származó tárolók</repolink>. részeként. Alternatívaként letöltheti és telepítheti a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>Most már nincs más dolga, mint <applink>alkalmazásokat telepíteni</applink>!</text> <text>A fenti hivatkozásoknak működniük kell az alapértelmezett GNOME- és KDE-s Fedora telepítéseken, de ha valamiért mégsem, akkor kézzel is hozzáadhatja a Flathub tárolót a következő parancs futtatásával:</text> <code></code>"
+    "introduction": "<text>A Flatpak alapértelmezetten telepítve van a Fedora Workstation, Fedora Silverblue és Fedora Kinoite rendszereken. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a legjobb módja a Flatpak-alkalmazások beszerzésének. A Flathub előre be van állítva a <repolink>harmadik féltől származó tárolók</repolink> részeként. Alternatívaként letöltheti és telepítheti a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>Most már nincs más dolga, mint <applink>alkalmazásokat telepíteni</applink>!</text> <text>A fenti hivatkozásoknak működniük kell az alapértelmezett GNOME és KDE asztali környezettel rendelkező Fedora telepítéseken, de ha valamiért mégsem, akkor kézzel is hozzáadhatja a Flathub tárolót a következő parancs futtatásával:</text> <code></code>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>A Flatpak alapértelmezés szerint telepítve van a Red Hat Enterprise Linux for Workstations 9-es és újabb verzióira. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. Töltse le és telepítse a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>A Flatpak telepítéséhez Red Hat Enterprise Linux for Workstations 8-as vagy régebbi verziójára futtassa a következőt egy terminálon:</text>  <code></code> <text>Ezután nincs más dolga, mint <link>telepíteni az alkalmazásokat</link>!</text> <text>A fenti hivatkozásoknak működniük kell az alapértelmezett Red Hat Enterprise Linux for Workstations 9-es verziójú telepítésen, de ha valamilyen okból meghiúsulnak, manuálisan is hozzáadhatja a Flathub-tárolót a következő futtatásával:</text> <codeAddRemote></codeAddRemote>"
+    "introduction": "<text>A Flatpak alapértelmezés szerint telepítve van a Red Hat Enterprise Linux for Workstations 9-es és újabb verzióira. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak alkalmazások beszerzésének legjobb módja. Töltse le és telepítse a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>A Flatpak telepítéséhez Red Hat Enterprise Linux for Workstations 8-as vagy régebbi verziójára futtassa a következőt egy terminálon:</text>  <code></code> <text>Ezután nincs más dolga, mint <link>telepíteni az alkalmazásokat</link>!</text> <text>A fenti hivatkozásoknak működniük kell az alapértelmezett Red Hat Enterprise Linux for Workstations 9-es verziójú telepítésen, de ha valamilyen okból meghiúsulnak, kézzel is hozzáadhatja a Flathub-tárolót a következő futtatásával:</text> <codeAddRemote></codeAddRemote>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
@@ -403,24 +403,24 @@
     "distroName": "elementary OS",
     "step-1": {
       "name": "Alkalmazások telepítése",
-      "text": "<text>Az elementary OS operációs rendszer 5.1-es és újabb verziói már készen állnak a Flatpak támogatással. A nem válogatott alkalmazások esetén lépjen a <link>Flathub</link> oldalra, és telepítse bármelyik alkalmazást a nagy \"Telepítés\" gombbal, és nyissa meg a letöltött `.flatpakref` fájlt oldalbetöltéssel.</text> <text>Megjegyzés: Miután telepített egy alkalmazást egy tárolóról, például a Flathubról, a tárolóról származó összes többi alkalmazás is automatikusan megjelenik az alkalmazásközpontban.</text>"
+      "text": "<text>Az elementary OS operációs rendszer 5.1-es és újabb verziói már készen állnak a Flatpak támogatással. A nem válogatott alkalmazások esetén lépjen a <link>Flathub</link> oldalra, és telepítse bármelyik alkalmazást a nagy \"Telepítés\" gombbal, és nyissa meg a letöltött `.flatpakref` fájlt a Sideload alkalmazással.</text> <text>Megjegyzés: Miután telepített egy alkalmazást egy tárolóról, például a Flathubról, a tárolóról származó összes többi alkalmazás is automatikusan megjelenik az Appközpontban.</text>"
     }
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<header>A Flatpak támogatás be van építve a Zorin OS-be</header> <text>A Szoftveráruház alkalmazás segítségével tölthet le Flatpak-alkalmazásokat.</text>"
+    "introduction": "<header>A Flatpak támogatás be van építve a Zorin OS-be</header> <text>A Szoftverek (Software) alkalmazás segítségével tölthet le Flatpak-alkalmazásokat.</text>"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<header>A Flathub alapértelmezés szerint telepítve van a Vanilla OS rendszeren.</header> <text>Az alkalmazások telepítéséhez használhatja a Szoftver alkalmazást, vagy tallózhat a <link>Flathub</link> között.</text> <text>Ha a Flathub valamilyen oknál fogva nem érhető el, manuálisan konfigurálhatja a következő paranccsal:</text> <code></code>"
+    "introduction": "<header>A Flatpak alapértelmezés szerint telepítve van a Vanilla OS rendszeren.</header> <text>Az alkalmazások telepítéséhez használhatja a Szoftver alkalmazást, vagy tallózhat a <link>Flathub</link> között.</text> <text>Ha a Flathub valamilyen oknál fogva nem érhető el, manuálisan konfigurálhatja a következő paranccsal:</text> <code></code>"
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<header>A Flatpak támogatás be van építve az OpenMandrivába az összes aktívan támogatott verzióhoz, kezdve a stabil/fix kiadástól, a „Rock 5.0”-tól a „Cooker” fejlesztői kiadáson át egészen a „ROME” gördülő kiadásig.</header> <text>A Flathub előre konfigurált Flathub-tárolóval érkezik.</text>"
+    "introduction": "<header>A Flatpak támogatás be van építve az OpenMandrivába az összes aktívan támogatott verzióhoz, kezdve a stabil/fix kiadástól, a „Rock 5.0”-tól a „Cooker” fejlesztői kiadáson át egészen a „ROME” gördülő kiadásig.</header> <text>Az OpenMandriva előre konfigurált Flathub-tárolóval érkezik.</text>"
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>A Flatpak alapértelmezés szerint telepítve van a PureOS-on. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
+    "introduction": "<text>A Flatpak alapértelmezés szerint telepítve van a PureOS rendszeren. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
   },
   "centos": {
     "introduction": "<text>A Flatpak alapértelmezés szerint telepítve van a CentOS Stream 8-as és újabb verzióira, ha GNOME-ot használ. A kezdéshez mindössze annyit kell tennie, hogy engedélyezi a Flathubot, amely a Flatpak-alkalmazások beszerzésének legjobb módja. Csak töltse le és telepítse a <filelink>Flathub-tárolófájlt</filelink>.</text> <text>Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>",
