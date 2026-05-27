@@ -1,39 +1,34 @@
-import { RedisStringsHandler } from "@trieb.work/nextjs-turbo-redis-cache"
+import {
+  RedisStringsHandler,
+  jsonCacheValueSerializer,
+} from "@trieb.work/nextjs-turbo-redis-cache"
+import { brotliCompress, brotliDecompress } from "node:zlib"
+import { promisify } from "node:util"
 
-const DEFAULT_MAX_APP_PAGE_CACHE_BYTES = 1_500_000
-const maxAppPageCacheBytes = Number.parseInt(
-  process.env.NEXT_CACHE_MAX_APP_PAGE_BYTES ??
-    `${DEFAULT_MAX_APP_PAGE_CACHE_BYTES}`,
-  10,
-)
+const BROTLI_VALUE_PREFIX = "br:"
+const brotliCompressAsync = promisify(brotliCompress)
+const brotliDecompressAsync = promisify(brotliDecompress)
 
 let sharedHandler = null
 
-function getSerializedByteLength(data) {
-  return Buffer.byteLength(JSON.stringify(data), "utf8")
-}
+const brotliCacheValueSerializer = {
+  async serialize(value) {
+    const json = await jsonCacheValueSerializer.serialize(value)
+    const compressed = await brotliCompressAsync(Buffer.from(json, "utf8"))
+    return `${BROTLI_VALUE_PREFIX}${compressed.toString("base64")}`
+  },
+  async deserialize(stored) {
+    if (!stored.startsWith(BROTLI_VALUE_PREFIX)) {
+      return null
+    }
 
-function shouldSkipAppPageCache(key, data) {
-  if (data?.kind !== "APP_PAGE") {
-    return false
-  }
-
-  if (
-    !Number.isSafeInteger(maxAppPageCacheBytes) ||
-    maxAppPageCacheBytes <= 0
-  ) {
-    return false
-  }
-
-  const byteLength = getSerializedByteLength(data)
-  if (byteLength <= maxAppPageCacheBytes) {
-    return false
-  }
-
-  console.warn(
-    `Skipping oversized APP_PAGE cache entry for ${key}: ${byteLength} bytes exceeds ${maxAppPageCacheBytes}`,
-  )
-  return true
+    const compressed = Buffer.from(
+      stored.slice(BROTLI_VALUE_PREFIX.length),
+      "base64",
+    )
+    const json = (await brotliDecompressAsync(compressed)).toString("utf8")
+    return jsonCacheValueSerializer.deserialize(json)
+  },
 }
 
 function getHandler() {
@@ -49,6 +44,7 @@ function getHandler() {
       revalidateTagQuerySize: 500,
       // Timeout for Redis operations
       getTimeoutMs: 500,
+      valueSerializer: brotliCacheValueSerializer,
     })
   }
   return sharedHandler
@@ -66,9 +62,6 @@ class CacheHandler {
   async set(key, data, ctx) {
     if (data?.kind === "APP_PAGE" && data?.status === 404) {
       ctx = { ...ctx, revalidate: 60 }
-    }
-    if (shouldSkipAppPageCache(key, data)) {
-      return
     }
     return this.handler.set(key, data, ctx)
   }
