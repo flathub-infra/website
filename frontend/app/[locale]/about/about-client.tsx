@@ -14,9 +14,7 @@ const Acknowledgments = () => {
       <h2 className="mb-6 mt-12 text-2xl font-bold">{t("acknowledgements")}</h2>
       {t.rich("acknowledgements-block", {
         p: (chunk) => (
-          <p className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-            {chunk}
-          </p>
+          <p className="text-black dark:text-flathub-spanish-gray">{chunk}</p>
         ),
       })}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
@@ -25,7 +23,7 @@ const Acknowledgments = () => {
             {t("organizations-and-infrastructure")}
           </h3>
           <div className="ps-4">
-            <ul className="list-outside list-disc text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+            <ul className="list-outside list-disc text-black dark:text-flathub-spanish-gray">
               <li>Amazon Web Services</li>
               <li>Fastly</li>
               <li>Mythic Beasts</li>
@@ -38,7 +36,7 @@ const Acknowledgments = () => {
             {t("founding-supporters")}
           </h3>
           <div className="ps-4">
-            <ul className="list-outside list-disc text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+            <ul className="list-outside list-disc text-black dark:text-flathub-spanish-gray">
               <li>Alex Larsson</li>
               <li>Andreas Nilsson</li>
               <li>Arun Raghavan</li>
