@@ -304,6 +304,7 @@ export default {
         title: getLanguageName("sk"),
         icon: getLanguageFlag("sk"),
         right: "sk",
+      },
     },
   },
   parameters: {
