@@ -103,7 +103,7 @@ export async function GET(
   const subtitleColor =
     textColor === "white" ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.8)"
 
-  const scale = 2
+  const scale = 1
   const iconImage = icon
     ? getOgImageUrl(icon, 160 * scale, 160 * scale)
     : undefined
