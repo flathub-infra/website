@@ -6,6 +6,8 @@ import { brotliCompress, brotliDecompress } from "node:zlib"
 import { promisify } from "node:util"
 
 const BROTLI_VALUE_PREFIX = "br:"
+const DEFAULT_STALE_AGE_SECONDS = 30 * 60
+const MAX_EXPIRE_AGE_SECONDS = 60 * 60
 const brotliCompressAsync = promisify(brotliCompress)
 const brotliDecompressAsync = promisify(brotliDecompress)
 
@@ -44,6 +46,9 @@ function getHandler() {
       revalidateTagQuerySize: 500,
       // Timeout for Redis operations
       getTimeoutMs: 500,
+      defaultStaleAge: DEFAULT_STALE_AGE_SECONDS,
+      estimateExpireAge: (staleAge) =>
+        Math.min(staleAge * 2, MAX_EXPIRE_AGE_SECONDS),
       valueSerializer: brotliCacheValueSerializer,
     })
   }
