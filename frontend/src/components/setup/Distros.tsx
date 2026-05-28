@@ -172,7 +172,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
           <h2>{t("distros.ubuntu.step-4.name")}</h2>
           {t.rich("distros.ubuntu.step-4.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="/.">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -210,7 +210,7 @@ const Fedora = ({ locale }: { locale: string }) => {
               {chunk}
             </a>
           ),
-          applink: (chunk) => <Link href="/.">{chunk}</Link>,
+          applink: (chunk) => <Link href="/">{chunk}</Link>,
           code: (chunk) => (
             <CodeCopy
               text={`flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`}
@@ -289,7 +289,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
           <h2>{t("distros.manjaro.step-2.name")}</h2>
           {t.rich("distros.manjaro.step-2.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="/.">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -428,7 +428,7 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
           <h2>{t("distros.alt_linux.step-3.name")}</h2>
           {t.rich("distros.alt_linux.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href={"./"}>{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -586,7 +586,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
           <h2>{t("distros.chrome_os.step-5.name")}</h2>
           {t.rich("distros.chrome_os.step-5.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href={"./"}>{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -627,7 +627,7 @@ const Red_Hat_Enterprise_Linux = ({ locale }: { locale: string }) => {
               }
             />
           ),
-          link: (chunk) => <Link href={"/."}>{chunk}</Link>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
         })}
       </ol>
     </>
@@ -761,7 +761,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
           <h2>{t("distros.opensuse.step-3.name")}</h2>
           {t.rich("distros.opensuse.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href={"./"}>{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -836,7 +836,7 @@ const Arch = ({ locale }: { locale: string }) => {
           <h2>{t("distros.arch.step-2.name")}</h2>
           {t.rich("distros.arch.step-2.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href={"./"}>{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -975,7 +975,7 @@ const Debian = ({ locale }: { locale: string }) => {
           <h2>{t("distros.debian.step-4.name")}</h2>
           {t.rich("distros.debian.step-4.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href={"./"}>{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1083,7 +1083,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
           <h2>{t("distros.rocky_linux.step-3.name")}</h2>
           {t.rich("distros.rocky_linux.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href={"./"}>{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1116,7 +1116,7 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
               {chunk}
             </a>
           ),
-          link: (chunk) => <Link href="./">{chunk}</Link>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
         })}
       </ol>
     </>
@@ -1148,7 +1148,7 @@ const AlmaLinux = ({ locale }: { locale: string }) => {
               {chunk}
             </a>
           ),
-          link: (chunk) => <Link href="./">{chunk}</Link>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
         })}
       </ol>
     </>
@@ -1252,7 +1252,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
           <h2>{t("distros.gentoo.step-3.name")}</h2>
           {t.rich("distros.gentoo.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1371,7 +1371,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
           <h2>{t("distros.kubuntu.step-4.name")}</h2>
           {t.rich("distros.kubuntu.step-4.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1482,7 +1482,7 @@ const Solus = ({ locale }: { locale: string }) => {
           <h2>{t("distros.solus.step-3.name")}</h2>
           {t.rich("distros.solus.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1617,7 +1617,7 @@ const Alpine = ({ locale }: { locale: string }) => {
           <h2>{t("distros.alpine.step-4.name")}</h2>
           {t.rich("distros.alpine.step-4.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1727,7 +1727,7 @@ const Mageia = ({ locale }: { locale: string }) => {
           <h2>{t("distros.mageia.step-3.name")}</h2>
           {t.rich("distros.mageia.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1837,7 +1837,7 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
           <h2>{t("distros.elementary_os.step-1.name")}</h2>
           {t.rich("distros.elementary_os.step-1.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -1941,7 +1941,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
           <h2>{t("distros.raspberry_pi_os.step-3.name")}</h2>
           {t.rich("distros.raspberry_pi_os.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2048,7 +2048,7 @@ const Void_Linux = ({ locale }: { locale: string }) => {
           <h2>{t("distros.void_linux.step-3.name")}</h2>
           {t.rich("distros.void_linux.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2162,7 +2162,7 @@ const NixOS = ({ locale }: { locale: string }) => {
           <h2>{t("distros.nixos.step-3.name")}</h2>
           {t.rich("distros.nixos.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2198,7 +2198,7 @@ const PureOS = ({ locale }: { locale: string }) => {
               {chunk}
             </a>
           ),
-          link: (chunk) => <Link href={"/."}>{chunk}</Link>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
           text: (chunk) => <p>{chunk}</p>,
         })}
       </ol>
@@ -2355,7 +2355,7 @@ const Deepin = ({ locale }: { locale: string }) => {
           <h2>{t("distros.deepin.step-4.name")}</h2>
           {t.rich("distros.deepin.step-4.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2484,7 +2484,7 @@ const Pardus = ({ locale }: { locale: string }) => {
           <h2>{t("distros.pardus.step-4.name")}</h2>
           {t.rich("distros.pardus.step-4.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2559,7 +2559,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
           <h2>{t("distros.mx_linux.step-2.name")}</h2>
           {t.rich("distros.mx_linux.step-2.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2666,7 +2666,7 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
           <h2>{t("distros.pisi_gnulinux.step-3.name")}</h2>
           {t.rich("distros.pisi_gnulinux.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2774,7 +2774,7 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
           <h2>{t("distros.endeavouros.step-3.name")}</h2>
           {t.rich("distros.endeavouros.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -2907,7 +2907,7 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
           <h2>{t("distros.gnu_guix.step-3.name")}</h2>
           {t.rich("distros.gnu_guix.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -3015,7 +3015,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
           <h2>{t("distros.crystal_linux.step-3.name")}</h2>
           {t.rich("distros.crystal_linux.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
-            link: (chunk) => <Link href="./">{chunk}</Link>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
       </ol>
@@ -3043,7 +3043,7 @@ const Vanilla_OS = ({ locale }: { locale: string }) => {
       <ol className="distrotut">
         {t.rich("distros.vanilla_os.introduction", {
           header: (chunk) => <h2>{chunk}</h2>,
-          link: (chunk) => <Link href={"/."}>{chunk}</Link>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
           code: (chunk) => (
             <CodeCopy
               text={
@@ -3078,7 +3078,7 @@ const Salix = ({ locale }: { locale: string }) => {
       <ol className="distrotut">
         {t.rich("distros.salix.introduction", {
           header: (chunk) => <h2>{chunk}</h2>,
-          link: (chunk) => <Link href={"/."}>{chunk}</Link>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
           text: (chunk) => <p>{chunk}</p>,
         })}
       </ol>
