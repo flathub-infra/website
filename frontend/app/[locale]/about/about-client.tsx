@@ -26,14 +26,10 @@ const Acknowledgments = () => {
           </h3>
           <div className="ps-4">
             <ul className="list-outside list-disc text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-              <li>AWS</li>
-              <li>Cloud Native Computing Foundation</li>
-              <li>Codethink</li>
-              <li>Equinix WorksOnARM</li>
+              <li>Amazon Web Services</li>
               <li>Fastly</li>
               <li>Mythic Beasts</li>
-              <li>Prerender.io</li>
-              <li>Scaleway</li>
+              <li>RunsOn</li>
             </ul>
           </div>
         </div>
