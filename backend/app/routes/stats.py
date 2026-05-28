@@ -30,6 +30,8 @@ class StatsResult(BaseModel):
     updates_per_day: dict[str, int]
     delta_downloads_per_day: dict[str, int]
     category_totals: list[StatsResultCategoryTotals]
+    os_versions: dict[str, int]
+    flatpak_versions: dict[str, int]
 
 
 class StatsResultApp(BaseModel):

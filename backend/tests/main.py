@@ -5,6 +5,7 @@ import time
 from urllib import parse
 
 import gi
+import orjson
 import pytest
 import vcr
 from fastapi.testclient import TestClient
@@ -98,6 +99,40 @@ def test_update(client):
     update_stats = client.post("/update/stats")
     assert update_stats.status_code == 200
     time.sleep(10)
+
+
+def test_build_or_update_aggregates_normalizes_old_cache(monkeypatch):
+    from app.worker import update_stats as update_stats_actor
+
+    stats = update_stats_actor.fn.__globals__["stats"]
+
+    today = datetime.date.today()
+    edate = today - datetime.timedelta(days=2)
+    last_date = edate - datetime.timedelta(days=1)
+
+    old_global = {
+        "downloads_per_day": {},
+        "updates_per_day": {},
+        "delta_downloads_per_day": {},
+        "totals_country": {},
+    }
+
+    stats.redis_conn.set("stats:agg:totals", orjson.dumps({}))
+    stats.redis_conn.set("stats:agg:per_day", orjson.dumps({}))
+    stats.redis_conn.set("stats:agg:per_country", orjson.dumps({}))
+    stats.redis_conn.delete("stats:agg:per_os_version")
+    stats.redis_conn.set("stats:agg:global", orjson.dumps(old_global))
+    stats.redis_conn.set("stats:agg:last_date", orjson.dumps(last_date.isoformat()))
+
+    monkeypatch.setattr(stats, "_get_stats_for_date", lambda date: None)
+
+    agg = stats._build_or_update_aggregates()
+
+    assert agg["per_os_version"] == {}
+    assert agg["global"]["totals_os_versions"] == {}
+    assert agg["global"]["totals_flatpak_versions"] == {}
+    assert agg["last_date"] == edate.isoformat()
+    assert orjson.loads(stats.redis_conn.get("stats:agg:per_os_version")) == {}
 
 
 def test_apps_by_category(client, snapshot):
@@ -936,6 +971,8 @@ def test_stats(client):
             {"category": "Office", "count": 1},
         ],
         "countries": {"DE": 852, "FI": 5572, "NL": 144, "US": 3044},
+        "os_versions": {},
+        "flatpak_versions": {},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
         "updates_per_day": {},
