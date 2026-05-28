@@ -2,33 +2,33 @@ import {
   RedisStringsHandler,
   jsonCacheValueSerializer,
 } from "@trieb.work/nextjs-turbo-redis-cache"
-import { brotliCompress, brotliDecompress } from "node:zlib"
+import { gzip, gunzip } from "node:zlib"
 import { promisify } from "node:util"
 
-const BROTLI_VALUE_PREFIX = "br:"
+const GZIP_VALUE_PREFIX = "gz:"
 const DEFAULT_STALE_AGE_SECONDS = 30 * 60
 const MAX_EXPIRE_AGE_SECONDS = 60 * 60
-const brotliCompressAsync = promisify(brotliCompress)
-const brotliDecompressAsync = promisify(brotliDecompress)
+const gzipAsync = promisify(gzip)
+const gunzipAsync = promisify(gunzip)
 
 let sharedHandler = null
 
-const brotliCacheValueSerializer = {
+const gzipCacheValueSerializer = {
   async serialize(value) {
     const json = await jsonCacheValueSerializer.serialize(value)
-    const compressed = await brotliCompressAsync(Buffer.from(json, "utf8"))
-    return `${BROTLI_VALUE_PREFIX}${compressed.toString("base64")}`
+    const compressed = await gzipAsync(Buffer.from(json, "utf8"))
+    return `${GZIP_VALUE_PREFIX}${compressed.toString("base64")}`
   },
   async deserialize(stored) {
-    if (!stored.startsWith(BROTLI_VALUE_PREFIX)) {
+    if (!stored.startsWith(GZIP_VALUE_PREFIX)) {
       return null
     }
 
     const compressed = Buffer.from(
-      stored.slice(BROTLI_VALUE_PREFIX.length),
+      stored.slice(GZIP_VALUE_PREFIX.length),
       "base64",
     )
-    const json = (await brotliDecompressAsync(compressed)).toString("utf8")
+    const json = (await gunzipAsync(compressed)).toString("utf8")
     return jsonCacheValueSerializer.deserialize(json)
   },
 }
@@ -49,7 +49,7 @@ function getHandler() {
       defaultStaleAge: DEFAULT_STALE_AGE_SECONDS,
       estimateExpireAge: (staleAge) =>
         Math.min(staleAge * 2, MAX_EXPIRE_AGE_SECONDS),
-      valueSerializer: brotliCacheValueSerializer,
+      valueSerializer: gzipCacheValueSerializer,
     })
   }
   return sharedHandler
