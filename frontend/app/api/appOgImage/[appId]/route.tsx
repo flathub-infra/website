@@ -12,6 +12,7 @@ import { getApiBaseUrl } from "src/utils/api-url"
 import { getTranslations } from "next-intl/server"
 import { hasLocale } from "next-intl"
 import { routing } from "src/i18n/routing"
+import { getOgImageUrl } from "app/api/ogImage"
 
 function adjustBrightness(hex: string, percent: number): string {
   const rgb = hexToRgb(hex)
@@ -102,6 +103,11 @@ export async function GET(
   const subtitleColor =
     textColor === "white" ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.8)"
 
+  const scale = 2
+  const iconImage = icon
+    ? getOgImageUrl(icon, 160 * scale, 160 * scale)
+    : undefined
+
   const isLandscapeScreenshot =
     screenshot && screenshot.width && screenshot.height
       ? screenshot.width > screenshot.height
@@ -109,7 +115,6 @@ export async function GET(
 
   const gradientEnd = textColor === "white" ? brandingLight : brandingDark
 
-  const scale = 2
   const svg = await satori(
     <div
       style={{
@@ -162,15 +167,18 @@ export async function GET(
           }}
         >
           {/* Icon */}
-          {icon && (
+          {iconImage && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
+              width={160 * scale}
+              height={160 * scale}
               style={{
                 display: "flex",
                 width: `${160 * scale}px`,
                 height: `${160 * scale}px`,
                 marginBottom: `${24 * scale}px`,
               }}
-              src={icon}
+              src={iconImage}
               alt=""
             />
           )}
@@ -228,6 +236,11 @@ export async function GET(
             const clampedHeight = computedHeight
               ? Math.min(computedHeight, maxH)
               : maxH
+            const screenshotImage = getOgImageUrl(
+              screenshot.src,
+              clampedWidth,
+              clampedHeight,
+            )
             return (
               <div
                 style={{
@@ -237,6 +250,7 @@ export async function GET(
                   alignItems: "center",
                 }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   width={clampedWidth}
                   height={clampedHeight}
@@ -245,7 +259,7 @@ export async function GET(
                     width: `${clampedWidth}px`,
                     height: `${clampedHeight}px`,
                   }}
-                  src={screenshot.src}
+                  src={screenshotImage}
                   alt=""
                 />
               </div>
@@ -274,6 +288,7 @@ export async function GET(
                   )
                 : targetH
             const width = Math.min(rawWidth, maxPortraitWidth)
+            const screenshotImage = getOgImageUrl(screenshot.src, width, height)
             return (
               <div
                 style={{
@@ -283,6 +298,7 @@ export async function GET(
                   alignItems: "center",
                 }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   width={width}
                   height={height}
@@ -291,7 +307,7 @@ export async function GET(
                     width: `${width}px`,
                     height: `${height}px`,
                   }}
-                  src={screenshot.src}
+                  src={screenshotImage}
                   alt=""
                 />
               </div>

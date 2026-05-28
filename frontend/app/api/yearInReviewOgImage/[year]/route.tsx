@@ -11,6 +11,7 @@ import {
 import { getTranslations } from "next-intl/server"
 import { routing } from "src/i18n/routing"
 import { hasLocale } from "next-intl"
+import { getOgImageUrl } from "app/api/ogImage"
 
 export async function GET(
   request: NextRequest,
@@ -79,7 +80,9 @@ export async function GET(
   }
 
   // Get top 3 app icons for the visual
-  const topAppIcons = data.top_apps.slice(0, 3).map((app) => app.icon)
+  const topAppIcons = data.top_apps
+    .slice(0, 3)
+    .map((app) => (app.icon ? getOgImageUrl(app.icon, 52, 52) : null))
 
   const svg = await satori(
     <div
@@ -424,7 +427,7 @@ export async function GET(
               {icon && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={icon.replace(/.webp$/, ".png")}
+                  src={icon}
                   width={52}
                   height={52}
                   alt=""
