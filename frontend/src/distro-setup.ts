@@ -18,17 +18,22 @@ export async function fetchSetupInstructions() {
   const parsedDistros: DistroSetup[] = parse(file)
 
   const mappedDistros = parsedDistros.map((instruction) => {
+    const translatedNameKey =
+      instruction.name === "CentOS Stream"
+        ? "distros.centos.distroName"
+        : `distros.${instruction.name
+            .replaceAll(" ", "_")
+            .replaceAll("!", "")
+            .replaceAll("/", "")
+            .toLowerCase()}.distroName`
+
     return {
       ...instruction,
       logo: `${ASSET_BASE_URL}/img/distro/${instruction.logo}`,
       logo_dark: instruction.logo_dark
         ? `${ASSET_BASE_URL}/img/distro/${instruction.logo_dark}`
         : null,
-      translatedNameKey: `distros.${instruction.name
-        .replaceAll(" ", "_")
-        .replaceAll("!", "")
-        .replaceAll("/", "")
-        .toLowerCase()}.distroName`,
+      translatedNameKey,
     }
   })
 
