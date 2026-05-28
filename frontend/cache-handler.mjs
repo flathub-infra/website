@@ -2,33 +2,45 @@ import {
   RedisStringsHandler,
   jsonCacheValueSerializer,
 } from "@trieb.work/nextjs-turbo-redis-cache"
-import { gzip, gunzip } from "node:zlib"
+import {
+  constants as zlibConstants,
+  zstdCompress,
+  zstdDecompress,
+} from "node:zlib"
 import { promisify } from "node:util"
 
-const GZIP_VALUE_PREFIX = "gz:"
+const ZSTD_VALUE_PREFIX = "zst:"
+const ZSTD_OPTIONS = {
+  params: {
+    [zlibConstants.ZSTD_c_compressionLevel]: 1,
+  },
+}
 const DEFAULT_STALE_AGE_SECONDS = 30 * 60
 const MAX_EXPIRE_AGE_SECONDS = 60 * 60
-const gzipAsync = promisify(gzip)
-const gunzipAsync = promisify(gunzip)
+const zstdCompressAsync = promisify(zstdCompress)
+const zstdDecompressAsync = promisify(zstdDecompress)
 
 let sharedHandler = null
 
-const gzipCacheValueSerializer = {
+const zstdCacheValueSerializer = {
   async serialize(value) {
     const json = await jsonCacheValueSerializer.serialize(value)
-    const compressed = await gzipAsync(Buffer.from(json, "utf8"))
-    return `${GZIP_VALUE_PREFIX}${compressed.toString("base64")}`
+    const compressed = await zstdCompressAsync(
+      Buffer.from(json, "utf8"),
+      ZSTD_OPTIONS,
+    )
+    return `${ZSTD_VALUE_PREFIX}${compressed.toString("base64")}`
   },
   async deserialize(stored) {
-    if (!stored.startsWith(GZIP_VALUE_PREFIX)) {
+    if (!stored.startsWith(ZSTD_VALUE_PREFIX)) {
       return null
     }
 
     const compressed = Buffer.from(
-      stored.slice(GZIP_VALUE_PREFIX.length),
+      stored.slice(ZSTD_VALUE_PREFIX.length),
       "base64",
     )
-    const json = (await gunzipAsync(compressed)).toString("utf8")
+    const json = (await zstdDecompressAsync(compressed)).toString("utf8")
     return jsonCacheValueSerializer.deserialize(json)
   },
 }
@@ -49,7 +61,7 @@ function getHandler() {
       defaultStaleAge: DEFAULT_STALE_AGE_SECONDS,
       estimateExpireAge: (staleAge) =>
         Math.min(staleAge * 2, MAX_EXPIRE_AGE_SECONDS),
-      valueSerializer: gzipCacheValueSerializer,
+      valueSerializer: zstdCacheValueSerializer,
     })
   }
   return sharedHandler
