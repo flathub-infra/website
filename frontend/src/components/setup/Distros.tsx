@@ -21,7 +21,7 @@ export const distroMap = (locale: string) => {
     ["Arch", <Arch locale={locale} />],
     ["Debian", <Debian locale={locale} />],
     ["Rocky Linux", <Rocky_Linux locale={locale} />],
-    ["CentOS", <CentOS_Stream locale={locale} />],
+    ["CentOS Stream", <CentOS_Stream locale={locale} />],
     ["AlmaLinux", <AlmaLinux locale={locale} />],
     ["Gentoo", <Gentoo locale={locale} />],
     ["Kubuntu", <Kubuntu locale={locale} />],
@@ -46,6 +46,7 @@ export const distroMap = (locale: string) => {
     ["Crystal Linux", <Crystal_Linux locale={locale} />],
     ["Vanilla OS", <Vanilla_OS locale={locale} />],
     ["Salix", <Salix locale={locale} />],
+    ["Slackware", <Slackware locale={locale} />],
   ])
 }
 
@@ -158,6 +159,11 @@ const Ubuntu = ({ locale }: { locale: string }) => {
           <h2>{t("distros.ubuntu.step-3.name")}</h2>
           {t.rich("distros.ubuntu.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
+            filelink: (chunk) => (
+              <a href="https://dl.flathub.org/repo/flathub.flatpakrepo">
+                {chunk}
+              </a>
+            ),
             code: (chunk) => (
               <CodeCopy
                 text={
@@ -747,6 +753,11 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
           <h2>{t("distros.opensuse.step-2.name")}</h2>
           {t.rich("distros.opensuse.step-2.text", {
             text: (chunk) => <p>{chunk}</p>,
+            filelink: (chunk) => (
+              <a href="https://dl.flathub.org/repo/flathub.flatpakrepo">
+                {chunk}
+              </a>
+            ),
             code: (chunk) => (
               <CodeCopy
                 text={
@@ -1096,7 +1107,7 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        <motion.picture layoutId="distro-logo-CentOS">
+        <motion.picture layoutId="distro-logo-CentOS-Stream">
           <Image
             width={128}
             height={128}
@@ -1104,7 +1115,7 @@ const CentOS_Stream = ({ locale }: { locale: string }) => {
             alt="CentOS Stream Logo"
           />
         </motion.picture>
-        <motion.h1 layoutId="distro-name-CentOS">
+        <motion.h1 layoutId="distro-name-CentOS-Stream">
           {t("distros.centos.distroName")}
         </motion.h1>
       </div>
@@ -2470,6 +2481,11 @@ const Pardus = ({ locale }: { locale: string }) => {
           <h2>{t("distros.pardus.step-3.name")}</h2>
           {t.rich("distros.pardus.step-3.text", {
             text: (chunk) => <p>{chunk}</p>,
+            filelink: (chunk) => (
+              <a href="https://dl.flathub.org/repo/flathub.flatpakrepo">
+                {chunk}
+              </a>
+            ),
             code: (chunk) => (
               <CodeCopy
                 text={
@@ -3081,6 +3097,110 @@ const Salix = ({ locale }: { locale: string }) => {
           link: (chunk) => <Link href="/">{chunk}</Link>,
           text: (chunk) => <p>{chunk}</p>,
         })}
+      </ol>
+    </>
+  )
+}
+
+const Slackware = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
+  return (
+    <>
+      <div className="flex flex-col items-center">
+        <motion.picture layoutId="distro-logo-Slackware">
+          <Image
+            width={128}
+            height={128}
+            src={`${ASSET_BASE_URL}/img/distro/slackware.svg`}
+            alt="Slackware Logo"
+          />
+        </motion.picture>
+        <motion.h1 layoutId="distro-name-Slackware">
+          {t("distros.slackware.distroName")}
+        </motion.h1>
+      </div>
+      <ol className="distrotut">
+        <HowToJsonLd
+          useAppDir={true}
+          name={t("distros.slackware.distroName")}
+          image="https://dl.flathub.org/assets/img/distro/slackware.svg"
+          estimatedCost={{ currency: "USD", value: "0" }}
+          step={[
+            {
+              url: "https://flathub.org/setup/slackware",
+              name: t("distros.slackware.step-1.name"),
+              itemListElement: [
+                {
+                  type: "HowToDirection",
+                  text: t
+                    .raw("distros.slackware.step-1.text")
+                    .replace(/<[^>]*>/g, "")
+                    .replace(/s{2,}/g, " ")
+                    .trim(),
+                },
+              ],
+            },
+            {
+              url: "https://flathub.org/setup/slackware",
+              name: t("distros.slackware.step-2.name"),
+              itemListElement: [
+                {
+                  type: "HowToDirection",
+                  text: t
+                    .raw("distros.slackware.step-2.text")
+                    .replace(/<[^>]*>/g, "")
+                    .replace(/s{2,}/g, " ")
+                    .trim(),
+                },
+              ],
+            },
+            {
+              url: "https://flathub.org/setup/slackware",
+              name: t("distros.slackware.step-3.name"),
+              itemListElement: [
+                {
+                  type: "HowToDirection",
+                  text: t
+                    .raw("distros.slackware.step-3.text")
+                    .replace(/<[^>]*>/g, "")
+                    .replace(/s{2,}/g, " ")
+                    .trim(),
+                },
+              ],
+            },
+          ]}
+        />
+
+        <li>
+          <h2>{t("distros.slackware.step-1.name")}</h2>
+          {t.rich("distros.slackware.step-1.text", {
+            text: (chunk) => <p>{chunk}</p>,
+            code: (chunk) => <CodeCopy text={"sbopkg -i flatpak"} />,
+            codeQueue: (chunk) => <CodeCopy text={"sqg -p flatpak"} />,
+          })}
+        </li>
+
+        <li>
+          <h2>{t("distros.slackware.step-2.name")}</h2>
+          {t.rich("distros.slackware.step-2.text", {
+            text: (chunk) => <p>{chunk}</p>,
+            code: (chunk) => (
+              <CodeCopy
+                text={
+                  "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo"
+                }
+              />
+            ),
+          })}
+        </li>
+
+        <li>
+          <h2>{t("distros.slackware.step-3.name")}</h2>
+          {t.rich("distros.slackware.step-3.text", {
+            text: (chunk) => <p>{chunk}</p>,
+            link: (chunk) => <Link href="/">{chunk}</Link>,
+          })}
+        </li>
       </ol>
     </>
   )
