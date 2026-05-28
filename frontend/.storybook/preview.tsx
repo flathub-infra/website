@@ -300,6 +300,10 @@ export default {
         icon: getLanguageFlag("eu"),
         right: "eu",
       },
+      sk: {
+        title: getLanguageName("sk"),
+        icon: getLanguageFlag("sk"),
+        right: "sk",
     },
   },
   parameters: {

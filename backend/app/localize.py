@@ -58,6 +58,7 @@ LANGUAGES = [
     "gl",
     "kw",
     "eu",
+    "sk",
 ]
 
 LOCALES = [
@@ -111,4 +112,5 @@ LOCALES = [
     "kab_DZ",
     "fil_PH",
     "eu_ES",
+    "sk_SK",
 ]

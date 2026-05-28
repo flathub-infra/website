@@ -38,6 +38,7 @@ import {
   he,
   ro,
   hy,
+  sk,
   ko,
   sv,
   sq,
@@ -104,6 +105,7 @@ export type Language =
   | "gl"
   | "kw"
   | "eu"
+  | "sk"
 
 export const fontLanguageDenyList = ["ar", "fa", "ckb"]
 
@@ -163,6 +165,7 @@ export const languages: Language[] = [
   "gl",
   "kw",
   "eu",
+  "sk",
 ]
 
 export function getDateFnsLocale(language?: string): Locale {
@@ -277,6 +280,8 @@ export function getDateFnsLocale(language?: string): Locale {
       return enGB // date-fns has no Cornish locale
     case "eu":
       return eu
+    case "sk":
+      return sk
 
     default:
       return enGB
@@ -395,6 +400,8 @@ export function bcpToPosixLocale(language?: string): string {
       return "kw_GB"
     case "eu":
       return "eu_ES"
+    case "sk":
+      return "sk_SK"
 
     default:
       return "en_US"
@@ -513,6 +520,8 @@ export function getLanguageFlag(language: Language): string {
       return ""
     case "eu":
       return ""
+    case "sk":
+      return "🇸🇰"
   }
 }
 
@@ -656,6 +665,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("kw")
     case "eu":
       return new Intl.Locale("eu")
+    case "sk":
+      return new Intl.Locale("sk")
 
     default:
       return new Intl.Locale("en")
