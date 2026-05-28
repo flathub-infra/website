@@ -25,8 +25,11 @@ class StatsFromServer(TypedDict):
     downloads: int
     updates: int
     flatpak_versions: dict[str, int]
+    os_flatpak_versions: dict[str, dict[str, int]]
+    os_versions: dict[str, int]
     ostree_versions: dict[str, int]
     ref_by_country: dict[str, dict[str, list[int]]]
+    ref_by_os_version: dict[str, dict[str, list[int]]]
     refs: dict[str, dict[str, list[int]]]
 
 
@@ -36,6 +39,7 @@ AGGREGATES_KEYS = {
     "totals": "stats:agg:totals",
     "per_day": "stats:agg:per_day",
     "per_country": "stats:agg:per_country",
+    "per_os_version": "stats:agg:per_os_version",
     "global": "stats:agg:global",
     "last_date": "stats:agg:last_date",
 }
@@ -147,14 +151,35 @@ def _init_empty_aggregates() -> dict:
         "totals": {},
         "per_day": {},
         "per_country": {},
+        "per_os_version": {},
         "global": {
             "downloads_per_day": {},
             "updates_per_day": {},
             "delta_downloads_per_day": {},
             "totals_country": {},
+            "totals_os_versions": {},
+            "totals_flatpak_versions": {},
         },
         "last_date": None,
     }
+
+
+def _normalize_aggregates(agg: dict) -> dict:
+    normalized = _init_empty_aggregates()
+
+    for key in ("totals", "per_day", "per_country", "per_os_version"):
+        if isinstance(agg.get(key), dict):
+            normalized[key] = agg[key]
+
+    if isinstance(agg.get("global"), dict):
+        for key in normalized["global"]:
+            if isinstance(agg["global"].get(key), dict):
+                normalized["global"][key] = agg["global"][key]
+
+    if agg.get("last_date") is not None:
+        normalized["last_date"] = agg["last_date"]
+
+    return normalized
 
 
 def _update_global_stats_for_date(
@@ -176,6 +201,16 @@ def _update_global_stats_for_date(
         for country, downloads in stats["countries"].items():
             global_dict["totals_country"][country] = (
                 global_dict["totals_country"].get(country, 0) + downloads
+            )
+    if stats.get("os_versions"):
+        for os_ver, count in stats["os_versions"].items():
+            global_dict["totals_os_versions"][os_ver] = (
+                global_dict["totals_os_versions"].get(os_ver, 0) + count
+            )
+    if stats.get("flatpak_versions"):
+        for fp_ver, count in stats["flatpak_versions"].items():
+            global_dict["totals_flatpak_versions"][fp_ver] = (
+                global_dict["totals_flatpak_versions"].get(fp_ver, 0) + count
             )
 
 
@@ -204,6 +239,14 @@ def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> 
             for country, downloads in country_stats.items():
                 country_for_app[country] = (
                     country_for_app.get(country, 0) + downloads[0] - downloads[1]
+                )
+
+    if stats.get("ref_by_os_version"):
+        for app_id, os_stats in stats["ref_by_os_version"].items():
+            os_for_app = agg["per_os_version"].setdefault(app_id, {})
+            for os_ver, downloads in os_stats.items():
+                os_for_app[os_ver] = (
+                    os_for_app.get(os_ver, 0) + downloads[0] - downloads[1]
                 )
 
     _update_global_stats_for_date(date, stats, agg["global"])
@@ -495,7 +538,7 @@ def _build_or_update_aggregates() -> dict:
     if config.settings.force_recompute_stats:
         _delete_aggregates()
 
-    agg = _load_aggregates()
+    agg = _normalize_aggregates(_load_aggregates())
 
     if agg["last_date"] is None:
         agg = _init_empty_aggregates()
@@ -531,6 +574,10 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         "updates_per_day": dict(agg["global"]["updates_per_day"]),
         "delta_downloads_per_day": dict(agg["global"]["delta_downloads_per_day"]),
         "totals_country": dict(agg["global"]["totals_country"]),
+        "totals_os_versions": dict(agg["global"].get("totals_os_versions", {})),
+        "totals_flatpak_versions": dict(
+            agg["global"].get("totals_flatpak_versions", {})
+        ),
     }
 
     edate = datetime.date.today()
@@ -553,6 +600,8 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         "updates_per_day": global_dict["updates_per_day"],
         "delta_downloads_per_day": global_dict["delta_downloads_per_day"],
         "category_totals": category_totals,
+        "os_versions": global_dict["totals_os_versions"],
+        "flatpak_versions": global_dict["totals_flatpak_versions"],
     }
 
 
@@ -628,6 +677,11 @@ def update(sqldb):
         if app_id in agg["per_country"]:
             stats_apps_dict[app_id]["installs_per_country"] = agg["per_country"][app_id]
 
+        if app_id in agg["per_os_version"]:
+            stats_apps_dict[app_id]["installs_per_os_version"] = agg["per_os_version"][
+                app_id
+            ]
+
     recent_sdate = edate - datetime.timedelta(days=1)
     recent_stats = _get_stats_for_period(recent_sdate, edate)
     for app_id, app_dict in recent_stats.items():
@@ -696,6 +750,9 @@ def update(sqldb):
         stats_apps_dict[app_id]["installs_per_country"] = stats_apps_dict[app_id].get(
             "installs_per_country", {}
         )
+        stats_apps_dict[app_id]["installs_per_os_version"] = stats_apps_dict[
+            app_id
+        ].get("installs_per_os_version", {})
 
     new_id: str
     old_id_list: list[str]
@@ -707,6 +764,7 @@ def update(sqldb):
                 "installs_last_7_days": 0,
                 "installs_per_day": {},
                 "installs_per_country": {},
+                "installs_per_os_version": {},
             }
 
         for old_id in old_id_list:
