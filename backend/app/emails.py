@@ -105,6 +105,11 @@ def send_email_new(payload: dict, db):
         for user in users_with_moderator_permissions:
             _get_destination_and_append(payload, db, messages, user)
 
+    if payload.get("inform_admins"):
+        admin_users = models.Role.by_name_users(db, models.RoleName.ADMIN)
+        for user in admin_users:
+            _get_destination_and_append(payload, db, messages, user)
+
     if "userId" in payload and payload["userId"] is not None:
         # Get the user's email address
         if user := models.FlathubUser.by_id(db, payload["userId"]):

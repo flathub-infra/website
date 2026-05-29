@@ -244,6 +244,7 @@ def create_upload_token(
         "creation_timestamp": datetime.datetime.now().timestamp(),
         "subject": "New upload token issued",
         "previewText": "New upload token issued",
+        "inform_admins": True,
         "messageInfo": {
             "category": EmailCategory.UPLOAD_TOKEN_CREATED,
             "appId": app_id,

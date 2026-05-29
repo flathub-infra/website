@@ -28,6 +28,13 @@ class FakeSession:
     def merge(self, user):
         return self.user
 
+    def add(self, token):
+        token.id = 1
+        token.revoked = False
+
+    def commit(self):
+        pass
+
 
 class FakeDb:
     def __init__(self, user):
@@ -111,3 +118,22 @@ def test_create_upload_token_still_requires_app_developer(
 
     assert exc_info.value.status_code == 403
     assert exc_info.value.detail == upload_tokens.ErrorDetail.NOT_APP_DEVELOPER
+
+
+def test_create_upload_token_informs_admins(
+    monkeypatch, upload_token_config, upload_token_request
+):
+    user = FakeUser(permissions={"direct-upload"}, dev_flatpaks={"org.example.App"})
+    sent = []
+    set_fake_db(monkeypatch, user)
+    monkeypatch.setattr(
+        upload_tokens.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(upload_tokens, "get_json_key", lambda key: None)
+    monkeypatch.setattr(upload_tokens.worker.send_email_new, "send", sent.append)
+
+    upload_tokens.create_upload_token(
+        "org.example.App", upload_token_request, login=FakeLogin(user)
+    )
+
+    assert sent[0]["inform_admins"] is True
