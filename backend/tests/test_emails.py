@@ -1,5 +1,9 @@
 import sys
+from pathlib import Path
 from types import SimpleNamespace
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+sys.path.append(str(ROOT_DIR))
 
 import app
 from app import emails
