@@ -74,7 +74,7 @@
   "official-badges": "Oficiální odznaky Flathubu",
   "reporting-issues": "Nahlašování problémů",
   "acknowledgements": "Poděkování",
-  "acknowledgements-block": "<p>Flathub by nemohl fungovat bez finanční podpory následujících organizací a jednotlivců.</p>",
+  "acknowledgements-block": "<p>Flathub by nemohl fungovat bez štědré podpory širší komunity Flatpaku a Flathubu. Děkujeme všem současným i bývalým přispěvatelům, sponzorům a organizacím, jejichž podpora a infrastruktura udržují Flathub v chodu.</p>",
   "badges-description": "Oficiální odznaky k propagaci vaší aplikace na Flathubu",
   "preferred-badge": "Preferovaný odznak",
   "alternative-badge": "Alternativní odznak",
@@ -549,7 +549,6 @@
   "scope-jobs": "Zobrazit stav úloh",
   "press": "Tisk",
   "organizations-and-infrastructure": "Organizace a infrastruktura",
-  "individual-contributors": "Jednotliví přispěvatelé",
   "developers-and-users": "Vývojáři a uživatelé",
   "join-discourse-forum": "Připojit se k fóru na službě Discourse",
   "chat-on-matrix": "Napsat na Matrix",
@@ -599,7 +598,7 @@
   "apps-for-you-where-you-are": "<bold>Aplikace pro vás, ať jste kdekoli</bold> - Ať už používáte Steam Deck, výkonnou linuxovou pracovní stanici, Raspberry Pi nebo vzácný linuxový telefon, Flathub má aplikace pro vás",
   "transparent": "<bold>Nezávislost a transparentnost</bold> - Jsme základní komunita open source, která spravuje to nejlepší, co ekosystém nabízí",
   "integration": "<bold>Integrace nativního obchodu s aplikacemi</bold> - Zapomeňte na stahování z webu; Flathub poskytuje aplikace a <updateslink>automatické aktualizace</updateslink> uživatelům v jejich nativním klientovi obchodu s aplikacemi, kde je očekávají",
-  "millions-users": "<bold>Dosáhnout miliony uživatelů</bold> - Flathub je dodáván jako hotový na několika distribucích Linuxu, na ostatních je <installlink>snadno instalovatelný</installlink> a má více než milion aktivních uživatelů",
+  "millions-users": "<bold>Oslovte miliony uživatelů</bold> — Flathub je součástí výchozí instalace mnoha linuxových distribucí, na ostatních ho lze <installlink>snadno nainstalovat</installlink> a má více než milion aktivních uživatelů",
   "all-the-apps-you-want": "<bold>Všechny aplikace, které chcete</bold> - Flathub nabízí tisíce aplikací pro vaše potřeby, od velkých jmen, která byste očekávali, až po čerstvé nezávislé vývojáře.",
   "transparent-safety": "<bold>Transparentní bezpečnost</bold> - Jasně vidíte, kdy je aplikace <verifiedlink>ověřená</verifiedlink>, že pochází od jejího vývojáře, jaká oprávnění vyžaduje a zda má otevřený zdrojový kód a zda je auditovatelná",
   "docs-guidance": "<bold>Přehledné dokumenty a návody</bold> - Rozsáhlá <doclink>dokumentace</doclink>, tisíce veřejných <manifestlink>aplikačních manifestů</manifestlink> a rozsáhlá komunita znamenají, že vždy můžete získat pomoc",
@@ -775,5 +774,6 @@
   "utilities-description": "Systémové nástroje, správci souborů, kalkulačky a každodenní nástroje pro Linux.",
   "science-description": "Vědecké výpočty, analýza dat a výzkumné aplikace pro Linux.",
   "education-description": "Výukové aplikace, jazykové nástroje a vzdělávací software pro Linux.",
-  "system-description": "Správa systému, monitorování a administrátorské nástroje pro Linux."
+  "system-description": "Správa systému, monitorování a administrátorské nástroje pro Linux.",
+  "founding-supporters": "Zakládající podporovatelé"
 }

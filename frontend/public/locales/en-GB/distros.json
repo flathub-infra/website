@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Add the Flathub repository",
-      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, run:</text> <code></code>"
+      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, download and install the <filelink>Flathub repository file</filelink> or run:</text> <code></code>"
     },
     "step-4": {
       "name": "Restart",
@@ -92,7 +92,7 @@
     },
     "step-2": {
       "name": "Add the Flathub repository",
-      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, run:</text> <code></code>"
+      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, download and install the <filelink>Flathub repository file</filelink> or run:</text> <code></code>"
     },
     "step-3": {
       "name": "Restart",
@@ -335,7 +335,7 @@
     },
     "step-3": {
       "name": "Add the Flathub repository",
-      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, run:</text> <code></code>"
+      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, download and install the <filelink>Flathub repository file</filelink> or run:</text> <code></code>"
     },
     "step-4": {
       "name": "Restart",
@@ -425,5 +425,20 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak is installed by default on Salix since version 15.0—no setup required!</header> <text>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</text> <text>All you have to do is <link>install apps</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Install Flatpak",
+      "text": "<text>A Flatpak package is available on SlackBuilds. To install it (assuming you use Sbopkg/sqg), first create the queuefile and run the following as root:</text> <codeQueue></codeQueue> <text>Then compile it. Load the queuefile, press 'Q', and wait:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Add the Flathub repository",
+      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, run:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Restart",
+      "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text> <text>Note: graphical installation of Flatpak apps may not be possible with Slackware.</text>"
+    }
   }
 }

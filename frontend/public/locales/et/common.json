@@ -170,7 +170,7 @@
   "manual-install-instructions": "Enne paigaldamist järgi kindlasti oma Linuxi distributsiooni <distroguide>seadistusjuhendit</distroguide>",
   "remove-saved-card": "Eemalda salvestatud kaart",
   "acknowledgements": "Tänuavaldused",
-  "acknowledgements-block": "<p>Flathubi poleks olemas ilma järgmiste organisatsioonide ja üksikisikute suuremeelse toetuseta.</p>",
+  "acknowledgements-block": "<p>Flathubi poleks olemas ilma järgmiste organisatsioonide ja üksikisikute suuremeelse toetuseta. Me täname tänaseid ja varasemaid kaasautoreid, sponsoreid ja organisatsioone, kelle tugi ja taristu on Flathubi töös hoidnud.</p>",
   "also-available-as-svg": "Saadaval ka <svglink>SVG-vormingus</svglink>",
   "tags-colon": "Sildid:",
   "settings": "Seadistused",
@@ -513,7 +513,6 @@
   "enter-end-of-life-message": "Sisesta rakenduse kasutusaja lõppu kirjeldav sõnum",
   "reporting-issues-description": "Suhtume andmeturbe- ja juriidilistesse küsimustesse väga tõsiselt",
   "get-in-touch": "Võta ühendust",
-  "individual-contributors": "Eraisikutest kaasautorid",
   "organizations-and-infrastructure": "Organisatsioonid ja teenusepakkujad",
   "press": "Ajakirjandus",
   "scope-jobs": "Näita tööde olekut",
@@ -775,5 +774,6 @@
   "networking-description": "Veebibrauserid, e-posti kliendid, VPN-i tarvikud ja muud võrguvahendid kasutamiseks Linuxis.",
   "graphics-and-photography-description": "Pildiredigeerimisprogrammid, illustratsioonitööriistad ja fotograafia-rakendused kasutamiseks Linuxis.",
   "games-description": "Mängud, emulaatorid ja mängude käivitajad kasutamiseks Linuxis.",
-  "developer-tools-description": "Lõimitud arenduskeskonnad (IDE-d), koodiredaktorid, terminalid ja arendusvahendid kasutamiseks Linuxis."
+  "developer-tools-description": "Lõimitud arenduskeskonnad (IDE-d), koodiredaktorid, terminalid ja arendusvahendid kasutamiseks Linuxis.",
+  "founding-supporters": "Toetajad meie alustamisel"
 }

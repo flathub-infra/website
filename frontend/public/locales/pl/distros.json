@@ -62,7 +62,7 @@
     },
     "step-2": {
       "name": "Dodaj repozytorium Flathub",
-      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</text> <code></code>"
+      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, pobierz i zainstaluj <filelink>plik repozytorium Flathub</filelink> lub wykonaj:</text><code></code>"
     },
     "step-3": {
       "name": "Uruchom ponownie",
@@ -199,7 +199,7 @@
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
-      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</text> <code></code>"
+      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, pobierz i zainstaluj <filelink>plik repozytorium Flathub</filelink> lub wykonaj:</text> <code></code>"
     },
     "step-4": {
       "name": "Uruchom ponownie",
@@ -392,7 +392,7 @@
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
-      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</text> <code></code>"
+      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, pobierz i zainstaluj <filelink>plik repozytorium Flathub</filelink> lub wykonaj:</text><code></code>"
     },
     "step-4": {
       "name": "Uruchom ponownie",
@@ -425,5 +425,20 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak jest domyślnie instalowany na Salix od wersji 15.0 - nie jest wymagana konfiguracja! </header> <text>Flatpak jest wstępnie skonfigurowany z repozytorium Flathub, a narzędzia do integracji pulpitu są dołączone, aby umożliwić instalację jednym kliknięciem z Flathub.</text> <text>Wszystko, co musisz zrobić, to <link>zainstalować aplikacje</link>! </text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Zainstaluj Flatpak",
+      "text": "<text>Pakiet Flatpak jest dostępny w SlackBuilds. Aby go zainstalować (zakładając, że używasz Sbopkg/sqg), najpierw utwórz plik kolejki i uruchom poniższe polecenie jako root:</text><codeQueue></codeQueue><text>Następnie skompiluj go. Wczytaj plik kolejki, naciśnij 'Q' i poczekaj:</text><code></code>"
+    },
+    "step-2": {
+      "name": "Dodaj repozytorium Flathub",
+      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Uruchom ponownie",
+      "text": "<text>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy już tylko <link>zainstalować aplikacje</link>!</text><text>Uwaga: graficzna instalacja aplikacji Flatpak może nie być możliwa w systemie Slackware.</text>"
+    }
   }
 }

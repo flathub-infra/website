@@ -74,7 +74,7 @@
   "run": "Uruchomienie",
   "installs": "Instalacje",
   "unknown": "Nieznane",
-  "acknowledgements-block": "<p>Flathub istnieje dzięki hojnemu wsparciu wymienionych organizacji i osób.</p>",
+  "acknowledgements-block": "<p>Flathub nie mógłby istnieć bez hojnego wsparcia społeczności Flatpak i Flathub. Dziękujemy wszystkim byłym i obecnym współtwórcom, sponsorom oraz organizacjom, których wsparcie i infrastruktura pozwoliły utrzymać działanie Flathub.</p>",
   "purchase-apps-title": "Kup aplikacje",
   "languages-description": "Wybierz język:",
   "privacy-policy-description": "Używając tej strony, zgadzasz się z polityką prywatności.",
@@ -550,7 +550,6 @@
   "reporting-issues-description": "Bardzo poważnie podchodzimy do raportów bezpieczeństwa i kwestii prawnych",
   "press": "Prasa",
   "organizations-and-infrastructure": "Organizacje i infrastruktura",
-  "individual-contributors": "Indywidualni współautorzy",
   "get-in-touch": "Skontaktuj się z nami",
   "developers-and-users": "Twórcy i użytkownicy",
   "developers-and-users-block": "Skontaktuj się z zespołem i innymi członkami społeczności, aby zadawać pytania i dzielić się swoją wiedzą",
@@ -775,5 +774,6 @@
   "utilities-description": "Narzędzia systemowe, menedżery plików, kalkulatory i narzędzia codziennego użytku na system Linux.",
   "science-description": "Obliczenia naukowe, analiza danych i aplikacje badawcze na system Linux.",
   "education-description": "Aplikacje do nauki, narzędzia językowe i oprogramowanie edukacyjne na system Linux.",
-  "system-description": "Narzędzia do zarządzania systemem, monitorowania i administracji dla systemu Linux."
+  "system-description": "Narzędzia do zarządzania systemem, monitorowania i administracji dla systemu Linux.",
+  "founding-supporters": "Założyciele"
 }

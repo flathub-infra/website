@@ -370,5 +370,17 @@
     "step-1": {
       "name": "Sbedd isnasen"
     }
+  },
+  "slackware": {
+    "step-1": {
+      "name": "Sbedd Flatpak"
+    },
+    "step-2": {
+      "name": "Rnu akufi-a n Flathub"
+    },
+    "distroName": "Slackware",
+    "step-3": {
+      "name": "Ales asekker"
+    }
   }
 }

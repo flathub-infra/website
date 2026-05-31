@@ -425,5 +425,14 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak ist seit Salix Version 15.0 bereits vorinstalliert und eingerichtet!</header> <text>Flatpak wird standardmäßig mit dem Flathub Repository und den Desktop Integration Tools ausgeliefert und ermöglicht eine einfache 1-Klick Installation über Flathub.</text> <text>Du musst nur <link>Apps installieren</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Flatpak installieren"
+    },
+    "step-3": {
+      "name": "Neustart"
+    }
   }
 }
