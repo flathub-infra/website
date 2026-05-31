@@ -1370,6 +1370,9 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
     assert claims["aud"] == "test-client"
     assert "iat" in claims
     assert "exp" in claims
+    assert (
+        claims["exp"] - claims["iat"] == config.settings.oidc_id_token_lifetime_seconds
+    )
     assert "nonce" not in claims
 
     assert len(added) == 1

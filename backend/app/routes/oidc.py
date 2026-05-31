@@ -276,7 +276,7 @@ def _sign_id_token(
         "sub": subject,
         "aud": client_id,
         "iat": now_epoch,
-        "exp": now_epoch + config.settings.oidc_access_token_lifetime_seconds,
+        "exp": now_epoch + config.settings.oidc_id_token_lifetime_seconds,
     }
     if nonce is not None:
         id_claims["nonce"] = nonce
