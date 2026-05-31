@@ -1213,7 +1213,7 @@ class OidcAccessToken(Base):
                 OidcAccessToken.user_id == user.id,
                 OidcAccessToken.revoked_at.is_(None),
             )
-            .values(revoked_at=datetime.now())
+            .values(revoked_at=utils.utcnow())
         )
 
 
@@ -1272,7 +1272,7 @@ class OidcRefreshToken(Base):
                 OidcRefreshToken.user_id == user.id,
                 OidcRefreshToken.revoked_at.is_(None),
             )
-            .values(revoked_at=datetime.now())
+            .values(revoked_at=utils.utcnow())
         )
 
 

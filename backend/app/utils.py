@@ -28,6 +28,12 @@ mobile_min_size = 360
 mobile_max_size = 768
 
 
+def utcnow() -> datetime:
+    # Naive UTC: the OIDC timestamp columns are timezone-naive, so storing and
+    # comparing naive UTC keeps them unambiguous regardless of the DB session timezone.
+    return datetime.now(UTC).replace(tzinfo=None)
+
+
 class Hasher:
     """
     Wrapper around the hashlib library to provide an ergonomic API

@@ -42,6 +42,7 @@ from app.oidc import (
     verify_token,
 )
 from app.routes import oidc as oidc_routes
+from app.utils import utcnow
 
 PRIVATE_JWK_FIELDS = {"d", "p", "q", "dp", "dq", "qi", "oth"}
 
@@ -489,6 +490,11 @@ def test_verify_pkce_s256():
     )
     assert verify_pkce_s256(verifier, challenge)
     assert not verify_pkce_s256("wrong-verifier", challenge)
+
+
+def test_utcnow_is_naive():
+    now = utcnow()
+    assert now.tzinfo is None
 
 
 def _make_logged_in_login(user_id=1):
@@ -1255,7 +1261,7 @@ def _make_auth_code_row(
     code_challenge=None,
     code_challenge_method=None,
 ):
-    now = datetime.now(UTC)
+    now = utcnow()
     return _AuthCodeRow(
         client_id=client_id,
         user_id=user_id,
@@ -2019,7 +2025,7 @@ class _RefreshTokenRow:
         self.user_id = user_id
         self.family_id = family_id
         self.scope = scope
-        now = datetime.now(UTC)
+        now = utcnow()
         self.expires_at = expires_at or (now + timedelta(days=30))
 
 
@@ -2148,7 +2154,7 @@ def test_refresh_grant_expired_token(token_client):
         refresh_tokens_enabled=True,
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
-    now = datetime.now(UTC)
+    now = utcnow()
     rt_row = _RefreshTokenRow(expires_at=now - timedelta(seconds=1))
     user = FlathubUser(id=1, oidc_subject="sub-1")
     get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)

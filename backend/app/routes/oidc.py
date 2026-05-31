@@ -11,7 +11,7 @@ from joserfc.errors import JoseError
 from sqlalchemy import update
 from starlette.responses import RedirectResponse
 
-from .. import config, models
+from .. import config, models, utils
 from ..database import get_db
 from ..login_info import LoginStatusDep
 from ..oidc import (
@@ -187,7 +187,7 @@ def authorize(
         return RedirectResponse(url=login_url, status_code=302)
 
     code = generate_token()
-    expires_at = datetime.now(UTC) + timedelta(
+    expires_at = utils.utcnow() + timedelta(
         seconds=config.settings.oidc_code_lifetime_seconds
     )
 
@@ -270,7 +270,7 @@ def _sign_id_token(
     """Build and sign a JWT ID token."""
     signing_key = _get_signing_key()
     issuer = config.settings.oidc_issuer.rstrip("/")
-    now_epoch = int(now.timestamp())
+    now_epoch = int(now.replace(tzinfo=UTC).timestamp())
     id_claims: dict[str, Any] = {
         "iss": issuer,
         "sub": subject,
@@ -410,7 +410,7 @@ def token(
         request, client_id, client_secret
     )
 
-    now = datetime.now(UTC)
+    now = utils.utcnow()
 
     if grant_type == "authorization_code":
         return _handle_authorization_code_grant(
@@ -470,7 +470,7 @@ def _handle_authorization_code_grant(
             raise HTTPException(status_code=400, detail="invalid_grant")
         if row.redirect_uri != redirect_uri:
             raise HTTPException(status_code=400, detail="invalid_grant")
-        if now > row.expires_at.replace(tzinfo=UTC):
+        if now > row.expires_at:
             raise HTTPException(status_code=400, detail="invalid_grant")
 
         if row.code_challenge is not None:
@@ -576,7 +576,7 @@ def _handle_refresh_token_grant(
                 db.session.commit()
             raise HTTPException(status_code=400, detail="invalid_grant")
 
-        if now > row.expires_at.replace(tzinfo=UTC):
+        if now > row.expires_at:
             raise HTTPException(status_code=400, detail="invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
@@ -651,7 +651,7 @@ def userinfo(request: Request):
         raise HTTPException(status_code=401, detail="invalid_token")
 
     token_hash_value = hash_token(token_value)
-    now = datetime.now(UTC)
+    now = utils.utcnow()
 
     with get_db("writer") as db:
         access_token_obj = (
