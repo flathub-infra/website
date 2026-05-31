@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
-      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</text> <code></code>"
+      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <filelink>Flathub 仓库文件</filelink>，或运行以下命令：</text> <code></code>"
     },
     "step-4": {
       "name": "重启",
@@ -110,7 +110,7 @@
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
-      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</text> <code></code>"
+      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <filelink>Flathub 仓库文件</filelink>，或运行以下命令：</text> <code></code>"
     },
     "distroName": "openSUSE"
   },
@@ -217,7 +217,7 @@
     "distroName": "Mageia",
     "step-1": {
       "name": "安装 Flatpak",
-      "text": "<text>Mageia 6 及更新版本提供了 flatpak 安装包。要使用 DNF 安装，请以 root 身份运行以下命令：</text> <code></code> <text>或者，要使用 <strong>urpmi</strong> 安装，请运行：</text> <codeUrpmi></codeUrpmi>"
+      "text": "<text>Mageia 6 及更新版本中提供了 flatpak 软件包。要使用 DNF 安装，请以 root 身份运行以下命令：</text> <code></code> <text>或者，要使用 <strong>urpmi</strong> 安装，请运行：</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
@@ -327,7 +327,7 @@
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
-      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</text> <code></code>"
+      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <filelink>Flathub 仓库文件</filelink>，或运行以下命令：</text> <code></code>"
     },
     "step-4": {
       "name": "重启",
@@ -425,5 +425,20 @@
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<text>在 AlmaLinux 8 及更新版本中，Flatpak 在使用 GNOME 时默认安装。要开始使用，您只需启用 Flathub，这是获取 Flatpak 应用的最佳方式。只需下载并安装 <filelink>Flathub 仓库文件</filelink>即可。</text> <text>现在您要做的就是<link>安装应用</link>！</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "安装 Flatpak",
+      "text": "<text>SlackBuilds 中提供了 flatpak 软件包。要安装它（假设您使用 Sbopkg/sqg），请先创建队列文件，然后以 root 身份运行以下命令：</text> <codeQueue></codeQueue> <text>然后进行编译。加载队列文件，按“Q”键，然后等待：</text> <code></code>"
+    },
+    "step-2": {
+      "name": "添加 Flathub 仓库",
+      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</text> <code></code>"
+    },
+    "step-3": {
+      "name": "重启",
+      "text": "<text>要完成设置，请重启系统。现在您要做的就是<link>安装应用</link>！</text> <text>注意：Slackware 可能无法通过图形界面安装 Flatpak 应用。</text>"
+    }
   }
 }

@@ -15,7 +15,7 @@
     },
     "step-2": {
       "name": "Añadir el repositorio de Flathub",
-      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</text> <code></code>"
+      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, descargue e insale el <filelink>fichero del repositorio de Flathub</filelink> o ejecute:</text> <code></code>"
     },
     "step-3": {
       "name": "Reiniciar",
@@ -155,7 +155,7 @@
     },
     "step-3": {
       "name": "Añadir el repositorio Flathub",
-      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</text> <code></code>"
+      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, descargue e instale el <filelink>fichero del repositorio de Flathub</filelink> o ejecute:</text> <code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
@@ -289,7 +289,7 @@
     },
     "step-3": {
       "name": "Añadir el repositorio Flathub",
-      "text": "<text>Flathub es el mejor lugar para conseguir aplicaciones Flatpak. Para activarlo, ejecute:</text> <code></code>"
+      "text": "<text>Flathub es el mejor lugar para conseguir aplicaciones Flatpak. Para activarlo, descargue e instale el <filelink>fichero del repositorio de Flathub</filelink> o ejecute:</text> <code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
@@ -424,6 +424,19 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <link>instalar aplicaciones</link>! </text>"
+    }
+  },
+  "slackware": {
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<text>Un paquete de Flatpak está disponible en SlackBuilds. Para instalarlo (suponiendo que utiliza Sbopkg/sqg), primero cree el queuefile y ejecute lo siguiente como root:</text><codeQueue></codeQueue><text>Después compílelo. Cargue el queuefile, presione 'Q', y espere:</text><code></code>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio de Flathub",
+      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones Flatpak. Para activarlo, ejecute:</text><code></code>"
+    },
+    "step-3": {
+      "name": "Reiniciar"
     }
   }
 }

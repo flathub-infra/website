@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Přidejte repozitář Flathub",
-      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení spusťte:</text> <code></code>"
+      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení stáhněte a nainstalujte <filelink>soubor repozitáře Flathub</filelink> nebo spusťte:</text> <code></code>"
     },
     "step-4": {
       "name": "Restartujte",
@@ -92,7 +92,7 @@
     },
     "step-2": {
       "name": "Přidejte repozitář Flathub",
-      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení spusťte:</text> <code></code>"
+      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení stáhněte a nainstalujte <filelink>soubor repozitáře Flathub</filelink> nebo spusťte:</text> <code></code>"
     },
     "step-3": {
       "name": "Restartujte",
@@ -314,7 +314,7 @@
     },
     "step-3": {
       "name": "Přidejte repozitář Flathub",
-      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení spusťte:</text> <code></code>"
+      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení stáhněte a nainstalujte <filelink>soubor repozitáře Flathub</filelink> nebo spusťte:</text> <code></code>"
     },
     "step-4": {
       "name": "Restartujte",
@@ -425,5 +425,20 @@
   "kde_neon": {
     "introduction": "<text>Podpora Flatpaku je již zabudována v KDE neon 19 a novějším, žádné další nastavení není potřeba!</text>",
     "distroName": "KDE neon"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Nainstalujte Flatpak",
+      "text": "<text>Balíček Flatpak je dostupný na SlackBuilds. Chcete-li jej nainstalovat (za předpokladu, že používáte Sbopkg/sqg), nejprve vytvořte soubor fronty (queuefile) a poté jako root spusťte:</text><codeQueue></codeQueue><text>Následně jej zkompilujte. Načtěte soubor fronty, stiskněte „Q“ a vyčkejte:</text><code></code>"
+    },
+    "step-2": {
+      "name": "Přidejte repozitář Flathub",
+      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení spusťte:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Restartujte",
+      "text": "<text>Pro dokončení nastavení restartujte váš systém. Teď už stačí jen <link>nainstalovat aplikace</link>!</text><text>Poznámka: Ve Slackware nemusí být grafická instalace aplikací Flatpak dostupná.</text>"
+    }
   }
 }

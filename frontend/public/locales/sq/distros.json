@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, ekzekutoni:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni:</text> <code></code>"
     },
     "step-4": {
       "name": "Rinise",
@@ -92,7 +92,7 @@
     },
     "step-2": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, ekzekutoni:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni:</text> <code></code>"
     },
     "step-3": {
       "name": "Rinise",
@@ -334,7 +334,7 @@
     },
     "step-3": {
       "name": "Shtoni depon Flathub",
-      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, ekzekutoni:</text> <code></code>"
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni:</text> <code></code>"
     },
     "step-4": {
       "name": "Rinise",
@@ -424,5 +424,19 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak-u instalohet si parazgjedhje në Salix, që me versionin 15.0—s’ka nevojë për ujdisje!</header> <text>Flatpak-u vjen i formësuar paraprakisht me depon Flathub dhe përfshihen mjete integrimi desktopi, që lejojnë instalime me 1 klikim që nga Flathub-i.</text> <text>Krejt çka ju duhet të bëni, është <link>të instaloni aplikacione</link>!</text>"
+  },
+  "slackware": {
+    "step-1": {
+      "name": "Instaloni Flatpak-un",
+      "text": "<text>Ka një paketë Flatpak të gatshme te SlackBuilds. Për ta instaluar (duke marrë të mirëqenë se përdorni Sbopkg/sqg), së pari krijoni kartelën “queuefile” dhe ekzekutoni si rrënjë sa vijon:</text> <codeQueue></codeQueue> <text>Mandej përpilojeni. Ngarkojeni kartelën “queuefile”, shtypni tastin 'Q' dhe prisni:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Shtoni depon Flathub",
+      "text": "<text>Flathub-i është vendi më i mirë për të marrë aplikacione Flatpak. Për ta aktivizuar, ekzekutoni:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Rinise",
+      "text": "<text>Që të plotësoni ujdisjen, rinisni sistemin tuaj. Krejt sa duhet të bëni tani është <link>të instaloni aplikacione</link>!</text> <text>Shënim: instalimi grafik i aplikacioneve Flatpak mund të mos jetë i mundshëm me Slackware-in.</text>"
+    }
   }
 }

@@ -7,7 +7,7 @@
     },
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla fail</filelink> või käivita:</text> <code></code>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
@@ -96,7 +96,7 @@
     },
     "step-2": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla fail</filelink> või käivita:</text> <code></code>"
     }
   },
   "arch": {
@@ -339,7 +339,7 @@
     },
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla fail</filelink> või käivita:</text> <code></code>"
     }
   },
   "mx_linux": {
@@ -425,5 +425,20 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Alates Salixi versioonist 15.0 on Flatpak vaikimisi paigaldatud — lisatoimingud pole vajalikud!</header> <text>Flathubi tarkvarahoidla on eelseadistatud ja olemas on töölauatarvikud, mis võimaldavad rakenduste paigaldamist Flathubist ühe klõpsuga.</text> <text>Sul pole vaja muud teha, <link>kui paigaldada rakendusi</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Paigalda Flatpak",
+      "text": "<text>Flatpaki pakett leidub SlackBuildsis. Selle paigaldamiseks (eelduseks, et sul on kasutusel Sbopkg/sqg), loo esmalt järjekorrafail (queuefile) ning käivita järgnev juurkasutajana:</text> <codeQueue></codeQueue> <text> Seejärel kompileeri ta. Laadi järjekorrafail, Vajuta „Q“ ja oota:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi tarkvarahoidla",
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti",
+      "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text> <text>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Slackware'i puhul toimida.</text>"
+    }
   }
 }

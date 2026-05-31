@@ -425,5 +425,20 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak sudah terinstal secara default di Salix sejak versi 15.0—tidak perlu pengaturan tambahan!</header> <text>Flatpak sudah dikonfigurasi secara default dengan repositori Flathub dan alat integrasi desktop yang disertakan untuk memungkinkan pemasangan dengan 1-klik dari Flathub.</text> <text>Yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Instal Flatpak",
+      "text": "<text>Paket Flatpak tersedia di SlackBuilds. Untuk menginstalnya (asumsi Anda menggunakan Sbopkg/sqg), pertama buat file queue dan jalankan berikut sebagai root:</text> <codeQueue></codeQueue> <text>Lalu kompilasi. Muat file queue, tekan 'Q', dan tunggu:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Tambahkan repositori Flathub",
+      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, jalankan:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Jalankan ulang",
+      "text": "<text>Untuk menyelesaikan setup, jalankan ulang sistem Anda. Sekarang yang perlu Anda lakukan adalah <link>instal aplikasi</link>!</text> <text>Catatan: instalasi grafis aplikasi Flatpak mungkin tidak mungkin dengan Slackware.</text>"
+    }
   }
 }

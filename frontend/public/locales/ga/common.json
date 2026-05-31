@@ -5,7 +5,7 @@
   "since": "Ó shin",
   "retry-or-go-home": "Seans gur mhaith leat triail eile a bhaint as nó dul ar ais <link>abhaile</link>.",
   "acknowledgements": "Buíochas",
-  "acknowledgements-block": "<p>Ní bheadh Flathub indéanta gan tacaíocht fhlaithiúil na n-eagraíochtaí agus na ndaoine aonair seo a leanas.</p>",
+  "acknowledgements-block": "<p>Ní bheadh Flathub indéanta gan tacaíocht fhlaithiúil phobal níos leithne Flatpak agus Flathub. Gabhaimid buíochas le gach rannpháirtí, urraitheoir agus eagraíocht san am atá thart agus san am i láthair a choinnigh Flathub ag rith a dtacaíocht agus a mbonneagar.</p>",
   "also-available-as-svg": "Ar fáil freisin i <svglink>formáid SVG</svglink>",
   "badge-copyright": "Chomh fada agus is féidir de réir an dlí, tá <author>Jakub Steiner</author> tar éis gach cóipcheart agus cearta gaolmhar nó comharsanachta ar <badgeslink>Fathub Suaitheantais</badgeslink> a tharscaoileadh. Tá an saothar seo foilsithe ón tSeicia.",
   "rss-apps": "An bhfuil aip RSS uait? Aimsigh cinn iontacha ar <link>Fathub</link>.",
@@ -568,7 +568,6 @@
   "enter-end-of-life-message": "Cuir isteach teachtaireacht deireadh saoil",
   "rebase-onto-other-app": "Iontráil ID aip déanfar d'iarratas a athbhunú",
   "manage-x": "Bainistigh {app_name}",
-  "individual-contributors": "Rannpháirtithe Aonair",
   "install-x": "Suiteáil {app_name} ar Linux",
   "get-in-touch": "Téigh i dteagmháil",
   "press": "Brúigh",
@@ -775,5 +774,6 @@
   "utilities-description": "Fóntais chórais, bainisteoirí comhad, áireamháin, agus uirlisí laethúla do Linux.",
   "science-description": "Feidhmchláir ríomhaireachta eolaíochta, anailíse sonraí, agus taighde do Linux.",
   "education-description": "Aipeanna foghlama, uirlisí teanga, agus bogearraí oideachais do Linux.",
-  "system-description": "Uirlisí bainistíochta córais, monatóireachta agus riaracháin do Linux."
+  "system-description": "Uirlisí bainistíochta córais, monatóireachta agus riaracháin do Linux.",
+  "founding-supporters": "Tacaíochtaí Bunaithe"
 }

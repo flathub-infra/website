@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
-      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code>"
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an comhad <filelink>stór Flathub</filelink> nó rith:</text> <code></code>"
     },
     "step-4": {
       "name": "Athosaigh",
@@ -92,7 +92,7 @@
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
-      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code>"
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an comhad <filelink>stór Flathub</filelink> nó rith:</text> <code></code>"
     },
     "step-3": {
       "name": "Athosaigh",
@@ -335,7 +335,7 @@
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
-      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code>"
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an comhad <filelink>stór Flathub</filelink> nó rith:</text> <code></code>"
     },
     "step-4": {
       "name": "Athosaigh",
@@ -425,5 +425,20 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Tá Flatpak suiteáilte de réir réamhshocraithe ar Salix ó leagan 15.0—níl aon ghá le socrú!</header> <text>Tagann Flatpak réamhchumraithe leis an stórlann Flathub agus tá uirlisí comhtháthaithe deisce san áireamh chun suiteáil 1-cliceáil ó Flathub a cheadú.</text> <text>Níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Suiteáil Flatpak",
+      "text": "<text>Tá pacáiste Flatpak ar fáil ar SlackBuilds. Chun é a shuiteáil (ag glacadh leis go n-úsáideann tú Sbopkg/sqg), cruthaigh an comhad scuaine ar dtús agus rith an méid seo a leanas mar fhréamh:</text> <codeQueue></codeQueue> <text>Ansin tiomsaigh é. Luchtaigh an comhad scuaine, brúigh 'Q', agus fan:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Cuir an stórlann Flathub leis",
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Atosaigh",
+      "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text> <text>Tabhair faoi deara: b'fhéidir nach féidir aipeanna Flatpak a shuiteáil go grafach le Slackware.</text>"
+    }
   }
 }

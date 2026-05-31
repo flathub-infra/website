@@ -10,11 +10,11 @@
       "text": "<text>Doplnok GNOME Softvéru umožňuje inštaláciu aplikácií bez potreby príkazového riadku. Na inštaláciu spustite:</text> <code></code> <text><strong>Poznámka:</strong> Ubuntu distribuuje GNOME Softvér ako Snap vo verziách 20.04 až 23.04 a vo verzii 23.10 a novšej ho nahradilo aplikáciou Centrum aplikácií – ani jedna z nich nepodporuje inštaláciu aplikácií Flatpak. Inštaláciou doplnku Flatpak sa nainštaluje aj deb verzia GNOME Softvéru, čo má za následok, že vo verziách Ubuntu 20.04 až 23.04 sa nainštalujú dve aplikácie „Softvér“ naraz a vo verzii Ubuntu 23.10 a novšej sa nainštaluje jedna nová aplikácia „Softvér“.</text>"
     },
     "step-3": {
-      "name": "Pridať repozitár Flathub",
-      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
+      "name": "Pridajte repozitár Flathub",
+      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie si stiahnite a nainštalujte <filelink>súbor repozitára Flathub</filelink> alebo spustite:</text> <code></code>"
     },
     "step-4": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -25,11 +25,11 @@
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
-      "name": "Povoliť Flatpak cez Správcu softvéru",
+      "name": "Povoľte Flatpak cez Správcu softvéru",
       "text": "<text>Flatpak je predinštalovaný v Manjaro 20 alebo novšom.</text> <text>Aby ste povolili jeho podporu, prejdite do <strong>Správcu softvéru</strong> (Inštalovať/Odinštalovať softvér)</text> <text>Kliknite na ponuku s tromi bodkami [alebo bodkami v závislosti od prostredia] vpravo, v rozbaľovacej ponuke vyberte \"Predvoľby\"</text> <text>Prejdite na kartu „Flatpak“ a posuňte prepínač na Povolenie podpory Flatpak (je tiež možné povoliť kontrolu aktualizácií, čo sa odporúča).</text>"
     },
     "step-2": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -44,11 +44,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na operačné systémy rodiny Alt, otvorte aplikáciu Terminál a spustite:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je skvelým miestom na získavanie aplikácií Flatpak. Na jeho povolenie na systéme Alt spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte zariadenie",
       "text": "<text>Reštartujte vaše zariadenie na dokončenie inštalácie Flatpaku. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -56,11 +56,11 @@
     "distroName": "ChromeOS",
     "introduction": "<text>Aplikácie Flatpak je možné inštalovať na ChromeOS pomocou vrstvy kompatibility Crostini Linux. Táto funkcia nie je dostupná pre všetky zariadenia ChromeOS, preto sa najprv uistite, že vaše zariadenie je kompatibilné. Zoznam kompatibilných zariadení spravuje <link>tu</link>.</text>",
     "step-1": {
-      "name": "Povoliť podporu Linuxu",
+      "name": "Povoľte podporu Linuxu",
       "text": "<text>Prejdite do <settingslink>chrome://os-settings</settingslink> a posuňte sa dole do sekcie <strong>Vývojári</strong> a povoľte <em>Vývojové prostredie Linux</em>. Stiahnutie a inštalácia systému Linux zaberie nejaký čas.</text>"
     },
     "step-2": {
-      "name": "Spustiť Linuxový terminál",
+      "name": "Spustite Linuxový terminál",
       "text": "<text>Stlačte klávesu Hľadať/Spúšťač, zadajte „Terminál“ a spustite aplikáciu Terminál.</text>"
     },
     "step-3": {
@@ -68,11 +68,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak, spustite v termináli nasledujúce:</text> <code></code>"
     },
     "step-4": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-5": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte systém Linux. Urobíte to tak, že kliknete pravým tlačidlom myši na terminál a potom kliknete na „Vypnúť Linux“. Teraz už stačí <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -91,11 +91,11 @@
       "text": "<text>Flatpak je dostupný v predvolených repozitároch všetkých aktuálne udržiavaných verzií openSUSE Leap a openSUSE Tumbleweed.</text> <text>Ak uprednostňujete grafickú inštaláciu, môžete Flatpak nainštalovať pomocou „inštalátora na jedno kliknutie“ z <link>software.opensuse.org</link>. Ak sa verzia vašej distribúcie v predvolenom nastavení nezobrazuje, kliknite najprv na <em>Zobraziť Flatpak pre iné distribúcie</em> a potom vyberte zo zoznamu.</text> <text>Alternatívne môžete Flatpak nainštalovať z príkazového riadku pomocou nástroja Zypper:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
-      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
+      "name": "Pridajte repozitár Flathub",
+      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie si stiahnite a nainštalujte <filelink>súbor repozitára Flathub</filelink> alebo spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -106,7 +106,7 @@
       "text": "<text>Aby ste nainštalovali Flatpak na Arch, otvorte aplikáciu Terminál a spustite:</text> <code></code>"
     },
     "step-2": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -121,11 +121,11 @@
       "text": "<text>Ak používate GNOME, odporúča sa nainštalovať doplnok Flatpak do GNOME Softvéru. Urobíte to spustením:</text> <code></code> <text>Ak používate KDE, mali by ste namiesto toho nainštalovať backend Flatpak pre Plasma Discover:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Povoliť ho môžete stiahnutím a inštaláciou <filelink>súboru repozitára Flathub</filelink> alebo spustením nasledujúceho v termináli:</text> <code></code>"
     },
     "step-4": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -136,11 +136,11 @@
       "text": "<text>Flatpak je už zabudovaný v Rocky Linux 8 a novšom, ak bol nainštalovaný s výberom softvéru, ktorý zahŕňa GNOME (Server s GUI, Workstation). Ak taký systém už používate, môžete tento krok preskočiť. Na inštaláciu Flatpaku na Rocky Linux spustite v termináli nasledujúce:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Povoliť ho môžete stiahnutím a inštaláciou <filelink>súboru repozitára Flathub</filelink> alebo spustením nasledujúceho v termináli:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -159,11 +159,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na Gentoo, otvorte aplikáciu Terminál a spustite:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť s Gentoo možná.</text>"
     }
   },
@@ -178,11 +178,11 @@
       "text": "<text>Aby ste integrovali podporu Flatpaku do systémových nastavení Plasma, otvorte aplikáciu Terminál a spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie otvorte Discover, prejdite do nastavenia a pridajte repozitár Flathub.</text>"
     },
     "step-4": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -194,11 +194,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na Solus, otvorte aplikáciu Terminál a spustite:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Povoliť ho môžete stiahnutím a inštaláciou <filelink>súboru repozitára Flathub</filelink> alebo spustením nasledujúceho v termináli:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak je možná len cez GNOME Softvér a/alebo KDE Discover.</text>"
     }
   },
@@ -213,11 +213,11 @@
       "text": "<text>Doplnok Flatpak môžete nainštalovať buď do GNOME Softvéru (od v3.13) alebo do KDE Discover (od v3.11). Umožňuje inštaláciu aplikácií bez nutnosti použitia príkazového riadku. Na inštaláciu do GNOME Softvéru spustite:</text> <code></code> <text>Pre KDE Discover spustite:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Povoliť ho môžete stiahnutím a inštaláciou <filelink>súboru repozitára Flathub</filelink> alebo spustením nasledujúceho v termináli:</text> <code></code>"
     },
     "step-4": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -228,17 +228,17 @@
       "text": "<text>Balík flatpak je dostupný pre Mageia 6 a novšiu. Na inštaláciu pomocou DNF spustite ako root nasledujúce:</text> <code></code> <text>Prípadne na inštaláciu pomocou <strong>urpmi</strong> spustite:</text> <codeUrpmi></codeUrpmi>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Povoliť ho môžete stiahnutím a inštaláciou <filelink>súboru repozitára Flathub</filelink> alebo spustením nasledujúceho v termináli:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť s Mageia možná.</text>"
     }
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<header>Podpora Flatpaku je zabudovaná do OpenMandriva pre všetky aktívne podporované verzie, od stabilných/opravných vydania 'Rock 5.0', cez vývojárske vydanie 'Cooker', až po „rolling“ vydanie 'ROME'.</header> <text>Súčasťou podpory je aj predkonfigurovaný repozitár Flathub.</text>"
+    "introduction": "<header>Podpora Flatpaku je zabudovaná do OpenMandriva pre všetky aktívne podporované verzie, od stabilných/opravných vydaní 'Rock 5.0', cez vývojárske vydanie 'Cooker', až po „rolling“ vydanie 'ROME'.</header> <text>Súčasťou podpory je aj predkonfigurovaný repozitár Flathub.</text>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -258,11 +258,11 @@
       "text": "<text>Balík flatpak je dostupný pre Raspberry Pi OS (predtým nazývaný Raspbian) Stretch a novší. Na jeho inštaláciu spustite ako root nasledujúce:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Povoliť ho spustením:</text> <code></code> <text><strong>Dôležitá poznámka:</strong> Odporúča sa používať Raspberry Pi OS 64-bit, pretože novšie aplikácie budú pravdepodobne dostupné len pre túto platformu.</text>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť s Raspberry Pi OS možná.</text>"
     }
   },
@@ -273,11 +273,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na Void Linux, spustite v termináli nasledujúce:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -288,11 +288,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak, nastavte možnosť NixOS <strong>services. flatpak.enable</strong> na <strong>true</strong> vložením nasledujúceho textu do súboru <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Potom vykonajte rebuild a prepnite na novú konfiguráciu pomocou:</text> <codeRebuild></codeRebuild> <text>Ďalšie podrobnosti nájdete v <doclink>dokumentácii NixOS</doclink>.</text>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -311,7 +311,7 @@
       "text": "<text>Aby ste nainštalovali Flatpak na Deepin, spustite v termináli nasledujúce:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
@@ -319,7 +319,7 @@
       "text": "<text>Aby ste nainštalovali svetlé a tmavé témy, spustite:</text> <code></code>"
     },
     "step-4": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -334,8 +334,8 @@
       "text": "<text>Ak používate GNOME, odporúča sa nainštalovať doplnok Flatpak do GNOME Softvéru. Urobíte to spustením:</text> <code></code>"
     },
     "step-3": {
-      "name": "Pridať repozitár Flathub",
-      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
+      "name": "Pridajte repozitár Flathub",
+      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie si stiahnite a nainštalujte <filelink>súbor repozitára Flathub</filelink> alebo spustite:</text> <code></code>"
     },
     "step-4": {
       "name": "Reštartovať",
@@ -345,11 +345,11 @@
   "mx_linux": {
     "distroName": "MX Linux",
     "step-1": {
-      "name": "Povoliť Flatpak v Centre softvéru",
+      "name": "Povoľte Flatpak v Centre softvéru",
       "text": "<text>Podpora Flatpak je integrovaná od verzie MX 18 a novších. Je potrebné len aktivovať repozitár Flathub podľa týchto pokynov:</text> <text>Otvorte <strong>MX Package Installer</strong> (otvorte ponuku a pozrite sa do MX Tools), vyberte kartu „Flatpaks“ a pre aktiváciu repozitára budete musieť zadať heslo root.</text>"
     },
     "step-2": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -360,11 +360,11 @@
       "text": "<text>Balík flatpak je dostupný pre Pisi 2.1 a novší. Na jeho inštaláciu spustite ako root nasledujúce:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť s Pisi GNU/Linux možná.</text>"
     }
   },
@@ -375,11 +375,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na EndeavourOS, najprv sa uistite, že vaša inštalácia je aktuálna, a potom spustite v termináli nasledujúce:</text> <codeUpdate></codeUpdate> <text>Nakoniec nainštalujte Flatpak:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť s EndeavourOS možná.</text>"
     }
   },
@@ -394,11 +394,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na GNU Guix, spustite v termináli nasledujúce:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text><text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť s GNU Guix možná.</text>"
     }
   },
@@ -410,11 +410,11 @@
       "text": "<text>Aby ste nainštalovali Flatpak na Crystal Linux, najprv sa uistite, že vaše balíčky sú aktuálne. Potom spustite v termináli nasledujúce:</text> <codeUpdate></codeUpdate> <text>Nakoniec nainštalujte Flatpak:</text> <code></code>"
     },
     "step-2": {
-      "name": "Pridať repozitár Flathub",
+      "name": "Pridajte repozitár Flathub",
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
     },
     "step-3": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
@@ -425,5 +425,20 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak je v Salix nainštalovaný od verzie 15.0, žiadne ďalšie nastavovanie nie je potrebné!</header> <text>Spolu s Flatpakom je predkonfigurovaný repozitár Flathub a súčasťou sú aj nástroje pre desktopovú integráciu, umožňujúce inštaláciu z Flathubu jedným kliknutím.</text> <text>Stačí len <link>nainštalovať aplikácie</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Nainštalujte Flatpak",
+      "text": "<text>Balík Flatpak je dostupný na SlackBuilds. Na jeho inštaláciu (za predpokladu, že používate Sbopkg/sqg) najprv vytvorte front a spustite nasledujúce ako root:</text> <codeQueue></codeQueue> <text>Potom ho skompilujte. Načítajte front, stlačte 'Q' a počkajte:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Pridajte repozitár Flathub",
+      "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie spustite:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Reštartujte systém",
+      "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text> <text>Poznámka: grafická inštalácia aplikácií Flatpak nemusí byť v Slackware možná.</text>"
+    }
   }
 }
