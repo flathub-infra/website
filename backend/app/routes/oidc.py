@@ -15,7 +15,6 @@ from .. import config, models
 from ..database import get_db
 from ..login_info import LoginStatusDep
 from ..oidc import (
-    deferred_authorize_parameters_requested,
     ensure_oidc_subject,
     generate_token,
     hash_token,
@@ -23,6 +22,7 @@ from ..oidc import (
     redirect_uri_allowed,
     requested_scopes_allowed,
     verify_client_secret,
+    verify_pkce_s256,
 )
 
 
@@ -66,6 +66,7 @@ def openid_configuration():
         ],
         "subject_types_supported": ["public"],
         "id_token_signing_alg_values_supported": ["RS256"],
+        "code_challenge_methods_supported": ["S256"],
     }
 
 
@@ -167,8 +168,9 @@ def authorize(
     if "offline_access" in requested_scope_set and not client.refresh_tokens_enabled:
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
-    if deferred_authorize_parameters_requested(code_challenge, code_challenge_method):
-        return _error_redirect(redirect_uri, "invalid_request", state)
+    if code_challenge is not None or code_challenge_method is not None:
+        if code_challenge_method != "S256" or not code_challenge:
+            return _error_redirect(redirect_uri, "invalid_request", state)
 
     if not login.state.logged_in() or login.user is None:
         request.session["oidc_authorize_params"] = {
@@ -402,6 +404,7 @@ def token(
     client_secret: str | None = Form(None),
     refresh_token: str | None = Form(None),
     scope: str | None = Form(None),
+    code_verifier: str | None = Form(None),
 ):
     client_id, client_secret = _resolve_client_credentials(
         request, client_id, client_secret
@@ -411,7 +414,7 @@ def token(
 
     if grant_type == "authorization_code":
         return _handle_authorization_code_grant(
-            client_id, client_secret, code, redirect_uri, now
+            client_id, client_secret, code, redirect_uri, code_verifier, now
         )
     elif grant_type == "refresh_token":
         return _handle_refresh_token_grant(
@@ -426,6 +429,7 @@ def _handle_authorization_code_grant(
     client_secret: str,
     code: str | None,
     redirect_uri: str | None,
+    code_verifier: str | None,
     now: datetime,
 ):
     if not code:
@@ -452,6 +456,8 @@ def _handle_authorization_code_grant(
                 models.OidcAuthorizationCode.redirect_uri,
                 models.OidcAuthorizationCode.scope,
                 models.OidcAuthorizationCode.nonce,
+                models.OidcAuthorizationCode.code_challenge,
+                models.OidcAuthorizationCode.code_challenge_method,
                 models.OidcAuthorizationCode.expires_at,
             )
         )
@@ -466,6 +472,12 @@ def _handle_authorization_code_grant(
             raise HTTPException(status_code=400, detail="invalid_grant")
         if now > row.expires_at.replace(tzinfo=UTC):
             raise HTTPException(status_code=400, detail="invalid_grant")
+
+        if row.code_challenge is not None:
+            if not code_verifier or not verify_pkce_s256(
+                code_verifier, row.code_challenge
+            ):
+                raise HTTPException(status_code=400, detail="invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.deleted:

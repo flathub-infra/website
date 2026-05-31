@@ -91,10 +91,10 @@ def requested_scopes_allowed(scope: str, allowed_scopes: Sequence[str]) -> bool:
     )
 
 
-def deferred_authorize_parameters_requested(
-    code_challenge: str | None, code_challenge_method: str | None
-) -> bool:
-    return code_challenge is not None or code_challenge_method is not None
+def verify_pkce_s256(code_verifier: str, code_challenge: str) -> bool:
+    digest = hashlib.sha256(code_verifier.encode("ascii")).digest()
+    expected = base64.urlsafe_b64encode(digest).rstrip(b"=").decode("ascii")
+    return hmac.compare_digest(expected, code_challenge)
 
 
 def ensure_oidc_subject(db: Any, user: OidcSubjectUser) -> str:

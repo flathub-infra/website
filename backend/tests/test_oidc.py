@@ -30,7 +30,6 @@ from app.models import (
     OidcRefreshToken,
 )
 from app.oidc import (
-    deferred_authorize_parameters_requested,
     ensure_oidc_subject,
     generate_token,
     hash_client_secret,
@@ -39,6 +38,7 @@ from app.oidc import (
     redirect_uri_allowed,
     requested_scopes_allowed,
     verify_client_secret,
+    verify_pkce_s256,
     verify_token,
 )
 from app.routes import oidc as oidc_routes
@@ -137,10 +137,11 @@ def test_oidc_discovery_content(client, monkeypatch):
         ],
         "subject_types_supported": ["public"],
         "id_token_signing_alg_values_supported": ["RS256"],
+        "code_challenge_methods_supported": ["S256"],
     }
 
 
-def test_oidc_discovery_does_not_advertise_deferred_features(client, monkeypatch):
+def test_oidc_discovery_advertises_pkce_s256(client, monkeypatch):
     enable_oidc(monkeypatch)
 
     response = client.get("/.well-known/openid-configuration")
@@ -150,7 +151,7 @@ def test_oidc_discovery_does_not_advertise_deferred_features(client, monkeypatch
     assert body["response_types_supported"] == ["code"]
     assert body["grant_types_supported"] == ["authorization_code", "refresh_token"]
     assert "registration_endpoint" not in body
-    assert "code_challenge_methods_supported" not in body
+    assert body["code_challenge_methods_supported"] == ["S256"]
 
 
 def test_oidc_jwks_requires_key_config(client, monkeypatch):
@@ -479,10 +480,15 @@ def test_scope_helper_requires_openid_and_client_allowed_scopes():
     assert not requested_scopes_allowed("openid profile admin", allowed_scopes)
 
 
-def test_deferred_authorize_parameters_helper_detects_pkce():
-    assert not deferred_authorize_parameters_requested(None, None)
-    assert deferred_authorize_parameters_requested("challenge", None)
-    assert deferred_authorize_parameters_requested(None, "S256")
+def test_verify_pkce_s256():
+    verifier = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+    challenge = (
+        base64.urlsafe_b64encode(hashlib.sha256(verifier.encode("ascii")).digest())
+        .rstrip(b"=")
+        .decode("ascii")
+    )
+    assert verify_pkce_s256(verifier, challenge)
+    assert not verify_pkce_s256("wrong-verifier", challenge)
 
 
 def _make_logged_in_login(user_id=1):
@@ -614,14 +620,21 @@ def test_authorize_unsupported_response_type(authorize_client):
     assert "state=test-state" in response.headers["location"]
 
 
-def test_authorize_pkce_parameters_are_rejected(authorize_client):
+def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
     valid_client = _make_client()
-    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
+
     try:
         authorize_client.app.dependency_overrides[login_state] = lambda: (
-            _make_logged_out_login()
+            _make_logged_in_login()
         )
-        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
             response = authorize_client.get(
                 "/oidc/authorize",
                 params={
@@ -635,9 +648,58 @@ def test_authorize_pkce_parameters_are_rejected(authorize_client):
         authorize_client.app.dependency_overrides.clear()
 
     assert response.status_code == 302
+    assert "code=test-auth-code" in response.headers["location"]
+    assert len(added) == 1
+    authz_code = added[0]
+    assert authz_code.code_challenge == "test-challenge"
+    assert authz_code.code_challenge_method == "S256"
+
+
+def test_authorize_pkce_plain_method_rejected(authorize_client):
+    valid_client = _make_client()
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={
+                    **AUTHORIZE_PARAMS,
+                    "code_challenge": "test-challenge",
+                    "code_challenge_method": "plain",
+                },
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
     assert REDIRECT_URI in response.headers["location"]
     assert "error=invalid_request" in response.headers["location"]
     assert "state=test-state" in response.headers["location"]
+
+
+def test_authorize_pkce_challenge_without_method_rejected(authorize_client):
+    valid_client = _make_client()
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={**AUTHORIZE_PARAMS, "code_challenge": "test-challenge"},
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=invalid_request" in response.headers["location"]
 
 
 def test_authorize_missing_openid_scope(authorize_client):
@@ -1170,12 +1232,16 @@ class _AuthCodeRow:
         scope,
         nonce,
         expires_at,
+        code_challenge=None,
+        code_challenge_method=None,
     ):
         self.client_id = client_id
         self.user_id = user_id
         self.redirect_uri = redirect_uri
         self.scope = scope
         self.nonce = nonce
+        self.code_challenge = code_challenge
+        self.code_challenge_method = code_challenge_method
         self.expires_at = expires_at
 
 
@@ -1186,6 +1252,8 @@ def _make_auth_code_row(
     scope="openid profile",
     nonce=None,
     expired=False,
+    code_challenge=None,
+    code_challenge_method=None,
 ):
     now = datetime.now(UTC)
     return _AuthCodeRow(
@@ -1194,6 +1262,8 @@ def _make_auth_code_row(
         redirect_uri=redirect_uri,
         scope=scope,
         nonce=nonce,
+        code_challenge=code_challenge,
+        code_challenge_method=code_challenge_method,
         expires_at=now + timedelta(seconds=600)
         if not expired
         else now - timedelta(seconds=1),
@@ -1299,6 +1369,101 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
     assert len(added) == 1
     assert isinstance(added[0], OidcAccessToken)
     assert added[0].access_token_hash == hash_token("test-access-token")
+
+
+def _pkce_challenge(verifier):
+    return (
+        base64.urlsafe_b64encode(hashlib.sha256(verifier.encode("ascii")).digest())
+        .rstrip(b"=")
+        .decode("ascii")
+    )
+
+
+def test_token_pkce_valid_verifier(token_client):
+    verifier = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(
+        code_challenge=_pkce_challenge(verifier), code_challenge_method="S256"
+    )
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+                "code_verifier": verifier,
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.json()["access_token"] == "test-access-token"
+
+
+def test_token_pkce_wrong_verifier(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(
+        code_challenge=_pkce_challenge("the-real-verifier"),
+        code_challenge_method="S256",
+    )
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+                "code_verifier": "wrong-verifier",
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+
+
+def test_token_pkce_missing_verifier(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(
+        code_challenge=_pkce_challenge("the-real-verifier"),
+        code_challenge_method="S256",
+    )
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
 
 
 def test_token_valid_exchange_with_client_secret_basic(token_client):
