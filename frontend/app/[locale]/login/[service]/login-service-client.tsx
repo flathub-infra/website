@@ -12,7 +12,10 @@ import {
 } from "../../../../src/context/user-info"
 import { useLocalStorage } from "../../../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../../../src/hooks/usePendingTransaction"
-import { isInternalRedirect } from "../../../../src/utils/security"
+import {
+  isBackendRedirect,
+  isInternalRedirect,
+} from "../../../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
 import type { JSX } from "react"
 import { usePathname, useRouter } from "src/i18n/navigation"
@@ -55,7 +58,14 @@ const LoginServiceClient = ({
 
         // Must validate the redirect to prevent open redirect and code execution
         if (isInternalRedirect(redirect)) {
-          router.push(redirect, { locale })
+          if (isBackendRedirect(redirect)) {
+            // OIDC /authorize is a backend endpoint, not a Next.js route. Resuming
+            // the authorization-code flow needs a full-page navigation so the browser
+            // hits the backend with the session cookie and no locale prefix.
+            window.location.assign(redirect)
+          } else {
+            router.push(redirect, { locale })
+          }
           return
         }
       }
