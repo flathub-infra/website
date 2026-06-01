@@ -308,5 +308,17 @@
   },
   "endless_os": {
     "distroName": "Endless OS"
+  },
+  "slackware": {
+    "step-3": {
+      "name": "Adloc'hañ"
+    },
+    "step-1": {
+      "name": "Staliañ Flatpak"
+    },
+    "distroName": "Slackware",
+    "step-2": {
+      "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
+    }
   }
 }
