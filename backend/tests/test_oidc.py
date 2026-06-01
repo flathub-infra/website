@@ -310,6 +310,21 @@ def test_oidc_refresh_token_in_tables_for_delete():
     assert OidcRefreshToken in FlathubUser.TABLES_FOR_DELETE
 
 
+def test_delete_user_clears_oidc_subject():
+    user = FlathubUser(id=1, oidc_subject="sub-to-clear")
+    db = MagicMock()
+
+    with (
+        patch.object(FlathubUser, "generate_token", return_value="tok"),
+        patch.object(FlathubUser, "TABLES_FOR_DELETE", []),
+    ):
+        result = FlathubUser.delete_user(db, user, "tok")
+
+    assert user.oidc_subject is None
+    assert user.deleted is True
+    assert result.status == "ok"
+
+
 def test_oidc_refresh_token_delete_hook_revokes_tokens():
     user = FlathubUser(id=42)
     refresh_db = StatementDb()

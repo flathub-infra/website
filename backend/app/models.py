@@ -353,6 +353,7 @@ class FlathubUser(Base):
 
         # Clear the user's details
         user.display_name = None
+        user.oidc_subject = None
         # Mark the user as deleted
         user.deleted = True
         # Ensure the DB is updated
