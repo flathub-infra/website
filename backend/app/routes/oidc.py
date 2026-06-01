@@ -5,7 +5,6 @@ from typing import Any
 from urllib.parse import urlencode
 
 from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
-from fastapi.responses import ORJSONResponse
 from joserfc import jwk, jwt
 from joserfc.errors import JoseError
 from sqlalchemy import update
@@ -33,7 +32,6 @@ def require_oidc_enabled():
 
 router = APIRouter(
     tags=["oidc"],
-    default_response_class=ORJSONResponse,
     dependencies=[Depends(require_oidc_enabled)],
 )
 

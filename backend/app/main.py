@@ -3,7 +3,6 @@ from contextlib import asynccontextmanager
 import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import ORJSONResponse
 from granian.utils.proxies import wrap_asgi_with_proxy_headers
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
@@ -62,7 +61,6 @@ async def lifespan(app: FastAPI):
 
 router = FastAPI(
     title=config.settings.app_name,
-    default_response_class=ORJSONResponse,
     root_path="" if config.settings.env == "development" else "/api/v2",
     lifespan=lifespan,
 )

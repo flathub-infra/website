@@ -1,10 +1,9 @@
 from fastapi import APIRouter, FastAPI, HTTPException, Path
-from fastapi.responses import ORJSONResponse
 
 from .. import api_models, apps, cache, database, models, search, utils
 from ..database import get_db
 
-router = APIRouter(default_response_class=ORJSONResponse)
+router = APIRouter()
 
 
 def register_to_app(app: FastAPI):

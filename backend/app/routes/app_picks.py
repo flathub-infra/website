@@ -1,14 +1,13 @@
 import datetime
 
 from fastapi import APIRouter, Depends, FastAPI, Path, Response
-from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from .. import cache, models
 from ..database import get_db
 from ..login_info import quality_moderator_only
 
-router = APIRouter(prefix="/app-picks", default_response_class=ORJSONResponse)
+router = APIRouter(prefix="/app-picks")
 
 
 def register_to_app(app: FastAPI):

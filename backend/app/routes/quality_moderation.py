@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from typing import Literal
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
-from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from ..database import get_db, get_json_key
@@ -18,7 +17,7 @@ from ..models import (
     SimpleQualityModerationResponse,
 )
 
-router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONResponse)
+router = APIRouter(prefix="/quality-moderation")
 
 
 @dataclass

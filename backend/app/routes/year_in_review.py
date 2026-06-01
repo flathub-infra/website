@@ -1,7 +1,6 @@
 import datetime
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
-from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from .. import cache, stats
@@ -11,7 +10,6 @@ from ..login_info import LoginInformation, login_state
 router = APIRouter(
     prefix="/year-in-review",
     tags=["year-in-review"],
-    default_response_class=ORJSONResponse,
 )
 
 

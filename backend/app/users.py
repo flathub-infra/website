@@ -1,11 +1,10 @@
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Response
-from fastapi.responses import ORJSONResponse
 
 from . import models
 from .database import get_db
 from .login_info import moderator_only, modify_users_only, view_users_only
 
-router = APIRouter(prefix="/users", default_response_class=ORJSONResponse)
+router = APIRouter(prefix="/users")
 
 
 def register_to_app(app: FastAPI):

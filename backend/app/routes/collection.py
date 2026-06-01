@@ -1,5 +1,4 @@
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Response
-from fastapi.responses import ORJSONResponse
 
 from .. import schemas, search
 from ..cache import cached
@@ -7,7 +6,6 @@ from ..cache import cached
 router = APIRouter(
     prefix="/collection",
     tags=["collection"],
-    default_response_class=ORJSONResponse,
 )
 
 

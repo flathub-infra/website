@@ -1,9 +1,8 @@
 from fastapi import APIRouter, FastAPI, Response
-from fastapi.responses import ORJSONResponse
 
 from . import wallet, worker
 
-router = APIRouter(prefix="/update", default_response_class=ORJSONResponse)
+router = APIRouter(prefix="/update")
 
 
 def register_to_app(app: FastAPI):

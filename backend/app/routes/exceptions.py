@@ -1,5 +1,4 @@
 from fastapi import APIRouter, FastAPI, Response
-from fastapi.responses import ORJSONResponse
 
 from ..database import get_db
 from ..models import Exceptions
@@ -7,7 +6,6 @@ from ..models import Exceptions
 router = APIRouter(
     prefix="/exceptions",
     tags=["app"],
-    default_response_class=ORJSONResponse,
 )
 
 

@@ -1,5 +1,4 @@
 from fastapi import APIRouter, FastAPI, Path, Response
-from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
 
 from .. import cache, database, stats
@@ -7,7 +6,6 @@ from .. import cache, database, stats
 router = APIRouter(
     prefix="/stats",
     tags=["stats"],
-    default_response_class=ORJSONResponse,
 )
 
 
