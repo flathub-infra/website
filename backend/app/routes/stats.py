@@ -32,6 +32,7 @@ class StatsResult(BaseModel):
     category_totals: list[StatsResultCategoryTotals]
     os_versions: dict[str, int]
     flatpak_versions: dict[str, int]
+    os_flatpak_versions: dict[str, dict[str, int]]
 
 
 class StatsResultApp(BaseModel):

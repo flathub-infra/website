@@ -131,6 +131,7 @@ def test_build_or_update_aggregates_normalizes_old_cache(monkeypatch):
     assert agg["per_os_version"] == {}
     assert agg["global"]["totals_os_versions"] == {}
     assert agg["global"]["totals_flatpak_versions"] == {}
+    assert agg["global"]["totals_os_flatpak_versions"] == {}
     assert agg["last_date"] == edate.isoformat()
     assert orjson.loads(stats.redis_conn.get("stats:agg:per_os_version")) == {}
 
@@ -973,6 +974,7 @@ def test_stats(client):
         "countries": {"DE": 852, "FI": 5572, "NL": 144, "US": 3044},
         "os_versions": {},
         "flatpak_versions": {},
+        "os_flatpak_versions": {},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
         "updates_per_day": {},

@@ -159,6 +159,7 @@ def _init_empty_aggregates() -> dict:
             "totals_country": {},
             "totals_os_versions": {},
             "totals_flatpak_versions": {},
+            "totals_os_flatpak_versions": {},
         },
         "last_date": None,
     }
@@ -212,6 +213,11 @@ def _update_global_stats_for_date(
             global_dict["totals_flatpak_versions"][fp_ver] = (
                 global_dict["totals_flatpak_versions"].get(fp_ver, 0) + count
             )
+    if stats.get("os_flatpak_versions"):
+        for os_ver, fp_versions in stats["os_flatpak_versions"].items():
+            os_entry = global_dict["totals_os_flatpak_versions"].setdefault(os_ver, {})
+            for fp_ver, count in fp_versions.items():
+                os_entry[fp_ver] = os_entry.get(fp_ver, 0) + count
 
 
 def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> None:
@@ -578,6 +584,9 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         "totals_flatpak_versions": dict(
             agg["global"].get("totals_flatpak_versions", {})
         ),
+        "totals_os_flatpak_versions": dict(
+            agg["global"].get("totals_os_flatpak_versions", {})
+        ),
     }
 
     edate = datetime.date.today()
@@ -602,6 +611,7 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         "category_totals": category_totals,
         "os_versions": global_dict["totals_os_versions"],
         "flatpak_versions": global_dict["totals_flatpak_versions"],
+        "os_flatpak_versions": global_dict["totals_os_flatpak_versions"],
     }
 
 
@@ -801,6 +811,18 @@ def update(sqldb):
                     stats_apps_dict[new_id]["installs_per_country"][country] += count
                 else:
                     stats_apps_dict[new_id]["installs_per_country"][country] = count
+
+            for os_version, count in stats_apps_dict[old_id][
+                "installs_per_os_version"
+            ].items():
+                if os_version in stats_apps_dict[new_id]["installs_per_os_version"]:
+                    stats_apps_dict[new_id]["installs_per_os_version"][os_version] += (
+                        count
+                    )
+                else:
+                    stats_apps_dict[new_id]["installs_per_os_version"][os_version] = (
+                        count
+                    )
 
     redis_conn.set("stats", orjson.dumps(stats_dict))
     database.bulk_set_app_stats(stats_apps_dict)
