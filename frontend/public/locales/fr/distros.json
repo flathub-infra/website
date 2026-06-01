@@ -425,5 +425,8 @@
   "pureos": {
     "distroName": "PureOS",
     "introduction": "<text>Flatpak est installé par défaut sur PureOS. Pour commencer, il vous faut simplement activer Flathub, la meilleure manière d'obtenir des apps Flatpak. Téléchargez simplement le <filelink>fichier de dépôt Flathub</filelink> et installez-le.</text> <text>Tout ce qu'il vous reste à faire est <link>d'installer des apps</link> !</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware"
   }
 }
