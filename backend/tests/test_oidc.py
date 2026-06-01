@@ -2358,6 +2358,47 @@ def test_refresh_grant_scope_narrowing(token_client):
     assert new_rt.scope == "openid profile"
 
 
+def test_refresh_grant_narrowing_dropping_openid_omits_id_token(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
+    )
+    rt_row = _RefreshTokenRow(scope="openid profile email offline_access")
+    user = FlathubUser(id=1, oidc_subject="sub-1")
+    added = []
+    get_db_mock = _mock_refresh_db(
+        client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
+    )
+
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch(
+            "app.routes.oidc.generate_token",
+            side_effect=["new-refresh-token", "new-access-token"],
+        ),
+    ):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "scope": "profile",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["scope"] == "profile"
+    assert body["access_token"] == "new-access-token"
+    assert body["refresh_token"] == "new-refresh-token"
+    assert "id_token" not in body
+    new_rt = next(o for o in added if isinstance(o, OidcRefreshToken))
+    assert new_rt.scope == "profile"
+
+
 def test_refresh_grant_scope_expansion_rejected(token_client):
     client_obj = _make_token_client(
         refresh_tokens_enabled=True,

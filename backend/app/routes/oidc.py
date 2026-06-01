@@ -617,16 +617,20 @@ def _handle_refresh_token_grant(
             db, client_id, row.user_id, at_scope, now, family_id=row.family_id
         )
 
-        id_token = _sign_id_token(client_id, subject, now)
+        id_token = None
+        if "openid" in effective_scope.split():
+            id_token = _sign_id_token(client_id, subject, now)
 
-    return {
+    response: dict[str, Any] = {
         "access_token": access_token,
         "token_type": "Bearer",
         "expires_in": config.settings.oidc_access_token_lifetime_seconds,
         "scope": at_scope,
-        "id_token": id_token,
         "refresh_token": new_rt_value,
     }
+    if id_token is not None:
+        response["id_token"] = id_token
+    return response
 
 
 @router.get(
