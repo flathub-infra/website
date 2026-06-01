@@ -787,6 +787,30 @@ def test_authorize_unauthenticated_redirects_to_login(authorize_client):
     assert "redirect_uri" not in location
 
 
+def test_authorize_unauthenticated_returnto_uses_issuer_path(
+    authorize_client, monkeypatch
+):
+    monkeypatch.setattr(config.settings, "oidc_issuer", "https://flathub.org/api/v2")
+    valid_client = _make_client()
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    location = response.headers["location"]
+    assert location.startswith(
+        "http://localhost:3000/login?returnTo=%2Fapi%2Fv2%2Foidc%2Fauthorize"
+    ), location
+
+
 def test_authorize_authenticated_issues_code(authorize_client):
     valid_client = _make_client()
     user = FlathubUser(id=1, oidc_subject="sub-1")

@@ -2,7 +2,7 @@ import base64
 import json
 from datetime import UTC, datetime, timedelta
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode, urlsplit
 
 from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
 from joserfc import jwk, jwt
@@ -181,7 +181,13 @@ def authorize(
             "code_challenge": code_challenge,
             "code_challenge_method": code_challenge_method,
         }
-        login_url = f"{config.settings.frontend_url}/login?returnTo=%2Foidc%2Fauthorize"
+        authorize_path = (
+            urlsplit(config.settings.oidc_issuer.rstrip("/")).path + "/oidc/authorize"
+        )
+        login_url = (
+            f"{config.settings.frontend_url}/login"
+            f"?returnTo={quote(authorize_path, safe='')}"
+        )
         return RedirectResponse(url=login_url, status_code=302)
 
     code = generate_token()

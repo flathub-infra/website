@@ -16,11 +16,19 @@ export function isInternalRedirect(url: string): boolean {
 
 /**
  * Whether a (same-origin) redirect targets a backend endpoint rather than a
- * Next.js route — currently the OIDC `/oidc/authorize` resume URL. Such targets
- * require a full-page navigation, not the next-intl client router.
- * @param url URL string
+ * Next.js route — currently the OIDC authorize resume URL (its path contains
+ * `/oidc/`, possibly under an API prefix such as `/api/v2`). Such targets require
+ * a full-page navigation, not the next-intl client router.
+ * @param url URL string (path or absolute, same-origin)
  * @returns if the URL points to a backend endpoint
  */
 export function isBackendRedirect(url: string): boolean {
-  return url.startsWith("/oidc/")
+  try {
+    return new URL(
+      url,
+      process.env.NEXT_PUBLIC_SITE_BASE_URI,
+    ).pathname.includes("/oidc/")
+  } catch {
+    return false
+  }
 }
