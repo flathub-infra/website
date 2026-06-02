@@ -142,5 +142,14 @@
   "new-app": "App baru",
   "app-id": "Id App",
   "no-permissions": "Tiada izin",
-  "learn-more": "Baca lebih"
+  "learn-more": "Baca lebih",
+  "more-popular": "Lebih Popular",
+  "more-trending": "Lebih Trending",
+  "more-new": "Lebih baru",
+  "more-education": "Lebih ilmu",
+  "more-game": "Gaming lebih",
+  "more-system": "Lebih Sistem",
+  "accept-invite": "Terima jemputan",
+  "new-beta-token": "Token beta baru",
+  "create-token": "Rekabentuk token"
 }
