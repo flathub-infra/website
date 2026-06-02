@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>този файл</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     },
     "step-2": {
       "name": "Инсталирайте приставката на „Flatpak“ за „GNOME Software“",
@@ -20,7 +20,7 @@
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена във „Fedora Workstation“, „Fedora Silverblue“ и „Fedora Kinoite“. Трябва само да активирате „Flathub“. Той е предварително конфигуриран като част от <repolink>хранилищата на трети страни</repolink>. Като алтернатива може да изтеглите и инсталирате <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате<applink>приложенията</applink> във „Fedora“!</text> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Fedora“:</text> <code></code>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена във „Fedora Workstation“, „Fedora Silverblue“ и „Fedora Kinoite“. Трябва само да активирате „Flathub“. Той е предварително конфигуриран като част от <repolink>хранилищата на трети страни</repolink>. Като алтернатива може да изтеглите и инсталирате <filelink>нашето хранилище</filelink>.</text> <text>Време е да инсталирате<applink>приложенията</applink> във „Fedora“!</text> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Fedora“:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -78,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Red Hat Enterprise Linux Workstation“ 9 и по-новите версии. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text><text>Изпълнете следната команда в терминала на „Red Hat Enterprise Linux Workstation“ 8 и по-старите версии:</text>  <code></code> <text>Време е да инсталирате <link>приложенията</link> в „Red Hat Enterprise Linux“!</text> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Red Hat Enterprise Linux“:</text> <codeAddRemote></codeAddRemote>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Red Hat Enterprise Linux Workstation“ 9 и по-новите версии. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>нашето хранилище</filelink>.</text><text>Изпълнете следната команда в терминала на „Red Hat Enterprise Linux Workstation“ 8 и по-старите версии:</text>   <code></code> <text>Време е да инсталирате <link>приложенията</link> в „Red Hat Enterprise Linux“!</text> <text> Връзките по-горе трябва да работят с инсталацията по подразбиране, но ако има проблеми, може ръчно да добавите хранилището на „Flathub“, като изпълните следната команда в терминала на „Red Hat Enterprise Linux“:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -96,7 +96,7 @@
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>този файл</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     }
   },
   "arch": {
@@ -118,7 +118,7 @@
     },
     "step-3": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     },
     "step-2": {
       "name": "Инсталирайте приставката на „Flatpak“ за „GNOME“ или „KDE“",
@@ -141,16 +141,16 @@
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     }
   },
   "centos": {
     "distroName": "CentOS Stream",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „CentOS Stream“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „CentOS Stream“!</text>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „CentOS Stream“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>нашето хранилище</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „CentOS Stream“!</text>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „AlmaLinux“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „AlmaLinux“!</text>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „AlmaLinux“ 8 и по-новите версии, когато използвате „GNOME“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>нашето хранилище</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „AlmaLinux“!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -198,7 +198,7 @@
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     },
     "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „Solus“ от версия 4.7 — не е необходима настройка! Приложенията може да се инсталират чрез „GNOME Software“ или „KDE Discover“.</text><text>Ако „Flatpak“ не е инсталиран, следвайте инструкциите по-долу.</text>"
   },
@@ -214,7 +214,7 @@
     },
     "step-3": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     },
     "step-2": {
       "name": "Инсталирайте приставката на „Flatpak“ за вашия софтуерен мениджър",
@@ -233,7 +233,7 @@
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     }
   },
   "openmandriva_lx": {
@@ -298,7 +298,7 @@
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „PureOS“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>хранилището на „Flathub“</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „PureOS“!</text>"
+    "introduction": "<text>Поддръжката на „Flatpak“ е вградена в „PureOS“. Трябва само да активирате „Flathub“. След това, изтеглете и инсталирайте <filelink>нашето хранилище</filelink>.</text> <text>Време е да инсталирате <link>приложенията</link> в „PureOS“!</text>"
   },
   "zorin_os": {
     "distroName": "Zorin OS",
@@ -335,7 +335,7 @@
     },
     "step-3": {
       "name": "Добавете хранилището на „Flathub“",
-      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>този файл</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
+      "text": "<text>За да го активирате, изтеглете и инсталирайте <filelink>нашето хранилище</filelink> или изпълнете следната команда в терминала:</text> <code></code>"
     },
     "step-2": {
       "name": "Инсталирайте приставката на „Flatpak“ за „GNOME“",

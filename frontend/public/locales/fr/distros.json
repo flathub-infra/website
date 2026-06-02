@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
-      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, exécutez :</text> <code></code>"
+      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, téléchargez puis installez le <filelink>fichier dépôt Flathub</filelink> ou exécutez :</text> <code></code>"
     },
     "step-4": {
       "name": "Redémarrer",
@@ -35,7 +35,7 @@
   },
   "pardus": {
     "step-3": {
-      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, exécutez :</text> <code></code>",
+      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, téléchargez puis installez le <filelink>fichier dépôt Flathub</filelink> ou exécutez :</text> <code></code>",
       "name": "Ajouter le dépôt Flathub"
     },
     "step-1": {
@@ -186,7 +186,7 @@
     "distroName": "openSUSE",
     "step-2": {
       "name": "Ajouter le dépôt Flathub",
-      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, exécutez :</text> <code></code>"
+      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, téléchargez puis installez le <filelink>fichier dépôt Flathub</filelink> ou exécutez :</text> <code></code>"
     },
     "step-3": {
       "name": "Redémarer",
@@ -381,7 +381,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<header>Zorin OS intègre déjà la prise en charge des Flatpaks.</header> <text>Vous pouvez utilisez l'app Magasin de logiciels pour télécharger des apps Flatpak.</text>"
+    "introduction": "<header>Zorin OS intègre déjà la prise en charge des Flatpaks</header> <text>Vous pouvez utilisez l'app Magasin de logiciels pour télécharger des apps Flatpak.</text>"
   },
   "pisi_gnulinux": {
     "step-1": {
@@ -427,6 +427,18 @@
     "introduction": "<text>Flatpak est installé par défaut sur PureOS. Pour commencer, il vous faut simplement activer Flathub, la meilleure manière d'obtenir des apps Flatpak. Téléchargez simplement le <filelink>fichier de dépôt Flathub</filelink> et installez-le.</text> <text>Tout ce qu'il vous reste à faire est <link>d'installer des apps</link> !</text>"
   },
   "slackware": {
-    "distroName": "Slackware"
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Installer Flatpak",
+      "text": "<text>Un paquetage Flatpak est disponible sur SlackBuilds. Pour l’installer (en supposant que vous utilisez Sbopkg/sqg), commencez par créer le fichier queuefile puis exécutez ce qui suit en tant que root :</text><codeQueue></codeQueue><text>Ensuite compilez-le. Chargez le fichier queuefile, appuyez sur Q et attendez :</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Ajouter le dépôt Flathub",
+      "text": "<text>Flathub est le meilleur emplacement pour obtenir des apps Flatpak. Pour l’activer, exécutez :</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Redémarrer",
+      "text": "<text>Pour terminer la configuration, redémarrez votre système. Il ne vous reste plus qu’à <link>installer des apps</link> ! </text> <text>Remarque : l’installation graphique des applications Flatpak risque de ne pas être possible avec Slackware.</text>"
+    }
   }
 }

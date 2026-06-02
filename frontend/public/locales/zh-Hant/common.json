@@ -87,7 +87,7 @@
   "official-badges": "Flathub 官方徽章",
   "could-not-find-page": "我們找不到您在尋找的頁面。",
   "login": "登入",
-  "acknowledgements-block": "<p>若無以下組織與個人的慷慨支援，Flathub 是絕不可能出現的。</p>",
+  "acknowledgements-block": "<p>若非廣大的 Flatpak 與 Flathub 社群慷慨支持，Flathub 便無法運作。我們感謝所有過去與現在的貢獻者、贊助者及組織，正是他們的支持與基礎設施，才讓 Flathub 得以持續運作。</p>",
   "preferred-badge": "偏好的徽章",
   "alternative-badge": "替代徽章",
   "code-examples": "程式碼範例",
@@ -774,5 +774,6 @@
   "utilities-description": "適用於 Linux 的系統工具、檔案管理程式、計算機及日常工具。",
   "science-description": "Linux 系統的科學運算、資料分析與研究應用。",
   "education-description": "適用於 Linux 的學習應用程式、語言工具及教育軟體。",
-  "system-description": "適用於 Linux 的系統管理、監控及管理工具。"
+  "system-description": "適用於 Linux 的系統管理、監控及管理工具。",
+  "founding-supporters": "創始贊助人"
 }
