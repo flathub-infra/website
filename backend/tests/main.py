@@ -1015,6 +1015,27 @@ def test_stats(client):
     assert response.json() == expected
 
 
+def test_stats_backfills_missing_version_fields(client, monkeypatch):
+    from app import database
+
+    legacy_payload = {
+        "totals": {"downloads": 1, "number_of_apps": 1, "verified_apps": 1},
+        "countries": {},
+        "downloads_per_day": {},
+        "updates_per_day": {},
+        "delta_downloads_per_day": {},
+        "category_totals": [],
+    }
+
+    monkeypatch.setattr(database, "get_json_key", lambda key: legacy_payload)
+
+    response = client.get("/stats")
+    assert response.status_code == 200
+    assert response.json()["os_versions"] == {}
+    assert response.json()["flatpak_versions"] == {}
+    assert response.json()["os_flatpak_versions"] == {}
+
+
 def test_app_stats_by_id(client):
     response = client.get("/stats/org.sugarlabs.Maze")
 
