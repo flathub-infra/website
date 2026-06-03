@@ -129,9 +129,6 @@ def test_build_or_update_aggregates_normalizes_old_cache(monkeypatch):
     agg = stats._build_or_update_aggregates()
 
     assert agg["per_os_version"] == {}
-    assert agg["global"]["totals_os_versions"] == {}
-    assert agg["global"]["totals_flatpak_versions"] == {}
-    assert agg["global"]["totals_os_flatpak_versions"] == {}
     assert agg["last_date"] == edate.isoformat()
     assert orjson.loads(stats.redis_conn.get("stats:agg:per_os_version")) == {}
 

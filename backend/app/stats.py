@@ -157,9 +157,6 @@ def _init_empty_aggregates() -> dict:
             "updates_per_day": {},
             "delta_downloads_per_day": {},
             "totals_country": {},
-            "totals_os_versions": {},
-            "totals_flatpak_versions": {},
-            "totals_os_flatpak_versions": {},
         },
         "last_date": None,
     }
@@ -203,21 +200,6 @@ def _update_global_stats_for_date(
             global_dict["totals_country"][country] = (
                 global_dict["totals_country"].get(country, 0) + downloads
             )
-    if stats.get("os_versions"):
-        for os_ver, count in stats["os_versions"].items():
-            global_dict["totals_os_versions"][os_ver] = (
-                global_dict["totals_os_versions"].get(os_ver, 0) + count
-            )
-    if stats.get("flatpak_versions"):
-        for fp_ver, count in stats["flatpak_versions"].items():
-            global_dict["totals_flatpak_versions"][fp_ver] = (
-                global_dict["totals_flatpak_versions"].get(fp_ver, 0) + count
-            )
-    if stats.get("os_flatpak_versions"):
-        for os_ver, fp_versions in stats["os_flatpak_versions"].items():
-            os_entry = global_dict["totals_os_flatpak_versions"].setdefault(os_ver, {})
-            for fp_ver, count in fp_versions.items():
-                os_entry[fp_ver] = os_entry.get(fp_ver, 0) + count
 
 
 def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> None:
@@ -574,19 +556,43 @@ def _build_or_update_aggregates() -> dict:
     return agg
 
 
+def _compute_recent_version_stats(
+    days: int = 30,
+) -> tuple[dict[str, int], dict[str, int], dict[str, dict[str, int]]]:
+    """Compute os_versions, flatpak_versions, os_flatpak_versions from the last N days."""
+    edate = datetime.date.today() - datetime.timedelta(days=2)
+    sdate = edate - datetime.timedelta(days=days - 1)
+
+    os_versions: dict[str, int] = {}
+    flatpak_versions: dict[str, int] = {}
+    os_flatpak_versions: dict[str, dict[str, int]] = {}
+
+    for i in range((edate - sdate).days + 1):
+        date = sdate + datetime.timedelta(days=i)
+        stats = _get_stats_for_date(date)
+        if stats is None:
+            continue
+        if stats.get("os_versions"):
+            for ver, count in stats["os_versions"].items():
+                os_versions[ver] = os_versions.get(ver, 0) + count
+        if stats.get("flatpak_versions"):
+            for ver, count in stats["flatpak_versions"].items():
+                flatpak_versions[ver] = flatpak_versions.get(ver, 0) + count
+        if stats.get("os_flatpak_versions"):
+            for os_ver, fp_versions in stats["os_flatpak_versions"].items():
+                os_entry = os_flatpak_versions.setdefault(os_ver, {})
+                for fp_ver, count in fp_versions.items():
+                    os_entry[fp_ver] = os_entry.get(fp_ver, 0) + count
+
+    return os_versions, flatpak_versions, os_flatpak_versions
+
+
 def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
     global_dict = {
         "downloads_per_day": dict(agg["global"]["downloads_per_day"]),
         "updates_per_day": dict(agg["global"]["updates_per_day"]),
         "delta_downloads_per_day": dict(agg["global"]["delta_downloads_per_day"]),
         "totals_country": dict(agg["global"]["totals_country"]),
-        "totals_os_versions": dict(agg["global"].get("totals_os_versions", {})),
-        "totals_flatpak_versions": dict(
-            agg["global"].get("totals_flatpak_versions", {})
-        ),
-        "totals_os_flatpak_versions": dict(
-            agg["global"].get("totals_os_flatpak_versions", {})
-        ),
     }
 
     edate = datetime.date.today()
@@ -597,6 +603,9 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         _update_global_stats_for_date(date, stats, global_dict)
 
     category_totals = get_category_totals()
+    os_versions, flatpak_versions, os_flatpak_versions = _compute_recent_version_stats(
+        days=30
+    )
 
     return {
         "totals": {
@@ -609,9 +618,9 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         "updates_per_day": global_dict["updates_per_day"],
         "delta_downloads_per_day": global_dict["delta_downloads_per_day"],
         "category_totals": category_totals,
-        "os_versions": global_dict["totals_os_versions"],
-        "flatpak_versions": global_dict["totals_flatpak_versions"],
-        "os_flatpak_versions": global_dict["totals_os_flatpak_versions"],
+        "os_versions": os_versions,
+        "flatpak_versions": flatpak_versions,
+        "os_flatpak_versions": os_flatpak_versions,
     }
 
 
