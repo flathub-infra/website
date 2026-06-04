@@ -20,7 +20,17 @@ import { useUserContext } from "../../../src/context/user-info"
 import { Permission, StatsResult } from "../../../src/codegen/model"
 import { useGetQualityModerationStatsQualityModerationFailedByGuidelineGet } from "../../../src/codegen"
 import { format } from "date-fns"
-import { LineChart, XAxis, YAxis, Line, BarChart, Treemap, Bar } from "recharts"
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  Line,
+  BarChart,
+  Treemap,
+  Bar,
+  Cell,
+  Legend,
+} from "recharts"
 import {
   primaryStroke,
   axisStroke,
@@ -404,6 +414,299 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
   )
 }
 
+const CHART_COLORS = [
+  "oklch(63.85% 0.1314 251.94)",
+  "oklch(55.86% 0.1446 253.19)",
+  "oklch(72% 0.12 200)",
+  "oklch(65% 0.15 170)",
+  "oklch(60% 0.13 300)",
+  "oklch(70% 0.14 30)",
+  "oklch(65% 0.12 100)",
+  "oklch(58% 0.16 340)",
+]
+
+function formatOsLabel(raw: string): string {
+  // raw format is "name;version" e.g. "fedora;44", "bazzite;44", "arch;unknown"
+  const [name, version] = raw.split(";")
+  const display = name.charAt(0).toUpperCase() + name.slice(1)
+  if (!version || version === "unknown") {
+    return display
+  }
+  return `${display} ${version}`
+}
+
+function toPercentageData(
+  raw: { [key: string]: number },
+  topN = 15,
+  labelFn: (k: string) => string = (k) => k,
+) {
+  const total = Object.values(raw).reduce((s, v) => s + v, 0)
+  if (total === 0) {
+    return []
+  }
+  const sorted = Object.entries(raw)
+    .map(([name, value]) => ({
+      name: labelFn(name),
+      value: Math.round((value / total) * 1000) / 10,
+    }))
+    .sort((a, b) => b.value - a.value)
+
+  if (sorted.length <= topN) {
+    return sorted
+  }
+
+  const top = sorted.slice(0, topN)
+  const otherValue = sorted.slice(topN).reduce((s, e) => s + e.value, 0)
+  top.push({ name: "Other", value: Math.round(otherValue * 10) / 10 })
+  return top
+}
+
+const OsVersionsChart = ({ stats }: { stats: StatsResult }) => {
+  const t = useTranslations()
+  const { resolvedTheme } = useTheme()
+
+  const data = toPercentageData(stats.os_versions ?? {}, 15, formatOsLabel)
+  if (data.length === 0) {
+    return null
+  }
+
+  const chartConfig = {} satisfies ChartConfig
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">
+        {t("os-version-distribution")}
+      </h2>
+      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <ChartContainer
+          config={chartConfig}
+          style={{ height: Math.max(300, data.length * 40) }}
+          className="w-full"
+        >
+          <BarChart accessibilityLayer layout="vertical" data={data}>
+            <XAxis
+              stroke={axisStroke(resolvedTheme)}
+              type="number"
+              unit="%"
+              domain={[0, 100]}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={160}
+              tick={{ fontSize: 12 }}
+              tickLine={false}
+              stroke={axisStroke(resolvedTheme)}
+            />
+            <ChartTooltip
+              content={<ChartTooltipContent hideIndicator />}
+              formatter={(value) => [`${value}%`]}
+            />
+            <Bar dataKey="value" name={t("share")} radius={2}>
+              {data.map((_, i) => (
+                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      </div>
+    </>
+  )
+}
+
+const FlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
+  const t = useTranslations()
+  const { resolvedTheme } = useTheme()
+
+  const data = toPercentageData(stats.flatpak_versions ?? {}, 10)
+  if (data.length === 0) {
+    return null
+  }
+
+  const chartConfig = {} satisfies ChartConfig
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">
+        {t("flatpak-version-distribution")}
+      </h2>
+      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <ChartContainer
+          config={chartConfig}
+          style={{ height: Math.max(300, data.length * 40) }}
+          className="w-full"
+        >
+          <BarChart accessibilityLayer layout="vertical" data={data}>
+            <XAxis
+              stroke={axisStroke(resolvedTheme)}
+              type="number"
+              unit="%"
+              domain={[0, 100]}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={100}
+              tick={{ fontSize: 12 }}
+              tickLine={false}
+              stroke={axisStroke(resolvedTheme)}
+            />
+            <ChartTooltip
+              content={<ChartTooltipContent hideIndicator />}
+              formatter={(value) => [`${value}%`]}
+            />
+            <Bar dataKey="value" name={t("share")} radius={2}>
+              {data.map((_, i) => (
+                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      </div>
+    </>
+  )
+}
+
+const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
+  const t = useTranslations()
+  const { resolvedTheme } = useTheme()
+
+  const raw = stats.os_flatpak_versions ?? {}
+  if (Object.keys(raw).length === 0) {
+    return null
+  }
+
+  // Keep only top 10 OS versions by total count, collapse the rest into "Other"
+  const TOP_OS = 10
+  const osEntries = Object.entries(raw)
+    .map(([osVer, fp]) => ({
+      osVer,
+      total: Object.values(fp).reduce((s, v) => s + v, 0),
+      fp,
+    }))
+    .sort((a, b) => b.total - a.total)
+
+  const topEntries = osEntries.slice(0, TOP_OS)
+  const otherEntries = osEntries.slice(TOP_OS)
+
+  if (otherEntries.length > 0) {
+    const otherFp: Record<string, number> = {}
+    for (const { fp } of otherEntries) {
+      for (const [ver, count] of Object.entries(fp)) {
+        otherFp[ver] = (otherFp[ver] ?? 0) + count
+      }
+    }
+    const otherTotal = otherEntries.reduce((s, e) => s + e.total, 0)
+    topEntries.push({ osVer: "Other", total: otherTotal, fp: otherFp })
+  }
+
+  // All flatpak versions across kept rows
+  const fpVersions = Array.from(
+    new Set(topEntries.flatMap(({ fp }) => Object.keys(fp))),
+  ).sort()
+
+  // Grand total for computing each OS row's share of overall installs
+  const grandTotal = osEntries.reduce((s, e) => s + e.total, 0)
+
+  // Normalize each row to 100% of its own OS installs so bars show
+  // Flatpak version distribution *within* each OS
+  const data = topEntries.map(({ osVer, total, fp }) => {
+    const rowTotal = total
+    const row: Record<string, string | number> = {
+      name: osVer === "Other" ? "Other" : formatOsLabel(osVer),
+      _share:
+        grandTotal > 0 ? Math.round((rowTotal / grandTotal) * 1000) / 10 : 0,
+    }
+    for (const fpVer of fpVersions) {
+      row[fpVer] =
+        rowTotal > 0 ? Math.round(((fp[fpVer] ?? 0) / rowTotal) * 1000) / 10 : 0
+    }
+    return row
+  })
+
+  const chartConfig = {} satisfies ChartConfig
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">
+        {t("os-flatpak-version-distribution")}
+      </h2>
+      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <ChartContainer
+          config={chartConfig}
+          style={{ height: Math.max(300, data.length * 40) + 60 }}
+          className="w-full"
+        >
+          <BarChart accessibilityLayer layout="vertical" data={data}>
+            <XAxis
+              stroke={axisStroke(resolvedTheme)}
+              type="number"
+              unit="%"
+              domain={[0, 100]}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={160}
+              tick={{ fontSize: 12 }}
+              tickLine={false}
+              stroke={axisStroke(resolvedTheme)}
+            />
+            <ChartTooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.length) return null
+                const share = payload[0]?.payload?._share
+                return (
+                  <div className="rounded-lg border bg-background p-3 shadow-md text-sm">
+                    <p className="font-semibold mb-2">
+                      {label}
+                      {share != null && (
+                        <span className="ml-2 font-normal text-muted-foreground">
+                          ({share}% of installs)
+                        </span>
+                      )}
+                    </p>
+                    {payload
+                      .filter((p) => (p.value as number) > 0)
+                      .sort((a, b) => (b.value as number) - (a.value as number))
+                      .map((p) => (
+                        <div
+                          key={p.dataKey}
+                          className="flex items-center gap-2 py-0.5"
+                        >
+                          <span
+                            className="inline-block size-2.5 shrink-0 rounded-sm"
+                            style={{ backgroundColor: p.fill }}
+                          />
+                          <span className="text-muted-foreground">
+                            {p.name}
+                          </span>
+                          <span className="ml-auto font-medium pl-4">
+                            {p.value}%
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                )
+              }}
+            />
+            <Legend wrapperStyle={{ paddingTop: 16, fontSize: 12 }} />
+            {fpVersions.map((fpVer, i) => (
+              <Bar
+                key={fpVer}
+                dataKey={fpVer}
+                name={fpVer}
+                stackId="a"
+                fill={CHART_COLORS[i % CHART_COLORS.length]}
+              />
+            ))}
+          </BarChart>
+        </ChartContainer>
+      </div>
+    </>
+  )
+}
+
 const StatisticsClient = ({
   stats,
   runtimes,
@@ -468,6 +771,9 @@ const StatisticsClient = ({
       <DownloadsPerCountry stats={stats} />
       <DownloadsOverTime stats={stats} />
       <CategoryDistribution stats={stats} />
+      <OsVersionsChart stats={stats} />
+      <FlatpakVersionsChart stats={stats} />
+      <OsFlatpakVersionsChart stats={stats} />
       <RuntimeChart runtimes={runtimes} />
       <FailedByGuideline />
     </div>
