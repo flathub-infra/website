@@ -8,6 +8,9 @@ import type { StatsResultCategoryTotals } from "./statsResultCategoryTotals"
 import type { StatsResultCountries } from "./statsResultCountries"
 import type { StatsResultDeltaDownloadsPerDay } from "./statsResultDeltaDownloadsPerDay"
 import type { StatsResultDownloadsPerDay } from "./statsResultDownloadsPerDay"
+import type { StatsResultFlatpakVersions } from "./statsResultFlatpakVersions"
+import type { StatsResultOsFlatpakVersions } from "./statsResultOsFlatpakVersions"
+import type { StatsResultOsVersions } from "./statsResultOsVersions"
 import type { StatsResultTotals } from "./statsResultTotals"
 import type { StatsResultUpdatesPerDay } from "./statsResultUpdatesPerDay"
 
@@ -18,4 +21,7 @@ export interface StatsResult {
   updates_per_day: StatsResultUpdatesPerDay
   delta_downloads_per_day: StatsResultDeltaDownloadsPerDay
   category_totals: StatsResultCategoryTotals[]
+  os_versions: StatsResultOsVersions
+  flatpak_versions: StatsResultFlatpakVersions
+  os_flatpak_versions: StatsResultOsFlatpakVersions
 }
