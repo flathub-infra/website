@@ -465,7 +465,44 @@ const OsVersionsChart = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
   const { resolvedTheme } = useTheme()
 
-  const data = toPercentageData(stats.os_versions ?? {}, 15, formatOsLabel)
+  const HIDDEN_OS = new Set([
+    "org.gnome.Platform",
+    "org.gnome.Sdk",
+    "org.freedesktop.Platform",
+    "org.freedesktop.Sdk",
+    "org.kde.Platform",
+    "org.kde.Sdk",
+  ])
+
+  const osVersions = { ...(stats.os_versions ?? {}) }
+  let hiddenCount = 0
+
+  for (const [name, count] of Object.entries(osVersions)) {
+    const [os] = name.split(";", 1)
+
+    if (HIDDEN_OS.has(os)) {
+      hiddenCount += count
+      delete osVersions[name]
+    }
+  }
+
+  const data = toPercentageData(osVersions, 10, formatOsLabel)
+
+  if (hiddenCount > 0) {
+    const grandTotal = Object.values(stats.os_versions ?? {}).reduce(
+      (sum, v) => sum + v,
+      0,
+    )
+    const hiddenPct = Math.round((hiddenCount / grandTotal) * 1000) / 10
+
+    const otherEntry = data.find((d) => d.name === "Other")
+    if (otherEntry) {
+      otherEntry.value = Math.round((otherEntry.value + hiddenPct) * 10) / 10
+    } else {
+      data.push({ name: "Other", value: hiddenPct })
+    }
+  }
+
   if (data.length === 0) {
     return null
   }
