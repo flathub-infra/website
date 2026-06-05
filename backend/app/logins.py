@@ -19,6 +19,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Respons
 from fastapi.responses import JSONResponse
 from github import Github
 from gitlab import Gitlab
+from gitlab.exceptions import GitlabHttpError
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -725,8 +726,22 @@ def continue_oauth_flow(
             status_code=500,
         )
 
-    # We now have a logged in user, so let's do our best to do something useful
-    provider_data = token_to_data(login_result)
+    try:
+        # We now have a logged in user, so let's do our best to do something useful
+        provider_data = token_to_data(login_result)
+    except GitlabHttpError as err:
+        if err.response_code in (
+            401,
+            403,
+        ):
+            return JSONResponse(
+                {
+                    "state": "error",
+                    "error": f"{method} login flow had an error: {str(err)}",
+                },
+                status_code=400,
+            )
+        raise
 
     with get_db("writer") as db:
         # Do we have a provider's user noted with this ID already?
