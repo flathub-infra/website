@@ -425,6 +425,15 @@ const CHART_COLORS = [
   "oklch(58% 0.16 340)",
 ]
 
+const HIDDEN_OS = new Set([
+  "org.gnome.Platform",
+  "org.gnome.Sdk",
+  "org.freedesktop.Platform",
+  "org.freedesktop.Sdk",
+  "org.kde.Platform",
+  "org.kde.Sdk",
+])
+
 function formatOsLabel(raw: string): string {
   // raw format is "name;version" e.g. "fedora;44", "bazzite;44", "arch;unknown"
   const [name, version] = raw.split(";")
@@ -464,15 +473,6 @@ function toPercentageData(
 const OsVersionsChart = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
   const { resolvedTheme } = useTheme()
-
-  const HIDDEN_OS = new Set([
-    "org.gnome.Platform",
-    "org.gnome.Sdk",
-    "org.freedesktop.Platform",
-    "org.freedesktop.Sdk",
-    "org.kde.Platform",
-    "org.kde.Sdk",
-  ])
 
   const osVersions = { ...(stats.os_versions ?? {}) }
   let hiddenCount = 0
@@ -615,16 +615,21 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
 
   // Keep only top 10 OS versions by total count, collapse the rest into "Other"
   const TOP_OS = 10
-  const osEntries = Object.entries(raw)
-    .map(([osVer, fp]) => ({
-      osVer,
-      total: Object.values(fp).reduce((s, v) => s + v, 0),
-      fp,
-    }))
+  const allEntries = Object.entries(raw).map(([osVer, fp]) => ({
+    osVer,
+    total: Object.values(fp).reduce((s, v) => s + v, 0),
+    fp,
+  }))
+
+  const hiddenEntries = allEntries.filter(({ osVer }) =>
+    HIDDEN_OS.has(osVer.split(";", 1)[0]),
+  )
+  const visibleEntries = allEntries
+    .filter(({ osVer }) => !HIDDEN_OS.has(osVer.split(";", 1)[0]))
     .sort((a, b) => b.total - a.total)
 
-  const topEntries = osEntries.slice(0, TOP_OS)
-  const otherEntries = osEntries.slice(TOP_OS)
+  const topEntries = visibleEntries.slice(0, TOP_OS)
+  const otherEntries = [...visibleEntries.slice(TOP_OS), ...hiddenEntries]
 
   if (otherEntries.length > 0) {
     const otherFp: Record<string, number> = {}
@@ -643,7 +648,7 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
   ).sort()
 
   // Grand total for computing each OS row's share of overall installs
-  const grandTotal = osEntries.reduce((s, e) => s + e.total, 0)
+  const grandTotal = allEntries.reduce((s, e) => s + e.total, 0)
 
   // Normalize each row to 100% of its own OS installs so bars show
   // Flatpak version distribution *within* each OS
