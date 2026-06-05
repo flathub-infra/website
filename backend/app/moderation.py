@@ -16,6 +16,7 @@ from . import config, http_client, models, summary, utils, worker
 from .database import get_db, get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
+from .moderation_constants import should_skip_review
 from .types import ModerationRequestType
 
 router = APIRouter(prefix="/moderation")
@@ -439,16 +440,7 @@ def submit_review_request(
         if is_new_submission and build_metadata.get("token_name") == "vorarbeiter":
             continue
 
-        if app_id in (
-            "org.freedesktop.Platform",
-            "org.freedesktop.Sdk",
-            "org.gnome.Platform",
-            "org.gnome.Sdk",
-            "org.kde.Platform",
-            "org.kde.Sdk",
-            "org.flatpak.Builder",
-            "com.riverbankcomputing.PyQt.BaseApp",
-        ):
+        if should_skip_review(app_id):
             continue
 
         if "keys" not in locals():
