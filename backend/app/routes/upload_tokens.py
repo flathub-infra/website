@@ -304,7 +304,7 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
         headers={"Authorization": flat_manager_jwt},
         json={"token_ids": [jti(token)]},
     )
-    if not response.ok:
+    if not response.is_success:
         raise HTTPException(
             status_code=500,
             detail=ErrorDetail.FLAT_MANAGER_ERROR,

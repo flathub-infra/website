@@ -1197,7 +1197,7 @@ def archive(
             json={"token_ids": [jti(token)]},
         )
 
-        if not response.ok:
+        if not response.is_success:
             raise HTTPException(status_code=500)
         token.revoked = True
         with get_db("writer") as db:
