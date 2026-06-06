@@ -5,11 +5,19 @@ class ReviewSkipIds:
         self._ids: set[str] = set()
         self._prefixes: tuple[str, ...] = ()
 
+    @staticmethod
+    def _variant_id(flatpak_id: str, variant: str) -> str:
+        parts = flatpak_id.split(".")
+        if parts:
+            parts[-1] = parts[-1].replace("-", "_")
+
+        return f"{'.'.join(parts)}.{variant}"
+
     def add(self, flatpak_id: str) -> None:
         self._ids.add(flatpak_id)
 
         for variant in self.VARIANTS:
-            self._ids.add(f"{flatpak_id}.{variant}")
+            self._ids.add(self._variant_id(flatpak_id, variant))
 
     def add_prefix(self, prefix: str) -> None:
         self._prefixes += (prefix,)
