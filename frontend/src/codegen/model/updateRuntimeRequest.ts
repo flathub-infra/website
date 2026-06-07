@@ -4,9 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { UpdateRuntimeRequestExtraIds } from "./updateRuntimeRequestExtraIds"
+import type { UpdateRuntimeRequestPrefixes } from "./updateRuntimeRequestPrefixes"
+import type { UpdateRuntimeRequestRepos } from "./updateRuntimeRequestRepos"
 
 export interface UpdateRuntimeRequest {
-  prefixes?: string[] | null
-  extra_ids?: string[] | null
-  repos?: string[] | null
+  prefixes?: UpdateRuntimeRequestPrefixes
+  extra_ids?: UpdateRuntimeRequestExtraIds
+  repos?: UpdateRuntimeRequestRepos
 }

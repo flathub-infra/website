@@ -5,6 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type StatsResultOsFlatpakVersions = {
-  [key: string]: { [key: string]: number }
-}
+export type UpdateRuntimeRequestExtraIds = string[] | null

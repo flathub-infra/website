@@ -6,9 +6,14 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -29,100 +34,411 @@ import type {
  * List all provisioned runtimes and their scopes.
  * @summary Get Runtimes
  */
-export const getRuntimesRuntimesGet = (
+export const getRuntimesRuntimeScopesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<RuntimeResponse[]>> => {
   return axios.get(`/runtime-scopes`, options)
 }
 
-export const getGetRuntimesRuntimesGetQueryKey = () => {
+export const getGetRuntimesRuntimeScopesGetQueryKey = () => {
   return [`/runtime-scopes`] as const
 }
 
-export function useGetRuntimesRuntimesGet<
-  TData = Awaited<ReturnType<typeof getRuntimesRuntimesGet>>,
-  TError = AxiosError<void | HTTPValidationError>,
+export const getGetRuntimesRuntimeScopesGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+  TError = AxiosError<void>,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<typeof getRuntimesRuntimesGet>>,
+      Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
       TError,
       TData
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}) => {
   const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getGetRuntimesRuntimesGetQueryKey()
+  const queryKey =
+    queryOptions?.queryKey ?? getGetRuntimesRuntimeScopesGetQueryKey()
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getRuntimesRuntimesGet>>
-  > = ({ signal }) => getRuntimesRuntimesGet({ signal, ...axiosOptions })
+    Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>
+  > = ({ signal }) => getRuntimesRuntimeScopesGet({ signal, ...axiosOptions })
 
-  const query = useQuery({
-    queryKey,
-    queryFn,
-    ...queryOptions,
-  }) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-  return { ...query, queryKey }
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
+export type GetRuntimesRuntimeScopesGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>
+>
+export type GetRuntimesRuntimeScopesGetQueryError = AxiosError<void>
+
+export function useGetRuntimesRuntimeScopesGet<
+  TData = Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+  TError = AxiosError<void>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+          TError,
+          Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetRuntimesRuntimeScopesGet<
+  TData = Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+          TError,
+          Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetRuntimesRuntimeScopesGet<
+  TData = Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
- * @summary Get Runtime
+ * @summary Get Runtimes
  */
-export const getRuntimeRuntimesAppIdGet = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<RuntimeResponse>> => {
-  return axios.get(`/runtime-scopes/${appId}`, options)
+
+export function useGetRuntimesRuntimeScopesGet<
+  TData = Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimesRuntimeScopesGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetRuntimesRuntimeScopesGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
+ * Provision a runtime: create its scope and assign a primary maintainer.
+
+Runtimes are admin-only. The maintainer's tokens are scoped to the curated
+allow-list (prefixes + extra_ids), which is what grants a broad multi-prefix
+upload token. Co-maintainers are added through the regular invite flow.
  * @summary Create Runtime
  */
-export const createRuntimeRuntimesPost = (
+export const createRuntimeRuntimeScopesPost = (
   createRuntimeRequest: CreateRuntimeRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<RuntimeResponse>> => {
   return axios.post(`/runtime-scopes`, createRuntimeRequest, options)
 }
 
-export const useCreateRuntimeRuntimesPost = <
+export const getCreateRuntimeRuntimeScopesPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createRuntimeRuntimesPost>>,
+    Awaited<ReturnType<typeof createRuntimeRuntimeScopesPost>>,
     TError,
     { data: CreateRuntimeRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof createRuntimeRuntimesPost>>,
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createRuntimeRuntimeScopesPost>>,
   TError,
   { data: CreateRuntimeRequest },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  const mutationKey = ["createRuntimeRuntimeScopesPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createRuntimeRuntimesPost>>,
+    Awaited<ReturnType<typeof createRuntimeRuntimeScopesPost>>,
     { data: CreateRuntimeRequest }
   > = (props) => {
     const { data } = props ?? {}
-    return createRuntimeRuntimesPost(data, axiosOptions)
+
+    return createRuntimeRuntimeScopesPost(data, axiosOptions)
   }
 
-  return useMutation({ mutationFn, ...mutationOptions })
+  return { mutationFn, ...mutationOptions }
+}
+
+export type CreateRuntimeRuntimeScopesPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createRuntimeRuntimeScopesPost>>
+>
+export type CreateRuntimeRuntimeScopesPostMutationBody = CreateRuntimeRequest
+export type CreateRuntimeRuntimeScopesPostMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Create Runtime
+ */
+export const useCreateRuntimeRuntimeScopesPost = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createRuntimeRuntimeScopesPost>>,
+      TError,
+      { data: CreateRuntimeRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createRuntimeRuntimeScopesPost>>,
+  TError,
+  { data: CreateRuntimeRequest },
+  TContext
+> => {
+  return useMutation(
+    getCreateRuntimeRuntimeScopesPostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * @summary Get Runtime
+ */
+export const getRuntimeRuntimeScopesAppIdGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<RuntimeResponse>> => {
+  return axios.get(`/runtime-scopes/${appId}`, options)
+}
+
+export const getGetRuntimeRuntimeScopesAppIdGetQueryKey = (appId: string) => {
+  return [`/runtime-scopes/${appId}`] as const
+}
+
+export const getGetRuntimeRuntimeScopesAppIdGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetRuntimeRuntimeScopesAppIdGetQueryKey(appId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>
+  > = ({ signal }) =>
+    getRuntimeRuntimeScopesAppIdGet(appId, { signal, ...axiosOptions })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!appId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetRuntimeRuntimeScopesAppIdGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>
+>
+export type GetRuntimeRuntimeScopesAppIdGetQueryError =
+  AxiosError<void | HTTPValidationError>
+
+export function useGetRuntimeRuntimeScopesAppIdGet<
+  TData = Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+          TError,
+          Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetRuntimeRuntimeScopesAppIdGet<
+  TData = Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+          TError,
+          Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetRuntimeRuntimeScopesAppIdGet<
+  TData = Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Runtime
+ */
+
+export function useGetRuntimeRuntimeScopesAppIdGet<
+  TData = Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRuntimeRuntimeScopesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetRuntimeRuntimeScopesAppIdGetQueryOptions(
+    appId,
+    options,
+  )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
 }
 
 /**
  * @summary Update Runtime
  */
-export const updateRuntimeRuntimesAppIdPatch = (
+export const updateRuntimeRuntimeScopesAppIdPatch = (
   appId: string,
   updateRuntimeRequest: UpdateRuntimeRequest,
   options?: AxiosRequestConfig,
@@ -130,80 +446,186 @@ export const updateRuntimeRuntimesAppIdPatch = (
   return axios.patch(`/runtime-scopes/${appId}`, updateRuntimeRequest, options)
 }
 
-export const useUpdateRuntimeRuntimesAppIdPatch = <
+export const getUpdateRuntimeRuntimeScopesAppIdPatchMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateRuntimeRuntimesAppIdPatch>>,
+    Awaited<ReturnType<typeof updateRuntimeRuntimeScopesAppIdPatch>>,
     TError,
     { appId: string; data: UpdateRuntimeRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof updateRuntimeRuntimesAppIdPatch>>,
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateRuntimeRuntimeScopesAppIdPatch>>,
   TError,
   { appId: string; data: UpdateRuntimeRequest },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  const mutationKey = ["updateRuntimeRuntimeScopesAppIdPatch"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateRuntimeRuntimesAppIdPatch>>,
+    Awaited<ReturnType<typeof updateRuntimeRuntimeScopesAppIdPatch>>,
     { appId: string; data: UpdateRuntimeRequest }
   > = (props) => {
     const { appId, data } = props ?? {}
-    return updateRuntimeRuntimesAppIdPatch(appId, data, axiosOptions)
+
+    return updateRuntimeRuntimeScopesAppIdPatch(appId, data, axiosOptions)
   }
 
-  return useMutation({ mutationFn, ...mutationOptions })
+  return { mutationFn, ...mutationOptions }
 }
 
+export type UpdateRuntimeRuntimeScopesAppIdPatchMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateRuntimeRuntimeScopesAppIdPatch>>
+>
+export type UpdateRuntimeRuntimeScopesAppIdPatchMutationBody =
+  UpdateRuntimeRequest
+export type UpdateRuntimeRuntimeScopesAppIdPatchMutationError =
+  AxiosError<void | HTTPValidationError>
+
 /**
+ * @summary Update Runtime
+ */
+export const useUpdateRuntimeRuntimeScopesAppIdPatch = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateRuntimeRuntimeScopesAppIdPatch>>,
+      TError,
+      { appId: string; data: UpdateRuntimeRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateRuntimeRuntimeScopesAppIdPatch>>,
+  TError,
+  { appId: string; data: UpdateRuntimeRequest },
+  TContext
+> => {
+  return useMutation(
+    getUpdateRuntimeRuntimeScopesAppIdPatchMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * Revoke all upload tokens for a runtime without archiving it.
  * @summary Revoke Runtime Tokens
  */
-export const revokeRuntimeTokensRuntimesAppIdRevokeTokensPost = (
+export const revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<void>> => {
-  return axios.post(`/runtime-scopes/${appId}/revoke-tokens`, undefined, options)
+  return axios.post(
+    `/runtime-scopes/${appId}/revoke-tokens`,
+    undefined,
+    options,
+  )
 }
 
-export const useRevokeRuntimeTokensRuntimesAppIdRevokeTokensPost = <
-  TError = AxiosError<void | HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
+export const getRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPostMutationOptions =
+  <
+    TError = AxiosError<void | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost>
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
     Awaited<
-      ReturnType<
-        typeof revokeRuntimeTokensRuntimesAppIdRevokeTokensPost
-      >
+      ReturnType<typeof revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost>
     >,
     TError,
     { appId: string },
     TContext
+  > => {
+    const mutationKey = [
+      "revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost>
+      >,
+      { appId: string }
+    > = (props) => {
+      const { appId } = props ?? {}
+
+      return revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost(
+        appId,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type RevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost>
+    >
   >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
+
+export type RevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPostMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Revoke Runtime Tokens
+ */
+export const useRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost>
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<
-    ReturnType<typeof revokeRuntimeTokensRuntimesAppIdRevokeTokensPost>
+    ReturnType<typeof revokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost>
   >,
   TError,
   { appId: string },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
-
-  const mutationFn: MutationFunction<
-    Awaited<
-      ReturnType<typeof revokeRuntimeTokensRuntimesAppIdRevokeTokensPost>
-    >,
-    { appId: string }
-  > = (props) => {
-    const { appId } = props ?? {}
-    return revokeRuntimeTokensRuntimesAppIdRevokeTokensPost(appId, axiosOptions)
-  }
-
-  return useMutation({ mutationFn, ...mutationOptions })
+  return useMutation(
+    getRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
 }

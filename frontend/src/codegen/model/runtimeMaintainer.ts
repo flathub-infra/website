@@ -4,9 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { RuntimeMaintainerDisplayName } from "./runtimeMaintainerDisplayName"
 
 export interface RuntimeMaintainer {
   id: number
-  display_name: string | null
+  display_name: RuntimeMaintainerDisplayName
   is_primary: boolean
 }

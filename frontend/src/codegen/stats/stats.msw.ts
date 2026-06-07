@@ -39,6 +39,17 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
         category: faker.string.alpha({ length: { min: 10, max: 20 } }),
         count: faker.number.int(),
       })),
+      os_versions: {
+        [faker.string.alphanumeric(5)]: faker.number.int(),
+      },
+      flatpak_versions: {
+        [faker.string.alphanumeric(5)]: faker.number.int(),
+      },
+      os_flatpak_versions: {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int(),
+        },
+      },
     },
     null,
   ])
