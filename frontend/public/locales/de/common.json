@@ -58,7 +58,7 @@
   "login": "Anmelden",
   "reporting-issues": "Fehler melden",
   "acknowledgements": "Danksagungen",
-  "acknowledgements-block": "<p>Flathub wäre nicht möglich ohne die großartige Unterstützung der folgenden Organisationen und Personen.</p>",
+  "acknowledgements-block": "<p>Flathub wäre ohne die großzügige Unterstützung der breiteren Flatpak- und Flathub-Community nicht möglich. Wir danken allen bisherigen und aktuellen Beitragenden, Sponsoren und Organisationen, deren Unterstützung und Infrastruktur Flathub am laufen halten.</p>",
   "official-badges": "Offizielle Flathub-Abzeichen",
   "badges-block": "Du kannst diese Abzeichen verwenden, um deine App auf Flathub zu bewerben",
   "badges-description": "Offizielle Flathub Abzeichen, um deine App auf Flathub zu bewerben",
@@ -674,8 +674,8 @@
   "can-talk-to-non-portal-service": "Kann Daten von Nicht-Portal-Diensten anfordern und zusätzliche Berechtigungen erhalten",
   "socket-may-allow-extra-permissions": "Verwendet einen Socket, der zusätzliche Berechtigungen ermöglicht",
   "install-all-favorites": "Alle Lesezeichen installieren",
-  "install-all-favorites-description": "Kopieren Sie diesen Befehl, um alle Ihre Lieblings-Apps auf einmal zu installieren:",
-  "no-favorites-yet": "Sie haben noch keine Lieblings-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!",
+  "install-all-favorites-description": "Kopieren Sie diesen Befehl, um alle Ihre Lesezeichen-Apps auf einmal zu installieren:",
+  "no-favorites-yet": "Sie haben noch keine Lesezeichen-Apps. Fügen Sie einige hinzu, indem Sie auf das Lesezeichen-Symbol bei den Apps klicken, die Ihnen gefallen!",
   "vending": {
     "purchase-not-available": "Diese Anwendung ist nicht zum Kauf verfügbar."
   },
@@ -772,5 +772,12 @@
   "utilities-description": "Systemdienstprogramme, Dateimanager, Taschenrechner und alltägliche Werkzeuge für Linux.",
   "science-description": "Wissenschaftliches Rechnen, Datenanalyse und Forschungsanwendungen für Linux.",
   "education-description": "Lern-Apps, Sprachwerkzeuge und Lernsoftware für Linux.",
-  "system-description": "Werkzeuge für die Systemverwaltung, -überwachung und -administration für Linux."
+  "system-description": "Werkzeuge für die Systemverwaltung, -überwachung und -administration für Linux.",
+  "audio-and-video-description": "Musik-Player, Video-Editoren, Podcasting-Tools und Multimedia-Apps für Linux.",
+  "games-description": "Spiele, Emulatoren und Spielstarter für Linux.",
+  "os-version-distribution": "Betriebssystem Version Distribution (letzte 30 Tage)",
+  "flatpak-version-distribution": "Flatpak Version Distribution (letzte 30 Tage)",
+  "os-flatpak-version-distribution": "Flatpak Version nach Betriebssystem (letzte 30 Tage)",
+  "share": "Teile",
+  "founding-supporters": "Gründungsunterstützer"
 }

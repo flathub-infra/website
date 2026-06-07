@@ -775,5 +775,9 @@
   "science-description": "适用于 Linux 的科学计算、数据分析和科研类应用。",
   "education-description": "适用于 Linux 的学习应用、语言工具和教育类软件。",
   "system-description": "适用于 Linux 的系统管理、监控和管理工具。",
-  "founding-supporters": "创始支持者"
+  "founding-supporters": "创始支持者",
+  "os-version-distribution": "操作系统版本分布（过去 30 天）",
+  "flatpak-version-distribution": "Flatpak 版本分布（过去 30 天）",
+  "os-flatpak-version-distribution": "按操作系统划分的 Flatpak 版本（过去 30 天）",
+  "share": "分享"
 }

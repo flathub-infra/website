@@ -338,7 +338,7 @@
       "text": "<text>Flathub je najlepším miestom na získavanie aplikácií Flatpak. Na jeho povolenie si stiahnite a nainštalujte <filelink>súbor repozitára Flathub</filelink> alebo spustite:</text> <code></code>"
     },
     "step-4": {
-      "name": "Reštartovať",
+      "name": "Reštartujte systém",
       "text": "<text>Aby ste dokončili nastavenie, reštartujte váš systém. Teraz už stačí len <link>nainštalovať aplikácie</link>!</text>"
     }
   },
