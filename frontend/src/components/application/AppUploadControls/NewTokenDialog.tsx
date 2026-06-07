@@ -9,7 +9,7 @@ import { createUploadTokenUploadTokensAppIdPost } from "src/codegen"
 import { NewTokenResponse } from "src/codegen/model"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
-
+import { toast } from "sonner"
 interface Props {
   app_id: string
   repo: Repo
@@ -53,6 +53,10 @@ const NewTokenDialog: FunctionComponent<Props> = ({
       setToken(response.data.token)
       setState("copy-token")
       created?.(response.data)
+    },
+    onError: () => {
+      setState("new")
+      toast.error(t("upload-token-create-failed"))
     },
   })
 

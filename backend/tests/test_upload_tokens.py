@@ -1,16 +1,21 @@
+import base64
 import os
 import sys
 from contextlib import contextmanager
 from types import SimpleNamespace
 
+import jwt
 import pytest
 from fastapi import HTTPException
+
+SECRET = "dGVzdC1zZWNyZXQ="
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 sys.modules["app.worker"] = SimpleNamespace(
-    send_email_new=SimpleNamespace(send=lambda payload: None)
+    send_email_new=SimpleNamespace(send=lambda payload: None),
+    republish_app=SimpleNamespace(send=lambda *a, **k: None),
 )
 
 from app.routes import upload_tokens
@@ -71,7 +76,10 @@ def upload_token_config(monkeypatch):
         "https://flat-manager.example",
     )
     monkeypatch.setattr(
-        upload_tokens.config.settings, "flat_manager_build_secret", "dGVzdC1zZWNyZXQ="
+        upload_tokens.config.settings, "flat_manager_build_secret", SECRET
+    )
+    monkeypatch.setattr(
+        upload_tokens.config.settings, "flat_manager_build_token_prefix", None
     )
 
 
@@ -129,6 +137,9 @@ def test_create_upload_token_informs_admins(
     monkeypatch.setattr(
         upload_tokens.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
     )
+    monkeypatch.setattr(
+        upload_tokens.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
     monkeypatch.setattr(upload_tokens, "get_json_key", lambda key: None)
     monkeypatch.setattr(upload_tokens.worker.send_email_new, "send", sent.append)
 
@@ -137,3 +148,97 @@ def test_create_upload_token_informs_admins(
     )
 
     assert sent[0]["inform_admins"] is True
+
+
+def _decode(token: str) -> dict:
+    return jwt.decode(token, base64.b64decode(SECRET), algorithms=["HS256"])
+
+
+def test_create_upload_token_non_runtime_uses_app_id_prefix(
+    monkeypatch, upload_token_config
+):
+    user = FakeUser(permissions={"direct-upload"}, dev_flatpaks={"org.example.App"})
+    set_fake_db(monkeypatch, user)
+    monkeypatch.setattr(
+        upload_tokens.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(
+        upload_tokens.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(upload_tokens, "get_json_key", lambda key: None)
+
+    request = upload_tokens.UploadTokenRequest(
+        comment="app", scopes=["build"], repos=["beta"]
+    )
+    result = upload_tokens.create_upload_token(
+        "org.example.App", request, login=FakeLogin(user)
+    )
+
+    assert _decode(result.token)["prefixes"] == ["org.example.App"]
+
+
+def test_create_upload_token_runtime_uses_scope_prefixes(
+    monkeypatch, upload_token_config
+):
+    user = FakeUser(permissions={"direct-upload"}, dev_flatpaks={"org.gnome.Platform"})
+    set_fake_db(monkeypatch, user)
+    monkeypatch.setattr(
+        upload_tokens.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: SimpleNamespace(archived=False),
+    )
+    monkeypatch.setattr(
+        upload_tokens.models.RuntimeScope,
+        "by_app_id",
+        lambda db, app_id: SimpleNamespace(
+            prefixes="org.gnome.Platform org.gnome.Sdk",
+            extra_ids="org.gnome.Sdk.Docs",
+            repos="stable beta",
+        ),
+    )
+    monkeypatch.setattr(upload_tokens, "get_json_key", lambda key: None)
+
+    request = upload_tokens.UploadTokenRequest(
+        comment="rt", scopes=["build"], repos=["stable"]
+    )
+    result = upload_tokens.create_upload_token(
+        "org.gnome.Platform", request, login=FakeLogin(user)
+    )
+
+    assert set(_decode(result.token)["prefixes"]) == {
+        "org.gnome.Platform",
+        "org.gnome.Sdk",
+        "org.gnome.Sdk.Docs",
+    }
+
+
+def test_create_upload_token_runtime_rejects_repo_outside_scope(
+    monkeypatch, upload_token_config
+):
+    user = FakeUser(permissions={"direct-upload"}, dev_flatpaks={"org.gnome.Platform"})
+    set_fake_db(monkeypatch, user)
+    monkeypatch.setattr(
+        upload_tokens.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: SimpleNamespace(archived=False),
+    )
+    monkeypatch.setattr(
+        upload_tokens.models.RuntimeScope,
+        "by_app_id",
+        lambda db, app_id: SimpleNamespace(
+            prefixes="org.gnome.Platform", extra_ids="", repos="beta"
+        ),
+    )
+    monkeypatch.setattr(upload_tokens, "get_json_key", lambda key: None)
+
+    request = upload_tokens.UploadTokenRequest(
+        comment="rt", scopes=["build"], repos=["stable"]
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        upload_tokens.create_upload_token(
+            "org.gnome.Platform", request, login=FakeLogin(user)
+        )
+
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == upload_tokens.ErrorDetail.FORBIDDEN_REPO

@@ -51,6 +51,12 @@ const AdminLayoutClient = ({
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["view-users"]),
     },
+    {
+      name: "Runtimes",
+      href: "/admin/runtimes",
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
+        user?.permissions.some((a) => a === Permission["modify-users"]),
+    },
   ].filter((nav) => !nav.condition || nav.condition(user?.info))
 
   useEffect(() => {

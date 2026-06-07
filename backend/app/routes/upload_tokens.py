@@ -60,6 +60,7 @@ class NewTokenResponse(BaseModel):
 class TokensResponse(BaseModel):
     tokens: list[TokenResponse]
     is_direct_upload_app: bool
+    allowed_repos: list[str]
 
 
 UPLOAD_TOKEN_PERMISSION = "direct-upload"
@@ -126,10 +127,17 @@ def get_upload_tokens(
         token_list = [(t, display_name) for t, display_name in tokens]
 
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        runtime_scope = models.RuntimeScope.by_app_id(db, app_id)
+
+    allowed_repos = ["stable", "beta"] if direct_upload_app else ["beta"]
+    if runtime_scope is not None:
+        scope_repos = runtime_scope.repos.split()
+        allowed_repos = [r for r in allowed_repos if r in scope_repos]
 
     return TokensResponse(
         tokens=[_token_response(t, display_name) for t, display_name in token_list],
         is_direct_upload_app=(direct_upload_app is not None),
+        allowed_repos=allowed_repos,
     )
 
 
@@ -176,6 +184,7 @@ def create_upload_token(
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
         if direct_upload_app and direct_upload_app.archived:
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
+        runtime_scope = models.RuntimeScope.by_app_id(db, app_id)
 
     if "stable" in request.repos:
         # Only direct upload apps may create tokens for the stable repo.
@@ -192,6 +201,14 @@ def create_upload_token(
         )
 
     if not all(r in ALLOWED_REPOS for r in request.repos):
+        raise HTTPException(
+            status_code=400,
+            detail=ErrorDetail.FORBIDDEN_REPO,
+        )
+
+    if runtime_scope is not None and not all(
+        r in runtime_scope.repos.split() for r in request.repos
+    ):
         raise HTTPException(
             status_code=400,
             detail=ErrorDetail.FORBIDDEN_REPO,
@@ -216,13 +233,21 @@ def create_upload_token(
         db.session.commit()
         token_details = _token_response(token, issued_to.display_name)
 
+    # Runtimes are admin-provisioned and may push a whole family of refs, so the
+    # token is scoped to the curated allow-list. Regular apps stay scoped to their
+    # single app_id.
+    if runtime_scope is not None:
+        prefixes = runtime_scope.prefixes.split() + runtime_scope.extra_ids.split()
+    else:
+        prefixes = [app_id]
+
     encoded = jwt.encode(
         {
             "jti": f"backend_{token_details.id}",
             "sub": "build",
             "scope": request.scopes,
             "repos": request.repos,
-            "prefixes": [app_id],
+            "prefixes": prefixes,
             "iat": issued_at,
             "exp": expires_at,
             "token_type": "app",
