@@ -1,0 +1,97 @@
+name: Frontend API codegen
+
+on:
+  pull_request:
+    branches: main
+    paths:
+      - "backend/**"
+      - "frontend/orval.config.ts"
+      - "frontend/src/codegen/**"
+      - ".github/workflows/frontend_codegen.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: codegen-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  codegen:
+    # Skip forks: GITHUB_TOKEN is read-only there, so the push would fail.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: backend
+          tags: backend_backend
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Docker backend-node image
+        uses: docker/build-push-action@v7
+        with:
+          context: backend-node
+          tags: backend-node
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Start stack
+        working-directory: ./backend
+        run: docker compose --env-file .env.ci up --no-build -d
+
+      - name: Wait for OpenAPI
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8000/openapi.json && exit 0
+            sleep 2
+          done
+          echo "backend did not become ready"
+          docker compose -f backend/docker-compose.yml logs backend
+          exit 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Corepack enable
+        run: corepack enable pnpm
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Regenerate API client
+        working-directory: ./frontend
+        run: pnpm exec orval --project flathub-file-transfomer
+
+      - name: Discard non-backend target churn
+        run: git checkout -- frontend/src/codegen-pipeline || true
+
+      - name: Commit and push if changed
+        run: |
+          if [ -n "$(git status --porcelain frontend/src/codegen)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add frontend/src/codegen
+            git commit -m "chore(codegen): regenerate API client from backend OpenAPI"
+            git push origin HEAD:${{ github.head_ref }}
+          else
+            echo "API client already up to date."
+          fi
