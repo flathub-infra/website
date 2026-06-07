@@ -429,7 +429,8 @@
   "slackware": {
     "distroName": "Slackware",
     "step-1": {
-      "name": "Инсталирайте „Flatpak“"
+      "name": "Инсталирайте „Flatpak“",
+      "text": "<text>„Flatpak“ е наличен в „SlackBuilds“. За да го инсталирате със „Sbopkg“ или „sqg“, създайте опашка и изпълнете следната команда в терминала:</text> <codeQueue></codeQueue> <text>След това го компилирайте. Заредете опашката, натиснете „Q“ и изчакайте:</text> <code></code>"
     },
     "step-2": {
       "name": "Добавете хранилището на „Flathub“",

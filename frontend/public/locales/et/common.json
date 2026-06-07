@@ -775,5 +775,9 @@
   "graphics-and-photography-description": "Pildiredigeerimisprogrammid, illustratsioonitööriistad ja fotograafia-rakendused kasutamiseks Linuxis.",
   "games-description": "Mängud, emulaatorid ja mängude käivitajad kasutamiseks Linuxis.",
   "developer-tools-description": "Lõimitud arenduskeskonnad (IDE-d), koodiredaktorid, terminalid ja arendusvahendid kasutamiseks Linuxis.",
-  "founding-supporters": "Toetajad meie alustamisel"
+  "founding-supporters": "Toetajad meie alustamisel",
+  "os-version-distribution": "Jaotus operatsioonisüsteemide versioonide alusel (viimase 30 päeva jooksul)",
+  "flatpak-version-distribution": "Jaotus flatpaki versioonide alusel (viimase 30 päeva jooksul)",
+  "os-flatpak-version-distribution": "Flatpaki versioone operatsioonisüsteemide kaupa (viimase 30 päeva jooksul)",
+  "share": "Jaga"
 }

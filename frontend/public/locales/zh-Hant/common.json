@@ -775,5 +775,9 @@
   "science-description": "Linux 系統的科學運算、資料分析與研究應用。",
   "education-description": "適用於 Linux 的學習應用程式、語言工具及教育軟體。",
   "system-description": "適用於 Linux 的系統管理、監控及管理工具。",
-  "founding-supporters": "創始贊助人"
+  "founding-supporters": "創始贊助人",
+  "os-version-distribution": "作業系統版本散佈版（過去 30 天）",
+  "flatpak-version-distribution": "Flatpak 版本散佈版（過去 30 天）",
+  "os-flatpak-version-distribution": "按作業系統劃分的 Flatpak 版本（過去 30 天）",
+  "share": "分享"
 }

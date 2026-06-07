@@ -58,7 +58,7 @@
   "retry-or-go-home": "Vous pouvez réessayer ou revenir à la page d''<link>accueil</link>.",
   "reporting-issues": "Signaler des problèmes",
   "acknowledgements": "Remerciements",
-  "acknowledgements-block": "<p>Flathub ne serait pas possible sans le soutien généreux des organisations et personnes suivantes.</p>",
+  "acknowledgements-block": "<p>Flathub n'existerait pas sans le généreux soutien de la large communauté Flatpak et Flathub. Nous remercions tous les contributeurs, sponsors et organisations passés et présents dont le soutien et l’infrastructure ont permis à Flathub de fonctionner. </p>",
   "official-badges": "Badges officiels de Flathub",
   "badges-block": "Vous pouvez utiliser ces badges pour promouvoir votre app sur Flathub",
   "badges-description": "Des badges officiels pour promouvoir votre app sur Flathub",
@@ -774,5 +774,10 @@
   "utilities-description": "Utilitaires système, gestionnaires de fichiers, calculatrices et outils quotidiens pour Linux.",
   "science-description": "Calcul scientifique, analyse de données et applications de recherche pour Linux.",
   "education-description": "Apps d’apprentissage, outils linguistiques et logiciels éducatifs pour Linux.",
-  "system-description": "Gestion du système, surveillance et outils d’administration pour Linux."
+  "system-description": "Gestion du système, surveillance et outils d’administration pour Linux.",
+  "os-version-distribution": "Répartition versions d'OS (30 derniers jours)",
+  "flatpak-version-distribution": "Distribution versions Flatpak (30 derniers jours)",
+  "os-flatpak-version-distribution": "Version Flatpak par OS (30 derniers jours)",
+  "share": "Partage(r)",
+  "founding-supporters": "Soutiens fondateurs"
 }

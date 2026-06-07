@@ -775,5 +775,9 @@
   "science-description": "Obliczenia naukowe, analiza danych i aplikacje badawcze na system Linux.",
   "education-description": "Aplikacje do nauki, narzędzia językowe i oprogramowanie edukacyjne na system Linux.",
   "system-description": "Narzędzia do zarządzania systemem, monitorowania i administracji dla systemu Linux.",
-  "founding-supporters": "Założyciele"
+  "founding-supporters": "Założyciele",
+  "os-version-distribution": "Rozkład wersji systemu operacyjnego (ostatnie 30 dni)",
+  "flatpak-version-distribution": "Rozkład wersji Flatpak (ostatnie 30 dni)",
+  "os-flatpak-version-distribution": "Wersje Flatpak według systemu operacyjnego (ostatnie 30 dni)",
+  "share": "Udostępnij"
 }

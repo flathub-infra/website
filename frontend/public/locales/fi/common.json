@@ -535,7 +535,8 @@
   "get-it-on": "Lataa:",
   "news": "Uutiset",
   "developer-portal": {
-    "title": "Kehittäjäportaali"
+    "title": "Kehittäjäportaali",
+    "runtime-version": "Suoritusaikainen: {version}"
   },
   "nothing-to-do": "Ei mitään tehtävää",
   "unverified": "Vahvistamaton",
@@ -763,5 +764,9 @@
   "utilities-description": "Järjestelmätyökalut, tiedostonhallintasovellukset, laskimet ja arkiset työkalut Linuxille.",
   "science-description": "Tieteellistä laskentaa, data-analyysia ja tutkimussovelluksia Linuxille.",
   "education-description": "Oppimissovellukset, kielityökalut ja koulutukseen tarkoitetut ohjelmistot Linuxille.",
-  "system-description": "Järjestelmänhallinta, -valvonta ja ylläpitotyökalut Linuxille."
+  "system-description": "Järjestelmänhallinta, -valvonta ja ylläpitotyökalut Linuxille.",
+  "founding-supporters": "Perustamisessa tukeneet",
+  "os-flatpak-version-distribution": "Flatpak-versio käyttöjärjestelmän mukaan (viimeiset 30 päivää)",
+  "flatpak-version-distribution": "Flatpak-version jakauma (viimeiset 30 päivää)",
+  "os-version-distribution": "Käyttöjärjestelmän version jakauma (viimeiset 30 päivää)"
 }

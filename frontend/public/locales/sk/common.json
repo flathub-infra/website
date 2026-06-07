@@ -23,7 +23,7 @@
   "developers": "Vývojári",
   "news": "Novinky",
   "count": "Počet",
-  "publish-your-app": "Publikovať vašu aplikáciu",
+  "publish-your-app": "Publikovať aplikáciu",
   "documentation": "Dokumentácia",
   "badges": "Odznaky",
   "statistics": "Štatistiky",
@@ -55,7 +55,7 @@
     "may-not-work-well-on-mobile": "Nemusí skvele fungovať na mobilných zariadeniach",
     "works-well-on-mobile": "Funguje skvele na mobilných zariadeniach",
     "total-installs": "Inštalácií celkom",
-    "age-rating": "Vekové hodnotenie"
+    "age-rating": "Vhodné od veku"
   },
   "license": "Licencia",
   "project-website": "Webová stránka projektu",
@@ -87,8 +87,8 @@
   "user-wallet": "Peňaženka používateľa",
   "flathub-statistics-description": "Prehľad o používaní a distribúcii aplikácií dostupných na platforme.",
   "count-downloads": "Celkový počet stiahnutí",
-  "count-desktop-apps": "Celkom desktopových aplikácií",
-  "count-verified-desktop-apps": "Overené desktopové aplikácie",
+  "count-desktop-apps": "Počet počítačových aplikácií",
+  "count-verified-desktop-apps": "Overené počítačové aplikácie",
   "since": "Od",
   "since-x": "Od {date}",
   "downloads-per-country": "Počet stiahnutí podľa krajiny",
@@ -272,7 +272,7 @@
   "account-deletion-token-mismatch": "Požiadavku na zmazanie účtu sa nepodarilo overiť.",
   "privacy-policy": "Ochrana súkromia",
   "privacy-policy-description": "Používaním týchto webových stránok súhlasíte so zásadami ochrany osobných údajov.",
-  "terms-and-conditions": "Podmienky a pravidlá",
+  "terms-and-conditions": "Podmienky používania",
   "terms-and-conditions-description": "Používaním týchto webových stránok vyjadrujete súhlas s týmito podmienkami.",
   "consultants": "Konzultanti",
   "consultants-description": "Poradenské služby pre vydávanie aplikácií na Flathube.",
@@ -459,8 +459,8 @@
   "distribution-flathub-setup": "Nastavenie Flathubu pre {distribution}",
   "find-your-distribution": "Nájdite svoju distribúciu",
   "no-results-found": "Nenašli sa žiadne výsledky",
-  "desktop-application": "Desktopová aplikácia",
-  "console-application": "Konzolová aplikácia",
+  "desktop-application": "Počítačová aplikácia",
+  "console-application": "Terminálová aplikácia",
   "app-type": "Typ aplikácie",
   "new-app": "Nová aplikácia",
   "community-repository": "Komunitný repozitár",
@@ -760,7 +760,7 @@
     "purchase-not-available": "Táto aplikácia nie je k dispozícii na kúpu."
   },
   "content-rating": {
-    "subtitle": "Aplikácia {appName} je vhodná pre vek {age}",
+    "subtitle": "Aplikácia {appName} je vhodná od veku {age}",
     "category-violence": "Násilie",
     "category-drugs": "Drogy",
     "category-sex": "Nahota",
@@ -775,5 +775,9 @@
     "none-social": "Neobsahuje žiadne sociálne funkcie",
     "none-money": "Neobsahuje žiadne reklamy ani platobné transakcie"
   },
-  "founding-supporters": "Zakladajúci podporovatelia"
+  "founding-supporters": "Zakladajúci podporovatelia",
+  "os-version-distribution": "Distribúcia verzií OS (posledných 30 dní)",
+  "os-flatpak-version-distribution": "Verzie Flatpaku podľa OS (posledných 30 dní)",
+  "share": "Zdieľať",
+  "flatpak-version-distribution": "Distribúcia verzií Flatpaku (posledných 30 dní)"
 }

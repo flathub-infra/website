@@ -31,7 +31,7 @@
   "whoops": "Oeps!",
   "retry-or-go-home": "U kunt het opnieuw proberen of terug­keren naar de <link>start­pagina</link>.",
   "acknowledgements": "Dank­betuigingen",
-  "acknowledgements-block": "<p>Flathub zou niet mogelĳk zĳn zonder de gulle onder­steuning van de volgende organisaties en personen.</p>",
+  "acknowledgements-block": "<p>Flathub zou niet mogelijk zijn zonder de gulle steun van de bredere Flatpak- en Flathub-gemeen­schap. Wij danken alle vroegere en huidige bijdragers, sponsors en organisaties wier steun en infra­structuur Flathub draaiende hebben gehouden.</p>",
   "linked-accounts": "Gekoppelde accounts",
   "link-more-accounts": "Meer accounts koppelen",
   "audio-and-video": "Audio en video",
@@ -774,5 +774,10 @@
   "utilities-description": "Systeem­hulpprogramma’s, bestands­beheerders, reken­machines en handige tools voor dagelijks gebruik onder Linux.",
   "science-description": "Weten­schappelijke berekenings-, gegevens­analyse- en onderzoeks-apps voor Linux.",
   "education-description": "Leer-apps, taal­gereedschap en educatieve software voor Linux.",
-  "system-description": "Gereedschap voor systeembeheer, monitoring en administratie voor Linux."
+  "system-description": "Gereedschap voor systeembeheer, monitoring en administratie voor Linux.",
+  "share": "Delen",
+  "founding-supporters": "Oprichters",
+  "os-version-distribution": "Verdeling van besturingssysteem­versies (afgelopen 30 dagen)",
+  "flatpak-version-distribution": "Verdeling van Flatpak-versies (afgelopen 30 dagen)",
+  "os-flatpak-version-distribution": "Flatpak-versie per besturings­systeem (afgelopen 30 dagen)"
 }
