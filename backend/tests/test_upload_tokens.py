@@ -96,6 +96,9 @@ def set_fake_db(monkeypatch, user):
         yield FakeDb(user)
 
     monkeypatch.setattr(upload_tokens, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        upload_tokens.worker.send_email_new, "send", lambda payload: None
+    )
 
 
 def test_create_upload_token_requires_direct_upload_permission(
