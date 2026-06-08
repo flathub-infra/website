@@ -19,16 +19,13 @@ from app import (
 )
 from app.routes import runtimes  # noqa: E402
 
-# ---------------------------------------------------------------------------
-# Shared helpers
-# ---------------------------------------------------------------------------
-
 
 class FakeSession:
     """Minimal SQLAlchemy session stand-in."""
 
     def __init__(self):
         self._objects = []
+        self._deleted = []
 
     def add(self, obj):
         self._objects.append(obj)
@@ -42,6 +39,12 @@ class FakeSession:
     def merge(self, obj):
         return obj
 
+    def delete(self, obj):
+        self._deleted.append(obj)
+
+    def execute(self, stmt):
+        pass
+
 
 class FakeDb:
     def __init__(self):
@@ -51,11 +54,6 @@ class FakeDb:
 @contextmanager
 def fake_get_db(db_type="replica"):
     yield FakeDb()
-
-
-# ---------------------------------------------------------------------------
-# B1: verification.archive must reject runtimes
-# ---------------------------------------------------------------------------
 
 
 def _make_archive_request(endoflife="no longer maintained", endoflife_rebase=None):
@@ -125,10 +123,10 @@ def test_archive_rejects_eol_rebase_for_runtime(monkeypatch):
         verification.archive(
             request=_make_archive_request(
                 endoflife="no longer supported",
-                endoflife_rebase="org.kde.Platform",
+                endoflife_rebase="org.gnome.Platform",
             ),
             login=FakeLogin(),
-            app_id="org.kde.Platform",
+            app_id="org.gnome.Platform",
         )
 
     assert exc_info.value.status_code == 403
@@ -136,12 +134,7 @@ def test_archive_rejects_eol_rebase_for_runtime(monkeypatch):
     assert enqueued == []
 
 
-# ---------------------------------------------------------------------------
-# A3: create_runtime raises 500 when uploader role is missing
-# ---------------------------------------------------------------------------
-
-
-def test_create_runtime_raises_if_uploader_role_missing(monkeypatch):
+def test_switch_to_direct_upload_raises_if_uploader_role_missing(monkeypatch):
     """If Role.by_name returns None the endpoint must raise 500."""
     fake_maintainer = SimpleNamespace(
         id=42, display_name="Maintainer", permissions=lambda: set()
@@ -151,17 +144,16 @@ def test_create_runtime_raises_if_uploader_role_missing(monkeypatch):
         @contextmanager
         def _ctx():
             db = FakeDb()
-            # Stub all model lookups
             monkeypatch.setattr(
                 models.FlathubUser, "by_id", lambda db, uid: fake_maintainer
             )
             monkeypatch.setattr(
-                models.RuntimeScope,
+                models.DirectUploadApp,
                 "by_app_id",
                 lambda db, app_id: None,
             )
             monkeypatch.setattr(
-                models.DirectUploadApp,
+                models.RuntimeScope,
                 "by_app_id",
                 lambda db, app_id: None,
             )
@@ -186,26 +178,23 @@ def test_create_runtime_raises_if_uploader_role_missing(monkeypatch):
 
     monkeypatch.setattr(runtimes, "get_db", fake_get_db_writer)
 
-    request = runtimes.CreateRuntimeRequest(
+    request = runtimes.SwitchToDirectUploadRequest(
         app_id="org.gnome.Platform",
-        prefixes=["org.gnome.Platform", "org.gnome.Sdk"],
         primary_maintainer_user_id=42,
+        scope=runtimes.RuntimeScopeInput(
+            prefixes=["org.gnome.Platform", "org.gnome.Sdk"],
+        ),
     )
 
     with pytest.raises(HTTPException) as exc_info:
-        runtimes.create_runtime(request, _admin=None)
+        runtimes.switch_to_direct_upload(request, _admin=None)
 
     assert exc_info.value.status_code == 500
     assert exc_info.value.detail == "uploader_role_missing"
 
 
-# ---------------------------------------------------------------------------
-# B2: revoke_runtime_tokens does NOT set archived
-# ---------------------------------------------------------------------------
-
-
-def test_revoke_runtime_tokens_revokes_without_archiving(monkeypatch):
-    """revoke_runtime_tokens revokes each active token and never sets archived."""
+def test_revoke_tokens_revokes_without_archiving(monkeypatch):
+    """revoke_tokens revokes each active token and never sets archived."""
     monkeypatch.setattr(
         runtimes.config.settings, "flat_manager_api", "https://flat-manager.example"
     )
@@ -216,7 +205,7 @@ def test_revoke_runtime_tokens_revokes_without_archiving(monkeypatch):
     token_c = SimpleNamespace(revoked=False, id=3, issued_at=None)
 
     monkeypatch.setattr(
-        runtimes.models.RuntimeScope,
+        runtimes.models.DirectUploadApp,
         "by_app_id",
         lambda db, app_id: SimpleNamespace(app_id=app_id),
     )
@@ -240,17 +229,7 @@ def test_revoke_runtime_tokens_revokes_without_archiving(monkeypatch):
 
     monkeypatch.setattr(runtimes.http_client, "post", fake_post)
 
-    direct_upload_app_accessed = []
-
-    def sentinel_direct_upload_app(db, app_id):
-        direct_upload_app_accessed.append(app_id)
-        return None
-
-    monkeypatch.setattr(
-        runtimes.models.DirectUploadApp, "by_app_id", sentinel_direct_upload_app
-    )
-
-    runtimes.revoke_runtime_tokens("org.gnome.Platform", _admin=None)
+    runtimes.revoke_tokens("org.gnome.Platform", _admin=None)
 
     # token_b was already revoked — only token_a and token_c should have been sent
     assert set(revoked_jtis) == {
@@ -261,33 +240,42 @@ def test_revoke_runtime_tokens_revokes_without_archiving(monkeypatch):
     assert token_b.revoked is True  # unchanged
     assert token_c.revoked is True
 
-    # Confirm the route never touched DirectUploadApp (which would imply archival).
-    # The sentinel was not called, so archived was never set.
-    assert direct_upload_app_accessed == [], (
-        "revoke_runtime_tokens must not access DirectUploadApp"
-    )
 
-
-# ---------------------------------------------------------------------------
-# Issue 1: primary_maintainer_user_id always becomes primary
-# ---------------------------------------------------------------------------
-
-
-def _make_create_request(primary_maintainer_user_id=42):
-    return runtimes.CreateRuntimeRequest(
-        app_id="org.gnome.Platform",
+def _make_switch_request(
+    primary_maintainer_user_id=42,
+    scope=runtimes.RuntimeScopeInput(
         prefixes=["org.gnome.Platform", "org.gnome.Sdk"],
+    ),
+):
+    return runtimes.SwitchToDirectUploadRequest(
+        app_id="org.gnome.Platform",
         primary_maintainer_user_id=primary_maintainer_user_id,
+        scope=scope,
     )
 
 
-def _setup_create_runtime_db(
-    monkeypatch, existing_dev=None, current_primary=None, role=object()
+def _setup_switch_db(
+    monkeypatch,
+    existing_dev=None,
+    current_primary=None,
+    role=None,
+    existing_app="archived",  # "archived" | "none" (no app exists)
 ):
-    """Patch all model lookups used by create_runtime."""
+    """Patch all model lookups used by switch_to_direct_upload.
+
+    existing_app="archived": by_app_id returns an archived app (default, exercises un-archive path).
+    existing_app="none":    by_app_id returns None (exercises creation path).
+    """
     fake_maintainer = SimpleNamespace(id=42, display_name="Maintainer")
     fake_app = SimpleNamespace(id=1, app_id="org.gnome.Platform", archived=False)
-    fake_role = role if role is not object() else SimpleNamespace(id=10)
+    fake_role = role if role is not None else SimpleNamespace(id=10)
+
+    if existing_app == "none":
+        _app_stub = None
+    else:
+        _app_stub = SimpleNamespace(
+            id=fake_app.id, app_id=fake_app.app_id, archived=True
+        )
 
     added = []
 
@@ -304,6 +292,9 @@ def _setup_create_runtime_db(
         def merge(self, obj):
             return obj
 
+        def execute(self, stmt):
+            pass
+
     class _FakeDb:
         session = _FakeSession()
 
@@ -312,9 +303,10 @@ def _setup_create_runtime_db(
         monkeypatch.setattr(
             models.FlathubUser, "by_id", lambda db, uid: fake_maintainer
         )
-        monkeypatch.setattr(models.RuntimeScope, "by_app_id", lambda db, app_id: None)
         monkeypatch.setattr(
-            models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+            models.DirectUploadApp,
+            "by_app_id",
+            lambda db, app_id: _app_stub,
         )
         monkeypatch.setattr(
             models.DirectUploadAppDeveloper,
@@ -329,7 +321,7 @@ def _setup_create_runtime_db(
         monkeypatch.setattr(models.Role, "by_name", lambda db, name: fake_role)
         monkeypatch.setattr(
             models.flathubuser_role,
-            "add_user_role",
+            "by_user_role",
             lambda db, user, role: None,
         )
         monkeypatch.setattr(
@@ -338,9 +330,14 @@ def _setup_create_runtime_db(
             lambda db, app: [],
         )
         monkeypatch.setattr(
+            models.RuntimeScope,
+            "by_app_id",
+            lambda db, app_id: None,
+        )
+        monkeypatch.setattr(
             runtimes,
-            "_runtime_response",
-            lambda db, scope, app: SimpleNamespace(),
+            "_managed_app_response",
+            lambda db, app, scope: SimpleNamespace(),
         )
         yield _FakeDb()
 
@@ -348,64 +345,165 @@ def _setup_create_runtime_db(
     return added
 
 
-def test_create_runtime_new_dev_becomes_primary(monkeypatch):
-    added = _setup_create_runtime_db(
-        monkeypatch, existing_dev=None, current_primary=None
-    )
-    runtimes.create_runtime(_make_create_request(), _admin=None)
+def test_switch_to_direct_upload_new_dev_becomes_primary(monkeypatch):
+    added = _setup_switch_db(monkeypatch, existing_dev=None, current_primary=None)
+    runtimes.switch_to_direct_upload(_make_switch_request(), _admin=None)
     dev_rows = [o for o in added if isinstance(o, models.DirectUploadAppDeveloper)]
     assert len(dev_rows) == 1
     assert dev_rows[0].is_primary is True
 
 
-def test_create_runtime_already_primary_is_noop(monkeypatch):
+def test_switch_to_direct_upload_already_primary_is_noop(monkeypatch):
     existing = SimpleNamespace(is_primary=True, id=42)
-    added = _setup_create_runtime_db(
+    added = _setup_switch_db(
         monkeypatch, existing_dev=existing, current_primary=existing
     )
     # No exception should be raised
-    runtimes.create_runtime(_make_create_request(), _admin=None)
+    runtimes.switch_to_direct_upload(_make_switch_request(), _admin=None)
     dev_rows = [o for o in added if isinstance(o, models.DirectUploadAppDeveloper)]
     assert dev_rows == []  # nothing new was added
 
 
-def test_create_runtime_promotes_existing_non_primary(monkeypatch):
+def test_switch_to_direct_upload_promotes_existing_non_primary(monkeypatch):
     existing = SimpleNamespace(is_primary=False, id=42)
-    added = _setup_create_runtime_db(
-        monkeypatch, existing_dev=existing, current_primary=None
-    )
-    runtimes.create_runtime(_make_create_request(), _admin=None)
+    added = _setup_switch_db(monkeypatch, existing_dev=existing, current_primary=None)
+    runtimes.switch_to_direct_upload(_make_switch_request(), _admin=None)
     # existing_dev.is_primary must have been set to True and re-added
     assert existing.is_primary is True
     assert existing in added
 
 
-def test_create_runtime_rejects_conflicting_primary(monkeypatch):
+def test_switch_to_direct_upload_rejects_conflicting_primary(monkeypatch):
     existing = SimpleNamespace(is_primary=False, id=42)
     other_primary = SimpleNamespace(is_primary=True, id=99)
-    _setup_create_runtime_db(
-        monkeypatch, existing_dev=existing, current_primary=other_primary
-    )
+    _setup_switch_db(monkeypatch, existing_dev=existing, current_primary=other_primary)
     with pytest.raises(HTTPException) as exc_info:
-        runtimes.create_runtime(_make_create_request(), _admin=None)
+        runtimes.switch_to_direct_upload(_make_switch_request(), _admin=None)
     assert exc_info.value.status_code == 400
     assert exc_info.value.detail == "primary_already_assigned"
 
 
-def test_create_runtime_rejects_new_dev_when_primary_already_assigned(monkeypatch):
+def test_switch_to_direct_upload_rejects_new_dev_when_primary_already_assigned(
+    monkeypatch,
+):
     other_primary = SimpleNamespace(is_primary=True, id=99)
-    _setup_create_runtime_db(
-        monkeypatch, existing_dev=None, current_primary=other_primary
-    )
+    _setup_switch_db(monkeypatch, existing_dev=None, current_primary=other_primary)
     with pytest.raises(HTTPException) as exc_info:
-        runtimes.create_runtime(_make_create_request(), _admin=None)
+        runtimes.switch_to_direct_upload(_make_switch_request(), _admin=None)
     assert exc_info.value.status_code == 400
     assert exc_info.value.detail == "primary_already_assigned"
 
 
-# ---------------------------------------------------------------------------
-# Issue 2: prefix / extra_id entries must be non-empty and whitespace-free
-# ---------------------------------------------------------------------------
+def test_switch_to_direct_upload_without_scope_creates_no_scope(monkeypatch):
+    """switch_to_direct_upload without a scope creates DirectUploadApp but no RuntimeScope."""
+    added = _setup_switch_db(monkeypatch, existing_dev=None, current_primary=None)
+    runtimes.switch_to_direct_upload(_make_switch_request(scope=None), _admin=None)
+    scope_rows = [o for o in added if isinstance(o, models.RuntimeScope)]
+    assert scope_rows == []
+
+
+def test_switch_to_direct_upload_with_scope_creates_scope(monkeypatch):
+    """switch_to_direct_upload with a scope creates a RuntimeScope."""
+    added = _setup_switch_db(monkeypatch, existing_dev=None, current_primary=None)
+    runtimes.switch_to_direct_upload(
+        _make_switch_request(
+            scope=runtimes.RuntimeScopeInput(
+                prefixes=["org.gnome.Platform", "org.gnome.Sdk"],
+                extra_ids=[],
+                repos=["stable", "beta"],
+            )
+        ),
+        _admin=None,
+    )
+    scope_rows = [o for o in added if isinstance(o, models.RuntimeScope)]
+    assert len(scope_rows) == 1
+    assert scope_rows[0].prefixes == "org.gnome.Platform org.gnome.Sdk"
+
+
+def test_switch_to_direct_upload_rejects_existing_active_app(monkeypatch):
+    """If a non-archived DirectUploadApp already exists, raise 400 app_already_exists."""
+    fake_maintainer = SimpleNamespace(id=42, display_name="Maintainer")
+    fake_active_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+
+    @contextmanager
+    def _ctx(db_type="replica"):
+        monkeypatch.setattr(
+            models.FlathubUser, "by_id", lambda db, uid: fake_maintainer
+        )
+        monkeypatch.setattr(
+            models.DirectUploadApp,
+            "by_app_id",
+            lambda db, app_id: fake_active_app,
+        )
+        yield FakeDb()
+
+    monkeypatch.setattr(runtimes, "get_db", _ctx)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.switch_to_direct_upload(
+            runtimes.SwitchToDirectUploadRequest(
+                app_id="org.example.App",
+                primary_maintainer_user_id=42,
+            ),
+            _admin=None,
+        )
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == "app_already_exists"
+
+
+def test_switch_to_direct_upload_creates_new_app_when_none_exists(monkeypatch):
+    """When DirectUploadApp.by_app_id returns None, a new app row is created."""
+    added = _setup_switch_db(
+        monkeypatch, existing_dev=None, current_primary=None, existing_app="none"
+    )
+    runtimes.switch_to_direct_upload(_make_switch_request(scope=None), _admin=None)
+    app_rows = [o for o in added if isinstance(o, models.DirectUploadApp)]
+    assert len(app_rows) == 1
+    assert app_rows[0].app_id == "org.gnome.Platform"
+
+
+def test_switch_to_direct_upload_rejects_scope_already_exists(monkeypatch):
+    """If a RuntimeScope already exists for the app, raise 400 scope_already_exists.
+
+    This covers the regression where re-enabling an archived app that still has a
+    RuntimeScope would previously hit a unique-constraint IntegrityError (500).
+    """
+    fake_maintainer = SimpleNamespace(id=42, display_name="Maintainer")
+    fake_archived_app = SimpleNamespace(id=1, app_id="org.example.App", archived=True)
+    fake_scope = SimpleNamespace(app_id="org.example.App")
+
+    @contextmanager
+    def _ctx(db_type="replica"):
+        monkeypatch.setattr(
+            models.FlathubUser, "by_id", lambda db, uid: fake_maintainer
+        )
+        monkeypatch.setattr(
+            models.DirectUploadApp,
+            "by_app_id",
+            lambda db, app_id: fake_archived_app,
+        )
+        monkeypatch.setattr(
+            models.RuntimeScope,
+            "by_app_id",
+            lambda db, app_id: fake_scope,  # scope still present on archived app
+        )
+        yield FakeDb()
+
+    monkeypatch.setattr(runtimes, "get_db", _ctx)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.switch_to_direct_upload(
+            runtimes.SwitchToDirectUploadRequest(
+                app_id="org.example.App",
+                primary_maintainer_user_id=42,
+                scope=runtimes.RuntimeScopeInput(
+                    prefixes=["org.example.App"],
+                ),
+            ),
+            _admin=None,
+        )
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == "scope_already_exists"
 
 
 @pytest.mark.parametrize(
@@ -423,16 +521,18 @@ def test_create_runtime_rejects_new_dev_when_primary_already_assigned(monkeypatc
         (["org.gnome.Platform"], ["org.foo.Sdk\t1"], "invalid_extra_ids_entry"),
     ],
 )
-def test_create_runtime_rejects_malformed_id_lists(
+def test_switch_to_direct_upload_rejects_malformed_id_lists(
     monkeypatch, prefixes, extra_ids, detail
 ):
     with pytest.raises(HTTPException) as exc_info:
-        runtimes.create_runtime(
-            runtimes.CreateRuntimeRequest(
+        runtimes.switch_to_direct_upload(
+            runtimes.SwitchToDirectUploadRequest(
                 app_id="org.gnome.Platform",
-                prefixes=prefixes,
-                extra_ids=extra_ids,
                 primary_maintainer_user_id=42,
+                scope=runtimes.RuntimeScopeInput(
+                    prefixes=prefixes,
+                    extra_ids=extra_ids,
+                ),
             ),
             _admin=None,
         )
@@ -443,20 +543,24 @@ def test_create_runtime_rejects_malformed_id_lists(
 @pytest.mark.parametrize(
     "prefixes,extra_ids,detail",
     [
-        (["org.gnome.Platform", ""], None, "invalid_prefixes_entry"),
-        (["org.gnome.Platform org.kde.Platform"], None, "invalid_prefixes_entry"),
-        (None, [""], "invalid_extra_ids_entry"),
-        (None, ["org.foo.Sdk org.bar.Sdk"], "invalid_extra_ids_entry"),
+        (["org.gnome.Platform", ""], [], "invalid_prefixes_entry"),
+        (["org.gnome.Platform org.kde.Platform"], [], "invalid_prefixes_entry"),
+        (["org.gnome.Platform"], [""], "invalid_extra_ids_entry"),
+        (
+            ["org.gnome.Platform"],
+            ["org.foo.Sdk org.bar.Sdk"],
+            "invalid_extra_ids_entry",
+        ),
     ],
 )
-def test_update_runtime_rejects_malformed_id_lists(
+def test_set_runtime_scope_rejects_malformed_id_lists(
     monkeypatch, prefixes, extra_ids, detail
 ):
     # validation runs before the DB lookup, so no DB mocking needed
     with pytest.raises(HTTPException) as exc_info:
-        runtimes.update_runtime(
+        runtimes.set_runtime_scope(
             app_id="org.gnome.Platform",
-            request=runtimes.UpdateRuntimeRequest(
+            request=runtimes.RuntimeScopeInput(
                 prefixes=prefixes,
                 extra_ids=extra_ids,
             ),
@@ -464,3 +568,218 @@ def test_update_runtime_rejects_malformed_id_lists(
         )
     assert exc_info.value.status_code == 400
     assert exc_info.value.detail == detail
+
+
+def test_switch_off_direct_upload_revokes_and_deletes(monkeypatch):
+    """switch_off_direct_upload revokes tokens and hard-deletes scope/devs/invites/app."""
+    monkeypatch.setattr(
+        runtimes.config.settings, "flat_manager_api", "https://flat-manager.example"
+    )
+
+    revoked_jtis = []
+    token_a = SimpleNamespace(revoked=False, id=1, issued_at=None)
+    token_b = SimpleNamespace(revoked=True, id=2, issued_at=None)  # already revoked
+    token_c = SimpleNamespace(revoked=False, id=3, issued_at=None)
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_scope = SimpleNamespace(app_id="org.example.App")
+
+    monkeypatch.setattr(
+        runtimes.utils, "create_flat_manager_token", lambda *a, **k: "fake-jwt"
+    )
+
+    def fake_post(url, headers, json):
+        revoked_jtis.extend(json["token_ids"])
+        return SimpleNamespace(is_success=True)
+
+    monkeypatch.setattr(runtimes.http_client, "post", fake_post)
+    monkeypatch.setattr(
+        runtimes.models.UploadToken,
+        "by_app_id",
+        lambda db, app_id: [token_a, token_b, token_c],
+    )
+
+    deleted_objects = []
+    execute_calls = []
+
+    class _WriteSession:
+        def delete(self, obj):
+            deleted_objects.append(obj)
+
+        def commit(self):
+            pass
+
+        def merge(self, obj):
+            return obj
+
+        def execute(self, stmt):
+            execute_calls.append(stmt)
+
+    class _WriteDb:
+        session = _WriteSession()
+
+    call_count = [0]
+
+    @contextmanager
+    def _ctx(db_type="replica"):
+        call_count[0] += 1
+        if db_type == "replica" or call_count[0] <= 2:
+            # First two replica calls: initial check + token fetch
+            monkeypatch.setattr(
+                models.DirectUploadApp,
+                "by_app_id",
+                lambda db, app_id: fake_app,
+            )
+            monkeypatch.setattr(
+                models.RuntimeScope,
+                "by_app_id",
+                lambda db, app_id: fake_scope,
+            )
+            yield FakeDb()
+        else:
+            monkeypatch.setattr(
+                models.DirectUploadApp,
+                "by_app_id",
+                lambda db, app_id: fake_app,
+            )
+            monkeypatch.setattr(
+                models.RuntimeScope,
+                "by_app_id",
+                lambda db, app_id: fake_scope,
+            )
+            yield _WriteDb()
+
+    monkeypatch.setattr(runtimes, "get_db", _ctx)
+
+    runtimes.switch_off_direct_upload("org.example.App", _admin=None)
+
+    assert set(revoked_jtis) == {runtimes.jti(token_a), runtimes.jti(token_c)}
+    assert token_a.revoked is True
+    assert token_c.revoked is True
+
+    assert fake_scope in deleted_objects
+    assert fake_app in deleted_objects
+
+    assert len(execute_calls) == 2
+
+
+def test_switch_off_direct_upload_404_if_app_missing(monkeypatch):
+    """switch_off_direct_upload raises 404 if the app is not a direct-upload app."""
+    monkeypatch.setattr(
+        runtimes.config.settings, "flat_manager_api", "https://flat-manager.example"
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.switch_off_direct_upload("org.example.App", _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "app_not_found"
+
+
+def test_set_runtime_scope_creates_scope_for_plain_app(monkeypatch):
+    """set_runtime_scope on a plain app (no existing scope) creates a RuntimeScope."""
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    added = []
+
+    @contextmanager
+    def _ctx(db_type="replica"):
+        monkeypatch.setattr(
+            models.DirectUploadApp,
+            "by_app_id",
+            lambda db, app_id: fake_app,
+        )
+        monkeypatch.setattr(
+            models.RuntimeScope,
+            "by_app_id",
+            lambda db, app_id: None,
+        )
+        monkeypatch.setattr(
+            models.DirectUploadAppDeveloper,
+            "by_app",
+            lambda db, app: [],
+        )
+        monkeypatch.setattr(
+            runtimes,
+            "_managed_app_response",
+            lambda db, app, scope: SimpleNamespace(),
+        )
+
+        class _Sess:
+            def add(self, obj):
+                added.append(obj)
+
+            def commit(self):
+                pass
+
+        class _Db:
+            session = _Sess()
+
+        yield _Db()
+
+    monkeypatch.setattr(runtimes, "get_db", _ctx)
+
+    runtimes.set_runtime_scope(
+        app_id="org.example.App",
+        request=runtimes.RuntimeScopeInput(
+            prefixes=["org.example.App"],
+            extra_ids=[],
+            repos=["stable"],
+        ),
+        _admin=None,
+    )
+
+    scope_rows = [o for o in added if isinstance(o, models.RuntimeScope)]
+    assert len(scope_rows) == 1
+    assert scope_rows[0].prefixes == "org.example.App"
+
+
+def test_remove_runtime_scope_deletes_scope(monkeypatch):
+    """remove_runtime_scope deletes the RuntimeScope row."""
+    fake_scope = SimpleNamespace(app_id="org.example.App")
+    deleted = []
+
+    @contextmanager
+    def _ctx(db_type="replica"):
+        monkeypatch.setattr(
+            models.RuntimeScope,
+            "by_app_id",
+            lambda db, app_id: fake_scope,
+        )
+
+        class _Sess:
+            def delete(self, obj):
+                deleted.append(obj)
+
+            def commit(self):
+                pass
+
+        class _Db:
+            session = _Sess()
+
+        yield _Db()
+
+    monkeypatch.setattr(runtimes, "get_db", _ctx)
+
+    runtimes.remove_runtime_scope("org.example.App", _admin=None)
+
+    assert fake_scope in deleted
+
+
+def test_remove_runtime_scope_404_if_no_scope(monkeypatch):
+    """remove_runtime_scope raises 404 when there is no scope."""
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope,
+        "by_app_id",
+        lambda db, app_id: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.remove_runtime_scope("org.example.App", _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "scope_not_found"

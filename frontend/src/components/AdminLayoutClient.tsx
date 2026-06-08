@@ -52,7 +52,7 @@ const AdminLayoutClient = ({
         user?.permissions.some((a) => a === Permission["view-users"]),
     },
     {
-      name: "Runtimes",
+      name: "Apps",
       href: "/admin/runtimes",
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["modify-users"]),

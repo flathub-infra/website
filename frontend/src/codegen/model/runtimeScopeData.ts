@@ -5,4 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type UpdateRuntimeRequestPrefixes = string[] | null
+export interface RuntimeScopeData {
+  prefixes: string[]
+  extra_ids: string[]
+  repos: string[]
+}

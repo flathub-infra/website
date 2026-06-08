@@ -1381,6 +1381,10 @@ class DirectUploadApp(Base):
     def by_app_id(db, app_id: str) -> Optional["DirectUploadApp"]:
         return db.query(DirectUploadApp).filter_by(app_id=app_id).first()
 
+    @staticmethod
+    def all(db) -> list["DirectUploadApp"]:
+        return db.session.query(DirectUploadApp).all()
+
 
 class DirectUploadAppDeveloper(Base):
     __tablename__ = "directuploadappdeveloper"
@@ -1474,6 +1478,13 @@ class DirectUploadAppDeveloper(Base):
             )
         )
 
+    @staticmethod
+    def delete_all_for_app(db, app: "DirectUploadApp"):
+        db.session.execute(
+            delete(DirectUploadAppDeveloper).where(
+                DirectUploadAppDeveloper.app_id == app.id
+            )
+        )
 
 FlathubUser.TABLES_FOR_DELETE.append(DirectUploadAppDeveloper)
 
@@ -1536,6 +1547,13 @@ class DirectUploadAppInvite(Base):
             )
         )
 
+    @staticmethod
+    def delete_all_for_app(db, app: DirectUploadApp):
+        db.session.execute(
+            delete(DirectUploadAppInvite).where(
+                DirectUploadAppInvite.app_id == app.id
+            )
+        )
 
 class RuntimeScope(Base):
     __tablename__ = "runtimescope"

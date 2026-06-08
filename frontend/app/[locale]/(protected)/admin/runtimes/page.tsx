@@ -3,7 +3,7 @@ import RuntimesClient from "./runtimes-client"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Runtimes",
+    title: "Direct-upload apps",
     robots: {
       index: false,
     },

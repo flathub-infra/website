@@ -5,4 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type RuntimeMaintainerDisplayName = string | null
+export interface RuntimeScopeInput {
+  prefixes: string[]
+  extra_ids?: string[]
+  repos?: string[]
+}
