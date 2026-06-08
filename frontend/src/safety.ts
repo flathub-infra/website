@@ -41,7 +41,7 @@ export interface AppSafetyRating {
 export function safetyRatingToColor(safetyRating: SafetyRating): string {
   switch (safetyRating) {
     case SafetyRating.safe:
-      return `text-flathub-status-green bg-flathub-status-green/25 dark:bg-flathub-status-green-dark/25 dark:text-flathub-status-green-dark`
+      return `text-flathub-dark-gunmetal bg-flathub-gainsborow/60 dark:bg-flathub-granite-gray/60 dark:text-flathub-lotion`
     case SafetyRating.probably_safe:
       return `text-flathub-status-yellow bg-flathub-status-yellow/25 dark:bg-flathub-status-yellow-dark/25 dark:text-flathub-status-yellow-dark`
     case SafetyRating.potentially_unsafe:
