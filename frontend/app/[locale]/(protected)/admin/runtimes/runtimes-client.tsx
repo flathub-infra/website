@@ -198,9 +198,10 @@ function RuntimeCard({
   const updateMutation = useUpdateRuntimeRuntimeScopesAppIdPatch({
     axios: { withCredentials: true },
   })
-  const revokeMutation = useRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost({
-    axios: { withCredentials: true },
-  })
+  const revokeMutation =
+    useRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost({
+      axios: { withCredentials: true },
+    })
 
   const save = () => {
     updateMutation.mutate(
