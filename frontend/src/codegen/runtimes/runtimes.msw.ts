@@ -31,6 +31,7 @@ export const getGetRuntimesRuntimeScopesGetResponseMock =
         (_, i) => i + 1,
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
       created_at: faker.number.int(),
+      updated_at: faker.number.int(),
       maintainers: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -61,6 +62,7 @@ export const getCreateRuntimeRuntimeScopesPostResponseMock = (
     (_, i) => i + 1,
   ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   created_at: faker.number.int(),
+  updated_at: faker.number.int(),
   maintainers: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -92,6 +94,7 @@ export const getGetRuntimeRuntimeScopesAppIdGetResponseMock = (
     (_, i) => i + 1,
   ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   created_at: faker.number.int(),
+  updated_at: faker.number.int(),
   maintainers: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -123,6 +126,7 @@ export const getUpdateRuntimeRuntimeScopesAppIdPatchResponseMock = (
     (_, i) => i + 1,
   ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   created_at: faker.number.int(),
+  updated_at: faker.number.int(),
   maintainers: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,

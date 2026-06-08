@@ -12,5 +12,6 @@ export interface RuntimeResponse {
   extra_ids: string[]
   repos: string[]
   created_at: number
+  updated_at: number
   maintainers: RuntimeMaintainer[]
 }
