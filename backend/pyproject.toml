@@ -19,12 +19,12 @@ dependencies = [
     "itsdangerous<3.0,>=2.2",
     "PyGithub<3.0,>=2.6",
     "vcrpy>=7.0.0,<9.0.0",
-    "python-gitlab>=8.3.0,<9.0",
+    "python-gitlab>=8.4.0,<9.0",
     "stripe>=15.1.0,<16.0",
     "PyJWT<3.0.0,>=2.10.1",
     "meilisearch>=0.41.0,<1.0.0",
     "orjson>=3.11.9,<4.0.0",
-    "python-multipart>=0.0.29,<1.0.0",
+    "python-multipart>=0.0.32,<1.0.0",
     "dramatiq[redis,watch,prometheus_client]>=2.1.0,<3.0.0",
     "sqlalchemy==2.0.50",
     "pydantic-settings>=2.14.1,<3.0.0",
@@ -35,12 +35,12 @@ dependencies = [
     "memray>=1.19.1",
     "psycopg[binary]>=3.3.4",
     "authlib>=1.7.2,<2.0",
-    "joserfc>=1.6.4",
+    "joserfc>=1.7.0",
 ]
 
 [dependency-groups]
 dev = [
-    "ruff>=0.15.14,<1.0.0",
+    "ruff>=0.15.16,<1.0.0",
     "pytest>=9.0.3,<10.0.0",
     "pytest-insta<1.0.0,>=0.3.0",
     "watchgod<1.0,>=0.8",
