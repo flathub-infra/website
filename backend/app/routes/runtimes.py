@@ -33,6 +33,7 @@ class RuntimeResponse(BaseModel):
     extra_ids: list[str]
     repos: list[str]
     created_at: int
+    updated_at: int
     maintainers: list[RuntimeMaintainer]
 
 
@@ -70,6 +71,7 @@ def _runtime_response(
         extra_ids=scope.extra_ids.split(),
         repos=scope.repos.split(),
         created_at=int(scope.created_at.timestamp()),
+        updated_at=int(scope.updated_at.timestamp()),
         maintainers=maintainers,
     )
 

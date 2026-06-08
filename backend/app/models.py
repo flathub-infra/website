@@ -1546,6 +1546,9 @@ class RuntimeScope(Base):
     extra_ids = mapped_column(String, nullable=False, server_default="")
     repos = mapped_column(String, nullable=False, server_default="stable beta")
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
+    )
 
     @staticmethod
     def by_app_id(db, app_id: str) -> Optional["RuntimeScope"]:
