@@ -92,6 +92,8 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     "desktop-application",
   ].includes(app.type)
 
+  const isARuntime = app.type === "runtime"
+
   const pages = [
     {
       name: t("developer-portal.title"),
@@ -173,7 +175,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
                     user.info?.permissions?.some(
                       (a) => a === Permission["direct-upload"],
                     )) &&
-                    isAnApp && (
+                    (isAnApp || isARuntime) && (
                       <>
                         {inviteQuery.data?.data?.is_direct_upload_app && (
                           <SettingsDisclosure sectionTitle={t("developers")}>
@@ -183,9 +185,11 @@ export default function ManageClient({ app, vendingConfig }: Props) {
                         <SettingsDisclosure sectionTitle={t("upload-tokens")}>
                           <UploadTokenControls app={app} />
                         </SettingsDisclosure>
-                        <SettingsDisclosure sectionTitle={t("danger-zone")}>
-                          <DangerZoneControls app={app} />
-                        </SettingsDisclosure>
+                        {isAnApp && (
+                          <SettingsDisclosure sectionTitle={t("danger-zone")}>
+                            <DangerZoneControls app={app} />
+                          </SettingsDisclosure>
+                        )}
                       </>
                     )}
                 </div>

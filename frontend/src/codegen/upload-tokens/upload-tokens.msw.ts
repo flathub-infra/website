@@ -38,6 +38,10 @@ export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
     revoked: faker.datatype.boolean(),
   })),
   is_direct_upload_app: faker.datatype.boolean(),
+  allowed_repos: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   ...overrideResponse,
 })
 

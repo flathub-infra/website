@@ -1537,6 +1537,28 @@ class DirectUploadAppInvite(Base):
         )
 
 
+class RuntimeScope(Base):
+    __tablename__ = "runtimescope"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, unique=True, index=True)
+    prefixes = mapped_column(String, nullable=False)
+    extra_ids = mapped_column(String, nullable=False, server_default="")
+    repos = mapped_column(String, nullable=False, server_default="stable beta")
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+
+    @staticmethod
+    def by_app_id(db, app_id: str) -> Optional["RuntimeScope"]:
+        return db.query(RuntimeScope).filter_by(app_id=app_id).first()
+
+    @staticmethod
+    def all(db) -> list["RuntimeScope"]:
+        return db.session.query(RuntimeScope).all()
+
+
 class UploadToken(Base):
     __tablename__ = "uploadtoken"
 

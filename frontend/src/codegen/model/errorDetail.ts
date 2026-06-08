@@ -27,4 +27,6 @@ export const ErrorDetail = {
   app_already_exists: "app_already_exists",
   must_accept_publisher_agreement: "must_accept_publisher_agreement",
   flat_manager_not_configured: "flat_manager_not_configured",
+  is_runtime: "is_runtime",
+  runtime_cannot_be_archived: "runtime_cannot_be_archived",
 } as const

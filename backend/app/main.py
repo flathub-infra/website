@@ -32,6 +32,7 @@ from .routes import (
     oidc,
     purchases,
     quality_moderation,
+    runtimes,
     stats,
     upload_tokens,
     year_in_review,
@@ -92,6 +93,7 @@ collection.register_to_app(router)
 feed.register_to_app(router)
 quality_moderation.register_to_app(router)
 upload_tokens.register_to_app(router)
+runtimes.register_to_app(router)
 exceptions.register_to_app(router)
 oidc.register_to_app(router)
 

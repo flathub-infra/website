@@ -64,10 +64,11 @@ export default function UploadTokenControls({
               setRepo("beta")
               setModalVisible(true)
             }}
+            disabled={!query.data.data.allowed_repos.includes("beta")}
           >
             {t("new-beta-token")}
           </Button>
-          {query.data.data.is_direct_upload_app && (
+          {query.data.data.allowed_repos.includes("stable") && (
             <Button
               size="lg"
               onClick={() => {

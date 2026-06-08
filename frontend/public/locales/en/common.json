@@ -402,6 +402,7 @@
   "scope-upload": "Upload files to the build",
   "scope-publish": "Publish the build",
   "token-created": "Copy this token and store it in a secure location, such as the secrets store of your CI pipeline. It grants read and write access to your app's builds.",
+  "upload-token-create-failed": "Failed to create upload token. Please try again.",
   "id": "ID",
   "name": "Name",
   "issued": "Issued",

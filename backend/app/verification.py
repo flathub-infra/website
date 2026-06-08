@@ -64,6 +64,10 @@ class ErrorDetail(StrEnum):
     MUST_ACCEPT_PUBLISHER_AGREEMENT = "must_accept_publisher_agreement"
     # The flat-manager variables are not configured
     FLAT_MANAGER_NOT_CONFIGURED = "flat_manager_not_configured"
+    # The app ID is a runtime, which must be provisioned by an administrator
+    IS_RUNTIME = "is_runtime"
+    # Runtimes can never be archived or EOL-rebased
+    RUNTIME_CANNOT_BE_ARCHIVED = "runtime_cannot_be_archived"
 
 
 # Utility functions
@@ -467,6 +471,10 @@ def _check_app_id(
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
 
     if new_app:
+        if is_appid_runtime(app_id):
+            # Runtimes must be provisioned by an administrator, not self-registered.
+            raise HTTPException(status_code=403, detail=ErrorDetail.IS_RUNTIME)
+
         if login.user.accepted_publisher_agreement_at is None:
             raise HTTPException(
                 status_code=403, detail=ErrorDetail.MUST_ACCEPT_PUBLISHER_AGREEMENT
@@ -1142,6 +1150,10 @@ def switch_to_direct_upload(
         examples=["org.gnome.Glade"],
     ),
 ):
+    if is_appid_runtime(app_id):
+        # Runtimes must be provisioned by an administrator, not self-registered.
+        raise HTTPException(status_code=403, detail=ErrorDetail.IS_RUNTIME)
+
     with get_db("replica") as db:
         is_direct_upload = models.DirectUploadApp.by_app_id(db, app_id) is not None
 
@@ -1179,6 +1191,18 @@ def archive(
         examples=["org.gnome.Glade"],
     ),
 ):
+    if is_appid_runtime(app_id):
+        raise HTTPException(
+            status_code=403,
+            detail=ErrorDetail.RUNTIME_CANNOT_BE_ARCHIVED,
+        )
+    with get_db("replica") as db:
+        if models.RuntimeScope.by_app_id(db, app_id) is not None:
+            raise HTTPException(
+                status_code=403,
+                detail=ErrorDetail.RUNTIME_CANNOT_BE_ARCHIVED,
+            )
+
     if not config.settings.flat_manager_api:
         raise HTTPException(
             status_code=500,

@@ -9,6 +9,7 @@ export default function AdminPageClient() {
       condition={(info: GetUserinfoAuthUserinfoGet200) =>
         info.permissions.some((a) => a === Permission.moderation) ||
         info.permissions.some((a) => a === Permission["view-users"]) ||
+        info.permissions.some((a) => a === Permission["modify-users"]) ||
         info.permissions.some((a) => a === Permission["quality-moderation"])
       }
     >

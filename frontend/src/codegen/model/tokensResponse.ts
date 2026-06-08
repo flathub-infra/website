@@ -9,4 +9,5 @@ import type { TokenResponse } from "./tokenResponse"
 export interface TokensResponse {
   tokens: TokenResponse[]
   is_direct_upload_app: boolean
+  allowed_repos: string[]
 }
