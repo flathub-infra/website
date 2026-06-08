@@ -1,16 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { SafetyIcon } from "./SafetyIcons"
-import LicenseIconCircle from "./LicenseIconCircle"
 import SizeBadge from "./SizeBadge"
 import SubHeaderItem from "./SubHeaderItem"
-import {
-  HeartIcon,
-  Users2Icon,
-  ThumbsUpIcon,
-  HandIcon,
-  TriangleAlertIcon,
-  EyeOffIcon,
-} from "lucide-react"
+import { ScaleIcon, Users2Icon, FileTextIcon } from "lucide-react"
 
 const meta = {
   title: "Components/Application/SubHeader/Parts",
@@ -55,20 +47,18 @@ export const SafetyIconsLarge = {
 
 export const LicenseIconsFLOSS = {
   render: () => (
-    <div className="flex gap-1">
-      <LicenseIconCircle color="green" icon={HeartIcon} />
-      <LicenseIconCircle color="green" icon={Users2Icon} />
-      <LicenseIconCircle color="green" icon={ThumbsUpIcon} />
+    <div className="flex h-8 items-center gap-1 rounded-full px-2 bg-flathub-gainsborow/60 dark:bg-flathub-granite-gray/60 text-flathub-sonic-silver dark:text-flathub-lotion">
+      <Users2Icon className="h-4 w-4" aria-hidden />
+      <ScaleIcon className="h-4 w-4" aria-hidden />
     </div>
   ),
 }
 
 export const LicenseIconsProprietary = {
   render: () => (
-    <div className="flex gap-1">
-      <LicenseIconCircle color="yellow" icon={HandIcon} />
-      <LicenseIconCircle color="yellow" icon={TriangleAlertIcon} />
-      <LicenseIconCircle color="yellow" icon={EyeOffIcon} />
+    <div className="flex h-8 items-center gap-1 rounded-full px-2 bg-flathub-status-yellow/20 dark:bg-flathub-status-yellow-dark/20 text-flathub-status-yellow dark:text-flathub-status-yellow-dark">
+      <ScaleIcon className="h-4 w-4" aria-hidden />
+      <FileTextIcon className="h-4 w-4" aria-hidden />
     </div>
   ),
 }
