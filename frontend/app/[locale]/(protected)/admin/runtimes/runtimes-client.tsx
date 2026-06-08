@@ -6,10 +6,10 @@ import {
   Permission,
   GetUserinfoAuthUserinfoGet200,
   RuntimeResponse,
-  useGetRuntimesRuntimesGet,
-  useCreateRuntimeRuntimesPost,
-  useUpdateRuntimeRuntimesAppIdPatch,
-  useRevokeRuntimeTokensRuntimesAppIdRevokeTokensPost,
+  useGetRuntimesRuntimeScopesGet,
+  useCreateRuntimeRuntimeScopesPost,
+  useUpdateRuntimeRuntimeScopesAppIdPatch,
+  useRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost,
 } from "src/codegen"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
 import Spinner from "src/components/Spinner"
@@ -90,7 +90,7 @@ function CreateRuntimeForm({ onCreated }: { onCreated: () => void }) {
   const [repos, setRepos] = useState<string[]>(["stable", "beta"])
   const [maintainerId, setMaintainerId] = useState("")
 
-  const mutation = useCreateRuntimeRuntimesPost({
+  const mutation = useCreateRuntimeRuntimeScopesPost({
     axios: { withCredentials: true },
   })
 
@@ -195,10 +195,10 @@ function RuntimeCard({
   const [repos, setRepos] = useState<string[]>(runtime.repos)
   const [confirmRevoke, setConfirmRevoke] = useState(false)
 
-  const updateMutation = useUpdateRuntimeRuntimesAppIdPatch({
+  const updateMutation = useUpdateRuntimeRuntimeScopesAppIdPatch({
     axios: { withCredentials: true },
   })
-  const revokeMutation = useRevokeRuntimeTokensRuntimesAppIdRevokeTokensPost({
+  const revokeMutation = useRevokeRuntimeTokensRuntimeScopesAppIdRevokeTokensPost({
     axios: { withCredentials: true },
   })
 
@@ -296,7 +296,7 @@ function RuntimeCard({
 }
 
 export default function RuntimesClient() {
-  const query = useGetRuntimesRuntimesGet({
+  const query = useGetRuntimesRuntimeScopesGet({
     axios: { withCredentials: true },
   })
 
