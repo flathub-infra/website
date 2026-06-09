@@ -3,7 +3,7 @@ import enum
 import json
 from datetime import date, datetime, timedelta
 from math import ceil
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -295,7 +295,9 @@ class FlathubUser(Base):
             and default_account is not None
             and default_account.provider == ConnectedAccountProvider.GITHUB
         ):
-            github_repos = GithubRepository.all_by_account(db, default_account)
+            github_repos = GithubRepository.all_by_account(
+                db, cast("GithubAccount", default_account)
+            )
 
         return UserResult(
             id=self.id,
