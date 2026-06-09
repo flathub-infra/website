@@ -47,6 +47,7 @@ export const distroMap = (locale: string) => {
     ["Vanilla OS", <Vanilla_OS locale={locale} />],
     ["Salix", <Salix locale={locale} />],
     ["Slackware", <Slackware locale={locale} />],
+    ["T2SDE", <T2SDE locale={locale} />],
   ])
 }
 
@@ -3201,6 +3202,34 @@ const Slackware = ({ locale }: { locale: string }) => {
             link: (chunk) => <Link href="/">{chunk}</Link>,
           })}
         </li>
+      </ol>
+    </>
+  )
+}
+
+const T2_SDE = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
+  return (
+    <>
+      <div className="flex flex-col items-center">
+        <motion.picture layoutId="distro-logo-T2SDE">
+          <Image
+            width={128}
+            height={128}
+            src={`${ASSET_BASE_URL}/img/distro/t2sde.svg`}
+            alt="T2 SDE Logo"
+          />
+        </motion.picture>
+        <motion.h1 layoutId="distro-name-T2SDE">
+          {t("distros.t2sde.distroName")}
+        </motion.h1>
+      </div>
+      <ol className="distrotut">
+        {t.rich("distros.t2sde.introduction", {
+          header: (chunk) => <h2>{chunk}</h2>,
+          link: (chunk) => <Link href="/">{chunk}</Link>,
+          text: (chunk) => <p>{chunk}</p>,
+        })}
       </ol>
     </>
   )
