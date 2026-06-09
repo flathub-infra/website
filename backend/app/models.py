@@ -1486,6 +1486,7 @@ class DirectUploadAppDeveloper(Base):
             )
         )
 
+
 FlathubUser.TABLES_FOR_DELETE.append(DirectUploadAppDeveloper)
 
 
@@ -1550,10 +1551,9 @@ class DirectUploadAppInvite(Base):
     @staticmethod
     def delete_all_for_app(db, app: DirectUploadApp):
         db.session.execute(
-            delete(DirectUploadAppInvite).where(
-                DirectUploadAppInvite.app_id == app.id
-            )
+            delete(DirectUploadAppInvite).where(DirectUploadAppInvite.app_id == app.id)
         )
+
 
 class RuntimeScope(Base):
     __tablename__ = "runtimescope"

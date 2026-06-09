@@ -153,7 +153,9 @@ def _ensure_direct_upload_app(
 
 def _revoke_all_tokens(app_id: str) -> None:
     """Revoke all upload tokens for an app via the flat-manager API."""
-    assert config.settings.flat_manager_api is not None  # callers must check before calling
+    assert (
+        config.settings.flat_manager_api is not None
+    )  # callers must check before calling
     with get_db("replica") as db:
         tokens = models.UploadToken.by_app_id(db, app_id)
 
