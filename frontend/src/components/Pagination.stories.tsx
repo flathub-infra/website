@@ -134,3 +134,13 @@ export const WithCallback: Story = {
     await expect(args.onClick).toHaveBeenCalledWith(111)
   },
 }
+
+export const WithOnClick: Story = {
+  args: {
+    currentPage: 3,
+    pages: [1, 2, 3, 4, 5],
+    onClick: () => undefined,
+    pathname: mockPathname,
+    searchParams: mockSearchParams,
+  },
+}
