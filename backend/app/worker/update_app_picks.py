@@ -1,5 +1,6 @@
 import random
 from datetime import UTC, datetime, timedelta
+from typing import cast
 
 import dramatiq
 
@@ -38,7 +39,13 @@ def pick_app_of_the_day_automatically(db, day):
         for appId in get_all_appids_for_frontend()
     ]
 
-    all_passed_apps = [app for app in x if app["quality-moderation-status"].passes]
+    all_passed_apps = [
+        app
+        for app in x
+        if cast(
+            "models.QualityModerationStatus", app["quality-moderation-status"]
+        ).passes
+    ]
 
     # Remove apps of the week from the list
     apps_of_the_week = models.AppsOfTheWeek.by_week(
@@ -70,5 +77,5 @@ def pick_app_of_the_day_automatically(db, day):
     random.shuffle(oldest_apps)
 
     if len(oldest_apps) > 0:
-        models.AppOfTheDay.set_app_of_the_day(db, oldest_apps[0], day)
+        models.AppOfTheDay.set_app_of_the_day(db, cast("str", oldest_apps[0]), day)
         invalidate_cache_by_pattern("cache:endpoint:get_app_of_the_day:*")

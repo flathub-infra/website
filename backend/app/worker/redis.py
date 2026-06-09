@@ -1,3 +1,5 @@
+from typing import cast
+
 import redis
 
 from .. import config
@@ -16,9 +18,12 @@ def invalidate_cache_by_pattern(pattern: str) -> int:
         deleted_count = 0
         cursor = 0
         while True:
-            cursor, keys = redis_conn.scan(cursor=cursor, match=pattern, count=100)
+            cursor, keys = cast(
+                "tuple[int, list[str]]",
+                redis_conn.scan(cursor=cursor, match=pattern, count=100),
+            )
             if keys:
-                deleted_count += redis_conn.delete(*keys)
+                deleted_count += cast("int", redis_conn.delete(*keys))
             if cursor == 0:
                 break
         return deleted_count

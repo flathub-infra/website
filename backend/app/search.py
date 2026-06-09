@@ -3,6 +3,7 @@ import logging
 from typing import Any, TypeVar
 
 import meilisearch
+import meilisearch.errors
 from pydantic import BaseModel, field_validator
 from sqlalchemy import text
 
@@ -404,8 +405,7 @@ def create_or_update_apps(apps_to_update: list[dict]):
 
 def delete_apps(app_id_list: list[str]) -> None:
     if len(app_id_list) > 0:
-        return client.index("apps").delete_documents(app_id_list)
-    return None
+        client.index("apps").delete_documents(app_id_list)
 
 
 def get_by_selected_categories(

@@ -4,7 +4,7 @@ import copy
 import datetime
 import json
 from collections import defaultdict
-from typing import TypedDict
+from typing import TypedDict, cast
 from urllib.parse import urlparse, urlunparse
 
 import httpx
@@ -119,7 +119,7 @@ def _get_stats_for_date(
         )
         redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
-        stats = orjson.loads(stats_txt)
+        stats = orjson.loads(cast("str | bytes", stats_txt))
     return stats
 
 
@@ -127,7 +127,7 @@ def _load_aggregates() -> dict:
     result = {}
     for key, redis_key in AGGREGATES_KEYS.items():
         data = redis_conn.get(redis_key)
-        result[key] = orjson.loads(data) if data else None
+        result[key] = orjson.loads(cast("str | bytes", data)) if data else None
     return result
 
 
@@ -181,7 +181,7 @@ def _normalize_aggregates(agg: dict) -> dict:
 
 
 def _update_global_stats_for_date(
-    date: datetime.date, stats: dict | None, global_dict: dict
+    date: datetime.date, stats: StatsFromServer | None, global_dict: dict
 ) -> None:
     """Update global stats dict with data from a single date."""
     if stats is None:
@@ -202,7 +202,9 @@ def _update_global_stats_for_date(
             )
 
 
-def _update_aggregates_for_date(date: datetime.date, stats: dict, agg: dict) -> None:
+def _update_aggregates_for_date(
+    date: datetime.date, stats: StatsFromServer | None, agg: dict
+) -> None:
     if stats is None:
         return
 
@@ -267,7 +269,7 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     redis_key = "app_stats_per_day"
     cached_data = database.get_json_key(redis_key)
     if cached_data is not None and isinstance(cached_data, dict):
-        return cached_data  # type: ignore
+        return cached_data
 
     edate = datetime.date.today() - datetime.timedelta(days=2)
     sdate = FIRST_STATS_DATE

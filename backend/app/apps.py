@@ -6,7 +6,7 @@ import gi
 from . import database, localize, models, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
-from gi.repository import AppStream
+from gi.repository import AppStream  # ty: ignore[unresolved-import]
 
 clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()

@@ -35,7 +35,7 @@ class StatsResult(BaseModel):
     os_flatpak_versions: dict[str, dict[str, int]]
 
 
-def _normalize_stats_result(value: dict) -> dict:
+def _normalize_stats_result(value: dict) -> StatsResult:
     if "os_versions" not in value or value["os_versions"] is None:
         value["os_versions"] = {}
     if "flatpak_versions" not in value or value["flatpak_versions"] is None:
@@ -43,7 +43,7 @@ def _normalize_stats_result(value: dict) -> dict:
     if "os_flatpak_versions" not in value or value["os_flatpak_versions"] is None:
         value["os_flatpak_versions"] = {}
 
-    return value
+    return StatsResult.model_validate(value)
 
 
 class StatsResultApp(BaseModel):

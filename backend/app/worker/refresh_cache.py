@@ -38,7 +38,9 @@ async def _prepopulate_cache():
             print(f"Error prepopulating EOL for {app_id}: {e}")
 
         try:
-            quality_moderation.get_quality_moderation_for_app(app_id=app_id)
+            quality_moderation.get_quality_moderation_for_app(
+                response=Response(), app_id=app_id
+            )
         except Exception as e:
             print(f"Error prepopulating quality moderation for {app_id}: {e}")
 

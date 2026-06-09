@@ -1,4 +1,4 @@
 if __name__ == "__main__":
-    import dramatiq.worker
+    import dramatiq.cli
 
-    dramatiq.worker.main()
+    dramatiq.cli.main()

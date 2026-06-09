@@ -1,5 +1,10 @@
+from typing import TYPE_CHECKING, cast
+
 import dramatiq
 from github import Github
+
+if TYPE_CHECKING:
+    from github.AuthenticatedUser import AuthenticatedUser
 
 from .. import models
 from ..database import get_db
@@ -8,7 +13,7 @@ from ..database import get_db
 @dramatiq.actor
 def refresh_github_repo_list(gh_access_token: str, accountId: int):
     gh = Github(gh_access_token)
-    ghuser = gh.get_user()
+    ghuser = cast("AuthenticatedUser", gh.get_user())
     user_repos = [
         repo.full_name.removeprefix("flathub/")
         for repo in ghuser.get_repos(affiliation="collaborator")

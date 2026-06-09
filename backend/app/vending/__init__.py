@@ -38,7 +38,7 @@ from ..wallet import Wallet, WalletError
 
 gi.require_version("AppStream", "1.0")
 
-from gi.repository import AppStream
+from gi.repository import AppStream  # ty: ignore[unresolved-import]
 
 
 class VendingError(Exception):
@@ -190,7 +190,7 @@ class VendingApplicationInformation(BaseModel):
 
 
 # @app.exception_handler(VendingError) (done in register function below)
-async def vendingerror_exception_handler(_request: Request, exc: VendingError):
+async def vendingerror_exception_handler(_request: Request, exc: Exception):
     """
     Handle functions which yeet a VendingError at FastAPI by converting them to
     the JSONResponse needed.
@@ -198,6 +198,7 @@ async def vendingerror_exception_handler(_request: Request, exc: VendingError):
     if exc.__cause__ is not None:
         print("Vending Error caused by:")
         print(exc.__cause__)
+    assert isinstance(exc, VendingError)
     return exc.as_jsonresponse()
 
 
@@ -223,7 +224,7 @@ def status(login=Depends(login_state)) -> VendingStatus:
     flow to be a vendor on Flathub.
     """
     if not login["state"].logged_in():
-        return JSONResponse(
+        return JSONResponse(  # ty: ignore[invalid-return-type]
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("replica") as db:
@@ -239,11 +240,15 @@ def status(login=Depends(login_state)) -> VendingStatus:
     can_take_money = False
     try:
         acc = stripe.Account.retrieve(account.stripe_account)
-        can_take_money = acc.get("capabilities", {}).get("transfers") == "active"
-        needs_attention = (
-            len(acc.get("requirements", {}).get("currently_due", ["..."])) > 0
+        can_take_money = (
+            acc.capabilities is not None and acc.capabilities.transfers == "active"
         )
-        details_submitted = acc.get("details_submitted")
+        needs_attention = (
+            acc.requirements is not None
+            and acc.requirements.currently_due is not None
+            and len(acc.requirements.currently_due) > 0
+        )
+        details_submitted = bool(acc.details_submitted)
     except Exception as error:
         raise VendingError("stripe-account-retrieval-failed") from error
 
@@ -274,7 +279,7 @@ def start_onboarding(
     """
 
     if not login["state"].logged_in():
-        return JSONResponse(
+        return JSONResponse(  # ty: ignore[invalid-return-type]
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("writer") as db:
@@ -325,7 +330,7 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
     The user must be logged in and must have onboarded.
     """
     if not login["state"].logged_in():
-        return JSONResponse(
+        return JSONResponse(  # ty: ignore[invalid-return-type]
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("replica") as db:
@@ -700,8 +705,8 @@ def create_tokens(
                     id=str(token.id),
                     state=token.state,
                     name=token.name,
-                    created=str(token.created),
-                    changed=str(token.changed),
+                    created=token.created,
+                    changed=token.changed,
                     token=token.token,
                 )
             )

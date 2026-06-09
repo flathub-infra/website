@@ -254,7 +254,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
             if gnome_userid := person_tag.findall(
                 "{http://api.gnome.org/doap-extensions#}userid"
             ):
-                maintainers.append(gnome_userid[0].text)
+                if gnome_userid[0].text is not None:
+                    maintainers.append(gnome_userid[0].text)
                 break
 
     return maintainers
@@ -403,7 +404,7 @@ def _is_github_app(app_id: str) -> bool:
         raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
 
 
-def is_appid_runtime(app_id: str) -> str | bool:
+def is_appid_runtime(app_id: str) -> str | Literal[False]:
     # All runtimes are pushed by verified vendors, but they might be using anything
     # matching tld.vendor.*, so we need to test refs against one specific ID
     # Extensions are special case maintained by other developers

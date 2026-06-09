@@ -11,13 +11,13 @@ from typing import Any
 
 import gi
 import jwt
-from lxml import etree
+from lxml import etree  # ty: ignore[unresolved-import]
 from pydantic import BaseModel
 
 from . import config, http_client, localize, models
 
 gi.require_version("AppStream", "1.0")
-from gi.repository import AppStream
+from gi.repository import AppStream  # ty: ignore[unresolved-import]
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 remove_desktop_re = re.compile(r"\.desktop$")
@@ -877,7 +877,7 @@ def _load_platforms(with_stripe: bool) -> dict[str, Platform]:
         return ret
     except (AttributeError, ValueError, TypeError, json.JSONDecodeError) as error:
         print(f"Unable to load platforms: {error}")
-        return {"org.flathub.Flathub": Platform(depends=[], aliases=[])}
+        return {"org.flathub.Flathub": Platform(depends=None, aliases=[], keep=100)}
 
 
 PLATFORMS = _load_platforms(False)

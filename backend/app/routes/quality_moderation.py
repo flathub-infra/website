@@ -1,6 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, cast
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
 from pydantic import BaseModel
@@ -161,7 +161,7 @@ def get_quality_moderation_stats(
 ) -> list[FailedByGuideline]:
     response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
-        return QualityModeration.group_by_guideline(db)
+        return cast("list[FailedByGuideline]", QualityModeration.group_by_guideline(db))
 
 
 @router.get(

@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Literal
+from typing import Literal, cast
 
 import orjson
 import redis.asyncio as aioredis
@@ -155,7 +155,7 @@ def get_json_key(key: str):
     from .worker.redis import redis_conn
 
     if value := redis_conn.get(key):
-        return orjson.loads(value)
+        return orjson.loads(cast("str | bytes", value))
 
     return None
 
