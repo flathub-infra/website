@@ -79,7 +79,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
   if (summary) {
     items.push(
       <SubHeaderItem key="download" onClick={() => setDownloadSizeOpen(true)}>
-        <span className="inline-flex items-center rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-sm font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
+        <span className="inline-flex h-8 items-center rounded-full bg-flathub-gainsborow/60 px-3 text-base font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
           {calculateHumanReadableSize(summary.download_size, true)}
         </span>
         <span className="text-xs text-flathub-sonic-silver dark:text-flathub-lotion">
@@ -195,7 +195,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
       >
         <span
           className={clsx(
-            "inline-flex items-center rounded-full px-3 py-1 text-sm font-bold leading-none tabular-nums",
+            "inline-flex h-8 items-center rounded-full px-3 text-base font-bold leading-none tabular-nums",
             ageToColor(contentRating.minimumAge),
           )}
         >
@@ -212,7 +212,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
   const installsLastMonth = stats?.installs_last_month ?? 0
   items.push(
     <SubHeaderItem key="stats" onClick={() => setStatsOpen(true)}>
-      <span className="inline-flex items-center rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-sm font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
+      <span className="inline-flex h-8 items-center rounded-full bg-flathub-gainsborow/60 px-3 text-base font-bold leading-none tabular-nums dark:bg-flathub-granite-gray/60">
         {installsLastMonth.toLocaleString(getIntlLocale(locale))}
       </span>
       <span className="text-xs text-flathub-sonic-silver dark:text-flathub-lotion">
