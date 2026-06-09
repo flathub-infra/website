@@ -227,7 +227,6 @@ function RuntimeScopeSection({
     hasScope ? app.scope!.repos : ["stable", "beta"],
   )
   const [confirmRemove, setConfirmRemove] = useState(false)
-  const [showAddForm, setShowAddForm] = useState(false)
 
   const saveMutation = useSetRuntimeScopeDirectUploadAppsAppIdScopePut({
     axios: { withCredentials: true },
@@ -309,85 +308,7 @@ function RuntimeScopeSection({
     )
   }
 
-  return (
-    <div className="border-t pt-3">
-      {!showAddForm ? (
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => setShowAddForm(true)}
-        >
-          Add runtime scope
-        </Button>
-      ) : (
-        <div className="flex flex-col gap-3">
-          <span className="text-sm font-semibold">Add runtime scope</span>
-          <Field
-            id={`${app.app_id}-new-prefixes`}
-            label="Prefixes (space or comma separated)"
-          >
-            <Input
-              id={`${app.app_id}-new-prefixes`}
-              placeholder="org.gnome.Platform org.gnome.Sdk"
-              value={prefixes}
-              onChange={(e) => setPrefixes(e.target.value)}
-            />
-          </Field>
-          <Field
-            id={`${app.app_id}-new-extra-ids`}
-            label="Extra IDs (optional)"
-          >
-            <Input
-              id={`${app.app_id}-new-extra-ids`}
-              placeholder="org.gnome.Sdk.Docs"
-              value={extraIds}
-              onChange={(e) => setExtraIds(e.target.value)}
-            />
-          </Field>
-          <RepoCheckboxes
-            repos={repos}
-            onChange={setRepos}
-            idPrefix={`${app.app_id}-new`}
-          />
-          <div className="flex gap-3">
-            <Button
-              size="sm"
-              onClick={() =>
-                saveMutation.mutate(
-                  {
-                    appId: app.app_id,
-                    data: {
-                      prefixes: splitList(prefixes),
-                      extra_ids: splitList(extraIds),
-                      repos,
-                    },
-                  },
-                  {
-                    onSuccess: () => {
-                      setShowAddForm(false)
-                      onChanged()
-                    },
-                  },
-                )
-              }
-              disabled={
-                splitList(prefixes).length === 0 || saveMutation.isPending
-              }
-            >
-              Save scope
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setShowAddForm(false)}
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+  return null
 }
 
 function ManagedAppCard({
