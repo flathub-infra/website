@@ -307,6 +307,8 @@ def decline_invite(
         db_session.commit()
 
         primary_dev = DirectUploadAppDeveloper.primary_for_app(db_session, app)
+        if primary_dev is None:
+            raise HTTPException(status_code=500, detail="no_primary_developer")
 
         if app_metadata := get_json_key(f"apps:{app.app_id}"):
             app_name = app_metadata["name"]

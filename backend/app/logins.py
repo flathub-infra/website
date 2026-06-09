@@ -11,6 +11,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from enum import StrEnum
+from typing import cast
 
 import httpx
 from authlib.integrations.base_client.errors import OAuthError
@@ -18,6 +19,7 @@ from authlib.oauth2.base import OAuth2Error
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from github import Github
+from github.AuthenticatedUser import AuthenticatedUser
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabHttpError
 from pydantic import BaseModel
@@ -85,13 +87,21 @@ def _clear_oauth_session(request: Request, method: str | None = None):
     request.session.pop(_oauth_state_key(method), None)
 
 
+_OAuthRefreshableAccount = (
+    models.GitlabAccount
+    | models.GnomeAccount
+    | models.GoogleAccount
+    | models.KdeAccount
+)
+
+
 def refresh_repo_list(gh_access_token: str, accountId: int):
     from .worker.refresh_github_repo_list import refresh_github_repo_list
 
     refresh_github_repo_list.send(gh_access_token, accountId)
 
 
-def _refresh_token(account, method: str) -> str:
+def _refresh_token(account: _OAuthRefreshableAccount, method: str) -> str:
     if account.token_expiry is None or account.token_expiry > datetime.now():
         return account.token
 
@@ -138,13 +148,15 @@ def _refresh_token(account, method: str) -> str:
     return account.token
 
 
-def refresh_oauth_token(account) -> str:
+def refresh_oauth_token(account: models.ConnectedAccount) -> str:
     """Makes sure the account has an up to date access token, refreshing it with the refresh token if needed.
     If the token is updated, db.session.commit() is called to save the change."""
 
     with get_db("writer") as db:
         account = db.merge(account)
-        return _refresh_token(account, account.provider.value)
+        return _refresh_token(
+            cast("_OAuthRefreshableAccount", account), account.provider.value
+        )
 
 
 router = APIRouter(prefix="/auth")
@@ -286,7 +298,7 @@ def start_oauth_flow(
     request: Request,
     login: LoginInformation,
     method: str,
-    account_model: type[models.Base],
+    account_model: type[models.ConnectedAccount],
 ):
     """
     Start an oauth login flow. This uses the session-backed flow state, the
@@ -402,11 +414,12 @@ def continue_github_flow(
     def github_userdata(tokens) -> ProviderInfo:
         gh = Github(tokens["access_token"])
         ghuser = gh.get_user()
+        assert isinstance(ghuser, AuthenticatedUser)
 
         email = next((e.email for e in ghuser.get_emails() if e.primary), None)
 
         return ProviderInfo(
-            ghuser.id,
+            str(ghuser.id),
             ghuser.login,
             name=ghuser.name,
             avatar_url=ghuser.avatar_url,
@@ -433,6 +446,8 @@ def _gitlab_provider_info(url, tokens) -> ProviderInfo:
     gl = Gitlab(url, oauth_token=tokens["access_token"])
     gl.auth()
     gluser = gl.user
+    if gluser is None:
+        raise HTTPException(status_code=401, detail="gitlab_auth_failed")
     return ProviderInfo(
         gluser.id,
         gluser.username,
@@ -641,7 +656,7 @@ def continue_oauth_flow(
     data: OauthLoginResponse,
     method: str,
     token_to_data: Callable[[dict], ProviderInfo],
-    account_model: type[models.Base],
+    account_model: type[models.ConnectedAccount],
     postlogin_handler: Callable | None = None,
 ):
     """
@@ -771,8 +786,9 @@ def continue_oauth_flow(
                 email=provider_data.email,
             )
             if "refresh_token" in login_result:
-                account.refresh_token = login_result["refresh_token"]
-                account.token_expiry = datetime.now() + timedelta(
+                refreshable = cast("_OAuthRefreshableAccount", account)
+                refreshable.refresh_token = login_result["refresh_token"]
+                refreshable.token_expiry = datetime.now() + timedelta(
                     seconds=int(login_result.get("expires_in", "7200"))
                 )
             db.add(account)
@@ -794,8 +810,9 @@ def continue_oauth_flow(
             account.display_name = provider_data.name
             account.email = provider_data.email
             if "refresh_token" in login_result:
-                account.refresh_token = login_result["refresh_token"]
-                account.token_expiry = datetime.now() + timedelta(
+                refreshable = cast("_OAuthRefreshableAccount", account)
+                refreshable.refresh_token = login_result["refresh_token"]
+                refreshable.token_expiry = datetime.now() + timedelta(
                     seconds=int(login_result.get("expires_in", "7200"))
                 )
             db.add(account)
@@ -918,7 +935,7 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
             user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
             db.commit()
 
-        default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
+        default_account: models.ConnectedAccount = user.get_default_account(db)
         dev_flatpaks = user.dev_flatpaks(db)
         permissions = user.permissions()  # Now called within session context
         owned_flatpaks = {
@@ -948,7 +965,7 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
 
     defaultAccountInfo = AuthInfo(
-        avatar=default_avatar_url, login=default_login, provider=default_provider
+        avatar=default_avatar_url, login=default_login or "", provider=default_provider
     )
 
     return UserInfo(

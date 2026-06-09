@@ -38,6 +38,9 @@ def _get_message_destination(
     user: models.FlathubUser, payload: dict, db
 ) -> tuple[str, dict] | None:
     user_default_account = user.get_default_account(db)
+    if user_default_account is None:
+        print(f"Could not find default account for user #{user.id}")
+        return None
 
     email = user_default_account.email
     if email is None:

@@ -14,16 +14,16 @@ import httpx
 
 gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
-from gi.repository import GLib, OSTree
+from gi.repository import GLib, OSTree  # type: ignore
 
 from . import apps, config, database, http_client, models, search, utils
 
 
 class JSONSetEncoder(json.JSONEncoder):
-    def default(self, obj: Any) -> list[Any]:
-        if isinstance(obj, set):
-            return list(obj)
-        return json.JSONEncoder.default(self, obj)
+    def default(self, o: Any) -> Any:
+        if isinstance(o, set):
+            return list(o)
+        return json.JSONEncoder.default(self, o)
 
 
 # "valid" here means it would be displayed on flathub.org
@@ -184,7 +184,9 @@ def parse_metadata(ini: str):
 
 
 def parse_summary(summary, sqldb):
-    summary_dict = defaultdict(lambda: {"arches": set(), "branch": "stable"})
+    summary_dict: dict[str, Any] = defaultdict(
+        lambda: {"arches": set(), "branch": "stable"}
+    )
     updated_at_dict = {}
 
     if isinstance(summary, bytes):

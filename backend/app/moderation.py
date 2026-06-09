@@ -414,13 +414,13 @@ def submit_review_request(
     for app_id, app_data in build_appstream.items():
         is_new_submission = True
 
-        keys = {
+        keys: dict[str, Any] = {
             "name": app_data.get("name"),
             "summary": app_data.get("summary"),
             "developer_name": app_data.get("developer_name"),
             "project_license": app_data.get("project_license"),
         }
-        current_values = {}
+        current_values: dict[str, Any] = {}
 
         # Check if the app data matches the current appstream
         if app := get_json_key(f"apps:{app_id}"):
@@ -742,6 +742,9 @@ def submit_review(
             raise HTTPException(status_code=404, detail="not_found")
         elif request.handled_at is not None:
             raise HTTPException(status_code=400, detail="already_handled")
+
+        if login.user is None:
+            raise HTTPException(status_code=401, detail="not_logged_in")
 
         request.is_approved = review.approve
         request.handled_by = login.user.id
