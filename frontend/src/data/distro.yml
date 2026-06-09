@@ -524,5 +524,5 @@
   logo: "t2sde.svg"
   introduction: >
     <h2>Flatpak is installed by default on T2 SDE since version 26.6—no setup required!</h2>
-    <p>Flatpak comes preconfigured with the Flathub repository and Discover are included to allow 1-click install from Flathub.</p>
+    <p>Flatpak comes preconfigured with the Flathub repository and Discover is included to allow 1-click install from Flathub.</p>
     <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>
