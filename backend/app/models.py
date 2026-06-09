@@ -32,6 +32,7 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
+    Query,
     Session,
     mapped_column,
     relationship,
@@ -1622,11 +1623,13 @@ class Transaction(Base):
     updated = mapped_column(DateTime, nullable=False)
 
     @classmethod
-    def by_user(cls, db, user: FlathubUser) -> "Transaction":
+    def by_user(cls, db, user: FlathubUser) -> "Query[Transaction]":
         return db.session.query(Transaction).filter(Transaction.user_id == user.id)
 
     @classmethod
-    def by_user_and_id(cls, db, user: FlathubUser, txnid: str) -> "Transaction":
+    def by_user_and_id(
+        cls, db, user: FlathubUser, txnid: str
+    ) -> Optional["Transaction"]:
         return (
             db.session.query(Transaction)
             .filter(Transaction.user_id == user.id)
