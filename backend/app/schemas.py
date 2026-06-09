@@ -7,6 +7,7 @@ class MainCategory(StrEnum):
     AudioVideo = auto()
     Development = auto()
     Education = auto()
+    HealthFitness = auto()
     Game = auto()
     Graphics = auto()
     Network = auto()
