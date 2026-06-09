@@ -525,8 +525,9 @@ def update(sqldb) -> None:
             if "Build" in key_file.get_groups()[0]:
                 try:
                     built_extensions = key_file.get_value("Build", "built-extensions")
-                    for ext in filter(len, built_extensions.split(";")):
-                        reverse_lookup[ext] = app_id
+                    for ext in built_extensions.split(";"):
+                        if ext:
+                            reverse_lookup[ext] = app_id
                 except GLib.Error:
                     pass
         except GLib.Error:

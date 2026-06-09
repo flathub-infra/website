@@ -83,9 +83,10 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
                             filtered_translations[k] = keywords
                             localized_keywords_set.update(keywords)
 
-            if "description" in filtered_translations:
+            description = filtered_translations.get("description")
+            if isinstance(description, str):
                 filtered_translations["description"] = re.sub(
-                    clean_html_re, "", filtered_translations["description"]
+                    clean_html_re, "", description
                 )
 
             if filtered_translations:
