@@ -3,6 +3,7 @@
 These tests exercise the EOL-reconciliation block inline (without a real
 database or the full app module chain) so they can run in any environment.
 """
+
 import datetime
 from types import SimpleNamespace
 
@@ -68,15 +69,12 @@ def _run_eol_reconciliation(
         if aid in summary_eol_map:
             app.is_eol = True
             app.eol_branches = list(summary_eol_map[aid])
-            if app.type == "runtime":
-                existing = dict(app.eol_dates or {})
-                now_iso = datetime.datetime.now(datetime.UTC).isoformat()
-                for branch in summary_eol_map[aid]:
-                    existing.setdefault(branch, now_iso)
-                existing = {
-                    b: d for b, d in existing.items() if b in summary_eol_map[aid]
-                }
-                app.eol_dates = existing
+            existing = dict(app.eol_dates or {})
+            now_iso = datetime.datetime.now(datetime.UTC).isoformat()
+            for branch in summary_eol_map[aid]:
+                existing.setdefault(branch, now_iso)
+            existing = {b: d for b, d in existing.items() if b in summary_eol_map[aid]}
+            app.eol_dates = existing
             fake_db.session.add(app)
         else:
             app.is_eol = False
@@ -111,17 +109,22 @@ def test_eol_dates_set_for_runtime_on_first_observation():
     assert before <= recorded <= after
 
 
-def test_eol_dates_not_set_for_non_runtime():
-    """A non-runtime app going EOL must not have eol_dates populated."""
+def test_eol_dates_set_for_non_runtime():
+    """A non-runtime app going EOL must have eol_dates populated."""
     app = _make_app(app_id="com.example.App", is_runtime=False)
 
+    before = datetime.datetime.now(datetime.UTC)
     _run_eol_reconciliation(
         summary_eol_map={"com.example.App": {"stable"}},
         db_eol_apps=[],
         apps={"com.example.App": app},
     )
+    after = datetime.datetime.now(datetime.UTC)
 
-    assert app.eol_dates is None
+    assert app.eol_dates is not None
+    assert "stable" in app.eol_dates
+    recorded = datetime.datetime.fromisoformat(app.eol_dates["stable"])
+    assert before <= recorded <= after
 
 
 def test_eol_dates_first_observed_preserved():
@@ -141,7 +144,9 @@ def test_eol_dates_first_observed_preserved():
         apps={"org.gnome.Platform": app},
     )
 
-    assert app.eol_dates["45"] == original_ts, "First-observed timestamp must not change"
+    assert app.eol_dates["45"] == original_ts, (
+        "First-observed timestamp must not change"
+    )
 
 
 def test_eol_dates_adds_new_branch():
@@ -207,6 +212,50 @@ def test_eol_dates_cleared_when_app_no_longer_eol():
         summary_eol_map={},  # nothing is EOL any more
         db_eol_apps=["org.gnome.Platform"],
         apps={"org.gnome.Platform": app},
+    )
+
+    assert app.eol_dates is None
+    assert app.is_eol is False
+
+
+def test_eol_dates_pruned_when_branch_no_longer_eol_non_runtime():
+    """A branch removed from the EOL set must be pruned from eol_dates for a non-runtime app."""
+    app = _make_app(
+        app_id="com.example.App",
+        is_runtime=False,
+        eol_dates={
+            "stable": "2025-01-01T00:00:00+00:00",
+            "beta": "2025-06-01T00:00:00+00:00",
+        },
+        eol_branches=["stable", "beta"],
+    )
+    app.is_eol = True
+
+    _run_eol_reconciliation(
+        # Only branch beta is still EOL; stable has been removed.
+        summary_eol_map={"com.example.App": {"beta"}},
+        db_eol_apps=["com.example.App"],
+        apps={"com.example.App": app},
+    )
+
+    assert "stable" not in app.eol_dates, "Removed branch must be pruned"
+    assert "beta" in app.eol_dates
+
+
+def test_eol_dates_cleared_when_app_no_longer_eol_non_runtime():
+    """When a non-runtime app is no longer EOL at all, eol_dates must be set to None."""
+    app = _make_app(
+        app_id="com.example.App",
+        is_runtime=False,
+        eol_dates={"stable": "2025-01-01T00:00:00+00:00"},
+        eol_branches=["stable"],
+    )
+    app.is_eol = True
+
+    _run_eol_reconciliation(
+        summary_eol_map={},  # nothing is EOL any more
+        db_eol_apps=["com.example.App"],
+        apps={"com.example.App": app},
     )
 
     assert app.eol_dates is None

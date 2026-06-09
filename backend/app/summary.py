@@ -471,13 +471,14 @@ def update(sqldb) -> None:
             if app_id in summary_eol_map:
                 app.is_eol = True
                 app.eol_branches = list(summary_eol_map[app_id])
-                if app.type == "runtime":
-                    existing = dict(app.eol_dates or {})
-                    now_iso = datetime.datetime.now(datetime.UTC).isoformat()
-                    for branch in summary_eol_map[app_id]:
-                        existing.setdefault(branch, now_iso)
-                    existing = {b: d for b, d in existing.items() if b in summary_eol_map[app_id]}
-                    app.eol_dates = existing
+                existing = dict(app.eol_dates or {})
+                now_iso = datetime.datetime.now(datetime.UTC).isoformat()
+                for branch in summary_eol_map[app_id]:
+                    existing.setdefault(branch, now_iso)
+                existing = {
+                    b: d for b, d in existing.items() if b in summary_eol_map[app_id]
+                }
+                app.eol_dates = existing
                 sqldb.session.add(app)
             else:
                 app.is_eol = False
