@@ -1,3 +1,4 @@
+import datetime as _dt
 import enum
 import json
 from datetime import date, datetime, timedelta
@@ -2460,11 +2461,13 @@ class AppOfTheDay(Base):
     __table_args__ = (Index("appoftheday_unique", app_id, date, unique=True),)
 
     @classmethod
-    def by_date(cls, db, date: Date) -> Optional["AppOfTheDay"]:
+    def by_date(cls, db, date: _dt.date) -> Optional["AppOfTheDay"]:
         return db.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
 
     @classmethod
-    def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
+    def set_app_of_the_day(
+        cls, db, app_id: str, date: _dt.date
+    ) -> Optional["AppOfTheDay"]:
         app_obj = App.by_appid(db, app_id)
         if app_obj and app_obj.excluded_from_app_picks:
             raise HTTPException(400, "App is excluded from app picks")
@@ -2483,7 +2486,7 @@ class AppOfTheDay(Base):
         return app
 
     @classmethod
-    def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> date:
+    def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> _dt.date:
         latest_date = (
             db.query(AppOfTheDay)
             .filter(AppOfTheDay.app_id == app_id)
