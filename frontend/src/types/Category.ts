@@ -22,6 +22,8 @@ export function stringToCategory(category: string): MainCategory | undefined {
       return MainCategory.system
     case "utility":
       return MainCategory.utility
+    case "healthfitness":
+      return MainCategory.healthfitness
     default:
       return undefined
   }
@@ -72,6 +74,8 @@ export function categoryToName(category: MainCategory, t): string {
       return t("education")
     case MainCategory.system:
       return t("system")
+    case MainCategory.healthfitness:
+      return t("health-and-fitness")
     default:
       assertUnreachable(category)
   }

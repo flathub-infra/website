@@ -49,6 +49,10 @@ interface HomeClientProps {
 function MobileSection({ mobile }: { mobile: MeilisearchResponseAppsIndex }) {
   const t = useTranslations()
 
+  if (mobile.hits.length === 0) {
+    return null
+  }
+
   return (
     <ApplicationSectionGradient
       mobile={mobile}
@@ -121,49 +125,75 @@ function CategorySection({
     category: MainCategory
     apps: MeilisearchResponseAppsIndex
   }[]
-  mobileSection: ReactElement
-  gameSection: ReactElement
+  mobileSection: ReactElement | null
+  gameSection: ReactElement | null
 }) {
   const t = useTranslations()
 
-  const categorySections = useMemo(
+  const topAppsWithResults = useMemo(
     () =>
-      topAppsByCategory.map((sectionData) => ({
-        category: sectionData.category,
-        applications: sectionData.apps.hits.map((app) =>
-          mapAppsIndexToAppstreamListItem(app),
-        ),
-      })),
+      topAppsByCategory
+        .map((sectionData) => ({
+          category: sectionData.category,
+          applications: sectionData.apps.hits.map((app) =>
+            mapAppsIndexToAppstreamListItem(app),
+          ),
+        }))
+        .filter((sectionData) => sectionData.applications.length > 0),
     [topAppsByCategory],
   )
 
-  return (
-    <>
-      {categorySections.map((sectionData, i) => (
-        <div key={`categorySection${sectionData.category}`}>
-          {i === 3 && <div className="mb-10">{mobileSection}</div>}
-          {i === 5 && <div className="mb-10">{gameSection}</div>}
-          <ApplicationSection
-            type="withCustomHeader"
-            href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
-            applications={sectionData.applications}
-            numberOfApps={6}
-            customHeader={
-              <>
-                <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-                  <h1 className="my-auto text-2xl font-bold">
-                    {categoryToName(sectionData.category, t)}
-                  </h1>
-                </header>
-              </>
-            }
-            showMore={true}
-            moreText={t(`more-${sectionData.category.toLowerCase()}`)}
-          />
-        </div>
-      ))}
-    </>
+  const renderedSections = useMemo(
+    () =>
+      topAppsWithResults.flatMap((sectionData, index) => {
+        const sections = [
+          <div key={`categorySection${sectionData.category}`}>
+            <ApplicationSection
+              type="withCustomHeader"
+              href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
+              applications={sectionData.applications}
+              numberOfApps={6}
+              customHeader={
+                <>
+                  <header className="mb-3 flex max-w-full flex-row content-center justify-between">
+                    <h1 className="my-auto text-2xl font-bold">
+                      {categoryToName(sectionData.category, t)}
+                    </h1>
+                  </header>
+                </>
+              }
+              showMore={true}
+              moreText={t(`more-${sectionData.category.toLowerCase()}`)}
+            />
+          </div>,
+        ]
+
+        if (index === 3 && mobileSection) {
+          sections.push(
+            <div key="mobileSection" className="mb-10">
+              {mobileSection}
+            </div>,
+          )
+        }
+
+        if (index === 5 && gameSection) {
+          sections.push(
+            <div key="gameSection" className="mb-10">
+              {gameSection}
+            </div>,
+          )
+        }
+
+        return sections
+      }),
+    [gameSection, mobileSection, t, topAppsWithResults],
   )
+
+  if (renderedSections.length === 0) {
+    return null
+  }
+
+  return <>{renderedSections}</>
 }
 
 function TopSection({
@@ -207,9 +237,17 @@ function TopSection({
 
   const applications = useMemo(
     () =>
-      selectedApps.apps.hits.map((app) => mapAppsIndexToAppstreamListItem(app)),
-    [selectedApps.apps.hits],
+      selectedApps
+        ? selectedApps.apps.hits.map((app) =>
+            mapAppsIndexToAppstreamListItem(app),
+          )
+        : [],
+    [selectedApps],
   )
+
+  if (!selectedApps) {
+    return null
+  }
 
   return (
     <ApplicationSection
@@ -264,21 +302,25 @@ function HomeClient({
       name: "updated",
       moreLink: "/apps/collection/recently-updated",
     },
-  ]
+  ].filter((section) => section.apps.hits.length > 0)
 
   const mobileSection = <MobileSection mobile={mobile} />
 
-  const gameSection = (
-    <GameSection
-      games={games}
-      emulators={emulators}
-      gameLaunchers={gameLaunchers}
-      gameTools={gameTools}
-    />
-  )
+  const gameSection =
+    games.hits.length > 0 ||
+    emulators.hits.length > 0 ||
+    gameLaunchers.hits.length > 0 ||
+    gameTools.hits.length > 0 ? (
+      <GameSection
+        games={games}
+        emulators={emulators}
+        gameLaunchers={gameLaunchers}
+        gameTools={gameTools}
+      />
+    ) : null
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+    <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-350 2xl:max-w-350">
       <YearInReviewBanner />
       <div className="space-y-4">
         {heroBannerData.length > 0 && (
@@ -295,7 +337,7 @@ function HomeClient({
               "rounded-xl",
               "flex min-w-0 items-center gap-4",
               "bg-repeat",
-              "bg-[length:420px_420px]",
+              "bg-size-[420px_420px]",
               "bg-bottom",
               "dark:bg-[url('https://dl.flathub.org/assets/_next/public/img/card-background-dark.webp')]",
               "bg-[url('https://dl.flathub.org/assets/_next/public/img/card-background.webp')]",
@@ -345,11 +387,11 @@ function HomeClient({
         </div>
       </div>
 
-      <TopSection topApps={topAppsData} />
+      {topAppsData.length > 0 && <TopSection topApps={topAppsData} />}
 
       <CategorySection
         topAppsByCategory={topAppsByCategory}
-        mobileSection={mobileSection}
+        mobileSection={mobile.hits.length > 0 ? mobileSection : null}
         gameSection={gameSection}
       />
     </div>
