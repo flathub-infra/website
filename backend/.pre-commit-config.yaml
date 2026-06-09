@@ -13,6 +13,13 @@ repos:
         language: system
         types: [python]
 
+      - id: ty
+        name: ty
+        entry: uv run ty check app
+        language: system
+        types: [python]
+        pass_filenames: false
+
       - id: pytest
         name: pytest
         entry: uv run pytest --ignore=tests/main.py --ignore=tests/test_storefront_smoke.py --ignore=tests/test_year_in_review_smoke.py
