@@ -416,7 +416,7 @@ function ManagedAppCard({
   )
 }
 
-export default function RuntimesClient() {
+export default function DirectUploadsClient() {
   const query = useListDirectUploadAppsDirectUploadAppsGet({
     axios: { withCredentials: true },
   })

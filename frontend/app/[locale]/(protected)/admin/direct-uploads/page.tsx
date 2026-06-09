@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import RuntimesClient from "./runtimes-client"
+import DirectUploadsClient from "./direct-uploads-client"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -10,11 +10,11 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function RuntimesPage() {
+export default async function DirectUploadsPage() {
   // Protection is handled by:
   // 1. Middleware (edge-level route protection)
   // 2. AdminLayoutClient (client-side permission checks)
   // Server-side auth doesn't work with session-based authentication
 
-  return <RuntimesClient />
+  return <DirectUploadsClient />
 }
