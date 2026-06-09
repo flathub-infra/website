@@ -440,5 +440,9 @@
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy już tylko <link>zainstalować aplikacje</link>!</text><text>Uwaga: graficzna instalacja aplikacji Flatpak może nie być możliwa w systemie Slackware.</text>"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak jest domyślnie zainstalowany w T2 SDE od wersji 26.6 — nie wymaga żadnej konfiguracji!</header><text>Flatpak jest fabrycznie skonfigurowany z repozytorium Flathub i zawiera narzędzia do integracji z pulpitem, umożliwiające instalację z Flathub za pomocą jednego kliknięcia.</text><text>Wystarczy tylko <link>zainstalować aplikacje</link></text>"
   }
 }

@@ -361,9 +361,9 @@
   "uses-system-services": "Utilise les services du système",
   "uses-session-services": "Utilise les services de la session",
   "safe": "Fiable",
-  "probably-safe": "Probablement fiable",
-  "unsafe": "Non fiable",
-  "potentially-unsafe": "Potentiellement non fiable",
+  "probably-safe": "Risque faible",
+  "unsafe": "Risque élevé",
+  "potentially-unsafe": "Risque moyen",
   "no-permissions": "Aucune autorisation",
   "add-ons": "Extensions",
   "addon-install-info": "Comment installer des extensions",
@@ -779,5 +779,6 @@
   "flatpak-version-distribution": "Distribution versions Flatpak (30 derniers jours)",
   "os-flatpak-version-distribution": "Version Flatpak par OS (30 derniers jours)",
   "share": "Partage(r)",
-  "founding-supporters": "Soutiens fondateurs"
+  "founding-supporters": "Soutiens fondateurs",
+  "upload-token-create-failed": "Échec de création du jeton de téléversement. Veuillez réessayer."
 }

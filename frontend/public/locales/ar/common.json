@@ -345,9 +345,9 @@
   "invite-developer-description": "أدخل رمز دعوة المطوِّر تدعُه يصبح مطورًا لهذا التطبيق. يمكنه العثور على الرمز في لسان <developerstabtitle>{developersTab}</developerstabtitle> بصفحة حسابهم.",
   "invite-code-hint": "أعطِ مطورًا هذا الرمز تُتِح له دعوتك لتطبيقه.",
   "safe": "آمن",
-  "probably-safe": "غالب الظنِّ أنه آمن",
-  "unsafe": "خطر",
-  "potentially-unsafe": "قد يكون خطرًا",
+  "probably-safe": "منخفض الخطر",
+  "unsafe": "عالي الخطر",
+  "potentially-unsafe": "متوسط الخطر",
   "no-permissions": "لا أذونات",
   "has-network-access": "يصل للشبكة",
   "uses-system-services": "يستخدم خدمات النظام",
@@ -775,5 +775,10 @@
     "most-improved": "الأكثر تحسيناً",
     "countries-reached": "الدول التي وصل اليها"
   },
-  "founding-supporters": "الداعمون المؤسسون"
+  "founding-supporters": "الداعمون المؤسسون",
+  "upload-token-create-failed": "فشل إنشاء رمز الرفع. يُرجى المحاولة مرة أخرى.",
+  "os-version-distribution": "توزيع إصدارات أنظمة التشغيل (آخر 30 يومًا)",
+  "flatpak-version-distribution": "توزيع إصدارات Flatpak (آخر 30 يومًا)",
+  "os-flatpak-version-distribution": "إصدارات Flatpak حسب نظام التشغيل (آخر 30 يومًا)",
+  "share": "شارك"
 }
