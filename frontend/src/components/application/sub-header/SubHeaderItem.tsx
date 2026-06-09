@@ -11,7 +11,7 @@ const SubHeaderItem = ({
     <button
       type="button"
       className={clsx(
-        "flex flex-col items-center justify-center gap-1",
+        "flex flex-col items-center justify-start gap-1",
         "px-3 py-2 flex-1 basis-[calc(33%-0.5rem)] sm:basis-0",
         "rounded-lg",
         "transition-colors duration-150",
