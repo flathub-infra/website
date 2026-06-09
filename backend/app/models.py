@@ -2942,6 +2942,11 @@ class App(Base):
         if not app:
             return False
 
+        # Runtimes always retain EOL'd branches as newer ones supersede them, so
+        # they are never treated as fully EOL.
+        if app.type == "runtime":
+            return False
+
         if not app.is_eol:
             return False
 

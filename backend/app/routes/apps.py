@@ -146,6 +146,7 @@ async def get_appstream(
             .options(
                 load_only(
                     models.App.app_id,
+                    models.App.type,
                     models.App.appstream,
                     models.App.localization,
                     models.App.content_rating_details,
@@ -167,7 +168,9 @@ async def get_appstream(
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
 
-        result["is_eol"] = app.is_eol
+        # Runtimes always carry EOL'd branches as newer ones supersede them, so
+        # they are never surfaced as EOL (e.g. the developer-portal EOL badge).
+        result["is_eol"] = app.is_eol and app.type != "runtime"
 
         # Return the correct union type
         if result.get("type") == "addon":
