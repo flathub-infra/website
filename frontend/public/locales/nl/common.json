@@ -347,9 +347,9 @@
   "no-file-system-access": "Geen toegang tot bestands­systeem",
   "no-user-device-access": "Geen toegang tot gebruikers­apparaten",
   "safe": "Veilig",
-  "probably-safe": "Waarschĳnlĳk veilig",
-  "unsafe": "Onveilig",
-  "potentially-unsafe": "Mogelĳk onveilig",
+  "probably-safe": "Laag risico",
+  "unsafe": "Hoog risico",
+  "potentially-unsafe": "Gemiddeld risico",
   "no-permissions": "Geen rechten",
   "can-access-system-devices": "Heeft toegang tot systeem­apparaten welke verhoogde rechten vereisen",
   "can-access-hardware-devices": "Heeft toegang tot hardware-apparaten zoals webcams en game­controllers",
@@ -779,5 +779,6 @@
   "founding-supporters": "Oprichters",
   "os-version-distribution": "Verdeling van besturingssysteem­versies (afgelopen 30 dagen)",
   "flatpak-version-distribution": "Verdeling van Flatpak-versies (afgelopen 30 dagen)",
-  "os-flatpak-version-distribution": "Flatpak-versie per besturings­systeem (afgelopen 30 dagen)"
+  "os-flatpak-version-distribution": "Flatpak-versie per besturings­systeem (afgelopen 30 dagen)",
+  "upload-token-create-failed": "Het is niet gelukt om een upload­token aan te maken. Probeer het nog eens."
 }

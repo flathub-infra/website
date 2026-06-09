@@ -479,9 +479,9 @@
   "arch": "Architektúra",
   "release-link-no-changelog": "Poznámky k vydaniu",
   "safe": "Bezpečné",
-  "probably-safe": "Pravdepodobne bezpečné",
-  "unsafe": "Nebezpečné",
-  "potentially-unsafe": "Potenciálne nebezpečné",
+  "probably-safe": "Nízke riziko",
+  "unsafe": "Vysoké riziko",
+  "potentially-unsafe": "Stredné riziko",
   "no-permissions": "Žiadne oprávnenia",
   "has-network-access": "Má prístup k sieti",
   "uses-privileged-socket": "Použitie privilegovaného socketu",
@@ -779,5 +779,6 @@
   "os-version-distribution": "Distribúcia verzií OS (posledných 30 dní)",
   "os-flatpak-version-distribution": "Verzie Flatpaku podľa OS (posledných 30 dní)",
   "share": "Zdieľať",
-  "flatpak-version-distribution": "Distribúcia verzií Flatpaku (posledných 30 dní)"
+  "flatpak-version-distribution": "Distribúcia verzií Flatpaku (posledných 30 dní)",
+  "upload-token-create-failed": "Nepodarilo sa vytvoriť token na nahrávanie. Skúste to znova."
 }

@@ -294,7 +294,7 @@
   "links": "Lingid",
   "build-x": "Pakendatud {build_ago}",
   "flathub-the-linux-app-store": "Flathub on rakendustepood Linuxi jaoks",
-  "potentially-unsafe": "Võib olla ebaturvaline",
+  "potentially-unsafe": "Keskmise riskiga",
   "can-access-input-devices": "Võib kasutada sisendseadmeid nagu näiteks klaviatuur, hiir või mängikonsooli juhtpult",
   "can-read-home-folder": "Võib lugeda kõiki andmeid sinu kodukaustast",
   "appname-is-safety-rating-2": "{appName} on tõenäoliselt turvaline",
@@ -322,8 +322,8 @@
   "can-access-some-specific-files": "Võib omada ligipääsu mõnedele spetsiifilistele failidele",
   "can-read-write-all-data-on-file-system": "Võib lugeda ja kirjutada kõiki andmeid kogu failisüsteemis",
   "safe": "Turvaline",
-  "probably-safe": "Tõenäoliselt turvaline",
-  "unsafe": "Pole turvaline",
+  "probably-safe": "Madala riskiga",
+  "unsafe": "Suure riskiga",
   "auditable-code": "Auditeeritav lähtekood",
   "can-access-hardware-devices": "Võib kasutada sinu seadmes leiduvat raudvara nagu näiteks veebikaamera või mängikonsooli juhtpult",
   "community-built-explanation": "Seda rakendust arendatakse avatud meetodil rahvusvahelise kogukonna poolt ning ta on avaldatud järgneva(te) litsentsi(de) alusel: <bold>{ license }</bold>.",
@@ -779,5 +779,6 @@
   "os-version-distribution": "Jaotus operatsioonisüsteemide versioonide alusel (viimase 30 päeva jooksul)",
   "flatpak-version-distribution": "Jaotus flatpaki versioonide alusel (viimase 30 päeva jooksul)",
   "os-flatpak-version-distribution": "Flatpaki versioone operatsioonisüsteemide kaupa (viimase 30 päeva jooksul)",
-  "share": "Jaga"
+  "share": "Jaga",
+  "upload-token-create-failed": "Üleslaadimise tunnusloa loomine ei õnnestunud. Palun proovi uuesti."
 }

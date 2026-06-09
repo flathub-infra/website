@@ -345,9 +345,9 @@
   "invite-not-found-description": "Zaproszenie, które próbujesz zaakceptować lub odrzucić, nie istnieje. Mogło ono zostać anulowane lub odrzucone.",
   "invite-code-hint": "Przekaż ten kod innemu deweloperowi, aby mógł zaprosić Cię do swojej aplikacji.",
   "safe": "Bezpieczna",
-  "probably-safe": "Prawdopodobnie bezpieczna",
-  "unsafe": "Niebezpieczna",
-  "potentially-unsafe": "Potencjalnie niebezpieczna",
+  "probably-safe": "Niskie ryzyko",
+  "unsafe": "Wysokie ryzyko",
+  "potentially-unsafe": "Średnie ryzyko",
   "no-permissions": "Brak uprawnień",
   "has-network-access": "Posiada dostęp do sieci",
   "uses-system-services": "Używa usług systemowych",
@@ -779,5 +779,6 @@
   "os-version-distribution": "Rozkład wersji systemu operacyjnego (ostatnie 30 dni)",
   "flatpak-version-distribution": "Rozkład wersji Flatpak (ostatnie 30 dni)",
   "os-flatpak-version-distribution": "Wersje Flatpak według systemu operacyjnego (ostatnie 30 dni)",
-  "share": "Udostępnij"
+  "share": "Udostępnij",
+  "upload-token-create-failed": "Nie udało się utworzyć tokenu przesyłania. Spróbuj ponownie."
 }
