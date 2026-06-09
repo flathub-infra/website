@@ -519,3 +519,10 @@
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Slackware.</p>'
+        
+- name: T2 SDE
+  logo: "t2sde.svg"
+  introduction: >
+    <h2>Flatpak is installed by default on T2 SDE since version 26.6—no setup required!</h2>
+    <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p>
+    <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>
