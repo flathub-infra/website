@@ -12,3 +12,10 @@ repos:
         entry: uv run ruff check --force-exclude
         language: system
         types: [python]
+
+      - id: pytest
+        name: pytest
+        entry: uv run pytest --ignore=tests/main.py --ignore=tests/test_storefront_smoke.py --ignore=tests/test_year_in_review_smoke.py
+        language: system
+        types: [python]
+        pass_filenames: false
