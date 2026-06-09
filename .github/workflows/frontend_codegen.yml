@@ -84,6 +84,10 @@ jobs:
       - name: Discard non-backend target churn
         run: git checkout -- frontend/src/codegen-pipeline || true
 
+      - name: Verify build
+        working-directory: ./frontend
+        run: pnpm build
+
       - name: Commit and push if changed
         run: |
           if [ -n "$(git status --porcelain frontend/src/codegen)" ]; then
