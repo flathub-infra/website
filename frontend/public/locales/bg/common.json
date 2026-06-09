@@ -346,12 +346,12 @@
   "invite-code-hint": "Изпратете този код на другия разработчик, за да може да ви покани.",
   "no-permissions": "Няма разрешения",
   "safe": "Безопасно",
-  "probably-safe": "Вероятно безопасно",
+  "probably-safe": "Нисък риск",
   "has-network-access": "Има достъп до мрежата",
   "no-file-system-access": "Няма достъп до файловата система",
   "no-user-device-access": "Няма достъп до потребителските устройства",
-  "unsafe": "Опасно",
-  "potentially-unsafe": "Потенциално опасно",
+  "unsafe": "Висок риск",
+  "potentially-unsafe": "Среден риск",
   "appname-is-safety-rating-1": "Приложението „{appName}“ е безопасно",
   "appname-is-safety-rating-3": "Приложението „{appName}“ е потенциално опасно",
   "appname-is-safety-rating-2": "Приложението „{appName}“ е вероятно безопасно",
@@ -779,5 +779,6 @@
   "share": "Споделяне",
   "os-version-distribution": "Разпределение по версия на ОС за последните 30 дни",
   "flatpak-version-distribution": "Разпределение по версия на „Flatpak“ за последните 30 дни",
-  "os-flatpak-version-distribution": "Разпределение по версия на „Flatpak“ в ОС за последните 30 дни"
+  "os-flatpak-version-distribution": "Разпределение по версия на „Flatpak“ в ОС за последните 30 дни",
+  "upload-token-create-failed": "Неуспешно създаване на жетон. Моля, опитайте отново."
 }

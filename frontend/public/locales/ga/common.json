@@ -775,5 +775,9 @@
   "science-description": "Feidhmchláir ríomhaireachta eolaíochta, anailíse sonraí, agus taighde do Linux.",
   "education-description": "Aipeanna foghlama, uirlisí teanga, agus bogearraí oideachais do Linux.",
   "system-description": "Uirlisí bainistíochta córais, monatóireachta agus riaracháin do Linux.",
-  "founding-supporters": "Tacaíochtaí Bunaithe"
+  "founding-supporters": "Tacaíochtaí Bunaithe",
+  "os-version-distribution": "Dáileadh Leagan an OS (le 30 lá anuas)",
+  "flatpak-version-distribution": "Dáileadh Leagan Flatpak (le 30 lá anuas)",
+  "os-flatpak-version-distribution": "Leagan Flatpak de réir OS (le 30 lá anuas)",
+  "share": "Comhroinn"
 }
