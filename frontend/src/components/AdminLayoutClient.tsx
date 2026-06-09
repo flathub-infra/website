@@ -52,7 +52,7 @@ const AdminLayoutClient = ({
         user?.permissions.some((a) => a === Permission["view-users"]),
     },
     {
-      name: "Apps",
+      name: "Direct uploads",
       href: "/admin/direct-uploads",
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["modify-users"]),

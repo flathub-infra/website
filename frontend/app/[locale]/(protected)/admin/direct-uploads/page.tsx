@@ -3,7 +3,7 @@ import DirectUploadsClient from "./direct-uploads-client"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Direct-upload apps",
+    title: "Direct uploads",
     robots: {
       index: false,
     },
