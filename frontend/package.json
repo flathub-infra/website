@@ -69,7 +69,7 @@
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7",
     "yaml": "^2.9.0",
-    "yet-another-react-lightbox": "^3.31.0"
+    "yet-another-react-lightbox": "^3.32.0"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
