@@ -2623,6 +2623,7 @@ class App(Base):
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
     eol_branches = mapped_column(JSONB, nullable=True)
     eol_message = mapped_column(String, nullable=True)
+    eol_dates = mapped_column(JSONB, nullable=True)
     main_category = mapped_column(String, nullable=True, index=True)
     sub_categories = mapped_column(ARRAY(String), nullable=True)
     excluded_from_app_picks = mapped_column(
