@@ -33,15 +33,16 @@ except ImportError:
 
 
 # @app.exception_handler(WalletError) (done in register function below)
-async def walleterror_exception_handler(_request: Request, exc: WalletError):
+async def walleterror_exception_handler(_request: Request, exc: Exception):
     """
     Handle functions which yeet a WalletError at FastAPI by converting them to
     the JSONResponse needed.
     """
-    if exc.__cause__ is not None:
+    wallet_exc = exc if isinstance(exc, WalletError) else WalletError(error="internal")
+    if wallet_exc.__cause__ is not None:
         print("Wallet Error caused by:")
-        print(exc.__cause__)
-    return exc.as_jsonresponse()
+        print(wallet_exc.__cause__)
+    return wallet_exc.as_jsonresponse()
 
 
 # Routes

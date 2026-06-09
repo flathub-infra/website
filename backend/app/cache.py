@@ -2,9 +2,9 @@ import functools
 import hashlib
 import inspect
 import time
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from enum import Enum
-from typing import Annotated, Any, Literal, TypeVar, get_args, get_origin
+from typing import Annotated, Any, Literal, ParamSpec, TypeVar, get_args, get_origin
 
 import orjson
 from fastapi import Response
@@ -12,14 +12,13 @@ from pydantic import BaseModel, TypeAdapter
 
 from . import database
 
-T = TypeVar("T")
+P = ParamSpec("P")
+R = TypeVar("R")
 
 STALE_THRESHOLD = 0.8
 
 
-def _get_response_from_args(
-    func: Callable, args: tuple, kwargs: dict
-) -> Response | None:
+def _get_response_from_args(func: Any, args: tuple, kwargs: dict) -> Response | None:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
     bound.apply_defaults()
@@ -33,7 +32,7 @@ def _should_cache_response(response: Response | None) -> bool:
     return response is None or response.status_code == 200
 
 
-def _make_cache_key(func: Callable, args: tuple, kwargs: dict) -> str:
+def _make_cache_key(func: Any, args: tuple, kwargs: dict) -> str:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
     bound.apply_defaults()
@@ -71,7 +70,7 @@ def _serialize_value(value: Any) -> dict:
     }
 
 
-def _deserialize_value(data: dict, expected_type: type) -> Any:
+def _deserialize_value(data: dict, expected_type: type | None) -> Any:
     if not isinstance(data, dict) or "value" not in data:
         return data
 
@@ -132,10 +131,14 @@ def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
     return False
 
 
-def cached(ttl: int = 3600) -> Callable:
-    def decorator(func: Callable[..., T]) -> Callable[..., T]:
+def cached(
+    ttl: int = 3600,
+) -> Callable[[Callable[P, Awaitable[R]]], Callable[P, Awaitable[R]]]:
+    def decorator(func: Callable[P, Awaitable[R]]) -> Callable[P, Awaitable[R]]:
+        func_name: str = getattr(func, "__name__", repr(func))
+
         @functools.wraps(func)
-        async def wrapper(*args, **kwargs) -> T:
+        async def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             redis = await database.get_redis()
             cache_key = _make_cache_key(func, args, kwargs)
             refresh_lock_key = _make_refresh_lock_key(cache_key)
@@ -173,12 +176,12 @@ def cached(ttl: int = 3600) -> Callable:
                                 finally:
                                     await redis.delete(refresh_lock_key)
                         except Exception as e:
-                            print(f"Cache refresh error for {func.__name__}: {e}")
+                            print(f"Cache refresh error for {func_name}: {e}")
 
                         return stale_value
 
             except Exception as e:
-                print(f"Cache get error for {func.__name__}: {e}")
+                print(f"Cache get error for {func_name}: {e}")
 
             result = await func(*args, **kwargs)
 
@@ -188,11 +191,11 @@ def cached(ttl: int = 3600) -> Callable:
                     serialized = _serialize_value(result)
                     await redis.setex(cache_key, ttl, orjson.dumps(serialized))
                 except Exception as e:
-                    print(f"Cache set error for {func.__name__}: {e}")
+                    print(f"Cache set error for {func_name}: {e}")
 
             return result
 
-        return wrapper
+        return wrapper  # type: ignore[return-value]
 
     return decorator
 

@@ -9,10 +9,12 @@ from itertools import dropwhile
 
 import stripe
 from fastapi import Request, Response
+from stripe import PaymentMethod as StripePaymentMethod
 
 from .. import models
 from ..config import settings
 from ..database import get_db
+from ..db_session import DBSession
 from ..models import FlathubUser, StripeCustomer
 from ..utils import PLATFORMS_WITH_STRIPE
 from .walletbase import (
@@ -43,7 +45,7 @@ class StripeWallet(WalletBase):
         return "stripe"
 
     def stripedata(self) -> StripeKeys:
-        return StripeKeys(status="ok", public_key=settings.stripe_public_key)
+        return StripeKeys(status="ok", public_key=settings.stripe_public_key or "")
 
     def _get_customer(self, user: FlathubUser) -> str:
         with get_db("replica") as db:
@@ -69,14 +71,16 @@ class StripeWallet(WalletBase):
             db.session.commit()
             return stripe_customer.id
 
-    def _cardinfo(self, card: dict) -> PaymentCardInfo | None:
+    def _cardinfo(self, card: StripePaymentMethod) -> PaymentCardInfo | None:
+        if card.card is None:
+            return None
         return PaymentCardInfo(
-            id=card["id"],
-            brand=card["card"]["brand"].lower().replace(" ", ""),
-            exp_month=card["card"]["exp_month"],
-            exp_year=card["card"]["exp_year"],
-            last4=card["card"]["last4"],
-            country=card["card"]["country"].lower(),
+            id=card.id,
+            brand=(card.card.brand or "").lower().replace(" ", ""),
+            exp_month=card.card.exp_month,
+            exp_year=card.card.exp_year,
+            last4=card.card.last4,
+            country=(card.card.country or "").lower(),
         )
 
     def info(self, request: Request, user: FlathubUser) -> WalletInfo:
@@ -84,13 +88,13 @@ class StripeWallet(WalletBase):
         pms = stripe.Customer.list_payment_methods(customer_id, type="card")
         return WalletInfo(
             status="ok",
-            cards=[self._cardinfo(card) for card in pms["data"]],
+            cards=[c for card in pms.data if (c := self._cardinfo(card)) is not None],
         )
 
     def remove_card(self, request: Request, user: FlathubUser, card: PaymentCardInfo):
         customer_id = self._get_customer(user)
         pms = stripe.Customer.list_payment_methods(customer_id, type="card")
-        cards = [self._cardinfo(card) for card in pms["data"]]
+        cards = [c for pm in pms.data if (c := self._cardinfo(pm)) is not None]
         if card not in cards:
             raise WalletError(error="not found")
         stripe.PaymentMethod.detach(card.id)
@@ -352,13 +356,14 @@ class StripeWallet(WalletBase):
                 payment_intent = stripe.PaymentIntent.retrieve(
                     stripe_pi, expand=["latest_charge"]
                 )
-                payment_method = payment_intent.get("payment_method")
-                if payment_method is not None:
-                    payment_method = stripe.PaymentMethod.retrieve(payment_method)
+                pm_field = payment_intent.payment_method
+                if pm_field is not None:
+                    pm_id = pm_field if isinstance(pm_field, str) else pm_field.id
+                    payment_method = stripe.PaymentMethod.retrieve(pm_id)
                     card = self._cardinfo(payment_method)
-                latest_charge = payment_intent.get("latest_charge")
-                if latest_charge is not None:
-                    receipt = latest_charge.get("receipt_url")
+                charge_field = payment_intent.latest_charge
+                if charge_field is not None and not isinstance(charge_field, str):
+                    receipt = charge_field.receipt_url
             except Exception as stripe_error:
                 raise WalletError(error="not found") from stripe_error
 
@@ -420,7 +425,7 @@ class StripeWallet(WalletBase):
     ):
         customer_id = self._get_customer(user)
         pms = stripe.Customer.list_payment_methods(customer_id, type="card")
-        cards = [self._cardinfo(card) for card in pms["data"]]
+        cards = [c for pm in pms.data if (c := self._cardinfo(pm)) is not None]
         if card not in cards:
             raise WalletError(error="not found")
         with get_db("replica") as db:
@@ -457,15 +462,16 @@ class StripeWallet(WalletBase):
         card = None
         try:
             payment_intent = stripe.PaymentIntent.retrieve(stripe_pi)
-            payment_method = payment_intent.get("payment_method")
-            if payment_method is not None:
-                payment_method = stripe.PaymentMethod.retrieve(payment_method)
+            pm_field = payment_intent.payment_method
+            if pm_field is not None:
+                pm_id = pm_field if isinstance(pm_field, str) else pm_field.id
+                payment_method = stripe.PaymentMethod.retrieve(pm_id)
                 card = self._cardinfo(payment_method)
         except Exception as stripe_error:
             raise WalletError("stripe error") from stripe_error
 
         return TransactionStripeData(
-            status="ok", client_secret=payment_intent["client_secret"], card=card
+            status="ok", client_secret=payment_intent.client_secret or "", card=card
         )
 
     def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):
@@ -522,7 +528,7 @@ class StripeWallet(WalletBase):
         try:
             stripe.PaymentIntent.modify(
                 stripe_pi,
-                setup_future_usage=state,
+                setup_future_usage=state if state is not None else "",
             )
         except Exception as stripe_error:
             raise WalletError("stripe error") from stripe_error
@@ -542,7 +548,7 @@ class StripeWallet(WalletBase):
 
         def get_transaction_from_webhook(
             data: dict,
-        ) -> tuple[models.Transaction | None, models.StripeTransaction | None]:
+        ) -> tuple[DBSession | None, models.Transaction | None]:
             p_id = data["object"]["id"]
             transfer_group = data["object"].get("transfer_group")
             if not transfer_group or not transfer_group.startswith(GROUP_PREFIX):
@@ -560,7 +566,7 @@ class StripeWallet(WalletBase):
 
         if event_type == "payment_intent.succeeded":
             db, transaction = get_transaction_from_webhook(data)
-            if transaction:
+            if transaction is not None and db is not None:
                 transaction.status = "success"
                 transaction.updated = datetime.now()
                 transaction.reason = ""
@@ -570,7 +576,7 @@ class StripeWallet(WalletBase):
 
         elif event_type == "payment_intent.payment_failed":
             db, transaction = get_transaction_from_webhook(data)
-            if transaction:
+            if transaction is not None and db is not None:
                 last_error = data["object"].get("last_payment_error", {})
                 failure_message = last_error.get("message", "Payment failed")
 
@@ -582,7 +588,7 @@ class StripeWallet(WalletBase):
 
         elif event_type == "payment_intent.canceled":
             db, transaction = get_transaction_from_webhook(data)
-            if transaction:
+            if transaction is not None and db is not None:
                 cancellation_reason = data["object"].get(
                     "cancellation_reason", "unknown"
                 )

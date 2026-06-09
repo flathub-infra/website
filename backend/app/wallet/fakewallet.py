@@ -125,10 +125,7 @@ class FakeWallet(WalletBase):
             cards.append(FAKE_CARD_EXP)
         if not request.session.get("fake-card-ok-del", False):
             cards.append(FAKE_CARD_OK)
-        return {
-            "status": "ok",
-            "cards": cards,
-        }
+        return WalletInfo(status="ok", cards=cards)
 
     def remove_card(self, request: Request, user: FlathubUser, card: PaymentCardInfo):
         to_del = None
@@ -228,9 +225,9 @@ class FakeWallet(WalletBase):
             updated=now,
         )
         txn = Transaction(summary=summary, card=None, details=transaction.details)
-        txns[id] = txn
+        txns[txid] = txn
         self._set_user_transactions(request, txns.values())
-        return id
+        return txid
 
     def set_transaction_card(
         self,
@@ -240,15 +237,15 @@ class FakeWallet(WalletBase):
         card: PaymentCardInfo,
     ):
         txns = self._get_user_transactions(request)
-        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
-        if transaction is None:
+        txn = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if txn is None:
             raise WalletError(error="not found")
-        if transaction.summary.status not in ["new", "retry"]:
+        if txn.summary.status not in ["new", "retry"]:
             raise WalletError(error="transaction not changeable")
-        cards = self.info(request, user)["cards"]
+        cards = self.info(request, user).cards
         if card not in cards:
             raise WalletError(error="bad or unknown card")
-        transaction.card = card
+        txn.card = card
         self._set_user_transactions(request, txns.values())
 
     def stripedata(self) -> StripeKeys:
@@ -258,25 +255,25 @@ class FakeWallet(WalletBase):
         self, request: Request, user: FlathubUser, transaction: str
     ) -> TransactionStripeData:
         txns = self._get_user_transactions(request)
-        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
-        if transaction is None:
+        txn = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if txn is None:
             raise WalletError(error="not found")
-        if transaction.summary.status not in ["new", "retry"]:
+        if txn.summary.status not in ["new", "retry"]:
             raise WalletError(error="transaction not changeable")
-        txnid = transaction.summary.id
+        txnid = txn.summary.id
         return TransactionStripeData(
-            status="ok", client_secret=f"stripe-secret-{txnid}", card=transaction.card
+            status="ok", client_secret=f"stripe-secret-{txnid}", card=txn.card
         )
 
     def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):
         txns = self._get_user_transactions(request)
-        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
-        if transaction is None:
+        txn = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if txn is None:
             raise WalletError(error="not found")
-        if transaction.summary.status not in ["new", "retry"]:
+        if txn.summary.status not in ["new", "retry"]:
             raise WalletError(error="transaction not changeable")
-        transaction.summary.status = "cancelled"
-        transaction.summary.reason = "user"
+        txn.summary.status = "cancelled"
+        txn.summary.reason = "user"
         self._set_user_transactions(request, txns.values())
 
     async def webhook(self, request: Request) -> Response:
@@ -295,12 +292,12 @@ class FakeWallet(WalletBase):
         self, request: Request, user: FlathubUser, transaction: str
     ):
         txns = self._get_user_transactions(request)
-        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
-        if transaction is None:
+        txn = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if txn is None:
             raise WalletError(error="not found")
-        if transaction.summary.status not in ["new", "retry", "pending"]:
+        if txn.summary.status not in ["new", "retry", "pending"]:
             raise WalletError(error="transaction not markable pending")
-        transaction.summary.status = "pending"
+        txn.summary.status = "pending"
         self._set_user_transactions(request, txns.values())
 
     def perform_pending_transfers(self):
