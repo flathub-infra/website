@@ -47,7 +47,7 @@ export const distroMap = (locale: string) => {
     ["Vanilla OS", <Vanilla_OS locale={locale} />],
     ["Salix", <Salix locale={locale} />],
     ["Slackware", <Slackware locale={locale} />],
-    ["T2SDE", <T2SDE locale={locale} />],
+    ["T2 SDE", <T2_SDE locale={locale} />],
   ])
 }
 
@@ -3221,11 +3221,11 @@ const T2_SDE = ({ locale }: { locale: string }) => {
           />
         </motion.picture>
         <motion.h1 layoutId="distro-name-T2SDE">
-          {t("distros.t2sde.distroName")}
+          {t("distros.t2_sde.distroName")}
         </motion.h1>
       </div>
       <ol className="distrotut">
-        {t.rich("distros.t2sde.introduction", {
+        {t.rich("distros.t2_sde.introduction", {
           header: (chunk) => <h2>{chunk}</h2>,
           link: (chunk) => <Link href="/">{chunk}</Link>,
           text: (chunk) => <p>{chunk}</p>,

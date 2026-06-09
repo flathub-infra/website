@@ -443,6 +443,6 @@
   },
   "t2_sde": {
     "distroName": "T2 SDE",
-    "introduction": "<header>Flatpak is installed by default on T2 SDE since version 26.6—no setup required!</header> <text>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</text> <text>All you have to do is <link>install apps</link>!</text>"
+    "introduction": "<header>Flatpak is installed by default on T2 SDE since version 26.6 — no setup required!</header> <text>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</text> <text>All you have to do is <link>install apps</link>!</text>"
   }
 }
