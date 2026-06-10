@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from pydantic import BaseModel
 
-from .. import config, http_client, models, utils
+from .. import config, http_client, models, utils, worker
 from ..database import get_db
 from ..login_info import modify_users_only
 from ..utils import jti
@@ -46,6 +46,11 @@ class RuntimeScopeInput(BaseModel):
     prefixes: list[str]
     extra_ids: list[str] = []
     repos: list[str] = ["stable", "beta"]
+
+
+class ArchiveRequest(BaseModel):
+    endoflife: str
+    endoflife_rebase: str | None = None
 
 
 class SwitchToDirectUploadRequest(BaseModel):
@@ -315,74 +320,73 @@ def switch_off_direct_upload(app_id: str, _admin=Depends(modify_users_only)):
         db.session.commit()
 
 
-@router.put(
-    "/{app_id}/scope",
-    status_code=200,
+@router.post(
+    "/{app_id}/archive",
+    status_code=204,
     tags=["direct-upload-apps"],
     responses={
-        200: {"description": "Runtime scope set"},
-        400: {"description": "Invalid request parameters"},
+        204: {"description": "App archived"},
         401: {"description": "Not logged in"},
         403: {"description": "Forbidden - admin required"},
         404: {"description": "App not found"},
+        500: {"description": "Flat manager not configured or server error"},
     },
 )
-def set_runtime_scope(
-    app_id: str,
-    request: RuntimeScopeInput,
-    _admin=Depends(modify_users_only),
-) -> ManagedAppResponse:
-    """Create or update the runtime scope for a direct-upload app."""
-    if not request.prefixes:
-        raise HTTPException(status_code=400, detail="prefixes_required")
-    if not all(r in ALLOWED_REPOS for r in request.repos):
-        raise HTTPException(status_code=400, detail="forbidden_repo")
-    _validate_id_list(request.prefixes, "prefixes")
-    _validate_id_list(request.extra_ids, "extra_ids")
+def archive_direct_upload_app(
+    app_id: str, request: ArchiveRequest, _admin=Depends(modify_users_only)
+):
+    """Archive a direct-upload app: revoke tokens, mark archived, republish as EOL.
+
+    Unlike the app-author archive flow in verification.py, this admin endpoint works
+    for runtimes too and never touches GitHub (every entry here is a DirectUploadApp).
+    """
+    if not config.settings.flat_manager_api:
+        raise HTTPException(status_code=500, detail="flat_manager_not_configured")
+
+    with get_db("replica") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        if direct_upload_app is None:
+            raise HTTPException(status_code=404, detail="app_not_found")
+        if direct_upload_app.archived:
+            return
+
+    _revoke_all_tokens(app_id)
 
     with get_db("writer") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
         if direct_upload_app is None:
             raise HTTPException(status_code=404, detail="app_not_found")
-
-        scope = models.RuntimeScope.by_app_id(db, app_id)
-        if scope is None:
-            scope = models.RuntimeScope(
-                app_id=app_id,
-                prefixes=" ".join(request.prefixes),
-                extra_ids=" ".join(request.extra_ids),
-                repos=" ".join(request.repos),
-            )
-            db.session.add(scope)
-        else:
-            scope.prefixes = " ".join(request.prefixes)
-            scope.extra_ids = " ".join(request.extra_ids)
-            scope.repos = " ".join(request.repos)
-            db.session.add(scope)
-
+        direct_upload_app.archived = True
+        db.session.add(direct_upload_app)
         db.session.commit()
-        return _managed_app_response(db, direct_upload_app, scope)
+
+    worker.republish_app.send(app_id, request.endoflife, request.endoflife_rebase)
 
 
-@router.delete(
-    "/{app_id}/scope",
+@router.post(
+    "/{app_id}/unarchive",
     status_code=204,
     tags=["direct-upload-apps"],
     responses={
-        204: {"description": "Runtime scope removed"},
+        204: {"description": "App unarchived"},
         401: {"description": "Not logged in"},
         403: {"description": "Forbidden - admin required"},
-        404: {"description": "Scope not found"},
+        404: {"description": "App not found"},
     },
 )
-def remove_runtime_scope(app_id: str, _admin=Depends(modify_users_only)):
-    """Remove the runtime scope from a direct-upload app (demote runtime to plain app)."""
+def unarchive_direct_upload_app(app_id: str, _admin=Depends(modify_users_only)):
+    """Unarchive a direct-upload app: clear the archived flag and republish to lift EOL."""
     with get_db("writer") as db:
-        scope = models.RuntimeScope.by_app_id(db, app_id)
-        if scope is None:
-            raise HTTPException(status_code=404, detail="scope_not_found")
-        db.session.delete(scope)
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        if direct_upload_app is None:
+            raise HTTPException(status_code=404, detail="app_not_found")
+        if not direct_upload_app.archived:
+            return
+        direct_upload_app.archived = False
+        db.session.add(direct_upload_app)
         db.session.commit()
+
+    worker.republish_app.send(app_id)
 
 
 @router.post(

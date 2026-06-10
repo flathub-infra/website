@@ -25,7 +25,7 @@ import { staticLocales } from "../../../src/i18n/static-locales"
 import { gameCategoryFilter } from "../../../src/types/Category"
 import cardImage from "../../../public/img/card.webp"
 
-const categoryOrder = [
+const categoryOrder: MainCategory[] = [
   MainCategory.office,
   MainCategory.graphics,
   MainCategory.audiovideo,
@@ -37,6 +37,11 @@ const categoryOrder = [
   MainCategory.system,
   MainCategory.utility,
 ]
+
+const categoryRank = (category: MainCategory) => {
+  const index = categoryOrder.indexOf(category)
+  return index === -1 ? categoryOrder.length : index
+}
 
 export async function generateStaticParams() {
   const params = staticLocales.map((locale) => ({
@@ -142,7 +147,7 @@ async function getCategoryData(locale: string) {
 
   // Sort categories according to predefined order
   return topAppsByCategory.sort((a, b) => {
-    return categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)
+    return categoryRank(a.category) - categoryRank(b.category)
   })
 }
 
