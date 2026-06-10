@@ -61,6 +61,8 @@ const Pagination: FunctionComponent<Props> = ({
 
               {onClick && (
                 <button
+                  type="button"
+                  aria-current={isActive ? "page" : undefined}
                   onClick={() => onClick(curr)}
                   className={clsx(
                     isActive &&
