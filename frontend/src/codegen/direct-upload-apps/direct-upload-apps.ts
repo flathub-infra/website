@@ -24,9 +24,9 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
+  ArchiveRequest,
   HTTPValidationError,
   ManagedAppResponse,
-  RuntimeScopeInput,
   SwitchToDirectUploadRequest,
 } from "../model"
 
@@ -552,134 +552,51 @@ export const useSwitchOffDirectUploadDirectUploadAppsAppIdDelete = <
   )
 }
 /**
- * Create or update the runtime scope for a direct-upload app.
- * @summary Set Runtime Scope
+ * Archive a direct-upload app: revoke tokens, mark archived, republish as EOL.
+
+Unlike the app-author archive flow in verification.py, this admin endpoint works
+for runtimes too and never touches GitHub (every entry here is a DirectUploadApp).
+ * @summary Archive Direct Upload App
  */
-export const setRuntimeScopeDirectUploadAppsAppIdScopePut = (
+export const archiveDirectUploadAppDirectUploadAppsAppIdArchivePost = (
   appId: string,
-  runtimeScopeInput: RuntimeScopeInput,
+  archiveRequest: ArchiveRequest,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<ManagedAppResponse>> => {
-  return axios.put(
-    `/direct-upload-apps/${appId}/scope`,
-    runtimeScopeInput,
+): Promise<AxiosResponse<void>> => {
+  return axios.post(
+    `/direct-upload-apps/${appId}/archive`,
+    archiveRequest,
     options,
   )
 }
 
-export const getSetRuntimeScopeDirectUploadAppsAppIdScopePutMutationOptions = <
-  TError = AxiosError<void | HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setRuntimeScopeDirectUploadAppsAppIdScopePut>>,
-    TError,
-    { appId: string; data: RuntimeScopeInput },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof setRuntimeScopeDirectUploadAppsAppIdScopePut>>,
-  TError,
-  { appId: string; data: RuntimeScopeInput },
-  TContext
-> => {
-  const mutationKey = ["setRuntimeScopeDirectUploadAppsAppIdScopePut"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof setRuntimeScopeDirectUploadAppsAppIdScopePut>>,
-    { appId: string; data: RuntimeScopeInput }
-  > = (props) => {
-    const { appId, data } = props ?? {}
-
-    return setRuntimeScopeDirectUploadAppsAppIdScopePut(
-      appId,
-      data,
-      axiosOptions,
-    )
-  }
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type SetRuntimeScopeDirectUploadAppsAppIdScopePutMutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof setRuntimeScopeDirectUploadAppsAppIdScopePut>>
-  >
-export type SetRuntimeScopeDirectUploadAppsAppIdScopePutMutationBody =
-  RuntimeScopeInput
-export type SetRuntimeScopeDirectUploadAppsAppIdScopePutMutationError =
-  AxiosError<void | HTTPValidationError>
-
-/**
- * @summary Set Runtime Scope
- */
-export const useSetRuntimeScopeDirectUploadAppsAppIdScopePut = <
-  TError = AxiosError<void | HTTPValidationError>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof setRuntimeScopeDirectUploadAppsAppIdScopePut>>,
-      TError,
-      { appId: string; data: RuntimeScopeInput },
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof setRuntimeScopeDirectUploadAppsAppIdScopePut>>,
-  TError,
-  { appId: string; data: RuntimeScopeInput },
-  TContext
-> => {
-  return useMutation(
-    getSetRuntimeScopeDirectUploadAppsAppIdScopePutMutationOptions(options),
-    queryClient,
-  )
-}
-/**
- * Remove the runtime scope from a direct-upload app (demote runtime to plain app).
- * @summary Remove Runtime Scope
- */
-export const removeRuntimeScopeDirectUploadAppsAppIdScopeDelete = (
-  appId: string,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(`/direct-upload-apps/${appId}/scope`, options)
-}
-
-export const getRemoveRuntimeScopeDirectUploadAppsAppIdScopeDeleteMutationOptions =
+export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
     TContext = unknown,
   >(options?: {
     mutation?: UseMutationOptions<
       Awaited<
-        ReturnType<typeof removeRuntimeScopeDirectUploadAppsAppIdScopeDelete>
+        ReturnType<
+          typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost
+        >
       >,
       TError,
-      { appId: string },
+      { appId: string; data: ArchiveRequest },
       TContext
     >
     axios?: AxiosRequestConfig
   }): UseMutationOptions<
     Awaited<
-      ReturnType<typeof removeRuntimeScopeDirectUploadAppsAppIdScopeDelete>
+      ReturnType<typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost>
     >,
     TError,
-    { appId: string },
+    { appId: string; data: ArchiveRequest },
     TContext
   > => {
-    const mutationKey = ["removeRuntimeScopeDirectUploadAppsAppIdScopeDelete"]
+    const mutationKey = [
+      "archiveDirectUploadAppDirectUploadAppsAppIdArchivePost",
+    ]
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -690,13 +607,134 @@ export const getRemoveRuntimeScopeDirectUploadAppsAppIdScopeDeleteMutationOption
 
     const mutationFn: MutationFunction<
       Awaited<
-        ReturnType<typeof removeRuntimeScopeDirectUploadAppsAppIdScopeDelete>
+        ReturnType<
+          typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost
+        >
+      >,
+      { appId: string; data: ArchiveRequest }
+    > = (props) => {
+      const { appId, data } = props ?? {}
+
+      return archiveDirectUploadAppDirectUploadAppsAppIdArchivePost(
+        appId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost>
+    >
+  >
+export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationBody =
+  ArchiveRequest
+export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Archive Direct Upload App
+ */
+export const useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost
+        >
+      >,
+      TError,
+      { appId: string; data: ArchiveRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost>
+  >,
+  TError,
+  { appId: string; data: ArchiveRequest },
+  TContext
+> => {
+  return useMutation(
+    getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
+ * Unarchive a direct-upload app: clear the archived flag and republish to lift EOL.
+ * @summary Unarchive Direct Upload App
+ */
+export const unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<void>> => {
+  return axios.post(
+    `/direct-upload-apps/${appId}/unarchive`,
+    undefined,
+    options,
+  )
+}
+
+export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationOptions =
+  <
+    TError = AxiosError<void | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
+      >
+    >,
+    TError,
+    { appId: string },
+    TContext
+  > => {
+    const mutationKey = [
+      "unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
+        >
       >,
       { appId: string }
     > = (props) => {
       const { appId } = props ?? {}
 
-      return removeRuntimeScopeDirectUploadAppsAppIdScopeDelete(
+      return unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost(
         appId,
         axiosOptions,
       )
@@ -705,27 +743,31 @@ export const getRemoveRuntimeScopeDirectUploadAppsAppIdScopeDeleteMutationOption
     return { mutationFn, ...mutationOptions }
   }
 
-export type RemoveRuntimeScopeDirectUploadAppsAppIdScopeDeleteMutationResult =
+export type UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationResult =
   NonNullable<
     Awaited<
-      ReturnType<typeof removeRuntimeScopeDirectUploadAppsAppIdScopeDelete>
+      ReturnType<
+        typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
+      >
     >
   >
 
-export type RemoveRuntimeScopeDirectUploadAppsAppIdScopeDeleteMutationError =
+export type UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationError =
   AxiosError<void | HTTPValidationError>
 
 /**
- * @summary Remove Runtime Scope
+ * @summary Unarchive Direct Upload App
  */
-export const useRemoveRuntimeScopeDirectUploadAppsAppIdScopeDelete = <
+export const useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<
-        ReturnType<typeof removeRuntimeScopeDirectUploadAppsAppIdScopeDelete>
+        ReturnType<
+          typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
+        >
       >,
       TError,
       { appId: string },
@@ -736,14 +778,16 @@ export const useRemoveRuntimeScopeDirectUploadAppsAppIdScopeDelete = <
   queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<
-    ReturnType<typeof removeRuntimeScopeDirectUploadAppsAppIdScopeDelete>
+    ReturnType<
+      typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
+    >
   >,
   TError,
   { appId: string },
   TContext
 > => {
   return useMutation(
-    getRemoveRuntimeScopeDirectUploadAppsAppIdScopeDeleteMutationOptions(
+    getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationOptions(
       options,
     ),
     queryClient,

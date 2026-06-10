@@ -11,6 +11,7 @@ export const MainCategory = {
   audiovideo: "audiovideo",
   development: "development",
   education: "education",
+  healthfitness: "healthfitness",
   game: "game",
   graphics: "graphics",
   network: "network",
