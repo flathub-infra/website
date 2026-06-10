@@ -241,6 +241,174 @@ def test_revoke_tokens_revokes_without_archiving(monkeypatch):
     assert token_c.revoked is True
 
 
+def test_archive_marks_runtime_archived_and_republishes(monkeypatch):
+    monkeypatch.setattr(
+        runtimes.config.settings, "flat_manager_api", "https://flat-manager.example"
+    )
+    fake_app = SimpleNamespace(app_id="org.gnome.Platform", archived=False)
+    revoked = []
+    sent = []
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: fake_app,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes, "_revoke_all_tokens", lambda app_id: revoked.append(app_id)
+    )
+    monkeypatch.setattr(
+        runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
+    )
+
+    runtimes.archive_direct_upload_app(
+        "org.gnome.Platform",
+        runtimes.ArchiveRequest(endoflife="no longer maintained"),
+        _admin=None,
+    )
+
+    assert fake_app.archived is True
+    assert revoked == ["org.gnome.Platform"]
+    assert sent == [("org.gnome.Platform", "no longer maintained", None)]
+
+
+def test_archive_already_archived_is_noop(monkeypatch):
+    monkeypatch.setattr(
+        runtimes.config.settings, "flat_manager_api", "https://flat-manager.example"
+    )
+    fake_app = SimpleNamespace(app_id="org.example.App", archived=True)
+    revoked = []
+    sent = []
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: fake_app,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes, "_revoke_all_tokens", lambda app_id: revoked.append(app_id)
+    )
+    monkeypatch.setattr(
+        runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
+    )
+
+    runtimes.archive_direct_upload_app(
+        "org.example.App",
+        runtimes.ArchiveRequest(endoflife="no longer maintained"),
+        _admin=None,
+    )
+
+    assert revoked == []
+    assert sent == []
+
+
+def test_archive_404_if_app_missing(monkeypatch):
+    monkeypatch.setattr(
+        runtimes.config.settings, "flat_manager_api", "https://flat-manager.example"
+    )
+    revoked = []
+    sent = []
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes, "_revoke_all_tokens", lambda app_id: revoked.append(app_id)
+    )
+    monkeypatch.setattr(
+        runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.archive_direct_upload_app(
+            "org.example.App",
+            runtimes.ArchiveRequest(endoflife="no longer maintained"),
+            _admin=None,
+        )
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "app_not_found"
+    assert revoked == []
+    assert sent == []
+
+
+def test_archive_500_if_flat_manager_unset(monkeypatch):
+    monkeypatch.setattr(runtimes.config.settings, "flat_manager_api", None)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.archive_direct_upload_app(
+            "org.example.App",
+            runtimes.ArchiveRequest(endoflife="no longer maintained"),
+            _admin=None,
+        )
+
+    assert exc_info.value.status_code == 500
+    assert exc_info.value.detail == "flat_manager_not_configured"
+
+
+def test_unarchive_marks_unarchived_and_republishes(monkeypatch):
+    fake_app = SimpleNamespace(app_id="org.example.App", archived=True)
+    sent = []
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: fake_app,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
+    )
+
+    runtimes.unarchive_direct_upload_app("org.example.App", _admin=None)
+
+    assert fake_app.archived is False
+    assert sent == [("org.example.App",)]
+
+
+def test_unarchive_not_archived_is_noop(monkeypatch):
+    fake_app = SimpleNamespace(app_id="org.example.App", archived=False)
+    sent = []
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: fake_app,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
+    )
+
+    runtimes.unarchive_direct_upload_app("org.example.App", _admin=None)
+
+    assert sent == []
+
+
+def test_unarchive_404_if_app_missing(monkeypatch):
+    sent = []
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp,
+        "by_app_id",
+        lambda db, app_id: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.unarchive_direct_upload_app("org.example.App", _admin=None)
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "app_not_found"
+    assert sent == []
+
+
 def _make_switch_request(
     primary_maintainer_user_id=42,
     scope=runtimes.RuntimeScopeInput(
@@ -540,36 +708,6 @@ def test_switch_to_direct_upload_rejects_malformed_id_lists(
     assert exc_info.value.detail == detail
 
 
-@pytest.mark.parametrize(
-    "prefixes,extra_ids,detail",
-    [
-        (["org.gnome.Platform", ""], [], "invalid_prefixes_entry"),
-        (["org.gnome.Platform org.kde.Platform"], [], "invalid_prefixes_entry"),
-        (["org.gnome.Platform"], [""], "invalid_extra_ids_entry"),
-        (
-            ["org.gnome.Platform"],
-            ["org.foo.Sdk org.bar.Sdk"],
-            "invalid_extra_ids_entry",
-        ),
-    ],
-)
-def test_set_runtime_scope_rejects_malformed_id_lists(
-    monkeypatch, prefixes, extra_ids, detail
-):
-    # validation runs before the DB lookup, so no DB mocking needed
-    with pytest.raises(HTTPException) as exc_info:
-        runtimes.set_runtime_scope(
-            app_id="org.gnome.Platform",
-            request=runtimes.RuntimeScopeInput(
-                prefixes=prefixes,
-                extra_ids=extra_ids,
-            ),
-            _admin=None,
-        )
-    assert exc_info.value.status_code == 400
-    assert exc_info.value.detail == detail
-
-
 def test_switch_off_direct_upload_revokes_and_deletes(monkeypatch):
     """switch_off_direct_upload revokes tokens and hard-deletes scope/devs/invites/app."""
     monkeypatch.setattr(
@@ -679,107 +817,3 @@ def test_switch_off_direct_upload_404_if_app_missing(monkeypatch):
         runtimes.switch_off_direct_upload("org.example.App", _admin=None)
     assert exc_info.value.status_code == 404
     assert exc_info.value.detail == "app_not_found"
-
-
-def test_set_runtime_scope_creates_scope_for_plain_app(monkeypatch):
-    """set_runtime_scope on a plain app (no existing scope) creates a RuntimeScope."""
-    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
-    added = []
-
-    @contextmanager
-    def _ctx(db_type="replica"):
-        monkeypatch.setattr(
-            models.DirectUploadApp,
-            "by_app_id",
-            lambda db, app_id: fake_app,
-        )
-        monkeypatch.setattr(
-            models.RuntimeScope,
-            "by_app_id",
-            lambda db, app_id: None,
-        )
-        monkeypatch.setattr(
-            models.DirectUploadAppDeveloper,
-            "by_app",
-            lambda db, app: [],
-        )
-        monkeypatch.setattr(
-            runtimes,
-            "_managed_app_response",
-            lambda db, app, scope: SimpleNamespace(),
-        )
-
-        class _Sess:
-            def add(self, obj):
-                added.append(obj)
-
-            def commit(self):
-                pass
-
-        class _Db:
-            session = _Sess()
-
-        yield _Db()
-
-    monkeypatch.setattr(runtimes, "get_db", _ctx)
-
-    runtimes.set_runtime_scope(
-        app_id="org.example.App",
-        request=runtimes.RuntimeScopeInput(
-            prefixes=["org.example.App"],
-            extra_ids=[],
-            repos=["stable"],
-        ),
-        _admin=None,
-    )
-
-    scope_rows = [o for o in added if isinstance(o, models.RuntimeScope)]
-    assert len(scope_rows) == 1
-    assert scope_rows[0].prefixes == "org.example.App"
-
-
-def test_remove_runtime_scope_deletes_scope(monkeypatch):
-    """remove_runtime_scope deletes the RuntimeScope row."""
-    fake_scope = SimpleNamespace(app_id="org.example.App")
-    deleted = []
-
-    @contextmanager
-    def _ctx(db_type="replica"):
-        monkeypatch.setattr(
-            models.RuntimeScope,
-            "by_app_id",
-            lambda db, app_id: fake_scope,
-        )
-
-        class _Sess:
-            def delete(self, obj):
-                deleted.append(obj)
-
-            def commit(self):
-                pass
-
-        class _Db:
-            session = _Sess()
-
-        yield _Db()
-
-    monkeypatch.setattr(runtimes, "get_db", _ctx)
-
-    runtimes.remove_runtime_scope("org.example.App", _admin=None)
-
-    assert fake_scope in deleted
-
-
-def test_remove_runtime_scope_404_if_no_scope(monkeypatch):
-    """remove_runtime_scope raises 404 when there is no scope."""
-    monkeypatch.setattr(
-        runtimes.models.RuntimeScope,
-        "by_app_id",
-        lambda db, app_id: None,
-    )
-    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
-
-    with pytest.raises(HTTPException) as exc_info:
-        runtimes.remove_runtime_scope("org.example.App", _admin=None)
-    assert exc_info.value.status_code == 404
-    assert exc_info.value.detail == "scope_not_found"
