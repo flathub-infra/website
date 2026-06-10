@@ -28,6 +28,8 @@ from app.models import (
     OidcAuthorizationCode,
     OidcClient,
     OidcRefreshToken,
+    Role,
+    RoleName,
 )
 from app.oidc import (
     ensure_oidc_subject,
@@ -512,8 +514,15 @@ def test_utcnow_is_naive():
     assert now.tzinfo is None
 
 
+def _make_user(user_id=1, oidc_subject="sub-1", with_oidc_role=True, **kwargs):
+    user = FlathubUser(id=user_id, oidc_subject=oidc_subject, **kwargs)
+    if with_oidc_role:
+        user.roles = [Role(id=5, name=RoleName.OIDC.value)]
+    return user
+
+
 def _make_logged_in_login(user_id=1):
-    user = FlathubUser(id=user_id, oidc_subject="sub-1")
+    user = _make_user(user_id=user_id)
     return LoginInformation(state=LoginState.LOGGED_IN, user=user, method=None)
 
 
@@ -526,7 +535,7 @@ def _mock_db_ctx(client_obj=None, user=None, added=None):
     query_chain = MagicMock()
     query_chain.first.return_value = client_obj
     session.query.return_value.filter.return_value = query_chain
-    session.merge.return_value = user or FlathubUser(id=1, oidc_subject="sub-1")
+    session.merge.return_value = user or _make_user()
     if added is not None:
         session.add.side_effect = lambda obj: added.append(obj)
     else:
@@ -643,7 +652,7 @@ def test_authorize_unsupported_response_type(authorize_client):
 
 def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
     valid_client = _make_client()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -813,7 +822,7 @@ def test_authorize_unauthenticated_returnto_uses_issuer_path(
 
 def test_authorize_authenticated_issues_code(authorize_client):
     valid_client = _make_client()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -849,8 +858,35 @@ def test_authorize_authenticated_issues_code(authorize_client):
 
 def test_authorize_deleted_user_is_denied(authorize_client):
     valid_client = _make_client()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     user.deleted = True
+    added = []
+    get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+        ):
+            response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=access_denied" in response.headers["location"]
+    assert added == []
+    ensure_subject.assert_not_called()
+
+
+def test_authorize_user_without_oidc_role_is_denied(authorize_client):
+    valid_client = _make_client()
+    user = _make_user(with_oidc_role=False)
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -877,7 +913,7 @@ def test_authorize_deleted_user_is_denied(authorize_client):
 
 def test_authorize_nonce_persisted(authorize_client):
     valid_client = _make_client()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -905,7 +941,7 @@ def test_authorize_nonce_persisted(authorize_client):
 
 def test_authorize_state_preserved(authorize_client):
     valid_client = _make_client()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -936,7 +972,7 @@ def _mock_db_ctx_split(replica_client=None, writer_client=None, user=None, added
     replica_query = MagicMock()
     replica_query.first.return_value = replica_client
     replica_session.query.return_value.filter.return_value = replica_query
-    replica_session.merge.return_value = user or FlathubUser(id=1, oidc_subject="sub-1")
+    replica_session.merge.return_value = user or _make_user()
 
     replica_db = MagicMock()
     replica_db.session = replica_session
@@ -945,7 +981,7 @@ def _mock_db_ctx_split(replica_client=None, writer_client=None, user=None, added
     writer_query = MagicMock()
     writer_query.first.return_value = writer_client
     writer_session.query.return_value.filter.return_value = writer_query
-    writer_session.merge.return_value = user or FlathubUser(id=1, oidc_subject="sub-1")
+    writer_session.merge.return_value = user or _make_user()
     if added is not None:
         writer_session.add.side_effect = lambda obj: added.append(obj)
     else:
@@ -967,7 +1003,7 @@ def _mock_db_ctx_split(replica_client=None, writer_client=None, user=None, added
 def test_authorize_revalidates_client_on_writer(authorize_client):
     valid_client = _make_client()
     disabled_client = _make_client(enabled=False)
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx_split(
         replica_client=valid_client,
@@ -1011,7 +1047,7 @@ def test_authorize_preserves_nested_encoded_redirect_uri(authorize_client):
         allowed_scopes=["openid", "profile", "email"],
         enabled=True,
     )
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=nested_client, user=user, added=added)
 
@@ -1057,7 +1093,7 @@ def make_client_with_redirect(redirect_uri):
 
 def test_authorize_fresh_request_ignores_stale_session(authorize_client):
     client = make_client_with_redirect(REDIRECT_URI)
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=client, user=user, added=added)
 
@@ -1097,7 +1133,7 @@ def test_authorize_fresh_request_ignores_stale_session(authorize_client):
 
 def test_authorize_round_trip_preserves_nested_encoded_redirect_uri(authorize_client):
     nested_client = make_client_with_redirect(NESTED_REDIRECT_URI)
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=nested_client, user=user, added=added)
 
@@ -1206,7 +1242,7 @@ def test_authorize_offline_access_allowed_if_client_refresh_enabled(authorize_cl
         refresh_tokens_enabled=True,
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_db_ctx(client_obj=client_obj, user=user, added=added)
 
@@ -1371,7 +1407,7 @@ def _basic_auth_header(client_id, client_secret):
 def test_token_valid_exchange_with_client_secret_post(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1433,7 +1469,7 @@ def test_token_pkce_valid_verifier(token_client):
     auth_code_row = _make_auth_code_row(
         code_challenge=_pkce_challenge(verifier), code_challenge_method="S256"
     )
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
     )
@@ -1465,7 +1501,7 @@ def test_token_pkce_wrong_verifier(token_client):
         code_challenge=_pkce_challenge("the-real-verifier"),
         code_challenge_method="S256",
     )
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
     )
@@ -1493,7 +1529,7 @@ def test_token_pkce_missing_verifier(token_client):
         code_challenge=_pkce_challenge("the-real-verifier"),
         code_challenge_method="S256",
     )
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
     )
@@ -1517,7 +1553,7 @@ def test_token_pkce_missing_verifier(token_client):
 def test_token_valid_exchange_with_client_secret_basic(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1548,7 +1584,7 @@ def test_token_valid_exchange_with_client_secret_basic(token_client):
 def test_token_includes_nonce_in_id_token(token_client):
     auth_code_row = _make_auth_code_row(nonce="test-nonce")
     client_obj = _make_token_client()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1659,7 +1695,7 @@ def test_token_unsupported_grant_type(token_client):
 def test_token_expired_code(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row(expired=True)
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
     )
@@ -1683,8 +1719,38 @@ def test_token_expired_code(token_client):
 def test_token_deleted_user_returns_invalid_grant(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     user.deleted = True
+    added = []
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
+    )
+
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+    ):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+    assert added == []
+    ensure_subject.assert_not_called()
+
+
+def test_token_user_without_oidc_role_returns_invalid_grant(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row()
+    user = _make_user(with_oidc_role=False)
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1734,7 +1800,7 @@ def test_token_code_replay(token_client):
 def test_token_wrong_client(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row(client_id="other-client")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
     )
@@ -1758,7 +1824,7 @@ def test_token_wrong_client(token_client):
 def test_token_wrong_redirect_uri(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
     )
@@ -1818,7 +1884,7 @@ def test_token_id_token_signature_verifiable(token_client):
     """Verify that the ID token can be verified with the public JWKS key."""
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row(nonce="sig-test-nonce")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1864,7 +1930,7 @@ def test_token_auth_code_with_offline_access_returns_refresh_token(token_client)
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1909,7 +1975,7 @@ def test_token_auth_code_with_offline_access_returns_refresh_token(token_client)
 def test_token_auth_code_without_offline_access_no_refresh_token(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row(scope="openid profile")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1945,7 +2011,7 @@ def test_token_auth_code_offline_access_ignored_if_client_refresh_disabled(
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -1979,7 +2045,7 @@ def test_token_refresh_token_stored_hashed_only(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -2016,7 +2082,7 @@ def test_token_access_token_scope_excludes_offline_access(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     auth_code_row = _make_auth_code_row(scope="openid profile email offline_access")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -2152,7 +2218,7 @@ def test_refresh_grant_valid(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_refresh_db(
         client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
@@ -2198,7 +2264,7 @@ def test_refresh_grant_expired_token(token_client):
     )
     now = utcnow()
     rt_row = _RefreshTokenRow(expires_at=now - timedelta(seconds=1))
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
@@ -2315,8 +2381,36 @@ def test_refresh_grant_deleted_user(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow()
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     user.deleted = True
+    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
+
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+    ):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": "old-refresh-token",
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_grant"}
+    ensure_subject.assert_not_called()
+
+
+def test_refresh_grant_user_without_oidc_role(token_client):
+    client_obj = _make_token_client(
+        refresh_tokens_enabled=True,
+        allowed_scopes=["openid", "profile", "email", "offline_access"],
+    )
+    rt_row = _RefreshTokenRow()
+    user = _make_user(with_oidc_role=False)
     get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
     with (
@@ -2365,7 +2459,7 @@ def test_refresh_grant_scope_narrowing(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow(scope="openid profile email offline_access")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_refresh_db(
         client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
@@ -2403,7 +2497,7 @@ def test_refresh_grant_narrowing_dropping_openid_omits_id_token(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow(scope="openid profile email offline_access")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     added = []
     get_db_mock = _mock_refresh_db(
         client_obj=client_obj, rt_row=rt_row, user_obj=user, added=added
@@ -2444,7 +2538,7 @@ def test_refresh_grant_scope_expansion_rejected(token_client):
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow(scope="openid profile")
-    user = FlathubUser(id=1, oidc_subject="sub-1")
+    user = _make_user()
     get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
@@ -2626,7 +2720,7 @@ def test_userinfo_valid(client, monkeypatch):
     """Valid Bearer token returns correct claims for all scopes."""
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid profile email")
-    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    user = _make_user(display_name="Test User")
     default_account = _make_connected_account()
     get_db_mock, _session = _mock_userinfo_db(
         access_token_obj=access_token_obj, user_obj=user
@@ -2734,8 +2828,30 @@ def test_userinfo_revoked_token(client, monkeypatch):
 def test_userinfo_deleted_user_returns_invalid_token(client, monkeypatch):
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid profile email")
-    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    user = _make_user(display_name="Test User")
     user.deleted = True
+    get_db_mock, _session = _mock_userinfo_db(
+        access_token_obj=access_token_obj, user_obj=user
+    )
+
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
+    ):
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "invalid_token"}
+    ensure_subject.assert_not_called()
+
+
+def test_userinfo_user_without_oidc_role_returns_invalid_token(client, monkeypatch):
+    enable_oidc(monkeypatch)
+    access_token_obj = _make_access_token_obj(scope="openid profile email")
+    user = _make_user(display_name="Test User", with_oidc_role=False)
     get_db_mock, _session = _mock_userinfo_db(
         access_token_obj=access_token_obj, user_obj=user
     )
@@ -2758,7 +2874,7 @@ def test_userinfo_no_profile_scope(client, monkeypatch):
     """Without profile scope, name/preferred_username/picture are omitted."""
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid email")
-    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    user = _make_user(display_name="Test User")
     default_account = _make_connected_account()
     get_db_mock, _session = _mock_userinfo_db(
         access_token_obj=access_token_obj, user_obj=user
@@ -2788,7 +2904,7 @@ def test_userinfo_no_email_scope(client, monkeypatch):
     """Without email scope, email/email_verified are omitted."""
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid profile")
-    user = FlathubUser(id=1, display_name="Test User", oidc_subject="sub-1")
+    user = _make_user(display_name="Test User")
     default_account = _make_connected_account()
     get_db_mock, _session = _mock_userinfo_db(
         access_token_obj=access_token_obj, user_obj=user

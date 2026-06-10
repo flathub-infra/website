@@ -93,6 +93,7 @@ class RoleName(enum.StrEnum):
     MODERATOR = "moderator"
     QUALITY_MODERATOR = "quality-moderator"
     UPLOADER = "uploader"
+    OIDC = "oidc"
 
 
 class DeleteUserResult(BaseModel):

@@ -106,6 +106,10 @@ def _error_redirect(
     return RedirectResponse(url=location, status_code=302)
 
 
+def _user_can_use_oidc(user: models.FlathubUser) -> bool:
+    return models.RoleName.OIDC.value in user.role_list()
+
+
 @router.get(
     "/oidc/authorize",
     responses={
@@ -212,6 +216,8 @@ def authorize(
 
         user = db.session.merge(login.user)
         if user.deleted:
+            return _error_redirect(redirect_uri, "access_denied", state)
+        if not _user_can_use_oidc(user):
             return _error_redirect(redirect_uri, "access_denied", state)
         ensure_oidc_subject(db, user)
         authz_code = models.OidcAuthorizationCode(
@@ -486,6 +492,8 @@ def _handle_authorization_code_grant(
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.deleted:
             raise HTTPException(status_code=400, detail="invalid_grant")
+        if not _user_can_use_oidc(user):
+            raise HTTPException(status_code=400, detail="invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
         id_token = _sign_id_token(client_id, subject, now, nonce=row.nonce)
@@ -586,6 +594,8 @@ def _handle_refresh_token_grant(
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.deleted:
             raise HTTPException(status_code=400, detail="invalid_grant")
+        if not _user_can_use_oidc(user):
+            raise HTTPException(status_code=400, detail="invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
         effective_scope = row.scope
@@ -677,6 +687,8 @@ def userinfo(request: Request):
 
         user = db.session.get(models.FlathubUser, access_token_obj.user_id)
         if user is None or user.deleted:
+            raise HTTPException(status_code=401, detail="invalid_token")
+        if not _user_can_use_oidc(user):
             raise HTTPException(status_code=401, detail="invalid_token")
 
         subject = ensure_oidc_subject(db, user)
