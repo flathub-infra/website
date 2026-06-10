@@ -1,7 +1,5 @@
 import { MainCategory } from "src/codegen"
 
-type HealthFitnessCategory = "healthfitness"
-
 export function stringToCategory(category: string): MainCategory | undefined {
   switch (category.toLowerCase()) {
     case "audiovideo":
@@ -25,7 +23,7 @@ export function stringToCategory(category: string): MainCategory | undefined {
     case "utility":
       return MainCategory.utility
     case "healthfitness":
-      return category as HealthFitnessCategory as MainCategory
+      return MainCategory.healthfitness
     default:
       return undefined
   }
@@ -76,8 +74,10 @@ export function categoryToName(category: MainCategory, t): string {
       return t("education")
     case MainCategory.system:
       return t("system")
+    case MainCategory.healthfitness:
+      return t("health-fitness")
     default:
-      return healthFitnessCategoryToName(category)
+      assertUnreachable(category)
   }
 }
 
@@ -103,26 +103,8 @@ export function categoryToDescription(category: MainCategory, t): string {
       return t("education-description")
     case MainCategory.system:
       return t("system-description")
-    default:
-      return healthFitnessCategoryToDescription(category)
-  }
-}
-
-function healthFitnessCategoryToName(category: HealthFitnessCategory): string {
-  switch (category) {
-    case "healthfitness":
-      return "Health & Fitness"
-    default:
-      assertUnreachable(category)
-  }
-}
-
-function healthFitnessCategoryToDescription(
-  category: HealthFitnessCategory,
-): string {
-  switch (category) {
-    case "healthfitness":
-      return "Health, fitness, and wellness apps for Linux."
+    case MainCategory.healthfitness:
+      return t("health-fitness-description")
     default:
       assertUnreachable(category)
   }
