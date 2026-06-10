@@ -52,3 +52,8 @@ dev = [
 lint.ignore = ["E501", "E402", "UP042"]
 lint.extend-select = ["I", "W", "UP", "TCH"]
 exclude = ["alembic/versions/*"]
+
+[tool.ty.src]
+include = [
+    "app"
+]
