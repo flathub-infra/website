@@ -625,7 +625,9 @@ class GithubAccount(Base):
 
     @staticmethod
     def by_provider_id(db, ghid):
-        return db.session.query(GithubAccount).filter_by(github_userid=ghid).first()
+        return (
+            db.session.query(GithubAccount).filter_by(github_userid=int(ghid)).first()
+        )
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user):
@@ -787,7 +789,9 @@ class GitlabAccount(Base):
 
     @staticmethod
     def by_provider_id(db, glid):
-        return db.session.query(GitlabAccount).filter_by(gitlab_userid=glid).first()
+        return (
+            db.session.query(GitlabAccount).filter_by(gitlab_userid=int(glid)).first()
+        )
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user):
@@ -877,7 +881,7 @@ class GnomeAccount(Base):
 
     @staticmethod
     def by_provider_id(db, glid):
-        return db.session.query(GnomeAccount).filter_by(gnome_userid=glid).first()
+        return db.session.query(GnomeAccount).filter_by(gnome_userid=int(glid)).first()
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user):
@@ -967,7 +971,9 @@ class GoogleAccount(Base):
 
     @staticmethod
     def by_provider_id(db, ggid):
-        return db.session.query(GoogleAccount).filter_by(google_userid=ggid).first()
+        return (
+            db.session.query(GoogleAccount).filter_by(google_userid=str(ggid)).first()
+        )
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user):
@@ -1057,7 +1063,7 @@ class KdeAccount(Base):
 
     @staticmethod
     def by_provider_id(db, glid):
-        return db.session.query(KdeAccount).filter_by(kde_userid=glid).first()
+        return db.session.query(KdeAccount).filter_by(kde_userid=int(glid)).first()
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user):
