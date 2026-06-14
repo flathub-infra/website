@@ -539,16 +539,18 @@ def submit_review_request(
             request_ignored = False
 
             if "sockets" in keys and "sockets" in current_values:
-                cur_sockets = current_values["sockets"]
-                new_sockets = keys["sockets"]
+                cur_sockets = set(current_values["sockets"])
+                new_sockets = set(keys["sockets"])
 
-                if (
-                    isinstance(cur_sockets, list)
-                    and isinstance(new_sockets, list)
-                    and sorted(cur_sockets)
-                    == sorted(["fallback-x11", "wayland", "x11"])
-                    and sorted(new_sockets) == sorted(["fallback-x11", "wayland"])
-                ):
+                x11_compat_transition = (
+                    cur_sockets
+                    and new_sockets
+                    and {"fallback-x11", "wayland", "x11"} <= cur_sockets
+                    and {"fallback-x11", "wayland"} <= new_sockets
+                    and "x11" not in new_sockets
+                )
+
+                if x11_compat_transition:
                     keys.pop("sockets", None)
                     current_values.pop("sockets", None)
                     request_ignored = True
