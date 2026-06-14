@@ -538,6 +538,21 @@ def submit_review_request(
 
             request_ignored = False
 
+            if "sockets" in keys and "sockets" in current_values:
+                cur_sockets = current_values["sockets"]
+                new_sockets = keys["sockets"]
+
+                if (
+                    isinstance(cur_sockets, list)
+                    and isinstance(new_sockets, list)
+                    and sorted(cur_sockets)
+                    == sorted(["fallback-x11", "wayland", "x11"])
+                    and sorted(new_sockets) == sorted(["fallback-x11", "wayland"])
+                ):
+                    keys.pop("sockets", None)
+                    current_values.pop("sockets", None)
+                    request_ignored = True
+
             if app_runtime_dref:
                 runtime_id, runtime_br = app_runtime_dref.split("//")
 
