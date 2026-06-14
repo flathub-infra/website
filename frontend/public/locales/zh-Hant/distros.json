@@ -440,5 +440,9 @@
       "name": "重啟",
       "text": "<text>請重新啟動系統以完成設定。現在您就可以<link>安裝應用程式</link>了！</text> <text>注意：在 Slackware 上可能無法透過圖形介面安裝 Flatpak 應用程式。</text>"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>自版本 26.6 起，Flatpak 已預設安裝於 T2 SDE，不需要任何設定！</header> <text>Flatpak 已預先設定好 Flathub 倉庫，並內建桌面整合工具，讓您能從 Flathub 進行一鍵安裝。</text> <text>您只需要<link>安裝應用程式</link>！</text>"
   }
 }

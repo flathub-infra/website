@@ -434,5 +434,8 @@
     "step-3": {
       "name": "Neustart"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE"
   }
 }

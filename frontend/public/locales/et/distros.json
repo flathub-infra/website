@@ -440,5 +440,9 @@
       "name": "Käivita arvuti uuesti",
       "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text> <text>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Slackware'i puhul toimida.</text>"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Alates T2 SDE versioonist 26.6 on Flatpak vaikimisi paigaldatud — lisatoimingud pole vajalikud!</header> <text>Flathubi tarkvarahoidla on eelseadistatud ja olemas on töölauatarvikud, mis võimaldavad rakenduste paigaldamist Flathubist ühe klõpsuga.</text> <text>Sul pole vaja muud teha, <link>kui paigaldada rakendusi</link>!</text>"
   }
 }

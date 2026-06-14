@@ -320,5 +320,8 @@
     "step-2": {
       "name": "Ouzhpennañ ar c'havlec'hiad Flathub"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE"
   }
 }

@@ -780,5 +780,7 @@
   "flatpak-version-distribution": "Jaotus flatpaki versioonide alusel (viimase 30 päeva jooksul)",
   "os-flatpak-version-distribution": "Flatpaki versioone operatsioonisüsteemide kaupa (viimase 30 päeva jooksul)",
   "share": "Jaga",
-  "upload-token-create-failed": "Üleslaadimise tunnusloa loomine ei õnnestunud. Palun proovi uuesti."
+  "upload-token-create-failed": "Üleslaadimise tunnusloa loomine ei õnnestunud. Palun proovi uuesti.",
+  "health-fitness-description": "Tervise- ja treeningurakendused Linuxile.",
+  "health-fitness": "Tervis ja treening"
 }

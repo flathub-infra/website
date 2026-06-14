@@ -779,5 +779,8 @@
   "share": "Sdílet",
   "os-version-distribution": "Distribuce verzí OS (posledních 30 dní)",
   "flatpak-version-distribution": "Distribuce verzí Flatpaku (posledních 30 dní)",
-  "os-flatpak-version-distribution": "Verze Flatpaku podle OS (posledních 30 dní)"
+  "os-flatpak-version-distribution": "Verze Flatpaku podle OS (posledních 30 dní)",
+  "health-fitness": "Zdraví a fitness",
+  "health-fitness-description": "Aplikace zaměřené na zdraví a fitness pro Linux.",
+  "upload-token-create-failed": "Nepodařilo se vytvořit token pro nahrávání. Zkuste to prosím znovu."
 }

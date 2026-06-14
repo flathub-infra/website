@@ -780,5 +780,7 @@
   "upload-token-create-failed": "Nem sikerült létrehozni a feltöltési tokent. Próbálja újra.",
   "os-version-distribution": "Operációs rendszer verzióinak megoszlása (elmúlt 30 nap)",
   "flatpak-version-distribution": "Flatpak-verziók megoszlása (elmúlt 30 nap)",
-  "os-flatpak-version-distribution": "Flatpak-verzió operációs rendszer szerint (elmúlt 30 nap)"
+  "os-flatpak-version-distribution": "Flatpak-verzió operációs rendszer szerint (elmúlt 30 nap)",
+  "health-fitness": "Egészség és fitnesz",
+  "health-fitness-description": "Egészség- és fitneszalkalmazások Linuxra."
 }

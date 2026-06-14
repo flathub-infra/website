@@ -440,5 +440,9 @@
       "name": "Atosaigh",
       "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text> <text>Tabhair faoi deara: b'fhéidir nach féidir aipeanna Flatpak a shuiteáil go grafach le Slackware.</text>"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Tá Flatpak suiteáilte de réir réamhshocraithe ar T2 SDE ó leagan 26.6 — níl aon ghá le socrú!</header> <text>Tagann Flatpak réamhchumraithe leis an stórlann Flathub agus tá uirlisí comhtháthaithe deisce san áireamh chun suiteáil 1-cliceáil ó Flathub a cheadú.</text> <text>Níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
   }
 }
