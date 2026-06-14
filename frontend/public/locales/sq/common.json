@@ -30,7 +30,7 @@
   "app-logo": "Stemë {app_name}",
   "count-downloads": "Shkarkime gjithsej",
   "rss-feeds-description": "Tanimë mund të pajtoheni te prurjet tona RSS, për të marrë gjërat më të reja Flathub te lexuesi juaj i prurjeve!",
-  "acknowledgements-block": "<p>Flathub-i s’do të ishte i mundshëm pa përkrahjen bujare të enteve dhe individëve vijues.</p>",
+  "acknowledgements-block": "<p>Flathub-i s’do të ishte i mundshëm pa përkrahjen bujare të bashkësisë më të gjerë të Flatpak-ut dhe Flathub-it. Falënderojmë krejt kontribuesit, sponsorët dhe entet e dikurshëm dhe të tanishëm, përkrahja dhe infrastruktura e të cilëve e ka mbajtur në punë Flathub-in.</p>",
   "official-badges": "Stema Flathub Zyrtare",
   "badges-block": "Mund të përdorni këto stema për promovimin e aplikacionit tuaj në Flathub",
   "preferred-badge": "Stemë e Parapëlqyer",
@@ -618,7 +618,7 @@
     "banner-preview": "Paraparje banderole"
   },
   "on-the-go": "Për pajisje celulare",
-  "favorite-apps": "Të parapëlqyer",
+  "favorite-apps": "Faqerojtës",
   "favorite": "Faqeruajeni",
   "game-section-description": "Lojëra dhe aplikacione për xhirimin e titujve tuaj të parapëlqyer",
   "more-gametool": "Më Tepër Mjete Lojërash",
@@ -660,9 +660,9 @@
   },
   "uses-non-portal-service": "Përdor shërbime jopostare",
   "can-talk-to-non-portal-service": "Mund të kërkojë të dhëna nga shërbime jopostare dhe të përfitojë leje shtesë",
-  "install-all-favorites": "Instalo Krejt të Parapëlqyerit",
-  "install-all-favorites-description": "Kopjoni këtë urdhër që të instalohen njëherësh krejt aplikacionet tuaj të parapëlqyer:",
-  "no-favorites-yet": "S’keni ende aplikacione të parapëlqyer. Filloni të shtoni ca, duke klikuar ikonën e faqerojtësve mbi aplikacione që ju pëlqejnë!",
+  "install-all-favorites": "Instalo Krejt Faqerojtësit",
+  "install-all-favorites-description": "Kopjoni këtë urdhër që të instalohen njëherësh krejt aplikacionet që keni faqeruajtur:",
+  "no-favorites-yet": "S’keni ende aplikacione të faqeruajtur. Filloni të shtoni ca, duke klikuar ikonën e faqerojtësve mbi aplikacione që ju pëlqejnë!",
   "vending": {
     "purchase-not-available": "Ky aplikacion s’jepet për t’u blerë."
   },
@@ -752,5 +752,17 @@
   "trending-apps-description": "Aplikacione Linux me më shumë instalime në Flathub përgjatë dy javëve të kaluara.",
   "popular-apps-description": "Aplikacionet Linux më të instaluara në Flathub gjatë muajit të kaluar.",
   "verified-apps-description": "Aplikacione në Flathub për zhvilluesit e të cilëve është verifikuar identiteti.",
-  "audio-and-video-description": "Lojtës muzike, përpunues videosh, mjete “podcasting” dhe aplikacione multimedia për Linux."
+  "audio-and-video-description": "Lojtës muzike, përpunues videosh, mjete “podcasting” dhe aplikacione multimedia për Linux.",
+  "developer-tools-description": "IDE-ra, përpunues kodi, terminale dhe mjete zhvillimi për Linux.",
+  "games-description": "Lojëra, emulues dhe nisës lojërash për Linux.",
+  "graphics-and-photography-description": "Përpunues figurash, mjete ilustrimi dhe aplikacione fotografie për Linux.",
+  "networking-description": "Shfletues, klientë email, mjete VPN dhe aplikacione të tjera punimi në rrjet për Linux.",
+  "productivity-description": "Aplikacione suita zyrash, mbajtje shënimesh, administrim projektesh dhe prodhimtarie për Linux.",
+  "utilities-description": "Mjete sistemi, përgjegjës kartelash, makina llogaritëse dhe mjete të së përditshmes për Linux.",
+  "science-description": "Aplikacione njehsimi shkencor, analizash të dhënash dhe pune kërkimore për Linux.",
+  "education-description": "Aplikacione të nxëni, mjete gjuhësh dhe programe edukative për Linux.",
+  "system-description": "Mjete administrimi sistemi, mbikëqyrjeje dhe administrimi për Linux.",
+  "upload-token-create-failed": "S’u arrit të krijohej token ngarkimesh. Ju lutemi, riprovoni.",
+  "os-flatpak-version-distribution": "Version Flatpak sipas OS-i (30 ditët e fundit)",
+  "founding-supporters": "Përkrahës Themelues"
 }

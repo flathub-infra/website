@@ -780,5 +780,7 @@
   "flatpak-version-distribution": "Flatpak 版本分布（过去 30 天）",
   "os-flatpak-version-distribution": "按操作系统划分的 Flatpak 版本（过去 30 天）",
   "share": "分享",
-  "upload-token-create-failed": "无法创建上传令牌。请重试。"
+  "upload-token-create-failed": "无法创建上传令牌。请重试。",
+  "health-fitness-description": "适用于 Linux 的健康和健身应用。",
+  "health-fitness": "健康和健身"
 }

@@ -483,9 +483,9 @@
   "arch": "Áirse",
   "release-link-no-changelog": "Nótaí scaoilte",
   "safe": "Sábháilte",
-  "probably-safe": "Sábháilte dócha",
-  "unsafe": "Neamhshábhá",
-  "potentially-unsafe": "D'fhéadfadh a bheith neamh",
+  "probably-safe": "Riosca Íseal",
+  "unsafe": "Ardriosca",
+  "potentially-unsafe": "Riosca Meánach",
   "no-permissions": "Gan aon cheadanna",
   "has-network-access": "Tá rochtain líonra aige",
   "uses-system-services": "Úsáideann seirbhísí cór",
@@ -779,5 +779,8 @@
   "os-version-distribution": "Dáileadh Leagan an OS (le 30 lá anuas)",
   "flatpak-version-distribution": "Dáileadh Leagan Flatpak (le 30 lá anuas)",
   "os-flatpak-version-distribution": "Leagan Flatpak de réir OS (le 30 lá anuas)",
-  "share": "Comhroinn"
+  "share": "Comhroinn",
+  "health-fitness-description": "Aipeanna sláinte agus aclaíochta do Linux.",
+  "health-fitness": "Sláinte & Folláine",
+  "upload-token-create-failed": "Theip ar chomhartha uaslódála a chruthú. Déan iarracht arís."
 }

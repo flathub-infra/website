@@ -440,5 +440,9 @@
       "name": "Restartujte",
       "text": "<text>Pro dokončení nastavení restartujte váš systém. Teď už stačí jen <link>nainstalovat aplikace</link>!</text><text>Poznámka: Ve Slackware nemusí být grafická instalace aplikací Flatpak dostupná.</text>"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak je v systému T2 SDE od verze 26.6 nainstalován ve výchozím nastavení — není potřeba žádné další nastavení!</header><text>Flatpak je dodáván s přednastaveným repozitářem Flathub a jsou zahrnuty také nástroje pro integraci s desktopovým prostředím, které umožňují instalaci aplikací z Flathubu jedním kliknutím.</text><text>Stačí jen <link>nainstalovat aplikace</link>!</text>"
   }
 }

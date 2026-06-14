@@ -780,5 +780,7 @@
   "os-version-distribution": "توزيع إصدارات أنظمة التشغيل (آخر 30 يومًا)",
   "flatpak-version-distribution": "توزيع إصدارات Flatpak (آخر 30 يومًا)",
   "os-flatpak-version-distribution": "إصدارات Flatpak حسب نظام التشغيل (آخر 30 يومًا)",
-  "share": "شارك"
+  "share": "شارك",
+  "health-fitness-description": "تطبيقات الصحة واللياقة البدنية للينكس.",
+  "health-fitness": "الصحة واللياقة البدنية"
 }

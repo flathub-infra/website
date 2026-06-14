@@ -780,5 +780,7 @@
   "os-flatpak-version-distribution": "Version Flatpak par OS (30 derniers jours)",
   "share": "Partage(r)",
   "founding-supporters": "Soutiens fondateurs",
-  "upload-token-create-failed": "Échec de création du jeton de téléversement. Veuillez réessayer."
+  "upload-token-create-failed": "Échec de création du jeton de téléversement. Veuillez réessayer.",
+  "health-fitness-description": "Des apps pour Linux qui vous aident à prendre soin de vous.",
+  "health-fitness": "Santé et fitness"
 }

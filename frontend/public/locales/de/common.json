@@ -338,9 +338,9 @@
   "remove-developer-confirmation": "Bist du sicher, dass du {developer} aus {app} entfernen möchtest?",
   "leave-confirmation": "Bist du sicher, dass du {app} verlassen möchtest?",
   "safe": "Sicher",
-  "probably-safe": "Wahrscheinlich sicher",
-  "unsafe": "Unsicher",
-  "potentially-unsafe": "Möglicherweise unsicher",
+  "probably-safe": "Geringes Risiko",
+  "unsafe": "Hohes Risiko",
+  "potentially-unsafe": "Mittleres Risiko",
   "no-permissions": "Keine Berechtigungen",
   "has-network-access": "Hat Netzwerkzugang",
   "uses-system-services": "Verwendet Systemdienste",
@@ -779,5 +779,8 @@
   "flatpak-version-distribution": "Flatpak Version Distribution (letzte 30 Tage)",
   "os-flatpak-version-distribution": "Flatpak Version nach Betriebssystem (letzte 30 Tage)",
   "share": "Teile",
-  "founding-supporters": "Gründungsunterstützer"
+  "founding-supporters": "Gründungsunterstützer",
+  "health-fitness-description": "Gesundheits- und Fitness-Apps für Linux.",
+  "health-fitness": "Gesundheit & Fitness",
+  "upload-token-create-failed": "Das Erstellen des Hochladetokens ist fehlgeschlagen. Bitte erneut versuchen."
 }

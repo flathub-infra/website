@@ -780,5 +780,7 @@
   "os-version-distribution": "Разпределение по версия на ОС за последните 30 дни",
   "flatpak-version-distribution": "Разпределение по версия на „Flatpak“ за последните 30 дни",
   "os-flatpak-version-distribution": "Разпределение по версия на „Flatpak“ в ОС за последните 30 дни",
-  "upload-token-create-failed": "Неуспешно създаване на жетон. Моля, опитайте отново."
+  "upload-token-create-failed": "Неуспешно създаване на жетон. Моля, опитайте отново.",
+  "health-fitness-description": "Приложения за здраве и фитнес за Линукс.",
+  "health-fitness": "Здраве и фитнес"
 }

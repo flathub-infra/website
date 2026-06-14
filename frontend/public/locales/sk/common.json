@@ -780,5 +780,7 @@
   "os-flatpak-version-distribution": "Verzie Flatpaku podľa OS (posledných 30 dní)",
   "share": "Zdieľať",
   "flatpak-version-distribution": "Distribúcia verzií Flatpaku (posledných 30 dní)",
-  "upload-token-create-failed": "Nepodarilo sa vytvoriť token na nahrávanie. Skúste to znova."
+  "upload-token-create-failed": "Nepodarilo sa vytvoriť token na nahrávanie. Skúste to znova.",
+  "health-fitness-description": "Aplikácie pre zdravie a kondíciu pre Linux.",
+  "health-fitness": "Zdravie a kondícia"
 }

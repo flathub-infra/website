@@ -211,7 +211,7 @@
   "login-provider-verification-instruction": "Intentaremos verificar su acceso a la aplicación con su inicio de sesión <loginname></loginname> con su cuenta en <loginprovider></loginprovider>",
   "app-is-currently-verified-by-website": "Su aplicación está actualmente verificada por su sitio web <website></website>",
   "app-is-currently-verified-manually": "Su aplicación está actualmente verificada por el equipo de Flathub",
-  "app-is-currently-verified-by-login-provider": "Su aplicación está actualmente verificada por el inicio de sesión<loginname></loginname> con su cuenta en <loginprovider></loginprovider>",
+  "app-is-currently-verified-by-login-provider": "Su aplicación está actualmente verificada por el inicio de sesión <loginname></loginname> con su cuenta en <loginprovider></loginprovider>",
   "login-provider-verification": "Verificación del proveedor de acceso",
   "error-code": "Código de error: {code}",
   "error": "Error",
@@ -345,9 +345,9 @@
   "leave": "Dejar",
   "invite-code-hint": "Dele este código a otro desarrollador para que pueda invitarle a su aplicación.",
   "safe": "Segura",
-  "probably-safe": "Probablemente segura",
-  "unsafe": "No segura",
-  "potentially-unsafe": "Potencialmente insegura",
+  "probably-safe": "Riesgo bajo",
+  "unsafe": "Riesgo alto",
+  "potentially-unsafe": "Riesgo medio",
   "no-permissions": "Sin permisos",
   "has-network-access": "Tiene acceso a la red",
   "can-access-hardware-devices": "Puede acceder a dispositivos como cámaras web o controladores de juegos",
@@ -627,7 +627,7 @@
     "banner-preview-description": "Para experimentar fácilmente con su banner, use <preview>la vista previa del banner</preview>"
   },
   "favorite-apps": "Marcadores",
-  "favorite": "Favorita",
+  "favorite": "Marcador",
   "gameemulator": "Emuladores",
   "emulator": "Emuladores",
   "more-emulator": "Más emuladores",
@@ -661,7 +661,7 @@
   },
   "download": {
     "install-x": "Instalar «{x}»",
-    "fallback-instructions": "<opening>Abriendo «{name}» en su gestor de software…</opening><support>Si no ocurre nada, puede que su sistema no soporte URLs <i>flatpak+https</i> .</support><listPrefix>En ese caso puede:</listPrefix><ol><li>Descargar el archivo <link>.flatpakref</link></li><li>Después, ejecutarlo desde su gestor de archivos</li></ol><setupLine><linkSetup>Instrucciones para instalar Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Abriendo «{name}» en su gestor de software…</opening><support>Si no ocurre nada, puede que su sistema no soporte las url <i>flatpak+https</i> .</support><listPrefix>En ese caso puede:</listPrefix><ol><li>Descargar el archivo <link>.flatpakref</link></li><li>Después, ejecutarlo desde su gestor de archivos</li></ol><setupLine><linkSetup>Instrucciones para instalar Flatpak</linkSetup></setupLine>"
   },
   "count": "Contar",
   "country-statistics": "Estadísticas por país",
@@ -740,7 +740,10 @@
     "works-well-on-large-screens": "Funciona bien en pantallas grandes",
     "may-not-work-well-on-mobile": "Puede no funcionar bien en dispositivos móviles",
     "works-well-on-mobile": "Funciona bien en dispositivos móviles",
-    "total-installs": "Instalaciones en total"
+    "total-installs": "Instalaciones en total",
+    "free": "Libre",
+    "installed-runtime-size": "Tamaño de Hora de Ejecución Instalada",
+    "age-rating": "Puntuación de Edad"
   },
   "trending-apps-description": "Aplicaciones de Linux más instaladas en Flathub en las últimas dos semanas.",
   "popular-apps-description": "Las aplicaciones de Linux más instaladas en Flathub en el último mes.",
@@ -762,6 +765,22 @@
     "none-violence": "No contiene violencia",
     "none-drugs": "No contiene ninguna referencia a drogas",
     "none-sex": "No contiene nudismo ni contenido sexual",
-    "none-money": "No contiene anuncios ni transacciones monetarias"
-  }
+    "none-money": "No contiene anuncios ni transacciones monetarias",
+    "category-language": "Idioma Fuerte",
+    "none-language": "No contiene ningún lenguaje obsceno o vulgar",
+    "none-social": "Sin características sociales"
+  },
+  "audio-and-video-description": "Reproductores de música, editores de vídeo, herramientas de podcast, y apps multimedia para Linux.",
+  "developer-tools-description": "Los IDE, editores de código, terminales, y utilidades de desarrollador para Linux.",
+  "productivity-description": "Suites de oficina, toma-notas, gestión de proyectos, y apps de productividad para Linux.",
+  "utilities-description": "Utilidades del sistema, gestiones de archivo, calculadoras, y herramientas diarias para Linux.",
+  "system-description": "Gestión de sistema, monitoreo, y herramientas de administración para Linux.",
+  "health-fitness-description": "Aplicaciones de salud y estado físico para Linux.",
+  "health-fitness": "Salud y Estado Físico",
+  "upload-token-create-failed": "Ha fallado al crear el vale de subida. Inténtelo de nuevo.",
+  "os-version-distribution": "Versión de Distribución del SO (últ. 30 días)",
+  "flatpak-version-distribution": "Versión de Distribución de Flatpak (últ. 30 días)",
+  "os-flatpak-version-distribution": "Versión de Flatpak por SO (Últ. 30 días)",
+  "share": "Compartición",
+  "founding-supporters": "Aportaciones a la Fundación"
 }

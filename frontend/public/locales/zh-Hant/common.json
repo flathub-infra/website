@@ -345,9 +345,9 @@
   "release-link-no-changelog": "發行註記",
   "invite-code-hint": "將此代碼給予其他開發者以讓他們可以邀請您到他們的應用程式。",
   "safe": "安全",
-  "probably-safe": "可能安全",
-  "unsafe": "不安全",
-  "potentially-unsafe": "可能不安全",
+  "probably-safe": "低風險",
+  "unsafe": "高風險",
+  "potentially-unsafe": "中等風險",
   "no-permissions": "沒有權限",
   "has-network-access": "可存取網路",
   "uses-system-services": "使用系統服務",
@@ -779,5 +779,8 @@
   "os-version-distribution": "作業系統版本散佈版（過去 30 天）",
   "flatpak-version-distribution": "Flatpak 版本散佈版（過去 30 天）",
   "os-flatpak-version-distribution": "按作業系統劃分的 Flatpak 版本（過去 30 天）",
-  "share": "分享"
+  "share": "分享",
+  "upload-token-create-failed": "無法建立上傳憑證。請重試。",
+  "health-fitness-description": "適用於 Linux 的健康與健身應用程式。",
+  "health-fitness": "健康與健身"
 }
