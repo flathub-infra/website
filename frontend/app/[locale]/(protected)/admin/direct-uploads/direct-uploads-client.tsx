@@ -223,7 +223,11 @@ function RuntimeScopeSection({
   })
 
   if (!app.scope) return null
-  const { prefixes: currentPrefixes, extra_ids: currentExtraIds, repos } = app.scope
+  const {
+    prefixes: currentPrefixes,
+    extra_ids: currentExtraIds,
+    repos,
+  } = app.scope
 
   const startEdit = () => {
     setPrefixes(currentPrefixes.join(" "))
