@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: codegen-${{ github.head_ref || github.ref_name }}
@@ -89,13 +90,26 @@ jobs:
         run: pnpm build
 
       - name: Commit and push if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -n "$(git status --porcelain frontend/src/codegen)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add frontend/src/codegen
             git commit -m "chore(codegen): regenerate API client from backend OpenAPI"
-            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+              BRANCH="chore/codegen-$(date +%Y%m%d-%H%M%S)"
+              git checkout -b "$BRANCH"
+              git push origin "$BRANCH"
+              gh pr create \
+                --title "chore(codegen): regenerate API client from backend OpenAPI" \
+                --body "Automated regeneration triggered via workflow dispatch." \
+                --base "${{ github.ref_name }}" \
+                --head "$BRANCH"
+            else
+              git push origin HEAD:${{ github.head_ref }}
+            fi
           else
             echo "API client already up to date."
           fi
