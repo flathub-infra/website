@@ -48,6 +48,11 @@ class RuntimeScopeInput(BaseModel):
     repos: list[str] = ["stable", "beta"]
 
 
+class UpdateScopeRequest(BaseModel):
+    prefixes: list[str]
+    extra_ids: list[str] = []
+
+
 class ArchiveRequest(BaseModel):
     endoflife: str
     endoflife_rebase: str | None = None
@@ -278,6 +283,44 @@ def switch_to_direct_upload(
         direct_upload_app = _ensure_direct_upload_app(db, request.app_id, maintainer)
 
         db.session.commit()
+        return _managed_app_response(db, direct_upload_app, scope)
+
+
+@router.patch(
+    "/{app_id}/scope",
+    status_code=200,
+    tags=["direct-upload-apps"],
+    responses={
+        200: {"description": "Runtime scope updated"},
+        400: {"description": "Invalid request parameters"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Forbidden - admin required"},
+        404: {"description": "App or scope not found"},
+    },
+)
+def update_runtime_scope(
+    app_id: str, request: UpdateScopeRequest, _admin=Depends(modify_users_only)
+) -> ManagedAppResponse:
+    """Update the prefixes and extra_ids of a runtime scope."""
+    if not request.prefixes:
+        raise HTTPException(status_code=400, detail="prefixes_required")
+    _validate_id_list(request.prefixes, "prefixes")
+    _validate_id_list(request.extra_ids, "extra_ids")
+
+    with get_db("writer") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        if direct_upload_app is None:
+            raise HTTPException(status_code=404, detail="app_not_found")
+
+        scope = models.RuntimeScope.by_app_id(db, app_id)
+        if scope is None:
+            raise HTTPException(status_code=404, detail="scope_not_found")
+
+        scope.prefixes = " ".join(request.prefixes)
+        scope.extra_ids = " ".join(request.extra_ids)
+        db.session.add(scope)
+        db.session.commit()
+
         return _managed_app_response(db, direct_upload_app, scope)
 
 

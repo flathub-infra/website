@@ -9,9 +9,8 @@ import {
   useListDirectUploadAppsDirectUploadAppsGet,
   useSwitchToDirectUploadDirectUploadAppsPost,
   useSwitchOffDirectUploadDirectUploadAppsAppIdDelete,
-  useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost,
-  useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost,
   useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost,
+  useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch,
 } from "src/codegen"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
 import Spinner from "src/components/Spinner"
@@ -208,24 +207,121 @@ function SwitchToDirectUploadForm({ onCreated }: { onCreated: () => void }) {
   )
 }
 
-function RuntimeScopeSection({ app }: { app: ManagedAppResponse }) {
+function RuntimeScopeSection({
+  app,
+  onChanged,
+}: {
+  app: ManagedAppResponse
+  onChanged: () => void
+}) {
+  const [editing, setEditing] = useState(false)
+  const [prefixes, setPrefixes] = useState("")
+  const [extraIds, setExtraIds] = useState("")
+
+  const mutation = useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch({
+    axios: { withCredentials: true },
+  })
+
   if (!app.scope) return null
-  const { prefixes, extra_ids, repos } = app.scope
+  const { prefixes: currentPrefixes, extra_ids: currentExtraIds, repos } = app.scope
+
+  const startEdit = () => {
+    setPrefixes(currentPrefixes.join(" "))
+    setExtraIds(currentExtraIds.join(" "))
+    setEditing(true)
+  }
+
+  const save = () => {
+    mutation.mutate(
+      {
+        appId: app.app_id,
+        data: {
+          prefixes: splitList(prefixes),
+          extra_ids: splitList(extraIds),
+        },
+      },
+      {
+        onSuccess: () => {
+          setEditing(false)
+          onChanged()
+        },
+      },
+    )
+  }
+
   return (
     <div className="border-t pt-3 flex flex-col gap-2">
       <span className="text-sm font-semibold">Runtime scope</span>
-      <div className="text-sm">
-        <span className="font-medium">Prefixes: </span>
-        {prefixes.length ? prefixes.join(" ") : "none"}
-      </div>
-      <div className="text-sm">
-        <span className="font-medium">Extra IDs: </span>
-        {extra_ids.length ? extra_ids.join(" ") : "none"}
-      </div>
-      <div className="text-sm">
-        <span className="font-medium">Repos: </span>
-        {repos.length ? repos.join(" ") : "none"}
-      </div>
+      {editing ? (
+        <>
+          <Field
+            id={`${app.app_id}-edit-prefixes`}
+            label="Prefixes (space or comma separated)"
+          >
+            <Input
+              id={`${app.app_id}-edit-prefixes`}
+              value={prefixes}
+              onChange={(e) => setPrefixes(e.target.value)}
+            />
+          </Field>
+          <Field
+            id={`${app.app_id}-edit-extra-ids`}
+            label="Extra IDs (space or comma separated)"
+          >
+            <Input
+              id={`${app.app_id}-edit-extra-ids`}
+              value={extraIds}
+              onChange={(e) => setExtraIds(e.target.value)}
+            />
+          </Field>
+          <div className="text-sm">
+            <span className="font-medium">Repos: </span>
+            {repos.length ? repos.join(" ") : "none"}
+          </div>
+          {mutation.isError && (
+            <p className="text-flathub-electric-red text-sm">
+              Failed to update scope.
+            </p>
+          )}
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              onClick={save}
+              disabled={splitList(prefixes).length === 0 || mutation.isPending}
+            >
+              Save
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setEditing(false)}
+              disabled={mutation.isPending}
+            >
+              Cancel
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="text-sm">
+            <span className="font-medium">Prefixes: </span>
+            {currentPrefixes.length ? currentPrefixes.join(" ") : "none"}
+          </div>
+          <div className="text-sm">
+            <span className="font-medium">Extra IDs: </span>
+            {currentExtraIds.length ? currentExtraIds.join(" ") : "none"}
+          </div>
+          <div className="text-sm">
+            <span className="font-medium">Repos: </span>
+            {repos.length ? repos.join(" ") : "none"}
+          </div>
+          <div>
+            <Button size="sm" variant="outline" onClick={startEdit}>
+              Edit scope
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -239,10 +335,6 @@ function ManagedAppCard({
 }) {
   const [confirmRevoke, setConfirmRevoke] = useState(false)
   const [confirmSwitchOff, setConfirmSwitchOff] = useState(false)
-  const [confirmArchive, setConfirmArchive] = useState(false)
-  const [confirmUnarchive, setConfirmUnarchive] = useState(false)
-  const [endoflife, setEndoflife] = useState("")
-  const [endoflifeRebase, setEndoflifeRebase] = useState("")
 
   const revokeMutation = useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost({
     axios: { withCredentials: true },
@@ -252,14 +344,6 @@ function ManagedAppCard({
       axios: { withCredentials: true },
     },
   )
-  const archiveMutation =
-    useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost({
-      axios: { withCredentials: true },
-    })
-  const unarchiveMutation =
-    useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost({
-      axios: { withCredentials: true },
-    })
 
   return (
     <>
@@ -292,27 +376,9 @@ function ManagedAppCard({
                   .join(", ")}
           </div>
 
-          <RuntimeScopeSection app={app} />
+          <RuntimeScopeSection app={app} onChanged={onChanged} />
 
           <div className="flex gap-3 flex-wrap border-t pt-3">
-            {app.archived ? (
-              <Button
-                size="sm"
-                onClick={() => setConfirmUnarchive(true)}
-                disabled={unarchiveMutation.isPending}
-              >
-                Unarchive
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                variant="destructive"
-                onClick={() => setConfirmArchive(true)}
-                disabled={archiveMutation.isPending}
-              >
-                Archive
-              </Button>
-            )}
             <Button
               size="sm"
               variant="destructive"
@@ -321,14 +387,16 @@ function ManagedAppCard({
             >
               Revoke all tokens
             </Button>
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={() => setConfirmSwitchOff(true)}
-              disabled={switchOffMutation.isPending}
-            >
-              Switch off direct upload
-            </Button>
+            {!app.scope && (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => setConfirmSwitchOff(true)}
+                disabled={switchOffMutation.isPending}
+              >
+                Switch off direct upload
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -346,81 +414,23 @@ function ManagedAppCard({
         onCancelled={() => setConfirmRevoke(false)}
       />
 
-      <ConfirmDialog
-        isVisible={confirmArchive}
-        prompt="Archive app"
-        description={`Archive ${app.app_id}? This revokes all upload tokens and republishes the app as end-of-life. Tokens are not restored on unarchive.`}
-        action="Archive"
-        actionVariant="destructive"
-        submitDisabled={!endoflife.trim() || archiveMutation.isPending}
-        onConfirmed={() => {
-          setConfirmArchive(false)
-          archiveMutation.mutate(
-            {
-              appId: app.app_id,
-              data: {
-                endoflife: endoflife.trim(),
-                endoflife_rebase: endoflifeRebase.trim() || null,
-              },
-            },
-            { onSuccess: onChanged },
-          )
-        }}
-        onCancelled={() => setConfirmArchive(false)}
-      >
-        <div className="flex flex-col gap-3">
-          <Field id={`${app.app_id}-endoflife`} label="End-of-life message">
-            <Input
-              id={`${app.app_id}-endoflife`}
-              value={endoflife}
-              onChange={(e) => setEndoflife(e.target.value)}
-              placeholder="No longer maintained"
-            />
-          </Field>
-          <Field
-            id={`${app.app_id}-endoflife-rebase`}
-            label="End-of-life rebase app ID (optional)"
-          >
-            <Input
-              id={`${app.app_id}-endoflife-rebase`}
-              value={endoflifeRebase}
-              onChange={(e) => setEndoflifeRebase(e.target.value)}
-              placeholder="org.example.NewApp"
-            />
-          </Field>
-        </div>
-      </ConfirmDialog>
-
-      <ConfirmDialog
-        isVisible={confirmUnarchive}
-        prompt="Unarchive app"
-        description={`Unarchive ${app.app_id}? This clears the archived flag and republishes the app to lift end-of-life. Maintainers can mint new tokens afterward.`}
-        action="Unarchive"
-        onConfirmed={() => {
-          setConfirmUnarchive(false)
-          unarchiveMutation.mutate(
-            { appId: app.app_id },
-            { onSuccess: onChanged },
-          )
-        }}
-        onCancelled={() => setConfirmUnarchive(false)}
-      />
-
-      <ConfirmDialog
-        isVisible={confirmSwitchOff}
-        prompt="Switch off direct upload"
-        description={`Switch off direct upload for ${app.app_id}? This will hard-delete the DirectUploadApp record, all developers, pending invites, the runtime scope (if any), and revoke all upload tokens. The app will fall back to GitHub/verification ownership. This cannot be undone.`}
-        action="Switch off direct upload"
-        actionVariant="destructive"
-        onConfirmed={() => {
-          setConfirmSwitchOff(false)
-          switchOffMutation.mutate(
-            { appId: app.app_id },
-            { onSuccess: onChanged },
-          )
-        }}
-        onCancelled={() => setConfirmSwitchOff(false)}
-      />
+      {!app.scope && (
+        <ConfirmDialog
+          isVisible={confirmSwitchOff}
+          prompt="Switch off direct upload"
+          description={`Switch off direct upload for ${app.app_id}? This will hard-delete the DirectUploadApp record, all developers, pending invites, the runtime scope (if any), and revoke all upload tokens. The app will fall back to GitHub/verification ownership. This cannot be undone.`}
+          action="Switch off direct upload"
+          actionVariant="destructive"
+          onConfirmed={() => {
+            setConfirmSwitchOff(false)
+            switchOffMutation.mutate(
+              { appId: app.app_id },
+              { onSuccess: onChanged },
+            )
+          }}
+          onCancelled={() => setConfirmSwitchOff(false)}
+        />
+      )}
     </>
   )
 }

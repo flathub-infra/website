@@ -817,3 +817,112 @@ def test_switch_off_direct_upload_404_if_app_missing(monkeypatch):
         runtimes.switch_off_direct_upload("org.example.App", _admin=None)
     assert exc_info.value.status_code == 404
     assert exc_info.value.detail == "app_not_found"
+
+
+def test_update_runtime_scope_success(monkeypatch):
+    fake_app = SimpleNamespace(id=1, app_id="org.gnome.Platform", archived=False)
+    fake_scope = SimpleNamespace(
+        app_id="org.gnome.Platform",
+        prefixes="org.gnome.Platform org.gnome.Sdk",
+        extra_ids="",
+        repos="stable beta",
+    )
+    fake_response = object()  # sentinel; we mock _managed_app_response
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: fake_scope
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes, "_managed_app_response", lambda db, app, scope: fake_response
+    )
+
+    request = runtimes.UpdateScopeRequest(
+        prefixes=["org.gnome.Platform"],
+        extra_ids=["org.gnome.Sdk.Docs"],
+    )
+
+    result = runtimes.update_runtime_scope("org.gnome.Platform", request, _admin=None)
+
+    assert fake_scope.prefixes == "org.gnome.Platform"
+    assert fake_scope.extra_ids == "org.gnome.Sdk.Docs"
+    assert result is fake_response
+
+
+def test_update_runtime_scope_app_not_found(monkeypatch):
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    request = runtimes.UpdateScopeRequest(prefixes=["org.gnome.Platform"])
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.update_runtime_scope("org.gnome.Platform", request, _admin=None)
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "app_not_found"
+
+
+def test_update_runtime_scope_scope_not_found(monkeypatch):
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    request = runtimes.UpdateScopeRequest(prefixes=["org.gnome.Platform"])
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.update_runtime_scope("org.example.App", request, _admin=None)
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "scope_not_found"
+
+
+def test_update_runtime_scope_prefixes_required(monkeypatch):
+    request = runtimes.UpdateScopeRequest(prefixes=[])
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.update_runtime_scope("org.gnome.Platform", request, _admin=None)
+
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == "prefixes_required"
+
+
+@pytest.mark.parametrize(
+    "prefixes,extra_ids,detail",
+    [
+        # empty string in prefixes
+        (["org.gnome.Platform", ""], [], "invalid_prefixes_entry"),
+        # whitespace-only entry in prefixes
+        (["org.gnome.Platform", "  "], [], "invalid_prefixes_entry"),
+        # entry with embedded space in prefixes
+        (["org.foo.Platform org.bar.Platform"], [], "invalid_prefixes_entry"),
+        # empty string in extra_ids
+        (["org.gnome.Platform"], [""], "invalid_extra_ids_entry"),
+        # entry with tab in extra_ids
+        (["org.gnome.Platform"], ["org.foo.Sdk\t1"], "invalid_extra_ids_entry"),
+    ],
+)
+def test_update_runtime_scope_rejects_malformed_id_lists(
+    monkeypatch, prefixes, extra_ids, detail
+):
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.update_runtime_scope(
+            "org.gnome.Platform",
+            runtimes.UpdateScopeRequest(
+                prefixes=prefixes,
+                extra_ids=extra_ids,
+            ),
+            _admin=None,
+        )
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == detail
