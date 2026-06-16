@@ -28,6 +28,7 @@ import type {
   HTTPValidationError,
   ManagedAppResponse,
   SwitchToDirectUploadRequest,
+  UpdateScopeRequest,
 } from "../model"
 
 /**
@@ -548,6 +549,114 @@ export const useSwitchOffDirectUploadDirectUploadAppsAppIdDelete = <
 > => {
   return useMutation(
     getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * Update the prefixes and extra_ids of a runtime scope.
+ * @summary Update Runtime Scope
+ */
+export const updateRuntimeScopeDirectUploadAppsAppIdScopePatch = (
+  appId: string,
+  updateScopeRequest: UpdateScopeRequest,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<ManagedAppResponse>> => {
+  return axios.patch(
+    `/direct-upload-apps/${appId}/scope`,
+    updateScopeRequest,
+    options,
+  )
+}
+
+export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationOptions =
+  <
+    TError = AxiosError<void | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
+      >,
+      TError,
+      { appId: string; data: UpdateScopeRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
+    >,
+    TError,
+    { appId: string; data: UpdateScopeRequest },
+    TContext
+  > => {
+    const mutationKey = ["updateRuntimeScopeDirectUploadAppsAppIdScopePatch"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
+      >,
+      { appId: string; data: UpdateScopeRequest }
+    > = (props) => {
+      const { appId, data } = props ?? {}
+
+      return updateRuntimeScopeDirectUploadAppsAppIdScopePatch(
+        appId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
+    >
+  >
+export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationBody =
+  UpdateScopeRequest
+export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Update Runtime Scope
+ */
+export const useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
+      >,
+      TError,
+      { appId: string; data: UpdateScopeRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>>,
+  TError,
+  { appId: string; data: UpdateScopeRequest },
+  TContext
+> => {
+  return useMutation(
+    getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationOptions(
+      options,
+    ),
     queryClient,
   )
 }

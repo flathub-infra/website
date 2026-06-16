@@ -127,6 +127,45 @@ export const getGetDirectUploadAppDirectUploadAppsAppIdGetResponseMock = (
   ...overrideResponse,
 })
 
+export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchResponseMock =
+  (
+    overrideResponse: Partial<Extract<ManagedAppResponse, object>> = {},
+  ): ManagedAppResponse => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    archived: faker.datatype.boolean(),
+    created_at: faker.number.int(),
+    first_seen_at: faker.helpers.arrayElement([faker.number.int(), null]),
+    maintainers: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      is_primary: faker.datatype.boolean(),
+    })),
+    scope: faker.helpers.arrayElement([
+      {
+        prefixes: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        extra_ids: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        repos: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+      },
+      null,
+    ]),
+    ...overrideResponse,
+  })
+
 export const getListDirectUploadAppsDirectUploadAppsGetMockHandler = (
   overrideResponse?:
     | ManagedAppResponse[]
@@ -220,6 +259,30 @@ export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMockHandler = (
   )
 }
 
+export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMockHandler = (
+  overrideResponse?:
+    | ManagedAppResponse
+    | ((
+        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+      ) => Promise<ManagedAppResponse> | ManagedAppResponse),
+  options?: RequestHandlerOptions,
+) => {
+  return http.patch(
+    "*/direct-upload-apps/:appId/scope",
+    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
 export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMockHandler =
   (
     overrideResponse?:
@@ -289,6 +352,7 @@ export const getDirectUploadAppsMock = () => [
   getSwitchToDirectUploadDirectUploadAppsPostMockHandler(),
   getGetDirectUploadAppDirectUploadAppsAppIdGetMockHandler(),
   getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMockHandler(),
+  getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMockHandler(),
   getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMockHandler(),
   getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMockHandler(),
   getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMockHandler(),
