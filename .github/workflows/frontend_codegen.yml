@@ -14,20 +14,20 @@ permissions:
   contents: write
 
 concurrency:
-  group: codegen-${{ github.head_ref }}
+  group: codegen-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
   codegen:
     # Skip forks: GITHUB_TOKEN is read-only there, so the push would fail.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out PR head
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Docker Buildx
@@ -95,7 +95,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add frontend/src/codegen
             git commit -m "chore(codegen): regenerate API client from backend OpenAPI"
-            git push origin HEAD:${{ github.head_ref }}
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
           else
             echo "API client already up to date."
           fi
