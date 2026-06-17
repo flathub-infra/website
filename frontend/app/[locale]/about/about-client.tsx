@@ -24,10 +24,46 @@ const Acknowledgments = () => {
           </h3>
           <div className="ps-4">
             <ul className="list-outside list-disc text-black dark:text-flathub-spanish-gray">
-              <li>Amazon Web Services</li>
-              <li>Fastly</li>
-              <li>Mythic Beasts</li>
-              <li>RunsOn</li>
+              <li>
+                <a
+                  href="https://aws.amazon.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="no-underline hover:underline"
+                >
+                  Amazon Web Services
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.fastly.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="no-underline hover:underline"
+                >
+                  Fastly
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.mythic-beasts.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="no-underline hover:underline"
+                >
+                  Mythic Beasts
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://runs-on.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="no-underline hover:underline"
+                >
+                  RunsOn
+                </a>
+              </li>
             </ul>
           </div>
         </div>
