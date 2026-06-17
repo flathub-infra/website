@@ -13,7 +13,7 @@
     "@hono/sentry": "^1.2.2",
     "@hono/swagger-ui": "0.6.1",
     "@hono/zod-openapi": "^1.4.0",
-    "@react-email/render": "2.0.8",
+    "@react-email/render": "2.0.9",
     "@react-email/tailwind": "^2.0.7",
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
@@ -21,11 +21,11 @@
     "nodemailer": "8.0.11",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "react-email": "6.6.0",
+    "react-email": "6.6.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@react-email/ui": "6.6.0",
+    "@react-email/ui": "6.6.3",
     "@types/html-to-text": "^9.0.4",
     "@types/node": "^25.9.3",
     "@types/nodemailer": "^8.0.1",
