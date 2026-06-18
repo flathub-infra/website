@@ -2,13 +2,35 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Response
 
 from . import models
 from .database import get_db
-from .login_info import moderator_only, modify_users_only, view_users_only
+from .login_info import logged_in, moderator_only, modify_users_only, view_users_only
 
 router = APIRouter(prefix="/users")
 
 
 def register_to_app(app: FastAPI):
     app.include_router(router)
+
+
+@router.get(
+    "/me",
+    tags=["users"],
+    responses={
+        200: {"description": "Currently logged in user's details"},
+        401: {"description": "Unauthorized"},
+        404: {"description": "User not found"},
+        500: {"description": "Internal server error"},
+    },
+)
+def me(response: Response, login=Depends(logged_in)) -> models.UserResult:
+    response.headers["Cache-Control"] = "private"
+
+    with get_db("replica") as db_session:
+        user = models.FlathubUser.by_id_result(db_session, login.user.id)
+
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
+
+        return user
 
 
 @router.get(
