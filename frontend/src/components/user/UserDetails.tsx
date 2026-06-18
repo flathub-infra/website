@@ -6,6 +6,7 @@ import Avatar from "./Avatar"
 import { getUserName } from "src/verificationProvider"
 import { ConnectedAccountProvider, LoginMethod } from "src/codegen"
 import { useDoChangeDefaultAccountAuthChangeDefaultAccountPost } from "src/codegen/auth/auth"
+import { useMeUsersMeGet } from "src/codegen/users/users"
 import { toast } from "sonner"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -21,6 +22,12 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
   const changeDefaultMutation =
     useDoChangeDefaultAccountAuthChangeDefaultAccountPost()
+
+  const { data: meData } = useMeUsersMeGet({
+    query: { enabled: !!user.info },
+    axios: { withCredentials: true },
+  })
+  const userId = meData?.data?.id
 
   // Nothing to show if not logged in
   if (!user.info) {
@@ -111,6 +118,24 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       <h1 className="col-start-1 row-start-1 mb-3 mt-0 text-4xl font-extrabold">
         {displayNameWithFallback}
       </h1>
+
+      {userId !== undefined && (
+        <div className="mb-4">
+          <h3 className="my-4 text-xl font-semibold">{t("user-id")}</h3>
+          <Card className="inline-flex py-0">
+            <CardContent className="flex items-center gap-3 p-5">
+              <span className="font-mono">{userId}</span>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => navigator.clipboard.writeText(String(userId))}
+              >
+                {t("copy-text")}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       <div>
         <h3 className="my-4 text-xl font-semibold">{t("linked-accounts")}</h3>

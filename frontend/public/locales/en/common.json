@@ -151,6 +151,7 @@
   "moderation-approved-by": "Approved by {handledBy} on {handledAt} ({handledAtRel})",
   "moderation-rejected-by": "Rejected by {handledBy} on {handledAt} ({handledAtRel})",
   "moderation-build-id": "Build ID",
+  "user-id": "Flathub User ID",
   "categories": "Categories",
   "linked-accounts": "Linked Accounts",
   "link-more-accounts": "Link More Accounts",
