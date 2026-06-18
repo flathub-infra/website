@@ -146,9 +146,11 @@ async function getCategoryData(locale: string) {
   const topAppsByCategory = await Promise.all(categoryPromises)
 
   // Sort categories according to predefined order
-  return topAppsByCategory.sort((a, b) => {
-    return categoryRank(a.category) - categoryRank(b.category)
-  })
+  return topAppsByCategory
+    .filter((c) => (c.apps.hits?.length ?? 0) > 0)
+    .sort((a, b) => {
+      return categoryRank(a.category) - categoryRank(b.category)
+    })
 }
 
 async function getHeroBanner(dateString: string, locale: string) {
