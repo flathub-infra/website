@@ -65,6 +65,7 @@
   "report-an-issue": "Report an Issue",
   "vcs_browser": "Browse the source code",
   "contribute": "Contribute to the App",
+  "contribute-flathub": "Contribute to Flathub",
   "no-changelog-provided": "No changelog provided",
   "changes-in-version": "Changes in version {version_number}",
   "release-link": "Get more Information",

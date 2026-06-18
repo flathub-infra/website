@@ -80,6 +80,14 @@ const Footer = () => {
             >
               {t("mastodon")}
             </a>
+            <a
+              className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
+              href="https://docs.flathub.org/contribute/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("contribute-flathub")}
+            </a>
           </div>
         </div>
 
