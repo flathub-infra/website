@@ -35,6 +35,134 @@ import type {
 } from "../model"
 
 /**
+ * @summary Me
+ */
+export const meUsersMeGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<UserResult>> => {
+  return axios.get(`/users/me`, options)
+}
+
+export const getMeUsersMeGetQueryKey = () => {
+  return [`/users/me`] as const
+}
+
+export const getMeUsersMeGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof meUsersMeGet>>,
+  TError = AxiosError<void>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof meUsersMeGet>>, TError, TData>
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getMeUsersMeGetQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof meUsersMeGet>>> = ({
+    signal,
+  }) => meUsersMeGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof meUsersMeGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type MeUsersMeGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof meUsersMeGet>>
+>
+export type MeUsersMeGetQueryError = AxiosError<void>
+
+export function useMeUsersMeGet<
+  TData = Awaited<ReturnType<typeof meUsersMeGet>>,
+  TError = AxiosError<void>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof meUsersMeGet>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof meUsersMeGet>>,
+          TError,
+          Awaited<ReturnType<typeof meUsersMeGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useMeUsersMeGet<
+  TData = Awaited<ReturnType<typeof meUsersMeGet>>,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof meUsersMeGet>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof meUsersMeGet>>,
+          TError,
+          Awaited<ReturnType<typeof meUsersMeGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useMeUsersMeGet<
+  TData = Awaited<ReturnType<typeof meUsersMeGet>>,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof meUsersMeGet>>, TError, TData>
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Me
+ */
+
+export function useMeUsersMeGet<
+  TData = Awaited<ReturnType<typeof meUsersMeGet>>,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof meUsersMeGet>>, TError, TData>
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getMeUsersMeGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
  * Return a list of all known users
  * @summary Users
  */
