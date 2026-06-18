@@ -28,7 +28,7 @@ const Acknowledgments = () => {
                 <a
                   href="https://aws.amazon.com/"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="no-underline hover:underline"
                 >
                   Amazon Web Services
@@ -38,7 +38,7 @@ const Acknowledgments = () => {
                 <a
                   href="https://www.fastly.com/"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="no-underline hover:underline"
                 >
                   Fastly
@@ -48,7 +48,7 @@ const Acknowledgments = () => {
                 <a
                   href="https://www.mythic-beasts.com/"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="no-underline hover:underline"
                 >
                   Mythic Beasts
@@ -58,7 +58,7 @@ const Acknowledgments = () => {
                 <a
                   href="https://runs-on.com/"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="no-underline hover:underline"
                 >
                   RunsOn
