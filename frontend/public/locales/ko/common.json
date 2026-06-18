@@ -536,5 +536,6 @@
   "token-name": "토큰 이름",
   "scope-publish": "빌드 출시하기",
   "danger-zone": "위험 구역",
-  "confirm": "확인"
+  "confirm": "확인",
+  "see-all-results": "모든 결과 보기"
 }

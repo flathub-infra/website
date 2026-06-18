@@ -782,5 +782,6 @@
   "share": "分享",
   "upload-token-create-failed": "无法创建上传令牌。请重试。",
   "health-fitness-description": "适用于 Linux 的健康和健身应用。",
-  "health-fitness": "健康和健身"
+  "health-fitness": "健康和健身",
+  "more-healthfitness": "更多健康和健身"
 }
