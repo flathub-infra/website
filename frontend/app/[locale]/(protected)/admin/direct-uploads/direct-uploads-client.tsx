@@ -11,6 +11,9 @@ import {
   useSwitchOffDirectUploadDirectUploadAppsAppIdDelete,
   useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost,
   useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch,
+  useAddMaintainerDirectUploadAppsAppIdMaintainersPost,
+  useRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete,
+  useSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost,
 } from "src/codegen"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
 import Spinner from "src/components/Spinner"
@@ -330,6 +333,153 @@ function RuntimeScopeSection({
   )
 }
 
+function MaintainersSection({
+  app,
+  onChanged,
+}: {
+  app: ManagedAppResponse
+  onChanged: () => void
+}) {
+  const [addUserId, setAddUserId] = useState("")
+  const [confirmRemove, setConfirmRemove] = useState<{
+    userId: number
+    displayName: string
+  } | null>(null)
+
+  const addMutation = useAddMaintainerDirectUploadAppsAppIdMaintainersPost({
+    axios: { withCredentials: true },
+  })
+  const removeMutation =
+    useRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete({
+      axios: { withCredentials: true },
+    })
+  const setPrimaryMutation =
+    useSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost(
+      {
+        axios: { withCredentials: true },
+      },
+    )
+
+  const busy =
+    addMutation.isPending ||
+    removeMutation.isPending ||
+    setPrimaryMutation.isPending
+
+  const sorted = [...app.maintainers].sort((a, b) =>
+    a.is_primary === b.is_primary ? 0 : a.is_primary ? -1 : 1,
+  )
+
+  return (
+    <div className="border-t pt-3 flex flex-col gap-2">
+      <span className="text-sm font-semibold">Maintainers</span>
+      <div className="flex flex-col gap-1.5">
+        {sorted.length === 0 && (
+          <span className="text-sm text-muted-foreground">none</span>
+        )}
+        {sorted.map((m) => (
+          <div key={m.id} className="flex items-center gap-2 text-sm">
+            <span>{m.display_name ?? m.id}</span>
+            {m.is_primary ? (
+              <span className="text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                primary
+              </span>
+            ) : (
+              <>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    setPrimaryMutation.mutate(
+                      { appId: app.app_id, userId: m.id },
+                      { onSuccess: onChanged },
+                    )
+                  }
+                  disabled={busy}
+                >
+                  Make primary
+                </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() =>
+                    setConfirmRemove({
+                      userId: m.id,
+                      displayName: m.display_name ?? String(m.id),
+                    })
+                  }
+                  disabled={busy}
+                >
+                  Remove
+                </Button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="flex items-end gap-2 mt-1">
+        <Field
+          id={`${app.app_id}-add-maintainer`}
+          label="Add maintainer user ID"
+        >
+          <Input
+            id={`${app.app_id}-add-maintainer`}
+            type="number"
+            placeholder="123"
+            value={addUserId}
+            onChange={(e) => setAddUserId(e.target.value)}
+          />
+        </Field>
+        <Button
+          size="sm"
+          onClick={() => {
+            addMutation.mutate(
+              { appId: app.app_id, data: { user_id: Number(addUserId) } },
+              {
+                onSuccess: () => {
+                  setAddUserId("")
+                  onChanged()
+                },
+              },
+            )
+          }}
+          disabled={
+            !addUserId.trim() || Number.isNaN(Number(addUserId)) || busy
+          }
+        >
+          Add
+        </Button>
+      </div>
+      {(addMutation.isError ||
+        removeMutation.isError ||
+        setPrimaryMutation.isError) && (
+        <p className="text-flathub-electric-red text-sm">
+          Failed to update maintainers.
+        </p>
+      )}
+      <ConfirmDialog
+        isVisible={confirmRemove !== null}
+        prompt="Remove maintainer"
+        description={`Remove ${confirmRemove?.displayName ?? ""} as a maintainer of ${app.app_id}?`}
+        action="Remove"
+        actionVariant="destructive"
+        onConfirmed={() => {
+          if (!confirmRemove) return
+          removeMutation.mutate(
+            { appId: app.app_id, userId: confirmRemove.userId },
+            {
+              onSuccess: () => {
+                setConfirmRemove(null)
+                onChanged()
+              },
+            },
+          )
+        }}
+        onCancelled={() => setConfirmRemove(null)}
+      />
+    </div>
+  )
+}
+
 function ManagedAppCard({
   app,
   onChanged,
@@ -368,17 +518,7 @@ function ManagedAppCard({
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
-          <div className="text-sm">
-            <span className="font-medium">Maintainers: </span>
-            {app.maintainers.length === 0
-              ? "none"
-              : app.maintainers
-                  .map(
-                    (m) =>
-                      `${m.display_name ?? m.id}${m.is_primary ? " (primary)" : ""}`,
-                  )
-                  .join(", ")}
-          </div>
+          <MaintainersSection app={app} onChanged={onChanged} />
 
           <RuntimeScopeSection app={app} onChanged={onChanged} />
 
@@ -461,7 +601,7 @@ export default function DirectUploadsClient() {
             {query.isSuccess &&
               query.data.data.map((app) => (
                 <ManagedAppCard
-                  key={`${app.app_id}:${app.scope?.prefixes.join(",") ?? ""}:${app.scope?.extra_ids.join(",") ?? ""}:${app.scope?.repos.join(",") ?? ""}`}
+                  key={`${app.app_id}:${app.maintainers.map((m) => `${m.id}-${m.is_primary ? "P" : "S"}`).join(",")}:${app.scope?.prefixes.join(",") ?? ""}:${app.scope?.extra_ids.join(",") ?? ""}:${app.scope?.repos.join(",") ?? ""}`}
                   app={app}
                   onChanged={() => query.refetch()}
                 />

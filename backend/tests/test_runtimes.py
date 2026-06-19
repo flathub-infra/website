@@ -56,6 +56,14 @@ def fake_get_db(db_type="replica"):
     yield FakeDb()
 
 
+@contextmanager
+def fake_get_db_session(session: FakeSession):
+
+    fake_db = SimpleNamespace()
+    fake_db.session = session
+    yield fake_db
+
+
 def _make_archive_request(endoflife="no longer maintained", endoflife_rebase=None):
     return verification.ArchiveRequest(
         endoflife=endoflife, endoflife_rebase=endoflife_rebase
@@ -926,3 +934,388 @@ def test_update_runtime_scope_rejects_malformed_id_lists(
         )
     assert exc_info.value.status_code == 400
     assert exc_info.value.detail == detail
+
+
+def test_add_maintainer_success(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Alice")
+    fake_response = object()
+    added_objects = []
+
+    class TrackingSession(FakeSession):
+        def add(self, obj):
+            added_objects.append(obj)
+            super().add(obj)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: None,
+    )
+    monkeypatch.setattr(
+        runtimes.models.Role, "by_name", lambda db, name: SimpleNamespace(id=1)
+    )
+    monkeypatch.setattr(
+        runtimes.models.flathubuser_role,
+        "by_user_role",
+        lambda db, user, role: False,
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(
+        runtimes, "_managed_app_response", lambda db, app, scope: fake_response
+    )
+    monkeypatch.setattr(
+        runtimes, "get_db", lambda db_type: fake_get_db_session(TrackingSession())
+    )
+
+    request = runtimes.AddMaintainerRequest(user_id=42)
+    result = runtimes.add_maintainer("org.example.App", request, _admin=None)
+
+    assert result is fake_response
+    # Should have added the developer and flathubuser_role
+    dev_added = any(
+        isinstance(obj, runtimes.models.DirectUploadAppDeveloper)
+        and obj.developer_id == 42
+        and obj.is_primary is False
+        for obj in added_objects
+    )
+    assert dev_added, "DirectUploadAppDeveloper not added with correct params"
+
+
+def test_add_maintainer_already_a_maintainer(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Alice")
+    fake_existing_dev = SimpleNamespace(app_id=1, developer_id=42, is_primary=False)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: fake_existing_dev,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    request = runtimes.AddMaintainerRequest(user_id=42)
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.add_maintainer("org.example.App", request, _admin=None)
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == "already_a_maintainer"
+
+
+def test_add_maintainer_app_not_found(monkeypatch):
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    request = runtimes.AddMaintainerRequest(user_id=42)
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.add_maintainer("org.example.App", request, _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "app_not_found"
+
+
+def test_add_maintainer_user_not_found(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(runtimes.models.FlathubUser, "by_id", lambda db, user_id: None)
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    request = runtimes.AddMaintainerRequest(user_id=999)
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.add_maintainer("org.example.App", request, _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "user_not_found"
+
+
+def test_add_maintainer_uploader_role_missing(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Alice")
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: None,
+    )
+    monkeypatch.setattr(
+        runtimes.models.Role,
+        "by_name",
+        lambda db, name: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    request = runtimes.AddMaintainerRequest(user_id=42)
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.add_maintainer("org.example.App", request, _admin=None)
+    assert exc_info.value.status_code == 500
+    assert exc_info.value.detail == "uploader_role_missing"
+
+
+def test_remove_maintainer_success(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Alice")
+    fake_dev = SimpleNamespace(app_id=1, developer_id=42, is_primary=False)
+    deleted_objects = []
+
+    class TrackingSession(FakeSession):
+        def delete(self, obj):
+            deleted_objects.append(obj)
+            super().delete(obj)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: fake_dev,
+    )
+    monkeypatch.setattr(
+        runtimes, "get_db", lambda db_type: fake_get_db_session(TrackingSession())
+    )
+
+    runtimes.remove_maintainer("org.example.App", 42, _admin=None)
+    assert fake_dev in deleted_objects
+
+
+def test_remove_maintainer_cannot_remove_primary(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=1, display_name="Alice")
+    fake_primary_dev = SimpleNamespace(app_id=1, developer_id=1, is_primary=True)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: fake_primary_dev,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.remove_maintainer("org.example.App", 1, _admin=None)
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == "cannot_remove_primary"
+
+
+def test_remove_maintainer_maintainer_not_found(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Bob")
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.remove_maintainer("org.example.App", 42, _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "maintainer_not_found"
+
+
+def test_remove_maintainer_app_not_found(monkeypatch):
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.remove_maintainer("org.example.App", 42, _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "app_not_found"
+
+
+def test_set_primary_maintainer_promotes_secondary(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Bob")
+    current_primary = SimpleNamespace(app_id=1, developer_id=1, is_primary=True)
+    target_dev = SimpleNamespace(app_id=1, developer_id=42, is_primary=False)
+    fake_response = object()
+    flush_count = 0
+
+    class FlushTrackingSession(FakeSession):
+        def flush(self):
+            nonlocal flush_count
+            flush_count += 1
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: target_dev,
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "primary_for_app",
+        lambda db, app: current_primary,
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(
+        runtimes, "_managed_app_response", lambda db, app, scope: fake_response
+    )
+    monkeypatch.setattr(
+        runtimes, "get_db", lambda db_type: fake_get_db_session(FlushTrackingSession())
+    )
+
+    result = runtimes.set_primary_maintainer("org.example.App", 42, _admin=None)
+
+    assert result is fake_response
+    assert current_primary.is_primary is False, "old primary was demoted"
+    assert target_dev.is_primary is True, "target was promoted"
+    assert flush_count >= 1, "flush was called between demote and promote"
+
+
+def test_set_primary_maintainer_no_prior_primary(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Bob")
+    target_dev = SimpleNamespace(app_id=1, developer_id=42, is_primary=False)
+    fake_response = object()
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: target_dev,
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "primary_for_app",
+        lambda db, app: None,
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(
+        runtimes, "_managed_app_response", lambda db, app, scope: fake_response
+    )
+    monkeypatch.setattr(
+        runtimes, "get_db", lambda db_type: fake_get_db_session(FakeSession())
+    )
+
+    result = runtimes.set_primary_maintainer("org.example.App", 42, _admin=None)
+
+    assert result is fake_response
+    assert target_dev.is_primary is True
+
+
+def test_set_primary_maintainer_already_primary(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=1, display_name="Alice")
+    primary_dev = SimpleNamespace(app_id=1, developer_id=1, is_primary=True)
+    fake_response = object()
+    add_called = [False]
+
+    class AddTrackingSession(FakeSession):
+        def add(self, obj):
+            add_called[0] = True
+            super().add(obj)
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: primary_dev,
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(
+        runtimes, "_managed_app_response", lambda db, app, scope: fake_response
+    )
+    monkeypatch.setattr(
+        runtimes, "get_db", lambda db_type: fake_get_db_session(AddTrackingSession())
+    )
+
+    result = runtimes.set_primary_maintainer("org.example.App", 1, _admin=None)
+
+    assert result is fake_response
+    assert not add_called[0], "no DB writes for idempotent case"
+
+
+def test_set_primary_maintainer_maintainer_not_found(monkeypatch):
+
+    fake_app = SimpleNamespace(id=1, app_id="org.example.App", archived=False)
+    fake_user = SimpleNamespace(id=42, display_name="Bob")
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.FlathubUser, "by_id", lambda db, user_id: fake_user
+    )
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadAppDeveloper,
+        "by_developer_and_app",
+        lambda db, user, app: None,
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        runtimes.set_primary_maintainer("org.example.App", 42, _admin=None)
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "maintainer_not_found"
