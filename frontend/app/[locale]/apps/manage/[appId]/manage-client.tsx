@@ -173,7 +173,9 @@ export default function ManageClient({ app, vendingConfig }: Props) {
 
                   {(!IS_PRODUCTION ||
                     user.info?.permissions?.some(
-                      (a) => a === Permission["direct-upload"],
+                      (a) =>
+                        a === Permission["direct-upload"] ||
+                        a === Permission["modify-users"],
                     )) &&
                     (isAnApp || isARuntime) && (
                       <>
