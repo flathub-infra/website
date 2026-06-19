@@ -165,7 +165,7 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
                       >
                         <Card key={repo.reponame} className="min-w-0">
                           <CardHeader>
-                            <CardTitle className="break-words">
+                            <CardTitle className="break-all">
                               {repo.reponame}
                             </CardTitle>
                           </CardHeader>
@@ -188,7 +188,7 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
                       >
                         <Card key={app.app_id} className="min-w-0">
                           <CardHeader>
-                            <CardTitle className="break-words">
+                            <CardTitle className="break-all">
                               {app.app_id}
                             </CardTitle>
                           </CardHeader>
