@@ -161,10 +161,13 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
                       <a
                         key={repo.id}
                         href={`https://github.com/flathub/${repo.reponame}`}
+                        className="min-w-0"
                       >
-                        <Card key={repo.reponame}>
+                        <Card key={repo.reponame} className="min-w-0">
                           <CardHeader>
-                            <CardTitle>{repo.reponame}</CardTitle>
+                            <CardTitle className="break-words">
+                              {repo.reponame}
+                            </CardTitle>
                           </CardHeader>
                         </Card>
                       </a>
@@ -178,10 +181,16 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
                   <h2 className="text-2xl font-extrabold">Owned Apps</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
                     {query.data.data.owned_apps.map((app) => (
-                      <Link key={app.app_id} href={`/apps/${app.app_id}`}>
-                        <Card key={app.app_id}>
+                      <Link
+                        key={app.app_id}
+                        href={`/apps/${app.app_id}`}
+                        className="min-w-0"
+                      >
+                        <Card key={app.app_id} className="min-w-0">
                           <CardHeader>
-                            <CardTitle>{app.app_id}</CardTitle>
+                            <CardTitle className="break-words">
+                              {app.app_id}
+                            </CardTitle>
                           </CardHeader>
                           <CardContent>
                             <div>{format(app.created, "PP")}</div>
