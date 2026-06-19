@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
+import { useUserContext } from "src/context/user-info"
 import ConfirmDialog from "../../ConfirmDialog"
 import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
@@ -10,11 +11,13 @@ import {
   GetAppstreamAppstreamAppIdGet200,
   GetVerificationStatusVerificationAppIdStatusGet200,
   VerificationMethod,
+  Permission,
 } from "src/codegen/model"
 import {
   getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
+  useManualVerificationVerificationAppIdManualVerificationPost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -94,6 +97,18 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     )
 
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
+
+  const user = useUserContext()
+  const isAdmin = user.info?.permissions.some(
+    (a) => a === Permission["modify-users"],
+  )
+
+  const manualVerifyMutation =
+    useManualVerificationVerificationAppIdManualVerificationPost({
+      axios: {
+        withCredentials: true,
+      },
+    })
 
   const onChildVerified = useCallback(() => {
     query.refetch()
@@ -252,6 +267,29 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         <h2 className="mb-6 text-2xl font-bold">{t("verification")}</h2>
       )}
       {content}
+
+      {isAdmin && (
+        <div className="mt-3">
+          <Button
+            size="lg"
+            variant="secondary"
+            disabled={query.data?.data.verified}
+            onClick={() => {
+              manualVerifyMutation.mutate(
+                { appId: app.id },
+                {
+                  onSuccess: () => {
+                    query.refetch()
+                    onVerified?.()
+                  },
+                },
+              )
+            }}
+          >
+            {t("manual-verification")}
+          </Button>
+        </div>
+      )}
     </>
   )
 }
