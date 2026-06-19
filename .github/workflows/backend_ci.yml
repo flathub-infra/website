@@ -21,7 +21,7 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -39,7 +39,7 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install system dependencies
         run: sudo apt-get install -y --no-install-recommends libcairo2-dev libgirepository-2.0-dev gir1.2-ostree-1.0 gir1.2-appstream-1.0
@@ -60,7 +60,7 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4

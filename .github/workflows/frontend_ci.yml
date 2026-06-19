@@ -22,7 +22,7 @@ jobs:
         working-directory: ./frontend
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Cache
         uses: actions/cache@v5
