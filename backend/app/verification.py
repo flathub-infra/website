@@ -1100,7 +1100,7 @@ async def confirm_website_verification(
     },
 )
 async def unverify(
-    login=Depends(app_author_only),
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1110,23 +1110,41 @@ async def unverify(
 ):
     """If the current account has verified the given app, mark it as no longer verified."""
 
-    existing = _get_existing_verification(app_id)
+    with get_db("replica") as db:
+        user = db.session.merge(login.user)
+        can_modify_users = "modify-users" in user.permissions()
+        is_app_author = app_id in user.dev_flatpaks(db)
 
+    if not (can_modify_users or is_app_author):
+        raise HTTPException(status_code=404)
+
+    existing = _get_existing_verification(app_id)
     if existing is None:
         raise HTTPException(status_code=404)
-    elif existing.method == "manual":
-        raise HTTPException(status_code=403, detail=ErrorDetail.BLOCKED_BY_ADMINS)
-    else:
-        with get_db("writer") as db:
-            verification = models.AppVerification.by_app_and_user(
-                db, app_id, login.user
-            )
-            if verification is not None:
-                db.session.delete(verification)
-                db.session.commit()
 
-        worker.republish_app.send(app_id)
-        await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
+    # At this point, the logged in user is one of:
+    #
+    #   - app author ONLY
+    #   - app author AND modify-users
+    #   - modify-users ONLY
+    #
+    # Having modify-users should bypass all restrictions even if they
+    # happen to be an app author. So we use the negation of
+    # can_modify_users to guard the checks for app authors ONLY.
+
+    if not can_modify_users:
+        if existing.method == "manual":
+            raise HTTPException(status_code=403, detail=ErrorDetail.BLOCKED_BY_ADMINS)
+        if existing.account != login.user.id:
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+
+    with get_db("writer") as db:
+        verification = db.session.merge(existing)
+        db.session.delete(verification)
+        db.session.commit()
+
+    worker.republish_app.send(app_id)
+    await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
 
 
 @router.post(
