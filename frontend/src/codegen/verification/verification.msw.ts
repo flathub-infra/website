@@ -239,6 +239,23 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     ...overrideResponse,
   })
 
+export const getManualVerificationVerificationAppIdManualVerificationPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<VerificationStatusManual, object>> = {},
+  ): VerificationStatusManual => ({
+    verified: true,
+    timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    method: "manual",
+    detail: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
+    ...overrideResponse,
+  })
+
 export const getGetVerificationStatusVerificationAppIdStatusGetMockHandler = (
   overrideResponse?:
     | GetVerificationStatusVerificationAppIdStatusGet200
@@ -455,6 +472,31 @@ export const getArchiveVerificationAppIdArchivePostMockHandler = (
     options,
   )
 }
+
+export const getManualVerificationVerificationAppIdManualVerificationPostMockHandler =
+  (
+    overrideResponse?:
+      | VerificationStatusManual
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<VerificationStatusManual> | VerificationStatusManual),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/verification/:appId/manual-verification",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getManualVerificationVerificationAppIdManualVerificationPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 export const getVerificationMock = () => [
   getGetVerificationStatusVerificationAppIdStatusGetMockHandler(),
   getGetAvailableMethodsVerificationAppIdAvailableMethodsGetMockHandler(),
@@ -465,4 +507,5 @@ export const getVerificationMock = () => [
   getUnverifyVerificationAppIdUnverifyPostMockHandler(),
   getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMockHandler(),
   getArchiveVerificationAppIdArchivePostMockHandler(),
+  getManualVerificationVerificationAppIdManualVerificationPostMockHandler(),
 ]

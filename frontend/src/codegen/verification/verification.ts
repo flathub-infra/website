@@ -34,6 +34,7 @@ import type {
   HTTPValidationError,
   LinkResponse,
   SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams,
+  VerificationStatusManual,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams,
   WebsiteVerificationResult,
@@ -1430,6 +1431,121 @@ export const useArchiveVerificationAppIdArchivePost = <
 > => {
   return useMutation(
     getArchiveVerificationAppIdArchivePostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * @summary Manual Verification
+ */
+export const manualVerificationVerificationAppIdManualVerificationPost = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<VerificationStatusManual>> => {
+  return axios.post(
+    `/verification/${appId}/manual-verification`,
+    undefined,
+    options,
+  )
+}
+
+export const getManualVerificationVerificationAppIdManualVerificationPostMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof manualVerificationVerificationAppIdManualVerificationPost
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof manualVerificationVerificationAppIdManualVerificationPost
+      >
+    >,
+    TError,
+    { appId: string },
+    TContext
+  > => {
+    const mutationKey = [
+      "manualVerificationVerificationAppIdManualVerificationPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof manualVerificationVerificationAppIdManualVerificationPost
+        >
+      >,
+      { appId: string }
+    > = (props) => {
+      const { appId } = props ?? {}
+
+      return manualVerificationVerificationAppIdManualVerificationPost(
+        appId,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type ManualVerificationVerificationAppIdManualVerificationPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof manualVerificationVerificationAppIdManualVerificationPost
+      >
+    >
+  >
+
+export type ManualVerificationVerificationAppIdManualVerificationPostMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Manual Verification
+ */
+export const useManualVerificationVerificationAppIdManualVerificationPost = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof manualVerificationVerificationAppIdManualVerificationPost
+        >
+      >,
+      TError,
+      { appId: string },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof manualVerificationVerificationAppIdManualVerificationPost>
+  >,
+  TError,
+  { appId: string },
+  TContext
+> => {
+  return useMutation(
+    getManualVerificationVerificationAppIdManualVerificationPostMutationOptions(
+      options,
+    ),
     queryClient,
   )
 }
