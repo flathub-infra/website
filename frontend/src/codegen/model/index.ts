@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from "./addMaintainerRequest"
 export * from "./addonAppstream"
 export * from "./addonAppstreamCategories"
 export * from "./addonAppstreamContentRatingDetails"

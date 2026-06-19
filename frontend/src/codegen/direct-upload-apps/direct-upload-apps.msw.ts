@@ -166,6 +166,84 @@ export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchResponseMock =
     ...overrideResponse,
   })
 
+export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<ManagedAppResponse, object>> = {},
+  ): ManagedAppResponse => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    archived: faker.datatype.boolean(),
+    created_at: faker.number.int(),
+    first_seen_at: faker.helpers.arrayElement([faker.number.int(), null]),
+    maintainers: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      is_primary: faker.datatype.boolean(),
+    })),
+    scope: faker.helpers.arrayElement([
+      {
+        prefixes: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        extra_ids: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        repos: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+      },
+      null,
+    ]),
+    ...overrideResponse,
+  })
+
+export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<ManagedAppResponse, object>> = {},
+  ): ManagedAppResponse => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    archived: faker.datatype.boolean(),
+    created_at: faker.number.int(),
+    first_seen_at: faker.helpers.arrayElement([faker.number.int(), null]),
+    maintainers: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      is_primary: faker.datatype.boolean(),
+    })),
+    scope: faker.helpers.arrayElement([
+      {
+        prefixes: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        extra_ids: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        repos: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+      },
+      null,
+    ]),
+    ...overrideResponse,
+  })
+
 export const getListDirectUploadAppsDirectUploadAppsGetMockHandler = (
   overrideResponse?:
     | ManagedAppResponse[]
@@ -347,6 +425,77 @@ export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMockHandler = (
     options,
   )
 }
+
+export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMockHandler = (
+  overrideResponse?:
+    | ManagedAppResponse
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<ManagedAppResponse> | ManagedAppResponse),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/direct-upload-apps/:appId/maintainers",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getAddMaintainerDirectUploadAppsAppIdMaintainersPostResponseMock(),
+        { status: 201 },
+      )
+    },
+    options,
+  )
+}
+
+export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMockHandler =
+  (
+    overrideResponse?:
+      | void
+      | ((
+          info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        ) => Promise<void> | void),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.delete(
+      "*/direct-upload-apps/:appId/maintainers/:userId",
+      async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+
+        return new HttpResponse(null, { status: 204 })
+      },
+      options,
+    )
+  }
+
+export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMockHandler =
+  (
+    overrideResponse?:
+      | ManagedAppResponse
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<ManagedAppResponse> | ManagedAppResponse),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/direct-upload-apps/:appId/maintainers/:userId/set-primary",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 export const getDirectUploadAppsMock = () => [
   getListDirectUploadAppsDirectUploadAppsGetMockHandler(),
   getSwitchToDirectUploadDirectUploadAppsPostMockHandler(),
@@ -356,4 +505,7 @@ export const getDirectUploadAppsMock = () => [
   getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMockHandler(),
   getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMockHandler(),
   getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMockHandler(),
+  getAddMaintainerDirectUploadAppsAppIdMaintainersPostMockHandler(),
+  getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMockHandler(),
+  getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMockHandler(),
 ]
