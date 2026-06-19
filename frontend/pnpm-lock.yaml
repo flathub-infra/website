@@ -191,8 +191,8 @@ importers:
         specifier: ^10.4.0
         version: 10.4.0
       '@next/eslint-plugin-next':
-        specifier: ^16.2.4
-        version: 16.2.4
+        specifier: ^16.2.9
+        version: 16.2.9
       '@storybook/addon-a11y':
         specifier: ^10.4.6
         version: 10.4.6(storybook@10.4.6(@testing-library/dom@10.4.1)(@types/react@19.2.14)(prettier@3.8.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))
@@ -1460,6 +1460,9 @@ packages:
 
   '@next/eslint-plugin-next@16.2.4':
     resolution: {integrity: sha512-tOX826JJ96gYK/go18sPUgMq9FK1tqxBFfUCEufJb5XIkWFFmpgU7mahJANKGkHs7F41ir3tReJ3Lv5La0RvhA==}
+
+  '@next/eslint-plugin-next@16.2.9':
+    resolution: {integrity: sha512-UZi8+YT/MLgTC9nrrn2Xd4lBYv1B7lVmtWHfPcthAI5Tt/C1LuDe6DfmtCtJ+WQod3ksY4VrKSvk3oMVAnL7qw==}
 
   '@next/swc-darwin-arm64@16.2.6':
     resolution: {integrity: sha512-ZJGkkcNfYgrrMkqOdZ7zoLa1TOy0qpcMfk/z4Mh/FKUz40gVO+HNQWqmLxf67Z5WB64DRp0dhEbyHfel+6sJUg==}
@@ -8684,6 +8687,10 @@ snapshots:
   '@next/env@16.2.6': {}
 
   '@next/eslint-plugin-next@16.2.4':
+    dependencies:
+      fast-glob: 3.3.1
+
+  '@next/eslint-plugin-next@16.2.9':
     dependencies:
       fast-glob: 3.3.1
 
