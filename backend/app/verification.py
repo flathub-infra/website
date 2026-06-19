@@ -17,7 +17,7 @@ from sqlalchemy.sql import func
 
 from . import cache, config, http_client, models, utils, worker
 from .database import get_db
-from .login_info import app_author_only, logged_in
+from .login_info import app_author_only, logged_in, modify_users_only
 from .logins import LoginInformation, refresh_oauth_token
 from .utils import jti
 from .verification_method import VerificationMethod
@@ -1262,6 +1262,61 @@ def archive(
             return
 
     worker.republish_app.send(app_id, request.endoflife, request.endoflife_rebase)
+
+
+@router.post(
+    "/{app_id}/manual-verification",
+    status_code=200,
+    response_model=VerificationStatusManual,
+    tags=["verification"],
+    responses={
+        200: {"model": VerificationStatusManual},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - not modify-users"},
+        404: {"description": "App not found"},
+        409: {"description": "Conflict - app is already verified"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+async def manual_verification(
+    login=Depends(modify_users_only),
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+) -> VerificationStatusManual:
+
+    with get_db("replica") as db:
+        if not models.App.by_appid(db, app_id):
+            raise HTTPException(status_code=404)
+
+    existing = _get_existing_verification(app_id)
+    if existing is not None and existing.verified:
+        raise HTTPException(status_code=409, detail=ErrorDetail.APP_ALREADY_VERIFIED)
+
+    verification = models.AppVerification(
+        app_id=app_id,
+        account=login.user.id,
+        method="manual",
+        verified=True,
+        verified_timestamp=func.now(),
+    )
+    with get_db("writer") as db:
+        db.session.merge(verification)
+        _cleanup_stale_verifications(db, app_id, login.user.id)
+        db.session.commit()
+
+    worker.republish_app.send(app_id)
+    await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
+
+    return VerificationStatusManual(
+        verified=True,
+        timestamp=str(int(verification.verified_timestamp.timestamp())),
+        method=VerificationMethod.MANUAL,
+    )
 
 
 def register_to_app(app: FastAPI):
