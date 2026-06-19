@@ -64,6 +64,10 @@ class SwitchToDirectUploadRequest(BaseModel):
     scope: RuntimeScopeInput | None = None
 
 
+class AddMaintainerRequest(BaseModel):
+    user_id: int
+
+
 def _managed_app_response(
     db,
     direct_upload_app: models.DirectUploadApp,
@@ -99,6 +103,15 @@ def _managed_app_response(
         maintainers=maintainers,
         scope=scope_data,
     )
+
+
+def _grant_uploader_role(db, user: models.FlathubUser) -> None:
+
+    role = models.Role.by_name(db, models.RoleName.UPLOADER)
+    if role is None:
+        raise HTTPException(status_code=500, detail="uploader_role_missing")
+    if not models.flathubuser_role.by_user_role(db, user, role):
+        db.session.add(models.flathubuser_role(flathubuser_id=user.id, role_id=role.id))
 
 
 def _ensure_direct_upload_app(
@@ -150,13 +163,7 @@ def _ensure_direct_upload_app(
             )
         )
 
-    role = models.Role.by_name(db, models.RoleName.UPLOADER)
-    if role is None:
-        raise HTTPException(status_code=500, detail="uploader_role_missing")
-    if not models.flathubuser_role.by_user_role(db, maintainer, role):
-        db.session.add(
-            models.flathubuser_role(flathubuser_id=maintainer.id, role_id=role.id)
-        )
+    _grant_uploader_role(db, maintainer)
 
     return direct_upload_app
 
@@ -454,6 +461,145 @@ def revoke_tokens(app_id: str, _admin=Depends(modify_users_only)):
             raise HTTPException(status_code=404, detail="app_not_found")
 
     _revoke_all_tokens(app_id)
+
+
+@router.post(
+    "/{app_id}/maintainers",
+    status_code=201,
+    tags=["direct-upload-apps"],
+    responses={
+        201: {"description": "Secondary maintainer added"},
+        400: {"description": "Invalid request or already a maintainer"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Forbidden - admin required"},
+        404: {"description": "App or user not found"},
+    },
+)
+def add_maintainer(
+    app_id: str,
+    request: AddMaintainerRequest,
+    _admin=Depends(modify_users_only),
+) -> ManagedAppResponse:
+
+    with get_db("writer") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        if direct_upload_app is None:
+            raise HTTPException(status_code=404, detail="app_not_found")
+
+        user = models.FlathubUser.by_id(db, request.user_id)
+        if user is None:
+            raise HTTPException(status_code=404, detail="user_not_found")
+
+        existing = models.DirectUploadAppDeveloper.by_developer_and_app(
+            db, user, direct_upload_app
+        )
+        if existing is not None:
+            raise HTTPException(status_code=400, detail="already_a_maintainer")
+
+        db.session.add(
+            models.DirectUploadAppDeveloper(
+                app_id=direct_upload_app.id,
+                developer_id=user.id,
+                is_primary=False,
+            )
+        )
+        _grant_uploader_role(db, user)
+        db.session.commit()
+
+        scope = models.RuntimeScope.by_app_id(db, app_id)
+        return _managed_app_response(db, direct_upload_app, scope)
+
+
+@router.delete(
+    "/{app_id}/maintainers/{user_id}",
+    status_code=204,
+    tags=["direct-upload-apps"],
+    responses={
+        204: {"description": "Maintainer removed"},
+        400: {"description": "Cannot remove primary maintainer"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Forbidden - admin required"},
+        404: {"description": "App, user, or maintainer not found"},
+    },
+)
+def remove_maintainer(
+    app_id: str,
+    user_id: int,
+    _admin=Depends(modify_users_only),
+):
+
+    with get_db("writer") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        if direct_upload_app is None:
+            raise HTTPException(status_code=404, detail="app_not_found")
+
+        user = models.FlathubUser.by_id(db, user_id)
+        if user is None:
+            raise HTTPException(status_code=404, detail="user_not_found")
+
+        dev = models.DirectUploadAppDeveloper.by_developer_and_app(
+            db, user, direct_upload_app
+        )
+        if dev is None:
+            raise HTTPException(status_code=404, detail="maintainer_not_found")
+        if dev.is_primary:
+            raise HTTPException(status_code=400, detail="cannot_remove_primary")
+
+        db.session.delete(dev)
+        db.session.commit()
+
+
+@router.post(
+    "/{app_id}/maintainers/{user_id}/set-primary",
+    status_code=200,
+    tags=["direct-upload-apps"],
+    responses={
+        200: {"description": "Primary maintainer changed"},
+        401: {"description": "Not logged in"},
+        403: {"description": "Forbidden - admin required"},
+        404: {"description": "App, user, or maintainer not found"},
+    },
+)
+def set_primary_maintainer(
+    app_id: str,
+    user_id: int,
+    _admin=Depends(modify_users_only),
+) -> ManagedAppResponse:
+
+    with get_db("writer") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+        if direct_upload_app is None:
+            raise HTTPException(status_code=404, detail="app_not_found")
+
+        user = models.FlathubUser.by_id(db, user_id)
+        if user is None:
+            raise HTTPException(status_code=404, detail="user_not_found")
+
+        target = models.DirectUploadAppDeveloper.by_developer_and_app(
+            db, user, direct_upload_app
+        )
+        if target is None:
+            raise HTTPException(status_code=404, detail="maintainer_not_found")
+
+        if target.is_primary:
+            scope = models.RuntimeScope.by_app_id(db, app_id)
+            return _managed_app_response(db, direct_upload_app, scope)
+
+        current_primary = models.DirectUploadAppDeveloper.primary_for_app(
+            db, direct_upload_app
+        )
+        if current_primary is not None:
+            current_primary.is_primary = False
+            db.session.add(current_primary)
+            db.session.flush()
+
+        target.is_primary = True
+        db.session.add(target)
+        db.session.flush()
+        db.session.commit()
+
+        scope = models.RuntimeScope.by_app_id(db, app_id)
+        return _managed_app_response(db, direct_upload_app, scope)
 
 
 def register_to_app(app: FastAPI):
