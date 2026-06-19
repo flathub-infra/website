@@ -1,6 +1,7 @@
 import importlib.resources
 import json
 import xml.etree.ElementTree as ET
+from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Annotated, Literal
 from uuid import uuid4
@@ -1297,12 +1298,14 @@ async def manual_verification(
     if existing is not None and existing.verified:
         raise HTTPException(status_code=409, detail=ErrorDetail.APP_ALREADY_VERIFIED)
 
+    now = datetime.now(UTC)
+
     verification = models.AppVerification(
         app_id=app_id,
         account=login.user.id,
         method="manual",
         verified=True,
-        verified_timestamp=func.now(),
+        verified_timestamp=now,
     )
     with get_db("writer") as db:
         db.session.merge(verification)
@@ -1314,7 +1317,7 @@ async def manual_verification(
 
     return VerificationStatusManual(
         verified=True,
-        timestamp=str(int(verification.verified_timestamp.timestamp())),
+        timestamp=str(int(now.timestamp())),
         method=VerificationMethod.MANUAL,
     )
 
