@@ -24,6 +24,7 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
+  AddMaintainerRequest,
   ArchiveRequest,
   HTTPValidationError,
   ManagedAppResponse,
@@ -1007,3 +1008,352 @@ export const useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost = <
     queryClient,
   )
 }
+/**
+ * @summary Add Maintainer
+ */
+export const addMaintainerDirectUploadAppsAppIdMaintainersPost = (
+  appId: string,
+  addMaintainerRequest: AddMaintainerRequest,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<ManagedAppResponse>> => {
+  return axios.post(
+    `/direct-upload-apps/${appId}/maintainers`,
+    addMaintainerRequest,
+    options,
+  )
+}
+
+export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationOptions =
+  <
+    TError = AxiosError<void | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
+      >,
+      TError,
+      { appId: string; data: AddMaintainerRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
+    >,
+    TError,
+    { appId: string; data: AddMaintainerRequest },
+    TContext
+  > => {
+    const mutationKey = ["addMaintainerDirectUploadAppsAppIdMaintainersPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
+      >,
+      { appId: string; data: AddMaintainerRequest }
+    > = (props) => {
+      const { appId, data } = props ?? {}
+
+      return addMaintainerDirectUploadAppsAppIdMaintainersPost(
+        appId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
+    >
+  >
+export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationBody =
+  AddMaintainerRequest
+export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Add Maintainer
+ */
+export const useAddMaintainerDirectUploadAppsAppIdMaintainersPost = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
+      >,
+      TError,
+      { appId: string; data: AddMaintainerRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>>,
+  TError,
+  { appId: string; data: AddMaintainerRequest },
+  TContext
+> => {
+  return useMutation(
+    getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
+ * @summary Remove Maintainer
+ */
+export const removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete = (
+  appId: string,
+  userId: number,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `/direct-upload-apps/${appId}/maintainers/${userId}`,
+    options,
+  )
+}
+
+export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationOptions =
+  <
+    TError = AxiosError<void | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
+        >
+      >,
+      TError,
+      { appId: string; userId: number },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
+      >
+    >,
+    TError,
+    { appId: string; userId: number },
+    TContext
+  > => {
+    const mutationKey = [
+      "removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
+        >
+      >,
+      { appId: string; userId: number }
+    > = (props) => {
+      const { appId, userId } = props ?? {}
+
+      return removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete(
+        appId,
+        userId,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
+      >
+    >
+  >
+
+export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Remove Maintainer
+ */
+export const useRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
+        >
+      >,
+      TError,
+      { appId: string; userId: number },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<
+      typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
+    >
+  >,
+  TError,
+  { appId: string; userId: number },
+  TContext
+> => {
+  return useMutation(
+    getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
+ * @summary Set Primary Maintainer
+ */
+export const setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost =
+  (
+    appId: string,
+    userId: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ManagedAppResponse>> => {
+    return axios.post(
+      `/direct-upload-apps/${appId}/maintainers/${userId}/set-primary`,
+      undefined,
+      options,
+    )
+  }
+
+export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationOptions =
+  <
+    TError = AxiosError<void | HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
+        >
+      >,
+      TError,
+      { appId: string; userId: number },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
+      >
+    >,
+    TError,
+    { appId: string; userId: number },
+    TContext
+  > => {
+    const mutationKey = [
+      "setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
+        >
+      >,
+      { appId: string; userId: number }
+    > = (props) => {
+      const { appId, userId } = props ?? {}
+
+      return setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost(
+        appId,
+        userId,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
+      >
+    >
+  >
+
+export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Set Primary Maintainer
+ */
+export const useSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost =
+  <TError = AxiosError<void | HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
+          >
+        >,
+        TError,
+        { appId: string; userId: number },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
+      >
+    >,
+    TError,
+    { appId: string; userId: number },
+    TContext
+  > => {
+    return useMutation(
+      getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
