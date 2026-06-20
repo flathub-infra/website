@@ -378,13 +378,13 @@ function MaintainersSection({
         )}
         {sorted.map((m) => (
           <div key={m.id} className="flex items-center gap-2 text-sm">
-            <span>{m.display_name ?? m.id}</span>
+            <span className="w-[200px] truncate">{m.display_name ?? m.id}</span>
             {m.is_primary ? (
               <span className="text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded">
                 primary
               </span>
             ) : (
-              <>
+              <div className="flex items-center gap-2 shrink-0">
                 <Button
                   size="sm"
                   variant="outline"
@@ -411,7 +411,7 @@ function MaintainersSection({
                 >
                   Remove
                 </Button>
-              </>
+              </div>
             )}
           </div>
         ))}
