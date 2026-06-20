@@ -220,6 +220,7 @@ function RuntimeScopeSection({
   const [editing, setEditing] = useState(false)
   const [prefixes, setPrefixes] = useState("")
   const [extraIds, setExtraIds] = useState("")
+  const [repos, setRepos] = useState<string[]>([])
 
   const mutation = useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch({
     axios: { withCredentials: true },
@@ -229,12 +230,13 @@ function RuntimeScopeSection({
   const {
     prefixes: currentPrefixes,
     extra_ids: currentExtraIds,
-    repos,
+    repos: currentRepos,
   } = app.scope
 
   const startEdit = () => {
     setPrefixes(currentPrefixes.join(" "))
     setExtraIds(currentExtraIds.join(" "))
+    setRepos(currentRepos)
     setEditing(true)
   }
 
@@ -245,6 +247,7 @@ function RuntimeScopeSection({
         data: {
           prefixes: splitList(prefixes),
           extra_ids: splitList(extraIds),
+          repos,
         },
       },
       {
@@ -281,10 +284,11 @@ function RuntimeScopeSection({
               onChange={(e) => setExtraIds(e.target.value)}
             />
           </Field>
-          <div className="text-sm">
-            <span className="font-medium">Repos: </span>
-            {repos.length ? repos.join(" ") : "none"}
-          </div>
+          <RepoCheckboxes
+            repos={repos}
+            onChange={setRepos}
+            idPrefix={`${app.app_id}-edit`}
+          />
           {mutation.isError && (
             <p className="text-flathub-electric-red text-sm">
               Failed to update scope.
@@ -320,7 +324,7 @@ function RuntimeScopeSection({
           </div>
           <div className="text-sm">
             <span className="font-medium">Repos: </span>
-            {repos.length ? repos.join(" ") : "none"}
+            {currentRepos.length ? currentRepos.join(" ") : "none"}
           </div>
           <div>
             <Button size="sm" variant="outline" onClick={startEdit}>
