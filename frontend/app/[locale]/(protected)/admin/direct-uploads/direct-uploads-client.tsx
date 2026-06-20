@@ -363,7 +363,8 @@ function MaintainersSection({
   const busy =
     addMutation.isPending ||
     removeMutation.isPending ||
-    setPrimaryMutation.isPending
+    setPrimaryMutation.isPending ||
+    app.archived
 
   const sorted = [...app.maintainers].sort((a, b) =>
     a.is_primary === b.is_primary ? 0 : a.is_primary ? -1 : 1,
@@ -428,6 +429,7 @@ function MaintainersSection({
             className="!h-8"
             value={addUserId}
             onChange={(e) => setAddUserId(e.target.value)}
+            disabled={app.archived}
           />
         </Field>
         <Button
@@ -528,7 +530,7 @@ function ManagedAppCard({
               size="sm"
               variant="destructive"
               onClick={() => setConfirmRevoke(true)}
-              disabled={revokeMutation.isPending}
+              disabled={revokeMutation.isPending || app.archived}
             >
               Revoke all tokens
             </Button>
@@ -537,7 +539,7 @@ function ManagedAppCard({
                 size="sm"
                 variant="destructive"
                 onClick={() => setConfirmSwitchOff(true)}
-                disabled={switchOffMutation.isPending}
+                disabled={revokeMutation.isPending || app.archived}
               >
                 Switch off direct upload
               </Button>
