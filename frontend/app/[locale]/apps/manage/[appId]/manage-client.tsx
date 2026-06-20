@@ -116,8 +116,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <LoginGuard
         condition={(info: GetUserinfoAuthUserinfoGet200) =>
-          info.dev_flatpaks?.includes(app.id) ||
-          info.permissions?.some((a) => a === Permission["modify-users"])
+          info.dev_flatpaks?.includes(app.id)
         }
       >
         <div className="space-y-8">
@@ -174,9 +173,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
 
                   {(!IS_PRODUCTION ||
                     user.info?.permissions?.some(
-                      (a) =>
-                        a === Permission["direct-upload"] ||
-                        a === Permission["modify-users"],
+                      (a) => a === Permission["direct-upload"],
                     )) &&
                     (isAnApp || isARuntime) && (
                       <>
