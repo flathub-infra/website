@@ -179,6 +179,11 @@ export const QualityModeration = ({
     (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
     false
 
+  const canManageApp =
+    (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
+    user.info?.permissions.some((a) => a === Permission["modify-users"]) ||
+    false
+
   const query =
     useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
       axios: { withCredentials: true },
@@ -285,7 +290,7 @@ export const QualityModeration = ({
               mode={mode}
             />
           )}
-          {mode === "developer" && (
+          {canManageApp && (
             <Button size="lg" variant="secondary" asChild className="me-2">
               <Link href={`/apps/manage/${app.id}`}>
                 <Cog6ToothIcon className="size-5" />
