@@ -425,6 +425,7 @@ function MaintainersSection({
             id={`${app.app_id}-add-maintainer`}
             type="number"
             placeholder="123"
+            className="!h-8"
             value={addUserId}
             onChange={(e) => setAddUserId(e.target.value)}
           />
