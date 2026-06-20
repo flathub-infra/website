@@ -9,6 +9,8 @@ import {
   useListDirectUploadAppsDirectUploadAppsGet,
   useSwitchToDirectUploadDirectUploadAppsPost,
   useSwitchOffDirectUploadDirectUploadAppsAppIdDelete,
+  useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost,
+  useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost,
   useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost,
   useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch,
   useAddMaintainerDirectUploadAppsAppIdMaintainersPost,
@@ -496,6 +498,10 @@ function ManagedAppCard({
 }) {
   const [confirmRevoke, setConfirmRevoke] = useState(false)
   const [confirmSwitchOff, setConfirmSwitchOff] = useState(false)
+  const [confirmArchive, setConfirmArchive] = useState(false)
+  const [confirmUnarchive, setConfirmUnarchive] = useState(false)
+  const [endoflife, setEndoflife] = useState("")
+  const [endoflifeRebase, setEndoflifeRebase] = useState("")
 
   const revokeMutation = useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost({
     axios: { withCredentials: true },
@@ -505,6 +511,14 @@ function ManagedAppCard({
       axios: { withCredentials: true },
     },
   )
+  const archiveMutation =
+    useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost({
+      axios: { withCredentials: true },
+    })
+  const unarchiveMutation =
+    useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost({
+      axios: { withCredentials: true },
+    })
 
   return (
     <>
@@ -530,6 +544,24 @@ function ManagedAppCard({
           <RuntimeScopeSection app={app} onChanged={onChanged} />
 
           <div className="flex gap-3 flex-wrap border-t pt-3">
+            {app.archived ? (
+              <Button
+                size="sm"
+                onClick={() => setConfirmUnarchive(true)}
+                disabled={unarchiveMutation.isPending}
+              >
+                Unarchive
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => setConfirmArchive(true)}
+                disabled={archiveMutation.isPending}
+              >
+                Archive
+              </Button>
+            )}
             <Button
               size="sm"
               variant="destructive"
@@ -563,6 +595,66 @@ function ManagedAppCard({
           revokeMutation.mutate({ appId: app.app_id }, { onSuccess: onChanged })
         }}
         onCancelled={() => setConfirmRevoke(false)}
+      />
+
+      <ConfirmDialog
+        isVisible={confirmArchive}
+        prompt="Archive app"
+        description={`Archive ${app.app_id}? This revokes all upload tokens and republishes the app as end-of-life. Tokens are not restored on unarchive.`}
+        action="Archive"
+        actionVariant="destructive"
+        submitDisabled={!endoflife.trim() || archiveMutation.isPending}
+        onConfirmed={() => {
+          setConfirmArchive(false)
+          archiveMutation.mutate(
+            {
+              appId: app.app_id,
+              data: {
+                endoflife: endoflife.trim(),
+                endoflife_rebase: endoflifeRebase.trim() || null,
+              },
+            },
+            { onSuccess: onChanged },
+          )
+        }}
+        onCancelled={() => setConfirmArchive(false)}
+      >
+        <div className="flex flex-col gap-3">
+          <Field id={`${app.app_id}-endoflife`} label="End-of-life message">
+            <Input
+              id={`${app.app_id}-endoflife`}
+              value={endoflife}
+              onChange={(e) => setEndoflife(e.target.value)}
+              placeholder="No longer maintained"
+            />
+          </Field>
+          <Field
+            id={`${app.app_id}-endoflife-rebase`}
+            label="End-of-life rebase app ID (optional)"
+          >
+            <Input
+              id={`${app.app_id}-endoflife-rebase`}
+              value={endoflifeRebase}
+              onChange={(e) => setEndoflifeRebase(e.target.value)}
+              placeholder="org.example.NewApp"
+            />
+          </Field>
+        </div>
+      </ConfirmDialog>
+
+      <ConfirmDialog
+        isVisible={confirmUnarchive}
+        prompt="Unarchive app"
+        description={`Unarchive ${app.app_id}? This clears the archived flag and republishes the app to lift end-of-life. Maintainers can mint new tokens afterward.`}
+        action="Unarchive"
+        onConfirmed={() => {
+          setConfirmUnarchive(false)
+          unarchiveMutation.mutate(
+            { appId: app.app_id },
+            { onSuccess: onChanged },
+          )
+        }}
+        onCancelled={() => setConfirmUnarchive(false)}
       />
 
       {!app.scope && (
