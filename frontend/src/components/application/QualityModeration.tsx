@@ -285,6 +285,13 @@ export const QualityModeration = ({
               mode={mode}
             />
           )}
+          {mode === "developer" && (
+            <Button size="lg" variant="secondary" asChild className="me-2">
+              <Link href={`/apps/manage/${app.id}`}>
+                <Cog6ToothIcon className="size-5" />
+              </Link>
+            </Button>
+          )}
           {!(isExcluded || isGeneric404) && (
             <Button
               size="lg"
