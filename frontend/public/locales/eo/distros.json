@@ -13,7 +13,7 @@
   "ubuntu": {
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
-      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</text> <code></code>"
+      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, elŝutu kaj instalu la <filelink>la deponejo-dosieron de Flathub</filelink>, aŭ rulu la jenon:</text> <code></code>"
     },
     "step-4": {
       "name": "Restartigi",
@@ -83,7 +83,7 @@
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
-      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</text> <code></code>"
+      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, elŝutu kaj instalu la <filelink>la deponejo-dosieron de Flathub</filelink>, aŭ rulu la jenon:</text> <code></code>"
     },
     "distroName": "openSUSE"
   },
@@ -303,7 +303,7 @@
       "text": "<text>Pako por Flatpak estas disponebla ĉe Pardus versio 2019 aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</text> <code></code>"
     },
     "step-3": {
-      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</text> <code></code>",
+      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, elŝutu kaj instalu la <filelink>la deponejo-dosieron de Flathub</filelink>, aŭ rulu la jenon:</text> <code></code>",
       "name": "Aldoni la deponejon Flathub"
     },
     "step-2": {
@@ -425,5 +425,24 @@
   "vanilla_os": {
     "distroName": "Vanilla OS",
     "introduction": "<header>Flatpak estas apriore instalita sur Vanilla OS.</header> <text>Vi povas uzi la sisteman programvendejon aŭ foliumi <link>Flathub</link> por instali programojn.</text> <text>Se ial Flathub ne estas instalita, vi povas malaŭtomate instali ĝin rulante la jenan komandon:</text> <code></code>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<text>Pako por Flatpak estas disponebla ĉe SlackBuilds. Por instali ĝin (supozante, ke vi uzas Sbopkg/sqg), unue kreu la vico-dosieron, kaj rulu la jenon kiel la ĉefuzanto:</text> <codeQueue></codeQueue> <text>Poste traduku ĝin. Ŝargu la vico-dosieron, tajpu «Q», kaj atendu:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<text>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <link>instali programojn</link>!</text> <text>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak estas apriore instalita sur T2 SDE ekde versio 26.6 — neniu agordado necesas!</header> <text>Flatpak estas antaŭagordita por la deponejo Flathub, kaj ilaĵoj ebligas unu-alklakan instaladon ĉe Flathub.</text> <text>Nun vi pretas <link>instali programojn</link>!</text>"
   }
 }

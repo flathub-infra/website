@@ -425,5 +425,24 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>O Flatpak é instalado por padrão no Salix desde a versão 15.0 — nenhuma configuração necessária!</header> <text>O Flatpak vem pré-configurado com o repositório Flathub e ferramentas de integração de desktop estão incluídas para permitir a instalação com 1 clique do Flathub.</text> <text>Tudo o que você precisa fazer é <link>instalar aplicativos</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Instalar o Flatpak",
+      "text": "<text>Um pacote Flatpak está disponível no SlackBuilds. Para instalá-lo (presumindo que você use Sbopkg/sqg), primeiro crie o queuefile e execute o seguinte comando como root:</text> <codeQueue></codeQueue> <text>Em seguida, compile. Carregue o queufile, pressione 'Q' e aguarde:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adicione o repositório Flathub",
+      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar aplicativos</link>!</text> <text>Observação: a instalação gráfica de aplicativos Flatpak pode não ser possível com o Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>O Flatpak é instalado por padrão no T2 SDE desde a versão 26.6 — nenhuma configuração necessária!</header> <text>O Flatpak vem pré-configurado com o repositório Flathub e ferramentas de integração de desktop estão incluídas para permitir a instalação com 1 clique do Flathub.</text> <text>Tudo o que você precisa fazer é <link>instalar aplicativos</link>!</text>"
   }
 }

@@ -782,5 +782,8 @@
   "os-flatpak-version-distribution": "إصدارات Flatpak حسب نظام التشغيل (آخر 30 يومًا)",
   "share": "شارك",
   "health-fitness-description": "تطبيقات الصحة واللياقة البدنية للينكس.",
-  "health-fitness": "الصحة واللياقة البدنية"
+  "health-fitness": "الصحة واللياقة البدنية",
+  "contribute-flathub": "ساهم في فلاتهب",
+  "user-id": "معرّف مستخدم فلاتهب",
+  "more-healthfitness": "المزيد عن الصحة واللياقة البدنية"
 }
