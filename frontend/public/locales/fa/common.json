@@ -782,5 +782,9 @@
   "os-version-distribution": "توزیع نگارش سیستم‌عامل (۳۰ روز اخیر)",
   "flatpak-version-distribution": "توزیع نگارش فلت‌پک (۳۰ روز اخیر)",
   "os-flatpak-version-distribution": "نگارش فلت‌پک بر اساس سیستم‌عامل (۳۰ روز اخیر)",
-  "share": "هم‌رسانی"
+  "share": "هم‌رسانی",
+  "user-id": "شناسهٔ کاربری فلت‌هاب",
+  "contribute-flathub": "مشارکت در فلت‌هاب",
+  "manual-verification": "علامت به تأیید شدهٔ دستی",
+  "more-healthfitness": "سلامتی و تناسب بیش‌تر"
 }

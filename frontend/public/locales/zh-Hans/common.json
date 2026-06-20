@@ -25,7 +25,7 @@
   "help": "帮助",
   "contribute-translations": "贡献翻译",
   "report-an-issue": "报告问题",
-  "no-changelog-provided": "未提供变更日志",
+  "no-changelog-provided": "未提供更新日志",
   "manual-install": "手动安装",
   "run": "运行",
   "copy-text": "复制文本",
@@ -86,7 +86,7 @@
   "popular": "人气",
   "community": "社区",
   "proprietary": "专有",
-  "changes-in-version": "版本 {version_number} 变更内容",
+  "changes-in-version": "版本 {version_number} 的更改",
   "failed-to-load-refresh": "资源无法加载。请尝试刷新。",
   "whoops": "糟糕！",
   "an-error-occurred-server": "{errorCode} - 在服务器上发生了错误。",
@@ -783,5 +783,8 @@
   "upload-token-create-failed": "无法创建上传令牌。请重试。",
   "health-fitness-description": "适用于 Linux 的健康和健身应用。",
   "health-fitness": "健康和健身",
-  "more-healthfitness": "更多健康和健身"
+  "more-healthfitness": "更多健康和健身",
+  "contribute-flathub": "为 Flathub 贡献力量",
+  "user-id": "Flathub 用户 ID",
+  "manual-verification": "标记为手动验证"
 }

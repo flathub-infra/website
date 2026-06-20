@@ -132,7 +132,7 @@
   "code-examples": "Ukážky kódu",
   "also-available-as-svg": "Dostupný aj vo formáte <svglink>SVG</svglink>",
   "badge-copyright": "V rozsahu povolenom zákonom sa <author>Jakub Steiner</author> vzdal všetkých autorských a súvisiacich práv k <badgeslink>ikonám Flathubu</badgeslink>. Táto práca je publikovaná z Českej republiky.",
-  "rss-description": "Popis RSS kanála",
+  "rss-description": "Prihláste sa na odber RSS kanálov z Flathubu",
   "rss-apps": "Potrebujete čítačku RSS? Nájdite tú správnu na <link>Flathube</link>.",
   "apps-by-developer": "Aplikácie od {developer}",
   "apps-by-tag": "Aplikácie podľa štítku „{tag}“",
@@ -145,7 +145,7 @@
   "moderation-new-value": "Nová hodnota",
   "moderation-value": "Hodnota",
   "moderation-no-review-requests": "Nie sú k dispozícii žiadne kontroly tejto aplikácie.",
-  "moderation-dev-description": "Niektoré zmeny v metadátach aplikácie, ako je jej názov alebo popis, vyžaduje kontrolu tímu Flathubu. Môžete si zobraziť stav aktuálnej alebo predchádzajúcej žiadosti o preskúmanie tu.",
+  "moderation-dev-description": "Niektoré zmeny v metadátach aplikácie, ako je jej názov alebo popis, si vyžadujú kontrolu tímu Flathubu. Tu si môžete pozrieť stav aktuálnych aj minulých žiadostí o kontrolu.",
   "moderation-outdated": "Zastarané",
   "moderation-approved-by": "Schválil {handledBy}, dňa {handledAt} ({handledAtRel})",
   "moderation-rejected-by": "Zamietol {handledBy}, dňa {handledAt} ({handledAtRel})",
@@ -782,5 +782,9 @@
   "flatpak-version-distribution": "Distribúcia verzií Flatpaku (posledných 30 dní)",
   "upload-token-create-failed": "Nepodarilo sa vytvoriť token na nahrávanie. Skúste to znova.",
   "health-fitness-description": "Aplikácie pre zdravie a kondíciu pre Linux.",
-  "health-fitness": "Zdravie a kondícia"
+  "health-fitness": "Zdravie a kondícia",
+  "user-id": "ID používateľa Flathub",
+  "more-healthfitness": "Viac zo zdravia a kondície",
+  "contribute-flathub": "Prispieť do Flathubu",
+  "manual-verification": "Označiť ako manuálne overené"
 }

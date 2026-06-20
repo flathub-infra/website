@@ -782,5 +782,8 @@
   "os-flatpak-version-distribution": "Distribuo de versioj de Flatpak laŭ mastruma sistemo (dum la lastaj 30 tagoj)",
   "upload-token-create-failed": "Malsukcesis krei alŝutan ĵetonon. Bonvolu reprovi.",
   "share": "Diskonigi",
-  "founding-supporters": "Fondintoj"
+  "founding-supporters": "Fondintoj",
+  "contribute-flathub": "Kontribui al Flathub",
+  "user-id": "Identigilo de uzanto ĉe Flathub",
+  "more-healthfitness": "Pli da programoj pri sano kaj korpa ekzercado"
 }

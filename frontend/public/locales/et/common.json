@@ -782,5 +782,9 @@
   "share": "Jaga",
   "upload-token-create-failed": "Üleslaadimise tunnusloa loomine ei õnnestunud. Palun proovi uuesti.",
   "health-fitness-description": "Tervise- ja treeningurakendused Linuxile.",
-  "health-fitness": "Tervis ja treening"
+  "health-fitness": "Tervis ja treening",
+  "contribute-flathub": "Tee Flathubile kaastööd",
+  "user-id": "Flathubi kasutajatunnus",
+  "more-healthfitness": "Vaata kõiki tervise- ja treeningurakendusi",
+  "manual-verification": "Märgi käsitsi verifitseerituks"
 }
