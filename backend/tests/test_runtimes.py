@@ -905,6 +905,38 @@ def test_update_runtime_scope_prefixes_required(monkeypatch):
     assert exc_info.value.detail == "prefixes_required"
 
 
+def test_update_runtime_scope_updates_repos(monkeypatch):
+    fake_app = SimpleNamespace(id=1, app_id="org.gnome.Platform", archived=False)
+    fake_scope = SimpleNamespace(
+        app_id="org.gnome.Platform",
+        prefixes="org.gnome.Platform",
+        extra_ids="",
+        repos="stable beta",
+    )
+    fake_response = object()
+
+    monkeypatch.setattr(
+        runtimes.models.DirectUploadApp, "by_app_id", lambda db, app_id: fake_app
+    )
+    monkeypatch.setattr(
+        runtimes.models.RuntimeScope, "by_app_id", lambda db, app_id: fake_scope
+    )
+    monkeypatch.setattr(runtimes, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        runtimes, "_managed_app_response", lambda db, app, scope: fake_response
+    )
+
+    request = runtimes.UpdateScopeRequest(
+        prefixes=["org.gnome.Platform"],
+        repos=["stable"],
+    )
+
+    result = runtimes.update_runtime_scope("org.gnome.Platform", request, _admin=None)
+
+    assert fake_scope.repos == "stable"
+    assert result is fake_response
+
+
 @pytest.mark.parametrize(
     "prefixes,extra_ids,detail",
     [

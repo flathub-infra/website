@@ -8,4 +8,5 @@
 export interface UpdateScopeRequest {
   prefixes: string[]
   extra_ids?: string[]
+  repos?: string[]
 }

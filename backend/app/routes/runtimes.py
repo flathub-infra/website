@@ -51,6 +51,7 @@ class RuntimeScopeInput(BaseModel):
 class UpdateScopeRequest(BaseModel):
     prefixes: list[str]
     extra_ids: list[str] = []
+    repos: list[str] = ["stable", "beta"]
 
 
 class ArchiveRequest(BaseModel):
@@ -311,6 +312,11 @@ def update_runtime_scope(
     """Update the prefixes and extra_ids of a runtime scope."""
     if not request.prefixes:
         raise HTTPException(status_code=400, detail="prefixes_required")
+
+    repos = request.repos or ALLOWED_REPOS
+    if not all(r in ALLOWED_REPOS for r in repos):
+        raise HTTPException(status_code=400, detail="forbidden_repo")
+
     _validate_id_list(request.prefixes, "prefixes")
     _validate_id_list(request.extra_ids, "extra_ids")
 
@@ -325,6 +331,7 @@ def update_runtime_scope(
 
         scope.prefixes = " ".join(request.prefixes)
         scope.extra_ids = " ".join(request.extra_ids)
+        scope.repos = " ".join(repos)
         db.session.add(scope)
         db.session.commit()
 
