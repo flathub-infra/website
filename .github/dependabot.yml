@@ -27,7 +27,10 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
+    groups:
+      actions:
+        patterns: ["*"]
 
   - package-ecosystem: "uv"
     directory: "/backend"
