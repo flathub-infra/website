@@ -14,14 +14,18 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
+    permissions:
+      contents: read
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v6
+        # 6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v5
+        # 5.0.5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: ${{ github.workspace }}/frontend/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -29,7 +33,8 @@ jobs:
             ${{ runner.os }}-pnpm-
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        # 6.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version: "24"
 
@@ -40,7 +45,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Chromatic
-        uses: chromaui/action@latest
+        uses: chromaui/action@7804f34e4e59c0d9b3c856848f46ad96d7897429
         with:
           projectToken: chpt_683b948867f365a
           workingDir: ./frontend

@@ -15,16 +15,29 @@ on:
 
 jobs:
   lint:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v6
+      # 6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        # 7.2.0
+        uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b
+        with:
+          version: "0.9.21"
+          enable-cache: true
+          save-cache: ${{ github.ref == 'refs/heads/main' }}
+          cache-dependency-glob: |
+            **/uv.lock
+            **/pyproject.toml
 
       - name: Check code formatting
         run: uvx ruff format --check .
@@ -33,19 +46,32 @@ jobs:
         run: uvx ruff check .
 
   tests:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v6
+      # 6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
 
       - name: Install system dependencies
         run: sudo apt-get install -y --no-install-recommends libcairo2-dev libgirepository-2.0-dev gir1.2-ostree-1.0 gir1.2-appstream-1.0
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        # 7.2.0
+        uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b
+        with:
+          version: "0.9.21"
+          enable-cache: true
+          save-cache: ${{ github.ref == 'refs/heads/main' }}
+          cache-dependency-glob: |
+            **/uv.lock
+            **/pyproject.toml
 
       - name: Check types
         run: uv run ty check app
@@ -54,19 +80,26 @@ jobs:
         run: uv run pytest -vvvv --ignore=tests/main.py --ignore=tests/test_storefront_smoke.py --ignore=tests/test_year_in_review_smoke.py
 
   smoketests:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v6
+      # 6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        # 4.0.0
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5
 
       - name: Build Docker image
-        uses: docker/build-push-action@v7
+        # 7.1.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
         with:
           context: backend
           tags: backend_backend
@@ -75,7 +108,8 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Build Docker backend-node image
-        uses: docker/build-push-action@v7
+        # 7.1.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
         with:
           context: backend-node
           tags: backend-node
@@ -105,7 +139,8 @@ jobs:
 
       - name: Upload test snapshots
         if: always()
-        uses: actions/upload-artifact@v7
+        # 7.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           if-no-files-found: error
           overwrite: true
