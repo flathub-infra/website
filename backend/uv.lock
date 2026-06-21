@@ -390,7 +390,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "pytest", specifier = ">=9.0.3,<10.0.0" },
+    { name = "pytest", specifier = ">=9.1.1,<10.0.0" },
     { name = "pytest-insta", specifier = ">=0.3.0,<1.0.0" },
     { name = "ruff", specifier = ">=0.15.16,<1.0.0" },
     { name = "ty", specifier = ">=0.0.49" },
