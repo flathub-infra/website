@@ -1,15 +1,16 @@
 from datetime import datetime
 from enum import StrEnum
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from pydantic import BaseModel
 
-from .. import worker
+from .. import audit_log, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import logged_in
 from ..logins import LoginStatusDep
 from ..models import (
+    AuditEventType,
     DirectUploadApp,
     DirectUploadAppDeveloper,
     DirectUploadAppInvite,
@@ -125,6 +126,7 @@ def get_invite_status(
 )
 def invite_developer(
     invite_code: str,
+    http_request: Request,
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -163,6 +165,14 @@ def invite_developer(
 
         db_session.add(invite)
         db_session.commit()
+
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            AuditEventType.INVITE_SENT,
+            target_user_id=invited_user.id,
+            details={"app_id": app.app_id, "invite_id": invite.id},
+        )
 
         if app_metadata := get_json_key(f"apps:{app.app_id}"):
             app_name = app_metadata["name"]
@@ -206,6 +216,7 @@ def invite_developer(
 )
 def accept_invite(
     login: LoginStatusDep,
+    http_request: Request,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -248,6 +259,14 @@ def accept_invite(
         db_session.delete(invite)
         db_session.commit()
 
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            AuditEventType.INVITE_ACCEPTED,
+            target_user_id=login.user.id,
+            details={"app_id": app.app_id},
+        )
+
         username = login.user.display_name
 
         if app_metadata := get_json_key(f"apps:{app.app_id}"):
@@ -287,6 +306,7 @@ def accept_invite(
     },
 )
 def decline_invite(
+    http_request: Request,
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -305,6 +325,14 @@ def decline_invite(
 
         db_session.delete(invite)
         db_session.commit()
+
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            AuditEventType.INVITE_DECLINED,
+            target_user_id=invite.developer_id,
+            details={"app_id": app.app_id},
+        )
 
         primary_dev = DirectUploadAppDeveloper.primary_for_app(db_session, app)
         if primary_dev is None:
@@ -350,6 +378,7 @@ def decline_invite(
     },
 )
 def leave_team(
+    http_request: Request,
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -365,6 +394,14 @@ def leave_team(
     with get_db("writer") as db_session:
         db_session.delete(developer)
         db_session.commit()
+
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            AuditEventType.DEVELOPER_LEFT,
+            target_user_id=login.user.id,
+            details={"app_id": app.app_id},
+        )
 
         if app_metadata := get_json_key(f"apps:{app.app_id}"):
             app_name = app_metadata["name"]
@@ -464,6 +501,7 @@ def get_app_developers(
 )
 def remove_developer(
     developer_id: int,
+    http_request: Request,
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -482,8 +520,17 @@ def remove_developer(
         if developer.is_primary:
             raise HTTPException(status_code=400, detail=ErrorDetail.CANNOT_ABANDON_APP)
 
+        removed_user_id = developer.developer_id
         db_session.delete(developer)
         db_session.commit()
+
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            AuditEventType.DEVELOPER_REMOVED,
+            target_user_id=removed_user_id,
+            details={"app_id": app.app_id, "developer_id": developer_id},
+        )
 
 
 @router.delete(
@@ -501,6 +548,7 @@ def remove_developer(
 )
 def revoke_invite(
     invite_id: int,
+    http_request: Request,
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -517,8 +565,17 @@ def revoke_invite(
         if invite is None or invite.app_id != app.id:
             raise HTTPException(status_code=404, detail=ErrorDetail.DEVELOPER_NOT_FOUND)
 
+        revoked_user_id = invite.developer_id
         db_session.delete(invite)
         db_session.commit()
+
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            AuditEventType.INVITE_REVOKED,
+            target_user_id=revoked_user_id,
+            details={"app_id": app.app_id, "invite_id": invite_id},
+        )
 
 
 def register_to_app(app: FastAPI):

@@ -6,13 +6,13 @@ from datetime import UTC, datetime
 from typing import Any
 
 import jwt
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request, Response
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github, GithubException
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
-from . import config, http_client, models, summary, utils, worker
+from . import audit_log, config, http_client, models, summary, utils, worker
 from .database import get_db, get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
@@ -738,6 +738,7 @@ def submit_review(
     id: int,
     review: Review,
     login: LoginStatusDep,
+    http_request: Request,
     _moderator=Depends(moderator_only),
 ) -> ReviewResponse | None:
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
@@ -793,6 +794,20 @@ def submit_review(
 
         db.session.commit()
         logger.info(f"Moderation request {id} updated successfully")
+
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.MODERATION_APPROVED
+            if is_approved
+            else models.AuditEventType.MODERATION_REJECTED,
+            details={
+                "app_id": appid,
+                "build_id": build_id,
+                "request_id": id,
+                "request_type": request_type,
+            },
+        )
 
     try:
         if is_approved:

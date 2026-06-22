@@ -1,7 +1,5 @@
-import dramatiq
-import dramatiq.brokers.redis
-
 from ..config import settings
+from ..dramatiq_broker import broker as broker
 
 if settings.sentry_dsn:
     import sentry_sdk
@@ -12,9 +10,3 @@ if settings.sentry_dsn:
         environment="production",
         integrations=[DramatiqIntegration()],
     )
-
-broker = dramatiq.brokers.redis.RedisBroker(
-    host=settings.redis_host, port=settings.redis_port, db=1
-)
-
-dramatiq.set_broker(broker)

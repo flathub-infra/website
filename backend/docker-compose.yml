@@ -67,7 +67,8 @@ services:
       context: .
     restart: unless-stopped
     command: dramatiq app.worker --processes 1 --threads 2 --watch app --watch-use-polling -x '*.pyc' -x '*/__pycache__/*'
-    environment: *backend-env
+    environment:
+      <<: *backend-env
     depends_on:
       - redis
       - db
@@ -76,6 +77,24 @@ services:
       - /var/lib/flatpak
       - .:/app:z
     # The workers need access to flat-manager, which is a separate repository and usually runs on the host.
+    extra_hosts:
+      host.docker.internal: host-gateway
+
+  scheduler:
+    image: backend_backend:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    command: python -m app.worker
+    environment: *backend-env
+    depends_on:
+      - redis
+      - db
+      - meilisearch
+    volumes:
+      - /var/lib/flatpak
+      - .:/app:z
     extra_hosts:
       host.docker.internal: host-gateway
 

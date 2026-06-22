@@ -25,7 +25,7 @@ from gitlab.exceptions import GitlabHttpError
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import apps, config, http_client, models, oauth_providers
+from . import apps, audit_log, config, http_client, models, oauth_providers
 from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
@@ -34,6 +34,22 @@ from .login_info import (
     LoginStatusDep,
     logged_in,
 )
+
+
+def _log_login_failure(
+    request: Request,
+    login: LoginInformation,
+    method: str,
+    error: str,
+):
+    """Record a failed login attempt without blocking the response."""
+    audit_log.enqueue_audit_log(
+        request,
+        login.user.id if login.user else None,
+        models.AuditEventType.LOGIN_FAILURE,
+        provider=method,
+        details={"error": error},
+    )
 
 
 class OauthLoginResponseSuccess(BaseModel):
@@ -667,6 +683,7 @@ def continue_oauth_flow(
     then they can do so if the return type of this function is simply `dict`.
     """
     if login.method != method:
+        _log_login_failure(request, login, method, "Not mid-login flow")
         return JSONResponse(
             {
                 "state": "error",
@@ -681,6 +698,7 @@ def continue_oauth_flow(
         stored is None
         or datetime.now(UTC).timestamp() - stored[1] > OAUTH_STATE_TTL_SECONDS
     ):
+        _log_login_failure(request, login, method, "Login state expired or missing")
         return JSONResponse(
             {
                 "state": "error",
@@ -690,6 +708,7 @@ def continue_oauth_flow(
         )
 
     if stored[0] != data.state:
+        _log_login_failure(request, login, method, "OAuth state token mismatch")
         return JSONResponse(
             {
                 "state": "error",
@@ -713,6 +732,7 @@ def continue_oauth_flow(
             )
     except (OAuth2Error, OAuthError) as e:
         detail = e.description or e.error or str(e)
+        _log_login_failure(request, login, method, f"OAuth error: {repr(detail)}")
         return JSONResponse(
             {
                 "state": "error",
@@ -721,6 +741,7 @@ def continue_oauth_flow(
             status_code=500,
         )
     except httpx.HTTPError as e:
+        _log_login_failure(request, login, method, f"HTTP error: {repr(str(e))}")
         return JSONResponse(
             {
                 "state": "error",
@@ -733,6 +754,9 @@ def continue_oauth_flow(
         login_result.get("token_type", "").lower() != "bearer"
         or "access_token" not in login_result
     ):
+        _log_login_failure(
+            request, login, method, "Provider did not return a bearer token"
+        )
         return JSONResponse(
             {
                 "state": "error",
@@ -749,6 +773,7 @@ def continue_oauth_flow(
             401,
             403,
         ):
+            _log_login_failure(request, login, method, f"Gitlab error: {str(err)}")
             return JSONResponse(
                 {
                     "state": "error",
@@ -799,6 +824,7 @@ def continue_oauth_flow(
             if user is not None:
                 # Eventually we might do user-merge here?
                 db.commit()
+                _log_login_failure(request, login, method, "Already logged in")
                 return JSONResponse(
                     {"status": "error", "error": "error-already-logged-in"},
                     status_code=500,
@@ -820,6 +846,14 @@ def continue_oauth_flow(
 
         # The session is now ready
         db.commit()
+
+        audit_log.enqueue_audit_log(
+            request,
+            account.user,
+            models.AuditEventType.LOGIN_SUCCESS,
+            provider=method,
+            details={"login": provider_data.login},
+        )
 
         # Let's find the set of repos the user has write access to in the flathub
         # org since we have a functional token
@@ -1038,6 +1072,11 @@ def do_logout(request: Request, login: LoginStatusDep):
     except KeyError as e:
         raise HTTPException(status_code=500, detail=f"Session error: {str(e)}")
 
+    audit_log.enqueue_audit_log(
+        request,
+        login.user.id if login.user else None,
+        models.AuditEventType.LOGOUT,
+    )
     return {}
 
 
@@ -1097,12 +1136,18 @@ def do_deleteuser(
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
     user = login.user
+    user_id = user.id
 
     with get_db("writer") as db:
         ret = models.FlathubUser.delete_user(db, user, data.token)
 
     if ret.status == "ok":
         request.session.clear()
+        audit_log.enqueue_audit_log(
+            request,
+            user_id,
+            models.AuditEventType.ACCOUNT_DELETED,
+        )
     else:
         raise HTTPException(status_code=400, detail=ret.status)
 

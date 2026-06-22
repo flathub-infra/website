@@ -3,10 +3,10 @@ import datetime
 from enum import StrEnum
 
 import jwt
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
-from .. import config, http_client, models, utils, worker
+from .. import audit_log, config, http_client, models, utils, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import login_state
@@ -166,6 +166,7 @@ class UploadTokenRequest(BaseModel):
 def create_upload_token(
     app_id: str,
     request: UploadTokenRequest,
+    http_request: Request,
     login=Depends(login_state),
 ) -> NewTokenResponse:
     if not (
@@ -232,6 +233,18 @@ def create_upload_token(
         db.session.add(token)
         db.session.commit()
         token_details = _token_response(token, issued_to.display_name)
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.UPLOAD_TOKEN_ISSUED,
+        details={
+            "app_id": app_id,
+            "scopes": request.scopes,
+            "repos": request.repos,
+            "token_id": token_details.id,
+        },
+    )
 
     # Runtimes are admin-provisioned and may push a whole family of refs, so the
     # token is scoped to the curated allow-list. Regular apps stay scoped to their
@@ -302,7 +315,11 @@ def create_upload_token(
         500: {"description": "Flat manager not configured or server error"},
     },
 )
-def revoke_upload_token(token_id: int, login=Depends(login_state)):
+def revoke_upload_token(
+    token_id: int,
+    http_request: Request,
+    login=Depends(login_state),
+):
     if config.settings.flat_manager_api is None:
         raise HTTPException(
             status_code=500,
@@ -317,7 +334,8 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
     if token is None:
         raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
 
-    _require_upload_token_access(token.app_id, login)
+    app_id = token.app_id
+    _require_upload_token_access(app_id, login)
 
     flat_manager_jwt = utils.create_flat_manager_token(
         "revoke_upload_token", ["tokenmanagement"], sub=""
@@ -339,6 +357,16 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
     with get_db("writer") as db:
         db.session.add(token)
         db.session.commit()
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.UPLOAD_TOKEN_REVOKED,
+        details={
+            "app_id": app_id,
+            "token_id": token_id,
+        },
+    )
 
 
 def register_to_app(app: FastAPI):

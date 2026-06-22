@@ -20,12 +20,13 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from .. import worker
+from .. import audit_log, worker
 from ..config import settings
 from ..database import get_db, get_json_key
 from ..login_info import login_state
 from ..models import (
     ApplicationVendingConfig,
+    AuditEventType,
     Pagination,
     RedeemableAppToken,
     RedeemableAppTokenState,
@@ -439,6 +440,7 @@ def get_app_vending_setup(
 )
 def post_app_vending_setup(
     setup: VendingSetupRequest,
+    http_request: Request,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -496,6 +498,20 @@ def post_app_vending_setup(
             db.commit()
         except Exception as base_exc:
             raise VendingError(error="bad-values") from base_exc
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login["user"].id,
+        AuditEventType.VENDING_CONFIG_CHANGED,
+        details={
+            "app_id": app_id,
+            "currency": setup.currency,
+            "appshare": setup.appshare,
+            "recommended_donation": setup.recommended_donation,
+            "minimum_payment": setup.minimum_payment,
+            "action": "updated" if setup.recommended_donation > 0 else "removed",
+        },
+    )
 
     worker.republish_app.send(app_id)
     return get_app_vending_setup(app_id, login)

@@ -91,6 +91,7 @@ class Settings(BaseSettings):
     backend_node_url: str | None = None
 
     force_recompute_stats: bool = False
+    audit_log_retention_days: int = 90
 
 
 settings = Settings()

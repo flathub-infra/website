@@ -68,6 +68,18 @@ class FakeLogin:
         self.user = user
 
 
+class FakeRequest:
+    """Minimal stand-in for fastapi.Request for audit log IP/UA extraction."""
+
+    class _Client:
+        host = "127.0.0.1"
+
+    client = _Client()
+
+    def __init__(self, user_agent="test-ua"):
+        self.headers = {"user-agent": user_agent}
+
+
 @pytest.fixture
 def upload_token_config(monkeypatch):
     monkeypatch.setattr(
@@ -99,6 +111,10 @@ def set_fake_db(monkeypatch, user):
     monkeypatch.setattr(
         upload_tokens.worker.send_email_new, "send", lambda payload: None
     )
+    # Audit log emission must not escape into a real broker during unit tests.
+    monkeypatch.setattr(
+        upload_tokens.audit_log, "enqueue_audit_log", lambda *a, **k: None
+    )
 
 
 def test_create_upload_token_requires_direct_upload_permission(
@@ -109,7 +125,10 @@ def test_create_upload_token_requires_direct_upload_permission(
 
     with pytest.raises(HTTPException) as exc_info:
         upload_tokens.create_upload_token(
-            "org.example.App", upload_token_request, login=FakeLogin(user)
+            "org.example.App",
+            upload_token_request,
+            login=FakeLogin(user),
+            http_request=FakeRequest(),
         )
 
     assert exc_info.value.status_code == 403
@@ -124,7 +143,10 @@ def test_create_upload_token_still_requires_app_developer(
 
     with pytest.raises(HTTPException) as exc_info:
         upload_tokens.create_upload_token(
-            "org.example.App", upload_token_request, login=FakeLogin(user)
+            "org.example.App",
+            upload_token_request,
+            login=FakeLogin(user),
+            http_request=FakeRequest(),
         )
 
     assert exc_info.value.status_code == 403
@@ -147,7 +169,10 @@ def test_create_upload_token_informs_admins(
     monkeypatch.setattr(upload_tokens.worker.send_email_new, "send", sent.append)
 
     upload_tokens.create_upload_token(
-        "org.example.App", upload_token_request, login=FakeLogin(user)
+        "org.example.App",
+        upload_token_request,
+        login=FakeLogin(user),
+        http_request=FakeRequest(),
     )
 
     assert sent[0]["inform_admins"] is True
@@ -174,7 +199,7 @@ def test_create_upload_token_non_runtime_uses_app_id_prefix(
         comment="app", scopes=["build"], repos=["beta"]
     )
     result = upload_tokens.create_upload_token(
-        "org.example.App", request, login=FakeLogin(user)
+        "org.example.App", request, login=FakeLogin(user), http_request=FakeRequest()
     )
 
     assert _decode(result.token)["prefixes"] == ["org.example.App"]
@@ -205,7 +230,7 @@ def test_create_upload_token_runtime_uses_scope_prefixes(
         comment="rt", scopes=["build"], repos=["stable"]
     )
     result = upload_tokens.create_upload_token(
-        "org.gnome.Platform", request, login=FakeLogin(user)
+        "org.gnome.Platform", request, login=FakeLogin(user), http_request=FakeRequest()
     )
 
     assert set(_decode(result.token)["prefixes"]) == {
@@ -240,7 +265,10 @@ def test_create_upload_token_runtime_rejects_repo_outside_scope(
 
     with pytest.raises(HTTPException) as exc_info:
         upload_tokens.create_upload_token(
-            "org.gnome.Platform", request, login=FakeLogin(user)
+            "org.gnome.Platform",
+            request,
+            login=FakeLogin(user),
+            http_request=FakeRequest(),
         )
 
     assert exc_info.value.status_code == 400

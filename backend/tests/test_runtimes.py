@@ -20,6 +20,16 @@ from app import (
 from app.routes import runtimes  # noqa: E402
 
 
+def _fake_admin():
+    """A login stand-in with a user id, for audit log emission in unit tests."""
+    return SimpleNamespace(user=SimpleNamespace(id=1))
+
+
+def _stub_audit(monkeypatch):
+    """Prevent audit log emission from escaping into a real broker in tests."""
+    monkeypatch.setattr(runtimes.audit_log, "enqueue_audit_log", lambda *a, **k: None)
+
+
 class FakeSession:
     """Minimal SQLAlchemy session stand-in."""
 
@@ -270,10 +280,12 @@ def test_archive_marks_runtime_archived_and_republishes(monkeypatch):
         runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
     )
 
+    _stub_audit(monkeypatch)
     runtimes.archive_direct_upload_app(
         "org.gnome.Platform",
         runtimes.ArchiveRequest(endoflife="no longer maintained"),
-        _admin=None,
+        http_request=None,
+        login=_fake_admin(),
     )
 
     assert fake_app.archived is True
@@ -305,7 +317,8 @@ def test_archive_already_archived_is_noop(monkeypatch):
     runtimes.archive_direct_upload_app(
         "org.example.App",
         runtimes.ArchiveRequest(endoflife="no longer maintained"),
-        _admin=None,
+        http_request=None,
+        login=_fake_admin(),
     )
 
     assert revoked == []
@@ -335,7 +348,8 @@ def test_archive_404_if_app_missing(monkeypatch):
         runtimes.archive_direct_upload_app(
             "org.example.App",
             runtimes.ArchiveRequest(endoflife="no longer maintained"),
-            _admin=None,
+            http_request=None,
+            login=_fake_admin(),
         )
 
     assert exc_info.value.status_code == 404
@@ -351,7 +365,8 @@ def test_archive_500_if_flat_manager_unset(monkeypatch):
         runtimes.archive_direct_upload_app(
             "org.example.App",
             runtimes.ArchiveRequest(endoflife="no longer maintained"),
-            _admin=None,
+            http_request=None,
+            login=_fake_admin(),
         )
 
     assert exc_info.value.status_code == 500
@@ -372,7 +387,10 @@ def test_unarchive_marks_unarchived_and_republishes(monkeypatch):
         runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
     )
 
-    runtimes.unarchive_direct_upload_app("org.example.App", _admin=None)
+    _stub_audit(monkeypatch)
+    runtimes.unarchive_direct_upload_app(
+        "org.example.App", http_request=None, login=_fake_admin()
+    )
 
     assert fake_app.archived is False
     assert sent == [("org.example.App",)]
@@ -392,7 +410,9 @@ def test_unarchive_not_archived_is_noop(monkeypatch):
         runtimes.worker.republish_app, "send", lambda *a, **k: sent.append(a)
     )
 
-    runtimes.unarchive_direct_upload_app("org.example.App", _admin=None)
+    runtimes.unarchive_direct_upload_app(
+        "org.example.App", http_request=None, login=_fake_admin()
+    )
 
     assert sent == []
 
@@ -410,7 +430,9 @@ def test_unarchive_404_if_app_missing(monkeypatch):
     )
 
     with pytest.raises(HTTPException) as exc_info:
-        runtimes.unarchive_direct_upload_app("org.example.App", _admin=None)
+        runtimes.unarchive_direct_upload_app(
+            "org.example.App", http_request=None, login=_fake_admin()
+        )
 
     assert exc_info.value.status_code == 404
     assert exc_info.value.detail == "app_not_found"

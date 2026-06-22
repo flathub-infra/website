@@ -388,29 +388,21 @@ class FlathubUser(Base):
 
         return flatpaks
 
-    def add_role(self, db, roleName: "RoleName") -> "FlathubUser":
+    def add_role(self, db, roleName: "RoleName") -> bool:
         role = Role.by_name(db, roleName)
         if role is None:
             raise ValueError(f"Role {roleName} not found")
-        flathubuser_role.add_user_role(db, self, role)
+        changed = flathubuser_role.add_user_role(db, self, role)
         db.session.commit()
+        return changed
 
-        result = self.by_id(db, self.id)
-        if result is None:
-            raise ValueError(f"User {self.id} not found after adding role")
-        return result
-
-    def remove_role(self, db, roleName: "RoleName") -> "FlathubUser":
+    def remove_role(self, db, roleName: "RoleName") -> bool:
         role = Role.by_name(db, roleName)
         if role is None:
             raise ValueError(f"Role {roleName} not found")
-        flathubuser_role.delete_user_role(db, self, role)
+        changed = flathubuser_role.delete_user_role(db, self, role)
         db.session.commit()
-
-        result = self.by_id(db, self.id)
-        if result is None:
-            raise ValueError(f"User {self.id} not found after removing role")
-        return result
+        return changed
 
     def permissions(self):
         """
@@ -480,17 +472,18 @@ class flathubuser_role(Base):
         pass
 
     @staticmethod
-    def add_user_role(db, user: FlathubUser, role: "Role"):
+    def add_user_role(db, user: FlathubUser, role: "Role") -> bool:
         if flathubuser_role.by_user_role(db, user, role):
-            return
+            return False
 
         db.session.add(flathubuser_role(flathubuser_id=user.id, role_id=role.id))
         db.session.commit()
+        return True
 
     @staticmethod
-    def delete_user_role(db, user: FlathubUser, role: "Role"):
+    def delete_user_role(db, user: FlathubUser, role: "Role") -> bool:
         if not flathubuser_role.by_user_role(db, user, role):
-            return
+            return False
 
         db.execute(
             delete(flathubuser_role).where(
@@ -501,6 +494,7 @@ class flathubuser_role(Base):
             )
         )
         db.commit()
+        return True
 
     @staticmethod
     def delete_user(db, self):
@@ -3629,3 +3623,87 @@ class YearInReviewStats(Base):
 
         db.commit()
         return record
+
+
+class AuditEventType(enum.StrEnum):
+    """Event types recorded in the audit log."""
+
+    LOGIN_SUCCESS = "login-success"
+    LOGIN_FAILURE = "login-failure"
+    LOGOUT = "logout"
+    ACCOUNT_DELETED = "account-deleted"
+    UPLOAD_TOKEN_ISSUED = "upload-token-issued"
+    UPLOAD_TOKEN_REVOKED = "upload-token-revoked"
+    INVITE_SENT = "invite-sent"
+    INVITE_ACCEPTED = "invite-accepted"
+    INVITE_DECLINED = "invite-declined"
+    INVITE_REVOKED = "invite-revoked"
+    DEVELOPER_REMOVED = "developer-removed"
+    DEVELOPER_LEFT = "developer-left"
+    APP_ARCHIVED = "app-archived"
+    APP_UNARCHIVED = "app-unarchived"
+    MODERATION_APPROVED = "moderation-approved"
+    MODERATION_REJECTED = "moderation-rejected"
+    VERIFICATION_GRANTED = "verification-granted"
+    VERIFICATION_REVOKED = "verification-revoked"
+    ROLE_GRANTED = "role-granted"
+    ROLE_REVOKED = "role-revoked"
+    VENDING_CONFIG_CHANGED = "vending-config-changed"
+
+
+class AuditLog(Base):
+    __tablename__ = "auditlog"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int | None] = mapped_column(
+        Integer,
+        ForeignKey("flathubuser.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    target_user_id: Mapped[int | None] = mapped_column(
+        Integer,
+        ForeignKey("flathubuser.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    event_type: Mapped[str] = mapped_column(String, nullable=False, index=True)
+    provider: Mapped[str | None] = mapped_column(String, nullable=True)
+    ip_address: Mapped[str | None] = mapped_column(String, nullable=True)
+    user_agent: Mapped[str | None] = mapped_column(String, nullable=True)
+    details: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), index=True
+    )
+
+    __table_args__ = (
+        Index("ix_auditlog_user_created", "user_id", "created_at"),
+        Index("ix_auditlog_target_created", "target_user_id", "created_at"),
+        Index("ix_auditlog_event_created", "event_type", "created_at"),
+    )
+
+    @classmethod
+    def create(
+        cls,
+        db,
+        *,
+        user_id: int | None,
+        event_type: AuditEventType,
+        target_user_id: int | None = None,
+        provider: str | None = None,
+        ip_address: str | None = None,
+        user_agent: str | None = None,
+        details: dict | None = None,
+    ) -> "AuditLog":
+        entry = cls(
+            user_id=user_id,
+            target_user_id=target_user_id,
+            event_type=event_type,
+            provider=provider,
+            ip_address=ip_address,
+            user_agent=user_agent,
+            details=details,
+        )
+        db.add(entry)
+        db.flush()
+        return entry

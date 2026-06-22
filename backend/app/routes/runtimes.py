@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
-from .. import config, http_client, models, utils, worker
+from .. import audit_log, config, http_client, models, utils, worker
 from ..database import get_db
 from ..login_info import modify_users_only
 from ..utils import jti
@@ -390,7 +390,10 @@ def switch_off_direct_upload(app_id: str, _admin=Depends(modify_users_only)):
     },
 )
 def archive_direct_upload_app(
-    app_id: str, request: ArchiveRequest, _admin=Depends(modify_users_only)
+    app_id: str,
+    request: ArchiveRequest,
+    http_request: Request,
+    login=Depends(modify_users_only),
 ):
     """Archive a direct-upload app: revoke tokens, mark archived, republish as EOL.
 
@@ -417,6 +420,13 @@ def archive_direct_upload_app(
         db.session.add(direct_upload_app)
         db.session.commit()
 
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.APP_ARCHIVED,
+        details={"app_id": app_id},
+    )
+
     worker.republish_app.send(app_id, request.endoflife, request.endoflife_rebase)
 
 
@@ -431,7 +441,11 @@ def archive_direct_upload_app(
         404: {"description": "App not found"},
     },
 )
-def unarchive_direct_upload_app(app_id: str, _admin=Depends(modify_users_only)):
+def unarchive_direct_upload_app(
+    app_id: str,
+    http_request: Request,
+    login=Depends(modify_users_only),
+):
     """Unarchive a direct-upload app: clear the archived flag and republish to lift EOL."""
     with get_db("writer") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
@@ -442,6 +456,13 @@ def unarchive_direct_upload_app(app_id: str, _admin=Depends(modify_users_only)):
         direct_upload_app.archived = False
         db.session.add(direct_upload_app)
         db.session.commit()
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.APP_UNARCHIVED,
+        details={"app_id": app_id},
+    )
 
     worker.republish_app.send(app_id)
 

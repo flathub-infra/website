@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 
-from . import models
+from . import audit_log, models
 from .database import get_db
 from .login_info import logged_in, moderator_only, modify_users_only, view_users_only
 
@@ -125,7 +125,10 @@ def user(
     },
 )
 def add_user_role(
-    user_id: int, role: models.RoleName, _admin=Depends(modify_users_only)
+    user_id: int,
+    role: models.RoleName,
+    http_request: Request,
+    login=Depends(modify_users_only),
 ) -> models.UserResult:
     """
     Add a role to a user
@@ -136,9 +139,19 @@ def add_user_role(
         if user is None:
             raise HTTPException(status_code=404, detail="user not found")
 
-        user.add_role(db_session, role)
+        changed = user.add_role(db_session, role)
 
-        return user.to_result(db_session)
+        result = user.to_result(db_session)
+
+    if changed:
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.ROLE_GRANTED,
+            target_user_id=user_id,
+            details={"role": str(role)},
+        )
+    return result
 
 
 @router.delete(
@@ -154,7 +167,10 @@ def add_user_role(
     },
 )
 def delete_user_role(
-    user_id: int, role: models.RoleName, _admin=Depends(modify_users_only)
+    user_id: int,
+    role: models.RoleName,
+    http_request: Request,
+    login=Depends(modify_users_only),
 ) -> models.UserResult:
     """
     Remove a role from a user
@@ -165,9 +181,19 @@ def delete_user_role(
         if user is None:
             raise HTTPException(status_code=404, detail="user not found")
 
-        user.remove_role(db_session, role)
+        changed = user.remove_role(db_session, role)
 
-        return user.to_result(db_session)
+        result = user.to_result(db_session)
+
+    if changed:
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.ROLE_REVOKED,
+            target_user_id=user_id,
+            details={"role": str(role)},
+        )
+    return result
 
 
 @router.get(

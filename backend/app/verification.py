@@ -10,13 +10,13 @@ import github
 import gitlab
 import httpx
 import publicsuffixlist
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from github import Github
 from github.GithubException import UnknownObjectException
 from pydantic import BaseModel, Field
 from sqlalchemy.sql import func
 
-from . import cache, config, http_client, models, utils, worker
+from . import audit_log, cache, config, http_client, models, utils, worker
 from .database import get_db
 from .login_info import app_author_only, logged_in, modify_users_only
 from .logins import LoginInformation, refresh_oauth_token
@@ -1101,6 +1101,7 @@ async def confirm_website_verification(
     },
 )
 async def unverify(
+    http_request: Request,
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
@@ -1142,7 +1143,17 @@ async def unverify(
     with get_db("writer") as db:
         verification = db.session.merge(existing)
         db.session.delete(verification)
+        revoked_user_id = existing.account
+        prior_method = existing.method
         db.session.commit()
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.VERIFICATION_REVOKED,
+        target_user_id=revoked_user_id,
+        details={"app_id": app_id, "prior_method": prior_method},
+    )
 
     worker.republish_app.send(app_id)
     await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
@@ -1281,6 +1292,7 @@ def archive(
     },
 )
 async def manual_verification(
+    http_request: Request,
     login=Depends(modify_users_only),
     app_id: str = Path(
         min_length=6,
@@ -1311,6 +1323,13 @@ async def manual_verification(
         db.session.merge(verification)
         _cleanup_stale_verifications(db, app_id, login.user.id)
         db.session.commit()
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.VERIFICATION_GRANTED,
+        details={"app_id": app_id, "method": "manual"},
+    )
 
     worker.republish_app.send(app_id)
     await cache.mark_stale_by_pattern("cache:endpoint:get_verification_status:*")
