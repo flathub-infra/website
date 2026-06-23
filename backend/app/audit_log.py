@@ -5,8 +5,7 @@ Records audit events (login success/failure, logout, account deletion) to
 the ``auditlog`` table without blocking the HTTP response path.
 
 Events are dispatched to a Dramatiq actor that performs the database write,
-matching the pattern used for email notifications. A synchronous helper is
-also provided for contexts where blocking is acceptable.
+matching the pattern used for email notifications.
 """
 
 import logging
@@ -80,34 +79,3 @@ def enqueue_audit_log(
         user_agent=user_agent,
         details=details,
     )
-
-
-def log_audit_event_sync(
-    user_id: int | None,
-    event_type: models.AuditEventType,
-    *,
-    provider: str | None = None,
-    target_user_id: int | None = None,
-    ip_address: str | None = None,
-    user_agent: str | None = None,
-    details: dict | None = None,
-) -> None:
-    """Persist an audit event synchronously.
-
-    Use only in contexts without an HTTP request (e.g. background jobs) where
-    blocking on a database write is acceptable.
-    """
-    try:
-        with get_db("writer") as db:
-            models.AuditLog.create(
-                db,
-                user_id=user_id,
-                event_type=event_type,
-                target_user_id=target_user_id,
-                provider=provider,
-                ip_address=ip_address,
-                user_agent=user_agent,
-                details=details,
-            )
-    except Exception:
-        logger.exception("Failed to persist audit log event %s", event_type)

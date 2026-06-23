@@ -150,41 +150,6 @@ def test_enqueue_audit_log_without_request_records_nulls(monkeypatch):
     assert sent["event_type"] == "logout"
 
 
-def test_log_audit_event_sync_writes_synchronously(monkeypatch):
-    captured = {}
-
-    @contextmanager
-    def fake_get_db(db_type="replica"):
-        yield FakeDb()
-
-    def fake_create(db, **kwargs):
-        captured["kwargs"] = kwargs
-        return SimpleNamespace(**kwargs)
-
-    monkeypatch.setattr(audit_log, "get_db", fake_get_db)
-    monkeypatch.setattr(models.AuditLog, "create", staticmethod(fake_create))
-
-    audit_log.log_audit_event_sync(
-        user_id=5,
-        event_type=models.AuditEventType.APP_ARCHIVED,
-        details={"app_id": "org.test.App"},
-    )
-
-    assert captured["kwargs"]["user_id"] == 5
-    assert captured["kwargs"]["event_type"] == models.AuditEventType.APP_ARCHIVED
-
-
-def test_log_audit_event_sync_swallows_errors(monkeypatch):
-    @contextmanager
-    def raising_get_db(db_type="replica"):
-        raise RuntimeError("db down")
-        yield  # pragma: no cover
-
-    monkeypatch.setattr(audit_log, "get_db", raising_get_db)
-    # Must not raise.
-    audit_log.log_audit_event_sync(user_id=1, event_type=models.AuditEventType.LOGOUT)
-
-
 def test_log_audit_event_registered_on_worker():
     """The actor must be importable from app.worker so the dramatiq worker
     discovers it (regression guard for G1)."""
