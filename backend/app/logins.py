@@ -824,7 +824,14 @@ def continue_oauth_flow(
             if user is not None:
                 # Eventually we might do user-merge here?
                 db.commit()
-                _log_login_failure(request, login, method, "Already logged in")
+                # Distinct event type so it doesn't pollute failure-rate queries.
+                audit_log.enqueue_audit_log(
+                    request,
+                    login.user.id if login.user else None,
+                    models.AuditEventType.LOGIN_REJECTED_ALREADY_LOGGED_IN,
+                    provider=method,
+                    details={"error": "Already logged in"},
+                )
                 return JSONResponse(
                     {"status": "error", "error": "error-already-logged-in"},
                     status_code=500,

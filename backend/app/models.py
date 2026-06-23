@@ -3630,6 +3630,7 @@ class AuditEventType(enum.StrEnum):
 
     LOGIN_SUCCESS = "login-success"
     LOGIN_FAILURE = "login-failure"
+    LOGIN_REJECTED_ALREADY_LOGGED_IN = "login-rejected-already-logged-in"
     LOGOUT = "logout"
     ACCOUNT_DELETED = "account-deleted"
     UPLOAD_TOKEN_ISSUED = "upload-token-issued"

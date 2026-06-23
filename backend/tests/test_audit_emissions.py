@@ -189,6 +189,75 @@ def test_account_deleted_emits_audit_after_delete_commit(monkeypatch, recorded_c
     assert recorded_calls[0]["user_id"] == 123
 
 
+def test_already_logged_in_emits_distinct_event(monkeypatch, recorded_calls):
+    """A returning OAuth account whose user differs from the currently
+    logged-in user is rejected. This is a session conflict, not a failed
+    credential, so it must be recorded under a distinct event type that
+    brute-force / failure-rate queries can filter out."""
+    from datetime import datetime
+
+    from app import logins, models
+    from app.login_info import LoginInformation, LoginState
+
+    fake_user = SimpleNamespace(id=777)
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        yield SimpleNamespace(commit=lambda: None)
+
+    @contextmanager
+    def fake_oauth_client(method):
+        class _FakeClient:
+            def fetch_token(self, token_url, code):
+                return {"token_type": "bearer", "access_token": "tok"}
+
+        yield _FakeClient()
+
+    fake_account_model = SimpleNamespace(
+        by_provider_id=lambda db, provider_id: SimpleNamespace(existing=True),
+    )
+
+    def token_to_data(tokens):
+        return logins.ProviderInfo(id="provider-123", login="someone")
+
+    monkeypatch.setattr(logins, "get_db", fake_get_db)
+    monkeypatch.setattr(logins.oauth_providers, "get_oauth_client", fake_oauth_client)
+
+    request = FakeRequest()
+    state = "matching-state"
+    request.session = {
+        "_oauth_state_github": {
+            "state": state,
+            "created": datetime.now().timestamp(),
+        },
+    }
+
+    login = LoginInformation(
+        state=LoginState.LOGGED_IN,
+        user=fake_user,
+        method="github",
+    )
+    data = logins.OauthLoginResponseSuccess(code="code", state=state)
+
+    ret = logins.continue_oauth_flow(
+        request,
+        login,
+        data,
+        "github",
+        token_to_data,
+        fake_account_model,
+        None,
+    )
+
+    assert ret.status_code == 500
+    assert len(recorded_calls) == 1
+    assert recorded_calls[0]["event_type"] == (
+        models.AuditEventType.LOGIN_REJECTED_ALREADY_LOGGED_IN
+    )
+    assert recorded_calls[0]["event_type"] != models.AuditEventType.LOGIN_FAILURE
+    assert recorded_calls[0]["user_id"] == 777
+
+
 SECRET = "dGVzdC1zZWNyZXQ="
 
 
