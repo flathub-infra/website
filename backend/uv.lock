@@ -382,7 +382,7 @@ requires-dist = [
     { name = "python-multipart", specifier = ">=0.0.32,<1.0.0" },
     { name = "redis", specifier = ">=5.2.1,<8.0.0" },
     { name = "requests", specifier = ">=2.34.2,<3.0.0" },
-    { name = "sentry-sdk", extras = ["httpx"], specifier = ">=2.61.1,<3.0.0" },
+    { name = "sentry-sdk", extras = ["httpx"], specifier = ">=2.63.0,<3.0.0" },
     { name = "sqlalchemy", specifier = "==2.0.50" },
     { name = "stripe", specifier = ">=15.1.0,<16.0" },
     { name = "vcrpy", specifier = ">=7.0.0,<9.0.0" },
