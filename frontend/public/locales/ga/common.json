@@ -782,5 +782,9 @@
   "share": "Comhroinn",
   "health-fitness-description": "Aipeanna sláinte agus aclaíochta do Linux.",
   "health-fitness": "Sláinte & Folláine",
-  "upload-token-create-failed": "Theip ar chomhartha uaslódála a chruthú. Déan iarracht arís."
+  "upload-token-create-failed": "Theip ar chomhartha uaslódála a chruthú. Déan iarracht arís.",
+  "contribute-flathub": "Cuir le Flathub",
+  "user-id": "Aitheantas Úsáideora Flathub",
+  "manual-verification": "Marcáil mar fhíoraithe de láimh",
+  "more-healthfitness": "Tuilleadh Sláinte & Aclaíochta"
 }
