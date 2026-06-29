@@ -782,5 +782,9 @@
   "founding-supporters": "Gründungsunterstützer",
   "health-fitness-description": "Gesundheits- und Fitness-Apps für Linux.",
   "health-fitness": "Gesundheit & Fitness",
-  "upload-token-create-failed": "Das Erstellen des Hochladetokens ist fehlgeschlagen. Bitte erneut versuchen."
+  "upload-token-create-failed": "Das Erstellen des Hochladetokens ist fehlgeschlagen. Bitte erneut versuchen.",
+  "contribute-flathub": "Zu Flathub beitragen",
+  "user-id": "Flathub-Benutzerkennung",
+  "manual-verification": "Als manuell verifiziert markieren",
+  "more-healthfitness": "Mehr zu Gesundheit & Fitness"
 }
