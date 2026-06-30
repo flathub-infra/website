@@ -36,8 +36,8 @@ importers:
         specifier: ^4.12.26
         version: 4.12.26
       nodemailer:
-        specifier: 9.0.1
-        version: 9.0.1
+        specifier: 9.0.2
+        version: 9.0.2
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -1350,8 +1350,8 @@ packages:
       sass:
         optional: true
 
-  nodemailer@9.0.1:
-    resolution: {integrity: sha512-Gwv8SQewT616ZM/URn0H54b8PWo/Wum7md3EW2aWy1lO27+WZCX+Xyak3J+NlmHUjDh5ME+uesJUDRbR3Ye8Bw==}
+  nodemailer@9.0.2:
+    resolution: {integrity: sha512-Rnve6ToHDjq8GKDB+AYAXgGTSL9XLn3UBCLpJ0eV19an4LZLQdUp+i9SD8wenURjarIBNG11b/biucIgkxEeAg==}
     engines: {node: '>=6.0.0'}
 
   normalize-path@3.0.0:
@@ -2645,7 +2645,7 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  nodemailer@9.0.1: {}
+  nodemailer@9.0.2: {}
 
   normalize-path@3.0.0: {}
 
