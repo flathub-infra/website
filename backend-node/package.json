@@ -27,7 +27,7 @@
   "devDependencies": {
     "@react-email/ui": "6.6.3",
     "@types/html-to-text": "^9.0.4",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.0.1",
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
