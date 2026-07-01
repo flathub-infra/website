@@ -782,5 +782,9 @@
   "founding-supporters": "Soutiens fondateurs",
   "upload-token-create-failed": "Échec de création du jeton de téléversement. Veuillez réessayer.",
   "health-fitness-description": "Des apps pour Linux qui vous aident à prendre soin de vous.",
-  "health-fitness": "Santé et fitness"
+  "health-fitness": "Santé et fitness",
+  "contribute-flathub": "Contribuer à Flathub",
+  "manual-verification": "Marquer comme vérifié manuellement",
+  "user-id": "ID utilisateur Flathub",
+  "more-healthfitness": "Plus de santé et remise en forme"
 }
