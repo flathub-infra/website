@@ -782,5 +782,8 @@
   "flatpak-version-distribution": "Versión de Distribución de Flatpak (últ. 30 días)",
   "os-flatpak-version-distribution": "Versión de Flatpak por SO (Últ. 30 días)",
   "share": "Compartición",
-  "founding-supporters": "Aportaciones a la Fundación"
+  "founding-supporters": "Aportaciones a la Fundación",
+  "contribute-flathub": "Contribuir a Flathub",
+  "manual-verification": "Marcar como verificado manualmente",
+  "user-id": "ID de usuario de Flathub"
 }
