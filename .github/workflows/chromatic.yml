@@ -25,7 +25,7 @@ jobs:
 
       - name: Cache
         # 5.0.5
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: ${{ github.workspace }}/frontend/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -45,7 +45,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Chromatic
-        uses: chromaui/action@7804f34e4e59c0d9b3c856848f46ad96d7897429
+        uses: chromaui/action@98132da0fca2211fb41b3af7b49ce85176007851
         with:
           projectToken: chpt_683b948867f365a
           workingDir: ./frontend
