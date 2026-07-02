@@ -334,9 +334,9 @@
         <terminal-command>sudo nixos-rebuild switch</terminal-command>
         <p>For more details see the <a href='https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak'>NixOS documentation</a>.</p>"
     - name: Add the Flathub repository
-      text: "
-        <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
+      text: '
+        <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run:</p>
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
