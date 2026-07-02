@@ -293,7 +293,7 @@ export const QualityModeration = ({
           {canManageApp && (
             <Button size="lg" variant="secondary" asChild className="me-2">
               <Link href={`/apps/manage/${app.id}`}>
-                <Cog6ToothIcon className="size-5" />
+                <Cog6ToothIcon className="size-5" /> Manage
               </Link>
             </Button>
           )}
