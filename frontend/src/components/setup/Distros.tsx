@@ -2167,6 +2167,11 @@ const NixOS = ({ locale }: { locale: string }) => {
                 }
               />
             ),
+            filelink: (chunk) => (
+              <a href="https://dl.flathub.org/repo/flathub.flatpakrepo">
+                {chunk}
+              </a>
+            ),
           })}
         </li>
 
