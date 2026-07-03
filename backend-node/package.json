@@ -34,7 +34,7 @@
     "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^10.6.0",
     "prettier": "3.8.4",
-    "tsx": "^4.22.4",
+    "tsx": "^4.22.5",
     "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@10.28.2"
