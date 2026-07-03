@@ -171,10 +171,11 @@
     "install-x": "Staliañ “{x}”"
   },
   "lightbox": {
-    "screenshot": "Tapadenn skramm",
+    "screenshot": "Tapadenn-skramm",
     "previous": "War-gil",
     "next": "Da-heul",
-    "close": "Serriñ"
+    "close": "Serriñ",
+    "show-screenshot-fullscreen": "Diskouez an tapadenn-skramm e skramm a-bezh"
   },
   "quality-guideline": {
     "dark": "Teñval",
@@ -187,7 +188,8 @@
     "app-name": "Anv an arload",
     "app-name-just-the-name": "An anv hepken",
     "app-icon": "Arlun an arload",
-    "general": "Hollek"
+    "general": "Hollek",
+    "screenshots-take-screenshots-on-linux": "Tapadennoù-skramm tennet war Linux"
   },
   "vendingSharesPreview": {
     "app": "Arload",
@@ -267,5 +269,7 @@
   "favorite": "Sined",
   "favorite-apps": "Sinedoù",
   "install-all-favorites": "Staliañ an holl sinedoù",
-  "share": "Rannañ"
+  "share": "Rannañ",
+  "manual-verification": "Merkañ evel gwiriet gant an dorn",
+  "user-id": "ID implijer Flathub"
 }
