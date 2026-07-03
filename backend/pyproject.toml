@@ -31,7 +31,7 @@ dependencies = [
     "publicsuffixlist>=1.0.2.20260529,<2.0.0.0",
     "httpx<1.0.0,>=0.28.1",
     "apscheduler==3.11.2",
-    "granian[reload,uvloop]>=2.7.5",
+    "granian[reload,uvloop]>=2.7.8",
     "memray>=1.19.1",
     "psycopg[binary]>=3.3.4",
     "authlib>=1.7.2,<2.0",
