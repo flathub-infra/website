@@ -57,6 +57,46 @@
     "introduction": "<text>Flatpak uygulamaları, Crostini Linux uyumluluk katmanı aracılığıyla ChromeOS'a yüklenebilir. Bu özellik tüm ChromeOS cihazlarında mevcut değildir; bu nedenle devam etmeden önce cihazınızın uyumlu olup olmadığını kontrol etmelisiniz. Uyumlu cihazların listesi <link>burada bulunmaktadır</link>.</text>",
     "step-1": {
       "name": "Linux desteğini etkinleştir"
+    },
+    "step-2": {
+      "name": "Linux uçbirimi başlat"
+    },
+    "step-4": {
+      "name": "Flathub deposunu ekle"
+    }
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "step-1": {
+      "name": "Flatpak kur"
+    },
+    "step-3": {
+      "name": "Yeniden başlat"
+    }
+  },
+  "arch": {
+    "step-1": {
+      "name": "Flatpak yükle"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Flatpak yükle"
+    },
+    "step-3": {
+      "name": "Flathub deposunu ekle"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Flatpak yükle"
+    },
+    "step-3": {
+      "name": "Yeniden başlat"
     }
   }
 }

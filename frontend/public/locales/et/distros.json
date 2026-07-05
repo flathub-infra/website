@@ -293,7 +293,7 @@
     },
     "step-2": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja käivita <filelink>Flathuvi rakendustehoidla juhtfail</filelink> või käivita:</text> <code></code>"
     }
   },
   "pureos": {

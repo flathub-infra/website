@@ -280,7 +280,7 @@
     },
     "step-2": {
       "name": "Přidejte repozitář Flathub",
-      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení spusťte:</text> <code></code>"
+      "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení stáhněte a nainstalujte <filelink>soubor repozitáře Flathub</filelink> nebo spusťte:</text> <code></code>"
     },
     "step-3": {
       "name": "Restartujte",

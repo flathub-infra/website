@@ -359,7 +359,7 @@
   "appname-is-safety-rating-3": "{appName} es potencialmente insegura",
   "appname-is-safety-rating-4": "{appName} no es segura",
   "software-developer-verified": "El desarrollador del software está verificado",
-  "no-user-device-access": "Ningún usuario tiene acceso al dispositivo",
+  "no-user-device-access": "Sin acceso a los dispositivos del usuario",
   "proprietary-code": "Código propietario",
   "auditable-code": "Código auditable",
   "appname-is-safety-rating-2": "{appName} es probablemente segura",

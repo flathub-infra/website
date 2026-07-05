@@ -96,7 +96,7 @@
     },
     "step-2": {
       "name": "Dodaj repozytorium Flathub",
-      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</text> <code></code>"
+      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, pobierz i zainstaluj <filelink>repozytorium Flathub</filelink> lub uruchom:</text> <code></code>"
     },
     "step-3": {
       "name": "Uruchom ponownie",

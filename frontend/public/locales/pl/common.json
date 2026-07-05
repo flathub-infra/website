@@ -782,5 +782,9 @@
   "share": "Udostępnij",
   "upload-token-create-failed": "Nie udało się utworzyć tokenu przesyłania. Spróbuj ponownie.",
   "health-fitness": "Zdrowie i fitness",
-  "health-fitness-description": "Aplikacje dotyczące zdrowia i fitnessu dla systemu Linux."
+  "health-fitness-description": "Aplikacje dotyczące zdrowia i fitnessu dla systemu Linux.",
+  "contribute-flathub": "Współtwórz Flathub",
+  "manual-verification": "Oznacz jako zweryfikowane ręcznie",
+  "user-id": "Identyfikator użytkownika Flathub",
+  "more-healthfitness": "Więcej aplikacji dot. zdrowia i fitnessu"
 }

@@ -5,11 +5,11 @@
     },
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
-      "text": "<text>Flathub d adeg ifazen ansa ara d-awiḍ isnasen n Flatpak. Iwakken ad t-tremdedṭ, selkem:</text> <code></code>"
+      "text": "<text>Flathub d adeg ifazen ansa ara d-awiḍ isnasen n Flatpak. Iwakken ad t-tremdedṭ, sader-d syin sbedd <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem:</text> <code></code>"
     },
     "step-4": {
       "name": "Ales askker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "distroName": "Ubuntu",
     "step-2": {
@@ -23,7 +23,7 @@
     "distroName": "Manjaro",
     "step-2": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-1": {
       "name": "Rmed Flatpak deg umsefrak n iseɣẓanen"
@@ -71,11 +71,11 @@
     },
     "step-3": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-2": {
       "name": "Rnu akufi-a n Flathub",
-      "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, selkem:</text> <code></code>"
+      "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, sader-d syin sbedd <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem:</text> <code></code>"
     }
   },
   "linux_mint": {
@@ -89,7 +89,7 @@
     },
     "step-2": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     }
   },
   "centos": {
@@ -103,7 +103,7 @@
     "distroName": "Debian",
     "step-4": {
       "name": "Ales asekker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
@@ -120,7 +120,7 @@
     },
     "step-3": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-2": {
       "name": "Rnu akufi-a n Flathub",
@@ -148,7 +148,7 @@
     "distroName": "Kubuntu",
     "step-4": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-1": {
       "name": "Sbedd Flatpak"
@@ -177,7 +177,7 @@
   "alpine": {
     "step-4": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-1": {
       "name": "Sbedd Flatpak"
@@ -225,7 +225,7 @@
   "void_linux": {
     "step-3": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "distroName": "Void Linux",
     "step-1": {
@@ -242,19 +242,19 @@
     },
     "step-3": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "distroName": "NixOS",
     "step-2": {
       "name": "Rnu akufi-a n Flathub",
-      "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, selkem:</text> <code></code>"
+      "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, sader-d syin sbedd <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem:</text> <code></code>"
     }
   },
   "deepin": {
     "distroName": "Deepin",
     "step-4": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-1": {
       "name": "Sbedd Flatpak",
@@ -278,12 +278,12 @@
     },
     "step-4": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "distroName": "Pardus",
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
-      "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, selkem:</text> <code></code>"
+      "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, sader-d syin sbedd <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem:</text> <code></code>"
     },
     "step-2": {
       "name": "Sebded asiɣzef n Useɣẓan Flatpak",
@@ -293,7 +293,7 @@
   "mx_linux": {
     "step-2": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "distroName": "MX Linux",
     "step-1": {
@@ -336,7 +336,7 @@
     },
     "step-3": {
       "name": "Ales asenker",
-      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link>!</text>"
+      "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
     "step-2": {
       "name": "Rnu akufi-a n Flathub",
@@ -382,5 +382,8 @@
     "step-3": {
       "name": "Ales asekker"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE"
   }
 }

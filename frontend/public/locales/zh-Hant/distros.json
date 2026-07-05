@@ -13,14 +13,14 @@
   "ubuntu": {
     "step-3": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 儲存庫檔案</filelink>，或執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或執行：</text> <code></code>"
     },
     "step-4": {
       "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>",
       "name": "重啟"
     },
     "step-2": {
-      "text": "<text>GNOME Software 外掛程式讓您無需命令列即可安裝應用程式。要安裝，請執行：</text> <code></code> <text><strong>注意：</strong>Ubuntu 在 20.04 至 23.04 版本中將 GNOME Software 以 Snap 形式分發，並在 23.10 及更新版本中以 App Center 取代 —— 它們都不支援安裝 Flatpak 應用程式。安裝 Flatpak 外掛程式時也會安裝 GNOME Software 的 deb 版本，導致在 Ubuntu 20.04 至 23.04 上同時安裝兩個 Software 應用程式，並在 Ubuntu 23.10 及更新版本上安裝一個新的 Software 應用程式。</text>",
+      "text": "<text>GNOME Software 外掛程式讓您無需命令列即可安裝應用程式。要安裝，請執行：</text> <code></code> <text><strong>注意：</strong> Ubuntu 在 20.04 至 23.04 版本中將 GNOME Software 以 Snap 形式分發，並在 23.10 及更新版本中以 App Center 取代 —— 它們都不支援安裝 Flatpak 應用程式。安裝 Flatpak 外掛程式時也會安裝 GNOME Software 的 deb 版本，導致在 Ubuntu 20.04 至 23.04 上同時安裝兩個 Software 應用程式，並在 Ubuntu 23.10 及更新版本上安裝一個新的 Software 應用程式。</text>",
       "name": "安裝 GNOME Software Flatpak 外掛程式"
     },
     "distroName": "Ubuntu",
@@ -179,12 +179,12 @@
     }
   },
   "salix": {
-    "introduction": "<header>自版本 15.0 起，Salix 預設已安裝 Flatpak——無需任何設定！</header> <text>Flatpak 預先配置了 Flathub 軟體庫，並內建桌面整合工具，讓您能從 Flathub 進行一鍵安裝。</text> <text>您只需<link>安裝應用程式</link>即可！</text>",
+    "introduction": "<header>自版本 15.0 起，Salix 預設已安裝 Flatpak — 無需任何設定！</header> <text>Flatpak 預先配置了 Flathub 軟體庫，並內建桌面整合工具，讓您能從 Flathub 進行一鍵安裝。</text> <text>您只需<link>安裝應用程式</link>即可！</text>",
     "distroName": "Salix"
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<text>PureOS 預設已安裝 Flatpak。要開始使用，您只需啟用 Flathub——這是取得 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>即可。</text> <text>現在您只需<link>安裝應用程式</link>！</text>"
+    "introduction": "<text>PureOS 預設已安裝 Flatpak。要開始使用，您只需啟用 Flathub — 這是取得 Flatpak 應用程式的最佳途徑。只需下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>即可。</text> <text>現在您只需<link>安裝應用程式</link>！</text>"
   },
   "gnu_guix": {
     "step-1": {
@@ -252,7 +252,7 @@
   },
   "nixos": {
     "step-2": {
-      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請執行以下指令：</text><code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請下載並安裝 <filelink>Flathub 儲存庫檔案</filelink>，或執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {

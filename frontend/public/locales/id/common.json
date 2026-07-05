@@ -782,5 +782,9 @@
   "os-version-distribution": "Distribusi Versi OS (30 hari terakhir)",
   "flatpak-version-distribution": "Distribusi Versi Flatpak (30 hari terakhir)",
   "os-flatpak-version-distribution": "Versi Flatpak berdasarkan OS (30 hari terakhir)",
-  "share": "Bagikan"
+  "share": "Bagikan",
+  "contribute-flathub": "Berkontribusi ke Flathub",
+  "manual-verification": "Tandai sebagai terverifikasi secara manual",
+  "user-id": "ID Pengguna Flathub",
+  "more-healthfitness": "Lebih Banyak Kesehatan & Kebugaran"
 }
