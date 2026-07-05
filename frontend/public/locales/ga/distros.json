@@ -289,7 +289,7 @@
     },
     "step-2": {
       "name": "Cuir stór Flathub leis",
-      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code>"
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an comhad <filelink>stór Flathub</filelink> nó rith:</text> <code></code>"
     },
     "step-3": {
       "name": "Athosaigh",

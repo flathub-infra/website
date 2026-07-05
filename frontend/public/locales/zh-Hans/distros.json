@@ -281,7 +281,7 @@
     },
     "step-2": {
       "name": "添加 Flathub 仓库",
-      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请运行：</text> <code></code>"
+      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <filelink>Flathub 仓库文件</filelink>，或运行以下命令：</text> <code></code>"
     },
     "step-3": {
       "name": "重启",

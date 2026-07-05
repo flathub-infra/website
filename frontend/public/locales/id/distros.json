@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
-      "text": "<text>Flathub adalah tempat yang ideal untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, jalankan:</text> <code></code>"
+      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, unduh dan pasang <filelink>berkas repositori Flathub</filelink> atau jalankan:</text> <code></code>"
     },
     "step-4": {
       "name": "Mulai ulang",
@@ -92,7 +92,7 @@
     },
     "step-2": {
       "name": "Tambahkan repositori Flathub",
-      "text": "<text>Flathub adalah tempat yang ideal untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, jalankan:</text> <code></code>"
+      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, unduh dan pasang <filelink>berkas repositori Flathub</filelink> atau jalankan:</text> <code></code>"
     },
     "step-3": {
       "name": "Mulai ulang",
@@ -289,7 +289,7 @@
     },
     "step-2": {
       "name": "Tambahkan repositori Flathub",
-      "text": "<text>Flathub adalah tempat yang ideal untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, jalankan:</text> <code></code>"
+      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, unduh dan pasang <filelink>berkas repositori Flathub</filelink> atau jalankan:</text> <code></code>"
     },
     "step-3": {
       "name": "Mulai ulang",
@@ -335,7 +335,7 @@
     },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
-      "text": "<text>Flathub adalah tempat yang ideal untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, jalankan:</text> <code></code>"
+      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, unduh dan pasang <filelink>berkas repositori Flathub</filelink> atau jalankan:</text> <code></code>"
     },
     "step-4": {
       "name": "Mulai ulang",
@@ -440,5 +440,9 @@
       "name": "Jalankan ulang",
       "text": "<text>Untuk menyelesaikan setup, jalankan ulang sistem Anda. Sekarang yang perlu Anda lakukan adalah <link>instal aplikasi</link>!</text> <text>Catatan: instalasi grafis aplikasi Flatpak mungkin tidak mungkin dengan Slackware.</text>"
     }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak sudah terpasang secara default pada T2 SDE sejak versi 26.6 — tidak perlu pengaturan!</header> <text>Flatpak telah dikonfigurasi sebelumnya dengan repositori Flathub dan alat integrasi desktop disertakan untuk memungkinkan instalasi 1-klik dari Flathub.</text> <text>Yang perlu Anda lakukan hanyalah <link>menginstal aplikasi</link>!</text>"
   }
 }
