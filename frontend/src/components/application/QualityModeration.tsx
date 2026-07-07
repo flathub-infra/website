@@ -4,11 +4,6 @@ import { useUserContext } from "src/context/user-info"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import Spinner from "../Spinner"
 import clsx from "clsx"
-import {
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/24/solid"
 import { useTranslations } from "next-intl"
 import Modal from "../Modal"
 import {
@@ -20,14 +15,18 @@ import {
   DesktopAppstream,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
-import { ScanEyeIcon } from "lucide-react"
-import { Link } from "src/i18n/navigation"
 import {
-  EnvelopeIcon,
+  CircleCheckIcon,
+  CircleQuestionMarkIcon,
+  ClipboardCheckIcon,
   EyeIcon,
-  Cog6ToothIcon,
-  EnvelopeOpenIcon,
-} from "@heroicons/react/20/solid"
+  MailIcon,
+  MailOpenIcon,
+  ScanEyeIcon,
+  SettingsIcon,
+  TriangleAlertIcon,
+} from "lucide-react"
+import { Link } from "src/i18n/navigation"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -43,21 +42,21 @@ const QualityModerationStatusComponent = ({
   if (status.passes) {
     return (
       <div className="flex gap-1">
-        <CheckCircleIcon className="text-2xl size-6" />
+        <CircleCheckIcon className="text-2xl size-6" />
         <span>{t("quality-guideline.high-quality-app-data")}</span>
       </div>
     )
   } else if (status.not_passed === 0) {
     return (
       <div className="flex gap-1">
-        <QuestionMarkCircleIcon className="text-2xl size-6" />
+        <CircleQuestionMarkIcon className="text-2xl size-6" />
         <span>{t("quality-guideline.app-data-review-pending")}</span>
       </div>
     )
   } else {
     return (
       <div className="flex gap-1">
-        <ExclamationTriangleIcon className="text-2xl size-6" />
+        <TriangleAlertIcon className="text-2xl size-6" />
         <span>
           {t("quality-guideline.failing-x-checks", {
             count: status.not_passed,
@@ -110,13 +109,13 @@ const QualityReviewButton = ({
     return (
       <Button
         size="lg"
-        className="me-2 flex items-center gap-1"
+        className="me-2"
         variant="secondary"
         onClick={() => {
           setModalVisible(true)
         }}
       >
-        <EnvelopeOpenIcon className="size-5" />
+        <MailOpenIcon className="size-5" />
         <div className="hidden sm:block">
           {t("quality-guideline.request-review")}
         </div>
@@ -146,13 +145,8 @@ const QualityReviewButton = ({
   }
 
   return (
-    <Button
-      size="lg"
-      className="me-2 flex items-center gap-1"
-      variant="secondary"
-      disabled
-    >
-      <EnvelopeIcon className="size-5" />
+    <Button size="lg" className="me-2" variant="secondary" disabled>
+      <MailIcon className="size-5" />
       <div className="hidden sm:block">
         {t("quality-guideline.review-requested")}
       </div>
@@ -258,12 +252,12 @@ export const QualityModeration = ({
               <Spinner size={"s"} orientation="row" />
             ) : isExcluded ? (
               <div className="flex gap-1">
-                <QuestionMarkCircleIcon className="text-2xl size-6" />
+                <CircleQuestionMarkIcon className="text-2xl size-6" />
                 <span>{t("quality-moderation-excluded")}</span>
               </div>
             ) : isGeneric404 ? (
               <div className="flex gap-1">
-                <ExclamationTriangleIcon className="text-2xl size-6" />
+                <TriangleAlertIcon className="text-2xl size-6" />
                 <span className="text-flathub-red">{t("server-error")}</span>
               </div>
             ) : (
@@ -293,7 +287,7 @@ export const QualityModeration = ({
           {canManageApp && (
             <Button size="lg" variant="secondary" asChild className="me-2">
               <Link href={`/apps/manage/${app.id}`}>
-                <Cog6ToothIcon className="size-5" />
+                <SettingsIcon className="size-5" />
                 <div className="hidden sm:block">{t("manage")}</div>
               </Link>
             </Button>
@@ -304,11 +298,10 @@ export const QualityModeration = ({
               onClick={() => {
                 setIsQualityModalOpen(true)
               }}
-              className="flex items-center gap-1"
             >
               {mode === "qualityModerator" && (
                 <>
-                  <Cog6ToothIcon className="size-5" />
+                  <ClipboardCheckIcon className="size-5" />
                   <div className="hidden sm:block">Moderate</div>
                 </>
               )}
