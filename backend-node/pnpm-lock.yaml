@@ -10,16 +10,16 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^2.0.6
-        version: 2.0.6(hono@4.12.27)
+        version: 2.0.6(hono@4.12.28)
       '@hono/sentry':
         specifier: ^1.2.2
-        version: 1.2.2(hono@4.12.27)
+        version: 1.2.2(hono@4.12.28)
       '@hono/swagger-ui':
         specifier: 0.6.1
-        version: 0.6.1(hono@4.12.27)
+        version: 0.6.1(hono@4.12.28)
       '@hono/zod-openapi':
         specifier: ^1.4.0
-        version: 1.4.0(hono@4.12.27)(zod@4.4.3)
+        version: 1.4.0(hono@4.12.28)(zod@4.4.3)
       '@react-email/render':
         specifier: 2.0.10
         version: 2.0.10(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -33,8 +33,8 @@ importers:
         specifier: ^17.4.2
         version: 17.4.2
       hono:
-        specifier: ^4.12.27
-        version: 4.12.27
+        specifier: ^4.12.28
+        version: 4.12.28
       nodemailer:
         specifier: 9.0.3
         version: 9.0.3
@@ -1183,8 +1183,8 @@ packages:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
     engines: {node: '>=4'}
 
-  hono@4.12.27:
-    resolution: {integrity: sha512-1yrb/+w6HWQJrUCLkJ2IF5jNIPvvFkblV5RNOYl6bV+OA6p9GLcMpHFFGTosSvHvcAUibuUukRqhlYI4z32C7Q==}
+  hono@4.12.28:
+    resolution: {integrity: sha512-YwUvVpSF7m1yOblFPrU3Hbo8XhPheBoiyfGuII6z19LnOr6JpDnyyp7LFNrfV56wS8tpvtBFGRISHN02pDdLOA==}
     engines: {node: '>=16.9.0'}
 
   html-to-text@9.0.5:
@@ -1867,30 +1867,30 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@hono/node-server@2.0.6(hono@4.12.27)':
+  '@hono/node-server@2.0.6(hono@4.12.28)':
     dependencies:
-      hono: 4.12.27
+      hono: 4.12.28
 
-  '@hono/sentry@1.2.2(hono@4.12.27)':
+  '@hono/sentry@1.2.2(hono@4.12.28)':
     dependencies:
-      hono: 4.12.27
+      hono: 4.12.28
       toucan-js: 4.1.1
 
-  '@hono/swagger-ui@0.6.1(hono@4.12.27)':
+  '@hono/swagger-ui@0.6.1(hono@4.12.28)':
     dependencies:
-      hono: 4.12.27
+      hono: 4.12.28
 
-  '@hono/zod-openapi@1.4.0(hono@4.12.27)(zod@4.4.3)':
+  '@hono/zod-openapi@1.4.0(hono@4.12.28)(zod@4.4.3)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 8.5.0(zod@4.4.3)
-      '@hono/zod-validator': 0.8.0(hono@4.12.27)(zod@4.4.3)
-      hono: 4.12.27
+      '@hono/zod-validator': 0.8.0(hono@4.12.28)(zod@4.4.3)
+      hono: 4.12.28
       openapi3-ts: 4.5.0
       zod: 4.4.3
 
-  '@hono/zod-validator@0.8.0(hono@4.12.27)(zod@4.4.3)':
+  '@hono/zod-validator@0.8.0(hono@4.12.28)(zod@4.4.3)':
     dependencies:
-      hono: 4.12.27
+      hono: 4.12.28
       zod: 4.4.3
 
   '@humanfs/core@0.19.2':
@@ -2514,7 +2514,7 @@ snapshots:
 
   globals@11.12.0: {}
 
-  hono@4.12.27: {}
+  hono@4.12.28: {}
 
   html-to-text@9.0.5:
     dependencies:
