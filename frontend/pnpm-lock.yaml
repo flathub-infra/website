@@ -25,8 +25,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@meilisearch/instant-meilisearch':
-        specifier: ^0.30.0
-        version: 0.30.0
+        specifier: ^0.31.2
+        version: 0.31.2(meilisearch@0.57.0)
       '@mitresthen/matomo-tracker-react':
         specifier: ^0.1.1
         version: 0.1.1(react@19.2.5)
@@ -1482,8 +1482,11 @@ packages:
       '@types/react': 19.2.14
       react: '>=16'
 
-  '@meilisearch/instant-meilisearch@0.30.0':
-    resolution: {integrity: sha512-MAfMVHQvo/8ywq+4KiQRH/WyAN60Ctujyou+p2lz20zA7WeI8aEMisJe5TVOhVH2S/Z+lFTabZ3v0X5MGcnQ8g==}
+  '@meilisearch/instant-meilisearch@0.31.2':
+    resolution: {integrity: sha512-axKrFVjdppMe1aEPjAfyG/hjf1iZJJSvRDbEOcYKSKZhWL7rm16u5Mor1JBXvrkIe36YyzyfGG81MEl0nGvTVw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    peerDependencies:
+      meilisearch: ^0.57
 
   '@mitresthen/matomo-tracker-react@0.1.1':
     resolution: {integrity: sha512-1Z+Sup9uuX5TrGe+s86mL6iKpLDA2QCdioCrbUr7I+dRiu/fvH5WAV4/akECKvx5bTOXdVlhoCsbVX29HCS0Hw==}
@@ -6217,9 +6220,6 @@ packages:
   mdurl@2.0.0:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
 
-  meilisearch@0.54.0:
-    resolution: {integrity: sha512-b1bwJAEfj8C6hgSN88+/LvW3pe3nWC+thBS2seAbPZGakf/vzsLqppgZquiomzCr2GhU7U7H289625qhYe3rbw==}
-
   meilisearch@0.57.0:
     resolution: {integrity: sha512-J3ZdX6MjguEIG9Yo+duRZeVsbMdRuwM2OFvJUs8wZSeBADYZ2qc1eajlClKLRqS/mAhGh2bLiU5SbmhKXKuWSw==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -8797,9 +8797,9 @@ snapshots:
       '@types/react': 19.2.14
       react: 19.2.5
 
-  '@meilisearch/instant-meilisearch@0.30.0':
+  '@meilisearch/instant-meilisearch@0.31.2(meilisearch@0.57.0)':
     dependencies:
-      meilisearch: 0.54.0
+      meilisearch: 0.57.0
 
   '@mitresthen/matomo-tracker-react@0.1.1(react@19.2.5)':
     dependencies:
@@ -13701,8 +13701,6 @@ snapshots:
   mdn-data@2.27.1: {}
 
   mdurl@2.0.0: {}
-
-  meilisearch@0.54.0: {}
 
   meilisearch@0.57.0: {}
 
