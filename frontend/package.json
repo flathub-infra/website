@@ -85,7 +85,7 @@
     "@storybook/addon-vitest": "^10.4.6",
     "@storybook/nextjs-vite": "^10.4.6",
     "@tailwindcss/postcss": "^4.2.1",
-    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/typography": "^0.5.20",
     "@tanstack/eslint-plugin-query": "^5.100.14",
     "@tanstack/react-query-devtools": "^5.99.2",
     "@trieb.work/nextjs-turbo-redis-cache": "^1.15.0",
