@@ -31,6 +31,7 @@ import type {
   GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   GetQualityModerationStatusQualityModerationStatusGetParams,
+  GuidelineStatsByCategory,
   QualityModerationDashboardResponse,
   QualityModerationResponse,
   QualityModerationStatus,
@@ -973,6 +974,122 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
 } {
   const queryOptions =
     getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryOptions(
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
+ * @summary Get Quality Moderation Stats By Category
+ */
+export const getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet =
+  (
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<GuidelineStatsByCategory[]>> => {
+    return axios.get(`/quality-moderation/stats-by-category`, options)
+  }
+
+export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryKey =
+  () => {
+    return [`/quality-moderation/stats-by-category`] as const
+  }
+
+export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+      >
+    >,
+    TError = AxiosError<void>,
+  >(options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  }) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryKey()
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+        >
+      >
+    > = ({ signal }) =>
+      getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet({
+        signal,
+        ...axiosOptions,
+      })
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+      >
+    >
+  >
+export type GetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryError =
+  AxiosError<void>
+
+export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryOptions(
       options,
     )
 

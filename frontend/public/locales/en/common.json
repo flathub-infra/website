@@ -738,6 +738,7 @@
     "pending": "Pending",
     "passed": "Passed",
     "not-passed": "Not passed",
+    "stats-by-category": "Guideline review status by category",
     "needed-to-pass-x": "Needed to pass {x}",
     "request-review": "Request Review",
     "request-a-review-question": "Do you want to request a review?",

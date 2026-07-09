@@ -18,7 +18,10 @@ import { getIntlLocale } from "../../../src/localize"
 import { tryParseCategory } from "../../../src/types/Category"
 import { useUserContext } from "../../../src/context/user-info"
 import { Permission, StatsResult } from "../../../src/codegen/model"
-import { useGetQualityModerationStatsQualityModerationFailedByGuidelineGet } from "../../../src/codegen"
+import {
+  useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet,
+  useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
+} from "../../../src/codegen"
 import { format } from "date-fns"
 import {
   LineChart,
@@ -303,6 +306,103 @@ const FailedByGuideline = () => {
                   dataKey="not_passed"
                   name={t("quality-guideline.not-passed")}
                   fill="var(--color-downloads)"
+                />
+              </BarChart>
+            </ChartContainer>
+          </div>
+        </>
+      )}
+    </>
+  )
+}
+
+const GuidelineStatsByCategory = () => {
+  const t = useTranslations()
+  const locale = useLocale()
+  const { resolvedTheme } = useTheme()
+  const user = useUserContext()
+
+  const query =
+    useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet({
+      axios: { withCredentials: true },
+      query: {
+        enabled: !!user.info?.permissions.some(
+          (a) => a === Permission["quality-moderation"],
+        ),
+      },
+    })
+
+  const chartConfig = {
+    passed: {
+      label: t("quality-guideline.passed"),
+      color: "oklch(var(--flathub-status-green))",
+    },
+    not_passed: {
+      label: t("quality-guideline.not-passed"),
+      color: "oklch(var(--flathub-status-red))",
+    },
+    unrated: {
+      label: t("quality-guideline.pending"),
+      color: "oklch(var(--flathub-sonic-silver))",
+    },
+  } satisfies ChartConfig
+
+  return (
+    <>
+      {query.data?.data && (
+        <>
+          <h2 className="mb-6 mt-12 text-2xl font-bold">
+            {t("quality-guideline.stats-by-category")}
+          </h2>
+          <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+            <ChartContainer
+              config={chartConfig}
+              className="min-h-[360px] w-full"
+            >
+              <BarChart
+                accessibilityLayer
+                layout="vertical"
+                data={query.data.data.map((x) => ({
+                  ...x,
+                  category: t(`quality-guideline.${x.category}`),
+                }))}
+              >
+                <XAxis
+                  stroke={axisStroke(resolvedTheme)}
+                  tickFormatter={(x) => x.toLocaleString(locale)}
+                  type="number"
+                />
+                <YAxis
+                  stroke={axisStroke(resolvedTheme)}
+                  dataKey="category"
+                  tickFormatter={(x) => x}
+                  type="category"
+                  width={140}
+                  tick={{ fontSize: 12 }}
+                  tickLine={false}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideIndicator />}
+                />
+                <Legend />
+                <Bar
+                  dataKey="passed"
+                  stackId="status"
+                  name={t("quality-guideline.passed")}
+                  fill="var(--color-passed)"
+                />
+                <Bar
+                  dataKey="not_passed"
+                  stackId="status"
+                  name={t("quality-guideline.not-passed")}
+                  fill="var(--color-not_passed)"
+                />
+                <Bar
+                  dataKey="unrated"
+                  stackId="status"
+                  name={t("quality-guideline.pending")}
+                  fill="var(--color-unrated)"
                 />
               </BarChart>
             </ChartContainer>
@@ -817,6 +917,7 @@ const StatisticsClient = ({
       <FlatpakVersionsChart stats={stats} />
       <OsFlatpakVersionsChart stats={stats} />
       <RuntimeChart runtimes={runtimes} />
+      <GuidelineStatsByCategory />
       <FailedByGuideline />
     </div>
   )
