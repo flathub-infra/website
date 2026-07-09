@@ -20,6 +20,7 @@ from sqlalchemy import (
     Integer,
     String,
     and_,
+    case,
     delete,
     desc,
     false,
@@ -2243,25 +2244,21 @@ class QualityModeration(Base):
             .subquery()
         )
 
-        passed = func.coalesce(
+        passed_count = func.coalesce(
             func.sum(func.cast(QualityModeration.passed, Integer)), 0
         )
-        not_passed = func.coalesce(
+        not_passed_count = func.coalesce(
             func.sum(func.cast(~QualityModeration.passed, Integer)), 0
         )
 
-        return [
-            {
-                "category": row.category,
-                "passed": row.passed,
-                "not_passed": row.not_passed,
-                "unrated": row.unrated,
-            }
-            for row in db.session.query(
+        app_category_stats = (
+            db.session.query(
+                eligible_apps.c.app_id.label("app_id"),
                 Guideline.guideline_category_id.label("category"),
-                passed.label("passed"),
-                not_passed.label("not_passed"),
-                (func.count(Guideline.id) - passed - not_passed).label("unrated"),
+                GuidelineCategory.order.label("category_order"),
+                func.count(Guideline.id).label("total"),
+                passed_count.label("passed"),
+                not_passed_count.label("not_passed"),
             )
             .select_from(eligible_apps)
             .join(
@@ -2287,8 +2284,51 @@ class QualityModeration(Base):
                 GuidelineCategory,
                 GuidelineCategory.id == Guideline.guideline_category_id,
             )
-            .group_by(Guideline.guideline_category_id, GuidelineCategory.order)
-            .order_by(GuidelineCategory.order)
+            .group_by(
+                eligible_apps.c.app_id,
+                Guideline.guideline_category_id,
+                GuidelineCategory.order,
+            )
+            .subquery()
+        )
+
+        return [
+            {
+                "category": row.category,
+                "passed": row.passed,
+                "not_passed": row.not_passed,
+                "unrated": row.unrated,
+            }
+            for row in db.session.query(
+                app_category_stats.c.category,
+                func.sum(
+                    case(
+                        (app_category_stats.c.passed == app_category_stats.c.total, 1),
+                        else_=0,
+                    )
+                ).label("passed"),
+                func.sum(case((app_category_stats.c.not_passed > 0, 1), else_=0)).label(
+                    "not_passed"
+                ),
+                func.sum(
+                    case(
+                        (
+                            and_(
+                                app_category_stats.c.not_passed == 0,
+                                app_category_stats.c.passed
+                                < app_category_stats.c.total,
+                            ),
+                            1,
+                        ),
+                        else_=0,
+                    )
+                ).label("unrated"),
+            )
+            .select_from(app_category_stats)
+            .group_by(
+                app_category_stats.c.category, app_category_stats.c.category_order
+            )
+            .order_by(app_category_stats.c.category_order)
             .all()
         ]
 
