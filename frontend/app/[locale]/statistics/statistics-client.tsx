@@ -713,7 +713,7 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
                       .sort((a, b) => (b.value as number) - (a.value as number))
                       .map((p) => (
                         <div
-                          key={p.dataKey}
+                          key={`${p.dataKey}`}
                           className="flex items-center gap-2 py-0.5"
                         >
                           <span
