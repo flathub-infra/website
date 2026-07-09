@@ -132,12 +132,12 @@
         {
           "id": "drugs",
           "level": "none",
-          "description": "Aucune allusion \u00e0 des boissons alcoolis\u00e9es"
+          "description": "Aucune référence à l’alcool"
         },
         {
           "id": "language",
           "level": "none",
-          "description": "Aucune profanation d\u2019aucune sorte"
+          "description": "Dépourvu de toute obscénité"
         },
         {
           "id": "money",
@@ -147,7 +147,7 @@
         {
           "id": "sex",
           "level": "none",
-          "description": "Aucun nu d\u2019aucune sorte"
+          "description": "Dépourvu de toute nudité"
         },
         {
           "id": "violence",
