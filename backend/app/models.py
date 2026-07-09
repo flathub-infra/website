@@ -2220,6 +2220,79 @@ class QualityModeration(Base):
         ]
 
     @classmethod
+    def group_by_category(cls, db) -> list[dict[str, Any]]:
+        """
+        Return moderation status counts grouped by guideline category.
+        """
+
+        eligible_apps = (
+            db.session.query(
+                App.app_id,
+                App.is_fullscreen_app,
+            )
+            .join(QualityModeration, QualityModeration.app_id == App.app_id)
+            .where(
+                App.is_eol == false(),
+                App.excluded_from_app_picks == false(),
+                or_(
+                    App.type == "desktop-application",
+                    App.type == "console-application",
+                ),
+            )
+            .group_by(App.app_id, App.is_fullscreen_app)
+            .subquery()
+        )
+
+        passed = func.coalesce(
+            func.sum(func.cast(QualityModeration.passed, Integer)), 0
+        )
+        not_passed = func.coalesce(
+            func.sum(func.cast(~QualityModeration.passed, Integer)), 0
+        )
+
+        return [
+            {
+                "category": row.category,
+                "passed": row.passed,
+                "not_passed": row.not_passed,
+                "unrated": row.unrated,
+            }
+            for row in db.session.query(
+                Guideline.guideline_category_id.label("category"),
+                passed.label("passed"),
+                not_passed.label("not_passed"),
+                (func.count(Guideline.id) - passed - not_passed).label("unrated"),
+            )
+            .select_from(eligible_apps)
+            .join(
+                Guideline,
+                and_(
+                    Guideline.needed_to_pass_since <= datetime.now().date(),
+                    or_(
+                        eligible_apps.c.is_fullscreen_app == False,  # noqa: E712
+                        eligible_apps.c.is_fullscreen_app
+                        == Guideline.show_on_fullscreen_app,
+                    ),
+                ),
+            )
+            .join(
+                QualityModeration,
+                and_(
+                    QualityModeration.guideline_id == Guideline.id,
+                    QualityModeration.app_id == eligible_apps.c.app_id,
+                ),
+                isouter=True,
+            )
+            .join(
+                GuidelineCategory,
+                GuidelineCategory.id == Guideline.guideline_category_id,
+            )
+            .group_by(Guideline.guideline_category_id, GuidelineCategory.order)
+            .order_by(GuidelineCategory.order)
+            .all()
+        ]
+
+    @classmethod
     def upsert(
         cls,
         db,

@@ -60,6 +60,13 @@ class FailedByGuideline(BaseModel):
     not_passed: int
 
 
+class GuidelineStatsByCategory(BaseModel):
+    category: str
+    passed: int
+    not_passed: int
+    unrated: int
+
+
 @router.get(
     "/status",
     tags=["quality-moderation"],
@@ -162,6 +169,27 @@ def get_quality_moderation_stats(
     response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         return cast("list[FailedByGuideline]", QualityModeration.group_by_guideline(db))
+
+
+@router.get(
+    "/stats-by-category",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Quality moderation statistics grouped by category"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        500: {"description": "Internal server error"},
+    },
+)
+def get_quality_moderation_stats_by_category(
+    response: Response,
+    _moderator=Depends(quality_moderator_only),
+) -> list[GuidelineStatsByCategory]:
+    response.headers["Cache-Control"] = "private"
+    with get_db("replica") as db:
+        return cast(
+            "list[GuidelineStatsByCategory]", QualityModeration.group_by_category(db)
+        )
 
 
 @router.get(
