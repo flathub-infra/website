@@ -35,7 +35,7 @@
     "eslint": "^10.6.0",
     "prettier": "3.8.4",
     "tsx": "^4.23.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "packageManager": "pnpm@10.28.2"
 }
