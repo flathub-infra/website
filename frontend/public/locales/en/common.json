@@ -97,6 +97,60 @@
   "downloads-over-time": "Downloads over time",
   "home": "Home",
   "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy Firefox, Telegram, RetroArch, GIMP and many more!",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "New Year, New Workflows",
+      "description": "Apps to take notes, track tasks, and make plans"
+    },
+    "free-software-favorites": {
+      "header": "Staff Picks",
+      "description": "Apps we love right now"
+    },
+    "spring-creativity": {
+      "header": "Get Creative",
+      "description": "Essential apps for drawing, editing photos, and digital design"
+    },
+    "fresh-desktop-releases": {
+      "header": "Build Native Apps",
+      "description": "Develop apps that feel at home on your system"
+    },
+    "staying-connected": {
+      "header": "Stay in Touch",
+      "description": "Essential collaboration and communication apps"
+    },
+    "summer-travel": {
+      "header": "Ready for Vacations",
+      "description": "Maps, transit, weather, and trip planning apps"
+    },
+    "back-to-learning": {
+      "header": "Smarter Every Day",
+      "description": "Apps to help you study, research, and write"
+    },
+    "winter-comforts": {
+      "header": "Get Cozy",
+      "description": "Great apps for reading, watching movies, and playing games"
+    },
+    "tools-for-developers": {
+      "header": "Web Developers Essentials",
+      "description": "Making websites is more fun with these apps"
+    },
+    "take-better-notes": {
+      "header": "Take Better Notes",
+      "description": "Find your new favorite note taking tool"
+    },
+    "get-focused": {
+      "header": "Get Focused",
+      "description": "Great apps for task management"
+    },
+    "make-some-noise": {
+      "header": "Make Some Noise",
+      "description": "Apps for creating and producing music"
+    },
+    "get-to-work": {
+      "header": "Get To Work",
+      "description": "Essential office apps"
+    }
+  },
   "subscribe": "Subscribe",
   "rss-feeds-description": "You can now subscribe to our RSS feeds to get the latest Flathub goodies in your feed reader!",
   "updated-description": "Apps updated on Flathub in the last few days.",

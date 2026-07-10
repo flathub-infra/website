@@ -29,7 +29,7 @@ from sqlalchemy import (
     true,
     update,
 )
-from sqlalchemy.dialects.postgresql import ARRAY, JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, ExcludeConstraint
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -2643,6 +2643,170 @@ class AppsOfTheWeek(Base):
             db.session.add(app)
             db.session.commit()
             return app
+
+
+CURATED_APP_SELECTION_SLOTS = {
+    "after-hero",
+    "after-top-apps",
+    "after-first-category-block",
+}
+
+
+class SelectionTheme(Base):
+    """Editorial curated app selection theme."""
+
+    __tablename__ = "selectiontheme"
+
+    id = mapped_column(Integer, primary_key=True)
+    key = mapped_column(String, nullable=False, unique=True, index=True)
+    name = mapped_column(String, nullable=False)
+    enabled = mapped_column(Boolean, nullable=False, server_default=true())
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+
+    scheduled_selections: Mapped[list["ScheduledSelection"]] = relationship(
+        "ScheduledSelection", back_populates="theme"
+    )
+
+    @classmethod
+    def all(cls, db, include_disabled: bool = False) -> list["SelectionTheme"]:
+        query = db.session.query(SelectionTheme).order_by(SelectionTheme.name)
+        if not include_disabled:
+            query = query.filter(SelectionTheme.enabled == true())
+        return query.all()
+
+    @classmethod
+    def by_id(cls, db, theme_id: int) -> Optional["SelectionTheme"]:
+        return db.session.query(SelectionTheme).filter_by(id=theme_id).first()
+
+
+class ScheduledSelection(Base):
+    """Moderator-owned curated app selection schedule."""
+
+    __tablename__ = "scheduledselection"
+
+    id = mapped_column(Integer, primary_key=True)
+    theme_id = mapped_column(
+        Integer, ForeignKey(SelectionTheme.id), nullable=False, index=True
+    )
+    slot = mapped_column(String, nullable=False, index=True)
+    starts_at = mapped_column(Date, nullable=False, index=True)
+    ends_at = mapped_column(Date, nullable=False, index=True)
+    enabled = mapped_column(Boolean, nullable=False, server_default=false())
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+
+    theme: Mapped[SelectionTheme] = relationship(
+        "SelectionTheme", back_populates="scheduled_selections"
+    )
+    apps: Mapped[list["ScheduledSelectionApp"]] = relationship(
+        "ScheduledSelectionApp",
+        back_populates="scheduled_selection",
+        cascade="all, delete-orphan",
+        order_by="ScheduledSelectionApp.position",
+    )
+
+    __table_args__ = (
+        CheckConstraint("starts_at <= ends_at", name="scheduledselection_date_range"),
+        CheckConstraint(
+            "slot IN ('after-hero', 'after-top-apps', 'after-first-category-block')",
+            name="scheduledselection_slot",
+        ),
+        ExcludeConstraint(
+            (slot, "="),
+            (func.daterange(starts_at, ends_at, "[]"), "&&"),
+            name="scheduledselection_enabled_slot_date_overlap",
+            where=enabled == true(),
+            using="gist",
+        ),
+    )
+
+    @classmethod
+    def by_id(cls, db, selection_id: int) -> Optional["ScheduledSelection"]:
+        return db.session.query(ScheduledSelection).filter_by(id=selection_id).first()
+
+    @classmethod
+    def all(cls, db) -> list["ScheduledSelection"]:
+        return (
+            db.session.query(ScheduledSelection)
+            .order_by(ScheduledSelection.starts_at.desc(), ScheduledSelection.id.desc())
+            .all()
+        )
+
+    @classmethod
+    def active_by_date(cls, db, selection_date: _dt.date) -> list["ScheduledSelection"]:
+        return (
+            db.session.query(ScheduledSelection)
+            .join(SelectionTheme)
+            .filter(
+                ScheduledSelection.enabled == true(),
+                SelectionTheme.enabled == true(),
+                ScheduledSelection.starts_at <= selection_date,
+                ScheduledSelection.ends_at >= selection_date,
+            )
+            .order_by(ScheduledSelection.slot, ScheduledSelection.starts_at.desc())
+            .all()
+        )
+
+    @classmethod
+    def has_enabled_overlap(
+        cls,
+        db,
+        slot: str,
+        starts_at: _dt.date,
+        ends_at: _dt.date,
+        selection_id: int | None = None,
+    ) -> bool:
+        query = db.session.query(ScheduledSelection).filter(
+            ScheduledSelection.enabled == true(),
+            ScheduledSelection.slot == slot,
+            ScheduledSelection.starts_at <= ends_at,
+            ScheduledSelection.ends_at >= starts_at,
+        )
+        if selection_id is not None:
+            query = query.filter(ScheduledSelection.id != selection_id)
+        return db.session.query(query.exists()).scalar()
+
+
+class ScheduledSelectionApp(Base):
+    """Ordered app within a scheduled curated app selection."""
+
+    __tablename__ = "scheduledselectionapp"
+
+    id = mapped_column(Integer, primary_key=True)
+    scheduled_selection_id = mapped_column(
+        Integer,
+        ForeignKey(ScheduledSelection.id, ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    app_id = mapped_column(
+        String, ForeignKey("apps.app_id"), nullable=False, index=True
+    )
+    position = mapped_column(Integer, nullable=False)
+
+    scheduled_selection: Mapped[ScheduledSelection] = relationship(
+        "ScheduledSelection", back_populates="apps"
+    )
+
+    __table_args__ = (
+        Index(
+            "scheduledselectionapp_selection_app_unique",
+            scheduled_selection_id,
+            app_id,
+            unique=True,
+        ),
+        Index(
+            "scheduledselectionapp_selection_position_unique",
+            scheduled_selection_id,
+            position,
+            unique=True,
+        ),
+    )
 
 
 class QualityModerationDashboardResponse(BaseModel):
