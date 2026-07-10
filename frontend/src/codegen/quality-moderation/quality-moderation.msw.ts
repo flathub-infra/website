@@ -12,6 +12,7 @@ import type { RequestHandlerOptions } from "msw"
 import type {
   AppPickRecommendationsResponse,
   FailedByGuideline,
+  GuidelineStatsByCategory,
   QualityModerationDashboardResponse,
   QualityModerationResponse,
   QualityModerationStatus,
@@ -116,6 +117,18 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetRe
     ).map(() => ({
       guideline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       not_passed: faker.number.int(),
+    }))
+
+export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetResponseMock =
+  (): GuidelineStatsByCategory[] =>
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      category: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      passed: faker.number.int(),
+      not_passed: faker.number.int(),
+      unrated: faker.number.int(),
     }))
 
 export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock =
@@ -396,6 +409,31 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetMo
     )
   }
 
+export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetMockHandler =
+  (
+    overrideResponse?:
+      | GuidelineStatsByCategory[]
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<GuidelineStatsByCategory[]> | GuidelineStatsByCategory[]),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/quality-moderation/stats-by-category",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getGetQualityModerationForAppQualityModerationAppIdGetMockHandler =
   (
     overrideResponse?:
@@ -551,6 +589,7 @@ export const getQualityModerationMock = () => [
   getGetPassingQualityAppsQualityModerationPassingAppsGetMockHandler(),
   getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetMockHandler(),
   getGetQualityModerationStatsQualityModerationFailedByGuidelineGetMockHandler(),
+  getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetMockHandler(),
   getGetQualityModerationForAppQualityModerationAppIdGetMockHandler(),
   getSetQualityModerationForAppQualityModerationAppIdPostMockHandler(),
   getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetMockHandler(),

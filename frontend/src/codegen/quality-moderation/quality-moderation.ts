@@ -1070,6 +1070,120 @@ export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCa
   >,
   TError = AxiosError<void>,
 >(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Quality Moderation Stats By Category
+ */
+
+export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
   options?: {
     query?: Partial<
       UseQueryOptions<
