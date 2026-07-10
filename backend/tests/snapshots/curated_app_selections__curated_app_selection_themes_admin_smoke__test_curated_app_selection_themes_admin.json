@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "key": "new-year-new-workflows",
+    "name": "New Year, New Workflows",
+    "enabled": true
+  },
+  {
+    "id": 2,
+    "key": "free-software-favorites",
+    "name": "Free Software Favorites",
+    "enabled": true
+  },
+  {
+    "id": 3,
+    "key": "spring-creativity",
+    "name": "Spring Creativity",
+    "enabled": true
+  },
+  {
+    "id": 4,
+    "key": "fresh-desktop-releases",
+    "name": "Fresh Desktop Releases",
+    "enabled": true
+  },
+  {
+    "id": 5,
+    "key": "staying-connected",
+    "name": "Staying Connected",
+    "enabled": true
+  },
+  {
+    "id": 6,
+    "key": "summer-travel",
+    "name": "Summer Travel",
+    "enabled": true
+  },
+  {
+    "id": 7,
+    "key": "back-to-learning",
+    "name": "Back to Learning",
+    "enabled": true
+  },
+  {
+    "id": 8,
+    "key": "winter-comforts",
+    "name": "Winter Comforts",
+    "enabled": true
+  },
+  {
+    "id": 9,
+    "key": "tools-for-developers",
+    "name": "Tools for Developers",
+    "enabled": true
+  },
+  {
+    "id": 10,
+    "key": "take-better-notes",
+    "name": "Take Better Notes",
+    "enabled": true
+  },
+  {
+    "id": 11,
+    "key": "get-focused",
+    "name": "Get Focused",
+    "enabled": true
+  },
+  {
+    "id": 12,
+    "key": "make-some-noise",
+    "name": "Make Some Noise",
+    "enabled": true
+  },
+  {
+    "id": 13,
+    "key": "get-to-work",
+    "name": "Get To Work",
+    "enabled": true
+  }
+]

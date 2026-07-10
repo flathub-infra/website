@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "theme_key": "creative-tools",
+    "slot": "after-hero",
+    "starts_at": "2026-07-05",
+    "ends_at": "2026-07-10",
+    "apps": [
+      {
+        "app_id": "org.example.App",
+        "position": 0
+      },
+      {
+        "app_id": "org.example.Invalid",
+        "position": 1
+      }
+    ],
+    "theme_id": 1,
+    "enabled": true
+  }
+]
