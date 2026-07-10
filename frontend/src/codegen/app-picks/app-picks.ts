@@ -26,6 +26,10 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
   AppOfTheDay,
   AppsOfTheWeek,
+  CuratedAppSelections,
+  ScheduledSelectionAdmin,
+  ScheduledSelectionInput,
+  SelectionTheme,
   SetAppOfTheDayAppPicksAppOfTheDayPost200,
   UpsertAppOfTheWeek,
 } from "../model"
@@ -392,6 +396,251 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
 }
 
 /**
+ * @summary Get Curated App Selections
+ */
+export const getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet = (
+  date: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<CuratedAppSelections>> => {
+  return axios.get(`/app-picks/curated-app-selections/${date}`, options)
+}
+
+export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryKey =
+  (date: string) => {
+    return [`/app-picks/curated-app-selections/${date}`] as const
+  }
+
+export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+      >
+    >,
+    TError = AxiosError<void>,
+  >(
+    date: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryKey(
+        date,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+        >
+      >
+    > = ({ signal }) =>
+      getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet(date, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: !!date,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+      >
+    >
+  >
+export type GetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryError =
+  AxiosError<void>
+
+export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Curated App Selections
+ */
+
+export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryOptions(
+      date,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
  * Returns apps of the week for the admin page, bypassing CDN cache
  * @summary Get App Of The Week Admin
  */
@@ -619,6 +868,814 @@ export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
   return { ...query, queryKey: queryOptions.queryKey }
 }
 
+/**
+ * @summary Get Curated App Selection Themes Admin
+ */
+export const getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet =
+  (options?: AxiosRequestConfig): Promise<AxiosResponse<SelectionTheme[]>> => {
+    return axios.get(`/app-picks/admin/curated-app-selection-themes`, options)
+  }
+
+export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryKey =
+  () => {
+    return [`/app-picks/admin/curated-app-selection-themes`] as const
+  }
+
+export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+      >
+    >,
+    TError = AxiosError<void>,
+  >(options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  }) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryKey()
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+        >
+      >
+    > = ({ signal }) =>
+      getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet(
+        { signal, ...axiosOptions },
+      )
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+      >
+    >
+  >
+export type GetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryError =
+  AxiosError<void>
+
+export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Curated App Selection Themes Admin
+ */
+
+export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryOptions(
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
+ * @summary Get Curated App Selections Admin
+ */
+export const getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet =
+  (
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ScheduledSelectionAdmin[]>> => {
+    return axios.get(`/app-picks/admin/curated-app-selections`, options)
+  }
+
+export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryKey =
+  () => {
+    return [`/app-picks/admin/curated-app-selections`] as const
+  }
+
+export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+      >
+    >,
+    TError = AxiosError<void>,
+  >(options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  }) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryKey()
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+        >
+      >
+    > = ({ signal }) =>
+      getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet({
+        signal,
+        ...axiosOptions,
+      })
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+      >
+    >
+  >
+export type GetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryError =
+  AxiosError<void>
+
+export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Curated App Selections Admin
+ */
+
+export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryOptions(
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+/**
+ * @summary Create Curated App Selection Admin
+ */
+export const createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost =
+  (
+    scheduledSelectionInput: ScheduledSelectionInput,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ScheduledSelectionAdmin>> => {
+    return axios.post(
+      `/app-picks/admin/curated-app-selections`,
+      scheduledSelectionInput,
+      options,
+    )
+  }
+
+export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
+        >
+      >,
+      TError,
+      { data: ScheduledSelectionInput },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
+      >
+    >,
+    TError,
+    { data: ScheduledSelectionInput },
+    TContext
+  > => {
+    const mutationKey = [
+      "createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
+        >
+      >,
+      { data: ScheduledSelectionInput }
+    > = (props) => {
+      const { data } = props ?? {}
+
+      return createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost(
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
+      >
+    >
+  >
+export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationBody =
+  ScheduledSelectionInput
+export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Create Curated App Selection Admin
+ */
+export const useCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost =
+  <TError = AxiosError<void>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
+          >
+        >,
+        TError,
+        { data: ScheduledSelectionInput },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
+      >
+    >,
+    TError,
+    { data: ScheduledSelectionInput },
+    TContext
+  > => {
+    return useMutation(
+      getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
+/**
+ * @summary Update Curated App Selection Admin
+ */
+export const updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut =
+  (
+    selectionId: number,
+    scheduledSelectionInput: ScheduledSelectionInput,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ScheduledSelectionAdmin>> => {
+    return axios.put(
+      `/app-picks/admin/curated-app-selections/${selectionId}`,
+      scheduledSelectionInput,
+      options,
+    )
+  }
+
+export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
+        >
+      >,
+      TError,
+      { selectionId: number; data: ScheduledSelectionInput },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
+      >
+    >,
+    TError,
+    { selectionId: number; data: ScheduledSelectionInput },
+    TContext
+  > => {
+    const mutationKey = [
+      "updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
+        >
+      >,
+      { selectionId: number; data: ScheduledSelectionInput }
+    > = (props) => {
+      const { selectionId, data } = props ?? {}
+
+      return updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut(
+        selectionId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
+      >
+    >
+  >
+export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationBody =
+  ScheduledSelectionInput
+export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Update Curated App Selection Admin
+ */
+export const useUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut =
+  <TError = AxiosError<void>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
+          >
+        >,
+        TError,
+        { selectionId: number; data: ScheduledSelectionInput },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
+      >
+    >,
+    TError,
+    { selectionId: number; data: ScheduledSelectionInput },
+    TContext
+  > => {
+    return useMutation(
+      getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
+/**
+ * @summary Delete Curated App Selection Admin
+ */
+export const deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete =
+  (
+    selectionId: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<void>> => {
+    return axios.delete(
+      `/app-picks/admin/curated-app-selections/${selectionId}`,
+      options,
+    )
+  }
+
+export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
+        >
+      >,
+      TError,
+      { selectionId: number },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
+      >
+    >,
+    TError,
+    { selectionId: number },
+    TContext
+  > => {
+    const mutationKey = [
+      "deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
+        >
+      >,
+      { selectionId: number }
+    > = (props) => {
+      const { selectionId } = props ?? {}
+
+      return deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete(
+        selectionId,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
+      >
+    >
+  >
+
+export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Delete Curated App Selection Admin
+ */
+export const useDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete =
+  <TError = AxiosError<void>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
+          >
+        >,
+        TError,
+        { selectionId: number },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
+      >
+    >,
+    TError,
+    { selectionId: number },
+    TContext
+  > => {
+    return useMutation(
+      getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
 /**
  * Sets an app of the week
  * @summary Set App Of The Week

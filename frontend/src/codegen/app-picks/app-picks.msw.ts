@@ -12,6 +12,9 @@ import type { RequestHandlerOptions } from "msw"
 import type {
   AppOfTheDay,
   AppsOfTheWeek,
+  CuratedAppSelections,
+  ScheduledSelectionAdmin,
+  SelectionTheme,
   SetAppOfTheDayAppPicksAppOfTheDayPost200,
 } from "../model"
 
@@ -37,6 +40,30 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
   ...overrideResponse,
 })
 
+export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<CuratedAppSelections, object>> = {},
+  ): CuratedAppSelections => ({
+    selections: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      starts_at: faker.date.past().toISOString().slice(0, 10),
+      ends_at: faker.date.past().toISOString().slice(0, 10),
+      apps: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        position: faker.number.int(),
+      })),
+    })),
+    ...overrideResponse,
+  })
+
 export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetResponseMock =
   (
     overrideResponse: Partial<Extract<AppsOfTheWeek, object>> = {},
@@ -49,6 +76,82 @@ export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetResponseMoc
       position: faker.number.int(),
       isFullscreen: faker.datatype.boolean(),
     })),
+    ...overrideResponse,
+  })
+
+export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetResponseMock =
+  (): SelectionTheme[] =>
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      enabled: faker.datatype.boolean(),
+    }))
+
+export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetResponseMock =
+  (): ScheduledSelectionAdmin[] =>
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      starts_at: faker.date.past().toISOString().slice(0, 10),
+      ends_at: faker.date.past().toISOString().slice(0, 10),
+      apps: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        position: faker.number.int(),
+      })),
+      theme_id: faker.number.int(),
+      enabled: faker.datatype.boolean(),
+    }))
+
+export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<ScheduledSelectionAdmin, object>> = {},
+  ): ScheduledSelectionAdmin => ({
+    id: faker.number.int(),
+    theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    starts_at: faker.date.past().toISOString().slice(0, 10),
+    ends_at: faker.date.past().toISOString().slice(0, 10),
+    apps: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      position: faker.number.int(),
+    })),
+    theme_id: faker.number.int(),
+    enabled: faker.datatype.boolean(),
+    ...overrideResponse,
+  })
+
+export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutResponseMock =
+  (
+    overrideResponse: Partial<Extract<ScheduledSelectionAdmin, object>> = {},
+  ): ScheduledSelectionAdmin => ({
+    id: faker.number.int(),
+    theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    starts_at: faker.date.past().toISOString().slice(0, 10),
+    ends_at: faker.date.past().toISOString().slice(0, 10),
+    apps: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      position: faker.number.int(),
+    })),
+    theme_id: faker.number.int(),
+    enabled: faker.datatype.boolean(),
     ...overrideResponse,
   })
 
@@ -110,6 +213,31 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetMockHandler = (
   )
 }
 
+export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetMockHandler =
+  (
+    overrideResponse?:
+      | CuratedAppSelections
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<CuratedAppSelections> | CuratedAppSelections),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/app-picks/curated-app-selections/:date",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetMockHandler =
   (
     overrideResponse?:
@@ -130,6 +258,128 @@ export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetMockHandler
             : getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetResponseMock(),
           { status: 200 },
         )
+      },
+      options,
+    )
+  }
+
+export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetMockHandler =
+  (
+    overrideResponse?:
+      | SelectionTheme[]
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<SelectionTheme[]> | SelectionTheme[]),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/app-picks/admin/curated-app-selection-themes",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetMockHandler =
+  (
+    overrideResponse?:
+      | ScheduledSelectionAdmin[]
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<ScheduledSelectionAdmin[]> | ScheduledSelectionAdmin[]),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/app-picks/admin/curated-app-selections",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMockHandler =
+  (
+    overrideResponse?:
+      | ScheduledSelectionAdmin
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<ScheduledSelectionAdmin> | ScheduledSelectionAdmin),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/app-picks/admin/curated-app-selections",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMockHandler =
+  (
+    overrideResponse?:
+      | ScheduledSelectionAdmin
+      | ((
+          info: Parameters<Parameters<typeof http.put>[1]>[0],
+        ) => Promise<ScheduledSelectionAdmin> | ScheduledSelectionAdmin),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.put(
+      "*/app-picks/admin/curated-app-selections/:selectionId",
+      async (info: Parameters<Parameters<typeof http.put>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMockHandler =
+  (
+    overrideResponse?:
+      | void
+      | ((
+          info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        ) => Promise<void> | void),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.delete(
+      "*/app-picks/admin/curated-app-selections/:selectionId",
+      async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+
+        return new HttpResponse(null, { status: 204 })
       },
       options,
     )
@@ -184,7 +434,13 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler = (
 export const getAppPicksMock = () => [
   getGetAppOfTheDayAppPicksAppOfTheDayDateGetMockHandler(),
   getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetMockHandler(),
+  getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetMockHandler(),
   getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetMockHandler(),
+  getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetMockHandler(),
+  getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetMockHandler(),
+  getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMockHandler(),
+  getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMockHandler(),
+  getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMockHandler(),
   getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler(),
   getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler(),
 ]
