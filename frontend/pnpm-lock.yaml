@@ -175,8 +175,8 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
       yet-another-react-lightbox:
-        specifier: ^3.32.0
-        version: 3.32.0(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: ^3.32.1
+        version: 3.32.1(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
     devDependencies:
       '@babel/core':
         specifier: ^8.0.1
@@ -7843,8 +7843,8 @@ packages:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
 
-  yet-another-react-lightbox@3.32.0:
-    resolution: {integrity: sha512-FWODOMrE07i3O5MeWRcYlcnAUk518zkUYKAe307pVW5pkey3hKMcAIWn8yMIURzGvbd3m9eghWO9CocEZmQPIg==}
+  yet-another-react-lightbox@3.32.1:
+    resolution: {integrity: sha512-/OK5U79uTD2kGv3m+w22IDCuVtgC0l9J2SwJRYE+88XqfkWwVkAVNbE8AdWozAlPFTjGiIyPHxukoIINH9mpiw==}
     engines: {node: '>=14'}
     peerDependencies:
       '@types/react': 19.2.14
@@ -15583,7 +15583,7 @@ snapshots:
       y18n: 5.0.8
       yargs-parser: 21.1.1
 
-  yet-another-react-lightbox@3.32.0(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  yet-another-react-lightbox@3.32.1(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
