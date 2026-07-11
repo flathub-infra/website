@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { ReactElement, useCallback, useMemo } from "react"
+import { Fragment, ReactElement, useCallback, useMemo } from "react"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../../src/env"
 import { mapAppsIndexToAppstreamListItem } from "../../src/meilisearch"
 import { categoryToName } from "../../src/types/Category"
@@ -24,6 +24,11 @@ import { YearInReviewBanner } from "../../src/components/YearInReviewBanner"
 import type { JSX } from "react"
 import { Link } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
+import type {
+  HomepageCuratedAppSelection,
+  HomepageCuratedAppSelectionsBySlot,
+} from "src/types/CuratedAppSelection"
+import { ScheduledAppSelectionSection } from "src/components/application/ScheduledAppSelectionSection"
 
 interface HomeClientProps {
   recentlyUpdated: MeilisearchResponseAppsIndex
@@ -44,6 +49,7 @@ interface HomeClientProps {
   emulators: MeilisearchResponseAppsIndex
   gameLaunchers: MeilisearchResponseAppsIndex
   gameTools: MeilisearchResponseAppsIndex
+  curatedAppSelections: HomepageCuratedAppSelectionsBySlot
 }
 
 function MobileSection({ mobile }: { mobile: MeilisearchResponseAppsIndex }) {
@@ -116,6 +122,7 @@ function CategorySection({
   topAppsByCategory,
   mobileSection,
   gameSection,
+  afterFirstCategoryBlockSelection,
 }: {
   topAppsByCategory: {
     category: MainCategory
@@ -123,6 +130,7 @@ function CategorySection({
   }[]
   mobileSection: ReactElement
   gameSection: ReactElement
+  afterFirstCategoryBlockSelection?: HomepageCuratedAppSelection
 }) {
   const t = useTranslations()
 
@@ -140,27 +148,34 @@ function CategorySection({
   return (
     <>
       {categorySections.map((sectionData, i) => (
-        <div key={`categorySection${sectionData.category}`}>
-          {i === 3 && <div className="mb-10">{mobileSection}</div>}
-          {i === 5 && <div className="mb-10">{gameSection}</div>}
-          <ApplicationSection
-            type="withCustomHeader"
-            href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
-            applications={sectionData.applications}
-            numberOfApps={6}
-            customHeader={
-              <>
-                <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-                  <h1 className="my-auto text-2xl font-bold">
-                    {categoryToName(sectionData.category, t)}
-                  </h1>
-                </header>
-              </>
-            }
-            showMore={true}
-            moreText={t(`more-${sectionData.category.toLowerCase()}`)}
-          />
-        </div>
+        <Fragment key={`categorySection${sectionData.category}`}>
+          <div>
+            {i === 3 && <div className="mb-10">{mobileSection}</div>}
+            {i === 5 && <div className="mb-10">{gameSection}</div>}
+            <ApplicationSection
+              type="withCustomHeader"
+              href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
+              applications={sectionData.applications}
+              numberOfApps={6}
+              customHeader={
+                <>
+                  <header className="mb-3 flex max-w-full flex-row content-center justify-between">
+                    <h1 className="my-auto text-2xl font-bold">
+                      {categoryToName(sectionData.category, t)}
+                    </h1>
+                  </header>
+                </>
+              }
+              showMore={true}
+              moreText={t(`more-${sectionData.category.toLowerCase()}`)}
+            />
+          </div>
+          {i === 0 && afterFirstCategoryBlockSelection && (
+            <ScheduledAppSelectionSection
+              selection={afterFirstCategoryBlockSelection}
+            />
+          )}
+        </Fragment>
       ))}
     </>
   )
@@ -240,8 +255,14 @@ function HomeClient({
   emulators,
   gameLaunchers,
   gameTools,
+  curatedAppSelections,
 }: HomeClientProps): JSX.Element {
   const t = useTranslations()
+
+  const afterHeroSelection = curatedAppSelections["after-hero"]
+  const afterTopAppsSelection = curatedAppSelections["after-top-apps"]
+  const afterFirstCategoryBlockSelection =
+    curatedAppSelections["after-first-category-block"]
 
   const topAppsData = [
     {
@@ -345,12 +366,21 @@ function HomeClient({
         </div>
       </div>
 
+      {afterHeroSelection && (
+        <ScheduledAppSelectionSection selection={afterHeroSelection} />
+      )}
+
       <TopSection topApps={topAppsData} />
+
+      {afterTopAppsSelection && (
+        <ScheduledAppSelectionSection selection={afterTopAppsSelection} />
+      )}
 
       <CategorySection
         topAppsByCategory={topAppsByCategory}
         mobileSection={mobileSection}
         gameSection={gameSection}
+        afterFirstCategoryBlockSelection={afterFirstCategoryBlockSelection}
       />
     </div>
   )

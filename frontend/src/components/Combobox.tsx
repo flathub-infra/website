@@ -17,14 +17,18 @@ export const FlathubCombobox = <
   selectedItem,
   setSelectedItem,
   label,
+  placeholder,
   disabled,
   renderItem,
+  variant = "default",
 }: {
   items: T[]
   selectedItem: T | null
-  setSelectedItem: (item: T) => void
+  setSelectedItem: (item: T | null) => void
   label?: string
+  placeholder?: string
   disabled?: boolean
+  variant?: "default" | "form"
   renderItem?: (
     active: boolean,
     selected: boolean,
@@ -49,18 +53,35 @@ export const FlathubCombobox = <
       disabled={disabled}
     >
       {label && (
-        <Label className="block text-sm font-medium leading-6 text-gray-900">
+        <Label
+          className={clsx(
+            "block text-sm leading-6 text-gray-900 dark:text-flathub-lotion",
+            variant === "form" ? "font-semibold" : "font-medium",
+          )}
+        >
           {label}
         </Label>
       )}
       <div className="relative mt-2">
         <ComboboxInput
           className={clsx(
-            "w-full rounded-md border-0 bg-flathub-white dark:bg-flathub-arsenic py-1.5 ps-3 pe-10",
-            "text-gray-900 dark:text-flathub-lotion shadow-xs ring-1 ring-inset ring-gray-300 dark:ring-0 focus:ring-2 focus:ring-inset",
-            "focus:ring-flathub-celestial-blue sm:text-sm sm:leading-6",
-            disabled && "bg-flathub-gainsborow dark:bg-flathub-granite-gray",
+            variant === "form"
+              ? [
+                  "h-12 w-full rounded-xl border border-input bg-flathub-gainsborow py-1 ps-3 pe-10",
+                  "text-base text-gray-900 shadow-xs transition-colors dark:bg-stone-900 dark:text-flathub-lotion",
+                  "focus:outline-hidden focus:ring-2 focus:ring-flathub-celestial-blue",
+                  disabled &&
+                    "bg-flathub-gainsborow/70 hover:bg-flathub-gainsborow/70 dark:bg-stone-900/70 dark:hover:bg-stone-900/70",
+                ]
+              : [
+                  "w-full rounded-md border-0 bg-flathub-white py-1.5 ps-3 pe-10 dark:bg-flathub-arsenic",
+                  "text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 dark:text-flathub-lotion dark:ring-0 focus:ring-2 focus:ring-inset",
+                  "focus:ring-flathub-celestial-blue sm:text-sm sm:leading-6",
+                  disabled &&
+                    "bg-flathub-gainsborow hover:bg-flathub-gainsborow dark:bg-flathub-granite-gray dark:hover:bg-flathub-granite-gray",
+                ],
           )}
+          placeholder={placeholder}
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(item: T) => item?.name}
         />
@@ -74,8 +95,10 @@ export const FlathubCombobox = <
         {filtered.length > 0 && (
           <ComboboxOptions
             className={clsx(
-              "absolute z-10 mt-1 w-full min-w-min max-h-[540px] overflow-auto rounded-md bg-flathub-white dark:bg-flathub-arsenic",
-              "py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden sm:text-sm",
+              "absolute z-10 mt-1 w-full min-w-min max-h-[540px] overflow-auto py-1 text-base shadow-lg focus:outline-hidden sm:text-sm",
+              variant === "form"
+                ? "rounded-xl border border-input bg-flathub-white dark:bg-stone-900"
+                : "rounded-md bg-flathub-white ring-1 ring-black ring-opacity-5 dark:bg-flathub-arsenic",
             )}
           >
             {filtered.map((item) => (

@@ -24,6 +24,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { staticLocales } from "../../../src/i18n/static-locales"
 import { gameCategoryFilter } from "../../../src/types/Category"
 import cardImage from "../../../public/img/card.webp"
+import { getHomepageCuratedAppSelections } from "../../../src/asyncs/curated-app-selections"
+import { getUtcDateString } from "../../../src/utils/date"
 
 const categoryOrder: MainCategory[] = [
   MainCategory.office,
@@ -253,6 +255,7 @@ export default async function HomePage({
   setRequestLocale(locale)
 
   const currentDate = formatISO(new Date(), { representation: "date" })
+  const currentUtcDate = getUtcDateString()
 
   // Fetch all data sequentially to reduce backend load during build
   const collections = await getCollections(locale)
@@ -266,6 +269,11 @@ export default async function HomePage({
 
   const gameData = await getGameData(locale)
   const [games, emulators, gameLaunchers, gameTools] = gameData
+
+  const curatedAppSelections = await getHomepageCuratedAppSelections(
+    currentUtcDate,
+    locale,
+  )
 
   return (
     <HomeClient
@@ -281,6 +289,7 @@ export default async function HomePage({
       emulators={emulators}
       gameLaunchers={gameLaunchers}
       gameTools={gameTools}
+      curatedAppSelections={curatedAppSelections}
     />
   )
 }
