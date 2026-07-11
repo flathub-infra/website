@@ -437,9 +437,9 @@
   "arch": "Arch",
   "release-link-no-changelog": "Release notes",
   "safe": "Safe",
-  "probably-safe": "Probably safe",
-  "unsafe": "Unsafe",
-  "potentially-unsafe": "Potentially unsafe",
+  "probably-safe": "Low Risk",
+  "unsafe": "High Risk",
+  "potentially-unsafe": "Medium Risk",
   "no-permissions": "No permissions",
   "has-network-access": "Has network access",
   "uses-system-services": "Uses system services",
@@ -780,5 +780,12 @@
   "os-version-distribution": "OS Version Distribution (last 30 days)",
   "flatpak-version-distribution": "Flatpak Version Distribution (last 30 days)",
   "os-flatpak-version-distribution": "Flatpak Version by OS (last 30 days)",
-  "share": "Share"
+  "share": "Share",
+  "manage": "Manage",
+  "contribute-flathub": "Contribute to Flathub",
+  "health-fitness-description": "Health and fitness apps for Linux.",
+  "manual-verification": "Mark as manually verified",
+  "user-id": "Flathub User ID",
+  "health-fitness": "Health & Fitness",
+  "more-healthfitness": "More Health & Fitness"
 }

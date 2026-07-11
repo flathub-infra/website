@@ -357,7 +357,7 @@
     "distroName": "NixOS",
     "step-2": {
       "name": "Ajouter le dépôt Flathub",
-      "text": "<text>Flathub est le meilleur endroit où obtenir des apps Flatpak. Pour l'activer, exécutez :</text> <code></code>"
+      "text": "<text>Flathub est le meilleur endroit où obtenir des apps Flatpak. Pour l'activer, téléchargez et installez le <filelink>fichier dépôt Flathub</filelink> ou exécutez :</text> <code></code>"
     }
   },
   "deepin": {

@@ -2,7 +2,15 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Заінсталяваць Flatpak"
+      "name": "Усталяванне Flatpak",
+      "text": "<text>Каб усталяваць Flatpak на <strong>Ubuntu 18.10 (Cosmic Cuttlefish) альбо пазнейшай версіі</strong>, адкрыйце Тэрмінал і выканайце:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Усталяванне плагіна Flatpak для GNOME Software",
+      "text": "<text>Плагін для GNOME Software дазваляе ўсталёўваць дадаткі без выкарыстання тэрмінала. Каб усталяваць, выканайце:</text> <code></code> <text><strong>Заўвага:</strong> Ubuntu пастаўляе GNOME Software ў выглядзе Snap-пакетаў ад версіі 20.04 да 23.04, і быў заменяны на Цэнтр дадаткаў ад 23.10 і пазней, які не падтрымлівае Flatpak. Усталяванне Flatpak плагіна прывядзе да ўсталявання deb версіі GNOME Software, у выніку чаго атрымліваюцца два GNOME Software ва Ubuntu 20.04 да 23.04, i адзіны GNOME Software ва Ubuntu 23.10 і пазней.</text>"
+    },
+    "step-3": {
+      "name": "Дадаванне рэпазіторыя Flathub"
     }
   }
 }

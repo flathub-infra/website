@@ -356,10 +356,10 @@
   "can-access-hardware-devices": "Hozzáférhet hardvereszközökhöz, például webkamerákhoz vagy játékvezérlőkhöz",
   "can-access-and-change-user-settings": "Hozzáférhet a felhasználói beállításokhoz, és módosíthatja azokat",
   "can-access-system-devices": "Hozzáférhet a rendszereszközökhöz, amelyek magasabb jogosultságot igényelnek",
-  "appname-is-safety-rating-1": "{appName} biztonságos",
-  "appname-is-safety-rating-2": "{appName} valószínűleg biztonságos",
+  "appname-is-safety-rating-1": "A(z) {appName} biztonságos",
+  "appname-is-safety-rating-2": "A(z) {appName} valószínűleg biztonságos",
   "appname-is-safety-rating-3": "Lehetséges, hogy a(z) {appName} nem biztonságos",
-  "appname-is-safety-rating-4": "{appName} nem biztonságos",
+  "appname-is-safety-rating-4": "A(z) {appName} nem biztonságos",
   "software-developer-verified": "Hitelesített szoftverfejlesztő",
   "no-file-system-access": "Nincs hozzáférés a fájlrendszerhez",
   "no-user-device-access": "Nincs hozzáférés felhasználói eszközökhöz",
@@ -488,7 +488,8 @@
     "light": "Világos",
     "dark": "Sötét",
     "failing-x-checks": "Sikertelen ellenőrzések száma: {count, plural, one {# ellenőrzés} other {# ellenőrzés}}",
-    "general-runtime-not-eol": "A futtatókörnyezet életciklusa nem járt le"
+    "general-runtime-not-eol": "A futtatókörnyezet életciklusa nem járt le",
+    "stats-by-category": "Minőségi irányelvek ellenőrzési állapota kategóriánként"
   },
   "app-listing-quality": "Alkalmazás-adatlap minősége",
   "moderation-build-id": "Összeállítás-azonosító",
@@ -786,5 +787,60 @@
   "contribute-flathub": "Közreműködés a Flathubban",
   "user-id": "Flathub-felhasználóazonosító",
   "manual-verification": "Megjelölés kézzel hitelesítettként",
-  "more-healthfitness": "További egészség és fitnesz"
+  "more-healthfitness": "További egészség és fitnesz",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Új év, új munkafolyamatok",
+      "description": "Alkalmazások jegyzeteléshez, feladatok nyomon követéséhez és tervezéshez"
+    },
+    "free-software-favorites": {
+      "header": "A csapat kedvencei",
+      "description": "Alkalmazások, amelyeket most különösen szeretünk"
+    },
+    "spring-creativity": {
+      "header": "Engedje szabadjára a kreativitását",
+      "description": "Alapvető alkalmazások rajzoláshoz, fényképszerkesztéshez és digitális tervezéshez"
+    },
+    "fresh-desktop-releases": {
+      "header": "Építsen natív alkalmazásokat",
+      "description": "Fejlesszen olyan alkalmazásokat, amelyek tökéletesen illeszkednek a rendszeréhez"
+    },
+    "staying-connected": {
+      "header": "Maradjon kapcsolatban",
+      "description": "Nélkülözhetetlen együttműködési és kommunikációs alkalmazások"
+    },
+    "summer-travel": {
+      "header": "Készen áll a nyaralásra?",
+      "description": "Térképes, közlekedési, időjárási és utazástervező alkalmazások"
+    },
+    "back-to-learning": {
+      "header": "Mindennap okosabban",
+      "description": "Alkalmazások tanuláshoz, kutatáshoz és íráshoz"
+    },
+    "winter-comforts": {
+      "header": "Helyezze magát kényelembe",
+      "description": "Remek alkalmazások olvasáshoz, filmnézéshez és játékhoz"
+    },
+    "tools-for-developers": {
+      "header": "Alapvető eszközök webfejlesztőknek",
+      "description": "A webfejlesztés még élvezetesebb ezekkel az alkalmazásokkal"
+    },
+    "take-better-notes": {
+      "header": "Jegyzeteljen hatékonyabban",
+      "description": "Találja meg az új kedvenc jegyzetelő alkalmazását"
+    },
+    "get-focused": {
+      "header": "Összpontosítson",
+      "description": "Remek alkalmazások feladatkezeléshez"
+    },
+    "make-some-noise": {
+      "header": "Alkosson zenét",
+      "description": "Alkalmazások zeneszerzéshez és zenei produkciók készítéséhez"
+    },
+    "get-to-work": {
+      "header": "Lásson munkához",
+      "description": "Nélkülözhetetlen irodai alkalmazások"
+    }
+  },
+  "manage": "Kezelés"
 }

@@ -488,7 +488,8 @@
     "light": "Jasny",
     "dark": "Ciemny",
     "failing-x-checks": "{count, plural, one {Nieudany # test} many {Nieudanych # testów} other {Nieudane # testy}}",
-    "general-runtime-not-eol": "Środowisko uruchomieniowe nie jest wycofane"
+    "general-runtime-not-eol": "Środowisko uruchomieniowe nie jest wycofane",
+    "stats-by-category": "Stan weryfikacji wytycznych według kategorii"
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",
@@ -786,5 +787,60 @@
   "contribute-flathub": "Współtwórz Flathub",
   "manual-verification": "Oznacz jako zweryfikowane ręcznie",
   "user-id": "Identyfikator użytkownika Flathub",
-  "more-healthfitness": "Więcej aplikacji dot. zdrowia i fitnessu"
+  "more-healthfitness": "Więcej aplikacji dot. zdrowia i fitnessu",
+  "manage": "Zarządzaj",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Nowy rok, nowa organizacja pracy",
+      "description": "Aplikacje do robienia notatek, śledzenia zadań i planowania"
+    },
+    "free-software-favorites": {
+      "header": "Wybór redakcji",
+      "description": "Aplikacje, które teraz uwielbiamy"
+    },
+    "spring-creativity": {
+      "header": "Pokaż swoją kreatywność",
+      "description": "Niezbędne aplikacje do rysowania, edycji zdjęć i projektowania cyfrowego"
+    },
+    "fresh-desktop-releases": {
+      "header": "Tworzenie aplikacji natywnych",
+      "description": "Twórz aplikacje, które idealnie wpasowują się w Twój system"
+    },
+    "staying-connected": {
+      "header": "Pozostań w kontakcie",
+      "description": "Niezbędne aplikacje do współpracy i komunikacji"
+    },
+    "summer-travel": {
+      "header": "Czas na wakacje",
+      "description": "Aplikacje z mapami, informacjami o transporcie publicznym, pogodą i planowaniem podróży"
+    },
+    "back-to-learning": {
+      "description": "Aplikacje ułatwiające naukę, poszukiwanie informacji i pisanie",
+      "header": "Rozwijaj się każdego dnia"
+    },
+    "winter-comforts": {
+      "description": "Świetne aplikacje do czytania, oglądania filmów i grania w gry",
+      "header": "Czas na relaks"
+    },
+    "tools-for-developers": {
+      "header": "Niezbędne dla programistów stron internetowych",
+      "description": "Tworzenie stron internetowych jest przyjemniejsze dzięki tym aplikacjom"
+    },
+    "take-better-notes": {
+      "header": "Rób lepsze notatki",
+      "description": "Znajdź swoje nowe ulubione narzędzie do robienia notatek"
+    },
+    "get-focused": {
+      "header": "Skoncentruj się",
+      "description": "Świetne aplikacje do zarządzania zadaniami"
+    },
+    "make-some-noise": {
+      "description": "Aplikacje do tworzenia i produkcji muzyki",
+      "header": "Zrób trochę hałasu"
+    },
+    "get-to-work": {
+      "description": "Niezbędne aplikacje biurowe",
+      "header": "Czas na pracę"
+    }
+  }
 }
