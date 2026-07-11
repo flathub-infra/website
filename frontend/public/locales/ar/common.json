@@ -488,7 +488,8 @@
     "dark": "داكن",
     "app-name": "اسم التطبيق",
     "failing-x-checks": "يفشل {count, plural, =0 {لا فحوصات} one {فحص} two {فحصان} few {# فحوصات} many {# فحصًا} other {# فحص}}",
-    "general-runtime-not-eol": "بيئة تشغيل لا تكاد تُترك"
+    "general-runtime-not-eol": "بيئة تشغيل لا تكاد تُترك",
+    "stats-by-category": "حالة مراجعة الإرشادات حسب الفئة"
   },
   "app-listing-quality": "جودة مسردة التطبيقات",
   "moderation-build-id": "معرِّف التصريفة",
@@ -786,5 +787,56 @@
   "contribute-flathub": "ساهم في فلاتهب",
   "user-id": "معرّف مستخدم فلاتهب",
   "more-healthfitness": "المزيد عن الصحة واللياقة البدنية",
-  "manual-verification": "علِّم كتحققَ منه يدويًا"
+  "manual-verification": "علِّم كتحققَ منه يدويًا",
+  "manage": "أدِر",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "description": "تطبيقات لتدوين الملاحظات، وتتبع المهام، ووضع الخُطّط",
+      "header": "عام جديد، سير عمل جديد"
+    },
+    "free-software-favorites": {
+      "header": "اختيارات فريق العمل",
+      "description": "التطبيقات التي نحبها حاليًا"
+    },
+    "spring-creativity": {
+      "header": "أطلق العنان لإبداعك",
+      "description": "التطبيقات الأساسية للرسم وتحرير الصور والتصميم الرقمي"
+    },
+    "fresh-desktop-releases": {
+      "header": "ابني تطبيقات أصلية",
+      "description": "طوّر تطبيقات تتكامل بسلاسة مع نظامك"
+    },
+    "staying-connected": {
+      "header": "ابقِ على تواصل",
+      "description": "تطبيقات التعاون والتواصل الأساسية"
+    },
+    "summer-travel": {
+      "header": "جاهز لقضاء العطلات",
+      "description": "تطبيقات الخرائط ووسائل النقل والطقس وتخطيط الرحلات"
+    },
+    "back-to-learning": {
+      "header": "أذكى كل يوم",
+      "description": "تطبيقات تساعدك على الدراسة والبحث والكتابة"
+    },
+    "winter-comforts": {
+      "header": "استمتع بالدفء",
+      "description": "تطبيقات رائعة للقراءة ومشاهدة الأفلام وممارسة الألعاب"
+    },
+    "tools-for-developers": {
+      "header": "أساسيات مطوري الويب",
+      "description": "يصبح إنشاء المواقع الإلكترونية أكثر متعة مع هذه التطبيقات"
+    },
+    "take-better-notes": {
+      "header": "دوّن الملاحظات بشكل أفضل",
+      "description": "اكتشف أداة تدوين الملاحظات المفضلة الجديدة لديك"
+    },
+    "get-focused": {
+      "header": "ركِّز",
+      "description": "تطبيقات رائعة لإدارة المهام"
+    },
+    "get-to-work": {
+      "header": "ابدأ العمل",
+      "description": "التطبيقات المكتبية الأساسية"
+    }
+  }
 }

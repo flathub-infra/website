@@ -58,10 +58,10 @@
   "categories": "类别",
   "linked-accounts": "关联账号",
   "link-more-accounts": "关联更多账号",
-  "audio-and-video": "音频与视频",
+  "audio-and-video": "音频和视频",
   "developer-tools": "开发者工具",
   "games": "游戏",
-  "graphics-and-photography": "图形与摄影",
+  "graphics-and-photography": "图形和摄影",
   "networking": "网络",
   "productivity": "生产力",
   "utilities": "实用工具",
@@ -435,7 +435,8 @@
     "dark": "深色",
     "problems": "如果您想向我们询问具体的质量指南问题，请随时打开<link>问题</link>。",
     "failing-x-checks": "{count, plural, one {# 项检查} other {# 项检查}}失败",
-    "general-runtime-not-eol": "运行时未终止支持"
+    "general-runtime-not-eol": "运行时未终止支持",
+    "stats-by-category": "按类别划分的指南审核状态"
   },
   "user-data-subfolder-x": "用户数据子文件夹 {folder}",
   "desktop-folder": "桌面文件夹",
@@ -548,9 +549,9 @@
   "updated": "最近更新",
   "scope-jobs": "查看工作状态",
   "reporting-issues-description": "我们对待安全报告与法律方面问题非常认真",
-  "developers-and-users": "开发者 & 用户",
+  "developers-and-users": "开发者和用户",
   "get-in-touch": "取得联系",
-  "organizations-and-infrastructure": "组织 & 基础设施",
+  "organizations-and-infrastructure": "组织和基础设施",
   "press-description": "我们一直很乐意回答新闻记者与技术写手的问题，并与他们安排采访",
   "chat-on-matrix": "在 Matrix 上聊天",
   "join-discourse-forum": "加入 Discourse 论坛",
@@ -569,8 +570,8 @@
   "more-popular": "更多人气应用",
   "more-trending": "更多飙升应用",
   "more-new": "更多新应用",
-  "more-graphics": "更多图形与摄影",
-  "more-audiovideo": "更多音频与视频",
+  "more-graphics": "更多图形和摄影",
+  "more-audiovideo": "更多音频和视频",
   "more-education": "更多教育",
   "more-game": "更多游戏",
   "flathub-statistics-description": "平台上可用应用程序的使用和分布情况概览。",
@@ -786,5 +787,60 @@
   "more-healthfitness": "更多健康和健身",
   "contribute-flathub": "为 Flathub 贡献力量",
   "user-id": "Flathub 用户 ID",
-  "manual-verification": "标记为手动验证"
+  "manual-verification": "标记为手动验证",
+  "manage": "管理",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "新年，新工作流程",
+      "description": "记笔记、跟踪任务和制定计划的应用"
+    },
+    "free-software-favorites": {
+      "header": "编辑精选",
+      "description": "我们当下喜爱的应用"
+    },
+    "spring-creativity": {
+      "header": "发挥创意",
+      "description": "绘图、编辑照片和数字设计的必备应用"
+    },
+    "fresh-desktop-releases": {
+      "header": "构建原生应用",
+      "description": "开发与系统完美融合的应用"
+    },
+    "staying-connected": {
+      "header": "保持联系",
+      "description": "协作和通信必备应用"
+    },
+    "summer-travel": {
+      "header": "假期准备",
+      "description": "地图、交通、天气和行程规划应用"
+    },
+    "back-to-learning": {
+      "header": "每日精进",
+      "description": "帮助您学习、研究和写作的应用"
+    },
+    "winter-comforts": {
+      "header": "乐享闲暇",
+      "description": "阅读、看电影和玩游戏的优质应用"
+    },
+    "tools-for-developers": {
+      "header": "Web 开发者必备",
+      "description": "使用这些应用，制作网站更有趣"
+    },
+    "take-better-notes": {
+      "header": "高效记笔记",
+      "description": "找到您最喜欢的新笔记工具"
+    },
+    "get-focused": {
+      "header": "保持专注",
+      "description": "任务管理的优质应用"
+    },
+    "make-some-noise": {
+      "header": "奏响乐章",
+      "description": "音乐创作和制作应用"
+    },
+    "get-to-work": {
+      "header": "投入工作",
+      "description": "办公必备应用"
+    }
+  }
 }

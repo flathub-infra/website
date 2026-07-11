@@ -764,5 +764,6 @@
   "system-description": "Mjete administrimi sistemi, mbikëqyrjeje dhe administrimi për Linux.",
   "upload-token-create-failed": "S’u arrit të krijohej token ngarkimesh. Ju lutemi, riprovoni.",
   "os-flatpak-version-distribution": "Version Flatpak sipas OS-i (30 ditët e fundit)",
-  "founding-supporters": "Përkrahës Themelues"
+  "founding-supporters": "Përkrahës Themelues",
+  "manage": "Administrojeni"
 }

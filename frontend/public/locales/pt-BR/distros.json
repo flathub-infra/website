@@ -64,7 +64,7 @@
       "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar os aplicativos</link>!</text>"
     },
     "step-2": {
-      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</text> <code></code>",
+      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório Flathub</filelink> ou execute:</text> <code></code>",
       "name": "Adicione o repositório Flathub"
     }
   },
@@ -83,7 +83,7 @@
       "text": "<text>Se você estiver executando o GNOME, também é uma boa ideia instalar o plugin Flatpak para o GNOME Software. Para fazer isso, execute:</text> <code></code>"
     },
     "step-3": {
-      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</text> <code></code>",
+      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório Flathub</filelink> ou execute:</text> <code></code>",
       "name": "Adicione o repositório Flathub"
     },
     "step-4": {
@@ -103,7 +103,7 @@
     },
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<text> Um pacote flatpak está disponível em Pisi 2.1 e mais recente. Para instalá-lo, execute o seguinte como root:</text> <code></code>"
+      "text": "<text>Um pacote flatpak está disponível em Pisi 2.1 e mais recente. Para instalá-lo, execute o seguinte como root:</text> <code></code>"
     }
   },
   "gnu_guix": {
@@ -129,7 +129,7 @@
     },
     "step-3": {
       "name": "Reiniciar",
-      "text": "<text> Para concluir a configuração, reinicie o sistema. Agora tudo o que você precisa fazer é <link>install apps</link>!</text> <text>Nota: instalação gráfica de aplicativos Flatpak pode não ser possível com EndeavourOS.</text>"
+      "text": "<text>Para concluir a configuração, reinicie o sistema. Agora tudo o que você precisa fazer é <link>instalar aplicativos</link>!</text> <text>Nota: instalação gráfica de aplicativos Flatpak pode não ser possível com EndeavourOS.</text>"
     },
     "step-1": {
       "name": "Instalar o Flatpak",
@@ -154,7 +154,7 @@
       "name": "Instalar o Flatpak",
       "text": "<text>Para instalar o Flatpak no Crystal Linux, você deve primeiro certificar-se de que seus pacotes estão atualizados. Execute o seguinte em um terminal:</text> <codeUpdate></codeUpdate> <text>Então instale o Flatpak:</text> <code></code>"
     },
-    "introduction": "<header>O Flatpak é instalado por padrão no Crystal Linux.</header> <text> Se você não usou jade_gui para instalar cristal ou selecionado para não instalá-lo, você pode configurar Flatpak usando as seguintes etapas.</text>"
+    "introduction": "<header>Flatpak é instalado por padrão no Crystal Linux.</header> <text>Se você não usou jade_gui para instalar cristal ou selecionado para não instalá-lo, você pode configurar Flatpak usando as seguintes etapas.</text>"
   },
   "ubuntu": {
     "distroName": "Ubuntu",
@@ -168,7 +168,7 @@
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</text> <code></code>"
+      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório do Flathub</filelink> ou execute:</text> <code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
@@ -267,7 +267,7 @@
       "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar os aplicativos</link>!</text>"
     },
     "step-2": {
-      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, execute:</text> <code></code>",
+      "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório Flathub</filelink> ou execute:</text> <code></code>",
       "name": "Adicione o repositório Flathub"
     }
   },

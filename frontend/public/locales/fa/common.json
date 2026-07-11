@@ -49,7 +49,7 @@
   "downloads-over-time": "بارگیری‌ها در طول زمان",
   "home": "خانه",
   "flathub-description": "یافتن و نصب صدها کاره و بازی برای گنو/لینوکس. از فایرفاکس، تلگرام و رتروآرچ گرفته تا گیمپ و بسیاری از کاره‌های دیگر!",
-  "subscribe": "مشترک شدن",
+  "subscribe": "اشتراک",
   "server-error": "خطای کارساز",
   "categories": "دسته‌بندی‌ها",
   "audio-and-video": "صوتی و تصویری",
@@ -196,7 +196,8 @@
     "light": "روشن",
     "dark": "تیره",
     "failing-x-checks": "# بررسی شکست {count, plural, one {خورد} other {خوردند}}",
-    "general-runtime-not-eol": "زمان اجرا به پایان عمر نرسیده"
+    "general-runtime-not-eol": "زمان اجرا به پایان عمر نرسیده",
+    "stats-by-category": "وضعیت بازبینی رهنمود بر اساس دسته"
   },
   "desktop-folder": "شاخهٔ میزکار",
   "remove-developer": "برداشتن توسعه‌دهنده",
@@ -786,5 +787,60 @@
   "user-id": "شناسهٔ کاربری فلت‌هاب",
   "contribute-flathub": "مشارکت در فلت‌هاب",
   "manual-verification": "علامت به تأیید شدهٔ دستی",
-  "more-healthfitness": "سلامتی و تناسب بیش‌تر"
+  "more-healthfitness": "سلامتی و تناسب بیش‌تر",
+  "manage": "مدیریت",
+  "curated-app-selection-themes": {
+    "get-to-work": {
+      "description": "کاره‌های اداری ضروری",
+      "header": "کار کردن"
+    },
+    "new-year-new-workflows": {
+      "header": "سال جدید، گردش کار جدید",
+      "description": "کاره‌هایی برای یادداشت‌برداری، ردیابی کارها و برنامه‌ریزی"
+    },
+    "free-software-favorites": {
+      "header": "پیشنهاد مدیران",
+      "description": "کاره‌هایی که هم‌اکنون دوستشان داریم"
+    },
+    "spring-creativity": {
+      "header": "خلّاق شدن",
+      "description": "کاره‌های ضروری برای رسم، ویرایش عکس و طرّاحی دیجیتالی"
+    },
+    "fresh-desktop-releases": {
+      "header": "ساخت کاره‌های بومی",
+      "description": "توسعهٔ کاره‌هایی که روی سامانه‌تان احساس بودن در خانه دهند"
+    },
+    "staying-connected": {
+      "header": "در تماس ماندن",
+      "description": "کاره‌های ضروری همکاری و ارتباط"
+    },
+    "summer-travel": {
+      "header": "آمادگی برای تعطیلات",
+      "description": "کاره‌های نقشه، رفت‌وآمد، آب‌وهوا و برنامه‌ریزی سفر"
+    },
+    "back-to-learning": {
+      "header": "هرروز هوشمندتر",
+      "description": "کاره‌هایی برای کمک به مطالعه، تحقیق و نوشتن"
+    },
+    "winter-comforts": {
+      "header": "دنج کردن",
+      "description": "کاره‌هایی عالی برای خواندن، فیلم دیدن و بازی کردن"
+    },
+    "tools-for-developers": {
+      "header": "ملزومات توسعهٔ وب",
+      "description": "ساختن پایگاه‌های وب با این کاره‌ها بیش‌تر خوش می‌گذرد"
+    },
+    "take-better-notes": {
+      "header": "برداشتن یادداشت‌های بهتر",
+      "description": "یافتن ابزار یادداشت‌برداری محبوب جدیدتان"
+    },
+    "get-focused": {
+      "header": "تمرکز کردن",
+      "description": "کاره‌هایی عالی برای مدیریت فعّالیت‌ها"
+    },
+    "make-some-noise": {
+      "header": "سروصدا کردن",
+      "description": "کاره‌هایی برای خلق و تولید آهنگ"
+    }
+  }
 }

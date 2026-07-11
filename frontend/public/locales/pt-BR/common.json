@@ -59,7 +59,7 @@
   "retry-or-go-home": "Você pode tentar novamente ou voltar para a <link>página inicial</link>.",
   "reporting-issues": "Relatando problemas",
   "acknowledgements": "Agradecimentos",
-  "acknowledgements-block": "<p>O Flathub não seria possível sem o apoio generoso das seguintes organizações e indivíduos.</p>",
+  "acknowledgements-block": "<p>O Flathub não seria possível sem o apoio generoso da ampla comunidade do Flatpak e do Flathub. Agradecemos a todos os colaboradores, patrocinadores e organizações — do passado e do presente — cujo apoio e infraestrutura mantiveram o Flathub em funcionamento.</p>",
   "official-badges": "Emblemas oficiais do Flathub",
   "badges-block": "Você pode usar esses emblemas para promover seu aplicativo no Flathub",
   "badges-description": "Emblemas oficiais para promover seu aplicativo no Flathub",
@@ -341,16 +341,16 @@
   "user-not-found": "Usuário não encontrado",
   "can-access-system-devices": "Pode acessar dispositivos do sistema que exigem permissões elevadas",
   "safe": "Seguro",
-  "unsafe": "Inseguro",
+  "unsafe": "Risco alto",
   "can-access-some-specific-files": "Pode acessar alguns arquivos específicos",
   "auditable-code": "Código auditável",
   "release-link-no-changelog": "Notas de lançamento",
   "no-permissions": "Sem permissões",
   "can-read-write-your-downloads": "Pode ler e gravar todos os dados na sua pasta de downloads",
-  "probably-safe": "Provavelmente seguro",
+  "probably-safe": "Baixo risco",
   "addon-install-info-text": "Use o gerenciador flatpak fornecido pela sua distribuição para instalar complementos.",
   "proprietary-code": "Código proprietário",
-  "potentially-unsafe": "Potencialmente inseguro",
+  "potentially-unsafe": "Risco médio",
   "uses-session-services": "Usa serviços de sessão",
   "community-built": "Construído pela comunidade",
   "uses-eol-runtime": "Usa um runtime em fim de vida útil",
@@ -379,7 +379,7 @@
     "screenshots-tag-screenshots-with-correct-language": "Marque capturas de tela com o idioma correto",
     "app-icon-detail": "Nem muitos nem poucos detalhes",
     "general-no-trademark-violations": "Nenhuma violação de marca registrada (nome ou ícone)",
-    "app-name": "Nome do app",
+    "app-name": "Nome do aplicativo",
     "app-summary-not-too-long": "Menos de 35 caracteres",
     "app-summary-no-weird-formatting": "Sem formatação ou pontuação estranha",
     "app-icon-contrast": "Bom contraste em fundos escuros",
@@ -394,7 +394,7 @@
     "screenshots-reasonable-window-size": "Tamanho de janela razoável",
     "screenshots": "Capturas de tela",
     "screenshots-take-screenshots-on-linux": "Capturas de tela obtidas no Linux",
-    "app-icon": "Ícone do app",
+    "app-icon": "Ícone do aplicativo",
     "app-icon-no-baked-in-shadows": "Sem sombras embutidas",
     "general": "Em geral",
     "app-name-just-the-name": "Apenas o nome",
@@ -410,7 +410,7 @@
     "details": "Detalhes",
     "review-requested": "Revisão solicitada",
     "not-passed": "Não aprovado",
-    "app-data-review-pending": "Revisão de dados de app pendente",
+    "app-data-review-pending": "Revisão de dados de aplicativo pendente",
     "passed": "Aprovado",
     "request-review": "Solicitar revisão",
     "branding": "Marca",
@@ -425,7 +425,8 @@
     "light": "Clara",
     "dark": "Escura",
     "general-runtime-not-eol": "Runtime que não está em fim de vida",
-    "failing-x-checks": "Falhando em {count, plural, one {# verificação} other {# verificações}}"
+    "failing-x-checks": "Falhando em {count, plural, one {# verificação} other {# verificações}}",
+    "stats-by-category": "Status de revisão de diretrizes por categoria"
   },
   "user-data-subfolder-x": "Subpasta de dados do usuário {folder}",
   "new-community-repository": "Novo aplicativo de repositório comunitário",
@@ -442,10 +443,10 @@
   "desktop-subfolder-x": "Subpasta da área de trabalho {folder}",
   "malformed-app-id": "O ID do aplicativo está mal formatado. Os IDs de aplicativos devem conter pelo menos três segmentos e nenhum segmento pode estar vazio. Cada segmento deve começar com uma letra ou sublinhado e pode conter apenas letras, dígitos, sublinhados e hífens.",
   "system-folder-x": "Pasta do sistema {folder}",
-  "new-direct-upload": "Novo App de Upload Direto",
+  "new-direct-upload": "Novo Aplicativo de Upload Direto",
   "user-configuration-folder": "Pasta de configurações do usuário",
   "pictures-subfolder-x": "Subpasta de imagens {folder}",
-  "no-permissions-description": "O app está totalmente em sandbox",
+  "no-permissions-description": "O aplicativo está totalmente em sandbox",
   "new-app": "Novo aplicativo",
   "uses-eol-runtime-description": "O runtime usado por este aplicativo não está mais recebendo atualizações de segurança",
   "leave-confirmation": "Tem certeza de que deseja sair de {app}?",
@@ -454,21 +455,21 @@
   "home-folder-read-write-access": "Acesso de leitura e gravação à pasta Home",
   "full-file-system-read-access": "Acesso de leitura completo ao sistema de arquivos",
   "user-settings": "Configurações do usuário",
-  "app-id": "ID do app",
-  "app-type": "Tipo de app",
+  "app-id": "ID do aplicativo",
+  "app-type": "Tipo de aplicativo",
   "download-folder-read-write-access": "Acesso de leitura/gravação à pasta de Downloads",
   "cache-folder": "Pasta de Cache",
   "documents-folder": "Pasta de Documentos",
   "public-share-folder": "Pasta de Compartilhamento público",
   "can-read-all-data": "Pode ler todos os dados no diretório",
-  "verify-app-id": "Verifique o ID do app",
+  "verify-app-id": "Verifique o ID do aplicativo",
   "host-system-folders": "Pastas do sistema host",
   "can-request-data-from-system-services": "Pode solicitar dados de serviços do sistema",
   "music-folder": "Pasta de Música",
   "cache-subfolder-x": "Subpasta de cache {folder}",
   "user-runtime-folder": "Pasta de runtime do usuário",
   "links": "Links",
-  "invite-code-hint": "Forneça este código a outro desenvolvedor para permitir que ele convide você para o app dele.",
+  "invite-code-hint": "Forneça este código a outro desenvolvedor para permitir que ele convide você para o aplicativo dele.",
   "publisher-agreement": "Contrato de Carregamento do Publicador",
   "can-read-write-all-data": "Pode ler e gravar todos os dados no diretório",
   "direct-upload-description": "Construa seu aplicativo em seu próprio ambiente de integração contínua e carregue-o diretamente no Flathub.",
@@ -785,5 +786,61 @@
   "flatpak-version-distribution": "Distribuição por versão do Flatpak (últimos 30 dias)",
   "os-flatpak-version-distribution": "Versão do Flatpak por SO (últimos 30 dias)",
   "share": "Compartilhar",
-  "founding-supporters": "Apoiadores Fundadores"
+  "founding-supporters": "Apoiadores Fundadores",
+  "manage": "Gerenciar",
+  "manual-verification": "Marcar como verificado manualmente",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Ano Novo, Novos Fluxos de Trabalho",
+      "description": "Aplicativos para tomar notas, acompanhar tarefas e fazer planos"
+    },
+    "free-software-favorites": {
+      "header": "Escolhas da Equipe",
+      "description": "Aplicativos que amamos agora"
+    },
+    "spring-creativity": {
+      "header": "Deixe Sua Criatividade Voar",
+      "description": "Aplicativos essenciais para desenhar, editar fotos e design digital"
+    },
+    "fresh-desktop-releases": {
+      "header": "Crie aplicativos nativos",
+      "description": "Desenvolva aplicativos que se sintam em casa no seu sistema"
+    },
+    "staying-connected": {
+      "header": "Mantenha Contato",
+      "description": "Aplicativos essenciais de colaboração e comunicação"
+    },
+    "summer-travel": {
+      "header": "Prontos para Viagens",
+      "description": "Aplicativos de mapas, trânsito, meteorologia e planejamento de viagem"
+    },
+    "back-to-learning": {
+      "header": "Aprendizado Diário",
+      "description": "Aplicativos que lhe ajudam a estudar, pesquisar e escrever"
+    },
+    "winter-comforts": {
+      "header": "Acomode-se",
+      "description": "Ótimos aplicativos para leitura, assistir a filmes e jogar"
+    },
+    "tools-for-developers": {
+      "header": "Essenciais para Desenvolvedores Web",
+      "description": "Criar sites é mais divertido com estes aplicativos"
+    },
+    "take-better-notes": {
+      "header": "Faça anotações melhores",
+      "description": "Encontre sua nova ferramenta favorita para tomar notas"
+    },
+    "get-focused": {
+      "header": "Concentre-se",
+      "description": "Ótimos aplicativos para gestão de tarefas"
+    },
+    "make-some-noise": {
+      "header": "Faça Barulho",
+      "description": "Aplicativos para criar e produzir música"
+    },
+    "get-to-work": {
+      "header": "Vá Trabalhar",
+      "description": "Aplicativos essenciais para escritório"
+    }
+  }
 }

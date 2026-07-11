@@ -501,7 +501,8 @@
     "light": "Hele",
     "dark": "Tume",
     "failing-x-checks": "{count, plural, one {# kontroll} other {# kontrolli}} ei õnnestunud",
-    "general-runtime-not-eol": "Käitusteegid pole aegunud"
+    "general-runtime-not-eol": "Käitusteegid pole aegunud",
+    "stats-by-category": "Reeglite läbivaatamise seis kategooriate kaupa"
   },
   "rebase-onto-other-app": "Sisesta rakenduse tunnus, mida nüüd soovid kasutama hakata",
   "unverified": "Verifitseerimata",
@@ -786,5 +787,60 @@
   "contribute-flathub": "Tee Flathubile kaastööd",
   "user-id": "Flathubi kasutajatunnus",
   "more-healthfitness": "Vaata kõiki tervise- ja treeningurakendusi",
-  "manual-verification": "Märgi käsitsi verifitseerituks"
+  "manual-verification": "Märgi käsitsi verifitseerituks",
+  "manage": "Haldus",
+  "curated-app-selection-themes": {
+    "get-to-work": {
+      "header": "Kui on vaja tööle asuda",
+      "description": "Olulised kontorirakendused"
+    },
+    "make-some-noise": {
+      "header": "Mõnikord tahaks müra teha",
+      "description": "Rakendused muusika kirjutamiseks ja tootmiseks"
+    },
+    "get-focused": {
+      "header": "Fookus on oluline",
+      "description": "Suurepärased rakendused ülesannete halduseks"
+    },
+    "take-better-notes": {
+      "header": "Selged märkmed",
+      "description": "Siit leiad oma lemmiku märkmete ülestähendamiseks"
+    },
+    "tools-for-developers": {
+      "header": "Veebiarenduse puhas kuld",
+      "description": "Nende rakenduste abil on veebisaitide tegemine lihtsalt lõbus"
+    },
+    "new-year-new-workflows": {
+      "header": "Uus aasta, uus töövoog",
+      "description": "Rakendused märkmete ülestähendamiseks, ülesannete halduseks ja plaanide tegemiseks"
+    },
+    "free-software-favorites": {
+      "header": "Meie tiimi valikud",
+      "description": "Rakendused, mis just praegu meile meeldivad"
+    },
+    "spring-creativity": {
+      "header": "Lase loomingul lennata",
+      "description": "Olulised rakendused joonistamiseks, fotode kohendamiseks ja digikunsti jaoks"
+    },
+    "winter-comforts": {
+      "header": "Tahaks olla mugavasti",
+      "description": "Head rakendused lugemiseks, filmide vaatamiseks ja mängimiseks"
+    },
+    "back-to-learning": {
+      "header": "Inimene õpib kogu elu",
+      "description": "Rakendused, mis aitavad õppida, uurida ja kirjutada"
+    },
+    "summer-travel": {
+      "header": "Vahva puhkus ootab",
+      "description": "Kaardid, ühistransport, ilmaennustus, reiside plaanimine ning muud liikumsega seotud rakendused"
+    },
+    "staying-connected": {
+      "header": "Suhtle täitsa vabalt",
+      "description": "Olulised koostöö- ja suhtlusrakendused"
+    },
+    "fresh-desktop-releases": {
+      "header": "Loo süsteemiomast tarkvara",
+      "description": "Arenda rakendusi, mis sobivad sinu operatsiooniisüsteemiga"
+    }
+  }
 }

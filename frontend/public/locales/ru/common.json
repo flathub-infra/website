@@ -786,5 +786,20 @@
   "contribute-flathub": "Внести вклад в Flathub",
   "manual-verification": "Пометить как проверенное",
   "user-id": "ID пользователя Flathub",
-  "more-healthfitness": "Больше приложений для здоровья"
+  "more-healthfitness": "Больше приложений для здоровья",
+  "manage": "Управление",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Новый год — новые инструменты",
+      "description": "Приложения для заметок, задач и планирования"
+    },
+    "free-software-favorites": {
+      "header": "Рекомендуем",
+      "description": "Наши любимые приложения"
+    },
+    "spring-creativity": {
+      "header": "Проявите креативность",
+      "description": "Незаменимые приложения для рисования, редактирования фото и дизайна"
+    }
+  }
 }

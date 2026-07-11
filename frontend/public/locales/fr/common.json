@@ -488,7 +488,8 @@
     "light": "Clair",
     "dark": "Sombre",
     "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}",
-    "general-runtime-not-eol": "Environnement d'exécution sous prise en charge"
+    "general-runtime-not-eol": "Environnement d'exécution sous prise en charge",
+    "stats-by-category": "Statut de révision des directives par catégorie"
   },
   "app-listing-quality": "Qualité de référencement de l'application",
   "issued-to": "Délivré à",
@@ -786,5 +787,60 @@
   "contribute-flathub": "Contribuer à Flathub",
   "manual-verification": "Marquer comme vérifié manuellement",
   "user-id": "ID utilisateur Flathub",
-  "more-healthfitness": "Plus de santé et remise en forme"
+  "more-healthfitness": "Plus de santé et remise en forme",
+  "manage": "Gérer",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "description": "Apps pour prise de notes, suivi de tâches et faire des plans",
+      "header": "Nouvelle année, nouveaux flux de travail"
+    },
+    "free-software-favorites": {
+      "header": "Sélections de l'équipe",
+      "description": "Apps que nous aimons en ce moment"
+    },
+    "spring-creativity": {
+      "header": "Être créatif",
+      "description": "Apps essentielles pour dessin, édition de photos et conception numérique"
+    },
+    "fresh-desktop-releases": {
+      "header": "Créer des apps natives",
+      "description": "Développez des apps qui se sentent à l’aise sur votre système"
+    },
+    "staying-connected": {
+      "header": "Garder le contact",
+      "description": "Apps essentielles de collaboration et communication"
+    },
+    "summer-travel": {
+      "header": "Prêt pour les vacances",
+      "description": "Cartes, transports en commun, météo et planification de voyage"
+    },
+    "back-to-learning": {
+      "header": "Plus intelligent chaque jour",
+      "description": "Apps pour aider à étudier, faire des recherches et écrire"
+    },
+    "winter-comforts": {
+      "header": "Se mettre à l'aise",
+      "description": "Excellentes applications pour lire, regarder des films et jouer"
+    },
+    "tools-for-developers": {
+      "header": "Essentiels pour les développeurs Web",
+      "description": "Créer des sites web est plus amusant avec ces apps"
+    },
+    "take-better-notes": {
+      "header": "Prendre de meilleures notes",
+      "description": "Trouvez votre nouvel outil de prise de notes préféré"
+    },
+    "get-focused": {
+      "header": "Se concentrer",
+      "description": "Excellentes apps pour la gestion des tâches"
+    },
+    "make-some-noise": {
+      "header": "Faire du bruit",
+      "description": "Apps pour créer et produire de la musique"
+    },
+    "get-to-work": {
+      "header": "Aller travailler",
+      "description": "Apps de bureau essentielles"
+    }
+  }
 }
