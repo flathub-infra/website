@@ -40,6 +40,12 @@ const AdminLayoutClient = ({
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
     },
     {
+      name: "Homepage Selections",
+      href: "/admin/homepage-selections",
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
+        user?.permissions.some((a) => a === Permission["quality-moderation"]),
+    },
+    {
       name: "Users",
       href: "/admin/users",
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
