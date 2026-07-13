@@ -9,8 +9,8 @@ export default defineConfig({
       schemas: "./model",
       client: "react-query",
       httpClient: "axios",
-      mock: true,
-      prettier: true,
+      mock: { generators: [{ type: "msw" }] },
+      formatter: "prettier",
       clean: true,
       baseUrl: "",
       override: {
@@ -41,8 +41,8 @@ export default defineConfig({
       schemas: "./model",
       client: "react-query",
       httpClient: "axios",
-      mock: true,
-      prettier: true,
+      mock: { generators: [{ type: "msw" }] },
+      formatter: "prettier",
       clean: true,
       baseUrl: "https://builds.flathub.org",
       override: {

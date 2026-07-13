@@ -28,6 +28,24 @@ import type {
   ReproducibleTableApiHtmxReproducibleGetParams,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Dashboard
  */
@@ -165,7 +183,7 @@ export function useDashboardGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -336,7 +354,7 @@ export function useBuildsTableApiHtmxBuildsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -385,7 +403,7 @@ export const getAppStatusStatusAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
@@ -502,7 +520,7 @@ export function useAppStatusStatusAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -674,7 +692,7 @@ export function useReproducibleStatusReproducibleGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -846,5 +864,5 @@ export function useReproducibleTableApiHtmxReproducibleGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }

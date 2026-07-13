@@ -37,6 +37,24 @@ import type {
   TriggerPipelineApiPipelinesPost201,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Trigger Pipeline
  */
@@ -291,7 +309,7 @@ export function useListPipelinesApiPipelinesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -346,7 +364,7 @@ export const getGetPipelineApiPipelinesPipelineIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!pipelineId,
+    enabled: pipelineId !== null && pipelineId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
@@ -467,7 +485,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1197,7 +1215,7 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!pipelineId,
+    enabled: pipelineId !== null && pipelineId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>>,
@@ -1344,5 +1362,5 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }

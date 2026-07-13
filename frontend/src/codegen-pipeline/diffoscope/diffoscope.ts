@@ -22,6 +22,24 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type { HTTPValidationError } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary View Diffoscope
  */
@@ -74,7 +92,7 @@ export const getViewDiffoscopeDiffoscopePipelineIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!pipelineId,
+    enabled: pipelineId !== null && pipelineId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof viewDiffoscopeDiffoscopePipelineIdGet>>,
@@ -195,7 +213,7 @@ export function useViewDiffoscopeDiffoscopePipelineIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -256,7 +274,7 @@ export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!pipelineId,
+    enabled: pipelineId !== null && pipelineId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof diffoscopeCssDiffoscopePipelineIdCommonCssGet>>,
@@ -403,7 +421,7 @@ export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -464,7 +482,7 @@ export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!pipelineId,
+    enabled: pipelineId !== null && pipelineId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof diffoscopeIconDiffoscopePipelineIdIconPngGet>>,
@@ -611,5 +629,5 @@ export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
