@@ -143,7 +143,8 @@
     "light": "Solas",
     "dark": "Dorcha",
     "failing-x-checks": "Ag teip {count, plural, one {# sheiceáil} other {# seiceálacha}}",
-    "general-runtime-not-eol": "Ní deireadh saoil an t-am rithe"
+    "general-runtime-not-eol": "Ní deireadh saoil an t-am rithe",
+    "stats-by-category": "Stádas athbhreithnithe treoirlínte de réir catagóire"
   },
   "special-license-explanation": "Forbraítear an aip seo faoin gceadúnas speisialta <bold>{ license }</bold>.",
   "more-pages": "Tuilleadh leathanaigh",
@@ -787,5 +788,59 @@
   "user-id": "Aitheantas Úsáideora Flathub",
   "manual-verification": "Marcáil mar fhíoraithe de láimh",
   "more-healthfitness": "Tuilleadh Sláinte & Aclaíochta",
-  "manage": "Bainistigh"
+  "manage": "Bainistigh",
+  "curated-app-selection-themes": {
+    "tools-for-developers": {
+      "header": "Bunriachtanais Fhorbróirí Gréasáin",
+      "description": "Tá sé níos spraíúla suíomhanna gréasáin a chruthú leis na haipeanna seo"
+    },
+    "free-software-favorites": {
+      "header": "Roghanna Foirne",
+      "description": "Aipeanna is breá linn faoi láthair"
+    },
+    "back-to-learning": {
+      "description": "Aipeanna chun cabhrú leat staidéar, taighde agus scríobh",
+      "header": "Níos Cliste Gach Lá"
+    },
+    "staying-connected": {
+      "header": "Fan i dTeagmháil",
+      "description": "Aipeanna riachtanacha comhoibrithe agus cumarsáide"
+    },
+    "new-year-new-workflows": {
+      "header": "Bliain Nua, Sreabhanna Oibre Nua",
+      "description": "Aipeanna chun nótaí a thógáil, tascanna a rianú agus pleananna a dhéanamh"
+    },
+    "make-some-noise": {
+      "description": "Aipeanna chun ceol a chruthú agus a léiriú",
+      "header": "Déan roinnt torainn"
+    },
+    "winter-comforts": {
+      "description": "Aipeanna iontacha le haghaidh léitheoireachta, féachaint ar scannáin agus cluichí a imirt",
+      "header": "Bí compordach"
+    },
+    "summer-travel": {
+      "header": "Réidh le haghaidh Laethanta Saoire",
+      "description": "Aipeanna léarscáileanna, iompair phoiblí, aimsire agus pleanála turas"
+    },
+    "take-better-notes": {
+      "description": "Aimsigh d'uirlis nua is fearr leat chun nótaí a thógáil",
+      "header": "Glac Nótaí Níos Fearr"
+    },
+    "fresh-desktop-releases": {
+      "description": "Forbair aipeanna a bhraitheann compordach ar do chóras",
+      "header": "Tóg Aipeanna Dúchasacha"
+    },
+    "get-focused": {
+      "header": "Dírigh ar do chuspóir",
+      "description": "Aipeanna iontacha le haghaidh bainistíocht tascanna"
+    },
+    "spring-creativity": {
+      "header": "Bí Cruthaitheach",
+      "description": "Aipeanna riachtanacha le haghaidh líníochta, eagarthóireachta grianghraf agus dearadh digiteach"
+    },
+    "get-to-work": {
+      "description": "Aipeanna oifige riachtanacha",
+      "header": "Téigh ag Obair"
+    }
+  }
 }
