@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import hmac
+import re
 import secrets
 from typing import TYPE_CHECKING, Any, Protocol, TypeGuard, cast
 
@@ -17,6 +18,7 @@ TOKEN_BYTES = 32
 PBKDF2_ITERATIONS = 600_000
 PBKDF2_SALT_BYTES = 32
 CLIENT_SECRET_HASH_SCHEME = "pbkdf2_sha256"
+PKCE_VALUE_PATTERN = re.compile(r"[A-Za-z0-9._~-]{43,128}")
 
 
 class OidcSubjectUser(Protocol):
@@ -91,7 +93,13 @@ def requested_scopes_allowed(scope: str, allowed_scopes: Sequence[str]) -> bool:
     )
 
 
+def valid_pkce_value(value: str) -> bool:
+    return PKCE_VALUE_PATTERN.fullmatch(value) is not None
+
+
 def verify_pkce_s256(code_verifier: str, code_challenge: str) -> bool:
+    if not valid_pkce_value(code_verifier) or not valid_pkce_value(code_challenge):
+        return False
     digest = hashlib.sha256(code_verifier.encode("ascii")).digest()
     expected = base64.urlsafe_b64encode(digest).rstrip(b"=").decode("ascii")
     return hmac.compare_digest(expected, code_challenge)

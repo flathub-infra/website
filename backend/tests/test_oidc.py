@@ -39,6 +39,7 @@ from app.oidc import (
     oidc_client_enabled,
     redirect_uri_allowed,
     requested_scopes_allowed,
+    valid_pkce_value,
     verify_client_secret,
     verify_pkce_s256,
     verify_token,
@@ -47,6 +48,25 @@ from app.routes import oidc as oidc_routes
 from app.utils import utcnow
 
 PRIVATE_JWK_FIELDS = {"d", "p", "q", "dp", "dq", "qi", "oth"}
+PKCE_VERIFIER = "a" * 43
+PKCE_WRONG_VERIFIER = "b" * 43
+
+
+def _pkce_challenge(verifier):
+    return (
+        base64.urlsafe_b64encode(hashlib.sha256(verifier.encode("ascii")).digest())
+        .rstrip(b"=")
+        .decode("ascii")
+    )
+
+
+PKCE_CHALLENGE = _pkce_challenge(PKCE_VERIFIER)
+MALFORMED_PKCE_VALUES = [
+    "a" * 42,
+    "a" * 129,
+    "é" * 43,
+    f"{'a' * 42}!",
+]
 
 
 def _decode_jwt_payload(token_str):
@@ -500,13 +520,16 @@ def test_scope_helper_requires_openid_and_client_allowed_scopes():
 
 def test_verify_pkce_s256():
     verifier = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
-    challenge = (
-        base64.urlsafe_b64encode(hashlib.sha256(verifier.encode("ascii")).digest())
-        .rstrip(b"=")
-        .decode("ascii")
-    )
+    challenge = _pkce_challenge(verifier)
     assert verify_pkce_s256(verifier, challenge)
-    assert not verify_pkce_s256("wrong-verifier", challenge)
+    assert not verify_pkce_s256(PKCE_WRONG_VERIFIER, challenge)
+
+
+@pytest.mark.parametrize("value", MALFORMED_PKCE_VALUES)
+def test_pkce_value_rejects_malformed_input(value):
+    assert not valid_pkce_value(value)
+    assert not verify_pkce_s256(value, PKCE_CHALLENGE)
+    assert not verify_pkce_s256(PKCE_VERIFIER, value)
 
 
 def test_utcnow_is_naive():
@@ -669,7 +692,7 @@ def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
                 "/oidc/authorize",
                 params={
                     **AUTHORIZE_PARAMS,
-                    "code_challenge": "test-challenge",
+                    "code_challenge": PKCE_CHALLENGE,
                     "code_challenge_method": "S256",
                 },
                 follow_redirects=False,
@@ -681,7 +704,7 @@ def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
     assert "code=test-auth-code" in response.headers["location"]
     assert len(added) == 1
     authz_code = added[0]
-    assert authz_code.code_challenge == "test-challenge"
+    assert authz_code.code_challenge == PKCE_CHALLENGE
     assert authz_code.code_challenge_method == "S256"
 
 
@@ -697,7 +720,7 @@ def test_authorize_pkce_plain_method_rejected(authorize_client):
                 "/oidc/authorize",
                 params={
                     **AUTHORIZE_PARAMS,
-                    "code_challenge": "test-challenge",
+                    "code_challenge": PKCE_CHALLENGE,
                     "code_challenge_method": "plain",
                 },
                 follow_redirects=False,
@@ -721,7 +744,7 @@ def test_authorize_pkce_challenge_without_method_rejected(authorize_client):
         with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
             response = authorize_client.get(
                 "/oidc/authorize",
-                params={**AUTHORIZE_PARAMS, "code_challenge": "test-challenge"},
+                params={**AUTHORIZE_PARAMS, "code_challenge": PKCE_CHALLENGE},
                 follow_redirects=False,
             )
     finally:
@@ -730,6 +753,33 @@ def test_authorize_pkce_challenge_without_method_rejected(authorize_client):
     assert response.status_code == 302
     assert REDIRECT_URI in response.headers["location"]
     assert "error=invalid_request" in response.headers["location"]
+
+
+@pytest.mark.parametrize("code_challenge", MALFORMED_PKCE_VALUES)
+def test_authorize_malformed_pkce_challenge_rejected(authorize_client, code_challenge):
+    valid_client = _make_client()
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={
+                    **AUTHORIZE_PARAMS,
+                    "code_challenge": code_challenge,
+                    "code_challenge_method": "S256",
+                },
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=invalid_request" in response.headers["location"]
+    assert "state=test-state" in response.headers["location"]
 
 
 def test_authorize_missing_openid_scope(authorize_client):
@@ -1455,14 +1505,6 @@ def test_token_valid_exchange_with_client_secret_post(token_client):
     assert added[0].access_token_hash == hash_token("test-access-token")
 
 
-def _pkce_challenge(verifier):
-    return (
-        base64.urlsafe_b64encode(hashlib.sha256(verifier.encode("ascii")).digest())
-        .rstrip(b"=")
-        .decode("ascii")
-    )
-
-
 def test_token_pkce_valid_verifier(token_client):
     verifier = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
     client_obj = _make_token_client()
@@ -1498,7 +1540,7 @@ def test_token_pkce_valid_verifier(token_client):
 def test_token_pkce_wrong_verifier(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row(
-        code_challenge=_pkce_challenge("the-real-verifier"),
+        code_challenge=_pkce_challenge(PKCE_VERIFIER),
         code_challenge_method="S256",
     )
     user = _make_user()
@@ -1515,7 +1557,7 @@ def test_token_pkce_wrong_verifier(token_client):
                 "redirect_uri": TOKEN_REDIRECT_URI,
                 "client_id": "test-client",
                 "client_secret": CLIENT_SECRET,
-                "code_verifier": "wrong-verifier",
+                "code_verifier": PKCE_WRONG_VERIFIER,
             },
         )
 
@@ -1526,7 +1568,7 @@ def test_token_pkce_wrong_verifier(token_client):
 def test_token_pkce_missing_verifier(token_client):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row(
-        code_challenge=_pkce_challenge("the-real-verifier"),
+        code_challenge=_pkce_challenge(PKCE_VERIFIER),
         code_challenge_method="S256",
     )
     user = _make_user()
@@ -1543,6 +1585,34 @@ def test_token_pkce_missing_verifier(token_client):
                 "redirect_uri": TOKEN_REDIRECT_URI,
                 "client_id": "test-client",
                 "client_secret": CLIENT_SECRET,
+            },
+        )
+
+    assert response.status_code == 400
+    assert response.json() == {"error": "invalid_grant"}
+
+
+def test_token_pkce_non_ascii_verifier_returns_invalid_grant(token_client):
+    client_obj = _make_token_client()
+    auth_code_row = _make_auth_code_row(
+        code_challenge=PKCE_CHALLENGE,
+        code_challenge_method="S256",
+    )
+    user = _make_user()
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+                "client_id": "test-client",
+                "client_secret": CLIENT_SECRET,
+                "code_verifier": "é" * 43,
             },
         )
 

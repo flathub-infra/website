@@ -20,6 +20,7 @@ from ..oidc import (
     oidc_client_enabled,
     redirect_uri_allowed,
     requested_scopes_allowed,
+    valid_pkce_value,
     verify_client_secret,
     verify_pkce_s256,
 )
@@ -207,7 +208,11 @@ def authorize(
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
     if code_challenge is not None or code_challenge_method is not None:
-        if code_challenge_method != "S256" or not code_challenge:
+        if (
+            code_challenge is None
+            or code_challenge_method != "S256"
+            or not valid_pkce_value(code_challenge)
+        ):
             return _error_redirect(redirect_uri, "invalid_request", state)
 
     if not login.state.logged_in() or login.user is None:
