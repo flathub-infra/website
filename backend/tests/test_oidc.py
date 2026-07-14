@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from typing import Any, cast
 from unittest.mock import MagicMock, patch
+from urllib.parse import quote_plus
 
 import pytest
 
@@ -1338,11 +1339,14 @@ def _generate_test_jwks():
 
 
 def _make_token_client(
-    secret=CLIENT_SECRET, refresh_tokens_enabled=False, allowed_scopes=None
+    client_id="test-client",
+    secret=CLIENT_SECRET,
+    refresh_tokens_enabled=False,
+    allowed_scopes=None,
 ):
     return OidcClient(
         id=1,
-        client_id="test-client",
+        client_id=client_id,
         name="Test Client",
         client_secret_hash=hash_client_secret(secret),
         redirect_uris=[TOKEN_REDIRECT_URI],
@@ -1448,10 +1452,12 @@ def token_client(client, monkeypatch):
     return client
 
 
-def _basic_auth_header(client_id, client_secret):
-    creds = f"{client_id}:{client_secret}"
-    encoded = base64.b64encode(creds.encode()).decode()
-    return {"Authorization": f"Basic {encoded}"}
+def _basic_auth_header(client_id, client_secret, scheme="Basic"):
+    encoded_client_id = quote_plus(client_id, safe="")
+    encoded_client_secret = quote_plus(client_secret, safe="")
+    credentials = f"{encoded_client_id}:{encoded_client_secret}"
+    encoded = base64.b64encode(credentials.encode()).decode()
+    return {"Authorization": f"{scheme} {encoded}"}
 
 
 def test_token_valid_exchange_with_client_secret_post(token_client):
@@ -1620,7 +1626,8 @@ def test_token_pkce_non_ascii_verifier_returns_invalid_grant(token_client):
     assert response.json() == {"error": "invalid_grant"}
 
 
-def test_token_valid_exchange_with_client_secret_basic(token_client):
+@pytest.mark.parametrize("scheme", ["Basic", "basic"])
+def test_token_valid_exchange_with_client_secret_basic(token_client, scheme):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row()
     user = _make_user()
@@ -1641,7 +1648,7 @@ def test_token_valid_exchange_with_client_secret_basic(token_client):
                 "code": "test-code",
                 "redirect_uri": TOKEN_REDIRECT_URI,
             },
-            headers=_basic_auth_header("test-client", CLIENT_SECRET),
+            headers=_basic_auth_header("test-client", CLIENT_SECRET, scheme),
         )
 
     assert response.status_code == 200
@@ -1651,6 +1658,86 @@ def test_token_valid_exchange_with_client_secret_basic(token_client):
     assert body["access_token"] == "test-access-token"
     assert body["token_type"] == "Bearer"
     assert "id_token" in body
+
+
+def test_token_basic_decodes_form_encoded_credentials(token_client):
+    client_id = "client:id"
+    client_secret = "+% café"
+    client_obj = _make_token_client(client_id=client_id, secret=client_secret)
+    auth_code_row = _make_auth_code_row(client_id=client_id)
+    user = _make_user()
+    get_db_mock = _mock_token_db(
+        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+    )
+
+    with (
+        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+        patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+        patch("app.routes.oidc.generate_token", return_value="test-access-token"),
+    ):
+        response = token_client.post(
+            "/oidc/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": "test-code",
+                "redirect_uri": TOKEN_REDIRECT_URI,
+            },
+            headers=_basic_auth_header(client_id, client_secret),
+        )
+
+    assert response.status_code == 200
+    assert response.json()["access_token"] == "test-access-token"
+
+
+@pytest.mark.parametrize("encoded_secret", ["%ZZ", "%FF"])
+def test_token_basic_rejects_malformed_form_encoding(token_client, encoded_secret):
+    raw_credentials = f"test-client:{encoded_secret}"
+    encoded = base64.b64encode(raw_credentials.encode()).decode()
+
+    response = token_client.post(
+        "/oidc/token",
+        data={
+            "grant_type": "authorization_code",
+            "code": "test-code",
+            "redirect_uri": TOKEN_REDIRECT_URI,
+        },
+        headers={"Authorization": f"Basic {encoded}"},
+    )
+
+    assert response.status_code == 401
+    assert response.json() == {"error": "invalid_client"}
+    assert response.headers["WWW-Authenticate"] == 'Basic realm="oidc/token"'
+
+
+@pytest.mark.parametrize(
+    ("client_id", "client_secret"),
+    [("", CLIENT_SECRET), ("test-client", "")],
+)
+def test_token_basic_rejects_empty_credentials(token_client, client_id, client_secret):
+    response = token_client.post(
+        "/oidc/token",
+        data={"grant_type": "authorization_code"},
+        headers=_basic_auth_header(client_id, client_secret),
+    )
+
+    assert response.status_code == 401
+    assert response.json() == {"error": "invalid_client"}
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [("client_id", ""), ("client_secret", "")],
+)
+def test_token_basic_rejects_body_credential_presence(token_client, field, value):
+    data = {"grant_type": "authorization_code", field: value}
+    response = token_client.post(
+        "/oidc/token",
+        data=data,
+        headers=_basic_auth_header("test-client", CLIENT_SECRET),
+    )
+
+    assert response.status_code == 400
+    assert response.json() == {"error": "invalid_request"}
 
 
 def test_token_includes_nonce_in_id_token(token_client):

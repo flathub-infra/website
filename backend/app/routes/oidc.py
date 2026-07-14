@@ -1,8 +1,9 @@
 import base64
 import json
+import re
 from datetime import UTC, datetime, timedelta
 from typing import Any
-from urllib.parse import quote, urlencode, urlsplit
+from urllib.parse import quote, unquote_plus, urlencode, urlsplit
 
 from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
 from joserfc import jwk, jwt
@@ -41,6 +42,8 @@ TOKEN_RESPONSE_HEADERS = {
     "Cache-Control": "no-store",
     "Pragma": "no-cache",
 }
+
+INVALID_PERCENT_ESCAPE_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 
 
 class OidcTokenError(Exception):
@@ -406,32 +409,45 @@ def _resolve_client_credentials(
     post_client_id: str | None,
     post_client_secret: str | None,
 ) -> tuple[str, str]:
-    """Extract client_id and client_secret from request headers or form body.
-
-    Returns (client_id, client_secret) or raises HTTPException.
-    """
+    """Extract client_id and client_secret from request headers or form body."""
     auth_header = request.headers.get("authorization", "")
+    scheme, separator, credential_payload = auth_header.partition(" ")
+    basic_header_present = scheme.casefold() == "basic"
     basic_client_id: str | None = None
     basic_client_secret: str | None = None
 
-    if auth_header.startswith("Basic "):
+    if basic_header_present:
         try:
-            decoded = base64.b64decode(auth_header[6:]).decode("utf-8")
-            basic_client_id, basic_client_secret = decoded.split(":", 1)
-        except (ValueError, UnicodeDecodeError):
+            if not separator:
+                raise ValueError
+            decoded = base64.b64decode(credential_payload, validate=True).decode(
+                "utf-8"
+            )
+            encoded_client_id, encoded_client_secret = decoded.split(":", 1)
+            if INVALID_PERCENT_ESCAPE_PATTERN.search(
+                encoded_client_id
+            ) or INVALID_PERCENT_ESCAPE_PATTERN.search(encoded_client_secret):
+                raise ValueError
+            basic_client_id = unquote_plus(
+                encoded_client_id, encoding="utf-8", errors="strict"
+            )
+            basic_client_secret = unquote_plus(
+                encoded_client_secret, encoding="utf-8", errors="strict"
+            )
+        except ValueError:
             raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
-    # Mutually exclusive: cannot use both methods
-    if basic_client_id and post_client_id:
+    if basic_header_present and (
+        post_client_id is not None or post_client_secret is not None
+    ):
         raise OidcTokenError("invalid_request")
 
-    if basic_client_id:
-        # basic_client_secret is guaranteed non-None after split(":", 1)
-        assert basic_client_secret is not None
+    if basic_header_present:
+        if not basic_client_id or not basic_client_secret:
+            raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
         return basic_client_id, basic_client_secret
-    if not post_client_id:
-        raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
-    if not post_client_secret:
+
+    if not post_client_id or not post_client_secret:
         raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
     return post_client_id, post_client_secret
