@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Req
 from joserfc import jwk, jwt
 from joserfc.errors import JoseError
 from sqlalchemy import update
-from starlette.responses import JSONResponse, RedirectResponse
+from starlette.responses import JSONResponse, RedirectResponse, Response
 
 from .. import config, models, utils
 from ..database import get_db
@@ -59,6 +59,23 @@ class OidcTokenError(Exception):
         self.authenticate = authenticate
 
 
+class OidcBearerError(Exception):
+    def __init__(self, error: str | None = None):
+        super().__init__(error)
+        self.error = error
+
+
+async def oidc_bearer_error_handler(_request: Request, exc: Exception):
+    assert isinstance(exc, OidcBearerError)
+    challenge = 'Bearer realm="oidc/userinfo"'
+    if exc.error is not None:
+        challenge += f', error="{exc.error}"'
+    return Response(
+        status_code=401,
+        headers={"WWW-Authenticate": challenge},
+    )
+
+
 async def oidc_token_error_handler(_request: Request, exc: Exception):
     assert isinstance(exc, OidcTokenError)
     headers = dict(TOKEN_RESPONSE_HEADERS)
@@ -78,6 +95,7 @@ def _token_response(content: dict[str, Any]) -> JSONResponse:
 def register_to_app(app: FastAPI):
     app.include_router(router)
     app.add_exception_handler(OidcTokenError, oidc_token_error_handler)
+    app.add_exception_handler(OidcBearerError, oidc_bearer_error_handler)
 
 
 @router.get(
@@ -715,15 +733,15 @@ def _handle_refresh_token_grant(
 def userinfo(request: Request):
     auth_header = request.headers.get("Authorization")
     if not auth_header:
-        raise HTTPException(status_code=401, detail="invalid_token")
+        raise OidcBearerError
 
-    parts = auth_header.split(" ", 1)
-    if len(parts) != 2 or parts[0] != "Bearer":
-        raise HTTPException(status_code=401, detail="invalid_token")
+    scheme, separator, token_value = auth_header.partition(" ")
+    if not separator or scheme.casefold() != "bearer":
+        raise OidcBearerError
 
-    token_value = parts[1].strip()
+    token_value = token_value.strip()
     if not token_value:
-        raise HTTPException(status_code=401, detail="invalid_token")
+        raise OidcBearerError
 
     token_hash_value = hash_token(token_value)
     now = utils.utcnow()
@@ -740,13 +758,13 @@ def userinfo(request: Request):
         )
 
         if access_token_obj is None:
-            raise HTTPException(status_code=401, detail="invalid_token")
+            raise OidcBearerError("invalid_token")
 
         user = db.session.get(models.FlathubUser, access_token_obj.user_id)
         if user is None or user.deleted:
-            raise HTTPException(status_code=401, detail="invalid_token")
+            raise OidcBearerError("invalid_token")
         if not _user_can_use_oidc(user):
-            raise HTTPException(status_code=401, detail="invalid_token")
+            raise OidcBearerError("invalid_token")
 
         subject = ensure_oidc_subject(db, user)
         scopes = access_token_obj.scope.split()

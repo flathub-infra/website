@@ -2880,7 +2880,8 @@ def _mock_userinfo_db(
     return _ctx, writer_session
 
 
-def test_userinfo_valid(client, monkeypatch):
+@pytest.mark.parametrize("scheme", ["Bearer", "bearer"])
+def test_userinfo_valid(client, monkeypatch, scheme):
     """Valid Bearer token returns correct claims for all scopes."""
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid profile email")
@@ -2897,7 +2898,7 @@ def test_userinfo_valid(client, monkeypatch):
     ):
         response = client.get(
             "/oidc/userinfo",
-            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+            headers={"Authorization": f"{scheme} {USERINFO_TOKEN}"},
         )
 
     assert response.status_code == 200
@@ -2919,7 +2920,23 @@ def test_userinfo_missing_token(client, monkeypatch):
     response = client.get("/oidc/userinfo")
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_token"}
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == 'Bearer realm="oidc/userinfo"'
+
+
+def test_userinfo_unsupported_scheme_does_not_query_database(client, monkeypatch):
+    enable_oidc(monkeypatch)
+
+    with patch("app.routes.oidc.get_db") as get_db_mock:
+        response = client.get(
+            "/oidc/userinfo",
+            headers={"Authorization": f"Basic {USERINFO_TOKEN}"},
+        )
+
+    assert response.status_code == 401
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == 'Bearer realm="oidc/userinfo"'
+    get_db_mock.assert_not_called()
 
 
 def test_userinfo_invalid_token(client, monkeypatch):
@@ -2934,7 +2951,10 @@ def test_userinfo_invalid_token(client, monkeypatch):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_token"}
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == (
+        'Bearer realm="oidc/userinfo", error="invalid_token"'
+    )
 
 
 def test_userinfo_expired_token(client, monkeypatch):
@@ -2951,6 +2971,10 @@ def test_userinfo_expired_token(client, monkeypatch):
         )
 
     assert response.status_code == 401
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == (
+        'Bearer realm="oidc/userinfo", error="invalid_token"'
+    )
     filter_args = writer_session.query.return_value.filter.call_args[0]
     sql_fragments = [
         str(
@@ -2977,6 +3001,10 @@ def test_userinfo_revoked_token(client, monkeypatch):
         )
 
     assert response.status_code == 401
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == (
+        'Bearer realm="oidc/userinfo", error="invalid_token"'
+    )
     filter_args = writer_session.query.return_value.filter.call_args[0]
     sql_fragments = [
         str(
@@ -3008,7 +3036,10 @@ def test_userinfo_deleted_user_returns_invalid_token(client, monkeypatch):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_token"}
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == (
+        'Bearer realm="oidc/userinfo", error="invalid_token"'
+    )
     ensure_subject.assert_not_called()
 
 
@@ -3030,7 +3061,10 @@ def test_userinfo_user_without_oidc_role_returns_invalid_token(client, monkeypat
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_token"}
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == (
+        'Bearer realm="oidc/userinfo", error="invalid_token"'
+    )
     ensure_subject.assert_not_called()
 
 
