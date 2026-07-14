@@ -1520,7 +1520,7 @@ def test_token_pkce_wrong_verifier(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_pkce_missing_verifier(token_client):
@@ -1547,7 +1547,7 @@ def test_token_pkce_missing_verifier(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_valid_exchange_with_client_secret_basic(token_client):
@@ -1575,6 +1575,8 @@ def test_token_valid_exchange_with_client_secret_basic(token_client):
         )
 
     assert response.status_code == 200
+    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Pragma"] == "no-cache"
     body = response.json()
     assert body["access_token"] == "test-access-token"
     assert body["token_type"] == "Bearer"
@@ -1629,7 +1631,10 @@ def test_token_bad_client_secret(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
+    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Pragma"] == "no-cache"
+    assert response.headers["WWW-Authenticate"] == 'Basic realm="oidc/token"'
 
 
 def test_token_disabled_client_returns_401(token_client):
@@ -1650,7 +1655,7 @@ def test_token_disabled_client_returns_401(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
 
 
 def test_token_client_secret_post_missing_secret(token_client):
@@ -1669,7 +1674,7 @@ def test_token_client_secret_post_missing_secret(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
 
 
 def test_token_unsupported_grant_type(token_client):
@@ -1689,7 +1694,7 @@ def test_token_unsupported_grant_type(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "unsupported_grant_type"}
+    assert response.json() == {"error": "unsupported_grant_type"}
 
 
 def test_token_expired_code(token_client):
@@ -1713,7 +1718,7 @@ def test_token_expired_code(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_deleted_user_returns_invalid_grant(token_client):
@@ -1742,7 +1747,7 @@ def test_token_deleted_user_returns_invalid_grant(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
     assert added == []
     ensure_subject.assert_not_called()
 
@@ -1772,7 +1777,7 @@ def test_token_user_without_oidc_role_returns_invalid_grant(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
     assert added == []
     ensure_subject.assert_not_called()
 
@@ -1794,7 +1799,7 @@ def test_token_code_replay(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_wrong_client(token_client):
@@ -1818,7 +1823,7 @@ def test_token_wrong_client(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_wrong_redirect_uri(token_client):
@@ -1842,7 +1847,7 @@ def test_token_wrong_redirect_uri(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_unknown_code(token_client):
@@ -1862,7 +1867,7 @@ def test_token_unknown_code(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_token_no_client_credentials(token_client):
@@ -1877,7 +1882,7 @@ def test_token_no_client_credentials(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
 
 
 def test_token_id_token_signature_verifiable(token_client):
@@ -2243,6 +2248,8 @@ def test_refresh_grant_valid(token_client):
         )
 
     assert response.status_code == 200
+    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Pragma"] == "no-cache"
     body = response.json()
     assert body["access_token"] == "new-access-token"
     assert body["refresh_token"] == "new-refresh-token"
@@ -2279,7 +2286,7 @@ def test_refresh_grant_expired_token(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_refresh_grant_revoked_token(token_client):
@@ -2305,7 +2312,7 @@ def test_refresh_grant_revoked_token(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_refresh_grant_wrong_client(token_client):
@@ -2327,7 +2334,7 @@ def test_refresh_grant_wrong_client(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_refresh_grant_disabled_client(token_client):
@@ -2350,7 +2357,7 @@ def test_refresh_grant_disabled_client(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
 
 
 def test_refresh_grant_client_refresh_disabled(token_client):
@@ -2372,7 +2379,7 @@ def test_refresh_grant_client_refresh_disabled(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
 
 
 def test_refresh_grant_deleted_user(token_client):
@@ -2400,7 +2407,7 @@ def test_refresh_grant_deleted_user(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
     ensure_subject.assert_not_called()
 
 
@@ -2428,7 +2435,7 @@ def test_refresh_grant_user_without_oidc_role(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
     ensure_subject.assert_not_called()
 
 
@@ -2450,7 +2457,7 @@ def test_refresh_grant_missing_token(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_request"}
+    assert response.json() == {"error": "invalid_request"}
 
 
 def test_refresh_grant_scope_narrowing(token_client):
@@ -2554,7 +2561,7 @@ def test_refresh_grant_scope_expansion_rejected(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_scope"}
+    assert response.json() == {"error": "invalid_scope"}
 
 
 def test_refresh_grant_replay_revokes_family(token_client):
@@ -2581,7 +2588,7 @@ def test_refresh_grant_replay_revokes_family(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
     assert not any(isinstance(o, OidcRefreshToken) for o in added)
     assert not any(isinstance(o, OidcAccessToken) for o in added)
 
@@ -2627,7 +2634,7 @@ def test_refresh_grant_unknown_token_returns_invalid_grant(token_client):
         )
 
     assert response.status_code == 400
-    assert response.json() == {"detail": "invalid_grant"}
+    assert response.json() == {"error": "invalid_grant"}
 
 
 def test_refresh_grant_bad_client_secret(token_client):
@@ -2649,7 +2656,7 @@ def test_refresh_grant_bad_client_secret(token_client):
         )
 
     assert response.status_code == 401
-    assert response.json() == {"detail": "invalid_client"}
+    assert response.json() == {"error": "invalid_client"}
 
 
 USERINFO_TOKEN = "test-userinfo-token"

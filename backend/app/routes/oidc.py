@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Req
 from joserfc import jwk, jwt
 from joserfc.errors import JoseError
 from sqlalchemy import update
-from starlette.responses import RedirectResponse
+from starlette.responses import JSONResponse, RedirectResponse
 
 from .. import config, models, utils
 from ..database import get_db
@@ -36,8 +36,44 @@ router = APIRouter(
 )
 
 
+TOKEN_RESPONSE_HEADERS = {
+    "Cache-Control": "no-store",
+    "Pragma": "no-cache",
+}
+
+
+class OidcTokenError(Exception):
+    def __init__(
+        self,
+        error: str,
+        status_code: int = 400,
+        authenticate: bool = False,
+    ):
+        super().__init__(error)
+        self.error = error
+        self.status_code = status_code
+        self.authenticate = authenticate
+
+
+async def oidc_token_error_handler(_request: Request, exc: Exception):
+    assert isinstance(exc, OidcTokenError)
+    headers = dict(TOKEN_RESPONSE_HEADERS)
+    if exc.authenticate:
+        headers["WWW-Authenticate"] = 'Basic realm="oidc/token"'
+    return JSONResponse(
+        {"error": exc.error},
+        status_code=exc.status_code,
+        headers=headers,
+    )
+
+
+def _token_response(content: dict[str, Any]) -> JSONResponse:
+    return JSONResponse(content, headers=TOKEN_RESPONSE_HEADERS)
+
+
 def register_to_app(app: FastAPI):
     app.include_router(router)
+    app.add_exception_handler(OidcTokenError, oidc_token_error_handler)
 
 
 @router.get(
@@ -270,7 +306,7 @@ def _load_enabled_client_or_401(db, client_id: str):
         .first()
     )
     if not oidc_client_enabled(client):
-        raise HTTPException(status_code=401, detail="invalid_client")
+        raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
     return client
 
 
@@ -378,20 +414,20 @@ def _resolve_client_credentials(
             decoded = base64.b64decode(auth_header[6:]).decode("utf-8")
             basic_client_id, basic_client_secret = decoded.split(":", 1)
         except (ValueError, UnicodeDecodeError):
-            raise HTTPException(status_code=401, detail="invalid_client")
+            raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
     # Mutually exclusive: cannot use both methods
     if basic_client_id and post_client_id:
-        raise HTTPException(status_code=400, detail="invalid_request")
+        raise OidcTokenError("invalid_request")
 
     if basic_client_id:
         # basic_client_secret is guaranteed non-None after split(":", 1)
         assert basic_client_secret is not None
         return basic_client_id, basic_client_secret
     if not post_client_id:
-        raise HTTPException(status_code=401, detail="invalid_client")
+        raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
     if not post_client_secret:
-        raise HTTPException(status_code=401, detail="invalid_client")
+        raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
     return post_client_id, post_client_secret
 
@@ -431,7 +467,7 @@ def token(
             client_id, client_secret, refresh_token, scope, now
         )
     else:
-        raise HTTPException(status_code=400, detail="unsupported_grant_type")
+        raise OidcTokenError("unsupported_grant_type")
 
 
 def _handle_authorization_code_grant(
@@ -443,14 +479,14 @@ def _handle_authorization_code_grant(
     now: datetime,
 ):
     if not code:
-        raise HTTPException(status_code=400, detail="invalid_request")
+        raise OidcTokenError("invalid_request")
 
     code_hash_value = hash_token(code)
 
     with get_db("writer") as db:
         client = _load_enabled_client_or_401(db, client_id)
         if not verify_client_secret(client_secret, client.client_secret_hash):
-            raise HTTPException(status_code=401, detail="invalid_client")
+            raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
         # Atomically claim the code: UPDATE ... WHERE unconsumed RETURNING ...
         result = db.session.execute(
@@ -474,26 +510,26 @@ def _handle_authorization_code_grant(
         row = result.first()
 
         if row is None:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
 
         if row.client_id != client_id:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
         if row.redirect_uri != redirect_uri:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
         if now > row.expires_at:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
 
         if row.code_challenge is not None:
             if not code_verifier or not verify_pkce_s256(
                 code_verifier, row.code_challenge
             ):
-                raise HTTPException(status_code=400, detail="invalid_grant")
+                raise OidcTokenError("invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.deleted:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
         if not _user_can_use_oidc(user):
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
         id_token = _sign_id_token(client_id, subject, now, nonce=row.nonce)
@@ -531,7 +567,7 @@ def _handle_authorization_code_grant(
     }
     if refresh_token_value is not None:
         response["refresh_token"] = refresh_token_value
-    return response
+    return _token_response(response)
 
 
 def _handle_refresh_token_grant(
@@ -542,16 +578,16 @@ def _handle_refresh_token_grant(
     now: datetime,
 ):
     if not refresh_token_value:
-        raise HTTPException(status_code=400, detail="invalid_request")
+        raise OidcTokenError("invalid_request")
 
     token_hash = hash_token(refresh_token_value)
 
     with get_db("writer") as db:
         client = _load_enabled_client_or_401(db, client_id)
         if not verify_client_secret(client_secret, client.client_secret_hash):
-            raise HTTPException(status_code=401, detail="invalid_client")
+            raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
         if not client.refresh_tokens_enabled:
-            raise HTTPException(status_code=401, detail="invalid_client")
+            raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
         result = db.session.execute(
             update(models.OidcRefreshToken)
@@ -586,23 +622,23 @@ def _handle_refresh_token_grant(
             ):
                 _revoke_refresh_family(db, replay_obj.family_id, now)
                 db.session.commit()
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
 
         if now > row.expires_at:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.deleted:
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
         if not _user_can_use_oidc(user):
-            raise HTTPException(status_code=400, detail="invalid_grant")
+            raise OidcTokenError("invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
         effective_scope = row.scope
         if requested_scope is not None:
             validated = _scope_subset_or_invalid(requested_scope, row.scope)
             if validated is None:
-                raise HTTPException(status_code=400, detail="invalid_scope")
+                raise OidcTokenError("invalid_scope")
             effective_scope = validated
 
         new_rt_value = generate_token()
@@ -644,7 +680,7 @@ def _handle_refresh_token_grant(
     }
     if id_token is not None:
         response["id_token"] = id_token
-    return response
+    return _token_response(response)
 
 
 @router.get(
