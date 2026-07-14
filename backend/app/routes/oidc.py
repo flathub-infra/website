@@ -38,6 +38,7 @@ router = APIRouter(
 )
 
 
+OIDC_SIGNING_ALGORITHM = "RS256"
 TOKEN_RESPONSE_HEADERS = {
     "Cache-Control": "no-store",
     "Pragma": "no-cache",
@@ -121,7 +122,7 @@ def openid_configuration():
             "client_secret_post",
         ],
         "subject_types_supported": ["public"],
-        "id_token_signing_alg_values_supported": ["RS256"],
+        "id_token_signing_alg_values_supported": [OIDC_SIGNING_ALGORITHM],
         "code_challenge_methods_supported": ["S256"],
     }
 
@@ -304,7 +305,7 @@ def authorize(
 
 
 def _get_signing_key():
-    """Load the first RSA signing key from the configured private JWKS."""
+    """Load the first compatible RSA signing key from the private JWKS."""
     if config.settings.oidc_private_jwks is None:
         raise HTTPException(status_code=500, detail="OIDC JWKS is not configured")
 
@@ -315,8 +316,18 @@ def _get_signing_key():
         raise HTTPException(status_code=500, detail="OIDC JWKS is invalid") from e
 
     for key in key_set:
-        if key.key_type == "RSA":
-            return key
+        if (
+            key.key_type != "RSA"
+            or not key.is_private
+            or key.get("use") not in (None, "sig")
+        ):
+            continue
+        try:
+            key.check_key_op("sign")
+            key.check_alg(OIDC_SIGNING_ALGORITHM)
+        except JoseError:
+            continue
+        return key
 
     raise HTTPException(status_code=500, detail="OIDC JWKS is invalid")
 
@@ -353,9 +364,9 @@ def _sign_id_token(
     if nonce is not None:
         id_claims["nonce"] = nonce
 
-    header = {"alg": config.settings.oidc_jwt_alg, "kid": signing_key.kid}
+    header = {"alg": OIDC_SIGNING_ALGORITHM, "kid": signing_key.kid}
     return jwt.encode(
-        header, id_claims, signing_key, algorithms=[config.settings.oidc_jwt_alg]
+        header, id_claims, signing_key, algorithms=[OIDC_SIGNING_ALGORITHM]
     )
 
 

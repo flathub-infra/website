@@ -70,6 +70,14 @@ MALFORMED_PKCE_VALUES = [
 ]
 
 
+def _decode_jwt_header(token_str):
+    header_b64 = token_str.split(".", 1)[0]
+    padding = 4 - len(header_b64) % 4
+    if padding != 4:
+        header_b64 += "=" * padding
+    return json.loads(base64.urlsafe_b64decode(header_b64))
+
+
 def _decode_jwt_payload(token_str):
     """Decode JWT claims without signature verification (for test inspection)."""
     parts = token_str.split(".")
@@ -2070,6 +2078,9 @@ def test_token_id_token_signature_verifiable(token_client):
 
     assert response.status_code == 200
     id_token_str = response.json()["id_token"]
+    header = _decode_jwt_header(id_token_str)
+    assert header["alg"] == "RS256"
+    assert header["kid"] == "test-key"
 
     jwks_response = token_client.get("/oidc/jwks.json")
     assert jwks_response.status_code == 200
@@ -2084,6 +2095,43 @@ def test_token_id_token_signature_verifiable(token_client):
     assert claims["nonce"] == "sig-test-nonce"
     assert "iat" in claims
     assert "exp" in claims
+
+
+def test_signing_key_skips_incompatible_algorithm(monkeypatch):
+    incompatible_key = jwk.generate_key(
+        "RSA",
+        2048,
+        parameters={
+            "alg": "RS512",
+            "kid": "incompatible-key",
+            "use": "sig",
+            "key_ops": ["sign"],
+        },
+    ).as_dict(private=True)
+    signing_key = jwk.generate_key(
+        "RSA",
+        2048,
+        parameters={
+            "alg": "RS256",
+            "kid": "signing-key",
+            "use": "sig",
+            "key_ops": ["sign"],
+        },
+    ).as_dict(private=True)
+    enable_oidc(
+        monkeypatch,
+        json.dumps({"keys": [incompatible_key, signing_key]}),
+    )
+
+    token_str = oidc_routes._sign_id_token(
+        "test-client",
+        "sub-1",
+        utcnow(),
+    )
+
+    header = _decode_jwt_header(token_str)
+    assert header["alg"] == "RS256"
+    assert header["kid"] == "signing-key"
 
 
 def test_token_auth_code_with_offline_access_returns_refresh_token(token_client):
