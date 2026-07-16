@@ -23,8 +23,8 @@ import type {
 } from "../model"
 
 export const getStatusVendingStatusGetResponseMock = (
-  overrideResponse: Partial<Extract<VendingStatus | void, object>> = {},
-): VendingStatus | void => ({
+  overrideResponse: Partial<Extract<VendingStatus, object>> = {},
+): VendingStatus => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   can_take_payments: faker.datatype.boolean(),
   needs_attention: faker.datatype.boolean(),
@@ -220,14 +220,15 @@ export const getStatusVendingStatusGetMockHandler = (
   return http.get(
     "*/vending/status",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
+      const resolvedBody =
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getStatusVendingStatusGetResponseMock(),
-        { status: 200 },
-      )
+          : getStatusVendingStatusGetResponseMock()
+      return resolvedBody === undefined
+        ? new HttpResponse(null, { status: 201 })
+        : HttpResponse.json(resolvedBody, { status: 200 })
     },
     options,
   )

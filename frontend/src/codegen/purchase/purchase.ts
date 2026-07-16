@@ -36,9 +36,27 @@ import type {
   StorefrontInfo,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
-file and commit metadata.
+ * file and commit metadata.
  * @summary Get Storefront Info
  */
 export const getStorefrontInfoPurchasesStorefrontInfoGet = (
@@ -225,12 +243,12 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
-database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
+ * database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
  * @summary Get Is Free Software
  */
 export const getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = (
@@ -469,13 +487,13 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Generates an update token for a user account. This token allows the user to generate download tokens for apps they
-already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is
-able to update apps without user interaction.
+ * already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is
+ * able to update apps without user interaction.
  * @summary Get Update Token
  */
 export const getUpdateTokenPurchasesGenerateUpdateTokenPost = (
@@ -562,9 +580,9 @@ export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
 }
 /**
  * Checks whether the logged in user is able to download all of the given app refs.
-
-App IDs can be in the form of full refs, e.g. "app/org.gnome.Maps/x86_64/stable", or just the app ID, e.g.
-"org.gnome.Maps".
+ *
+ * App IDs can be in the form of full refs, e.g. "app/org.gnome.Maps/x86_64/stable", or just the app ID, e.g.
+ * "org.gnome.Maps".
  * @summary Check Purchases
  */
 export const checkPurchasesPurchasesCheckPurchasesPost = (
@@ -654,7 +672,7 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
 }
 /**
  * Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
-"app/org.gnome.Maps/x86_64/stable".
+ * "app/org.gnome.Maps/x86_64/stable".
  * @summary Get Download Token
  */
 export const getDownloadTokenPurchasesGenerateDownloadTokenPost = (

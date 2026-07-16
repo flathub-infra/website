@@ -229,10 +229,8 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetR
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseMock =
   (
-    overrideResponse: Partial<
-      Extract<QualityModerationResponse | void, object>
-    > = {},
-  ): QualityModerationResponse | void => ({
+    overrideResponse: Partial<Extract<QualityModerationResponse, object>> = {},
+  ): QualityModerationResponse => ({
     guidelines: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -547,14 +545,15 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
     return http.delete(
       "*/quality-moderation/:appId/request-review",
       async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
-        return HttpResponse.json(
+        const resolvedBody =
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
               ? await overrideResponse(info)
               : overrideResponse
-            : getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseMock(),
-          { status: 200 },
-        )
+            : getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseMock()
+        return resolvedBody === undefined
+          ? new HttpResponse(null, { status: 204 })
+          : HttpResponse.json(resolvedBody, { status: 200 })
       },
       options,
     )

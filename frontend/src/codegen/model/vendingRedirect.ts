@@ -7,9 +7,9 @@
 
 /**
  * Any redirect the vending system needs to create will be returned like this.
-
-Status will be "ok" otherwise you cannot rely on target_url and instead
-something look for like error.
+ *
+ * Status will be "ok" otherwise you cannot rely on target_url and instead
+ * something look for like error.
  */
 export interface VendingRedirect {
   status: string

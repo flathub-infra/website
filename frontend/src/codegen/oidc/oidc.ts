@@ -31,6 +31,24 @@ import type {
   HTTPValidationError,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Openid Configuration
  */
@@ -229,7 +247,7 @@ export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -377,7 +395,7 @@ export function useJwksOidcJwksJsonGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -543,52 +561,52 @@ export function useAuthorizeOidcAuthorizeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * @summary Token
  */
 export const tokenOidcTokenPost = (
-  bodyTokenOidcTokenPost: BodyTokenOidcTokenPost,
+  bodyTokenOidcTokenPost?: BodyTokenOidcTokenPost,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   const formUrlEncoded = new URLSearchParams()
-  if (bodyTokenOidcTokenPost.grant_type !== undefined) {
+  if (bodyTokenOidcTokenPost?.grant_type !== undefined) {
     formUrlEncoded.append(`grant_type`, bodyTokenOidcTokenPost.grant_type)
   }
-  if (bodyTokenOidcTokenPost.code !== undefined) {
+  if (bodyTokenOidcTokenPost?.code !== undefined) {
     formUrlEncoded.append(`code`, bodyTokenOidcTokenPost.code)
   }
-  if (bodyTokenOidcTokenPost.redirect_uri !== undefined) {
+  if (bodyTokenOidcTokenPost?.redirect_uri !== undefined) {
     formUrlEncoded.append(`redirect_uri`, bodyTokenOidcTokenPost.redirect_uri)
   }
   if (
-    bodyTokenOidcTokenPost.client_id !== undefined &&
+    bodyTokenOidcTokenPost?.client_id !== undefined &&
     bodyTokenOidcTokenPost.client_id !== null
   ) {
     formUrlEncoded.append(`client_id`, bodyTokenOidcTokenPost.client_id)
   }
   if (
-    bodyTokenOidcTokenPost.client_secret !== undefined &&
+    bodyTokenOidcTokenPost?.client_secret !== undefined &&
     bodyTokenOidcTokenPost.client_secret !== null
   ) {
     formUrlEncoded.append(`client_secret`, bodyTokenOidcTokenPost.client_secret)
   }
   if (
-    bodyTokenOidcTokenPost.refresh_token !== undefined &&
+    bodyTokenOidcTokenPost?.refresh_token !== undefined &&
     bodyTokenOidcTokenPost.refresh_token !== null
   ) {
     formUrlEncoded.append(`refresh_token`, bodyTokenOidcTokenPost.refresh_token)
   }
   if (
-    bodyTokenOidcTokenPost.scope !== undefined &&
+    bodyTokenOidcTokenPost?.scope !== undefined &&
     bodyTokenOidcTokenPost.scope !== null
   ) {
     formUrlEncoded.append(`scope`, bodyTokenOidcTokenPost.scope)
   }
   if (
-    bodyTokenOidcTokenPost.code_verifier !== undefined &&
+    bodyTokenOidcTokenPost?.code_verifier !== undefined &&
     bodyTokenOidcTokenPost.code_verifier !== null
   ) {
     formUrlEncoded.append(`code_verifier`, bodyTokenOidcTokenPost.code_verifier)
@@ -604,14 +622,14 @@ export const getTokenOidcTokenPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof tokenOidcTokenPost>>,
     TError,
-    { data: BodyTokenOidcTokenPost },
+    { data?: BodyTokenOidcTokenPost },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof tokenOidcTokenPost>>,
   TError,
-  { data: BodyTokenOidcTokenPost },
+  { data?: BodyTokenOidcTokenPost },
   TContext
 > => {
   const mutationKey = ["tokenOidcTokenPost"]
@@ -625,7 +643,7 @@ export const getTokenOidcTokenPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof tokenOidcTokenPost>>,
-    { data: BodyTokenOidcTokenPost }
+    { data?: BodyTokenOidcTokenPost }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -638,7 +656,7 @@ export const getTokenOidcTokenPostMutationOptions = <
 export type TokenOidcTokenPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof tokenOidcTokenPost>>
 >
-export type TokenOidcTokenPostMutationBody = BodyTokenOidcTokenPost
+export type TokenOidcTokenPostMutationBody = BodyTokenOidcTokenPost | undefined
 export type TokenOidcTokenPostMutationError =
   AxiosError<void | HTTPValidationError>
 
@@ -653,7 +671,7 @@ export const useTokenOidcTokenPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof tokenOidcTokenPost>>,
       TError,
-      { data: BodyTokenOidcTokenPost },
+      { data?: BodyTokenOidcTokenPost },
       TContext
     >
     axios?: AxiosRequestConfig
@@ -662,7 +680,7 @@ export const useTokenOidcTokenPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof tokenOidcTokenPost>>,
   TError,
-  { data: BodyTokenOidcTokenPost },
+  { data?: BodyTokenOidcTokenPost },
   TContext
 > => {
   return useMutation(getTokenOidcTokenPostMutationOptions(options), queryClient)
@@ -813,5 +831,5 @@ export function useUserinfoOidcUserinfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }

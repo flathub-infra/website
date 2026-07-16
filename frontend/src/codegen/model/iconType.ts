@@ -5,4 +5,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type IconType = "remote" | "cached" | null
+export type IconType = (typeof IconType)[keyof typeof IconType] | null
+
+export const IconType = {
+  remote: "remote",
+  cached: "cached",
+} as const

@@ -38,10 +38,28 @@ import type {
   WalletInfo,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * Retrieve the wallet for the currently logged in user.
-
-This will return a list of cards which the user has saved to their account.
+ *
+ * This will return a list of cards which the user has saved to their account.
  * @summary Get Walletinfo
  */
 export const getWalletinfoWalletWalletinfoGet = (
@@ -188,14 +206,14 @@ export function useGetWalletinfoWalletWalletinfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Remove a card from a user's wallet.
-
-The provided information must exactly match a card as would be returned from the
-wallet info endpoint.
+ *
+ * The provided information must exactly match a card as would be returned from the
+ * wallet info endpoint.
  * @summary Post Removecard
  */
 export const postRemovecardWalletRemovecardPost = (
@@ -279,9 +297,9 @@ export const usePostRemovecardWalletRemovecardPost = <
 }
 /**
  * Return a list of transactions associated with this user.
-
-If anything goes wrong, an error will be returned, otherwise a list of transaction
-summaries will be returned.
+ *
+ * If anything goes wrong, an error will be returned, otherwise a list of transaction
+ * summaries will be returned.
  * @summary Get Transactions
  */
 export const getTransactionsWalletTransactionsGet = (
@@ -447,14 +465,14 @@ export function useGetTransactionsWalletTransactionsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Create a new transaction, return the ID.
-
-If the passed in nascent transaction is valid, this will create a transaction and
-return the ID of the newly created wallet, otherwise it'll return an error
+ *
+ * If the passed in nascent transaction is valid, this will create a transaction and
+ * return the ID of the newly created wallet, otherwise it'll return an error
  * @summary Create Transaction
  */
 export const createTransactionWalletTransactionsPost = (
@@ -540,10 +558,10 @@ export const useCreateTransactionWalletTransactionsPost = <
 }
 /**
  * Retrieve a transaction by its ID
-
-If the transaction ID is valid, and owned by the calling user, then this will
-retrieve the whole transaction, including card details and disbursement information
-if available.
+ *
+ * If the transaction ID is valid, and owned by the calling user, then this will
+ * retrieve the whole transaction, including card details and disbursement information
+ * if available.
  * @summary Get Transaction By Id
  */
 export const getTransactionByIdWalletTransactionsTxnGet = (
@@ -591,7 +609,7 @@ export const getGetTransactionByIdWalletTransactionsTxnGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!txn,
+    enabled: txn !== null && txn !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>>,
@@ -722,14 +740,14 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Set the card associated with a transaction.
-
-The posted card must exactly match one of the cards returned by the wallet
-info endpoint or else the update may not succeed
+ *
+ * The posted card must exactly match one of the cards returned by the wallet
+ * info endpoint or else the update may not succeed
  * @summary Set Transaction Card
  */
 export const setTransactionCardWalletTransactionsTxnSetcardPost = (
@@ -837,10 +855,10 @@ export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
 }
 /**
  * Cancel a transaction in the `new` or `retry` states.
-
-Note that this may actually not cancel if a webhook fires asynchronously
-and updates the transaction.  This API will not attempt to prevent stripe
-payments from completing.
+ *
+ * Note that this may actually not cancel if a webhook fires asynchronously
+ * and updates the transaction.  This API will not attempt to prevent stripe
+ * payments from completing.
  * @summary Cancel Transaction
  */
 export const cancelTransactionWalletTransactionsTxnCancelPost = (
@@ -932,7 +950,7 @@ export const useCancelTransactionWalletTransactionsTxnCancelPost = <
 }
 /**
  * Return the stripe public key to use in the frontend.  Since this is not
-considered secret, we don't need a login or anything for this
+ * considered secret, we don't need a login or anything for this
  * @summary Get Stripedata
  */
 export const getStripedataWalletStripedataGet = (
@@ -1079,14 +1097,14 @@ export function useGetStripedataWalletStripedataGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Return the Stripe data associated with the given transaction.
-
-This is only applicable to transactions in the `new` or `retry` state and
-will only work for transactions which *are* Stripe transactions.
+ *
+ * This is only applicable to transactions in the `new` or `retry` state and
+ * will only work for transactions which *are* Stripe transactions.
  * @summary Get Txn Stripedata
  */
 export const getTxnStripedataWalletTransactionsTxnStripeGet = (
@@ -1139,7 +1157,7 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!txn,
+    enabled: txn !== null && txn !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>>,
@@ -1283,19 +1301,19 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Set the save-card status.
-
-This is only applicable to transactions in the `new` or `retry` state
-and will only work for transactions which are backed by stripe or similar.
-
-If the `save_card` parameter is null, then the card will not be saved,
-otherwise it will be saved.  If it's set to `off_session` then an attempt
-will be made to create a saved method which can be used without the user
-re-authenticating
+ *
+ * This is only applicable to transactions in the `new` or `retry` state
+ * and will only work for transactions which are backed by stripe or similar.
+ *
+ * If the `save_card` parameter is null, then the card will not be saved,
+ * otherwise it will be saved.  If it's set to `off_session` then an attempt
+ * will be made to create a saved method which can be used without the user
+ * re-authenticating
  * @summary Set Savecard
  */
 export const setSavecardWalletTransactionsTxnSavecardPost = (
@@ -1387,7 +1405,7 @@ export const useSetSavecardWalletTransactionsTxnSavecardPost = <
 }
 /**
  * Set the transaction as 'pending' so that we can recover if Stripe
-flows don't quite work (e.g. webhook goes missing)
+ * flows don't quite work (e.g. webhook goes missing)
  * @summary Set Pending
  */
 export const setPendingWalletTransactionsTxnSetpendingPost = (
@@ -1477,11 +1495,11 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
 }
 /**
  * This endpoint is intended to deal with webhooks coming back from payment
-mechanisms etc.  It exists only for the deployed wallet, so its name
-will vary with the deployed wallet kind.
-
-The exact form of the content posted to the webhook will vary from wallet
-kind to wallet kind.
+ * mechanisms etc.  It exists only for the deployed wallet, so its name
+ * will vary with the deployed wallet kind.
+ *
+ * The exact form of the content posted to the webhook will vary from wallet
+ * kind to wallet kind.
  * @summary Webhook
  */
 export const webhookWalletWebhookStripePost = (

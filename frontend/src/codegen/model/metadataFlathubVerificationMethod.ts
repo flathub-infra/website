@@ -6,8 +6,12 @@
  */
 
 export type MetadataFlathubVerificationMethod =
-  | "manual"
-  | "website"
-  | "login_provider"
-  | "none"
+  | (typeof MetadataFlathubVerificationMethod)[keyof typeof MetadataFlathubVerificationMethod]
   | null
+
+export const MetadataFlathubVerificationMethod = {
+  manual: "manual",
+  website: "website",
+  login_provider: "login_provider",
+  none: "none",
+} as const
