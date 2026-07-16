@@ -9,9 +9,9 @@ import type { SummaryResponseMetadata } from "./summaryResponseMetadata"
 
 /**
  * Summary information response for an application.
-
-This model represents the summary data returned by the /summary/{app_id} endpoint,
-containing information about app size, architectures, and metadata.
+ *
+ * This model represents the summary data returned by the /summary/{app_id} endpoint,
+ * containing information about app size, architectures, and metadata.
  */
 export interface SummaryResponse {
   arches: string[]

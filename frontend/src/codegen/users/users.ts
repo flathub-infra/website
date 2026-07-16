@@ -34,6 +34,24 @@ import type {
   UsersUsersGetParams,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Me
  */
@@ -159,7 +177,7 @@ export function useMeUsersMeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -301,7 +319,7 @@ export function useUsersUsersGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -450,7 +468,7 @@ export function useRolesUsersRolesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -496,7 +514,7 @@ export const getUserUsersUserIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!userId,
+    enabled: userId !== null && userId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof userUsersUserIdGet>>,
@@ -613,7 +631,7 @@ export function useUserUsersUserIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -841,7 +859,7 @@ export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!roleName,
+    enabled: roleName !== null && roleName !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
@@ -961,5 +979,5 @@ export function useRoleUsersUsersRolesRoleNameGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }

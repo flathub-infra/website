@@ -5,4 +5,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type TransactionSaveCardSaveCard = "off_session" | "on_session" | null
+export type TransactionSaveCardSaveCard =
+  | (typeof TransactionSaveCardSaveCard)[keyof typeof TransactionSaveCardSaveCard]
+  | null
+
+export const TransactionSaveCardSaveCard = {
+  off_session: "off_session",
+  on_session: "on_session",
+} as const

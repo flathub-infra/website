@@ -28,7 +28,7 @@ export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
   }))
 
 export const getGetUserinfoAuthUserinfoGetResponseMock =
-  (): GetUserinfoAuthUserinfoGet200 | void =>
+  (): GetUserinfoAuthUserinfoGet200 =>
     faker.helpers.arrayElement([
       {
         displayname: faker.helpers.arrayElement([
@@ -466,14 +466,15 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
   return http.get(
     "*/auth/userinfo",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      return HttpResponse.json(
+      const resolvedBody =
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetUserinfoAuthUserinfoGetResponseMock(),
-        { status: 200 },
-      )
+          : getGetUserinfoAuthUserinfoGetResponseMock()
+      return resolvedBody === undefined
+        ? new HttpResponse(null, { status: 204 })
+        : HttpResponse.json(resolvedBody, { status: 200 })
     },
     options,
   )

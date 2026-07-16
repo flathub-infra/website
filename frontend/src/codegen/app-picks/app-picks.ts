@@ -34,6 +34,24 @@ import type {
   UpsertAppOfTheWeek,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Get App Of The Day
  */
@@ -80,7 +98,7 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!date,
+    enabled: date !== null && date !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
@@ -201,7 +219,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -256,7 +274,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!date,
+    enabled: date !== null && date !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>,
@@ -392,7 +410,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -458,7 +476,7 @@ export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryO
     return {
       queryKey,
       queryFn,
-      enabled: !!date,
+      enabled: date !== null && date !== undefined,
       ...queryOptions,
     } as UseQueryOptions<
       Awaited<
@@ -637,7 +655,7 @@ export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -698,7 +716,7 @@ export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryOption
     return {
       queryKey,
       queryFn,
-      enabled: !!date,
+      enabled: date !== null && date !== undefined,
       ...queryOptions,
     } as UseQueryOptions<
       Awaited<
@@ -865,7 +883,7 @@ export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1092,7 +1110,7 @@ export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelec
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1322,7 +1340,7 @@ export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelections
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**

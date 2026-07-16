@@ -5,4 +5,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type BrandingSchemePreference = "light" | "dark" | null
+export type BrandingSchemePreference =
+  | (typeof BrandingSchemePreference)[keyof typeof BrandingSchemePreference]
+  | null
+
+export const BrandingSchemePreference = {
+  light: "light",
+  dark: "dark",
+} as const

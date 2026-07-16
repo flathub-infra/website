@@ -41,15 +41,33 @@ import type {
   UserDeleteRequest,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * Retrieve the login methods available from the backend.
-
-For each method returned, flow starts with a `GET` to the endpoint
-`.../login/{method}` and upon completion from the user-agent, with a `POST`
-to that same endpoint name.
-
-Each method is also given a button icon and some text to use, though
-frontends with localisation may choose to render other text instead.
+ *
+ * For each method returned, flow starts with a `GET` to the endpoint
+ * `.../login/{method}` and upon completion from the user-agent, with a `POST`
+ * to that same endpoint name.
+ *
+ * Each method is also given a button icon and some text to use, though
+ * frontends with localisation may choose to render other text instead.
  * @summary Get Login Methods
  */
 export const getLoginMethodsAuthLoginGet = (
@@ -195,19 +213,19 @@ export function useGetLoginMethodsAuthLoginGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Starts a github login flow.  This will set session cookie values and
-will return a redirect.  The frontend is expected to save the cookie
-for use later, and follow the redirect to Github
-
-Upon return from Github to the frontend, the frontend should POST to this
-endpoint with the relevant data from Github
-
-If the user is already logged in, and has a valid github token stored,
-then this will return an error instead.
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Github
+ *
+ * Upon return from Github to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Github
+ *
+ * If the user is already logged in, and has a valid github token stored,
+ * then this will return an error instead.
  * @summary Start Github Flow
  */
 export const startGithubFlowAuthLoginGithubGet = (
@@ -354,34 +372,34 @@ export function useStartGithubFlowAuthLoginGithubGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Process the result of the Github oauth flow
-
-This expects to have some JSON posted to it which (on success) contains:
-
-```
-{
-    "state": "the state code",
-    "code": "the github oauth code",
-}
-```
-
-On failure, the frontend should pass through the state and error so that
-the backend can clear the stored flow state
-
-```
-{
-    "state": "the state code",
-    "error": "the error code returned from github",
-}
-```
-
-This endpoint will either return an error, if something was wrong in the
-backend state machines; or it will return a success code with an indication
-of whether or not the login sequence completed OK.
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the github oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from github",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Github Flow
  */
 export const continueGithubFlowAuthLoginGithubPost = (
@@ -471,14 +489,14 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
 }
 /**
  * Starts a gitlab login flow.  This will set session cookie values and
-will return a redirect.  The frontend is expected to save the cookie
-for use later, and follow the redirect to Gitlab
-
-Upon return from Gitlab to the frontend, the frontend should POST to this
-endpoint with the relevant data from Gitlab
-
-If the user is already logged in, and has a valid gitlab token stored,
-then this will return an error instead.
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Gitlab
+ *
+ * Upon return from Gitlab to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Gitlab
+ *
+ * If the user is already logged in, and has a valid gitlab token stored,
+ * then this will return an error instead.
  * @summary Start Gitlab Flow
  */
 export const startGitlabFlowAuthLoginGitlabGet = (
@@ -625,34 +643,34 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Process the result of the Gitlab oauth flow
-
-This expects to have some JSON posted to it which (on success) contains:
-
-```
-{
-    "state": "the state code",
-    "code": "the gitlab oauth code",
-}
-```
-
-On failure, the frontend should pass through the state and error so that
-the backend can clear the stored flow state
-
-```
-{
-    "state": "the state code",
-    "error": "the error code returned from gitlab",
-}
-```
-
-This endpoint will either return an error, if something was wrong in the
-backend state machines; or it will return a success code with an indication
-of whether or not the login sequence completed OK.
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the gitlab oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from gitlab",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Gitlab Flow
  */
 export const continueGitlabFlowAuthLoginGitlabPost = (
@@ -742,14 +760,14 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
 }
 /**
  * Starts a GNOME login flow.  This will set session cookie values and
-will return a redirect.  The frontend is expected to save the cookie
-for use later, and follow the redirect to GNOME Gitlab
-
-Upon return from GNOME to the frontend, the frontend should POST to this
-endpoint with the relevant data from GNOME Gitlab
-
-If the user is already logged in, and has a valid GNOME Gitlab token stored,
-then this will return an error instead.
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to GNOME Gitlab
+ *
+ * Upon return from GNOME to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from GNOME Gitlab
+ *
+ * If the user is already logged in, and has a valid GNOME Gitlab token stored,
+ * then this will return an error instead.
  * @summary Start Gnome Flow
  */
 export const startGnomeFlowAuthLoginGnomeGet = (
@@ -896,34 +914,34 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Process the result of the GNOME oauth flow
-
-This expects to have some JSON posted to it which (on success) contains:
-
-```
-{
-    "state": "the state code",
-    "code": "the gitlab oauth code",
-}
-```
-
-On failure, the frontend should pass through the state and error so that
-the backend can clear the stored flow state
-
-```
-{
-    "state": "the state code",
-    "error": "the error code returned from GNOME gitlab",
-}
-```
-
-This endpoint will either return an error, if something was wrong in the
-backend state machines; or it will return a success code with an indication
-of whether or not the login sequence completed OK.
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the gitlab oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from GNOME gitlab",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Gnome Flow
  */
 export const continueGnomeFlowAuthLoginGnomePost = (
@@ -1157,7 +1175,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1250,29 +1268,29 @@ export const useContinueKdeFlowAuthLoginKdePost = <
 }
 /**
  * Process the result of the Google oauth flow
-
-This expects to have some JSON posted to it which (on success) contains:
-
-```
-{
-    "state": "the state code",
-    "code": "the google oauth code",
-}
-```
-
-On failure, the frontend should pass through the state and error so that
-the backend can clear the stored flow state
-
-```
-{
-    "state": "the state code",
-    "error": "the error code returned from google",
-}
-```
-
-This endpoint will either return an error, if something was wrong in the
-backend state machines; or it will return a success code with an indication
-of whether or not the login sequence completed OK.
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the google oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from google",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Google Flow
  */
 export const continueGoogleFlowAuthLoginGooglePost = (
@@ -1362,23 +1380,23 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
 }
 /**
  * Retrieve the current login's user information.  If the user is not logged in
-you will get a `204` return.  Otherwise you will receive JSON describing the
-currently logged in user, for example:
-
-```
-{
-    "displayname": "Mx Human Person",
-    "dev_flatpaks": [ "org.people.human.Appname" ],
-    "owned_flatpaks": [ "org.foo.bar.Appname" ],
-    "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
-}
-```
-
-If the user has an active github login, you'll also get their github login
-name, and avatar.  If they have some other login, details for that login
-will be provided.
-
-dev_flatpaks is filtered against IDs available in AppStream
+ * you will get a `204` return.  Otherwise you will receive JSON describing the
+ * currently logged in user, for example:
+ *
+ * ```
+ * {
+ *     "displayname": "Mx Human Person",
+ *     "dev_flatpaks": [ "org.people.human.Appname" ],
+ *     "owned_flatpaks": [ "org.foo.bar.Appname" ],
+ *     "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
+ * }
+ * ```
+ *
+ * If the user has an active github login, you'll also get their github login
+ * name, and avatar.  If they have some other login, details for that login
+ * will be provided.
+ *
+ * dev_flatpaks is filtered against IDs available in AppStream
  * @summary Get Userinfo
  */
 export const getUserinfoAuthUserinfoGet = (
@@ -1524,7 +1542,7 @@ export function useGetUserinfoAuthUserinfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1614,7 +1632,7 @@ export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
 }
 /**
  * Clear the login state. This will discard tokens which access socials,
-and will clear the session cookie so that the user is not logged in.
+ * and will clear the session cookie so that the user is not logged in.
  * @summary Do Logout
  */
 export const doLogoutAuthLogoutPost = (
@@ -1695,9 +1713,9 @@ export const useDoLogoutAuthLogoutPost = <
 }
 /**
  * Delete a user's login information.
-If they're not logged in, they'll get a `403` return.
-Otherwise they will get an option to delete their account
-and data.
+ * If they're not logged in, they'll get a `403` return.
+ * Otherwise they will get an option to delete their account
+ * and data.
  * @summary Get Deleteuser
  */
 export const getDeleteuserAuthDeleteuserGet = (
@@ -1844,20 +1862,20 @@ export function useGetDeleteuserAuthDeleteuserGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Clear the login state. This will then delete the user's account
-and associated data. Unless there is an error.
-
-The input to this should be of the form:
-
-```json
-{
-    "token": "...",
-}
-```
+ * and associated data. Unless there is an error.
+ *
+ * The input to this should be of the form:
+ *
+ * ```json
+ * {
+ *     "token": "...",
+ * }
+ * ```
  * @summary Do Deleteuser
  */
 export const doDeleteuserAuthDeleteuserDelete = (

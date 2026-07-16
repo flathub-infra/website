@@ -47,6 +47,24 @@ import type {
   SummaryResponse,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Get Eol Rebase
  */
@@ -193,7 +211,7 @@ export function useGetEolRebaseEolRebaseGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -253,7 +271,7 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
@@ -379,7 +397,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -528,7 +546,7 @@ export function useGetEolMessageEolMessageGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -588,7 +606,7 @@ export const getGetEolMessageAppidEolMessageAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
@@ -714,17 +732,17 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Get a list of all application IDs in the repository.
-
-- **filter**: Filter by app type (default: apps)
-- **sort**: Sort order (default: alphabetical)
-  - `alphabetical`: Sort by app ID alphabetically
-  - `created-at`: Sort by creation date (newest first)
-  - `last-updated-at`: Sort by last update date (newest first)
+ *
+ * - **filter**: Filter by app type (default: apps)
+ * - **sort**: Sort order (default: alphabetical)
+ *   - `alphabetical`: Sort by app ID alphabetically
+ *   - `created-at`: Sort by creation date (newest first)
+ *   - `last-updated-at`: Sort by last update date (newest first)
  * @summary List Appstream
  */
 export const listAppstreamAppstreamGet = (
@@ -887,15 +905,15 @@ export function useListAppstreamAppstreamGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Get the AppStream metadata for a specific application.
-
-Returns the full appstream data including name, description, screenshots,
-releases, and other metadata. The response is localized based on the
-locale parameter.
+ *
+ * Returns the full appstream data including name, description, screenshots,
+ * releases, and other metadata. The response is localized based on the
+ * locale parameter.
  * @summary Get Appstream
  */
 export const getAppstreamAppstreamAppIdGet = (
@@ -949,7 +967,7 @@ export const getGetAppstreamAppstreamAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
@@ -1075,7 +1093,7 @@ export function useGetAppstreamAppstreamAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1128,7 +1146,7 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
@@ -1249,14 +1267,14 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Search for applications using Meilisearch.
-
-Accepts a search query with filters and returns matching applications
-with facets and pagination information.
+ *
+ * Accepts a search query with filters and returns matching applications
+ * with facets and pagination information.
  * @summary Post Search
  */
 export const postSearchSearchPost = (
@@ -1347,8 +1365,8 @@ export const usePostSearchSearchPost = <
 }
 /**
  * Get a list of available Flatpak runtimes with usage counts.
-
-Returns a mapping of runtime names to the number of apps using each runtime.
+ *
+ * Returns a mapping of runtime names to the number of apps using each runtime.
  * @summary Get Runtime List
  */
 export const getRuntimeListRuntimesGet = (
@@ -1494,14 +1512,14 @@ export function useGetRuntimeListRuntimesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Get summary information for a specific application.
-
-Returns information about the app's size, architectures, runtime metadata,
-and flatpak-specific configuration.
+ *
+ * Returns information about the app's size, architectures, runtime metadata,
+ * and flatpak-specific configuration.
  * @summary Get Summary
  */
 export const getSummarySummaryAppIdGet = (
@@ -1555,7 +1573,7 @@ export const getGetSummarySummaryAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
@@ -1681,13 +1699,13 @@ export function useGetSummarySummaryAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Return a mapping from org-name to platform aliases and dependencies which are
-recognised by the backend.  These are used by things such as the transactions
-and donations APIs to address amounts to the platforms.
+ * recognised by the backend.  These are used by things such as the transactions
+ * and donations APIs to address amounts to the platforms.
  * @summary Get Platforms
  */
 export const getPlatformsPlatformsGet = (
@@ -1833,13 +1851,13 @@ export function useGetPlatformsPlatformsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Get a list of addon IDs that are compatible with the specified application.
-
-Addons extend the functionality of base applications (e.g., codecs, themes).
+ *
+ * Addons extend the functionality of base applications (e.g., codecs, themes).
  * @summary Get Addons
  */
 export const getAddonsAddonAppIdGet = (
@@ -1881,7 +1899,7 @@ export const getGetAddonsAddonAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
@@ -1998,7 +2016,7 @@ export function useGetAddonsAddonAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -2147,7 +2165,7 @@ export function useGetExceptionsExceptionsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -2196,7 +2214,7 @@ export const getGetExceptionsForAppExceptionsAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
@@ -2316,7 +2334,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -2635,7 +2653,7 @@ export function useGetFavoritesFavoritesGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -2681,7 +2699,7 @@ export const getIsFavoritedFavoritesAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
@@ -2802,7 +2820,7 @@ export function useIsFavoritedFavoritesAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -2857,7 +2875,7 @@ export const getGetAppFavoritesCountFavoritesAppIdCountGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>>,
@@ -2988,5 +3006,5 @@ export function useGetAppFavoritesCountFavoritesAppIdCountGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }

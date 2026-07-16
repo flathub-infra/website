@@ -36,6 +36,24 @@ import type {
   ReviewResponse,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * Get a list of apps with unhandled moderation requests.
  * @summary Get Moderation Apps
@@ -203,7 +221,7 @@ export function useGetModerationAppsModerationAppsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -264,7 +282,7 @@ export const getGetModerationAppModerationAppsAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
@@ -389,7 +407,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -494,7 +512,7 @@ export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
 }
 /**
  * Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
-marked as successful in flat-manager.
+ * marked as successful in flat-manager.
  * @summary Submit Review
  */
 export const submitReviewModerationRequestsIdReviewPost = (

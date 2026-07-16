@@ -40,6 +40,24 @@ import type {
   UpsertQualityModeration,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * @summary Get Quality Moderation Status
  */
@@ -267,7 +285,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -500,7 +518,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -753,7 +771,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -982,7 +1000,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1212,7 +1230,7 @@ export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCa
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1273,7 +1291,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
     return {
       queryKey,
       queryFn,
-      enabled: !!appId,
+      enabled: appId !== null && appId !== undefined,
       ...queryOptions,
     } as UseQueryOptions<
       Awaited<
@@ -1432,7 +1450,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -1604,7 +1622,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
     return {
       queryKey,
       queryFn,
-      enabled: !!appId,
+      enabled: appId !== null && appId !== undefined,
       ...queryOptions,
     } as UseQueryOptions<
       Awaited<
@@ -1783,7 +1801,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**

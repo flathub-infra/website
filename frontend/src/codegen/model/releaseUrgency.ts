@@ -5,4 +5,13 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ReleaseUrgency = "low" | "medium" | "high" | "critical" | null
+export type ReleaseUrgency =
+  | (typeof ReleaseUrgency)[keyof typeof ReleaseUrgency]
+  | null
+
+export const ReleaseUrgency = {
+  low: "low",
+  medium: "medium",
+  high: "high",
+  critical: "critical",
+} as const

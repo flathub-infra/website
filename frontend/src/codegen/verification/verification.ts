@@ -41,6 +41,24 @@ import type {
   WebsiteVerificationToken,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * Gets the verification status of the given app.
  * @summary Get Verification Status
@@ -97,7 +115,7 @@ export const getGetVerificationStatusVerificationAppIdStatusGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>>,
@@ -244,7 +262,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -323,7 +341,7 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryOpti
     return {
       queryKey,
       queryFn,
-      enabled: !!appId,
+      enabled: appId !== null && appId !== undefined,
       ...queryOptions,
     } as UseQueryOptions<
       Awaited<
@@ -499,12 +517,12 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * If the current account is eligible to verify the given account via SSO, and the app is not already verified by
-someone else, marks the app as verified.
+ * someone else, marks the app as verified.
  * @summary Verify By Login Provider
  */
 export const verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost = (
@@ -871,7 +889,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**

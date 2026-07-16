@@ -32,6 +32,24 @@ import type {
   UpdateScopeRequest,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * List all direct-upload apps.
  * @summary List Direct Upload Apps
@@ -182,7 +200,7 @@ export function useListDirectUploadAppsDirectUploadAppsGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -322,7 +340,7 @@ export const getGetDirectUploadAppDirectUploadAppsAppIdGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getDirectUploadAppDirectUploadAppsAppIdGet>>,
@@ -453,7 +471,7 @@ export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -663,9 +681,9 @@ export const useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch = <
 }
 /**
  * Archive a direct-upload app: revoke tokens, mark archived, republish as EOL.
-
-Unlike the app-author archive flow in verification.py, this admin endpoint works
-for runtimes too and never touches GitHub (every entry here is a DirectUploadApp).
+ *
+ * Unlike the app-author archive flow in verification.py, this admin endpoint works
+ * for runtimes too and never touches GitHub (every entry here is a DirectUploadApp).
  * @summary Archive Direct Upload App
  */
 export const archiveDirectUploadAppDirectUploadAppsAppIdArchivePost = (

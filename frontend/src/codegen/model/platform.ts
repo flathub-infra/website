@@ -9,11 +9,11 @@ import type { PlatformStripeAccount } from "./platformStripeAccount"
 
 /**
  * A platform is an expression of dependencies which an application may have.
-Applications nominally express a single platform key for themselves, or
-none at all if they do not need one.  But platforms may depend on one another.
-
-If no platform is specified for an application, it's worth getting the default
-platform and using that.
+ * Applications nominally express a single platform key for themselves, or
+ * none at all if they do not need one.  But platforms may depend on one another.
+ *
+ * If no platform is specified for an application, it's worth getting the default
+ * platform and using that.
  */
 export interface Platform {
   depends?: PlatformDepends

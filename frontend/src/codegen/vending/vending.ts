@@ -42,11 +42,29 @@ import type {
   VendingStatus,
 } from "../model"
 
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K }
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    })
+  }
+  return result
+}
+
 /**
  * Retrieve the vending status of the logged in user.
-
-This will return `201` if the logged in user has never begun the onboarding
-flow to be a vendor on Flathub.
+ *
+ * This will return `201` if the logged in user has never begun the onboarding
+ * flow to be a vendor on Flathub.
  * @summary Status
  */
 export const statusVendingStatusGet = (
@@ -191,7 +209,7 @@ export function useStatusVendingStatusGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -286,8 +304,8 @@ export const useStartOnboardingVendingStatusOnboardingPost = <
 }
 /**
  * Retrieve a link to the logged in user's Stripe express dashboard.
-
-The user must be logged in and must have onboarded.
+ *
+ * The user must be logged in and must have onboarded.
  * @summary Get Dashboard Link
  */
 export const getDashboardLinkVendingStatusDashboardlinkGet = (
@@ -464,16 +482,16 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Retrieve the configuration values needed to calculate application
-vending splits client-side.
-
-Configuration includes:
-- Fee values
-- Platform values
+ * vending splits client-side.
+ *
+ * Configuration includes:
+ * - Fee values
+ * - Platform values
  * @summary Get Global Vending Config
  */
 export const getGlobalVendingConfigVendingConfigGet = (
@@ -622,7 +640,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
@@ -675,7 +693,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
@@ -796,19 +814,19 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Create/update the vending status for a given application.  Returns an error
-if the appid is not known, or if it's already set up for vending with a
-user other than the one calling this API.
-
-If you do not have the right to set the vending status for this application
-then you will also be refused.
-
-In addition, if any of the currency or amount values constraints are violated
-then you will get an error
+ * if the appid is not known, or if it's already set up for vending with a
+ * user other than the one calling this API.
+ *
+ * If you do not have the right to set the vending status for this application
+ * then you will also be refused.
+ *
+ * In addition, if any of the currency or amount values constraints are violated
+ * then you will get an error
  * @summary Post App Vending Setup
  */
 export const postAppVendingSetupVendingappAppIdSetupPost = (
@@ -900,11 +918,11 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
 }
 /**
  * Construct a transaction for the given application with the proposed payment.
-If the proposed payment is unacceptable then an error will be returned.
-If the user is not logged in, then an error will be returned.
-
-Otherwise a transaction will be created and the information about it will be
-returned in the output of the call.
+ * If the proposed payment is unacceptable then an error will be returned.
+ * If the user is not logged in, then an error will be returned.
+ *
+ * Otherwise a transaction will be created and the information about it will be
+ * returned in the output of the call.
  * @summary Post App Vending Status
  */
 export const postAppVendingStatusVendingappAppIdPost = (
@@ -991,10 +1009,10 @@ export const usePostAppVendingStatusVendingappAppIdPost = <
 }
 /**
  * Retrieve the redeemable tokens for the given application.
-
-The caller must have control of the app at some level
-
-Tokens are paginated with default page_size of 10
+ *
+ * The caller must have control of the app at some level
+ *
+ * Tokens are paginated with default page_size of 10
  * @summary Get Redeemable Tokens
  */
 export const getRedeemableTokensVendingappAppIdTokensGet = (
@@ -1053,7 +1071,7 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>>,
@@ -1197,13 +1215,13 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**
  * Create some tokens for the given appid.
-
-The calling user must own the vending config for this application
+ *
+ * The calling user must own the vending config for this application
  * @summary Create Tokens
  */
 export const createTokensVendingappAppIdTokensPost = (
@@ -1387,8 +1405,8 @@ export const useCancelTokensVendingappAppIdTokensCancelPost = <
 }
 /**
  * This redeems the given token for the logged in user.
-
-If the logged in user already owns the app then the token will not be redeemed
+ *
+ * If the logged in user already owns the app then the token will not be redeemed
  * @summary Redeem Token
  */
 export const redeemTokenVendingappAppIdTokensRedeemTokenPost = (
@@ -1529,7 +1547,7 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!appId,
+    enabled: appId !== null && appId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
@@ -1649,5 +1667,5 @@ export function useAppInfoVendingappAppIdInfoGet<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return withQueryKey(query, queryOptions.queryKey)
 }
