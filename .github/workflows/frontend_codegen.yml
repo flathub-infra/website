@@ -106,14 +106,14 @@ jobs:
             if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
               BRANCH="chore/codegen-$(date +%Y%m%d-%H%M%S)"
               git checkout -b "$BRANCH"
-              git push origin "$BRANCH"
+              git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "$BRANCH"
               gh pr create \
                 --title "chore(codegen): regenerate API client from backend OpenAPI" \
                 --body "Automated regeneration triggered via workflow dispatch." \
                 --base "${{ github.ref_name }}" \
                 --head "$BRANCH"
             else
-              git push origin HEAD:${{ github.head_ref }}
+              git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:${{ github.head_ref }}
             fi
           else
             echo "API client already up to date."
