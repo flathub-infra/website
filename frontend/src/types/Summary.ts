@@ -37,7 +37,7 @@ export interface Metadata {
   permissions: Permissions
   extensions: Extensions
   builtExtensions: string[]
-  extraData: ExtraData
+  "extra-data"?: ExtraData | null
   runtimeIsEol: boolean
   runtimeInstalledSize?: number
   runtimeName?: string
