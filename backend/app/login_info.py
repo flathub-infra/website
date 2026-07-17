@@ -60,7 +60,7 @@ def login_state(request: Request) -> LoginInformation:
     if user_id is not None:
         with get_db("replica") as db:
             user = db.session.get(models.FlathubUser, user_id)
-    if user is not None and user.deleted:
+    if user is not None and user.login_disabled:
         user = None
         del request.session["user-id"]
     if user is not None:

@@ -954,10 +954,11 @@ def test_authorize_authenticated_issues_code(authorize_client):
     assert authz_code.scope == "openid profile email"
 
 
-def test_authorize_deleted_user_is_denied(authorize_client):
+@pytest.mark.parametrize("disabled_field", ["deleted", "banned"])
+def test_authorize_disabled_user_is_denied(authorize_client, disabled_field):
     valid_client = _make_client()
     user = _make_user()
-    user.deleted = True
+    setattr(user, disabled_field, True)
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -1925,11 +1926,12 @@ def test_token_expired_code(token_client):
     assert response.json() == {"error": "invalid_grant"}
 
 
-def test_token_deleted_user_returns_invalid_grant(token_client):
+@pytest.mark.parametrize("disabled_field", ["deleted", "banned"])
+def test_token_disabled_user_returns_invalid_grant(token_client, disabled_field):
     client_obj = _make_token_client()
     auth_code_row = _make_auth_code_row()
     user = _make_user()
-    user.deleted = True
+    setattr(user, disabled_field, True)
     added = []
     get_db_mock = _mock_token_db(
         client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
@@ -2626,14 +2628,15 @@ def test_refresh_grant_client_refresh_disabled(token_client):
     assert response.json() == {"error": "invalid_client"}
 
 
-def test_refresh_grant_deleted_user(token_client):
+@pytest.mark.parametrize("disabled_field", ["deleted", "banned"])
+def test_refresh_grant_disabled_user(token_client, disabled_field):
     client_obj = _make_token_client(
         refresh_tokens_enabled=True,
         allowed_scopes=["openid", "profile", "email", "offline_access"],
     )
     rt_row = _RefreshTokenRow()
     user = _make_user()
-    user.deleted = True
+    setattr(user, disabled_field, True)
     get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
 
     with (
@@ -3104,11 +3107,14 @@ def test_userinfo_revoked_token(client, monkeypatch):
     assert any("oidcaccesstoken.revoked_at IS NULL" in s for s in sql_fragments)
 
 
-def test_userinfo_deleted_user_returns_invalid_token(client, monkeypatch):
+@pytest.mark.parametrize("disabled_field", ["deleted", "banned"])
+def test_userinfo_disabled_user_returns_invalid_token(
+    client, monkeypatch, disabled_field
+):
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid profile email")
     user = _make_user(display_name="Test User")
-    user.deleted = True
+    setattr(user, disabled_field, True)
     get_db_mock, _session = _mock_userinfo_db(
         access_token_obj=access_token_obj, user_obj=user
     )

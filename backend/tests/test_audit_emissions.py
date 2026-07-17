@@ -6,6 +6,7 @@ handler. They also cover the MF2 no-op case (role grant/revoke that doesn't
 change anything must NOT emit).
 """
 
+import json
 import os
 import sys
 from contextlib import contextmanager
@@ -256,6 +257,166 @@ def test_already_logged_in_emits_distinct_event(monkeypatch, recorded_calls):
     )
     assert recorded_calls[0]["event_type"] != models.AuditEventType.LOGIN_FAILURE
     assert recorded_calls[0]["user_id"] == 777
+
+
+def _run_returning_oauth(monkeypatch, linked_user):
+    from datetime import datetime
+
+    from app import logins
+    from app.login_info import LoginInformation, LoginState
+
+    account = SimpleNamespace(
+        user=42,
+        token="old-token",
+        last_used=datetime(2020, 1, 1),
+        login="old-login",
+        avatar_url="old-avatar",
+        display_name="Old Name",
+        email="old@example.com",
+    )
+    added = []
+    commits = []
+    session = SimpleNamespace(get=lambda model, user_id: linked_user)
+    fake_db = SimpleNamespace(
+        session=session,
+        add=added.append,
+        commit=lambda: commits.append(True),
+    )
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        yield fake_db
+
+    @contextmanager
+    def fake_oauth_client(method):
+        class _FakeClient:
+            def fetch_token(self, token_url, code):
+                return {"token_type": "bearer", "access_token": "new-token"}
+
+        yield _FakeClient()
+
+    monkeypatch.setattr(logins, "get_db", fake_get_db)
+    monkeypatch.setattr(logins.oauth_providers, "get_oauth_client", fake_oauth_client)
+
+    email_calls = []
+    monkeypatch.setitem(
+        sys.modules,
+        "app.worker.emails",
+        SimpleNamespace(
+            send_email_new=SimpleNamespace(send=email_calls.append),
+        ),
+    )
+    callback_calls = []
+
+    request = FakeRequest()
+    state = "matching-state"
+    request.session = {
+        "_oauth_state_github": {
+            "state": state,
+            "created": datetime.now().timestamp(),
+        },
+    }
+    login = LoginInformation(
+        state=LoginState.LOGGING_IN,
+        user=None,
+        method="github",
+    )
+    provider_data = logins.ProviderInfo(
+        id="provider-123",
+        login="new-login",
+        name="New Name",
+        avatar_url="new-avatar",
+        email="new@example.com",
+    )
+
+    response = logins.continue_oauth_flow(
+        request,
+        login,
+        logins.OauthLoginResponseSuccess(code="code", state=state),
+        "github",
+        lambda tokens: provider_data,
+        SimpleNamespace(by_provider_id=lambda db, provider_id: account),
+        lambda tokens, connected_account: callback_calls.append(
+            (tokens, connected_account)
+        ),
+    )
+    return response, request, account, added, commits, callback_calls, email_calls
+
+
+@pytest.mark.parametrize(
+    ("linked_user", "expected_error", "expected_event"),
+    [
+        (
+            SimpleNamespace(id=42, banned=True, deleted=False),
+            "account_banned",
+            "LOGIN_REJECTED_BANNED",
+        ),
+        (
+            SimpleNamespace(id=42, banned=False, deleted=True),
+            "account_unavailable",
+            "LOGIN_FAILURE",
+        ),
+        (None, "account_unavailable", "LOGIN_FAILURE"),
+    ],
+)
+def test_disabled_returning_oauth_user_is_rejected_before_side_effects(
+    monkeypatch,
+    recorded_calls,
+    linked_user,
+    expected_error,
+    expected_event,
+):
+    from app import models
+
+    response, request, account, added, commits, callback_calls, email_calls = (
+        _run_returning_oauth(monkeypatch, linked_user)
+    )
+
+    assert response.status_code == 403
+    assert json.loads(response.body) == {"state": "error", "error": expected_error}
+    assert "user-id" not in request.session
+    assert account.token == "old-token"
+    assert account.login == "old-login"
+    assert account.avatar_url == "old-avatar"
+    assert account.display_name == "Old Name"
+    assert account.email == "old@example.com"
+    assert added == []
+    assert commits == []
+    assert callback_calls == []
+    assert email_calls == []
+    assert len(recorded_calls) == 1
+    assert recorded_calls[0]["event_type"] == getattr(
+        models.AuditEventType, expected_event
+    )
+    assert recorded_calls[0]["user_id"] == 42
+    assert recorded_calls[0]["provider"] == "github"
+    expected_details = (
+        {"login": "new-login"}
+        if expected_error == "account_banned"
+        else {"error": "Account unavailable"}
+    )
+    assert recorded_calls[0]["details"] == expected_details
+
+
+def test_active_returning_oauth_user_keeps_success_path(monkeypatch, recorded_calls):
+    from app import models
+
+    linked_user = SimpleNamespace(id=42, banned=False, deleted=False)
+    response, request, account, added, commits, callback_calls, email_calls = (
+        _run_returning_oauth(monkeypatch, linked_user)
+    )
+
+    assert response == {"status": "ok", "result": "logged_in"}
+    assert request.session["user-id"] == 42
+    assert account.token == "new-token"
+    assert account.login == "new-login"
+    assert added == [account]
+    assert commits == [True]
+    assert len(callback_calls) == 1
+    assert len(email_calls) == 1
+    assert len(recorded_calls) == 1
+    assert recorded_calls[0]["event_type"] == models.AuditEventType.LOGIN_SUCCESS
+    assert recorded_calls[0]["user_id"] == 42
 
 
 SECRET = "dGVzdC1zZWNyZXQ="

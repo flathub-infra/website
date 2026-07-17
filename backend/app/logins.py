@@ -836,6 +836,31 @@ def continue_oauth_flow(
                     {"status": "error", "error": "error-already-logged-in"},
                     status_code=500,
                 )
+            linked_user = db.session.get(models.FlathubUser, account.user)
+            if linked_user is not None and linked_user.banned:
+                audit_log.enqueue_audit_log(
+                    request,
+                    account.user,
+                    models.AuditEventType.LOGIN_REJECTED_BANNED,
+                    provider=method,
+                    details={"login": provider_data.login},
+                )
+                return JSONResponse(
+                    {"state": "error", "error": "account_banned"},
+                    status_code=403,
+                )
+            if linked_user is None or linked_user.deleted:
+                audit_log.enqueue_audit_log(
+                    request,
+                    account.user,
+                    models.AuditEventType.LOGIN_FAILURE,
+                    provider=method,
+                    details={"error": "Account unavailable"},
+                )
+                return JSONResponse(
+                    {"state": "error", "error": "account_unavailable"},
+                    status_code=403,
+                )
             account.token = login_result["access_token"]
             account.last_used = datetime.now()
             account.login = provider_data.login

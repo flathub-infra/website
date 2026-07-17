@@ -278,7 +278,7 @@ def authorize(
             return _error_redirect(redirect_uri, "invalid_scope", state)
 
         user = db.session.merge(login.user)
-        if user.deleted:
+        if user.login_disabled:
             return _error_redirect(redirect_uri, "access_denied", state)
         if not _user_can_use_oidc(user):
             return _error_redirect(redirect_uri, "access_denied", state)
@@ -576,7 +576,7 @@ def _handle_authorization_code_grant(
                 raise OidcTokenError("invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
-        if user is None or user.deleted:
+        if user is None or user.login_disabled:
             raise OidcTokenError("invalid_grant")
         if not _user_can_use_oidc(user):
             raise OidcTokenError("invalid_grant")
@@ -678,7 +678,7 @@ def _handle_refresh_token_grant(
             raise OidcTokenError("invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
-        if user is None or user.deleted:
+        if user is None or user.login_disabled:
             raise OidcTokenError("invalid_grant")
         if not _user_can_use_oidc(user):
             raise OidcTokenError("invalid_grant")
@@ -772,7 +772,7 @@ def userinfo(request: Request):
             raise OidcBearerError("invalid_token")
 
         user = db.session.get(models.FlathubUser, access_token_obj.user_id)
-        if user is None or user.deleted:
+        if user is None or user.login_disabled:
             raise OidcBearerError("invalid_token")
         if not _user_can_use_oidc(user):
             raise OidcBearerError("invalid_token")
