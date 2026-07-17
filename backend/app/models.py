@@ -116,6 +116,7 @@ class UserResult(BaseModel):
     id: int
     display_name: str | None
     default_account: ConnectedAccountResult | None
+    banned: bool
     connected_accounts: list[ConnectedAccountResult]
     accepted_publisher_agreement_at: datetime | None
     roles: list[UserRoleResult]
@@ -136,6 +137,9 @@ class FlathubUser(Base):
     default_account: Mapped[str | None]
     deleted: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=false(), index=True
+    )
+    banned: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=false()
     )
     accepted_publisher_agreement_at: Mapped[datetime | None] = mapped_column(
         DateTime, nullable=True, server_default=None
@@ -167,6 +171,10 @@ class FlathubUser(Base):
     kdeAccount = relationship("KdeAccount", uselist=False, back_populates="user_entity")
 
     TABLES_FOR_DELETE = []
+
+    @property
+    def login_disabled(self) -> bool:
+        return self.deleted or self.banned
 
     def connected_accounts(self, db) -> list["ConnectedAccount"]:
         result = []
@@ -304,6 +312,7 @@ class FlathubUser(Base):
         return UserResult(
             id=self.id,
             display_name=self.display_name,
+            banned=self.banned,
             accepted_publisher_agreement_at=self.accepted_publisher_agreement_at,
             default_account=default_account_result,
             connected_accounts=[
@@ -404,6 +413,19 @@ class FlathubUser(Base):
         changed = flathubuser_role.delete_user_role(db, self, role)
         db.session.commit()
         return changed
+
+    def set_banned(self, db, banned: bool) -> bool:
+        if self.banned == banned:
+            return False
+
+        self.banned = banned
+        db.session.add(self)
+        if banned:
+            OidcAuthorizationCode.delete_user(db, self)
+            OidcAccessToken.delete_user(db, self)
+            OidcRefreshToken.delete_user(db, self)
+        db.session.commit()
+        return True
 
     def permissions(self):
         """
@@ -3908,6 +3930,7 @@ class AuditEventType(enum.StrEnum):
     LOGIN_SUCCESS = "login-success"
     LOGIN_FAILURE = "login-failure"
     LOGIN_REJECTED_ALREADY_LOGGED_IN = "login-rejected-already-logged-in"
+    LOGIN_REJECTED_BANNED = "login-rejected-banned"
     LOGOUT = "logout"
     ACCOUNT_DELETED = "account-deleted"
     UPLOAD_TOKEN_ISSUED = "upload-token-issued"
@@ -3926,6 +3949,8 @@ class AuditEventType(enum.StrEnum):
     VERIFICATION_REVOKED = "verification-revoked"
     ROLE_GRANTED = "role-granted"
     ROLE_REVOKED = "role-revoked"
+    USER_BANNED = "user-banned"
+    USER_UNBANNED = "user-unbanned"
     VENDING_CONFIG_CHANGED = "vending-config-changed"
 
 

@@ -369,6 +369,45 @@ def test_oidc_refresh_token_delete_hook_revokes_tokens():
     assert "oidcrefreshtoken.revoked_at IS NULL" in refresh_sql
 
 
+def test_set_banned_revokes_oidc_credentials():
+    user = FlathubUser(id=42, banned=False)
+    db = MagicMock()
+
+    with (
+        patch.object(OidcAuthorizationCode, "delete_user") as delete_codes,
+        patch.object(OidcAccessToken, "delete_user") as revoke_access_tokens,
+        patch.object(OidcRefreshToken, "delete_user") as revoke_refresh_tokens,
+    ):
+        assert user.set_banned(db, True) is True
+
+    assert user.banned is True
+    delete_codes.assert_called_once_with(db, user)
+    revoke_access_tokens.assert_called_once_with(db, user)
+    revoke_refresh_tokens.assert_called_once_with(db, user)
+    db.session.add.assert_called_once_with(user)
+    db.session.commit.assert_called_once_with()
+
+
+def test_set_banned_is_idempotent_and_unban_does_not_restore_credentials():
+    user = FlathubUser(id=42, banned=True)
+    db = MagicMock()
+
+    with (
+        patch.object(OidcAuthorizationCode, "delete_user") as delete_codes,
+        patch.object(OidcAccessToken, "delete_user") as revoke_access_tokens,
+        patch.object(OidcRefreshToken, "delete_user") as revoke_refresh_tokens,
+    ):
+        assert user.set_banned(db, True) is False
+        assert user.set_banned(db, False) is True
+
+    assert user.banned is False
+    delete_codes.assert_not_called()
+    revoke_access_tokens.assert_not_called()
+    revoke_refresh_tokens.assert_not_called()
+    db.session.add.assert_called_once_with(user)
+    db.session.commit.assert_called_once_with()
+
+
 def test_oidc_refresh_token_model_has_hash_only_storage():
     """Verify OidcRefreshToken stores only the hash, not the plaintext token."""
     column_names = {c.name for c in OidcRefreshToken.__table__.columns}
