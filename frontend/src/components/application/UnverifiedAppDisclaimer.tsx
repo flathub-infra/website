@@ -22,7 +22,7 @@ export function UnverifiedAppDisclaimer({
     t("unverified-app-disclaimer-unknown-developer")
 
   return (
-    <p className="mt-4">
+    <p className="mt-4 font-medium italic">
       {t(
         isExtraData
           ? "unverified-app-disclaimer-wrapper"
