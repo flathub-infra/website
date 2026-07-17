@@ -32,6 +32,10 @@ const Verification: FunctionComponent<Props> = ({
       verifiedLink = verificationText
       break
 
+    case "dns":
+      verifiedLink = verificationText
+      break
+
     case "website":
       verifiedLink = (
         <a

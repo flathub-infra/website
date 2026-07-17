@@ -28,11 +28,15 @@ import qs from "qs"
 import type {
   ArchiveRequest,
   AvailableMethods,
+  ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams,
   ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams,
+  DnsVerificationResult,
+  DnsVerificationToken,
   GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
   GetVerificationStatusVerificationAppIdStatusGet200,
   HTTPValidationError,
   LinkResponse,
+  SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams,
   SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams,
   VerificationStatusManual,
   VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200,
@@ -1165,6 +1169,283 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
   > => {
     return useMutation(
       getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
+/**
+ * Creates a token for the user to verify the app via DNS.
+ * @summary Setup Dns Verification
+ */
+export const setupDnsVerificationVerificationAppIdSetupDnsVerificationPost = (
+  appId: string,
+  params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<DnsVerificationToken>> => {
+  return axios.post(
+    `/verification/${appId}/setup-dns-verification`,
+    undefined,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    },
+  )
+}
+
+export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
+        >
+      >,
+      TError,
+      {
+        appId: string
+        params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
+    },
+    TContext
+  > => {
+    const mutationKey = [
+      "setupDnsVerificationVerificationAppIdSetupDnsVerificationPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
+        >
+      >,
+      {
+        appId: string
+        params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
+      }
+    > = (props) => {
+      const { appId, params } = props ?? {}
+
+      return setupDnsVerificationVerificationAppIdSetupDnsVerificationPost(
+        appId,
+        params,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
+      >
+    >
+  >
+
+export type SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Setup Dns Verification
+ */
+export const useSetupDnsVerificationVerificationAppIdSetupDnsVerificationPost =
+  <TError = AxiosError<void>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
+          >
+        >,
+        TError,
+        {
+          appId: string
+          params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
+    },
+    TContext
+  > => {
+    return useMutation(
+      getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
+/**
+ * Checks DNS verification, and marks the app as verified on success.
+ * @summary Confirm Dns Verification
+ */
+export const confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost =
+  (
+    appId: string,
+    params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<DnsVerificationResult>> => {
+    return axios.post(
+      `/verification/${appId}/confirm-dns-verification`,
+      undefined,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      },
+    )
+  }
+
+export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
+        >
+      >,
+      TError,
+      {
+        appId: string
+        params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
+      },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
+    },
+    TContext
+  > => {
+    const mutationKey = [
+      "confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
+        >
+      >,
+      {
+        appId: string
+        params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
+      }
+    > = (props) => {
+      const { appId, params } = props ?? {}
+
+      return confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost(
+        appId,
+        params,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
+      >
+    >
+  >
+
+export type ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Confirm Dns Verification
+ */
+export const useConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost =
+  <TError = AxiosError<void>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
+          >
+        >,
+        TError,
+        {
+          appId: string
+          params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
+        },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
+      >
+    >,
+    TError,
+    {
+      appId: string
+      params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
+    },
+    TContext
+  > => {
+    return useMutation(
+      getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationOptions(
         options,
       ),
       queryClient,

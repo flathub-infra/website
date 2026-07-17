@@ -10,5 +10,6 @@ export type AvailableMethodType =
 
 export const AvailableMethodType = {
   website: "website",
+  dns: "dns",
   login_provider: "login_provider",
 } as const

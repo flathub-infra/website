@@ -15,6 +15,7 @@ import type {
   GenerateUpdateTokenResponse,
   GetDownloadTokenResponse,
   StorefrontInfo,
+  VerificationStatusDns,
   VerificationStatusLoginProvider,
   VerificationStatusManual,
   VerificationStatusNone,
@@ -78,6 +79,26 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
     ...overrideResponse,
   })
 
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusDnsMock =
+  (
+    overrideResponse: Partial<VerificationStatusDns> = {},
+  ): VerificationStatusDns => ({
+    ...{
+      verified: true,
+      timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      method: "dns",
+      website: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
+    },
+    ...overrideResponse,
+  })
+
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusLoginProviderMock =
   (
     overrideResponse: Partial<VerificationStatusLoginProvider> = {},
@@ -117,6 +138,9 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
         },
         {
           ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusWebsiteMock(),
+        },
+        {
+          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusDnsMock(),
         },
         {
           ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusLoginProviderMock(),

@@ -12,6 +12,7 @@ export type MetadataFlathubVerificationMethod =
 export const MetadataFlathubVerificationMethod = {
   manual: "manual",
   website: "website",
+  dns: "dns",
   login_provider: "login_provider",
   none: "none",
 } as const

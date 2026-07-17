@@ -5,6 +5,7 @@ import ConfirmDialog from "../../ConfirmDialog"
 import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
+import DnsVerification from "./DnsVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
 import {
@@ -57,6 +58,12 @@ const StatusInfo = ({
     case VerificationMethod.website:
       return t.rich("app-is-currently-verified-by-website", {
         website: (chunk) => (
+          <span className="font-medium">{status.website}</span>
+        ),
+      })
+    case VerificationMethod.dns:
+      return t.rich("app-is-currently-verified-by-dns", {
+        domain: (chunk) => (
           <span className="font-medium">{status.website}</span>
         ),
       })
@@ -240,6 +247,17 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                     isNewApp={isNewApp}
                     onVerified={onChildVerified}
                   ></WebsiteVerification>
+                )
+              }
+              if (methodType.method === "dns") {
+                return (
+                  <DnsVerification
+                    key={methodType.method}
+                    appId={app.id}
+                    method={methodType}
+                    isNewApp={isNewApp}
+                    onVerified={onChildVerified}
+                  />
                 )
               }
               if (methodType.method === "login_provider") {

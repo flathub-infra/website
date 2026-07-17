@@ -12,5 +12,6 @@ export const VerificationMethod = {
   none: "none",
   manual: "manual",
   website: "website",
+  dns: "dns",
   login_provider: "login_provider",
 } as const

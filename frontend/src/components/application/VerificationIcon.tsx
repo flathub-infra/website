@@ -49,21 +49,26 @@ const VerificationIcon: FunctionComponent<Props> = ({
                     appid: (chunks) => <b>{appId}</b>,
                     website: (chunks) => <b>{verificationStatus.website}</b>,
                   })
-                : verificationStatus.method === "login_provider"
-                  ? t.rich("verified-login-provider-tooltip", {
+                : verificationStatus.method === "dns"
+                  ? t.rich("verified-dns-tooltip", {
                       appid: (chunks) => <b>{appId}</b>,
-                      loginname: (chunks) => (
-                        <b>{verificationStatus.login_name}</b>
-                      ),
-                      loginprovider: (chunks) => (
-                        <b>
-                          {verificationProviderToHumanReadable(
-                            verificationStatus.login_provider,
-                          )}
-                        </b>
-                      ),
+                      domain: (chunks) => <b>{verificationStatus.website}</b>,
                     })
-                  : t("verified")}
+                  : verificationStatus.method === "login_provider"
+                    ? t.rich("verified-login-provider-tooltip", {
+                        appid: (chunks) => <b>{appId}</b>,
+                        loginname: (chunks) => (
+                          <b>{verificationStatus.login_name}</b>
+                        ),
+                        loginprovider: (chunks) => (
+                          <b>
+                            {verificationProviderToHumanReadable(
+                              verificationStatus.login_provider,
+                            )}
+                          </b>
+                        ),
+                      })
+                    : t("verified")}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

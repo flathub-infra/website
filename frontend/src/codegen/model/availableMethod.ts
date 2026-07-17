@@ -4,6 +4,9 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { AvailableMethodDnsDomain } from "./availableMethodDnsDomain"
+import type { AvailableMethodDnsRecordName } from "./availableMethodDnsRecordName"
+import type { AvailableMethodDnsToken } from "./availableMethodDnsToken"
 import type { AvailableMethodLoginIsOrganization } from "./availableMethodLoginIsOrganization"
 import type { AvailableMethodLoginName } from "./availableMethodLoginName"
 import type { AvailableMethodLoginProvider } from "./availableMethodLoginProvider"
@@ -16,6 +19,9 @@ export interface AvailableMethod {
   method: AvailableMethodType
   website?: AvailableMethodWebsite
   website_token?: AvailableMethodWebsiteToken
+  dns_domain?: AvailableMethodDnsDomain
+  dns_record_name?: AvailableMethodDnsRecordName
+  dns_token?: AvailableMethodDnsToken
   login_provider?: AvailableMethodLoginProvider
   login_name?: AvailableMethodLoginName
   login_is_organization?: AvailableMethodLoginIsOrganization

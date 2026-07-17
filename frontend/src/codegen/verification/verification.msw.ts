@@ -17,8 +17,11 @@ import {
 } from "../model"
 import type {
   AvailableMethods,
+  DnsVerificationResult,
+  DnsVerificationToken,
   GetVerificationStatusVerificationAppIdStatusGet200,
   LinkResponse,
+  VerificationStatusDns,
   VerificationStatusLoginProvider,
   VerificationStatusManual,
   VerificationStatusNone,
@@ -85,6 +88,26 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificat
     ...overrideResponse,
   })
 
+export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusDnsMock =
+  (
+    overrideResponse: Partial<VerificationStatusDns> = {},
+  ): VerificationStatusDns => ({
+    ...{
+      verified: true,
+      timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      method: "dns",
+      website: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      detail: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
+    },
+    ...overrideResponse,
+  })
+
 export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusLoginProviderMock =
   (
     overrideResponse: Partial<VerificationStatusLoginProvider> = {},
@@ -123,6 +146,9 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock =
         ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusWebsiteMock(),
       },
       {
+        ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusDnsMock(),
+      },
+      {
         ...getGetVerificationStatusVerificationAppIdStatusGetResponseVerificationStatusLoginProviderMock(),
       },
     ])
@@ -148,6 +174,27 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
             undefined,
           ]),
           website_token: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          dns_domain: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          dns_record_name: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          dns_token: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
               faker.string.alpha({ length: { min: 10, max: 20 } }),
               null,
@@ -234,6 +281,31 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     ]),
     status_code: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.number.int(), null]),
+      undefined,
+    ]),
+    ...overrideResponse,
+  })
+
+export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<DnsVerificationToken, object>> = {},
+  ): DnsVerificationToken => ({
+    domain: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    record_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    token: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    ...overrideResponse,
+  })
+
+export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<DnsVerificationResult, object>> = {},
+  ): DnsVerificationResult => ({
+    verified: faker.datatype.boolean(),
+    detail: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.helpers.arrayElement(Object.values(ErrorDetail)),
+        null,
+      ]),
       undefined,
     ]),
     ...overrideResponse,
@@ -409,6 +481,56 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     )
   }
 
+export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMockHandler =
+  (
+    overrideResponse?:
+      | DnsVerificationToken
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<DnsVerificationToken> | DnsVerificationToken),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/verification/:appId/setup-dns-verification",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMockHandler =
+  (
+    overrideResponse?:
+      | DnsVerificationResult
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<DnsVerificationResult> | DnsVerificationResult),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/verification/:appId/confirm-dns-verification",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getUnverifyVerificationAppIdUnverifyPostMockHandler = (
   overrideResponse?:
     | void
@@ -504,6 +626,8 @@ export const getVerificationMock = () => [
   getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetMockHandler(),
   getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMockHandler(),
   getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMockHandler(),
+  getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMockHandler(),
+  getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMockHandler(),
   getUnverifyVerificationAppIdUnverifyPostMockHandler(),
   getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMockHandler(),
   getArchiveVerificationAppIdArchivePostMockHandler(),

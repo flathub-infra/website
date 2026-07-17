@@ -3,6 +3,7 @@ import { Meta } from "@storybook/nextjs-vite"
 import Verification from "./Verification"
 import {
   VerificationStatusLoginProvider,
+  VerificationStatusDns,
   VerificationStatusManual,
   VerificationStatusWebsite,
 } from "src/codegen"
@@ -40,6 +41,22 @@ export const websiteVerification = () => {
     />
   )
 }
+export const dnsVerification = () => {
+  const verificationStatus: VerificationStatusDns = {
+    verified: true,
+    timestamp: "1678175850",
+    detail: "",
+    method: "dns",
+    website: "example.com",
+  }
+  return (
+    <Verification
+      appId="com.example.Example"
+      verificationStatus={verificationStatus}
+    />
+  )
+}
+
 export const loginProviderVerification = () => {
   const verificationStatus: VerificationStatusLoginProvider = {
     verified: true,

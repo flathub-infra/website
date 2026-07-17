@@ -17,6 +17,9 @@ export const VerificationText = (
       }
       return verificationStatus.website
 
+    case "dns":
+      return verificationStatus.website
+
     case "login_provider":
       if (
         verificationStatus.login_provider === "kde" &&

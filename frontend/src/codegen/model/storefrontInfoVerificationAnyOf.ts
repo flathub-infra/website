@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { VerificationStatusDns } from "./verificationStatusDns"
 import type { VerificationStatusLoginProvider } from "./verificationStatusLoginProvider"
 import type { VerificationStatusManual } from "./verificationStatusManual"
 import type { VerificationStatusNone } from "./verificationStatusNone"
@@ -13,4 +14,5 @@ export type StorefrontInfoVerificationAnyOf =
   | VerificationStatusNone
   | VerificationStatusManual
   | VerificationStatusWebsite
+  | VerificationStatusDns
   | VerificationStatusLoginProvider

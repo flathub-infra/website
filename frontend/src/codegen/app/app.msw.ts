@@ -435,6 +435,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
               faker.helpers.arrayElement([
                 "manual",
                 "website",
+                "dns",
                 "login_provider",
                 "none",
               ] as const),
@@ -771,6 +772,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
               faker.helpers.arrayElement([
                 "manual",
                 "website",
+                "dns",
                 "login_provider",
                 "none",
               ] as const),
@@ -1081,6 +1083,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
                 faker.helpers.arrayElement([
                   "manual",
                   "website",
+                  "dns",
                   "login_provider",
                   "none",
                 ] as const),
@@ -1392,6 +1395,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
               faker.helpers.arrayElement([
                 "manual",
                 "website",
+                "dns",
                 "login_provider",
                 "none",
               ] as const),
@@ -1708,6 +1712,7 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
               faker.helpers.arrayElement([
                 "manual",
                 "website",
+                "dns",
                 "login_provider",
                 "none",
               ] as const),
