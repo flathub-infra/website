@@ -234,6 +234,8 @@
   "by": "by {developer}",
   "developed-by": "developed by {developer}",
   "unverified-tooltip": "The ownership of the <appid></appid> app ID has not been verified and it may be a community package",
+  "unverified-app-disclaimer-package": "This community-provided package is not verified by, affiliated with, or supported by {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "the app developer",
   "install": "Install",
   "donate": "Donate",
   "donate-to": "Donate to {project}",
