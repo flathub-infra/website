@@ -6,6 +6,9 @@ from enum import StrEnum
 from typing import Annotated, Literal
 from uuid import uuid4
 
+import dns.asyncresolver
+import dns.exception
+import dns.resolver
 import github
 import gitlab
 import httpx
@@ -37,6 +40,12 @@ class ErrorDetail(StrEnum):
     SERVER_RETURNED_ERROR = "server_returned_error"
     # The correct token is not present in /.well-known/org.flathub.VerifiedApps.txt on the website.
     TOKEN_NOT_PRESENT = "app_not_listed"
+    # The DNS TXT record does not exist.
+    DNS_RECORD_NOT_FOUND = "dns_record_not_found"
+    # The DNS TXT records do not contain the correct token.
+    DNS_TOKEN_NOT_PRESENT = "dns_token_not_present"
+    # The DNS TXT lookup failed.
+    DNS_LOOKUP_FAILED = "dns_lookup_failed"
     # The app cannot be verified because the Flathub administrators manually blocked it.
     BLOCKED_BY_ADMINS = "blocked_by_admins"
     # The operation requires you to be logged in to Flathub or a specific provider.
@@ -173,6 +182,11 @@ def _get_domain_name(app_id: str) -> tuple[str | None, bool]:
         return (f"{domain}.{tld}".lower(), False)
 
 
+def _get_dns_record_name(app_id: str) -> str | None:
+    domain, _ = _get_domain_name(app_id)
+    return f"_flathub.{domain}" if domain else None
+
+
 def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
     match app_id:
         case "org.gnome.World.PikaBackup":
@@ -290,6 +304,11 @@ class WebsiteVerificationResult(BaseModel):
     status_code: int | None = None
 
 
+class DnsVerificationResult(BaseModel):
+    verified: bool
+    detail: ErrorDetail | None = None
+
+
 class CheckWebsiteVerification:
     """Downloads a domain's verified apps list and checks for a token. This is split into a dependency so it can be
     tested separately."""
@@ -329,6 +348,34 @@ class CheckWebsiteVerification:
             )
 
 
+class CheckDnsVerification:
+    async def __call__(self, app_id: str, token: str) -> DnsVerificationResult:
+        record_name = _get_dns_record_name(app_id)
+        if record_name is None:
+            return DnsVerificationResult(
+                verified=False, detail=ErrorDetail.INVALID_METHOD
+            )
+
+        try:
+            answers = await dns.asyncresolver.resolve(record_name, "TXT", lifetime=5)
+        except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer):
+            return DnsVerificationResult(
+                verified=False, detail=ErrorDetail.DNS_RECORD_NOT_FOUND
+            )
+        except dns.exception.DNSException:
+            return DnsVerificationResult(
+                verified=False, detail=ErrorDetail.DNS_LOOKUP_FAILED
+            )
+
+        expected_token = token.encode("ascii")
+        if any(b"".join(answer.strings) == expected_token for answer in answers):
+            return DnsVerificationResult(verified=True)
+
+        return DnsVerificationResult(
+            verified=False, detail=ErrorDetail.DNS_TOKEN_NOT_PRESENT
+        )
+
+
 class LoginProvider(StrEnum):
     GITHUB = "github"
     GITLAB = "gitlab"
@@ -360,6 +407,14 @@ class VerificationStatusWebsite(BaseModel):
     detail: str | None = None
 
 
+class VerificationStatusDns(BaseModel):
+    verified: Literal[True]
+    timestamp: str
+    method: Literal[VerificationMethod.DNS]
+    website: str
+    detail: str | None = None
+
+
 class VerificationStatusLoginProvider(BaseModel):
     verified: Literal[True]
     timestamp: str
@@ -375,6 +430,7 @@ VerificationStatus = Annotated[
     VerificationStatusNone
     | VerificationStatusManual
     | VerificationStatusWebsite
+    | VerificationStatusDns
     | VerificationStatusLoginProvider,
     Field(discriminator="method"),
 ]
@@ -562,6 +618,14 @@ async def get_verification_status(
                 method=VerificationMethod.WEBSITE,
                 website=domain or "",
             )
+        case "dns":
+            domain, _ = _get_domain_name(app_id)
+            return VerificationStatusDns(
+                verified=True,
+                timestamp=str(int(verification.verified_timestamp.timestamp())),
+                method=VerificationMethod.DNS,
+                website=domain or "",
+            )
         case "login_provider":
             provider_username = _get_provider_username(app_id)
             if provider_username is not None:
@@ -582,6 +646,7 @@ async def get_verification_status(
 
 class AvailableMethodType(StrEnum):
     WEBSITE = "website"
+    DNS = "dns"
     LOGIN_PROVIDER = "login_provider"
 
 
@@ -599,6 +664,9 @@ class AvailableMethod(BaseModel):
     method: AvailableMethodType
     website: str | None = None
     website_token: str | None = None
+    dns_domain: str | None = None
+    dns_record_name: str | None = None
+    dns_token: str | None = None
     login_provider: LoginProvider | None = None
     login_name: str | None = None
     login_is_organization: bool | None = None
@@ -648,17 +716,28 @@ def get_available_methods(
             )
         if (
             verification is not None
-            and verification.method == "website"
+            and not verification.verified
+            and verification.method in DOMAIN_VERIFICATION_METHODS
             and verification.token is not None
         ):
             token = verification.token
         else:
             token = None
 
-        methods.append(
-            AvailableMethod(
-                method=AvailableMethodType.WEBSITE, website=domain, website_token=token
-            )
+        methods.extend(
+            [
+                AvailableMethod(
+                    method=AvailableMethodType.WEBSITE,
+                    website=domain,
+                    website_token=token,
+                ),
+                AvailableMethod(
+                    method=AvailableMethodType.DNS,
+                    dns_domain=domain,
+                    dns_record_name=_get_dns_record_name(app_id),
+                    dns_token=token,
+                ),
+            ]
         )
 
     if _get_provider_username(app_id) is not None:
@@ -968,6 +1047,45 @@ class WebsiteVerificationToken(BaseModel):
     token: str
 
 
+class DnsVerificationToken(BaseModel):
+    domain: str
+    record_name: str
+    token: str
+
+
+DOMAIN_VERIFICATION_METHODS = frozenset({"website", "dns"})
+
+
+def _get_or_create_domain_verification(
+    app_id: str,
+    user: models.FlathubUser,
+    method: Literal["website", "dns"],
+) -> models.AppVerification:
+    with get_db("replica") as db:
+        verification = models.AppVerification.by_app_and_user(db, app_id, user)
+
+    if (
+        verification is not None
+        and not verification.verified
+        and verification.method in DOMAIN_VERIFICATION_METHODS
+        and verification.token is not None
+    ):
+        return verification
+
+    verification = models.AppVerification(
+        app_id=app_id,
+        account=user.id,
+        method=method,
+        verified=False,
+        token=str(uuid4()),
+    )
+    with get_db("writer") as db:
+        db.session.merge(verification)
+        db.session.commit()
+
+    return verification
+
+
 @router.post(
     "/{app_id}/setup-website-verification",
     status_code=200,
@@ -996,31 +1114,13 @@ def setup_website_verification(
 
     _check_app_id(app_id, new_app, login)
 
-    domain, is_manual = _get_domain_name(app_id)
-    verif_method = "website"
-
+    domain, _ = _get_domain_name(app_id)
     if domain is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
-    with get_db("replica") as db:
-        verification = models.AppVerification.by_app_and_user(db, app_id, login.user)
-
-    if (
-        verification is None
-        or verification.method != verif_method
-        or verification.token is None
-    ):
-        verification = models.AppVerification(
-            app_id=app_id,
-            account=login.user.id,
-            method=verif_method,
-            verified=False,
-            token=str(uuid4()),
-        )
-        with get_db("writer") as db:
-            db.session.merge(verification)
-            db.session.commit()
-
+    verification = _get_or_create_domain_verification(
+        app_id, login.user, method="website"
+    )
     return WebsiteVerificationToken(domain=domain, token=verification.token)
 
 
@@ -1059,7 +1159,7 @@ async def confirm_website_verification(
 
     if (
         verification is None
-        or verification.method != "website"
+        or verification.method not in DOMAIN_VERIFICATION_METHODS
         or verification.token is None
     ):
         raise HTTPException(status_code=400, detail=ErrorDetail.MUST_SET_UP_FIRST)
@@ -1067,6 +1167,110 @@ async def confirm_website_verification(
     result = check(app_id, verification.token)
 
     if result.verified:
+        verification.method = "website"
+        verification.verified = True
+        verification.verified_timestamp = func.now()
+
+        if new_app:
+            _create_direct_upload_app(login.user, app_id)
+
+        with get_db("writer") as db:
+            db.session.merge(verification)
+            _cleanup_stale_verifications(db, app_id, login.user.id)
+            db.session.commit()
+
+        if not new_app:
+            worker.republish_app.send(app_id)
+            await cache.mark_stale_by_pattern(
+                "cache:endpoint:get_verification_status:*"
+            )
+
+    return result
+
+
+@router.post(
+    "/{app_id}/setup-dns-verification",
+    status_code=200,
+    response_model=DnsVerificationToken,
+    tags=["verification"],
+    responses={
+        200: {"model": DnsVerificationToken},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - verification method not available"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+def setup_dns_verification(
+    login=Depends(logged_in),
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+    new_app: bool = False,
+):
+    """Creates a token for the user to verify the app via DNS."""
+
+    _check_app_id(app_id, new_app, login)
+
+    domain, _ = _get_domain_name(app_id)
+    record_name = _get_dns_record_name(app_id)
+    if domain is None or record_name is None:
+        raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
+
+    verification = _get_or_create_domain_verification(app_id, login.user, method="dns")
+    return DnsVerificationToken(
+        domain=domain, record_name=record_name, token=verification.token
+    )
+
+
+@router.post(
+    "/{app_id}/confirm-dns-verification",
+    status_code=200,
+    response_model=DnsVerificationResult,
+    response_model_exclude_none=True,
+    tags=["verification"],
+    responses={
+        200: {"model": DnsVerificationResult},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - verification failed"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+async def confirm_dns_verification(
+    login=Depends(logged_in),
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+    new_app: bool = False,
+    check=Depends(CheckDnsVerification),
+):
+    """Checks DNS verification, and marks the app as verified on success."""
+
+    _check_app_id(app_id, new_app, login)
+
+    with get_db("replica") as db:
+        verification = models.AppVerification.by_app_and_user(db, app_id, login.user)
+
+    if (
+        verification is None
+        or verification.method not in DOMAIN_VERIFICATION_METHODS
+        or verification.token is None
+    ):
+        raise HTTPException(status_code=400, detail=ErrorDetail.MUST_SET_UP_FIRST)
+
+    result = await check(app_id, verification.token)
+
+    if result.verified:
+        verification.method = "dns"
         verification.verified = True
         verification.verified_timestamp = func.now()
 

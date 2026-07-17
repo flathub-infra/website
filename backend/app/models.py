@@ -71,6 +71,9 @@ ConnectedAccount = Union[
     "GoogleAccount",
     "KdeAccount",
 ]
+ConnectedAccount = (
+    GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
+)
 
 ConnectedAccountResult = Union[
     "GithubAccountResult",
@@ -1111,9 +1114,6 @@ ConnectedAccountTables = [
     GoogleAccount,
     KdeAccount,
 ]
-ConnectedAccount = (
-    GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
-)
 
 
 class OidcClient(Base):
@@ -1325,6 +1325,7 @@ class AppVerification(Base):
         Enum(
             "manual",
             "website",
+            "dns",
             "login_provider",
             native_enum=False,
             values_callable=lambda x: [e.value for e in x],

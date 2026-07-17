@@ -116,8 +116,8 @@ class VerificationMetadata(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     verified: bool = Field(False, alias="flathub::verification::verified")
-    method: Literal["manual", "website", "login_provider", "none"] | None = Field(
-        None, alias="flathub::verification::method"
+    method: Literal["manual", "website", "dns", "login_provider", "none"] | None = (
+        Field(None, alias="flathub::verification::method")
     )
     login_name: str | None = Field(None, alias="flathub::verification::login_name")
     login_provider: ConnectedAccountProvider | None = Field(
@@ -148,7 +148,7 @@ class Metadata(BaseModel):
         None, alias="flathub::verification::verified"
     )
     flathub_verification_method: (
-        Literal["manual", "website", "login_provider", "none"] | None
+        Literal["manual", "website", "dns", "login_provider", "none"] | None
     ) = Field(None, alias="flathub::verification::method")
     flathub_verification_login_name: str | None = Field(
         None, alias="flathub::verification::login_name"

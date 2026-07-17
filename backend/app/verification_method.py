@@ -11,5 +11,7 @@ class VerificationMethod(StrEnum):
     MANUAL = "manual"
     # The app was verified via website.
     WEBSITE = "website"
+    # The app was verified via DNS.
+    DNS = "dns"
     # The app was verified via a login provider.
     LOGIN_PROVIDER = "login_provider"
