@@ -157,6 +157,11 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
       },
     },
     {
+      id: "status",
+      header: "Status",
+      accessorFn: (row) => (row.banned ? "Banned" : "Active"),
+    },
+    {
       id: "last_used",
       header: "Last Used",
       accessorFn: (row) => {

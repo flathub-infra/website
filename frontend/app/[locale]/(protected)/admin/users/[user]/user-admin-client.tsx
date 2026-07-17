@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { ConditionalWrapper } from "@/lib/helpers"
@@ -14,12 +15,17 @@ import {
   UserResultConnectedAccountsItem,
   UserResultDefaultAccount,
   useUserUsersUserIdGet,
+  useBanUserUsersUserIdBanPost,
+  useUnbanUserUsersUserIdBanDelete,
 } from "src/codegen"
+import ConfirmDialog from "src/components/ConfirmDialog"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import LoginGuard from "src/components/login/LoginGuard"
 import { ProviderLogo } from "src/components/login/ProviderLogo"
 import Spinner from "src/components/Spinner"
+import { useUserContext } from "src/context/user-info"
 import { Link } from "src/i18n/navigation"
+import { useState } from "react"
 
 interface UserAdminClientProps {
   userId: string
@@ -69,6 +75,13 @@ const ProviderProfileLink = ({
 
 export default function UserAdminClient({ userId }: UserAdminClientProps) {
   const userIdNumber = parseInt(userId, 10)
+  const currentUser = useUserContext()
+  const [confirmAction, setConfirmAction] = useState<"ban" | "unban" | null>(
+    null,
+  )
+  const canModifyUsers = !!currentUser.info?.permissions.some(
+    (permission) => permission === Permission["modify-users"],
+  )
 
   const query = useUserUsersUserIdGet(userIdNumber, {
     axios: {
@@ -93,6 +106,30 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
     },
     mutation: {
       onSuccess: () => {
+        query.refetch()
+      },
+    },
+  })
+
+  const banUserQuery = useBanUserUsersUserIdBanPost({
+    axios: {
+      withCredentials: true,
+    },
+    mutation: {
+      onSuccess: () => {
+        setConfirmAction(null)
+        query.refetch()
+      },
+    },
+  })
+
+  const unbanUserQuery = useUnbanUserUsersUserIdBanDelete({
+    axios: {
+      withCredentials: true,
+    },
+    mutation: {
+      onSuccess: () => {
+        setConfirmAction(null)
         query.refetch()
       },
     },
@@ -127,6 +164,38 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
               <h1 className="mt-4 text-4xl font-extrabold">
                 {query.data.data.default_account.login} ({query.data.data.id})
               </h1>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-extrabold">Account access</h2>
+                <div className="flex items-center gap-4">
+                  <span>
+                    Status: {query.data.data.banned ? "Banned" : "Active"}
+                  </span>
+                  {canModifyUsers &&
+                    (query.data.data.banned ? (
+                      <Button
+                        type="button"
+                        onClick={() => setConfirmAction("unban")}
+                        disabled={
+                          banUserQuery.isPending || unbanUserQuery.isPending
+                        }
+                      >
+                        Unban user
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={() => setConfirmAction("ban")}
+                        disabled={
+                          banUserQuery.isPending || unbanUserQuery.isPending
+                        }
+                      >
+                        Ban user
+                      </Button>
+                    ))}
+                </div>
+              </div>
 
               {query.data.data.default_account && (
                 <div className="space-y-4">
@@ -231,6 +300,28 @@ export default function UserAdminClient({ userId }: UserAdminClientProps) {
                 </div>
               )}
             </div>
+            <ConfirmDialog
+              isVisible={confirmAction !== null}
+              prompt={confirmAction === "ban" ? "Ban user" : "Unban user"}
+              description={`${
+                confirmAction === "ban" ? "Ban" : "Unban"
+              } ${query.data.data.default_account?.login ?? userId}?`}
+              action={confirmAction === "ban" ? "Ban user" : "Unban user"}
+              actionVariant={
+                confirmAction === "ban" ? "destructive" : "default"
+              }
+              submitDisabled={
+                banUserQuery.isPending || unbanUserQuery.isPending
+              }
+              onConfirmed={() => {
+                if (confirmAction === "ban") {
+                  banUserQuery.mutate({ userId: userIdNumber })
+                } else if (confirmAction === "unban") {
+                  unbanUserQuery.mutate({ userId: userIdNumber })
+                }
+              }}
+              onCancelled={() => setConfirmAction(null)}
+            />
           </div>
         )}
       </LoginGuard>
