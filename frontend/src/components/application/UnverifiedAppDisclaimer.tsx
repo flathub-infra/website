@@ -1,5 +1,3 @@
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { InfoIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 interface Props {
@@ -24,18 +22,13 @@ export function UnverifiedAppDisclaimer({
     t("unverified-app-disclaimer-unknown-developer")
 
   return (
-    <Alert className="xl:max-w-[75%]">
-      <InfoIcon />
-      <AlertDescription>
-        <p>
-          {t(
-            isExtraData
-              ? "unverified-app-disclaimer-wrapper"
-              : "unverified-app-disclaimer-package",
-            { developer },
-          )}
-        </p>
-      </AlertDescription>
-    </Alert>
+    <p className="mt-4">
+      {t(
+        isExtraData
+          ? "unverified-app-disclaimer-wrapper"
+          : "unverified-app-disclaimer-package",
+        { developer },
+      )}
+    </p>
   )
 }

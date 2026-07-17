@@ -21,9 +21,11 @@ export const Wrapper: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    expect(canvas.getByRole("alert")).toHaveTextContent(
-      "This community-provided wrapper is not verified by, affiliated with, or supported by Google.",
-    )
+    expect(
+      canvas.getByText(
+        "This community-provided wrapper is not verified by, affiliated with, or supported by Google.",
+      ),
+    ).toBeInTheDocument()
   },
 }
 
@@ -36,9 +38,11 @@ export const Package: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    expect(canvas.getByRole("alert")).toHaveTextContent(
-      "This community-provided package is not verified by, affiliated with, or supported by VideoLAN et al.",
-    )
+    expect(
+      canvas.getByText(
+        "This community-provided package is not verified by, affiliated with, or supported by VideoLAN et al.",
+      ),
+    ).toBeInTheDocument()
   },
 }
 
@@ -51,9 +55,11 @@ export const UnknownDeveloper: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    expect(canvas.getByRole("alert")).toHaveTextContent(
-      "This community-provided package is not verified by, affiliated with, or supported by the app developer.",
-    )
+    expect(
+      canvas.getByText(
+        "This community-provided package is not verified by, affiliated with, or supported by the app developer.",
+      ),
+    ).toBeInTheDocument()
   },
 }
 
@@ -66,6 +72,10 @@ export const Verified: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    expect(canvas.queryByRole("alert")).not.toBeInTheDocument()
+    expect(
+      canvas.queryByText(
+        "This community-provided package is not verified by, affiliated with, or supported by Mozilla.",
+      ),
+    ).not.toBeInTheDocument()
   },
 }

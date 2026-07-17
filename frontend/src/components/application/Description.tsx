@@ -4,13 +4,20 @@ import { useTranslations } from "next-intl"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import linkifyHtml from "linkify-html"
 import { DesktopAppstream } from "src/codegen"
+import { UnverifiedAppDisclaimer } from "./UnverifiedAppDisclaimer"
 
 export const Description = ({
   app,
+  developerName,
+  isExtraData,
   isQualityModalOpen,
+  isVerified,
 }: {
   app: Pick<DesktopAppstream, "description" | "summary">
+  developerName?: string | null
+  isExtraData: boolean
   isQualityModalOpen: boolean
+  isVerified: boolean
 }) => {
   const t = useTranslations()
   const collapsedHeight = 1000
@@ -46,7 +53,7 @@ export const Description = ({
       setFullHeight(contentRef.current.scrollHeight)
       setShowCollapseButton(contentRef.current.scrollHeight > collapsedHeight)
     }
-  }, [description])
+  }, [description, developerName, isExtraData, isVerified])
 
   return (
     <>
@@ -77,10 +84,18 @@ export const Description = ({
                   : "none"
                 : `${collapsedHeight}px`,
           }}
-          dangerouslySetInnerHTML={{
-            __html: description,
-          }}
-        />
+        >
+          <div
+            dangerouslySetInnerHTML={{
+              __html: description,
+            }}
+          />
+          <UnverifiedAppDisclaimer
+            developerName={developerName}
+            isExtraData={isExtraData}
+            isVerified={isVerified}
+          />
+        </div>
       </div>
 
       {showCollapseButton && (
