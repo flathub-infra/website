@@ -16,6 +16,7 @@ import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
 import { IS_PRODUCTION } from "src/env"
 import { Description } from "./Description"
+import { UnverifiedAppDisclaimer } from "./UnverifiedAppDisclaimer"
 import Addons from "./Addons"
 import SubHeader from "./sub-header"
 import Links from "./Links"
@@ -90,6 +91,11 @@ const Details: FunctionComponent<Props> = ({
           Array.isArray(app.screenshots) &&
           app.screenshots.length > 0 && <CarouselStrip app={app} />}
         <div className="col-start-2 flex flex-col gap-8 pt-2">
+          <UnverifiedAppDisclaimer
+            developerName={app.developer_name}
+            isExtraData={Boolean(summary?.metadata?.["extra-data"])}
+            isVerified={verificationStatus.verified}
+          />
           {isDesktopAppstreamTypeGuard(app) && (
             <Description app={app} isQualityModalOpen={isQualityModalOpen} />
           )}
