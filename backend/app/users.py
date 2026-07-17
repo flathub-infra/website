@@ -113,6 +113,80 @@ def user(
 
 
 @router.post(
+    "/{user_id}/ban",
+    tags=["users"],
+    responses={
+        200: {"description": "User banned successfully"},
+        400: {"description": "Cannot ban the current user"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - modify users permission required"},
+        404: {"description": "User not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+def ban_user(
+    user_id: int,
+    http_request: Request,
+    login=Depends(modify_users_only),
+) -> models.UserResult:
+    if user_id == login.user.id:
+        raise HTTPException(status_code=400, detail="cannot_ban_self")
+
+    with get_db("writer") as db_session:
+        user = models.FlathubUser.by_id(db_session, user_id)
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
+
+        changed = user.set_banned(db_session, True)
+        result = user.to_result(db_session)
+
+    if changed:
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.USER_BANNED,
+            target_user_id=user_id,
+        )
+    return result
+
+
+@router.delete(
+    "/{user_id}/ban",
+    tags=["users"],
+    responses={
+        200: {"description": "User unbanned successfully"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - modify users permission required"},
+        404: {"description": "User not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+def unban_user(
+    user_id: int,
+    http_request: Request,
+    login=Depends(modify_users_only),
+) -> models.UserResult:
+    with get_db("writer") as db_session:
+        user = models.FlathubUser.by_id(db_session, user_id)
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
+
+        changed = user.set_banned(db_session, False)
+        result = user.to_result(db_session)
+
+    if changed:
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.USER_UNBANNED,
+            target_user_id=user_id,
+        )
+    return result
+
+
+@router.post(
     "/{user_id}/role",
     tags=["users"],
     responses={

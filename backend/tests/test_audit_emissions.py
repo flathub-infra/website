@@ -150,6 +150,104 @@ def test_role_revoke_noop_does_not_emit(monkeypatch, recorded_calls):
     assert recorded_calls == [], "no audit event should be emitted for a no-op revoke"
 
 
+def _setup_ban_fakes(monkeypatch, *, banned: bool):
+    from app import models, users
+
+    role = SimpleNamespace(name="admin")
+    provider_account = SimpleNamespace(github_userid=123, login="alice")
+
+    class FakeBannableUser:
+        id = 42
+        display_name = "Alice"
+        roles = [role]
+        githubAccount = provider_account
+
+        def __init__(self):
+            self.banned = banned
+
+        def set_banned(self, db, value):
+            changed = self.banned != value
+            self.banned = value
+            return changed
+
+        def to_result(self, db):
+            return SimpleNamespace(banned=self.banned)
+
+    fake_user = FakeBannableUser()
+    monkeypatch.setattr(
+        models.FlathubUser,
+        "by_id",
+        staticmethod(lambda db, uid: fake_user if uid == 42 else None),
+    )
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        yield SimpleNamespace()
+
+    monkeypatch.setattr(users, "get_db", fake_get_db)
+    return fake_user, role, provider_account
+
+
+@pytest.mark.parametrize(
+    ("operation", "initial_banned", "expected_banned", "expected_event_name"),
+    [
+        ("ban_user", False, True, "USER_BANNED"),
+        ("ban_user", True, True, None),
+        ("unban_user", True, False, "USER_UNBANNED"),
+        ("unban_user", False, False, None),
+    ],
+)
+def test_user_ban_mutations_are_idempotent_and_audited(
+    monkeypatch,
+    recorded_calls,
+    operation,
+    initial_banned,
+    expected_banned,
+    expected_event_name,
+):
+    from app import models, users
+
+    fake_user, role, provider_account = _setup_ban_fakes(
+        monkeypatch, banned=initial_banned
+    )
+
+    result = getattr(users, operation)(
+        42,
+        http_request=FakeRequest(),
+        login=SimpleNamespace(user=SimpleNamespace(id=1)),
+    )
+
+    assert result.banned is expected_banned
+    assert fake_user.roles == [role]
+    assert fake_user.githubAccount is provider_account
+    if expected_event_name is None:
+        assert recorded_calls == []
+    else:
+        assert len(recorded_calls) == 1
+        call = recorded_calls[0]
+        assert call["event_type"] == getattr(models.AuditEventType, expected_event_name)
+        assert call["user_id"] == 1
+        assert call["target_user_id"] == 42
+        assert "details" not in call
+
+
+def test_user_cannot_ban_self(recorded_calls):
+    from fastapi import HTTPException
+
+    from app import users
+
+    with pytest.raises(HTTPException) as exc_info:
+        users.ban_user(
+            1,
+            http_request=FakeRequest(),
+            login=SimpleNamespace(user=SimpleNamespace(id=1)),
+        )
+
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.detail == "cannot_ban_self"
+    assert recorded_calls == []
+
+
 def test_account_deleted_emits_audit_after_delete_commit(monkeypatch, recorded_calls):
     from app import logins, models
 
