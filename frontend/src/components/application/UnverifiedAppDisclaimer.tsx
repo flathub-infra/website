@@ -20,7 +20,8 @@ export function UnverifiedAppDisclaimer({
   }
 
   const developer =
-    developerName?.trim() || t("unverified-app-disclaimer-unknown-developer")
+    developerName?.trim().replace(/\.$/, "") ||
+    t("unverified-app-disclaimer-unknown-developer")
 
   return (
     <Alert className="xl:max-w-[75%]">
