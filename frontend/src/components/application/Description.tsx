@@ -9,13 +9,11 @@ import { UnverifiedAppDisclaimer } from "./UnverifiedAppDisclaimer"
 export const Description = ({
   app,
   developerName,
-  isExtraData,
   isQualityModalOpen,
   isVerified,
 }: {
   app: Pick<DesktopAppstream, "description" | "summary">
   developerName?: string | null
-  isExtraData: boolean
   isQualityModalOpen: boolean
   isVerified: boolean
 }) => {
@@ -53,7 +51,7 @@ export const Description = ({
       setFullHeight(contentRef.current.scrollHeight)
       setShowCollapseButton(contentRef.current.scrollHeight > collapsedHeight)
     }
-  }, [description, developerName, isExtraData, isVerified])
+  }, [description, developerName, isVerified])
 
   return (
     <>
@@ -92,7 +90,6 @@ export const Description = ({
           />
           <UnverifiedAppDisclaimer
             developerName={developerName}
-            isExtraData={isExtraData}
             isVerified={isVerified}
           />
         </div>

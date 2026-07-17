@@ -94,7 +94,6 @@ const Details: FunctionComponent<Props> = ({
             <Description
               app={app}
               developerName={app.developer_name}
-              isExtraData={Boolean(summary?.metadata?.["extra-data"])}
               isQualityModalOpen={isQualityModalOpen}
               isVerified={verificationStatus.verified}
             />

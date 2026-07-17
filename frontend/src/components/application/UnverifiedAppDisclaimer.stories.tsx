@@ -12,27 +12,9 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Wrapper: Story = {
-  args: {
-    developerName: "Google",
-    isExtraData: true,
-    isVerified: false,
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
-    expect(
-      canvas.getByText(
-        "This community-provided wrapper is not verified by, affiliated with, or supported by Google.",
-      ),
-    ).toBeInTheDocument()
-  },
-}
-
 export const Package: Story = {
   args: {
     developerName: "VideoLAN et al.",
-    isExtraData: false,
     isVerified: false,
   },
   play: async ({ canvasElement }) => {
@@ -49,7 +31,6 @@ export const Package: Story = {
 export const UnknownDeveloper: Story = {
   args: {
     developerName: "   ",
-    isExtraData: false,
     isVerified: false,
   },
   play: async ({ canvasElement }) => {
@@ -66,7 +47,6 @@ export const UnknownDeveloper: Story = {
 export const Verified: Story = {
   args: {
     developerName: "Mozilla",
-    isExtraData: false,
     isVerified: true,
   },
   play: async ({ canvasElement }) => {

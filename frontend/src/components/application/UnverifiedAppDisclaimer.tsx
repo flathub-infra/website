@@ -2,15 +2,10 @@ import { useTranslations } from "next-intl"
 
 interface Props {
   developerName?: string | null
-  isExtraData: boolean
   isVerified: boolean
 }
 
-export function UnverifiedAppDisclaimer({
-  developerName,
-  isExtraData,
-  isVerified,
-}: Props) {
+export function UnverifiedAppDisclaimer({ developerName, isVerified }: Props) {
   const t = useTranslations()
 
   if (isVerified) {
@@ -23,12 +18,7 @@ export function UnverifiedAppDisclaimer({
 
   return (
     <p className="mt-4 font-medium italic">
-      {t(
-        isExtraData
-          ? "unverified-app-disclaimer-wrapper"
-          : "unverified-app-disclaimer-package",
-        { developer },
-      )}
+      {t("unverified-app-disclaimer-package", { developer })}
     </p>
   )
 }
