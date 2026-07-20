@@ -650,5 +650,21 @@
   "templates-subfolder-x": "Mallmappen {folder}",
   "moderation-appstream": "Appstream",
   "moderation-pending-reviews": "Väntande granskningar",
-  "moderation-appstream-changes": "Appstream-förändringar"
+  "moderation-appstream-changes": "Appstream-förändringar",
+  "manage": "Hantera",
+  "contribute-flathub": "Bidra till Flathub",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Nytt år, nya arbetsflöden",
+      "description": "Program för att anteckna, följa upp uppgifter och göra planer"
+    },
+    "spring-creativity": {
+      "header": "Var kreativ",
+      "description": "Viktiga program för att rita, redigera foton och digital design"
+    },
+    "summer-travel": {
+      "header": "Redo för semester",
+      "description": "Kartor, kollektivtrafik, väder och reseplaneringsprogram"
+    }
+  }
 }

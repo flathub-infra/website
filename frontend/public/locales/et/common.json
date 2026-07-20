@@ -842,5 +842,7 @@
       "header": "Loo süsteemiomast tarkvara",
       "description": "Arenda rakendusi, mis sobivad sinu operatsiooniisüsteemiga"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "See on kogukonna loodud pakett, mis pole kontrollitud {developer} poolt, ega ka temaga seotud ja tema poolt toetatud.",
+  "unverified-app-disclaimer-unknown-developer": "rakenduse arendaja"
 }

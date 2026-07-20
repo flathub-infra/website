@@ -271,5 +271,7 @@
   "install-all-favorites": "Staliañ an holl sinedoù",
   "share": "Rannañ",
   "manual-verification": "Merkañ evel gwiriet gant an dorn",
-  "user-id": "ID implijer Flathub"
+  "user-id": "ID implijer Flathub",
+  "unverified-app-disclaimer-unknown-developer": "diorroer an arload",
+  "manage": "Merañ"
 }

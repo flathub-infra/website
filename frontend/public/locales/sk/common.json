@@ -842,5 +842,7 @@
       "header": "Pustite sa do práce",
       "description": "Nevyhnutné kancelárske aplikácie"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "Tento balík, ktorý poskytla komunita, nie je overený, pridružený ani podporovaný spoločnosťou {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "vývojár aplikácie"
 }

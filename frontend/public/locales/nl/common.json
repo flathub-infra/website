@@ -780,5 +780,7 @@
   "os-version-distribution": "Verdeling van besturingssysteem­versies (afgelopen 30 dagen)",
   "flatpak-version-distribution": "Verdeling van Flatpak-versies (afgelopen 30 dagen)",
   "os-flatpak-version-distribution": "Flatpak-versie per besturings­systeem (afgelopen 30 dagen)",
-  "upload-token-create-failed": "Het is niet gelukt om een upload­token aan te maken. Probeer het nog eens."
+  "upload-token-create-failed": "Het is niet gelukt om een upload­token aan te maken. Probeer het nog eens.",
+  "manage": "Beheren",
+  "contribute-flathub": "Bij­dragen aan Flathub"
 }

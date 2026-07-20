@@ -18,7 +18,7 @@
   "download-size": "下载大小",
   "installed-size": "安装大小",
   "available-architectures": "可用架构",
-  "downloads": "下载",
+  "downloads": "下载量",
   "license": "许可",
   "project-website": "项目网站",
   "contact": "联系",
@@ -842,5 +842,7 @@
       "header": "投入工作",
       "description": "办公必备应用"
     }
-  }
+  },
+  "unverified-app-disclaimer-unknown-developer": "应用开发者",
+  "unverified-app-disclaimer-package": "此社区软件包未经 {developer} 验证、附属或支持。"
 }

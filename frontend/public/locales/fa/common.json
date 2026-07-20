@@ -842,5 +842,7 @@
       "header": "سروصدا کردن",
       "description": "کاره‌هایی برای خلق و تولید آهنگ"
     }
-  }
+  },
+  "unverified-app-disclaimer-unknown-developer": "توسعه‌دهندهٔ کاره",
+  "unverified-app-disclaimer-package": "این بستهٔ فراهم شده به دست اجتماع از سوی {developer} تأیید یا پشتیبانی نمی‌شود."
 }
