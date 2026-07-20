@@ -89,7 +89,7 @@
     "@tanstack/eslint-plugin-query": "^5.100.14",
     "@tanstack/react-query-devtools": "^5.99.2",
     "@trieb.work/nextjs-turbo-redis-cache": "^1.15.0",
-    "@types/node": "^25.6.0",
+    "@types/node": "^26.1.1",
     "@types/qs": "^6",
     "@types/react": "19.2.14",
     "@types/rtl-detect": "^1",
