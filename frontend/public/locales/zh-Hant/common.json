@@ -787,5 +787,25 @@
   "manual-verification": "標記為人工驗證",
   "user-id": "Flathub 使用者 ID",
   "more-healthfitness": "更多健康與健身",
-  "manage": "管理"
+  "manage": "管理",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "新年，新工作流程",
+      "description": "用於記筆記、追蹤任務和定製計劃的應用程式"
+    },
+    "free-software-favorites": {
+      "header": "員工精選",
+      "description": "我們目前喜愛的應用"
+    },
+    "spring-creativity": {
+      "header": "發揮創意",
+      "description": "繪圖、照片編輯和數位設計必備應用"
+    },
+    "fresh-desktop-releases": {
+      "header": "建構原生應用"
+    },
+    "staying-connected": {
+      "header": "保持聯繫"
+    }
+  }
 }

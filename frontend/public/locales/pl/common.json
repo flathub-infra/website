@@ -842,5 +842,7 @@
       "description": "Niezbędne aplikacje biurowe",
       "header": "Czas na pracę"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "Ten pakiet udostępniony przez społeczność nie jest zweryfikowany, powiązany ani wspierany przez {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "twórcę aplikacji"
 }

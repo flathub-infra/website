@@ -2,7 +2,81 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Installera Flatpak"
+      "name": "Installera Flatpak",
+      "text": "<text>För att installera Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senare</strong>, Öppna terminalen och kör: </text><code></code>"
+    },
+    "step-2": {
+      "name": "Installera GNOME Programvara Flatpak insticksmodul",
+      "text": "<text>GNOME-programvara insticksmodul gör det möjligt att installera program utan att behöva kommandoraden. För att installera, kör: </text><code></code><text><strong>Observera:</strong>Ubuntu distribuerar GNOME-programvara som en Snap i versionerna 20.04 till 23.04 och ersatte det med App Center i 23.10 och senare – ingen av dem stöder installation av Flatpak program. Installation av Flatpak insticksmodulen installerar också en deb-version av GNOME-programvara, vilket resulterar i att två \"Programvara\"-program installeras samtidigt på Ubuntu 20.04 till 23.04, och ett enda nytt \"Programvara\"-program på Ubuntu 23.10 och senare."
+    },
+    "step-3": {
+      "name": "Lägg till Flathub arkiv",
+      "text": "<text>Flathub är det bästa stället att hämta Flatpak-program. För att aktivera det, ladda ner och installera<filelink> Flathub arkivfilen</filelink> eller kör: </text><code></code>"
+    },
+    "step-4": {
+      "name": "Starta om",
+      "text": "<text>För att slutföra installationen, starta om systemet. Nu behöver du bara <link>installera program</link>!</text>"
     }
+  },
+  "fedora": {
+    "distroName": "Fedora",
+    "introduction": "<text>Flatpak är installerat som standard på Fedora Workstation, Fedora Silverblue och Fedora Kinoite. För att komma igång behöver du bara aktivera Flathub, vilket är det bästa sättet att få Flatpak-program. Flathub är förkonfigurerat som en del av <repolink>Tredjepartsförråden</repolink>. Alternativt kan du ladda ner och installera <filelink>Flathub-förrådsfilen</filelink>.</text> <text>Nu behöver du bara <applink>installera program</applink>!</text> <text>Länkarna ovan bör fungera på standardinstallationerna av GNOME och Fedora KDE, men om de misslyckas av någon anledning kan du manuellt lägga till Flathub-fjärren genom att köra:</text> <code></code>"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Aktivera Flatpak genom programhanteraren",
+      "text": "<text>Flatpak är installerat som standard på Manjaro 20 eller senare.</text> <text>För att aktivera stödet, navigera till <strong>Programhanteraren</strong> (Lägg till/ta bort program)</text> <text>Klicka på trippelradsmenyn [eller punkterna beroende på skrivbordsmiljön] till höger, välj \"Inställningar\" i rullgardinsmenyn</text>\n<text>Navigera till fliken \"Flatpak\" och skjut reglaget till Aktivera Flatpak-stöd (det är också möjligt att aktivera sök efter uppdateringar, vilket rekommenderas).</text>"
+    },
+    "step-2": {
+      "name": "Starta om",
+      "text": "<text>Starta om systemet för att slutföra installationen. Nu behöver du bara <link>installera program</link>!</text>"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<text>Flatpak stöd är inbyggt i Endless OS 3.0.0 och senare – ingen installation krävs!</text>"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Installera Flatpak",
+      "text": "<text>För att installera Flatpak på operativsystem i Alt-familjen, öppna Terminal-programmet och kör: </text><code></code>"
+    },
+    "step-2": {
+      "name": "Lägg till Flathub förråd",
+      "text": "<text>Flathub är ett utmärkt ställe att få tag på Flatpak-program. För att aktivera det på ditt Alt-system, kör:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Starta om",
+      "text": "<text>Starta om enheten för att slutföra Flatpak-installationen. Nu kan du <link>installera program</link>!</text>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "introduction": "<text>Flatpak program kan installeras på ChromeOS med Crostini Linux-kompatibilitetslageret. Detta är inte tillgängligt för alla ChromeOS-enheter, så du bör se till att din enhet är kompatibel innan du fortsätter. En lista över kompatibla enheter upprätthålls <link>här</link>.</text>",
+    "step-1": {
+      "name": "Aktivera Linux stöd",
+      "text": "<text>Navigera till<settingslink>chrome://os-settings</settingslink>, och scrolla ner till <strong>Utvecklare</strong> och slå på<em>Linux-utvecklingsmiljö</em>. Det kommer att ta lite tid att ladda ner och installera Linux för ChromeOS.</text>"
+    },
+    "step-2": {
+      "name": "Starta en Linux terminal",
+      "text": "<text>Tryck på sök/starttangenten, skriv \"Terminal\" och starta Terminal-programmet.</text>"
+    },
+    "step-3": {
+      "name": "Installera Flatpak",
+      "text": "<text>För att installera Flatpak, kör följande i terminalen:</text><code></code>"
+    },
+    "step-4": {
+      "name": "Lägg till Flathub arkiv",
+      "text": "<text>Flathub är det bästa stället att få tag på Flatpak-program. För att aktivera det, kör:</text><code></code>"
+    },
+    "step-5": {
+      "name": "Starta om",
+      "text": "<text>För att slutföra installationen, starta om Linux. Du kan göra detta genom att högerklicka på terminalen och sedan klicka på \"Stäng av Linux\". Nu behöver du bara...<link>installera program</link>!</text>"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
   }
 }

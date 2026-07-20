@@ -785,5 +785,23 @@
   "founding-supporters": "Aportaciones a la Fundación",
   "contribute-flathub": "Contribuir a Flathub",
   "manual-verification": "Marcar como verificado manualmente",
-  "user-id": "ID de usuario de Flathub"
+  "user-id": "ID de usuario de Flathub",
+  "manage": "Administrar",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Año Nuevo, Nuevos flujos de trabajo",
+      "description": "Aplicaciones para tomar notas, realizar tareas y hacer planes"
+    },
+    "free-software-favorites": {
+      "header": "Selección del equipo",
+      "description": "Aplicaciones que amamos ahora mismo"
+    },
+    "spring-creativity": {
+      "header": "Sé Creativo",
+      "description": "Aplicaciones esenciales para dibujar, editar fotos y diseño digital"
+    },
+    "fresh-desktop-releases": {
+      "header": "Construir aplicaciones nativas"
+    }
+  }
 }

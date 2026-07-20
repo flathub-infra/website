@@ -838,5 +838,7 @@
       "header": "ابدأ العمل",
       "description": "التطبيقات المكتبية الأساسية"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "هذه الحزمة التي قدمها المجتمع لم يتحقق منها من قِبل {developer}، ولا ترتبط به، ولا يحظى بدعمه.",
+  "unverified-app-disclaimer-unknown-developer": "مطوِّر التطبيق"
 }
