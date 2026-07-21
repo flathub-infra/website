@@ -887,7 +887,7 @@ def submit_review(
 
     worker.send_email_new.send(payload)
 
-    return ReviewResponse(github_issue_url=issue.url) if issue else None
+    return ReviewResponse(github_issue_url=issue.html_url) if issue else None
 
 
 def register_to_app(app: FastAPI):
