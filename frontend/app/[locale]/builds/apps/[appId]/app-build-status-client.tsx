@@ -91,6 +91,14 @@ export default function AppBuildStatusClient({ appId }: Props) {
   const failedBuilds = query.data.data.filter(
     (b) => b.status === "failed",
   ).length
+  const buildGroups = [
+    { key: "stable", label: "Latest Stable Builds" },
+    { key: "beta", label: "Latest Beta Builds" },
+    { key: "test", label: "Latest Test Builds" },
+  ] as const
+  const visibleBuildGroups = buildGroups.filter(
+    ({ key }) => groupedBuilds[key].length > 0,
+  )
 
   return (
     <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
@@ -103,13 +111,15 @@ export default function AppBuildStatusClient({ appId }: Props) {
 
       {/* Header */}
       <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-primary/10 rounded-xl">
-            <Package className="h-8 w-8 text-primary" />
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="w-fit rounded-xl bg-primary/10 p-3 sm:w-auto">
+            <Package className="h-7 w-7 text-primary sm:h-8 sm:w-8" />
           </div>
-          <div>
-            <h1 className="text-5xl font-extrabold">{appId}</h1>
-            <p className="text-lg text-muted-foreground mt-2">
+          <div className="min-w-0 flex-1">
+            <h1 className="wrap-break-word text-4xl leading-tight font-extrabold sm:text-5xl">
+              {appId}
+            </h1>
+            <p className="mt-2 text-base text-muted-foreground sm:text-lg">
               Build status and history
             </p>
           </div>
@@ -149,20 +159,22 @@ export default function AppBuildStatusClient({ appId }: Props) {
       </div>
 
       <div className="space-y-8">
-        {(
-          [
-            { key: "stable", label: "Latest Stable Builds" },
-            { key: "beta", label: "Latest Beta Builds" },
-            { key: "test", label: "Latest Test Builds" },
-          ] as const
-        ).map(({ key, label }) => (
-          <BuildGroup
-            key={key}
-            title={label}
-            builds={groupedBuilds[key]}
-            repo={key}
-          />
-        ))}
+        {visibleBuildGroups.length > 0 ? (
+          visibleBuildGroups.map(({ key, label }) => (
+            <BuildGroup
+              key={key}
+              title={label}
+              builds={groupedBuilds[key]}
+              repo={key}
+            />
+          ))
+        ) : (
+          <Card>
+            <CardContent className="py-8 text-center text-muted-foreground">
+              No builds found
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )
