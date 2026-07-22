@@ -6,6 +6,12 @@ updates:
     schedule:
       interval: "daily"
     groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-is"
+          - "@types/react"
       storybook:
         patterns:
           - "@storybook/*"
