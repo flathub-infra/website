@@ -31,12 +31,21 @@ function getStatusIcon(status: string, size = "h-4 w-4") {
     case "cancelled":
       return <Ban className={cn(size, "text-gray-500")} />
     case "running":
+    case "succeeded":
       return <Clock className={cn(size, "text-blue-500 animate-pulse")} />
     case "committed":
       return <Package className={cn(size, "text-green-500")} />
     default:
       return null
   }
+}
+
+function getStatusLabel(status: string): string {
+  if (status === "succeeded") {
+    return "committing"
+  }
+
+  return status
 }
 
 function getStatusColor(
@@ -47,6 +56,7 @@ function getStatusColor(
     case "committed":
       return "default"
     case "running":
+    case "succeeded":
       return "secondary"
     case "failed":
       return "destructive"
@@ -108,7 +118,7 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                     <div className="flex items-center gap-2">
                       {getStatusIcon(build.status)}
                       <Badge variant={getStatusColor(build.status)}>
-                        {build.status}
+                        {getStatusLabel(build.status)}
                       </Badge>
                     </div>
                   </td>
