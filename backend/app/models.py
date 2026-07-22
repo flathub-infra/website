@@ -71,9 +71,6 @@ ConnectedAccount = Union[
     "GoogleAccount",
     "KdeAccount",
 ]
-ConnectedAccount = (
-    GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
-)
 
 ConnectedAccountResult = Union[
     "GithubAccountResult",
@@ -1114,6 +1111,9 @@ ConnectedAccountTables = [
     GoogleAccount,
     KdeAccount,
 ]
+ConnectedAccount = (
+    GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
+)
 
 
 class OidcClient(Base):
