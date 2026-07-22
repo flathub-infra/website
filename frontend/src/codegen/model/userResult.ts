@@ -16,6 +16,7 @@ export interface UserResult {
   id: number
   display_name: UserResultDisplayName
   default_account: UserResultDefaultAccount
+  banned: boolean
   connected_accounts: UserResultConnectedAccountsItem[]
   accepted_publisher_agreement_at: UserResultAcceptedPublisherAgreementAt
   roles: UserRoleResult[]

@@ -143,6 +143,7 @@ export const getMeUsersMeGetResponseMock = (
     },
     null,
   ]),
+  banned: faker.datatype.boolean(),
   connected_accounts: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -439,6 +440,7 @@ export const getUsersUsersGetResponseMock = (
       },
       null,
     ]),
+    banned: faker.datatype.boolean(),
     connected_accounts: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -743,6 +745,593 @@ export const getUserUsersUserIdGetResponseMock = (
     },
     null,
   ]),
+  banned: faker.datatype.boolean(),
+  connected_accounts: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() =>
+    faker.helpers.arrayElement([
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        github_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        gitlab_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        gnome_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        google_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        kde_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+    ]),
+  ),
+  accepted_publisher_agreement_at: faker.helpers.arrayElement([
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
+  ]),
+  roles: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    hasRole: faker.datatype.boolean(),
+  })),
+  github_repos: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    null,
+  ]),
+  owned_apps: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      created: faker.date.past().toISOString().slice(0, 19) + "Z",
+    })),
+    null,
+  ]),
+  ...overrideResponse,
+})
+
+export const getBanUserUsersUserIdBanPostResponseMock = (
+  overrideResponse: Partial<Extract<UserResult, object>> = {},
+): UserResult => ({
+  id: faker.number.int(),
+  display_name: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ]),
+  default_account: faker.helpers.arrayElement([
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      github_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      gitlab_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      gnome_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      google_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      kde_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    null,
+  ]),
+  banned: faker.datatype.boolean(),
+  connected_accounts: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() =>
+    faker.helpers.arrayElement([
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        github_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        gitlab_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        gnome_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        google_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        kde_userid: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+    ]),
+  ),
+  accepted_publisher_agreement_at: faker.helpers.arrayElement([
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
+  ]),
+  roles: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    hasRole: faker.datatype.boolean(),
+  })),
+  github_repos: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      reponame: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    null,
+  ]),
+  owned_apps: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      created: faker.date.past().toISOString().slice(0, 19) + "Z",
+    })),
+    null,
+  ]),
+  ...overrideResponse,
+})
+
+export const getUnbanUserUsersUserIdBanDeleteResponseMock = (
+  overrideResponse: Partial<Extract<UserResult, object>> = {},
+): UserResult => ({
+  id: faker.number.int(),
+  display_name: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ]),
+  default_account: faker.helpers.arrayElement([
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      github_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      gitlab_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      gnome_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      google_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      kde_userid: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      display_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      email: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
+    null,
+  ]),
+  banned: faker.datatype.boolean(),
   connected_accounts: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -1035,6 +1624,7 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
     },
     null,
   ]),
+  banned: faker.datatype.boolean(),
   connected_accounts: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -1327,6 +1917,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
     },
     null,
   ]),
+  banned: faker.datatype.boolean(),
   connected_accounts: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -1621,6 +2212,7 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
       },
       null,
     ]),
+    banned: faker.datatype.boolean(),
     connected_accounts: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -1877,6 +2469,54 @@ export const getUserUsersUserIdGetMockHandler = (
   )
 }
 
+export const getBanUserUsersUserIdBanPostMockHandler = (
+  overrideResponse?:
+    | UserResult
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<UserResult> | UserResult),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/users/:userId/ban",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getBanUserUsersUserIdBanPostResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
+export const getUnbanUserUsersUserIdBanDeleteMockHandler = (
+  overrideResponse?:
+    | UserResult
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<UserResult> | UserResult),
+  options?: RequestHandlerOptions,
+) => {
+  return http.delete(
+    "*/users/:userId/ban",
+    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getUnbanUserUsersUserIdBanDeleteResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
 export const getAddUserRoleUsersUserIdRolePostMockHandler = (
   overrideResponse?:
     | UserResult
@@ -1953,6 +2593,8 @@ export const getUsersMock = () => [
   getUsersUsersGetMockHandler(),
   getRolesUsersRolesGetMockHandler(),
   getUserUsersUserIdGetMockHandler(),
+  getBanUserUsersUserIdBanPostMockHandler(),
+  getUnbanUserUsersUserIdBanDeleteMockHandler(),
   getAddUserRoleUsersUserIdRolePostMockHandler(),
   getDeleteUserRoleUsersUserIdRoleDeleteMockHandler(),
   getRoleUsersUsersRolesRoleNameGetMockHandler(),
