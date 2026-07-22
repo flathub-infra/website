@@ -26,7 +26,7 @@ jobs:
 
     steps:
         # 6.0.2
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ github.head_ref || github.ref_name }}
@@ -34,11 +34,11 @@ jobs:
 
       - name: Set up Docker Buildx
         # 4.0.0
-        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5
+        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c
 
       - name: Build Docker image
         # 7.1.0
-        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a
         with:
           context: backend
           tags: backend_backend
@@ -48,7 +48,7 @@ jobs:
 
       - name: Build Docker backend-node image
         # 7.1.0
-        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a
         with:
           context: backend-node
           tags: backend-node
@@ -72,7 +72,7 @@ jobs:
 
       - name: Set up Node.js
         # 6.4.0
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: "24"
 
