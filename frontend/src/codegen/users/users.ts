@@ -635,6 +635,170 @@ export function useUserUsersUserIdGet<
 }
 
 /**
+ * @summary Ban User
+ */
+export const banUserUsersUserIdBanPost = (
+  userId: number,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<UserResult>> => {
+  return axios.post(`/users/${userId}/ban`, undefined, options)
+}
+
+export const getBanUserUsersUserIdBanPostMutationOptions = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
+    TError,
+    { userId: number },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
+  TError,
+  { userId: number },
+  TContext
+> => {
+  const mutationKey = ["banUserUsersUserIdBanPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
+    { userId: number }
+  > = (props) => {
+    const { userId } = props ?? {}
+
+    return banUserUsersUserIdBanPost(userId, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type BanUserUsersUserIdBanPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>
+>
+
+export type BanUserUsersUserIdBanPostMutationError = AxiosError<void>
+
+/**
+ * @summary Ban User
+ */
+export const useBanUserUsersUserIdBanPost = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
+      TError,
+      { userId: number },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
+  TError,
+  { userId: number },
+  TContext
+> => {
+  return useMutation(
+    getBanUserUsersUserIdBanPostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * @summary Unban User
+ */
+export const unbanUserUsersUserIdBanDelete = (
+  userId: number,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<UserResult>> => {
+  return axios.delete(`/users/${userId}/ban`, options)
+}
+
+export const getUnbanUserUsersUserIdBanDeleteMutationOptions = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
+    TError,
+    { userId: number },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
+  TError,
+  { userId: number },
+  TContext
+> => {
+  const mutationKey = ["unbanUserUsersUserIdBanDelete"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
+    { userId: number }
+  > = (props) => {
+    const { userId } = props ?? {}
+
+    return unbanUserUsersUserIdBanDelete(userId, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UnbanUserUsersUserIdBanDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>
+>
+
+export type UnbanUserUsersUserIdBanDeleteMutationError = AxiosError<void>
+
+/**
+ * @summary Unban User
+ */
+export const useUnbanUserUsersUserIdBanDelete = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
+      TError,
+      { userId: number },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
+  TError,
+  { userId: number },
+  TContext
+> => {
+  return useMutation(
+    getUnbanUserUsersUserIdBanDeleteMutationOptions(options),
+    queryClient,
+  )
+}
+/**
  * Add a role to a user
  * @summary Add User Role
  */
