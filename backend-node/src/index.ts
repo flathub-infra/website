@@ -228,9 +228,13 @@ const route = createRoute({
 const app = new OpenAPIHono()
 
 app.use("*", (c, next) => {
-  const { SENTRY_DSN } = env<{ SENTRY_DSN: string }>(c)
+  const { SENTRY_DSN, SENTRY_RELEASE } = env<{
+    SENTRY_DSN: string
+    SENTRY_RELEASE?: string
+  }>(c)
   return sentry({
     dsn: SENTRY_DSN,
+    release: SENTRY_RELEASE,
     sampleRate: 0.1,
     tracesSampleRate: 0.1,
   })(c, next)

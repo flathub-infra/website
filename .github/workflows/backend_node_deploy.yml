@@ -46,8 +46,7 @@ jobs:
           platforms: linux/arm64
           provenance: false
           build-args: |
-            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-            GITHUB_SHA=${{ github.sha }}
+            SENTRY_RELEASE=${{ github.sha }}
           tags: |
             ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}-arm64
             ghcr.io/${{ github.repository_owner }}/backend-node:${{ github.sha }}
@@ -57,3 +56,15 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
+
+      - name: Create Sentry release
+        # 3.7.0
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: flathub
+          SENTRY_PROJECT: backend-node
+        with:
+          environment: production
+          release: ${{ github.sha }}
+          set_commits: skip

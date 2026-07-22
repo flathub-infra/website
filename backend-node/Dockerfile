@@ -1,5 +1,8 @@
 FROM node:24
 
+ARG SENTRY_RELEASE
+ENV SENTRY_RELEASE=$SENTRY_RELEASE
+
 RUN corepack enable pnpm
 
 WORKDIR /app
