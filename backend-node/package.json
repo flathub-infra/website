@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "test": "tsx --test src/**/*.test.ts",
     "build": "tsc",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
@@ -20,7 +21,7 @@
     "hono": "^4.12.31",
     "nodemailer": "9.0.3",
     "react": "19.2.8",
-    "react-dom": "19.2.7",
+    "react-dom": "19.2.8",
     "react-email": "6.9.0",
     "zod": "^4.4.3"
   },
