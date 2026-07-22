@@ -7,6 +7,7 @@ import createNextIntlPlugin from "next-intl/plugin"
 import { NextConfig } from "next"
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts")
+const buildId = process.env.GITHUB_SHA
 
 const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
@@ -28,8 +29,17 @@ const sentryWebpackPluginOptions = {
   org: "flathub",
   project: "frontend",
 
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
+  // The Docker build does not inherit GitHub Actions' CI environment variable.
+  silent: false,
+
+  release: buildId
+    ? {
+        name: buildId,
+        // Supported by the Sentry build plugin, but missing from @sentry/nextjs' type.
+        setCommits: false as never,
+        finalize: false,
+      }
+    : undefined,
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
@@ -52,8 +62,6 @@ const sentryWebpackPluginOptions = {
   // https://vercel.com/docs/cron-jobs
   automaticVercelMonitors: false,
 }
-
-const buildId = process.env.GITHUB_SHA
 
 if (!buildId) {
   console.info(

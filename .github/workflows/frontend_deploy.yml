@@ -92,3 +92,15 @@ jobs:
           ssh-keyscan -H hub.flathub.org >> ~/.ssh/known_hosts 2>/dev/null
           rsync -avz ./static/ assets@hub.flathub.org:static/
           rsync -avz ./frontend/public/ assets@hub.flathub.org:public/
+
+      - name: Finalize Sentry release
+        # 3.7.0
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: flathub
+          SENTRY_PROJECT: frontend
+        with:
+          environment: production
+          release: ${{ github.sha }}
+          set_commits: skip

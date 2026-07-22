@@ -57,3 +57,15 @@ jobs:
           platforms: linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Create Sentry release
+        # 3.7.0
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: flathub
+          SENTRY_PROJECT: backend
+        with:
+          environment: production
+          release: ${{ github.sha }}
+          set_commits: skip
