@@ -44,7 +44,7 @@
     "framer-motion": "^12.38.0",
     "isomorphic-dompurify": "3.18.0",
     "linkify-html": "^4.3.1",
-    "linkifyjs": "^4.3.2",
+    "linkifyjs": "^4.3.3",
     "lucide-react": "^1.14.0",
     "meilisearch": "^0.57.0",
     "new-github-issue-url": "^1.1.0",
