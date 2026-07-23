@@ -844,5 +844,14 @@
     }
   },
   "unverified-app-disclaimer-unknown-developer": "应用开发者",
-  "unverified-app-disclaimer-package": "此社区软件包未经 {developer} 验证、附属或支持。"
+  "unverified-app-disclaimer-package": "此社区软件包未经 {developer} 验证、附属或支持。",
+  "dns-record-value": "数值",
+  "dns-verification-main-instruction": "通过发表 <bold>{domain}</bold> 的 DNS TXT 记录来验证您使用应用 ID <bold>{id}</bold> 的权利。",
+  "dns-validation-instruction": "添加以下 DNS 记录，同时不要删除任何已有的 TXT 记录。DNS 更改生效可能需要一些时间。",
+  "dns-record-not-found": "在 {record} 未找到 TXT 记录。",
+  "dns-token-not-present": "在 {record} 的 TXT 记录不存在任何验证令牌。",
+  "dns-lookup-failed": "无法查找 {record} 的 TXT 记录。",
+  "app-is-currently-verified-by-dns": "您的应用已通过 <domain></domain> 的 DNS 控制来验证",
+  "verified-dns-tooltip": "<appid></appid> 应用 ID 的所有权已通过 <domain></domain> 的 DNS 控制验证",
+  "dns-verification": "DNS 验证"
 }

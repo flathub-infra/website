@@ -488,7 +488,8 @@
     "light": "Světlý",
     "dark": "Tmavý",
     "failing-x-checks": "Selhání {count, plural, one {# check} other {# checks}}",
-    "general-runtime-not-eol": "Běhové prostředí není na konci životnosti"
+    "general-runtime-not-eol": "Běhové prostředí není na konci životnosti",
+    "stats-by-category": "Stav revize pokynů podle kategorie"
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
   "moderation-build-id": "ID sestavení",
@@ -786,6 +787,71 @@
   "contribute-flathub": "Zapojit se do projektu Flathub",
   "user-id": "Uživatelské ID Flathubu",
   "manual-verification": "Označit jako ručně ověřené",
-  "more-healthfitness": "Více z Zdraví a fitness",
-  "manage": "Spravovat"
+  "more-healthfitness": "Další ze Zdraví a fitness",
+  "manage": "Spravovat",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "S novým rokem, nové postupy",
+      "description": "Aplikace pro pořizování poznámek, udržování si přehledu o úkolech a plánování"
+    },
+    "free-software-favorites": {
+      "header": "Naše tipy",
+      "description": "Aplikace které jsme si nyní oblíbili"
+    },
+    "spring-creativity": {
+      "header": "Buďte tvořiví",
+      "description": "Nezbytné aplikace pro kreslení, upravování fotek a digitální design"
+    },
+    "fresh-desktop-releases": {
+      "header": "Vytvářejte nativní aplikace",
+      "description": "Vyvíjejte aplikace, které dobře zapadají do vašeho systému"
+    },
+    "staying-connected": {
+      "header": "Zůstaňte v kontaktu",
+      "description": "Nezbytné aplikace pro spolupráci a komunikaci"
+    },
+    "summer-travel": {
+      "header": "Nachystáno na dovolené",
+      "description": "Aplikace s mapami, informacemi o dopravě, počasí a pro plánování výletů"
+    },
+    "back-to-learning": {
+      "header": "Každým dnem chytřejší",
+      "description": "Aplikace pro pomoc se studiem, výzkumem a sepisováním"
+    },
+    "winter-comforts": {
+      "header": "Udělejte si pohodlí",
+      "description": "Skvělé aplikace pro čtení, sledování filmů a hraní her"
+    },
+    "tools-for-developers": {
+      "header": "Nezbytné pro webové vývojáře",
+      "description": "S těmito aplikacemi je tvorba webových stránek zábavnější"
+    },
+    "take-better-notes": {
+      "header": "Dělejte si lepší poznámky",
+      "description": "Najděte si svůj nový oblíbený nástroj pro zapisování poznámek"
+    },
+    "get-focused": {
+      "header": "Soustřeďte se",
+      "description": "Skvělé aplikace pro správu úkolů"
+    },
+    "make-some-noise": {
+      "header": "Buďte slyšet",
+      "description": "Aplikace pro vytváření a produkování hudby"
+    },
+    "get-to-work": {
+      "header": "Pracovní",
+      "description": "Nezbytné kancelářské aplikace"
+    }
+  },
+  "unverified-app-disclaimer-package": "Tento komunitou poskytovaný balíček není ověřován, jakkoli spojen či podporován {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "vývojářem aplikace",
+  "dns-verification-main-instruction": "Ověřte své oprávnění používat identifikátor aplikace <bold>{id}</bold> zveřejněním DNS TXT záznamu pro <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Přidejte následující DNS záznam (bez odebírání jakýchkoli už existujících TXT záznamů). Projevení se změn v DNS může chvíli trvat.",
+  "dns-record-value": "Hodnota",
+  "dns-record-not-found": "V {record} nebyl nalezen žádný TXT záznam.",
+  "dns-token-not-present": "TXT záznam při {record} neobsahuje ověřovací token.",
+  "dns-lookup-failed": "Nepodařilo se najít TXT záznamy pro {record}.",
+  "app-is-currently-verified-by-dns": "Vaše aplikace je v tuto chvíli ověřena prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
+  "verified-dns-tooltip": "Vlastnictví identifikátoru aplikace <appid></appid> bylo ověřeno prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
+  "dns-verification": "DNS ověřování"
 }
