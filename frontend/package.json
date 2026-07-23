@@ -110,7 +110,7 @@
     "openapi3-ts": "^4.5.0",
     "orval": "8.21.0",
     "playwright": "^1.61.0",
-    "postcss": "^8.5.21",
+    "postcss": "^8.5.22",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "redis": "4.7.0",
