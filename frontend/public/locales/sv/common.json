@@ -666,5 +666,7 @@
       "header": "Redo för semester",
       "description": "Kartor, kollektivtrafik, väder och reseplaneringsprogram"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "Detta paket, som tillhandahålls av gemenskapen, har inte verifierats av, är inte knutet till och stöds inte av {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "apputvecklaren"
 }

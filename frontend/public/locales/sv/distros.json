@@ -77,6 +77,44 @@
     }
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Flatpak är som standard installerat på Red Hat Enterprise Linux Workstation 9 eller nyare. För att komma igång behöver du bara aktivera Flathub, vilket är bästa sättet att hämta Flatpak-appar. Ladda ner och installera <filelink>Flathub-förrådsfilen</filelink>.</text> <text>För att installera på Red Hat Enterprise Linux Workstation 8 eller äldre, kör följande i en konsol:</text><code>  </code> <text>Nu är allt du behöver göra att <link>installera appar</link>!</text> <text>Länkarna ovan borde fungera på en standard installation av Red Hat Enterprise Linux Workstation 9, men om den misslyckas av någon anledning kan du manuellt lägga till Flathub-förrådet genom att köra:</text> <codeAddRemote></codeAddRemote>"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint",
+    "introduction": "<text>Flatpak-stöd är inbyggt i Linux Mint 18.3 och nyare!</text>"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Installera Flatpak",
+      "text": "<text>Flatpak är tillgängligt i standardförråden av alla nuvarande underhållna openSUSE Leap- och openSUSE Tumbleweed versioner.</text> <text>Om du föredrar en grafisk installation kan du installera Flatpak genom att använde en \"1-click installer\" från <link>software.opensuse.org</link>. Om din distributionsversion inte syns som standard kan du trycka <em>Show</em> under \"Unsupported distributions\"-kategorin och sedan välja från listan.</text> <text>Alternativt kan du installera Flatpak från kommandoraden med Zypper:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Lägg till Flathub-förrådet",
+      "text": "<text>Flathub är bästa sättet att hämta Flatpak-appar. För att aktivera det, ladda ner och installera <filelink>Flathub-förrådsfilen</filelink> eller kör:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Starta om",
+      "text": "<text>För att slutföra installationen, starta om ditt system. Nu är allt du behöver göra att <link>installera appar</link>!</text>"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Installera Flatpak",
+      "text": "<text>För att installera Flatpak på Arch, öppna terminalappen och kör:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Starta om",
+      "text": "<text>För att slutföra installationen, starta om ditt system. Nu är allt du behöver göra att <link>installera appar</link>!</text>"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Installera flatpak",
+      "text": "<text>Ett flatpak-paket är tillgängligt i Debian 10 (Buster) och nyare. För att installera det, kör följande som root:</text> <code></code>"
+    }
   }
 }

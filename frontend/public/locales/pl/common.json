@@ -844,5 +844,14 @@
     }
   },
   "unverified-app-disclaimer-package": "Ten pakiet udostępniony przez społeczność nie jest zweryfikowany, powiązany ani wspierany przez {developer}.",
-  "unverified-app-disclaimer-unknown-developer": "twórcę aplikacji"
+  "unverified-app-disclaimer-unknown-developer": "twórcę aplikacji",
+  "dns-record-value": "Wartość",
+  "dns-verification": "Weryfikacja DNS",
+  "dns-verification-main-instruction": "Zweryfikuj swoje uprawnienia do korzystania z identyfikatora aplikacji <bold>{id}</bold>, publikując rekord DNS typu TXT dla <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Dodaj poniższy wpis DNS, nie usuwając przy tym żadnych istniejących wpisów TXT. Propagacja zmian w systemie DNS może zająć trochę czasu.",
+  "dns-record-not-found": "Nie znaleziono rekordu TXT w {record}.",
+  "dns-token-not-present": "Rekordy TXT w {record} nie zawierają tokenu weryfikacyjnego.",
+  "dns-lookup-failed": "Nie udało się wyszukać rekordów TXT dla {record}.",
+  "app-is-currently-verified-by-dns": "Twoja aplikacja jest obecnie zweryfikowana poprzez kontrolę DNS <domain></domain>",
+  "verified-dns-tooltip": "Prawo własności do identyfikatora aplikacji <appid></appid> zostało zweryfikowane poprzez kontrolę DNS domeny <domain></domain>"
 }

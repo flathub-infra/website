@@ -786,5 +786,68 @@
   "contribute-flathub": "Zu Flathub beitragen",
   "user-id": "Flathub-Benutzerkennung",
   "manual-verification": "Als manuell verifiziert markieren",
-  "more-healthfitness": "Mehr zu Gesundheit & Fitness"
+  "more-healthfitness": "Mehr zu Gesundheit & Fitness",
+  "manage": "Verwalten",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Neues Jahr, neue Arbeitsabläufe",
+      "description": "Apps zum Erstellen von Notizen, zum Verfolgen von Aufgaben und zum Pläne machen"
+    },
+    "spring-creativity": {
+      "header": "Kreativ werden",
+      "description": "Unverzichtbare Apps zum Zeichnen, Bearbeiten von Fotos und für digitales Design"
+    },
+    "fresh-desktop-releases": {
+      "header": "Native Apps bauen",
+      "description": "Entwickeln Sie Apps, die sich auf Ihrem System wie zu Hause fühlen"
+    },
+    "summer-travel": {
+      "header": "Bereit für den Urlaub",
+      "description": "Apps für Karten, öffentliche Verkehrsmittel, Wetter und Reiseplanung"
+    },
+    "back-to-learning": {
+      "header": "Jeden Tag ein bisschen schlauer",
+      "description": "Apps, die Ihnen beim Lernen, Recherchieren und Schreiben helfen"
+    },
+    "winter-comforts": {
+      "header": "Machen Sie es sich gemütlich",
+      "description": "Tolle Apps zum Lesen, Filme schauen und Spielen"
+    },
+    "tools-for-developers": {
+      "header": "Grundlagen für Webentwickler",
+      "description": "Mit diesen Apps macht das Erstellen von Websites noch mehr Spaß"
+    },
+    "take-better-notes": {
+      "header": "Bessere Notizen machen",
+      "description": "Finden Sie Ihr neues Lieblingswerkzeug zum Notizen machen"
+    },
+    "get-focused": {
+      "header": "Fokussieren Sie sich",
+      "description": "Tolle Apps für die Aufgabenverwaltung"
+    },
+    "make-some-noise": {
+      "description": "Apps zum Komponieren und Produzieren von Musik",
+      "header": "Machen Sie Lärm"
+    },
+    "get-to-work": {
+      "header": "An die Arbeit",
+      "description": "Unverzichtbare Büro-Apps"
+    },
+    "free-software-favorites": {
+      "header": "Empfehlungen der Redaktion",
+      "description": "Apps, die wir gerade lieben"
+    },
+    "staying-connected": {
+      "header": "Bleiben Sie in Kontakt",
+      "description": "Unverzichtbare Apps für Zusammenarbeit und Kommunikation"
+    }
+  },
+  "unverified-app-disclaimer-package": "Dieses von der Gemeinschaft bereitgestellte Paket wurde von {developer} weder verifiziert, steht in keiner Verbindung zu oder wird von {developer} unterstützt.",
+  "unverified-app-disclaimer-unknown-developer": "der App-Entwickler",
+  "dns-validation-instruction": "Fügen Sie den folgenden DNS-Eintrag hinzu, ohne vorhandene TXT-Einträge zu löschen. Es kann einige Zeit dauern, bis DNS-Änderungen wirksam werden.",
+  "dns-record-value": "Wert",
+  "dns-record-not-found": "Unter {record} wurde kein TXT-Eintrag gefunden.",
+  "dns-token-not-present": "Die TXT-Einträge unter {record} enthalten kein Verifizierungstoken.",
+  "app-is-currently-verified-by-dns": "Ihre App ist derzeit durch eine DNS-Überprüfung von <domain></domain> verifiziert",
+  "dns-verification": "DNS-Verifizierung"
 }

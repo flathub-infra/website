@@ -844,5 +844,14 @@
     }
   },
   "unverified-app-disclaimer-package": "See on kogukonna loodud pakett, mis pole kontrollitud {developer} poolt, ega ka temaga seotud ja tema poolt toetatud.",
-  "unverified-app-disclaimer-unknown-developer": "rakenduse arendaja"
+  "unverified-app-disclaimer-unknown-developer": "rakenduse arendaja",
+  "dns-verification-main-instruction": "Kinnita oma õigust kasutada rakenduse tunnust <bold>{id}</bold>, selleks avalda <bold>{domain}</bold> domeeni nimekirjete seas TXT-kirje.",
+  "dns-validation-instruction": "Ilema olemasolevate TXT-kirjete eemaldamiseta, palun lisa järgnev uus TXT-kirje. Palun arvesta, et nimelahenduse andmete levimiseks kulub aega.",
+  "dns-record-value": "Väärtus",
+  "dns-record-not-found": "{record} puhul ei leidunud ühtegi TXT-kirjet.",
+  "dns-token-not-present": "{record} nimelahenduse TXT-kirjete seas ei leidu kinnitamiseks vajalikku tunnusluba.",
+  "dns-lookup-failed": "{record} nimelahenduse TXT-kirjete tuvastamine ei õnnestunud.",
+  "app-is-currently-verified-by-dns": "Sinu rakendus on hetkel kinnitatud seeläbi, et oleme tuvastanud sinu kontrolli <domain></domain> domeeni üle",
+  "verified-dns-tooltip": "<appid></appid> rakenduse tunnuse omand on kinnitatud seeläbi, et oleme tuvastanud kontrolli <domain></domain> domeeni üle",
+  "dns-verification": "Nimelahenduse-põhine verifitseerimine"
 }

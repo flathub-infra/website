@@ -352,7 +352,7 @@
   "login-provider-verification-not-org-admin": "V súčasnosti ste prihlásení na <loginprovider></loginprovider> ako <currentname></currentname>. Tento účet nie je správcom organizácie <orgname></orgname>. Na overenie tejto aplikácie musíte požiadať o práva správcu v organizácii alebo sa prihlásiť na účet, ktorý ich už má.",
   "login-provider-verification-not-org-member": "V súčasnosti ste prihlásení na <loginprovider></loginprovider> ako <currentname></currentname>. Tento účet nie je členom organizácie <orgname></orgname>. Na overenie tejto aplikácie musíte požiadať o práva správcu v organizácii alebo sa prihlásiť na účet, ktorý ich už má.",
   "login-provider-verification-failed": "Požiadavky na overenie neboli splnené.",
-  "login-provider-verification-user-does-not-exist": "Účet <requiredname></requiredname> neexistuje na <loginprovider></loginprovider>. Musíte si tento názov účtu nárokovať a použiť ho na overenie vašej aplikácie, alebo v ideálnom prípade vybrať ID aplikácie, nad ktorým máte kontrolu. Informácie o dobrých ID aplikácií nájdete v <doclink>dokumentácii Flatpaku</doclink>.",
+  "login-provider-verification-user-does-not-exist": "Účet <requiredname></requiredname> neexistuje na <loginprovider></loginprovider>. Musíte si tento názov účtu nárokovať a použiť ho na overenie vašej aplikácie, alebo v ideálnom prípade vybrať ID aplikácie, nad ktorou máte kontrolu. Informácie o dobrých ID aplikácií nájdete v <doclink>dokumentácii Flatpaku</doclink>.",
   "developer-invited": "Boli ste pozvaní stať sa vývojárom",
   "invites": "Pozvánky",
   "accept": "Prijať",
@@ -843,6 +843,15 @@
       "description": "Nevyhnutné kancelárske aplikácie"
     }
   },
-  "unverified-app-disclaimer-package": "Tento balík, ktorý poskytla komunita, nie je overený, pridružený ani podporovaný spoločnosťou {developer}.",
-  "unverified-app-disclaimer-unknown-developer": "vývojár aplikácie"
+  "unverified-app-disclaimer-package": "Tento balík, ktorý poskytla komunita, nie je overený, pridružený ani podporovaný {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "vývojár aplikácie",
+  "dns-verification-main-instruction": "Overte svoje právo používať ID aplikácie <bold>{id}</bold> zverejnením DNS TXT záznamu pre <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Pridajte nasledujúci DNS záznam bez odstránenia existujúcich TXT záznamov. Zmeny DNS sa môžu šíriť s oneskorením.",
+  "dns-record-value": "Hodnota",
+  "dns-record-not-found": "Na {record} sa nenašiel žiadny TXT záznam.",
+  "dns-token-not-present": "TXT záznamy na {record} neobsahujú overovací token.",
+  "dns-lookup-failed": "Nepodarilo sa vyhľadať TXT záznamy pre {record}.",
+  "app-is-currently-verified-by-dns": "Vaša aplikácia je momentálne overená prostredníctvom kontroly DNS domény <domain></domain>",
+  "verified-dns-tooltip": "Vlastníctvo ID aplikácie <appid></appid> bolo overené prostredníctvom kontroly DNS domény <domain></domain>",
+  "dns-verification": "Overenie DNS"
 }

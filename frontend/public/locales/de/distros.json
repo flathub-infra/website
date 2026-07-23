@@ -433,6 +433,9 @@
     },
     "step-3": {
       "name": "Neustart"
+    },
+    "step-2": {
+      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
     }
   },
   "t2_sde": {
