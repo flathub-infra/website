@@ -2449,6 +2449,31 @@ class QualityModeration(Base):
         return eol_status
 
     @classmethod
+    def by_appids_icon_quality_passed_count(
+        cls, db, app_ids: list[str]
+    ) -> dict[str, int]:
+        """Return passed app-icon guideline counts grouped by app ID."""
+        if not app_ids:
+            return {}
+
+        results = (
+            db.session.query(
+                QualityModeration.app_id,
+                func.count(QualityModeration.guideline_id),
+            )
+            .join(Guideline, Guideline.id == QualityModeration.guideline_id)
+            .filter(
+                QualityModeration.app_id.in_(app_ids),
+                QualityModeration.passed == true(),
+                Guideline.guideline_category_id == "app-icon",
+            )
+            .group_by(QualityModeration.app_id)
+            .all()
+        )
+
+        return {app_id: passed_count for app_id, passed_count in results}
+
+    @classmethod
     def by_appid_summarized(cls, db, app_id: str) -> QualityModerationStatus:
         """
         Return a summary of the quality moderation status for an app

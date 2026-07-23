@@ -12,7 +12,8 @@ import orjson
 
 from app import utils
 
-from . import config, database, models, schemas, search, zscore
+from . import config, database, models, schemas, search
+from .trending import calculate_trending_score as _calculate_trending_score
 from .worker.redis import redis_conn
 
 StatsType = dict[str, dict[str, list[int]]]
@@ -416,112 +417,6 @@ def _calculate_quality_passed_ratio(app_quality_status) -> float:
     return app_quality_status.passed / total if total > 0 else 0.0
 
 
-def _calculate_trending_score(
-    installs_over_days: list[int],
-    quality_passed_ratio: float,
-    is_eol: bool,
-    is_new_app: bool,
-) -> float:
-    """
-    Calculate the trending score for an app based on recent install patterns.
-
-    The algorithm uses multiple signals:
-    1. Short-term momentum: Compare recent 3-day average vs previous 7-day average
-    2. Velocity: Rate of change in installs (acceleration)
-    3. Z-score: Statistical deviation from the app's own baseline
-    4. Quality bonus: Apps with good quality ratings get a boost
-    5. Penalties: EOL apps are penalized
-
-    Args:
-        installs_over_days: List of daily install counts (oldest first)
-        quality_passed_ratio: Ratio of passed quality checks (0.0 to 1.0)
-        is_eol: Whether the app uses an EOL runtime
-        is_new_app: Whether the app has limited install history
-    """
-    eol_penalty = 0.5
-    quality_bonus_max = 15.0
-
-    # Quality bonus: Scale by quality ratio
-    # Use a curved bonus that rewards higher quality more
-    quality_bonus = (quality_passed_ratio**0.7) * quality_bonus_max
-
-    if len(installs_over_days) < 2:
-        # Not enough data for trend analysis - use raw installs as a baseline
-        # Scale down significantly since we can't detect actual trends
-        if len(installs_over_days) == 1:
-            base_score = installs_over_days[0] * 0.1
-            if is_new_app:
-                base_score *= 1.5
-            if is_eol:
-                base_score *= eol_penalty
-            return base_score + quality_bonus
-        return quality_bonus
-
-    # Calculate moving averages for momentum detection
-    recent_days = (
-        installs_over_days[-3:]
-        if len(installs_over_days) >= 3
-        else installs_over_days[-2:]
-    )
-    older_days = (
-        installs_over_days[:-3]
-        if len(installs_over_days) > 3
-        else installs_over_days[:-2]
-    )
-
-    recent_avg = sum(recent_days) / len(recent_days) if recent_days else 0
-    older_avg = sum(older_days) / len(older_days) if older_days else recent_avg
-
-    # Momentum: How much has the recent average grown compared to older average?
-    # Use a logarithmic scale to prevent huge apps from dominating
-    if older_avg > 0:
-        momentum = (recent_avg - older_avg) / older_avg
-    elif recent_avg > 0:
-        momentum = 1.0
-    else:
-        momentum = 0.0
-
-    # Calculate velocity (rate of change / acceleration)
-    # This helps detect apps that are accelerating in popularity
-    if len(installs_over_days) >= 4:
-        first_half = installs_over_days[: len(installs_over_days) // 2]
-        second_half = installs_over_days[len(installs_over_days) // 2 :]
-        first_half_growth = first_half[-1] - first_half[0] if len(first_half) > 1 else 0
-        second_half_growth = (
-            second_half[-1] - second_half[0] if len(second_half) > 1 else 0
-        )
-        velocity = second_half_growth - first_half_growth
-    else:
-        velocity = 0
-
-    # Z-score component: How unusual is the most recent value?
-    # Use a moderate decay to balance recent vs historical importance
-    latest_value = installs_over_days[-1]
-    z_score_calc = zscore.zscore(0.75, installs_over_days[:-1])
-    z_component = z_score_calc.score(latest_value)
-
-    # Combine components with weights
-    # - Z-score: Primary signal for statistical anomalies
-    # - Momentum: Captures sustained growth patterns
-    # - Velocity: Rewards accelerating growth
-    base_score = (
-        z_component * 0.5
-        + momentum * 20.0  # Scale momentum to be comparable
-        + (velocity / max(recent_avg, 1)) * 5.0  # Normalize velocity by app size
-    )
-
-    if is_eol:
-        base_score = base_score * eol_penalty
-
-    # New app boost: Help new apps with limited history get discovered
-    # if they show promising early numbers
-    if is_new_app and len(installs_over_days) <= 7:
-        new_app_boost = 1.0 + (0.3 * (7 - len(installs_over_days)) / 7)
-        base_score = base_score * new_app_boost
-
-    return base_score + quality_bonus
-
-
 def _build_or_update_aggregates() -> dict:
     edate = datetime.date.today() - datetime.timedelta(days=2)
 
@@ -645,6 +540,11 @@ def update(sqldb):
     eol_status_batch = models.QualityModeration.by_appids_eol_status(
         sqldb, apps_with_stats
     )
+    icon_quality_passed_count_batch = (
+        models.QualityModeration.by_appids_icon_quality_passed_count(
+            sqldb, apps_with_stats
+        )
+    )
 
     trending_apps: list = []
     for app_id in agg["per_day"]:
@@ -673,6 +573,7 @@ def update(sqldb):
         trending_score = _calculate_trending_score(
             installs_over_days=installs_over_days,
             quality_passed_ratio=quality_passed_ratio,
+            icon_quality_bonus=icon_quality_passed_count_batch.get(app_id, 0),
             is_eol=is_eol,
             is_new_app=is_new_app,
         )
