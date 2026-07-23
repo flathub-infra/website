@@ -127,7 +127,7 @@
   "packageManager": "pnpm@10.28.2",
   "pnpm": {
     "overrides": {
-      "react-is": "19.2.6",
+      "react-is": "19.2.8",
       "@types/react": "19.2.17"
     }
   },
