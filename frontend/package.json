@@ -87,7 +87,7 @@
     "@tailwindcss/postcss": "^4.3.2",
     "@tailwindcss/typography": "^0.5.20",
     "@tanstack/eslint-plugin-query": "^5.100.14",
-    "@tanstack/react-query-devtools": "^5.99.2",
+    "@tanstack/react-query-devtools": "^5.100.10",
     "@trieb.work/nextjs-turbo-redis-cache": "^1.15.0",
     "@types/node": "^26.1.1",
     "@types/qs": "^6",
