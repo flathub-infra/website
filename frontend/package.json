@@ -21,7 +21,7 @@
     "@imgproxy/imgproxy-node": "^1.1.0",
     "@meilisearch/instant-meilisearch": "^0.31.2",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
-    "@radix-ui/react-checkbox": "^1.3.2",
+    "@radix-ui/react-checkbox": "^1.3.9",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-slider": "^1.3.5",
     "@resvg/resvg-js": "^2.6.2",
