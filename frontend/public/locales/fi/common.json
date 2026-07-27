@@ -95,7 +95,7 @@
   "badge-copyright": "Siinä määrin, kun se on lain puitteissa mahdollista, <author>Jakub Steiner</author> on luopunut tekijänoikeudesta ja lähioikeuksista <badgeslink>Flathub-merkkeihin</badgeslink>. Työ on julkaistu Tšekistä.",
   "languages-summary": "Valitse kieli, jolla haluat sivuston näytettävän.",
   "user-avatar": "Käyttäjän {user} avatar",
-  "acknowledgements-block": "<p>Flathub ei olisi mahdollinen ilman seuraavien organisaatioiden ja yksilöiden tukea.</p>",
+  "acknowledgements-block": "<p>Flathub ei olisi mahdollinen ilman laajemman Flatpak- ja Flathub-yhteisön tukea. Kiitämme kaikki menneitä ja nykyisiä avustajia, sponsoreita ja organisaatioita, joiden tuki ja infrastruktuuri ovat mahdollistaneet Flathubin toiminnan.</p>",
   "about-description": "Flathub on Linux-sovellusten keskeinen lataus- ja jakelupiste. Sen mahdollistaa Flatpak, jonka ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.",
   "payment": "Maksu",
   "failed-to-load-refresh": "Resurssin lataaminen epäonnistui. Yritä päivittää sivu.",
@@ -768,5 +768,66 @@
   "founding-supporters": "Perustamisessa tukeneet",
   "os-flatpak-version-distribution": "Flatpak-versio käyttöjärjestelmän mukaan (viimeiset 30 päivää)",
   "flatpak-version-distribution": "Flatpak-version jakauma (viimeiset 30 päivää)",
-  "os-version-distribution": "Käyttöjärjestelmän version jakauma (viimeiset 30 päivää)"
+  "os-version-distribution": "Käyttöjärjestelmän version jakauma (viimeiset 30 päivää)",
+  "contribute-flathub": "Kehitä Flathubia",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Uusi vuosi, uudet työnkulut",
+      "description": "Sovellukset muistiinpanoihin, tehtävien seuraamiseksi ja suunnitelmien tekemiseksi"
+    },
+    "free-software-favorites": {
+      "header": "Henkilöstön valinnat",
+      "description": "Rakastamamme sovellukset juuri nyt"
+    },
+    "spring-creativity": {
+      "header": "Vapauta luovuutesi",
+      "description": "Tärkeimmät sovellukset piirtämiseen, valokuvien muokkaamiseen ja digitaaliseen suunnitteluun"
+    },
+    "fresh-desktop-releases": {
+      "header": "Rakenna natiivisovelluksia",
+      "description": "Kehitä järjestelmällesi ominaisia sovelluksia"
+    },
+    "staying-connected": {
+      "header": "Pysy yhteydessä",
+      "description": "Tärkeimmät yhteistyö- ja yhteydenpitosovellukset"
+    },
+    "summer-travel": {
+      "header": "Valmis lomaan",
+      "description": "Kartat, kulkeminen, sää ja matkasuunnittelun sovellukset"
+    },
+    "back-to-learning": {
+      "header": "Päivittäistä oppimista",
+      "description": "Sovellukset opiskeluun, tutkimukseen ja kirjoittamiseen"
+    },
+    "winter-comforts": {
+      "header": "Ole kotoisasti",
+      "description": "Loistavia sovelluksia lukemiseen, elokuvien katsomiseenja pelien pelaamiseen"
+    },
+    "tools-for-developers": {
+      "header": "Web-kehittäjän tärkeimmät",
+      "description": "Sivustojen tekeminen on hauskempaa näillä sovelluksilla"
+    },
+    "take-better-notes": {
+      "header": "Ota parempia muistiinpanoja",
+      "description": "Löydä uusi suosikkisovellus muistiipanojen ottamiseen"
+    },
+    "get-focused": {
+      "header": "Keskity",
+      "description": "Erinomaisia sovelluksia tehtävienhallintaan"
+    },
+    "make-some-noise": {
+      "header": "Pidä hieman meteliä",
+      "description": "Sovellukset musiikin luomiseen ja tuottamiseen"
+    },
+    "get-to-work": {
+      "header": "Työskentele",
+      "description": "Tärkeimmät toimistosovellukset"
+    }
+  },
+  "manage": "Hallitse",
+  "health-fitness-description": "Sovellukset terveyden ja kunnon edistämiseen.",
+  "health-fitness": "Terveys ja kuntoilu",
+  "manual-verification": "Merkitse manuaalisesti vahvistetuksi",
+  "user-id": "Flathub-käyttäjätunniste",
+  "unverified-app-disclaimer-package": "Tämä yhteisön tarjoama paketti ei ole kehittäjän {developer} vahvistama, tukema tai yhteistyössä toteuttama."
 }

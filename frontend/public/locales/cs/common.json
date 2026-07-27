@@ -843,7 +843,7 @@
       "description": "Nezbytné kancelářské aplikace"
     }
   },
-  "unverified-app-disclaimer-package": "Tento komunitou poskytovaný balíček není ověřován, jakkoli spojen či podporován {developer}.",
+  "unverified-app-disclaimer-package": "Tento komunitní balíček není ověřen, jakkoli spojen s či podporován vývojářem {developer}.",
   "unverified-app-disclaimer-unknown-developer": "vývojářem aplikace",
   "dns-verification-main-instruction": "Ověřte své oprávnění používat identifikátor aplikace <bold>{id}</bold> zveřejněním DNS TXT záznamu pro <bold>{domain}</bold>.",
   "dns-validation-instruction": "Přidejte následující DNS záznam (bez odebírání jakýchkoli už existujících TXT záznamů). Projevení se změn v DNS může chvíli trvat.",
