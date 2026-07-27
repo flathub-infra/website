@@ -842,5 +842,16 @@
       "description": "Aipeanna oifige riachtanacha",
       "header": "Téigh ag Obair"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "Níl an pacáiste seo arna sholáthar ag an bpobal fíoraithe ag, cleamhnaithe le, ná tacaithe ag {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "forbróir an aip",
+  "dns-verification-main-instruction": "Fíoraigh do cheart chun ID an aip <bold>{id}</bold> a úsáid trí thaifead DNS TXT a fhoilsiú do <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Cuir an taifead DNS seo a leanas leis gan aon taifid TXT atá ann cheana a bhaint. Féadfaidh sé tamall a thógáil chun athruithe DNS a chur i bhfeidhm.",
+  "dns-record-value": "Luach",
+  "dns-record-not-found": "Ní bhfuarthas aon taifead TXT ag {record}.",
+  "dns-token-not-present": "Níl an comhartha fíoraithe sna taifid TXT ag {record}.",
+  "dns-lookup-failed": "Theip ar thaifid TXT a chuardach le haghaidh {record}.",
+  "app-is-currently-verified-by-dns": "Tá d'aip fíoraithe faoi láthair trí rialú DNS ar <domain></domain>",
+  "verified-dns-tooltip": "Tá úinéireacht ID an aip <appid></appid> fíoraithe trí rialú DNS ar <domain></domain>",
+  "dns-verification": "Fíorú DNS"
 }

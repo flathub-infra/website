@@ -842,5 +842,16 @@
       "description": "Nélkülözhetetlen irodai alkalmazások"
     }
   },
-  "manage": "Kezelés"
+  "manage": "Kezelés",
+  "unverified-app-disclaimer-package": "Ezt a közösség által biztosított csomagot nem a(z) {developer} ellenőrizte, nem áll kapcsolatban vele, és nem is támogatja.",
+  "unverified-app-disclaimer-unknown-developer": "az alkalmazás fejlesztője",
+  "dns-verification-main-instruction": "Igazolja a(z) <bold>{id}</bold> alkalmazásazonosító használatához való jogát egy DNS TXT rekord közzétételével a(z) <bold>{domain}</bold> domainhez.",
+  "dns-validation-instruction": "Adja hozzá a következő DNS-rekordot anélkül, hogy eltávolítaná a meglévő TXT rekordokat. A DNS-módosítások terjedése időbe telhet.",
+  "dns-record-value": "Érték",
+  "dns-record-not-found": "Nem található TXT rekord itt: {record}.",
+  "dns-token-not-present": "A(z) {record} helyen található TXT rekordok nem tartalmazzák az ellenőrző tokent.",
+  "dns-lookup-failed": "Nem sikerült lekérni a(z) {record} TXT rekordjait.",
+  "app-is-currently-verified-by-dns": "Az alkalmazás jelenleg DNS-hitelesítéssel igazolt a(z) <domain></domain> domain feletti rendelkezés alapján",
+  "verified-dns-tooltip": "A(z) <appid></appid> alkalmazásazonosító tulajdonjoga a(z) <domain></domain> domain feletti DNS-vezérlés alapján igazolt",
+  "dns-verification": "DNS-hitelesítés"
 }
