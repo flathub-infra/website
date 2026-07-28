@@ -6,6 +6,7 @@ import hmac
 import re
 import secrets
 from typing import TYPE_CHECKING, Any, Protocol, TypeGuard, cast
+from urllib.parse import urlsplit, urlunsplit
 
 from sqlalchemy import select, update
 
@@ -18,6 +19,8 @@ TOKEN_BYTES = 32
 PBKDF2_ITERATIONS = 600_000
 PBKDF2_SALT_BYTES = 32
 CLIENT_SECRET_HASH_SCHEME = "pbkdf2_sha256"
+
+OIDC_ADVERTISED_SCOPES = frozenset({"openid", "profile", "email", "offline_access"})
 PKCE_VALUE_PATTERN = re.compile(r"[A-Za-z0-9._~-]{43,128}")
 
 
@@ -86,6 +89,66 @@ def redirect_uri_allowed(
     redirect_uri: str, allowed_redirect_uris: Sequence[str]
 ) -> bool:
     return redirect_uri in allowed_redirect_uris
+
+def validate_oidc_client_configuration(
+    redirect_uris: Sequence[str],
+    allowed_scopes: Sequence[str],
+    refresh_tokens_enabled: bool,
+) -> tuple[list[str], list[str]]:
+    if not redirect_uris:
+        raise ValueError("At least one redirect URI is required")
+
+    normalized_redirect_uris: list[str] = []
+    for redirect_uri in redirect_uris:
+        value = redirect_uri.strip()
+        if not value:
+            raise ValueError("Redirect URIs cannot be empty")
+        if "*" in value:
+            raise ValueError("Redirect URIs cannot contain wildcards")
+        if "#" in value:
+            raise ValueError("Redirect URIs cannot contain fragments")
+        try:
+            parsed = urlsplit(value)
+            hostname = parsed.hostname
+            parsed.port
+        except ValueError as error:
+            raise ValueError("Redirect URI is not a valid absolute URL") from error
+        if not parsed.scheme or not parsed.netloc or hostname is None:
+            raise ValueError("Redirect URI must be an absolute URL")
+
+        scheme = parsed.scheme.lower()
+        normalized_hostname = hostname.lower()
+        if scheme == "https":
+            pass
+        elif scheme == "http" and normalized_hostname in {"localhost", "127.0.0.1"}:
+            pass
+        else:
+            raise ValueError(
+                "Redirect URI must use https, or http for localhost/127.0.0.1"
+            )
+
+        normalized_uri = urlunsplit(
+            (scheme, parsed.netloc.lower(), parsed.path, parsed.query, "")
+        )
+        if normalized_uri not in normalized_redirect_uris:
+            normalized_redirect_uris.append(normalized_uri)
+
+    normalized_scopes: list[str] = []
+    for scope in allowed_scopes:
+        normalized_scope = scope.strip()
+        if normalized_scope not in OIDC_ADVERTISED_SCOPES:
+            raise ValueError(f"Unsupported OIDC scope: {normalized_scope or '<empty>'}")
+        if normalized_scope not in normalized_scopes:
+            normalized_scopes.append(normalized_scope)
+
+    if "openid" not in normalized_scopes:
+        raise ValueError("allowed_scopes must contain openid")
+    if "offline_access" in normalized_scopes and not refresh_tokens_enabled:
+        raise ValueError(
+            "offline_access requires refresh_tokens_enabled to be true"
+        )
+
+    return normalized_redirect_uris, normalized_scopes
 
 
 def requested_scopes_allowed(scope: str, allowed_scopes: Sequence[str]) -> bool:
