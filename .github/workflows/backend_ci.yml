@@ -40,10 +40,10 @@ jobs:
             **/pyproject.toml
 
       - name: Check code formatting
-        run: uvx ruff format --check .
+        run: uv run --only-group dev ruff format --check .
 
       - name: Check for code errors
-        run: uvx ruff check .
+        run: uv run --only-group dev ruff check .
 
   tests:
     permissions:
