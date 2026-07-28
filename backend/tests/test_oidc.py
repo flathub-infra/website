@@ -1505,7 +1505,53 @@ def _mock_token_db(
 @pytest.fixture
 def token_client(client, monkeypatch):
     enable_oidc(monkeypatch, _generate_test_jwks())
+    monkeypatch.setattr(oidc_routes, "_check_token_rate_limit", lambda *_args: None)
     return client
+
+
+def test_signing_key_cache_uses_explicit_invalidation(monkeypatch):
+    private_jwks = _generate_test_jwks()
+    enable_oidc(monkeypatch, private_jwks)
+    oidc_routes.invalidate_signing_key_cache()
+
+    with patch.object(
+        oidc_routes.jwk.KeySet,
+        "import_key_set",
+        wraps=oidc_routes.jwk.KeySet.import_key_set,
+    ) as import_key_set:
+        oidc_routes._get_signing_key()
+        oidc_routes._get_signing_key()
+        assert import_key_set.call_count == 1
+
+        oidc_routes.invalidate_signing_key_cache()
+        oidc_routes._get_signing_key()
+        assert import_key_set.call_count == 2
+
+
+def test_token_rate_limit_is_enforced_per_ip_and_client(monkeypatch):
+    class FakeRateLimitStore:
+        def __init__(self):
+            self.counts = {}
+            self.calls = []
+
+        def eval(self, script, num_keys, key, window):
+            self.calls.append((script, num_keys, key, window))
+            self.counts[key] = self.counts.get(key, 0) + 1
+            return self.counts[key]
+
+    store = FakeRateLimitStore()
+    request = MagicMock()
+    request.client.host = "192.0.2.1"
+    monkeypatch.setattr(oidc_routes, "_token_rate_limit_store", store)
+    monkeypatch.setattr(config.settings, "oidc_token_rate_limit_per_ip", 1)
+    monkeypatch.setattr(config.settings, "oidc_token_rate_limit_per_client", 1)
+
+    oidc_routes._check_token_rate_limit(request, "test-client")
+    with pytest.raises(oidc_routes.OidcTokenError) as error:
+        oidc_routes._check_token_rate_limit(request, "test-client")
+
+    assert error.value.status_code == 429
+    assert len(store.calls) == 3
 
 
 def _basic_auth_header(client_id, client_secret, scheme="Basic"):

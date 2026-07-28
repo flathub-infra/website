@@ -1,10 +1,12 @@
 import base64
 import json
+import logging
 import re
 from datetime import UTC, datetime, timedelta
 from typing import Any
 from urllib.parse import quote, unquote_plus, urlencode, urlsplit
 
+import redis
 from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
 from joserfc import jwk, jwt
 from joserfc.errors import JoseError
@@ -43,6 +45,27 @@ TOKEN_RESPONSE_HEADERS = {
     "Cache-Control": "no-store",
     "Pragma": "no-cache",
 }
+
+logger = logging.getLogger(__name__)
+
+_signing_key_cache_source: str | None = None
+_signing_key_cache: Any | None = None
+_token_rate_limit_store = redis.Redis(
+    host=config.settings.redis_host,
+    port=config.settings.redis_port,
+    db=config.settings.redis_db,
+    decode_responses=True,
+    socket_connect_timeout=0.2,
+    socket_timeout=0.2,
+)
+
+_TOKEN_RATE_LIMIT_SCRIPT = """
+local count = redis.call('INCR', KEYS[1])
+if count == 1 then
+    redis.call('EXPIRE', KEYS[1], ARGV[1])
+end
+return count
+"""
 
 INVALID_PERCENT_ESCAPE_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 
@@ -127,6 +150,34 @@ def openid_configuration():
     }
 
 
+def invalidate_signing_key_cache():
+    global _signing_key_cache, _signing_key_cache_source
+    _signing_key_cache = None
+    _signing_key_cache_source = None
+
+
+def _load_private_key_set():
+    global _signing_key_cache, _signing_key_cache_source
+
+    private_jwks = config.settings.oidc_private_jwks
+    if private_jwks is None:
+        raise HTTPException(status_code=500, detail="OIDC JWKS is not configured")
+    if (
+        _signing_key_cache is not None
+        and _signing_key_cache_source == private_jwks
+    ):
+        return _signing_key_cache
+
+    try:
+        key_set = jwk.KeySet.import_key_set(json.loads(private_jwks))
+    except (json.JSONDecodeError, KeyError, TypeError, JoseError) as e:
+        raise HTTPException(status_code=500, detail="OIDC JWKS is invalid") from e
+
+    _signing_key_cache = key_set
+    _signing_key_cache_source = private_jwks
+    return key_set
+
+
 @router.get(
     "/oidc/jwks.json",
     responses={
@@ -136,14 +187,7 @@ def openid_configuration():
     },
 )
 def jwks():
-    if config.settings.oidc_private_jwks is None:
-        raise HTTPException(status_code=500, detail="OIDC JWKS is not configured")
-
-    try:
-        private_jwks = json.loads(config.settings.oidc_private_jwks)
-        key_set = jwk.KeySet.import_key_set(private_jwks)
-    except (json.JSONDecodeError, KeyError, TypeError, JoseError) as e:
-        raise HTTPException(status_code=500, detail="OIDC JWKS is invalid") from e
+    key_set = _load_private_key_set()
 
     keys: list[dict[str, Any]] = []
     for key in key_set:
@@ -308,14 +352,7 @@ def authorize(
 
 def _get_signing_key():
     """Load the first compatible RSA signing key from the private JWKS."""
-    if config.settings.oidc_private_jwks is None:
-        raise HTTPException(status_code=500, detail="OIDC JWKS is not configured")
-
-    try:
-        private_jwks = json.loads(config.settings.oidc_private_jwks)
-        key_set = jwk.KeySet.import_key_set(private_jwks)
-    except (json.JSONDecodeError, KeyError, TypeError, JoseError) as e:
-        raise HTTPException(status_code=500, detail="OIDC JWKS is invalid") from e
+    key_set = _load_private_key_set()
 
     for key in key_set:
         if (
@@ -483,6 +520,29 @@ def _resolve_client_credentials(
 
     return post_client_id, post_client_secret
 
+def _check_token_rate_limit(request: Request, client_id: str):
+    window = config.settings.oidc_token_rate_limit_window_seconds
+    limits = (
+        ("ip", request.client.host if request.client else "unknown", config.settings.oidc_token_rate_limit_per_ip),
+        ("client", client_id, config.settings.oidc_token_rate_limit_per_client),
+    )
+    for kind, identifier, limit in limits:
+        key = f"oidc:token-rate:{kind}:{identifier}"
+        try:
+            count = _token_rate_limit_store.eval(
+                _TOKEN_RATE_LIMIT_SCRIPT,
+                1,
+                key,
+                window,
+            )
+        except redis.RedisError:
+            logger.warning("OIDC token rate limiting unavailable", exc_info=True)
+            continue
+        if count > limit:
+            raise OidcTokenError("temporarily_unavailable", status_code=429)
+
+
+
 
 @router.post(
     "/oidc/token",
@@ -507,6 +567,7 @@ def token(
     client_id, client_secret = _resolve_client_credentials(
         request, client_id, client_secret
     )
+    _check_token_rate_limit(request, client_id)
 
     now = utils.utcnow()
 
