@@ -111,6 +111,16 @@ def modify_users_only(login=Depends(logged_in)):
         login.user = user
         return login
 
+def manage_oidc_clients_only(login=Depends(logged_in)):
+    with get_db("replica") as db:
+        user = db.session.get(models.FlathubUser, login.user.id)
+        if user is None or "manage-oidc-clients" not in user.permissions():
+            raise HTTPException(
+                status_code=403, detail="no_permission_to_manage_oidc_clients"
+            )
+        login.user = user
+        return login
+
 
 def moderator_only(login=Depends(logged_in)):
     with get_db("replica") as db:

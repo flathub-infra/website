@@ -943,6 +943,7 @@ class Permission(StrEnum):
     VIEW_USERS = "view-users"
     MODIFY_USERS = "modify-users"
 
+    MANAGE_OIDC_CLIENTS = "manage-oidc-clients"
 
 class UserInfo(BaseModel):
     displayname: str | None = None
