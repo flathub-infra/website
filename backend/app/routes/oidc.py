@@ -91,6 +91,7 @@ class OidcBearerError(Exception):
         self.error = error
         self.status_code = status_code
 
+
 async def oidc_bearer_error_handler(_request: Request, exc: Exception):
     assert isinstance(exc, OidcBearerError)
     challenge = 'Bearer realm="oidc/userinfo"'
@@ -730,7 +731,7 @@ def _check_token_rate_limit(request: Request, client_id: str):
         try:
             count = int(
                 cast(
-                    str,
+                    "str",
                     _token_rate_limit_store.eval(
                         _TOKEN_RATE_LIMIT_SCRIPT,
                         1,
