@@ -7,18 +7,21 @@ from types import SimpleNamespace
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-# app.search connects to Meilisearch at import time; stub it out for unit tests.
-sys.modules["app.search"] = SimpleNamespace()
 
 
 def _import_real_worker():
     """Return the real ``app.worker`` package, even if a prior test stubbed it."""
-    saved = sys.modules.pop("app.worker", None)
+    saved_worker = sys.modules.pop("app.worker", None)
+    saved_search = sys.modules.pop("app.search", None)
+    sys.modules["app.search"] = SimpleNamespace()
     try:
         return importlib.import_module("app.worker")
     finally:
-        if saved is not None:
-            sys.modules["app.worker"] = saved
+        if saved_worker is not None:
+            sys.modules["app.worker"] = saved_worker
+        sys.modules.pop("app.search", None)
+        if saved_search is not None:
+            sys.modules["app.search"] = saved_search
 
 
 def test_worker_init_does_not_start_scheduler():
