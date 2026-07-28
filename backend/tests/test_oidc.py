@@ -3456,6 +3456,7 @@ def test_authorization_code_failure_burns_code_in_postgres():
                     allowed_scopes jsonb NOT NULL,
                     enabled boolean NOT NULL,
                     refresh_tokens_enabled boolean NOT NULL,
+                    require_pkce boolean NOT NULL,
                     created_at timestamp NOT NULL
                 ) ON COMMIT PRESERVE ROWS
                 """
@@ -3476,7 +3477,8 @@ def test_authorization_code_failure_burns_code_in_postgres():
                     code_challenge_method varchar,
                     created_at timestamp NOT NULL,
                     expires_at timestamp NOT NULL,
-                    consumed_at timestamp
+                    consumed_at timestamp,
+                    replayed_at timestamp
                 ) ON COMMIT PRESERVE ROWS
                 """
             )
@@ -3487,11 +3489,12 @@ def test_authorization_code_failure_burns_code_in_postgres():
                 """
                 INSERT INTO oidcclient (
                     id, client_id, client_secret_hash, name, redirect_uris,
-                    allowed_scopes, enabled, refresh_tokens_enabled, created_at
+                    allowed_scopes, enabled, refresh_tokens_enabled,
+                    require_pkce, created_at
                 ) VALUES (
                     1, 'test-client', :secret_hash, 'Test Client',
                     '["https://test-client.example.com/oauth2/callback"]'::jsonb,
-                    '["openid"]'::jsonb, true, false, :created_at
+                    '["openid"]'::jsonb, true, false, true, :created_at
                 )
                 """
             ),
