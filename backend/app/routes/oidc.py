@@ -437,6 +437,7 @@ def authorize(
 
 def _get_pending_consent(request: Request, login: LoginStatusDep):
     pending = request.session.get("oidc_consent")
+    # Consent expiry deliberately shares the authorization-code lifetime.
     if (
         not isinstance(pending, dict)
         or not login.state.logged_in()
