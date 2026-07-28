@@ -27,12 +27,14 @@ class OidcSubjectUser(Protocol):
 
 
 class OidcClientRecord(Protocol):
+    name: str
     client_id: str
     client_secret_hash: str
     redirect_uris: Sequence[str]
     allowed_scopes: Sequence[str]
     enabled: bool
     refresh_tokens_enabled: bool
+    require_pkce: bool
 
 
 def generate_token(num_bytes: int = TOKEN_BYTES) -> str:

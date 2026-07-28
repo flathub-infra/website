@@ -5,7 +5,7 @@ import json
 import logging
 import re
 from datetime import UTC, datetime, timedelta
-from typing import Any
+from typing import Any, cast
 from urllib.parse import quote, unquote_plus, urlencode, urlsplit
 
 import redis
@@ -499,6 +499,7 @@ def submit_consent(
     decision: str = Form(...),
 ):
     pending = _get_pending_consent(request, login)
+    assert login.user is not None
     if not hmac.compare_digest(csrf_token, pending["csrf_token"]):
         request.session.pop("oidc_consent", None)
         raise HTTPException(status_code=400, detail="invalid_request")
@@ -725,11 +726,16 @@ def _check_token_rate_limit(request: Request, client_id: str):
     for kind, identifier, limit in limits:
         key = f"oidc:token-rate:{kind}:{identifier}"
         try:
-            count = _token_rate_limit_store.eval(
-                _TOKEN_RATE_LIMIT_SCRIPT,
-                1,
-                key,
-                window,
+            count = int(
+                cast(
+                    str,
+                    _token_rate_limit_store.eval(
+                        _TOKEN_RATE_LIMIT_SCRIPT,
+                        1,
+                        key,
+                        window,
+                    ),
+                )
             )
         except redis.RedisError:
             logger.warning("OIDC token rate limiting unavailable", exc_info=True)
