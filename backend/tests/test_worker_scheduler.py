@@ -89,13 +89,18 @@ def test_oidc_cleanup_retains_codes_with_derived_tokens():
 
 
 def test_main_starts_and_shuts_down_scheduler(monkeypatch):
-    saved = sys.modules.pop("app.worker", None)
+    saved_worker = sys.modules.pop("app.worker", None)
+    saved_search = sys.modules.pop("app.search", None)
+    sys.modules["app.search"] = SimpleNamespace()
     try:
         importlib.import_module("app.worker")
         worker_main = importlib.import_module("app.worker.__main__")
     finally:
-        if saved is not None:
-            sys.modules["app.worker"] = saved
+        if saved_worker is not None:
+            sys.modules["app.worker"] = saved_worker
+        sys.modules.pop("app.search", None)
+        if saved_search is not None:
+            sys.modules["app.search"] = saved_search
 
     started = {"called": False}
     shutdown = {"called": False}
