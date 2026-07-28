@@ -10,7 +10,7 @@ import redis
 from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
 from joserfc import jwk, jwt
 from joserfc.errors import JoseError
-from sqlalchemy import update
+from sqlalchemy import select, update
 from starlette.responses import JSONResponse, RedirectResponse, Response
 
 from .. import config, models, utils
@@ -422,6 +422,7 @@ def _create_access_token(
     scope: str,
     now: datetime,
     family_id: str | None = None,
+    authorization_code_id: int | None = None,
 ):
     """Create and persist an OidcAccessToken (hash only)."""
     access_token = generate_token()
@@ -435,6 +436,7 @@ def _create_access_token(
         scope=scope,
         expires_at=expires_at,
         refresh_token_family_id=family_id,
+        authorization_code_id=authorization_code_id,
     )
     db.session.add(access_token_obj)
     return access_token, expires_at
@@ -466,6 +468,25 @@ def _revoke_refresh_family(db, family_id: str, now: datetime):
         update(models.OidcAccessToken)
         .where(
             models.OidcAccessToken.refresh_token_family_id == family_id,
+            models.OidcAccessToken.revoked_at.is_(None),
+        )
+        .values(revoked_at=now)
+    )
+
+def _revoke_authorization_code_tokens(db, authorization_code_id: int, now: datetime):
+    """Revoke tokens issued from a replayed authorization code."""
+    db.session.execute(
+        update(models.OidcRefreshToken)
+        .where(
+            models.OidcRefreshToken.authorization_code_id == authorization_code_id,
+            models.OidcRefreshToken.revoked_at.is_(None),
+        )
+        .values(revoked_at=now)
+    )
+    db.session.execute(
+        update(models.OidcAccessToken)
+        .where(
+            models.OidcAccessToken.authorization_code_id == authorization_code_id,
             models.OidcAccessToken.revoked_at.is_(None),
         )
         .values(revoked_at=now)
@@ -611,6 +632,7 @@ def _handle_authorization_code_grant(
             )
             .values(consumed_at=now)
             .returning(
+                models.OidcAuthorizationCode.id,
                 models.OidcAuthorizationCode.client_id,
                 models.OidcAuthorizationCode.user_id,
                 models.OidcAuthorizationCode.redirect_uri,
@@ -625,6 +647,20 @@ def _handle_authorization_code_grant(
 
 
         if row is None:
+            replayed_code = db.session.execute(
+                update(models.OidcAuthorizationCode)
+                .where(
+                    models.OidcAuthorizationCode.code_hash == code_hash_value,
+                    models.OidcAuthorizationCode.client_id == client_id,
+                    models.OidcAuthorizationCode.consumed_at.is_not(None),
+                    models.OidcAuthorizationCode.replayed_at.is_(None),
+                )
+                .values(replayed_at=now)
+                .returning(models.OidcAuthorizationCode.id)
+            ).first()
+            if replayed_code is not None:
+                _revoke_authorization_code_tokens(db, replayed_code.id, now)
+                db.session.commit()
             raise OidcTokenError("invalid_grant")
         db.session.commit()
 
@@ -640,6 +676,14 @@ def _handle_authorization_code_grant(
                 code_verifier, row.code_challenge
             ):
                 raise OidcTokenError("invalid_grant")
+
+        replayed_at = db.session.execute(
+            select(models.OidcAuthorizationCode.replayed_at)
+            .where(models.OidcAuthorizationCode.id == row.id)
+            .with_for_update()
+        ).scalar_one()
+        if replayed_at is not None:
+            raise OidcTokenError("invalid_grant")
 
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.login_disabled:
@@ -667,11 +711,18 @@ def _handle_authorization_code_grant(
                 family_id=family_id,
                 scope=row.scope,
                 expires_at=refresh_expires_at,
+                authorization_code_id=row.id,
             )
             db.session.add(refresh_obj)
 
         access_token, _ = _create_access_token(
-            db, client_id, row.user_id, at_scope, now, family_id=family_id
+            db,
+            client_id,
+            row.user_id,
+            at_scope,
+            now,
+            family_id=family_id,
+            authorization_code_id=row.id,
         )
 
     response: dict[str, Any] = {
@@ -720,6 +771,7 @@ def _handle_refresh_token_grant(
                 models.OidcRefreshToken.family_id,
                 models.OidcRefreshToken.scope,
                 models.OidcRefreshToken.expires_at,
+                models.OidcRefreshToken.authorization_code_id,
             )
         )
         row = result.first()
@@ -768,6 +820,7 @@ def _handle_refresh_token_grant(
             family_id=row.family_id,
             scope=effective_scope,
             expires_at=new_rt_expires_at,
+            authorization_code_id=row.authorization_code_id,
         )
         db.session.add(new_rt_obj)
 
@@ -780,7 +833,13 @@ def _handle_refresh_token_grant(
 
         at_scope = _access_token_scope(effective_scope)
         access_token, _ = _create_access_token(
-            db, client_id, row.user_id, at_scope, now, family_id=row.family_id
+            db,
+            client_id,
+            row.user_id,
+            at_scope,
+            now,
+            family_id=row.family_id,
+            authorization_code_id=row.authorization_code_id,
         )
 
         id_token = None

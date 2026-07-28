@@ -1177,6 +1177,7 @@ class OidcAuthorizationCode(Base):
     )
     expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     consumed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    replayed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     client: Mapped["OidcClient"] = relationship(
         "OidcClient", back_populates="authorization_codes"
@@ -1224,6 +1225,12 @@ class OidcAccessToken(Base):
     refresh_token_family_id: Mapped[str | None] = mapped_column(
         String, nullable=True, index=True
     )
+    authorization_code_id: Mapped[int | None] = mapped_column(
+        Integer,
+        ForeignKey("oidcauthorizationcode.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
 
     client: Mapped["OidcClient"] = relationship(
         "OidcClient", back_populates="access_tokens"
@@ -1266,6 +1273,12 @@ class OidcRefreshToken(Base):
         String, nullable=False, unique=True, index=True
     )
     family_id: Mapped[str] = mapped_column(String, nullable=False, index=True)
+    authorization_code_id: Mapped[int | None] = mapped_column(
+        Integer,
+        ForeignKey("oidcauthorizationcode.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     scope: Mapped[str] = mapped_column(String, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()

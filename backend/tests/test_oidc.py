@@ -426,13 +426,20 @@ def test_oidc_refresh_token_model_has_family_fields():
     assert "rotated_at" in column_names
     assert "revoked_at" in column_names
     assert "replaced_by_id" in column_names
+    assert "authorization_code_id" in column_names
 
 
 def test_oidc_access_token_has_refresh_token_family_id():
     """Verify OidcAccessToken has refresh_token_family_id for replay handling."""
     column_names = {c.name for c in OidcAccessToken.__table__.columns}
     assert "refresh_token_family_id" in column_names
+    assert "authorization_code_id" in column_names
 
+
+
+def test_oidc_authorization_code_tracks_replays():
+    column_names = {c.name for c in OidcAuthorizationCode.__table__.columns}
+    assert "replayed_at" in column_names
 
 def test_oidc_client_has_refresh_tokens_enabled():
     """Verify OidcClient has refresh_tokens_enabled flag."""
@@ -504,6 +511,23 @@ def test_revoke_refresh_family_compiles_expected_sql():
     assert "UPDATE oidcaccesstoken SET revoked_at=" in access_sql
     assert "oidcaccesstoken.refresh_token_family_id = 'family-abc'" in access_sql
     assert "oidcaccesstoken.revoked_at IS NULL" in access_sql
+
+
+def test_revoke_authorization_code_tokens_compiles_expected_sql():
+    from app.routes.oidc import _revoke_authorization_code_tokens
+
+    now = datetime.now(UTC)
+    combined_session = StatementSession()
+    combined_db = MagicMock()
+    combined_db.session = combined_session
+
+    _revoke_authorization_code_tokens(combined_db, 42, now)
+
+    assert len(combined_session.statements) == 2
+    refresh_sql = compile_statement(combined_session.statements[0])
+    access_sql = compile_statement(combined_session.statements[1])
+    assert "oidcrefreshtoken.authorization_code_id = 42" in refresh_sql
+    assert "oidcaccesstoken.authorization_code_id = 42" in access_sql
 
 
 def test_discovery_advertises_refresh_token_grant_and_offline_access(
@@ -1424,7 +1448,10 @@ class _AuthCodeRow:
         expires_at,
         code_challenge=None,
         code_challenge_method=None,
+        id=1,
+        replayed_at=None,
     ):
+        self.id = id
         self.client_id = client_id
         self.user_id = user_id
         self.redirect_uri = redirect_uri
@@ -1433,6 +1460,7 @@ class _AuthCodeRow:
         self.code_challenge = code_challenge
         self.code_challenge_method = code_challenge_method
         self.expires_at = expires_at
+        self.replayed_at = replayed_at
 
 
 def _make_auth_code_row(
@@ -1490,6 +1518,7 @@ def _mock_token_db(
         writer_session.add.side_effect = lambda obj: added.append(obj)
     else:
         writer_session.add = MagicMock()
+    execute_result.scalar_one.return_value = None
 
     writer_db = MagicMock()
     writer_db.session = writer_session
@@ -2436,11 +2465,13 @@ class _RefreshTokenRow:
         family_id="test-family",
         scope="openid profile email offline_access",
         expires_at=None,
+        authorization_code_id=1,
     ):
         self.id = id
         self.user_id = user_id
         self.family_id = family_id
         self.scope = scope
+        self.authorization_code_id = authorization_code_id
         now = utcnow()
         self.expires_at = expires_at or (now + timedelta(days=30))
 
