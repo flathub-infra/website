@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlalchemy import func, update
 
-from .. import models, utils
+from .. import audit_log, models, utils
 from ..database import get_db
 from ..login_info import manage_oidc_clients_only
 from ..oidc import (
@@ -113,8 +113,6 @@ def _validate_configuration(
 
 def _client_details(client: models.OidcClient) -> dict[str, object]:
     return {
-        "name": client.name,
-        "description": client.description,
         "redirect_uris": list(client.redirect_uris),
         "allowed_scopes": list(client.allowed_scopes),
         "refresh_tokens_enabled": client.refresh_tokens_enabled,
@@ -170,6 +168,13 @@ def create_oidc_client(
             client_secret=client_secret,
         )
 
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.OIDC_CLIENT_CREATED,
+        details={"client_id": client_id, "name": request.name},
+    )
+
     return result
 
 
@@ -193,6 +198,8 @@ def update_oidc_client(
     with get_db("writer") as db:
         client = _client_or_404(db, client_id)
         before = _client_details(client)
+        before_name = client.name
+        before_description = client.description
         values = request.model_dump(exclude_unset=True)
         for field in (
             "name",
@@ -222,10 +229,27 @@ def update_oidc_client(
         client.require_pkce = values.get("require_pkce", client.require_pkce)
         after = _client_details(client)
         audit_name = client.name
-        changed = before != after
+        changed = (
+            before != after
+            or before_name != client.name
+            or before_description != client.description
+        )
         db.session.flush()
         result = _client_result(db, client)
 
+
+    if changed:
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.OIDC_CLIENT_UPDATED,
+            details={
+                "client_id": client_id,
+                "name": audit_name,
+                "before": before,
+                "after": after,
+            },
+        )
     return result
 
 
@@ -240,11 +264,19 @@ def rotate_oidc_client_secret(
         client = _client_or_404(db, client_id)
         client.client_secret_hash = hash_client_secret(client_secret)
         client.secret_rotated_at = utils.utcnow()
+        audit_name = client.name
         db.session.flush()
         result = OidcClientCreated(
             **_client_result(db, client).model_dump(),
             client_secret=client_secret,
         )
+
+    audit_log.enqueue_audit_log(
+        http_request,
+        login.user.id,
+        models.AuditEventType.OIDC_CLIENT_SECRET_ROTATED,
+        details={"client_id": client_id, "name": audit_name},
+    )
 
     return result
 
@@ -276,7 +308,16 @@ def disable_oidc_client(
             )
             .values(revoked_at=now)
         )
+        audit_name = client.name
         db.session.flush()
         result = _client_result(db, client)
+
+    if changed:
+        audit_log.enqueue_audit_log(
+            http_request,
+            login.user.id,
+            models.AuditEventType.OIDC_CLIENT_DISABLED,
+            details={"client_id": client_id, "name": audit_name},
+        )
 
     return result

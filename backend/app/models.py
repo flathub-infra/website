@@ -3979,6 +3979,10 @@ class AuditEventType(enum.StrEnum):
     USER_BANNED = "user-banned"
     USER_UNBANNED = "user-unbanned"
     VENDING_CONFIG_CHANGED = "vending-config-changed"
+    OIDC_CLIENT_CREATED = "oidc-client-created"
+    OIDC_CLIENT_UPDATED = "oidc-client-updated"
+    OIDC_CLIENT_SECRET_ROTATED = "oidc-client-secret-rotated"
+    OIDC_CLIENT_DISABLED = "oidc-client-disabled"
 
 
 class AuditLog(Base):
