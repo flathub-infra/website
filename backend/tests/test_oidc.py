@@ -3235,6 +3235,22 @@ def test_userinfo_missing_token(client, monkeypatch):
     assert response.headers["WWW-Authenticate"] == 'Bearer realm="oidc/userinfo"'
 
 
+
+def test_userinfo_rejects_header_and_form_token(client, monkeypatch):
+    enable_oidc(monkeypatch)
+
+    response = client.post(
+        "/oidc/userinfo",
+        headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
+        data={"access_token": USERINFO_TOKEN},
+    )
+
+    assert response.status_code == 400
+    assert response.content == b""
+    assert response.headers["WWW-Authenticate"] == (
+        'Bearer realm="oidc/userinfo", error="invalid_request"'
+    )
+
 def test_userinfo_unsupported_scheme_does_not_query_database(client, monkeypatch):
     enable_oidc(monkeypatch)
 

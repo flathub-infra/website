@@ -86,10 +86,10 @@ class OidcTokenError(Exception):
 
 
 class OidcBearerError(Exception):
-    def __init__(self, error: str | None = None):
+    def __init__(self, error: str | None = None, status_code: int = 401):
         super().__init__(error)
         self.error = error
-
+        self.status_code = status_code
 
 async def oidc_bearer_error_handler(_request: Request, exc: Exception):
     assert isinstance(exc, OidcBearerError)
@@ -97,7 +97,7 @@ async def oidc_bearer_error_handler(_request: Request, exc: Exception):
     if exc.error is not None:
         challenge += f', error="{exc.error}"'
     return Response(
-        status_code=401,
+        status_code=exc.status_code,
         headers={"WWW-Authenticate": challenge},
     )
 
@@ -1056,7 +1056,7 @@ def userinfo_post(request: Request, access_token: str | None = Form(None)):
 def _userinfo(request: Request, access_token: str | None):
     auth_header = request.headers.get("Authorization")
     if auth_header and access_token is not None:
-        raise OidcBearerError("invalid_request")
+        raise OidcBearerError("invalid_request", status_code=400)
 
     if auth_header:
         scheme, separator, token_value = auth_header.partition(" ")
