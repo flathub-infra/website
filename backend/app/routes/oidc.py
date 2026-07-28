@@ -363,7 +363,7 @@ def authorize(
     if "offline_access" in requested_scope_set and not client.refresh_tokens_enabled:
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
-    if getattr(client, "require_pkce", False) and code_challenge is None:
+    if client.require_pkce and code_challenge is None:
         return _error_redirect(redirect_uri, "invalid_request", state)
 
     if code_challenge is not None or code_challenge_method is not None:
