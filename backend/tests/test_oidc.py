@@ -18,10 +18,13 @@ sys.path.append(ROOT_DIR)
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from joserfc import jwk, jwt
+from sqlalchemy import create_engine, text
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.orm import sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
 
 from app import config
+from app.db_session import DBSession
 from app.login_info import LoginInformation, LoginState, login_state
 from app.models import (
     FlathubUser,
@@ -1491,6 +1494,7 @@ def _mock_token_db(
     def _ctx(db_type="replica", **_kwargs):
         yield writer_db
 
+    _ctx.session = writer_session
     return _ctx
 
 
@@ -2054,6 +2058,7 @@ def test_token_wrong_redirect_uri(token_client):
 
     assert response.status_code == 400
     assert response.json() == {"error": "invalid_grant"}
+    get_db_mock.session.commit.assert_called_once_with()
 
 
 def test_token_unknown_code(token_client):
@@ -3218,3 +3223,116 @@ def test_userinfo_no_email_scope(client, monkeypatch):
     assert body["preferred_username"] == "testuser"
     assert "email" not in body
     assert "email_verified" not in body
+ 
+def test_authorization_code_failure_burns_code_in_postgres():
+    database_url = os.getenv("OIDC_TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+
+    engine = create_engine(database_url)
+    with engine.connect() as connection:
+        connection.execute(
+            text(
+                """
+                CREATE TEMP TABLE oidcclient (
+                    id integer PRIMARY KEY,
+                    client_id varchar NOT NULL UNIQUE,
+                    client_secret_hash varchar NOT NULL,
+                    name varchar NOT NULL,
+                    redirect_uris jsonb NOT NULL,
+                    allowed_scopes jsonb NOT NULL,
+                    enabled boolean NOT NULL,
+                    refresh_tokens_enabled boolean NOT NULL,
+                    created_at timestamp NOT NULL
+                ) ON COMMIT PRESERVE ROWS
+                """
+            )
+        )
+        connection.execute(
+            text(
+                """
+                CREATE TEMP TABLE oidcauthorizationcode (
+                    id integer PRIMARY KEY,
+                    client_id varchar NOT NULL,
+                    user_id integer NOT NULL,
+                    code_hash varchar NOT NULL UNIQUE,
+                    redirect_uri varchar NOT NULL,
+                    scope varchar NOT NULL,
+                    nonce varchar,
+                    code_challenge varchar,
+                    code_challenge_method varchar,
+                    created_at timestamp NOT NULL,
+                    expires_at timestamp NOT NULL,
+                    consumed_at timestamp
+                ) ON COMMIT PRESERVE ROWS
+                """
+            )
+        )
+        now = utcnow()
+        connection.execute(
+            text(
+                """
+                INSERT INTO oidcclient (
+                    id, client_id, client_secret_hash, name, redirect_uris,
+                    allowed_scopes, enabled, refresh_tokens_enabled, created_at
+                ) VALUES (
+                    1, 'test-client', :secret_hash, 'Test Client',
+                    '["https://test-client.example.com/oauth2/callback"]'::jsonb,
+                    '["openid"]'::jsonb, true, false, :created_at
+                )
+                """
+            ),
+            {"secret_hash": hash_client_secret(CLIENT_SECRET), "created_at": now},
+        )
+        connection.execute(
+            text(
+                """
+                INSERT INTO oidcauthorizationcode (
+                    id, client_id, user_id, code_hash, redirect_uri, scope,
+                    created_at, expires_at
+                ) VALUES (
+                    1, 'test-client', 1, :code_hash,
+                    'https://test-client.example.com/oauth2/callback',
+                    'openid', :created_at, :expires_at
+                )
+                """
+            ),
+            {
+                "code_hash": hash_token("test-code"),
+                "created_at": now,
+                "expires_at": now + timedelta(minutes=10),
+            },
+        )
+        connection.commit()
+
+        Session = sessionmaker(bind=connection)
+
+        @contextmanager
+        def real_writer_db(db_type="writer"):
+            session = Session()
+            try:
+                yield DBSession(session)
+                if db_type == "writer":
+                    session.commit()
+            finally:
+                session.close()
+
+        with patch("app.routes.oidc.get_db", side_effect=real_writer_db):
+            with pytest.raises(oidc_routes.OidcTokenError):
+                oidc_routes._handle_authorization_code_grant(
+                    "test-client",
+                    CLIENT_SECRET,
+                    "test-code",
+                    "https://evil.example.com/callback",
+                    None,
+                    now,
+                )
+
+        consumed_at = connection.execute(
+            text(
+                "SELECT consumed_at FROM oidcauthorizationcode WHERE id = 1"
+            )
+        ).scalar_one()
+        assert consumed_at is not None
+
+    engine.dispose()

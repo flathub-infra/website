@@ -559,8 +559,10 @@ def _handle_authorization_code_grant(
         )
         row = result.first()
 
+
         if row is None:
             raise OidcTokenError("invalid_grant")
+        db.session.commit()
 
         if row.client_id != client_id:
             raise OidcTokenError("invalid_grant")
