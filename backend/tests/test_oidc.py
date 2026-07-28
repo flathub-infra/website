@@ -610,6 +610,7 @@ def _mock_db_ctx(client_obj=None, user=None, added=None):
     query_chain.first.return_value = client_obj
     session.query.return_value.filter.return_value = query_chain
     session.merge.return_value = user or _make_user()
+    session.get.return_value = user or _make_user()
     if added is not None:
         session.add.side_effect = lambda obj: added.append(obj)
     else:
@@ -621,6 +622,7 @@ def _mock_db_ctx(client_obj=None, user=None, added=None):
     @contextmanager
     def _ctx(*_args, **_kwargs):
         yield db
+    _ctx.session = session
 
     return _ctx
 
@@ -948,6 +950,7 @@ def test_authorize_authenticated_issues_code(authorize_client):
     assert "code=test-auth-code" in location
     assert "state=test-state" in location
     assert len(added) == 1
+    get_db_mock.session.merge.assert_not_called()
     authz_code = added[0]
     assert isinstance(authz_code, OidcAuthorizationCode)
     assert authz_code.client_id == "test-client"
@@ -1084,6 +1087,7 @@ def _mock_db_ctx_split(replica_client=None, writer_client=None, user=None, added
     writer_query.first.return_value = writer_client
     writer_session.query.return_value.filter.return_value = writer_query
     writer_session.merge.return_value = user or _make_user()
+    writer_session.get.return_value = user or _make_user()
     if added is not None:
         writer_session.add.side_effect = lambda obj: added.append(obj)
     else:

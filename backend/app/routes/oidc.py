@@ -277,7 +277,9 @@ def authorize(
         if "offline_access" in set(scope.split()) and not client.refresh_tokens_enabled:
             return _error_redirect(redirect_uri, "invalid_scope", state)
 
-        user = db.session.merge(login.user)
+        user = db.session.get(models.FlathubUser, login.user.id)
+        if user is None:
+            return _error_redirect(redirect_uri, "access_denied", state)
         if user.login_disabled:
             return _error_redirect(redirect_uri, "access_denied", state)
         if not _user_can_use_oidc(user):
