@@ -172,6 +172,13 @@ def test_oidc_discovery_content(client, monkeypatch):
         ],
         "subject_types_supported": ["public"],
         "id_token_signing_alg_values_supported": ["RS256"],
+        "claims_supported": [
+            "sub",
+            "name",
+            "preferred_username",
+            "picture",
+            "email",
+        ],
         "code_challenge_methods_supported": ["S256"],
     }
 
@@ -445,6 +452,7 @@ def test_oidc_client_has_refresh_tokens_enabled():
     """Verify OidcClient has refresh_tokens_enabled flag."""
     column_names = {c.name for c in OidcClient.__table__.columns}
     assert "refresh_tokens_enabled" in column_names
+    assert "require_pkce" in column_names
 
 
 def test_oidc_refresh_token_lifetime_config_default():
@@ -539,6 +547,9 @@ def test_discovery_advertises_refresh_token_grant_and_offline_access(
     body = response.json()
     assert "refresh_token" in body["grant_types_supported"]
     assert "offline_access" in body["scopes_supported"]
+    assert "claims_supported" in body
+    assert "email" in body["claims_supported"]
+    assert body["code_challenge_methods_supported"] == ["S256"]
 
 
 REDIRECT_URI = "https://test-client.example.com/oauth2/callback"
@@ -551,7 +562,12 @@ AUTHORIZE_PARAMS = {
 }
 
 
-def _make_client(enabled=True, refresh_tokens_enabled=False, allowed_scopes=None):
+def _make_client(
+    enabled=True,
+    refresh_tokens_enabled=False,
+    allowed_scopes=None,
+    require_pkce=None,
+):
     client = OidcClient(
         id=1,
         client_id="test-client",
@@ -561,6 +577,7 @@ def _make_client(enabled=True, refresh_tokens_enabled=False, allowed_scopes=None
         allowed_scopes=allowed_scopes or ["openid", "profile", "email"],
         enabled=enabled,
         refresh_tokens_enabled=refresh_tokens_enabled,
+        require_pkce=require_pkce,
     )
     return client
 
@@ -796,6 +813,37 @@ def test_authorize_unsupported_response_type(authorize_client):
     assert "state=test-state" in response.headers["location"]
 
 
+@pytest.mark.parametrize(
+    ("extra_params", "error"),
+    [
+        ({"prompt": "none"}, "login_required"),
+        ({"request": "signed-request"}, "request_not_supported"),
+        ({"request_uri": "https://client.example/request"}, "request_not_supported"),
+    ],
+)
+def test_authorize_rejects_unsupported_protocol_requests(
+    authorize_client, extra_params, error
+):
+    valid_client = _make_client()
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={**AUTHORIZE_PARAMS, **extra_params},
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert f"error={error}" in response.headers["location"]
+
+
 def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
     valid_client = _make_client()
     user = _make_user()
@@ -831,6 +879,25 @@ def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
     assert authz_code.code_challenge == PKCE_CHALLENGE
     assert authz_code.code_challenge_method == "S256"
 
+
+
+def test_authorize_requires_pkce_when_client_requires_it(authorize_client):
+    valid_client = _make_client(require_pkce=True)
+    get_db_mock = _mock_db_ctx(client_obj=valid_client)
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_out_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=invalid_request" in response.headers["location"]
 
 def test_authorize_pkce_plain_method_rejected(authorize_client):
     valid_client = _make_client()

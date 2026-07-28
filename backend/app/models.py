@@ -1133,6 +1133,9 @@ class OidcClient(Base):
     refresh_tokens_enabled: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=false()
     )
+    require_pkce: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=true()
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )

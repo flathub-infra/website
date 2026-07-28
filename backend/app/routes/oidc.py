@@ -148,6 +148,13 @@ def openid_configuration():
         ],
         "subject_types_supported": ["public"],
         "id_token_signing_alg_values_supported": [OIDC_SIGNING_ALGORITHM],
+        "claims_supported": [
+            "sub",
+            "name",
+            "preferred_username",
+            "picture",
+            "email",
+        ],
         "code_challenge_methods_supported": ["S256"],
     }
 
@@ -289,6 +296,9 @@ def authorize(
     nonce: str | None = Query(None),
     code_challenge: str | None = Query(None),
     code_challenge_method: str | None = Query(None),
+    prompt: str | None = Query(None),
+    request_object: str | None = Query(None, alias="request"),
+    request_uri: str | None = Query(None),
 ):
     has_query_string = bool(request.url.query)
 
@@ -298,6 +308,7 @@ def authorize(
         pending = request.session.pop("oidc_authorize_params", None)
         if pending is not None:
             client_id = pending["client_id"]
+            prompt = pending.get("prompt")
             redirect_uri = pending["redirect_uri"]
             response_type = pending["response_type"]
             scope = pending["scope"]
@@ -336,6 +347,14 @@ def authorize(
 
     if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
         raise HTTPException(status_code=400, detail="invalid_redirect_uri")
+    if request_object is not None or request_uri is not None:
+        return _error_redirect(redirect_uri, "request_not_supported", state)
+
+    prompt_values = set(prompt.split()) if prompt else set()
+    if not prompt_values.issubset({"none", "login", "consent", "select_account"}):
+        return _error_redirect(redirect_uri, "invalid_request", state)
+    if "none" in prompt_values and len(prompt_values) != 1:
+        return _error_redirect(redirect_uri, "invalid_request", state)
 
     if response_type != "code":
         return _error_redirect(redirect_uri, "unsupported_response_type", state)
@@ -346,6 +365,9 @@ def authorize(
     if "offline_access" in requested_scope_set and not client.refresh_tokens_enabled:
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
+    if getattr(client, "require_pkce", False) and code_challenge is None:
+        return _error_redirect(redirect_uri, "invalid_request", state)
+
     if code_challenge is not None or code_challenge_method is not None:
         if (
             code_challenge is None
@@ -354,12 +376,18 @@ def authorize(
         ):
             return _error_redirect(redirect_uri, "invalid_request", state)
 
+    if "none" in prompt_values and (
+        not login.state.logged_in() or login.user is None
+    ):
+        return _error_redirect(redirect_uri, "login_required", state)
+
     if not login.state.logged_in() or login.user is None:
         request.session["oidc_authorize_params"] = {
             "client_id": client_id,
             "redirect_uri": redirect_uri,
             "response_type": response_type,
             "scope": scope,
+            "prompt": prompt,
             "state": state,
             "nonce": nonce,
             "code_challenge": code_challenge,
@@ -391,10 +419,13 @@ def authorize(
         if user is None or user.login_disabled or not _user_can_use_oidc(user):
             return _error_redirect(redirect_uri, "access_denied", state)
 
+    if "none" in prompt_values:
+        return _error_redirect(redirect_uri, "consent_required", state)
     request.session["oidc_consent"] = {
         "client_id": client_id,
         "redirect_uri": redirect_uri,
         "response_type": response_type,
+        "prompt": prompt,
         "scope": scope,
         "state": state,
         "nonce": nonce,
@@ -945,7 +976,7 @@ def _handle_refresh_token_grant(
         subject = ensure_oidc_subject(db, user)
 
         effective_scope = row.scope
-        if requested_scope is not None:
+        if requested_scope:
             validated = _scope_subset_or_invalid(requested_scope, row.scope)
             if validated is None:
                 raise OidcTokenError("invalid_scope")
