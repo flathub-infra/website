@@ -2084,6 +2084,8 @@ def test_token_wrong_client(token_client):
 
     assert response.status_code == 400
     assert response.json() == {"error": "invalid_grant"}
+    claim_sql = compile_statement(get_db_mock.session.execute.call_args[0][0])
+    assert "oidcauthorizationcode.client_id = 'test-client'" in claim_sql
 
 
 def test_token_wrong_redirect_uri(token_client):

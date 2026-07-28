@@ -606,6 +606,7 @@ def _handle_authorization_code_grant(
             update(models.OidcAuthorizationCode)
             .where(
                 models.OidcAuthorizationCode.code_hash == code_hash_value,
+                models.OidcAuthorizationCode.client_id == client_id,
                 models.OidcAuthorizationCode.consumed_at.is_(None),
             )
             .values(consumed_at=now)
