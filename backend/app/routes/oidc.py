@@ -842,8 +842,6 @@ def _handle_authorization_code_grant(
             raise OidcTokenError("invalid_grant")
         db.session.commit()
 
-        if row.client_id != client_id:
-            raise OidcTokenError("invalid_grant")
         if row.redirect_uri != redirect_uri:
             raise OidcTokenError("invalid_grant")
         if now > row.expires_at:

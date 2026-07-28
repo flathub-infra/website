@@ -2213,11 +2213,14 @@ def test_token_code_replay(token_client):
 
 def test_token_wrong_client(token_client):
     client_obj = _make_token_client()
-    auth_code_row = _make_auth_code_row(client_id="other-client")
     user = _make_user()
     get_db_mock = _mock_token_db(
-        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user
+        client_obj=client_obj, auth_code_row=None, user_obj=user
     )
+    get_db_mock.session.query.return_value.filter.return_value.first.side_effect = [
+        client_obj,
+        None,
+    ]
 
     with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
         response = token_client.post(
