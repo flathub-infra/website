@@ -32,8 +32,10 @@ def test_worker_init_registers_cron_actors():
     worker = _import_real_worker()
     assert hasattr(worker, "log_audit_event")
     assert hasattr(worker, "prune_audit_logs")
+    assert hasattr(worker, "prune_oidc_tokens")
     assert worker.log_audit_event.actor_name == "log_audit_event"
     assert worker.prune_audit_logs.actor_name == "prune_audit_logs"
+    assert worker.prune_oidc_tokens.actor_name == "prune_oidc_tokens"
 
 
 def test_cron_jobs_loaded_for_prune_and_app_picks():
@@ -47,9 +49,41 @@ def test_cron_jobs_loaded_for_prune_and_app_picks():
         in job_names
     )
     assert (
+        f"{worker.prune_oidc_tokens.fn.__module__}.{worker.prune_oidc_tokens.fn.__name__}"
+        in job_names
+    )
+    assert (
         f"{worker.update_app_picks.fn.__module__}.{worker.update_app_picks.fn.__name__}"
         in job_names
     )
+
+
+def test_oidc_cleanup_retains_codes_with_derived_tokens():
+    from datetime import datetime
+
+    from sqlalchemy import delete
+    from sqlalchemy.dialects import postgresql
+
+    from app import models
+    from app.worker.prune_oidc_tokens import _authorization_code_cleanup_condition
+
+    expired_or_consumed, no_derived_tokens = _authorization_code_cleanup_condition(
+        datetime(2026, 1, 1)
+    )
+    statement = delete(models.OidcAuthorizationCode).where(
+        expired_or_consumed,
+        no_derived_tokens,
+    )
+    sql = str(
+        statement.compile(
+            dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
+        )
+    )
+
+    assert "oidcauthorizationcode.consumed_at IS NOT NULL" in sql
+    assert "NOT (EXISTS" in sql
+    assert "oidcaccesstoken.authorization_code_id" in sql
+    assert "oidcrefreshtoken.authorization_code_id" in sql
 
 
 def test_main_starts_and_shuts_down_scheduler(monkeypatch):

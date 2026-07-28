@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     oidc_token_rate_limit_per_client: int = 30
     oidc_token_rate_limit_per_ip: int = 120
     oidc_token_rate_limit_window_seconds: int = 60
+    oidc_token_cleanup_grace_seconds: int = 86400
 
     github_client_id: str = "71dbddbdb4288fe96a58"
     github_client_secret: str = "4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5"
