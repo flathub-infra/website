@@ -817,6 +817,9 @@ def test_authorize_unsupported_response_type(authorize_client):
     ("extra_params", "error"),
     [
         ({"prompt": "none"}, "login_required"),
+        ({"prompt": "login"}, "invalid_request"),
+        ({"prompt": "select_account"}, "invalid_request"),
+        ({"prompt": "none consent"}, "invalid_request"),
         ({"request": "signed-request"}, "request_not_supported"),
         ({"request_uri": "https://client.example/request"}, "request_not_supported"),
     ],

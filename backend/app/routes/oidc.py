@@ -349,7 +349,7 @@ def authorize(
         return _error_redirect(redirect_uri, "request_not_supported", state)
 
     prompt_values = set(prompt.split()) if prompt else set()
-    if not prompt_values.issubset({"none", "login", "consent", "select_account"}):
+    if not prompt_values.issubset({"none", "consent"}):
         return _error_redirect(redirect_uri, "invalid_request", state)
     if "none" in prompt_values and len(prompt_values) != 1:
         return _error_redirect(redirect_uri, "invalid_request", state)
