@@ -171,10 +171,7 @@ def _load_private_key_set():
     private_jwks = config.settings.oidc_private_jwks
     if private_jwks is None:
         raise HTTPException(status_code=500, detail="OIDC JWKS is not configured")
-    if (
-        _signing_key_cache is not None
-        and _signing_key_cache_source == private_jwks
-    ):
+    if _signing_key_cache is not None and _signing_key_cache_source == private_jwks:
         return _signing_key_cache
 
     try:
@@ -220,6 +217,7 @@ def _error_redirect(
 
 def _user_can_use_oidc(user: models.FlathubUser) -> bool:
     return models.RoleName.OIDC.value in user.role_list()
+
 
 def _issue_authorization_code(
     client_id: str,
@@ -376,9 +374,7 @@ def authorize(
         ):
             return _error_redirect(redirect_uri, "invalid_request", state)
 
-    if "none" in prompt_values and (
-        not login.state.logged_in() or login.user is None
-    ):
+    if "none" in prompt_values and (not login.state.logged_in() or login.user is None):
         return _error_redirect(redirect_uri, "login_required", state)
 
     if not login.state.logged_in() or login.user is None:
@@ -646,6 +642,7 @@ def _revoke_refresh_family(db, family_id: str, now: datetime):
         .values(revoked_at=now)
     )
 
+
 def _revoke_authorization_code_tokens(db, authorization_code_id: int, now: datetime):
     """Revoke tokens issued from a replayed authorization code."""
     db.session.execute(
@@ -714,10 +711,15 @@ def _resolve_client_credentials(
 
     return post_client_id, post_client_secret
 
+
 def _check_token_rate_limit(request: Request, client_id: str):
     window = config.settings.oidc_token_rate_limit_window_seconds
     limits = (
-        ("ip", request.client.host if request.client else "unknown", config.settings.oidc_token_rate_limit_per_ip),
+        (
+            "ip",
+            request.client.host if request.client else "unknown",
+            config.settings.oidc_token_rate_limit_per_ip,
+        ),
         ("client", client_id, config.settings.oidc_token_rate_limit_per_client),
     )
     for kind, identifier, limit in limits:
@@ -734,8 +736,6 @@ def _check_token_rate_limit(request: Request, client_id: str):
             continue
         if count > limit:
             raise OidcTokenError("temporarily_unavailable", status_code=429)
-
-
 
 
 @router.post(
@@ -817,7 +817,6 @@ def _handle_authorization_code_grant(
             )
         )
         row = result.first()
-
 
         if row is None:
             replayed_code = db.session.execute(

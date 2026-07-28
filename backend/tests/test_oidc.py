@@ -443,10 +443,10 @@ def test_oidc_access_token_has_refresh_token_family_id():
     assert "authorization_code_id" in column_names
 
 
-
 def test_oidc_authorization_code_tracks_replays():
     column_names = {c.name for c in OidcAuthorizationCode.__table__.columns}
     assert "replayed_at" in column_names
+
 
 def test_oidc_client_has_refresh_tokens_enabled():
     """Verify OidcClient has refresh_tokens_enabled flag."""
@@ -663,6 +663,7 @@ def _mock_db_ctx(client_obj=None, user=None, added=None):
     @contextmanager
     def _ctx(*_args, **_kwargs):
         yield db
+
     _ctx.session = session
 
     return _ctx
@@ -679,7 +680,6 @@ def authorize_client(client, monkeypatch):
     return client
 
 
-
 def _approve_consent(client):
     consent_response = client.get("/oidc/consent")
     assert consent_response.status_code == 200
@@ -690,7 +690,6 @@ def _approve_consent(client):
         data={"csrf_token": csrf_token, "decision": "approve"},
         follow_redirects=False,
     )
-
 
 
 def test_authorize_consent_denial_returns_access_denied(authorize_client):
@@ -880,7 +879,6 @@ def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
     assert authz_code.code_challenge_method == "S256"
 
 
-
 def test_authorize_requires_pkce_when_client_requires_it(authorize_client):
     valid_client = _make_client(require_pkce=True)
     get_db_mock = _mock_db_ctx(client_obj=valid_client)
@@ -898,6 +896,7 @@ def test_authorize_requires_pkce_when_client_requires_it(authorize_client):
     assert response.status_code == 302
     assert REDIRECT_URI in response.headers["location"]
     assert "error=invalid_request" in response.headers["location"]
+
 
 def test_authorize_pkce_plain_method_rejected(authorize_client):
     valid_client = _make_client()
@@ -3437,6 +3436,7 @@ def test_userinfo_no_email_scope(client, monkeypatch):
     assert "email" not in body
     assert "email_verified" not in body
 
+
 def test_authorization_code_failure_burns_code_in_postgres():
     database_url = os.getenv("OIDC_TEST_DATABASE_URL")
     if not database_url:
@@ -3542,9 +3542,7 @@ def test_authorization_code_failure_burns_code_in_postgres():
                 )
 
         consumed_at = connection.execute(
-            text(
-                "SELECT consumed_at FROM oidcauthorizationcode WHERE id = 1"
-            )
+            text("SELECT consumed_at FROM oidcauthorizationcode WHERE id = 1")
         ).scalar_one()
         assert consumed_at is not None
 

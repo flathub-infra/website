@@ -8,7 +8,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 
-
 def _import_real_worker():
     """Return the real ``app.worker`` package, even if a prior test stubbed it."""
     saved_worker = sys.modules.pop("app.worker", None)
