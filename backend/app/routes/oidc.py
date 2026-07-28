@@ -487,7 +487,8 @@ def consent(request: Request, login: LoginStatusDep):
             </main>
           </body>
         </html>
-        """
+        """,
+        headers={"Cache-Control": "no-store"},
     )
 
 

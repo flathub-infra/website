@@ -683,6 +683,7 @@ def authorize_client(client, monkeypatch):
 def _approve_consent(client):
     consent_response = client.get("/oidc/consent")
     assert consent_response.status_code == 200
+    assert consent_response.headers["cache-control"] == "no-store"
     marker = 'name="csrf_token" value="'
     csrf_token = consent_response.text.split(marker, 1)[1].split('"', 1)[0]
     return client.post(
