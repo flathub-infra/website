@@ -3369,7 +3369,7 @@ def test_userinfo_no_email_scope(client, monkeypatch):
     assert body["preferred_username"] == "testuser"
     assert "email" not in body
     assert "email_verified" not in body
- 
+
 def test_authorization_code_failure_burns_code_in_postgres():
     database_url = os.getenv("OIDC_TEST_DATABASE_URL")
     if not database_url:
