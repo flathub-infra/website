@@ -3058,9 +3058,12 @@ def _mock_userinfo_db(
     return _ctx, writer_session
 
 
-@pytest.mark.parametrize("scheme", ["Bearer", "bearer"])
-def test_userinfo_valid(client, monkeypatch, scheme):
-    """Valid Bearer token returns correct claims for all scopes."""
+@pytest.mark.parametrize(
+    ("scheme", "method"),
+    [("Bearer", "get"), ("bearer", "get"), (None, "post")],
+)
+def test_userinfo_valid(client, monkeypatch, scheme, method):
+    """Valid bearer tokens return correct claims for GET and form POST."""
     enable_oidc(monkeypatch)
     access_token_obj = _make_access_token_obj(scope="openid profile email")
     user = _make_user(display_name="Test User")
@@ -3074,10 +3077,16 @@ def test_userinfo_valid(client, monkeypatch, scheme):
         patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
         patch.object(FlathubUser, "get_default_account", return_value=default_account),
     ):
-        response = client.get(
-            "/oidc/userinfo",
-            headers={"Authorization": f"{scheme} {USERINFO_TOKEN}"},
-        )
+        if method == "post":
+            response = client.post(
+                "/oidc/userinfo",
+                data={"access_token": USERINFO_TOKEN},
+            )
+        else:
+            response = client.get(
+                "/oidc/userinfo",
+                headers={"Authorization": f"{scheme} {USERINFO_TOKEN}"},
+            )
 
     assert response.status_code == 200
     body = response.json()
