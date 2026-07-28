@@ -14,4 +14,7 @@ export type AuthorizeOidcAuthorizeGetParams = {
   nonce?: string | null
   code_challenge?: string | null
   code_challenge_method?: string | null
+  prompt?: string | null
+  request?: string | null
+  request_uri?: string | null
 }

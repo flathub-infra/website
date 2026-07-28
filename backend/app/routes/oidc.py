@@ -1044,8 +1044,16 @@ def _handle_refresh_token_grant(
         404: {"description": "OIDC is disabled"},
     },
 )
+def userinfo(request: Request):
+    return _userinfo(request, None)
+
+
 @router.post("/oidc/userinfo", include_in_schema=False)
-def userinfo(request: Request, access_token: str | None = Form(None)):
+def userinfo_post(request: Request, access_token: str | None = Form(None)):
+    return _userinfo(request, access_token)
+
+
+def _userinfo(request: Request, access_token: str | None):
     auth_header = request.headers.get("Authorization")
     if auth_header and access_token is not None:
         raise OidcBearerError("invalid_request")
