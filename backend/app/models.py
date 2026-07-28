@@ -1139,6 +1139,16 @@ class OidcClient(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+    created_by_user_id: Mapped[int | None] = mapped_column(
+        Integer, ForeignKey(FlathubUser.id, ondelete="SET NULL"), nullable=True
+    )
+    secret_rotated_at: Mapped[datetime | None] = mapped_column(
+        DateTime, nullable=True
+    )
+    description: Mapped[str | None] = mapped_column(String, nullable=True)
 
     authorization_codes: Mapped[list["OidcAuthorizationCode"]] = relationship(
         "OidcAuthorizationCode", back_populates="client"
