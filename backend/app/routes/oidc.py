@@ -1,4 +1,6 @@
 import base64
+import hmac
+import html
 import json
 import logging
 import re
@@ -11,7 +13,7 @@ from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Req
 from joserfc import jwk, jwt
 from joserfc.errors import JoseError
 from sqlalchemy import select, update
-from starlette.responses import JSONResponse, RedirectResponse, Response
+from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 
 from .. import config, models, utils
 from ..database import get_db
@@ -212,6 +214,61 @@ def _error_redirect(
 def _user_can_use_oidc(user: models.FlathubUser) -> bool:
     return models.RoleName.OIDC.value in user.role_list()
 
+def _issue_authorization_code(
+    client_id: str,
+    redirect_uri: str,
+    scope: str,
+    state: str | None,
+    nonce: str | None,
+    code_challenge: str | None,
+    code_challenge_method: str | None,
+    user_id: int,
+):
+    code = generate_token()
+    expires_at = utils.utcnow() + timedelta(
+        seconds=config.settings.oidc_code_lifetime_seconds
+    )
+
+    with get_db("writer") as db:
+        client = (
+            db.session.query(models.OidcClient)
+            .filter(models.OidcClient.client_id == client_id)
+            .first()
+        )
+        if not oidc_client_enabled(client):
+            raise HTTPException(status_code=400, detail="invalid_client")
+        if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
+            raise HTTPException(status_code=400, detail="invalid_redirect_uri")
+        if not requested_scopes_allowed(scope, client.allowed_scopes):
+            return _error_redirect(redirect_uri, "invalid_scope", state)
+        if "offline_access" in set(scope.split()) and not client.refresh_tokens_enabled:
+            return _error_redirect(redirect_uri, "invalid_scope", state)
+
+        user = db.session.get(models.FlathubUser, user_id)
+        if user is None or user.login_disabled or not _user_can_use_oidc(user):
+            return _error_redirect(redirect_uri, "access_denied", state)
+        ensure_oidc_subject(db, user)
+        db.session.add(
+            models.OidcAuthorizationCode(
+                client_id=client.client_id,
+                user_id=user.id,
+                code_hash=hash_token(code),
+                redirect_uri=redirect_uri,
+                scope=scope,
+                nonce=nonce,
+                code_challenge=code_challenge,
+                code_challenge_method=code_challenge_method,
+                expires_at=expires_at,
+            )
+        )
+
+    params: dict[str, str] = {"code": code}
+    if state is not None:
+        params["state"] = state
+    separator = "&" if "?" in redirect_uri else "?"
+    location = f"{redirect_uri}{separator}{urlencode(params)}"
+    return RedirectResponse(url=location, status_code=302)
+
 
 @router.get(
     "/oidc/authorize",
@@ -248,6 +305,23 @@ def authorize(
             nonce = pending.get("nonce")
             code_challenge = pending.get("code_challenge")
             code_challenge_method = pending.get("code_challenge_method")
+            created_at = pending.get("_created_at")
+            pre_login_user_id = pending.get("_pre_login_user_id")
+            if (
+                not isinstance(created_at, (int, float))
+                or utils.utcnow().timestamp() - created_at
+                > config.settings.oidc_code_lifetime_seconds
+                or (
+                    pre_login_user_id is not None
+                    and pre_login_user_id != request.session.get("user-id")
+                )
+                or (
+                    pre_login_user_id is None
+                    and not pending.get("_login_flow_started")
+                    and request.session.get("user-id") is not None
+                )
+            ):
+                raise HTTPException(status_code=400, detail="invalid_request")
     if not client_id or not redirect_uri or not response_type or not scope:
         raise HTTPException(status_code=400, detail="invalid_request")
     with get_db("replica") as db:
@@ -265,7 +339,6 @@ def authorize(
 
     if response_type != "code":
         return _error_redirect(redirect_uri, "unsupported_response_type", state)
-
     if not requested_scopes_allowed(scope, client.allowed_scopes):
         return _error_redirect(redirect_uri, "invalid_scope", state)
 
@@ -291,6 +364,9 @@ def authorize(
             "nonce": nonce,
             "code_challenge": code_challenge,
             "code_challenge_method": code_challenge_method,
+            "_created_at": utils.utcnow().timestamp(),
+            "_pre_login_user_id": request.session.get("user-id"),
+            "_login_flow_started": False,
         }
         authorize_path = (
             urlsplit(config.settings.oidc_issuer.rstrip("/")).path + "/oidc/authorize"
@@ -300,11 +376,6 @@ def authorize(
             f"?returnTo={quote(authorize_path, safe='')}"
         )
         return RedirectResponse(url=login_url, status_code=302)
-
-    code = generate_token()
-    expires_at = utils.utcnow() + timedelta(
-        seconds=config.settings.oidc_code_lifetime_seconds
-    )
 
     with get_db("writer") as db:
         client = (
@@ -316,38 +387,109 @@ def authorize(
             raise HTTPException(status_code=400, detail="invalid_client")
         if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
             raise HTTPException(status_code=400, detail="invalid_redirect_uri")
-        if not requested_scopes_allowed(scope, client.allowed_scopes):
-            return _error_redirect(redirect_uri, "invalid_scope", state)
-        if "offline_access" in set(scope.split()) and not client.refresh_tokens_enabled:
-            return _error_redirect(redirect_uri, "invalid_scope", state)
-
         user = db.session.get(models.FlathubUser, login.user.id)
-        if user is None:
+        if user is None or user.login_disabled or not _user_can_use_oidc(user):
             return _error_redirect(redirect_uri, "access_denied", state)
-        if user.login_disabled:
-            return _error_redirect(redirect_uri, "access_denied", state)
-        if not _user_can_use_oidc(user):
-            return _error_redirect(redirect_uri, "access_denied", state)
-        ensure_oidc_subject(db, user)
-        authz_code = models.OidcAuthorizationCode(
-            client_id=client.client_id,
-            user_id=user.id,
-            code_hash=hash_token(code),
-            redirect_uri=redirect_uri,
-            scope=scope,
-            nonce=nonce,
-            code_challenge=code_challenge,
-            code_challenge_method=code_challenge_method,
-            expires_at=expires_at,
-        )
-        db.session.add(authz_code)
 
-    params: dict[str, str] = {"code": code}
-    if state is not None:
-        params["state"] = state
-    separator = "&" if "?" in redirect_uri else "?"
-    location = f"{redirect_uri}{separator}{urlencode(params)}"
-    return RedirectResponse(url=location, status_code=302)
+    request.session["oidc_consent"] = {
+        "client_id": client_id,
+        "redirect_uri": redirect_uri,
+        "response_type": response_type,
+        "scope": scope,
+        "state": state,
+        "nonce": nonce,
+        "code_challenge": code_challenge,
+        "code_challenge_method": code_challenge_method,
+        "user_id": login.user.id,
+        "created_at": utils.utcnow().timestamp(),
+        "csrf_token": generate_token(),
+    }
+    consent_url = config.settings.oidc_issuer.rstrip("/") + "/oidc/consent"
+    return RedirectResponse(url=consent_url, status_code=302)
+
+
+def _get_pending_consent(request: Request, login: LoginStatusDep):
+    pending = request.session.get("oidc_consent")
+    if (
+        not isinstance(pending, dict)
+        or not login.state.logged_in()
+        or login.user is None
+        or pending.get("user_id") != login.user.id
+        or not isinstance(pending.get("created_at"), (int, float))
+        or utils.utcnow().timestamp() - pending["created_at"]
+        > config.settings.oidc_code_lifetime_seconds
+    ):
+        request.session.pop("oidc_consent", None)
+        raise HTTPException(status_code=400, detail="invalid_request")
+    return pending
+
+
+@router.get("/oidc/consent", include_in_schema=False)
+def consent(request: Request, login: LoginStatusDep):
+    pending = _get_pending_consent(request, login)
+    with get_db("replica") as db:
+        client = (
+            db.session.query(models.OidcClient)
+            .filter(models.OidcClient.client_id == pending["client_id"])
+            .first()
+        )
+    if not oidc_client_enabled(client):
+        request.session.pop("oidc_consent", None)
+        raise HTTPException(status_code=400, detail="invalid_client")
+
+    csrf_token = html.escape(pending["csrf_token"], quote=True)
+    client_name = html.escape(client.name, quote=True)
+    scope = html.escape(pending["scope"], quote=True)
+    consent_url = html.escape(
+        config.settings.oidc_issuer.rstrip("/") + "/oidc/consent", quote=True
+    )
+    return HTMLResponse(
+        f"""
+        <!doctype html>
+        <html lang="en">
+          <head><title>Authorize {client_name}</title></head>
+          <body>
+            <main>
+              <h1>Authorize {client_name}</h1>
+              <p>This application requests: {scope}</p>
+              <form method="post" action="{consent_url}">
+                <input type="hidden" name="csrf_token" value="{csrf_token}">
+                <button type="submit" name="decision" value="approve">Allow</button>
+                <button type="submit" name="decision" value="deny">Deny</button>
+              </form>
+            </main>
+          </body>
+        </html>
+        """
+    )
+
+
+@router.post("/oidc/consent", include_in_schema=False)
+def submit_consent(
+    request: Request,
+    login: LoginStatusDep,
+    csrf_token: str = Form(...),
+    decision: str = Form(...),
+):
+    pending = _get_pending_consent(request, login)
+    if not hmac.compare_digest(csrf_token, pending["csrf_token"]):
+        request.session.pop("oidc_consent", None)
+        raise HTTPException(status_code=400, detail="invalid_request")
+    request.session.pop("oidc_consent", None)
+    if decision != "approve":
+        return _error_redirect(
+            pending["redirect_uri"], "access_denied", pending.get("state")
+        )
+    return _issue_authorization_code(
+        pending["client_id"],
+        pending["redirect_uri"],
+        pending["scope"],
+        pending.get("state"),
+        pending.get("nonce"),
+        pending.get("code_challenge"),
+        pending.get("code_challenge_method"),
+        login.user.id,
+    )
 
 
 def _get_signing_key():

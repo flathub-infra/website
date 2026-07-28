@@ -662,6 +662,52 @@ def authorize_client(client, monkeypatch):
     return client
 
 
+
+def _approve_consent(client):
+    consent_response = client.get("/oidc/consent")
+    assert consent_response.status_code == 200
+    marker = 'name="csrf_token" value="'
+    csrf_token = consent_response.text.split(marker, 1)[1].split('"', 1)[0]
+    return client.post(
+        "/oidc/consent",
+        data={"csrf_token": csrf_token, "decision": "approve"},
+        follow_redirects=False,
+    )
+
+
+
+def test_authorize_consent_denial_returns_access_denied(authorize_client):
+    valid_client = _make_client()
+    user = _make_user()
+    added = []
+    get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            authorize_response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+            consent_response = authorize_client.get("/oidc/consent")
+            marker = 'name="csrf_token" value="'
+            csrf_token = consent_response.text.split(marker, 1)[1].split('"', 1)[0]
+            response = authorize_client.post(
+                "/oidc/consent",
+                data={"csrf_token": csrf_token, "decision": "deny"},
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert authorize_response.headers["location"].endswith("/oidc/consent")
+    assert response.status_code == 302
+    assert REDIRECT_URI in response.headers["location"]
+    assert "error=access_denied" in response.headers["location"]
+    assert added == []
+
+
 def test_authorize_returns_404_when_disabled(client, monkeypatch):
     monkeypatch.setattr(config.settings, "oidc_enabled", False)
 
@@ -774,6 +820,7 @@ def test_authorize_pkce_s256_accepted_and_stored(authorize_client):
                 },
                 follow_redirects=False,
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -965,6 +1012,7 @@ def test_authorize_authenticated_issues_code(authorize_client):
             response = authorize_client.get(
                 "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -1060,6 +1108,7 @@ def test_authorize_nonce_persisted(authorize_client):
                 params={**AUTHORIZE_PARAMS, "nonce": "test-nonce"},
                 follow_redirects=False,
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -1088,6 +1137,7 @@ def test_authorize_state_preserved(authorize_client):
                 params={**AUTHORIZE_PARAMS, "state": "custom-state-42"},
                 follow_redirects=False,
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -1200,6 +1250,7 @@ def test_authorize_preserves_nested_encoded_redirect_uri(authorize_client):
                 },
                 follow_redirects=False,
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -1252,6 +1303,7 @@ def test_authorize_fresh_request_ignores_stale_session(authorize_client):
                 },
                 follow_redirects=False,
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -1299,6 +1351,7 @@ def test_authorize_round_trip_preserves_nested_encoded_redirect_uri(authorize_cl
             patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
         ):
             response = authorize_client.get("/oidc/authorize", follow_redirects=False)
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 
@@ -1396,6 +1449,7 @@ def test_authorize_offline_access_allowed_if_client_refresh_enabled(authorize_cl
                 },
                 follow_redirects=False,
             )
+            response = _approve_consent(authorize_client)
     finally:
         authorize_client.app.dependency_overrides.clear()
 

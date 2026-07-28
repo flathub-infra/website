@@ -373,6 +373,10 @@ def start_oauth_flow(
         "state": state,
         "created": created,
     }
+    pending_oidc = request.session.get("oidc_authorize_params")
+    if isinstance(pending_oidc, dict):
+        pending_oidc["_login_flow_started"] = True
+        request.session["oidc_authorize_params"] = pending_oidc
     return {
         "state": "ok",
         "redirect": url,
