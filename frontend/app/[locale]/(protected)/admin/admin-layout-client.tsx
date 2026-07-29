@@ -27,6 +27,7 @@ export default function AdminLayoutClient({
       Permission["quality-moderation"],
       Permission["view-users"],
       Permission["modify-users"],
+      Permission["manage-oidc-clients"],
     ]
 
     return adminPermissions.some((permission) =>

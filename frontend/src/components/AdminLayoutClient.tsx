@@ -63,6 +63,12 @@ const AdminLayoutClient = ({
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission["modify-users"]),
     },
+    {
+      name: "OIDC clients",
+      href: "/admin/oidc-clients",
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
+        user?.permissions.some((a) => a === Permission["manage-oidc-clients"]),
+    },
   ].filter((nav) => !nav.condition || nav.condition(user?.info))
 
   useEffect(() => {
