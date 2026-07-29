@@ -14,4 +14,5 @@ export const Permission = {
   "direct-upload": "direct-upload",
   "view-users": "view-users",
   "modify-users": "modify-users",
+  "manage-oidc-clients": "manage-oidc-clients",
 } as const
