@@ -3470,17 +3470,30 @@ def test_authorization_code_failure_burns_code_in_postgres():
         connection.execute(
             text(
                 """
+                CREATE TEMP TABLE flathubuser (
+                    id integer PRIMARY KEY
+                ) ON COMMIT PRESERVE ROWS
+                """
+            )
+        )
+        connection.execute(
+            text(
+                """
                 CREATE TEMP TABLE oidcclient (
                     id integer PRIMARY KEY,
                     client_id varchar NOT NULL UNIQUE,
                     client_secret_hash varchar NOT NULL,
                     name varchar NOT NULL,
+                    description varchar,
                     redirect_uris jsonb NOT NULL,
                     allowed_scopes jsonb NOT NULL,
                     enabled boolean NOT NULL,
                     refresh_tokens_enabled boolean NOT NULL,
                     require_pkce boolean NOT NULL,
-                    created_at timestamp NOT NULL
+                    created_at timestamp NOT NULL DEFAULT now(),
+                    updated_at timestamp NOT NULL DEFAULT now(),
+                    created_by_user_id integer REFERENCES flathubuser(id) ON DELETE SET NULL,
+                    secret_rotated_at timestamp
                 ) ON COMMIT PRESERVE ROWS
                 """
             )
