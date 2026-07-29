@@ -119,7 +119,9 @@ def _create_tables(connection):
             "(1, 'OIDC administrator'), (2, 'Regular user')"
         )
     )
-    connection.execute(text("INSERT INTO permission (name) VALUES ('manage-oidc-clients')"))
+    connection.execute(
+        text("INSERT INTO permission (name) VALUES ('manage-oidc-clients')")
+    )
     connection.execute(text("INSERT INTO role (id, name) VALUES (1, 'oidc-admin')"))
     connection.execute(
         text(
@@ -154,9 +156,7 @@ def admin_api():
             if user_id is not None
             else None
         )
-        return LoginInformation(
-            cast("LoginState", current_login["state"]), user, None
-        )
+        return LoginInformation(cast("LoginState", current_login["state"]), user, None)
 
     app = FastAPI()
     app.add_middleware(cast("Any", SessionMiddleware), secret_key="test-session-secret")
@@ -213,11 +213,14 @@ def test_redirect_and_scope_validation(admin_api):
     client, _Session, current_login = admin_api
     _login_as(current_login, 1)
     for redirect_uri in (
-        "relative/callback", "https://example.com/*",
-        "https://example.com/callback#fragment", "http://example.com/callback",
+        "relative/callback",
+        "https://example.com/*",
+        "https://example.com/callback#fragment",
+        "http://example.com/callback",
     ):
         response = client.post(
-            "/admin/oidc-clients", json={**VALID_CLIENT, "redirect_uris": [redirect_uri]}
+            "/admin/oidc-clients",
+            json={**VALID_CLIENT, "redirect_uris": [redirect_uri]},
         )
         assert response.status_code == 422
     for payload in (
@@ -242,7 +245,9 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
     _assert_secret_hash_absent(response)
     created = response.json()
     first_secret, client_id = created["client_secret"], created["client_id"]
-    assert verify_client_secret(first_secret, _stored_client(Session, client_id).client_secret_hash)
+    assert verify_client_secret(
+        first_secret, _stored_client(Session, client_id).client_secret_hash
+    )
 
     for response in (
         client.get("/admin/oidc-clients"),
@@ -253,7 +258,10 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
         ),
     ):
         _assert_secret_hash_absent(response)
-    assert client.get(f"/admin/oidc-clients/{client_id}").json()["name"] == "Updated client"
+    assert (
+        client.get(f"/admin/oidc-clients/{client_id}").json()["name"]
+        == "Updated client"
+    )
 
     old_hash = _stored_client(Session, client_id).client_secret_hash
     response = client.post(f"/admin/oidc-clients/{client_id}/rotate-secret")
@@ -272,7 +280,9 @@ def test_disable_revokes_active_tokens_and_disables_client(admin_api):
     response = client.post(
         "/admin/oidc-clients",
         json={
-            **VALID_CLIENT, "name": "Token client", "refresh_tokens_enabled": True,
+            **VALID_CLIENT,
+            "name": "Token client",
+            "refresh_tokens_enabled": True,
             "allowed_scopes": ["openid", "offline_access"],
         },
     )
@@ -282,15 +292,27 @@ def test_disable_revokes_active_tokens_and_disables_client(admin_api):
     now = utcnow()
     session = Session()
     try:
-        session.add(OidcAccessToken(
-            client_id=client_id, user_id=1, access_token_hash=hash_token("active-access"),
-            scope="openid", created_at=now, expires_at=now + timedelta(hours=1),
-        ))
-        session.add(OidcRefreshToken(
-            client_id=client_id, user_id=1, refresh_token_hash=hash_token("active-refresh"),
-            family_id="family-1", scope="openid offline_access", created_at=now,
-            expires_at=now + timedelta(hours=1),
-        ))
+        session.add(
+            OidcAccessToken(
+                client_id=client_id,
+                user_id=1,
+                access_token_hash=hash_token("active-access"),
+                scope="openid",
+                created_at=now,
+                expires_at=now + timedelta(hours=1),
+            )
+        )
+        session.add(
+            OidcRefreshToken(
+                client_id=client_id,
+                user_id=1,
+                refresh_token_hash=hash_token("active-refresh"),
+                family_id="family-1",
+                scope="openid offline_access",
+                created_at=now,
+                expires_at=now + timedelta(hours=1),
+            )
+        )
         session.commit()
     finally:
         session.close()
@@ -302,7 +324,10 @@ def test_disable_revokes_active_tokens_and_disables_client(admin_api):
     assert response.json()["active_token_count"] == 0
     session = Session()
     try:
-        access, refresh = session.query(OidcAccessToken).one(), session.query(OidcRefreshToken).one()
+        access, refresh = (
+            session.query(OidcAccessToken).one(),
+            session.query(OidcRefreshToken).one(),
+        )
         stored = session.query(OidcClient).filter_by(client_id=client_id).one()
         assert access.revoked_at is not None
         assert refresh.revoked_at is not None

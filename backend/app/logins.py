@@ -945,6 +945,7 @@ class Permission(StrEnum):
 
     MANAGE_OIDC_CLIENTS = "manage-oidc-clients"
 
+
 class UserInfo(BaseModel):
     displayname: str | None = None
     dev_flatpaks: list[str] = []

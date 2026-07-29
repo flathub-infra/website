@@ -237,7 +237,6 @@ def update_oidc_client(
         db.session.flush()
         result = _client_result(db, client)
 
-
     if changed:
         audit_log.enqueue_audit_log(
             http_request,

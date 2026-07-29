@@ -1145,9 +1145,7 @@ class OidcClient(Base):
     created_by_user_id: Mapped[int | None] = mapped_column(
         Integer, ForeignKey(FlathubUser.id, ondelete="SET NULL"), nullable=True
     )
-    secret_rotated_at: Mapped[datetime | None] = mapped_column(
-        DateTime, nullable=True
-    )
+    secret_rotated_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     description: Mapped[str | None] = mapped_column(String, nullable=True)
 
     authorization_codes: Mapped[list["OidcAuthorizationCode"]] = relationship(

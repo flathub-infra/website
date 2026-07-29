@@ -90,6 +90,7 @@ def redirect_uri_allowed(
 ) -> bool:
     return redirect_uri in allowed_redirect_uris
 
+
 def validate_oidc_client_configuration(
     redirect_uris: Sequence[str],
     allowed_scopes: Sequence[str],
@@ -144,9 +145,7 @@ def validate_oidc_client_configuration(
     if "openid" not in normalized_scopes:
         raise ValueError("allowed_scopes must contain openid")
     if "offline_access" in normalized_scopes and not refresh_tokens_enabled:
-        raise ValueError(
-            "offline_access requires refresh_tokens_enabled to be true"
-        )
+        raise ValueError("offline_access requires refresh_tokens_enabled to be true")
 
     return normalized_redirect_uris, normalized_scopes
 
