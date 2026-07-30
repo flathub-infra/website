@@ -90,11 +90,13 @@ class FavoriteApp(BaseModel):
     },
 )
 def get_favorites(
+    response: Response,
     login=Depends(logged_in),
 ) -> list[FavoriteApp]:
     """
     Get a list of the users favorite apps.
     """
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         return [
             FavoriteApp(app_id=result.app_id, created_at=result.created)
@@ -112,9 +114,11 @@ def get_favorites(
     },
 )
 def is_favorited(
+    response: Response,
     app_id: str,
     login=Depends(logged_in),
 ) -> bool:
+    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         return models.UserFavoriteApp.is_favorited_by_user(
             db_session, login["user"].id, app_id
