@@ -197,6 +197,7 @@
   "moderation-pending-reviews": "Pending Reviews",
   "moderation-appstream-changes": "Appstream Changes",
   "moderation-appstream": "Appstream",
+  "moderation-random-review": "Randomly selected for human review",
   "moderation-key": "Key",
   "moderation-old-value": "Old Value",
   "moderation-new-value": "New Value",

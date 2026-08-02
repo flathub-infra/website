@@ -62,6 +62,27 @@ export const Primary = () => {
   return <AppstreamChangesRow request={request} />
 }
 
+export const RandomReview = () => {
+  const request: ModerationRequestResponse = {
+    request_type: "appdata",
+    request_data: {
+      keys: {
+        human_review: "Randomly selected for human review",
+      },
+      current_values: {},
+    },
+    id: 2,
+    app_id: "tv.abc.TestApp",
+    created_at: faker.date.past().toISOString(),
+    build_id: 124,
+    job_id: 456,
+    is_outdated: false,
+    is_new_submission: false,
+  }
+
+  return <AppstreamChangesRow request={request} />
+}
+
 export const PermissionChange = () => {
   const request: ModerationRequestResponse = {
     id: 277,

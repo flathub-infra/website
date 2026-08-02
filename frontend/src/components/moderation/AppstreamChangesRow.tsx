@@ -7,6 +7,9 @@ import diff from "fast-diff"
 interface Props {
   request: ModerationRequestResponse
 }
+
+const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
+
 function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
   const orig = [a ?? [], b ?? []]
 
@@ -245,6 +248,11 @@ const DiffRow = ({
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   const t = useTranslations()
 
+  const isRandomReview =
+    request.request_data?.keys?.human_review === RANDOM_REVIEW_MARKER &&
+    Object.keys(request.request_data?.keys ?? {}).length === 1 &&
+    Object.keys(request.request_data?.current_values ?? {}).length === 0
+
   const currentValuesFiltered = Object.keys(
     request.request_data?.current_values ?? {},
   ).filter(
@@ -266,39 +274,53 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   return (
     <ReviewCard
       title={
-        request.is_new_submission
-          ? t("moderation-appstream")
-          : t("moderation-appstream-changes")
+        isRandomReview
+          ? t("moderation-random-review")
+          : request.is_new_submission
+            ? t("moderation-appstream")
+            : t("moderation-appstream-changes")
       }
       request={request}
     >
-      <div className="overflow-x-auto rounded-lg border border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-left dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30 rtl:text-right">
-              <th className="w-1/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                {t("moderation-key")}
-              </th>
-              {!request.is_new_submission && (
-                <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                  {t("moderation-old-value")}
+      {isRandomReview ? (
+        <div className="rounded-lg border border-flathub-gainsborow p-4 dark:border-flathub-dark-gunmetal">
+          <p className="text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+            {t("moderation-random-review")}
+          </p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto rounded-lg border border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-left dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30 rtl:text-right">
+                <th className="w-1/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  {t("moderation-key")}
                 </th>
-              )}
-              <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                {request.is_new_submission
-                  ? t("moderation-value")
-                  : t("moderation-new-value")}
-              </th>
-            </tr>
-          </thead>
+                {!request.is_new_submission && (
+                  <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                    {t("moderation-old-value")}
+                  </th>
+                )}
+                <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  {request.is_new_submission
+                    ? t("moderation-value")
+                    : t("moderation-new-value")}
+                </th>
+              </tr>
+            </thead>
 
-          <tbody className="divide-y divide-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:bg-flathub-arsenic">
-            {uniqueKeys.map((key) => (
-              <DiffRow key={key} valueKey={key.toString()} request={request} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+            <tbody className="divide-y divide-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:bg-flathub-arsenic">
+              {uniqueKeys.map((key) => (
+                <DiffRow
+                  key={key}
+                  valueKey={key.toString()}
+                  request={request}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </ReviewCard>
   )
 }
