@@ -262,7 +262,7 @@
     "distroName": "NixOS",
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
-      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</text> <code></code>"
+      "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, elŝutu kaj instalu la <filelink>la deponejo-dosieron de Flathub</filelink>, aŭ rulu la jenon:</text> <code></code>"
     },
     "step-1": {
       "name": "Instali Flatpak",

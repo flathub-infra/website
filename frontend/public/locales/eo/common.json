@@ -484,7 +484,8 @@
     "light": "Hela",
     "dark": "Malhela",
     "failing-x-checks": "{count, plural, one {# kriterio} other {# kriterioj}} ne plenumiĝis",
-    "general-runtime-not-eol": "Rultempa medio ne estas malaktuala"
+    "general-runtime-not-eol": "Rultempa medio ne estas malaktuala",
+    "stats-by-category": "Stato de reviziado pri normoj laŭ kategorio"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
@@ -785,5 +786,72 @@
   "founding-supporters": "Fondintoj",
   "contribute-flathub": "Kontribui al Flathub",
   "user-id": "Identigilo de uzanto ĉe Flathub",
-  "more-healthfitness": "Pli da programoj pri sano kaj korpa ekzercado"
+  "more-healthfitness": "Pli da programoj pri sano kaj korpa ekzercado",
+  "manage": "Administri",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Novan jaron, novan laborfluon",
+      "description": "Programoj por notoj, tasklistoj kaj planado"
+    },
+    "free-software-favorites": {
+      "description": "Programoj amataj de ni nuntempe",
+      "header": "Niaj elektitaĵoj"
+    },
+    "fresh-desktop-releases": {
+      "header": "Konstrui indiĝenajn programojn",
+      "description": "Evoluigi tiajn programojn, kiaj estas adaptita al via sistemo"
+    },
+    "take-better-notes": {
+      "header": "Noti pli bone",
+      "description": "Trovu vian novan notilon"
+    },
+    "get-to-work": {
+      "header": "Eklabori",
+      "description": "Esencaj programoj por la oficejo"
+    },
+    "back-to-learning": {
+      "header": "Plikleriĝi ĉiutage",
+      "description": "Programoj por studi, esplori kaj verki"
+    },
+    "spring-creativity": {
+      "header": "Ekkrei",
+      "description": "Esencaj programoj por desegni, redakti fotojn, kaj ciferece dezajni"
+    },
+    "staying-connected": {
+      "header": "Resti konektite",
+      "description": "Esencaj kunlaboriloj kaj komunikiloj"
+    },
+    "summer-travel": {
+      "header": "Prete por ferioj",
+      "description": "Programoj pri mapoj, transporto, vetero kaj vojaĝoplanado"
+    },
+    "winter-comforts": {
+      "description": "Bonegaj programoj por legi, spekti kaj ludi",
+      "header": "Ekkomfortiĝi"
+    },
+    "tools-for-developers": {
+      "header": "Esencaĵoj por retprogramado",
+      "description": "Verki retejon estas pli amuze per tiuj programoj"
+    },
+    "make-some-noise": {
+      "header": "Ekbrui",
+      "description": "Programoj por krei kaj verki muzikon"
+    },
+    "get-focused": {
+      "description": "Bonegaj programoj por administri taskojn",
+      "header": "Enfokusiĝi"
+    }
+  },
+  "dns-record-value": "Valoro",
+  "dns-record-not-found": "Neniu TXT-registro troviĝis ĉe {record}.",
+  "dns-token-not-present": "La TXT-registro ĉe {record} ne enhavas la konfirman ĵetonon.",
+  "verified-dns-tooltip": "La posedo de la programidentigilo <appid></appid> estis konfirmita per la regado de la DNS-nomregno <domain></domain>",
+  "dns-verification": "Konfirmado per DNS",
+  "unverified-app-disclaimer-unknown-developer": "la aŭtoro de la programo",
+  "manual-verification": "Marki kiel malaŭtomate konfirmitan",
+  "dns-lookup-failed": "Malsukcesis serĉi TXT-registrojn por {record}.",
+  "app-is-currently-verified-by-dns": "Via programo estas aktuale konfirmita per la regado de la DNS-nomregno <domain></domain>",
+  "dns-verification-main-instruction": "Konfirmi vian rajton uzi la programidentigilon <bold>{id}</bold> publikigante TXT-registron pri la DNS-nomregno <bold>{domain}</bold>.",
+  "unverified-app-disclaimer-package": "Jen komunume provizata pako ne konfirmita, nek oficialigita, nek subtenata de {developer}.",
+  "dns-validation-instruction": "Enmetu la jenan DNS-registron sen forigi ajnan ekzistantan TXT-registron. Vi eble atendu iomete por la propagado de ŝanĝoj pri DNS."
 }

@@ -840,5 +840,14 @@
     }
   },
   "unverified-app-disclaimer-package": "هذه الحزمة التي قدمها المجتمع لم يتحقق منها من قِبل {developer}، ولا ترتبط به، ولا يحظى بدعمه.",
-  "unverified-app-disclaimer-unknown-developer": "مطوِّر التطبيق"
+  "unverified-app-disclaimer-unknown-developer": "مطوِّر التطبيق",
+  "dns-verification-main-instruction": "تحقق من حقك في استخدام معرِّف التطبيق <bold>{id}</bold> من خلال نشر سجلّ DNS من نوع TXT لنطاق <bold>{domain}</bold>.",
+  "dns-validation-instruction": "أضف سجلّ DNS التالي دون حذف أي سجلات TXT موجودة. قد يستغرق انتشار تغييرات DNS بعض الوقت.",
+  "dns-record-value": "القيمة",
+  "dns-record-not-found": "لم يُعثر على أي سجلّ TXT في {record}.",
+  "dns-token-not-present": "لا تحتوي سجلات TXT الموجودة في {record} على رمز التحقق.",
+  "dns-lookup-failed": "فشل البحث عن سجلات TXT الخاصة بـ {record}.",
+  "app-is-currently-verified-by-dns": "تحققَ من تطبيقك حاليًا من خلال التحكم في DNS الخاص بـ <domain></domain>",
+  "verified-dns-tooltip": "تحققَ من ملكية معرِّف التطبيق <appid></appid> من خلال التحقق من DNS الخاص بـ <domain></domain>",
+  "dns-verification": "تحقُق DNS"
 }

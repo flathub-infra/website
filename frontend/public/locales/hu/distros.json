@@ -39,7 +39,7 @@
     },
     "step-2": {
       "name": "A Flathub-tároló hozzáadása",
-      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez futtassa:</text> <code></code>"
+      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez töltse le és telepítse a <filelink>Flathub tárolófájlt</filelink>, vagy futtassa a következőt:</text> <code></code>"
     }
   },
   "arch": {
@@ -188,7 +188,7 @@
   },
   "nixos": {
     "step-2": {
-      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez futtassa:</text> <code></code>",
+      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez töltse le és telepítse a <filelink>Flathub tárolófájlt</filelink>, vagy futtassa a következőt:</text> <code></code>",
       "name": "A Flathub-tároló hozzáadása"
     },
     "step-3": {
@@ -231,7 +231,7 @@
     },
     "step-3": {
       "name": "A Flathub-tároló hozzáadása",
-      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez futtassa:</text> <code></code>"
+      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez töltse le és telepítse a <filelink>Flathub tárolófájlt</filelink>, vagy futtassa a következőt:</text> <code></code>"
     },
     "step-4": {
       "name": "Újraindítás",
@@ -384,7 +384,7 @@
     },
     "step-3": {
       "name": "A Flathub-tároló hozzáadása",
-      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez futtassa a következőt:</text> <code></code>"
+      "text": "<text>A Flathub a legjobb hely a Flatpak alkalmazások beszerzésére. Az engedélyezéséhez töltse le és telepítse a <filelink>Flathub tárolófájlt</filelink>, vagy futtassa a következőt:</text> <code></code>"
     }
   },
   "fedora": {
