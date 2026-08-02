@@ -1021,6 +1021,7 @@ def submit_review(
         request_data = request.request_data
         is_new_submission = request.is_new_submission
         comment = review.comment
+        is_random_review = _is_random_review_request(request)
         worker_should_be_triggered = False
         if is_approved:
             remaining = (
@@ -1079,7 +1080,6 @@ def submit_review(
     logger.info(f"Moderation review completed for request {id}, job {job_id}")
     inform_only_moderators = False
 
-    is_random_review = _is_random_review_request(request)
     issue = None
     if is_approved:
         category = EmailCategory.MODERATION_APPROVED
