@@ -842,5 +842,15 @@
       "header": "Aller travailler",
       "description": "Apps de bureau essentielles"
     }
-  }
+  },
+  "unverified-app-disclaimer-package": "Ce paquetage est fourni par la communauté n’est pas vérifié, affilié ni pris en charge par {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "le développeur de l'app",
+  "dns-verification-main-instruction": "Vérifiez votre droit d’utiliser l’ID d’app <bold>{id}</bold> en publiant un enregistrement TXT DNS pour <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Ajouter l’enregistrement DNS suivant sans supprimer aucun enregistrement TXT existant. La propagation des modifications DNS peut prendre du temps.",
+  "dns-record-value": "Valeur",
+  "dns-record-not-found": "Aucun enregistrement TXT n’a été trouvé dans {record}.",
+  "dns-token-not-present": "Les enregistrements TXT situés à l’emplacement {record} ne contiennent pas le jeton de vérification.",
+  "dns-lookup-failed": "Échec de la recherche d’enregistrements TXT pour {record}.",
+  "app-is-currently-verified-by-dns": "Votre app est actuellement vérifiée via le contrôle DNS de <domain></domain>",
+  "dns-verification": "Vérification DNS"
 }

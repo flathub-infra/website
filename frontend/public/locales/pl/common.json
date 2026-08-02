@@ -853,5 +853,6 @@
   "dns-token-not-present": "Rekordy TXT w {record} nie zawierają tokenu weryfikacyjnego.",
   "dns-lookup-failed": "Nie udało się wyszukać rekordów TXT dla {record}.",
   "app-is-currently-verified-by-dns": "Twoja aplikacja jest obecnie zweryfikowana poprzez kontrolę DNS <domain></domain>",
-  "verified-dns-tooltip": "Prawo własności do identyfikatora aplikacji <appid></appid> zostało zweryfikowane poprzez kontrolę DNS domeny <domain></domain>"
+  "verified-dns-tooltip": "Prawo własności do identyfikatora aplikacji <appid></appid> zostało zweryfikowane poprzez kontrolę DNS domeny <domain></domain>",
+  "moderation-random-review": "Wybrana losowo do weryfikacji przez człowieka"
 }

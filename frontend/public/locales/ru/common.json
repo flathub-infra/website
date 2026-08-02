@@ -488,7 +488,8 @@
     "light": "Светлый",
     "dark": "Тёмный",
     "failing-x-checks": "{count, plural, one {Провалена # проверка} few {Провалены # проверки} other {Провалено # проверок}}",
-    "general-runtime-not-eol": "Средство выполнения с актуальным сроком поддержки"
+    "general-runtime-not-eol": "Средство выполнения с актуальным сроком поддержки",
+    "stats-by-category": "Статус проверки по категориям руководства"
   },
   "app-listing-quality": "Качество выдачи приложений",
   "moderation-build-id": "ID сборки",
@@ -800,6 +801,58 @@
     "spring-creativity": {
       "header": "Проявите креативность",
       "description": "Незаменимые приложения для рисования, редактирования фото и дизайна"
+    },
+    "fresh-desktop-releases": {
+      "header": "Создавайте нативные приложения",
+      "description": "Разрабатывайте приложения, которые органично вписываются в вашу систему"
+    },
+    "staying-connected": {
+      "header": "Оставайтесь на связи",
+      "description": "Важные приложения для совместной работы и общения"
+    },
+    "summer-travel": {
+      "header": "Готовимся к отпуску",
+      "description": "Карты, транспорт, погода и приложения для планирования поездок"
+    },
+    "back-to-learning": {
+      "header": "Умнее с каждым днём",
+      "description": "Приложения, которые помогут учиться, исследовать и писать"
+    },
+    "winter-comforts": {
+      "header": "Создайте уют",
+      "description": "Отличные приложения для чтения, просмотра фильмов и игр"
+    },
+    "tools-for-developers": {
+      "header": "Необходимое для веб-разработчиков",
+      "description": "Создавать веб-сайты с этими приложениями ещё интереснее"
+    },
+    "take-better-notes": {
+      "header": "Ведите заметки лучше",
+      "description": "Найдите свой новый любимый инструмент для заметок"
+    },
+    "get-focused": {
+      "header": "Сосредоточьтесь",
+      "description": "Отличные приложения для управления задачами"
+    },
+    "make-some-noise": {
+      "header": "Заявите о себе",
+      "description": "Приложения для создания и производства музыки"
+    },
+    "get-to-work": {
+      "header": "За работу",
+      "description": "Важные офисные приложения"
     }
-  }
+  },
+  "moderation-random-review": "Выбрано случайным образом для проверки модератором",
+  "unverified-app-disclaimer-package": "Этот пакет, предоставленный сообществом, не проверен, не связан и не поддерживается {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "разработчиком приложения",
+  "dns-verification-main-instruction": "Подтвердите своё право на использование идентификатора приложения <bold>{id}</bold>, опубликовав DNS-запись типа TXT для <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Добавьте следующую DNS-запись, не удаляя существующие записи TXT. Изменения в DNS могут распространяться не мгновенно.",
+  "dns-record-value": "Значение",
+  "dns-record-not-found": "Запись TXT по адресу {record} не найдена.",
+  "dns-token-not-present": "Записи TXT по адресу {record} не содержат проверочный токен.",
+  "dns-lookup-failed": "Не удалось получить записи TXT для {record}.",
+  "app-is-currently-verified-by-dns": "Ваше приложение в настоящее время подтверждено через управление DNS для <domain></domain>",
+  "verified-dns-tooltip": "Право собственности на идентификатор приложения <appid></appid> было подтверждено через управление DNS для <domain></domain>",
+  "dns-verification": "Проверка через DNS"
 }
