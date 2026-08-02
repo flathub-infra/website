@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
-from .. import audit_log, config, http_client, models, utils, worker
+from .. import audit_log, cache, config, http_client, models, utils, worker
 from ..database import get_db
 from ..login_info import modify_users_only
 from ..utils import jti
@@ -206,6 +206,7 @@ def _revoke_all_tokens(app_id: str) -> None:
         403: {"description": "Forbidden - admin required"},
     },
 )
+@cache.private
 def list_direct_upload_apps(
     _admin=Depends(modify_users_only),
 ) -> list[ManagedAppResponse]:
@@ -229,6 +230,7 @@ def list_direct_upload_apps(
         404: {"description": "App not found"},
     },
 )
+@cache.private
 def get_direct_upload_app(
     app_id: str, _admin=Depends(modify_users_only)
 ) -> ManagedAppResponse:

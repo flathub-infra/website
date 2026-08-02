@@ -25,7 +25,7 @@ from gitlab.exceptions import GitlabHttpError
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import apps, audit_log, config, http_client, models, oauth_providers
+from . import apps, audit_log, cache, config, http_client, models, oauth_providers
 from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
@@ -217,6 +217,7 @@ def get_login_methods() -> list[LoginMethod]:
         400: {"description": "User already logged in with GitHub"},
     },
 )
+@cache.no_store
 def start_github_flow(request: Request, login: LoginStatusDep):
     """
     Starts a github login flow.  This will set session cookie values and
@@ -245,6 +246,7 @@ def start_github_flow(request: Request, login: LoginStatusDep):
         400: {"description": "User already logged in with GitLab"},
     },
 )
+@cache.no_store
 def start_gitlab_flow(request: Request, login: LoginStatusDep):
     """
     Starts a gitlab login flow.  This will set session cookie values and
@@ -273,6 +275,7 @@ def start_gitlab_flow(request: Request, login: LoginStatusDep):
         400: {"description": "User already logged in with GNOME GitLab"},
     },
 )
+@cache.no_store
 def start_gnome_flow(request: Request, login: LoginStatusDep):
     """
     Starts a GNOME login flow.  This will set session cookie values and
@@ -301,6 +304,7 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
         400: {"description": "User already logged in with KDE GitLab"},
     },
 )
+@cache.no_store
 def start_kde_flow(request: Request, login: LoginStatusDep):
     return start_oauth_flow(
         request,
@@ -401,6 +405,7 @@ class ProviderInfo:
         500: {"description": "OAuth provider error or login failure"},
     },
 )
+@cache.no_store
 def continue_github_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -486,6 +491,7 @@ def _gitlab_provider_info(url, tokens) -> ProviderInfo:
         500: {"description": "OAuth provider error or login failure"},
     },
 )
+@cache.no_store
 def continue_gitlab_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -538,6 +544,7 @@ def continue_gitlab_flow(
         500: {"description": "OAuth provider error or login failure"},
     },
 )
+@cache.no_store
 def continue_gnome_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -590,6 +597,7 @@ def continue_gnome_flow(
         500: {"description": "OAuth provider error or login failure"},
     },
 )
+@cache.no_store
 def continue_google_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -654,6 +662,7 @@ def continue_google_flow(
         500: {"description": "OAuth provider error or login failure"},
     },
 )
+@cache.no_store
 def continue_kde_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -966,6 +975,7 @@ class UserInfo(BaseModel):
         204: {"description": "Not logged in"},
     },
 )
+@cache.private
 def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
     """
     Retrieve the current login's user information.  If the user is not logged in
@@ -987,7 +997,6 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
 
     dev_flatpaks is filtered against IDs available in AppStream
     """
-    response.headers["Cache-Control"] = "private"
 
     if not login.user or not login.state.logged_in():
         response.status_code = 204
@@ -1131,6 +1140,7 @@ class GetDeleteUserResult(BaseModel):
         403: {"description": "Not logged in"},
     },
 )
+@cache.no_store
 def get_deleteuser(login: LoginStatusDep) -> GetDeleteUserResult:
     """
     Delete a user's login information.

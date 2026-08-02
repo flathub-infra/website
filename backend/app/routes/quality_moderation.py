@@ -2,9 +2,10 @@ import datetime
 from dataclasses import dataclass
 from typing import Literal, cast
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from pydantic import BaseModel
 
+from .. import cache
 from ..database import get_db, get_json_key
 from ..login_info import quality_moderator_only, quality_moderator_or_app_author_only
 from ..models import (
@@ -79,14 +80,13 @@ class GuidelineStatsByCategory(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_quality_moderation_status(
-    response: Response,
     page: int = 1,
     page_size: int = 25,
     filter: Literal["all", "passing", "todo"] = "all",
     _moderator=Depends(quality_moderator_only),
 ) -> QualityModerationDashboardResponse:
-    response.headers["Cache-Control"] = "private"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -111,12 +111,11 @@ def get_quality_moderation_status(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_passing_quality_apps(
-    response: Response,
     page: int = 1,
     page_size: int = 25,
 ) -> SimpleQualityModerationResponse:
-    response.headers["Cache-Control"] = "private"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -142,12 +141,11 @@ def get_passing_quality_apps(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_app_pick_recommendations(
-    response: Response,
     recommendation_date: datetime.date = datetime.date.today(),
     _moderator=Depends(quality_moderator_only),
 ) -> AppPickRecommendationsResponse:
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         return App.app_pick_recommendations(db, recommendation_date)
 
@@ -162,11 +160,10 @@ def get_app_pick_recommendations(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_quality_moderation_stats(
-    response: Response,
     _moderator=Depends(quality_moderator_only),
 ) -> list[FailedByGuideline]:
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         return cast("list[FailedByGuideline]", QualityModeration.group_by_guideline(db))
 
@@ -181,11 +178,10 @@ def get_quality_moderation_stats(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_quality_moderation_stats_by_category(
-    response: Response,
     _moderator=Depends(quality_moderator_only),
 ) -> list[GuidelineStatsByCategory]:
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         return cast(
             "list[GuidelineStatsByCategory]", QualityModeration.group_by_category(db)
@@ -202,8 +198,8 @@ def get_quality_moderation_stats_by_category(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_quality_moderation_for_app(
-    response: Response,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -211,7 +207,6 @@ def get_quality_moderation_for_app(
         examples=["org.gnome.Glade"],
     ),
 ) -> QualityModerationResponse:
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
@@ -337,8 +332,8 @@ def set_quality_moderation_for_app(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_quality_moderation_status_for_app(
-    response: Response,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -347,7 +342,6 @@ def get_quality_moderation_status_for_app(
     ),
     _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationStatus:
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:

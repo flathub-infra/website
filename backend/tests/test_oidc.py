@@ -23,7 +23,7 @@ from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
 
-from app import config
+from app import cache, config
 from app.db_session import DBSession
 from app.login_info import LoginInformation, LoginState, login_state
 from app.models import (
@@ -130,6 +130,7 @@ def client():
     app = FastAPI()
     oidc_routes.register_to_app(app)
     app.add_middleware(cast("Any", SessionMiddleware), secret_key="test-session-secret")
+    app.add_middleware(cache.CacheControlMiddleware)
     with TestClient(app, raise_server_exceptions=False) as client_:
         yield client_
 
@@ -684,6 +685,7 @@ def _approve_consent(client):
     consent_response = client.get("/oidc/consent")
     assert consent_response.status_code == 200
     assert consent_response.headers["cache-control"] == "no-store"
+    assert consent_response.headers["pragma"] == "no-cache"
     marker = 'name="csrf_token" value="'
     csrf_token = consent_response.text.split(marker, 1)[1].split('"', 1)[0]
     return client.post(
@@ -1058,6 +1060,8 @@ def test_authorize_unauthenticated_returnto_uses_issuer_path(
         authorize_client.app.dependency_overrides.clear()
 
     assert response.status_code == 302
+    assert response.headers["cache-control"] == "no-store"
+    assert response.headers["pragma"] == "no-cache"
     location = response.headers["location"]
     assert location.startswith(
         "http://localhost:3000/login?returnTo=%2Fapi%2Fv2%2Foidc%2Fauthorize"
@@ -3222,6 +3226,10 @@ def test_userinfo_valid(client, monkeypatch, scheme, method):
     assert body["preferred_username"] == "testuser"
     assert body["picture"] == "https://example.com/avatar.png"
     assert body["email"] == "test@example.com"
+    if method == "post":
+        assert "cache-control" not in response.headers
+    else:
+        assert response.headers["cache-control"] == "private"
 
     assert "roles" not in body
     assert "permissions" not in body
@@ -3234,7 +3242,7 @@ def test_userinfo_missing_token(client, monkeypatch):
     response = client.get("/oidc/userinfo")
 
     assert response.status_code == 401
-    assert response.content == b""
+    assert response.headers["cache-control"] == "private"
     assert response.headers["WWW-Authenticate"] == 'Bearer realm="oidc/userinfo"'
 
 

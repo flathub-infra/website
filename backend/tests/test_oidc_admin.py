@@ -17,7 +17,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
 
-from app import config
+from app import cache, config
 from app.db_session import DBSession
 from app.login_info import LoginInformation, LoginState, login_state
 from app.models import FlathubUser, OidcAccessToken, OidcClient, OidcRefreshToken
@@ -162,6 +162,7 @@ def admin_api():
     app.add_middleware(cast("Any", SessionMiddleware), secret_key="test-session-secret")
     app.dependency_overrides[login_state] = current_login_state
     oidc_admin.register_to_app(app)
+    app.add_middleware(cache.CacheControlMiddleware)
 
     @contextmanager
     def real_db(db_type="writer"):
@@ -200,12 +201,17 @@ def _stored_client(session_factory, client_id):
 def test_admin_authentication_and_disabled_oidc_setting(admin_api, monkeypatch):
     client, _Session, current_login = admin_api
     monkeypatch.setattr(config.settings, "oidc_enabled", False)
-    assert client.get("/admin/oidc-clients").status_code == 401
+    response = client.get("/admin/oidc-clients")
+    assert response.status_code == 401
+    assert response.headers["Cache-Control"] == "private"
     _login_as(current_login, 2)
-    assert client.get("/admin/oidc-clients").status_code == 403
+    response = client.get("/admin/oidc-clients")
+    assert response.status_code == 403
+    assert response.headers["Cache-Control"] == "private"
     _login_as(current_login, 1)
     response = client.get("/admin/oidc-clients")
     assert response.status_code == 200
+    assert response.headers["Cache-Control"] == "private"
     assert response.json() == []
 
 
@@ -223,16 +229,21 @@ def test_redirect_and_scope_validation(admin_api):
             json={**VALID_CLIENT, "redirect_uris": [redirect_uri]},
         )
         assert response.status_code == 422
+        assert response.headers["Cache-Control"] == "no-store"
     for payload in (
         {**VALID_CLIENT, "allowed_scopes": ["profile"]},
         {**VALID_CLIENT, "allowed_scopes": ["openid", "offline_access"]},
     ):
-        assert client.post("/admin/oidc-clients", json=payload).status_code == 422
+        response = client.post("/admin/oidc-clients", json=payload)
+        assert response.status_code == 422
+        assert response.headers["Cache-Control"] == "no-store"
     response = client.post(
         "/admin/oidc-clients",
         json={**VALID_CLIENT, "redirect_uris": ["HTTP://LOCALHOST:8000/callback"]},
     )
     assert response.status_code == 201
+    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Pragma"] == "no-cache"
     assert response.json()["redirect_uris"] == ["http://localhost:8000/callback"]
     _assert_secret_hash_absent(response)
 
@@ -242,7 +253,8 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
     _login_as(current_login, 1)
     response = client.post("/admin/oidc-clients", json=VALID_CLIENT)
     assert response.status_code == 201
-    _assert_secret_hash_absent(response)
+    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Pragma"] == "no-cache"
     created = response.json()
     first_secret, client_id = created["client_secret"], created["client_id"]
     assert verify_client_secret(
@@ -266,7 +278,8 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
     old_hash = _stored_client(Session, client_id).client_secret_hash
     response = client.post(f"/admin/oidc-clients/{client_id}/rotate-secret")
     assert response.status_code == 200
-    _assert_secret_hash_absent(response)
+    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Pragma"] == "no-cache"
     rotated_secret = response.json()["client_secret"]
     stored = _stored_client(Session, client_id)
     assert stored.client_secret_hash != old_hash

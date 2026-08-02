@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlalchemy import func, update
 
-from .. import audit_log, models, utils
+from .. import audit_log, cache, models, utils
 from ..database import get_db
 from ..login_info import manage_oidc_clients_only
 from ..oidc import (
@@ -121,6 +121,7 @@ def _client_details(client: models.OidcClient) -> dict[str, object]:
 
 
 @router.get("")
+@cache.private
 def list_oidc_clients(
     _login=Depends(manage_oidc_clients_only),
 ) -> list[OidcClientResult]:
@@ -134,6 +135,7 @@ def list_oidc_clients(
 
 
 @router.post("", status_code=201)
+@cache.no_store
 def create_oidc_client(
     request: OidcClientCreate,
     http_request: Request,
@@ -179,6 +181,7 @@ def create_oidc_client(
 
 
 @router.get("/{client_id}")
+@cache.private
 def get_oidc_client(
     client_id: str,
     _login=Depends(manage_oidc_clients_only),
@@ -253,6 +256,7 @@ def update_oidc_client(
 
 
 @router.post("/{client_id}/rotate-secret")
+@cache.no_store
 def rotate_oidc_client_secret(
     client_id: str,
     http_request: Request,

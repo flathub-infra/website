@@ -9,6 +9,7 @@ And we present the full /auth/ sub-namespace
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from pydantic import BaseModel
 
+from .. import cache
 from ..config import settings
 from ..login_info import logged_in
 from .walletbase import (
@@ -59,6 +60,7 @@ router = APIRouter(prefix="/wallet")
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def get_walletinfo(request: Request, login=Depends(logged_in)) -> WalletInfo:
     """
     Retrieve the wallet for the currently logged in user.
@@ -101,6 +103,7 @@ def post_removecard(request: Request, card: PaymentCardInfo, login=Depends(logge
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def get_transactions(
     request: Request,
     login=Depends(logged_in),
@@ -130,6 +133,7 @@ def get_transactions(
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def get_transaction_by_id(
     txn: str, request: Request, login=Depends(logged_in)
 ) -> Transaction:
@@ -159,6 +163,7 @@ class PostTransactionResponse(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def create_transaction(
     request: Request, data: NascentTransaction, login=Depends(logged_in)
 ) -> PostTransactionResponse:
@@ -249,6 +254,7 @@ def get_stripedata() -> StripeKeys:
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def get_txn_stripedata(
     txn: str, request: Request, login=Depends(logged_in)
 ) -> TransactionStripeData:

@@ -9,7 +9,7 @@ from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
 from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
 
-from .. import config, login_info, models, summary
+from .. import cache, config, login_info, models, summary
 from ..database import get_db, get_json_key
 from ..verification import VerificationStatus, get_verification_status, is_appid_runtime
 
@@ -122,6 +122,7 @@ class GenerateUpdateTokenResponse(BaseModel):
         401: {"description": "Not logged in"},
     },
 )
+@cache.no_store
 def get_update_token(
     login=Depends(login_info.login_state),
 ) -> GenerateUpdateTokenResponse:
@@ -232,6 +233,7 @@ class GetDownloadTokenResponse(BaseModel):
         403: {"description": "Purchase necessary for some apps"},
     },
 )
+@cache.no_store
 def get_download_token(
     appids: list[str], update_token: str = Body(None)
 ) -> GetDownloadTokenResponse:

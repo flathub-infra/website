@@ -6,7 +6,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
-from .. import audit_log, config, http_client, models, utils, worker
+from .. import audit_log, cache, config, http_client, models, utils, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import login_state
@@ -100,6 +100,7 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
         403: {"description": "Not an app developer or uploader"},
     },
 )
+@cache.private
 def get_upload_tokens(
     app_id: str, include_expired: bool = False, login=Depends(login_state)
 ) -> TokensResponse:
@@ -163,6 +164,7 @@ class UploadTokenRequest(BaseModel):
         500: {"description": "Flat manager not configured or server error"},
     },
 )
+@cache.no_store
 def create_upload_token(
     app_id: str,
     request: UploadTokenRequest,

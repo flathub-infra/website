@@ -8,13 +8,13 @@ from datetime import UTC, datetime
 from typing import Any
 
 import jwt
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github, GithubException
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
-from . import audit_log, config, http_client, models, summary, utils, worker
+from . import audit_log, cache, config, http_client, models, summary, utils, worker
 from .database import get_db, get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
@@ -217,8 +217,8 @@ def sort_lists_in_dict(data: dict) -> dict:
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_moderation_apps(
-    response: Response,
     new_submissions: bool | None = None,
     show_handled: bool = False,
     limit: int = 100,
@@ -226,7 +226,6 @@ def get_moderation_apps(
     _moderator=Depends(moderator_only),
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
-    response.headers["Cache-Control"] = "private"
 
     with get_db("replica") as db_session:
         is_new_submission = func.bool_or(
@@ -281,8 +280,8 @@ def get_moderation_apps(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_moderation_app(
-    response: Response,
     login: LoginStatusDep,
     app_id: str = Path(
         min_length=6,
@@ -296,7 +295,6 @@ def get_moderation_app(
     offset: int = 0,
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
-    response.headers["Cache-Control"] = "private"
 
     if login.user is None:
         raise HTTPException(status_code=401, detail="not_logged_in")

@@ -128,6 +128,7 @@ async def _get_year_in_review_cached(
         404: {"description": "Year statistics not available"},
     },
 )
+@cache.private
 async def get_year_in_review(
     response: Response,
     year: int = Path(

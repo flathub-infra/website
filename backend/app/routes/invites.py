@@ -4,7 +4,7 @@ from enum import StrEnum
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from pydantic import BaseModel
 
-from .. import audit_log, worker
+from .. import audit_log, cache, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import logged_in
@@ -83,6 +83,7 @@ class InviteStatus(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_invite_status(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -449,6 +450,7 @@ class DevelopersResponse(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def get_app_developers(
     login=Depends(logged_in),
     app_id: str = Path(

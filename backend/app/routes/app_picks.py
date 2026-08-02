@@ -1,6 +1,6 @@
 import datetime
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from pydantic import BaseModel, Field
 
 from .. import cache, models
@@ -290,8 +290,8 @@ async def get_curated_app_selections(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 async def get_app_of_the_week_admin(
-    response: Response,
     date: datetime.date = Path(
         examples=[
             "2021-01-01",
@@ -301,7 +301,6 @@ async def get_app_of_the_week_admin(
     _moderator=Depends(quality_moderator_only),
 ) -> AppsOfTheWeek:
     """Returns apps of the week for the admin page, bypassing CDN cache"""
-    response.headers["Cache-Control"] = "private"
     with get_db("writer") as db:
         apps_of_the_week = models.AppsOfTheWeek.by_week(
             db, date.isocalendar().week, date.year
@@ -333,11 +332,10 @@ async def get_app_of_the_week_admin(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 async def get_curated_app_selection_themes_admin(
-    response: Response,
     _moderator=Depends(quality_moderator_only),
 ) -> list[SelectionTheme]:
-    response.headers["Cache-Control"] = "private"
     with get_db("writer") as db:
         return [
             _theme_to_response(theme)
@@ -355,11 +353,10 @@ async def get_curated_app_selection_themes_admin(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 async def get_curated_app_selections_admin(
-    response: Response,
     _moderator=Depends(quality_moderator_only),
 ) -> list[ScheduledSelectionAdmin]:
-    response.headers["Cache-Control"] = "private"
     with get_db("writer") as db:
         return [
             _selection_to_admin_response(selection)

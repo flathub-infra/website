@@ -4,12 +4,13 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
+from app import cache
 from app.login_info import LoginInformation, LoginState, logged_in
 from app.routes import favorites
 
@@ -18,6 +19,7 @@ from app.routes import favorites
 def client():
     app = FastAPI()
     favorites.register_to_app(app)
+    app.add_middleware(cache.CacheControlMiddleware)
     app.dependency_overrides[logged_in] = lambda: LoginInformation(
         state=LoginState.LOGGED_IN,
         user=SimpleNamespace(id=1),
@@ -41,4 +43,16 @@ def test_authenticated_favorites_routes_are_private(client, path):
         response = client.get(path)
 
     assert response.status_code == 200
+    assert response.headers["Cache-Control"] == "private"
+
+
+def test_unauthenticated_favorites_route_is_private(client):
+    def reject_login():
+        raise HTTPException(status_code=401, detail="not_logged_in")
+
+    client.app.dependency_overrides[logged_in] = reject_login
+    response = client.get("/favorites")
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "not_logged_in"}
     assert response.headers["Cache-Control"] == "private"

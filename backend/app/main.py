@@ -10,6 +10,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
+    cache,
     config,
     database,
     emails,
@@ -104,7 +105,9 @@ favorites.register_to_app(router)
 stats.register_to_app(router)
 year_in_review.register_to_app(router)
 
-app = wrap_asgi_with_proxy_headers(router, trusted_hosts=["*"])
+app = wrap_asgi_with_proxy_headers(
+    cache.CacheControlMiddleware(router), trusted_hosts=["*"]
+)
 
 
 @router.get(

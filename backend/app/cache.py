@@ -9,6 +9,8 @@ from typing import Annotated, Any, Literal, ParamSpec, TypeVar, get_args, get_or
 import orjson
 from fastapi import Response
 from pydantic import BaseModel, TypeAdapter
+from starlette.datastructures import MutableHeaders
+from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from . import database
 
@@ -198,6 +200,45 @@ def cached(
         return wrapper  # type: ignore[return-value]
 
     return decorator
+
+
+CACHE_CONTROL_POLICY = "__cache_control_policy__"
+CachePolicy = tuple[str, str | None]
+
+
+def private[**P, R](func: Callable[P, R]) -> Callable[P, R]:
+    setattr(func, CACHE_CONTROL_POLICY, ("private", None))
+    return func
+
+
+def no_store[**P, R](func: Callable[P, R]) -> Callable[P, R]:
+    setattr(func, CACHE_CONTROL_POLICY, ("no-store", "no-cache"))
+    return func
+
+
+class CacheControlMiddleware:
+    def __init__(self, app: ASGIApp):
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        async def send_with_cache_policy(message: Message) -> None:
+            if message["type"] == "http.response.start":
+                endpoint = scope.get("endpoint")
+                policy = getattr(endpoint, CACHE_CONTROL_POLICY, None)
+                if policy is not None:
+                    cache_control, pragma = policy
+                    headers = MutableHeaders(scope=message)
+                    headers["Cache-Control"] = cache_control
+                    if pragma is not None:
+                        headers["Pragma"] = pragma
+
+            await send(message)
+
+        await self.app(scope, receive, send_with_cache_policy)
 
 
 async def mark_stale_by_pattern(pattern: str) -> int:

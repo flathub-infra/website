@@ -15,7 +15,7 @@ from joserfc.errors import JoseError
 from sqlalchemy import select, update
 from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 
-from .. import config, models, utils
+from .. import cache, config, models, utils
 from ..database import get_db
 from ..login_info import LoginStatusDep
 from ..oidc import (
@@ -43,10 +43,6 @@ router = APIRouter(
 
 
 OIDC_SIGNING_ALGORITHM = "RS256"
-TOKEN_RESPONSE_HEADERS = {
-    "Cache-Control": "no-store",
-    "Pragma": "no-cache",
-}
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +101,7 @@ async def oidc_bearer_error_handler(_request: Request, exc: Exception):
 
 async def oidc_token_error_handler(_request: Request, exc: Exception):
     assert isinstance(exc, OidcTokenError)
-    headers = dict(TOKEN_RESPONSE_HEADERS)
+    headers = {}
     if exc.authenticate:
         headers["WWW-Authenticate"] = 'Basic realm="oidc/token"'
     return JSONResponse(
@@ -116,7 +112,7 @@ async def oidc_token_error_handler(_request: Request, exc: Exception):
 
 
 def _token_response(content: dict[str, Any]) -> JSONResponse:
-    return JSONResponse(content, headers=TOKEN_RESPONSE_HEADERS)
+    return JSONResponse(content)
 
 
 def register_to_app(app: FastAPI):
@@ -284,6 +280,7 @@ def _issue_authorization_code(
         404: {"description": "OIDC is disabled"},
     },
 )
+@cache.no_store
 def authorize(
     request: Request,
     login: LoginStatusDep,
@@ -454,6 +451,7 @@ def _get_pending_consent(request: Request, login: LoginStatusDep):
 
 
 @router.get("/oidc/consent", include_in_schema=False)
+@cache.no_store
 def consent(request: Request, login: LoginStatusDep):
     pending = _get_pending_consent(request, login)
     with get_db("replica") as db:
@@ -490,11 +488,11 @@ def consent(request: Request, login: LoginStatusDep):
           </body>
         </html>
         """,
-        headers={"Cache-Control": "no-store"},
     )
 
 
 @router.post("/oidc/consent", include_in_schema=False)
+@cache.no_store
 def submit_consent(
     request: Request,
     login: LoginStatusDep,
@@ -756,6 +754,7 @@ def _check_token_rate_limit(request: Request, client_id: str):
         404: {"description": "OIDC is disabled"},
     },
 )
+@cache.no_store
 def token(
     request: Request,
     grant_type: str = Form(None),
@@ -1045,6 +1044,7 @@ def _handle_refresh_token_grant(
         404: {"description": "OIDC is disabled"},
     },
 )
+@cache.private
 def userinfo(request: Request):
     return _userinfo(request, None)
 

@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 
-from . import audit_log, models
+from . import audit_log, cache, models
 from .database import get_db
 from .login_info import logged_in, moderator_only, modify_users_only, view_users_only
 
@@ -21,8 +21,8 @@ def register_to_app(app: FastAPI):
         500: {"description": "Internal server error"},
     },
 )
-def me(response: Response, login=Depends(logged_in)) -> models.UserResult:
-    response.headers["Cache-Control"] = "private"
+@cache.private
+def me(login=Depends(logged_in)) -> models.UserResult:
 
     with get_db("replica") as db_session:
         user = models.FlathubUser.by_id_result(db_session, login.user.id)
@@ -45,8 +45,8 @@ def me(response: Response, login=Depends(logged_in)) -> models.UserResult:
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def users(
-    response: Response,
     page: int = 1,
     page_size: int = 30,
     filterString: str | None = None,
@@ -55,7 +55,6 @@ def users(
     """
     Return a list of all known users
     """
-    response.headers["Cache-Control"] = "private"
     if page < 1:
         raise HTTPException(
             status_code=400,
@@ -75,11 +74,11 @@ def users(
         500: {"description": "Internal server error"},
     },
 )
-def roles(response: Response, _admin=Depends(view_users_only)) -> list[str]:
+@cache.private
+def roles(_admin=Depends(view_users_only)) -> list[str]:
     """
     Return a list of all known role names
     """
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         return [role.name for role in models.Role.all(db_session)]
 
@@ -96,13 +95,11 @@ def roles(response: Response, _admin=Depends(view_users_only)) -> list[str]:
         500: {"description": "Internal server error"},
     },
 )
-def user(
-    response: Response, user_id: int, _moderator=Depends(moderator_only)
-) -> models.UserResult:
+@cache.private
+def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
     """
     Return the current user
     """
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         user = models.FlathubUser.by_id_result(db_session, user_id)
 
@@ -282,13 +279,13 @@ def delete_user_role(
         500: {"description": "Internal server error"},
     },
 )
+@cache.private
 def role_users(
-    response: Response, role_name: models.RoleName, _admin=Depends(view_users_only)
+    role_name: models.RoleName, _admin=Depends(view_users_only)
 ) -> list[models.UserResult]:
     """
     Return all users with a specific role
     """
-    response.headers["Cache-Control"] = "private"
     with get_db("replica") as db_session:
         return [
             user.to_result(db_session)

@@ -691,6 +691,7 @@ class AvailableMethods(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def get_available_methods(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -1100,6 +1101,7 @@ def _get_or_create_domain_verification(
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def setup_website_verification(
     login=Depends(logged_in),
     app_id: str = Path(
@@ -1202,6 +1204,7 @@ async def confirm_website_verification(
         500: {"description": "Internal server error"},
     },
 )
+@cache.no_store
 def setup_dns_verification(
     login=Depends(logged_in),
     app_id: str = Path(
