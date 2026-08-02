@@ -54,6 +54,16 @@ export interface Request {
   isNewSubmission: boolean
 }
 
+export const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
+
+export function isRandomReviewRequest(request: Request): boolean {
+  return (
+    request.requestData.keys.human_review === RANDOM_REVIEW_MARKER &&
+    Object.keys(request.requestData.keys).length === 1 &&
+    Object.keys(request.requestData.current_values).length === 0
+  )
+}
+
 const ArrayWithNewlines = ({ array }: { array: string[] }) => {
   return array.map((v, i) => (
     <span key={i} className="break-all">
@@ -240,6 +250,9 @@ export const ModerationHeldEmail = ({
 }: ModerationEmailProps) => {
   const appNameAndId = buildAppName(appId, appName)
 
+  const isRandomReview =
+    requests.length > 0 && requests.every(isRandomReviewRequest)
+
   return (
     <Base
       previewText={previewText}
@@ -248,21 +261,39 @@ export const ModerationHeldEmail = ({
       appId={appId}
       appName={appName}
     >
+      {isRandomReview ? (
+        <Text>
+          Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+          <b>{appNameAndId}</b> has been selected for human review. Check the
+          status of the review in the{" "}
+          <Link href={`https://flathub.org/apps/manage/${appId}`}>
+            app developer settings
+          </Link>
+          .
+        </Text>
+      ) : (
+        <Text>
+          Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+          <b>{appNameAndId}</b> has been held for review because the app's
+          metadata has changed. Check the status of the review in the{" "}
+          <Link href={`https://flathub.org/apps/manage/${appId}`}>
+            app developer settings
+          </Link>
+          .
+        </Text>
+      )}
       <Text>
-        Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-        <b>{appNameAndId}</b> has been held for review because the app's
-        metadata has changed. Check the status of the review in the{" "}
-        <Link href={`https://flathub.org/apps/manage/${appId}`}>
-          app developer settings
-        </Link>
-        .
+        {isRandomReview
+          ? "You'll receive another email when the review is approved or rejected."
+          : "You'll receive another email when the changes are approved or rejected."}
       </Text>
-      <Text>
-        You'll receive another email when the changes are approved or rejected.
-      </Text>
-      {requests.map((request, i) => (
-        <ModerationRequestItem key={i} request={request} />
-      ))}
+      {isRandomReview ? (
+        <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>
+      ) : (
+        requests.map((request, i) => (
+          <ModerationRequestItem key={i} request={request} />
+        ))
+      )}
     </Base>
   )
 }

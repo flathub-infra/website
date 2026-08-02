@@ -3,7 +3,9 @@ import { Base, buildAppName } from "./base"
 import {
   ModerationEmailProps,
   ModerationRequestItem,
+  RANDOM_REVIEW_MARKER,
   Request,
+  isRandomReviewRequest,
 } from "./moderation-held"
 import { BuildLog } from "./buildlog"
 
@@ -23,6 +25,8 @@ export const ModerationApprovedEmail = ({
 }) => {
   const appNameAndId = buildAppName(appId, appName)
 
+  const isRandomReview = isRandomReviewRequest(request)
+
   return (
     <Base
       previewText={previewText}
@@ -32,10 +36,20 @@ export const ModerationApprovedEmail = ({
       appName={appName}
     >
       <Text>
-        A change in build{" "}
-        <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-        <b>{appNameAndId}</b> has been reviewed and approved by the Flathub
-        team.
+        {isRandomReview ? (
+          <>
+            Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+            <b>{appNameAndId}</b> was selected for human review and approved by
+            the Flathub team.
+          </>
+        ) : (
+          <>
+            A change in build{" "}
+            <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+            <b>{appNameAndId}</b> has been reviewed and approved by the Flathub
+            team.
+          </>
+        )}
       </Text>
       {comment && (
         <Section>
@@ -43,7 +57,11 @@ export const ModerationApprovedEmail = ({
           <blockquote className="text-sm">{comment}</blockquote>
         </Section>
       )}
-      <ModerationRequestItem request={request} />
+      {isRandomReview ? (
+        <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>
+      ) : (
+        <ModerationRequestItem request={request} />
+      )}
     </Base>
   )
 }
