@@ -31,7 +31,7 @@ test("renders random human review without a metadata diff", async () => {
   )
 
   assert.match(html, /selected for human review/)
-  assert.match(html, /Reason: Randomly selected for human review/)
+  assert.match(html, /Reason: (?:<!-- -->)?Randomly selected for human review/)
   assert.doesNotMatch(html, /Old value/)
   assert.doesNotMatch(html, /metadata has changed/)
 })
@@ -51,7 +51,7 @@ test("renders random approval without a metadata diff", async () => {
   )
 
   assert.match(html, /selected for human review and approved/)
-  assert.match(html, /Reason: Randomly selected for human review/)
+  assert.match(html, /Reason: (?:<!-- -->)?Randomly selected for human review/)
   assert.doesNotMatch(html, /Old value/)
 })
 
@@ -71,6 +71,6 @@ test("renders random rejection without a metadata diff", async () => {
   )
 
   assert.match(html, /selected for human review and rejected/)
-  assert.match(html, /Reason: Randomly selected for human review/)
+  assert.match(html, /Reason: (?:<!-- -->)?Randomly selected for human review/)
   assert.doesNotMatch(html, /Old value/)
 })
