@@ -116,7 +116,7 @@
     "redis": "4.7.0",
     "simple-git": "^3.36.0",
     "storybook": "^10.5.5",
-    "storybook-addon-mock-date": "^3.1.0",
+    "storybook-addon-mock-date": "^3.1.1",
     "storybook-next-intl": "^10.0.1",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.23.1",
