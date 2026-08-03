@@ -25,8 +25,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@meilisearch/instant-meilisearch':
-        specifier: ^0.31.2
-        version: 0.31.2(meilisearch@0.57.0)
+        specifier: ^0.31.3
+        version: 0.31.3(meilisearch@0.57.0)
       '@mitresthen/matomo-tracker-react':
         specifier: ^0.1.1
         version: 0.1.1(react@19.2.8)
@@ -1323,8 +1323,8 @@ packages:
       '@types/react': 19.2.17
       react: '>=16'
 
-  '@meilisearch/instant-meilisearch@0.31.2':
-    resolution: {integrity: sha512-axKrFVjdppMe1aEPjAfyG/hjf1iZJJSvRDbEOcYKSKZhWL7rm16u5Mor1JBXvrkIe36YyzyfGG81MEl0nGvTVw==}
+  '@meilisearch/instant-meilisearch@0.31.3':
+    resolution: {integrity: sha512-bc59iwpKXhCTeD+ndz0ojpAg87BmEoSneD8JRMxMUzJ5ZaDSdt81DJT2Evucdc0nFjFhrdKXF+KAtLwXSEEwdQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       meilisearch: ^0.57
@@ -4684,8 +4684,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  baseline-browser-mapping@2.11.9:
-    resolution: {integrity: sha512-cp447VUsGS07+n1Dqf7YSQ8maeJrjEhaDxTm1ZefbqDtypHBC5GzGMQbklR6IPR13Y8OAJRHZWEMtZipJLCttg==}
+  baseline-browser-mapping@2.11.12:
+    resolution: {integrity: sha512-r7WnVImvVCeFpf2DOXfy41aPWzeNg3H/A2X4dKmy1QL0MSyyk/e7z8ihJ3N6Nn2PsdhkVlqnEfnUE4a05P2aTA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -8682,7 +8682,7 @@ snapshots:
       '@types/react': 19.2.17
       react: 19.2.8
 
-  '@meilisearch/instant-meilisearch@0.31.2(meilisearch@0.57.0)':
+  '@meilisearch/instant-meilisearch@0.31.3(meilisearch@0.57.0)':
     dependencies:
       meilisearch: 0.57.0
 
@@ -11959,7 +11959,7 @@ snapshots:
 
   baseline-browser-mapping@2.11.1: {}
 
-  baseline-browser-mapping@2.11.9: {}
+  baseline-browser-mapping@2.11.12: {}
 
   bidi-js@1.0.3:
     dependencies:
@@ -11997,7 +11997,7 @@ snapshots:
 
   browserslist@4.28.7:
     dependencies:
-      baseline-browser-mapping: 2.11.9
+      baseline-browser-mapping: 2.11.12
       caniuse-lite: 1.0.30001806
       electron-to-chromium: 1.5.399
       node-releases: 2.0.51
