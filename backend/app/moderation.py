@@ -911,14 +911,7 @@ def submit_review_request(
                 else:
                     app_name = None
 
-                is_random_review = bool(requests) and all(
-                    _is_random_review_request(request) for request in requests
-                )
-                subject = (
-                    f"Build #{review_request.build_id} selected for human review"
-                    if is_random_review
-                    else f"Build #{review_request.build_id} held for review"
-                )
+                subject = f"Build #{review_request.build_id} held for review"
                 payload = {
                     "messageId": f"{app_id}/{review_request.build_id}/held",
                     "creation_timestamp": datetime.now().timestamp(),
@@ -1019,7 +1012,6 @@ def submit_review(
         request_data = request.request_data
         is_new_submission = request.is_new_submission
         comment = review.comment
-        is_random_review = _is_random_review_request(request)
         worker_should_be_triggered = False
         if is_approved:
             remaining = (
@@ -1081,18 +1073,10 @@ def submit_review(
     issue = None
     if is_approved:
         category = EmailCategory.MODERATION_APPROVED
-        subject = (
-            f"Build #{build_id} selected for human review was approved"
-            if is_random_review
-            else f"Change in build #{build_id} approved"
-        )
+        subject = f"Build #{build_id} has been reviewed and approved"
     else:
         category = EmailCategory.MODERATION_REJECTED
-        subject = (
-            f"Build #{build_id} selected for human review was rejected"
-            if is_random_review
-            else f"Change in build #{build_id} rejected"
-        )
+        subject = f"Build #{build_id} has been reviewed and rejected"
 
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):

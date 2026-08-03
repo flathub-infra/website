@@ -20,8 +20,8 @@ test("renders random human review without a metadata diff", async () => {
   const html = await render(
     ModerationHeldEmail({
       category: "moderation_held",
-      subject: "Build #123 selected for human review",
-      previewText: "Build #123 selected for human review",
+      subject: "Build #123 held for review",
+      previewText: "Build #123 held for review",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,
@@ -40,8 +40,8 @@ test("renders random approval without a metadata diff", async () => {
   const html = await render(
     ModerationApprovedEmail({
       category: "moderation_approved",
-      subject: "Build #123 selected for human review was approved",
-      previewText: "Build #123 selected for human review was approved",
+      subject: "Build #123 has been reviewed and approved",
+      previewText: "Build #123 has been reviewed and approved",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,
@@ -59,8 +59,8 @@ test("renders random rejection without a metadata diff", async () => {
   const html = await render(
     ModerationRejectedEmail({
       category: "moderation_rejected",
-      subject: "Build #123 selected for human review was rejected",
-      previewText: "Build #123 selected for human review was rejected",
+      subject: "Build #123 has been reviewed and rejected",
+      previewText: "Build #123 has been reviewed and rejected",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,

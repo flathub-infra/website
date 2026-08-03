@@ -303,7 +303,7 @@ def test_enabled_selected_creates_random_request(monkeypatch):
     assert request.appid == "org.example.App"
     assert json.loads(request.request_data) == moderation._random_review_request_data()
     assert harness.emails
-    assert harness.emails[0]["subject"] == "Build #42 selected for human review"
+    assert harness.emails[0]["subject"] == "Build #42 held for review"
 
 
 def test_enabled_unselected_creates_no_random_request(monkeypatch):
