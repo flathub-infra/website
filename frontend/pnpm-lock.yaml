@@ -163,8 +163,8 @@ importers:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       spdx-license-list:
-        specifier: ^6.10.0
-        version: 6.11.0
+        specifier: ^6.12.0
+        version: 6.12.0
       tailwind-merge:
         specifier: ^3.5.0
         version: 3.5.0
@@ -7055,8 +7055,8 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
 
-  spdx-license-list@6.11.0:
-    resolution: {integrity: sha512-p5ICd51dSnh7zIMtPgbB9ShBg3HMT77OeI6WVhrFFvxa5KIFYNcqxD4joAE+n1zZ7wlJdEkrOMwC75JUMMmsJA==}
+  spdx-license-list@6.12.0:
+    resolution: {integrity: sha512-+nUYqm3aZMSHbjsthK+i/HHI2okTElCvqwUd4k8QcSk+FTGgjq+fsdFj2wZOaX6XmR2JdWhf/NeflNnvKOjcnQ==}
     engines: {node: '>=8'}
 
   stable-hash@0.0.5:
@@ -14740,7 +14740,7 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  spdx-license-list@6.11.0: {}
+  spdx-license-list@6.12.0: {}
 
   stable-hash@0.0.5: {}
 
