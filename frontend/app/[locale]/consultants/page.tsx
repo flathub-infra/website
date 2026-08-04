@@ -1,16 +1,11 @@
 import { Metadata } from "next"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import ConsultantsClient from "./consultants-client"
 
 export const dynamic = "force-static"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
-  const { locale } = await params
-  const t = await getTranslations({ locale })
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
 
   return {
     title: t("consultants"),
@@ -18,15 +13,6 @@ export async function generateMetadata({
   }
 }
 
-export default async function ConsultantsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
-
+export default function ConsultantsPage() {
   return <ConsultantsClient />
 }

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { fetchSetupInstructions } from "../../../src/distro-setup"
 import { Metadata } from "next"
 import SetupClient from "./setup-client"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 
 export const dynamic = "force-static"
 
@@ -16,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   return {
     title: t("setup-flathub"),
@@ -82,16 +82,7 @@ const setupFaqJsonLd = {
   ],
 }
 
-export default async function SetupPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
-
+export default async function SetupPage() {
   const instructions = await fetchSetupInstructions()
 
   if (!instructions) {

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { getMobileCollectionMobileGet } from "../../../../../../src/codegen"
 import { Metadata } from "next"
 import MobileCollectionClient from "./mobile-collection-client"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 
 interface Props {
   params: Promise<{
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, page } = await params
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   return {
     title: t("mobile-apps"),
@@ -33,9 +33,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function MobileCollectionPage({ params }: Props) {
   const { locale, page } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   const pageNum = parseInt(page)
 

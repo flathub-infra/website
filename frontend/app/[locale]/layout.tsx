@@ -1,19 +1,19 @@
 import { ReactNode } from "react"
 import { Inter } from "next/font/google"
 import { getLangDir } from "rtl-detect"
+import "../../styles/main.css"
+import "src/utils/axios-config"
 import ClientProviders from "../client-providers"
 import Main from "../../src/components/layout/Main"
-import { hasLocale, NextIntlClientProvider } from "next-intl"
+import { NextIntlClientProvider } from "next-intl"
 
 import { getDateFnsLocale } from "src/localize"
 import { Metadata } from "next"
 import { bcpToPosixLocale } from "src/localize"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 import cardImage from "../../public/img/card.webp"
 import { IS_PRODUCTION, ASSET_BASE_URL } from "src/env"
-import { routing } from "src/i18n/routing"
 import { staticLocales } from "src/i18n/static-locales"
-import { notFound } from "next/navigation"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,13 +24,9 @@ export function generateStaticParams() {
   return staticLocales.map((locale) => ({ locale }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
-  const { locale } = await params
-  const t = await getTranslations({ locale })
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale()
+  const t = await getTranslations()
 
   // const url = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${pathname}`
 
@@ -79,18 +75,10 @@ export async function generateMetadata({
 
 export default async function LocaleLayout({
   children,
-  params,
 }: {
   children: ReactNode
-  params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
-  if (!hasLocale(routing.locales, locale)) {
-    notFound()
-  }
-
-  // Enable static rendering
-  setRequestLocale(locale)
+  const locale = await getLocale()
 
   return (
     <html suppressHydrationWarning lang={locale} dir={getLangDir(locale)}>

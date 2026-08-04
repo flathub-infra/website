@@ -20,7 +20,7 @@ import {
 } from "../../../src/codegen"
 import { formatISO } from "date-fns"
 import HomeClient from "../home-client"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import { staticLocales } from "../../../src/i18n/static-locales"
 import { gameCategoryFilter } from "../../../src/types/Category"
 import cardImage from "../../../public/img/card.webp"
@@ -59,7 +59,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"
 
   return {
@@ -250,9 +250,6 @@ export default async function HomePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   const currentDate = formatISO(new Date(), { representation: "date" })
   const currentUtcDate = getUtcDateString()
