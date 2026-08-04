@@ -13,7 +13,6 @@ sys.modules["app.search"] = SimpleNamespace()
 moderation = importlib.import_module("app.moderation")
 
 
-
 @pytest.mark.parametrize(
     ("current_extra_data", "build_extra_data", "expected"),
     [
@@ -25,9 +24,7 @@ def test_extra_data_addition_and_removal_preserve_boolean_values(
     current_extra_data, build_extra_data, expected
 ):
     assert (
-        moderation._extra_data_moderation_values(
-            current_extra_data, build_extra_data
-        )
+        moderation._extra_data_moderation_values(current_extra_data, build_extra_data)
         == expected
     )
 
@@ -100,9 +97,7 @@ def test_unchanged_extra_data_origins_do_not_require_moderation(
     current_extra_data, build_extra_data
 ):
     assert (
-        moderation._extra_data_moderation_values(
-            current_extra_data, build_extra_data
-        )
+        moderation._extra_data_moderation_values(current_extra_data, build_extra_data)
         is None
     )
 
@@ -172,9 +167,7 @@ def test_changed_extra_data_origins_require_moderation(
     current_extra_data, build_extra_data, expected
 ):
     assert (
-        moderation._extra_data_moderation_values(
-            current_extra_data, build_extra_data
-        )
+        moderation._extra_data_moderation_values(current_extra_data, build_extra_data)
         == expected
     )
 
@@ -220,9 +213,7 @@ def test_invalid_or_missing_extra_data_urls_require_moderation(
     current_extra_data, build_extra_data, expected
 ):
     assert (
-        moderation._extra_data_moderation_values(
-            current_extra_data, build_extra_data
-        )
+        moderation._extra_data_moderation_values(current_extra_data, build_extra_data)
         == expected
     )
 
