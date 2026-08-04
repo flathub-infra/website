@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
 import { getLoginMethodsAuthLoginGet, LoginMethod } from "../../../src/codegen"
 import LoginClient from "./login-client"
@@ -8,13 +8,8 @@ import Spinner from "src/components/Spinner"
 
 export const revalidate = 86400
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}): Promise<Metadata> {
-  const { locale } = await params
-  const t = await getTranslations({ locale })
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
 
   return {
     title: t("login"),
@@ -37,9 +32,6 @@ export default async function LoginPage({
     providers = response.data
     const resolvedParams = await params
     locale = resolvedParams.locale
-
-    // Enable static rendering
-    setRequestLocale(locale)
   } catch (error) {
     notFound()
   }

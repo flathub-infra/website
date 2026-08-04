@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { getKeywordCollectionKeywordGet } from "../../../../../../../src/codegen"
 import { Metadata } from "next"
 import TagCollectionClient from "./tag-collection-client"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 
 interface Props {
   params: Promise<{
@@ -20,8 +20,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { tag, locale } = await params
-  const t = await getTranslations({ locale })
+  const { tag } = await params
+  const t = await getTranslations()
   const tagDecoded = decodeURIComponent(tag)
 
   return {
@@ -31,9 +31,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TagCollectionPage({ params }: Props) {
   const { locale, page, tag } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   const pageNum = parseInt(page)
 

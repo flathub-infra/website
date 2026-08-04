@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import { getAppstreamAppstreamAppIdGet } from "../../../../../src/codegen"
 import InstallClient from "./client"
 
@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; appId: string }>
 }): Promise<Metadata> {
   const { locale, appId } = await params
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   try {
     const response = await getAppstreamAppstreamAppIdGet(appId, { locale })
@@ -53,9 +53,6 @@ export default async function InstallPage({
   params: Promise<{ locale: string; appId: string }>
 }) {
   const { locale, appId } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   let app: any
 

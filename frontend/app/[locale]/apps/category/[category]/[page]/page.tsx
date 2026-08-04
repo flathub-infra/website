@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import {
   AppSchemasSortBy,
   getCategoryCollectionCategoryCategoryGet,
@@ -27,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ category: string; page: string; locale: string }>
 }): Promise<Metadata> {
   const { category: categoryParam, page, locale } = await params
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   const category = stringToCategory(categoryParam)
   const title = category ? categoryToName(category, t) : categoryParam
@@ -48,9 +48,6 @@ export default async function CategoryPagePaginated({
   params: Promise<{ locale: string; category: string; page: string }>
 }) {
   const { locale, category: categoryParam, page: pageParam } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   const category = stringToCategory(categoryParam)
   const page = parseInt(pageParam)

@@ -12,7 +12,7 @@ import {
 } from "../../../../../src/codegen"
 import BannerPreviewClient from "./bannerpreview-client"
 import { redirect } from "src/i18n/navigation"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 
 interface Params {
   locale: string
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, appId: rawAppId } = await params
 
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   // Handle .flatpakref extension
   const isFlatpakref = rawAppId.endsWith(".flatpakref")
@@ -71,9 +71,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BannerPreviewPage({ params }: Props) {
   const { locale, appId: rawAppId } = await params
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   console.log("Fetching data for app hero banner: ", rawAppId, locale)
 

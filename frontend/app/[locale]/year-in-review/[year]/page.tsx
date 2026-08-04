@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { setRequestLocale, getTranslations } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import {
   getYearInReviewYearInReviewYearGet,
   YearInReviewResult,
@@ -37,7 +37,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; year: string }>
 }): Promise<Metadata> {
   const { locale, year } = await params
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   return {
     title: t("year-in-review.title", { year }),
@@ -79,9 +79,7 @@ export default async function YearInReviewPage({
 }) {
   const { locale, year: yearParam } = await params
 
-  setRequestLocale(locale)
-
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   const year = parseInt(yearParam, 10)
   const maxYear = getMaxAvailableYear()

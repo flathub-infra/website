@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { fetchSetupInstructions } from "../../../../src/distro-setup"
 import { Metadata } from "next"
 import DistroSetupClient from "./distro-setup-client"
-import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
 import { staticLocales } from "../../../../src/i18n/static-locales"
 
 export const dynamic = "force-static"
@@ -41,10 +41,10 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { distro, locale } = await params
+  const { distro } = await params
   const cleanedDistro = distro.replaceAll("%20", " ")
   const instructions = await fetchSetupInstructions()
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
 
   let distroData = instructions.find(
     (instruction) => instruction.name === cleanedDistro,
@@ -76,9 +76,6 @@ export default async function DistroSetupPage({ params }: Props) {
   const { distro, locale } = await params
   const cleanedDistro = distro.replaceAll("%20", " ")
   const instructions = await fetchSetupInstructions()
-
-  // Enable static rendering
-  setRequestLocale(locale)
 
   let distroData = instructions.find(
     (instruction) => instruction.name === cleanedDistro,
