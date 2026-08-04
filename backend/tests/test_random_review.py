@@ -12,6 +12,8 @@ from pydantic import ValidationError
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
+sys.modules["app.search"] = SimpleNamespace()
+
 from app import config, models, moderation
 from app.types import ModerationRequestType
 
@@ -84,6 +86,8 @@ class CallbackHarness:
         app_ids=("org.example.App",),
         skipped=(),
         current_values=None,
+        current_summaries=None,
+        build_summary=None,
         enabled=True,
         rate=0.5,
         secret="test-random-review-secret",
@@ -93,6 +97,8 @@ class CallbackHarness:
         self.app_ids = list(app_ids)
         self.skipped = set(skipped)
         self.current_values = current_values
+        self.current_summaries = current_summaries or {}
+        self.build_summary = build_summary or {}
         self.build_id = 42
         self.job_id = 7
 
@@ -122,7 +128,7 @@ class CallbackHarness:
         monkeypatch.setattr(
             moderation.summary,
             "parse_summary",
-            lambda content, db: ({}, None, None),
+            lambda content, db: (self.build_summary, None, None),
         )
         monkeypatch.setattr(moderation, "get_db", self.get_db)
         monkeypatch.setattr(
@@ -146,6 +152,10 @@ class CallbackHarness:
         }
 
     def get_json_key(self, key):
+        if key.startswith("summary:") and key.endswith(":stable"):
+            app_id = key.removeprefix("summary:").removesuffix(":stable")
+            return self.current_summaries.get(app_id)
+
         if not key.startswith("apps:"):
             return None
         app_id = key.removeprefix("apps:")
@@ -379,6 +389,54 @@ def test_deterministic_request_suppresses_random_selection(monkeypatch):
         == "Example App"
     )
     assert harness.db.session.persisted[0].is_new_submission is False
+
+
+def test_extra_data_origin_request_suppresses_random_selection(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        current_values={
+            "org.example.App": {
+                "name": "Example App",
+                "summary": "An example",
+                "developer_name": "Example",
+                "project_license": "MIT",
+            }
+        },
+        current_summaries={
+            "org.example.App": {
+                "metadata": {
+                    "extra-data": {
+                        "uri": "https://downloads.example/old.bin",
+                    }
+                }
+            }
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {
+                    "extra-data": {
+                        "uri": "https://cdn.example/new.bin",
+                    },
+                    "runtime": "org.freedesktop.Platform/x86_64/24.08",
+                }
+            }
+        },
+    )
+    monkeypatch.setattr(
+        moderation, "_random_review_sample_value", lambda *args: pytest.fail("sampled")
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    request_data = json.loads(request.request_data)
+    assert request_data["keys"] == {
+        "extra-data": ["https://cdn.example"],
+    }
+    assert request_data["current_values"]["extra-data"] == ["https://downloads.example"]
+    assert request.is_new_submission is False
 
 
 def test_initial_submission_suppresses_random_selection(monkeypatch):

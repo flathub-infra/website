@@ -6,6 +6,7 @@ import json
 import logging
 from datetime import UTC, datetime
 from typing import Any
+from urllib.parse import urlsplit
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
@@ -26,6 +27,90 @@ logger = logging.getLogger(__name__)
 
 
 _RANDOM_REVIEW_MARKER = "Randomly selected for human review"
+
+
+def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
+    uri_values = [
+        value
+        for key, value in extra_data.items()
+        if key == "uri" or (key.startswith("uri") and key != "uri")
+    ]
+    if not uri_values:
+        return None
+
+    origins: set[str] = set()
+    for value in uri_values:
+        if (
+            not isinstance(value, str)
+            or not value
+            or any(
+                character.isspace() or ord(character) < 32 or character == "\\"
+                for character in value
+            )
+        ):
+            return None
+
+        try:
+            parsed = urlsplit(value)
+            hostname = parsed.hostname
+            port = parsed.port
+        except ValueError:
+            return None
+
+        scheme = parsed.scheme.lower()
+        authority = parsed.netloc.rsplit("@", 1)[-1]
+        if (
+            scheme not in {"http", "https"}
+            or not parsed.netloc
+            or hostname is None
+            or authority.endswith(":")
+        ):
+            return None
+
+        hostname = hostname.lower()
+        if port == {"http": 80, "https": 443}[scheme]:
+            port = None
+
+        serialized_host = f"[{hostname}]" if ":" in hostname else hostname
+        origins.add(
+            f"{scheme}://{serialized_host}" + (f":{port}" if port is not None else "")
+        )
+
+    return sorted(origins)
+
+
+def _extra_data_moderation_values(
+    current_extra_data: dict[str, Any] | None,
+    build_extra_data: dict[str, Any] | None,
+) -> tuple[bool | list[str], bool | list[str]] | None:
+    current_has_extra_data = bool(current_extra_data)
+    build_has_extra_data = bool(build_extra_data)
+    if current_has_extra_data != build_has_extra_data:
+        return current_has_extra_data, build_has_extra_data
+    if not current_has_extra_data:
+        return None
+
+    current_origins = (
+        _extra_data_origins(current_extra_data)
+        if isinstance(current_extra_data, dict)
+        else None
+    )
+    build_origins = (
+        _extra_data_origins(build_extra_data)
+        if isinstance(build_extra_data, dict)
+        else None
+    )
+    if (
+        current_origins is not None
+        and build_origins is not None
+        and current_origins == build_origins
+    ):
+        return None
+
+    return (
+        current_origins or ["<invalid or missing current extra-data URL>"],
+        build_origins or ["<invalid or missing new extra-data URL>"],
+    )
 
 
 def _canonical_random_review_identity(
@@ -551,26 +636,26 @@ def submit_review_request(
 
         current_summary = None
         current_permissions = None
-        current_extradata = False
+        current_extradata = None
 
         if current_summary := apps_summary_by_id.get(app_id):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
             if current_metadata := current_summary.get("metadata", {}):
                 current_permissions = current_metadata.get("permissions")
-                current_extradata = bool(current_metadata.get("extra-data"))
+                current_extradata = current_metadata.get("extra-data")
         elif current_summary := get_json_key(f"summary:{app_id}:stable"):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
             if current_metadata := current_summary.get("metadata", {}):
                 current_permissions = current_metadata.get("permissions")
-                current_extradata = bool(current_metadata.get("extra-data"))
+                current_extradata = current_metadata.get("extra-data")
 
         if current_summary:
             build_summary_app = build_summary.get(app_id) or {}
             build_summary_metadata = build_summary_app.get("metadata") or {}
             build_permissions = build_summary_metadata.get("permissions") or {}
-            build_extradata = bool(build_summary_metadata.get("extra-data", False))
+            build_extradata = build_summary_metadata.get("extra-data")
 
             app_runtime = build_summary_metadata.get(
                 "runtime"
@@ -582,9 +667,11 @@ def submit_review_request(
                     else None
                 )
 
-            if current_extradata != build_extradata:
-                current_values["extra-data"] = current_extradata
-                keys["extra-data"] = build_extradata
+            extra_data_values = _extra_data_moderation_values(
+                current_extradata, build_extradata
+            )
+            if extra_data_values is not None:
+                current_values["extra-data"], keys["extra-data"] = extra_data_values
 
             if current_permissions and build_permissions:
                 if current_permissions != build_permissions:
