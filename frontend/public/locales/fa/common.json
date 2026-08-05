@@ -844,5 +844,15 @@
     }
   },
   "unverified-app-disclaimer-unknown-developer": "توسعه‌دهندهٔ کاره",
-  "unverified-app-disclaimer-package": "این بستهٔ فراهم شده به دست اجتماع از سوی {developer} تأیید یا پشتیبانی نمی‌شود."
+  "unverified-app-disclaimer-package": "این بستهٔ فراهم شده به دست اجتماع از سوی {developer} تأیید یا پشتیبانی نمی‌شود.",
+  "moderation-random-review": "گزیدهٔ کاتوره‌ای برای بازبینی انسانی",
+  "dns-verification-main-instruction": "تأیید حق استفاده‌تان از شناسهٔ کارهٔ <bold>{id}</bold> با انتشار رکورد TXT ساناد برای <bold>{domain}</bold>.",
+  "dns-record-value": "مقدار",
+  "dns-record-not-found": "هیچ رکورد TXTای در {record} پیدا نشد.",
+  "dns-token-not-present": "رکوردهای TXT در {record} ژتون تأیید را ندارند.",
+  "dns-lookup-failed": "شکست در گشتن به دنبال رکوردهای TXT برای {record}.",
+  "app-is-currently-verified-by-dns": "کاره‌تان از طریق واپایش ساناد <domain></domain> تأیید شده است",
+  "verified-dns-tooltip": "مالکیت شناسهٔ کارهٔ <appid></appid> از طریق واپایش ساناد <domain></domain> تأیید شده است",
+  "dns-verification": "تأییدیهٔ ساناد",
+  "dns-validation-instruction": "افزودن رکورد ساناد زیر بدون برداشتن رکوردهای TXT موجود. اعمال تغییرات ساناد می‌تواند زمان‌بر باشد."
 }

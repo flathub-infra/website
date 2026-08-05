@@ -440,7 +440,8 @@
     "light": "Terang",
     "dark": "Gelap",
     "general-runtime-not-eol": "Runtime belum mencapai akhir masa pakai",
-    "failing-x-checks": "Gagal {count, plural, one {# check} other {# checks}}"
+    "failing-x-checks": "Gagal {count, plural, one {# check} other {# checks}}",
+    "stats-by-category": "Status peninjauan pedoman menurut kategori"
   },
   "user-data-subfolder-x": "Subfolder data pengguna {folder}",
   "desktop-folder": "Folder desktop",
@@ -786,5 +787,72 @@
   "contribute-flathub": "Berkontribusi ke Flathub",
   "manual-verification": "Tandai sebagai terverifikasi secara manual",
   "user-id": "ID Pengguna Flathub",
-  "more-healthfitness": "Lebih Banyak Kesehatan & Kebugaran"
+  "more-healthfitness": "Lebih Banyak Kesehatan & Kebugaran",
+  "manage": "Kelola",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Tahun Baru, Alur Kerja Baru",
+      "description": "Aplikasi untuk mencatat, melacak tugas, dan membuat rencana"
+    },
+    "free-software-favorites": {
+      "header": "Pilihan Staf",
+      "description": "Aplikasi yang saat ini kami sukai"
+    },
+    "spring-creativity": {
+      "header": "Berkreasi",
+      "description": "Aplikasi penting untuk menggambar, mengedit foto, dan desain digital"
+    },
+    "fresh-desktop-releases": {
+      "header": "Membangun Aplikasi Native",
+      "description": "Kembangkan aplikasi yang terasa selaras dengan sistem Anda"
+    },
+    "staying-connected": {
+      "header": "Tetap Terhubung",
+      "description": "Aplikasi kolaborasi dan komunikasi yang penting"
+    },
+    "summer-travel": {
+      "header": "Siap untuk Liburan",
+      "description": "Aplikasi peta, transit, cuaca, dan perencanaan perjalanan"
+    },
+    "back-to-learning": {
+      "header": "Lebih Cerdas Setiap Hari",
+      "description": "Aplikasi untuk membantu Anda belajar, meneliti, dan menulis"
+    },
+    "winter-comforts": {
+      "header": "Bersantai",
+      "description": "Aplikasi hebat untuk membaca, menonton film, dan bermain game"
+    },
+    "tools-for-developers": {
+      "header": "Esensial Web Developer",
+      "description": "Membuat website jadi lebih menyenangkan dengan aplikasi ini"
+    },
+    "take-better-notes": {
+      "header": "Catat Lebih Baik",
+      "description": "Temukan alat pencatat favorit baru Anda"
+    },
+    "get-focused": {
+      "header": "Lebih Fokus",
+      "description": "Aplikasi hebat untuk manajemen tugas"
+    },
+    "make-some-noise": {
+      "header": "Buat Suasana Lebih Hidup",
+      "description": "Aplikasi untuk membuat dan memproduksi musik"
+    },
+    "get-to-work": {
+      "header": "Bekerja",
+      "description": "Aplikasi kantor yang penting"
+    }
+  },
+  "moderation-random-review": "Dipilih secara acak untuk ditinjau manusia",
+  "unverified-app-disclaimer-package": "Paket yang disediakan komunitas ini tidak diverifikasi oleh, berafiliasi dengan, atau didukung oleh {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "pengembang aplikasi",
+  "dns-verification-main-instruction": "Verifikasi hak Anda untuk menggunakan app ID <bold>{id}</bold> dengan memublikasikan DNS TXT record untuk <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Tambahkan DNS record berikut tanpa menghapus TXT records yang sudah ada. Perubahan DNS dapat memerlukan waktu untuk diterapkan.",
+  "dns-record-value": "Nilai",
+  "dns-record-not-found": "Tidak ditemukan TXT record pada {record}.",
+  "dns-token-not-present": "TXT records pada {record} tidak memuat token verifikasi.",
+  "dns-lookup-failed": "Gagal mencari TXT records untuk {record}.",
+  "app-is-currently-verified-by-dns": "App Anda saat ini telah diverifikasi melalui kontrol DNS atas <domain></domain>",
+  "verified-dns-tooltip": "Kepemilikan app ID <appid></appid> telah diverifikasi melalui kontrol DNS atas <domain></domain>",
+  "dns-verification": "Verifikasi DNS"
 }

@@ -853,5 +853,6 @@
   "dns-lookup-failed": "无法查找 {record} 的 TXT 记录。",
   "app-is-currently-verified-by-dns": "您的应用已通过 <domain></domain> 的 DNS 控制来验证",
   "verified-dns-tooltip": "<appid></appid> 应用 ID 的所有权已通过 <domain></domain> 的 DNS 控制验证",
-  "dns-verification": "DNS 验证"
+  "dns-verification": "DNS 验证",
+  "moderation-random-review": "随机选择进行人工审核"
 }

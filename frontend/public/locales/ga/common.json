@@ -853,5 +853,6 @@
   "dns-lookup-failed": "Theip ar thaifid TXT a chuardach le haghaidh {record}.",
   "app-is-currently-verified-by-dns": "Tá d'aip fíoraithe faoi láthair trí rialú DNS ar <domain></domain>",
   "verified-dns-tooltip": "Tá úinéireacht ID an aip <appid></appid> fíoraithe trí rialú DNS ar <domain></domain>",
-  "dns-verification": "Fíorú DNS"
+  "dns-verification": "Fíorú DNS",
+  "moderation-random-review": "Roghnaithe go randamach le haghaidh athbhreithnithe daonna"
 }
