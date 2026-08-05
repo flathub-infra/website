@@ -1417,10 +1417,10 @@ def submit_review(
     issue = None
     if is_approved:
         category = EmailCategory.MODERATION_APPROVED
-        subject = f"Build #{build_id} has been reviewed and approved"
+        subject = f"Build #{build_id} approved"
     else:
         category = EmailCategory.MODERATION_REJECTED
-        subject = f"Build #{build_id} has been reviewed and rejected"
+        subject = f"Build #{build_id} rejected"
 
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):
