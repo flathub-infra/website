@@ -16,6 +16,42 @@ const randomRequest: Request = {
   isNewSubmission: false,
 }
 
+const manifestRequest: Request = {
+  requestType: "manifest",
+  requestData: {
+    findings: [
+      {
+        origins_added: ["https://downloads.example"],
+        origins_removed: ["https://old.example"],
+        locations_by_origin: {
+          "https://downloads.example": [
+            'modules["libfoo"].sources[0].mirror-urls[0]',
+          ],
+        },
+        candidate_issues: [
+          {
+            location: "modules[1].sources[0].url",
+            reason: "missing-scheme",
+          },
+        ],
+        arches: ["aarch64", "x86_64"],
+      },
+    ],
+  },
+  isNewSubmission: false,
+}
+
+function assertManifestRendering(html: string) {
+  assert.match(html, /https:\/\/downloads\.example/)
+  assert.match(html, /https:\/\/old\.example/)
+  assert.match(html, /modules.*libfoo/)
+  assert.match(html, /aarch64/)
+  assert.match(html, /x86_64/)
+  assert.match(html, /missing-scheme/)
+  assert.doesNotMatch(html, /raw malformed input/)
+  assert.doesNotMatch(html, /&quot;modules&quot;.*&quot;sources&quot;/)
+}
+
 test("renders random human review without a metadata diff", async () => {
   const html = await render(
     ModerationHeldEmail({
@@ -73,4 +109,58 @@ test("renders random rejection without a metadata diff", async () => {
   assert.match(html, /selected for human review and rejected/)
   assert.match(html, /Reason: (?:<!-- -->)?Randomly selected for human review/)
   assert.doesNotMatch(html, /Old value/)
+})
+
+test("renders manifest source origins in held email", async () => {
+  const html = await render(
+    ModerationHeldEmail({
+      category: "moderation_held",
+      subject: "Build #123 held for review",
+      previewText: "Build #123 held for review",
+      appId: "org.example.App",
+      appName: "Example App",
+      buildId: 123,
+      buildLogUrl: "https://flathub.org/builds/123",
+      requests: [manifestRequest],
+    }),
+  )
+
+  assertManifestRendering(html)
+  assert.match(html, /embedded manifest introduces a new source origin/)
+  assert.doesNotMatch(html, /metadata has changed/)
+})
+
+test("renders manifest source origins in approved email", async () => {
+  const html = await render(
+    ModerationApprovedEmail({
+      category: "moderation_approved",
+      subject: "Build #123 has been reviewed and approved",
+      previewText: "Build #123 has been reviewed and approved",
+      appId: "org.example.App",
+      appName: "Example App",
+      buildId: 123,
+      buildLogUrl: "https://flathub.org/builds/123",
+      request: manifestRequest,
+    }),
+  )
+
+  assertManifestRendering(html)
+})
+
+test("renders manifest source origins in rejected email", async () => {
+  const html = await render(
+    ModerationRejectedEmail({
+      category: "moderation_rejected",
+      subject: "Build #123 has been reviewed and rejected",
+      previewText: "Build #123 has been reviewed and rejected",
+      appId: "org.example.App",
+      appName: "Example App",
+      buildId: 123,
+      buildLogUrl: "https://flathub.org/builds/123",
+      request: manifestRequest,
+      comment: "Not acceptable",
+    }),
+  )
+
+  assertManifestRendering(html)
 })
