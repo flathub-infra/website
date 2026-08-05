@@ -587,6 +587,10 @@ def test_manifest_origin_replacements_gate(
     assert len(findings) == 1
     assert findings[0].origins_added == added
     assert findings[0].origins_removed == removed
+    assert findings[0].locations_by_origin == {
+        added[0]: ('modules["app"].sources[0].url',),
+        removed[0]: ('modules["app"].sources[0].url',),
+    }
 
 
 def test_new_source_and_mirror_origins_retain_all_unique_locations():

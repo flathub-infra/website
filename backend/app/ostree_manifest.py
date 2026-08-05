@@ -619,6 +619,9 @@ def find_manifest_source_origin_changes(
             continue
 
         locations = {origin: candidate.locations_by_origin[origin] for origin in added}
+        locations.update(
+            {origin: published.locations_by_origin[origin] for origin in removed}
+        )
         merge_key = (
             pair.app_id,
             added,

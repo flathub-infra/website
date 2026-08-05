@@ -31,13 +31,29 @@ export const Primary = () => {
     request_data: {
       findings: [
         {
-          origins_added: ["https://downloads.example"],
-          origins_removed: ["https://example.com"],
+          origins_added: [
+            "https://download.gnome.org",
+            "https://github.com",
+            "https://mirror.example.org:8443",
+          ],
+          origins_removed: [
+            "https://old-download.gnome.org",
+            "https://gitlab.gnome.org",
+          ],
           locations_by_origin: {
-            "https://downloads.example": [
-              'modules["libfoo"].sources[0].url',
-              'modules["libfoo"].sources[0].mirror-urls[0]',
+            "https://download.gnome.org": [
+              'modules["ghex"].sources[0].url',
+              'modules["ghex"].sources[0].mirror-urls[0]',
+              'modules["gtkhex"].sources[1].url',
             ],
+            "https://github.com": ['modules["gtkhex"].sources[0].url'],
+            "https://mirror.example.org:8443": [
+              'modules["docs"].sources[1].mirror-urls[0]',
+            ],
+            "https://old-download.gnome.org": [
+              'modules["ghex"].sources[0].url',
+            ],
+            "https://gitlab.gnome.org": ['modules["gtkhex"].sources[0].url'],
           },
           arches: ["aarch64", "x86_64"],
         },
