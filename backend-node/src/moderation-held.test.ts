@@ -28,12 +28,6 @@ const manifestRequest: Request = {
             'modules["libfoo"].sources[0].mirror-urls[0]',
           ],
         },
-        candidate_issues: [
-          {
-            location: "modules[1].sources[0].url",
-            reason: "missing-scheme",
-          },
-        ],
         arches: ["aarch64", "x86_64"],
       },
     ],
@@ -47,8 +41,6 @@ function assertManifestRendering(html: string) {
   assert.match(html, /modules.*libfoo/)
   assert.match(html, /aarch64/)
   assert.match(html, /x86_64/)
-  assert.match(html, /missing-scheme/)
-  assert.doesNotMatch(html, /raw malformed input/)
   assert.doesNotMatch(html, /&quot;modules&quot;.*&quot;sources&quot;/)
 }
 

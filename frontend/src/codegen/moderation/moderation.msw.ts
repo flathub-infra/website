@@ -102,13 +102,6 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
                 (_, i) => i + 1,
               ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
             },
-            candidate_issues: Array.from(
-              { length: faker.number.int({ min: 1, max: 10 }) },
-              (_, i) => i + 1,
-            ).map(() => ({
-              location: faker.string.alpha({ length: { min: 10, max: 20 } }),
-              reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
-            })),
             arches: Array.from(
               { length: faker.number.int({ min: 1, max: 10 }) },
               (_, i) => i + 1,

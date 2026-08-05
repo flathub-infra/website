@@ -729,12 +729,6 @@ def test_manifest_rejection_issue_formats_source_origin_data(monkeypatch):
                                 'modules["app"].sources[0].url'
                             ]
                         },
-                        "candidate_issues": [
-                            {
-                                "location": "modules[1].sources[0].url",
-                                "reason": "missing-scheme",
-                            }
-                        ],
                         "arches": ["aarch64", "x86_64"],
                     }
                 ]
@@ -747,7 +741,6 @@ def test_manifest_rejection_issue_formats_source_origin_data(monkeypatch):
     assert "https://downloads.example" in created["body"]
     assert 'modules["app"].sources[0].url' in created["body"]
     assert "https://old.example" in created["body"]
-    assert "missing-scheme" in created["body"]
     assert "aarch64, x86_64" in created["body"]
     assert "| Field |" not in created["body"]
     assert "New value" not in created["body"]
@@ -1199,7 +1192,6 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
         "findings": [
             {
                 "arches": ["x86_64"],
-                "candidate_issues": [],
                 "locations_by_origin": {
                     "https://downloads.example": ['modules["app"].sources[0].url']
                 },

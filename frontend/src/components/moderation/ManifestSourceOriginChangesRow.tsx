@@ -74,28 +74,6 @@ const ManifestSourceOriginChangesRow: FunctionComponent<Props> = ({
               </div>
             )}
 
-            {finding.candidate_issues.length > 0 && (
-              <div>
-                <h4 className="font-semibold">
-                  {t("moderation-manifest-candidate-issues")}
-                </h4>
-                <ul className="list-disc ps-6">
-                  {unique(
-                    finding.candidate_issues.map(
-                      (issue) => `${issue.location}\u0000${issue.reason}`,
-                    ),
-                  ).map((issue) => {
-                    const [location, reason] = issue.split("\u0000")
-                    return (
-                      <li key={issue}>
-                        <code>{location}</code>: <code>{reason}</code>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
-
             <div>
               <h4 className="font-semibold">
                 {t("moderation-manifest-affected-architectures")}
