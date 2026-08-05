@@ -853,5 +853,6 @@
   "dns-lookup-failed": "{record} nimelahenduse TXT-kirjete tuvastamine ei õnnestunud.",
   "app-is-currently-verified-by-dns": "Sinu rakendus on hetkel kinnitatud seeläbi, et oleme tuvastanud sinu kontrolli <domain></domain> domeeni üle",
   "verified-dns-tooltip": "<appid></appid> rakenduse tunnuse omand on kinnitatud seeläbi, et oleme tuvastanud kontrolli <domain></domain> domeeni üle",
-  "dns-verification": "Nimelahenduse-põhine verifitseerimine"
+  "dns-verification": "Nimelahenduse-põhine verifitseerimine",
+  "moderation-random-review": "Juhuslikult valitud inimese poolt ülevaatamiseks"
 }

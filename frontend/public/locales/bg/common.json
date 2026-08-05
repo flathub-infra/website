@@ -853,5 +853,6 @@
   "verified-dns-tooltip": "Идентификаторът <appid></appid> е проверен чрез DNS контрол на <domain></domain>",
   "app-is-currently-verified-by-dns": "Вашето приложение е проверено чрез DNS контрол на <domain></domain>",
   "dns-lookup-failed": "Неуспешно търсене на TXT записи за {record}.",
-  "dns-token-not-present": "TXT записите за {record} не съдържат жетона."
+  "dns-token-not-present": "TXT записите за {record} не съдържат жетона.",
+  "moderation-random-review": "Избрано на случаен принцип за проверка от човек"
 }
