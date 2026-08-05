@@ -1,7 +1,7 @@
 import json
 import logging
 import tempfile
-from collections.abc import Sequence
+from collections.abc import Sequence, Set
 from dataclasses import dataclass
 from enum import StrEnum
 from threading import Timer
@@ -234,6 +234,7 @@ def collect_manifest_pairs(
     refs: Sequence[CandidateManifestRef],
     *,
     timeout_seconds: float,
+    skip_missing_candidate_app_ids: Set[str] = frozenset(),
 ) -> tuple[ManifestPair, ...]:
     if not refs:
         return ()
@@ -310,6 +311,18 @@ def collect_manifest_pairs(
                         ) from exc
                 candidate_manifest = candidate_cache[item.candidate_commit]
                 if candidate_manifest is None:
+                    if item.app_id in skip_missing_candidate_app_ids:
+                        logger.warning(
+                            "Candidate OSTree manifest is missing for direct-upload app",
+                            extra={
+                                "app_id": item.app_id,
+                                "ref_name": item.ref_name,
+                                "arch": item.arch,
+                                "candidate_commit": item.candidate_commit,
+                                "category": "missing_candidate_manifest",
+                            },
+                        )
+                        continue
                     raise CandidateManifestError(
                         "missing_candidate_manifest",
                         item.ref_name,

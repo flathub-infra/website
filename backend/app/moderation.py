@@ -541,6 +541,16 @@ def submit_review_request(
     if config.settings.ostree_manifest_comparison_enabled:
         try:
             candidate_refs = ostree_manifest.normalize_candidate_refs(build_refs)
+            direct_upload_app_ids: set[str] = set()
+            candidate_app_ids = {item.app_id for item in candidate_refs}
+            if candidate_app_ids:
+                with get_db("writer") as db:
+                    direct_upload_apps = (
+                        db.session.query(models.DirectUploadApp)
+                        .filter(models.DirectUploadApp.app_id.in_(candidate_app_ids))
+                        .all()
+                    )
+                    direct_upload_app_ids = {app.app_id for app in direct_upload_apps}
             manifest_pairs = ostree_manifest.collect_manifest_pairs(
                 candidate_repo_url=(
                     f"https://dl.flathub.org/build-repo/{review_request.build_id}"
@@ -548,6 +558,7 @@ def submit_review_request(
                 published_repo_url=config.settings.repo_url,
                 refs=candidate_refs,
                 timeout_seconds=config.settings.ostree_manifest_timeout_seconds,
+                skip_missing_candidate_app_ids=direct_upload_app_ids,
             )
             manifest_groups = ostree_manifest.group_identical_manifest_pairs(
                 manifest_pairs

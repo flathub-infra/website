@@ -75,12 +75,13 @@ def candidate_ref(
     )
 
 
-def collect(candidate, published, refs):
+def collect(candidate, published, refs, *, skip_missing_candidate_app_ids=frozenset()):
     return ostree_manifest.collect_manifest_pairs(
         candidate.url,
         published.url,
         refs,
         timeout_seconds=10,
+        skip_missing_candidate_app_ids=skip_missing_candidate_app_ids,
     )
 
 
@@ -219,6 +220,27 @@ def test_missing_candidate_manifest_fails(source_repos):
         collect(candidate, published, [candidate_ref(checksum)])
 
     assert raised.value.category == "missing_candidate_manifest"
+
+
+def test_missing_direct_upload_candidate_manifest_is_skipped(source_repos, caplog):
+    candidate, published = source_repos
+    ref_name = "app/org.example.App/x86_64/stable"
+    checksum = candidate.commit(ref_name)
+
+    pairs = collect(
+        candidate,
+        published,
+        [candidate_ref(checksum)],
+        skip_missing_candidate_app_ids={"org.example.App"},
+    )
+
+    assert pairs == ()
+    warning = next(record for record in caplog.records if record.levelname == "WARNING")
+    assert warning.app_id == "org.example.App"
+    assert warning.ref_name == ref_name
+    assert warning.arch == "x86_64"
+    assert warning.candidate_commit == checksum
+    assert warning.category == "missing_candidate_manifest"
 
 
 @pytest.mark.parametrize(

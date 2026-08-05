@@ -47,6 +47,11 @@ class FakeQuery:
     def all(self):
         if self.model is models.ModerationRequest and self.filtered:
             return list(self.session.persisted)
+        if self.model is models.DirectUploadApp:
+            return [
+                SimpleNamespace(app_id=app_id, first_seen_at=True)
+                for app_id in self.session.direct_upload_app_ids
+            ]
         return []
 
     def update(self, values):
@@ -61,9 +66,13 @@ class FakeSession:
         self.add_calls = 0
         self.commit_calls = 0
         self.invalidation_updates = 0
+        self.direct_upload_app_ids = set()
 
     def query(self, model):
         return FakeQuery(self, model)
+
+    def merge(self, value):
+        return value
 
     def add(self, request):
         self.add_calls += 1
@@ -97,8 +106,10 @@ class CallbackHarness:
         manifest_enabled=False,
         manifest_timeout=60.0,
         published_repo_url="https://published.example/repo",
+        direct_upload_app_ids=(),
     ):
         self.db = FakeDb()
+        self.db.session.direct_upload_app_ids = set(direct_upload_app_ids)
         self.emails = []
         self.app_ids = list(app_ids)
         self.skipped = set(skipped)
@@ -798,6 +809,7 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
             ),
         ),
         "timeout_seconds": 12.5,
+        "skip_missing_candidate_app_ids": set(),
     }
     record = next(
         record
@@ -890,6 +902,39 @@ def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatc
     assert second.requires_review is False
     assert harness.db.session.add_calls == 0
     assert harness.db.session.commit_calls == 0
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
+def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        direct_upload_app_ids=("org.example.App",),
+        build_refs=[
+            {
+                "ref_name": "app/org.example.App/x86_64/stable",
+                "commit": "a" * 64,
+            }
+        ],
+    )
+
+    def collect_manifest_pairs(**kwargs):
+        assert kwargs["skip_missing_candidate_app_ids"] == {"org.example.App"}
+        return ()
+
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        collect_manifest_pairs,
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.add_calls == 0
     assert harness.db.session.persisted == []
     assert harness.emails == []
 
