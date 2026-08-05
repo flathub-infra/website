@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent } from "react"
 import ReviewCard from "./ReviewCard"
-import { ModerationRequestResponse } from "src/codegen"
+import { ModerationRequestResponse, RequestData } from "src/codegen"
 import diff from "fast-diff"
 
 interface Props {
@@ -138,16 +138,18 @@ const TableRow = ({
 const DiffRow = ({
   valueKey,
   request,
+  requestData,
 }: {
   valueKey: string
   request: ModerationRequestResponse
+  requestData: RequestData
 }) => {
   // can be string or string[]
-  const currentValues = request.request_data.current_values[valueKey] as
+  const currentValues = requestData.current_values[valueKey] as
     | string
     | string[]
     | { [key: string]: string[] }
-  const newValues = request.request_data.keys[valueKey] as
+  const newValues = requestData.keys[valueKey] as
     | string
     | string[]
     | { [key: string]: string[] }
@@ -247,15 +249,17 @@ const DiffRow = ({
 
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   const t = useTranslations()
+  const requestData = request.request_data
+  if (!requestData || !("keys" in requestData)) {
+    return null
+  }
 
   const isRandomReview =
-    request.request_data?.keys?.human_review === RANDOM_REVIEW_MARKER &&
-    Object.keys(request.request_data?.keys ?? {}).length === 1 &&
-    Object.keys(request.request_data?.current_values ?? {}).length === 0
+    requestData.keys.human_review === RANDOM_REVIEW_MARKER &&
+    Object.keys(requestData.keys).length === 1 &&
+    Object.keys(requestData.current_values).length === 0
 
-  const currentValuesFiltered = Object.keys(
-    request.request_data?.current_values ?? {},
-  ).filter(
+  const currentValuesFiltered = Object.keys(requestData.current_values).filter(
     (a) =>
       // these keys are special, but we don't want to act on them - so ignore
       a !== "name" &&
@@ -265,10 +269,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   )
 
   const uniqueKeys = Array.from(
-    new Set([
-      ...Object.keys(request.request_data?.keys ?? {}),
-      ...currentValuesFiltered,
-    ]),
+    new Set([...Object.keys(requestData.keys), ...currentValuesFiltered]),
   ).sort()
 
   return (
@@ -315,6 +316,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
                   key={key}
                   valueKey={key.toString()}
                   request={request}
+                  requestData={requestData}
                 />
               ))}
             </tbody>
