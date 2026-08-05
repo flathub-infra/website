@@ -1,5 +1,6 @@
 import base64
 import json
+import logging
 import os
 import sys
 from contextlib import contextmanager
@@ -91,6 +92,11 @@ class CallbackHarness:
         enabled=True,
         rate=0.5,
         secret="test-random-review-secret",
+        target_repo="stable",
+        build_refs=None,
+        manifest_enabled=False,
+        manifest_timeout=60.0,
+        published_repo_url="https://published.example/repo",
     ):
         self.db = FakeDb()
         self.emails = []
@@ -101,6 +107,17 @@ class CallbackHarness:
         self.build_summary = build_summary or {}
         self.build_id = 42
         self.job_id = 7
+        self.target_repo = target_repo
+        self.build_refs = (
+            build_refs
+            if build_refs is not None
+            else [
+                {
+                    "ref_name": "app/org.example/x86_64/stable",
+                    "commit": "abc123",
+                }
+            ]
+        )
 
         monkeypatch.setattr(config.settings, "random_review_enabled", enabled)
         monkeypatch.setattr(config.settings, "random_review_rate", rate)
@@ -114,6 +131,17 @@ class CallbackHarness:
             config.settings, "flat_manager_api", "https://flat-manager.example"
         )
         monkeypatch.setattr(config.settings, "moderation_observe_only", False)
+        monkeypatch.setattr(
+            config.settings,
+            "ostree_manifest_comparison_enabled",
+            manifest_enabled,
+        )
+        monkeypatch.setattr(
+            config.settings,
+            "ostree_manifest_timeout_seconds",
+            manifest_timeout,
+        )
+        monkeypatch.setattr(config.settings, "repo_url", published_repo_url)
         monkeypatch.setattr(
             moderation.jwt,
             "decode",
@@ -168,16 +196,11 @@ class CallbackHarness:
             return FakeResponse(
                 {
                     "build": {
-                        "repo": "stable",
+                        "repo": self.target_repo,
                         "build_log_url": "https://logs.example/build",
                         "token_name": "builder",
                     },
-                    "build_refs": [
-                        {
-                            "ref_name": "app/org.example/x86_64/stable",
-                            "commit": "abc123",
-                        }
-                    ],
+                    "build_refs": self.build_refs,
                 }
             )
         return FakeResponse(content=b"summary")
@@ -198,9 +221,13 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "RANDOM_REVIEW_ENABLED",
         "RANDOM_REVIEW_RATE",
         "RANDOM_REVIEW_SECRET",
+        "OSTREE_MANIFEST_COMPARISON_ENABLED",
+        "OSTREE_MANIFEST_TIMEOUT_SECONDS",
         "random_review_enabled",
         "random_review_rate",
         "random_review_secret",
+        "ostree_manifest_comparison_enabled",
+        "ostree_manifest_timeout_seconds",
     ):
         monkeypatch.delenv(name, raising=False)
 
@@ -209,12 +236,20 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
     assert settings.random_review_enabled is False
     assert settings.random_review_rate == 0.01
     assert settings.random_review_secret is None
+    assert settings.ostree_manifest_comparison_enabled is False
+    assert settings.ostree_manifest_timeout_seconds == 60.0
 
 
 @pytest.mark.parametrize("rate", [-0.001, 1.001])
 def test_settings_reject_rates_outside_unit_interval(rate):
     with pytest.raises(ValidationError):
         config.Settings(random_review_rate=rate)
+
+
+@pytest.mark.parametrize("timeout_seconds", [0, -0.001])
+def test_settings_reject_non_positive_ostree_manifest_timeout(timeout_seconds):
+    with pytest.raises(ValidationError):
+        config.Settings(ostree_manifest_timeout_seconds=timeout_seconds)
 
 
 @pytest.mark.parametrize("secret", [None, "", "   "])
@@ -644,3 +679,277 @@ def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypat
 
     assert exc_info.value.status_code == 500
     assert exc_info.value.detail == "random_review_not_configured"
+
+
+def _unchanged_values():
+    return {
+        "org.example.App": {
+            "name": "Example App",
+            "summary": "An example",
+            "developer_name": "Example",
+            "project_license": "MIT",
+        }
+    }
+
+
+def _manifest_pair(
+    arch,
+    *,
+    changed,
+    status=moderation.ostree_manifest.PublishedManifestStatus.PRESENT,
+):
+    published_manifest = None if status.value != "present" else {"value": 1}
+    candidate_manifest = {"value": 2 if changed else 1}
+    return moderation.ostree_manifest.ManifestPair(
+        app_id="org.example.App",
+        ref_name=f"app/org.example.App/{arch}/stable",
+        arch=arch,
+        branch="stable",
+        candidate_commit=("a" if arch == "x86_64" else "b") * 64,
+        published_commit=None if published_manifest is None else "c" * 64,
+        candidate_manifest=candidate_manifest,
+        published_manifest=published_manifest,
+        published_status=status,
+    )
+
+
+def test_disabled_manifest_comparison_preserves_callback(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=False,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda *args, **kwargs: pytest.fail("manifest collector called"),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.add_calls == 0
+    assert harness.db.session.commit_calls == 0
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
+def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, caplog):
+    caplog.set_level(logging.INFO, logger=moderation.__name__)
+    build_refs = [
+        {
+            "ref_name": "app/org.example.App/x86_64/stable",
+            "commit": "a" * 64,
+        },
+        {
+            "ref_name": "app/org.example.App/aarch64/stable",
+            "commit": "b" * 64,
+        },
+    ]
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        build_refs=build_refs,
+        manifest_enabled=True,
+        manifest_timeout=12.5,
+    )
+    captured = {}
+    pairs = (
+        _manifest_pair("x86_64", changed=True),
+        _manifest_pair(
+            "aarch64",
+            changed=False,
+            status=moderation.ostree_manifest.PublishedManifestStatus.REF_MISSING,
+        ),
+    )
+
+    def collect_manifest_pairs(**kwargs):
+        captured.update(kwargs)
+        return pairs
+
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        collect_manifest_pairs,
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert captured == {
+        "candidate_repo_url": "https://dl.flathub.org/build-repo/42",
+        "published_repo_url": "https://published.example/repo",
+        "refs": (
+            moderation.ostree_manifest.CandidateManifestRef(
+                app_id="org.example.App",
+                ref_name="app/org.example.App/x86_64/stable",
+                arch="x86_64",
+                branch="stable",
+                candidate_commit="a" * 64,
+            ),
+            moderation.ostree_manifest.CandidateManifestRef(
+                app_id="org.example.App",
+                ref_name="app/org.example.App/aarch64/stable",
+                arch="aarch64",
+                branch="stable",
+                candidate_commit="b" * 64,
+            ),
+        ),
+        "timeout_seconds": 12.5,
+    }
+    record = next(
+        record
+        for record in caplog.records
+        if record.getMessage() == "Compared embedded manifests"
+    )
+    assert record.ref_count == 2
+    assert record.comparison_group_count == 2
+    assert record.changed_group_count == 1
+    assert record.missing_baseline_count == 1
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
+@pytest.mark.parametrize("target_repo", ["beta", "test"])
+def test_non_stable_build_skips_manifest_comparison(monkeypatch, target_repo):
+    harness = CallbackHarness(
+        monkeypatch,
+        target_repo=target_repo,
+        manifest_enabled=True,
+        build_refs=None,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "normalize_candidate_refs",
+        lambda *args: pytest.fail("manifest refs normalized"),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.add_calls == 0
+    assert harness.emails == []
+
+
+def test_missing_published_manifest_ref_keeps_initial_submission(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        current_values=None,
+        manifest_enabled=True,
+        build_refs=[
+            {
+                "ref_name": "app/org.example.App/x86_64/stable",
+                "commit": "a" * 64,
+            }
+        ],
+    )
+    pair = _manifest_pair(
+        "x86_64",
+        changed=False,
+        status=moderation.ostree_manifest.PublishedManifestStatus.REF_MISSING,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.persisted[0].is_new_submission is True
+
+
+def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        build_refs=[
+            {
+                "ref_name": "app/org.example.App/x86_64/stable",
+                "commit": "a" * 64,
+            }
+        ],
+    )
+    pair = _manifest_pair("x86_64", changed=True)
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    first = harness.call()
+    second = harness.call()
+
+    assert first.requires_review is False
+    assert second.requires_review is False
+    assert harness.db.session.add_calls == 0
+    assert harness.db.session.commit_calls == 0
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
+@pytest.mark.parametrize(
+    "error",
+    [
+        moderation.ostree_manifest.ManifestTransportError("ostree_io"),
+        moderation.ostree_manifest.ManifestTimeoutError("timeout"),
+    ],
+)
+def test_manifest_retrieval_failure_has_no_side_effects(monkeypatch, error):
+    harness = CallbackHarness(
+        monkeypatch,
+        manifest_enabled=True,
+        build_refs=[
+            {
+                "ref_name": "app/org.example.App/x86_64/stable",
+                "commit": "a" * 64,
+            }
+        ],
+    )
+
+    def fail_collection(**kwargs):
+        raise error
+
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        fail_collection,
+    )
+
+    with pytest.raises(HTTPException) as raised:
+        harness.call()
+
+    assert raised.value.status_code == 500
+    assert raised.value.detail == "manifest_retrieval_failed"
+    assert harness.db.session.add_calls == 0
+    assert harness.db.session.commit_calls == 0
+    assert harness.db.session.invalidation_updates == 0
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
+def test_invalid_manifest_build_refs_translate_to_invalid_build(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        manifest_enabled=True,
+        build_refs=[
+            {
+                "ref_name": "app/org.example.App/x86_64/stable",
+                "commit": "invalid",
+            }
+        ],
+    )
+
+    with pytest.raises(HTTPException) as raised:
+        harness.call()
+
+    assert raised.value.status_code == 500
+    assert raised.value.detail == "invalid_build"
+    assert harness.db.session.add_calls == 0
+    assert harness.emails == []

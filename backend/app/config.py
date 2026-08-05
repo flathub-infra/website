@@ -83,6 +83,8 @@ class Settings(BaseSettings):
     # When set to True, moderation reviews will still be logged, but they do not have to be approved for the build to
     # be published.
     moderation_observe_only: bool = False
+    ostree_manifest_comparison_enabled: bool = False
+    ostree_manifest_timeout_seconds: float = Field(default=60.0, gt=0)
 
     random_review_enabled: bool = False
     random_review_rate: float = Field(default=0.01, ge=0.0, le=1.0)

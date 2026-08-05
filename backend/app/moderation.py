@@ -15,7 +15,17 @@ from github import Github, GithubException
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
-from . import audit_log, cache, config, http_client, models, summary, utils, worker
+from . import (
+    audit_log,
+    cache,
+    config,
+    http_client,
+    models,
+    ostree_manifest,
+    summary,
+    utils,
+    worker,
+)
 from .database import get_db, get_json_key
 from .emails import EmailCategory
 from .login_info import LoginStatusDep, moderator_only
@@ -526,6 +536,54 @@ def submit_review_request(
     build_log_url = build_metadata.get("build_log_url")
 
     build_refs = build_extended.get("build_refs")
+    manifest_pairs: tuple[ostree_manifest.ManifestPair, ...] = ()
+    manifest_groups: tuple[tuple[ostree_manifest.ManifestPair, ...], ...] = ()
+    if config.settings.ostree_manifest_comparison_enabled:
+        try:
+            candidate_refs = ostree_manifest.normalize_candidate_refs(build_refs)
+            manifest_pairs = ostree_manifest.collect_manifest_pairs(
+                candidate_repo_url=(
+                    f"https://dl.flathub.org/build-repo/{review_request.build_id}"
+                ),
+                published_repo_url=config.settings.repo_url,
+                refs=candidate_refs,
+                timeout_seconds=config.settings.ostree_manifest_timeout_seconds,
+            )
+            manifest_groups = ostree_manifest.group_identical_manifest_pairs(
+                manifest_pairs
+            )
+        except ostree_manifest.InvalidBuildRefError as exc:
+            raise HTTPException(status_code=500, detail="invalid_build") from exc
+        except ostree_manifest.ManifestRetrievalError as exc:
+            logger.exception(
+                "OSTree manifest retrieval failed",
+                extra={
+                    "build_id": review_request.build_id,
+                    "job_id": review_request.job_id,
+                    "category": exc.category,
+                },
+            )
+            raise HTTPException(
+                status_code=500, detail="manifest_retrieval_failed"
+            ) from exc
+
+        logger.info(
+            "Compared embedded manifests",
+            extra={
+                "build_id": review_request.build_id,
+                "job_id": review_request.job_id,
+                "ref_count": len(manifest_pairs),
+                "comparison_group_count": len(manifest_groups),
+                "changed_group_count": sum(
+                    group[0].changed is True for group in manifest_groups
+                ),
+                "missing_baseline_count": sum(
+                    pair.published_status
+                    is not ostree_manifest.PublishedManifestStatus.PRESENT
+                    for pair in manifest_pairs
+                ),
+            },
+        )
     if random_review_enabled and not isinstance(build_refs, list):
         raise HTTPException(status_code=500, detail="invalid_build")
     build_ref_arches = {
