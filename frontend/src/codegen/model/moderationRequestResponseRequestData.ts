@@ -4,6 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ManifestSourceOriginRequestData } from "./manifestSourceOriginRequestData"
 import type { RequestData } from "./requestData"
 
-export type ModerationRequestResponseRequestData = RequestData | null
+export type ModerationRequestResponseRequestData =
+  | RequestData
+  | ManifestSourceOriginRequestData
+  | null

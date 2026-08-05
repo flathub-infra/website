@@ -5,6 +5,7 @@ import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
+import ManifestSourceOriginChangesRow from "./ManifestSourceOriginChangesRow"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../Breadcrumbs"
@@ -288,5 +289,9 @@ export const getReviewRow = (request: ModerationRequestResponse) => {
   switch (request.request_type) {
     case "appdata":
       return <AppstreamChangesRow key={request.id} request={request} />
+    case "manifest":
+      return (
+        <ManifestSourceOriginChangesRow key={request.id} request={request} />
+      )
   }
 }
