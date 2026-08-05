@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import tempfile
@@ -5,7 +6,7 @@ from collections.abc import Sequence, Set
 from dataclasses import dataclass
 from enum import StrEnum
 from threading import Timer
-from typing import Any
+from typing import Any, cast
 
 import gi
 
@@ -14,7 +15,7 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree  # type: ignore
 
-from . import summary
+from . import summary, url_origin
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,167 @@ class ManifestPair:
             if self.published_manifest is None
             else self.candidate_manifest != self.published_manifest
         )
+
+
+@dataclass(frozen=True)
+class ManifestSourceIssue:
+    location: str
+    reason: str
+
+
+@dataclass
+class _ManifestSourceInventory:
+    locations_by_origin: dict[str, tuple[str, ...]]
+    invalid_issues_by_signature: dict[str, tuple[ManifestSourceIssue, ...]]
+    structural_issues: tuple[ManifestSourceIssue, ...]
+
+
+@dataclass(frozen=True)
+class ManifestSourceOriginFinding:
+    app_id: str
+    origins_added: tuple[str, ...]
+    origins_removed: tuple[str, ...]
+    locations_by_origin: dict[str, tuple[str, ...]]
+    candidate_issues: tuple[ManifestSourceIssue, ...]
+    arches: tuple[str, ...]
+
+
+def _collect_manifest_source_inventory(
+    manifest: dict[str, Any],
+) -> _ManifestSourceInventory:
+    origin_locations: dict[str, set[str]] = {}
+    invalid_issues: dict[str, set[ManifestSourceIssue]] = {}
+    structural_issues: set[ManifestSourceIssue] = set()
+
+    def add_structural_issue(location: str, reason: str) -> None:
+        structural_issues.add(ManifestSourceIssue(location=location, reason=reason))
+
+    def collect_url(
+        value: object,
+        location: str,
+        *,
+        source_type: object,
+    ) -> None:
+        try:
+            origin = url_origin.normalize_url_origin(
+                value,
+                allowed_schemes=None,
+                ignored_schemes=frozenset({"file"}),
+            )
+        except url_origin.InvalidUrlOrigin as exc:
+            if source_type == "git" and exc.reason == "missing-scheme":
+                return
+            serialized = json.dumps(
+                value,
+                ensure_ascii=True,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            signature = hashlib.sha256(f"remote-url{serialized}".encode()).hexdigest()
+            invalid_issues.setdefault(signature, set()).add(
+                ManifestSourceIssue(location=location, reason=exc.reason)
+            )
+            return
+        if origin is not None:
+            origin_locations.setdefault(origin, set()).add(location)
+
+    def walk_sources(sources: object, module_location: str) -> None:
+        sources_location = f"{module_location}.sources"
+        if not isinstance(sources, list):
+            add_structural_issue(sources_location, "invalid-sources")
+            return
+        for source_index, source in enumerate(sources):
+            source_location = f"{sources_location}[{source_index}]"
+            if isinstance(source, str):
+                add_structural_issue(source_location, "unresolved-source-include")
+                continue
+            if not isinstance(source, dict):
+                add_structural_issue(source_location, "invalid-source")
+                continue
+            source = cast("dict[str, Any]", source)
+            if source.get("type") == "extra-data":
+                continue
+            source_type = source.get("type")
+            if "url" in source:
+                collect_url(
+                    source["url"],
+                    f"{source_location}.url",
+                    source_type=source_type,
+                )
+            if "mirror-urls" in source:
+                mirrors = source["mirror-urls"]
+                mirrors_location = f"{source_location}.mirror-urls"
+                if not isinstance(mirrors, list):
+                    add_structural_issue(
+                        mirrors_location,
+                        "invalid-mirror-urls",
+                    )
+                else:
+                    for mirror_index, mirror in enumerate(mirrors):
+                        collect_url(
+                            mirror,
+                            f"{mirrors_location}[{mirror_index}]",
+                            source_type=source_type,
+                        )
+
+    def walk_modules(modules: object, parent: str) -> None:
+        modules_location = f"{parent}.modules" if parent else "modules"
+        if not isinstance(modules, list):
+            add_structural_issue(modules_location, "invalid-modules")
+            return
+
+        name_counts: dict[str, int] = {}
+        for module in modules:
+            if isinstance(module, dict):
+                name = module.get("name")
+                if isinstance(name, str) and name:
+                    name_counts[name] = name_counts.get(name, 0) + 1
+
+        for module_index, module in enumerate(modules):
+            if isinstance(module, dict):
+                name = module.get("name")
+                segment = (
+                    f"[{json.dumps(name, ensure_ascii=True)}]"
+                    if isinstance(name, str) and name and name_counts.get(name) == 1
+                    else f"[{module_index}]"
+                )
+            else:
+                segment = f"[{module_index}]"
+            module_location = f"{modules_location}{segment}"
+            if isinstance(module, str):
+                add_structural_issue(
+                    module_location,
+                    "unresolved-module-include",
+                )
+                continue
+            if not isinstance(module, dict):
+                add_structural_issue(module_location, "invalid-module")
+                continue
+            walk_sources(module.get("sources", []), module_location)
+            walk_modules(module.get("modules", []), module_location)
+
+    if "sources" in manifest:
+        add_structural_issue("sources", "unsupported-root-sources")
+    walk_modules(manifest.get("modules", []), "")
+
+    return _ManifestSourceInventory(
+        locations_by_origin={
+            origin: tuple(sorted(locations))
+            for origin, locations in sorted(origin_locations.items())
+        },
+        invalid_issues_by_signature={
+            signature: tuple(
+                sorted(issues, key=lambda issue: (issue.location, issue.reason))
+            )
+            for signature, issues in sorted(invalid_issues.items())
+        },
+        structural_issues=tuple(
+            sorted(
+                structural_issues,
+                key=lambda issue: (issue.location, issue.reason),
+            )
+        ),
+    )
 
 
 class InvalidBuildRefError(ValueError):
@@ -428,3 +590,115 @@ def group_identical_manifest_pairs(
         )
         groups.setdefault(key, []).append(pair)
     return tuple(tuple(group) for group in groups.values())
+
+
+def find_manifest_source_origin_changes(
+    groups: Sequence[Sequence[ManifestPair]],
+) -> tuple[ManifestSourceOriginFinding, ...]:
+    merged: dict[
+        tuple[
+            str,
+            tuple[str, ...],
+            tuple[str, ...],
+            tuple[tuple[str, tuple[str, ...]], ...],
+            tuple[tuple[str, str], ...],
+        ],
+        ManifestSourceOriginFinding,
+    ] = {}
+
+    for group in groups:
+        if not group:
+            continue
+        pair = group[0]
+        if (
+            pair.published_status is not PublishedManifestStatus.PRESENT
+            or pair.published_manifest is None
+        ):
+            continue
+
+        published = _collect_manifest_source_inventory(pair.published_manifest)
+        candidate = _collect_manifest_source_inventory(pair.candidate_manifest)
+        arches = tuple(sorted({item.arch for item in group}))
+        if published.structural_issues or candidate.structural_issues:
+            logger.warning(
+                "Manifest source origin comparison is unreliable",
+                extra={
+                    "app_id": pair.app_id,
+                    "affected_arches": arches,
+                    "structural_issues": [
+                        {"location": issue.location, "reason": issue.reason}
+                        for issue in sorted(
+                            (
+                                *published.structural_issues,
+                                *candidate.structural_issues,
+                            ),
+                            key=lambda issue: (issue.location, issue.reason),
+                        )
+                    ],
+                },
+            )
+            continue
+
+        candidate_origins = set(candidate.locations_by_origin)
+        published_origins = set(published.locations_by_origin)
+        added = tuple(sorted(candidate_origins - published_origins))
+        removed = tuple(sorted(published_origins - candidate_origins))
+        introduced_invalid = set(candidate.invalid_issues_by_signature) - set(
+            published.invalid_issues_by_signature
+        )
+        issues = tuple(
+            sorted(
+                (
+                    issue
+                    for signature in introduced_invalid
+                    for issue in candidate.invalid_issues_by_signature[signature]
+                ),
+                key=lambda issue: (issue.location, issue.reason),
+            )
+        )
+        if not added and not issues:
+            continue
+
+        locations = {origin: candidate.locations_by_origin[origin] for origin in added}
+        merge_key = (
+            pair.app_id,
+            added,
+            removed,
+            tuple(sorted(locations.items())),
+            tuple((issue.location, issue.reason) for issue in issues),
+        )
+        existing = merged.get(merge_key)
+        if existing is None:
+            merged[merge_key] = ManifestSourceOriginFinding(
+                app_id=pair.app_id,
+                origins_added=added,
+                origins_removed=removed,
+                locations_by_origin=locations,
+                candidate_issues=issues,
+                arches=arches,
+            )
+        else:
+            merged[merge_key] = ManifestSourceOriginFinding(
+                app_id=existing.app_id,
+                origins_added=existing.origins_added,
+                origins_removed=existing.origins_removed,
+                locations_by_origin=existing.locations_by_origin,
+                candidate_issues=existing.candidate_issues,
+                arches=tuple(sorted(set(existing.arches) | set(arches))),
+            )
+
+    return tuple(
+        sorted(
+            merged.values(),
+            key=lambda finding: (
+                finding.app_id,
+                finding.origins_added,
+                finding.origins_removed,
+                tuple(sorted(finding.locations_by_origin.items())),
+                tuple(
+                    (issue.location, issue.reason) for issue in finding.candidate_issues
+                ),
+                finding.arches,
+            ),
+        )
+    )

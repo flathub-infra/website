@@ -104,6 +104,7 @@ class CallbackHarness:
         target_repo="stable",
         build_refs=None,
         manifest_enabled=False,
+        manifest_gating_enabled=False,
         manifest_timeout=60.0,
         published_repo_url="https://published.example/repo",
         direct_upload_app_ids=(),
@@ -125,7 +126,7 @@ class CallbackHarness:
             else [
                 {
                     "ref_name": "app/org.example/x86_64/stable",
-                    "commit": "abc123",
+                    "commit": "a" * 64,
                 }
             ]
         )
@@ -146,6 +147,11 @@ class CallbackHarness:
             config.settings,
             "ostree_manifest_comparison_enabled",
             manifest_enabled,
+        )
+        monkeypatch.setattr(
+            config.settings,
+            "ostree_manifest_source_origin_gating_enabled",
+            manifest_gating_enabled,
         )
         monkeypatch.setattr(
             config.settings,
@@ -233,11 +239,13 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "RANDOM_REVIEW_RATE",
         "RANDOM_REVIEW_SECRET",
         "OSTREE_MANIFEST_COMPARISON_ENABLED",
+        "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED",
         "OSTREE_MANIFEST_TIMEOUT_SECONDS",
         "random_review_enabled",
         "random_review_rate",
         "random_review_secret",
         "ostree_manifest_comparison_enabled",
+        "ostree_manifest_source_origin_gating_enabled",
         "ostree_manifest_timeout_seconds",
     ):
         monkeypatch.delenv(name, raising=False)
@@ -248,6 +256,7 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
     assert settings.random_review_rate == 0.01
     assert settings.random_review_secret is None
     assert settings.ostree_manifest_comparison_enabled is False
+    assert settings.ostree_manifest_source_origin_gating_enabled is False
     assert settings.ostree_manifest_timeout_seconds == 60.0
 
 
@@ -267,6 +276,17 @@ def test_settings_reject_non_positive_ostree_manifest_timeout(timeout_seconds):
 def test_settings_require_secret_when_enabled(secret):
     with pytest.raises(ValidationError):
         config.Settings(random_review_enabled=True, random_review_secret=secret)
+
+
+def test_manifest_origin_gate_requires_manifest_comparison():
+    with pytest.raises(
+        ValidationError,
+        match="OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED",
+    ):
+        config.Settings(
+            ostree_manifest_comparison_enabled=False,
+            ostree_manifest_source_origin_gating_enabled=True,
+        )
 
 
 def test_canonical_identity_is_independent_of_reference_order():
@@ -671,6 +691,68 @@ def test_random_rejection_issue_uses_review_reason(monkeypatch):
     assert "New value" not in created["body"]
 
 
+def test_manifest_rejection_issue_formats_source_origin_data(monkeypatch):
+    created = {}
+
+    class FakeRepo:
+        def get_pulls(self, **kwargs):
+            return []
+
+        def create_issue(self, title, body):
+            created["title"] = title
+            created["body"] = body
+            return SimpleNamespace()
+
+    class FakeGithub:
+        def __init__(self, token):
+            pass
+
+        def get_repo(self, name):
+            return FakeRepo()
+
+    monkeypatch.setattr(config.settings, "github_bot_token", "token")
+    monkeypatch.setattr(moderation, "Github", FakeGithub)
+    request = SimpleNamespace(
+        appid="org.example.App",
+        build_id=123,
+        build_log_url="https://flathub.org/builds/123",
+        comment="Not acceptable",
+        request_type=ModerationRequestType.MANIFEST,
+        request_data=json.dumps(
+            {
+                "findings": [
+                    {
+                        "origins_added": ["https://downloads.example"],
+                        "origins_removed": ["https://old.example"],
+                        "locations_by_origin": {
+                            "https://downloads.example": [
+                                'modules["app"].sources[0].url'
+                            ]
+                        },
+                        "candidate_issues": [
+                            {
+                                "location": "modules[1].sources[0].url",
+                                "reason": "missing-scheme",
+                            }
+                        ],
+                        "arches": ["aarch64", "x86_64"],
+                    }
+                ]
+            }
+        ),
+    )
+
+    moderation.create_github_build_rejection_issue(request)
+
+    assert "https://downloads.example" in created["body"]
+    assert 'modules["app"].sources[0].url' in created["body"]
+    assert "https://old.example" in created["body"]
+    assert "missing-scheme" in created["body"]
+    assert "aarch64, x86_64" in created["body"]
+    assert "| Field |" not in created["body"]
+    assert "New value" not in created["body"]
+
+
 def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
@@ -722,6 +804,27 @@ def _manifest_pair(
         published_manifest=published_manifest,
         published_status=status,
     )
+
+
+def _origin_manifest_pair(arch="x86_64", *, app_id="org.example.App"):
+    pair = _manifest_pair(arch, changed=True)
+    pair.app_id = app_id
+    pair.ref_name = f"app/{app_id}/{arch}/stable"
+    pair.published_manifest = {"modules": []}
+    pair.candidate_manifest = {
+        "modules": [
+            {
+                "name": "app",
+                "sources": [
+                    {
+                        "type": "archive",
+                        "url": "https://downloads.example/archive.tar",
+                    }
+                ],
+            }
+        ]
+    }
+    return pair
 
 
 def test_disabled_manifest_comparison_preserves_callback(monkeypatch):
@@ -998,3 +1101,268 @@ def test_invalid_manifest_build_refs_translate_to_invalid_build(monkeypatch):
     assert raised.value.detail == "invalid_build"
     assert harness.db.session.add_calls == 0
     assert harness.emails == []
+
+
+def test_initial_submission_does_not_create_manifest_request(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=None,
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert [request.request_type for request in harness.db.session.persisted] == [
+        ModerationRequestType.APPDATA
+    ]
+
+
+def test_skip_list_does_not_create_manifest_request(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        skipped=("org.example.App",),
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+
+
+def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
+    caplog.set_level(logging.INFO, logger=moderation.__name__)
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=False,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    record = next(
+        record
+        for record in caplog.records
+        if record.getMessage() == "Evaluated manifest source origin gate for app"
+    )
+    assert record.would_require_review is True
+    assert record.introduced_origins == ["https://downloads.example"]
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
+def test_manifest_gate_creates_exact_stable_request(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.MANIFEST
+    assert json.loads(request.request_data) == {
+        "findings": [
+            {
+                "arches": ["x86_64"],
+                "candidate_issues": [],
+                "locations_by_origin": {
+                    "https://downloads.example": ['modules["app"].sources[0].url']
+                },
+                "origins_added": ["https://downloads.example"],
+                "origins_removed": [],
+            }
+        ]
+    }
+    assert request.request_data == json.dumps(
+        json.loads(request.request_data),
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    assert request.build_id == 42
+    assert request.job_id == 7
+    assert request.build_log_url == "https://logs.example/build"
+    assert request.is_new_submission is False
+    assert len(harness.emails) == 1
+
+
+@pytest.mark.parametrize(
+    ("handled_at", "is_approved", "expected"),
+    [
+        (None, None, True),
+        ("handled", True, False),
+        ("handled", False, False),
+    ],
+)
+def test_identical_manifest_callback_reuses_request(
+    monkeypatch, handled_at, is_approved, expected
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+    first = harness.call()
+    request = harness.db.session.persisted[0]
+    request.handled_at = handled_at
+    request.is_approved = is_approved
+
+    second = harness.call()
+
+    assert first.requires_review is True
+    assert second.requires_review is expected
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.add_calls == 1
+    assert harness.db.session.commit_calls == 1
+    assert harness.db.session.invalidation_updates == 1
+    assert len(harness.emails) == 1
+
+
+def test_manifest_request_suppresses_random_sampling(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=True,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+    monkeypatch.setattr(
+        moderation,
+        "_random_review_sample_value",
+        lambda *args: pytest.fail("random review sampled"),
+    )
+
+    assert harness.call().requires_review is True
+    assert (
+        harness.db.session.persisted[0].request_type == ModerationRequestType.MANIFEST
+    )
+
+
+def test_manifest_request_is_persisted_in_observe_only_mode(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(config.settings, "moderation_observe_only", True)
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert (
+        harness.db.session.persisted[0].request_type == ModerationRequestType.MANIFEST
+    )
+    assert harness.emails == []
+
+
+def test_manifest_finding_without_appstream_is_logged_not_persisted(
+    monkeypatch, caplog
+):
+    caplog.set_level(logging.INFO, logger=moderation.__name__)
+    harness = CallbackHarness(
+        monkeypatch,
+        app_ids=(),
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    assert any(
+        record.getMessage() == "Evaluated manifest source origin gate for app"
+        and record.reason == "missing-appstream"
+        for record in caplog.records
+    )
+
+
+@pytest.mark.parametrize("conflict", ["job", "data", "multiple"])
+def test_conflicting_manifest_request_fails(monkeypatch, conflict):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_origin_manifest_pair(),),
+    )
+    harness.call()
+    request = harness.db.session.persisted[0]
+    if conflict == "job":
+        request.job_id += 1
+    elif conflict == "data":
+        request.request_data = "{}"
+    else:
+        harness.db.session.persisted.append(request)
+
+    with pytest.raises(HTTPException) as raised:
+        harness.call()
+
+    assert raised.value.status_code == 500
+    assert raised.value.detail == "conflicting_manifest_review_request"
