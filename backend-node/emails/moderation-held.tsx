@@ -54,15 +54,17 @@ export interface AppdataRequest {
   isNewSubmission: boolean
 }
 
+interface ManifestFinding {
+  origins_added: string[]
+  origins_removed: string[]
+  locations_by_origin: Record<string, string[]>
+  arches: string[]
+}
+
 export interface ManifestRequest {
   requestType: "manifest"
   requestData: {
-    findings: {
-      origins_added: string[]
-      origins_removed: string[]
-      locations_by_origin: Record<string, string[]>
-      arches: string[]
-    }[]
+    findings: ManifestFinding[]
   }
   isNewSubmission: false
 }
@@ -89,6 +91,45 @@ const ArrayWithNewlines = ({ array }: { array: string[] }) => {
       <br />
     </span>
   ))
+}
+const sourceModule = (location: string) => {
+  const modules = Array.from(
+    location.matchAll(/modules\[("(?:\\.|[^"\\])*"|\d+)\]/g),
+    ([, segment]) =>
+      segment.startsWith('"') ? (JSON.parse(segment) as string) : segment,
+  )
+  return modules.length > 0 ? modules.join(" / ") : location
+}
+const changesByModule = (finding: ManifestFinding) => {
+  const changes = new Map<
+    string,
+    { added: Set<string>; removed: Set<string> }
+  >()
+
+  const addOrigins = (origins: string[], change: "added" | "removed") => {
+    for (const origin of new Set(origins)) {
+      const modules = Array.from(
+        new Set((finding.locations_by_origin[origin] ?? []).map(sourceModule)),
+      )
+      for (const module of modules.length > 0 ? modules : ["—"]) {
+        const moduleChanges = changes.get(module) ?? {
+          added: new Set<string>(),
+          removed: new Set<string>(),
+        }
+        moduleChanges[change].add(origin)
+        changes.set(module, moduleChanges)
+      }
+    }
+  }
+
+  addOrigins(finding.origins_removed, "removed")
+  addOrigins(finding.origins_added, "added")
+
+  return Array.from(changes, ([module, origins]) => ({
+    module,
+    added: Array.from(origins.added).sort(),
+    removed: Array.from(origins.removed).sort(),
+  })).sort((left, right) => left.module.localeCompare(right.module))
 }
 
 const TableRow = ({
@@ -218,54 +259,52 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
   if (request.requestType === "manifest") {
     return (
       <Section className="mt-8">
-        {request.requestData.findings.map((finding, findingIndex) => (
-          <Section
-            className="mb-4 rounded border border-solid border-gray-300 p-4"
-            key={`${finding.arches.join(",")}-${findingIndex}`}
-          >
-            <Text className="mb-1 font-bold">New origins</Text>
-            {Array.from(new Set(finding.origins_added)).map((origin) => (
-              <div key={origin}>
-                <code>{origin}</code>
-                <Text className="mb-1 mt-2">Source locations</Text>
-                <ul>
-                  {Array.from(
-                    new Set(finding.locations_by_origin[origin] ?? []),
-                  ).map((location) => (
-                    <li key={location}>
-                      <code>{location}</code>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-            {finding.origins_removed.length > 0 && (
-              <>
-                <Text className="mb-1 font-bold">
-                  Previous origins no longer used
+        {request.requestData.findings.flatMap((finding, findingIndex) =>
+          changesByModule(finding).map((change) => (
+            <Section
+              className="border-b border-solid border-gray-300 py-3"
+              key={`${findingIndex}-${change.module}`}
+            >
+              <table className="w-full">
+                <tr>
+                  <td>
+                    <strong>
+                      <code>{change.module}</code>
+                    </strong>
+                  </td>
+                  <td className="text-right">
+                    {Array.from(new Set(finding.arches)).map((arch, index) => (
+                      <span key={arch}>
+                        {index > 0 && ", "}
+                        <code>{arch}</code>
+                      </span>
+                    ))}
+                  </td>
+                </tr>
+              </table>
+              {change.removed.map((origin) => (
+                <Text
+                  className="my-1 break-all text-gray-500"
+                  key={`removed-${origin}`}
+                >
+                  <span aria-hidden="true">− </span>
+                  <span className="sr-only">Removed: </span>
+                  <code>{origin}</code>
                 </Text>
-                <ul>
-                  {Array.from(new Set(finding.origins_removed)).map(
-                    (origin) => (
-                      <li key={origin}>
-                        <code>{origin}</code>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </>
-            )}
-            <Text className="mb-1 font-bold">Affected architectures</Text>
-            <Text>
-              {Array.from(new Set(finding.arches)).map((arch, index) => (
-                <span key={arch}>
-                  {index > 0 && ", "}
-                  <code>{arch}</code>
-                </span>
               ))}
-            </Text>
-          </Section>
-        ))}
+              {change.added.map((origin) => (
+                <Text
+                  className="my-1 break-all font-medium text-amber-700"
+                  key={`added-${origin}`}
+                >
+                  <span aria-hidden="true">+ </span>
+                  <span className="sr-only">Added: </span>
+                  <code>{origin}</code>
+                </Text>
+              ))}
+            </Section>
+          )),
+        )}
       </Section>
     )
   }

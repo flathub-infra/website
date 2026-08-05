@@ -25,8 +25,10 @@ const manifestRequest: Request = {
         origins_removed: ["https://old.example"],
         locations_by_origin: {
           "https://downloads.example": [
+            'modules["libfoo"].sources[0].url',
             'modules["libfoo"].sources[0].mirror-urls[0]',
           ],
+          "https://old.example": ['modules["libfoo"].sources[0].url'],
         },
         arches: ["aarch64", "x86_64"],
       },
@@ -38,10 +40,14 @@ const manifestRequest: Request = {
 function assertManifestRendering(html: string) {
   assert.match(html, /https:\/\/downloads\.example/)
   assert.match(html, /https:\/\/old\.example/)
-  assert.match(html, /modules.*libfoo/)
+  assert.match(html, /libfoo/)
   assert.match(html, /aarch64/)
   assert.match(html, /x86_64/)
-  assert.doesNotMatch(html, /&quot;modules&quot;.*&quot;sources&quot;/)
+  assert.match(html, /Added/)
+  assert.match(html, /Removed/)
+  assert.equal(html.match(/libfoo/g)?.length, 1)
+  assert.doesNotMatch(html, /modules\[/)
+  assert.doesNotMatch(html, /\.sources/)
 }
 
 test("renders random human review without a metadata diff", async () => {
