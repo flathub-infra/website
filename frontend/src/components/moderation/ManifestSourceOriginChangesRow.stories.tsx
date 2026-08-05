@@ -39,20 +39,7 @@ export const Primary = () => {
               'modules["libfoo"].sources[0].mirror-urls[0]',
             ],
           },
-          candidate_issues: [],
           arches: ["aarch64", "x86_64"],
-        },
-        {
-          origins_added: [],
-          origins_removed: [],
-          locations_by_origin: {},
-          candidate_issues: [
-            {
-              location: "modules[1].sources[0].url",
-              reason: "missing-scheme",
-            },
-          ],
-          arches: ["x86_64"],
         },
       ],
     },

@@ -4,13 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ManifestSourceIssueData } from "./manifestSourceIssueData"
 import type { ManifestSourceOriginFindingDataLocationsByOrigin } from "./manifestSourceOriginFindingDataLocationsByOrigin"
 
 export interface ManifestSourceOriginFindingData {
   origins_added: string[]
   origins_removed: string[]
   locations_by_origin: ManifestSourceOriginFindingDataLocationsByOrigin
-  candidate_issues: ManifestSourceIssueData[]
   arches: string[]
 }

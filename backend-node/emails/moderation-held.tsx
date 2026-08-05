@@ -61,10 +61,6 @@ export interface ManifestRequest {
       origins_added: string[]
       origins_removed: string[]
       locations_by_origin: Record<string, string[]>
-      candidate_issues: {
-        location: string
-        reason: string
-      }[]
       arches: string[]
     }[]
   }
@@ -256,25 +252,6 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
                       </li>
                     ),
                   )}
-                </ul>
-              </>
-            )}
-            {finding.candidate_issues.length > 0 && (
-              <>
-                <Text className="mb-1 font-bold">Source URL issues</Text>
-                <ul>
-                  {Array.from(
-                    new Map(
-                      finding.candidate_issues.map((issue) => [
-                        `${issue.location}\u0000${issue.reason}`,
-                        issue,
-                      ]),
-                    ).values(),
-                  ).map((issue) => (
-                    <li key={`${issue.location}\u0000${issue.reason}`}>
-                      <code>{issue.location}</code>: <code>{issue.reason}</code>
-                    </li>
-                  ))}
                 </ul>
               </>
             )}

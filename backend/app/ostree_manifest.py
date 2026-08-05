@@ -1,4 +1,3 @@
-import hashlib
 import json
 import logging
 import tempfile
@@ -66,7 +65,6 @@ class ManifestSourceIssue:
 @dataclass
 class _ManifestSourceInventory:
     locations_by_origin: dict[str, tuple[str, ...]]
-    invalid_issues_by_signature: dict[str, tuple[ManifestSourceIssue, ...]]
     structural_issues: tuple[ManifestSourceIssue, ...]
 
 
@@ -76,7 +74,6 @@ class ManifestSourceOriginFinding:
     origins_added: tuple[str, ...]
     origins_removed: tuple[str, ...]
     locations_by_origin: dict[str, tuple[str, ...]]
-    candidate_issues: tuple[ManifestSourceIssue, ...]
     arches: tuple[str, ...]
 
 
@@ -84,7 +81,6 @@ def _collect_manifest_source_inventory(
     manifest: dict[str, Any],
 ) -> _ManifestSourceInventory:
     origin_locations: dict[str, set[str]] = {}
-    invalid_issues: dict[str, set[ManifestSourceIssue]] = {}
     structural_issues: set[ManifestSourceIssue] = set()
 
     def add_structural_issue(location: str, reason: str) -> None:
@@ -93,8 +89,6 @@ def _collect_manifest_source_inventory(
     def collect_url(
         value: object,
         location: str,
-        *,
-        source_type: object,
     ) -> None:
         try:
             origin = url_origin.normalize_url_origin(
@@ -102,19 +96,7 @@ def _collect_manifest_source_inventory(
                 allowed_schemes=None,
                 ignored_schemes=frozenset({"file"}),
             )
-        except url_origin.InvalidUrlOrigin as exc:
-            if source_type == "git" and exc.reason == "missing-scheme":
-                return
-            serialized = json.dumps(
-                value,
-                ensure_ascii=True,
-                sort_keys=True,
-                separators=(",", ":"),
-            )
-            signature = hashlib.sha256(f"remote-url{serialized}".encode()).hexdigest()
-            invalid_issues.setdefault(signature, set()).add(
-                ManifestSourceIssue(location=location, reason=exc.reason)
-            )
+        except url_origin.InvalidUrlOrigin:
             return
         if origin is not None:
             origin_locations.setdefault(origin, set()).add(location)
@@ -135,12 +117,10 @@ def _collect_manifest_source_inventory(
             source = cast("dict[str, Any]", source)
             if source.get("type") == "extra-data":
                 continue
-            source_type = source.get("type")
             if "url" in source:
                 collect_url(
                     source["url"],
                     f"{source_location}.url",
-                    source_type=source_type,
                 )
             if "mirror-urls" in source:
                 mirrors = source["mirror-urls"]
@@ -155,7 +135,6 @@ def _collect_manifest_source_inventory(
                         collect_url(
                             mirror,
                             f"{mirrors_location}[{mirror_index}]",
-                            source_type=source_type,
                         )
 
     def walk_modules(modules: object, parent: str) -> None:
@@ -202,12 +181,6 @@ def _collect_manifest_source_inventory(
         locations_by_origin={
             origin: tuple(sorted(locations))
             for origin, locations in sorted(origin_locations.items())
-        },
-        invalid_issues_by_signature={
-            signature: tuple(
-                sorted(issues, key=lambda issue: (issue.location, issue.reason))
-            )
-            for signature, issues in sorted(invalid_issues.items())
         },
         structural_issues=tuple(
             sorted(
@@ -601,7 +574,6 @@ def find_manifest_source_origin_changes(
             tuple[str, ...],
             tuple[str, ...],
             tuple[tuple[str, tuple[str, ...]], ...],
-            tuple[tuple[str, str], ...],
         ],
         ManifestSourceOriginFinding,
     ] = {}
@@ -643,20 +615,7 @@ def find_manifest_source_origin_changes(
         published_origins = set(published.locations_by_origin)
         added = tuple(sorted(candidate_origins - published_origins))
         removed = tuple(sorted(published_origins - candidate_origins))
-        introduced_invalid = set(candidate.invalid_issues_by_signature) - set(
-            published.invalid_issues_by_signature
-        )
-        issues = tuple(
-            sorted(
-                (
-                    issue
-                    for signature in introduced_invalid
-                    for issue in candidate.invalid_issues_by_signature[signature]
-                ),
-                key=lambda issue: (issue.location, issue.reason),
-            )
-        )
-        if not added and not issues:
+        if not added:
             continue
 
         locations = {origin: candidate.locations_by_origin[origin] for origin in added}
@@ -665,7 +624,6 @@ def find_manifest_source_origin_changes(
             added,
             removed,
             tuple(sorted(locations.items())),
-            tuple((issue.location, issue.reason) for issue in issues),
         )
         existing = merged.get(merge_key)
         if existing is None:
@@ -674,7 +632,6 @@ def find_manifest_source_origin_changes(
                 origins_added=added,
                 origins_removed=removed,
                 locations_by_origin=locations,
-                candidate_issues=issues,
                 arches=arches,
             )
         else:
@@ -683,7 +640,6 @@ def find_manifest_source_origin_changes(
                 origins_added=existing.origins_added,
                 origins_removed=existing.origins_removed,
                 locations_by_origin=existing.locations_by_origin,
-                candidate_issues=existing.candidate_issues,
                 arches=tuple(sorted(set(existing.arches) | set(arches))),
             )
 
@@ -695,9 +651,6 @@ def find_manifest_source_origin_changes(
                 finding.origins_added,
                 finding.origins_removed,
                 tuple(sorted(finding.locations_by_origin.items())),
-                tuple(
-                    (issue.location, issue.reason) for issue in finding.candidate_issues
-                ),
                 finding.arches,
             ),
         )

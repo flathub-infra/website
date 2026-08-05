@@ -172,16 +172,10 @@ class RequestData(BaseModel):
     current_values: dict[str, str | None | list | None | dict | None | bool | None]
 
 
-class ManifestSourceIssueData(BaseModel):
-    location: str
-    reason: str
-
-
 class ManifestSourceOriginFindingData(BaseModel):
     origins_added: list[str]
     origins_removed: list[str]
     locations_by_origin: dict[str, list[str]]
-    candidate_issues: list[ManifestSourceIssueData]
     arches: list[str]
 
 
@@ -271,11 +265,6 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
                     body += f"  - Source location: `{location}`\n"
             for origin in finding["origins_removed"]:
                 body += f"\n- Previous origin no longer used: `{origin}`\n"
-            for issue in finding["candidate_issues"]:
-                body += (
-                    f"\n- Source URL issue: `{issue['location']}` "
-                    f"(`{issue['reason']}`)\n"
-                )
     else:
         body += "\n## Changes\n| Field | Old value | New value |\n| --- | --- | --- |\n"
         for field in request_data["keys"]:
@@ -486,10 +475,6 @@ def _manifest_request_data(
                         origin: list(locations)
                         for origin, locations in finding.locations_by_origin.items()
                     },
-                    "candidate_issues": [
-                        {"location": issue.location, "reason": issue.reason}
-                        for issue in finding.candidate_issues
-                    ],
                     "arches": list(finding.arches),
                 }
                 for finding in findings
@@ -516,13 +501,6 @@ def _log_manifest_source_origin_gate(
         {origin for finding in findings for origin in finding.origins_removed}
     )
     affected_arches = sorted({arch for finding in findings for arch in finding.arches})
-    candidate_issues = sorted(
-        {
-            (issue.location, issue.reason)
-            for finding in findings
-            for issue in finding.candidate_issues
-        }
-    )
     extra: dict[str, Any] = {
         "build_id": review_request.build_id,
         "job_id": review_request.job_id,
@@ -530,10 +508,6 @@ def _log_manifest_source_origin_gate(
         "introduced_origins": introduced_origins,
         "removed_origins": removed_origins,
         "affected_arches": affected_arches,
-        "candidate_issues": [
-            {"location": location, "reason": issue_reason}
-            for location, issue_reason in candidate_issues
-        ],
         "would_require_review": would_require_review,
     }
     if reason is not None:

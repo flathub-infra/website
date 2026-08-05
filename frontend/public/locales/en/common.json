@@ -200,7 +200,6 @@
   "moderation-manifest-origins-added": "New origins",
   "moderation-manifest-origins-removed": "Previous origins no longer used",
   "moderation-manifest-source-locations": "Source locations",
-  "moderation-manifest-candidate-issues": "Source URL issues",
   "moderation-manifest-affected-architectures": "Affected architectures",
   "moderation-appstream": "Appstream",
   "moderation-random-review": "Randomly selected for human review",

@@ -537,6 +537,7 @@ def source_findings(candidate, published, *, arch="x86_64"):
             source_manifest(
                 source("file", path="local", paths=["one"], url="file:///tmp/a"),
                 source("git", url="../local-repo"),
+                source(url="relative/archive"),
             ),
             source_manifest(),
         ),
@@ -660,33 +661,20 @@ def test_unnamed_and_duplicate_module_names_use_indexes(modules):
 
 
 @pytest.mark.parametrize(
-    ("source_value", "field", "reason"),
+    "source_value",
     [
-        (source(url="relative/path"), "url", "missing-scheme"),
-        (source(url="ssh:repository"), "url", "missing-authority"),
-        (source(url="https://example.com:70000/a"), "url", "invalid-port"),
-        (source(url=42), "url", "non-string"),
-        (
-            source(**{"mirror-urls": [False]}),
-            "mirror-urls[0]",
-            "non-string",
-        ),
+        source(url="ssh:repository"),
+        source(url="https://example.com:70000/a"),
+        source(url=42),
+        source(**{"mirror-urls": [False]}),
     ],
 )
-def test_candidate_only_malformed_urls_create_safe_issues(source_value, field, reason):
-    finding = source_findings(source_manifest(source_value), source_manifest())[0]
-    assert finding.origins_added == ()
-    assert finding.candidate_issues == (
-        ostree_manifest.ManifestSourceIssue(
-            location=f'modules["app"].sources[0].{field}',
-            reason=reason,
-        ),
-    )
-    assert "relative/path" not in repr(finding)
+def test_candidate_only_malformed_urls_do_not_gate(source_value):
+    assert source_findings(source_manifest(source_value), source_manifest()) == ()
 
 
 def test_unchanged_malformed_signature_does_not_gate_and_valid_replacement_does():
-    malformed = source_manifest(source(url="relative/path"))
+    malformed = source_manifest(source(url="https://example.com:70000/a"))
     assert source_findings(malformed, malformed) == ()
 
     finding = source_findings(
@@ -694,7 +682,6 @@ def test_unchanged_malformed_signature_does_not_gate_and_valid_replacement_does(
         malformed,
     )[0]
     assert finding.origins_added == ("https://new.example",)
-    assert finding.candidate_issues == ()
 
 
 def test_identical_arch_groups_merge_and_different_groups_remain_separate():
