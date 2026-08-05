@@ -31,7 +31,7 @@ export interface ModerationEmailProps {
   requests: Request[]
 }
 
-export interface Request {
+export interface AppdataRequest {
   requestType: "appdata"
   requestData: {
     keys: {
@@ -54,10 +54,32 @@ export interface Request {
   isNewSubmission: boolean
 }
 
+export interface ManifestRequest {
+  requestType: "manifest"
+  requestData: {
+    findings: {
+      origins_added: string[]
+      origins_removed: string[]
+      locations_by_origin: Record<string, string[]>
+      candidate_issues: {
+        location: string
+        reason: string
+      }[]
+      arches: string[]
+    }[]
+  }
+  isNewSubmission: false
+}
+
+export type Request = AppdataRequest | ManifestRequest
+
 export const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
 
-export function isRandomReviewRequest(request: Request): boolean {
+export function isRandomReviewRequest(
+  request: Request,
+): request is AppdataRequest {
   return (
+    request.requestType === "appdata" &&
     request.requestData.keys.human_review === RANDOM_REVIEW_MARKER &&
     Object.keys(request.requestData.keys).length === 1 &&
     Object.keys(request.requestData.current_values).length === 0
@@ -104,7 +126,7 @@ const DiffRow = ({
   request,
 }: {
   valueKey: string
-  request: Request
+  request: AppdataRequest
 }) => {
   const current_values = request.requestData.current_values[valueKey] as
     | string
@@ -197,11 +219,84 @@ const DiffRow = ({
 }
 
 export const ModerationRequestItem = ({ request }: { request: Request }) => {
+  if (request.requestType === "manifest") {
+    return (
+      <Section className="mt-8">
+        {request.requestData.findings.map((finding, findingIndex) => (
+          <Section
+            className="mb-4 rounded border border-solid border-gray-300 p-4"
+            key={`${finding.arches.join(",")}-${findingIndex}`}
+          >
+            <Text className="mb-1 font-bold">New origins</Text>
+            {Array.from(new Set(finding.origins_added)).map((origin) => (
+              <div key={origin}>
+                <code>{origin}</code>
+                <Text className="mb-1 mt-2">Source locations</Text>
+                <ul>
+                  {Array.from(
+                    new Set(finding.locations_by_origin[origin] ?? []),
+                  ).map((location) => (
+                    <li key={location}>
+                      <code>{location}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            {finding.origins_removed.length > 0 && (
+              <>
+                <Text className="mb-1 font-bold">
+                  Previous origins no longer used
+                </Text>
+                <ul>
+                  {Array.from(new Set(finding.origins_removed)).map(
+                    (origin) => (
+                      <li key={origin}>
+                        <code>{origin}</code>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </>
+            )}
+            {finding.candidate_issues.length > 0 && (
+              <>
+                <Text className="mb-1 font-bold">Source URL issues</Text>
+                <ul>
+                  {Array.from(
+                    new Map(
+                      finding.candidate_issues.map((issue) => [
+                        `${issue.location}\u0000${issue.reason}`,
+                        issue,
+                      ]),
+                    ).values(),
+                  ).map((issue) => (
+                    <li key={`${issue.location}\u0000${issue.reason}`}>
+                      <code>{issue.location}</code>: <code>{issue.reason}</code>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            <Text className="mb-1 font-bold">Affected architectures</Text>
+            <Text>
+              {Array.from(new Set(finding.arches)).map((arch, index) => (
+                <span key={arch}>
+                  {index > 0 && ", "}
+                  <code>{arch}</code>
+                </span>
+              ))}
+            </Text>
+          </Section>
+        ))}
+      </Section>
+    )
+  }
+
   const currentValuesFiltered = Object.keys(
-    request.requestData?.current_values ?? {},
+    request.requestData.current_values,
   ).filter(
     (a) =>
-      // these keys are special, but we don't want to act on them - so ignore
       a !== "name" &&
       a !== "developer_name" &&
       a !== "project_license" &&
@@ -210,30 +305,28 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
 
   const uniqueKeys = Array.from(
     new Set([
-      ...Object.keys(request.requestData?.keys ?? {}),
+      ...Object.keys(request.requestData.keys),
       ...currentValuesFiltered,
     ]),
   ).sort()
 
   return (
     <Section className="mt-8">
-      {request.requestType === "appdata" && (
-        <table className="w-full text-xs" style={{ tableLayout: "fixed" }}>
-          <colgroup>
-            <col style={{ width: "20%" }} />
-            {!request.isNewSubmission && <col style={{ width: "40%" }} />}
-            <col style={{ width: request.isNewSubmission ? "80%" : "40%" }} />
-          </colgroup>
-          <tr className="text-left rtl:text-right">
-            <th>Field</th>
-            {!request.isNewSubmission && <th>Old value</th>}
-            <th>New value</th>
-          </tr>
-          {uniqueKeys.map((key) => (
-            <DiffRow key={key} valueKey={key} request={request} />
-          ))}
-        </table>
-      )}
+      <table className="w-full text-xs" style={{ tableLayout: "fixed" }}>
+        <colgroup>
+          <col style={{ width: "20%" }} />
+          {!request.isNewSubmission && <col style={{ width: "40%" }} />}
+          <col style={{ width: request.isNewSubmission ? "80%" : "40%" }} />
+        </colgroup>
+        <tr className="text-left rtl:text-right">
+          <th>Field</th>
+          {!request.isNewSubmission && <th>Old value</th>}
+          <th>New value</th>
+        </tr>
+        {uniqueKeys.map((key) => (
+          <DiffRow key={key} valueKey={key} request={request} />
+        ))}
+      </table>
     </Section>
   )
 }
@@ -252,7 +345,9 @@ export const ModerationHeldEmail = ({
 
   const isRandomReview =
     requests.length > 0 && requests.every(isRandomReviewRequest)
-
+  const hasManifestRequest = requests.some(
+    (request) => request.requestType === "manifest",
+  )
   return (
     <Base
       previewText={previewText}
@@ -274,8 +369,11 @@ export const ModerationHeldEmail = ({
       ) : (
         <Text>
           Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-          <b>{appNameAndId}</b> has been held for review because the app's
-          metadata has changed. Check the status of the review in the{" "}
+          <b>{appNameAndId}</b>{" "}
+          {hasManifestRequest
+            ? "has been held for review because its embedded manifest introduces a new source origin."
+            : "has been held for review because the app's metadata has changed."}{" "}
+          Check the status of the review in the{" "}
           <Link href={`https://flathub.org/apps/manage/${appId}`}>
             app developer settings
           </Link>
