@@ -31,13 +31,13 @@ const changesByModule = (finding: ManifestSourceOriginFindingData) => {
       const modules = unique(
         (finding.locations_by_origin[origin] ?? []).map(sourceModule),
       )
-      for (const module of modules.length > 0 ? modules : ["—"]) {
-        const moduleChanges = changes.get(module) ?? {
+      for (const moduleName of modules.length > 0 ? modules : ["—"]) {
+        const moduleChanges = changes.get(moduleName) ?? {
           added: new Set<string>(),
           removed: new Set<string>(),
         }
         moduleChanges[change].add(origin)
-        changes.set(module, moduleChanges)
+        changes.set(moduleName, moduleChanges)
       }
     }
   }
@@ -45,8 +45,8 @@ const changesByModule = (finding: ManifestSourceOriginFindingData) => {
   addOrigins(finding.origins_removed, "removed")
   addOrigins(finding.origins_added, "added")
 
-  return Array.from(changes, ([module, origins]) => ({
-    module,
+  return Array.from(changes, ([moduleName, origins]) => ({
+    module: moduleName,
     added: Array.from(origins.added).sort(),
     removed: Array.from(origins.removed).sort(),
   })).sort((left, right) => left.module.localeCompare(right.module))
