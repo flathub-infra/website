@@ -76,8 +76,8 @@ test("renders random approval without a metadata diff", async () => {
   const html = await render(
     ModerationApprovedEmail({
       category: "moderation_approved",
-      subject: "Build #123 has been reviewed and approved",
-      previewText: "Build #123 has been reviewed and approved",
+      subject: "Build #123 approved",
+      previewText: "Build #123 approved",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,
@@ -95,8 +95,8 @@ test("renders random rejection without a metadata diff", async () => {
   const html = await render(
     ModerationRejectedEmail({
       category: "moderation_rejected",
-      subject: "Build #123 has been reviewed and rejected",
-      previewText: "Build #123 has been reviewed and rejected",
+      subject: "Build #123 rejected",
+      previewText: "Build #123 rejected",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,
@@ -126,7 +126,7 @@ test("renders manifest source origins in held email", async () => {
   )
 
   assertManifestRendering(html)
-  assert.match(html, /embedded manifest introduces a new source origin/)
+  assert.match(html, /manifest introduces a new source origin/)
   assert.doesNotMatch(html, /metadata has changed/)
 })
 
@@ -134,8 +134,8 @@ test("renders manifest source origins in approved email", async () => {
   const html = await render(
     ModerationApprovedEmail({
       category: "moderation_approved",
-      subject: "Build #123 has been reviewed and approved",
-      previewText: "Build #123 has been reviewed and approved",
+      subject: "Build #123 approved",
+      previewText: "Build #123 approved",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,
@@ -151,8 +151,8 @@ test("renders manifest source origins in rejected email", async () => {
   const html = await render(
     ModerationRejectedEmail({
       category: "moderation_rejected",
-      subject: "Build #123 has been reviewed and rejected",
-      previewText: "Build #123 has been reviewed and rejected",
+      subject: "Build #123 rejected",
+      previewText: "Build #123 rejected",
       appId: "org.example.App",
       appName: "Example App",
       buildId: 123,

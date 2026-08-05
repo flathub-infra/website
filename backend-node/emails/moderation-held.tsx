@@ -371,7 +371,7 @@ export const ModerationHeldEmail = ({
           Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
           <b>{appNameAndId}</b>{" "}
           {hasManifestRequest
-            ? "has been held for review because its embedded manifest introduces a new source origin."
+            ? "has been held for review because its manifest introduces a new source origin."
             : "has been held for review because the app's metadata has changed."}{" "}
           Check the status of the review in the{" "}
           <Link href={`https://flathub.org/apps/manage/${appId}`}>
