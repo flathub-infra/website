@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Meta } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
+import { expect, within } from "storybook/test"
 import {
   ManifestComplexityRequestData,
   ModerationRequestResponse,
@@ -79,7 +80,7 @@ export const Primary = () => {
 }
 
 const complexity: ManifestComplexityRequestData = {
-  algorithm_version: 2,
+  algorithm_version: 3,
   analysis_fingerprint:
     "sha256:6ec3f8e3df4e5c77cf90e5ec66081eb8918e52c27ec1d1de7cc3b4ca28998a7e",
   score_units: 15,
@@ -213,3 +214,53 @@ export const BuildLogAbsent = () => (
     request={requestWith({ findings: [], complexity })}
   />
 )
+export const SourceSetChanged = {
+  render: () => (
+    <ManifestSourceOriginChangesRow
+      request={requestWith({
+        findings: [],
+        complexity: {
+          ...complexity,
+          algorithm_version: 3,
+          score_units: 3,
+          raw_score_units: 3,
+          display_score: 1.5,
+          score_band: "small",
+          score_breakdown: {
+            structural_units: 0,
+            recipe_units: 3,
+            breadth_units: 0,
+            ambiguity_units: 0,
+          },
+          touched_modules: ["modules/main"],
+          total_touched_module_count: 1,
+          events: [
+            {
+              kind: "source_set_changed" as ManifestComplexityRequestData["events"][number]["kind"],
+              location: "modules/main/sources",
+              arches: ["aarch64", "x86_64"],
+              new_summary: {
+                added: 8,
+                removed: 3,
+                changed: 11,
+                sentinel_source_url: "https://sentinel.example/source",
+              },
+              magnitude: 3,
+            },
+          ],
+          total_event_count: 1,
+        },
+      })}
+    />
+  ),
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement)
+    expect(canvas.getByText("Source set changed")).toBeInTheDocument()
+    expect(
+      canvas.getByText("8 added, 3 removed, 11 changed"),
+    ).toBeInTheDocument()
+    expect(
+      canvas.queryByText("https://sentinel.example/source"),
+    ).not.toBeInTheDocument()
+  },
+}

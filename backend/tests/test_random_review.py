@@ -1290,7 +1290,7 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
             "origins_removed": [],
         }
     ]
-    assert request_body["complexity"]["algorithm_version"] == 2
+    assert request_body["complexity"]["algorithm_version"] == 3
     assert request_body["complexity"]["score_units"] == 5
     assert request_body["complexity"]["threshold_units"] == 14
     assert request_body["complexity"]["analysis_fingerprint"].startswith("sha256:")
