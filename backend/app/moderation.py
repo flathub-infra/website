@@ -4,9 +4,9 @@ import hmac
 import itertools
 import json
 import logging
+from collections.abc import Sequence
 from datetime import UTC, datetime
 from typing import Any
-from urllib.parse import urlsplit
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
@@ -23,6 +23,7 @@ from . import (
     models,
     ostree_manifest,
     summary,
+    url_origin,
     utils,
     worker,
 )
@@ -50,41 +51,12 @@ def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
 
     origins: set[str] = set()
     for value in uri_values:
-        if (
-            not isinstance(value, str)
-            or not value
-            or any(
-                character.isspace() or ord(character) < 32 or character == "\\"
-                for character in value
-            )
-        ):
-            return None
-
         try:
-            parsed = urlsplit(value)
-            hostname = parsed.hostname
-            port = parsed.port
-        except ValueError:
+            origin = url_origin.normalize_url_origin(value)
+        except url_origin.InvalidUrlOrigin:
             return None
-
-        scheme = parsed.scheme.lower()
-        authority = parsed.netloc.rsplit("@", 1)[-1]
-        if (
-            scheme not in {"http", "https"}
-            or not parsed.netloc
-            or hostname is None
-            or authority.endswith(":")
-        ):
-            return None
-
-        hostname = hostname.lower()
-        if port == {"http": 80, "https": 443}[scheme]:
-            port = None
-
-        serialized_host = f"[{hostname}]" if ":" in hostname else hostname
-        origins.add(
-            f"{scheme}://{serialized_host}" + (f":{port}" if port is not None else "")
-        )
+        if origin is not None:
+            origins.add(origin)
 
     return sorted(origins)
 
@@ -200,6 +172,17 @@ class RequestData(BaseModel):
     current_values: dict[str, str | None | list | None | dict | None | bool | None]
 
 
+class ManifestSourceOriginFindingData(BaseModel):
+    origins_added: list[str]
+    origins_removed: list[str]
+    locations_by_origin: dict[str, list[str]]
+    arches: list[str]
+
+
+class ManifestSourceOriginRequestData(BaseModel):
+    findings: list[ManifestSourceOriginFindingData]
+
+
 class ModerationRequestResponse(BaseModel):
     id: int
     app_id: str
@@ -210,7 +193,7 @@ class ModerationRequestResponse(BaseModel):
     is_outdated: bool
 
     request_type: ModerationRequestType
-    request_data: RequestData | None = None
+    request_data: RequestData | ManifestSourceOriginRequestData | None = None
     is_new_submission: bool
 
     handled_by: str | None = None
@@ -272,6 +255,16 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
 
     if is_random_review:
         body += f"\n## Review reason\n\n{_RANDOM_REVIEW_MARKER}\n"
+    elif request.request_type == ModerationRequestType.MANIFEST:
+        body += "\n## Manifest source changes\n"
+        for finding in request_data["findings"]:
+            body += f"\n### Architectures: {', '.join(finding['arches'])}\n"
+            for source in finding["origins_added"]:
+                body += f"\n- New source: `{source}`\n"
+                for location in finding["locations_by_origin"].get(source, []):
+                    body += f"  - Source location: `{location}`\n"
+            for source in finding["origins_removed"]:
+                body += f"\n- Previous source no longer used: `{source}`\n"
     else:
         body += "\n## Changes\n| Field | Old value | New value |\n| --- | --- | --- |\n"
         for field in request_data["keys"]:
@@ -469,6 +462,59 @@ class ReviewRequestResponse(BaseModel):
     requires_review: bool
 
 
+def _manifest_request_data(
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
+) -> str:
+    return json.dumps(
+        {
+            "findings": [
+                {
+                    "origins_added": list(finding.sources_added),
+                    "origins_removed": list(finding.sources_removed),
+                    "locations_by_origin": {
+                        source: list(locations)
+                        for source, locations in finding.locations_by_source.items()
+                    },
+                    "arches": list(finding.arches),
+                }
+                for finding in findings
+            ]
+        },
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+
+
+def _log_manifest_source_gate(
+    review_request: ReviewRequest,
+    app_id: str,
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
+    *,
+    would_require_review: bool,
+    reason: str | None = None,
+) -> None:
+    introduced_sources = sorted(
+        {source for finding in findings for source in finding.sources_added}
+    )
+    removed_sources = sorted(
+        {source for finding in findings for source in finding.sources_removed}
+    )
+    affected_arches = sorted({arch for finding in findings for arch in finding.arches})
+    extra: dict[str, Any] = {
+        "build_id": review_request.build_id,
+        "job_id": review_request.job_id,
+        "app_id": app_id,
+        "introduced_sources": introduced_sources,
+        "removed_sources": removed_sources,
+        "affected_arches": affected_arches,
+        "would_require_review": would_require_review,
+    }
+    if reason is not None:
+        extra["reason"] = reason
+    logger.info("Evaluated manifest source gate for app", extra=extra)
+
+
 @router.post(
     "/submit_review_request",
     status_code=200,
@@ -538,6 +584,9 @@ def submit_review_request(
     build_refs = build_extended.get("build_refs")
     manifest_pairs: tuple[ostree_manifest.ManifestPair, ...] = ()
     manifest_groups: tuple[tuple[ostree_manifest.ManifestPair, ...], ...] = ()
+    manifest_findings_by_app: dict[
+        str, tuple[ostree_manifest.ManifestSourceFinding, ...]
+    ] = {}
     if config.settings.ostree_manifest_comparison_enabled:
         try:
             candidate_refs = ostree_manifest.normalize_candidate_refs(build_refs)
@@ -595,6 +644,12 @@ def submit_review_request(
                 ),
             },
         )
+        manifest_findings = ostree_manifest.find_manifest_source_changes(
+            manifest_groups
+        )
+        for finding in manifest_findings:
+            manifest_findings_by_app.setdefault(finding.app_id, ())
+            manifest_findings_by_app[finding.app_id] += (finding,)
     if random_review_enabled and not isinstance(build_refs, list):
         raise HTTPException(status_code=500, detail="invalid_build")
     build_ref_arches = {
@@ -606,6 +661,8 @@ def submit_review_request(
     new_requests: list[models.ModerationRequest] = []
     eligible_app_ids: list[str] = []
     has_initial_submission = False
+    manifest_reused_app_ids: set[str] = set()
+    manifest_reuse_requires_review = False
 
     try:
         build_ref_arch = build_ref_arches.pop()
@@ -665,6 +722,7 @@ def submit_review_request(
         current_values: dict[str, Any] = {}
 
         # Check if the app data matches the current appstream
+        app_manifest_findings = manifest_findings_by_app.get(app_id, ())
         if app := get_json_key(f"apps:{app_id}"):
             is_new_submission = False
 
@@ -680,9 +738,25 @@ def submit_review_request(
         # Don't consider the first "official" vorarbeiter build as a new submission
         # as it has been already reviewed manually on GitHub
         if is_new_submission and build_metadata.get("token_name") == "vorarbeiter":
+            if app_manifest_findings:
+                _log_manifest_source_gate(
+                    review_request,
+                    app_id,
+                    app_manifest_findings,
+                    would_require_review=False,
+                    reason="initial-vorarbeiter",
+                )
             continue
 
         if should_skip_review(app_id):
+            if app_manifest_findings:
+                _log_manifest_source_gate(
+                    review_request,
+                    app_id,
+                    app_manifest_findings,
+                    would_require_review=False,
+                    reason="skip-list",
+                )
             continue
 
         if "keys" not in locals():
@@ -698,6 +772,80 @@ def submit_review_request(
                     is_new_submission = True
                     current_values = {"direct upload": False}
                     keys = {"direct upload": True}
+
+        if app_manifest_findings:
+            if is_new_submission:
+                _log_manifest_source_gate(
+                    review_request,
+                    app_id,
+                    app_manifest_findings,
+                    would_require_review=False,
+                    reason="initial-submission",
+                )
+            else:
+                would_require_review = not config.settings.moderation_observe_only
+                _log_manifest_source_gate(
+                    review_request,
+                    app_id,
+                    app_manifest_findings,
+                    would_require_review=would_require_review,
+                )
+                if config.settings.ostree_manifest_source_origin_gating_enabled:
+                    request_data = _manifest_request_data(app_manifest_findings)
+                    with get_db("writer") as db:
+                        existing_manifest_requests = (
+                            db.session.query(models.ModerationRequest)
+                            .filter(
+                                models.ModerationRequest.appid == app_id,
+                                models.ModerationRequest.build_id
+                                == review_request.build_id,
+                                models.ModerationRequest.request_type
+                                == ModerationRequestType.MANIFEST,
+                            )
+                            .all()
+                        )
+                    if not existing_manifest_requests:
+                        new_requests.append(
+                            models.ModerationRequest(
+                                appid=app_id,
+                                request_type=ModerationRequestType.MANIFEST,
+                                request_data=request_data,
+                                is_new_submission=False,
+                                is_outdated=False,
+                                build_id=review_request.build_id,
+                                job_id=review_request.job_id,
+                                build_log_url=build_log_url,
+                            )
+                        )
+                    elif (
+                        len(existing_manifest_requests) == 1
+                        and existing_manifest_requests[0].job_id
+                        == review_request.job_id
+                        and existing_manifest_requests[0].request_data == request_data
+                    ):
+                        reused_request = existing_manifest_requests[0]
+                        manifest_reused_app_ids.add(app_id)
+                        manifest_reuse_requires_review = (
+                            manifest_reuse_requires_review
+                            or reused_request.handled_at is None
+                            or reused_request.is_approved is None
+                        )
+                    else:
+                        logger.error(
+                            "Conflicting manifest moderation request",
+                            extra={
+                                "build_id": review_request.build_id,
+                                "job_id": review_request.job_id,
+                                "app_id": app_id,
+                                "existing_request_count": len(
+                                    existing_manifest_requests
+                                ),
+                            },
+                        )
+                        raise HTTPException(
+                            status_code=500,
+                            detail="conflicting_manifest_review_request",
+                        )
 
         if random_review_enabled:
             eligible_app_ids.append(app_id)
@@ -898,6 +1046,16 @@ def submit_review_request(
                 )
                 new_requests.append(request)
 
+    for app_id, findings in manifest_findings_by_app.items():
+        if app_id not in build_appstream:
+            _log_manifest_source_gate(
+                review_request,
+                app_id,
+                findings,
+                would_require_review=False,
+                reason="missing-appstream",
+            )
+
     random_review_reused_app_ids: set[str] = set()
     random_review_reuse_requires_review = False
     if random_review_enabled:
@@ -908,12 +1066,13 @@ def submit_review_request(
                 "job_id": review_request.job_id,
                 "random_review_rate": random_review_rate,
                 "eligible_app_count": len(eligible_app_ids),
-                "deterministic_request_count": len(new_requests),
+                "deterministic_request_count": len(new_requests)
+                + len(manifest_reused_app_ids),
                 "has_initial_submission": has_initial_submission,
             },
         )
 
-        if new_requests:
+        if new_requests or manifest_reused_app_ids:
             logger.info(
                 "Random review suppressed by deterministic moderation",
                 extra={
@@ -1042,10 +1201,13 @@ def submit_review_request(
             ).update({"is_outdated": True})
 
         if len(new_requests) == 0:
-            if random_review_reused_app_ids:
+            if manifest_reused_app_ids or random_review_reused_app_ids:
                 return ReviewRequestResponse(
                     requires_review=(
-                        random_review_reuse_requires_review
+                        (
+                            manifest_reuse_requires_review
+                            or random_review_reuse_requires_review
+                        )
                         and not config.settings.moderation_observe_only
                     )
                 )
@@ -1229,10 +1391,10 @@ def submit_review(
     issue = None
     if is_approved:
         category = EmailCategory.MODERATION_APPROVED
-        subject = f"Build #{build_id} has been reviewed and approved"
+        subject = f"Build #{build_id} approved"
     else:
         category = EmailCategory.MODERATION_REJECTED
-        subject = f"Build #{build_id} has been reviewed and rejected"
+        subject = f"Build #{build_id} rejected"
 
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):

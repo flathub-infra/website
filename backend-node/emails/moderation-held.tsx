@@ -31,7 +31,7 @@ export interface ModerationEmailProps {
   requests: Request[]
 }
 
-export interface Request {
+export interface AppdataRequest {
   requestType: "appdata"
   requestData: {
     keys: {
@@ -54,10 +54,30 @@ export interface Request {
   isNewSubmission: boolean
 }
 
+interface ManifestFinding {
+  origins_added: string[]
+  origins_removed: string[]
+  locations_by_origin: Record<string, string[]>
+  arches: string[]
+}
+
+export interface ManifestRequest {
+  requestType: "manifest"
+  requestData: {
+    findings: ManifestFinding[]
+  }
+  isNewSubmission: false
+}
+
+export type Request = AppdataRequest | ManifestRequest
+
 export const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
 
-export function isRandomReviewRequest(request: Request): boolean {
+export function isRandomReviewRequest(
+  request: Request,
+): request is AppdataRequest {
   return (
+    request.requestType === "appdata" &&
     request.requestData.keys.human_review === RANDOM_REVIEW_MARKER &&
     Object.keys(request.requestData.keys).length === 1 &&
     Object.keys(request.requestData.current_values).length === 0
@@ -71,6 +91,45 @@ const ArrayWithNewlines = ({ array }: { array: string[] }) => {
       <br />
     </span>
   ))
+}
+const sourceModule = (location: string) => {
+  const modules = Array.from(
+    location.matchAll(/modules\[("(?:\\.|[^"\\])*"|\d+)\]/g),
+    ([, segment]) =>
+      segment.startsWith('"') ? (JSON.parse(segment) as string) : segment,
+  )
+  return modules.length > 0 ? modules.join(" / ") : location
+}
+const changesByModule = (finding: ManifestFinding) => {
+  const changes = new Map<
+    string,
+    { added: Set<string>; removed: Set<string> }
+  >()
+
+  const addOrigins = (origins: string[], change: "added" | "removed") => {
+    for (const origin of new Set(origins)) {
+      const modules = Array.from(
+        new Set((finding.locations_by_origin[origin] ?? []).map(sourceModule)),
+      )
+      for (const module of modules.length > 0 ? modules : ["—"]) {
+        const moduleChanges = changes.get(module) ?? {
+          added: new Set<string>(),
+          removed: new Set<string>(),
+        }
+        moduleChanges[change].add(origin)
+        changes.set(module, moduleChanges)
+      }
+    }
+  }
+
+  addOrigins(finding.origins_removed, "removed")
+  addOrigins(finding.origins_added, "added")
+
+  return Array.from(changes, ([module, origins]) => ({
+    module,
+    added: Array.from(origins.added).sort(),
+    removed: Array.from(origins.removed).sort(),
+  })).sort((left, right) => left.module.localeCompare(right.module))
 }
 
 const TableRow = ({
@@ -104,7 +163,7 @@ const DiffRow = ({
   request,
 }: {
   valueKey: string
-  request: Request
+  request: AppdataRequest
 }) => {
   const current_values = request.requestData.current_values[valueKey] as
     | string
@@ -197,11 +256,63 @@ const DiffRow = ({
 }
 
 export const ModerationRequestItem = ({ request }: { request: Request }) => {
+  if (request.requestType === "manifest") {
+    return (
+      <Section className="mt-8">
+        {request.requestData.findings.flatMap((finding, findingIndex) =>
+          changesByModule(finding).map((change) => (
+            <Section
+              className="border-b border-solid border-gray-300 py-3"
+              key={`${findingIndex}-${change.module}`}
+            >
+              <table className="w-full">
+                <tr>
+                  <td>
+                    <strong>
+                      <code>{change.module}</code>
+                    </strong>
+                  </td>
+                  <td className="text-right">
+                    {Array.from(new Set(finding.arches)).map((arch, index) => (
+                      <span key={arch}>
+                        {index > 0 && ", "}
+                        <code>{arch}</code>
+                      </span>
+                    ))}
+                  </td>
+                </tr>
+              </table>
+              {change.removed.map((origin) => (
+                <Text
+                  className="my-1 break-all text-gray-500"
+                  key={`removed-${origin}`}
+                >
+                  <span aria-hidden="true">− </span>
+                  <span className="sr-only">Removed: </span>
+                  <code>{origin}</code>
+                </Text>
+              ))}
+              {change.added.map((origin) => (
+                <Text
+                  className="my-1 break-all font-medium text-amber-700"
+                  key={`added-${origin}`}
+                >
+                  <span aria-hidden="true">+ </span>
+                  <span className="sr-only">Added: </span>
+                  <code>{origin}</code>
+                </Text>
+              ))}
+            </Section>
+          )),
+        )}
+      </Section>
+    )
+  }
+
   const currentValuesFiltered = Object.keys(
-    request.requestData?.current_values ?? {},
+    request.requestData.current_values,
   ).filter(
     (a) =>
-      // these keys are special, but we don't want to act on them - so ignore
       a !== "name" &&
       a !== "developer_name" &&
       a !== "project_license" &&
@@ -210,30 +321,28 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
 
   const uniqueKeys = Array.from(
     new Set([
-      ...Object.keys(request.requestData?.keys ?? {}),
+      ...Object.keys(request.requestData.keys),
       ...currentValuesFiltered,
     ]),
   ).sort()
 
   return (
     <Section className="mt-8">
-      {request.requestType === "appdata" && (
-        <table className="w-full text-xs" style={{ tableLayout: "fixed" }}>
-          <colgroup>
-            <col style={{ width: "20%" }} />
-            {!request.isNewSubmission && <col style={{ width: "40%" }} />}
-            <col style={{ width: request.isNewSubmission ? "80%" : "40%" }} />
-          </colgroup>
-          <tr className="text-left rtl:text-right">
-            <th>Field</th>
-            {!request.isNewSubmission && <th>Old value</th>}
-            <th>New value</th>
-          </tr>
-          {uniqueKeys.map((key) => (
-            <DiffRow key={key} valueKey={key} request={request} />
-          ))}
-        </table>
-      )}
+      <table className="w-full text-xs" style={{ tableLayout: "fixed" }}>
+        <colgroup>
+          <col style={{ width: "20%" }} />
+          {!request.isNewSubmission && <col style={{ width: "40%" }} />}
+          <col style={{ width: request.isNewSubmission ? "80%" : "40%" }} />
+        </colgroup>
+        <tr className="text-left rtl:text-right">
+          <th>Field</th>
+          {!request.isNewSubmission && <th>Old value</th>}
+          <th>New value</th>
+        </tr>
+        {uniqueKeys.map((key) => (
+          <DiffRow key={key} valueKey={key} request={request} />
+        ))}
+      </table>
     </Section>
   )
 }
@@ -252,7 +361,9 @@ export const ModerationHeldEmail = ({
 
   const isRandomReview =
     requests.length > 0 && requests.every(isRandomReviewRequest)
-
+  const hasManifestRequest = requests.some(
+    (request) => request.requestType === "manifest",
+  )
   return (
     <Base
       previewText={previewText}
@@ -274,8 +385,11 @@ export const ModerationHeldEmail = ({
       ) : (
         <Text>
           Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-          <b>{appNameAndId}</b> has been held for review because the app's
-          metadata has changed. Check the status of the review in the{" "}
+          <b>{appNameAndId}</b>{" "}
+          {hasManifestRequest
+            ? "has been held for review because its manifest introduces a new source origin."
+            : "has been held for review because the app's metadata has changed."}{" "}
+          Check the status of the review in the{" "}
           <Link href={`https://flathub.org/apps/manage/${appId}`}>
             app developer settings
           </Link>

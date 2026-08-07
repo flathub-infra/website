@@ -436,3 +436,412 @@ def test_empty_ref_collection_does_not_create_repository(monkeypatch):
         )
         == ()
     )
+
+
+def manifest_pair(
+    candidate_manifest,
+    published_manifest,
+    *,
+    arch="x86_64",
+    status=ostree_manifest.PublishedManifestStatus.PRESENT,
+):
+    return ostree_manifest.ManifestPair(
+        app_id="org.example.App",
+        ref_name=f"app/org.example.App/{arch}/stable",
+        arch=arch,
+        branch="stable",
+        candidate_commit=f"candidate-{arch}",
+        published_commit=f"published-{arch}"
+        if published_manifest is not None
+        else None,
+        candidate_manifest=candidate_manifest,
+        published_manifest=published_manifest,
+        published_status=status,
+    )
+
+
+def source_manifest(*sources):
+    return {"modules": [{"name": "app", "sources": list(sources)}]}
+
+
+def source(source_type="archive", **values):
+    return {"type": source_type, **values}
+
+
+def source_findings(candidate, published, *, arch="x86_64"):
+    pair = manifest_pair(candidate, published, arch=arch)
+    return ostree_manifest.find_manifest_source_changes(((pair,),))
+
+
+@pytest.mark.parametrize(
+    ("candidate", "published"),
+    [
+        (
+            source_manifest(source(url="https://example.com/a.tar")),
+            source_manifest(source(url="https://example.com/a.tar")),
+        ),
+        (
+            source_manifest(source(url="https://example.com/new.tar")),
+            source_manifest(source(url="https://example.com/old.tar")),
+        ),
+        (
+            source_manifest(source(url="https://example.com/a?new=1#fragment")),
+            source_manifest(source(url="https://example.com/a?old=1")),
+        ),
+        (
+            source_manifest(
+                source(
+                    url="https://example.com/a",
+                    sha256="new",
+                    commit="new",
+                    tag="new",
+                    branch="new",
+                    version="new",
+                )
+            ),
+            source_manifest(
+                source(
+                    url="https://example.com/a",
+                    sha256="old",
+                    commit="old",
+                    tag="old",
+                    branch="old",
+                    version="old",
+                )
+            ),
+        ),
+        (
+            source_manifest(source(url="HTTPS://EXAMPLE.COM/a")),
+            source_manifest(source(url="https://example.com/a")),
+        ),
+        (
+            source_manifest(source(url="https://example.com:443/a")),
+            source_manifest(source(url="https://example.com/a")),
+        ),
+        (
+            source_manifest(
+                source(url="https://example.com/a"),
+                source(url="https://example.com/new"),
+            ),
+            source_manifest(source(url="https://example.com/a")),
+        ),
+        (
+            source_manifest(source("extra-data", url="https://new.example/a")),
+            source_manifest(),
+        ),
+        (
+            source_manifest(
+                source("file", path="local", paths=["one"], url="file:///tmp/a"),
+                source("git", url="../local-repo"),
+                source(url="relative/archive"),
+            ),
+            source_manifest(),
+        ),
+        (
+            source_manifest(
+                source(
+                    url="https://github.com/foo/bar/releases/download/v2/archive.tar"
+                )
+            ),
+            source_manifest(
+                source(url="https://github.com/foo/bar.git?old=1#fragment")
+            ),
+        ),
+        (
+            source_manifest(source(url="https://github.com/settings")),
+            source_manifest(source(url="https://github.com/login")),
+        ),
+    ],
+)
+def test_manifest_changes_without_source_identity_changes_do_not_gate(
+    candidate, published
+):
+    assert source_findings(candidate, published) == ()
+
+
+def test_manifest_source_removal_gates():
+    finding = source_findings(
+        source_manifest(),
+        source_manifest(source(url="https://old.example/a")),
+    )[0]
+
+    assert finding.sources_added == ()
+    assert finding.sources_removed == ("https://old.example",)
+
+
+def test_source_move_to_existing_identity_still_reports_removed_repository():
+    finding = source_findings(
+        source_manifest(source(url="https://evil.example/new")),
+        source_manifest(
+            source(url="https://github.com/foo/bar.git"),
+            source(url="https://evil.example/old"),
+        ),
+    )[0]
+
+    assert finding.sources_added == ()
+    assert finding.sources_removed == ("https://github.com/foo/bar",)
+    assert finding.locations_by_source == {
+        "https://github.com/foo/bar": ('modules["app"].sources[0].url',)
+    }
+
+
+@pytest.mark.parametrize(
+    ("candidate_url", "published_url", "added", "removed"),
+    [
+        (
+            "https://new.example/a",
+            "https://old.example/a",
+            ("https://new.example",),
+            ("https://old.example",),
+        ),
+        (
+            "https://download.example.com/a",
+            "https://example.com/a",
+            ("https://download.example.com",),
+            ("https://example.com",),
+        ),
+        (
+            "http://example.com/a",
+            "https://example.com/a",
+            ("http://example.com",),
+            ("https://example.com",),
+        ),
+        (
+            "https://example.com:8443/a",
+            "https://example.com:9443/a",
+            ("https://example.com:8443",),
+            ("https://example.com:9443",),
+        ),
+        (
+            "https://github.com/fork/bar/releases/download/v2/archive.tar",
+            "https://github.com/foo/bar/archive/v1.tar",
+            ("https://github.com/fork/bar",),
+            ("https://github.com/foo/bar",),
+        ),
+        (
+            "https://gitlab.com/group/subgroup/fork/-/archive/v2/archive.tar",
+            "https://gitlab.com/group/subgroup/project/-/archive/v1/archive.tar",
+            ("https://gitlab.com/group/subgroup/fork",),
+            ("https://gitlab.com/group/subgroup/project",),
+        ),
+        (
+            "https://gitlab.gnome.org/GNOME/gtk-fork/-/archive/v2/archive.tar",
+            "https://gitlab.gnome.org/GNOME/gtk/-/archive/v1/archive.tar",
+            ("https://gitlab.gnome.org/GNOME/gtk-fork",),
+            ("https://gitlab.gnome.org/GNOME/gtk",),
+        ),
+        (
+            "https://invent.kde.org/frameworks/kio-fork/-/archive/v2/archive.tar",
+            "https://invent.kde.org/frameworks/kio/-/archive/v1/archive.tar",
+            ("https://invent.kde.org/frameworks/kio-fork",),
+            ("https://invent.kde.org/frameworks/kio",),
+        ),
+        (
+            "https://codeberg.org/fork/bar/archive/v2.tar",
+            "https://codeberg.org/foo/bar/archive/v1.tar",
+            ("https://codeberg.org/fork/bar",),
+            ("https://codeberg.org/foo/bar",),
+        ),
+    ],
+)
+def test_manifest_source_replacements_gate(
+    candidate_url, published_url, added, removed
+):
+    findings = source_findings(
+        source_manifest(source(url=candidate_url)),
+        source_manifest(source(url=published_url)),
+    )
+
+    assert len(findings) == 1
+    assert findings[0].sources_added == added
+    assert findings[0].sources_removed == removed
+    assert findings[0].locations_by_source == {
+        added[0]: ('modules["app"].sources[0].url',),
+        removed[0]: ('modules["app"].sources[0].url',),
+    }
+
+
+def test_new_source_and_mirror_identities_retain_all_unique_locations():
+    candidate = source_manifest(
+        source(
+            url="https://new.example/a",
+            **{
+                "mirror-urls": [
+                    "https://new.example/mirror",
+                    "https://mirror.example/a",
+                    "https://new.example/a",
+                ]
+            },
+        )
+    )
+
+    finding = source_findings(candidate, source_manifest())[0]
+
+    assert finding.sources_added == (
+        "https://mirror.example",
+        "https://new.example",
+    )
+    assert finding.locations_by_source == {
+        "https://mirror.example": ('modules["app"].sources[0].mirror-urls[1]',),
+        "https://new.example": (
+            'modules["app"].sources[0].mirror-urls[0]',
+            'modules["app"].sources[0].mirror-urls[2]',
+            'modules["app"].sources[0].url',
+        ),
+    }
+
+
+def test_nested_unique_module_names_are_used_in_locations():
+    candidate = {
+        "modules": [
+            {
+                "name": "outer",
+                "modules": [
+                    {
+                        "name": 'lib"foo',
+                        "sources": [source(url="https://new.example/a")],
+                    }
+                ],
+            }
+        ]
+    }
+
+    finding = source_findings(candidate, {"modules": []})[0]
+
+    assert finding.locations_by_source["https://new.example"] == (
+        'modules["outer"].modules["lib\\"foo"].sources[0].url',
+    )
+
+
+@pytest.mark.parametrize(
+    "modules",
+    [
+        [
+            {"sources": [source(url="https://new.example/a")]},
+        ],
+        [
+            {"name": "duplicate", "sources": [source(url="https://new.example/a")]},
+            {"name": "duplicate", "sources": []},
+        ],
+    ],
+)
+def test_unnamed_and_duplicate_module_names_use_indexes(modules):
+    finding = source_findings({"modules": modules}, {"modules": []})[0]
+    assert finding.locations_by_source["https://new.example"] == (
+        "modules[0].sources[0].url",
+    )
+
+
+@pytest.mark.parametrize(
+    "source_value",
+    [
+        source(url="ssh:repository"),
+        source(url="https://example.com:70000/a"),
+        source(url=42),
+        source(**{"mirror-urls": [False]}),
+    ],
+)
+def test_candidate_only_malformed_urls_do_not_gate(source_value):
+    assert source_findings(source_manifest(source_value), source_manifest()) == ()
+
+
+def test_unchanged_malformed_signature_does_not_gate_and_valid_replacement_does():
+    malformed = source_manifest(source(url="https://example.com:70000/a"))
+    assert source_findings(malformed, malformed) == ()
+
+    finding = source_findings(
+        source_manifest(source(url="https://new.example/a")),
+        malformed,
+    )[0]
+    assert finding.sources_added == ("https://new.example",)
+
+
+def test_identical_arch_groups_merge_and_different_groups_remain_separate():
+    published = source_manifest()
+    common_candidate = source_manifest(source(url="https://common.example/a"))
+    common_group = (
+        manifest_pair(common_candidate, published, arch="x86_64"),
+        manifest_pair(common_candidate, published, arch="aarch64"),
+    )
+    different_group = (
+        manifest_pair(
+            source_manifest(source(url="https://other.example/a")),
+            published,
+            arch="riscv64",
+        ),
+    )
+
+    findings = ostree_manifest.find_manifest_source_changes(
+        (common_group, different_group)
+    )
+
+    assert [finding.arches for finding in findings] == [
+        ("aarch64", "x86_64"),
+        ("riscv64",),
+    ]
+
+
+@pytest.mark.parametrize(
+    "status",
+    [
+        ostree_manifest.PublishedManifestStatus.REF_MISSING,
+        ostree_manifest.PublishedManifestStatus.MANIFEST_MISSING,
+        ostree_manifest.PublishedManifestStatus.MANIFEST_INVALID,
+    ],
+)
+def test_missing_or_invalid_published_manifest_does_not_gate(status):
+    pair = manifest_pair(
+        source_manifest(source(url="https://new.example/a")),
+        None,
+        status=status,
+    )
+    assert ostree_manifest.find_manifest_source_changes(((pair,),)) == ()
+
+
+@pytest.mark.parametrize(
+    "manifest",
+    [
+        {"sources": []},
+        {"modules": "module.json"},
+        {"modules": ["module.json"]},
+        {"modules": [42]},
+        {"modules": [{"sources": "sources.json"}]},
+        {"modules": [{"sources": ["source.json"]}]},
+        {"modules": [{"sources": [42]}]},
+        {"modules": [{"sources": [{"mirror-urls": "mirror"}]}]},
+    ],
+)
+def test_structural_blind_spots_make_comparison_unreliable(manifest):
+    assert (
+        source_findings(
+            source_manifest(source(url="https://new.example/a")),
+            manifest,
+        )
+        == ()
+    )
+    assert (
+        source_findings(
+            manifest,
+            source_manifest(source(url="https://old.example/a")),
+        )
+        == ()
+    )
+
+
+@pytest.mark.parametrize(
+    ("url", "origin"),
+    [
+        ("git://user:password@example.com:9418/repo", "git://example.com"),
+        ("ssh://user@example.com:22/repo", "ssh://example.com"),
+        ("svn://example.com:3690/repo", "svn://example.com"),
+        ("svn+ssh://user@example.com:22/repo", "svn+ssh://example.com"),
+        ("bzr+ssh://user@example.com:22/repo", "bzr+ssh://example.com"),
+    ],
+)
+def test_hierarchical_builder_protocols_normalize_without_credentials(url, origin):
+    inventory = ostree_manifest._collect_manifest_source_inventory(
+        source_manifest(source(url=url))
+    )
+    assert tuple(inventory.locations_by_source) == (origin,)
+    assert "user" not in repr(inventory.locations_by_source)
+    assert "password" not in repr(inventory.locations_by_source)

@@ -239,3 +239,23 @@ def test_ipv6_origin_is_serialized_with_brackets():
     assert moderation._extra_data_origins(
         {"uri": "https://[2001:db8::1]:8443/app.bin"}
     ) == ["https://[2001:db8::1]:8443"]
+
+
+@pytest.mark.parametrize(
+    ("url", "expected"),
+    [
+        (
+            "https://user:password@Example.COM/download",
+            ["https://example.com"],
+        ),
+        ("http://192.0.2.1:80/download", ["http://192.0.2.1"]),
+        ("https://[2001:db8::1]:443/download", ["https://[2001:db8::1]"]),
+        ("https://example.com:8443/download", ["https://example.com:8443"]),
+    ],
+)
+def test_extra_data_url_origins_preserve_supported_parser_behavior(url, expected):
+    assert moderation._extra_data_origins({"uri": url}) == expected
+
+
+def test_non_string_extra_data_url_has_no_origin():
+    assert moderation._extra_data_origins({"uri": 42}) is None
