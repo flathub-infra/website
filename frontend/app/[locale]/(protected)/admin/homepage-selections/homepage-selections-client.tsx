@@ -2,7 +2,14 @@
 
 import axios from "axios"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { FormEvent, useMemo, useState } from "react"
+import { useTranslations } from "next-intl"
+import {
+  FormEvent,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -14,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { FlathubCombobox } from "src/components/Combobox"
 import AdminLayoutClient from "src/components/AdminLayoutClient"
 import LogoImage from "src/components/LogoImage"
 import Spinner from "src/components/Spinner"
@@ -37,6 +43,18 @@ import {
   type HomepageCuratedAppSelectionSlot,
 } from "src/types/CuratedAppSelection"
 import { getUtcDateString } from "src/utils/date"
+import {
+  canReplaceDirtyForm,
+  createFormResetState,
+  createInitialForm,
+  isSelectionFormDirty,
+  matchesAppSearch,
+  partitionAndSortSelections,
+  resolveThemeLabel,
+  type SelectableApp,
+  type SelectionFormState,
+  type ThemeLabel,
+} from "./homepage-selections"
 
 const SLOT_LABELS: Record<HomepageCuratedAppSelectionSlot, string> = {
   "after-hero": "After hero",
@@ -51,23 +69,6 @@ const SELECT_CONTENT_CLASS =
   "z-50 border-input bg-flathub-white text-flathub-dark-gunmetal shadow-xl dark:bg-stone-900 dark:text-flathub-lotion"
 const SELECT_ITEM_CLASS =
   "cursor-pointer text-flathub-dark-gunmetal hover:bg-flathub-celestial-blue hover:text-flathub-white focus:bg-flathub-celestial-blue focus:text-flathub-white data-[highlighted]:bg-flathub-celestial-blue data-[highlighted]:text-flathub-white dark:text-flathub-lotion"
-
-interface SelectableApp {
-  id: string
-  name: string
-  subtitle: string
-  icon: string
-}
-
-interface SelectionFormState {
-  editingId?: number
-  themeId: string
-  slot: HomepageCuratedAppSelectionSlot
-  startsAt: string
-  endsAt: string
-  enabled: boolean
-  apps: SelectableApp[]
-}
 
 type ScheduledSelectionView = Omit<ScheduledSelectionAdmin, "slot"> & {
   slot: HomepageCuratedAppSelectionSlot
@@ -84,25 +85,13 @@ function todayString() {
   return getUtcDateString()
 }
 
-function createInitialForm(): SelectionFormState {
-  const today = todayString()
-
-  return {
-    themeId: "",
-    slot: "after-hero",
-    startsAt: today,
-    endsAt: today,
-    enabled: false,
-    apps: [],
-  }
-}
-
 function appFallback(appId: string): SelectableApp {
   return {
     id: appId,
     name: appId,
     subtitle: "Appstream data unavailable",
     icon: "",
+    keywords: [],
   }
 }
 
@@ -141,6 +130,10 @@ async function getSelectableApp(appId: string): Promise<SelectableApp> {
       name: appstream.name,
       subtitle: appstream.summary,
       icon: "icon" in appstream && appstream.icon ? appstream.icon : "",
+      keywords:
+        "keywords" in appstream && Array.isArray(appstream.keywords)
+          ? appstream.keywords
+          : [],
     }
   } catch {
     return appFallback(appId)
@@ -183,6 +176,7 @@ function getErrorMessage(error: unknown) {
 }
 
 export default function HomepageSelectionsClient() {
+  const t = useTranslations()
   const user = useUserContext()
   const queryClient = useQueryClient()
   const canModerate = !!user.info?.permissions.some(
@@ -190,9 +184,29 @@ export default function HomepageSelectionsClient() {
   )
 
   const recommendationDate = todayString()
-  const [form, setForm] = useState<SelectionFormState>(createInitialForm)
+  const initialForm = useMemo(
+    () => createInitialForm(recommendationDate),
+    [recommendationDate],
+  )
+  const [form, setForm] = useState<SelectionFormState>(initialForm)
+  const [pristineForm, setPristineForm] =
+    useState<SelectionFormState>(initialForm)
+  const [pickerResetGeneration, setPickerResetGeneration] = useState(0)
   const [formError, setFormError] = useState<string | null>(null)
   const [formSuccess, setFormSuccess] = useState<string | null>(null)
+
+  const resetForm = (successMessage: string | null = null) => {
+    const reset = createFormResetState(
+      todayString(),
+      pickerResetGeneration,
+      successMessage,
+    )
+    setForm(reset.form)
+    setPristineForm(reset.pristineForm)
+    setPickerResetGeneration(reset.pickerResetGeneration)
+    setFormError(reset.formError)
+    setFormSuccess(reset.formSuccess)
+  }
 
   const themesQuery = useQuery({
     queryKey: ["curated-app-selection-themes"],
@@ -274,12 +288,32 @@ export default function HomepageSelectionsClient() {
     [themesQuery.data],
   )
 
+  const themeLabelsById = useMemo(
+    () =>
+      new Map(
+        (themesQuery.data ?? []).map((theme) => [
+          theme.id,
+          resolveThemeLabel(theme, t.has, t),
+        ]),
+      ),
+    [t, themesQuery.data],
+  )
+
   const availableApps = useMemo(() => {
     const selectedAppIds = new Set(form.apps.map((app) => app.id))
     return (recommendationsQuery.data ?? []).filter(
       (app) => !selectedAppIds.has(app.id),
     )
   }, [form.apps, recommendationsQuery.data])
+
+  const partitionedSelections = useMemo(
+    () =>
+      partitionAndSortSelections(
+        selectionsQuery.data ?? [],
+        recommendationDate,
+      ),
+    [recommendationDate, selectionsQuery.data],
+  )
 
   const saveSelection = useMutation({
     mutationFn: async ({ selectionId, body }: SaveSelectionVariables) => {
@@ -313,9 +347,7 @@ export default function HomepageSelectionsClient() {
           ),
         ],
       )
-      setForm(createInitialForm())
-      setFormError(null)
-      setFormSuccess(
+      resetForm(
         variables.selectionId ? "Selection saved." : "Selection created.",
       )
       await queryClient.invalidateQueries({
@@ -337,10 +369,11 @@ export default function HomepageSelectionsClient() {
     },
     onSuccess: async (_data, selectionId) => {
       if (form.editingId === selectionId) {
-        setForm(createInitialForm())
+        resetForm("Selection deleted.")
+      } else {
+        setFormError(null)
+        setFormSuccess("Selection deleted.")
       }
-      setFormError(null)
-      setFormSuccess("Selection deleted.")
       await queryClient.invalidateQueries({
         queryKey: ["curated-app-selections-admin"],
       })
@@ -389,7 +422,15 @@ export default function HomepageSelectionsClient() {
   }
 
   const editSelection = (selection: ScheduledSelectionView) => {
-    setForm({
+    if (
+      !canReplaceDirtyForm(isSelectionFormDirty(form, pristineForm), () =>
+        window.confirm("Discard the current unsaved selection draft?"),
+      )
+    ) {
+      return
+    }
+
+    const nextForm: SelectionFormState = {
       editingId: selection.id,
       themeId: selection.theme_id.toString(),
       slot: selection.slot,
@@ -397,7 +438,10 @@ export default function HomepageSelectionsClient() {
       endsAt: selection.ends_at,
       enabled: selection.enabled,
       apps: selection.appDetails,
-    })
+    }
+    setForm(nextForm)
+    setPristineForm(nextForm)
+    setPickerResetGeneration((generation) => generation + 1)
     setFormError(null)
     setFormSuccess(null)
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -525,17 +569,30 @@ export default function HomepageSelectionsClient() {
                         <SelectValue placeholder="Select a theme" />
                       </SelectTrigger>
                       <SelectContent className={SELECT_CONTENT_CLASS}>
-                        {(themesQuery.data ?? []).map((theme) => (
-                          <SelectItem
-                            key={theme.id}
-                            value={theme.id.toString()}
-                            disabled={!theme.enabled}
-                            className={SELECT_ITEM_CLASS}
-                          >
-                            {theme.name}
-                            {!theme.enabled ? " (disabled)" : ""}
-                          </SelectItem>
-                        ))}
+                        {(themesQuery.data ?? []).map((theme) => {
+                          const label = themeLabelsById.get(theme.id)
+
+                          return (
+                            <SelectItem
+                              key={theme.id}
+                              value={theme.id.toString()}
+                              disabled={!theme.enabled}
+                              className={SELECT_ITEM_CLASS}
+                            >
+                              <span className="flex flex-col py-1">
+                                <span>
+                                  {label?.title ?? theme.name}
+                                  {!theme.enabled ? " (disabled)" : ""}
+                                </span>
+                                {label?.subtitle ? (
+                                  <span className="text-xs opacity-75">
+                                    {label.subtitle}
+                                  </span>
+                                ) : null}
+                              </span>
+                            </SelectItem>
+                          )
+                        })}
                       </SelectContent>
                     </Select>
                   </div>
@@ -633,21 +690,10 @@ export default function HomepageSelectionsClient() {
                 </div>
 
                 <div className="space-y-4">
-                  <FlathubCombobox
-                    items={availableApps}
-                    selectedItem={null}
-                    disabled={availableApps.length === 0}
-                    label="Add app from recommendation pool"
-                    placeholder="Search recommended apps"
-                    variant="form"
-                    setSelectedItem={addApp}
-                    renderItem={(active, selected, item) => (
-                      <AppComboboxItem
-                        active={active}
-                        selected={selected}
-                        item={item}
-                      />
-                    )}
+                  <AppPicker
+                    apps={availableApps}
+                    resetGeneration={pickerResetGeneration}
+                    onAdd={addApp}
                   />
 
                   {availableApps.length === 0 && (
@@ -734,8 +780,7 @@ export default function HomepageSelectionsClient() {
                       type="button"
                       variant="secondary"
                       onClick={() => {
-                        setForm(createInitialForm())
-                        setFormError(null)
+                        resetForm()
                       }}
                     >
                       Cancel edit
@@ -747,88 +792,46 @@ export default function HomepageSelectionsClient() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Scheduled Selections</h2>
-              {(selectionsQuery.data ?? []).length === 0 ? (
+              {partitionedSelections.current.length === 0 ? (
                 <Card className="p-6">
                   <p className="text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
-                    No homepage selections have been scheduled yet.
+                    {(selectionsQuery.data ?? []).length === 0
+                      ? "No homepage selections have been scheduled yet."
+                      : "No active or upcoming homepage selections."}
                   </p>
                 </Card>
               ) : (
-                <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                  {(selectionsQuery.data ?? []).map((selection) => {
-                    const theme = themesById.get(selection.theme_id)
-
-                    return (
-                      <Card
-                        key={selection.id}
-                        className="bg-flathub-white shadow-md dark:bg-flathub-arsenic"
-                      >
-                        <CardHeader>
-                          <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                            <div>
-                              <h3 className="text-xl font-bold">
-                                {theme?.name ?? selection.theme_key}
-                              </h3>
-                              <p className="text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
-                                {SLOT_LABELS[selection.slot]} ·{" "}
-                                {selection.starts_at} to {selection.ends_at}
-                              </p>
-                            </div>
-                            <span className="w-fit rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-xs font-semibold dark:bg-flathub-gainsborow/10">
-                              {selection.enabled ? "Enabled" : "Disabled"}
-                            </span>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <ol className="space-y-2">
-                            {selection.appDetails.map((app, index) => (
-                              <li
-                                key={app.id}
-                                className="flex min-w-0 items-center gap-3 text-sm"
-                              >
-                                <span className="w-6 font-bold">
-                                  {index + 1}
-                                </span>
-                                <LogoImage
-                                  iconUrl={app.icon}
-                                  appName={app.name}
-                                  size={24}
-                                />
-                                <span className="truncate">{app.name}</span>
-                              </li>
-                            ))}
-                          </ol>
-                        </CardContent>
-                        <CardFooter className="flex-wrap gap-2">
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={() => editSelection(selection)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            disabled={deleteSelection.isPending}
-                            onClick={() => {
-                              if (
-                                window.confirm(
-                                  "Delete this homepage selection schedule?",
-                                )
-                              ) {
-                                deleteSelection.mutate(selection.id)
-                              }
-                            }}
-                          >
-                            Delete
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    )
-                  })}
-                </div>
+                <ScheduledSelectionCards
+                  selections={partitionedSelections.current}
+                  themesById={themesById}
+                  themeLabelsById={themeLabelsById}
+                  deleting={deleteSelection.isPending}
+                  onEdit={editSelection}
+                  onDelete={(selectionId) =>
+                    deleteSelection.mutate(selectionId)
+                  }
+                />
               )}
+
+              {partitionedSelections.past.length > 0 ? (
+                <details className="rounded-xl border border-input bg-flathub-white dark:bg-flathub-arsenic">
+                  <summary className="cursor-pointer px-6 py-4 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
+                    Past selections ({partitionedSelections.past.length})
+                  </summary>
+                  <div className="border-t border-input p-4">
+                    <ScheduledSelectionCards
+                      selections={partitionedSelections.past}
+                      themesById={themesById}
+                      themeLabelsById={themeLabelsById}
+                      deleting={deleteSelection.isPending}
+                      onEdit={editSelection}
+                      onDelete={(selectionId) =>
+                        deleteSelection.mutate(selectionId)
+                      }
+                    />
+                  </div>
+                </details>
+              ) : null}
             </section>
           </>
         )}
@@ -837,26 +840,159 @@ export default function HomepageSelectionsClient() {
   )
 }
 
-function AppComboboxItem({
-  active,
-  selected,
-  item,
+function AppPicker({
+  apps,
+  resetGeneration,
+  onAdd,
 }: {
-  active: boolean
-  selected: boolean
-  item: SelectableApp
+  apps: SelectableApp[]
+  resetGeneration: number
+  onAdd: (app: SelectableApp) => void
+}) {
+  const [query, setQuery] = useState("")
+  const deferredQuery = useDeferredValue(query)
+
+  useEffect(() => {
+    setQuery("")
+  }, [resetGeneration])
+
+  const matchingApps = apps.filter((app) =>
+    matchesAppSearch(app, deferredQuery),
+  )
+
+  return (
+    <div className="space-y-3">
+      <label htmlFor="recommended-app-search" className="text-sm font-semibold">
+        Add app from recommendation pool
+      </label>
+      <Input
+        id="recommended-app-search"
+        type="search"
+        placeholder="Search by name, summary, app ID, or keyword"
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+      />
+      <div
+        className="grid max-h-[32rem] grid-cols-1 gap-3 overflow-y-auto sm:grid-cols-2 xl:grid-cols-3"
+        aria-live="polite"
+      >
+        {matchingApps.map((app) => (
+          <button
+            key={app.id}
+            type="button"
+            className="flex min-h-24 items-start gap-4 rounded-xl border border-input bg-flathub-gainsborow/30 p-4 text-left transition-colors hover:bg-flathub-gainsborow/60 focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-flathub-gainsborow/5 dark:hover:bg-flathub-gainsborow/10"
+            onClick={() => onAdd(app)}
+          >
+            <LogoImage iconUrl={app.icon} appName={app.name} size={64} />
+            <span className="min-w-0">
+              <span className="block truncate font-semibold">{app.name}</span>
+              <span className="mt-1 line-clamp-2 block text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
+                {app.subtitle}
+              </span>
+            </span>
+          </button>
+        ))}
+      </div>
+      {apps.length > 0 && matchingApps.length === 0 ? (
+        <p className="text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
+          No recommended apps match this search.
+        </p>
+      ) : null}
+    </div>
+  )
+}
+
+function ScheduledSelectionCards({
+  selections,
+  themesById,
+  themeLabelsById,
+  deleting,
+  onEdit,
+  onDelete,
+}: {
+  selections: ScheduledSelectionView[]
+  themesById: Map<number, { name: string }>
+  themeLabelsById: Map<number, ThemeLabel>
+  deleting: boolean
+  onEdit: (selection: ScheduledSelectionView) => void
+  onDelete: (selectionId: number) => void
 }) {
   return (
-    <div className="flex cursor-pointer items-center gap-2">
-      <LogoImage iconUrl={item.icon} appName={item.name} size={24} />
-      <div className="min-w-0">
-        <span className={active || selected ? "font-bold" : "font-semibold"}>
-          {item.name}
-        </span>
-        <span className="block truncate text-sm opacity-70">
-          {item.subtitle}
-        </span>
-      </div>
+    <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+      {selections.map((selection) => {
+        const theme = themesById.get(selection.theme_id)
+        const label = themeLabelsById.get(selection.theme_id)
+
+        return (
+          <Card
+            key={selection.id}
+            className="bg-flathub-white shadow-md dark:bg-flathub-arsenic"
+          >
+            <CardHeader>
+              <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                <div>
+                  <h3 className="text-xl font-bold">
+                    {label?.title ?? theme?.name ?? selection.theme_key}
+                  </h3>
+                  {label?.subtitle ? (
+                    <p className="mt-1 text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
+                      {label.subtitle}
+                    </p>
+                  ) : null}
+                  <p className="mt-2 text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
+                    {SLOT_LABELS[selection.slot]} · {selection.starts_at} to{" "}
+                    {selection.ends_at}
+                  </p>
+                </div>
+                <span className="w-fit rounded-full bg-flathub-gainsborow/60 px-3 py-1 text-xs font-semibold dark:bg-flathub-gainsborow/10">
+                  {selection.enabled ? "Enabled" : "Disabled"}
+                </span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ol className="space-y-2">
+                {selection.appDetails.map((app, index) => (
+                  <li
+                    key={app.id}
+                    className="flex min-w-0 items-center gap-3 text-sm"
+                  >
+                    <span className="w-6 font-bold">{index + 1}</span>
+                    <LogoImage
+                      iconUrl={app.icon}
+                      appName={app.name}
+                      size={24}
+                    />
+                    <span className="truncate">{app.name}</span>
+                  </li>
+                ))}
+              </ol>
+            </CardContent>
+            <CardFooter className="flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => onEdit(selection)}
+              >
+                Edit
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={deleting}
+                onClick={() => {
+                  if (
+                    window.confirm("Delete this homepage selection schedule?")
+                  ) {
+                    onDelete(selection.id)
+                  }
+                }}
+              >
+                Delete
+              </Button>
+            </CardFooter>
+          </Card>
+        )
+      })}
     </div>
   )
 }
