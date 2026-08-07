@@ -86,17 +86,14 @@ function assertComplexityNotRendered(html: string) {
   assert.doesNotMatch(html, /could not be matched unambiguously/)
 }
 
-function assertManifestRendering(html: string) {
-  assert.match(html, /https:\/\/github\.com\/foo\/bar/)
-  assert.match(html, /https:\/\/old\.example/)
-  assert.match(html, /libfoo/)
-  assert.match(html, /aarch64/)
-  assert.match(html, /x86_64/)
-  assert.match(html, /Added/)
-  assert.match(html, /Removed/)
-  assert.equal(html.match(/libfoo/g)?.length, 1)
-  assert.doesNotMatch(html, /modules\[/)
-  assert.doesNotMatch(html, /\.sources/)
+function assertRequestDetailsNotRendered(html: string) {
+  assert.doesNotMatch(html, /https:\/\/github\.com\/foo\/bar/)
+  assert.doesNotMatch(html, /https:\/\/old\.example/)
+  assert.doesNotMatch(html, /libfoo/)
+  assert.doesNotMatch(html, /Added/)
+  assert.doesNotMatch(html, /Removed/)
+  assert.doesNotMatch(html, /Old value/)
+  assert.doesNotMatch(html, /New value/)
 }
 
 test("renders random human review without a metadata diff", async () => {
@@ -158,7 +155,7 @@ test("renders random rejection without a metadata diff", async () => {
   assert.doesNotMatch(html, /Old value/)
 })
 
-test("renders manifest source origins in held email", async () => {
+test("does not render manifest source origins in held email", async () => {
   const html = await render(
     ModerationHeldEmail({
       category: "moderation_held",
@@ -172,12 +169,43 @@ test("renders manifest source origins in held email", async () => {
     }),
   )
 
-  assertManifestRendering(html)
-  assert.match(html, /has been held for review/)
-  assert.doesNotMatch(html, /held for review because/)
+  assertRequestDetailsNotRendered(html)
 })
 
-test("renders manifest source origins in approved email", async () => {
+test("does not render permission changes in held email", async () => {
+  const html = await render(
+    ModerationHeldEmail({
+      category: "moderation_held",
+      subject: "Build #123 held for review",
+      previewText: "Build #123 held for review",
+      appId: "org.example.App",
+      appName: "Example App",
+      buildId: 123,
+      buildLogUrl: "https://flathub.org/builds/123",
+      requests: [
+        {
+          requestType: "appdata",
+          requestData: {
+            keys: {
+              permissions: { shared: ["network"] },
+            },
+            current_values: {
+              permissions: { shared: ["ipc"] },
+            },
+          },
+          isNewSubmission: false,
+        },
+      ],
+    }),
+  )
+
+  assert.doesNotMatch(html, /network/)
+  assert.doesNotMatch(html, /ipc/)
+  assert.doesNotMatch(html, /Old value/)
+  assert.doesNotMatch(html, /New value/)
+})
+
+test("does not render manifest source origins in approved email", async () => {
   const html = await render(
     ModerationApprovedEmail({
       category: "moderation_approved",
@@ -191,10 +219,10 @@ test("renders manifest source origins in approved email", async () => {
     }),
   )
 
-  assertManifestRendering(html)
+  assertRequestDetailsNotRendered(html)
 })
 
-test("renders manifest source origins in rejected email", async () => {
+test("does not render manifest source origins in rejected email", async () => {
   const html = await render(
     ModerationRejectedEmail({
       category: "moderation_rejected",
@@ -209,7 +237,7 @@ test("renders manifest source origins in rejected email", async () => {
     }),
   )
 
-  assertManifestRendering(html)
+  assertRequestDetailsNotRendered(html)
 })
 
 test("hides manifest complexity in held email", async () => {
@@ -270,5 +298,5 @@ test("hides manifest complexity in combined rejected email", async () => {
   )
 
   assertComplexityNotRendered(html)
-  assertManifestRendering(html)
+  assertRequestDetailsNotRendered(html)
 })
