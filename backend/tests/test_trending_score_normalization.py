@@ -1,3 +1,4 @@
+import math
 import os
 import sys
 
@@ -9,118 +10,77 @@ sys.path.append(ROOT_DIR)
 from app.trending import calculate_trending_score
 
 
-@pytest.mark.parametrize(
-    ("raw_trend", "expected"),
-    [
-        (-40, -19.280552),
-        (-20, -15.231884),
-        (-10, -9.242343),
-        (0, 0.0),
-        (10, 9.242343),
-        (20, 15.231884),
-        (40, 19.280552),
-    ],
-)
-def test_one_value_history_normalizes_representative_trends(raw_trend, expected):
-    score = calculate_trending_score(
-        installs_over_days=[raw_trend * 10],
-        quality_passed_ratio=0.0,
-        icon_quality_bonus=0,
-        is_eol=False,
-        is_new_app=False,
-    )
-
-    assert score == pytest.approx(expected)
-
-
-def test_normalized_trends_preserve_sign_bounds_and_ordering():
-    scores = [
-        calculate_trending_score(
-            installs_over_days=[raw_trend * 10],
-            quality_passed_ratio=0.0,
-            icon_quality_bonus=0,
-            is_eol=False,
-            is_new_app=False,
-        )
-        for raw_trend in (-1_000, -40, -10, 0, 10, 40, 1_000)
-    ]
-
-    assert scores == sorted(scores)
-    assert all(-20 < score < 20 for score in scores)
-    assert scores[0] < 0 < scores[-1]
-    assert scores[3] == 0
-
-
-@pytest.mark.parametrize(
-    ("is_eol", "is_new_app", "expected"),
-    [
-        (True, False, 9.242343),
-        (False, True, 18.102965),
-        (True, True, 12.702979),
-    ],
-)
-def test_limited_history_adjustments_are_normalized(is_eol, is_new_app, expected):
-    score = calculate_trending_score(
-        installs_over_days=[200],
-        quality_passed_ratio=0.0,
-        icon_quality_bonus=0,
+def score(history, *, quality=0.0, icon_quality=0, is_eol=False):
+    return calculate_trending_score(
+        installs_over_days=history,
+        quality_passed_ratio=quality,
+        icon_quality_bonus=icon_quality,
         is_eol=is_eol,
-        is_new_app=is_new_app,
     )
 
-    assert score == pytest.approx(expected)
+
+def test_sustained_growth_ranks_above_flat_activity_and_decline():
+    sustained_growth = [10] * 14 + [20] * 7
+    flat_activity = [10] * 21
+    decline = [20] * 14 + [10] * 7
+
+    assert score(sustained_growth) > score(flat_activity) > score(decline)
+
+
+def test_sustained_growth_ranks_above_one_day_spike_with_same_recent_total():
+    sustained_growth = [10] * 14 + [20] * 7
+    one_day_spike = [10] * 14 + [0] * 6 + [140]
+
+    assert score(sustained_growth) > score(one_day_spike)
+
+
+def test_higher_volume_growth_ranks_above_same_growth_at_tiny_volume():
+    tiny_volume = [1] * 14 + [2] * 7
+    higher_volume = [100] * 14 + [200] * 7
+
+    assert score(higher_volume) > score(tiny_volume) > 0
+
+
+@pytest.mark.parametrize("quality, icon_quality", [(0.0, 0), (0.5, 2), (1.0, 5)])
+def test_flat_history_scores_zero_regardless_of_quality(quality, icon_quality):
+    assert score([10] * 21, quality=quality, icon_quality=icon_quality) == 0
+
+
+def test_eol_only_reduces_positive_momentum():
+    growth = [10] * 14 + [20] * 7
+    decline = [20] * 14 + [10] * 7
+
+    assert 0 < score(growth, is_eol=True) < score(growth)
+    assert score(decline, is_eol=True) == score(decline)
+
+    active_raw = 20 * math.atanh(score(growth) / 20)
+    eol_raw = 20 * math.atanh(score(growth, is_eol=True) / 20)
+    assert eol_raw == pytest.approx(active_raw * 0.5)
 
 
 @pytest.mark.parametrize(
-    ("is_eol", "is_new_app", "expected"),
+    "history",
     [
-        (True, False, 16.965673),
-        (False, True, 19.907898),
-        (True, True, 18.166470),
+        [0] * 21,
+        [10] * 14 + [20] * 7,
+        [20] * 14 + [10] * 7,
+        [10**300] * 14 + [-(10**300)] * 7,
+        [-(10**300)] * 14 + [10**300] * 7,
+        [10**308] * 14 + [-(10**308)] * 7,
+        [-(10**308)] * 14 + [10**308] * 7,
+        [10**1000] * 14 + [-(10**1000)] * 7,
+        [10**1000, -(10**1000)] * 7 + [10**1000] * 7,
+        [10**400] * 14 + [1] * 7,
     ],
 )
-def test_normal_history_adjustments_are_normalized(is_eol, is_new_app, expected):
-    score = calculate_trending_score(
-        installs_over_days=[100, 200],
-        quality_passed_ratio=0.0,
-        icon_quality_bonus=0,
-        is_eol=is_eol,
-        is_new_app=is_new_app,
-    )
+def test_scores_are_finite_and_strictly_bounded(history):
+    result = score(history, quality=1.0, icon_quality=5)
 
-    assert score == pytest.approx(expected)
+    assert math.isfinite(result)
+    assert -20 < result < 20
 
 
-def test_normal_history_install_contribution_is_bounded():
-    score = calculate_trending_score(
-        installs_over_days=[10, 10, 10, 1_000_000],
-        quality_passed_ratio=0.0,
-        icon_quality_bonus=0,
-        is_eol=False,
-        is_new_app=False,
-    )
-
-    assert 0 < score < 20
-
-
-@pytest.mark.parametrize(
-    "installs_over_days",
-    [[], [400], [10, 10, 10, 1_000]],
-)
-def test_quality_bonuses_are_exact_after_install_normalization(installs_over_days):
-    install_score = calculate_trending_score(
-        installs_over_days=installs_over_days,
-        quality_passed_ratio=0.0,
-        icon_quality_bonus=0,
-        is_eol=False,
-        is_new_app=False,
-    )
-    final_score = calculate_trending_score(
-        installs_over_days=installs_over_days,
-        quality_passed_ratio=1.0,
-        icon_quality_bonus=5,
-        is_eol=False,
-        is_new_app=False,
-    )
-
-    assert final_score == pytest.approx(install_score + 20)
+@pytest.mark.parametrize("history", [[], [0] * 20, [0] * 22])
+def test_history_must_contain_exactly_21_values(history):
+    with pytest.raises(ValueError, match="exactly 21"):
+        score(history)
