@@ -12,7 +12,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github, GithubException
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from sqlalchemy import func, not_, or_
 
 from . import (
@@ -20,6 +20,7 @@ from . import (
     cache,
     config,
     http_client,
+    manifest_complexity,
     models,
     ostree_manifest,
     summary,
@@ -179,8 +180,107 @@ class ManifestSourceOriginFindingData(BaseModel):
     arches: list[str]
 
 
+class ManifestComplexityBreakdownData(BaseModel):
+    structural_units: int = Field(ge=0)
+    recipe_units: int = Field(ge=0)
+    breadth_units: int = Field(ge=0, le=8)
+    ambiguity_units: int = Field(ge=0)
+
+
+class ManifestComplexityEventData(BaseModel):
+    kind: manifest_complexity.ManifestChangeKind
+    location: str
+    arches: list[str]
+    old_summary: manifest_complexity.JSONValue | None = None
+    new_summary: manifest_complexity.JSONValue | None = None
+    magnitude: int | None = Field(default=None, ge=0)
+
+
+def _manifest_event_data_key(
+    event: ManifestComplexityEventData,
+) -> tuple[object, ...]:
+    return (
+        event.kind.value,
+        event.location,
+        json.dumps(
+            event.old_summary,
+            ensure_ascii=True,
+            sort_keys=True,
+            separators=(",", ":"),
+        ),
+        json.dumps(
+            event.new_summary,
+            ensure_ascii=True,
+            sort_keys=True,
+            separators=(",", ":"),
+        ),
+        -1 if event.magnitude is None else event.magnitude,
+        tuple(event.arches),
+    )
+
+
+class ManifestComplexityRequestData(BaseModel):
+    algorithm_version: int = Field(ge=1)
+    analysis_fingerprint: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
+    score_units: int = Field(ge=0, le=40)
+    raw_score_units: int = Field(ge=0)
+    display_score: float = Field(ge=0, le=20)
+    threshold_units: int = Field(ge=1, le=40)
+    score_band: manifest_complexity.ManifestComplexityScoreBand
+    score_breakdown: ManifestComplexityBreakdownData
+    affected_arches: list[str]
+    touched_modules: list[str] = Field(max_length=50)
+    touched_modules_truncated: bool
+    total_touched_module_count: int = Field(ge=0)
+    events: list[ManifestComplexityEventData] = Field(max_length=25)
+    events_truncated: bool
+    total_event_count: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def validate_derived_fields(self):
+        if self.display_score != self.score_units / 2:
+            raise ValueError("display_score does not match score_units")
+        if self.score_units != min(
+            self.raw_score_units,
+            manifest_complexity.MANIFEST_COMPLEXITY_MAX_SCORE_UNITS,
+        ):
+            raise ValueError("score_units does not match raw_score_units")
+        if self.score_band is not manifest_complexity.manifest_complexity_score_band(
+            self.score_units
+        ):
+            raise ValueError("score_band does not match score_units")
+        breakdown_total = (
+            self.score_breakdown.structural_units
+            + self.score_breakdown.recipe_units
+            + self.score_breakdown.breadth_units
+            + self.score_breakdown.ambiguity_units
+        )
+        if breakdown_total != self.raw_score_units:
+            raise ValueError("score breakdown does not match raw_score_units")
+        if self.affected_arches != sorted(set(self.affected_arches)):
+            raise ValueError("affected_arches must be sorted and unique")
+        if self.touched_modules != sorted(set(self.touched_modules)):
+            raise ValueError("touched_modules must be sorted and unique")
+        if any(event.arches != sorted(set(event.arches)) for event in self.events):
+            raise ValueError("event arches must be sorted and unique")
+        if self.events != sorted(self.events, key=_manifest_event_data_key):
+            raise ValueError("events must use canonical order")
+        if self.total_touched_module_count < len(self.touched_modules):
+            raise ValueError("invalid touched module total")
+        if self.total_event_count < len(self.events):
+            raise ValueError("invalid event total")
+        if self.touched_modules_truncated != (
+            self.total_touched_module_count > len(self.touched_modules)
+        ):
+            raise ValueError("invalid touched module truncation flag")
+        if self.events_truncated != self.total_event_count > len(self.events):
+            raise ValueError("invalid event truncation flag")
+        return self
+
+
 class ManifestSourceOriginRequestData(BaseModel):
     findings: list[ManifestSourceOriginFindingData]
+    complexity: ManifestComplexityRequestData | None = None
 
 
 class ModerationRequestResponse(BaseModel):
@@ -194,6 +294,7 @@ class ModerationRequestResponse(BaseModel):
 
     request_type: ModerationRequestType
     request_data: RequestData | ManifestSourceOriginRequestData | None = None
+    build_log_url: str | None = None
     is_new_submission: bool
 
     handled_by: str | None = None
@@ -256,15 +357,57 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     if is_random_review:
         body += f"\n## Review reason\n\n{_RANDOM_REVIEW_MARKER}\n"
     elif request.request_type == ModerationRequestType.MANIFEST:
-        body += "\n## Manifest source changes\n"
-        for finding in request_data["findings"]:
-            body += f"\n### Architectures: {', '.join(finding['arches'])}\n"
-            for source in finding["origins_added"]:
-                body += f"\n- New source: `{source}`\n"
-                for location in finding["locations_by_origin"].get(source, []):
-                    body += f"  - Source location: `{location}`\n"
-            for source in finding["origins_removed"]:
-                body += f"\n- Previous source no longer used: `{source}`\n"
+        complexity = request_data.get("complexity")
+        if complexity:
+            body += "\n## Manifest packaging complexity\n"
+            score = complexity["score_units"] / 2
+            score_text = (
+                "20+"
+                if complexity["score_units"] == 40
+                and complexity["raw_score_units"] > 40
+                else f"{score:g}"
+            )
+            threshold = complexity["threshold_units"] / 2
+            body += (
+                "\nThis build was selected because its packaging recipe changed broadly or structurally. "
+                "This score is not a security-risk or malicious-change assessment.\n"
+            )
+            body += f"\n- Score: **{score_text}** / threshold **{threshold:g}**\n"
+            body += f"- Band: **{complexity['score_band']}**\n"
+            breakdown = complexity["score_breakdown"]
+            body += (
+                f"- Breakdown units: structural {breakdown['structural_units']}, "
+                f"recipe {breakdown['recipe_units']}, breadth {breakdown['breadth_units']}, "
+                f"ambiguity {breakdown['ambiguity_units']}\n"
+            )
+            body += f"- Architectures: {', '.join(complexity['affected_arches']) or 'none'}\n"
+            for module in complexity["touched_modules"]:
+                body += f"- Module: `{module}`\n"
+            for event in complexity["events"]:
+                body += f"- `{event['kind']}` at `{event['location']}`"
+                if event.get("magnitude") is not None:
+                    body += f" (magnitude {event['magnitude']})"
+                body += "\n"
+            if complexity["events_truncated"]:
+                body += (
+                    f"- Showing {len(complexity['events'])} of "
+                    f"{complexity['total_event_count']} events\n"
+                )
+            if complexity["touched_modules_truncated"]:
+                body += (
+                    f"- Showing {len(complexity['touched_modules'])} of "
+                    f"{complexity['total_touched_module_count']} modules\n"
+                )
+        if request_data["findings"]:
+            body += "\n## Manifest source changes\n"
+            for finding in request_data["findings"]:
+                body += f"\n### Architectures: {', '.join(finding['arches'])}\n"
+                for source in finding["origins_added"]:
+                    body += f"\n- New source: `{source}`\n"
+                    for location in finding["locations_by_origin"].get(source, []):
+                        body += f"  - Source location: `{location}`\n"
+                for source in finding["origins_removed"]:
+                    body += f"\n- Previous source no longer used: `{source}`\n"
     else:
         body += "\n## Changes\n| Field | Old value | New value |\n| --- | --- | --- |\n"
         for field in request_data["keys"]:
@@ -429,6 +572,7 @@ def get_moderation_app(
                     request_type=row.request_type,
                     request_data=json.loads(row.request_data),
                     build_id=row.build_id,
+                    build_log_url=row.build_log_url,
                     job_id=row.job_id,
                     is_approved=row.is_approved,
                     handled_by=handled_by_name,
@@ -462,27 +606,234 @@ class ReviewRequestResponse(BaseModel):
     requires_review: bool
 
 
-def _manifest_request_data(
-    findings: Sequence[ostree_manifest.ManifestSourceFinding],
+def _bounded_manifest_text(value: str) -> str:
+    return value if len(value) <= 512 else value[:511] + "…"
+
+
+def _manifest_complexity_fingerprint(
+    review_request: ReviewRequest,
+    app_id: str,
+    analysis: manifest_complexity.ManifestComplexityResult,
 ) -> str:
-    return json.dumps(
-        {
-            "findings": [
-                {
-                    "origins_added": list(finding.sources_added),
-                    "origins_removed": list(finding.sources_removed),
-                    "locations_by_origin": {
-                        source: list(locations)
-                        for source, locations in finding.locations_by_source.items()
-                    },
-                    "arches": list(finding.arches),
-                }
-                for finding in findings
-            ]
-        },
+    payload = {
+        "build_id": review_request.build_id,
+        "job_id": review_request.job_id,
+        "app_id": app_id,
+        "algorithm_version": analysis.algorithm_version,
+        "score_units": analysis.score_units,
+        "raw_score_units": analysis.raw_score_units,
+        "structural_units": analysis.structural_units,
+        "recipe_units": analysis.recipe_units,
+        "breadth_units": analysis.breadth_units,
+        "ambiguity_units": analysis.ambiguity_units,
+        "affected_arches": list(analysis.affected_arches),
+        "touched_modules": list(analysis.touched_modules),
+        "changed_categories": list(analysis.changed_categories),
+        "events": [
+            {
+                "kind": event.kind.value,
+                "location": event.location,
+                "arches": list(event.arches),
+                "old_summary": event.old_summary,
+                "new_summary": event.new_summary,
+                "magnitude": event.magnitude,
+            }
+            for event in analysis.events
+        ],
+    }
+    canonical = json.dumps(
+        payload,
         ensure_ascii=True,
         sort_keys=True,
         separators=(",", ":"),
+    )
+    return "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
+
+
+def _manifest_complexity_request_data(
+    review_request: ReviewRequest,
+    app_id: str,
+    analysis: manifest_complexity.ManifestComplexityResult,
+) -> ManifestComplexityRequestData:
+    stored_modules = sorted(
+        {_bounded_manifest_text(module) for module in analysis.touched_modules[:50]}
+    )
+    stored_events = sorted(
+        [
+            ManifestComplexityEventData(
+                kind=event.kind,
+                location=_bounded_manifest_text(event.location),
+                arches=list(event.arches),
+                old_summary=event.old_summary,
+                new_summary=event.new_summary,
+                magnitude=event.magnitude,
+            )
+            for event in analysis.events[:25]
+        ],
+        key=_manifest_event_data_key,
+    )
+    return ManifestComplexityRequestData(
+        algorithm_version=analysis.algorithm_version,
+        analysis_fingerprint=_manifest_complexity_fingerprint(
+            review_request, app_id, analysis
+        ),
+        score_units=analysis.score_units,
+        raw_score_units=analysis.raw_score_units,
+        display_score=analysis.score_units / 2,
+        threshold_units=config.settings.ostree_manifest_complexity_threshold_units,
+        score_band=manifest_complexity.manifest_complexity_score_band(
+            analysis.score_units
+        ),
+        score_breakdown=ManifestComplexityBreakdownData(
+            structural_units=analysis.structural_units,
+            recipe_units=analysis.recipe_units,
+            breadth_units=analysis.breadth_units,
+            ambiguity_units=analysis.ambiguity_units,
+        ),
+        affected_arches=list(analysis.affected_arches),
+        touched_modules=stored_modules,
+        touched_modules_truncated=len(analysis.touched_modules) > len(stored_modules),
+        total_touched_module_count=len(analysis.touched_modules),
+        events=stored_events,
+        events_truncated=len(analysis.events) > len(stored_events),
+        total_event_count=len(analysis.events),
+    )
+
+
+def _manifest_request_data(
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
+    complexity: ManifestComplexityRequestData | None,
+) -> str:
+    body = ManifestSourceOriginRequestData(
+        findings=[
+            ManifestSourceOriginFindingData(
+                origins_added=list(finding.sources_added),
+                origins_removed=list(finding.sources_removed),
+                locations_by_origin={
+                    source: list(locations)
+                    for source, locations in finding.locations_by_source.items()
+                },
+                arches=list(finding.arches),
+            )
+            for finding in findings
+        ],
+        complexity=complexity,
+    )
+    return json.dumps(
+        body.model_dump(mode="json", exclude_none=True),
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+
+
+def _manifest_request_matches(
+    stored_data: str,
+    candidate_data: str,
+) -> bool:
+    try:
+        stored = ManifestSourceOriginRequestData.model_validate_json(stored_data)
+        candidate = ManifestSourceOriginRequestData.model_validate_json(candidate_data)
+    except ValueError:
+        return False
+    if stored.findings != candidate.findings:
+        return False
+    stored_complexity = stored.complexity
+    candidate_complexity = candidate.complexity
+    if (stored_complexity is None) != (candidate_complexity is None):
+        return False
+    if stored_complexity is None or candidate_complexity is None:
+        return True
+    return (
+        stored_complexity.analysis_fingerprint
+        == candidate_complexity.analysis_fingerprint
+    )
+
+
+def _log_manifest_complexity(
+    review_request: ReviewRequest,
+    app_id: str,
+    analysis: manifest_complexity.ManifestComplexityAnalysis,
+    gate_suppressed_reason: str | None,
+) -> None:
+    threshold = config.settings.ostree_manifest_complexity_threshold_units
+    if isinstance(analysis, manifest_complexity.ManifestComplexityResult):
+        would_gate = analysis.score_units >= threshold
+        score_units: int | None = analysis.score_units
+        display_score: float | None = analysis.score_units / 2
+        score_band: str | None = manifest_complexity.manifest_complexity_score_band(
+            analysis.score_units
+        ).value
+        event_counts = dict(
+            sorted(
+                {
+                    kind.value: sum(event.kind is kind for event in analysis.events)
+                    for kind in manifest_complexity.ManifestChangeKind
+                    if any(event.kind is kind for event in analysis.events)
+                }.items()
+            )
+        )
+        touched_count = len(analysis.touched_modules)
+        fingerprint = _manifest_complexity_fingerprint(review_request, app_id, analysis)
+        not_scored_reason = None
+    else:
+        would_gate = False
+        score_units = None
+        display_score = None
+        score_band = None
+        event_counts = {}
+        touched_count = 0
+        fingerprint = None
+        not_scored_reason = analysis.reason.value
+    logger.info(
+        "Evaluated manifest packaging complexity for app",
+        extra={
+            "algorithm_version": analysis.algorithm_version,
+            "build_id": review_request.build_id,
+            "job_id": review_request.job_id,
+            "app_id": app_id,
+            "score_units": score_units,
+            "display_score": display_score,
+            "score_band": score_band,
+            "event_counts_by_kind": event_counts,
+            "touched_module_count": touched_count,
+            "affected_arches": list(analysis.affected_arches),
+            "would_gate": would_gate,
+            "gating_enabled": config.settings.ostree_manifest_complexity_gating_enabled,
+            "threshold_units": threshold,
+            "not_scored_reason": not_scored_reason,
+            "gate_suppressed_reason": gate_suppressed_reason,
+            "analysis_fingerprint": fingerprint,
+        },
+    )
+
+
+def _complexity_analysis_for_app(
+    app_id: str,
+    *,
+    is_new_submission: bool,
+    expected_refs_by_app: dict[str, set[tuple[str, str, str, str]]],
+    collected_refs_by_app: dict[str, set[tuple[str, str, str, str]]],
+    manifest_groups_by_app: dict[
+        str, tuple[tuple[ostree_manifest.ManifestPair, ...], ...]
+    ],
+) -> manifest_complexity.ManifestComplexityAnalysis:
+    expected = expected_refs_by_app.get(app_id, set())
+    if is_new_submission:
+        return manifest_complexity.ManifestComplexityNotScored(
+            manifest_complexity.MANIFEST_COMPLEXITY_ALGORITHM_VERSION,
+            manifest_complexity.ManifestComplexityNotScoredReason.INITIAL_SUBMISSION,
+            tuple(sorted({identity[1] for identity in expected})),
+        )
+    missing = expected - collected_refs_by_app.get(app_id, set())
+    if missing or not expected:
+        return manifest_complexity.ManifestComplexityNotScored(
+            manifest_complexity.MANIFEST_COMPLEXITY_ALGORITHM_VERSION,
+            manifest_complexity.ManifestComplexityNotScoredReason.CANDIDATE_MANIFEST_UNAVAILABLE,
+            tuple(sorted({identity[1] for identity in missing or expected})),
+        )
+    return manifest_complexity.analyze_manifest_complexity(
+        manifest_groups_by_app.get(app_id, ())
     )
 
 
@@ -582,6 +933,7 @@ def submit_review_request(
     build_log_url = build_metadata.get("build_log_url")
 
     build_refs = build_extended.get("build_refs")
+    candidate_refs: tuple[ostree_manifest.CandidateManifestRef, ...] = ()
     manifest_pairs: tuple[ostree_manifest.ManifestPair, ...] = ()
     manifest_groups: tuple[tuple[ostree_manifest.ManifestPair, ...], ...] = ()
     manifest_findings_by_app: dict[
@@ -650,6 +1002,27 @@ def submit_review_request(
         for finding in manifest_findings:
             manifest_findings_by_app.setdefault(finding.app_id, ())
             manifest_findings_by_app[finding.app_id] += (finding,)
+    manifest_groups_by_app: dict[
+        str, tuple[tuple[ostree_manifest.ManifestPair, ...], ...]
+    ] = {}
+    for group in manifest_groups:
+        manifest_groups_by_app.setdefault(group[0].app_id, ())
+        manifest_groups_by_app[group[0].app_id] += (group,)
+    expected_refs_by_app: dict[str, set[tuple[str, str, str, str]]] = {}
+    for candidate_ref in candidate_refs:
+        expected_refs_by_app.setdefault(candidate_ref.app_id, set()).add(
+            (
+                candidate_ref.ref_name,
+                candidate_ref.arch,
+                candidate_ref.branch,
+                candidate_ref.candidate_commit,
+            )
+        )
+    collected_refs_by_app: dict[str, set[tuple[str, str, str, str]]] = {}
+    for pair in manifest_pairs:
+        collected_refs_by_app.setdefault(pair.app_id, set()).add(
+            (pair.ref_name, pair.arch, pair.branch, pair.candidate_commit)
+        )
     if random_review_enabled and not isinstance(build_refs, list):
         raise HTTPException(status_code=500, detail="invalid_build")
     build_ref_arches = {
@@ -735,6 +1108,7 @@ def submit_review_request(
                 if value == keys[key]:
                     keys.pop(key, None)
 
+        app_complexity: manifest_complexity.ManifestComplexityAnalysis | None = None
         # Don't consider the first "official" vorarbeiter build as a new submission
         # as it has been already reviewed manually on GitHub
         if is_new_submission and build_metadata.get("token_name") == "vorarbeiter":
@@ -746,6 +1120,20 @@ def submit_review_request(
                     would_require_review=False,
                     reason="initial-vorarbeiter",
                 )
+            if config.settings.ostree_manifest_comparison_enabled:
+                app_complexity = _complexity_analysis_for_app(
+                    app_id,
+                    is_new_submission=True,
+                    expected_refs_by_app=expected_refs_by_app,
+                    collected_refs_by_app=collected_refs_by_app,
+                    manifest_groups_by_app=manifest_groups_by_app,
+                )
+                _log_manifest_complexity(
+                    review_request,
+                    app_id,
+                    app_complexity,
+                    "initial-vorarbeiter",
+                )
             continue
 
         if should_skip_review(app_id):
@@ -756,6 +1144,20 @@ def submit_review_request(
                     app_manifest_findings,
                     would_require_review=False,
                     reason="skip-list",
+                )
+            if config.settings.ostree_manifest_comparison_enabled:
+                app_complexity = _complexity_analysis_for_app(
+                    app_id,
+                    is_new_submission=is_new_submission,
+                    expected_refs_by_app=expected_refs_by_app,
+                    collected_refs_by_app=collected_refs_by_app,
+                    manifest_groups_by_app=manifest_groups_by_app,
+                )
+                _log_manifest_complexity(
+                    review_request,
+                    app_id,
+                    app_complexity,
+                    "skip-list",
                 )
             continue
 
@@ -773,79 +1175,45 @@ def submit_review_request(
                     current_values = {"direct upload": False}
                     keys = {"direct upload": True}
 
+        if config.settings.ostree_manifest_comparison_enabled:
+            app_complexity = _complexity_analysis_for_app(
+                app_id,
+                is_new_submission=is_new_submission,
+                expected_refs_by_app=expected_refs_by_app,
+                collected_refs_by_app=collected_refs_by_app,
+                manifest_groups_by_app=manifest_groups_by_app,
+            )
+
         if app_manifest_findings:
-            if is_new_submission:
-                _log_manifest_source_gate(
-                    review_request,
-                    app_id,
-                    app_manifest_findings,
-                    would_require_review=False,
-                    reason="initial-submission",
-                )
-            else:
-                would_require_review = not config.settings.moderation_observe_only
-                _log_manifest_source_gate(
-                    review_request,
-                    app_id,
-                    app_manifest_findings,
-                    would_require_review=would_require_review,
-                )
-                if config.settings.ostree_manifest_source_origin_gating_enabled:
-                    request_data = _manifest_request_data(app_manifest_findings)
-                    with get_db("writer") as db:
-                        existing_manifest_requests = (
-                            db.session.query(models.ModerationRequest)
-                            .filter(
-                                models.ModerationRequest.appid == app_id,
-                                models.ModerationRequest.build_id
-                                == review_request.build_id,
-                                models.ModerationRequest.request_type
-                                == ModerationRequestType.MANIFEST,
-                            )
-                            .all()
-                        )
-                    if not existing_manifest_requests:
-                        new_requests.append(
-                            models.ModerationRequest(
-                                appid=app_id,
-                                request_type=ModerationRequestType.MANIFEST,
-                                request_data=request_data,
-                                is_new_submission=False,
-                                is_outdated=False,
-                                build_id=review_request.build_id,
-                                job_id=review_request.job_id,
-                                build_log_url=build_log_url,
-                            )
-                        )
-                    elif (
-                        len(existing_manifest_requests) == 1
-                        and existing_manifest_requests[0].job_id
-                        == review_request.job_id
-                        and existing_manifest_requests[0].request_data == request_data
-                    ):
-                        reused_request = existing_manifest_requests[0]
-                        manifest_reused_app_ids.add(app_id)
-                        manifest_reuse_requires_review = (
-                            manifest_reuse_requires_review
-                            or reused_request.handled_at is None
-                            or reused_request.is_approved is None
-                        )
-                    else:
-                        logger.error(
-                            "Conflicting manifest moderation request",
-                            extra={
-                                "build_id": review_request.build_id,
-                                "job_id": review_request.job_id,
-                                "app_id": app_id,
-                                "existing_request_count": len(
-                                    existing_manifest_requests
-                                ),
-                            },
-                        )
-                        raise HTTPException(
-                            status_code=500,
-                            detail="conflicting_manifest_review_request",
-                        )
+            _log_manifest_source_gate(
+                review_request,
+                app_id,
+                app_manifest_findings,
+                would_require_review=(
+                    not is_new_submission
+                    and not config.settings.moderation_observe_only
+                ),
+                reason="initial-submission" if is_new_submission else None,
+            )
+
+        origin_should_gate = (
+            not is_new_submission
+            and bool(app_manifest_findings)
+            and config.settings.ostree_manifest_source_origin_gating_enabled
+        )
+        complexity_would_gate = (
+            isinstance(
+                app_complexity,
+                manifest_complexity.ManifestComplexityResult,
+            )
+            and app_complexity.score_units
+            >= config.settings.ostree_manifest_complexity_threshold_units
+        )
+        complexity_should_gate = (
+            complexity_would_gate
+            and config.settings.ostree_manifest_complexity_gating_enabled
+        )
+        appdata_request: models.ModerationRequest | None = None
 
         if random_review_enabled:
             eligible_app_ids.append(app_id)
@@ -1032,7 +1400,7 @@ def submit_review_request(
             # still triggers a moderation request, so re-check
             if len(keys) > 0:
                 # Create a moderation request
-                request = models.ModerationRequest(
+                appdata_request = models.ModerationRequest(
                     appid=app_id,
                     request_type=ModerationRequestType.APPDATA,
                     request_data=json.dumps(
@@ -1044,10 +1412,120 @@ def submit_review_request(
                     job_id=review_request.job_id,
                     build_log_url=build_log_url,
                 )
-                new_requests.append(request)
+        complexity_data = (
+            _manifest_complexity_request_data(
+                review_request,
+                app_id,
+                app_complexity,
+            )
+            if isinstance(
+                app_complexity,
+                manifest_complexity.ManifestComplexityResult,
+            )
+            else None
+        )
+        selected_manifest_data: str | None = None
+        if origin_should_gate:
+            selected_manifest_data = _manifest_request_data(
+                app_manifest_findings,
+                complexity_data,
+            )
+        elif complexity_should_gate and appdata_request is None:
+            selected_manifest_data = _manifest_request_data((), complexity_data)
 
-    for app_id, findings in manifest_findings_by_app.items():
-        if app_id not in build_appstream:
+        if app_complexity is not None:
+            suppressed_reason = None
+            if is_new_submission:
+                suppressed_reason = "initial-submission"
+            elif isinstance(
+                app_complexity,
+                manifest_complexity.ManifestComplexityNotScored,
+            ):
+                suppressed_reason = "invalid-or-missing-baseline"
+            elif (
+                complexity_would_gate
+                and not config.settings.ostree_manifest_complexity_gating_enabled
+            ):
+                suppressed_reason = "gating-disabled"
+            elif (
+                complexity_would_gate
+                and appdata_request is not None
+                and not origin_should_gate
+            ):
+                suppressed_reason = "existing-deterministic-request"
+            _log_manifest_complexity(
+                review_request,
+                app_id,
+                app_complexity,
+                suppressed_reason,
+            )
+
+        if selected_manifest_data is not None:
+            with get_db("writer") as db:
+                existing_manifest_requests = (
+                    db.session.query(models.ModerationRequest)
+                    .filter(
+                        models.ModerationRequest.appid == app_id,
+                        models.ModerationRequest.build_id == review_request.build_id,
+                        models.ModerationRequest.request_type
+                        == ModerationRequestType.MANIFEST,
+                    )
+                    .all()
+                )
+            if not existing_manifest_requests:
+                new_requests.append(
+                    models.ModerationRequest(
+                        appid=app_id,
+                        request_type=ModerationRequestType.MANIFEST,
+                        request_data=selected_manifest_data,
+                        is_new_submission=False,
+                        is_outdated=False,
+                        build_id=review_request.build_id,
+                        job_id=review_request.job_id,
+                        build_log_url=build_log_url,
+                    )
+                )
+            elif (
+                len(existing_manifest_requests) == 1
+                and existing_manifest_requests[0].job_id == review_request.job_id
+                and _manifest_request_matches(
+                    existing_manifest_requests[0].request_data,
+                    selected_manifest_data,
+                )
+            ):
+                reused_request = existing_manifest_requests[0]
+                manifest_reused_app_ids.add(app_id)
+                manifest_reuse_requires_review = (
+                    manifest_reuse_requires_review
+                    or reused_request.handled_at is None
+                    or reused_request.is_approved is None
+                )
+            else:
+                logger.error(
+                    "Conflicting manifest moderation request",
+                    extra={
+                        "build_id": review_request.build_id,
+                        "job_id": review_request.job_id,
+                        "app_id": app_id,
+                        "existing_request_count": len(existing_manifest_requests),
+                    },
+                )
+                raise HTTPException(
+                    status_code=500,
+                    detail="conflicting_manifest_review_request",
+                )
+
+        if appdata_request is not None:
+            new_requests.append(appdata_request)
+
+    leftover_manifest_app_ids = (
+        set(expected_refs_by_app)
+        | set(manifest_groups_by_app)
+        | set(manifest_findings_by_app)
+    ) - set(build_appstream)
+    for app_id in sorted(leftover_manifest_app_ids):
+        findings = manifest_findings_by_app.get(app_id, ())
+        if findings:
             _log_manifest_source_gate(
                 review_request,
                 app_id,
@@ -1055,6 +1533,19 @@ def submit_review_request(
                 would_require_review=False,
                 reason="missing-appstream",
             )
+        analysis = _complexity_analysis_for_app(
+            app_id,
+            is_new_submission=False,
+            expected_refs_by_app=expected_refs_by_app,
+            collected_refs_by_app=collected_refs_by_app,
+            manifest_groups_by_app=manifest_groups_by_app,
+        )
+        _log_manifest_complexity(
+            review_request,
+            app_id,
+            analysis,
+            "missing-appstream",
+        )
 
     random_review_reused_app_ids: set[str] = set()
     random_review_reuse_requires_review = False
