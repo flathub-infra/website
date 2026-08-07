@@ -566,6 +566,63 @@ def test_trending_last_two_weeks_locale(client, snapshot):
     )
 
 
+class TrendingBatchIndexed(Exception):
+    pass
+
+
+def test_update_zero_fills_trending_history_and_includes_last_date(monkeypatch):
+    from app.worker import update_stats as update_stats_actor
+
+    stats = update_stats_actor.fn.__globals__["stats"]
+
+    app_id = "org.example.App"
+    last_date = datetime.date(2026, 8, 6)
+    first_date = last_date - datetime.timedelta(days=20)
+    middle_date = first_date + datetime.timedelta(days=10)
+    aggregate = {
+        "per_day": {
+            app_id: {
+                first_date.isoformat(): 3,
+                middle_date.isoformat(): -2,
+                last_date.isoformat(): 9,
+            }
+        },
+        "last_date": last_date.isoformat(),
+    }
+    captured = {}
+
+    monkeypatch.setattr(stats.database, "get_all_appids_for_frontend", lambda: [app_id])
+    monkeypatch.setattr(stats, "_build_or_update_aggregates", lambda: aggregate)
+    monkeypatch.setattr(stats, "_build_stats_dict_from_aggregates", lambda *_args: {})
+    monkeypatch.setattr(
+        stats.models.QualityModeration, "by_appids_summarized", lambda *_args: {}
+    )
+    monkeypatch.setattr(
+        stats.models.QualityModeration, "by_appids_eol_status", lambda *_args: {}
+    )
+    monkeypatch.setattr(
+        stats.models.QualityModeration,
+        "by_appids_icon_quality_passed_count",
+        lambda *_args: {},
+    )
+
+    def capture_score(**kwargs):
+        captured.update(kwargs)
+        return 1.0
+
+    def stop_after_trending_batch(_apps):
+        raise TrendingBatchIndexed
+
+    monkeypatch.setattr(stats, "_calculate_trending_score", capture_score)
+    monkeypatch.setattr(stats.search, "create_or_update_apps", stop_after_trending_batch)
+
+    with pytest.raises(TrendingBatchIndexed):
+        stats.update(object())
+
+    assert captured["installs_over_days"] == [3] + [0] * 9 + [-2] + [0] * 9 + [9]
+    assert "is_new_app" not in captured
+
+
 def test_popular_last_month(client, snapshot):
     response = client.get("/collection/popular")
     assert response.status_code == 200
