@@ -56,9 +56,7 @@ export const ModerationRejectedEmail = ({
           <blockquote className="text-sm">{comment}</blockquote>
         </Section>
       )}
-      {isRandomReview && (
-        <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>
-      )}
+      {isRandomReview && <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>}
     </Base>
   )
 }
