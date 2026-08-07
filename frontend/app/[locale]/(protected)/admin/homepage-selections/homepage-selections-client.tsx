@@ -298,6 +298,10 @@ export default function HomepageSelectionsClient() {
       ),
     [t, themesQuery.data],
   )
+  const selectedThemeTitle = form.themeId
+    ? (themeLabelsById.get(Number(form.themeId))?.title ??
+      themesById.get(Number(form.themeId))?.name)
+    : undefined
 
   const availableApps = useMemo(() => {
     const selectedAppIds = new Set(form.apps.map((app) => app.id))
@@ -566,7 +570,9 @@ export default function HomepageSelectionsClient() {
                         className={SELECT_TRIGGER_CLASS}
                         aria-label="Theme"
                       >
-                        <SelectValue placeholder="Select a theme" />
+                        <SelectValue placeholder="Select a theme">
+                          {selectedThemeTitle}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent className={SELECT_CONTENT_CLASS}>
                         {(themesQuery.data ?? []).map((theme) => {
