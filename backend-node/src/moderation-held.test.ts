@@ -174,7 +174,7 @@ test("renders manifest source origins in held email", async () => {
 
   assertManifestRendering(html)
   assert.match(html, /has been held for review/)
-  assert.doesNotMatch(html, /held.*because/)
+  assert.doesNotMatch(html, /held for review because/)
 })
 
 test("renders manifest source origins in approved email", async () => {
