@@ -42,7 +42,7 @@ const complexityRequest: Request = {
   requestData: {
     findings: [],
     complexity: {
-      algorithm_version: 2,
+      algorithm_version: 3,
       analysis_fingerprint:
         "sha256:6ec3f8e3df4e5c77cf90e5ec66081eb8918e52c27ec1d1de7cc3b4ca28998a7e",
       score_units: 15,

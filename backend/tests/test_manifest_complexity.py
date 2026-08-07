@@ -48,6 +48,16 @@ def kinds(analysis: ManifestComplexityResult) -> list[ManifestChangeKind]:
     return [event.kind for event in analysis.events]
 
 
+def local_sources(count: int, prefix: str = "source") -> list[dict[str, str]]:
+    return [{"type": "file", "path": f"{prefix}-{index}"} for index in range(count)]
+
+
+def module_manifest(
+    sources: list[dict[str, str]], name: str = "main"
+) -> dict[str, object]:
+    return {"modules": [{"name": name, "sources": sources}]}
+
+
 @pytest.mark.parametrize(
     ("before_source", "after_source"),
     [
@@ -234,25 +244,140 @@ def test_structural_module_rename_is_zero():
     assert result(before, after).events == ()
 
 
-def test_source_added_and_removed_are_zero():
-    source = {"type": "archive", "url": "https://example.com/a"}
-    before = {"modules": [{"name": "main", "sources": [source]}]}
-    added = {
+@pytest.mark.parametrize(
+    ("count", "magnitude"),
+    [(1, 1), (2, 1), (3, 2), (11, 3)],
+)
+def test_source_additions_are_aggregated(count, magnitude):
+    analysis = result(
+        module_manifest([]),
+        module_manifest(local_sources(count)),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED]
+    event = analysis.events[0]
+    assert event.location == "modules/main/sources"
+    assert event.old_summary is None
+    assert event.new_summary == {
+        "added": count,
+        "removed": 0,
+        "changed": count,
+    }
+    assert event.magnitude == magnitude
+    assert analysis.recipe_units == magnitude
+    assert analysis.score_units == magnitude
+    assert analysis.breadth_units == 0
+    assert analysis.changed_categories == ("sources",)
+
+
+def test_source_removal_is_aggregated():
+    retained = {"type": "archive", "url": "https://example.com/retained"}
+    removed = {"type": "file", "path": "removed"}
+    analysis = result(
+        module_manifest([retained, removed]),
+        module_manifest([retained]),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED]
+    assert analysis.events[0].new_summary == {
+        "added": 0,
+        "removed": 1,
+        "changed": 1,
+    }
+    assert analysis.events[0].magnitude == 1
+    assert analysis.recipe_units == 1
+
+
+def test_equal_count_source_replacement_counts_total_churn():
+    analysis = result(
+        module_manifest(local_sources(10, "old")),
+        module_manifest(local_sources(10, "new")),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED]
+    assert analysis.events[0].new_summary == {
+        "added": 10,
+        "removed": 10,
+        "changed": 20,
+    }
+    assert analysis.events[0].magnitude == 3
+    assert analysis.recipe_units == 3
+
+
+def test_mixed_source_set_change_is_one_event():
+    analysis = result(
+        module_manifest(local_sources(6, "old")),
+        module_manifest(local_sources(6, "new")),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED]
+    assert analysis.events[0].new_summary == {
+        "added": 6,
+        "removed": 6,
+        "changed": 12,
+    }
+    assert analysis.events[0].magnitude == 3
+
+
+def test_origin_owned_source_addition_and_removal_are_zero():
+    old_origin = {"type": "archive", "url": "https://old.example/source"}
+    new_origin = {"type": "archive", "url": "https://new.example/source"}
+    addition = result(
+        module_manifest([old_origin]),
+        module_manifest([old_origin, new_origin]),
+    )
+    removal = result(module_manifest([new_origin]), module_manifest([]))
+
+    assert addition.events == ()
+    assert addition.score_units == 0
+    assert removal.events == ()
+    assert removal.score_units == 0
+
+
+def test_source_set_is_capped_across_modules():
+    names = ("main", "one", "two")
+    before = {
+        "modules": [{"name": name, "sources": local_sources(1, name)} for name in names]
+    }
+    after = {
         "modules": [
             {
-                "name": "main",
-                "sources": [source, {"type": "file", "url": "https://example.com/b"}],
+                "name": name,
+                "sources": local_sources(1, name) + local_sources(11, f"{name}-new"),
             }
+            for name in names
         ]
     }
 
-    add_result = result(before, added)
-    assert add_result.events == ()
-    assert add_result.score_units == 0
+    analysis = result(before, after)
 
-    remove_result = result(added, before)
-    assert remove_result.events == ()
-    assert remove_result.score_units == 0
+    assert len(analysis.events) == 3
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED] * 3
+    assert {event.magnitude for event in analysis.events} == {3}
+    assert analysis.recipe_units == 6
+    assert analysis.breadth_units == 2
+    assert analysis.changed_categories == ("sources",)
+
+
+def test_generated_source_list_change_is_bounded():
+    source = {
+        "type": "archive",
+        "url": "https://example.com/generated.tar.gz",
+        "sha256": "checksum",
+    }
+    analysis = result(
+        module_manifest([source] * 200),
+        module_manifest([source] * 300),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED]
+    assert analysis.events[0].new_summary == {
+        "added": 100,
+        "removed": 0,
+        "changed": 100,
+    }
+    assert analysis.events[0].magnitude == 3
+    assert analysis.recipe_units == 3
 
 
 def test_source_type_changed_without_add_remove():
@@ -277,7 +402,7 @@ def test_source_type_changed_without_add_remove():
         ]
     }
     analysis = result(before, after)
-    assert ManifestChangeKind.SOURCE_TYPE_CHANGED in kinds(analysis)
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_TYPE_CHANGED]
 
 
 def test_source_options_changed():
@@ -306,15 +431,17 @@ def test_source_options_changed():
     assert analysis.score_units == 2
 
 
-def test_patch_add_has_addon():
-    before = {"modules": [{"name": "main", "sources": []}]}
-    after = {
-        "modules": [
-            {"name": "main", "sources": [{"type": "patch", "path": "fix.patch"}]}
-        ]
-    }
-    analysis = result(before, after)
+@pytest.mark.parametrize("source_type", ["patch", "script", "shell"])
+def test_patch_script_shell_add_has_addon(source_type):
+    source = {"type": source_type}
+    if source_type == "patch":
+        source["path"] = "fix.patch"
+    analysis = result(
+        module_manifest([]),
+        module_manifest([source]),
+    )
     assert kinds(analysis) == [ManifestChangeKind.PATCH_OR_SCRIPT_ADDED]
+    assert analysis.events[0].new_summary == {"type": source_type}
     assert analysis.score_units == 2
 
 
@@ -432,6 +559,28 @@ def test_architecture_merge_scores_once():
     assert analysis.score_units == 6
     assert analysis.events[0].arches == ("aarch64", "x86_64")
     assert analysis.affected_arches == ("aarch64", "x86_64")
+
+
+def test_source_set_architecture_variants_merge_once():
+    before = module_manifest(local_sources(1))
+    after = module_manifest(local_sources(2))
+    groups = tuple(
+        (manifest_pair(before, after, arch=arch),) for arch in ("x86_64", "aarch64")
+    )
+
+    analysis = analyze_manifest_complexity(groups)
+
+    assert isinstance(analysis, ManifestComplexityResult)
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED]
+    assert analysis.events[0].arches == ("aarch64", "x86_64")
+    assert analysis.events[0].new_summary == {
+        "added": 1,
+        "removed": 0,
+        "changed": 1,
+    }
+    assert analysis.events[0].magnitude == 1
+    assert analysis.recipe_units == 1
+    assert analysis.score_units == 1
 
 
 def test_broad_score_is_capped_with_raw_score():

@@ -12,7 +12,7 @@ from urllib.parse import quote, urlsplit, urlunsplit
 from .ostree_manifest import ManifestPair, PublishedManifestStatus
 from .url_origin import InvalidUrlOrigin, normalize_manifest_source_url
 
-MANIFEST_COMPLEXITY_ALGORITHM_VERSION = 2
+MANIFEST_COMPLEXITY_ALGORITHM_VERSION = 3
 MANIFEST_COMPLEXITY_UNITS_PER_POINT = 2
 MANIFEST_COMPLEXITY_MAX_SCORE_UNITS = 40
 type JSONValue = (
@@ -28,6 +28,7 @@ class ManifestChangeKind(StrEnum):
     SOURCE_OPTIONS_CHANGED = "source_options_changed"
     SOURCE_ORDER_CHANGED = "source_order_changed"
     PATCH_OR_SCRIPT_ADDED = "patch_or_script_added"
+    SOURCE_SET_CHANGED = "source_set_changed"
     BUILDSYSTEM_CHANGED = "buildsystem_changed"
     BUILD_COMMANDS_CHANGED = "build_commands_changed"
     POST_INSTALL_CHANGED = "post_install_changed"
@@ -232,6 +233,7 @@ _REMOTE_TYPES = frozenset({"archive", "git", "bzr", "svn"})
 _VCS_TYPES = frozenset({"git", "bzr", "svn"})
 _LOCAL_TYPES = frozenset({"patch", "dir"})
 _GENERATED_TYPES = frozenset({"script", "shell", "inline"})
+_SPECIAL_SOURCE_TYPES = frozenset({"patch", "script", "shell"})
 _TOKEN_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*|\d+(?:\.\d+)?|[^\s]")
 _SCORE_TABLE = {
     ManifestChangeKind.MODULE_ADDED: (5, 15),
@@ -241,6 +243,7 @@ _SCORE_TABLE = {
     ManifestChangeKind.SOURCE_OPTIONS_CHANGED: (2, 6),
     ManifestChangeKind.SOURCE_ORDER_CHANGED: (2, 6),
     ManifestChangeKind.PATCH_OR_SCRIPT_ADDED: (2, 6),
+    ManifestChangeKind.SOURCE_SET_CHANGED: (0, 6),
     ManifestChangeKind.BUILDSYSTEM_CHANGED: (6, 12),
     ManifestChangeKind.BUILD_COMMANDS_CHANGED: (4, 12),
     ManifestChangeKind.POST_INSTALL_CHANGED: (4, 8),
@@ -272,6 +275,7 @@ _CATEGORY_BY_KIND = {
     ManifestChangeKind.SOURCE_OPTIONS_CHANGED: "sources",
     ManifestChangeKind.SOURCE_ORDER_CHANGED: "sources",
     ManifestChangeKind.PATCH_OR_SCRIPT_ADDED: "sources",
+    ManifestChangeKind.SOURCE_SET_CHANGED: "sources",
     ManifestChangeKind.BUILD_COMMANDS_CHANGED: "commands",
     ManifestChangeKind.POST_INSTALL_CHANGED: "commands",
     ManifestChangeKind.BUILDSYSTEM_CHANGED: "build_configuration",
@@ -982,6 +986,7 @@ def _compare_sources(
     module_path: str,
     arches: tuple[str, ...],
     introduced: set[str],
+    removed_origins: set[str],
 ) -> list[_EventEnvelope]:
     if tuple(old) == tuple(new):
         return []
@@ -1106,16 +1111,17 @@ def _compare_sources(
         new_index = min(matches)
         remaining_old.remove(old_index)
         remaining_new.remove(new_index)
-        events.append(
-            _event(
-                ManifestChangeKind.SOURCE_TYPE_CHANGED,
-                _source_location(module_path, new, new_index),
-                arches,
-                old[old_index].source_type,
-                new[new_index].source_type,
-                touched=(module_path,),
+        if old[old_index].source_type != new[new_index].source_type:
+            events.append(
+                _event(
+                    ManifestChangeKind.SOURCE_TYPE_CHANGED,
+                    _source_location(module_path, new, new_index),
+                    arches,
+                    old[old_index].source_type,
+                    new[new_index].source_type,
+                    touched=(module_path,),
+                )
             )
-        )
         events.extend(
             _compare_source_options(
                 old[old_index],
@@ -1128,7 +1134,7 @@ def _compare_sources(
         )
     for new_index in remaining_new:
         source = new[new_index]
-        if source.source_type not in {"patch", "script", "shell"}:
+        if source.source_type not in _SPECIAL_SOURCE_TYPES:
             continue
         location = _source_location(module_path, new, new_index)
         events.append(
@@ -1138,6 +1144,45 @@ def _compare_sources(
                 arches,
                 None,
                 {"type": source.source_type},
+                touched=(module_path,),
+            )
+        )
+
+    def _ordinary_residual(
+        source: _NormalizedSource, excluded_origins: set[str]
+    ) -> bool:
+        if source.source_type in _SPECIAL_SOURCE_TYPES:
+            return False
+        return source.identity.locator_kind != "remote" or (
+            source.primary_origin is not None
+            and source.primary_origin not in excluded_origins
+        )
+
+    old_residual = [
+        old[index]
+        for index in remaining_old
+        if _ordinary_residual(old[index], removed_origins)
+    ]
+    new_residual = [
+        new[index]
+        for index in remaining_new
+        if _ordinary_residual(new[index], introduced)
+    ]
+    old_counts = Counter(source.stable_fingerprint for source in old_residual)
+    new_counts = Counter(source.stable_fingerprint for source in new_residual)
+    removed = sum((old_counts - new_counts).values())
+    added = sum((new_counts - old_counts).values())
+    changed = added + removed
+    if changed:
+        magnitude = 1 if changed <= 2 else 2 if changed <= 10 else 3
+        events.append(
+            _event(
+                ManifestChangeKind.SOURCE_SET_CHANGED,
+                f"{module_path}/sources",
+                arches,
+                None,
+                {"added": added, "removed": removed, "changed": changed},
+                magnitude,
                 touched=(module_path,),
             )
         )
@@ -1151,6 +1196,7 @@ def _compare_matched_module(
     new_path: str,
     arches: tuple[str, ...],
     introduced: set[str],
+    removed_origins: set[str],
     context: "_MatchContext",
 ) -> list[_EventEnvelope]:
     events: list[_EventEnvelope] = []
@@ -1211,7 +1257,9 @@ def _compare_matched_module(
                 _event(kind, new_path, arches, before, after, touched=(new_path,))
             )
     events.extend(
-        _compare_sources(old.sources, new.sources, new_path, arches, introduced)
+        _compare_sources(
+            old.sources, new.sources, new_path, arches, introduced, removed_origins
+        )
     )
     events.extend(
         _compare_module_siblings(
@@ -1221,6 +1269,7 @@ def _compare_matched_module(
             f"{new_path}/modules",
             arches,
             introduced,
+            removed_origins,
             context,
         )
     )
@@ -1255,6 +1304,7 @@ def _compare_module_siblings(
     new_parent: str,
     arches: tuple[str, ...],
     introduced: set[str],
+    removed_origins: set[str],
     context: _MatchContext,
 ) -> list[_EventEnvelope]:
     if tuple(old) == tuple(new):
@@ -1401,6 +1451,7 @@ def _compare_module_siblings(
                             target_path,
                             arches,
                             introduced,
+                            removed_origins,
                             context,
                         )
                     )
@@ -1479,6 +1530,7 @@ def _compare_module_siblings(
                 new_paths[new_index],
                 arches,
                 introduced,
+                removed_origins,
                 context,
             )
         )
@@ -1616,7 +1668,14 @@ def _merge_events(
 
 def _score(events: Sequence[ManifestChange]) -> tuple[int, int, int]:
     totals: dict[ManifestChangeKind, int] = defaultdict(int)
+    source_set_units_by_location: dict[str, int] = {}
     for event in events:
+        if event.kind is ManifestChangeKind.SOURCE_SET_CHANGED:
+            source_set_units_by_location[event.location] = max(
+                source_set_units_by_location.get(event.location, 0),
+                event.magnitude or 0,
+            )
+            continue
         base, _ = _SCORE_TABLE[event.kind]
         modifier = event.magnitude or 0
         if event.kind not in {
@@ -1626,6 +1685,10 @@ def _score(events: Sequence[ManifestChange]) -> tuple[int, int, int]:
         }:
             modifier = 0
         totals[event.kind] += base + modifier
+    if source_set_units_by_location:
+        totals[ManifestChangeKind.SOURCE_SET_CHANGED] = sum(
+            source_set_units_by_location.values()
+        )
     capped = {kind: min(total, _SCORE_TABLE[kind][1]) for kind, total in totals.items()}
     structural = sum(
         value for kind, value in capped.items() if kind in _STRUCTURAL_KINDS
@@ -1780,7 +1843,10 @@ def analyze_manifest_complexity(
     for old, new, arches in normalized:
         if old == new:
             continue
-        introduced = _origin_set(new) - _origin_set(old)
+        old_origins = _origin_set(old)
+        new_origins = _origin_set(new)
+        introduced = new_origins - old_origins
+        removed_origins = old_origins - new_origins
         raw_events.extend(_compare_top_level(old, new, arches))
         context = _MatchContext(
             _collect_module_fingerprints(old.modules, "modules"),
@@ -1796,6 +1862,7 @@ def analyze_manifest_complexity(
                 "modules",
                 arches,
                 introduced,
+                removed_origins,
                 context,
             )
         )
