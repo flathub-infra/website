@@ -65,6 +65,7 @@ export interface ManifestRequest {
   requestType: "manifest"
   requestData: {
     findings: ManifestFinding[]
+    complexity?: unknown
   }
   isNewSubmission: false
 }
@@ -257,6 +258,9 @@ const DiffRow = ({
 
 export const ModerationRequestItem = ({ request }: { request: Request }) => {
   if (request.requestType === "manifest") {
+    if (request.requestData.findings.length === 0) {
+      return null
+    }
     return (
       <Section className="mt-8">
         {request.requestData.findings.flatMap((finding, findingIndex) =>
@@ -361,9 +365,6 @@ export const ModerationHeldEmail = ({
 
   const isRandomReview =
     requests.length > 0 && requests.every(isRandomReviewRequest)
-  const hasManifestRequest = requests.some(
-    (request) => request.requestType === "manifest",
-  )
   return (
     <Base
       previewText={previewText}
@@ -385,11 +386,8 @@ export const ModerationHeldEmail = ({
       ) : (
         <Text>
           Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-          <b>{appNameAndId}</b>{" "}
-          {hasManifestRequest
-            ? "has been held for review because its manifest introduces a new source origin."
-            : "has been held for review because the app's metadata has changed."}{" "}
-          Check the status of the review in the{" "}
+          <b>{appNameAndId}</b> has been held for review. Check the status of
+          the review in the{" "}
           <Link href={`https://flathub.org/apps/manage/${appId}`}>
             app developer settings
           </Link>
