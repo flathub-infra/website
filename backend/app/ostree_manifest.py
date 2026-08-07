@@ -64,23 +64,23 @@ class ManifestSourceIssue:
 
 @dataclass
 class _ManifestSourceInventory:
-    locations_by_origin: dict[str, tuple[str, ...]]
+    locations_by_source: dict[str, tuple[str, ...]]
     structural_issues: tuple[ManifestSourceIssue, ...]
 
 
 @dataclass(frozen=True)
-class ManifestSourceOriginFinding:
+class ManifestSourceFinding:
     app_id: str
-    origins_added: tuple[str, ...]
-    origins_removed: tuple[str, ...]
-    locations_by_origin: dict[str, tuple[str, ...]]
+    sources_added: tuple[str, ...]
+    sources_removed: tuple[str, ...]
+    locations_by_source: dict[str, tuple[str, ...]]
     arches: tuple[str, ...]
 
 
 def _collect_manifest_source_inventory(
     manifest: dict[str, Any],
 ) -> _ManifestSourceInventory:
-    origin_locations: dict[str, set[str]] = {}
+    source_locations: dict[str, set[str]] = {}
     structural_issues: set[ManifestSourceIssue] = set()
 
     def add_structural_issue(location: str, reason: str) -> None:
@@ -91,15 +91,15 @@ def _collect_manifest_source_inventory(
         location: str,
     ) -> None:
         try:
-            origin = url_origin.normalize_url_origin(
+            source_identity = url_origin.normalize_manifest_source_url(
                 value,
                 allowed_schemes=None,
                 ignored_schemes=frozenset({"file"}),
             )
         except url_origin.InvalidUrlOrigin:
             return
-        if origin is not None:
-            origin_locations.setdefault(origin, set()).add(location)
+        if source_identity is not None:
+            source_locations.setdefault(source_identity, set()).add(location)
 
     def walk_sources(sources: object, module_location: str) -> None:
         sources_location = f"{module_location}.sources"
@@ -178,9 +178,9 @@ def _collect_manifest_source_inventory(
     walk_modules(manifest.get("modules", []), "")
 
     return _ManifestSourceInventory(
-        locations_by_origin={
-            origin: tuple(sorted(locations))
-            for origin, locations in sorted(origin_locations.items())
+        locations_by_source={
+            source: tuple(sorted(locations))
+            for source, locations in sorted(source_locations.items())
         },
         structural_issues=tuple(
             sorted(
@@ -565,9 +565,9 @@ def group_identical_manifest_pairs(
     return tuple(tuple(group) for group in groups.values())
 
 
-def find_manifest_source_origin_changes(
+def find_manifest_source_changes(
     groups: Sequence[Sequence[ManifestPair]],
-) -> tuple[ManifestSourceOriginFinding, ...]:
+) -> tuple[ManifestSourceFinding, ...]:
     merged: dict[
         tuple[
             str,
@@ -575,7 +575,7 @@ def find_manifest_source_origin_changes(
             tuple[str, ...],
             tuple[tuple[str, tuple[str, ...]], ...],
         ],
-        ManifestSourceOriginFinding,
+        ManifestSourceFinding,
     ] = {}
 
     for group in groups:
@@ -593,7 +593,7 @@ def find_manifest_source_origin_changes(
         arches = tuple(sorted({item.arch for item in group}))
         if published.structural_issues or candidate.structural_issues:
             logger.warning(
-                "Manifest source origin comparison is unreliable",
+                "Manifest source comparison is unreliable",
                 extra={
                     "app_id": pair.app_id,
                     "affected_arches": arches,
@@ -611,16 +611,16 @@ def find_manifest_source_origin_changes(
             )
             continue
 
-        candidate_origins = set(candidate.locations_by_origin)
-        published_origins = set(published.locations_by_origin)
-        added = tuple(sorted(candidate_origins - published_origins))
-        removed = tuple(sorted(published_origins - candidate_origins))
-        if not added:
+        candidate_sources = set(candidate.locations_by_source)
+        published_sources = set(published.locations_by_source)
+        added = tuple(sorted(candidate_sources - published_sources))
+        removed = tuple(sorted(published_sources - candidate_sources))
+        if not added and not removed:
             continue
 
-        locations = {origin: candidate.locations_by_origin[origin] for origin in added}
+        locations = {source: candidate.locations_by_source[source] for source in added}
         locations.update(
-            {origin: published.locations_by_origin[origin] for origin in removed}
+            {source: published.locations_by_source[source] for source in removed}
         )
         merge_key = (
             pair.app_id,
@@ -630,19 +630,19 @@ def find_manifest_source_origin_changes(
         )
         existing = merged.get(merge_key)
         if existing is None:
-            merged[merge_key] = ManifestSourceOriginFinding(
+            merged[merge_key] = ManifestSourceFinding(
                 app_id=pair.app_id,
-                origins_added=added,
-                origins_removed=removed,
-                locations_by_origin=locations,
+                sources_added=added,
+                sources_removed=removed,
+                locations_by_source=locations,
                 arches=arches,
             )
         else:
-            merged[merge_key] = ManifestSourceOriginFinding(
+            merged[merge_key] = ManifestSourceFinding(
                 app_id=existing.app_id,
-                origins_added=existing.origins_added,
-                origins_removed=existing.origins_removed,
-                locations_by_origin=existing.locations_by_origin,
+                sources_added=existing.sources_added,
+                sources_removed=existing.sources_removed,
+                locations_by_source=existing.locations_by_source,
                 arches=tuple(sorted(set(existing.arches) | set(arches))),
             )
 
@@ -651,9 +651,9 @@ def find_manifest_source_origin_changes(
             merged.values(),
             key=lambda finding: (
                 finding.app_id,
-                finding.origins_added,
-                finding.origins_removed,
-                tuple(sorted(finding.locations_by_origin.items())),
+                finding.sources_added,
+                finding.sources_removed,
+                tuple(sorted(finding.locations_by_source.items())),
                 finding.arches,
             ),
         )

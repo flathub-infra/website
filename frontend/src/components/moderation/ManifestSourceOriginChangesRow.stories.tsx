@@ -33,7 +33,7 @@ export const Primary = () => {
         {
           origins_added: [
             "https://download.gnome.org",
-            "https://github.com",
+            "https://github.com/foo/bar",
             "https://mirror.example.org:8443",
           ],
           origins_removed: [
@@ -46,7 +46,7 @@ export const Primary = () => {
               'modules["ghex"].sources[0].mirror-urls[0]',
               'modules["gtkhex"].sources[1].url',
             ],
-            "https://github.com": ['modules["gtkhex"].sources[0].url'],
+            "https://github.com/foo/bar": ['modules["gtkhex"].sources[0].url'],
             "https://mirror.example.org:8443": [
               'modules["docs"].sources[1].mirror-urls[0]',
             ],

@@ -470,7 +470,7 @@ def source(source_type="archive", **values):
 
 def source_findings(candidate, published, *, arch="x86_64"):
     pair = manifest_pair(candidate, published, arch=arch)
-    return ostree_manifest.find_manifest_source_origin_changes(((pair,),))
+    return ostree_manifest.find_manifest_source_changes(((pair,),))
 
 
 @pytest.mark.parametrize(
@@ -526,10 +526,6 @@ def source_findings(candidate, published, *, arch="x86_64"):
             source_manifest(source(url="https://example.com/a")),
         ),
         (
-            source_manifest(),
-            source_manifest(source(url="https://old.example/a")),
-        ),
-        (
             source_manifest(source("extra-data", url="https://new.example/a")),
             source_manifest(),
         ),
@@ -541,10 +537,52 @@ def source_findings(candidate, published, *, arch="x86_64"):
             ),
             source_manifest(),
         ),
+        (
+            source_manifest(
+                source(
+                    url="https://github.com/foo/bar/releases/download/v2/archive.tar"
+                )
+            ),
+            source_manifest(
+                source(url="https://github.com/foo/bar.git?old=1#fragment")
+            ),
+        ),
+        (
+            source_manifest(source(url="https://github.com/settings")),
+            source_manifest(source(url="https://github.com/login")),
+        ),
     ],
 )
-def test_manifest_changes_without_new_origins_do_not_gate(candidate, published):
+def test_manifest_changes_without_source_identity_changes_do_not_gate(
+    candidate, published
+):
     assert source_findings(candidate, published) == ()
+
+
+def test_manifest_source_removal_gates():
+    finding = source_findings(
+        source_manifest(),
+        source_manifest(source(url="https://old.example/a")),
+    )[0]
+
+    assert finding.sources_added == ()
+    assert finding.sources_removed == ("https://old.example",)
+
+
+def test_source_move_to_existing_identity_still_reports_removed_repository():
+    finding = source_findings(
+        source_manifest(source(url="https://evil.example/new")),
+        source_manifest(
+            source(url="https://github.com/foo/bar.git"),
+            source(url="https://evil.example/old"),
+        ),
+    )[0]
+
+    assert finding.sources_added == ()
+    assert finding.sources_removed == ("https://github.com/foo/bar",)
+    assert finding.locations_by_source == {
+        "https://github.com/foo/bar": ('modules["app"].sources[0].url',)
+    }
 
 
 @pytest.mark.parametrize(
@@ -574,9 +612,39 @@ def test_manifest_changes_without_new_origins_do_not_gate(candidate, published):
             ("https://example.com:8443",),
             ("https://example.com:9443",),
         ),
+        (
+            "https://github.com/fork/bar/releases/download/v2/archive.tar",
+            "https://github.com/foo/bar/archive/v1.tar",
+            ("https://github.com/fork/bar",),
+            ("https://github.com/foo/bar",),
+        ),
+        (
+            "https://gitlab.com/group/subgroup/fork/-/archive/v2/archive.tar",
+            "https://gitlab.com/group/subgroup/project/-/archive/v1/archive.tar",
+            ("https://gitlab.com/group/subgroup/fork",),
+            ("https://gitlab.com/group/subgroup/project",),
+        ),
+        (
+            "https://gitlab.gnome.org/GNOME/gtk-fork/-/archive/v2/archive.tar",
+            "https://gitlab.gnome.org/GNOME/gtk/-/archive/v1/archive.tar",
+            ("https://gitlab.gnome.org/GNOME/gtk-fork",),
+            ("https://gitlab.gnome.org/GNOME/gtk",),
+        ),
+        (
+            "https://invent.kde.org/frameworks/kio-fork/-/archive/v2/archive.tar",
+            "https://invent.kde.org/frameworks/kio/-/archive/v1/archive.tar",
+            ("https://invent.kde.org/frameworks/kio-fork",),
+            ("https://invent.kde.org/frameworks/kio",),
+        ),
+        (
+            "https://codeberg.org/fork/bar/archive/v2.tar",
+            "https://codeberg.org/foo/bar/archive/v1.tar",
+            ("https://codeberg.org/fork/bar",),
+            ("https://codeberg.org/foo/bar",),
+        ),
     ],
 )
-def test_manifest_origin_replacements_gate(
+def test_manifest_source_replacements_gate(
     candidate_url, published_url, added, removed
 ):
     findings = source_findings(
@@ -585,15 +653,15 @@ def test_manifest_origin_replacements_gate(
     )
 
     assert len(findings) == 1
-    assert findings[0].origins_added == added
-    assert findings[0].origins_removed == removed
-    assert findings[0].locations_by_origin == {
+    assert findings[0].sources_added == added
+    assert findings[0].sources_removed == removed
+    assert findings[0].locations_by_source == {
         added[0]: ('modules["app"].sources[0].url',),
         removed[0]: ('modules["app"].sources[0].url',),
     }
 
 
-def test_new_source_and_mirror_origins_retain_all_unique_locations():
+def test_new_source_and_mirror_identities_retain_all_unique_locations():
     candidate = source_manifest(
         source(
             url="https://new.example/a",
@@ -609,11 +677,11 @@ def test_new_source_and_mirror_origins_retain_all_unique_locations():
 
     finding = source_findings(candidate, source_manifest())[0]
 
-    assert finding.origins_added == (
+    assert finding.sources_added == (
         "https://mirror.example",
         "https://new.example",
     )
-    assert finding.locations_by_origin == {
+    assert finding.locations_by_source == {
         "https://mirror.example": ('modules["app"].sources[0].mirror-urls[1]',),
         "https://new.example": (
             'modules["app"].sources[0].mirror-urls[0]',
@@ -640,7 +708,7 @@ def test_nested_unique_module_names_are_used_in_locations():
 
     finding = source_findings(candidate, {"modules": []})[0]
 
-    assert finding.locations_by_origin["https://new.example"] == (
+    assert finding.locations_by_source["https://new.example"] == (
         'modules["outer"].modules["lib\\"foo"].sources[0].url',
     )
 
@@ -659,7 +727,7 @@ def test_nested_unique_module_names_are_used_in_locations():
 )
 def test_unnamed_and_duplicate_module_names_use_indexes(modules):
     finding = source_findings({"modules": modules}, {"modules": []})[0]
-    assert finding.locations_by_origin["https://new.example"] == (
+    assert finding.locations_by_source["https://new.example"] == (
         "modules[0].sources[0].url",
     )
 
@@ -685,7 +753,7 @@ def test_unchanged_malformed_signature_does_not_gate_and_valid_replacement_does(
         source_manifest(source(url="https://new.example/a")),
         malformed,
     )[0]
-    assert finding.origins_added == ("https://new.example",)
+    assert finding.sources_added == ("https://new.example",)
 
 
 def test_identical_arch_groups_merge_and_different_groups_remain_separate():
@@ -703,7 +771,7 @@ def test_identical_arch_groups_merge_and_different_groups_remain_separate():
         ),
     )
 
-    findings = ostree_manifest.find_manifest_source_origin_changes(
+    findings = ostree_manifest.find_manifest_source_changes(
         (common_group, different_group)
     )
 
@@ -727,7 +795,7 @@ def test_missing_or_invalid_published_manifest_does_not_gate(status):
         None,
         status=status,
     )
-    assert ostree_manifest.find_manifest_source_origin_changes(((pair,),)) == ()
+    assert ostree_manifest.find_manifest_source_changes(((pair,),)) == ()
 
 
 @pytest.mark.parametrize(
@@ -774,6 +842,6 @@ def test_hierarchical_builder_protocols_normalize_without_credentials(url, origi
     inventory = ostree_manifest._collect_manifest_source_inventory(
         source_manifest(source(url=url))
     )
-    assert tuple(inventory.locations_by_origin) == (origin,)
-    assert "user" not in repr(inventory.locations_by_origin)
-    assert "password" not in repr(inventory.locations_by_origin)
+    assert tuple(inventory.locations_by_source) == (origin,)
+    assert "user" not in repr(inventory.locations_by_source)
+    assert "password" not in repr(inventory.locations_by_source)
