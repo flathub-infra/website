@@ -1,6 +1,5 @@
-from math import nextafter, tanh
-
-from . import zscore
+from decimal import Decimal, localcontext
+from math import isfinite, nextafter, tanh
 
 
 def _normalize_trend(adjusted_trend: float) -> float:
@@ -15,73 +14,63 @@ def _normalize_trend(adjusted_trend: float) -> float:
 
 
 def calculate_trending_score(
-    installs_over_days: list[int],
+    installs_over_days: list[int | float],
     quality_passed_ratio: float,
     icon_quality_bonus: int,
     is_eol: bool,
-    is_new_app: bool,
 ) -> float:
-    """Calculate an app's Trending score from install and quality signals."""
-    eol_penalty = 0.5
-    quality_bonus_max = 15.0
+    """Calculate an app's trending score from a prepared 21-day history."""
+    if len(installs_over_days) != 21:
+        raise ValueError("installs_over_days must contain exactly 21 values")
+    if not all(isinstance(value, int) or isfinite(value) for value in installs_over_days):
+        raise ValueError("installs_over_days values must be finite")
+    if not isfinite(quality_passed_ratio) or not 0 <= quality_passed_ratio <= 1:
+        raise ValueError("quality_passed_ratio must be finite and between 0 and 1")
+    if icon_quality_bonus < 0:
+        raise ValueError("icon_quality_bonus cannot be negative")
 
-    quality_bonus = (quality_passed_ratio**0.7) * quality_bonus_max
+    with localcontext() as context:
+        context.prec = 50
+        history = [
+            Decimal(value) if isinstance(value, int) else Decimal.from_float(value)
+            for value in installs_over_days
+        ]
+        baseline = history[:14]
+        recent = history[14:]
+        baseline_rate = sum(baseline, Decimal(0)) / 14
+        recent_rate = sum(recent, Decimal(0)) / 7
+        recent_volume = sum((abs(value) for value in recent), Decimal(0))
 
-    if len(installs_over_days) < 2:
-        if len(installs_over_days) == 1:
-            base_score = installs_over_days[0] * 0.1
-            if is_new_app:
-                base_score *= 1.5
-            if is_eol:
-                base_score *= eol_penalty
-            return _normalize_trend(base_score) + quality_bonus + icon_quality_bonus
-        return quality_bonus + icon_quality_bonus
+        growth = (recent_rate - baseline_rate) / (abs(baseline_rate) + 5)
+        directional_growth = growth if recent_rate > 0 else min(growth, Decimal(0))
+        confidence = recent_volume / (recent_volume + 50)
 
-    recent_days = (
-        installs_over_days[-3:]
-        if len(installs_over_days) >= 3
-        else installs_over_days[-2:]
-    )
-    older_days = (
-        installs_over_days[:-3]
-        if len(installs_over_days) > 3
-        else installs_over_days[:-2]
-    )
-
-    recent_avg = sum(recent_days) / len(recent_days) if recent_days else 0
-    older_avg = sum(older_days) / len(older_days) if older_days else recent_avg
-
-    if older_avg > 0:
-        momentum = (recent_avg - older_avg) / older_avg
-    elif recent_avg > 0:
-        momentum = 1.0
-    else:
-        momentum = 0.0
-
-    if len(installs_over_days) >= 4:
-        first_half = installs_over_days[: len(installs_over_days) // 2]
-        second_half = installs_over_days[len(installs_over_days) // 2 :]
-        first_half_growth = first_half[-1] - first_half[0] if len(first_half) > 1 else 0
-        second_half_growth = (
-            second_half[-1] - second_half[0] if len(second_half) > 1 else 0
+        recent_variance = (
+            sum(((value - recent_rate) ** 2 for value in recent), Decimal(0)) / 7
         )
-        velocity = second_half_growth - first_half_growth
-    else:
-        velocity = 0
+        recent_dispersion = recent_variance.sqrt()
+        consistency_denominator = abs(recent_rate) + recent_dispersion
+        consistency = (
+            abs(recent_rate) / consistency_denominator
+            if consistency_denominator
+            else Decimal(0)
+        )
+        consistency_weight = Decimal("0.5") + Decimal("0.5") * consistency
 
-    latest_value = installs_over_days[-1]
-    z_score_calc = zscore.zscore(0.75, installs_over_days[:-1])
-    z_component = z_score_calc.score(latest_value)
+        adjusted_momentum = (
+            20 * directional_growth * confidence * consistency_weight
+        )
+        if adjusted_momentum > 0:
+            guideline_quality = Decimal.from_float(quality_passed_ratio**0.7)
+            icon_quality = min(Decimal(icon_quality_bonus) / 5, Decimal(1))
+            quality_signal = (
+                Decimal("0.75") * guideline_quality
+                + Decimal("0.25") * icon_quality
+            )
+            quality_multiplier = 1 + Decimal("0.025") * quality_signal
+            adjusted_momentum *= quality_multiplier
 
-    base_score = (
-        z_component * 0.5 + momentum * 20.0 + (velocity / max(recent_avg, 1)) * 5.0
-    )
+            if is_eol:
+                adjusted_momentum *= Decimal("0.5")
 
-    if is_eol:
-        base_score *= eol_penalty
-
-    if is_new_app and len(installs_over_days) <= 7:
-        new_app_boost = 1.0 + (0.3 * (7 - len(installs_over_days)) / 7)
-        base_score *= new_app_boost
-
-    return _normalize_trend(base_score) + quality_bonus + icon_quality_bonus
+    return _normalize_trend(float(adjusted_momentum))
