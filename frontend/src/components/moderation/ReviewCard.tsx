@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Link, useRouter } from "src/i18n/navigation"
+import { ExternalLink } from "lucide-react"
 
 interface Props {
   title: string
@@ -197,13 +198,24 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
                   </span>
                 )}
               </h2>
-              <div className="mt-3 flex items-center gap-2 text-sm">
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
                 <span className="font-medium text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                   {t("moderation-build-id")}:
                 </span>
                 <span className="rounded bg-flathub-gainsborow px-2.5 py-1 font-mono text-xs font-medium dark:bg-flathub-dark-gunmetal">
                   {request.build_id}
                 </span>
+                {request.build_log_url && (
+                  <a
+                    className="inline-flex items-center gap-1 text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
+                    href={request.build_log_url}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    {t("moderation-build-log")}
+                  </a>
+                )}
               </div>
             </div>
             <div className="flex flex-col items-end gap-2 text-sm">
