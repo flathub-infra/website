@@ -115,9 +115,7 @@ export const ModerationHeldEmail = ({
           ? "You'll receive another email when the review is approved or rejected."
           : "You'll receive another email when the changes are approved or rejected."}
       </Text>
-      {isRandomReview && (
-        <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>
-      )}
+      {isRandomReview && <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>}
     </Base>
   )
 }
