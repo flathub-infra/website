@@ -488,7 +488,8 @@
     "light": "Hell",
     "dark": "Dunkel",
     "general-runtime-not-eol": "Laufzeit nicht am Ende der Lebensdauer",
-    "failing-x-checks": "{count, plural, one {# Prüfung} other {# Prüfungen}} fehlgeschlagen"
+    "failing-x-checks": "{count, plural, one {# Prüfung} other {# Prüfungen}} fehlgeschlagen",
+    "stats-by-category": "Status der Leitlinienüberprüfung nach Kategorie"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build-ID",
@@ -528,8 +529,8 @@
   "confirm": "Bestätigen",
   "archive-app": "Archiviere diese App",
   "archive": "Archiv",
-  "manage-x": "Verwalte {app_name}",
-  "install-x": "{app_name} auf Linux installieren",
+  "manage-x": "{app_name} verwalten",
+  "install-x": "{app_name} unter Linux installieren",
   "do-you-really-want-to-switch-to-direct-upload": "Bist du sicher? Sobald du eine Anwendung auf direktes Hochladen umgestellt hast, gibt es kein Zurück mehr.",
   "do-you-really-want-to-archive-app": "Bist du sicher? Dadurch werden die Upload-Tokens ungültig und die Anwendung wird archiviert.",
   "enter-end-of-life-message": "End-of-Life Nachricht eingeben",
@@ -661,7 +662,7 @@
   },
   "download": {
     "install-x": "Installier „{x}“",
-    "fallback-instructions": "<opening>„{name}“ wird in deinem Software manager geöffnet…</opening><support>Wenn nichts passiert, unterstützt dein System vielleicht <i>flatpak+https</i>-Urls noch nicht.</support><listPrefix>In diesem Fall kannst du:</listPrefix><ol><li>Die <link>.flatpakref Datei</link> herunterladen</li><li>Führe diese aus deinem Dateimanager aus</li></ol><setupLine><linkSetup>Anleitung um Flatpak zu installieren</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>„{name}“ wird in deinem Softwaremanager geöffnet…</opening><support>Wenn nichts passiert, unterstützt dein System vielleicht <i>flatpak+https</i>-Urls noch nicht.</support><listPrefix>In diesem Fall kannst du:</listPrefix><ol><li>Die <link>.flatpakref Datei</link> herunterladen</li><li>Führe diese aus deinem Dateimanager aus</li></ol><setupLine><linkSetup>Anleitung um Flatpak zu installieren</linkSetup></setupLine>"
   },
   "country-statistics": "Länderstatistik",
   "since-x": "Seit {date}",
@@ -849,5 +850,9 @@
   "dns-record-not-found": "Unter {record} wurde kein TXT-Eintrag gefunden.",
   "dns-token-not-present": "Die TXT-Einträge unter {record} enthalten kein Verifizierungstoken.",
   "app-is-currently-verified-by-dns": "Ihre App ist derzeit durch eine DNS-Überprüfung von <domain></domain> verifiziert",
-  "dns-verification": "DNS-Verifizierung"
+  "dns-verification": "DNS-Verifizierung",
+  "moderation-random-review": "Zufällig zur menschlichen Überprüfung ausgewählt",
+  "dns-verification-main-instruction": "Verifiziere dein Recht, die App-ID <bold>{id}</bold> zu verwenden, indem du einen DNS-TXT-Eintrag für <bold>{domain}</bold> veröffentlichst.",
+  "dns-lookup-failed": "Die Abfrage der TXT-Einträge für {record} ist fehlgeschlagen.",
+  "verified-dns-tooltip": "Der Besitz der App-Kennung <appid></appid> wurde durch die DNS-Kontrolle von <domain></domain> verifiziert"
 }

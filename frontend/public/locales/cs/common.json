@@ -853,5 +853,6 @@
   "dns-lookup-failed": "Nepodařilo se najít TXT záznamy pro {record}.",
   "app-is-currently-verified-by-dns": "Vaše aplikace je v tuto chvíli ověřena prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
   "verified-dns-tooltip": "Vlastnictví identifikátoru aplikace <appid></appid> bylo ověřeno prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
-  "dns-verification": "DNS ověřování"
+  "dns-verification": "DNS ověřování",
+  "moderation-random-review": "Náhodně vybráno pro kontrolu člověkem"
 }

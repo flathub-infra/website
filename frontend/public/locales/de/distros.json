@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<text>Um Flatpak auf <strong>Ubuntu 18.10 (Cosmic Cuttlefish) oder später </strong> zu installieren, öffne die Terminal-App und führe aus:</text> <code></code>"
+      "text": "<text>Um Flatpak unter <strong>Ubuntu 18.10 (Cosmic Cuttlefish) oder höher</strong> zu installieren, öffne die Terminal-App und führe Folgendes aus:</text> <code></code>"
     },
     "step-4": {
       "name": "Neustart",
@@ -15,7 +15,7 @@
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
+      "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
     }
   },
   "fedora": {
@@ -96,7 +96,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
+      "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
     }
   },
   "arch": {
@@ -175,7 +175,7 @@
     },
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<text> Um Flatpak auf Kubuntu zu installieren, Öffne Discover, gehe auf Einstellungen, installiere das Flatpak Backend und starte Discover neu.</text>"
+      "text": "<text>Um Flatpak unter Kubuntu zu installieren, öffne Discover, gehe zu Einstellungen, installiere das Flatpak-Backend und starte Discover neu.</text>"
     },
     "step-2": {
       "name": "Installier das Flatpak-Systemeinstellungs Addon",
@@ -285,7 +285,7 @@
     "distroName": "NixOS",
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
+      "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
     },
     "step-3": {
       "name": "Neustart",
@@ -339,7 +339,7 @@
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
+      "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
     }
   },
   "mx_linux": {
@@ -357,7 +357,7 @@
     "distroName": "Pisi GNU/Linux",
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<text> Ein Flatpak-Paket ist in Pisi 2.1 und neuer verfügbar . Um es zu installieren, führe Folgendes als root aus:</text> <code></code>"
+      "text": "<text>Ein Flatpak-Paket ist in Pisi 2.1 und neuer verfügbar. Um es zu installieren, führe als root Folgendes aus:</text> <code></code>"
     },
     "step-3": {
       "name": "Neustart",
@@ -429,16 +429,20 @@
   "slackware": {
     "distroName": "Slackware",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<text>Ein Flatpak-Paket ist auf SlackBuilds verfügbar. Um es zu installieren (vorausgesetzt, du verwendest Sbopkg/sqg), erstelle zunächst die Warteschlangendatei und führe als root Folgendes aus:</text> <codeQueue></codeQueue> <text>Kompiliere es anschließend. Lade die Warteschlangendatei, drücke ‚Q‘ und warte:</text> <code></code>"
     },
     "step-3": {
-      "name": "Neustart"
+      "name": "Neustart",
+      "text": "<text>Starte dein System neu, um die Einrichtung abzuschließen. Jetzt musst du nur noch <link>Apps installieren</link>!</text> <text>Hinweis: Die grafische Installation von Flatpak-Apps ist unter Slackware unter Umständen nicht möglich.</text>"
     },
     "step-2": {
-      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
+      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>",
+      "name": "Das Flathub-Repository hinzufügen"
     }
   },
   "t2_sde": {
-    "distroName": "T2 SDE"
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak ist seit Version 26.6 standardmäßig auf T2 SDE installiert – es ist keine Einrichtung erforderlich!</header> <text>Flatpak ist bereits mit dem Flathub-Repository vorkonfiguriert und enthält Werkzeug zur Desktop-Integration, die eine 1-Klick-Installation von Flathub aus ermöglichen.</text> <text>Du musst lediglich <link>Apps installieren</link>!</text>"
   }
 }
