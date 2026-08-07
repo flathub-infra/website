@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ModerationRequestResponseBuildLogUrl } from "./moderationRequestResponseBuildLogUrl"
 import type { ModerationRequestResponseComment } from "./moderationRequestResponseComment"
 import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
 import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
@@ -20,6 +21,7 @@ export interface ModerationRequestResponse {
   is_outdated: boolean
   request_type: ModerationRequestType
   request_data?: ModerationRequestResponseRequestData
+  build_log_url?: ModerationRequestResponseBuildLogUrl
   is_new_submission: boolean
   handled_by?: ModerationRequestResponseHandledBy
   handled_at?: ModerationRequestResponseHandledAt
