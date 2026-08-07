@@ -21,10 +21,10 @@ const manifestRequest: Request = {
   requestData: {
     findings: [
       {
-        origins_added: ["https://downloads.example"],
+        origins_added: ["https://github.com/foo/bar"],
         origins_removed: ["https://old.example"],
         locations_by_origin: {
-          "https://downloads.example": [
+          "https://github.com/foo/bar": [
             'modules["libfoo"].sources[0].url',
             'modules["libfoo"].sources[0].mirror-urls[0]',
           ],
@@ -38,7 +38,7 @@ const manifestRequest: Request = {
 }
 
 function assertManifestRendering(html: string) {
-  assert.match(html, /https:\/\/downloads\.example/)
+  assert.match(html, /https:\/\/github\.com\/foo\/bar/)
   assert.match(html, /https:\/\/old\.example/)
   assert.match(html, /libfoo/)
   assert.match(html, /aarch64/)

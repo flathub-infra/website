@@ -256,15 +256,15 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     if is_random_review:
         body += f"\n## Review reason\n\n{_RANDOM_REVIEW_MARKER}\n"
     elif request.request_type == ModerationRequestType.MANIFEST:
-        body += "\n## Manifest source origin changes\n"
+        body += "\n## Manifest source changes\n"
         for finding in request_data["findings"]:
             body += f"\n### Architectures: {', '.join(finding['arches'])}\n"
-            for origin in finding["origins_added"]:
-                body += f"\n- New origin: `{origin}`\n"
-                for location in finding["locations_by_origin"].get(origin, []):
+            for source in finding["origins_added"]:
+                body += f"\n- New source: `{source}`\n"
+                for location in finding["locations_by_origin"].get(source, []):
                     body += f"  - Source location: `{location}`\n"
-            for origin in finding["origins_removed"]:
-                body += f"\n- Previous origin no longer used: `{origin}`\n"
+            for source in finding["origins_removed"]:
+                body += f"\n- Previous source no longer used: `{source}`\n"
     else:
         body += "\n## Changes\n| Field | Old value | New value |\n| --- | --- | --- |\n"
         for field in request_data["keys"]:
@@ -463,17 +463,17 @@ class ReviewRequestResponse(BaseModel):
 
 
 def _manifest_request_data(
-    findings: Sequence[ostree_manifest.ManifestSourceOriginFinding],
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
 ) -> str:
     return json.dumps(
         {
             "findings": [
                 {
-                    "origins_added": list(finding.origins_added),
-                    "origins_removed": list(finding.origins_removed),
+                    "origins_added": list(finding.sources_added),
+                    "origins_removed": list(finding.sources_removed),
                     "locations_by_origin": {
-                        origin: list(locations)
-                        for origin, locations in finding.locations_by_origin.items()
+                        source: list(locations)
+                        for source, locations in finding.locations_by_source.items()
                     },
                     "arches": list(finding.arches),
                 }
@@ -486,33 +486,33 @@ def _manifest_request_data(
     )
 
 
-def _log_manifest_source_origin_gate(
+def _log_manifest_source_gate(
     review_request: ReviewRequest,
     app_id: str,
-    findings: Sequence[ostree_manifest.ManifestSourceOriginFinding],
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
     *,
     would_require_review: bool,
     reason: str | None = None,
 ) -> None:
-    introduced_origins = sorted(
-        {origin for finding in findings for origin in finding.origins_added}
+    introduced_sources = sorted(
+        {source for finding in findings for source in finding.sources_added}
     )
-    removed_origins = sorted(
-        {origin for finding in findings for origin in finding.origins_removed}
+    removed_sources = sorted(
+        {source for finding in findings for source in finding.sources_removed}
     )
     affected_arches = sorted({arch for finding in findings for arch in finding.arches})
     extra: dict[str, Any] = {
         "build_id": review_request.build_id,
         "job_id": review_request.job_id,
         "app_id": app_id,
-        "introduced_origins": introduced_origins,
-        "removed_origins": removed_origins,
+        "introduced_sources": introduced_sources,
+        "removed_sources": removed_sources,
         "affected_arches": affected_arches,
         "would_require_review": would_require_review,
     }
     if reason is not None:
         extra["reason"] = reason
-    logger.info("Evaluated manifest source origin gate for app", extra=extra)
+    logger.info("Evaluated manifest source gate for app", extra=extra)
 
 
 @router.post(
@@ -585,7 +585,7 @@ def submit_review_request(
     manifest_pairs: tuple[ostree_manifest.ManifestPair, ...] = ()
     manifest_groups: tuple[tuple[ostree_manifest.ManifestPair, ...], ...] = ()
     manifest_findings_by_app: dict[
-        str, tuple[ostree_manifest.ManifestSourceOriginFinding, ...]
+        str, tuple[ostree_manifest.ManifestSourceFinding, ...]
     ] = {}
     if config.settings.ostree_manifest_comparison_enabled:
         try:
@@ -644,7 +644,7 @@ def submit_review_request(
                 ),
             },
         )
-        manifest_findings = ostree_manifest.find_manifest_source_origin_changes(
+        manifest_findings = ostree_manifest.find_manifest_source_changes(
             manifest_groups
         )
         for finding in manifest_findings:
@@ -739,7 +739,7 @@ def submit_review_request(
         # as it has been already reviewed manually on GitHub
         if is_new_submission and build_metadata.get("token_name") == "vorarbeiter":
             if app_manifest_findings:
-                _log_manifest_source_origin_gate(
+                _log_manifest_source_gate(
                     review_request,
                     app_id,
                     app_manifest_findings,
@@ -750,7 +750,7 @@ def submit_review_request(
 
         if should_skip_review(app_id):
             if app_manifest_findings:
-                _log_manifest_source_origin_gate(
+                _log_manifest_source_gate(
                     review_request,
                     app_id,
                     app_manifest_findings,
@@ -775,7 +775,7 @@ def submit_review_request(
 
         if app_manifest_findings:
             if is_new_submission:
-                _log_manifest_source_origin_gate(
+                _log_manifest_source_gate(
                     review_request,
                     app_id,
                     app_manifest_findings,
@@ -784,7 +784,7 @@ def submit_review_request(
                 )
             else:
                 would_require_review = not config.settings.moderation_observe_only
-                _log_manifest_source_origin_gate(
+                _log_manifest_source_gate(
                     review_request,
                     app_id,
                     app_manifest_findings,
@@ -1048,7 +1048,7 @@ def submit_review_request(
 
     for app_id, findings in manifest_findings_by_app.items():
         if app_id not in build_appstream:
-            _log_manifest_source_origin_gate(
+            _log_manifest_source_gate(
                 review_request,
                 app_id,
                 findings,

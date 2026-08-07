@@ -1,5 +1,5 @@
 from collections.abc import Set
-from urllib.parse import urlsplit
+from urllib.parse import SplitResult, urlsplit
 
 _DEFAULT_PORTS = {
     "bzr+ssh": 22,
@@ -13,6 +13,9 @@ _DEFAULT_PORTS = {
     "svn+ssh": 22,
 }
 
+_FIXED_NAMESPACE_FORGES = frozenset({"github.com", "codeberg.org"})
+_GITLAB_FORGES = frozenset({"gitlab.com", "gitlab.gnome.org", "invent.kde.org"})
+
 
 class InvalidUrlOrigin(ValueError):
     def __init__(self, reason: str):
@@ -20,12 +23,12 @@ class InvalidUrlOrigin(ValueError):
         self.reason = reason
 
 
-def normalize_url_origin(
+def _normalize_url_parts(
     value: object,
     *,
-    allowed_schemes: Set[str] | None = frozenset({"http", "https"}),
-    ignored_schemes: Set[str] = frozenset(),
-) -> str | None:
+    allowed_schemes: Set[str] | None,
+    ignored_schemes: Set[str],
+) -> tuple[str | None, SplitResult | None]:
     if not isinstance(value, str):
         raise InvalidUrlOrigin("non-string")
     if not value:
@@ -46,7 +49,7 @@ def normalize_url_origin(
     if not scheme:
         raise InvalidUrlOrigin("missing-scheme")
     if scheme in ignored_schemes:
-        return None
+        return None, None
     if allowed_schemes is not None and scheme not in allowed_schemes:
         raise InvalidUrlOrigin("unsupported-scheme")
     if not parsed.netloc:
@@ -67,4 +70,64 @@ def normalize_url_origin(
         port = None
 
     serialized_host = f"[{hostname}]" if ":" in hostname else hostname
-    return f"{scheme}://{serialized_host}" + (f":{port}" if port is not None else "")
+    origin = f"{scheme}://{serialized_host}" + (f":{port}" if port is not None else "")
+    return origin, parsed
+
+
+def normalize_url_origin(
+    value: object,
+    *,
+    allowed_schemes: Set[str] | None = frozenset({"http", "https"}),
+    ignored_schemes: Set[str] = frozenset(),
+) -> str | None:
+    origin, _ = _normalize_url_parts(
+        value,
+        allowed_schemes=allowed_schemes,
+        ignored_schemes=ignored_schemes,
+    )
+    return origin
+
+
+def normalize_manifest_source_url(
+    value: object,
+    *,
+    allowed_schemes: Set[str] | None = frozenset({"http", "https"}),
+    ignored_schemes: Set[str] = frozenset(),
+) -> str | None:
+    origin, parsed = _normalize_url_parts(
+        value,
+        allowed_schemes=allowed_schemes,
+        ignored_schemes=ignored_schemes,
+    )
+    if origin is None or parsed is None:
+        return None
+
+    hostname = parsed.hostname
+    if hostname is None:
+        return origin
+    hostname = hostname.lower()
+    if hostname not in _FIXED_NAMESPACE_FORGES and hostname not in _GITLAB_FORGES:
+        return origin
+
+    segments = parsed.path.strip("/").split("/")
+    if len(segments) < 2 or any(
+        not segment or segment in {".", ".."} for segment in segments
+    ):
+        return origin
+
+    if hostname in _FIXED_NAMESPACE_FORGES:
+        repository_segments = segments[:2]
+    else:
+        delimiter = segments.index("-") if "-" in segments else len(segments)
+        repository_segments = segments[:delimiter]
+        if len(repository_segments) < 2:
+            return origin
+
+    repository = repository_segments[-1]
+    if repository.endswith(".git"):
+        repository = repository[:-4]
+        if not repository:
+            return origin
+        repository_segments[-1] = repository
+
+    return f"{origin}/{'/'.join(repository_segments)}"

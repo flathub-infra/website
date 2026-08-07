@@ -691,7 +691,7 @@ def test_random_rejection_issue_uses_review_reason(monkeypatch):
     assert "New value" not in created["body"]
 
 
-def test_manifest_rejection_issue_formats_source_origin_data(monkeypatch):
+def test_manifest_rejection_issue_formats_source_data(monkeypatch):
     created = {}
 
     class FakeRepo:
@@ -722,10 +722,10 @@ def test_manifest_rejection_issue_formats_source_origin_data(monkeypatch):
             {
                 "findings": [
                     {
-                        "origins_added": ["https://downloads.example"],
-                        "origins_removed": ["https://old.example"],
+                        "origins_added": ["https://github.com/foo/bar"],
+                        "origins_removed": ["https://github.com/foo/old"],
                         "locations_by_origin": {
-                            "https://downloads.example": [
+                            "https://github.com/foo/bar": [
                                 'modules["app"].sources[0].url'
                             ]
                         },
@@ -738,9 +738,12 @@ def test_manifest_rejection_issue_formats_source_origin_data(monkeypatch):
 
     moderation.create_github_build_rejection_issue(request)
 
-    assert "https://downloads.example" in created["body"]
+    assert "New source: `https://github.com/foo/bar`" in created["body"]
     assert 'modules["app"].sources[0].url' in created["body"]
-    assert "https://old.example" in created["body"]
+    assert (
+        "Previous source no longer used: `https://github.com/foo/old`"
+        in created["body"]
+    )
     assert "aarch64, x86_64" in created["body"]
     assert "| Field |" not in created["body"]
     assert "New value" not in created["body"]
@@ -799,7 +802,7 @@ def _manifest_pair(
     )
 
 
-def _origin_manifest_pair(arch="x86_64", *, app_id="org.example.App"):
+def _source_manifest_pair(arch="x86_64", *, app_id="org.example.App"):
     pair = _manifest_pair(arch, changed=True)
     pair.app_id = app_id
     pair.ref_name = f"app/{app_id}/{arch}/stable"
@@ -811,7 +814,7 @@ def _origin_manifest_pair(arch="x86_64", *, app_id="org.example.App"):
                 "sources": [
                     {
                         "type": "archive",
-                        "url": "https://downloads.example/archive.tar",
+                        "url": "https://github.com/foo/bar/archive/v1.tar",
                     }
                 ],
             }
@@ -1107,7 +1110,7 @@ def test_initial_submission_does_not_create_manifest_request(monkeypatch):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -1130,7 +1133,7 @@ def test_skip_list_does_not_create_manifest_request(monkeypatch):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -1151,7 +1154,7 @@ def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -1159,10 +1162,10 @@ def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
     record = next(
         record
         for record in caplog.records
-        if record.getMessage() == "Evaluated manifest source origin gate for app"
+        if record.getMessage() == "Evaluated manifest source gate for app"
     )
     assert record.would_require_review is True
-    assert record.introduced_origins == ["https://downloads.example"]
+    assert record.introduced_sources == ["https://github.com/foo/bar"]
     assert result.requires_review is False
     assert harness.db.session.persisted == []
     assert harness.emails == []
@@ -1179,7 +1182,7 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -1193,9 +1196,9 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
             {
                 "arches": ["x86_64"],
                 "locations_by_origin": {
-                    "https://downloads.example": ['modules["app"].sources[0].url']
+                    "https://github.com/foo/bar": ['modules["app"].sources[0].url']
                 },
-                "origins_added": ["https://downloads.example"],
+                "origins_added": ["https://github.com/foo/bar"],
                 "origins_removed": [],
             }
         ]
@@ -1234,7 +1237,7 @@ def test_identical_manifest_callback_reuses_request(
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
     first = harness.call()
     request = harness.db.session.persisted[0]
@@ -1263,7 +1266,7 @@ def test_manifest_request_suppresses_random_sampling(monkeypatch):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
     monkeypatch.setattr(
         moderation,
@@ -1289,7 +1292,7 @@ def test_manifest_request_is_persisted_in_observe_only_mode(monkeypatch):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -1316,7 +1319,7 @@ def test_manifest_finding_without_appstream_is_logged_not_persisted(
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -1324,7 +1327,7 @@ def test_manifest_finding_without_appstream_is_logged_not_persisted(
     assert result.requires_review is False
     assert harness.db.session.persisted == []
     assert any(
-        record.getMessage() == "Evaluated manifest source origin gate for app"
+        record.getMessage() == "Evaluated manifest source gate for app"
         and record.reason == "missing-appstream"
         for record in caplog.records
     )
@@ -1342,7 +1345,7 @@ def test_conflicting_manifest_request_fails(monkeypatch, conflict):
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_origin_manifest_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
     harness.call()
     request = harness.db.session.persisted[0]
