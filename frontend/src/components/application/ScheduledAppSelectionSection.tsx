@@ -46,11 +46,14 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
         gradientBySlot[selection.slot],
       )}
     >
-      <div className="mb-6 max-w-3xl">
-        <h2 id={headingId} className="text-4xl font-black md:text-5xl">
+      <div className="mx-auto mb-6 max-w-3xl text-center md:mx-0 md:text-start">
+        <h2
+          id={headingId}
+          className="text-4xl leading-tight font-black md:text-5xl"
+        >
           {title}
         </h2>
-        <p className="mt-3 text-base text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:text-lg">
+        <p className="mt-3 text-base leading-relaxed text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:text-lg">
           {description}
         </p>
       </div>
