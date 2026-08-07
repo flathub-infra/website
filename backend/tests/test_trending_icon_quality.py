@@ -1,4 +1,5 @@
 import datetime
+import math
 import os
 import sys
 from types import SimpleNamespace
@@ -14,51 +15,63 @@ from app import models, trending
 from app.db_session import DBSession
 
 
+def _score(history, *, quality=0.0, icon_quality=0):
+    return trending.calculate_trending_score(
+        installs_over_days=history,
+        quality_passed_ratio=quality,
+        icon_quality_bonus=icon_quality,
+        is_eol=False,
+    )
+
+
+def _raw_score(normalized_score):
+    return 20 * math.atanh(normalized_score / 20)
+
+
+def test_quality_only_improves_positive_momentum_within_multiplier_limit():
+    history = [10] * 14 + [20] * 7
+    baseline = _score(history)
+    guideline_quality = _score(history, quality=1.0)
+    maximum_quality = _score(history, quality=1.0, icon_quality=5)
+
+    baseline_raw = _raw_score(baseline)
+    guideline_raw = _raw_score(guideline_quality)
+    maximum_raw = _raw_score(maximum_quality)
+
+    assert baseline_raw < guideline_raw < maximum_raw
+    assert maximum_raw == pytest.approx(baseline_raw * 1.025)
+
+
+@pytest.mark.parametrize("history", [[10] * 21, [20] * 14 + [10] * 7])
+def test_quality_does_not_improve_flat_or_declining_momentum(history):
+    assert _score(history, quality=1.0, icon_quality=5) == _score(history)
+
+
+def test_icon_quality_bonus_is_clamped_at_five():
+    history = [10] * 14 + [20] * 7
+
+    assert _score(history, icon_quality=10**1000) == _score(history, icon_quality=5)
+
+
 @pytest.mark.parametrize("icon_quality_bonus", range(6))
-def test_icon_quality_bonus_adds_exact_points(icon_quality_bonus):
+def test_icon_quality_increases_positive_momentum(icon_quality_bonus):
+    history = [10] * 14 + [20] * 7
     baseline = trending.calculate_trending_score(
-        installs_over_days=[10, 12, 15, 20],
+        installs_over_days=history,
         quality_passed_ratio=0.0,
         icon_quality_bonus=0,
         is_eol=False,
-        is_new_app=False,
     )
 
     score = trending.calculate_trending_score(
-        installs_over_days=[10, 12, 15, 20],
+        installs_over_days=history,
         quality_passed_ratio=0.0,
         icon_quality_bonus=icon_quality_bonus,
         is_eol=False,
-        is_new_app=False,
     )
 
-    assert score == pytest.approx(baseline + icon_quality_bonus)
-
-
-@pytest.mark.parametrize(
-    ("installs_over_days", "is_eol", "is_new_app"),
-    [
-        ([], False, False),
-        ([10], False, False),
-        ([10, 12, 15, 20], False, False),
-        ([10, 12, 15, 20], True, False),
-        ([10, 12, 15, 20], False, True),
-    ],
-)
-def test_icon_quality_bonus_applies_to_every_score_path(
-    installs_over_days, is_eol, is_new_app
-):
-    args = {
-        "installs_over_days": installs_over_days,
-        "quality_passed_ratio": 0.6,
-        "is_eol": is_eol,
-        "is_new_app": is_new_app,
-    }
-
-    baseline = trending.calculate_trending_score(icon_quality_bonus=0, **args)
-    score = trending.calculate_trending_score(icon_quality_bonus=3, **args)
-
-    assert score == pytest.approx(baseline + 3)
+    assert baseline <= score <= baseline * 1.025
+    assert (score > baseline) == (icon_quality_bonus > 0)
 
 
 @pytest.fixture

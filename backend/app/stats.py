@@ -578,17 +578,14 @@ def update(sqldb):
             continue
 
         stats_dict_for_app = agg["per_day"][app_id]
-        sorted_stats = dict(sorted(stats_dict_for_app.items()))
-        installs = list(sorted_stats.values())
-
-        max_history_length = 21
-        if len(installs) > 1:
-            install_history_length = min(len(installs), max_history_length + 1)
-            installs_over_days = installs[-install_history_length:-1]
-        else:
-            installs_over_days = []
-
-        is_new_app = len(agg["per_day"][app_id]) <= 14
+        last_date = datetime.date.fromisoformat(agg["last_date"])
+        first_date = last_date - datetime.timedelta(days=20)
+        installs_over_days = [
+            stats_dict_for_app.get(
+                (first_date + datetime.timedelta(days=offset)).isoformat(), 0
+            )
+            for offset in range(21)
+        ]
 
         quality_passed_ratio = _calculate_quality_passed_ratio(
             quality_status_batch.get(app_id)
@@ -601,7 +598,6 @@ def update(sqldb):
             quality_passed_ratio=quality_passed_ratio,
             icon_quality_bonus=icon_quality_passed_count_batch.get(app_id, 0),
             is_eol=is_eol,
-            is_new_app=is_new_app,
         )
 
         trending_apps.append(
