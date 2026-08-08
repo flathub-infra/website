@@ -1,5 +1,5 @@
 from ..audit_log import log_audit_event
-from ..search_tasks import monitor_hybrid_index_task
+from ..search_tasks import monitor_hybrid_index_task, reconcile_hybrid_index
 from .core import broker
 from .emails import send_email_new, send_one_email_new
 from .prune_audit_logs import prune_audit_logs
@@ -22,6 +22,7 @@ __all__ = [
     "republish_app",
     "review_check",
     "monitor_hybrid_index_task",
+    "reconcile_hybrid_index",
     "send_email_new",
     "send_one_email_new",
     "update",

@@ -342,9 +342,7 @@ def _update_documents_with_fallback(
         )
 
 
-def _queue_hybrid_task(
-    operation: Literal["update", "delete"], task: Any, payload: list[Any]
-) -> bool:
+def _queue_hybrid_task(operation: Literal["update", "delete"], task: Any) -> bool:
     task_uid = getattr(task, "task_uid", None)
     if task_uid is None:
         search_health.mark_hybrid_task_failed("unknown")
@@ -355,7 +353,7 @@ def _queue_hybrid_task(
         return False
 
     try:
-        monitor_hybrid_index_task.send(operation, task_uid, payload)
+        monitor_hybrid_index_task.send(operation, task_uid)
     except Exception:
         search_health.mark_hybrid_task_failed(task_uid)
         logger.exception(
@@ -422,8 +420,7 @@ def create_or_update_apps(apps_to_update: list[dict]):
             search_health.mark_hybrid_task_failed("synchronous")
 
         monitor_failures = sum(
-            not _queue_hybrid_task("update", task, documents)
-            for task, documents in hybrid_tasks
+            not _queue_hybrid_task("update", task) for task, _ in hybrid_tasks
         )
         logger.info(
             "Hybrid Meilisearch index update queued: total=%d queued=%d skipped=%d monitor_failures=%d",
@@ -449,7 +446,7 @@ def delete_apps(app_id_list: list[str]) -> None:
         client.index(LEXICAL_APPS_INDEX).delete_documents(app_id_list)
         try:
             task = client.index(HYBRID_APPS_INDEX).delete_documents(app_id_list)
-            _queue_hybrid_task("delete", task, app_id_list)
+            _queue_hybrid_task("delete", task)
         except Exception:
             search_health.mark_hybrid_task_failed("synchronous")
             logger.exception("Hybrid Meilisearch index delete failed")

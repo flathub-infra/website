@@ -48,13 +48,24 @@ def build_embedder_settings(
     }
 
 
-def _wait_for_task(task: Any) -> Any:
+def _task_error_code(result: Any) -> str | None:
+    error = getattr(result, "error", None)
+    if isinstance(error, dict):
+        code = error.get("code")
+    else:
+        code = getattr(error, "code", None)
+    return code if isinstance(code, str) else None
+
+
+def _wait_for_task(task: Any, allowed_error_codes: frozenset[str] = frozenset()) -> Any:
     result = client.wait_for_task(
         task.task_uid, timeout_in_ms=1_800_000, interval_in_ms=1_000
     )
-    if result.status != "succeeded":
+    error_code = _task_error_code(result)
+    if result.status != "succeeded" and error_code not in allowed_error_codes:
+        detail = f": {error_code}" if error_code else ""
         raise RuntimeError(
-            f"Meilisearch task {task.task_uid} ended with {result.status}"
+            f"Meilisearch task {task.task_uid} ended with {result.status}{detail}"
         )
     return result
 
@@ -66,7 +77,7 @@ def ensure_hybrid_index(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
         if getattr(error, "code", None) != "index_already_exists":
             raise
     else:
-        _wait_for_task(task)
+        _wait_for_task(task, frozenset({"index_already_exists"}))
 
     index = client.index(index_uid)
     for task in configure_index(index):
@@ -135,6 +146,17 @@ def backfill_hybrid_index(
         raise RuntimeError(
             f"Hybrid index document count mismatch: {source_count} != {target_count}"
         )
+
+
+def reconcile_hybrid_index(
+    source_uid: str = DEFAULT_SOURCE_INDEX, target_uid: str = DEFAULT_TARGET_INDEX
+) -> None:
+    ensure_hybrid_index(target_uid)
+    delete_task = client.index(target_uid).delete_all_documents()
+    _wait_for_task(delete_task)
+    backfill_hybrid_index(source_uid, target_uid)
+    configure_hybrid_embedder(target_uid)
+    verify_embedding_coverage(target_uid)
 
 
 def configure_hybrid_embedder(index_uid: str = DEFAULT_TARGET_INDEX) -> None:

@@ -29,6 +29,10 @@ class FakeIndex:
         self.documents.append(documents)
         return SimpleNamespace(task_uid=10)
 
+    def delete_all_documents(self):
+        self.delete_all_calls = getattr(self, "delete_all_calls", 0) + 1
+        return SimpleNamespace(task_uid=40)
+
     def update_sortable_attributes(self, value):
         self.settings["sortableAttributes"] = value
         return self._setting_task()
@@ -60,10 +64,16 @@ class FakeIndex:
 
 class FakeClient:
     def __init__(
-        self, source=None, target=None, task_status="succeeded", embedded_count=None
+        self,
+        source=None,
+        target=None,
+        task_status="succeeded",
+        embedded_count=None,
+        creation_task_error=None,
     ):
         self.indices = {"apps": source, "apps-hybrid": target}
         self.task_status = task_status
+        self.creation_task_error = creation_task_error
         self.wait_calls = []
         self.created = []
         self.http = (
@@ -85,6 +95,10 @@ class FakeClient:
 
     def wait_for_task(self, uid, timeout_in_ms, interval_in_ms):
         self.wait_calls.append((uid, timeout_in_ms, interval_in_ms))
+        if uid == 1 and self.creation_task_error:
+            return SimpleNamespace(
+                status="failed", error={"code": self.creation_task_error}
+            )
         return SimpleNamespace(status=self.task_status)
 
 
@@ -197,6 +211,41 @@ def test_ensure_hybrid_index_applies_shared_settings(monkeypatch):
         (32, 1_800_000, 1_000),
         (33, 1_800_000, 1_000),
     ]
+
+
+def test_async_existing_index_task_is_accepted(monkeypatch):
+    target = FakeIndex()
+    fake_client = FakeClient(target=target, creation_task_error="index_already_exists")
+    monkeypatch.setattr(search_setup, "client", fake_client)
+
+    search_setup.ensure_hybrid_index()
+
+    assert target.settings["rankingRules"] == search_index.RANKING_RULES
+    assert fake_client.wait_calls[0] == (1, 1_800_000, 1_000)
+
+
+def test_reconcile_rebuilds_from_current_source_state(monkeypatch):
+    source = FakeIndex(
+        pages=[
+            SimpleNamespace(
+                results=[{"id": "org.example.App", "version": 2}],
+                offset=0,
+                limit=1000,
+                total=1,
+            )
+        ],
+        count=1,
+    )
+    target = FakeIndex(count=1)
+    fake_client = FakeClient(source, target, embedded_count=1)
+    monkeypatch.setattr(search_setup, "client", fake_client)
+    monkeypatch.setattr(config.settings, "fireworks_api_key", "secret")
+
+    search_setup.reconcile_hybrid_index()
+
+    assert target.delete_all_calls == 1
+    assert target.documents == [[{"id": "org.example.App", "version": 2}]]
+    assert target.embedder_updates
 
 
 def test_verify_embedding_coverage_rejects_partial_embeddings(monkeypatch):
