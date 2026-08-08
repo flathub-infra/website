@@ -57,17 +57,31 @@ def _task_error_code(result: Any) -> str | None:
     return code if isinstance(code, str) else None
 
 
-def _wait_for_task(task: Any, allowed_error_codes: frozenset[str] = frozenset()) -> Any:
+def _wait_for_task_uid(
+    task_uid: int, allowed_error_codes: frozenset[str] = frozenset()
+) -> Any:
     result = client.wait_for_task(
-        task.task_uid, timeout_in_ms=1_800_000, interval_in_ms=1_000
+        task_uid, timeout_in_ms=1_800_000, interval_in_ms=1_000
     )
     error_code = _task_error_code(result)
     if result.status != "succeeded" and error_code not in allowed_error_codes:
         detail = f": {error_code}" if error_code else ""
         raise RuntimeError(
-            f"Meilisearch task {task.task_uid} ended with {result.status}{detail}"
+            f"Meilisearch task {task_uid} ended with {result.status}{detail}"
         )
     return result
+
+
+def _wait_for_task(task: Any, allowed_error_codes: frozenset[str] = frozenset()) -> Any:
+    return _wait_for_task_uid(task.task_uid, allowed_error_codes)
+
+
+def _wait_for_task_barrier(task_uid: int) -> None:
+    client.wait_for_task(
+        task_uid,
+        timeout_in_ms=1_800_000,
+        interval_in_ms=1_000,
+    )
 
 
 def ensure_hybrid_index(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
@@ -152,11 +166,26 @@ def reconcile_hybrid_index(
     source_uid: str = DEFAULT_SOURCE_INDEX, target_uid: str = DEFAULT_TARGET_INDEX
 ) -> None:
     ensure_hybrid_index(target_uid)
+    with search_health.hybrid_mutation_lock():
+        start_generation, lexical_task_uid = search_health.get_lexical_mutation_state()
+
+    if lexical_task_uid is not None:
+        _wait_for_task_barrier(lexical_task_uid)
+
     delete_task = client.index(target_uid).delete_all_documents()
     _wait_for_task(delete_task)
-    backfill_hybrid_index(source_uid, target_uid)
     configure_hybrid_embedder(target_uid)
+    backfill_hybrid_index(source_uid, target_uid)
     verify_embedding_coverage(target_uid)
+
+    with search_health.hybrid_mutation_lock():
+        end_generation, _ = search_health.get_lexical_mutation_state()
+        if end_generation != start_generation:
+            raise RuntimeError(
+                "Lexical index mutated during hybrid index reconciliation"
+            )
+        if not search_health.clear_hybrid_task_failures():
+            raise RuntimeError("Unable to clear hybrid index failure state")
 
 
 def configure_hybrid_embedder(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
@@ -203,11 +232,7 @@ def configure_hybrid_embedder(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
 
 
 def main() -> None:
-    ensure_hybrid_index()
-    backfill_hybrid_index()
-    configure_hybrid_embedder()
-    verify_embedding_coverage()
-    search_health.clear_hybrid_task_failures()
+    reconcile_hybrid_index()
 
 
 if __name__ == "__main__":

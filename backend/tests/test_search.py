@@ -1,6 +1,7 @@
 import importlib
 import os
 import sys
+from contextlib import nullcontext
 from types import ModuleType, SimpleNamespace
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -107,6 +108,8 @@ def search_module(monkeypatch):
     monkeypatch.setattr(module, "monitor_hybrid_index_task", monitor)
     monkeypatch.setattr(module.search_health, "has_hybrid_task_failures", lambda: False)
     monkeypatch.setattr(module.search_health, "mark_hybrid_task_failed", lambda _: None)
+    monkeypatch.setattr(module.search_health, "hybrid_mutation_lock", nullcontext)
+    monkeypatch.setattr(module.search_health, "record_lexical_mutation", lambda _: None)
     yield module, fake_client
     sys.modules.pop("app.search", None)
     sys.modules.pop("app.database", None)
@@ -174,10 +177,28 @@ def test_documents_are_written_to_both_indices_and_hybrid_failure_is_isolated(
 def test_hybrid_document_task_is_monitored(search_module):
     search, client = search_module
     document = {"id": "org.example.App", "app_id": "org.example.App"}
-
     search.create_or_update_apps([document])
 
     assert search.monitor_hybrid_index_task.sent == [("update", 1)]
+
+
+def test_lexical_mutations_advance_reconciliation_generation(
+    search_module, monkeypatch
+):
+    search, _ = search_module
+    recorded = []
+    monkeypatch.setattr(
+        search.search_health,
+        "record_lexical_mutation",
+        lambda task_uids: recorded.append(task_uids),
+    )
+
+    search.create_or_update_apps(
+        [{"id": "org.example.App", "app_id": "org.example.App"}]
+    )
+    search.delete_apps(["org.example.App"])
+
+    assert recorded == [[1], [1]]
 
 
 def test_failed_hybrid_tasks_force_lexical_fallback(search_module, monkeypatch):

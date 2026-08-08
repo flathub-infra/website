@@ -15,13 +15,20 @@ TASK_INTERVAL_MS = 1_000
 RECONCILIATION_TIME_LIMIT_MS = 3_600_000
 
 
+def _enqueue_reconciliation(attempt: int) -> None:
+    reconcile_hybrid_index.send_with_options(
+        args=(attempt,),
+        delay=RECONCILIATION_DELAY_MS,
+    )
+
+
 def _schedule_reconciliation(attempt: int) -> None:
     try:
-        reconcile_hybrid_index.send_with_options(
-            args=(attempt,),
-            delay=RECONCILIATION_DELAY_MS,
-        )
+        if not search_health.mark_reconciliation_scheduled():
+            return
+        _enqueue_reconciliation(attempt)
     except Exception:
+        search_health.clear_reconciliation_scheduled()
         logger.exception(
             "Unable to schedule hybrid index reconciliation",
             extra={"reconciliation_attempt": attempt},
@@ -33,28 +40,49 @@ def _schedule_reconciliation(attempt: int) -> None:
 def reconcile_hybrid_index(attempt: int = 0) -> None:
     from . import search_setup
 
-    try:
-        search_setup.reconcile_hybrid_index()
-    except Exception:
-        search_health.mark_hybrid_task_failed("reconciliation")
-        if attempt >= MAX_RECONCILIATION_ATTEMPTS:
-            logger.exception(
-                "Hybrid index reconciliation failed",
-                extra={"reconciliation_attempt": attempt},
-            )
-            return
-        logger.exception(
-            "Hybrid index reconciliation failed; retrying",
-            extra={"reconciliation_attempt": attempt},
-        )
-        _schedule_reconciliation(attempt + 1)
+    lock = search_health.hybrid_reconciliation_lock()
+    if not lock.acquire(blocking=False):
         return
 
-    search_health.clear_hybrid_task_failures()
-    logger.info(
-        "Hybrid index reconciliation complete",
-        extra={"reconciliation_attempt": attempt},
-    )
+    try:
+        if not search_health.has_hybrid_task_failures():
+            search_health.clear_reconciliation_scheduled()
+            return
+
+        try:
+            search_setup.reconcile_hybrid_index()
+        except Exception:
+            search_health.mark_hybrid_task_failed("reconciliation")
+            if attempt >= MAX_RECONCILIATION_ATTEMPTS:
+                search_health.clear_reconciliation_scheduled()
+                logger.exception(
+                    "Hybrid index reconciliation failed",
+                    extra={"reconciliation_attempt": attempt},
+                )
+                return
+            logger.exception(
+                "Hybrid index reconciliation failed; retrying",
+                extra={"reconciliation_attempt": attempt},
+            )
+            try:
+                _enqueue_reconciliation(attempt + 1)
+            except Exception:
+                search_health.clear_reconciliation_scheduled()
+                logger.exception(
+                    "Unable to reschedule hybrid index reconciliation",
+                    extra={"reconciliation_attempt": attempt + 1},
+                )
+            return
+
+        search_health.clear_reconciliation_scheduled()
+        if search_health.has_hybrid_task_failures():
+            _schedule_reconciliation(0)
+        logger.info(
+            "Hybrid index reconciliation complete",
+            extra={"reconciliation_attempt": attempt},
+        )
+    finally:
+        lock.release()
 
 
 @dramatiq.actor(time_limit=TASK_TIMEOUT_MS + 60_000)

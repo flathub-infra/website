@@ -40,6 +40,43 @@ class FakeClient:
         return SimpleNamespace(status=self.status)
 
 
+class FakeLock:
+    def __init__(self, acquired=True):
+        self.acquired = acquired
+        self.released = False
+
+    def acquire(self, blocking):
+        assert blocking is False
+        return self.acquired
+
+    def release(self):
+        self.released = True
+
+
+@pytest.fixture(autouse=True)
+def reconciliation_state(monkeypatch):
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "mark_reconciliation_scheduled",
+        lambda: True,
+    )
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "clear_reconciliation_scheduled",
+        lambda: None,
+    )
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "hybrid_reconciliation_lock",
+        FakeLock,
+    )
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "has_hybrid_task_failures",
+        lambda: True,
+    )
+
+
 @pytest.mark.parametrize(
     ("operation", "payload"),
     [
@@ -91,7 +128,7 @@ def test_successful_later_task_does_not_clear_failure_state(monkeypatch):
     assert cleared == []
 
 
-def test_successful_reconciliation_clears_all_failure_state(monkeypatch):
+def test_successful_reconciliation_releases_schedule(monkeypatch):
     calls = []
     monkeypatch.setattr(
         app,
@@ -99,10 +136,16 @@ def test_successful_reconciliation_clears_all_failure_state(monkeypatch):
         SimpleNamespace(reconcile_hybrid_index=lambda: calls.append("repair")),
         raising=False,
     )
+    health_checks = iter([True, False])
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "has_hybrid_task_failures",
+        lambda: next(health_checks),
+    )
     cleared = []
     monkeypatch.setattr(
         search_tasks.search_health,
-        "clear_hybrid_task_failures",
+        "clear_reconciliation_scheduled",
         lambda: cleared.append("clear"),
     )
 
@@ -145,3 +188,75 @@ def test_failed_reconciliation_is_retried_without_mutation_payload(monkeypatch):
             "delay": search_tasks.RECONCILIATION_DELAY_MS,
         }
     ]
+
+
+def test_reconciliation_scheduling_is_coalesced(monkeypatch):
+    claims = iter([True, False])
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "mark_reconciliation_scheduled",
+        lambda: next(claims),
+    )
+    scheduled = []
+    monkeypatch.setattr(
+        search_tasks.reconcile_hybrid_index,
+        "send_with_options",
+        lambda **kwargs: scheduled.append(kwargs),
+    )
+
+    search_tasks._schedule_reconciliation(0)
+    search_tasks._schedule_reconciliation(0)
+
+    assert scheduled == [
+        {
+            "args": (0,),
+            "delay": search_tasks.RECONCILIATION_DELAY_MS,
+        }
+    ]
+
+
+def test_reconciliation_bails_when_index_is_healthy(monkeypatch):
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "has_hybrid_task_failures",
+        lambda: False,
+    )
+    cleared = []
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "clear_reconciliation_scheduled",
+        lambda: cleared.append("clear"),
+    )
+    monkeypatch.setattr(
+        app,
+        "search_setup",
+        SimpleNamespace(
+            reconcile_hybrid_index=lambda: pytest.fail("unexpected reconciliation")
+        ),
+        raising=False,
+    )
+
+    search_tasks.reconcile_hybrid_index.fn(0)
+
+    assert cleared == ["clear"]
+
+
+def test_reconciliation_bails_when_another_rebuild_is_running(monkeypatch):
+    lock = FakeLock(acquired=False)
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "hybrid_reconciliation_lock",
+        lambda: lock,
+    )
+    monkeypatch.setattr(
+        app,
+        "search_setup",
+        SimpleNamespace(
+            reconcile_hybrid_index=lambda: pytest.fail("unexpected reconciliation")
+        ),
+        raising=False,
+    )
+
+    search_tasks.reconcile_hybrid_index.fn(0)
+
+    assert lock.released is False
