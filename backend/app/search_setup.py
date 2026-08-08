@@ -3,8 +3,10 @@ import time
 from typing import Any
 
 import meilisearch
+import meilisearch.errors
 
-from . import config
+from . import config, search_health
+from .search_index import configure_index
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +59,20 @@ def _wait_for_task(task: Any) -> Any:
     return result
 
 
+def ensure_hybrid_index(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
+    try:
+        task = client.create_index(index_uid, {"primaryKey": "id"})
+    except meilisearch.errors.MeilisearchApiError as error:
+        if getattr(error, "code", None) != "index_already_exists":
+            raise
+    else:
+        _wait_for_task(task)
+
+    index = client.index(index_uid)
+    for task in configure_index(index):
+        _wait_for_task(task)
+
+
 def _embedded_document_count(index_uid: str) -> int | None:
     http = getattr(client, "http", None)
     if http is None:
@@ -68,6 +84,23 @@ def _embedded_document_count(index_uid: str) -> int | None:
 def _document_count(index: Any) -> int:
     stats = index.get_stats()
     return stats.number_of_documents
+
+
+def verify_embedding_coverage(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
+    document_count = _document_count(client.index(index_uid))
+    embedded_count = _embedded_document_count(index_uid)
+    if embedded_count is None:
+        raise RuntimeError("Meilisearch embedding coverage is unavailable")
+    if embedded_count != document_count:
+        raise RuntimeError(
+            f"Hybrid index embedding count mismatch: {embedded_count} != {document_count}"
+        )
+    logger.info(
+        "Hybrid index embedding coverage verified: index=%s documents=%d embedded=%d",
+        index_uid,
+        document_count,
+        embedded_count,
+    )
 
 
 def backfill_hybrid_index(
@@ -148,8 +181,11 @@ def configure_hybrid_embedder(index_uid: str = DEFAULT_TARGET_INDEX) -> None:
 
 
 def main() -> None:
+    ensure_hybrid_index()
     backfill_hybrid_index()
     configure_hybrid_embedder()
+    verify_embedding_coverage()
+    search_health.clear_hybrid_task_failures()
 
 
 if __name__ == "__main__":

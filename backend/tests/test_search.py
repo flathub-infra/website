@@ -80,6 +80,14 @@ class FakeClient:
         return self.indices.setdefault(uid, FakeIndex(uid))
 
 
+class FakeMonitor:
+    def __init__(self):
+        self.sent = []
+
+    def send(self, *args):
+        self.sent.append(args)
+
+
 @pytest.fixture
 def search_module(monkeypatch):
     import app as app_package
@@ -95,6 +103,10 @@ def search_module(monkeypatch):
     monkeypatch.setitem(sys.modules, "app.models", fake_models)
     previous_search = sys.modules.pop("app.search", None)
     module = importlib.import_module("app.search")
+    monitor = FakeMonitor()
+    monkeypatch.setattr(module, "monitor_hybrid_index_task", monitor)
+    monkeypatch.setattr(module.search_health, "has_hybrid_task_failures", lambda: False)
+    monkeypatch.setattr(module.search_health, "mark_hybrid_task_failed", lambda _: None)
     yield module, fake_client
     sys.modules.pop("app.search", None)
     sys.modules.pop("app.database", None)
@@ -133,7 +145,8 @@ def test_both_indices_have_identical_settings(search_module):
         == client.indices[search.HYBRID_APPS_INDEX].settings
     )
     assert (
-        client.indices[search.LEXICAL_APPS_INDEX].settings["rankingRules"][-1] == "sort"
+        client.indices[search.LEXICAL_APPS_INDEX].settings["rankingRules"]
+        == search.RANKING_RULES
     )
 
 
@@ -154,7 +167,28 @@ def test_documents_are_written_to_both_indices_and_hybrid_failure_is_isolated(
     hybrid.delete_error = RuntimeError("provider unavailable")
     search.delete_apps([document["id"]])
     assert lexical.delete_calls == [[document["id"]]]
+
     assert hybrid.delete_calls == []
+
+
+def test_hybrid_document_task_is_monitored(search_module):
+    search, client = search_module
+    document = {"id": "org.example.App", "app_id": "org.example.App"}
+
+    search.create_or_update_apps([document])
+
+    assert search.monitor_hybrid_index_task.sent == [("update", 1, [document])]
+
+
+def test_failed_hybrid_tasks_force_lexical_fallback(search_module, monkeypatch):
+    search, client = search_module
+    search.config.settings.search_hybrid_enabled = True
+    monkeypatch.setattr(search.search_health, "has_hybrid_task_failures", lambda: True)
+
+    search.search_apps_post(search.SearchQuery(query="record my screen"), "en")
+
+    assert client.indices[search.LEXICAL_APPS_INDEX].search_calls
+    assert not client.indices[search.HYBRID_APPS_INDEX].search_calls
 
 
 def test_hybrid_candidate_and_app_id_detection(search_module):
