@@ -12,17 +12,10 @@ import meilisearch
 import meilisearch.errors
 
 from app import config
+from app.search_index import RANKING_RULES
 from app.search_setup import build_embedder_settings
 
-CURRENT_RANKING_RULES = [
-    "words",
-    "typo",
-    "proximity",
-    "attributeRank",
-    "sort",
-    "wordPosition",
-    "exactness",
-]
+CURRENT_RANKING_RULES = RANKING_RULES
 LEXICAL_FIXED_RANKING_RULES = [
     "words",
     "typo",
@@ -32,6 +25,10 @@ LEXICAL_FIXED_RANKING_RULES = [
     "exactness",
     "sort",
 ]
+MIN_SELECTION_CASES = 30
+MIN_SELECTION_EXPLORATORY_CASES = 10
+MIN_SELECTION_KNOWN_ITEM_CASES = 4
+MIN_EXPLORATORY_JUDGMENTS = 3
 APP_ID_PATTERN = re.compile(r"[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+){2,}")
 DEFAULT_DIMENSIONS = [1024, 2048, 4096]
 DEFAULT_SEMANTIC_RATIOS = [0.2, 0.3, 0.4, 0.5]
@@ -287,11 +284,41 @@ def _relative_change(value: float, baseline: float) -> float:
     return (value - baseline) / baseline
 
 
+def _selection_blockers(cases_by_query: dict[str, dict[str, Any]]) -> list[str]:
+    cases = list(cases_by_query.values())
+    exploratory = [case for case in cases if case["kind"] == "exploratory"]
+    known_item = [case for case in cases if case["kind"] == "known-item"]
+    blockers = []
+    if len(cases) < MIN_SELECTION_CASES:
+        blockers.append(f"at least {MIN_SELECTION_CASES} cases are required")
+    if len(exploratory) < MIN_SELECTION_EXPLORATORY_CASES:
+        blockers.append(
+            f"at least {MIN_SELECTION_EXPLORATORY_CASES} exploratory cases are required"
+        )
+    if len(known_item) < MIN_SELECTION_KNOWN_ITEM_CASES:
+        blockers.append(
+            f"at least {MIN_SELECTION_KNOWN_ITEM_CASES} known-item cases are required"
+        )
+    under_judged = sorted(
+        case["query"]
+        for case in exploratory
+        if len(case["judgments"]) < MIN_EXPLORATORY_JUDGMENTS
+    )
+    if under_judged:
+        blockers.append(
+            "exploratory cases need at least "
+            f"{MIN_EXPLORATORY_JUDGMENTS} judgments: {', '.join(under_judged)}"
+        )
+    return blockers
+
+
 def _select_production(
     runs: list[dict[str, Any]], cases_by_query: dict[str, dict[str, Any]]
 ) -> dict[str, Any] | None:
-    lexical_fixed = next(run for run in runs if run["mode"] == "lexical-fixed")
-    baseline = lexical_fixed["metrics"]
+    if _selection_blockers(cases_by_query):
+        return None
+    lexical_current = next(run for run in runs if run["mode"] == "lexical-current")
+    baseline = lexical_current["metrics"]
     candidates = []
     for run in runs:
         if run["mode"] != "hybrid":
@@ -445,14 +472,18 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             run["fireworks_tokens"] = None
             run["metrics"] = _metrics_for_run(run, cases_by_query)
             runs.append(run)
+    selection_blockers = _selection_blockers(cases_by_query)
     return {
         "source_index": args.source_index,
         "work_index": args.work_index,
         "dimensions": args.dimensions,
         "semantic_ratios": args.semantic_ratios,
         "pooled_top_twenty": _pool_top_twenty(runs),
+        "selection_blockers": selection_blockers,
         "runs": runs,
-        "selected_production": _select_production(runs, cases_by_query),
+        "selected_production": (
+            None if selection_blockers else _select_production(runs, cases_by_query)
+        ),
     }
 
 

@@ -2,7 +2,7 @@ import json
 import logging
 import re
 import time
-from typing import Any, TypeVar
+from typing import Any, Literal, TypeVar
 
 import meilisearch
 import meilisearch.errors
@@ -11,8 +11,9 @@ from sqlalchemy import text
 
 from app.models import ConnectedAccountProvider
 
-from . import config, schemas
+from . import config, schemas, search_health, search_index
 from .database import get_db
+from .search_tasks import monitor_hybrid_index_task
 from .verification_method import VerificationMethod
 
 T = TypeVar("T")
@@ -23,48 +24,10 @@ ALLOWED_TRANSLATION_KEYS = {"name", "summary", "description", "keywords"}
 LEXICAL_APPS_INDEX = "apps"
 HYBRID_APPS_INDEX = "apps-hybrid"
 
-SEARCHABLE_ATTRIBUTES = [
-    "name",
-    "keywords",
-    "summary",
-    "description",
-    "translations",
-    "id",
-]
-
-FILTERABLE_ATTRIBUTES = [
-    "main_categories",
-    "sub_categories",
-    "developer_name",
-    "verification_verified",
-    "is_free_license",
-    "runtime",
-    "type",
-    "arches",
-    "icon",
-    "keywords",
-    "localized_keywords",
-    "isMobileFriendly",
-]
-
-SORTABLE_ATTRIBUTES = [
-    "installs_last_month",
-    "trending",
-    "added_at",
-    "updated_at",
-    "verification_timestamp",
-    "favorites_count",
-]
-
-RANKING_RULES = [
-    "words",
-    "typo",
-    "proximity",
-    "attributeRank",
-    "wordPosition",
-    "exactness",
-    "sort",
-]
+FILTERABLE_ATTRIBUTES = search_index.FILTERABLE_ATTRIBUTES
+RANKING_RULES = search_index.RANKING_RULES
+SEARCHABLE_ATTRIBUTES = search_index.SEARCHABLE_ATTRIBUTES
+SORTABLE_ATTRIBUTES = search_index.SORTABLE_ATTRIBUTES
 
 
 class MeilisearchResponse[T](BaseModel):
@@ -160,11 +123,7 @@ class SearchQuery(BaseModel):
 
 def _configure_app_index(index_uid: str) -> None:
     client.create_index(index_uid, {"primaryKey": "id"})
-    index = client.index(index_uid)
-    index.update_sortable_attributes(SORTABLE_ATTRIBUTES)
-    index.update_searchable_attributes(SEARCHABLE_ATTRIBUTES)
-    index.update_filterable_attributes(FILTERABLE_ATTRIBUTES)
-    index.update_ranking_rules(RANKING_RULES)
+    search_index.configure_index(client.index(index_uid))
 
 
 client = meilisearch.Client(
@@ -354,25 +313,57 @@ def _get_doc_identifier(document: dict[str, Any]) -> str:
 
 def _update_documents_with_fallback(
     index: Any, documents: list[dict[str, Any]]
-) -> tuple[int, list[tuple[dict[str, Any], str]]]:
+) -> tuple[
+    int,
+    list[tuple[dict[str, Any], str]],
+    list[tuple[Any, list[dict[str, Any]]]],
+]:
     if not documents:
-        return 0, []
+        return 0, [], []
 
     try:
-        index.update_documents(documents)
-        return len(documents), []
+        task = index.update_documents(documents)
+        return len(documents), [], [(task, documents)]
     except meilisearch.errors.MeilisearchApiError as err:
         if len(documents) == 1:
-            return 0, [(documents[0], str(err))]
+            return 0, [(documents[0], str(err))], []
 
         midpoint = len(documents) // 2
-        accepted_left, skipped_left = _update_documents_with_fallback(
+        accepted_left, skipped_left, tasks_left = _update_documents_with_fallback(
             index, documents[:midpoint]
         )
-        accepted_right, skipped_right = _update_documents_with_fallback(
+        accepted_right, skipped_right, tasks_right = _update_documents_with_fallback(
             index, documents[midpoint:]
         )
-        return accepted_left + accepted_right, skipped_left + skipped_right
+        return (
+            accepted_left + accepted_right,
+            skipped_left + skipped_right,
+            tasks_left + tasks_right,
+        )
+
+
+def _queue_hybrid_task(
+    operation: Literal["update", "delete"], task: Any, payload: list[Any]
+) -> bool:
+    task_uid = getattr(task, "task_uid", None)
+    if task_uid is None:
+        search_health.mark_hybrid_task_failed("unknown")
+        logger.error(
+            "Hybrid Meilisearch task was returned without a task identifier",
+            extra={"operation": operation},
+        )
+        return False
+
+    try:
+        monitor_hybrid_index_task.send(operation, task_uid, payload)
+    except Exception:
+        search_health.mark_hybrid_task_failed(task_uid)
+        logger.exception(
+            "Unable to queue hybrid Meilisearch task monitor",
+            extra={"task": task_uid, "operation": operation},
+        )
+        return False
+    return True
 
 
 def create_or_update_apps(apps_to_update: list[dict]):
@@ -396,13 +387,13 @@ def create_or_update_apps(apps_to_update: list[dict]):
 
     if not sanitized_documents:
         logger.info(
-            "Meilisearch index update skipped: total=%d indexed=0 skipped=%d",
+            "Meilisearch index update skipped: total=%d queued=0 skipped=%d",
             len(apps_to_update),
             len(skipped_for_sanitization),
         )
         return
 
-    accepted_count, skipped_for_meili = _update_documents_with_fallback(
+    queued_count, skipped_for_meili, _ = _update_documents_with_fallback(
         client.index(LEXICAL_APPS_INDEX), sanitized_documents
     )
 
@@ -414,7 +405,11 @@ def create_or_update_apps(apps_to_update: list[dict]):
         )
 
     try:
-        hybrid_accepted_count, skipped_for_hybrid = _update_documents_with_fallback(
+        (
+            hybrid_queued_count,
+            skipped_for_hybrid,
+            hybrid_tasks,
+        ) = _update_documents_with_fallback(
             client.index(HYBRID_APPS_INDEX), sanitized_documents
         )
         for document, reason in skipped_for_hybrid:
@@ -423,19 +418,28 @@ def create_or_update_apps(apps_to_update: list[dict]):
                 _get_doc_identifier(document),
                 reason,
             )
+        if skipped_for_hybrid:
+            search_health.mark_hybrid_task_failed("synchronous")
+
+        monitor_failures = sum(
+            not _queue_hybrid_task("update", task, documents)
+            for task, documents in hybrid_tasks
+        )
         logger.info(
-            "Hybrid Meilisearch index update complete: total=%d indexed=%d skipped=%d",
+            "Hybrid Meilisearch index update queued: total=%d queued=%d skipped=%d monitor_failures=%d",
             len(sanitized_documents),
-            hybrid_accepted_count,
+            hybrid_queued_count,
             len(skipped_for_hybrid),
+            monitor_failures,
         )
     except Exception:
+        search_health.mark_hybrid_task_failed("synchronous")
         logger.exception("Hybrid Meilisearch index update failed")
 
     logger.info(
-        "Meilisearch index update complete: total=%d indexed=%d skipped=%d",
+        "Meilisearch index update queued: total=%d queued=%d skipped=%d",
         len(apps_to_update),
-        accepted_count,
+        queued_count,
         len(skipped_for_sanitization) + len(skipped_for_meili),
     )
 
@@ -444,8 +448,10 @@ def delete_apps(app_id_list: list[str]) -> None:
     if len(app_id_list) > 0:
         client.index(LEXICAL_APPS_INDEX).delete_documents(app_id_list)
         try:
-            client.index(HYBRID_APPS_INDEX).delete_documents(app_id_list)
+            task = client.index(HYBRID_APPS_INDEX).delete_documents(app_id_list)
+            _queue_hybrid_task("delete", task, app_id_list)
         except Exception:
+            search_health.mark_hybrid_task_failed("synchronous")
             logger.exception("Hybrid Meilisearch index delete failed")
 
 
@@ -843,7 +849,16 @@ def search_apps_post(
     mode = "lexical"
     fallback_error_code = None
 
-    if hybrid_candidate:
+    if hybrid_candidate and search_health.has_hybrid_task_failures():
+        logger.warning(
+            "Hybrid Meilisearch index has failed tasks; using lexical fallback"
+        )
+        raw_response = client.index(LEXICAL_APPS_INDEX).search(
+            searchquery.query, options
+        )
+        mode = "hybrid_unhealthy_fallback"
+        fallback_error_code = "index_unhealthy"
+    elif hybrid_candidate:
         hybrid_options = {
             **options,
             "hybrid": {
