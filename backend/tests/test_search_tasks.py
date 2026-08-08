@@ -5,29 +5,30 @@ from types import SimpleNamespace
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
+import pytest
+
 import app
 from app import search_tasks
 
 
 class FakeIndex:
-    def __init__(self, task_uid):
-        self.task_uid = task_uid
+    def __init__(self):
         self.update_calls = []
         self.delete_calls = []
 
     def update_documents(self, documents):
         self.update_calls.append(documents)
-        return SimpleNamespace(task_uid=self.task_uid)
+        return SimpleNamespace(task_uid=11)
 
     def delete_documents(self, ids):
         self.delete_calls.append(ids)
-        return SimpleNamespace(task_uid=self.task_uid)
+        return SimpleNamespace(task_uid=11)
 
 
 class FakeClient:
     def __init__(self, status):
         self.status = status
-        self.index_value = FakeIndex(11)
+        self.index_value = FakeIndex()
         self.wait_calls = []
 
     def index(self, uid):
@@ -39,10 +40,16 @@ class FakeClient:
         return SimpleNamespace(status=self.status)
 
 
-def test_failed_task_is_retried_and_marked_unhealthy(monkeypatch):
+@pytest.mark.parametrize(
+    ("operation", "payload"),
+    [
+        ("update", [{"id": "org.example.App", "version": 1}]),
+        ("delete", ["org.example.App"]),
+    ],
+)
+def test_failed_task_never_replays_historical_payload(monkeypatch, operation, payload):
     client = FakeClient("failed")
-    fake_search = SimpleNamespace(client=client)
-    monkeypatch.setattr(app, "search", fake_search, raising=False)
+    monkeypatch.setattr(app, "search", SimpleNamespace(client=client), raising=False)
     failed = []
     scheduled = []
     monkeypatch.setattr(
@@ -51,38 +58,90 @@ def test_failed_task_is_retried_and_marked_unhealthy(monkeypatch):
         lambda task_uid: failed.append(task_uid),
     )
     monkeypatch.setattr(
-        search_tasks.monitor_hybrid_index_task,
+        search_tasks.reconcile_hybrid_index,
         "send_with_options",
         lambda **kwargs: scheduled.append(kwargs),
     )
 
-    payload = [{"id": "org.example.App"}]
-    search_tasks.monitor_hybrid_index_task.fn("update", 10, payload)
+    search_tasks.monitor_hybrid_index_task.fn(operation, 10, payload)
 
     assert failed == [10]
-    assert client.index_value.update_calls == [payload]
+    assert client.index_value.update_calls == []
+    assert client.index_value.delete_calls == []
     assert scheduled == [
         {
-            "args": ("update", 11, payload, 10, 1),
+            "args": (0,),
             "delay": search_tasks.RECONCILIATION_DELAY_MS,
         }
     ]
 
 
-def test_successful_reconciliation_clears_failure(monkeypatch):
+def test_successful_later_task_does_not_clear_failure_state(monkeypatch):
     client = FakeClient("succeeded")
-    fake_search = SimpleNamespace(client=client)
-    monkeypatch.setattr(app, "search", fake_search, raising=False)
+    monkeypatch.setattr(app, "search", SimpleNamespace(client=client), raising=False)
     cleared = []
     monkeypatch.setattr(
         search_tasks.search_health,
-        "clear_hybrid_task_failure",
-        lambda task_uid: cleared.append(task_uid),
+        "clear_hybrid_task_failures",
+        lambda: cleared.append("clear"),
     )
 
-    search_tasks.monitor_hybrid_index_task.fn(
-        "update", 11, [{"id": "org.example.App"}], 10, 1
+    search_tasks.monitor_hybrid_index_task.fn("update", 20)
+
+    assert cleared == []
+
+
+def test_successful_reconciliation_clears_all_failure_state(monkeypatch):
+    calls = []
+    monkeypatch.setattr(
+        app,
+        "search_setup",
+        SimpleNamespace(reconcile_hybrid_index=lambda: calls.append("repair")),
+        raising=False,
+    )
+    cleared = []
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "clear_hybrid_task_failures",
+        lambda: cleared.append("clear"),
     )
 
-    assert cleared == [10]
-    assert client.index_value.update_calls == []
+    search_tasks.reconcile_hybrid_index.fn(1)
+
+    assert calls == ["repair"]
+    assert cleared == ["clear"]
+
+
+def test_failed_reconciliation_is_retried_without_mutation_payload(monkeypatch):
+    monkeypatch.setattr(
+        app,
+        "search_setup",
+        SimpleNamespace(
+            reconcile_hybrid_index=lambda: (_ for _ in ()).throw(
+                RuntimeError("repair failed")
+            )
+        ),
+        raising=False,
+    )
+    failures = []
+    scheduled = []
+    monkeypatch.setattr(
+        search_tasks.search_health,
+        "mark_hybrid_task_failed",
+        lambda task_uid: failures.append(task_uid),
+    )
+    monkeypatch.setattr(
+        search_tasks.reconcile_hybrid_index,
+        "send_with_options",
+        lambda **kwargs: scheduled.append(kwargs),
+    )
+
+    search_tasks.reconcile_hybrid_index.fn(0)
+
+    assert failures == ["reconciliation"]
+    assert scheduled == [
+        {
+            "args": (1,),
+            "delay": search_tasks.RECONCILIATION_DELAY_MS,
+        }
+    ]

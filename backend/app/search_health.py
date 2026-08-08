@@ -22,18 +22,12 @@ def mark_hybrid_task_failed(task_uid: int | str) -> None:
         logger.exception("Unable to record hybrid index task failure")
 
 
-def clear_hybrid_task_failure(task_uid: int | str) -> None:
-    try:
-        redis_conn.srem(HYBRID_FAILURE_KEY, str(task_uid))
-    except Exception:
-        logger.exception("Unable to clear hybrid index task failure")
-
-
 def has_hybrid_task_failures() -> bool:
     try:
         return bool(redis_conn.scard(HYBRID_FAILURE_KEY))
     except Exception:
-        return False
+        logger.exception("Unable to read hybrid index health state")
+        return True
 
 
 def clear_hybrid_task_failures() -> None:

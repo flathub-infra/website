@@ -177,7 +177,7 @@ def test_hybrid_document_task_is_monitored(search_module):
 
     search.create_or_update_apps([document])
 
-    assert search.monitor_hybrid_index_task.sent == [("update", 1, [document])]
+    assert search.monitor_hybrid_index_task.sent == [("update", 1)]
 
 
 def test_failed_hybrid_tasks_force_lexical_fallback(search_module, monkeypatch):
