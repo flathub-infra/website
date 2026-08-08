@@ -1,6 +1,8 @@
 import json
 import logging
-from typing import Any, TypeVar
+import re
+import time
+from typing import Any, Literal, TypeVar
 
 import meilisearch
 import meilisearch.errors
@@ -9,14 +11,23 @@ from sqlalchemy import text
 
 from app.models import ConnectedAccountProvider
 
-from . import config, schemas
+from . import config, schemas, search_health, search_index
 from .database import get_db
+from .search_tasks import monitor_hybrid_index_task
 from .verification_method import VerificationMethod
 
 T = TypeVar("T")
 logger = logging.getLogger(__name__)
 
 ALLOWED_TRANSLATION_KEYS = {"name", "summary", "description", "keywords"}
+
+LEXICAL_APPS_INDEX = "apps"
+HYBRID_APPS_INDEX = "apps-hybrid"
+
+FILTERABLE_ATTRIBUTES = search_index.FILTERABLE_ATTRIBUTES
+RANKING_RULES = search_index.RANKING_RULES
+SEARCHABLE_ATTRIBUTES = search_index.SEARCHABLE_ATTRIBUTES
+SORTABLE_ATTRIBUTES = search_index.SORTABLE_ATTRIBUTES
 
 
 class MeilisearchResponse[T](BaseModel):
@@ -110,51 +121,17 @@ class SearchQuery(BaseModel):
         return v
 
 
-def _configure_meilisearch_index(client):
-    client.create_index("apps", {"primaryKey": "id"})
-    client.index("apps").update_sortable_attributes(
-        [
-            "installs_last_month",
-            "trending",
-            "added_at",
-            "updated_at",
-            "verification_timestamp",
-            "favorites_count",
-        ]
-    )
-    client.index("apps").update_searchable_attributes(
-        [
-            "name",
-            "keywords",
-            "summary",
-            "description",
-            "translations",
-            "id",
-        ]
-    )
-    client.index("apps").update_filterable_attributes(
-        [
-            "main_categories",
-            "sub_categories",
-            "developer_name",
-            "verification_verified",
-            "is_free_license",
-            "runtime",
-            "type",
-            "arches",
-            "icon",
-            "keywords",
-            "localized_keywords",
-            "isMobileFriendly",
-        ]
-    )
+def _configure_app_index(index_uid: str) -> None:
+    client.create_index(index_uid, {"primaryKey": "id"})
+    search_index.configure_index(client.index(index_uid))
 
 
 client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_key
 )
 
-_configure_meilisearch_index(client)
+_configure_app_index(LEXICAL_APPS_INDEX)
+_configure_app_index(HYBRID_APPS_INDEX)
 
 
 def _translate_name_and_summary[
@@ -336,25 +313,55 @@ def _get_doc_identifier(document: dict[str, Any]) -> str:
 
 def _update_documents_with_fallback(
     index: Any, documents: list[dict[str, Any]]
-) -> tuple[int, list[tuple[dict[str, Any], str]]]:
+) -> tuple[
+    int,
+    list[tuple[dict[str, Any], str]],
+    list[tuple[Any, list[dict[str, Any]]]],
+]:
     if not documents:
-        return 0, []
+        return 0, [], []
 
     try:
-        index.update_documents(documents)
-        return len(documents), []
+        task = index.update_documents(documents)
+        return len(documents), [], [(task, documents)]
     except meilisearch.errors.MeilisearchApiError as err:
         if len(documents) == 1:
-            return 0, [(documents[0], str(err))]
+            return 0, [(documents[0], str(err))], []
 
         midpoint = len(documents) // 2
-        accepted_left, skipped_left = _update_documents_with_fallback(
+        accepted_left, skipped_left, tasks_left = _update_documents_with_fallback(
             index, documents[:midpoint]
         )
-        accepted_right, skipped_right = _update_documents_with_fallback(
+        accepted_right, skipped_right, tasks_right = _update_documents_with_fallback(
             index, documents[midpoint:]
         )
-        return accepted_left + accepted_right, skipped_left + skipped_right
+        return (
+            accepted_left + accepted_right,
+            skipped_left + skipped_right,
+            tasks_left + tasks_right,
+        )
+
+
+def _queue_hybrid_task(operation: Literal["update", "delete"], task: Any) -> bool:
+    task_uid = getattr(task, "task_uid", None)
+    if task_uid is None:
+        search_health.mark_hybrid_task_failed("unknown")
+        logger.error(
+            "Hybrid Meilisearch task was returned without a task identifier",
+            extra={"operation": operation},
+        )
+        return False
+
+    try:
+        monitor_hybrid_index_task.send(operation, task_uid)
+    except Exception:
+        search_health.mark_hybrid_task_failed(task_uid)
+        logger.exception(
+            "Unable to queue hybrid Meilisearch task monitor",
+            extra={"task": task_uid, "operation": operation},
+        )
+        return False
+    return True
 
 
 def create_or_update_apps(apps_to_update: list[dict]):
@@ -378,34 +385,81 @@ def create_or_update_apps(apps_to_update: list[dict]):
 
     if not sanitized_documents:
         logger.info(
-            "Meilisearch index update skipped: total=%d indexed=0 skipped=%d",
+            "Meilisearch index update skipped: total=%d queued=0 skipped=%d",
             len(apps_to_update),
             len(skipped_for_sanitization),
         )
         return
 
-    accepted_count, skipped_for_meili = _update_documents_with_fallback(
-        client.index("apps"), sanitized_documents
-    )
-
-    for document, reason in skipped_for_meili:
-        logger.warning(
-            "Skipping Meilisearch document %s due to Meilisearch error: %s",
-            _get_doc_identifier(document),
-            reason,
+    with search_health.hybrid_mutation_lock():
+        queued_count, skipped_for_meili, lexical_tasks = (
+            _update_documents_with_fallback(
+                client.index(LEXICAL_APPS_INDEX), sanitized_documents
+            )
+        )
+        search_health.record_lexical_mutation(
+            [task.task_uid for task, _ in lexical_tasks]
         )
 
+        for document, reason in skipped_for_meili:
+            logger.warning(
+                "Skipping Meilisearch document %s due to Meilisearch error: %s",
+                _get_doc_identifier(document),
+                reason,
+            )
+
+        try:
+            (
+                hybrid_queued_count,
+                skipped_for_hybrid,
+                hybrid_tasks,
+            ) = _update_documents_with_fallback(
+                client.index(HYBRID_APPS_INDEX), sanitized_documents
+            )
+            for document, reason in skipped_for_hybrid:
+                logger.warning(
+                    "Skipping hybrid Meilisearch document %s due to Meilisearch error: %s",
+                    _get_doc_identifier(document),
+                    reason,
+                )
+            if skipped_for_hybrid:
+                search_health.mark_hybrid_task_failed("synchronous")
+
+            monitor_failures = sum(
+                not _queue_hybrid_task("update", task) for task, _ in hybrid_tasks
+            )
+            logger.info(
+                "Hybrid Meilisearch index update queued: total=%d queued=%d skipped=%d monitor_failures=%d",
+                len(sanitized_documents),
+                hybrid_queued_count,
+                len(skipped_for_hybrid),
+                monitor_failures,
+            )
+        except Exception:
+            search_health.mark_hybrid_task_failed("synchronous")
+            logger.exception("Hybrid Meilisearch index update failed")
+
     logger.info(
-        "Meilisearch index update complete: total=%d indexed=%d skipped=%d",
+        "Meilisearch index update queued: total=%d queued=%d skipped=%d",
         len(apps_to_update),
-        accepted_count,
+        queued_count,
         len(skipped_for_sanitization) + len(skipped_for_meili),
     )
 
 
 def delete_apps(app_id_list: list[str]) -> None:
     if len(app_id_list) > 0:
-        client.index("apps").delete_documents(app_id_list)
+        with search_health.hybrid_mutation_lock():
+            lexical_task = client.index(LEXICAL_APPS_INDEX).delete_documents(
+                app_id_list
+            )
+            search_health.record_lexical_mutation([lexical_task.task_uid])
+            try:
+                task = client.index(HYBRID_APPS_INDEX).delete_documents(app_id_list)
+                _queue_hybrid_task("delete", task)
+            except Exception:
+                search_health.mark_hybrid_task_failed("synchronous")
+                logger.exception("Hybrid Meilisearch index delete failed")
 
 
 def get_by_selected_categories(
@@ -432,7 +486,7 @@ def get_by_selected_categories(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -480,7 +534,7 @@ def get_by_selected_category_and_subcategory(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -509,7 +563,7 @@ def get_by_installs_last_month(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "sort": ["installs_last_month:desc"],
@@ -531,7 +585,7 @@ def get_by_trending(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "sort": ["trending:desc"],
@@ -553,7 +607,7 @@ def get_by_added_at(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "sort": ["added_at:desc"],
@@ -575,7 +629,7 @@ def get_by_updated_at(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "sort": ["updated_at:desc"],
@@ -597,7 +651,7 @@ def get_by_verified(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -620,7 +674,7 @@ def get_by_favorites_count(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -642,7 +696,7 @@ def get_by_mobile(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -669,7 +723,7 @@ def get_by_developer(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -696,7 +750,7 @@ def get_by_keyword(
     return _translate_name_and_summary(
         locale,
         MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
+            client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
                     "filter": [
@@ -713,58 +767,153 @@ def get_by_keyword(
     )
 
 
-def search_apps_post(
-    searchquery: SearchQuery, locale: str
-) -> MeilisearchResponse[AppsIndex]:
+def _search_apps_options(searchquery: SearchQuery) -> dict[str, Any]:
     filters = []
-
-    filteringForType = False
-    filteringForDesktopOrConsole = False
+    filtering_for_type = False
+    filtering_for_desktop_or_console = False
 
     for filter in searchquery.filters or []:
         if filter.filterType == "type":
-            filteringForType = True
-
-            if filter.value == "desktop-application":
-                filteringForDesktopOrConsole = True
-            elif filter.value == "console-application":
-                filteringForDesktopOrConsole = True
+            filtering_for_type = True
+            if filter.value in {"desktop-application", "console-application"}:
+                filtering_for_desktop_or_console = True
 
         filters.append(f"{filter.filterType} = '{filter.value}'")
 
-    if not filteringForType and not filteringForDesktopOrConsole:
+    if not filtering_for_type and not filtering_for_desktop_or_console:
         filters.append("type IN [desktop-application, console-application]")
 
-    if not (filteringForType and not filteringForDesktopOrConsole):
+    if not (filtering_for_type and not filtering_for_desktop_or_console):
         filters.append("NOT icon IS NULL")
 
-    filterString = " AND ".join(filters)
+    filter_string = " AND ".join(filters)
+    return {
+        "hitsPerPage": searchquery.hits_per_page or 250,
+        "page": searchquery.page or 1,
+        "sort": ["installs_last_month:desc"],
+        "filter": filter_string if filter_string else None,
+        "facets": [
+            "verification_verified",
+            "main_categories",
+            "is_free_license",
+            "type",
+            "arches",
+        ],
+    }
 
-    return _translate_name_and_summary(
-        locale,
-        MeilisearchResponse[AppsIndex].model_validate(
-            client.index("apps").search(
-                searchquery.query,
-                {
-                    "hitsPerPage": searchquery.hits_per_page or 250,
-                    "page": searchquery.page or 1,
-                    "sort": ["installs_last_month:desc"],
-                    "filter": filterString if filterString else None,
-                    "facets": [
-                        "verification_verified",
-                        "main_categories",
-                        "is_free_license",
-                        "type",
-                        "arches",
-                    ],
-                },
-            )
-        ),
+
+def _is_app_id_query(query: str) -> bool:
+    return bool(re.fullmatch(r"[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+){2,}", query.strip()))
+
+
+def _is_hybrid_candidate(searchquery: SearchQuery) -> bool:
+    if not searchquery.query.strip() or _is_app_id_query(searchquery.query):
+        return False
+
+    type_values = [
+        filter.value
+        for filter in searchquery.filters or []
+        if filter.filterType == "type"
+    ]
+    return all(
+        type_value in {"desktop-application", "console-application"}
+        for type_value in type_values
     )
 
 
+def _search_error_code(error: Exception) -> str | int | None:
+    return getattr(error, "code", None) or getattr(error, "status_code", None)
+
+
+def _log_search_timing(
+    response: MeilisearchResponse[AppsIndex],
+    mode: str,
+    started_at: float,
+    fallback_error_code: str | int | None = None,
+) -> None:
+    end_to_end_duration_ms = (time.perf_counter() - started_at) * 1000
+    logger.info(
+        "Meilisearch app search",
+        extra={
+            "search_mode": mode,
+            "semantic_ratio": config.settings.search_hybrid_semantic_ratio,
+            "processing_time_ms": response.processingTimeMs,
+            "end_to_end_duration_ms": end_to_end_duration_ms,
+            "result_count": len(response.hits),
+            "fallback_error_code": fallback_error_code,
+        },
+    )
+
+
+def search_apps_post(
+    searchquery: SearchQuery, locale: str
+) -> MeilisearchResponse[AppsIndex]:
+    options = _search_apps_options(searchquery)
+    hybrid_candidate = config.settings.search_hybrid_enabled and _is_hybrid_candidate(
+        searchquery
+    )
+    started_at = time.perf_counter()
+    mode = "lexical"
+    fallback_error_code = None
+
+    if hybrid_candidate and search_health.has_hybrid_task_failures():
+        logger.warning(
+            "Hybrid Meilisearch index has failed tasks; using lexical fallback"
+        )
+        raw_response = client.index(LEXICAL_APPS_INDEX).search(
+            searchquery.query, options
+        )
+        mode = "hybrid_unhealthy_fallback"
+        fallback_error_code = "index_unhealthy"
+    elif hybrid_candidate:
+        hybrid_options = {
+            **options,
+            "hybrid": {
+                "embedder": config.settings.search_hybrid_embedder,
+                "semanticRatio": config.settings.search_hybrid_semantic_ratio,
+            },
+        }
+        try:
+            raw_response = client.index(HYBRID_APPS_INDEX).search(
+                searchquery.query, hybrid_options
+            )
+            mode = "hybrid"
+        except (
+            meilisearch.errors.MeilisearchApiError,
+            meilisearch.errors.MeilisearchCommunicationError,
+            meilisearch.errors.MeilisearchTimeoutError,
+        ) as error:
+            fallback_error_code = _search_error_code(error)
+            elapsed_ms = (time.perf_counter() - started_at) * 1000
+            logger.warning(
+                "Hybrid Meilisearch search failed",
+                extra={
+                    "search_mode": "hybrid_fallback",
+                    "embedder": config.settings.search_hybrid_embedder,
+                    "status": getattr(error, "status_code", None),
+                    "error_code": fallback_error_code,
+                    "elapsed_ms": elapsed_ms,
+                },
+            )
+            raw_response = client.index(LEXICAL_APPS_INDEX).search(
+                searchquery.query, options
+            )
+            mode = "hybrid_fallback"
+    else:
+        raw_response = client.index(LEXICAL_APPS_INDEX).search(
+            searchquery.query, options
+        )
+
+    response = _translate_name_and_summary(
+        locale,
+        MeilisearchResponse[AppsIndex].model_validate(raw_response),
+    )
+    _log_search_timing(response, mode, started_at, fallback_error_code)
+    return response
+
+
 def get_runtime_list() -> dict[str, int]:
-    return client.index("apps").search(
+    return client.index(LEXICAL_APPS_INDEX).search(
         "",
         {
             "filter": [
@@ -798,7 +947,7 @@ class KeywordsResponse(BaseModel):
 
 
 def get_developers(page: int | None, hits_per_page: int | None) -> DevelopersResponse:
-    result = client.index("apps").search(
+    result = client.index(LEXICAL_APPS_INDEX).search(
         "",
         {
             "facets": ["developer_name"],
@@ -861,7 +1010,7 @@ def get_keywords(page: int | None, hits_per_page: int | None) -> KeywordsRespons
 
 def get_number_of_verified_apps() -> int:
     return (
-        client.index("apps")
+        client.index(LEXICAL_APPS_INDEX)
         .search(
             "",
             {
