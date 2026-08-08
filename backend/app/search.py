@@ -391,47 +391,53 @@ def create_or_update_apps(apps_to_update: list[dict]):
         )
         return
 
-    queued_count, skipped_for_meili, _ = _update_documents_with_fallback(
-        client.index(LEXICAL_APPS_INDEX), sanitized_documents
-    )
-
-    for document, reason in skipped_for_meili:
-        logger.warning(
-            "Skipping Meilisearch document %s due to Meilisearch error: %s",
-            _get_doc_identifier(document),
-            reason,
+    with search_health.hybrid_mutation_lock():
+        queued_count, skipped_for_meili, lexical_tasks = (
+            _update_documents_with_fallback(
+                client.index(LEXICAL_APPS_INDEX), sanitized_documents
+            )
+        )
+        search_health.record_lexical_mutation(
+            [task.task_uid for task, _ in lexical_tasks]
         )
 
-    try:
-        (
-            hybrid_queued_count,
-            skipped_for_hybrid,
-            hybrid_tasks,
-        ) = _update_documents_with_fallback(
-            client.index(HYBRID_APPS_INDEX), sanitized_documents
-        )
-        for document, reason in skipped_for_hybrid:
+        for document, reason in skipped_for_meili:
             logger.warning(
-                "Skipping hybrid Meilisearch document %s due to Meilisearch error: %s",
+                "Skipping Meilisearch document %s due to Meilisearch error: %s",
                 _get_doc_identifier(document),
                 reason,
             )
-        if skipped_for_hybrid:
-            search_health.mark_hybrid_task_failed("synchronous")
 
-        monitor_failures = sum(
-            not _queue_hybrid_task("update", task) for task, _ in hybrid_tasks
-        )
-        logger.info(
-            "Hybrid Meilisearch index update queued: total=%d queued=%d skipped=%d monitor_failures=%d",
-            len(sanitized_documents),
-            hybrid_queued_count,
-            len(skipped_for_hybrid),
-            monitor_failures,
-        )
-    except Exception:
-        search_health.mark_hybrid_task_failed("synchronous")
-        logger.exception("Hybrid Meilisearch index update failed")
+        try:
+            (
+                hybrid_queued_count,
+                skipped_for_hybrid,
+                hybrid_tasks,
+            ) = _update_documents_with_fallback(
+                client.index(HYBRID_APPS_INDEX), sanitized_documents
+            )
+            for document, reason in skipped_for_hybrid:
+                logger.warning(
+                    "Skipping hybrid Meilisearch document %s due to Meilisearch error: %s",
+                    _get_doc_identifier(document),
+                    reason,
+                )
+            if skipped_for_hybrid:
+                search_health.mark_hybrid_task_failed("synchronous")
+
+            monitor_failures = sum(
+                not _queue_hybrid_task("update", task) for task, _ in hybrid_tasks
+            )
+            logger.info(
+                "Hybrid Meilisearch index update queued: total=%d queued=%d skipped=%d monitor_failures=%d",
+                len(sanitized_documents),
+                hybrid_queued_count,
+                len(skipped_for_hybrid),
+                monitor_failures,
+            )
+        except Exception:
+            search_health.mark_hybrid_task_failed("synchronous")
+            logger.exception("Hybrid Meilisearch index update failed")
 
     logger.info(
         "Meilisearch index update queued: total=%d queued=%d skipped=%d",
@@ -443,13 +449,17 @@ def create_or_update_apps(apps_to_update: list[dict]):
 
 def delete_apps(app_id_list: list[str]) -> None:
     if len(app_id_list) > 0:
-        client.index(LEXICAL_APPS_INDEX).delete_documents(app_id_list)
-        try:
-            task = client.index(HYBRID_APPS_INDEX).delete_documents(app_id_list)
-            _queue_hybrid_task("delete", task)
-        except Exception:
-            search_health.mark_hybrid_task_failed("synchronous")
-            logger.exception("Hybrid Meilisearch index delete failed")
+        with search_health.hybrid_mutation_lock():
+            lexical_task = client.index(LEXICAL_APPS_INDEX).delete_documents(
+                app_id_list
+            )
+            search_health.record_lexical_mutation([lexical_task.task_uid])
+            try:
+                task = client.index(HYBRID_APPS_INDEX).delete_documents(app_id_list)
+                _queue_hybrid_task("delete", task)
+            except Exception:
+                search_health.mark_hybrid_task_failed("synchronous")
+                logger.exception("Hybrid Meilisearch index delete failed")
 
 
 def get_by_selected_categories(

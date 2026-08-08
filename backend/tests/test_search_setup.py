@@ -1,5 +1,6 @@
 import os
 import sys
+from contextlib import nullcontext
 from types import SimpleNamespace
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -190,6 +191,15 @@ def test_configure_embedder_raises_failed_task(monkeypatch):
         search_setup.configure_hybrid_embedder()
 
 
+def test_lexical_task_barrier_accepts_failed_mutation(monkeypatch):
+    fake_client = FakeClient(task_status="failed")
+    monkeypatch.setattr(search_setup, "client", fake_client)
+
+    search_setup._wait_for_task_barrier(99)
+
+    assert fake_client.wait_calls == [(99, 1_800_000, 1_000)]
+
+
 def test_ensure_hybrid_index_applies_shared_settings(monkeypatch):
     fake_client = FakeClient()
     monkeypatch.setattr(search_setup, "client", fake_client)
@@ -224,7 +234,9 @@ def test_async_existing_index_task_is_accepted(monkeypatch):
     assert fake_client.wait_calls[0] == (1, 1_800_000, 1_000)
 
 
-def test_reconcile_rebuilds_from_current_source_state(monkeypatch):
+def test_reconcile_fences_source_and_configures_embedder_before_backfill(
+    monkeypatch,
+):
     source = FakeIndex(
         pages=[
             SimpleNamespace(
@@ -240,12 +252,75 @@ def test_reconcile_rebuilds_from_current_source_state(monkeypatch):
     fake_client = FakeClient(source, target, embedded_count=1)
     monkeypatch.setattr(search_setup, "client", fake_client)
     monkeypatch.setattr(config.settings, "fireworks_api_key", "secret")
+    monkeypatch.setattr(search_setup, "ensure_hybrid_index", lambda _: None)
+    monkeypatch.setattr(
+        search_setup.search_health,
+        "hybrid_mutation_lock",
+        nullcontext,
+    )
+    monkeypatch.setattr(
+        search_setup.search_health,
+        "get_lexical_mutation_state",
+        lambda: (7, 99),
+    )
+    monkeypatch.setattr(
+        search_setup.search_health,
+        "clear_hybrid_task_failures",
+        lambda: True,
+    )
 
     search_setup.reconcile_hybrid_index()
 
     assert target.delete_all_calls == 1
     assert target.documents == [[{"id": "org.example.App", "version": 2}]]
     assert target.embedder_updates
+    assert fake_client.wait_calls == [
+        (99, 1_800_000, 1_000),
+        (40, 1_800_000, 1_000),
+        (20, 1_800_000, 1_000),
+        (10, 1_800_000, 1_000),
+    ]
+
+
+def test_reconcile_rejects_concurrent_lexical_mutation(monkeypatch):
+    source = FakeIndex(
+        pages=[
+            SimpleNamespace(
+                results=[{"id": "org.example.App"}],
+                offset=0,
+                limit=1000,
+                total=1,
+            )
+        ],
+        count=1,
+    )
+    target = FakeIndex(count=1)
+    fake_client = FakeClient(source, target, embedded_count=1)
+    monkeypatch.setattr(search_setup, "client", fake_client)
+    monkeypatch.setattr(config.settings, "fireworks_api_key", "secret")
+    monkeypatch.setattr(search_setup, "ensure_hybrid_index", lambda _: None)
+    monkeypatch.setattr(
+        search_setup.search_health,
+        "hybrid_mutation_lock",
+        nullcontext,
+    )
+    states = iter([(7, 99), (8, 100)])
+    monkeypatch.setattr(
+        search_setup.search_health,
+        "get_lexical_mutation_state",
+        lambda: next(states),
+    )
+    cleared = []
+    monkeypatch.setattr(
+        search_setup.search_health,
+        "clear_hybrid_task_failures",
+        lambda: cleared.append("clear"),
+    )
+
+    with pytest.raises(RuntimeError, match="mutated during"):
+        search_setup.reconcile_hybrid_index()
+
+    assert cleared == []
 
 
 def test_verify_embedding_coverage_rejects_partial_embeddings(monkeypatch):
@@ -257,26 +332,14 @@ def test_verify_embedding_coverage_rejects_partial_embeddings(monkeypatch):
         search_setup.verify_embedding_coverage()
 
 
-def test_main_runs_setup_and_clears_failed_task_state(monkeypatch):
+def test_main_runs_fenced_reconciliation(monkeypatch):
     calls = []
     monkeypatch.setattr(
-        search_setup, "ensure_hybrid_index", lambda: calls.append("ensure")
-    )
-    monkeypatch.setattr(
-        search_setup, "backfill_hybrid_index", lambda: calls.append("backfill")
-    )
-    monkeypatch.setattr(
-        search_setup, "configure_hybrid_embedder", lambda: calls.append("embedder")
-    )
-    monkeypatch.setattr(
-        search_setup, "verify_embedding_coverage", lambda: calls.append("verify")
-    )
-    monkeypatch.setattr(
-        search_setup.search_health,
-        "clear_hybrid_task_failures",
-        lambda: calls.append("clear"),
+        search_setup,
+        "reconcile_hybrid_index",
+        lambda: calls.append("reconcile"),
     )
 
     search_setup.main()
 
-    assert calls == ["ensure", "backfill", "embedder", "verify", "clear"]
+    assert calls == ["reconcile"]
