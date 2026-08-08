@@ -5,7 +5,7 @@ services:
       - "6379:6379"
 
   meilisearch:
-    image: docker.io/getmeili/meilisearch:v1.3
+    image: docker.io/getmeili/meilisearch:v1.47.0
     environment:
       - MEILI_NO_ANALYTICS=true
     ports:

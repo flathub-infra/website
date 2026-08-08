@@ -1,0 +1,82 @@
+[
+  {
+    "query": "photoshop alternative",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.gimp.GIMP": 3
+    }
+  },
+  {
+    "query": "record my screen",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "com.obsproject.Studio": 3
+    }
+  },
+  {
+    "query": "compress pdf",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "com.github.jeromerobert.pdfarranger": 3
+    }
+  },
+  {
+    "query": "write notes with markdown",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.gnome.gitlab.cheywood.Iotas": 3
+    }
+  },
+  {
+    "query": "database gui",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "io.dbeaver.DBeaverCommunity": 3
+    }
+  },
+  {
+    "query": "simple drawing app for children",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.tuxpaint.TuxPaint": 3
+    }
+  },
+  {
+    "query": "Firefox",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.mozilla.firefox": 3
+    }
+  },
+  {
+    "query": "Steam",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.valvesoftware.Steam": 3
+    }
+  },
+  {
+    "query": "GNOME Builder",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.gnome.Builder": 3
+    }
+  },
+  {
+    "query": "org.gimp.GIMP",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.gimp.GIMP": 3
+    }
+  }
+]
