@@ -85,7 +85,10 @@ def logged_in(login: LoginStatusDep):
     return login
 
 
-def quality_moderator_only(login=Depends(logged_in)):
+_logged_in_dependency = Depends(logged_in)
+
+
+def quality_moderator_only(login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "quality-moderation" not in user.permissions():
@@ -94,7 +97,7 @@ def quality_moderator_only(login=Depends(logged_in)):
         return login
 
 
-def view_users_only(login=Depends(logged_in)):
+def view_users_only(login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "view-users" not in user.permissions():
@@ -103,7 +106,7 @@ def view_users_only(login=Depends(logged_in)):
         return login
 
 
-def modify_users_only(login=Depends(logged_in)):
+def modify_users_only(login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "modify-users" not in user.permissions():
@@ -112,7 +115,7 @@ def modify_users_only(login=Depends(logged_in)):
         return login
 
 
-def manage_oidc_clients_only(login=Depends(logged_in)):
+def manage_oidc_clients_only(login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.get(models.FlathubUser, login.user.id)
         if user is None or "manage-oidc-clients" not in user.permissions():
@@ -123,7 +126,7 @@ def manage_oidc_clients_only(login=Depends(logged_in)):
         return login
 
 
-def moderator_only(login=Depends(logged_in)):
+def moderator_only(login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "moderation" not in user.permissions():
@@ -132,17 +135,18 @@ def moderator_only(login=Depends(logged_in)):
         return login
 
 
-def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
+def moderator_or_app_author_only(app_id: str, login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
-        if "moderation" not in user.permissions():
-            if app_id not in user.dev_flatpaks(db):
-                raise HTTPException(status_code=403, detail="not_app_developer")
+        if "moderation" not in user.permissions() and app_id not in user.dev_flatpaks(
+            db
+        ):
+            raise HTTPException(status_code=403, detail="not_app_developer")
         login.user = user
         return login
 
 
-def app_author_only(app_id: str, login=Depends(logged_in)):
+def app_author_only(app_id: str, login=_logged_in_dependency):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if app_id in user.dev_flatpaks(db):
@@ -152,7 +156,7 @@ def app_author_only(app_id: str, login=Depends(logged_in)):
     raise HTTPException(status_code=403, detail="not_app_author")
 
 
-def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
+def quality_moderator_or_app_author_only(app_id: str, login=_logged_in_dependency):
     if login.user:
         with get_db("replica") as db:
             user = db.session.merge(login.user)

@@ -1,4 +1,4 @@
-from collections.abc import Set
+from collections.abc import Set as AbstractSet
 from urllib.parse import SplitResult, urlsplit
 
 _DEFAULT_PORTS = {
@@ -26,8 +26,8 @@ class InvalidUrlOrigin(ValueError):
 def _normalize_url_parts(
     value: object,
     *,
-    allowed_schemes: Set[str] | None,
-    ignored_schemes: Set[str],
+    allowed_schemes: AbstractSet[str] | None,
+    ignored_schemes: AbstractSet[str],
 ) -> tuple[str | None, SplitResult | None]:
     if not isinstance(value, str):
         raise InvalidUrlOrigin("non-string")
@@ -77,8 +77,8 @@ def _normalize_url_parts(
 def normalize_url_origin(
     value: object,
     *,
-    allowed_schemes: Set[str] | None = frozenset({"http", "https"}),
-    ignored_schemes: Set[str] = frozenset(),
+    allowed_schemes: AbstractSet[str] | None = frozenset({"http", "https"}),
+    ignored_schemes: AbstractSet[str] = frozenset(),
 ) -> str | None:
     origin, _ = _normalize_url_parts(
         value,
@@ -91,8 +91,8 @@ def normalize_url_origin(
 def normalize_manifest_source_url(
     value: object,
     *,
-    allowed_schemes: Set[str] | None = frozenset({"http", "https"}),
-    ignored_schemes: Set[str] = frozenset(),
+    allowed_schemes: AbstractSet[str] | None = frozenset({"http", "https"}),
+    ignored_schemes: AbstractSet[str] = frozenset(),
 ) -> str | None:
     origin, parsed = _normalize_url_parts(
         value,

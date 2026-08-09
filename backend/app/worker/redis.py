@@ -27,6 +27,6 @@ def invalidate_cache_by_pattern(pattern: str) -> int:
             if cursor == 0:
                 break
         return deleted_count
-    except Exception as e:
+    except redis.RedisError as e:
         print(f"Cache invalidation error for pattern {pattern}: {e}")
         return 0

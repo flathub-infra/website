@@ -11,6 +11,7 @@ router = APIRouter(
     prefix="/year-in-review",
     tags=["year-in-review"],
 )
+_login_state_dependency = Depends(login_state)
 
 
 def register_to_app(app: FastAPI):
@@ -137,9 +138,9 @@ async def get_year_in_review(
         description="Year to get statistics for",
     ),
     locale: str = "en",
-    login: LoginInformation = Depends(login_state),
+    login: LoginInformation = _login_state_dependency,
 ) -> YearInReviewResult:
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     current_year = now.year
     current_month = now.month
     current_day = now.day

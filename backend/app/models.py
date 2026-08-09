@@ -1,9 +1,10 @@
 import datetime as _dt
 import enum
 import json
+import logging
 from datetime import date, datetime, timedelta
 from math import ceil
-from typing import Any, Optional, Union, cast
+from typing import Any, ClassVar, Optional, Union, cast
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -42,6 +43,8 @@ from sqlalchemy.orm import (
 
 from . import utils
 from .db_session import DBSession
+
+logger = logging.getLogger(__name__)
 
 
 class Pagination(BaseModel):
@@ -170,7 +173,7 @@ class FlathubUser(Base):
     )
     kdeAccount = relationship("KdeAccount", uselist=False, back_populates="user_entity")
 
-    TABLES_FOR_DELETE = []
+    TABLES_FOR_DELETE: ClassVar[list] = []
 
     @property
     def login_disabled(self) -> bool:
@@ -492,7 +495,6 @@ class flathubuser_role(Base):
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """Don't include role in the hash"""
-        pass
 
     @staticmethod
     def add_user_role(db, user: FlathubUser, role: "Role") -> bool:
@@ -692,7 +694,7 @@ class GithubFlowToken(Base):
         """Clean up old flow tokens"""
         db.execute(
             delete(GithubFlowToken).where(
-                GithubFlowToken.created < datetime.now() - timedelta(minutes=15)
+                GithubFlowToken.created < utils.utcnow() - timedelta(minutes=15)
             )
         )
         db.commit()
@@ -722,7 +724,7 @@ class GithubRepository(Base):
             github_account=accountId
         )
         to_remove = [repo for repo in existing if repo.reponame not in all_names]
-        existing_names = set(repo.reponame for repo in existing)
+        existing_names = {repo.reponame for repo in existing}
         to_add = [repo for repo in repolist if repo not in existing_names]
         for repo in to_remove:
             db.session.delete(repo)
@@ -752,7 +754,7 @@ class GitlabFlowToken(Base):
         """Clean up old flow tokens"""
         db.execute(
             delete(GitlabFlowToken).where(
-                GitlabFlowToken.created < datetime.now() - timedelta(minutes=15)
+                GitlabFlowToken.created < utils.utcnow() - timedelta(minutes=15)
             )
         )
         db.commit()
@@ -844,7 +846,7 @@ class GnomeFlowToken(Base):
         """Clean up old flow tokens"""
         db.execute(
             delete(GnomeFlowToken).where(
-                GnomeFlowToken.created < datetime.now() - timedelta(minutes=15)
+                GnomeFlowToken.created < utils.utcnow() - timedelta(minutes=15)
             )
         )
         db.commit()
@@ -934,7 +936,7 @@ class GoogleFlowToken(Base):
         """Clean up old flow tokens"""
         db.execute(
             delete(GoogleFlowToken).where(
-                GoogleFlowToken.created < datetime.now() - timedelta(minutes=15)
+                GoogleFlowToken.created < utils.utcnow() - timedelta(minutes=15)
             )
         )
         db.commit()
@@ -1026,7 +1028,7 @@ class KdeFlowToken(Base):
         """Clean up old flow tokens"""
         db.execute(
             delete(KdeFlowToken).where(
-                KdeFlowToken.created < datetime.now() - timedelta(minutes=15)
+                KdeFlowToken.created < utils.utcnow() - timedelta(minutes=15)
             )
         )
         db.commit()
@@ -1591,7 +1593,6 @@ class DirectUploadAppInvite(Base):
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """Don't include invites in the hash"""
-        pass
 
     @staticmethod
     def delete_user(db, user: FlathubUser):
@@ -1710,7 +1711,7 @@ class Transaction(Base):
         """
         total = sum(value for (_appid, value) in splits)
         kind = "purchase" if purchase else "donation"
-        now_date = datetime.now()
+        now_date = utils.utcnow()
         txn = Transaction(
             user_id=user.id,
             value=total,
@@ -1763,7 +1764,7 @@ class Transaction(Base):
             # this is an additional donation
             return
         app = UserOwnedApp(
-            app_id=row.recipient, account=self.user_id, created=datetime.now()
+            app_id=row.recipient, account=self.user_id, created=utils.utcnow()
         )
         db.session.add(app)
         db.session.flush()
@@ -2102,12 +2103,12 @@ class RedeemableAppToken(Base):
         if UserOwnedApp.user_owns_app(db, user.id, self.appid):
             return False
 
-        app = UserOwnedApp(app_id=self.appid, account=user.id, created=datetime.now())
+        app = UserOwnedApp(app_id=self.appid, account=user.id, created=utils.utcnow())
         db.session.add(app)
 
         self.token = None
         self.state = RedeemableAppTokenState.REDEEMED
-        self.changed = datetime.now()
+        self.changed = utils.utcnow()
         db.session.add(self)
 
         db.session.flush()
@@ -2123,7 +2124,7 @@ class RedeemableAppToken(Base):
             raise ValueError("Token is not available for cancelling")
         self.token = None
         self.state = RedeemableAppTokenState.CANCELLED
-        self.changed = datetime.now()
+        self.changed = utils.utcnow()
         db.session.add(self)
         db.session.flush()
 
@@ -2133,7 +2134,7 @@ class RedeemableAppToken(Base):
         Create a new redeemable app token
         """
 
-        now = datetime.now()
+        now = utils.utcnow()
         token = str(uuid4())
         while self.by_appid_and_token(db, app_id, token) is not None:
             token = str(uuid4())
@@ -2311,9 +2312,9 @@ class QualityModeration(Base):
             .join(
                 Guideline,
                 and_(
-                    Guideline.needed_to_pass_since <= datetime.now().date(),
+                    Guideline.needed_to_pass_since <= utils.utcnow().date(),
                     or_(
-                        eligible_apps.c.is_fullscreen_app == False,  # noqa: E712
+                        eligible_apps.c.is_fullscreen_app == False,
                         eligible_apps.c.is_fullscreen_app
                         == Guideline.show_on_fullscreen_app,
                     ),
@@ -2403,7 +2404,7 @@ class QualityModeration(Base):
                 return
             quality.passed = passed
             quality.updated_by = updated_by
-            quality.updated_at = datetime.now()
+            quality.updated_at = utils.utcnow()
         else:
             quality = QualityModeration(
                 app_id=app_id,
@@ -2435,7 +2436,7 @@ class QualityModeration(Base):
                 and_(
                     App.app_id == app_id,
                     or_(
-                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == False,
                         App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
@@ -2509,7 +2510,7 @@ class QualityModeration(Base):
                 unrated=0,
                 passed=0,
                 not_passed=0,
-                last_updated=datetime.now(),
+                last_updated=utils.utcnow(),
                 review_requested_at=None,
             ),
         )
@@ -2524,7 +2525,7 @@ class QualityModeration(Base):
         if not app_ids:
             return {}
 
-        now_date = datetime.now().date()
+        now_date = utils.utcnow().date()
 
         results = (
             db.session.query(
@@ -2539,7 +2540,7 @@ class QualityModeration(Base):
             .join(
                 Guideline,
                 or_(
-                    App.is_fullscreen_app == False,  # noqa: E712
+                    App.is_fullscreen_app == False,
                     App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                 ),
             )
@@ -2580,7 +2581,7 @@ class QualityModeration(Base):
                 unrated=unrated,
                 passed=passed,
                 not_passed=not_passed,
-                last_updated=last_updated or datetime.now(),
+                last_updated=last_updated or utils.utcnow(),
                 review_requested_at=review_request_map.get(app_id),
             )
 
@@ -2591,7 +2592,7 @@ class QualityModeration(Base):
                     unrated=0,
                     passed=0,
                     not_passed=0,
-                    last_updated=datetime.now(),
+                    last_updated=utils.utcnow(),
                     review_requested_at=review_request_map.get(app_id),
                 )
 
@@ -2685,7 +2686,7 @@ class AppOfTheDay(Base):
         if latest_date:
             return latest_date.date
 
-        return datetime.min.date()
+        return date.min
 
 
 class AppsOfTheWeek(Base):
@@ -3240,8 +3241,9 @@ class App(Base):
                         ):
                             app.is_eol = True
                     except Exception:
-                        # If table doesn't exist or query fails, skip this check
-                        pass
+                        logger.exception(
+                            "Failed to determine whether app %s is fully EOL", app_id
+                        )
 
                 db.session.commit()
             elif not is_eol and branch in eol_branches:
@@ -3274,14 +3276,17 @@ class App(Base):
             return False
 
         # If eol_branches is set, only specific branches are EOL (partial EOL)
-        if app.eol_branches:
-            if isinstance(app.eol_branches, list) and len(app.eol_branches) > 0:
-                # If a specific branch is requested, check if it's in the EOL list
-                if branch:
-                    return branch in app.eol_branches
+        if (
+            app.eol_branches
+            and isinstance(app.eol_branches, list)
+            and len(app.eol_branches) > 0
+        ):
+            # If a specific branch is requested, check if it's in the EOL list
+            if branch:
+                return branch in app.eol_branches
 
-                # If no branch specified and we have partial EOL, the app is not fully EOL
-                return False
+            # If no branch specified and we have partial EOL, the app is not fully EOL
+            return False
 
         # No eol_branches (or empty list), meaning all branches are EOL
         return True
@@ -3377,16 +3382,19 @@ class App(Base):
                 func.coalesce(
                     func.sum(func.cast(~QualityModeration.passed, Integer)), 0
                 ),
-                func.coalesce(func.max(QualityModeration.updated_at), datetime.min),
+                func.coalesce(
+                    func.max(QualityModeration.updated_at),
+                    _dt.datetime.min.replace(tzinfo=_dt.UTC),
+                ),
                 func.max(QualityModerationRequest.created_at),
                 App.installs_last_7_days,
             )
             .join(
                 Guideline,
                 and_(
-                    Guideline.needed_to_pass_since <= datetime.now().date(),
+                    Guideline.needed_to_pass_since <= utils.utcnow().date(),
                     or_(
-                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == False,
                         App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
@@ -3543,9 +3551,9 @@ class App(Base):
             .join(
                 Guideline,
                 and_(
-                    Guideline.needed_to_pass_since <= datetime.now().date(),
+                    Guideline.needed_to_pass_since <= utils.utcnow().date(),
                     or_(
-                        App.is_fullscreen_app == False,  # noqa: E712
+                        App.is_fullscreen_app == False,
                         App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
                     ),
                 ),
@@ -3638,7 +3646,7 @@ class UserFavoriteApp(Base):
 
     @staticmethod
     def add_app(session: DBSession, user_id: int, app_id: str):
-        app = UserFavoriteApp(app_id=app_id, account=user_id, created=datetime.now())
+        app = UserFavoriteApp(app_id=app_id, account=user_id, created=utils.utcnow())
         session.add(app)
         session.flush()
 
@@ -3725,7 +3733,7 @@ class Developers(Base):
     def create(cls, db, name: str):
         if cls.by_name(db, name):
             return None
-        developer = cls(name=name, updated_at=datetime.now(), created_at=datetime.now())
+        developer = cls(name=name, updated_at=utils.utcnow(), created_at=utils.utcnow())
         db.session.add(developer)
         db.session.commit()
         return developer

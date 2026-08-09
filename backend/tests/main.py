@@ -38,7 +38,7 @@ def _normalize_response_for_comparison(response_data):
                 if isinstance(app, dict) and "trending" in app:
                     app["trending"] = 0
 
-        for key, value in response_data.items():
+        for value in response_data.values():
             if isinstance(value, dict | list):
                 _normalize_response_for_comparison(value)
 
@@ -119,7 +119,7 @@ def test_build_or_update_aggregates_normalizes_old_cache(monkeypatch):
 
     stats = update_stats_actor.fn.__globals__["stats"]
 
-    today = datetime.date.today()
+    today = datetime.datetime.now(datetime.UTC).date()
     edate = today - datetime.timedelta(days=2)
     last_date = edate - datetime.timedelta(days=1)
 
@@ -959,7 +959,7 @@ def test_addons_for_non_existent_app(client):
 def test_stats(client):
     time.sleep(3)
     response = client.get("/stats")
-    today = datetime.date.today()
+    today = datetime.datetime.now(datetime.UTC).date()
     yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
@@ -1049,7 +1049,7 @@ def test_stats_backfills_missing_version_fields(client, monkeypatch):
 def test_app_stats_by_id(client):
     response = client.get("/stats/org.sugarlabs.Maze")
 
-    today = datetime.date.today()
+    today = datetime.datetime.now(datetime.UTC).date()
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
     two_weeks_ago = today - datetime.timedelta(days=14)
@@ -1841,7 +1841,7 @@ def test_parse_eol_data_skips_self_reference():
             "app/com.example.Self/x86_64/stable": {"eolr": "stable/com.example.Self"},
         }
     }
-    eol_rebase, eol_message = parse_eol_data(metadata)
+    eol_rebase, _ = parse_eol_data(metadata)
     assert eol_rebase == {}
     assert "com.example.Self" not in eol_rebase
 

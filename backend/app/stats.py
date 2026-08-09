@@ -3,6 +3,7 @@ import concurrent.futures
 import copy
 import datetime
 import json
+import logging
 from collections import defaultdict
 from typing import TypedDict, cast
 from urllib.parse import urlparse, urlunparse
@@ -15,6 +16,8 @@ from app import utils
 from . import config, database, models, schemas, search
 from .trending import calculate_trending_score as _calculate_trending_score
 from .worker.redis import redis_conn
+
+logger = logging.getLogger(__name__)
 
 StatsType = dict[str, dict[str, list[int]]]
 
@@ -67,19 +70,21 @@ def _fetch_stats_parallel(
     ]
 
     results: list[StatsFromServer | None] = [None] * len(dates)
-    with httpx.Client() as shared_session:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-            future_to_index = {
-                executor.submit(_get_stats_for_date, date, shared_session): idx
-                for idx, date in enumerate(dates)
-            }
+    with (
+        httpx.Client() as shared_session,
+        concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor,
+    ):
+        future_to_index = {
+            executor.submit(_get_stats_for_date, date, shared_session): idx
+            for idx, date in enumerate(dates)
+        }
 
-            for future in concurrent.futures.as_completed(future_to_index):
-                idx = future_to_index[future]
-                try:
-                    results[idx] = future.result()
-                except Exception:
-                    results[idx] = None
+        for future in concurrent.futures.as_completed(future_to_index):
+            idx = future_to_index[future]
+            try:
+                results[idx] = future.result()
+            except Exception:
+                logger.exception("Failed to fetch stats for index %s", idx)
 
     return results
 
@@ -115,7 +120,7 @@ def _get_stats_for_date(
             stats = response.json()
         expire = (
             datetime.timedelta(hours=4)
-            if date > datetime.date.today() + datetime.timedelta(days=-7)
+            if date > utils.utcnow().date() + datetime.timedelta(days=-7)
             else None
         )
         redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
@@ -272,7 +277,7 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     if cached_data is not None and isinstance(cached_data, dict):
         return cached_data
 
-    edate = datetime.date.today() - datetime.timedelta(days=2)
+    edate = utils.utcnow().date() - datetime.timedelta(days=2)
     sdate = FIRST_STATS_DATE
 
     app_stats_per_day: dict[str, dict[str, int]] = {}
@@ -291,6 +296,7 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
             try:
                 stats = future.result()
             except Exception:
+                logger.exception("Failed to fetch stats for %s", date)
                 continue
 
             if stats is not None and "refs" in stats and stats["refs"] is not None:
@@ -302,8 +308,8 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                         _sum_installs_by_arch(app_stats)
                     )
 
-    for app_id in app_stats_per_day:
-        app_stats_per_day[app_id] = dict(sorted(app_stats_per_day[app_id].items()))
+    for app_id, stats_by_date in app_stats_per_day.items():
+        app_stats_per_day[app_id] = dict(sorted(stats_by_date.items()))
 
     # Cache for a day; data is historical and slow to compute
     redis_conn.set(redis_key, orjson.dumps(app_stats_per_day), ex=86400)
@@ -382,7 +388,7 @@ def get_installs_by_ids(ids: list[str]):
 
 
 def get_popular(days: int | None):
-    edate = datetime.date.today()
+    edate = utils.utcnow().date()
 
     if days is None:
         sdate = FIRST_STATS_DATE
@@ -418,7 +424,7 @@ def _calculate_quality_passed_ratio(app_quality_status) -> float:
 
 
 def _build_or_update_aggregates() -> dict:
-    edate = datetime.date.today() - datetime.timedelta(days=2)
+    edate = utils.utcnow().date() - datetime.timedelta(days=2)
 
     if config.settings.force_recompute_stats:
         _delete_aggregates()
@@ -457,7 +463,7 @@ def _compute_recent_version_stats(
     days: int = 30,
 ) -> tuple[dict[str, int], dict[str, int], dict[str, dict[str, int]]]:
     """Compute os_versions, flatpak_versions, os_flatpak_versions from the last N days."""
-    edate = datetime.date.today() - datetime.timedelta(days=2)
+    edate = utils.utcnow().date() - datetime.timedelta(days=2)
     sdate = edate - datetime.timedelta(days=days - 1)
 
     os_versions: dict[str, int] = {}
@@ -492,7 +498,7 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
         "totals_country": dict(agg["global"]["totals_country"]),
     }
 
-    edate = datetime.date.today()
+    edate = utils.utcnow().date()
     sdate = edate - datetime.timedelta(days=1)
     for i in range(2):
         date = sdate + datetime.timedelta(days=i)
@@ -522,9 +528,9 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
 
 
 def update(sqldb):
-    stats_apps_dict = defaultdict(lambda: {})
+    stats_apps_dict = defaultdict(dict)
 
-    edate = datetime.date.today()
+    edate = utils.utcnow().date()
 
     frontend_app_ids = database.get_all_appids_for_frontend()
 
@@ -532,7 +538,7 @@ def update(sqldb):
     stats_dict = _build_stats_dict_from_aggregates(agg, len(frontend_app_ids))
 
     apps_with_stats = [
-        app_id for app_id in agg["per_day"].keys() if app_id in frontend_app_ids
+        app_id for app_id in agg["per_day"] if app_id in frontend_app_ids
     ]
     quality_status_batch = models.QualityModeration.by_appids_summarized(
         sqldb, apps_with_stats
@@ -742,7 +748,7 @@ def update(sqldb):
 
 
 def _generate_and_store_year_in_review_stats(sqldb):
-    current_year = datetime.date.today().year
+    current_year = utils.utcnow().year
     first_year = FIRST_STATS_DATE.year
 
     for year in range(first_year, current_year + 1):
@@ -754,6 +760,7 @@ def _generate_and_store_year_in_review_stats(sqldb):
         try:
             base_stats = asyncio.run(_build_year_in_review_base(year))
         except Exception:
+            logger.exception("Failed to build year-in-review stats for %s", year)
             continue
 
         if base_stats:
@@ -763,12 +770,10 @@ def _generate_and_store_year_in_review_stats(sqldb):
 def _normalize_year_date_range(year: int) -> tuple[datetime.date, datetime.date] | None:
     sdate = datetime.date(year, 1, 1)
     edate = datetime.date(year, 12, 31)
-    today = datetime.date.today()
+    today = utils.utcnow().date()
 
-    if edate > today:
-        edate = today
-    if sdate < FIRST_STATS_DATE:
-        sdate = FIRST_STATS_DATE
+    edate = min(edate, today)
+    sdate = max(sdate, FIRST_STATS_DATE)
     if sdate > today:
         return None
 
@@ -787,7 +792,7 @@ def _get_country_downloads_for_year(year: int) -> dict[str, int]:
 
     for stats in stats_results:
         if stats and "ref_by_country" in stats and stats["ref_by_country"] is not None:
-            for app_id, country_stats in stats["ref_by_country"].items():
+            for country_stats in stats["ref_by_country"].values():
                 for country, downloads in country_stats.items():
                     if country not in country_downloads:
                         country_downloads[country] = 0
@@ -812,8 +817,8 @@ def _get_basic_year_stats(year: int) -> dict | None:
     for stats in stats_results:
         if stats:
             if "refs" in stats and stats["refs"] is not None:
-                for app_id, app_stats in stats["refs"].items():
-                    for arch, downloads in app_stats.items():
+                for app_stats in stats["refs"].values():
+                    for downloads in app_stats.values():
                         new_installs = _calculate_installs(downloads)
                         if new_installs > 0:
                             total_downloads += new_installs
@@ -853,7 +858,7 @@ def _get_category_downloads_for_year(year: int) -> dict[str, int]:
         if stats and "refs" in stats and stats["refs"] is not None:
             for app_id, app_stats in stats["refs"].items():
                 app_id_clean = _remove_architecture_from_id(app_id)
-                for arch, downloads in app_stats.items():
+                for downloads in app_stats.values():
                     new_installs = _calculate_installs(downloads)
                     if new_installs > 0:
                         app_downloads[app_id_clean] += new_installs
@@ -895,7 +900,7 @@ def _get_app_downloads_for_year(year: int) -> dict[str, int]:
         if stats and "refs" in stats and stats["refs"] is not None:
             for app_id, app_stats in stats["refs"].items():
                 app_id_clean = _remove_architecture_from_id(app_id)
-                for arch, downloads in app_stats.items():
+                for downloads in app_stats.values():
                     new_installs = _calculate_installs(downloads)
                     if new_installs > 0:
                         app_downloads[app_id_clean] += new_installs
@@ -934,12 +939,10 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     sdate = datetime.date(year, 1, 1)
     edate = datetime.date(year, 12, 31)
 
-    today = datetime.date.today()
-    if edate > today:
-        edate = today
+    today = utils.utcnow().date()
+    edate = min(edate, today)
 
-    if sdate < FIRST_STATS_DATE:
-        sdate = FIRST_STATS_DATE
+    sdate = max(sdate, FIRST_STATS_DATE)
 
     if sdate > today:
         return None
@@ -961,6 +964,7 @@ async def _build_year_in_review_base(year: int) -> dict | None:
         try:
             cached_value = await redis_conn.get(cache_key)
         except Exception:
+            logger.exception("Failed to read cached stats for %s", date)
             cached_value = None
 
         if cached_value:
@@ -968,21 +972,22 @@ async def _build_year_in_review_base(year: int) -> dict | None:
                 return orjson.loads(cached_value)
             except Exception:
                 # Fallback to recomputing if cache is corrupt
-                pass
+                logger.exception("Failed to decode cached stats for %s", date)
 
         try:
             data = await asyncio.to_thread(_get_stats_for_date, date)
         except Exception:
+            logger.exception("Failed to fetch stats for %s", date)
             return None
 
         if data is not None:
             try:
-                today = datetime.date.today()
+                today = utils.utcnow().date()
                 ttl_seconds = 60 * 60 if date.year == today.year else 60 * 60 * 24 * 7
                 await redis_conn.set(cache_key, orjson.dumps(data), ex=ttl_seconds)
             except Exception:
                 # If caching fails, just proceed without cache
-                pass
+                logger.exception("Failed to cache stats for %s", date)
 
         return data
 
@@ -1023,7 +1028,7 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     def _categorize_gaming_app(
         app, gaming_app_ids, emulator_app_ids, game_store_app_ids, game_utility_app_ids
     ):
-        app_subcategories = set(s.lower() for s in (app.sub_categories or []))
+        app_subcategories = {s.lower() for s in (app.sub_categories or [])}
 
         if "emulator" in app_subcategories:
             emulator_app_ids.add(app.app_id)
@@ -1090,7 +1095,7 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     ) = await loop.run_in_executor(None, _fetch_app_data)
 
     # Manual overrides for well-known gaming apps whose subcategories don't map cleanly
-    for app_id in {"net.lutris.Lutris"}:
+    for app_id in ("net.lutris.Lutris",):
         if app_id in desktop_app_ids:
             game_store_app_ids.add(app_id)
             gaming_app_ids.discard(app_id)
@@ -1098,12 +1103,12 @@ async def _build_year_in_review_base(year: int) -> dict | None:
             emulator_app_ids.discard(app_id)
             non_game_app_ids.discard(app_id)
 
-    for app_id in {
+    for app_id in (
         "org.scummvm.ScummVM",
         "org.prismlauncher.PrismLauncher",
         "com.moonlight_stream.Moonlight",
         "org.polymc.PolyMC",
-    }:
+    ):
         if app_id in desktop_app_ids:
             game_utility_app_ids.add(app_id)
             gaming_app_ids.discard(app_id)
@@ -1535,7 +1540,7 @@ async def get_year_stats(year: int, locale: str = "en"):
             try:
                 _save_year_in_review_base(year, base_data)
             except Exception:
-                pass
+                logger.exception("Failed to save year-in-review stats for %s", year)
 
     if base_data is None:
         return None

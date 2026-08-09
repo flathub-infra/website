@@ -14,6 +14,7 @@ from ..oidc import (
 )
 
 router = APIRouter(prefix="/admin/oidc-clients", tags=["oidc-admin"])
+_manage_oidc_clients_dependency = Depends(manage_oidc_clients_only)
 
 
 class OidcClientResult(BaseModel):
@@ -123,7 +124,7 @@ def _client_details(client: models.OidcClient) -> dict[str, object]:
 @router.get("")
 @cache.private
 def list_oidc_clients(
-    _login=Depends(manage_oidc_clients_only),
+    _login=_manage_oidc_clients_dependency,
 ) -> list[OidcClientResult]:
     with get_db("replica") as db:
         clients = (
@@ -139,7 +140,7 @@ def list_oidc_clients(
 def create_oidc_client(
     request: OidcClientCreate,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login=_manage_oidc_clients_dependency,
 ) -> OidcClientCreated:
     if not request.name.strip():
         raise HTTPException(status_code=422, detail="name cannot be empty")
@@ -184,7 +185,7 @@ def create_oidc_client(
 @cache.private
 def get_oidc_client(
     client_id: str,
-    _login=Depends(manage_oidc_clients_only),
+    _login=_manage_oidc_clients_dependency,
 ) -> OidcClientResult:
     with get_db("replica") as db:
         client = _client_or_404(db, client_id)
@@ -196,7 +197,7 @@ def update_oidc_client(
     client_id: str,
     request: OidcClientPatch,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login=_manage_oidc_clients_dependency,
 ) -> OidcClientResult:
     with get_db("writer") as db:
         client = _client_or_404(db, client_id)
@@ -260,7 +261,7 @@ def update_oidc_client(
 def rotate_oidc_client_secret(
     client_id: str,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login=_manage_oidc_clients_dependency,
 ) -> OidcClientCreated:
     client_secret = generate_token()
     with get_db("writer") as db:
@@ -288,7 +289,7 @@ def rotate_oidc_client_secret(
 def disable_oidc_client(
     client_id: str,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login=_manage_oidc_clients_dependency,
 ) -> OidcClientResult:
     now = utils.utcnow()
     with get_db("writer") as db:

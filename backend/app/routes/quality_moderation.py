@@ -19,6 +19,10 @@ from ..models import (
 )
 
 router = APIRouter(prefix="/quality-moderation")
+_quality_moderator_dependency = Depends(quality_moderator_only)
+_quality_moderator_or_app_author_dependency = Depends(
+    quality_moderator_or_app_author_only
+)
 
 
 @dataclass
@@ -85,7 +89,7 @@ def get_quality_moderation_status(
     page: int = 1,
     page_size: int = 25,
     filter: Literal["all", "passing", "todo"] = "all",
-    _moderator=Depends(quality_moderator_only),
+    _moderator=_quality_moderator_dependency,
 ) -> QualityModerationDashboardResponse:
     if page < 1:
         raise HTTPException(
@@ -143,9 +147,11 @@ def get_passing_quality_apps(
 )
 @cache.private
 def get_app_pick_recommendations(
-    recommendation_date: datetime.date = datetime.date.today(),
-    _moderator=Depends(quality_moderator_only),
+    recommendation_date: datetime.date | None = None,
+    _moderator=_quality_moderator_dependency,
 ) -> AppPickRecommendationsResponse:
+    if recommendation_date is None:
+        recommendation_date = datetime.datetime.now(datetime.UTC).date()
     with get_db("replica") as db:
         return App.app_pick_recommendations(db, recommendation_date)
 
@@ -162,7 +168,7 @@ def get_app_pick_recommendations(
 )
 @cache.private
 def get_quality_moderation_stats(
-    _moderator=Depends(quality_moderator_only),
+    _moderator=_quality_moderator_dependency,
 ) -> list[FailedByGuideline]:
     with get_db("replica") as db:
         return cast("list[FailedByGuideline]", QualityModeration.group_by_guideline(db))
@@ -180,7 +186,7 @@ def get_quality_moderation_stats(
 )
 @cache.private
 def get_quality_moderation_stats_by_category(
-    _moderator=Depends(quality_moderator_only),
+    _moderator=_quality_moderator_dependency,
 ) -> list[GuidelineStatsByCategory]:
     with get_db("replica") as db:
         return cast(
@@ -219,7 +225,7 @@ def get_quality_moderation_for_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None
@@ -271,7 +277,7 @@ def set_quality_moderation_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_only),
+    moderator=_quality_moderator_dependency,
 ) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -288,7 +294,7 @@ def set_quality_moderation_for_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None
@@ -340,7 +346,7 @@ def get_quality_moderation_status_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    _moderator=Depends(quality_moderator_or_app_author_only),
+    _moderator=_quality_moderator_or_app_author_dependency,
 ) -> QualityModerationStatus:
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
@@ -370,7 +376,7 @@ def request_review_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_or_app_author_only),
+    moderator=_quality_moderator_or_app_author_dependency,
 ):
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -399,7 +405,7 @@ def delete_review_request_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    _moderator=Depends(quality_moderator_only),
+    _moderator=_quality_moderator_dependency,
 ) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -414,7 +420,7 @@ def delete_review_request_for_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None
@@ -465,7 +471,7 @@ def set_fullscreen_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_only),
+    moderator=_quality_moderator_dependency,
 ) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -480,7 +486,7 @@ def set_fullscreen_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None

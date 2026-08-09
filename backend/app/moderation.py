@@ -36,6 +36,8 @@ from .types import ModerationRequestType
 
 router = APIRouter(prefix="/moderation")
 logger = logging.getLogger(__name__)
+_moderator_dependency = Depends(moderator_only)
+_bearer_dependency = Depends(HTTPBearer())
 
 
 _RANDOM_REVIEW_MARKER = "Randomly selected for human review"
@@ -100,7 +102,7 @@ def _canonical_random_review_identity(
     build_metadata: dict[str, Any], build_refs: list[dict[str, Any]]
 ) -> bytes:
     if not isinstance(build_metadata, dict) or not isinstance(build_refs, list):
-        raise ValueError("build metadata or references are missing")
+        raise TypeError("build metadata or references are missing")
 
     repository = build_metadata.get("repo")
     if not isinstance(repository, str) or not repository:
@@ -109,7 +111,7 @@ def _canonical_random_review_identity(
     ref_commits: list[tuple[str, str]] = []
     for build_ref in build_refs:
         if not isinstance(build_ref, dict):
-            raise ValueError("build reference is invalid")
+            raise TypeError("build reference is invalid")
 
         ref_name = build_ref.get("ref_name")
         commit = build_ref.get("commit")
@@ -169,8 +171,8 @@ class ModerationAppsResponse(BaseModel):
 
 
 class RequestData(BaseModel):
-    keys: dict[str, str | None | list | None | dict | None | bool | None]
-    current_values: dict[str, str | None | list | None | dict | None | bool | None]
+    keys: dict[str, str | None | list | dict | bool]
+    current_values: dict[str, str | None | list | dict | bool]
 
 
 class ManifestSourceOriginFindingData(BaseModel):
@@ -454,7 +456,7 @@ def get_moderation_apps(
     show_handled: bool = False,
     limit: int = 100,
     offset: int = 0,
-    _moderator=Depends(moderator_only),
+    _moderator=_moderator_dependency,
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
 
@@ -532,10 +534,10 @@ def get_moderation_app(
 
     with get_db("replica") as db:
         user = db.session.merge(login.user)
-        if "moderation" not in user.permissions():
-            # Check if user is app author
-            if app_id not in user.dev_flatpaks(db):
-                raise HTTPException(status_code=403, detail="forbidden")
+        if "moderation" not in user.permissions() and app_id not in user.dev_flatpaks(
+            db
+        ):
+            raise HTTPException(status_code=403, detail="forbidden")
 
         query = (
             db.session.query(models.ModerationRequest, models.FlathubUser.display_name)
@@ -880,7 +882,7 @@ def _log_manifest_source_gate(
 )
 def submit_review_request(
     review_request: ReviewRequest,
-    authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+    authorization: HTTPAuthorizationCredentials = _bearer_dependency,
 ) -> ReviewRequestResponse:
     random_review_enabled = getattr(config.settings, "random_review_enabled", False)
     random_review_rate = getattr(config.settings, "random_review_rate", 0.01)
@@ -1225,13 +1227,9 @@ def submit_review_request(
         current_permissions = None
         current_extradata = None
 
-        if current_summary := apps_summary_by_id.get(app_id):
-            sentry_context[f"summary:{app_id}:stable"] = current_summary
-
-            if current_metadata := current_summary.get("metadata", {}):
-                current_permissions = current_metadata.get("permissions")
-                current_extradata = current_metadata.get("extra-data")
-        elif current_summary := get_json_key(f"summary:{app_id}:stable"):
+        if (current_summary := apps_summary_by_id.get(app_id)) or (
+            current_summary := get_json_key(f"summary:{app_id}:stable")
+        ):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
             if current_metadata := current_summary.get("metadata", {}):
@@ -1262,37 +1260,39 @@ def submit_review_request(
                     extra_data_values
                 )
 
-            if current_permissions and build_permissions:
-                if current_permissions != build_permissions:
-                    for perm in current_permissions:
-                        current_perm = current_permissions[perm]
-                        build_perm = build_permissions.get(perm)
+            if (
+                current_permissions
+                and build_permissions
+                and current_permissions != build_permissions
+            ):
+                for perm in current_permissions:
+                    current_perm = current_permissions[perm]
+                    build_perm = build_permissions.get(perm)
 
-                        if isinstance(current_perm, list):
-                            if sorted(current_perm or []) != sorted(build_perm or []):
-                                summary_current_values[perm] = current_perm
-                                summary_keys[perm] = build_perm
+                    if isinstance(current_perm, list) and sorted(
+                        current_perm or []
+                    ) != sorted(build_perm or []):
+                        summary_current_values[perm] = current_perm
+                        summary_keys[perm] = build_perm
 
-                        if isinstance(current_perm, dict):
-                            if build_perm is None:
-                                build_perm = {}
+                    if isinstance(current_perm, dict):
+                        if build_perm is None:
+                            build_perm = {}
 
-                            dict_keys = current_perm.keys() | build_perm.keys()
-                            for key in dict_keys:
-                                current_val = current_perm.get(key)
-                                build_val = build_perm.get(key)
+                        dict_keys = current_perm.keys() | build_perm.keys()
+                        for key in dict_keys:
+                            current_val = current_perm.get(key)
+                            build_val = build_perm.get(key)
 
-                                is_different = (
-                                    sorted(current_val or []) != sorted(build_val or [])
-                                    if isinstance(current_val, list)
-                                    and isinstance(build_val, list)
-                                    else current_val != build_val
-                                )
-                                if is_different:
-                                    summary_current_values[f"{key}-{perm}"] = (
-                                        current_val
-                                    )
-                                    summary_keys[f"{key}-{perm}"] = build_val
+                            is_different = (
+                                sorted(current_val or []) != sorted(build_val or [])
+                                if isinstance(current_val, list)
+                                and isinstance(build_val, list)
+                                else current_val != build_val
+                            )
+                            if is_different:
+                                summary_current_values[f"{key}-{perm}"] = current_val
+                                summary_keys[f"{key}-{perm}"] = build_val
 
             if app_id not in direct_upload_apps_by_id:
                 current_arches = set(current_summary.get("arches", []))
@@ -1358,43 +1358,41 @@ def submit_review_request(
                             else []
                         )
 
-                        if is_ge_6_10 or runtime_br.startswith("5.15-"):
-                            if (
-                                "org.kde.kdeconnect" in cur_session_talks
-                                and "org.kde.kdeconnect" not in new_session_talks
-                            ):
-                                cur_session_talks_filtered = list(
-                                    filter(
-                                        lambda x: x != "org.kde.kdeconnect",
-                                        cur_session_talks,
-                                    )
+                        if (is_ge_6_10 or runtime_br.startswith("5.15-")) and (
+                            "org.kde.kdeconnect" in cur_session_talks
+                            and "org.kde.kdeconnect" not in new_session_talks
+                        ):
+                            cur_session_talks_filtered = list(
+                                filter(
+                                    lambda x: x != "org.kde.kdeconnect",
+                                    cur_session_talks,
                                 )
+                            )
 
-                                if sorted(cur_session_talks_filtered) == sorted(
-                                    new_session_talks
-                                ):
-                                    summary_keys.pop("talk-session-bus", None)
-                                    summary_current_values.pop("talk-session-bus", None)
-                                    request_ignored = True
-
-                        if runtime_br in ("6.9", "6.8"):
-                            if (
-                                "org.kde.kdeconnect" not in cur_session_talks
-                                and "org.kde.kdeconnect" in new_session_talks
+                            if sorted(cur_session_talks_filtered) == sorted(
+                                new_session_talks
                             ):
-                                new_session_talks_filtered = list(
-                                    filter(
-                                        lambda x: x != "org.kde.kdeconnect",
-                                        new_session_talks,
-                                    )
-                                )
+                                summary_keys.pop("talk-session-bus", None)
+                                summary_current_values.pop("talk-session-bus", None)
+                                request_ignored = True
 
-                                if sorted(cur_session_talks) == sorted(
-                                    new_session_talks_filtered
-                                ):
-                                    summary_keys.pop("talk-session-bus", None)
-                                    summary_current_values.pop("talk-session-bus", None)
-                                    request_ignored = True
+                        if runtime_br in ("6.9", "6.8") and (
+                            "org.kde.kdeconnect" not in cur_session_talks
+                            and "org.kde.kdeconnect" in new_session_talks
+                        ):
+                            new_session_talks_filtered = list(
+                                filter(
+                                    lambda x: x != "org.kde.kdeconnect",
+                                    new_session_talks,
+                                )
+                            )
+
+                            if sorted(cur_session_talks) == sorted(
+                                new_session_talks_filtered
+                            ):
+                                summary_keys.pop("talk-session-bus", None)
+                                summary_current_values.pop("talk-session-bus", None)
+                                request_ignored = True
 
             if request_ignored:
                 logger.info(
@@ -1716,7 +1714,7 @@ def submit_review_request(
     # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
     # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
     with get_db("writer") as db:
-        app_ids = set(request.appid for request in new_requests)
+        app_ids = {request.appid for request in new_requests}
         for app_id in app_ids:
             db.session.query(models.ModerationRequest).filter_by(
                 appid=app_id, is_outdated=False
@@ -1754,7 +1752,7 @@ def submit_review_request(
                 subject = f"Build #{review_request.build_id} held for review"
                 payload = {
                     "messageId": f"{app_id}/{review_request.build_id}/held",
-                    "creation_timestamp": datetime.now().timestamp(),
+                    "creation_timestamp": utils.utcnow().timestamp(),
                     "subject": subject,
                     "previewText": subject,
                     "inform_moderators": True,
@@ -1813,7 +1811,7 @@ def submit_review(
     review: Review,
     login: LoginStatusDep,
     http_request: Request,
-    _moderator=Depends(moderator_only),
+    _moderator=_moderator_dependency,
 ) -> ReviewResponse | None:
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
     marked as successful in flat-manager."""
@@ -1901,8 +1899,8 @@ def submit_review(
                 job_id, "Failed", "The review was rejected by a moderator."
             )
             logger.info(f"Worker successfully queued for rejected job {job_id}")
-    except Exception as e:
-        logger.error(f"Failed to dispatch worker for job {job_id}: {e}")
+    except Exception:
+        logger.exception("Failed to dispatch worker for job %s", job_id)
         raise HTTPException(
             status_code=500, detail="Failed to trigger publication workflow"
         )
@@ -1936,7 +1934,7 @@ def submit_review(
 
     payload: dict[str, Any] = {
         "messageId": f"{appid}/{build_id}/{'approved' if is_approved else 'rejected'}",
-        "creation_timestamp": datetime.now().timestamp(),
+        "creation_timestamp": utils.utcnow().timestamp(),
         "subject": subject,
         "previewText": subject,
         "inform_moderators": True,

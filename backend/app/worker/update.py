@@ -43,7 +43,7 @@ def update():
                 models.App.set_initial_release_at(
                     db,
                     app_id,
-                    datetime.fromtimestamp(float(created_at)),
+                    datetime.fromtimestamp(float(created_at), UTC).replace(tzinfo=None),
                 )
 
     if apps_created_at:

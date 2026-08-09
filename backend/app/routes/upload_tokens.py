@@ -13,6 +13,7 @@ from ..login_info import login_state
 from ..utils import jti
 
 router = APIRouter(prefix="/upload-tokens")
+_login_state_dependency = Depends(login_state)
 
 
 class ErrorDetail(StrEnum):
@@ -102,7 +103,7 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
 )
 @cache.private
 def get_upload_tokens(
-    app_id: str, include_expired: bool = False, login=Depends(login_state)
+    app_id: str, include_expired: bool = False, login=_login_state_dependency
 ) -> TokensResponse:
     """
     Get all upload tokens for the given app
@@ -169,7 +170,7 @@ def create_upload_token(
     app_id: str,
     request: UploadTokenRequest,
     http_request: Request,
-    login=Depends(login_state),
+    login=_login_state_dependency,
 ) -> NewTokenResponse:
     if not (
         config.settings.flat_manager_api and config.settings.flat_manager_build_secret
@@ -189,13 +190,12 @@ def create_upload_token(
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
         runtime_scope = models.RuntimeScope.by_app_id(db, app_id)
 
-    if "stable" in request.repos:
+    if "stable" in request.repos and direct_upload_app is None:
         # Only direct upload apps may create tokens for the stable repo.
-        if direct_upload_app is None:
-            raise HTTPException(
-                status_code=403,
-                detail=ErrorDetail.NOT_DIRECT_UPLOAD_APP,
-            )
+        raise HTTPException(
+            status_code=403,
+            detail=ErrorDetail.NOT_DIRECT_UPLOAD_APP,
+        )
 
     if not all(s in ALLOWED_SCOPES for s in request.scopes):
         raise HTTPException(
@@ -281,7 +281,7 @@ def create_upload_token(
 
     payload = {
         "messageId": f"{app_id}/{token_details.id}/issued",
-        "creation_timestamp": datetime.datetime.now().timestamp(),
+        "creation_timestamp": datetime.datetime.now(datetime.UTC).timestamp(),
         "subject": "New upload token issued",
         "previewText": "New upload token issued",
         "inform_admins": True,
@@ -320,7 +320,7 @@ def create_upload_token(
 def revoke_upload_token(
     token_id: int,
     http_request: Request,
-    login=Depends(login_state),
+    login=_login_state_dependency,
 ):
     if config.settings.flat_manager_api is None:
         raise HTTPException(

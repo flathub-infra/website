@@ -170,9 +170,9 @@ def _translate_name_and_summary[
         picked_locale = None
 
         if searchResult.translations:
-            if locale in searchResult.translations.keys():
+            if locale in searchResult.translations:
                 picked_locale = locale
-            elif fallbackLocale in searchResult.translations.keys():
+            elif fallbackLocale in searchResult.translations:
                 picked_locale = fallbackLocale
 
             if picked_locale:
@@ -726,9 +726,10 @@ def search_apps_post(
         if filter.filterType == "type":
             filteringForType = True
 
-            if filter.value == "desktop-application":
-                filteringForDesktopOrConsole = True
-            elif filter.value == "console-application":
+            if (
+                filter.value == "desktop-application"
+                or filter.value == "console-application"
+            ):
                 filteringForDesktopOrConsole = True
 
         filters.append(f"{filter.filterType} = '{filter.value}'")

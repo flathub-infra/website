@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from enum import StrEnum
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
@@ -18,6 +18,7 @@ from ..models import (
 )
 
 router = APIRouter(prefix="/invites")
+_logged_in_dependency = Depends(logged_in)
 
 
 class ErrorDetail(StrEnum):
@@ -85,7 +86,7 @@ class InviteStatus(BaseModel):
 )
 @cache.private
 def get_invite_status(
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -128,7 +129,7 @@ def get_invite_status(
 def invite_developer(
     invite_code: str,
     http_request: Request,
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -186,7 +187,7 @@ def invite_developer(
 
         payload = {
             "messageId": f"{app.app_id}/{invite.id}/invited",
-            "creation_timestamp": datetime.now().timestamp(),
+            "creation_timestamp": datetime.now(UTC).timestamp(),
             "userId": invited_user.id,
             "subject": subject,
             "previewText": subject,
@@ -277,7 +278,7 @@ def accept_invite(
 
         payload = {
             "messageId": f"{app_id}/{invite.id}/success",
-            "creation_timestamp": datetime.now().timestamp(),
+            "creation_timestamp": datetime.now(UTC).timestamp(),
             "subject": f"{username} is now a developer",
             "previewText": f"{username} is now a developer",
             "messageInfo": {
@@ -308,7 +309,7 @@ def accept_invite(
 )
 def decline_invite(
     http_request: Request,
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -346,7 +347,7 @@ def decline_invite(
 
         payload = {
             "messageId": f"{app.app_id}/{invite.id}/decline",
-            "creation_timestamp": datetime.now().timestamp(),
+            "creation_timestamp": datetime.now(UTC).timestamp(),
             "subject": f"{login.user.display_name} declined their invite",
             "previewText": f"{login.user.display_name} declined their invite",
             "messageInfo": {
@@ -380,7 +381,7 @@ def decline_invite(
 )
 def leave_team(
     http_request: Request,
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -410,8 +411,8 @@ def leave_team(
             app_name = None
 
         payload = {
-            "messageId": f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
-            "creation_timestamp": datetime.now().timestamp(),
+            "messageId": f"{app_id}/{login.user.id}/{datetime.now(UTC).isoformat()}/left",
+            "creation_timestamp": datetime.now(UTC).timestamp(),
             "subject": f"{login.user.display_name} left the developer team",
             "previewText": f"{login.user.display_name} left the developer team",
             "messageInfo": {
@@ -452,7 +453,7 @@ class DevelopersResponse(BaseModel):
 )
 @cache.private
 def get_app_developers(
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -504,7 +505,7 @@ def get_app_developers(
 def remove_developer(
     developer_id: int,
     http_request: Request,
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -551,7 +552,7 @@ def remove_developer(
 def revoke_invite(
     invite_id: int,
     http_request: Request,
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
     app_id: str = Path(
         min_length=6,
         max_length=255,

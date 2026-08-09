@@ -25,7 +25,16 @@ from gitlab.exceptions import GitlabHttpError
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import apps, audit_log, cache, config, http_client, models, oauth_providers
+from . import (
+    apps,
+    audit_log,
+    cache,
+    config,
+    http_client,
+    models,
+    oauth_providers,
+    utils,
+)
 from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
@@ -34,6 +43,8 @@ from .login_info import (
     LoginStatusDep,
     logged_in,
 )
+
+_logged_in_dependency = Depends(logged_in)
 
 
 def _log_login_failure(
@@ -118,7 +129,7 @@ def refresh_repo_list(gh_access_token: str, accountId: int):
 
 
 def _refresh_token(account: _OAuthRefreshableAccount, method: str) -> str:
-    if account.token_expiry is None or account.token_expiry > datetime.now():
+    if account.token_expiry is None or account.token_expiry > utils.utcnow():
         return account.token
 
     provider = oauth_providers.get_provider_config(method)
@@ -157,7 +168,7 @@ def _refresh_token(account: _OAuthRefreshableAccount, method: str) -> str:
     account.token = login_result["access_token"]
     if "refresh_token" in login_result:
         account.refresh_token = login_result["refresh_token"]
-        account.token_expiry = datetime.now() + timedelta(
+        account.token_expiry = utils.utcnow() + timedelta(
             seconds=int(login_result.get("expires_in", "7200"))
         )
 
@@ -745,20 +756,20 @@ def continue_oauth_flow(
             )
     except (OAuth2Error, OAuthError) as e:
         detail = e.description or e.error or str(e)
-        _log_login_failure(request, login, method, f"OAuth error: {repr(detail)}")
+        _log_login_failure(request, login, method, f"OAuth error: {detail!r}")
         return JSONResponse(
             {
                 "state": "error",
-                "error": f"{method} login flow had an error: {repr(detail)}",
+                "error": f"{method} login flow had an error: {detail!r}",
             },
             status_code=500,
         )
     except httpx.HTTPError as e:
-        _log_login_failure(request, login, method, f"HTTP error: {repr(str(e))}")
+        _log_login_failure(request, login, method, f"HTTP error: {str(e)!r}")
         return JSONResponse(
             {
                 "state": "error",
-                "error": f"{method} login flow had an error: {repr(str(e))}",
+                "error": f"{method} login flow had an error: {str(e)!r}",
             },
             status_code=500,
         )
@@ -786,11 +797,11 @@ def continue_oauth_flow(
             401,
             403,
         ):
-            _log_login_failure(request, login, method, f"Gitlab error: {str(err)}")
+            _log_login_failure(request, login, method, f"Gitlab error: {err!s}")
             return JSONResponse(
                 {
                     "state": "error",
-                    "error": f"{method} login flow had an error: {str(err)}",
+                    "error": f"{method} login flow had an error: {err!s}",
                 },
                 status_code=400,
             )
@@ -816,7 +827,7 @@ def continue_oauth_flow(
             account = account_model(
                 **userid,
                 token=login_result["access_token"],
-                last_used=datetime.now(),
+                last_used=utils.utcnow(),
                 user=user.id,
                 login=provider_data.login,
                 avatar_url=provider_data.avatar_url,
@@ -826,7 +837,7 @@ def continue_oauth_flow(
             if "refresh_token" in login_result:
                 refreshable = cast("_OAuthRefreshableAccount", account)
                 refreshable.refresh_token = login_result["refresh_token"]
-                refreshable.token_expiry = datetime.now() + timedelta(
+                refreshable.token_expiry = utils.utcnow() + timedelta(
                     seconds=int(login_result.get("expires_in", "7200"))
                 )
             db.add(account)
@@ -875,7 +886,7 @@ def continue_oauth_flow(
                     status_code=403,
                 )
             account.token = login_result["access_token"]
-            account.last_used = datetime.now()
+            account.last_used = utils.utcnow()
             account.login = provider_data.login
             account.avatar_url = provider_data.avatar_url
             account.display_name = provider_data.name
@@ -883,7 +894,7 @@ def continue_oauth_flow(
             if "refresh_token" in login_result:
                 refreshable = cast("_OAuthRefreshableAccount", account)
                 refreshable.refresh_token = login_result["refresh_token"]
-                refreshable.token_expiry = datetime.now() + timedelta(
+                refreshable.token_expiry = utils.utcnow() + timedelta(
                     seconds=int(login_result.get("expires_in", "7200"))
                 )
             db.add(account)
@@ -906,8 +917,8 @@ def continue_oauth_flow(
             postlogin_handler(login_result, account)
 
         payload = {
-            "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
-            "creation_timestamp": datetime.now().timestamp(),
+            "messageId": f"{account.user}/login/{utils.utcnow().isoformat()}",
+            "creation_timestamp": utils.utcnow().timestamp(),
             "userId": account.user,
             "subject": "New login to Flathub account",
             "previewText": "Flathub Login",
@@ -915,7 +926,7 @@ def continue_oauth_flow(
                 "category": EmailCategory.SECURITY_LOGIN,
                 "provider": method,
                 "login": provider_data.login,
-                "time": datetime.now().isoformat(),
+                "time": utils.utcnow().isoformat(),
                 "ipAddress": request.client.host if request.client else "Unknown",
             },
         }
@@ -1075,7 +1086,7 @@ class RefreshDevFlatpaksReturn(BaseModel):
     },
 )
 def do_refresh_dev_flatpaks(
-    login=Depends(logged_in),
+    login=_logged_in_dependency,
 ) -> RefreshDevFlatpaksReturn:
     with get_db("writer") as db:
         user = db.merge(login.user)  # Reattach user to current session
@@ -1117,7 +1128,7 @@ def do_logout(request: Request, login: LoginStatusDep):
             _clear_oauth_session(request)
 
     except KeyError as e:
-        raise HTTPException(status_code=500, detail=f"Session error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Session error: {e!s}")
 
     audit_log.enqueue_audit_log(
         request,

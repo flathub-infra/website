@@ -1,7 +1,8 @@
 import json
 import logging
 import tempfile
-from collections.abc import Sequence, Set
+from collections.abc import Sequence
+from collections.abc import Set as AbstractSet
 from dataclasses import dataclass
 from enum import StrEnum
 from threading import Timer
@@ -369,7 +370,7 @@ def collect_manifest_pairs(
     refs: Sequence[CandidateManifestRef],
     *,
     timeout_seconds: float,
-    skip_missing_candidate_app_ids: Set[str] = frozenset(),
+    skip_missing_candidate_app_ids: AbstractSet[str] = frozenset(),
 ) -> tuple[ManifestPair, ...]:
     if not refs:
         return ()

@@ -7,6 +7,7 @@ from ..login_info import modify_users_only
 from ..utils import jti
 
 router = APIRouter(prefix="/direct-upload-apps")
+_modify_users_dependency = Depends(modify_users_only)
 
 ALLOWED_REPOS = ["stable", "beta"]
 
@@ -208,7 +209,7 @@ def _revoke_all_tokens(app_id: str) -> None:
 )
 @cache.private
 def list_direct_upload_apps(
-    _admin=Depends(modify_users_only),
+    _admin=_modify_users_dependency,
 ) -> list[ManagedAppResponse]:
     """List all direct-upload apps."""
     with get_db("replica") as db:
@@ -232,7 +233,7 @@ def list_direct_upload_apps(
 )
 @cache.private
 def get_direct_upload_app(
-    app_id: str, _admin=Depends(modify_users_only)
+    app_id: str, _admin=_modify_users_dependency
 ) -> ManagedAppResponse:
     with get_db("replica") as db:
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
@@ -255,7 +256,7 @@ def get_direct_upload_app(
     },
 )
 def switch_to_direct_upload(
-    request: SwitchToDirectUploadRequest, _admin=Depends(modify_users_only)
+    request: SwitchToDirectUploadRequest, _admin=_modify_users_dependency
 ) -> ManagedAppResponse:
     """Switch an app to direct upload, optionally with a runtime scope."""
     if not utils.is_valid_app_id(request.app_id):
@@ -309,7 +310,7 @@ def switch_to_direct_upload(
     },
 )
 def update_runtime_scope(
-    app_id: str, request: UpdateScopeRequest, _admin=Depends(modify_users_only)
+    app_id: str, request: UpdateScopeRequest, _admin=_modify_users_dependency
 ) -> ManagedAppResponse:
     """Update the prefixes and extra_ids of a runtime scope."""
     if not request.prefixes:
@@ -352,7 +353,7 @@ def update_runtime_scope(
         500: {"description": "Flat manager not configured or server error"},
     },
 )
-def switch_off_direct_upload(app_id: str, _admin=Depends(modify_users_only)):
+def switch_off_direct_upload(app_id: str, _admin=_modify_users_dependency):
     """Hard-delete a direct-upload app and revoke all its tokens."""
     if not config.settings.flat_manager_api:
         raise HTTPException(status_code=500, detail="flat_manager_not_configured")
@@ -395,7 +396,7 @@ def archive_direct_upload_app(
     app_id: str,
     request: ArchiveRequest,
     http_request: Request,
-    login=Depends(modify_users_only),
+    login=_modify_users_dependency,
 ):
     """Archive a direct-upload app: revoke tokens, mark archived, republish as EOL.
 
@@ -446,7 +447,7 @@ def archive_direct_upload_app(
 def unarchive_direct_upload_app(
     app_id: str,
     http_request: Request,
-    login=Depends(modify_users_only),
+    login=_modify_users_dependency,
 ):
     """Unarchive a direct-upload app: clear the archived flag and republish to lift EOL."""
     with get_db("writer") as db:
@@ -481,7 +482,7 @@ def unarchive_direct_upload_app(
         500: {"description": "Flat manager not configured or server error"},
     },
 )
-def revoke_tokens(app_id: str, _admin=Depends(modify_users_only)):
+def revoke_tokens(app_id: str, _admin=_modify_users_dependency):
     """Revoke all upload tokens for a direct-upload app without deleting it."""
     if not config.settings.flat_manager_api:
         raise HTTPException(status_code=500, detail="flat_manager_not_configured")
@@ -508,7 +509,7 @@ def revoke_tokens(app_id: str, _admin=Depends(modify_users_only)):
 def add_maintainer(
     app_id: str,
     request: AddMaintainerRequest,
-    _admin=Depends(modify_users_only),
+    _admin=_modify_users_dependency,
 ) -> ManagedAppResponse:
 
     with get_db("writer") as db:
@@ -555,7 +556,7 @@ def add_maintainer(
 def remove_maintainer(
     app_id: str,
     user_id: int,
-    _admin=Depends(modify_users_only),
+    _admin=_modify_users_dependency,
 ):
 
     with get_db("writer") as db:
@@ -593,7 +594,7 @@ def remove_maintainer(
 def set_primary_maintainer(
     app_id: str,
     user_id: int,
-    _admin=Depends(modify_users_only),
+    _admin=_modify_users_dependency,
 ) -> ManagedAppResponse:
 
     with get_db("writer") as db:

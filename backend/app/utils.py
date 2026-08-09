@@ -156,14 +156,12 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
         if screenshotsComponent is not None:
             if not all(
-                [
-                    screenshot.attrib.get("environment")
-                    in (
-                        "windows",
-                        "macos",
-                    )
-                    for screenshot in screenshotsComponent
-                ]
+                screenshot.attrib.get("environment")
+                in (
+                    "windows",
+                    "macos",
+                )
+                for screenshot in screenshotsComponent
             ):
                 screenshots = [
                     screenshot
@@ -317,15 +315,16 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if len(icons):
             for icon in icons:
                 icon_type = icon.attrib.get("type")
-                if icon_type == "remote":
-                    if icon.text.startswith("https://dl.flathub.org/media/"):
-                        if "icon" not in app:
-                            app["icon"] = icon.text
-                        attrs = {}
-                        for attr in icon.attrib:
-                            attrs[attr] = icon.attrib[attr]
-                        attrs.update({"url": icon.text})
-                        iconListNewLocation.append(attrs)
+                if icon_type == "remote" and icon.text.startswith(
+                    "https://dl.flathub.org/media/"
+                ):
+                    if "icon" not in app:
+                        app["icon"] = icon.text
+                    attrs = {}
+                    for attr in icon.attrib:
+                        attrs[attr] = icon.attrib[attr]
+                    attrs.update({"url": icon.text})
+                    iconListNewLocation.append(attrs)
 
             if not app.get("icon"):
                 for icon in icons:
@@ -389,18 +388,15 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
         for elem in component:
             elem_xml_lang = elem.get("{http://www.w3.org/XML/1998/namespace}lang")
-            if elem_xml_lang:
-                # Only add translation if element has text content (leaf elements)
-                # Container elements like <keywords> with children will be handled below
-                if len(elem) == 0 and elem.text and elem.text.strip():
-                    add_translation(
-                        app["locales"],
-                        elem_xml_lang,
-                        appid,
-                        elem.tag,
-                        elem.text.strip(),
-                    )
-                    continue
+            if elem_xml_lang and len(elem) == 0 and elem.text and elem.text.strip():
+                add_translation(
+                    app["locales"],
+                    elem_xml_lang,
+                    appid,
+                    elem.tag,
+                    elem.text.strip(),
+                )
+                continue
 
             if len(elem) == 0 and len(elem.attrib) == 0:
                 app[elem.tag] = elem.text

@@ -14,10 +14,10 @@ sys.path.append(ROOT_DIR)
 sys.modules["app.search"] = SimpleNamespace()
 
 from app import (
-    models,  # noqa: E402
-    verification,  # noqa: E402
+    models,
+    verification,
 )
-from app.routes import runtimes  # noqa: E402
+from app.routes import runtimes
 
 
 def _fake_admin():
@@ -439,11 +439,14 @@ def test_unarchive_404_if_app_missing(monkeypatch):
     assert sent == []
 
 
+_DEFAULT_SCOPE = runtimes.RuntimeScopeInput(
+    prefixes=["org.gnome.Platform", "org.gnome.Sdk"],
+)
+
+
 def _make_switch_request(
     primary_maintainer_user_id=42,
-    scope=runtimes.RuntimeScopeInput(
-        prefixes=["org.gnome.Platform", "org.gnome.Sdk"],
-    ),
+    scope: runtimes.RuntimeScopeInput | None = _DEFAULT_SCOPE,
 ):
     return runtimes.SwitchToDirectUploadRequest(
         app_id="org.gnome.Platform",

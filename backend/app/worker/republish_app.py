@@ -39,14 +39,14 @@ def republish_app(
                 if response.status_code != 200:
                     raise VendingError("republish failed")
 
-            except Exception:
-                raise VendingError("republish failed")
+            except (httpx.HTTPError, VendingError) as exc:
+                raise VendingError("republish failed") from exc
 
 
 @dramatiq.actor
 def review_check(
     job_id: int,
-    status: T.Literal["Passed"] | T.Literal["Failed"],
+    status: T.Literal["Passed", "Failed"],
     reason: str | None,
     build_id: int | None = None,
 ):

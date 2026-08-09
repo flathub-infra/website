@@ -8,9 +8,9 @@ sys.path.append(ROOT_DIR)
 
 sys.modules["app.search"] = SimpleNamespace()
 
-import sys  # noqa: E402
+import sys
 
-from app.worker import prune_audit_logs  # noqa: E402
+from app.worker import prune_audit_logs
 
 _prune_module = sys.modules[prune_audit_logs.fn.__module__]
 

@@ -22,9 +22,11 @@ def mock_date() -> Callable[[int, int, int], Generator[MagicMock]]:
     @contextmanager
     def _mock_date(year: int, month: int, day: int) -> Generator[MagicMock]:
         with patch("app.routes.year_in_review.datetime") as mock_dt:
-            mock_dt.datetime.now.return_value = datetime.datetime(year, month, day)
+            mock_dt.datetime.now.return_value = datetime.datetime(
+                year, month, day, tzinfo=datetime.UTC
+            )
             mock_dt.datetime.side_effect = lambda *args, **kw: datetime.datetime(
-                *args, **kw
+                *args, tzinfo=kw.pop("tzinfo", datetime.UTC), **kw
             )
             yield mock_dt
 
@@ -60,9 +62,9 @@ def admin_client(mock_date):
             with (
                 mock_date(year, month, day),
                 patch("app.routes.year_in_review.get_db", mock_get_db),
+                TestClient(main.router) as client_,
             ):
-                with TestClient(main.router) as client_:
-                    yield client_
+                yield client_
         finally:
             main.router.dependency_overrides.pop(login_state, None)
 
@@ -98,9 +100,9 @@ def non_admin_client(mock_date):
             with (
                 mock_date(year, month, day),
                 patch("app.routes.year_in_review.get_db", mock_get_db),
+                TestClient(main.router) as client_,
             ):
-                with TestClient(main.router) as client_:
-                    yield client_
+                yield client_
         finally:
             main.router.dependency_overrides.pop(login_state, None)
 

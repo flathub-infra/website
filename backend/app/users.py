@@ -5,6 +5,10 @@ from .database import get_db
 from .login_info import logged_in, moderator_only, modify_users_only, view_users_only
 
 router = APIRouter(prefix="/users")
+_logged_in_dependency = Depends(logged_in)
+_moderator_dependency = Depends(moderator_only)
+_modify_users_dependency = Depends(modify_users_only)
+_view_users_dependency = Depends(view_users_only)
 
 
 def register_to_app(app: FastAPI):
@@ -22,7 +26,7 @@ def register_to_app(app: FastAPI):
     },
 )
 @cache.private
-def me(login=Depends(logged_in)) -> models.UserResult:
+def me(login=_logged_in_dependency) -> models.UserResult:
 
     with get_db("replica") as db_session:
         user = models.FlathubUser.by_id_result(db_session, login.user.id)
@@ -50,7 +54,7 @@ def users(
     page: int = 1,
     page_size: int = 30,
     filterString: str | None = None,
-    _moderator=Depends(moderator_only),
+    _moderator=_moderator_dependency,
 ) -> models.FlathubUsersResult:
     """
     Return a list of all known users
@@ -75,7 +79,7 @@ def users(
     },
 )
 @cache.private
-def roles(_admin=Depends(view_users_only)) -> list[str]:
+def roles(_admin=_view_users_dependency) -> list[str]:
     """
     Return a list of all known role names
     """
@@ -96,7 +100,7 @@ def roles(_admin=Depends(view_users_only)) -> list[str]:
     },
 )
 @cache.private
-def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
+def user(user_id: int, _moderator=_moderator_dependency) -> models.UserResult:
     """
     Return the current user
     """
@@ -125,7 +129,7 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
 def ban_user(
     user_id: int,
     http_request: Request,
-    login=Depends(modify_users_only),
+    login=_modify_users_dependency,
 ) -> models.UserResult:
     if user_id == login.user.id:
         raise HTTPException(status_code=400, detail="cannot_ban_self")
@@ -163,7 +167,7 @@ def ban_user(
 def unban_user(
     user_id: int,
     http_request: Request,
-    login=Depends(modify_users_only),
+    login=_modify_users_dependency,
 ) -> models.UserResult:
     with get_db("writer") as db_session:
         user = models.FlathubUser.by_id(db_session, user_id)
@@ -199,7 +203,7 @@ def add_user_role(
     user_id: int,
     role: models.RoleName,
     http_request: Request,
-    login=Depends(modify_users_only),
+    login=_modify_users_dependency,
 ) -> models.UserResult:
     """
     Add a role to a user
@@ -241,7 +245,7 @@ def delete_user_role(
     user_id: int,
     role: models.RoleName,
     http_request: Request,
-    login=Depends(modify_users_only),
+    login=_modify_users_dependency,
 ) -> models.UserResult:
     """
     Remove a role from a user
@@ -281,7 +285,7 @@ def delete_user_role(
 )
 @cache.private
 def role_users(
-    role_name: models.RoleName, _admin=Depends(view_users_only)
+    role_name: models.RoleName, _admin=_view_users_dependency
 ) -> list[models.UserResult]:
     """
     Return all users with a specific role

@@ -37,20 +37,17 @@ def validate_ref(ref: str):
     if arch not in ("x86_64", "aarch64"):
         return False
 
-    if (
-        appid.endswith(".Debug")
-        or appid.endswith(".Locale")
-        or appid.endswith(".Sources")
-    ):
+    if appid.endswith((".Debug", ".Locale", ".Sources")):
         return False
 
     return kind, appid, arch, branch
 
 
 def get_parent_id(app_id: str):
-    if reverse_lookup := database.get_json_key("summary:reverse_lookup"):
-        if parent := reverse_lookup.get(app_id):
-            return parent
+    if (reverse_lookup := database.get_json_key("summary:reverse_lookup")) and (
+        parent := reverse_lookup.get(app_id)
+    ):
+        return parent
 
     return None
 
@@ -59,7 +56,7 @@ def parse_eol_data(metadata):
     eol_rebase: dict[str, list[str]] = {}
     eol_message: dict[str, str] = {}
     for app, eol_dict in metadata["xa.sparse-cache"].items():
-        flatpak_type, app_id, arch, branch = app.split("/")
+        _flatpak_type, app_id, _arch, branch = app.split("/")
         if (
             not app_id.endswith(".Debug")
             and not app_id.endswith(".Locale")
@@ -207,15 +204,15 @@ def parse_summary(summary, sqldb):
         if not (valid_ref := validate_ref(ref)):
             continue
 
-        kind, app_id, arch, branch = valid_ref
+        _kind, app_id, arch, branch = valid_ref
 
         timestamp_be_uint = struct.pack("<Q", info["ostree.commit.timestamp"])
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
 
         updated_at_dict[app_id] = timestamp
         last_updated_updates[app_id] = datetime.datetime.fromtimestamp(
-            float(timestamp),
-        )
+            float(timestamp), datetime.UTC
+        ).replace(tzinfo=None)
         summary_dict[app_id]["timestamp"] = timestamp
 
     if last_updated_updates:
@@ -225,7 +222,7 @@ def parse_summary(summary, sqldb):
         if not (valid_ref := validate_ref(ref)):
             continue
 
-        kind, app_id, arch, branch = valid_ref
+        _kind, app_id, arch, branch = valid_ref
 
         download_size_be_uint = struct.pack("<Q", xa_cache[ref][1])
         download_size = struct.unpack(">Q", download_size_be_uint)[0]
@@ -294,10 +291,10 @@ def fetch_summary_bytes(url: str) -> bytes | None:
             response.raise_for_status()
             return response.content
         except httpx.HTTPStatusError as e:
-            print(f"HTTP error fetching {url}: {str(e)}")
+            print(f"HTTP error fetching {url}: {e!s}")
             return None
         except Exception as e:
-            print(f"Error fetching {url}: {str(e)}")
+            print(f"Error fetching {url}: {e!s}")
             raise
 
 
@@ -424,8 +421,8 @@ def update(sqldb) -> None:
         try:
             summary_json = json.loads(json.dumps(data, cls=JSONSetEncoder))
             apps_to_update[app_id] = summary_json
-        except Exception as e:
-            print(f"Error encoding summary data for {app_id}: {str(e)}")
+        except Exception:
+            logger.exception("Error encoding summary data for %s", app_id)
             continue
 
     # update all apps in a single transaction
@@ -444,9 +441,9 @@ def update(sqldb) -> None:
                 sqldb.session.add(app)
 
         sqldb.session.commit()
-    except Exception as e:
+    except Exception:
         sqldb.session.rollback()
-        print(f"Error updating apps: {str(e)}")
+        logger.exception("Error updating apps")
 
     eol_rebase, eol_message = parse_eol_data(metadata)
 
@@ -489,9 +486,9 @@ def update(sqldb) -> None:
                 app.eol_dates = None
                 sqldb.session.add(app)
         sqldb.session.commit()
-    except Exception as e:
+    except Exception:
         sqldb.session.rollback()
-        print(f"Error updating EOL values of apps: {str(e)}")
+        logger.exception("Error updating EOL values of apps")
 
     processed_rebases = {}
     for new_app_id, old_id_list in eol_rebase.items():

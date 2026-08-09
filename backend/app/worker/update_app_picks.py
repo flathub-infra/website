@@ -1,5 +1,5 @@
 import random
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from typing import cast
 
 import dramatiq
@@ -59,7 +59,7 @@ def pick_app_of_the_day_automatically(db, day):
 
     # Sort by last time app of the day
     all_passed_apps.sort(
-        key=lambda app: app["last-time-app-of-the-day"],
+        key=lambda app: cast("date", app["last-time-app-of-the-day"]),
     )
 
     if not all_passed_apps:
