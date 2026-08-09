@@ -2,6 +2,7 @@ import datetime
 import os
 import sys
 import time
+from unittest.mock import Mock
 from urllib import parse
 
 import gi
@@ -99,6 +100,18 @@ def test_update(client):
     update_stats = client.post("/update/stats")
     assert update_stats.status_code == 200
     time.sleep(10)
+
+
+def test_configure_meilisearch_index_sets_pagination_limit():
+    from app import search
+
+    meilisearch_client = Mock()
+
+    search._configure_meilisearch_index(meilisearch_client)
+
+    meilisearch_client.index.return_value.update_pagination_settings.assert_called_once_with(
+        {"maxTotalHits": 10000}
+    )
 
 
 def test_build_or_update_aggregates_normalizes_old_cache(monkeypatch):

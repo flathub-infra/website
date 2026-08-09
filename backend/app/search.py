@@ -112,6 +112,7 @@ class SearchQuery(BaseModel):
 
 def _configure_meilisearch_index(client):
     client.create_index("apps", {"primaryKey": "id"})
+    client.index("apps").update_pagination_settings({"maxTotalHits": 10000})
     client.index("apps").update_sortable_attributes(
         [
             "installs_last_month",
