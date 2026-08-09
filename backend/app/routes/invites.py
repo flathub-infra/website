@@ -1,13 +1,13 @@
 from datetime import UTC, datetime
 from enum import StrEnum
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Path, Request
 from pydantic import BaseModel
 
 from .. import audit_log, cache, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
-from ..login_info import logged_in
+from ..login_info import LoggedInDep
 from ..logins import LoginStatusDep
 from ..models import (
     AuditEventType,
@@ -18,7 +18,6 @@ from ..models import (
 )
 
 router = APIRouter(prefix="/invites")
-_logged_in_dependency = Depends(logged_in)
 
 
 class ErrorDetail(StrEnum):
@@ -86,7 +85,7 @@ class InviteStatus(BaseModel):
 )
 @cache.private
 def get_invite_status(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -129,7 +128,7 @@ def get_invite_status(
 def invite_developer(
     invite_code: str,
     http_request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -309,7 +308,7 @@ def accept_invite(
 )
 def decline_invite(
     http_request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -381,7 +380,7 @@ def decline_invite(
 )
 def leave_team(
     http_request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -453,7 +452,7 @@ class DevelopersResponse(BaseModel):
 )
 @cache.private
 def get_app_developers(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -505,7 +504,7 @@ def get_app_developers(
 def remove_developer(
     developer_id: int,
     http_request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -552,7 +551,7 @@ def remove_developer(
 def revoke_invite(
     invite_id: int,
     http_request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,

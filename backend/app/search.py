@@ -411,7 +411,7 @@ def delete_apps(app_id_list: list[str]) -> None:
 
 def get_by_selected_categories(
     selected_categories: list[schemas.MainCategory],
-    exclude_subcategories: list[str],
+    exclude_subcategories: list[str] | None,
     page: int | None,
     hits_per_page: int | None,
     locale: str,
@@ -458,7 +458,7 @@ def get_by_selected_categories(
 def get_by_selected_category_and_subcategory(
     selected_category: schemas.MainCategory,
     selected_subcategory: list[str],
-    exclude_subcategories: list[str],
+    exclude_subcategories: list[str] | None,
     page: int | None,
     hits_per_page: int | None,
     locale: str,

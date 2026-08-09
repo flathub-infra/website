@@ -6,14 +6,12 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
-from fastapi import APIRouter, Depends, FastAPI, Request, Response
+from fastapi import APIRouter, FastAPI, Request, Response
 from pydantic import BaseModel
 
 from .. import cache
 from ..config import settings
-from ..login_info import logged_in
-
-_logged_in_dependency = Depends(logged_in)
+from ..login_info import LoggedInDep
 from .walletbase import (
     NascentTransaction,
     PaymentCardInfo,
@@ -63,7 +61,7 @@ router = APIRouter(prefix="/wallet")
     },
 )
 @cache.no_store
-def get_walletinfo(request: Request, login=_logged_in_dependency) -> WalletInfo:
+def get_walletinfo(request: Request, login: LoggedInDep) -> WalletInfo:
     """
     Retrieve the wallet for the currently logged in user.
 
@@ -82,9 +80,7 @@ def get_walletinfo(request: Request, login=_logged_in_dependency) -> WalletInfo:
         500: {"description": "Internal server error"},
     },
 )
-def post_removecard(
-    request: Request, card: PaymentCardInfo, login=_logged_in_dependency
-):
+def post_removecard(request: Request, card: PaymentCardInfo, login: LoggedInDep):
     """
     Remove a card from a user's wallet.
 
@@ -110,7 +106,7 @@ def post_removecard(
 @cache.no_store
 def get_transactions(
     request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     sort: TransactionSortOrder = TransactionSortOrder.RECENT,
     since: str | None = None,
     limit: int = 100,
@@ -139,7 +135,7 @@ def get_transactions(
 )
 @cache.no_store
 def get_transaction_by_id(
-    txn: str, request: Request, login=_logged_in_dependency
+    txn: str, request: Request, login: LoggedInDep
 ) -> Transaction:
     """
     Retrieve a transaction by its ID
@@ -169,7 +165,7 @@ class PostTransactionResponse(BaseModel):
 )
 @cache.no_store
 def create_transaction(
-    request: Request, data: NascentTransaction, login=_logged_in_dependency
+    request: Request, data: NascentTransaction, login: LoggedInDep
 ) -> PostTransactionResponse:
     """
     Create a new transaction, return the ID.
@@ -193,7 +189,7 @@ def create_transaction(
     },
 )
 def set_transaction_card(
-    txn: str, data: PaymentCardInfo, request: Request, login=_logged_in_dependency
+    txn: str, data: PaymentCardInfo, request: Request, login: LoggedInDep
 ):
     """
     Set the card associated with a transaction.
@@ -216,7 +212,7 @@ def set_transaction_card(
         500: {"description": "Internal server error"},
     },
 )
-def cancel_transaction(txn: str, request: Request, login=_logged_in_dependency):
+def cancel_transaction(txn: str, request: Request, login: LoggedInDep):
     """
     Cancel a transaction in the `new` or `retry` states.
 
@@ -260,7 +256,7 @@ def get_stripedata() -> StripeKeys:
 )
 @cache.no_store
 def get_txn_stripedata(
-    txn: str, request: Request, login=_logged_in_dependency
+    txn: str, request: Request, login: LoggedInDep
 ) -> TransactionStripeData:
     """
     Return the Stripe data associated with the given transaction.
@@ -284,7 +280,7 @@ def get_txn_stripedata(
     },
 )
 def set_savecard(
-    txn: str, data: TransactionSaveCard, request: Request, login=_logged_in_dependency
+    txn: str, data: TransactionSaveCard, request: Request, login: LoggedInDep
 ):
     """
     Set the save-card status.
@@ -313,7 +309,7 @@ def set_savecard(
         500: {"description": "Internal server error"},
     },
 )
-def set_pending(txn: str, request: Request, login=_logged_in_dependency):
+def set_pending(txn: str, request: Request, login: LoggedInDep):
     """
     Set the transaction as 'pending' so that we can recover if Stripe
     flows don't quite work (e.g. webhook goes missing)

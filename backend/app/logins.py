@@ -16,7 +16,7 @@ from typing import cast
 import httpx
 from authlib.integrations.base_client.errors import OAuthError
 from authlib.oauth2.base import OAuth2Error
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
+from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
@@ -38,13 +38,11 @@ from . import (
 from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
+    LoggedInDep,
     LoginInformation,
     LoginState,
     LoginStatusDep,
-    logged_in,
 )
-
-_logged_in_dependency = Depends(logged_in)
 
 
 def _log_login_failure(
@@ -1086,7 +1084,7 @@ class RefreshDevFlatpaksReturn(BaseModel):
     },
 )
 def do_refresh_dev_flatpaks(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
 ) -> RefreshDevFlatpaksReturn:
     with get_db("writer") as db:
         user = db.merge(login.user)  # Reattach user to current session

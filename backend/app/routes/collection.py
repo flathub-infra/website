@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Response
 
 from .. import schemas, search
@@ -7,9 +9,8 @@ router = APIRouter(
     prefix="/collection",
     tags=["collection"],
 )
-_optional_query = Query(None)
-_required_query = Query()
-_response = Response()
+OptionalSubcategoriesQuery = Annotated[list[str] | None, Query()]
+SubcategoriesQuery = Annotated[list[str], Query()]
 
 
 def register_to_app(app: FastAPI):
@@ -39,13 +40,13 @@ async def get_categories() -> list[str]:
 )
 @cached(ttl=300)
 async def get_category(
+    response: Response,
     category: schemas.MainCategory,
-    exclude_subcategories: list[str] = _optional_query,
+    exclude_subcategories: OptionalSubcategoriesQuery = None,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
     sort_by: schemas.SortBy | None = None,
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications in a specific main category.
@@ -81,14 +82,14 @@ async def get_category(
 )
 @cached(ttl=300)
 async def get_subcategory(
+    response: Response,
     category: schemas.MainCategory,
-    subcategory: list[str] = _required_query,
-    exclude_subcategories: list[str] = _optional_query,
+    subcategory: SubcategoriesQuery,
+    exclude_subcategories: OptionalSubcategoriesQuery = None,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
     sort_by: schemas.SortBy | None = None,
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications in specific subcategories within a main category.
@@ -130,9 +131,9 @@ async def get_subcategory(
 )
 @cached(ttl=3600)
 async def get_keywords(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
-    response: Response = _response,
 ) -> search.KeywordsResponse:
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -159,11 +160,11 @@ async def get_keywords(
 )
 @cached(ttl=300)
 async def get_keyword(
+    response: Response,
     keyword: str,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Search for applications by keyword.
@@ -197,9 +198,9 @@ async def get_keyword(
 )
 @cached(ttl=3600)
 async def get_developers(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
-    response: Response = _response,
 ) -> search.DevelopersResponse:
     """
     Get a paginated list of all developers/publishers on Flathub.
@@ -231,11 +232,11 @@ async def get_developers(
 )
 @cached(ttl=300)
 async def get_developer(
+    response: Response,
     developer: str,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get all applications published by a specific developer.
@@ -269,10 +270,10 @@ async def get_developer(
 )
 @cached(ttl=300)
 async def get_recently_updated(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications that have been recently updated.
@@ -306,10 +307,10 @@ async def get_recently_updated(
 )
 @cached(ttl=300)
 async def get_recently_added(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications that have been recently added to Flathub.
@@ -343,10 +344,10 @@ async def get_recently_added(
 )
 @cached(ttl=300)
 async def get_verified(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications that have been verified by Flathub.
@@ -381,10 +382,10 @@ async def get_verified(
 )
 @cached(ttl=300)
 async def get_mobile(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications that are mobile-friendly.
@@ -419,10 +420,10 @@ async def get_mobile(
 )
 @cached(ttl=300)
 async def get_popular_last_month(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get the most popular applications based on installs in the last month.
@@ -456,10 +457,10 @@ async def get_popular_last_month(
 )
 @cached(ttl=300)
 async def get_trending_last_two_weeks(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get trending applications based on recent growth in installs.
@@ -494,10 +495,10 @@ async def get_trending_last_two_weeks(
 )
 @cached(ttl=300)
 async def get_most_favorited(
+    response: Response,
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
-    response: Response = _response,
 ) -> search.MeilisearchResponse[search.AppsIndex]:
     """
     Get applications sorted by the number of times they have been favorited.

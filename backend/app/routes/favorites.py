@@ -2,14 +2,13 @@ import datetime
 import logging
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Response
 from pydantic import BaseModel
 
 from .. import cache, models
 from ..database import get_db
-from ..login_info import logged_in
+from ..login_info import LoggedInDep
 
-_logged_in_dependency = Depends(logged_in)
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
@@ -29,7 +28,7 @@ def register_to_app(app):
 )
 async def add_to_favorites(
     app_id: str,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
 ):
     """
     Add an app to a users favorites. The appid is the ID of the app to add.
@@ -61,7 +60,7 @@ async def add_to_favorites(
 )
 async def remove_from_favorites(
     app_id: str,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
 ):
     """
     Remove an app from a users favorites. The appid is the ID of the app to remove.
@@ -97,7 +96,7 @@ class FavoriteApp(BaseModel):
 )
 @cache.private
 def get_favorites(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
 ) -> list[FavoriteApp]:
     """
     Get a list of the users favorite apps.
@@ -121,7 +120,7 @@ def get_favorites(
 @cache.private
 def is_favorited(
     app_id: str,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
 ) -> bool:
     with get_db("replica") as db_session:
         return models.UserFavoriteApp.is_favorited_by_user(

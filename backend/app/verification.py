@@ -21,8 +21,8 @@ from sqlalchemy.sql import func
 
 from . import audit_log, cache, config, http_client, models, utils, worker
 from .database import get_db
-from .login_info import app_author_only, logged_in, modify_users_only
-from .logins import LoginInformation, refresh_oauth_token
+from .login_info import AppAuthorDep, LoggedInDep, LoggedInInformation, ModifyUsersDep
+from .logins import refresh_oauth_token
 from .utils import jti
 from .verification_method import VerificationMethod
 
@@ -375,13 +375,6 @@ class CheckDnsVerification:
         )
 
 
-_logged_in_dependency = Depends(logged_in)
-_app_author_dependency = Depends(app_author_only)
-_modify_users_dependency = Depends(modify_users_only)
-_website_verification_dependency = Depends(CheckWebsiteVerification)
-_dns_verification_dependency = Depends(CheckDnsVerification)
-
-
 class LoginProvider(StrEnum):
     GITHUB = "github"
     GITLAB = "gitlab"
@@ -527,7 +520,7 @@ def _cleanup_stale_verifications(db, app_id: str, current_account: int):
 def _check_app_id(
     app_id: str,
     new_app: bool,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
 ):
     """Make sure the given user has development access to the given flatpak."""
 
@@ -699,7 +692,7 @@ class AvailableMethods(BaseModel):
 )
 @cache.no_store
 def get_available_methods(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -906,7 +899,7 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
 
 
 def _check_login_provider_verification(
-    app_id: str, new_app: bool, login: LoginInformation
+    app_id: str, new_app: bool, login: LoggedInInformation
 ) -> AvailableMethod:
     _check_app_id(app_id, new_app, login)
 
@@ -973,7 +966,7 @@ def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
     },
 )
 async def verify_by_login_provider(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1109,7 +1102,7 @@ def _get_or_create_domain_verification(
 )
 @cache.no_store
 def setup_website_verification(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1148,7 +1141,8 @@ def setup_website_verification(
     },
 )
 async def confirm_website_verification(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
+    check: Annotated[CheckWebsiteVerification, Depends(CheckWebsiteVerification)],
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1156,7 +1150,6 @@ async def confirm_website_verification(
         examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
-    check=_website_verification_dependency,
 ):
     """Checks website verification, and if it succeeds, marks the app as verified for the current account."""
 
@@ -1212,7 +1205,7 @@ async def confirm_website_verification(
 )
 @cache.no_store
 def setup_dns_verification(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1252,7 +1245,8 @@ def setup_dns_verification(
     },
 )
 async def confirm_dns_verification(
-    login=_logged_in_dependency,
+    login: LoggedInDep,
+    check: Annotated[CheckDnsVerification, Depends(CheckDnsVerification)],
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1260,7 +1254,6 @@ async def confirm_dns_verification(
         examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
-    check=_dns_verification_dependency,
 ):
     """Checks DNS verification, and marks the app as verified on success."""
 
@@ -1315,7 +1308,7 @@ async def confirm_dns_verification(
 )
 async def unverify(
     http_request: Request,
-    login=_logged_in_dependency,
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1386,7 +1379,7 @@ async def unverify(
     },
 )
 def switch_to_direct_upload(
-    login=_app_author_dependency,
+    login: AppAuthorDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1427,7 +1420,7 @@ def switch_to_direct_upload(
 )
 def archive(
     request: ArchiveRequest,
-    login=_app_author_dependency,
+    login: AppAuthorDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1506,7 +1499,7 @@ def archive(
 )
 async def manual_verification(
     http_request: Request,
-    login=_modify_users_dependency,
+    login: ModifyUsersDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,

@@ -1,7 +1,7 @@
 import base64
 import datetime
 from enum import StrEnum
-from typing import Any
+from typing import Annotated, Any
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
@@ -11,8 +11,6 @@ from sqlalchemy import select
 
 from . import http_client, models
 from .config import settings
-
-_email_authorization_dependency = Depends(HTTPBearer())
 
 
 class EmailCategory(StrEnum):
@@ -163,7 +161,7 @@ class BuildNotificationRequest(BaseModel):
 )
 def build_notification(
     request: BuildNotificationRequest,
-    authorization: HTTPAuthorizationCredentials = _email_authorization_dependency,
+    authorization: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())],
 ):
     from . import worker
 

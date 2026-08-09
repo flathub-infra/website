@@ -3,17 +3,16 @@ import datetime
 from enum import StrEnum
 
 import jwt
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
 from .. import audit_log, cache, config, http_client, models, utils, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
-from ..login_info import login_state
+from ..login_info import LoginStatusDep
 from ..utils import jti
 
 router = APIRouter(prefix="/upload-tokens")
-_login_state_dependency = Depends(login_state)
 
 
 class ErrorDetail(StrEnum):
@@ -103,13 +102,13 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
 )
 @cache.private
 def get_upload_tokens(
-    app_id: str, include_expired: bool = False, login=_login_state_dependency
+    app_id: str, include_expired: bool = False, *, login: LoginStatusDep
 ) -> TokensResponse:
     """
     Get all upload tokens for the given app
     """
 
-    if not login.state.logged_in():
+    if not login.state.logged_in() or login.user is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
     _require_upload_token_access(app_id, login)
 
@@ -170,7 +169,7 @@ def create_upload_token(
     app_id: str,
     request: UploadTokenRequest,
     http_request: Request,
-    login=_login_state_dependency,
+    login: LoginStatusDep,
 ) -> NewTokenResponse:
     if not (
         config.settings.flat_manager_api and config.settings.flat_manager_build_secret
@@ -180,7 +179,7 @@ def create_upload_token(
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
         )
 
-    if not login.state.logged_in():
+    if not login.state.logged_in() or login.user is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
     _require_upload_token_access(app_id, login)
 
@@ -320,7 +319,7 @@ def create_upload_token(
 def revoke_upload_token(
     token_id: int,
     http_request: Request,
-    login=_login_state_dependency,
+    login: LoginStatusDep,
 ):
     if config.settings.flat_manager_api is None:
         raise HTTPException(
@@ -328,7 +327,7 @@ def revoke_upload_token(
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
         )
 
-    if not login.state.logged_in():
+    if not login.state.logged_in() or login.user is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
     with get_db("replica") as db:

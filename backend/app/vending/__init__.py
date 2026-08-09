@@ -17,14 +17,14 @@ from typing import Literal
 
 import gi
 import stripe
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from .. import audit_log, cache, worker
 from ..config import settings
 from ..database import get_db, get_json_key
-from ..login_info import login_state
+from ..login_info import LoginStatusDep
 from ..models import (
     ApplicationVendingConfig,
     AuditEventType,
@@ -38,7 +38,6 @@ from ..utils import PLATFORMS, Platform
 from ..vending import prices
 from ..wallet import Wallet, WalletError
 
-_login_state_dependency = Depends(login_state)
 logger = logging.getLogger(__name__)
 
 gi.require_version("AppStream", "1.0")
@@ -222,7 +221,7 @@ router = APIRouter(prefix="/vending")
     },
 )
 @cache.private
-def status(login=_login_state_dependency) -> VendingStatus:
+def status(login: LoginStatusDep) -> VendingStatus:
     """
     Retrieve the vending status of the logged in user.
 
@@ -279,7 +278,7 @@ def status(login=_login_state_dependency) -> VendingStatus:
 )
 @cache.no_store
 def start_onboarding(
-    data: VendingOnboardingRequest, login=_login_state_dependency
+    data: VendingOnboardingRequest, login: LoginStatusDep
 ) -> VendingRedirect:
     """
     Start or continue the onboarding process.
@@ -331,7 +330,7 @@ def start_onboarding(
     },
 )
 @cache.no_store
-def get_dashboard_link(login=_login_state_dependency) -> VendingRedirect:
+def get_dashboard_link(login: LoginStatusDep) -> VendingRedirect:
     """
     Retrieve a link to the logged in user's Stripe express dashboard.
 
@@ -405,7 +404,8 @@ def get_app_vending_setup(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> VendingSetup:
     """
     Retrieve the vending status for a given application.
@@ -456,7 +456,8 @@ def post_app_vending_setup(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> VendingSetup:
     """
     Create/update the vending status for a given application.  Returns an error
@@ -523,7 +524,7 @@ def post_app_vending_setup(
     )
 
     worker.republish_app.send(app_id)
-    return get_app_vending_setup(app_id, login)
+    return get_app_vending_setup(app_id, login=login)
 
 
 @router.post(
@@ -548,7 +549,8 @@ def post_app_vending_status(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> VendingOutput:
     """
     Construct a transaction for the given application with the proposed payment.
@@ -634,7 +636,8 @@ def get_redeemable_tokens(
     ),
     page: int = 1,
     page_size: int = 10,
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> TokenList:
     """
     Retrieve the redeemable tokens for the given application.
@@ -706,7 +709,8 @@ def create_tokens(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> list[TokenModel]:
     """
     Create some tokens for the given appid.
@@ -770,7 +774,8 @@ def cancel_tokens(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> list[TokenCancellation]:
     """
     Cancel a set of tokens
@@ -830,7 +835,8 @@ def redeem_token(
         examples=["org.gnome.Glade"],
     ),
     token: str = Path(min_length=6, examples=["abc123"]),
-    login=_login_state_dependency,
+    *,
+    login: LoginStatusDep,
 ) -> RedemptionResult:
     """
     This redeems the given token for the logged in user.

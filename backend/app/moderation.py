@@ -6,7 +6,7 @@ import json
 import logging
 from collections.abc import Sequence
 from datetime import UTC, datetime
-from typing import Any
+from typing import Annotated, Any
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
@@ -30,14 +30,12 @@ from . import (
 )
 from .database import get_db, get_json_key
 from .emails import EmailCategory
-from .login_info import LoginStatusDep, moderator_only
+from .login_info import LoginStatusDep, ModeratorDep
 from .moderation_constants import should_skip_review
 from .types import ModerationRequestType
 
 router = APIRouter(prefix="/moderation")
 logger = logging.getLogger(__name__)
-_moderator_dependency = Depends(moderator_only)
-_bearer_dependency = Depends(HTTPBearer())
 
 
 _RANDOM_REVIEW_MARKER = "Randomly selected for human review"
@@ -456,7 +454,8 @@ def get_moderation_apps(
     show_handled: bool = False,
     limit: int = 100,
     offset: int = 0,
-    _moderator=_moderator_dependency,
+    *,
+    _moderator: ModeratorDep,
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
 
@@ -882,7 +881,7 @@ def _log_manifest_source_gate(
 )
 def submit_review_request(
     review_request: ReviewRequest,
-    authorization: HTTPAuthorizationCredentials = _bearer_dependency,
+    authorization: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())],
 ) -> ReviewRequestResponse:
     random_review_enabled = getattr(config.settings, "random_review_enabled", False)
     random_review_rate = getattr(config.settings, "random_review_rate", 0.01)
@@ -1811,7 +1810,7 @@ def submit_review(
     review: Review,
     login: LoginStatusDep,
     http_request: Request,
-    _moderator=_moderator_dependency,
+    _moderator: ModeratorDep,
 ) -> ReviewResponse | None:
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
     marked as successful in flat-manager."""
