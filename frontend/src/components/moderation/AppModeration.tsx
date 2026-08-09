@@ -288,6 +288,7 @@ export default AppModeration
 export const getReviewRow = (request: ModerationRequestResponse) => {
   switch (request.request_type) {
     case "appdata":
+    case "summary":
       return <AppstreamChangesRow key={request.id} request={request} />
     case "manifest":
       return (

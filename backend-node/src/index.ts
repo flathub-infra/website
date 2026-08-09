@@ -19,45 +19,7 @@ import { sentry } from "@hono/sentry"
 import { env } from "hono/adapter"
 import { fromUnixTime, isBefore, subDays } from "date-fns"
 import { checkDuplicate, markAsSent } from "./email-dedup"
-
-const RequestSchema = z.object({
-  requestType: z.literal("appdata"),
-  requestData: z.object({
-    keys: z.record(
-      z.string(),
-      z.union([
-        z.string(),
-        z.array(z.string()),
-        z.boolean(),
-        z.record(
-          z.any(),
-          z.union([
-            z.array(z.string()),
-            z.record(z.any(), z.array(z.string())),
-          ]),
-        ),
-        z.null(),
-      ]),
-    ),
-    current_values: z.record(
-      z.string(),
-      z.union([
-        z.string(),
-        z.array(z.string()),
-        z.boolean(),
-        z.record(
-          z.any(),
-          z.union([
-            z.array(z.string()),
-            z.record(z.any(), z.array(z.string())),
-          ]),
-        ),
-        z.null(),
-      ]),
-    ),
-  }),
-  isNewSubmission: z.boolean(),
-})
+import { RequestSchema } from "./moderation-request-schema"
 
 const EmailBody = z.object({
   messageId: z.string().min(3).openapi({

@@ -52,7 +52,11 @@ export interface ManifestRequest {
   isNewSubmission: false
 }
 
-export type Request = AppdataRequest | ManifestRequest
+export type SummaryRequest = Omit<AppdataRequest, "requestType"> & {
+  requestType: "summary"
+}
+
+export type Request = AppdataRequest | SummaryRequest | ManifestRequest
 
 export const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
 

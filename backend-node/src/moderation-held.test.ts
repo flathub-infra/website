@@ -4,6 +4,7 @@ import { render } from "react-email"
 import ModerationHeldEmail, { type Request } from "../emails/moderation-held"
 import ModerationApprovedEmail from "../emails/moderation-approved"
 import ModerationRejectedEmail from "../emails/moderation-rejected"
+import { RequestSchema } from "./moderation-request-schema"
 
 const randomRequest: Request = {
   requestType: "appdata",
@@ -12,6 +13,19 @@ const randomRequest: Request = {
       human_review: "Randomly selected for human review",
     },
     current_values: {},
+  },
+  isNewSubmission: false,
+}
+
+const summaryRequest: Request = {
+  requestType: "summary",
+  requestData: {
+    keys: {
+      permissions: { shared: ["network"] },
+    },
+    current_values: {
+      permissions: { shared: ["ipc"] },
+    },
   },
   isNewSubmission: false,
 }
@@ -172,6 +186,10 @@ test("does not render manifest source origins in held email", async () => {
   assertRequestDetailsNotRendered(html)
 })
 
+test("accepts summary moderation request schema", () => {
+  assert.equal(RequestSchema.safeParse(summaryRequest).success, true)
+})
+
 test("does not render permission changes in held email", async () => {
   const html = await render(
     ModerationHeldEmail({
@@ -182,20 +200,7 @@ test("does not render permission changes in held email", async () => {
       appName: "Example App",
       buildId: 123,
       buildLogUrl: "https://flathub.org/builds/123",
-      requests: [
-        {
-          requestType: "appdata",
-          requestData: {
-            keys: {
-              permissions: { shared: ["network"] },
-            },
-            current_values: {
-              permissions: { shared: ["ipc"] },
-            },
-          },
-          isNewSubmission: false,
-        },
-      ],
+      requests: [summaryRequest],
     }),
   )
 
