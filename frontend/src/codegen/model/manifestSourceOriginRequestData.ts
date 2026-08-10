@@ -5,7 +5,9 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ManifestSourceOriginFindingData } from "./manifestSourceOriginFindingData"
+import type { ManifestSourceOriginRequestDataComplexity } from "./manifestSourceOriginRequestDataComplexity"
 
 export interface ManifestSourceOriginRequestData {
   findings: ManifestSourceOriginFindingData[]
+  complexity?: ManifestSourceOriginRequestDataComplexity
 }

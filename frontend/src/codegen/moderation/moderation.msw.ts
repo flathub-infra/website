@@ -9,7 +9,11 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
-import { ModerationRequestType } from "../model"
+import {
+  ManifestChangeKind,
+  ManifestComplexityScoreBand,
+  ModerationRequestType,
+} from "../model"
 import type {
   ModerationApp,
   ModerationAppsResponse,
@@ -107,7 +111,111 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
               (_, i) => i + 1,
             ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
           })),
+          complexity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                algorithm_version: faker.number.int({ min: 1 }),
+                analysis_fingerprint: faker.helpers.fromRegExp(
+                  "^sha256:[0-9a-f]{64}$",
+                ),
+                score_units: faker.number.int({ min: 0, max: 40 }),
+                raw_score_units: faker.number.int({ min: 0 }),
+                display_score: faker.number.float({
+                  min: 0,
+                  max: 20,
+                  fractionDigits: 2,
+                }),
+                threshold_units: faker.number.int({ min: 1, max: 40 }),
+                score_band: faker.helpers.arrayElement(
+                  Object.values(ManifestComplexityScoreBand),
+                ),
+                score_breakdown: {
+                  structural_units: faker.number.int({ min: 0 }),
+                  recipe_units: faker.number.int({ min: 0 }),
+                  breadth_units: faker.number.int({ min: 0, max: 8 }),
+                  ambiguity_units: faker.number.int({ min: 0 }),
+                },
+                affected_arches: Array.from(
+                  { length: faker.number.int({ min: 1, max: 10 }) },
+                  (_, i) => i + 1,
+                ).map(() =>
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                ),
+                touched_modules: Array.from(
+                  { length: faker.number.int({ min: 1, max: 50 }) },
+                  (_, i) => i + 1,
+                ).map(() =>
+                  faker.string.alpha({ length: { min: 10, max: 20 } }),
+                ),
+                touched_modules_truncated: faker.datatype.boolean(),
+                total_touched_module_count: faker.number.int({ min: 0 }),
+                events: Array.from(
+                  { length: faker.number.int({ min: 1, max: 25 }) },
+                  (_, i) => i + 1,
+                ).map(() => ({
+                  kind: faker.helpers.arrayElement(
+                    Object.values(ManifestChangeKind),
+                  ),
+                  location: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                  }),
+                  arches: Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1,
+                  ).map(() =>
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                  ),
+                  old_summary: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                      faker.helpers.arrayElement([
+                        faker.string.alpha({ length: { min: 10, max: 20 } }),
+                        faker.number.int(),
+                        faker.number.float({ fractionDigits: 2 }),
+                        faker.datatype.boolean(),
+                        [],
+                        null,
+                      ]),
+                      null,
+                    ]),
+                    undefined,
+                  ]),
+                  new_summary: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                      faker.helpers.arrayElement([
+                        faker.string.alpha({ length: { min: 10, max: 20 } }),
+                        faker.number.int(),
+                        faker.number.float({ fractionDigits: 2 }),
+                        faker.datatype.boolean(),
+                        [],
+                        null,
+                      ]),
+                      null,
+                    ]),
+                    undefined,
+                  ]),
+                  magnitude: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                      faker.number.int({ min: 0 }),
+                      null,
+                    ]),
+                    undefined,
+                  ]),
+                })),
+                events_truncated: faker.datatype.boolean(),
+                total_event_count: faker.number.int({ min: 0 }),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
         },
+        null,
+      ]),
+      undefined,
+    ]),
+    build_log_url: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
       undefined,

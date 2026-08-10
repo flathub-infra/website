@@ -105,6 +105,8 @@ class CallbackHarness:
         build_refs=None,
         manifest_enabled=False,
         manifest_gating_enabled=False,
+        complexity_gating_enabled=False,
+        complexity_threshold_units=14,
         manifest_timeout=60.0,
         published_repo_url="https://published.example/repo",
         direct_upload_app_ids=(),
@@ -125,7 +127,7 @@ class CallbackHarness:
             if build_refs is not None
             else [
                 {
-                    "ref_name": "app/org.example/x86_64/stable",
+                    "ref_name": "app/org.example.App/x86_64/stable",
                     "commit": "a" * 64,
                 }
             ]
@@ -152,6 +154,16 @@ class CallbackHarness:
             config.settings,
             "ostree_manifest_source_origin_gating_enabled",
             manifest_gating_enabled,
+        )
+        monkeypatch.setattr(
+            config.settings,
+            "ostree_manifest_complexity_gating_enabled",
+            complexity_gating_enabled,
+        )
+        monkeypatch.setattr(
+            config.settings,
+            "ostree_manifest_complexity_threshold_units",
+            complexity_threshold_units,
         )
         monkeypatch.setattr(
             config.settings,
@@ -240,12 +252,16 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "RANDOM_REVIEW_SECRET",
         "OSTREE_MANIFEST_COMPARISON_ENABLED",
         "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED",
+        "OSTREE_MANIFEST_COMPLEXITY_GATING_ENABLED",
+        "OSTREE_MANIFEST_COMPLEXITY_THRESHOLD_UNITS",
         "OSTREE_MANIFEST_TIMEOUT_SECONDS",
         "random_review_enabled",
         "random_review_rate",
         "random_review_secret",
         "ostree_manifest_comparison_enabled",
         "ostree_manifest_source_origin_gating_enabled",
+        "ostree_manifest_complexity_gating_enabled",
+        "ostree_manifest_complexity_threshold_units",
         "ostree_manifest_timeout_seconds",
     ):
         monkeypatch.delenv(name, raising=False)
@@ -257,6 +273,8 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
     assert settings.random_review_secret is None
     assert settings.ostree_manifest_comparison_enabled is False
     assert settings.ostree_manifest_source_origin_gating_enabled is False
+    assert settings.ostree_manifest_complexity_gating_enabled is False
+    assert settings.ostree_manifest_complexity_threshold_units == 14
     assert settings.ostree_manifest_timeout_seconds == 60.0
 
 
@@ -287,6 +305,23 @@ def test_manifest_origin_gate_requires_manifest_comparison():
             ostree_manifest_comparison_enabled=False,
             ostree_manifest_source_origin_gating_enabled=True,
         )
+
+
+def test_manifest_complexity_gate_requires_manifest_comparison():
+    with pytest.raises(
+        ValidationError,
+        match="OSTREE_MANIFEST_COMPLEXITY_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED",
+    ):
+        config.Settings(
+            ostree_manifest_comparison_enabled=False,
+            ostree_manifest_complexity_gating_enabled=True,
+        )
+
+
+@pytest.mark.parametrize("threshold", [0, 41])
+def test_manifest_complexity_threshold_bounds(threshold):
+    with pytest.raises(ValidationError):
+        config.Settings(ostree_manifest_complexity_threshold_units=threshold)
 
 
 def test_canonical_identity_is_independent_of_reference_order():
@@ -712,6 +747,31 @@ def test_manifest_rejection_issue_formats_source_data(monkeypatch):
 
     monkeypatch.setattr(config.settings, "github_bot_token", "token")
     monkeypatch.setattr(moderation, "Github", FakeGithub)
+    complexity = {
+        "score_units": 15,
+        "raw_score_units": 15,
+        "threshold_units": 14,
+        "score_band": "large",
+        "score_breakdown": {
+            "structural_units": 5,
+            "recipe_units": 6,
+            "breadth_units": 2,
+            "ambiguity_units": 2,
+        },
+        "affected_arches": ["aarch64", "x86_64"],
+        "touched_modules": ["modules/main"],
+        "touched_modules_truncated": True,
+        "total_touched_module_count": 51,
+        "events": [
+            {
+                "kind": "module_match_ambiguous",
+                "location": "modules/main",
+                "arches": ["aarch64", "x86_64"],
+            }
+        ],
+        "events_truncated": True,
+        "total_event_count": 26,
+    }
     request = SimpleNamespace(
         appid="org.example.App",
         build_id=123,
@@ -731,7 +791,8 @@ def test_manifest_rejection_issue_formats_source_data(monkeypatch):
                         },
                         "arches": ["aarch64", "x86_64"],
                     }
-                ]
+                ],
+                "complexity": complexity,
             }
         ),
     )
@@ -747,6 +808,16 @@ def test_manifest_rejection_issue_formats_source_data(monkeypatch):
     assert "aarch64, x86_64" in created["body"]
     assert "| Field |" not in created["body"]
     assert "New value" not in created["body"]
+    assert "## Manifest packaging complexity" in created["body"]
+    assert "not a security-risk or malicious-change assessment" in created["body"]
+    assert "module_match_ambiguous" in created["body"]
+    assert "Showing 1 of 26 events" in created["body"]
+    assert "Showing 1 of 51 modules" in created["body"]
+
+    request.request_data = json.dumps({"findings": [], "complexity": complexity})
+    moderation.create_github_build_rejection_issue(request)
+    assert "## Manifest packaging complexity" in created["body"]
+    assert "## Manifest source origin changes" not in created["body"]
 
 
 def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypatch):
@@ -818,6 +889,23 @@ def _source_manifest_pair(arch="x86_64", *, app_id="org.example.App"):
                     }
                 ],
             }
+        ]
+    }
+    return pair
+
+
+def _complexity_pair():
+    pair = _manifest_pair("x86_64", changed=True)
+    pair.published_manifest = {
+        "modules": [
+            {"name": "main", "buildsystem": "simple"},
+            {"name": "commands", "build-commands": ["echo old"]},
+        ]
+    }
+    pair.candidate_manifest = {
+        "modules": [
+            {"name": "main", "buildsystem": "meson"},
+            {"name": "commands", "build-commands": ["echo new"]},
         ]
     }
     return pair
@@ -1191,18 +1279,21 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     assert len(harness.db.session.persisted) == 1
     request = harness.db.session.persisted[0]
     assert request.request_type == ModerationRequestType.MANIFEST
-    assert json.loads(request.request_data) == {
-        "findings": [
-            {
-                "arches": ["x86_64"],
-                "locations_by_origin": {
-                    "https://github.com/foo/bar": ['modules["app"].sources[0].url']
-                },
-                "origins_added": ["https://github.com/foo/bar"],
-                "origins_removed": [],
-            }
-        ]
-    }
+    request_body = json.loads(request.request_data)
+    assert request_body["findings"] == [
+        {
+            "arches": ["x86_64"],
+            "locations_by_origin": {
+                "https://github.com/foo/bar": ['modules["app"].sources[0].url']
+            },
+            "origins_added": ["https://github.com/foo/bar"],
+            "origins_removed": [],
+        }
+    ]
+    assert request_body["complexity"]["algorithm_version"] == 3
+    assert request_body["complexity"]["score_units"] == 5
+    assert request_body["complexity"]["threshold_units"] == 14
+    assert request_body["complexity"]["analysis_fingerprint"].startswith("sha256:")
     assert request.request_data == json.dumps(
         json.loads(request.request_data),
         ensure_ascii=True,
@@ -1214,6 +1305,98 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     assert request.build_log_url == "https://logs.example/build"
     assert request.is_new_submission is False
     assert len(harness.emails) == 1
+
+
+def test_complexity_disabled_logs_without_request(monkeypatch, caplog):
+    caplog.set_level(logging.INFO, logger=moderation.__name__)
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        complexity_gating_enabled=False,
+        complexity_threshold_units=12,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_complexity_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    record = next(
+        record
+        for record in caplog.records
+        if record.getMessage() == "Evaluated manifest packaging complexity for app"
+    )
+    assert record.score_units == 12
+    assert record.would_gate is True
+    assert record.gating_enabled is False
+    assert record.gate_suppressed_reason == "gating-disabled"
+
+
+def test_complexity_at_threshold_creates_one_manifest_request(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=True,
+        rate=1,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        complexity_gating_enabled=True,
+        complexity_threshold_units=12,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_complexity_pair(),),
+    )
+
+    first = harness.call()
+    second = harness.call()
+
+    assert first.requires_review is True
+    assert second.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    assert len(harness.emails) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.MANIFEST
+    body = json.loads(request.request_data)
+    assert body["findings"] == []
+    assert body["complexity"]["score_units"] == 12
+    assert body["complexity"]["raw_score_units"] == 12
+    assert body["complexity"]["score_breakdown"] == {
+        "ambiguity_units": 0,
+        "breadth_units": 2,
+        "recipe_units": 10,
+        "structural_units": 0,
+    }
+
+
+def test_complexity_only_is_suppressed_by_appdata_request(monkeypatch):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        manifest_enabled=True,
+        complexity_gating_enabled=True,
+        complexity_threshold_units=12,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_complexity_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.persisted[0].request_type == ModerationRequestType.APPDATA
 
 
 @pytest.mark.parametrize(
