@@ -5,12 +5,13 @@ from uuid import uuid4
 
 import gi
 import jwt
-from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Body, FastAPI, HTTPException
 from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
 
-from .. import cache, config, login_info, models, summary
+from .. import cache, config, models, summary
 from ..database import get_db, get_json_key
+from ..login_info import LoginStatusDep
 from ..verification import VerificationStatus, get_verification_status, is_appid_runtime
 
 gi.require_version("AppStream", "1.0")
@@ -104,9 +105,7 @@ def get_is_free_software(app_id: str, license: str | None = None) -> bool:
     """
     if is_appid_runtime(app_id):
         return True
-    if license and AppStream.license_is_free_license(license):
-        return True
-    return False
+    return bool(license and AppStream.license_is_free_license(license))
 
 
 class GenerateUpdateTokenResponse(BaseModel):
@@ -124,7 +123,7 @@ class GenerateUpdateTokenResponse(BaseModel):
 )
 @cache.no_store
 def get_update_token(
-    login=Depends(login_info.login_state),
+    login: LoginStatusDep,
 ) -> GenerateUpdateTokenResponse:
     """
     Generates an update token for a user account. This token allows the user to generate download tokens for apps they
@@ -160,7 +159,7 @@ def _check_purchases(appids: list[str], user_id: int) -> None:
                 return app_id.removesuffix("." + suffix)
         return app_id
 
-    canon_appids = list(set([canon_app_id(app_id) for app_id in appids]))
+    canon_appids = list({canon_app_id(app_id) for app_id in appids})
 
     with get_db("replica") as db:
         unowned = [
@@ -192,7 +191,7 @@ class CheckPurchasesResponseSuccess(BaseModel):
     },
 )
 def check_purchases(
-    appids: list[str], login=Depends(login_info.login_state)
+    appids: list[str], login: LoginStatusDep
 ) -> CheckPurchasesResponseSuccess:
     """
     Checks whether the logged in user is able to download all of the given app refs.

@@ -2,12 +2,12 @@ import datetime
 from dataclasses import dataclass
 from typing import Literal, cast
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
+from fastapi import APIRouter, FastAPI, HTTPException, Path
 from pydantic import BaseModel
 
 from .. import cache
 from ..database import get_db, get_json_key
-from ..login_info import quality_moderator_only, quality_moderator_or_app_author_only
+from ..login_info import QualityModeratorDep, QualityModeratorOrAppAuthorDep
 from ..models import (
     App,
     AppPickRecommendationsResponse,
@@ -85,7 +85,8 @@ def get_quality_moderation_status(
     page: int = 1,
     page_size: int = 25,
     filter: Literal["all", "passing", "todo"] = "all",
-    _moderator=Depends(quality_moderator_only),
+    *,
+    _moderator: QualityModeratorDep,
 ) -> QualityModerationDashboardResponse:
     if page < 1:
         raise HTTPException(
@@ -143,9 +144,12 @@ def get_passing_quality_apps(
 )
 @cache.private
 def get_app_pick_recommendations(
-    recommendation_date: datetime.date = datetime.date.today(),
-    _moderator=Depends(quality_moderator_only),
+    recommendation_date: datetime.date | None = None,
+    *,
+    _moderator: QualityModeratorDep,
 ) -> AppPickRecommendationsResponse:
+    if recommendation_date is None:
+        recommendation_date = datetime.datetime.now(datetime.UTC).date()
     with get_db("replica") as db:
         return App.app_pick_recommendations(db, recommendation_date)
 
@@ -162,7 +166,7 @@ def get_app_pick_recommendations(
 )
 @cache.private
 def get_quality_moderation_stats(
-    _moderator=Depends(quality_moderator_only),
+    _moderator: QualityModeratorDep,
 ) -> list[FailedByGuideline]:
     with get_db("replica") as db:
         return cast("list[FailedByGuideline]", QualityModeration.group_by_guideline(db))
@@ -180,7 +184,7 @@ def get_quality_moderation_stats(
 )
 @cache.private
 def get_quality_moderation_stats_by_category(
-    _moderator=Depends(quality_moderator_only),
+    _moderator: QualityModeratorDep,
 ) -> list[GuidelineStatsByCategory]:
     with get_db("replica") as db:
         return cast(
@@ -219,7 +223,7 @@ def get_quality_moderation_for_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None
@@ -271,7 +275,8 @@ def set_quality_moderation_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_only),
+    *,
+    moderator: QualityModeratorDep,
 ) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -288,7 +293,7 @@ def set_quality_moderation_for_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None
@@ -340,7 +345,8 @@ def get_quality_moderation_status_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    _moderator=Depends(quality_moderator_or_app_author_only),
+    *,
+    _moderator: QualityModeratorOrAppAuthorDep,
 ) -> QualityModerationStatus:
     with get_db("replica") as db:
         app = App.by_appid(db, app_id)
@@ -370,7 +376,8 @@ def request_review_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_or_app_author_only),
+    *,
+    moderator: QualityModeratorOrAppAuthorDep,
 ):
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -399,7 +406,8 @@ def delete_review_request_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    _moderator=Depends(quality_moderator_only),
+    *,
+    _moderator: QualityModeratorDep,
 ) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -414,7 +422,7 @@ def delete_review_request_for_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None
@@ -465,7 +473,8 @@ def set_fullscreen_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_only),
+    *,
+    moderator: QualityModeratorDep,
 ) -> QualityModerationResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
@@ -480,7 +489,7 @@ def set_fullscreen_app(
                 updated_at=(
                     quality_moderation.updated_at
                     if quality_moderation
-                    else datetime.datetime.min
+                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
                 ),
                 updated_by=(
                     quality_moderation.updated_by if quality_moderation else None

@@ -1,3 +1,4 @@
+import logging
 import re
 from enum import StrEnum
 
@@ -7,6 +8,8 @@ from . import database, localize, models, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream  # ty: ignore[unresolved-import]
+
+logger = logging.getLogger(__name__)
 
 clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()
@@ -72,16 +75,15 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
                 if k in ("name", "summary", "description"):
                     if isinstance(v, str) and len(v) > 0:
                         filtered_translations[k] = v
-                elif k == "keywords":
-                    if isinstance(v, list) and len(v) > 0:
-                        keywords = [
-                            keyword
-                            for keyword in v
-                            if isinstance(keyword, str) and len(keyword) > 0
-                        ]
-                        if keywords:
-                            filtered_translations[k] = keywords
-                            localized_keywords_set.update(keywords)
+                elif k == "keywords" and isinstance(v, list) and len(v) > 0:
+                    keywords = [
+                        keyword
+                        for keyword in v
+                        if isinstance(keyword, str) and len(keyword) > 0
+                    ]
+                    if keywords:
+                        filtered_translations[k] = keywords
+                        localized_keywords_set.update(keywords)
 
             description = filtered_translations.get("description")
             if isinstance(description, str):
@@ -203,9 +205,9 @@ def load_appstream(sqldb) -> None:
                 )
                 sqldb.session.add(app)
                 sqldb.session.commit()
-        except Exception as e:
+        except Exception:
             sqldb.session.rollback()
-            print(f"Error updating app {app_id}: {str(e)}")
+            logger.exception("Error updating app %s", app_id)
 
     search.create_or_update_apps(search_apps)
 
@@ -298,13 +300,13 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
             if not has_version:
                 extension_ids.append(f"{ext_id}//{branch}")
 
-        addons = set(
+        addons = {
             f"{addon.app_id}//{addon.summary.get('branch', branch) if addon.summary else branch}"
             for addon in sqldb.query(models.App)
             .filter(models.App.type == "addon")
             .filter(~models.App.is_eol)
             .all()
-        )
+        }
 
         for addon in addons:
             for extension_id in extension_ids:

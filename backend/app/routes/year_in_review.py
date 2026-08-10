@@ -1,11 +1,11 @@
 import datetime
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
 from pydantic import BaseModel
 
 from .. import cache, stats
 from ..database import get_db
-from ..login_info import LoginInformation, login_state
+from ..login_info import LoginStatusDep
 
 router = APIRouter(
     prefix="/year-in-review",
@@ -137,9 +137,10 @@ async def get_year_in_review(
         description="Year to get statistics for",
     ),
     locale: str = "en",
-    login: LoginInformation = Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> YearInReviewResult:
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     current_year = now.year
     current_month = now.month
     current_day = now.day

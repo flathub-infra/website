@@ -1,7 +1,7 @@
 import base64
 import datetime
 from enum import StrEnum
-from typing import Any
+from typing import Annotated, Any
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
@@ -68,38 +68,37 @@ def send_email_new(payload: dict, db):
         "messageInfo" in payload
         and "appId" in payload["messageInfo"]
         and payload["messageInfo"]["appId"] is not None
+    ) and (
+        "inform_only_moderators" not in payload["messageInfo"]
+        or not payload["messageInfo"]["inform_only_moderators"]
     ):
-        if (
-            "inform_only_moderators" not in payload["messageInfo"]
-            or not payload["messageInfo"]["inform_only_moderators"]
-        ):
-            # Get the developers of the app
-            by_github_repo = (
-                db.session.query(models.FlathubUser)
-                .filter(
-                    models.FlathubUser.id.in_(
-                        select(models.GithubAccount.user).where(
-                            models.GithubAccount.id
-                            == models.GithubRepository.github_account,
-                            models.GithubRepository.reponame
-                            == payload["messageInfo"]["appId"],
-                        )
+        # Get the developers of the app
+        by_github_repo = (
+            db.session.query(models.FlathubUser)
+            .filter(
+                models.FlathubUser.id.in_(
+                    select(models.GithubAccount.user).where(
+                        models.GithubAccount.id
+                        == models.GithubRepository.github_account,
+                        models.GithubRepository.reponame
+                        == payload["messageInfo"]["appId"],
                     )
                 )
-                .all()
             )
-            for user in by_github_repo:
-                _get_destination_and_append(payload, db, messages, user)
+            .all()
+        )
+        for user in by_github_repo:
+            _get_destination_and_append(payload, db, messages, user)
 
-            direct_upload_app = models.DirectUploadApp.by_app_id(
-                db, payload["messageInfo"]["appId"]
+        direct_upload_app = models.DirectUploadApp.by_app_id(
+            db, payload["messageInfo"]["appId"]
+        )
+        if direct_upload_app is not None:
+            by_direct_upload = models.DirectUploadAppDeveloper.by_app(
+                db, direct_upload_app
             )
-            if direct_upload_app is not None:
-                by_direct_upload = models.DirectUploadAppDeveloper.by_app(
-                    db, direct_upload_app
-                )
-                for _dev, user in by_direct_upload:
-                    _get_destination_and_append(payload, db, messages, user)
+            for _dev, user in by_direct_upload:
+                _get_destination_and_append(payload, db, messages, user)
 
     if "inform_only_moderators" in payload or "inform_moderators" in payload:
         users_with_moderator_permissions = models.FlathubUser.by_permission(
@@ -134,7 +133,7 @@ def send_one_email_new(payload: dict, dest: str):
     result = http_client.post(f"{settings.backend_node_url}/emails", json=payload)
 
     if result.status_code != 200:
-        raise Exception(
+        raise RuntimeError(
             "Failed to send email",
             result.text or None,
             payload,
@@ -162,7 +161,7 @@ class BuildNotificationRequest(BaseModel):
 )
 def build_notification(
     request: BuildNotificationRequest,
-    authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+    authorization: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())],
 ):
     from . import worker
 
@@ -192,7 +191,7 @@ def build_notification(
 
     payload = {
         "messageId": f"{request.build_repo}/{request.build_id}",
-        "creation_timestamp": datetime.datetime.now().timestamp(),
+        "creation_timestamp": datetime.datetime.now(datetime.UTC).timestamp(),
         "subject": subject,
         "previewText": subject,
         "messageInfo": {

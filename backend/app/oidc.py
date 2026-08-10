@@ -111,7 +111,7 @@ def validate_oidc_client_configuration(
         try:
             parsed = urlsplit(value)
             hostname = parsed.hostname
-            parsed.port
+            _ = parsed.port
         except ValueError as error:
             raise ValueError("Redirect URI is not a valid absolute URL") from error
         if not parsed.scheme or not parsed.netloc or hostname is None:
@@ -119,9 +119,11 @@ def validate_oidc_client_configuration(
 
         scheme = parsed.scheme.lower()
         normalized_hostname = hostname.lower()
-        if scheme == "https":
-            pass
-        elif scheme == "http" and normalized_hostname in {"localhost", "127.0.0.1"}:
+        if (
+            scheme == "https"
+            or scheme == "http"
+            and normalized_hostname in {"localhost", "127.0.0.1"}
+        ):
             pass
         else:
             raise ValueError(

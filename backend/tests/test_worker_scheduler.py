@@ -61,7 +61,7 @@ def test_cron_jobs_loaded_for_prune_and_app_picks():
 
 
 def test_oidc_cleanup_retains_codes_with_derived_tokens():
-    from datetime import datetime
+    from datetime import UTC, datetime
 
     from sqlalchemy import delete
     from sqlalchemy.dialects import postgresql
@@ -70,7 +70,7 @@ def test_oidc_cleanup_retains_codes_with_derived_tokens():
     from app.worker.prune_oidc_tokens import _authorization_code_cleanup_condition
 
     expired_or_consumed, no_derived_tokens = _authorization_code_cleanup_condition(
-        datetime(2026, 1, 1)
+        datetime(2026, 1, 1, tzinfo=UTC)
     )
     statement = delete(models.OidcAuthorizationCode).where(
         expired_or_consumed,

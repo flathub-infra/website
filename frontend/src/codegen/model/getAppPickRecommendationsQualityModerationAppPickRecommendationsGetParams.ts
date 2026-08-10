@@ -7,5 +7,5 @@
 
 export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams =
   {
-    recommendation_date?: string
+    recommendation_date?: string | null
   }

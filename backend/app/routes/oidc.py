@@ -364,13 +364,12 @@ def authorize(
     if client.require_pkce and code_challenge is None:
         return _error_redirect(redirect_uri, "invalid_request", state)
 
-    if code_challenge is not None or code_challenge_method is not None:
-        if (
-            code_challenge is None
-            or code_challenge_method != "S256"
-            or not valid_pkce_value(code_challenge)
-        ):
-            return _error_redirect(redirect_uri, "invalid_request", state)
+    if (code_challenge is not None or code_challenge_method is not None) and (
+        code_challenge is None
+        or code_challenge_method != "S256"
+        or not valid_pkce_value(code_challenge)
+    ):
+        return _error_redirect(redirect_uri, "invalid_request", state)
 
     if "none" in prompt_values and (not login.state.logged_in() or login.user is None):
         return _error_redirect(redirect_uri, "login_required", state)
@@ -849,11 +848,10 @@ def _handle_authorization_code_grant(
         if now > row.expires_at:
             raise OidcTokenError("invalid_grant")
 
-        if row.code_challenge is not None:
-            if not code_verifier or not verify_pkce_s256(
-                code_verifier, row.code_challenge
-            ):
-                raise OidcTokenError("invalid_grant")
+        if row.code_challenge is not None and (
+            not code_verifier or not verify_pkce_s256(code_verifier, row.code_challenge)
+        ):
+            raise OidcTokenError("invalid_grant")
 
         replayed_at = db.session.execute(
             select(models.OidcAuthorizationCode.replayed_at)
@@ -1109,8 +1107,10 @@ def _userinfo(request: Request, access_token: str | None):
 
         if "email" in scopes:
             default_account = user.get_default_account(db)
-            if default_account is not None:
-                if getattr(default_account, "email", None) is not None:
-                    claims["email"] = default_account.email
+            if (
+                default_account is not None
+                and getattr(default_account, "email", None) is not None
+            ):
+                claims["email"] = default_account.email
 
         return claims

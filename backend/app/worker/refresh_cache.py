@@ -1,10 +1,13 @@
 import asyncio
+import logging
 
 import dramatiq
 from fastapi import Response
 
 from .. import cache, models
 from ..database import get_db
+
+logger = logging.getLogger(__name__)
 
 
 async def _refresh_cache_impl():
@@ -28,25 +31,25 @@ async def _prepopulate_cache():
             await apps.get_summary(app_id=app_id)
             await apps.get_isFullscreenApp(app_id=app_id)
             await apps.get_addons(app_id=app_id)
-        except Exception as e:
-            print(f"Error prepopulating appstream for {app_id}: {e}")
+        except Exception:
+            logger.exception("Error prepopulating app data for %s", app_id)
 
         try:
             await apps.get_eol_rebase_appid(app_id=app_id, branch="stable")
             await apps.get_eol_message_appid(app_id=app_id, branch="stable")
-        except Exception as e:
-            print(f"Error prepopulating EOL for {app_id}: {e}")
+        except Exception:
+            logger.exception("Error prepopulating EOL data for %s", app_id)
 
         try:
             quality_moderation.get_quality_moderation_for_app(app_id=app_id)
-        except Exception as e:
-            print(f"Error prepopulating quality moderation for {app_id}: {e}")
+        except Exception:
+            logger.exception("Error prepopulating quality moderation for %s", app_id)
 
         try:
             response = Response()
             await stats.get_stats_for_app(response=response, app_id=app_id)
-        except Exception as e:
-            print(f"Error prepopulating stats for {app_id}: {e}")
+        except Exception:
+            logger.exception("Error prepopulating stats for %s", app_id)
 
 
 def _get_top_apps(limit: int = 1000) -> list[str]:

@@ -3,7 +3,9 @@ from math import sqrt
 
 # based on https://stackoverflow.com/a/826509
 class zscore:
-    def __init__(self, decay, pop=[]):
+    def __init__(self, decay, pop=None):
+        if pop is None:
+            pop = []
         self.sqrAvg = self.avg = 0
         # The rate at which the historic data's effect will diminish.
         self.decay = decay

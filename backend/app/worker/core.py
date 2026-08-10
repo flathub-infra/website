@@ -1,5 +1,7 @@
 from ..config import settings
-from ..dramatiq_broker import broker as broker
+from ..dramatiq_broker import broker
+
+__all__ = ["broker"]
 
 if settings.sentry_dsn:
     import sentry_sdk

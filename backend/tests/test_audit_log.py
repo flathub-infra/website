@@ -9,7 +9,7 @@ sys.path.append(ROOT_DIR)
 # app.search connects to Meilisearch at import time; stub it out for unit tests.
 sys.modules["app.search"] = SimpleNamespace()
 
-from app import audit_log, models  # noqa: E402
+from app import audit_log, models
 
 
 class FakeSession:

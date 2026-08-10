@@ -3577,16 +3577,18 @@ def test_authorization_code_failure_burns_code_in_postgres():
             finally:
                 session.close()
 
-        with patch("app.routes.oidc.get_db", side_effect=real_writer_db):
-            with pytest.raises(oidc_routes.OidcTokenError):
-                oidc_routes._handle_authorization_code_grant(
-                    "test-client",
-                    CLIENT_SECRET,
-                    "test-code",
-                    "https://evil.example.com/callback",
-                    None,
-                    now,
-                )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=real_writer_db),
+            pytest.raises(oidc_routes.OidcTokenError),
+        ):
+            oidc_routes._handle_authorization_code_grant(
+                "test-client",
+                CLIENT_SECRET,
+                "test-code",
+                "https://evil.example.com/callback",
+                None,
+                now,
+            )
 
         consumed_at = connection.execute(
             text("SELECT consumed_at FROM oidcauthorizationcode WHERE id = 1")

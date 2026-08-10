@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlalchemy import func, update
 
 from .. import audit_log, cache, models, utils
 from ..database import get_db
-from ..login_info import manage_oidc_clients_only
+from ..login_info import ManageOidcClientsDep
 from ..oidc import (
     generate_token,
     hash_client_secret,
@@ -123,7 +123,7 @@ def _client_details(client: models.OidcClient) -> dict[str, object]:
 @router.get("")
 @cache.private
 def list_oidc_clients(
-    _login=Depends(manage_oidc_clients_only),
+    _login: ManageOidcClientsDep,
 ) -> list[OidcClientResult]:
     with get_db("replica") as db:
         clients = (
@@ -139,7 +139,7 @@ def list_oidc_clients(
 def create_oidc_client(
     request: OidcClientCreate,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login: ManageOidcClientsDep,
 ) -> OidcClientCreated:
     if not request.name.strip():
         raise HTTPException(status_code=422, detail="name cannot be empty")
@@ -184,7 +184,7 @@ def create_oidc_client(
 @cache.private
 def get_oidc_client(
     client_id: str,
-    _login=Depends(manage_oidc_clients_only),
+    _login: ManageOidcClientsDep,
 ) -> OidcClientResult:
     with get_db("replica") as db:
         client = _client_or_404(db, client_id)
@@ -196,7 +196,7 @@ def update_oidc_client(
     client_id: str,
     request: OidcClientPatch,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login: ManageOidcClientsDep,
 ) -> OidcClientResult:
     with get_db("writer") as db:
         client = _client_or_404(db, client_id)
@@ -260,7 +260,7 @@ def update_oidc_client(
 def rotate_oidc_client_secret(
     client_id: str,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login: ManageOidcClientsDep,
 ) -> OidcClientCreated:
     client_secret = generate_token()
     with get_db("writer") as db:
@@ -288,7 +288,7 @@ def rotate_oidc_client_secret(
 def disable_oidc_client(
     client_id: str,
     http_request: Request,
-    login=Depends(manage_oidc_clients_only),
+    login: ManageOidcClientsDep,
 ) -> OidcClientResult:
     now = utils.utcnow()
     with get_db("writer") as db:

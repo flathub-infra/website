@@ -182,9 +182,11 @@ def get_all_appids_for_frontend():
         )
 
     for app in apps:
-        if app.type == "desktop-application":
-            appids.append(app.app_id)
-        elif app.type == "console-application" and is_appid_for_frontend(app.app_id):
+        if (
+            app.type == "desktop-application"
+            or app.type == "console-application"
+            and is_appid_for_frontend(app.app_id)
+        ):
             appids.append(app.app_id)
 
     return appids

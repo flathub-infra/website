@@ -4,7 +4,6 @@ Implementation details for a Stripe based wallet for Flathub
 This will be used if the app starts with Stripe credentials available
 """
 
-from datetime import datetime
 from itertools import dropwhile
 
 import stripe
@@ -16,7 +15,7 @@ from ..config import settings
 from ..database import get_db
 from ..db_session import DBSession
 from ..models import FlathubUser, StripeCustomer
-from ..utils import PLATFORMS_WITH_STRIPE
+from ..utils import PLATFORMS_WITH_STRIPE, utcnow
 from .walletbase import (
     NascentTransaction,
     PaymentCardInfo,
@@ -391,8 +390,8 @@ class StripeWallet(WalletBase):
                 currency=transaction.summary.currency,
                 kind=transaction.summary.kind,
                 status="new",
-                created=datetime.now(),
-                updated=datetime.now(),
+                created=utcnow(),
+                updated=utcnow(),
             )
 
             db.session.add(txn)
@@ -568,7 +567,7 @@ class StripeWallet(WalletBase):
             db, transaction = get_transaction_from_webhook(data)
             if transaction is not None and db is not None:
                 transaction.status = "success"
-                transaction.updated = datetime.now()
+                transaction.updated = utcnow()
                 transaction.reason = ""
                 db.session.add(transaction)
                 transaction.update_app_ownership(db)
@@ -581,7 +580,7 @@ class StripeWallet(WalletBase):
                 failure_message = last_error.get("message", "Payment failed")
 
                 transaction.status = "retry"
-                transaction.updated = datetime.now()
+                transaction.updated = utcnow()
                 transaction.reason = f"Payment failed: {failure_message}"
                 db.session.add(transaction)
                 db.session.commit()
@@ -594,7 +593,7 @@ class StripeWallet(WalletBase):
                 )
 
                 transaction.status = "cancelled"
-                transaction.updated = datetime.now()
+                transaction.updated = utcnow()
                 transaction.reason = f"Cancelled: {cancellation_reason}"
                 db.session.add(transaction)
                 db.session.commit()
@@ -612,7 +611,7 @@ class StripeWallet(WalletBase):
             if txn.status not in ["new", "retry", "pending"]:
                 raise WalletError(error="bad transaction status")
             txn.status = "pending"
-            txn.updated = datetime.now()
+            txn.updated = utcnow()
             db.session.add(txn)
             db.session.commit()
 

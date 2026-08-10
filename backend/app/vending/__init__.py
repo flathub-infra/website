@@ -11,19 +11,20 @@ The core vending behaviours are:
 """
 
 import datetime
+import logging
 from math import ceil
 from typing import Literal
 
 import gi
 import stripe
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from .. import audit_log, cache, worker
 from ..config import settings
 from ..database import get_db, get_json_key
-from ..login_info import login_state
+from ..login_info import LoginStatusDep
 from ..models import (
     ApplicationVendingConfig,
     AuditEventType,
@@ -36,6 +37,8 @@ from ..models import (
 from ..utils import PLATFORMS, Platform
 from ..vending import prices
 from ..wallet import Wallet, WalletError
+
+logger = logging.getLogger(__name__)
 
 gi.require_version("AppStream", "1.0")
 
@@ -218,7 +221,7 @@ router = APIRouter(prefix="/vending")
     },
 )
 @cache.private
-def status(login=Depends(login_state)) -> VendingStatus:
+def status(login: LoginStatusDep) -> VendingStatus:
     """
     Retrieve the vending status of the logged in user.
 
@@ -275,7 +278,7 @@ def status(login=Depends(login_state)) -> VendingStatus:
 )
 @cache.no_store
 def start_onboarding(
-    data: VendingOnboardingRequest, login=Depends(login_state)
+    data: VendingOnboardingRequest, login: LoginStatusDep
 ) -> VendingRedirect:
     """
     Start or continue the onboarding process.
@@ -327,7 +330,7 @@ def start_onboarding(
     },
 )
 @cache.no_store
-def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
+def get_dashboard_link(login: LoginStatusDep) -> VendingRedirect:
     """
     Retrieve a link to the logged in user's Stripe express dashboard.
 
@@ -401,7 +404,8 @@ def get_app_vending_setup(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> VendingSetup:
     """
     Retrieve the vending status for a given application.
@@ -452,7 +456,8 @@ def post_app_vending_setup(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> VendingSetup:
     """
     Create/update the vending status for a given application.  Returns an error
@@ -519,7 +524,7 @@ def post_app_vending_setup(
     )
 
     worker.republish_app.send(app_id)
-    return get_app_vending_setup(app_id, login)
+    return get_app_vending_setup(app_id, login=login)
 
 
 @router.post(
@@ -544,7 +549,8 @@ def post_app_vending_status(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> VendingOutput:
     """
     Construct a transaction for the given application with the proposed payment.
@@ -630,7 +636,8 @@ def get_redeemable_tokens(
     ),
     page: int = 1,
     page_size: int = 10,
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> TokenList:
     """
     Retrieve the redeemable tokens for the given application.
@@ -702,7 +709,8 @@ def create_tokens(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> list[TokenModel]:
     """
     Create some tokens for the given appid.
@@ -766,7 +774,8 @@ def cancel_tokens(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> list[TokenCancellation]:
     """
     Cancel a set of tokens
@@ -793,8 +802,8 @@ def cancel_tokens(
                     token.cancel(db)
                     db.commit()
                     ret.append(TokenCancellation(token=token_str, status="cancelled"))
-                except Exception as base_exc:
-                    print(f"Failure cancelling {token_str} for {app_id}: {base_exc}")
+                except Exception:
+                    logger.exception("Failure cancelling %s for %s", token_str, app_id)
                     ret.append(TokenCancellation(token=token_str, status="error"))
 
     return ret
@@ -826,7 +835,8 @@ def redeem_token(
         examples=["org.gnome.Glade"],
     ),
     token: str = Path(min_length=6, examples=["abc123"]),
-    login=Depends(login_state),
+    *,
+    login: LoginStatusDep,
 ) -> RedemptionResult:
     """
     This redeems the given token for the logged in user.
@@ -879,7 +889,7 @@ def app_info(
     appstream = get_json_key(f"apps:{app_id}")
     if appstream is None:
         raise HTTPException(status_code=404, detail=f"Application {app_id} not found")
-    print(f"Found {app_id}: {repr(appstream)}")
+    print(f"Found {app_id}: {appstream!r}")
 
     kind = "GENERIC"
     kind_reason = "unknown"
@@ -903,7 +913,7 @@ def app_info(
         kind_reason = "Found 'Office' in application categories"
     else:
         kind = "GENERIC"
-        kind_reason = f"Unable to categorise based on {repr(app_cats)}"
+        kind_reason = f"Unable to categorise based on {app_cats!r}"
 
     return VendingApplicationInformation(
         app_id=app_id,

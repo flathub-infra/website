@@ -1,6 +1,7 @@
 import functools
 import hashlib
 import inspect
+import logging
 import time
 from collections.abc import Awaitable, Callable
 from enum import Enum
@@ -13,6 +14,8 @@ from starlette.datastructures import MutableHeaders
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from . import database
+
+logger = logging.getLogger(__name__)
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -82,36 +85,35 @@ def _deserialize_value(data: dict, expected_type: type | None) -> Any:
         return value
 
     origin = get_origin(expected_type)
-    if origin is Annotated:
-        if isinstance(value, dict):
-            args = get_args(expected_type)
-            union_type = args[0]
-            union_members = get_args(union_type)
+    if origin is Annotated and isinstance(value, dict):
+        args = get_args(expected_type)
+        union_type = args[0]
+        union_members = get_args(union_type)
 
-            for member in union_members:
-                if hasattr(member, "model_fields"):
-                    for field_name, field_info in member.model_fields.items():
-                        if field_name in value and isinstance(value[field_name], str):
-                            field_type = field_info.annotation
-                            origin_type = get_origin(field_type)
-                            if origin_type is Literal:
-                                literal_args = get_args(field_type)
-                                for arg in literal_args:
-                                    if (
-                                        isinstance(arg, Enum)
-                                        and arg.value == value[field_name]
-                                    ):
-                                        value[field_name] = arg
-                                        break
+        for member in union_members:
+            if hasattr(member, "model_fields"):
+                for field_name, field_info in member.model_fields.items():
+                    if field_name in value and isinstance(value[field_name], str):
+                        field_type = field_info.annotation
+                        origin_type = get_origin(field_type)
+                        if origin_type is Literal:
+                            literal_args = get_args(field_type)
+                            for arg in literal_args:
+                                if (
+                                    isinstance(arg, Enum)
+                                    and arg.value == value[field_name]
+                                ):
+                                    value[field_name] = arg
+                                    break
 
-            try:
-                return TypeAdapter(expected_type).validate_python(value)
-            except Exception:
-                return value
+        try:
+            return TypeAdapter(expected_type).validate_python(value)
+        except Exception:
+            logger.debug("Failed to deserialize cached value", exc_info=True)
+            return value
 
-    if inspect.isclass(expected_type):
-        if issubclass(expected_type, BaseModel):
-            return expected_type(**value) if isinstance(value, dict) else value
+    if inspect.isclass(expected_type) and issubclass(expected_type, BaseModel):
+        return expected_type(**value) if isinstance(value, dict) else value
 
     return value
 
@@ -177,13 +179,13 @@ def cached(
                                     return fresh_result
                                 finally:
                                     await redis.delete(refresh_lock_key)
-                        except Exception as e:
-                            print(f"Cache refresh error for {func_name}: {e}")
+                        except Exception:
+                            logger.exception("Cache refresh error for %s", func_name)
 
                         return stale_value
 
-            except Exception as e:
-                print(f"Cache get error for {func_name}: {e}")
+            except Exception:
+                logger.exception("Cache get error for %s", func_name)
 
             result = await func(*args, **kwargs)
 
@@ -192,8 +194,8 @@ def cached(
                 try:
                     serialized = _serialize_value(result)
                     await redis.setex(cache_key, ttl, orjson.dumps(serialized))
-                except Exception as e:
-                    print(f"Cache set error for {func_name}: {e}")
+                except Exception:
+                    logger.exception("Cache set error for %s", func_name)
 
             return result
 
@@ -257,15 +259,15 @@ async def mark_stale_by_pattern(pattern: str) -> int:
                             cache_entry["is_stale"] = True
                             await redis.set(key, orjson.dumps(cache_entry))
                             marked_count += 1
-                except Exception as e:
-                    print(f"Error marking key {key} as stale: {e}")
+                except Exception:
+                    logger.exception("Error marking key %s as stale", key)
 
             if cursor == 0:
                 break
 
         return marked_count
-    except Exception as e:
-        print(f"Cache mark stale error for pattern {pattern}: {e}")
+    except Exception:
+        logger.exception("Cache mark stale error for pattern %s", pattern)
         return 0
 
 
@@ -283,6 +285,6 @@ async def invalidate_cache_by_pattern(pattern: str) -> int:
                 break
 
         return deleted_count
-    except Exception as e:
-        print(f"Cache invalidation error for pattern {pattern}: {e}")
+    except Exception:
+        logger.exception("Cache invalidation error for pattern %s", pattern)
         return 0

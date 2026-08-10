@@ -825,6 +825,7 @@ def _direct_features(module: _NormalizedModule) -> tuple[object, ...]:
         source.identity.locator
         for source in module.sources
         if source.identity.locator_kind == "remote"
+        and source.identity.locator is not None
     )
     return (
         tuple(source.source_type for source in module.sources),
@@ -1323,7 +1324,11 @@ def _compare_module_siblings(
         if id(module) not in context.consumed_new
     ]
     matches: list[tuple[int, int]] = []
-    for name in sorted({old[index].name for index in old_indices if old[index].name}):
+    old_names: set[str] = set()
+    for index in old_indices:
+        if name := old[index].name:
+            old_names.add(name)
+    for name in sorted(old_names):
         old_named = [index for index in old_indices if old[index].name == name]
         new_named = [index for index in new_indices if new[index].name == name]
         if len(old_named) == len(new_named) == 1:

@@ -1,13 +1,31 @@
 import datetime
+from typing import Annotated
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
+from fastapi import APIRouter, FastAPI, HTTPException, Path
 from pydantic import BaseModel, Field
 
 from .. import cache, models
 from ..database import get_db
-from ..login_info import quality_moderator_only
+from ..login_info import QualityModeratorDep
 
 router = APIRouter(prefix="/app-picks")
+AppPickDate = Annotated[
+    datetime.date,
+    Path(
+        examples=[
+            "2021-01-01",
+            "2023-10-21",
+        ],
+    ),
+]
+CuratedAppSelectionDate = Annotated[
+    datetime.date,
+    Path(
+        examples=[
+            "2026-07-05",
+        ],
+    ),
+]
 
 
 def register_to_app(app: FastAPI):
@@ -31,12 +49,7 @@ class AppOfTheDay(BaseModel):
 )
 @cache.cached(ttl=21600)
 async def get_app_of_the_day(
-    date: datetime.date = Path(
-        examples=[
-            "2021-01-01",
-            "2023-10-21",
-        ],
-    ),
+    date: AppPickDate,
 ) -> AppOfTheDay:
     with get_db("replica") as db:
         app_of_the_day = models.AppOfTheDay.by_date(db, date)
@@ -185,7 +198,9 @@ def _validate_scheduled_selection(
     if len(positions) != len(set(positions)):
         raise HTTPException(400, "Scheduled selection app positions must be unique")
 
-    allowed_app_ids = _app_pick_recommendation_ids(db, datetime.date.today())
+    allowed_app_ids = _app_pick_recommendation_ids(
+        db, datetime.datetime.now(datetime.UTC).date()
+    )
     invalid_app_ids = sorted(set(app_ids) - allowed_app_ids)
     if invalid_app_ids:
         raise HTTPException(
@@ -215,12 +230,7 @@ def _validate_scheduled_selection(
 )
 @cache.cached(ttl=21600)
 async def get_app_of_the_week(
-    date: datetime.date = Path(
-        examples=[
-            "2021-01-01",
-            "2023-10-21",
-        ],
-    ),
+    date: AppPickDate,
 ) -> AppsOfTheWeek:
     """Returns apps of the week"""
     with get_db("replica") as db:
@@ -255,11 +265,7 @@ async def get_app_of_the_week(
 )
 @cache.cached(ttl=21600)
 async def get_curated_app_selections(
-    date: datetime.date = Path(
-        examples=[
-            "2026-07-05",
-        ],
-    ),
+    date: CuratedAppSelectionDate,
 ) -> CuratedAppSelections:
     with get_db("replica") as db:
         allowed_app_ids = _app_pick_recommendation_ids(db, date)
@@ -292,13 +298,8 @@ async def get_curated_app_selections(
 )
 @cache.private
 async def get_app_of_the_week_admin(
-    date: datetime.date = Path(
-        examples=[
-            "2021-01-01",
-            "2023-10-21",
-        ],
-    ),
-    _moderator=Depends(quality_moderator_only),
+    date: AppPickDate,
+    _moderator: QualityModeratorDep,
 ) -> AppsOfTheWeek:
     """Returns apps of the week for the admin page, bypassing CDN cache"""
     with get_db("writer") as db:
@@ -334,7 +335,7 @@ async def get_app_of_the_week_admin(
 )
 @cache.private
 async def get_curated_app_selection_themes_admin(
-    _moderator=Depends(quality_moderator_only),
+    _moderator: QualityModeratorDep,
 ) -> list[SelectionTheme]:
     with get_db("writer") as db:
         return [
@@ -355,7 +356,7 @@ async def get_curated_app_selection_themes_admin(
 )
 @cache.private
 async def get_curated_app_selections_admin(
-    _moderator=Depends(quality_moderator_only),
+    _moderator: QualityModeratorDep,
 ) -> list[ScheduledSelectionAdmin]:
     with get_db("writer") as db:
         return [
@@ -378,7 +379,7 @@ async def get_curated_app_selections_admin(
 )
 async def create_curated_app_selection_admin(
     body: ScheduledSelectionInput,
-    _moderator=Depends(quality_moderator_only),
+    _moderator: QualityModeratorDep,
 ) -> ScheduledSelectionAdmin:
     with get_db("writer") as db:
         theme = _validate_scheduled_selection(db, body)
@@ -425,7 +426,8 @@ async def create_curated_app_selection_admin(
 async def update_curated_app_selection_admin(
     body: ScheduledSelectionInput,
     selection_id: int = Path(),
-    _moderator=Depends(quality_moderator_only),
+    *,
+    _moderator: QualityModeratorDep,
 ) -> ScheduledSelectionAdmin:
     with get_db("writer") as db:
         selection = models.ScheduledSelection.by_id(db, selection_id)
@@ -475,7 +477,8 @@ async def update_curated_app_selection_admin(
 )
 async def delete_curated_app_selection_admin(
     selection_id: int = Path(),
-    _moderator=Depends(quality_moderator_only),
+    *,
+    _moderator: QualityModeratorDep,
 ) -> None:
     with get_db("writer") as db:
         selection = models.ScheduledSelection.by_id(db, selection_id)
@@ -508,7 +511,7 @@ class UpsertAppOfTheWeek(BaseModel):
 )
 async def set_app_of_the_week(
     body: UpsertAppOfTheWeek,
-    moderator=Depends(quality_moderator_only),
+    moderator: QualityModeratorDep,
 ):
     """Sets an app of the week"""
     with get_db("writer") as db:
@@ -536,7 +539,7 @@ async def set_app_of_the_week(
 )
 async def set_app_of_the_day(
     body: AppOfTheDay,
-    _moderator=Depends(quality_moderator_only),
+    _moderator: QualityModeratorDep,
 ) -> AppOfTheDay | None:
     """Sets an app of the day"""
     with get_db("writer") as db:

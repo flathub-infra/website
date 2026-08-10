@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Annotated
+from typing import Annotated, cast
 
 from fastapi import Depends, HTTPException, Request
 
@@ -33,6 +33,11 @@ class LoginInformation:
 
     def __getitem__(self, key):
         return getattr(self, key)
+
+
+@dataclass
+class LoggedInInformation(LoginInformation):
+    user: models.FlathubUser
 
 
 def login_state(request: Request) -> LoginInformation:
@@ -78,14 +83,17 @@ def login_state(request: Request) -> LoginInformation:
 LoginStatusDep = Annotated[LoginInformation, Depends(login_state)]
 
 
-def logged_in(login: LoginStatusDep):
+def logged_in(login: LoginStatusDep) -> LoggedInInformation:
     if login.state == LoginState.LOGGED_OUT or login.user is None:
         raise HTTPException(status_code=401, detail="not_logged_in")
 
-    return login
+    return cast("LoggedInInformation", login)
 
 
-def quality_moderator_only(login=Depends(logged_in)):
+LoggedInDep = Annotated[LoggedInInformation, Depends(logged_in)]
+
+
+def quality_moderator_only(login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "quality-moderation" not in user.permissions():
@@ -94,7 +102,7 @@ def quality_moderator_only(login=Depends(logged_in)):
         return login
 
 
-def view_users_only(login=Depends(logged_in)):
+def view_users_only(login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "view-users" not in user.permissions():
@@ -103,7 +111,7 @@ def view_users_only(login=Depends(logged_in)):
         return login
 
 
-def modify_users_only(login=Depends(logged_in)):
+def modify_users_only(login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "modify-users" not in user.permissions():
@@ -112,7 +120,7 @@ def modify_users_only(login=Depends(logged_in)):
         return login
 
 
-def manage_oidc_clients_only(login=Depends(logged_in)):
+def manage_oidc_clients_only(login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.get(models.FlathubUser, login.user.id)
         if user is None or "manage-oidc-clients" not in user.permissions():
@@ -123,7 +131,7 @@ def manage_oidc_clients_only(login=Depends(logged_in)):
         return login
 
 
-def moderator_only(login=Depends(logged_in)):
+def moderator_only(login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if "moderation" not in user.permissions():
@@ -132,17 +140,18 @@ def moderator_only(login=Depends(logged_in)):
         return login
 
 
-def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
+def moderator_or_app_author_only(app_id: str, login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
-        if "moderation" not in user.permissions():
-            if app_id not in user.dev_flatpaks(db):
-                raise HTTPException(status_code=403, detail="not_app_developer")
+        if "moderation" not in user.permissions() and app_id not in user.dev_flatpaks(
+            db
+        ):
+            raise HTTPException(status_code=403, detail="not_app_developer")
         login.user = user
         return login
 
 
-def app_author_only(app_id: str, login=Depends(logged_in)):
+def app_author_only(app_id: str, login: LoggedInDep):
     with get_db("replica") as db:
         user = db.session.merge(login.user)
         if app_id in user.dev_flatpaks(db):
@@ -152,7 +161,7 @@ def app_author_only(app_id: str, login=Depends(logged_in)):
     raise HTTPException(status_code=403, detail="not_app_author")
 
 
-def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
+def quality_moderator_or_app_author_only(app_id: str, login: LoggedInDep):
     if login.user:
         with get_db("replica") as db:
             user = db.session.merge(login.user)
@@ -164,3 +173,17 @@ def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
                 return login
 
     raise HTTPException(status_code=403, detail="not_quality_moderator_or_app_author")
+
+
+QualityModeratorDep = Annotated[LoggedInInformation, Depends(quality_moderator_only)]
+ViewUsersDep = Annotated[LoggedInInformation, Depends(view_users_only)]
+ModifyUsersDep = Annotated[LoggedInInformation, Depends(modify_users_only)]
+ManageOidcClientsDep = Annotated[LoggedInInformation, Depends(manage_oidc_clients_only)]
+ModeratorDep = Annotated[LoggedInInformation, Depends(moderator_only)]
+ModeratorOrAppAuthorDep = Annotated[
+    LoggedInInformation, Depends(moderator_or_app_author_only)
+]
+AppAuthorDep = Annotated[LoggedInInformation, Depends(app_author_only)]
+QualityModeratorOrAppAuthorDep = Annotated[
+    LoggedInInformation, Depends(quality_moderator_or_app_author_only)
+]

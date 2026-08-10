@@ -11,6 +11,7 @@ import os
 import sys
 from contextlib import contextmanager
 from types import SimpleNamespace
+from typing import ClassVar
 
 import pytest
 
@@ -19,8 +20,8 @@ sys.path.append(ROOT_DIR)
 
 sys.modules["app.search"] = SimpleNamespace()
 
-from app import audit_log  # noqa: E402
-from app.routes import upload_tokens  # noqa: E402
+from app import audit_log
+from app.routes import upload_tokens
 
 
 @pytest.fixture
@@ -159,8 +160,8 @@ def _setup_ban_fakes(monkeypatch, *, banned: bool):
     class FakeBannableUser:
         id = 42
         display_name = "Alice"
-        roles = [role]
-        githubAccount = provider_account
+        roles: ClassVar = [role]
+        githubAccount: ClassVar = provider_account
 
         def __init__(self):
             self.banned = banned
@@ -293,7 +294,7 @@ def test_already_logged_in_emits_distinct_event(monkeypatch, recorded_calls):
     logged-in user is rejected. This is a session conflict, not a failed
     credential, so it must be recorded under a distinct event type that
     brute-force / failure-rate queries can filter out."""
-    from datetime import datetime
+    from datetime import UTC, datetime
 
     from app import logins, models
     from app.login_info import LoginInformation, LoginState
@@ -327,7 +328,7 @@ def test_already_logged_in_emits_distinct_event(monkeypatch, recorded_calls):
     request.session = {
         "_oauth_state_github": {
             "state": state,
-            "created": datetime.now().timestamp(),
+            "created": datetime.now(UTC).timestamp(),
         },
     }
 
@@ -358,7 +359,7 @@ def test_already_logged_in_emits_distinct_event(monkeypatch, recorded_calls):
 
 
 def _run_returning_oauth(monkeypatch, linked_user):
-    from datetime import datetime
+    from datetime import UTC, datetime
 
     from app import logins
     from app.login_info import LoginInformation, LoginState
@@ -366,7 +367,7 @@ def _run_returning_oauth(monkeypatch, linked_user):
     account = SimpleNamespace(
         user=42,
         token="old-token",
-        last_used=datetime(2020, 1, 1),
+        last_used=datetime(2020, 1, 1, tzinfo=UTC),
         login="old-login",
         avatar_url="old-avatar",
         display_name="Old Name",
@@ -411,7 +412,7 @@ def _run_returning_oauth(monkeypatch, linked_user):
     request.session = {
         "_oauth_state_github": {
             "state": state,
-            "created": datetime.now().timestamp(),
+            "created": datetime.now(UTC).timestamp(),
         },
     }
     login = LoginInformation(
@@ -536,7 +537,6 @@ class FakeSession:
     def commit(self):
         if self.added is not None and hasattr(self.added, "expired"):
             self.added.expired = True
-        pass
 
 
 class FakeDb:

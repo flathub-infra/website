@@ -75,10 +75,7 @@ async def generate_feed(column_name: str, title: str, description: str, link: st
 
         for app in apps_query:
             # this duplicates is_appid_for_frontend but avoids N+1 queries
-            if app.type == "desktop-application":
-                apps_data.append((app.app_id, getattr(app, column_name), app.appstream))
-                batch_size += 1
-            elif (
+            if app.type == "desktop-application" or (
                 app.type == "console-application"
                 and app.appstream
                 and app.appstream.get("icon")
@@ -129,9 +126,8 @@ async def generate_feed(column_name: str, title: str, description: str, link: st
 
         if app_releases := app.get("releases"):
             release = app_releases[0] if len(app_releases) else None
-            if release:
-                if version := release.get("version"):
-                    content.append(f"<li>Version: {version}")
+            if release and (version := release.get("version")):
+                content.append(f"<li>Version: {version}")
 
         content.append("</ul>")
 

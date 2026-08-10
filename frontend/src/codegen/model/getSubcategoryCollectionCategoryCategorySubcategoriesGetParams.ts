@@ -8,7 +8,7 @@ import type { AppSchemasSortBy } from "./appSchemasSortBy"
 
 export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams = {
   subcategory: string[]
-  exclude_subcategories?: string[]
+  exclude_subcategories?: string[] | null
   page?: number | null
   per_page?: number | null
   locale?: string

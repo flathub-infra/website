@@ -140,7 +140,6 @@ class FakeWallet(WalletBase):
         if to_del is None:
             raise WalletError(error="not found")
         request.session[to_del] = True
-        return None
 
     def _get_user_transactions(self, request: Request) -> dict[str, Transaction]:
         """
@@ -157,7 +156,7 @@ class FakeWallet(WalletBase):
         """
         Set the transactions cached in the request session
         """
-        raw = list(txn.model_dump() for txn in txns)
+        raw = [txn.model_dump() for txn in txns]
         request.session["txns"] = raw
 
     def transactions(

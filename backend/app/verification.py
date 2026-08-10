@@ -21,8 +21,8 @@ from sqlalchemy.sql import func
 
 from . import audit_log, cache, config, http_client, models, utils, worker
 from .database import get_db
-from .login_info import app_author_only, logged_in, modify_users_only
-from .logins import LoginInformation, refresh_oauth_token
+from .login_info import AppAuthorDep, LoggedInDep, LoggedInInformation, ModifyUsersDep
+from .logins import refresh_oauth_token
 from .utils import jti
 from .verification_method import VerificationMethod
 
@@ -90,7 +90,7 @@ def _get_manual_verification_maps() -> dict[str, str]:
             "app.staticfiles", "manual_verifications.json"
         ) as f:
             manual_maps = json.load(f)
-    except Exception as err:
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as err:
         print(f"Failed to load manual maps: {err}")
     return manual_maps
 
@@ -138,9 +138,7 @@ def _demangle_name(name: str) -> str:
     #
     # [1]: https://www.rfc-editor.org/rfc/rfc1035#section-2.3.1
     # [2]: https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus
-    if name.startswith("_"):
-        # Remove the underscore, which is escaping a digit
-        name = name[1:]
+    name = name.removeprefix("_")
     # All other underscores are replacements for hyphens
     name = name.replace("_", "-")
 
@@ -259,12 +257,13 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
     for maintainer_tag in maintainer_tags:
         person_tags = maintainer_tag.findall(f"{foaf_prefix}Person")
         for person_tag in person_tags:
-            if account_tag := person_tag.find(f"{foaf_prefix}account"):
-                if online_account := account_tag.find(f"{foaf_prefix}OnlineAccount"):
-                    account_name = online_account.find(f"{foaf_prefix}accountName")
-                    if account_name is not None and account_name.text:
-                        maintainers.append(account_name.text)
-                        break
+            if (account_tag := person_tag.find(f"{foaf_prefix}account")) and (
+                online_account := account_tag.find(f"{foaf_prefix}OnlineAccount")
+            ):
+                account_name = online_account.find(f"{foaf_prefix}accountName")
+                if account_name is not None and account_name.text:
+                    maintainers.append(account_name.text)
+                    break
 
             if gnome_userid := person_tag.findall(
                 "{http://api.gnome.org/doap-extensions#}userid"
@@ -453,7 +452,7 @@ def _is_github_app(app_id: str) -> bool:
                 return False
         except UnknownObjectException:
             return False
-        except Exception:
+        except github.GithubException:
             raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
 
         return True
@@ -513,7 +512,7 @@ def _cleanup_stale_verifications(db, app_id: str, current_account: int):
     db.session.query(models.AppVerification).filter(
         models.AppVerification.app_id == app_id,
         models.AppVerification.account != current_account,
-        models.AppVerification.verified == False,  # noqa: E712
+        models.AppVerification.verified == False,
         models.AppVerification.method != "manual",
     ).delete()
 
@@ -521,7 +520,7 @@ def _cleanup_stale_verifications(db, app_id: str, current_account: int):
 def _check_app_id(
     app_id: str,
     new_app: bool,
-    login=Depends(logged_in),
+    login: LoggedInDep,
 ):
     """Make sure the given user has development access to the given flatpak."""
 
@@ -693,7 +692,7 @@ class AvailableMethods(BaseModel):
 )
 @cache.no_store
 def get_available_methods(
-    login=Depends(logged_in),
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -847,60 +846,60 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
     except HTTPException:
         raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
 
-    try:
-        gl = gitlab.Gitlab(url)
+    gl = gitlab.Gitlab(url)
 
-        # Does the username refer to a user or a group?
-        matching_users = gl.users.list(username=username)
-        if len(matching_users) == 1:
-            result.login_is_organization = False
-            result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
-            return result
-
-        try:
-            gl.groups.get(username)
-        except gitlab.GitlabError:
-            # Group does not exist. Either it's private or it's a user.
-            result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
-            return result
-
-        # python-gitlab does not support the userinfo endpoint AFAICT, so we have to do it manually.
-        r = http_client.get(
-            url + "/oauth/userinfo",
-            headers={"Authorization": "Bearer " + access_token},
-        )
-
-        if r.status_code != 200:
-            raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
-
-        userinfo = r.json()
-
-        result.login_is_organization = True
-
-        # Must be owner or maintainer of the group
-        if groups := userinfo.get("https://gitlab.org/claims/groups/owner"):
-            if username.lower() in [group.lower() for group in groups]:
-                result.login_status = AvailableLoginMethodStatus.READY
-                return result
-
-        if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
-            if username.lower() in [group.lower() for group in groups]:
-                result.login_status = AvailableLoginMethodStatus.READY
-                return result
-
-        if groups := userinfo.get("https://gitlab.org/claims/groups/developer"):
-            if username.lower() in [group.lower() for group in groups]:
-                result.login_status = AvailableLoginMethodStatus.READY
-                return result
-
-        result.login_status = AvailableLoginMethodStatus.NOT_ORG_MEMBER
+    # Does the username refer to a user or a group?
+    matching_users = gl.users.list(username=username)
+    if len(matching_users) == 1:
+        result.login_is_organization = False
+        result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
         return result
-    except HTTPException as e:
-        raise e
+
+    try:
+        gl.groups.get(username)
+    except gitlab.GitlabError:
+        # Group does not exist. Either it's private or it's a user.
+        result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
+        return result
+
+    # python-gitlab does not support the userinfo endpoint AFAICT, so we have to do it manually.
+    r = http_client.get(
+        url + "/oauth/userinfo",
+        headers={"Authorization": "Bearer " + access_token},
+    )
+
+    if r.status_code != 200:
+        raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+
+    userinfo = r.json()
+
+    result.login_is_organization = True
+
+    # Must be owner or maintainer of the group
+    if (groups := userinfo.get("https://gitlab.org/claims/groups/owner")) and (
+        username.lower() in [group.lower() for group in groups]
+    ):
+        result.login_status = AvailableLoginMethodStatus.READY
+        return result
+
+    if (groups := userinfo.get("https://gitlab.org/claims/groups/maintainer")) and (
+        username.lower() in [group.lower() for group in groups]
+    ):
+        result.login_status = AvailableLoginMethodStatus.READY
+        return result
+
+    if (groups := userinfo.get("https://gitlab.org/claims/groups/developer")) and (
+        username.lower() in [group.lower() for group in groups]
+    ):
+        result.login_status = AvailableLoginMethodStatus.READY
+        return result
+
+    result.login_status = AvailableLoginMethodStatus.NOT_ORG_MEMBER
+    return result
 
 
 def _check_login_provider_verification(
-    app_id: str, new_app: bool, login: LoginInformation
+    app_id: str, new_app: bool, login: LoggedInInformation
 ) -> AvailableMethod:
     _check_app_id(app_id, new_app, login)
 
@@ -967,7 +966,7 @@ def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
     },
 )
 async def verify_by_login_provider(
-    login=Depends(logged_in),
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1103,7 +1102,7 @@ def _get_or_create_domain_verification(
 )
 @cache.no_store
 def setup_website_verification(
-    login=Depends(logged_in),
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1142,7 +1141,8 @@ def setup_website_verification(
     },
 )
 async def confirm_website_verification(
-    login=Depends(logged_in),
+    login: LoggedInDep,
+    check: Annotated[CheckWebsiteVerification, Depends(CheckWebsiteVerification)],
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1150,7 +1150,6 @@ async def confirm_website_verification(
         examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
-    check=Depends(CheckWebsiteVerification),
 ):
     """Checks website verification, and if it succeeds, marks the app as verified for the current account."""
 
@@ -1206,7 +1205,7 @@ async def confirm_website_verification(
 )
 @cache.no_store
 def setup_dns_verification(
-    login=Depends(logged_in),
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1246,7 +1245,8 @@ def setup_dns_verification(
     },
 )
 async def confirm_dns_verification(
-    login=Depends(logged_in),
+    login: LoggedInDep,
+    check: Annotated[CheckDnsVerification, Depends(CheckDnsVerification)],
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1254,7 +1254,6 @@ async def confirm_dns_verification(
         examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
-    check=Depends(CheckDnsVerification),
 ):
     """Checks DNS verification, and marks the app as verified on success."""
 
@@ -1309,7 +1308,7 @@ async def confirm_dns_verification(
 )
 async def unverify(
     http_request: Request,
-    login=Depends(logged_in),
+    login: LoggedInDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1380,7 +1379,7 @@ async def unverify(
     },
 )
 def switch_to_direct_upload(
-    login=Depends(app_author_only),
+    login: AppAuthorDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1421,7 +1420,7 @@ def switch_to_direct_upload(
 )
 def archive(
     request: ArchiveRequest,
-    login=Depends(app_author_only),
+    login: AppAuthorDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -1500,7 +1499,7 @@ def archive(
 )
 async def manual_verification(
     http_request: Request,
-    login=Depends(modify_users_only),
+    login: ModifyUsersDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,

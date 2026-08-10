@@ -1,12 +1,15 @@
 import datetime
+import logging
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Response
 from pydantic import BaseModel
 
 from .. import cache, models
 from ..database import get_db
-from ..login_info import logged_in
+from ..login_info import LoggedInDep
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -25,7 +28,7 @@ def register_to_app(app):
 )
 async def add_to_favorites(
     app_id: str,
-    login=Depends(logged_in),
+    login: LoggedInDep,
 ):
     """
     Add an app to a users favorites. The appid is the ID of the app to add.
@@ -43,6 +46,7 @@ async def add_to_favorites(
             return Response(status_code=HTTPStatus.OK)
         except Exception:
             db_session.rollback()
+            logger.exception("Failed to add app %s to favorites", app_id)
             return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
 
 
@@ -56,7 +60,7 @@ async def add_to_favorites(
 )
 async def remove_from_favorites(
     app_id: str,
-    login=Depends(logged_in),
+    login: LoggedInDep,
 ):
     """
     Remove an app from a users favorites. The appid is the ID of the app to remove.
@@ -74,6 +78,7 @@ async def remove_from_favorites(
             return Response(status_code=HTTPStatus.OK)
         except Exception:
             db_session.rollback()
+            logger.exception("Failed to remove app %s from favorites", app_id)
             return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
 
 
@@ -91,7 +96,7 @@ class FavoriteApp(BaseModel):
 )
 @cache.private
 def get_favorites(
-    login=Depends(logged_in),
+    login: LoggedInDep,
 ) -> list[FavoriteApp]:
     """
     Get a list of the users favorite apps.
@@ -115,7 +120,7 @@ def get_favorites(
 @cache.private
 def is_favorited(
     app_id: str,
-    login=Depends(logged_in),
+    login: LoggedInDep,
 ) -> bool:
     with get_db("replica") as db_session:
         return models.UserFavoriteApp.is_favorited_by_user(
