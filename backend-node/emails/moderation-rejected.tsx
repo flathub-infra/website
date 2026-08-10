@@ -2,7 +2,6 @@ import { Heading, Section, Text } from "react-email"
 import { Base, buildAppName } from "./base"
 import {
   ModerationEmailProps,
-  ModerationRequestItem,
   RANDOM_REVIEW_MARKER,
   Request,
   isRandomReviewRequest,
@@ -57,11 +56,7 @@ export const ModerationRejectedEmail = ({
           <blockquote className="text-sm">{comment}</blockquote>
         </Section>
       )}
-      {isRandomReview ? (
-        <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>
-      ) : (
-        <ModerationRequestItem request={request} />
-      )}
+      {isRandomReview && <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>}
     </Base>
   )
 }
