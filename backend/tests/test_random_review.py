@@ -537,7 +537,118 @@ def test_extra_data_origin_request_suppresses_random_selection(monkeypatch):
         "extra-data": ["https://cdn.example"],
     }
     assert request_data["current_values"]["extra-data"] == ["https://downloads.example"]
+    assert request.request_type == ModerationRequestType.SUMMARY
     assert request.is_new_submission is False
+
+
+def test_permission_only_request_is_summary(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={
+            "org.example.App": {
+                "metadata": {
+                    "permissions": {
+                        "shared": ["network"],
+                    }
+                }
+            }
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {
+                    "permissions": {
+                        "shared": ["network", "ipc"],
+                    }
+                }
+            }
+        },
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.SUMMARY
+    assert json.loads(request.request_data) == {
+        "keys": {"shared": ["ipc", "network"]},
+        "current_values": {"shared": ["network"]},
+    }
+
+
+def test_architecture_only_request_is_summary(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={"org.example.App": {"arches": ["x86_64"]}},
+        build_summary={"org.example.App": {"arches": ["aarch64", "x86_64"]}},
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.SUMMARY
+    assert json.loads(request.request_data) == {
+        "keys": {"arches": ["aarch64", "x86_64"]},
+        "current_values": {"arches": ["x86_64"]},
+    }
+
+
+def test_appstream_and_summary_changes_create_disjoint_requests(monkeypatch):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        current_summaries={
+            "org.example.App": {
+                "metadata": {
+                    "permissions": {
+                        "shared": ["network"],
+                    }
+                }
+            }
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {
+                    "permissions": {
+                        "shared": ["network", "ipc"],
+                    }
+                }
+            }
+        },
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 2
+    requests = {
+        request.request_type: json.loads(request.request_data)
+        for request in harness.db.session.persisted
+    }
+    assert requests == {
+        ModerationRequestType.APPDATA: {
+            "keys": {"name": "Example App"},
+            "current_values": {
+                "name": "Old name",
+                "summary": "An example",
+                "developer_name": "Example",
+                "project_license": "MIT",
+            },
+        },
+        ModerationRequestType.SUMMARY: {
+            "keys": {"shared": ["ipc", "network"]},
+            "current_values": {"shared": ["network"]},
+        },
+    }
 
 
 def test_initial_submission_suppresses_random_selection(monkeypatch):
@@ -1397,6 +1508,46 @@ def test_complexity_only_is_suppressed_by_appdata_request(monkeypatch):
     assert result.requires_review is True
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.persisted[0].request_type == ModerationRequestType.APPDATA
+
+
+def test_complexity_only_is_suppressed_by_summary_request(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={
+            "org.example.App": {
+                "metadata": {
+                    "permissions": {
+                        "shared": ["network"],
+                    }
+                }
+            }
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {
+                    "permissions": {
+                        "shared": ["network", "ipc"],
+                    }
+                }
+            }
+        },
+        manifest_enabled=True,
+        complexity_gating_enabled=True,
+        complexity_threshold_units=12,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_complexity_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.persisted[0].request_type == ModerationRequestType.SUMMARY
 
 
 @pytest.mark.parametrize(

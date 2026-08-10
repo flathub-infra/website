@@ -196,6 +196,7 @@
   "search-for-query": "Search for “{query}”",
   "moderation-pending-reviews": "Pending Reviews",
   "moderation-appstream-changes": "Appstream Changes",
+  "moderation-summary-changes": "Summary Changes",
   "moderation-manifest-source-origin": "Manifest source changes",
   "moderation-manifest-complexity": "Manifest packaging complexity",
   "moderation-manifest-source-and-complexity": "Manifest source and complexity review",

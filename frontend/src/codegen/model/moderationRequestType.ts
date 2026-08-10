@@ -10,5 +10,6 @@ export type ModerationRequestType =
 
 export const ModerationRequestType = {
   appdata: "appdata",
+  summary: "summary",
   manifest: "manifest",
 } as const

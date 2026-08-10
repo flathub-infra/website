@@ -1093,7 +1093,8 @@ def submit_review_request(
             "project_license": app_data.get("project_license"),
         }
         current_values: dict[str, Any] = {}
-
+        summary_keys: dict[str, Any] = {}
+        summary_current_values: dict[str, Any] = {}
         # Check if the app data matches the current appstream
         app_manifest_findings = manifest_findings_by_app.get(app_id, ())
         if app := get_json_key(f"apps:{app_id}"):
@@ -1214,6 +1215,7 @@ def submit_review_request(
             and config.settings.ostree_manifest_complexity_gating_enabled
         )
         appdata_request: models.ModerationRequest | None = None
+        summary_request: models.ModerationRequest | None = None
 
         if random_review_enabled:
             eligible_app_ids.append(app_id)
@@ -1256,7 +1258,9 @@ def submit_review_request(
                 current_extradata, build_extradata
             )
             if extra_data_values is not None:
-                current_values["extra-data"], keys["extra-data"] = extra_data_values
+                summary_current_values["extra-data"], summary_keys["extra-data"] = (
+                    extra_data_values
+                )
 
             if current_permissions and build_permissions:
                 if current_permissions != build_permissions:
@@ -1266,8 +1270,8 @@ def submit_review_request(
 
                         if isinstance(current_perm, list):
                             if sorted(current_perm or []) != sorted(build_perm or []):
-                                current_values[perm] = current_perm
-                                keys[perm] = build_perm
+                                summary_current_values[perm] = current_perm
+                                summary_keys[perm] = build_perm
 
                         if isinstance(current_perm, dict):
                             if build_perm is None:
@@ -1285,26 +1289,28 @@ def submit_review_request(
                                     else current_val != build_val
                                 )
                                 if is_different:
-                                    current_values[f"{key}-{perm}"] = current_val
-                                    keys[f"{key}-{perm}"] = build_val
+                                    summary_current_values[f"{key}-{perm}"] = (
+                                        current_val
+                                    )
+                                    summary_keys[f"{key}-{perm}"] = build_val
 
             if app_id not in direct_upload_apps_by_id:
                 current_arches = set(current_summary.get("arches", []))
                 build_arches = set(build_summary_app.get("arches", []))
 
                 if current_arches != build_arches:
-                    current_values["arches"] = list(current_arches)
-                    keys["arches"] = list(build_arches)
+                    summary_current_values["arches"] = list(current_arches)
+                    summary_keys["arches"] = list(build_arches)
 
-        if len(keys) > 0:
-            keys = sort_lists_in_dict(keys)
-            current_values = sort_lists_in_dict(current_values)
+        if len(summary_keys) > 0:
+            summary_keys = sort_lists_in_dict(summary_keys)
+            summary_current_values = sort_lists_in_dict(summary_current_values)
 
             request_ignored = False
 
-            if "sockets" in keys and "sockets" in current_values:
-                cur_sockets = set(current_values["sockets"])
-                new_sockets = set(keys["sockets"])
+            if "sockets" in summary_keys and "sockets" in summary_current_values:
+                cur_sockets = set(summary_current_values["sockets"])
+                new_sockets = set(summary_keys["sockets"])
 
                 x11_compat_transition = (
                     cur_sockets
@@ -1315,8 +1321,8 @@ def submit_review_request(
                 )
 
                 if x11_compat_transition:
-                    keys.pop("sockets", None)
-                    current_values.pop("sockets", None)
+                    summary_keys.pop("sockets", None)
+                    summary_current_values.pop("sockets", None)
                     request_ignored = True
 
             if app_runtime_dref:
@@ -1336,17 +1342,19 @@ def submit_review_request(
                             pass
 
                     if (
-                        "talk-session-bus" in keys
-                        and "talk-session-bus" in current_values
+                        "talk-session-bus" in summary_keys
+                        and "talk-session-bus" in summary_current_values
                     ):
                         cur_session_talks = (
-                            current_values["talk-session-bus"]
-                            if isinstance(current_values["talk-session-bus"], list)
+                            summary_current_values["talk-session-bus"]
+                            if isinstance(
+                                summary_current_values["talk-session-bus"], list
+                            )
                             else []
                         )
                         new_session_talks = (
-                            keys["talk-session-bus"]
-                            if isinstance(keys["talk-session-bus"], list)
+                            summary_keys["talk-session-bus"]
+                            if isinstance(summary_keys["talk-session-bus"], list)
                             else []
                         )
 
@@ -1365,8 +1373,8 @@ def submit_review_request(
                                 if sorted(cur_session_talks_filtered) == sorted(
                                     new_session_talks
                                 ):
-                                    keys.pop("talk-session-bus", None)
-                                    current_values.pop("talk-session-bus", None)
+                                    summary_keys.pop("talk-session-bus", None)
+                                    summary_current_values.pop("talk-session-bus", None)
                                     request_ignored = True
 
                         if runtime_br in ("6.9", "6.8"):
@@ -1384,27 +1392,27 @@ def submit_review_request(
                                 if sorted(cur_session_talks) == sorted(
                                     new_session_talks_filtered
                                 ):
-                                    keys.pop("talk-session-bus", None)
-                                    current_values.pop("talk-session-bus", None)
+                                    summary_keys.pop("talk-session-bus", None)
+                                    summary_current_values.pop("talk-session-bus", None)
                                     request_ignored = True
 
             if request_ignored:
                 logger.info(
                     "Ignored moderation request for %s with current data %s and build data %s",
                     app_id,
-                    current_values,
-                    keys,
+                    summary_current_values,
+                    summary_keys,
                 )
 
-            # keys may become empty after pop above but empty keys
-            # still triggers a moderation request, so re-check
-            if len(keys) > 0:
-                # Create a moderation request
-                appdata_request = models.ModerationRequest(
+            if len(summary_keys) > 0:
+                summary_request = models.ModerationRequest(
                     appid=app_id,
-                    request_type=ModerationRequestType.APPDATA,
+                    request_type=ModerationRequestType.SUMMARY,
                     request_data=json.dumps(
-                        {"keys": keys, "current_values": current_values}
+                        {
+                            "keys": summary_keys,
+                            "current_values": summary_current_values,
+                        }
                     ),
                     is_new_submission=is_new_submission,
                     is_outdated=False,
@@ -1412,6 +1420,23 @@ def submit_review_request(
                     job_id=review_request.job_id,
                     build_log_url=build_log_url,
                 )
+            # keys may become empty after pop above but empty keys
+            # still triggers a moderation request, so re-check
+        if len(keys) > 0:
+            keys = sort_lists_in_dict(keys)
+            current_values = sort_lists_in_dict(current_values)
+            appdata_request = models.ModerationRequest(
+                appid=app_id,
+                request_type=ModerationRequestType.APPDATA,
+                request_data=json.dumps(
+                    {"keys": keys, "current_values": current_values}
+                ),
+                is_new_submission=is_new_submission,
+                is_outdated=False,
+                build_id=review_request.build_id,
+                job_id=review_request.job_id,
+                build_log_url=build_log_url,
+            )
         complexity_data = (
             _manifest_complexity_request_data(
                 review_request,
@@ -1430,7 +1455,11 @@ def submit_review_request(
                 app_manifest_findings,
                 complexity_data,
             )
-        elif complexity_should_gate and appdata_request is None:
+        elif (
+            complexity_should_gate
+            and appdata_request is None
+            and summary_request is None
+        ):
             selected_manifest_data = _manifest_request_data((), complexity_data)
 
         if app_complexity is not None:
@@ -1449,7 +1478,7 @@ def submit_review_request(
                 suppressed_reason = "gating-disabled"
             elif (
                 complexity_would_gate
-                and appdata_request is not None
+                and (appdata_request is not None or summary_request is not None)
                 and not origin_should_gate
             ):
                 suppressed_reason = "existing-deterministic-request"
@@ -1517,6 +1546,8 @@ def submit_review_request(
 
         if appdata_request is not None:
             new_requests.append(appdata_request)
+        if summary_request is not None:
+            new_requests.append(summary_request)
 
     leftover_manifest_app_ids = (
         set(expected_refs_by_app)

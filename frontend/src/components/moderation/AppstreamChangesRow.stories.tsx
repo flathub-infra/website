@@ -91,7 +91,7 @@ export const PermissionChange = () => {
     build_id: 76133,
     job_id: 127665,
     is_outdated: false,
-    request_type: "appdata",
+    request_type: "summary",
     request_data: {
       keys: {
         shared: ["network"],
@@ -115,7 +115,7 @@ export const PermissionChangeAdded = () => {
     build_id: 76133,
     job_id: 127665,
     is_outdated: false,
-    request_type: "appdata",
+    request_type: "summary",
     request_data: {
       keys: {
         shared: ["network", "ipc"],
@@ -140,7 +140,7 @@ export const PermissionChangeRemoval = () => {
     build_id: 76271,
     job_id: 127964,
     is_outdated: false,
-    request_type: "appdata",
+    request_type: "summary",
     request_data: {
       keys: {
         shared: ["network"],
@@ -168,7 +168,7 @@ export const PermissionObjectChangeAdded = () => {
     build_id: 76133,
     job_id: 127665,
     is_outdated: false,
-    request_type: "appdata",
+    request_type: "summary",
     request_data: {
       keys: {
         shared: ["network"],
@@ -194,7 +194,7 @@ export const PermissionObjectChangeRemoval = () => {
     build_id: 76133,
     job_id: 127665,
     is_outdated: false,
-    request_type: "appdata",
+    request_type: "summary",
     request_data: {
       keys: {
         shared: ["network"],

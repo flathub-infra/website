@@ -277,9 +277,11 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
       title={
         isRandomReview
           ? t("moderation-random-review")
-          : request.is_new_submission
-            ? t("moderation-appstream")
-            : t("moderation-appstream-changes")
+          : request.request_type === "summary"
+            ? t("moderation-summary-changes")
+            : request.is_new_submission
+              ? t("moderation-appstream")
+              : t("moderation-appstream-changes")
       }
       request={request}
     >
