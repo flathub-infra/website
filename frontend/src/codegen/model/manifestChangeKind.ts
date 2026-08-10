@@ -16,6 +16,7 @@ export const ManifestChangeKind = {
   source_options_changed: "source_options_changed",
   source_order_changed: "source_order_changed",
   patch_or_script_added: "patch_or_script_added",
+  source_set_changed: "source_set_changed",
   buildsystem_changed: "buildsystem_changed",
   build_commands_changed: "build_commands_changed",
   post_install_changed: "post_install_changed",
