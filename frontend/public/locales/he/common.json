@@ -231,10 +231,10 @@
   "available-architectures": "ארכיטקטורות זמינות",
   "downloads": "הורדות",
   "license": "רישיון",
-  "project-website": "אתר פרוייקט",
-  "contact": "צור קשר",
+  "project-website": "אתר המיזם",
+  "contact": "יצירת קשר",
   "help": "עזרה",
-  "contribute-translations": "תרומת תרגום",
+  "contribute-translations": "תרומת תרגומים",
   "report-an-issue": "דיווח על בעיה",
   "vcs_browser": "לקרוא את קוד המקור",
   "contribute": "לתרום ליישום",
@@ -488,5 +488,35 @@
   },
   "year-in-review": {
     "title": "סיכום שנת {year}"
+  },
+  "sub-header": {
+    "free": "חופשי",
+    "desktop-only": "לשולחן עבודה בלבד",
+    "desktop-and-mobile": "שולחן עבודה וניידים",
+    "downloads-per-month": "הורדות לחודש",
+    "amount-to-download": "כמות להורדה מהאינטרנט",
+    "size-on-disk": "גודל בכונן",
+    "installed-runtime-size": "גודל זמן ריצה מותקן",
+    "appname-works-best-on-specific-hardware": "{appName} עובד הכי טוב על חומרה מסוימת",
+    "appname-works-on-all-devices": "{appName} עובד על כל המכשירים",
+    "mobile-support": "תמיכה בניידים",
+    "desktop-support": "תמיכה בשולחן עבודה",
+    "works-well-on-large-screens": "עובד מצוין על מסכים גדולים",
+    "may-not-work-well-on-mobile": "אולי לא עובד טוב על מכשירים ניידים",
+    "works-well-on-mobile": "עובד היטב על מכשירים ניידים",
+    "total-installs": "סך כל ההתקנות",
+    "age-rating": "דירוג גיל",
+    "download": "הורדה"
+  },
+  "see-all-results": "הצגת כל התוצאות",
+  "manage": "ניהול",
+  "count": "כמות",
+  "country-statistics": "סטטיסטיקה מדינית",
+  "app-information": "פרטי יישום",
+  "contribute-flathub": "תרומה ל־Flathub",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "שנה חדשה, שגרות חדשות"
+    }
   }
 }

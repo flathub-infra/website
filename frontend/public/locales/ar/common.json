@@ -29,7 +29,7 @@
   "copy-text": "انسخ النصَّ",
   "installs": "التثبيتات",
   "unknown": "مجهول",
-  "proprietary": "محتكر",
+  "proprietary": "مُحتكَر",
   "log-out": "اخرج",
   "network-error-try-again": "خطأ في الشبكة. حاول مجدَّدًا.",
   "search-apps": "ابحث عن التطبيقات",
@@ -695,7 +695,7 @@
   "app-information": "معلومات التطبيق",
   "sub-header": {
     "download": "التنزيل",
-    "free": "مجانًا",
+    "free": "حُر",
     "desktop-only": "سطح المكتب فقط",
     "desktop-and-mobile": "سطح المكتب والجوّال",
     "downloads-per-month": "تنزيلات/شهر",
@@ -823,7 +823,7 @@
       "description": "تطبيقات رائعة للقراءة ومشاهدة الأفلام وممارسة الألعاب"
     },
     "tools-for-developers": {
-      "header": "أساسيات مطوري الويب",
+      "header": "أساسيات مطوِّري الويب",
       "description": "يصبح إنشاء المواقع الإلكترونية أكثر متعة مع هذه التطبيقات"
     },
     "take-better-notes": {

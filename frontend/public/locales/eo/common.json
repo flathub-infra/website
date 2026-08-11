@@ -853,5 +853,6 @@
   "app-is-currently-verified-by-dns": "Via programo estas aktuale konfirmita per la regado de la DNS-nomregno <domain></domain>",
   "dns-verification-main-instruction": "Konfirmi vian rajton uzi la programidentigilon <bold>{id}</bold> publikigante TXT-registron pri la DNS-nomregno <bold>{domain}</bold>.",
   "unverified-app-disclaimer-package": "Jen komunume provizata pako ne konfirmita, nek oficialigita, nek subtenata de {developer}.",
-  "dns-validation-instruction": "Enmetu la jenan DNS-registron sen forigi ajnan ekzistantan TXT-registron. Vi eble atendu iomete por la propagado de ŝanĝoj pri DNS."
+  "dns-validation-instruction": "Enmetu la jenan DNS-registron sen forigi ajnan ekzistantan TXT-registron. Vi eble atendu iomete por la propagado de ŝanĝoj pri DNS.",
+  "moderation-random-review": "Hazarde elektita por homa reviziado"
 }

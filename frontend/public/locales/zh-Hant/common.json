@@ -843,7 +843,7 @@
       "description": "必備的辦公室應用程式"
     }
   },
-  "unverified-app-disclaimer-package": "這個由社群提供的軟體包未經 {developer} 驗證、亦非其附屬，且未獲其支援。",
+  "unverified-app-disclaimer-package": "這是由社群提供的軟體包，未經 {developer} 驗證、亦非其附屬，且未獲其支援。",
   "unverified-app-disclaimer-unknown-developer": "應用程式開發者",
   "dns-verification-main-instruction": "透過發布針對 <bold>{domain}</bold> 的 DNS TXT 記錄來驗證您使用應用程式 ID <bold>{id}</bold> 的權利。",
   "dns-validation-instruction": "新增以下 DNS 記錄，無需刪除任何現有的 TXT 記錄。 DNS 變更可能需要一些時間才能生效。",
@@ -854,5 +854,18 @@
   "app-is-currently-verified-by-dns": "您的應用程式目前是透過對 <domain></domain> 的 DNS 控制來進行驗證的",
   "verified-dns-tooltip": "<appid></appid> 應用程式 ID 的所有權已透過對 <domain></domain> 的 DNS 控制權驗證",
   "dns-verification": "DNS 驗證",
-  "moderation-random-review": "隨機選中進行人工審核"
+  "moderation-random-review": "隨機選中進行人工審核",
+  "moderation-summary-changes": "摘要變更",
+  "moderation-manifest-source-origin": "Manifest 來源變更",
+  "moderation-manifest-complexity": "Manifest 打包複雜度",
+  "moderation-manifest-source-and-complexity": "Manifest 來源與複雜度審閱",
+  "moderation-manifest-complexity-explanation": "這些配方變更描述的是打包的範圍與結構，而非安全風險或惡意行為。",
+  "moderation-manifest-complexity-ambiguity": "某些模組無法明確配對；請仔細檢視受影響的配方變更。",
+  "moderation-manifest-complexity-modules": "受影響的模組",
+  "moderation-manifest-complexity-events": "配方變更",
+  "moderation-manifest-complexity-modules-truncated": "顯示 {shown} 個受影響的模組，共 {total} 個。",
+  "moderation-manifest-complexity-events-truncated": "顯示 {shown} 項配方變更，共 {total} 項。",
+  "moderation-manifest-added": "已新增",
+  "moderation-manifest-removed": "已移除",
+  "moderation-build-log": "建置紀錄"
 }
