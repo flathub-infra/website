@@ -121,9 +121,11 @@ class SearchQuery(BaseModel):
         return v
 
 
-def _configure_app_index(index_uid: str) -> None:
-    client.create_index(index_uid, {"primaryKey": "id"})
-    index = client.index(index_uid)
+def _configure_meilisearch_index(
+    meilisearch_client: Any, index_uid: str = LEXICAL_APPS_INDEX
+) -> None:
+    meilisearch_client.create_index(index_uid, {"primaryKey": "id"})
+    index = meilisearch_client.index(index_uid)
     index.update_pagination_settings({"maxTotalHits": 10000})
     search_index.configure_index(index)
 
@@ -132,8 +134,8 @@ client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_key
 )
 
-_configure_app_index(LEXICAL_APPS_INDEX)
-_configure_app_index(HYBRID_APPS_INDEX)
+_configure_meilisearch_index(client)
+_configure_meilisearch_index(client, HYBRID_APPS_INDEX)
 
 
 def _translate_name_and_summary[

@@ -36,6 +36,9 @@ class FakeIndex:
             },
         }
 
+    def update_pagination_settings(self, value):
+        self.settings["paginationSettings"] = value
+
     def update_sortable_attributes(self, value):
         self.settings["sortableAttributes"] = value
 
@@ -175,7 +178,8 @@ def test_documents_are_written_to_both_indices_and_hybrid_failure_is_isolated(
 
 
 def test_hybrid_document_task_is_monitored(search_module):
-    search, client = search_module
+    search, _client = search_module
+
     document = {"id": "org.example.App", "app_id": "org.example.App"}
     search.create_or_update_apps([document])
 

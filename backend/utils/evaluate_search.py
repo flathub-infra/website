@@ -158,20 +158,20 @@ def _run_queries(
 
 def _validate_cases(cases: Any) -> list[dict[str, Any]]:
     if not isinstance(cases, list):
-        raise ValueError("cases must be an array")
+        raise TypeError("cases must be an array")
     validated = []
     for case in cases:
         if not isinstance(case, dict):
-            raise ValueError("each case must be an object")
+            raise TypeError("each case must be an object")
         if not isinstance(case.get("query"), str) or not isinstance(
             case.get("locale"), str
         ):
-            raise ValueError("case query and locale must be strings")
+            raise TypeError("case query and locale must be strings")
         if case.get("kind") not in {"exploratory", "known-item"}:
             raise ValueError("case kind must be exploratory or known-item")
         judgments = case.get("judgments")
         if not isinstance(judgments, dict):
-            raise ValueError("case judgments must be an object")
+            raise TypeError("case judgments must be an object")
         if any(
             not isinstance(app_id, str) or grade not in {1, 2, 3}
             for app_id, grade in judgments.items()
