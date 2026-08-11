@@ -168,6 +168,7 @@ class CallbackHarness:
         rate=0.5,
         secret="test-random-review-secret",
         target_repo="stable",
+        token_name="builder",
         build_refs=None,
         manifest_enabled=False,
         manifest_gating_enabled=False,
@@ -181,6 +182,7 @@ class CallbackHarness:
     ):
         self.db = FakeDb()
         self.db.session.direct_upload_app_ids = set(direct_upload_app_ids)
+        self.observations = {}
         self.emails = []
         self.app_ids = list(app_ids)
         self.skipped = set(skipped)
@@ -190,6 +192,7 @@ class CallbackHarness:
         self.build_id = 42
         self.job_id = 7
         self.target_repo = target_repo
+        self.token_name = token_name
         self.build_refs = (
             build_refs
             if build_refs is not None
@@ -274,6 +277,20 @@ class CallbackHarness:
         )
         monkeypatch.setattr(moderation, "get_json_key", self.get_json_key)
         monkeypatch.setattr(moderation.http_client, "get", self.http_get)
+        monkeypatch.setattr(
+            moderation,
+            "_upsert_manifest_analysis_observations",
+            self.upsert_manifest_analysis_observations,
+        )
+
+    def upsert_manifest_analysis_observations(self, session, observations):
+        assert session is self.db.session
+        for observation in observations:
+            key = (observation["build_id"], observation["app_id"])
+            self.observations[key] = {
+                **self.observations.get(key, {}),
+                **observation,
+            }
 
     def appstream(self, url):
         return {
@@ -305,7 +322,7 @@ class CallbackHarness:
                     "build": {
                         "repo": self.target_repo,
                         "build_log_url": "https://logs.example/build",
-                        "token_name": "builder",
+                        "token_name": self.token_name,
                     },
                     "build_refs": self.build_refs,
                 }
@@ -1187,6 +1204,171 @@ def _complexity_pair():
     return pair
 
 
+@pytest.mark.parametrize(
+    ("pair_factory", "expected_score", "expected_source_status"),
+    [
+        (lambda: _manifest_pair("x86_64", changed=False), 0, "clean"),
+        (_source_manifest_pair, 5, "findings"),
+    ],
+)
+def test_scored_manifest_observations_include_zero_and_below_threshold(
+    monkeypatch,
+    pair_factory,
+    expected_score,
+    expected_source_status,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+    )
+    pair = pair_factory()
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    observation = harness.observations[(42, "org.example.App")]
+    groups = moderation.ostree_manifest.group_identical_manifest_pairs((pair,))
+    analysis = moderation.manifest_complexity.analyze_manifest_complexity(groups)
+    expected_data = moderation._manifest_complexity_request_data(
+        moderation.ReviewRequest(build_id=42, job_id=7),
+        "org.example.App",
+        analysis,
+        14,
+    ).model_dump(mode="json", exclude_none=True)
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    assert observation["complexity_status"] == "scored"
+    assert observation["complexity_score_units"] == expected_score
+    assert observation["complexity_raw_score_units"] == analysis.raw_score_units
+    assert observation["complexity_would_gate"] is False
+    assert observation["complexity_not_scored_reason"] is None
+    assert observation["complexity_data"] == expected_data
+    assert observation["source_status"] == expected_source_status
+
+
+@pytest.mark.parametrize(
+    ("published_status", "expected_reason"),
+    [
+        (
+            moderation.ostree_manifest.PublishedManifestStatus.REF_MISSING,
+            "published_ref_missing",
+        ),
+        (
+            moderation.ostree_manifest.PublishedManifestStatus.MANIFEST_MISSING,
+            "published_manifest_missing",
+        ),
+        (
+            moderation.ostree_manifest.PublishedManifestStatus.MANIFEST_INVALID,
+            "published_manifest_invalid",
+        ),
+    ],
+)
+def test_published_baseline_failures_persist_not_scored_reason(
+    monkeypatch,
+    published_status,
+    expected_reason,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (
+            _manifest_pair(
+                "x86_64",
+                changed=False,
+                status=published_status,
+            ),
+        ),
+    )
+
+    harness.call()
+
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["collection_status"] == "complete"
+    assert observation["source_status"] == "unavailable"
+    assert observation["complexity_status"] == "not_scored"
+    assert observation["complexity_not_scored_reason"] == expected_reason
+    assert observation["complexity_score_units"] is None
+    assert observation["complexity_raw_score_units"] is None
+    assert observation["complexity_score_band"] is None
+    assert observation["complexity_analysis_fingerprint"] is None
+    assert observation["complexity_data"] is None
+
+
+def test_initial_vorarbeiter_observation_preserves_policy_context(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        token_name="vorarbeiter",
+        current_values=None,
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    observation = harness.observations[(42, "org.example.App")]
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    assert observation["policy_context"] == "initial_vorarbeiter"
+    assert observation["is_new_submission"] is True
+    assert observation["source_status"] == "findings"
+    assert observation["source_would_gate"] is False
+    assert observation["complexity_not_scored_reason"] == "initial_submission"
+
+
+def test_analysis_observation_upsert_identity_uses_build_and_app(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_manifest_pair("x86_64", changed=False),),
+    )
+
+    harness.call()
+    harness.job_id = 8
+    harness.call()
+
+    assert len(harness.observations) == 1
+    assert harness.observations[(42, "org.example.App")]["job_id"] == 8
+
+    harness.build_id = 43
+    harness.call()
+
+    assert set(harness.observations) == {
+        (42, "org.example.App"),
+        (43, "org.example.App"),
+    }
+    index = next(
+        index
+        for index in models.ManifestAnalysisObservation.__table__.indexes
+        if index.name == "manifestanalysisobservation_build_app_unique"
+    )
+    assert index.unique is True
+    assert [column.name for column in index.columns] == ["build_id", "app_id"]
+
+
 def test_disabled_manifest_comparison_preserves_callback(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
@@ -1206,6 +1388,7 @@ def test_disabled_manifest_comparison_preserves_callback(monkeypatch):
     assert harness.db.session.add_calls == 0
     assert harness.db.session.commit_calls == 0
     assert harness.db.session.persisted == []
+    assert harness.observations == {}
     assert harness.emails == []
 
 
@@ -1284,6 +1467,10 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
     assert record.changed_group_count == 1
     assert record.missing_baseline_count == 1
     assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["collection_status"] == "complete"
+    assert observation["source_status"] == "unavailable"
+    assert observation["complexity_not_scored_reason"] == "published_ref_missing"
     assert harness.emails == []
 
 
@@ -1305,6 +1492,7 @@ def test_non_stable_build_skips_manifest_comparison(monkeypatch, target_repo):
 
     assert result.requires_review is False
     assert harness.db.session.add_calls == 0
+    assert harness.observations == {}
     assert harness.emails == []
 
 
@@ -1336,6 +1524,11 @@ def test_missing_published_manifest_ref_keeps_initial_submission(monkeypatch):
     assert result.requires_review is True
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.persisted[0].is_new_submission is True
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["policy_context"] == "initial_submission"
+    assert observation["complexity_status"] == "not_scored"
+    assert observation["complexity_not_scored_reason"] == "initial_submission"
+    assert observation["complexity_score_units"] is None
 
 
 def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatch):
@@ -1364,7 +1557,7 @@ def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatc
     assert first.requires_review is False
     assert second.requires_review is False
     assert harness.db.session.add_calls == 0
-    assert harness.db.session.commit_calls == 0
+    assert harness.db.session.commit_calls == 2
     assert harness.db.session.persisted == []
     assert harness.emails == []
 
@@ -1399,6 +1592,13 @@ def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
     assert result.requires_review is False
     assert harness.db.session.add_calls == 0
     assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["policy_context"] == "normal"
+    assert observation["collection_status"] == "partial"
+    assert observation["source_status"] == "unavailable"
+    assert (
+        observation["complexity_not_scored_reason"] == "candidate_manifest_unavailable"
+    )
     assert harness.emails == []
 
 
@@ -1442,6 +1642,7 @@ def test_manifest_retrieval_failure_has_no_side_effects(monkeypatch, error):
     assert harness.db.session.commit_calls == 0
     assert harness.db.session.invalidation_updates == 0
     assert harness.db.session.persisted == []
+    assert harness.observations == {}
     assert harness.emails == []
 
 
@@ -1463,6 +1664,7 @@ def test_invalid_manifest_build_refs_translate_to_invalid_build(monkeypatch):
     assert raised.value.status_code == 500
     assert raised.value.detail == "invalid_build"
     assert harness.db.session.add_calls == 0
+    assert harness.observations == {}
     assert harness.emails == []
 
 
@@ -1486,6 +1688,9 @@ def test_initial_submission_does_not_create_manifest_request(monkeypatch):
     assert [request.request_type for request in harness.db.session.persisted] == [
         ModerationRequestType.APPDATA
     ]
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["policy_context"] == "initial_submission"
+    assert observation["source_would_gate"] is False
 
 
 def test_skip_list_does_not_create_manifest_request(monkeypatch):
@@ -1507,6 +1712,10 @@ def test_skip_list_does_not_create_manifest_request(monkeypatch):
 
     assert result.requires_review is False
     assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["policy_context"] == "skip_list"
+    assert observation["source_status"] == "findings"
+    assert observation["source_would_gate"] is False
 
 
 def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
@@ -1583,7 +1792,10 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     assert request.job_id == 7
     assert request.build_log_url == "https://logs.example/build"
     assert request.is_new_submission is False
-    assert len(harness.emails) == 1
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["source_findings"] == request_body["findings"]
+    assert observation["source_status"] == "findings"
+    assert observation["source_would_gate"] is True
 
 
 def test_complexity_disabled_logs_without_request(monkeypatch, caplog):
@@ -1617,7 +1829,11 @@ def test_complexity_disabled_logs_without_request(monkeypatch, caplog):
     assert record.gate_suppressed_reason == "gating-disabled"
 
 
-def test_complexity_at_threshold_creates_one_manifest_request(monkeypatch):
+@pytest.mark.parametrize("complexity_threshold_units", [11, 12])
+def test_complexity_at_or_above_threshold_creates_one_manifest_request(
+    monkeypatch,
+    complexity_threshold_units,
+):
     harness = CallbackHarness(
         monkeypatch,
         enabled=True,
@@ -1625,7 +1841,7 @@ def test_complexity_at_threshold_creates_one_manifest_request(monkeypatch):
         current_values=_unchanged_values(),
         manifest_enabled=True,
         complexity_gating_enabled=True,
-        complexity_threshold_units=12,
+        complexity_threshold_units=complexity_threshold_units,
     )
     pair = _complexity_pair()
     pair.candidate_commit = "d" * 64
@@ -1647,6 +1863,10 @@ def test_complexity_at_threshold_creates_one_manifest_request(monkeypatch):
     body = json.loads(request.request_data)
     assert body["findings"] == []
     assert body["complexity"]["score_units"] == 12
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["complexity_status"] == "scored"
+    assert observation["complexity_score_units"] == 12
+    assert observation["complexity_would_gate"] is True
     assert body["complexity"]["raw_score_units"] == 12
     assert body["complexity"]["score_breakdown"] == {
         "ambiguity_units": 0,
@@ -1754,7 +1974,7 @@ def test_identical_manifest_callback_reuses_request(
     assert second.requires_review is expected
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.add_calls == 1
-    assert harness.db.session.commit_calls == 1
+    assert harness.db.session.commit_calls == 2
     assert harness.db.session.invalidation_updates == 1
     assert len(harness.emails) == 1
 
@@ -1830,6 +2050,11 @@ def test_manifest_finding_without_appstream_is_logged_not_persisted(
 
     assert result.requires_review is False
     assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["appstream_present"] is False
+    assert observation["policy_context"] == "missing_appstream"
+    assert observation["source_status"] == "findings"
+    assert observation["source_would_gate"] is False
     assert any(
         record.getMessage() == "Evaluated manifest source gate for app"
         and record.reason == "missing-appstream"
@@ -2121,7 +2346,7 @@ def test_identical_observation_callback_reuses_one_row(monkeypatch):
     assert second.requires_review is False
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.add_calls == 1
-    assert harness.db.session.commit_calls == 1
+    assert harness.db.session.commit_calls == 2
     assert harness.emails == []
 
 
@@ -2197,6 +2422,14 @@ def test_manifest_observe_only_failure_continues_appdata_moderation(monkeypatch,
     assert [request.request_type for request in harness.db.session.persisted] == [
         ModerationRequestType.APPDATA
     ]
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["collection_status"] == "failed"
+    assert observation["collection_error_category"] == error.category
+    assert observation["source_status"] == "unavailable"
+    assert observation["complexity_status"] == "not_scored"
+    assert (
+        observation["complexity_not_scored_reason"] == "candidate_manifest_unavailable"
+    )
     assert harness.emails
 
 
@@ -2225,6 +2458,10 @@ def test_manifest_observe_only_invalid_refs_continue_appdata_moderation(
     assert [request.request_type for request in harness.db.session.persisted] == [
         ModerationRequestType.APPDATA
     ]
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["collection_status"] == "failed"
+    assert observation["collection_error_category"] == "InvalidBuildRefError"
+    assert observation["source_status"] == "unavailable"
 
 
 class AggregateRow:
