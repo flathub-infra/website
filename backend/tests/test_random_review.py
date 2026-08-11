@@ -4,6 +4,7 @@ import logging
 import os
 import sys
 from contextlib import contextmanager
+from datetime import UTC, datetime
 from types import SimpleNamespace
 
 import pytest
@@ -36,17 +37,51 @@ class FakeQuery:
         self.session = session
         self.model = model
         self.filtered = False
+        self.criteria = []
+        self.filter_by_criteria = {}
 
     def filter(self, *args):
         self.filtered = True
+        self.criteria.extend(args)
         return self
 
     def filter_by(self, **kwargs):
+        self.filtered = True
+        self.filter_by_criteria.update(kwargs)
         return self
+
+    def _matches(self, request):
+        for key, value in self.filter_by_criteria.items():
+            if getattr(request, key, None) != value:
+                return False
+        for criterion in self.criteria:
+            left = getattr(criterion, "left", None)
+            key = getattr(left, "key", None)
+            value = getattr(getattr(criterion, "right", None), "value", None)
+            right_name = type(getattr(criterion, "right", None)).__name__
+            if right_name == "False_":
+                value = False
+            elif right_name == "True_":
+                value = True
+            operator = getattr(criterion, "operator", None)
+            current = getattr(request, key, None)
+            operator_name = getattr(operator, "__name__", "")
+            if operator_name in {"eq", "is_"} and current != value:
+                return False
+            if operator_name in {"ne", "is_not"} and current == value:
+                return False
+            if operator_name == "in_op" and current not in (value or []):
+                return False
+        return True
+
+    def _requests(self):
+        if self.model is not models.ModerationRequest:
+            return []
+        return [request for request in self.session.persisted if self._matches(request)]
 
     def all(self):
         if self.model is models.ModerationRequest and self.filtered:
-            return list(self.session.persisted)
+            return self._requests()
         if self.model is models.DirectUploadApp:
             return [
                 SimpleNamespace(app_id=app_id, first_seen_at=True)
@@ -54,9 +89,31 @@ class FakeQuery:
             ]
         return []
 
+    def first(self):
+        results = self.all()
+        return results[0] if results else None
+
+    def count(self):
+        return len(self.all())
+
+    def with_for_update(self):
+        return self
+
     def update(self, values):
+        requests = self._requests()
         self.session.invalidation_updates += 1
-        return 0
+        self.session.update_calls.append(
+            {
+                "filter_by": dict(self.filter_by_criteria),
+                "criteria": list(self.criteria),
+                "values": dict(values),
+                "requests": requests,
+            }
+        )
+        for request in requests:
+            for key, value in values.items():
+                setattr(request, key, value)
+        return len(requests)
 
 
 class FakeSession:
@@ -66,6 +123,7 @@ class FakeSession:
         self.add_calls = 0
         self.commit_calls = 0
         self.invalidation_updates = 0
+        self.update_calls = []
         self.direct_upload_app_ids = set()
 
     def query(self, model):
@@ -105,7 +163,9 @@ class CallbackHarness:
         build_refs=None,
         manifest_enabled=False,
         manifest_gating_enabled=False,
+        manifest_source_origin_observe_only=False,
         complexity_gating_enabled=False,
+        complexity_gating_observe_only=False,
         complexity_threshold_units=14,
         manifest_timeout=60.0,
         published_repo_url="https://published.example/repo",
@@ -157,8 +217,18 @@ class CallbackHarness:
         )
         monkeypatch.setattr(
             config.settings,
+            "ostree_manifest_source_origin_observe_only",
+            manifest_source_origin_observe_only,
+        )
+        monkeypatch.setattr(
+            config.settings,
             "ostree_manifest_complexity_gating_enabled",
             complexity_gating_enabled,
+        )
+        monkeypatch.setattr(
+            config.settings,
+            "ostree_manifest_complexity_gating_observe_only",
+            complexity_gating_observe_only,
         )
         monkeypatch.setattr(
             config.settings,
@@ -252,7 +322,9 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "RANDOM_REVIEW_SECRET",
         "OSTREE_MANIFEST_COMPARISON_ENABLED",
         "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED",
+        "OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY",
         "OSTREE_MANIFEST_COMPLEXITY_GATING_ENABLED",
+        "OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY",
         "OSTREE_MANIFEST_COMPLEXITY_THRESHOLD_UNITS",
         "OSTREE_MANIFEST_TIMEOUT_SECONDS",
         "random_review_enabled",
@@ -260,7 +332,9 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "random_review_secret",
         "ostree_manifest_comparison_enabled",
         "ostree_manifest_source_origin_gating_enabled",
+        "ostree_manifest_source_origin_observe_only",
         "ostree_manifest_complexity_gating_enabled",
+        "ostree_manifest_complexity_gating_observe_only",
         "ostree_manifest_complexity_threshold_units",
         "ostree_manifest_timeout_seconds",
     ):
@@ -273,9 +347,23 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
     assert settings.random_review_secret is None
     assert settings.ostree_manifest_comparison_enabled is False
     assert settings.ostree_manifest_source_origin_gating_enabled is False
+    assert settings.ostree_manifest_source_origin_observe_only is False
     assert settings.ostree_manifest_complexity_gating_enabled is False
+    assert settings.ostree_manifest_complexity_gating_observe_only is False
     assert settings.ostree_manifest_complexity_threshold_units == 14
     assert settings.ostree_manifest_timeout_seconds == 60.0
+
+
+def test_settings_read_canonical_manifest_observe_only_environment(monkeypatch):
+    monkeypatch.setenv("OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY", "true")
+    monkeypatch.setenv("OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY", "true")
+    settings = config.Settings(
+        ostree_manifest_comparison_enabled=True,
+        _env_file=None,
+    )
+
+    assert settings.ostree_manifest_source_origin_observe_only is True
+    assert settings.ostree_manifest_complexity_gating_observe_only is True
 
 
 @pytest.mark.parametrize("rate", [-0.001, 1.001])
@@ -315,6 +403,28 @@ def test_manifest_complexity_gate_requires_manifest_comparison():
         config.Settings(
             ostree_manifest_comparison_enabled=False,
             ostree_manifest_complexity_gating_enabled=True,
+        )
+
+
+def test_manifest_origin_observe_only_requires_manifest_comparison():
+    with pytest.raises(
+        ValidationError,
+        match="OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED",
+    ):
+        config.Settings(
+            ostree_manifest_comparison_enabled=False,
+            ostree_manifest_source_origin_observe_only=True,
+        )
+
+
+def test_manifest_complexity_observe_only_requires_manifest_comparison():
+    with pytest.raises(
+        ValidationError,
+        match="OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED",
+    ):
+        config.Settings(
+            ostree_manifest_comparison_enabled=False,
+            ostree_manifest_complexity_gating_observe_only=True,
         )
 
 
@@ -1695,3 +1805,584 @@ def test_conflicting_manifest_request_fails(monkeypatch, conflict):
 
     assert raised.value.status_code == 500
     assert raised.value.detail == "conflicting_manifest_review_request"
+
+
+def test_source_origin_observe_only_persists_non_actionable_manifest(
+    monkeypatch,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.MANIFEST
+    assert request.is_observation is True
+    assert harness.emails == []
+
+
+def test_complexity_observe_only_persists_non_actionable_manifest(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        complexity_gating_observe_only=True,
+        complexity_threshold_units=12,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_complexity_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.MANIFEST
+    assert request.is_observation is True
+    assert json.loads(request.request_data)["findings"] == []
+    assert harness.emails == []
+
+
+def test_manifest_observe_only_takes_precedence_over_matching_gate(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.persisted[0].is_observation is True
+    assert harness.emails == []
+
+
+def test_observed_source_origin_and_enforced_complexity_share_actionable_row(
+    monkeypatch,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+        complexity_gating_enabled=True,
+        complexity_threshold_units=5,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.is_observation is False
+    body = json.loads(request.request_data)
+    assert body["findings"]
+    assert body["complexity"]["score_units"] == 5
+    assert len(harness.emails) == 1
+
+
+def test_complexity_observation_is_stored_with_appdata_hold(monkeypatch):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        manifest_enabled=True,
+        complexity_gating_observe_only=True,
+        complexity_threshold_units=12,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_complexity_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert {request.request_type for request in harness.db.session.persisted} == {
+        ModerationRequestType.APPDATA,
+        ModerationRequestType.MANIFEST,
+    }
+    manifest_request = next(
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    )
+    appdata_request = next(
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.APPDATA
+    )
+    assert manifest_request.is_observation is True
+    assert appdata_request.is_observation is None
+    email_requests = harness.emails[0]["messageInfo"]["requests"]
+    assert [item["requestType"] for item in email_requests] == [
+        ModerationRequestType.APPDATA
+    ]
+
+
+def test_observation_does_not_suppress_random_review(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=True,
+        rate=1,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert {request.request_type for request in harness.db.session.persisted} == {
+        ModerationRequestType.APPDATA,
+        ModerationRequestType.MANIFEST,
+    }
+    assert any(
+        request.request_type == ModerationRequestType.MANIFEST
+        and request.is_observation is True
+        for request in harness.db.session.persisted
+    )
+
+
+def test_observation_invalidation_is_scoped_away_from_appdata(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    appdata_request = models.ModerationRequest(
+        appid="org.example.App",
+        request_type=ModerationRequestType.APPDATA,
+        request_data="{}",
+        is_new_submission=False,
+        is_observation=False,
+        is_outdated=False,
+        build_id=41,
+        job_id=6,
+    )
+    harness.db.session.persisted.append(appdata_request)
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    harness.call()
+
+    assert appdata_request.is_outdated is False
+    assert harness.db.session.update_calls
+    assert any(
+        getattr(getattr(criterion, "left", None), "key", None) == "is_observation"
+        for criterion in harness.db.session.update_calls[0]["criteria"]
+    )
+
+
+def test_identical_observation_callback_reuses_one_row(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    harness.call()
+    second = harness.call()
+
+    assert second.requires_review is False
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.add_calls == 1
+    assert harness.db.session.commit_calls == 1
+    assert harness.emails == []
+
+
+def test_observation_row_promotes_and_demotes_with_effective_configuration(
+    monkeypatch,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+
+    harness.call()
+    monkeypatch.setattr(
+        config.settings, "ostree_manifest_source_origin_observe_only", False
+    )
+    monkeypatch.setattr(
+        config.settings, "ostree_manifest_source_origin_gating_enabled", True
+    )
+    promoted = harness.call()
+
+    assert promoted.requires_review is True
+    assert harness.db.session.persisted[0].is_observation is False
+    assert harness.db.session.persisted[0].is_outdated is False
+    assert len(harness.emails) == 1
+
+    monkeypatch.setattr(
+        config.settings, "ostree_manifest_source_origin_observe_only", True
+    )
+    demoted = harness.call()
+
+    assert demoted.requires_review is False
+    assert harness.db.session.persisted[0].is_observation is True
+    assert len(harness.emails) == 1
+
+
+@pytest.mark.parametrize(
+    "error",
+    [
+        moderation.ostree_manifest.ManifestTransportError("ostree_io"),
+        moderation.ostree_manifest.ManifestTimeoutError("timeout"),
+    ],
+)
+def test_manifest_observe_only_failure_continues_appdata_moderation(monkeypatch, error):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_ for _ in ()).throw(error),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert [request.request_type for request in harness.db.session.persisted] == [
+        ModerationRequestType.APPDATA
+    ]
+    assert harness.emails
+
+
+def test_manifest_observe_only_invalid_refs_continue_appdata_moderation(
+    monkeypatch,
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+        build_refs=[
+            {
+                "ref_name": "app/org.example.App/x86_64/stable",
+                "commit": "invalid",
+            }
+        ],
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert [request.request_type for request in harness.db.session.persisted] == [
+        ModerationRequestType.APPDATA
+    ]
+
+
+class AggregateRow:
+    def __init__(self, appid, is_new_submission, updated_at, request_types):
+        self.appid = appid
+        self.is_new_submission = is_new_submission
+        self.updated_at = updated_at
+        self.request_types = request_types
+
+    def _asdict(self):
+        return {
+            "appid": self.appid,
+            "is_new_submission": self.is_new_submission,
+            "updated_at": self.updated_at,
+            "request_types": self.request_types,
+        }
+
+
+class EndpointQuery:
+    def __init__(self, session, entities):
+        self.session = session
+        self.entities = entities
+        self.criteria = []
+        self.filter_by_criteria = {}
+
+    def filter(self, *criteria):
+        self.criteria.extend(criteria)
+        return self
+
+    def filter_by(self, **criteria):
+        self.filter_by_criteria.update(criteria)
+        return self
+
+    def join(self, *args, **kwargs):
+        return self
+
+    def group_by(self, *args, **kwargs):
+        return self
+
+    def order_by(self, *args, **kwargs):
+        return self
+
+    def having(self, *args, **kwargs):
+        return self
+
+    def offset(self, *args, **kwargs):
+        return self
+
+    def limit(self, *args, **kwargs):
+        return self
+
+    def with_for_update(self):
+        return self
+
+    def _matches(self, request):
+        for key, value in self.filter_by_criteria.items():
+            if getattr(request, key, None) != value:
+                return False
+        for criterion in self.criteria:
+            left = getattr(criterion, "left", None)
+            key = getattr(left, "key", None)
+            if key is None:
+                continue
+            value = getattr(getattr(criterion, "right", None), "value", None)
+            right_name = type(getattr(criterion, "right", None)).__name__
+            if right_name == "False_":
+                value = False
+            elif right_name == "True_":
+                value = True
+            operator_name = getattr(
+                getattr(criterion, "operator", None), "__name__", ""
+            )
+            current = getattr(request, key, None)
+            if operator_name in {"eq", "is_"} and current != value:
+                return False
+            if operator_name in {"ne", "is_not"} and current == value:
+                return False
+        return True
+
+    def all(self):
+        requests = [
+            request for request in self.session.requests if self._matches(request)
+        ]
+        if self.entities and self.entities[0] is models.ModerationRequest:
+            if len(self.entities) == 1:
+                return requests
+            return [(request, "Moderator") for request in requests]
+        has_actionable_filter = any(
+            getattr(getattr(criterion, "left", None), "key", None) == "is_observation"
+            and (
+                getattr(getattr(criterion, "right", None), "value", None) is False
+                or type(getattr(criterion, "right", None)).__name__ == "False_"
+            )
+            for criterion in self.criteria
+        )
+        if has_actionable_filter:
+            return [
+                AggregateRow(
+                    appid="org.example.App",
+                    is_new_submission=False,
+                    updated_at=None,
+                    request_types=[ModerationRequestType.MANIFEST],
+                )
+            ]
+        return [
+            AggregateRow(
+                appid="org.example.App",
+                is_new_submission=False,
+                updated_at=None,
+                request_types=[
+                    ModerationRequestType.MANIFEST,
+                    ModerationRequestType.APPDATA,
+                ],
+            ),
+            AggregateRow(
+                appid="org.observed.App",
+                is_new_submission=False,
+                updated_at=None,
+                request_types=[ModerationRequestType.MANIFEST],
+            ),
+        ]
+
+    def first(self):
+        results = self.all()
+        return results[0] if results else None
+
+    def count(self):
+        return len(self.all())
+
+    def __iter__(self):
+        return iter(self.all())
+
+
+class EndpointSession:
+    def __init__(self):
+        self.requests = [
+            models.ModerationRequest(
+                id=1,
+                created_at=datetime.now(UTC),
+                appid="org.example.App",
+                request_type=ModerationRequestType.APPDATA,
+                request_data=json.dumps({"keys": {}, "current_values": {}}),
+                is_new_submission=False,
+                is_observation=False,
+                is_outdated=False,
+                build_id=42,
+                job_id=7,
+            ),
+            models.ModerationRequest(
+                id=2,
+                created_at=datetime.now(UTC),
+                appid="org.observed.App",
+                request_type=ModerationRequestType.MANIFEST,
+                request_data=json.dumps({"findings": [], "complexity": None}),
+                is_new_submission=False,
+                is_observation=True,
+                is_outdated=False,
+                build_id=42,
+                job_id=7,
+            ),
+        ]
+
+    def query(self, *entities):
+        return EndpointQuery(self, entities)
+
+    def merge(self, value):
+        return value
+
+    def commit(self):
+        pass
+
+
+class EndpointDb:
+    def __init__(self):
+        self.session = EndpointSession()
+
+
+def test_observations_are_hidden_from_moderation_endpoints_and_actions(
+    monkeypatch,
+):
+    db = EndpointDb()
+
+    @contextmanager
+    def get_db(db_type="replica"):
+        yield db
+
+    monkeypatch.setattr(moderation, "get_db", get_db)
+    apps = moderation.get_moderation_apps(_moderator=object())
+    login = SimpleNamespace(
+        user=SimpleNamespace(
+            id=9,
+            permissions=lambda: {"moderation"},
+            dev_flatpaks=lambda session: set(),
+        )
+    )
+    app = moderation.get_moderation_app(login, app_id="org.example.App")
+
+    assert [item.appid for item in apps.apps] == ["org.example.App"]
+    assert [request.id for request in app.requests] == [1]
+    assert not hasattr(app.requests[0], "is_observation")
+
+    with pytest.raises(HTTPException) as raised:
+        moderation.submit_review(
+            2,
+            moderation.Review(approve=True),
+            login,
+            SimpleNamespace(),
+            object(),
+        )
+
+    assert raised.value.status_code == 404
+    assert raised.value.detail == "not_found"
+
+
+def test_observations_do_not_block_remaining_approval_count(monkeypatch):
+    db = EndpointDb()
+    review_dispatches = []
+    emails = []
+
+    @contextmanager
+    def get_db(db_type="replica"):
+        yield db
+
+    monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(
+        moderation.worker.review_check,
+        "send",
+        lambda *args: review_dispatches.append(args),
+    )
+    monkeypatch.setattr(moderation.worker.send_email_new, "send", emails.append)
+    monkeypatch.setattr(
+        moderation.audit_log, "enqueue_audit_log", lambda *args, **kwargs: None
+    )
+    monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
+    login = SimpleNamespace(
+        user=SimpleNamespace(id=9),
+    )
+
+    moderation.submit_review(
+        1,
+        moderation.Review(approve=True),
+        login,
+        SimpleNamespace(),
+        object(),
+    )
+
+    assert review_dispatches == [(7, "Passed", None, 42)]

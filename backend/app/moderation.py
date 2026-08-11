@@ -479,6 +479,7 @@ def get_moderation_apps(
                     else models.ModerationRequest.handled_at.isnot(None)
                 ),
                 models.ModerationRequest.is_outdated.is_(False),
+                models.ModerationRequest.is_observation.is_(False),
             )
             .group_by(models.ModerationRequest.appid)
             .order_by(func.max(models.ModerationRequest.created_at).desc())
@@ -541,6 +542,7 @@ def get_moderation_app(
         query = (
             db.session.query(models.ModerationRequest, models.FlathubUser.display_name)
             .filter_by(appid=app_id)
+            .filter(models.ModerationRequest.is_observation.is_(False))
             .order_by(models.ModerationRequest.created_at.desc())
         )
 
@@ -886,6 +888,21 @@ def submit_review_request(
     random_review_enabled = getattr(config.settings, "random_review_enabled", False)
     random_review_rate = getattr(config.settings, "random_review_rate", 0.01)
     random_review_secret = getattr(config.settings, "random_review_secret", None)
+    source_origin_enforcing = (
+        config.settings.ostree_manifest_source_origin_gating_enabled
+        and not config.settings.ostree_manifest_source_origin_observe_only
+    )
+    complexity_enforcing = (
+        config.settings.ostree_manifest_complexity_gating_enabled
+        and not config.settings.ostree_manifest_complexity_gating_observe_only
+    )
+    manifest_observation_enabled = (
+        config.settings.ostree_manifest_source_origin_observe_only
+        or config.settings.ostree_manifest_complexity_gating_observe_only
+    )
+    manifest_fail_open = manifest_observation_enabled and not (
+        source_origin_enforcing or complexity_enforcing
+    )
     logger.info(
         "Random review configuration",
         extra={
@@ -966,19 +983,45 @@ def submit_review_request(
                 manifest_pairs
             )
         except ostree_manifest.InvalidBuildRefError as exc:
-            raise HTTPException(status_code=500, detail="invalid_build") from exc
-        except ostree_manifest.ManifestRetrievalError as exc:
+            if not manifest_fail_open:
+                raise HTTPException(status_code=500, detail="invalid_build") from exc
             logger.exception(
-                "OSTree manifest retrieval failed",
+                "OSTree manifest observation failed",
+                extra={
+                    "build_id": review_request.build_id,
+                    "job_id": review_request.job_id,
+                    "category": "invalid_build_refs",
+                },
+            )
+            candidate_refs = ()
+            manifest_pairs = ()
+            manifest_groups = ()
+            manifest_findings_by_app.clear()
+        except ostree_manifest.ManifestRetrievalError as exc:
+            if not manifest_fail_open:
+                logger.exception(
+                    "OSTree manifest retrieval failed",
+                    extra={
+                        "build_id": review_request.build_id,
+                        "job_id": review_request.job_id,
+                        "category": exc.category,
+                    },
+                )
+                raise HTTPException(
+                    status_code=500, detail="manifest_retrieval_failed"
+                ) from exc
+            logger.exception(
+                "OSTree manifest observation failed",
                 extra={
                     "build_id": review_request.build_id,
                     "job_id": review_request.job_id,
                     "category": exc.category,
                 },
             )
-            raise HTTPException(
-                status_code=500, detail="manifest_retrieval_failed"
-            ) from exc
+            candidate_refs = ()
+            manifest_pairs = ()
+            manifest_groups = ()
+            manifest_findings_by_app.clear()
 
         logger.info(
             "Compared embedded manifests",
@@ -1033,6 +1076,10 @@ def submit_review_request(
     }
 
     new_requests: list[models.ModerationRequest] = []
+    persisted_requests: list[models.ModerationRequest] = []
+    new_observation_app_ids: set[str] = set()
+    manifest_newly_actionable_requests: list[models.ModerationRequest] = []
+    manifest_newly_actionable_app_ids: set[str] = set()
     eligible_app_ids: list[str] = []
     has_initial_submission = False
     manifest_reused_app_ids: set[str] = set()
@@ -1198,10 +1245,15 @@ def submit_review_request(
                 reason="initial-submission" if is_new_submission else None,
             )
 
+        origin_should_observe = (
+            not is_new_submission
+            and bool(app_manifest_findings)
+            and config.settings.ostree_manifest_source_origin_observe_only
+        )
         origin_should_gate = (
             not is_new_submission
             and bool(app_manifest_findings)
-            and config.settings.ostree_manifest_source_origin_gating_enabled
+            and source_origin_enforcing
         )
         complexity_would_gate = (
             isinstance(
@@ -1211,10 +1263,11 @@ def submit_review_request(
             and app_complexity.score_units
             >= config.settings.ostree_manifest_complexity_threshold_units
         )
-        complexity_should_gate = (
+        complexity_should_observe = (
             complexity_would_gate
-            and config.settings.ostree_manifest_complexity_gating_enabled
+            and config.settings.ostree_manifest_complexity_gating_observe_only
         )
+        complexity_should_gate = complexity_would_gate and complexity_enforcing
         appdata_request: models.ModerationRequest | None = None
         summary_request: models.ModerationRequest | None = None
 
@@ -1447,12 +1500,13 @@ def submit_review_request(
             else None
         )
         selected_manifest_data: str | None = None
-        if origin_should_gate:
+        manifest_is_observation = not (origin_should_gate or complexity_should_gate)
+        if origin_should_gate or origin_should_observe:
             selected_manifest_data = _manifest_request_data(
                 app_manifest_findings,
                 complexity_data,
             )
-        elif (
+        elif complexity_should_observe or (
             complexity_should_gate
             and appdata_request is None
             and summary_request is None
@@ -1470,13 +1524,16 @@ def submit_review_request(
                 suppressed_reason = "invalid-or-missing-baseline"
             elif (
                 complexity_would_gate
-                and not config.settings.ostree_manifest_complexity_gating_enabled
+                and not complexity_should_gate
+                and not complexity_should_observe
             ):
                 suppressed_reason = "gating-disabled"
             elif (
                 complexity_would_gate
                 and (appdata_request is not None or summary_request is not None)
                 and not origin_should_gate
+                and not origin_should_observe
+                and not complexity_should_observe
             ):
                 suppressed_reason = "existing-deterministic-request"
             _log_manifest_complexity(
@@ -1487,6 +1544,7 @@ def submit_review_request(
             )
 
         if selected_manifest_data is not None:
+            reused_manifest_was_observation: bool | None = None
             with get_db("writer") as db:
                 existing_manifest_requests = (
                     db.session.query(models.ModerationRequest)
@@ -1498,19 +1556,39 @@ def submit_review_request(
                     )
                     .all()
                 )
-            if not existing_manifest_requests:
-                new_requests.append(
-                    models.ModerationRequest(
-                        appid=app_id,
-                        request_type=ModerationRequestType.MANIFEST,
-                        request_data=selected_manifest_data,
-                        is_new_submission=False,
-                        is_outdated=False,
-                        build_id=review_request.build_id,
-                        job_id=review_request.job_id,
-                        build_log_url=build_log_url,
+                if (
+                    len(existing_manifest_requests) == 1
+                    and existing_manifest_requests[0].job_id == review_request.job_id
+                    and _manifest_request_matches(
+                        existing_manifest_requests[0].request_data,
+                        selected_manifest_data,
                     )
+                ):
+                    reused_manifest_was_observation = bool(
+                        existing_manifest_requests[0].is_observation
+                    )
+                    if reused_manifest_was_observation != manifest_is_observation:
+                        existing_manifest_requests[
+                            0
+                        ].is_observation = manifest_is_observation
+                        db.session.commit()
+            if not existing_manifest_requests:
+                manifest_request = models.ModerationRequest(
+                    appid=app_id,
+                    request_type=ModerationRequestType.MANIFEST,
+                    request_data=selected_manifest_data,
+                    is_new_submission=False,
+                    is_observation=manifest_is_observation,
+                    is_outdated=False,
+                    build_id=review_request.build_id,
+                    job_id=review_request.job_id,
+                    build_log_url=build_log_url,
                 )
+                persisted_requests.append(manifest_request)
+                if manifest_is_observation:
+                    new_observation_app_ids.add(app_id)
+                else:
+                    new_requests.append(manifest_request)
             elif (
                 len(existing_manifest_requests) == 1
                 and existing_manifest_requests[0].job_id == review_request.job_id
@@ -1520,12 +1598,20 @@ def submit_review_request(
                 )
             ):
                 reused_request = existing_manifest_requests[0]
-                manifest_reused_app_ids.add(app_id)
-                manifest_reuse_requires_review = (
-                    manifest_reuse_requires_review
-                    or reused_request.handled_at is None
-                    or reused_request.is_approved is None
-                )
+                was_observation = bool(reused_manifest_was_observation)
+                became_actionable = was_observation and not manifest_is_observation
+                if not manifest_is_observation:
+                    manifest_reused_app_ids.add(app_id)
+                    reuse_requires_review = (
+                        reused_request.handled_at is None
+                        or reused_request.is_approved is None
+                    )
+                    manifest_reuse_requires_review = (
+                        manifest_reuse_requires_review or reuse_requires_review
+                    )
+                    if became_actionable and reuse_requires_review:
+                        manifest_newly_actionable_requests.append(reused_request)
+                        manifest_newly_actionable_app_ids.add(app_id)
             else:
                 logger.error(
                     "Conflicting manifest moderation request",
@@ -1542,8 +1628,10 @@ def submit_review_request(
                 )
 
         if appdata_request is not None:
+            persisted_requests.append(appdata_request)
             new_requests.append(appdata_request)
         if summary_request is not None:
+            persisted_requests.append(summary_request)
             new_requests.append(summary_request)
 
     leftover_manifest_app_ids = (
@@ -1697,84 +1785,102 @@ def submit_review_request(
 
                 if selected:
                     for app_id in eligible_app_ids:
-                        new_requests.append(
-                            models.ModerationRequest(
-                                appid=app_id,
-                                request_type=ModerationRequestType.APPDATA,
-                                request_data=json.dumps(_random_review_request_data()),
-                                is_new_submission=False,
-                                is_outdated=False,
-                                build_id=review_request.build_id,
-                                job_id=review_request.job_id,
-                                build_log_url=build_log_url,
-                            )
+                        random_request = models.ModerationRequest(
+                            appid=app_id,
+                            request_type=ModerationRequestType.APPDATA,
+                            request_data=json.dumps(_random_review_request_data()),
+                            is_new_submission=False,
+                            is_observation=False,
+                            is_outdated=False,
+                            build_id=review_request.build_id,
+                            job_id=review_request.job_id,
+                            build_log_url=build_log_url,
                         )
+                        persisted_requests.append(random_request)
+                        new_requests.append(random_request)
 
     # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
     # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
     with get_db("writer") as db:
-        app_ids = {request.appid for request in new_requests}
-        for app_id in app_ids:
+        actionable_app_ids = {
+            request.appid for request in new_requests
+        } | manifest_newly_actionable_app_ids
+        for app_id in actionable_app_ids:
             db.session.query(models.ModerationRequest).filter_by(
                 appid=app_id, is_outdated=False
             ).update({"is_outdated": True})
+        promoted_request_ids = [
+            request.id for request in manifest_newly_actionable_requests
+        ]
+        if promoted_request_ids:
+            db.session.query(models.ModerationRequest).filter(
+                models.ModerationRequest.id.in_(promoted_request_ids)
+            ).update({"is_outdated": False})
 
-        if len(new_requests) == 0:
-            if manifest_reused_app_ids or random_review_reused_app_ids:
-                return ReviewRequestResponse(
-                    requires_review=(
-                        (
-                            manifest_reuse_requires_review
-                            or random_review_reuse_requires_review
-                        )
-                        and not config.settings.moderation_observe_only
-                    )
-                )
-            return ReviewRequestResponse(requires_review=False)
-        else:
-            for request in new_requests:
-                db.session.add(request)
+        for app_id in new_observation_app_ids - actionable_app_ids:
+            db.session.query(models.ModerationRequest).filter(
+                models.ModerationRequest.appid == app_id,
+                models.ModerationRequest.is_outdated.is_(False),
+                models.ModerationRequest.request_type == ModerationRequestType.MANIFEST,
+                models.ModerationRequest.is_observation.is_(True),
+            ).update({"is_outdated": True})
+
+        for request in persisted_requests:
+            db.session.add(request)
+        if persisted_requests:
             db.session.commit()
 
-        if config.settings.moderation_observe_only:
-            return ReviewRequestResponse(requires_review=False)
+    if config.settings.moderation_observe_only:
+        return ReviewRequestResponse(requires_review=False)
+
+    requires_review = (
+        bool(new_requests)
+        or manifest_reuse_requires_review
+        or random_review_reuse_requires_review
+    )
+    if not requires_review:
+        return ReviewRequestResponse(requires_review=False)
+
+    email_requests = new_requests + manifest_newly_actionable_requests
+    apps = itertools.groupby(
+        sorted(email_requests, key=lambda request: request.appid),
+        lambda request: request.appid,
+    )
+    for app_id, requests in apps:
+        requests = list(requests)
+
+        if app_metadata := get_json_key(f"apps:{app_id}"):
+            app_name = app_metadata["name"]
         else:
-            apps = itertools.groupby(new_requests, lambda r: r.appid)
-            for app_id, requests in apps:
-                requests = list(requests)
+            app_name = None
 
-                if app_metadata := get_json_key(f"apps:{app_id}"):
-                    app_name = app_metadata["name"]
-                else:
-                    app_name = None
+        subject = f"Build #{review_request.build_id} held for review"
+        payload = {
+            "messageId": f"{app_id}/{review_request.build_id}/held",
+            "creation_timestamp": utils.utcnow().timestamp(),
+            "subject": subject,
+            "previewText": subject,
+            "inform_moderators": True,
+            "messageInfo": {
+                "category": EmailCategory.MODERATION_HELD,
+                "appId": requests[0].appid,
+                "appName": app_name,
+                "buildId": review_request.build_id,
+                "buildLogUrl": requests[0].build_log_url,
+                "requests": [
+                    {
+                        "requestType": request.request_type,
+                        "requestData": json.loads(request.request_data),
+                        "isNewSubmission": request.is_new_submission,
+                    }
+                    for request in requests
+                ],
+            },
+        }
 
-                subject = f"Build #{review_request.build_id} held for review"
-                payload = {
-                    "messageId": f"{app_id}/{review_request.build_id}/held",
-                    "creation_timestamp": utils.utcnow().timestamp(),
-                    "subject": subject,
-                    "previewText": subject,
-                    "inform_moderators": True,
-                    "messageInfo": {
-                        "category": EmailCategory.MODERATION_HELD,
-                        "appId": request.appid,
-                        "appName": app_name,
-                        "buildId": review_request.build_id,
-                        "buildLogUrl": request.build_log_url,
-                        "requests": [
-                            {
-                                "requestType": request.request_type,
-                                "requestData": json.loads(request.request_data),
-                                "isNewSubmission": request.is_new_submission,
-                            }
-                            for request in requests
-                        ],
-                    },
-                }
+        worker.send_email_new.send(payload)
 
-                worker.send_email_new.send(payload)
-
-            return ReviewRequestResponse(requires_review=True)
+    return ReviewRequestResponse(requires_review=True)
 
 
 class Review(BaseModel):
@@ -1823,6 +1929,7 @@ def submit_review(
         request = (
             db.session.query(models.ModerationRequest)
             .filter_by(id=id)
+            .filter(models.ModerationRequest.is_observation.is_(False))
             .with_for_update()
             .first()
         )
@@ -1855,6 +1962,7 @@ def submit_review(
                 db.session.query(models.ModerationRequest)
                 .filter_by(job_id=job_id)
                 .filter(models.ModerationRequest.is_approved.is_(None))
+                .filter(models.ModerationRequest.is_observation.is_(False))
                 .filter(models.ModerationRequest.id != id)
                 .count()
             )

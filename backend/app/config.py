@@ -85,7 +85,9 @@ class Settings(BaseSettings):
     moderation_observe_only: bool = False
     ostree_manifest_comparison_enabled: bool = False
     ostree_manifest_source_origin_gating_enabled: bool = False
+    ostree_manifest_source_origin_observe_only: bool = False
     ostree_manifest_complexity_gating_enabled: bool = False
+    ostree_manifest_complexity_gating_observe_only: bool = False
     ostree_manifest_complexity_threshold_units: int = Field(default=14, ge=1, le=40)
     ostree_manifest_timeout_seconds: float = Field(default=60.0, gt=0)
 
@@ -113,11 +115,25 @@ class Settings(BaseSettings):
                 "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED"
             )
         if (
+            self.ostree_manifest_source_origin_observe_only
+            and not self.ostree_manifest_comparison_enabled
+        ):
+            raise ValueError(
+                "OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED"
+            )
+        if (
             self.ostree_manifest_complexity_gating_enabled
             and not self.ostree_manifest_comparison_enabled
         ):
             raise ValueError(
                 "OSTREE_MANIFEST_COMPLEXITY_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED"
+            )
+        if (
+            self.ostree_manifest_complexity_gating_observe_only
+            and not self.ostree_manifest_comparison_enabled
+        ):
+            raise ValueError(
+                "OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED"
             )
         return self
 

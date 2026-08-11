@@ -2170,6 +2170,7 @@ class ModerationRequest(Base):
     request_type = mapped_column(String, nullable=False)
     request_data = mapped_column(String)
     is_new_submission = mapped_column(Boolean, nullable=False, server_default=false())
+    is_observation = mapped_column(Boolean, nullable=False, server_default=false())
 
     handled_by = mapped_column(Integer, ForeignKey(FlathubUser.id), index=True)
     handled_at = mapped_column(DateTime, index=True)
