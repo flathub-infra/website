@@ -1546,6 +1546,7 @@ def submit_review_request(
         if selected_manifest_data is not None:
             reused_manifest_was_observation: bool | None = None
             with get_db("writer") as db:
+                db.session.expire_on_commit = False
                 existing_manifest_requests = (
                     db.session.query(models.ModerationRequest)
                     .filter(
@@ -1799,6 +1800,17 @@ def submit_review_request(
                         persisted_requests.append(random_request)
                         new_requests.append(random_request)
 
+    email_requests = [
+        {
+            "appid": request.appid,
+            "build_log_url": request.build_log_url,
+            "request_type": request.request_type,
+            "request_data": request.request_data,
+            "is_new_submission": request.is_new_submission,
+        }
+        for request in new_requests + manifest_newly_actionable_requests
+    ]
+
     # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
     # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
     with get_db("writer") as db:
@@ -1841,10 +1853,9 @@ def submit_review_request(
     if not requires_review:
         return ReviewRequestResponse(requires_review=False)
 
-    email_requests = new_requests + manifest_newly_actionable_requests
     apps = itertools.groupby(
-        sorted(email_requests, key=lambda request: request.appid),
-        lambda request: request.appid,
+        sorted(email_requests, key=lambda request: request["appid"]),
+        lambda request: request["appid"],
     )
     for app_id, requests in apps:
         requests = list(requests)
@@ -1863,15 +1874,15 @@ def submit_review_request(
             "inform_moderators": True,
             "messageInfo": {
                 "category": EmailCategory.MODERATION_HELD,
-                "appId": requests[0].appid,
+                "appId": requests[0]["appid"],
                 "appName": app_name,
                 "buildId": review_request.build_id,
-                "buildLogUrl": requests[0].build_log_url,
+                "buildLogUrl": requests[0]["build_log_url"],
                 "requests": [
                     {
-                        "requestType": request.request_type,
-                        "requestData": json.loads(request.request_data),
-                        "isNewSubmission": request.is_new_submission,
+                        "requestType": request["request_type"],
+                        "requestData": json.loads(request["request_data"]),
+                        "isNewSubmission": request["is_new_submission"],
                     }
                     for request in requests
                 ],

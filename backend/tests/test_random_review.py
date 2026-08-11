@@ -10,6 +10,7 @@ from types import SimpleNamespace
 import pytest
 from fastapi import HTTPException
 from pydantic import ValidationError
+from sqlalchemy import inspect
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -77,7 +78,11 @@ class FakeQuery:
     def _requests(self):
         if self.model is not models.ModerationRequest:
             return []
-        return [request for request in self.session.persisted if self._matches(request)]
+        requests = [
+            request for request in self.session.persisted if self._matches(request)
+        ]
+        self.session.loaded_requests.extend(requests)
+        return requests
 
     def all(self):
         if self.model is models.ModerationRequest and self.filtered:
@@ -125,6 +130,9 @@ class FakeSession:
         self.invalidation_updates = 0
         self.update_calls = []
         self.direct_upload_app_ids = set()
+        self.expire_loaded_on_context_exit = False
+        self.expire_on_commit = True
+        self.loaded_requests = []
 
     def query(self, model):
         return FakeQuery(self, model)
@@ -306,7 +314,18 @@ class CallbackHarness:
 
     @contextmanager
     def get_db(self, db_type="replica"):
-        yield self.db
+        try:
+            yield self.db
+        finally:
+            if (
+                db_type == "writer"
+                and self.db.session.expire_loaded_on_context_exit
+                and self.db.session.expire_on_commit
+            ):
+                for request in self.db.session.loaded_requests:
+                    state = inspect(request)
+                    state._expire(request.__dict__, set())
+            self.db.session.loaded_requests.clear()
 
     def call(self):
         return moderation.submit_review_request(
@@ -525,6 +544,42 @@ def test_enabled_selected_creates_random_request(monkeypatch):
     assert json.loads(request.request_data) == moderation._random_review_request_data()
     assert harness.emails
     assert harness.emails[0]["subject"] == "Build #42 held for review"
+
+
+def test_email_uses_request_data_after_committed_objects_expire(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        current_values={
+            "org.example.App": {
+                "name": "Example App",
+                "summary": "An example",
+                "developer_name": "Example",
+                "project_license": "MIT",
+            }
+        },
+    )
+    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
+    original_commit = harness.db.session.commit
+
+    def expire_committed_requests():
+        original_commit()
+        for request in harness.db.session.persisted:
+            state = inspect(request)
+            state._expire(request.__dict__, set())
+
+    monkeypatch.setattr(harness.db.session, "commit", expire_committed_requests)
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert harness.emails[0]["messageInfo"]["appId"] == "org.example.App"
+    assert harness.emails[0]["messageInfo"]["requests"] == [
+        {
+            "requestType": ModerationRequestType.APPDATA,
+            "requestData": moderation._random_review_request_data(),
+            "isNewSubmission": False,
+        }
+    ]
 
 
 def test_enabled_unselected_creates_no_random_request(monkeypatch):
@@ -1830,6 +1885,29 @@ def test_source_origin_observe_only_persists_non_actionable_manifest(
     request = harness.db.session.persisted[0]
     assert request.request_type == ModerationRequestType.MANIFEST
     assert request.is_observation is True
+    assert harness.emails == []
+
+
+def test_observation_retry_keeps_reused_request_data_loaded(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (_source_manifest_pair(),),
+    )
+    harness.call()
+    harness.db.session.expire_loaded_on_context_exit = True
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert len(harness.db.session.persisted) == 1
     assert harness.emails == []
 
 
