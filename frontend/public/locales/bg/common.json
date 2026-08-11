@@ -854,5 +854,18 @@
   "app-is-currently-verified-by-dns": "Вашето приложение е проверено чрез DNS контрол на <domain></domain>",
   "dns-lookup-failed": "Неуспешно търсене на TXT записи за {record}.",
   "dns-token-not-present": "TXT записите за {record} не съдържат жетона.",
-  "moderation-random-review": "Избрано на случаен принцип за проверка от човек"
+  "moderation-random-review": "Избрано на случаен принцип за рецензия от човек",
+  "moderation-build-log": "Дневник на компилацията",
+  "moderation-summary-changes": "Промени в обобщението",
+  "moderation-manifest-source-origin": "Промени в източника на манифеста",
+  "moderation-manifest-complexity": "Сложност на пакетирането в манифеста",
+  "moderation-manifest-complexity-explanation": "Тези промени в рецептата описват обхвата и структурата на пакетирането, а не риск за сигурността или зловредно поведение.",
+  "moderation-manifest-source-and-complexity": "Рецензия на източниците и сложността на манифеста",
+  "moderation-manifest-complexity-ambiguity": "Еднозначното съпоставяне на някои модули е неуспешно, рецензирайте внимателно засегнатите промени в рецептата.",
+  "moderation-manifest-complexity-modules": "Засегнати модули",
+  "moderation-manifest-complexity-events": "Промени в рецептата",
+  "moderation-manifest-complexity-modules-truncated": "Показване на {shown} от {total} засегнати модула.",
+  "moderation-manifest-complexity-events-truncated": "Показване на {shown} от {total} промени в рецептата.",
+  "moderation-manifest-added": "Добавени",
+  "moderation-manifest-removed": "Премахнати"
 }

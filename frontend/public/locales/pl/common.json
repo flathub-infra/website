@@ -854,5 +854,18 @@
   "dns-lookup-failed": "Nie udało się wyszukać rekordów TXT dla {record}.",
   "app-is-currently-verified-by-dns": "Twoja aplikacja jest obecnie zweryfikowana poprzez kontrolę DNS <domain></domain>",
   "verified-dns-tooltip": "Prawo własności do identyfikatora aplikacji <appid></appid> zostało zweryfikowane poprzez kontrolę DNS domeny <domain></domain>",
-  "moderation-random-review": "Wybrana losowo do weryfikacji przez człowieka"
+  "moderation-random-review": "Wybrana losowo do weryfikacji przez człowieka",
+  "moderation-summary-changes": "Podsumowanie zmian",
+  "moderation-manifest-source-origin": "Zmiany w źródle manifestu",
+  "moderation-manifest-source-and-complexity": "Przegląd źródła i złożoności manifestu",
+  "moderation-manifest-complexity-explanation": "Te zmiany w recepturach opisują zakres i strukturę pakowania, a nie zagrożenie dla bezpieczeństwa czy złośliwe działanie.",
+  "moderation-manifest-complexity": "Złożoność manifestu paczki",
+  "moderation-manifest-complexity-ambiguity": "Nie udało się jednoznacznie dopasować niektórych modułów; przejrzyj uważnie powiązane zmiany w recepturach.",
+  "moderation-manifest-complexity-modules": "Zmienione moduły",
+  "moderation-manifest-complexity-events": "Zmiany w recepturach",
+  "moderation-manifest-complexity-modules-truncated": "Wyświetlanie {shown} z {total} zmienionych modułów.",
+  "moderation-manifest-complexity-events-truncated": "Wyświetlanie {shown} z {total} zmian w recepturach.",
+  "moderation-manifest-added": "Dodane",
+  "moderation-manifest-removed": "Usunięte",
+  "moderation-build-log": "Logi kompilacji"
 }
