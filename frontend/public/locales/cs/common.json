@@ -791,12 +791,12 @@
   "manage": "Spravovat",
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
-      "header": "S novým rokem, nové postupy",
+      "header": "S novým rokem nové postupy",
       "description": "Aplikace pro pořizování poznámek, udržování si přehledu o úkolech a plánování"
     },
     "free-software-favorites": {
       "header": "Naše tipy",
-      "description": "Aplikace které jsme si nyní oblíbili"
+      "description": "Aplikace, které jsme si nyní oblíbili"
     },
     "spring-creativity": {
       "header": "Buďte tvořiví",
@@ -839,7 +839,7 @@
       "description": "Aplikace pro vytváření a produkování hudby"
     },
     "get-to-work": {
-      "header": "Pracovní",
+      "header": "Do práce",
       "description": "Nezbytné kancelářské aplikace"
     }
   },
