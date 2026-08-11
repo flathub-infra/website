@@ -16,6 +16,13 @@ class Settings(BaseSettings):
     database_replica_url: str = "postgresql+psycopg://postgres:postgres@db:5432"
     meilisearch_url: str = "http://meilisearch:7700"
     meilisearch_key: str | None = None
+    search_hybrid_enabled: bool = False
+    search_hybrid_semantic_ratio: float = Field(default=0.3, ge=0.0, le=1.0)
+    search_hybrid_embedder: str = "apps-fireworks-qwen3"
+    search_embedding_url: str = "https://api.fireworks.ai/inference/v1/embeddings"
+    search_embedding_model: str = "fireworks/qwen3-embedding-8b"
+    search_embedding_dimensions: int = Field(default=2048, ge=32, le=4096)
+    fireworks_api_key: str | None = None
     sentry_dsn: str | None = None
     appstream_repos: str | None = None
     datadir: str = os.path.join(ROOT_DIR, "data")
