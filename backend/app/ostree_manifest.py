@@ -210,11 +210,10 @@ class ManifestTimeoutError(ManifestRetrievalError):
     pass
 
 
-class CandidateCommitMismatchError(ManifestRetrievalError):
-    def __init__(self, category: str, ref_name: str, expected_commit: str):
+class CandidateRefMissingError(ManifestRetrievalError):
+    def __init__(self, category: str, ref_name: str):
         super().__init__(category)
         self.ref_name = ref_name
-        self.expected_commit = expected_commit
 
 
 class CommitResolutionError(ManifestRetrievalError):
@@ -398,11 +397,16 @@ def collect_manifest_pairs(
             )
 
             candidate_remote_refs = _list_remote_refs(repo, "candidate", cancellable)
+            candidate_ref_commits: list[tuple[str, str]] = []
+            candidate_commits_by_ref: dict[str, str] = {}
             for item in refs:
-                if candidate_remote_refs.get(item.ref_name) != item.candidate_commit:
-                    raise CandidateCommitMismatchError(
-                        "checksum_mismatch", item.ref_name, item.candidate_commit
+                if item.ref_name not in candidate_remote_refs:
+                    raise CandidateRefMissingError(
+                        "missing_candidate_ref", item.ref_name
                     )
+                candidate_commit = candidate_remote_refs[item.ref_name]
+                candidate_ref_commits.append((item.ref_name, candidate_commit))
+                candidate_commits_by_ref[item.ref_name] = candidate_commit
 
             published_remote_refs = _list_remote_refs(repo, "published", cancellable)
             published_commits = {
@@ -411,9 +415,6 @@ def collect_manifest_pairs(
                 if item.ref_name in published_remote_refs
             }
 
-            candidate_ref_commits = [
-                (item.ref_name, item.candidate_commit) for item in refs
-            ]
             published_ref_commits = list(published_commits.items())
             _pull_manifest_paths(
                 repo,
@@ -436,16 +437,17 @@ def collect_manifest_pairs(
             published_cache: dict[str, dict[str, Any] | None | _ManifestDataError] = {}
             pairs: list[ManifestPair] = []
             for item in refs:
-                if item.candidate_commit not in candidate_cache:
+                candidate_commit = candidate_commits_by_ref[item.ref_name]
+                if candidate_commit not in candidate_cache:
                     try:
-                        candidate_cache[item.candidate_commit] = _read_manifest(
-                            repo, item.candidate_commit, cancellable
+                        candidate_cache[candidate_commit] = _read_manifest(
+                            repo, candidate_commit, cancellable
                         )
                     except _ManifestDataError as exc:
                         raise CandidateManifestError(
-                            exc.category, item.ref_name, item.candidate_commit
+                            exc.category, item.ref_name, candidate_commit
                         ) from exc
-                candidate_manifest = candidate_cache[item.candidate_commit]
+                candidate_manifest = candidate_cache[candidate_commit]
                 if candidate_manifest is None:
                     if item.app_id in skip_missing_candidate_app_ids:
                         logger.warning(
@@ -454,7 +456,7 @@ def collect_manifest_pairs(
                                 "app_id": item.app_id,
                                 "ref_name": item.ref_name,
                                 "arch": item.arch,
-                                "candidate_commit": item.candidate_commit,
+                                "candidate_commit": candidate_commit,
                                 "category": "missing_candidate_manifest",
                             },
                         )
@@ -462,7 +464,7 @@ def collect_manifest_pairs(
                     raise CandidateManifestError(
                         "missing_candidate_manifest",
                         item.ref_name,
-                        item.candidate_commit,
+                        candidate_commit,
                     )
 
                 published_commit = published_commits.get(item.ref_name)
@@ -473,7 +475,7 @@ def collect_manifest_pairs(
                             ref_name=item.ref_name,
                             arch=item.arch,
                             branch=item.branch,
-                            candidate_commit=item.candidate_commit,
+                            candidate_commit=candidate_commit,
                             published_commit=None,
                             candidate_manifest=candidate_manifest,
                             published_manifest=None,
@@ -522,7 +524,7 @@ def collect_manifest_pairs(
                         ref_name=item.ref_name,
                         arch=item.arch,
                         branch=item.branch,
-                        candidate_commit=item.candidate_commit,
+                        candidate_commit=candidate_commit,
                         published_commit=published_commit,
                         candidate_manifest=candidate_manifest,
                         published_manifest=published_manifest,

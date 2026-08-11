@@ -1407,6 +1407,9 @@ def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
     [
         moderation.ostree_manifest.ManifestTransportError("ostree_io"),
         moderation.ostree_manifest.ManifestTimeoutError("timeout"),
+        moderation.ostree_manifest.CandidateRefMissingError(
+            "missing_candidate_ref", "app/org.example.App/x86_64/stable"
+        ),
     ],
 )
 def test_manifest_retrieval_failure_has_no_side_effects(monkeypatch, error):
@@ -1624,10 +1627,12 @@ def test_complexity_at_threshold_creates_one_manifest_request(monkeypatch):
         complexity_gating_enabled=True,
         complexity_threshold_units=12,
     )
+    pair = _complexity_pair()
+    pair.candidate_commit = "d" * 64
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_complexity_pair(),),
+        lambda **kwargs: (pair,),
     )
 
     first = harness.call()
@@ -2165,6 +2170,9 @@ def test_observation_row_promotes_and_demotes_with_effective_configuration(
     [
         moderation.ostree_manifest.ManifestTransportError("ostree_io"),
         moderation.ostree_manifest.ManifestTimeoutError("timeout"),
+        moderation.ostree_manifest.CandidateRefMissingError(
+            "missing_candidate_ref", "app/org.example.App/x86_64/stable"
+        ),
     ],
 )
 def test_manifest_observe_only_failure_continues_appdata_moderation(monkeypatch, error):

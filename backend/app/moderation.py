@@ -815,8 +815,8 @@ def _complexity_analysis_for_app(
     app_id: str,
     *,
     is_new_submission: bool,
-    expected_refs_by_app: dict[str, set[tuple[str, str, str, str]]],
-    collected_refs_by_app: dict[str, set[tuple[str, str, str, str]]],
+    expected_refs_by_app: dict[str, set[tuple[str, str, str]]],
+    collected_refs_by_app: dict[str, set[tuple[str, str, str]]],
     manifest_groups_by_app: dict[
         str, tuple[tuple[ostree_manifest.ManifestPair, ...], ...]
     ],
@@ -1052,20 +1052,19 @@ def submit_review_request(
     for group in manifest_groups:
         manifest_groups_by_app.setdefault(group[0].app_id, ())
         manifest_groups_by_app[group[0].app_id] += (group,)
-    expected_refs_by_app: dict[str, set[tuple[str, str, str, str]]] = {}
+    expected_refs_by_app: dict[str, set[tuple[str, str, str]]] = {}
     for candidate_ref in candidate_refs:
         expected_refs_by_app.setdefault(candidate_ref.app_id, set()).add(
             (
                 candidate_ref.ref_name,
                 candidate_ref.arch,
                 candidate_ref.branch,
-                candidate_ref.candidate_commit,
             )
         )
-    collected_refs_by_app: dict[str, set[tuple[str, str, str, str]]] = {}
+    collected_refs_by_app: dict[str, set[tuple[str, str, str]]] = {}
     for pair in manifest_pairs:
         collected_refs_by_app.setdefault(pair.app_id, set()).add(
-            (pair.ref_name, pair.arch, pair.branch, pair.candidate_commit)
+            (pair.ref_name, pair.arch, pair.branch)
         )
     if random_review_enabled and not isinstance(build_refs, list):
         raise HTTPException(status_code=500, detail="invalid_build")

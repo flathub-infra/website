@@ -116,34 +116,27 @@ def test_candidate_and_published_manifests_are_read_with_exact_pull_options(
     assert changed_pair.changed is True
 
 
-def test_candidate_manifest_is_read_from_reported_checksum(source_repos):
+def test_candidate_manifest_is_read_from_resolved_remote_checksum(source_repos):
     candidate, published = source_repos
     ref_name = "app/org.example.App/x86_64/stable"
-    checksum = candidate.commit(ref_name, {"value": "reported"})
+    checksum_a = candidate.commit(ref_name, {"value": "reported"})
+    checksum_b = candidate.commit(ref_name, {"value": "resolved"})
 
-    pair = collect(candidate, published, [candidate_ref(checksum)])[0]
+    pair = collect(candidate, published, [candidate_ref(checksum_a)])[0]
 
-    assert pair.candidate_commit == checksum
-    assert pair.candidate_manifest == {"value": "reported"}
+    assert pair.candidate_commit == checksum_b
+    assert pair.candidate_manifest == {"value": "resolved"}
 
 
-def test_moved_candidate_ref_is_rejected_before_manifest_read(
-    source_repos, monkeypatch
-):
+def test_missing_candidate_ref_fails(source_repos):
     candidate, published = source_repos
     ref_name = "app/org.example.App/x86_64/stable"
-    checksum_a = candidate.commit(ref_name, {"value": "a"})
-    candidate.commit(ref_name, {"value": "b"})
-    monkeypatch.setattr(
-        ostree_manifest,
-        "_read_manifest",
-        lambda *args: pytest.fail("mismatched candidate was read"),
-    )
 
-    with pytest.raises(ostree_manifest.CandidateCommitMismatchError) as raised:
-        collect(candidate, published, [candidate_ref(checksum_a)])
+    with pytest.raises(ostree_manifest.CandidateRefMissingError) as raised:
+        collect(candidate, published, [candidate_ref("a" * 64)])
 
-    assert raised.value.category == "checksum_mismatch"
+    assert raised.value.category == "missing_candidate_ref"
+    assert raised.value.ref_name == ref_name
 
 
 def test_missing_published_ref_is_explicit(source_repos):
