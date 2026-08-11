@@ -1414,7 +1414,7 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
     )
     captured = {}
     pairs = (
-        _manifest_pair("x86_64", changed=True),
+        _complexity_pair(),
         _manifest_pair(
             "aarch64",
             changed=False,
@@ -1470,7 +1470,11 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
     observation = harness.observations[(42, "org.example.App")]
     assert observation["collection_status"] == "complete"
     assert observation["source_status"] == "unavailable"
-    assert observation["complexity_not_scored_reason"] == "published_ref_missing"
+    assert observation["comparable_ref_count"] == 1
+    assert observation["complexity_status"] == "scored"
+    assert observation["complexity_score_units"] == 12
+    assert observation["complexity_not_scored_reason"] is None
+    assert observation["complexity_data"]["affected_arches"] == ["x86_64"]
     assert harness.emails == []
 
 

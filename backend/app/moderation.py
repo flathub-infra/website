@@ -843,9 +843,16 @@ def _complexity_analysis_for_app(
             manifest_complexity.ManifestComplexityNotScoredReason.CANDIDATE_MANIFEST_UNAVAILABLE,
             tuple(sorted({identity[1] for identity in missing or expected})),
         )
-    return manifest_complexity.analyze_manifest_complexity(
-        manifest_groups_by_app.get(app_id, ())
+    groups = manifest_groups_by_app.get(app_id, ())
+    comparable_groups = tuple(
+        group
+        for group in groups
+        if all(
+            pair.published_status is ostree_manifest.PublishedManifestStatus.PRESENT
+            for pair in group
+        )
     )
+    return manifest_complexity.analyze_manifest_complexity(comparable_groups or groups)
 
 
 def _manifest_analysis_observation_values(
