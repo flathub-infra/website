@@ -823,7 +823,7 @@
       "description": "Excellentes applications pour lire, regarder des films et jouer"
     },
     "tools-for-developers": {
-      "header": "Essentiels pour les développeurs Web",
+      "header": "Essentiels pour développeur Web",
       "description": "Créer des sites web est plus amusant avec ces apps"
     },
     "take-better-notes": {
@@ -852,5 +852,7 @@
   "dns-token-not-present": "Les enregistrements TXT situés à l’emplacement {record} ne contiennent pas le jeton de vérification.",
   "dns-lookup-failed": "Échec de la recherche d’enregistrements TXT pour {record}.",
   "app-is-currently-verified-by-dns": "Votre app est actuellement vérifiée via le contrôle DNS de <domain></domain>",
-  "dns-verification": "Vérification DNS"
+  "dns-verification": "Vérification DNS",
+  "moderation-random-review": "Sélectionné au hasard pour examen par humain",
+  "verified-dns-tooltip": "La propriété de l’ID d’application <appid></appid> a été vérifié via le contrôle DNS de <domain></domain>"
 }

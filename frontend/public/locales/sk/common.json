@@ -823,7 +823,6 @@
       "description": "Skvelé aplikácie na čítanie, pozeranie filmov a hranie hier"
     },
     "tools-for-developers": {
-      "header": "Nevyhnutné nástroje pre webových vývojárov",
       "description": "Vytváranie webových stránok je zábavnejšie s týmito aplikáciami"
     },
     "take-better-notes": {
@@ -854,5 +853,18 @@
   "app-is-currently-verified-by-dns": "Vaša aplikácia je momentálne overená prostredníctvom kontroly DNS domény <domain></domain>",
   "verified-dns-tooltip": "Vlastníctvo ID aplikácie <appid></appid> bolo overené prostredníctvom kontroly DNS domény <domain></domain>",
   "dns-verification": "Overenie DNS",
-  "moderation-random-review": "Náhodne vybraté na ľudskú kontrolu"
+  "moderation-random-review": "Náhodne vybraté na ľudskú kontrolu",
+  "moderation-summary-changes": "Zmeny súhrnu",
+  "moderation-manifest-source-origin": "Zmeny zdroja manifestu",
+  "moderation-manifest-complexity": "Zložitosť balenia manifestu",
+  "moderation-manifest-source-and-complexity": "Kontrola zdroja a zložitosti manifestu",
+  "moderation-manifest-complexity-explanation": "Tieto zmeny receptu popisujú rozsah a štruktúru balenia, nie bezpečnostné riziko alebo škodlivé správanie.",
+  "moderation-manifest-complexity-ambiguity": "Niektoré moduly nebolo možné jednoznačne priradiť; dôkladne skontrolujte dotknuté zmeny receptu.",
+  "moderation-manifest-complexity-modules": "Dotknuté moduly",
+  "moderation-manifest-complexity-events": "Zmeny receptu",
+  "moderation-manifest-complexity-modules-truncated": "Zobrazuje sa {shown} z {total} dotknutých modulov.",
+  "moderation-manifest-complexity-events-truncated": "Zobrazuje sa {shown} z {total} zmien receptu.",
+  "moderation-manifest-added": "Pridané",
+  "moderation-manifest-removed": "Odstránené",
+  "moderation-build-log": "Záznam zostavy"
 }

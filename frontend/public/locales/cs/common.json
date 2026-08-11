@@ -811,8 +811,8 @@
       "description": "Nezbytné aplikace pro spolupráci a komunikaci"
     },
     "summer-travel": {
-      "header": "Nachystáno na dovolené",
-      "description": "Aplikace s mapami, informacemi o dopravě, počasí a pro plánování výletů"
+      "header": "Připraveni na dovolenou",
+      "description": "Aplikace pro mapy, informace o dopravě, počasí a plánování výletů"
     },
     "back-to-learning": {
       "header": "Každým dnem chytřejší",
@@ -853,5 +853,6 @@
   "dns-lookup-failed": "Nepodařilo se najít TXT záznamy pro {record}.",
   "app-is-currently-verified-by-dns": "Vaše aplikace je v tuto chvíli ověřena prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
   "verified-dns-tooltip": "Vlastnictví identifikátoru aplikace <appid></appid> bylo ověřeno prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
-  "dns-verification": "DNS ověřování"
+  "dns-verification": "DNS ověřování",
+  "moderation-random-review": "Náhodně vybráno pro kontrolu člověkem"
 }
