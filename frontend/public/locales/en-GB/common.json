@@ -119,6 +119,7 @@
   "moderation-approved-by": "Approved by {handledBy} on {handledAt} ({handledAtRel})",
   "moderation-rejected-by": "Rejected by {handledBy} on {handledAt} ({handledAtRel})",
   "moderation-build-id": "Build ID",
+  "moderation-build-changes": "Build Changes",
   "categories": "Categories",
   "linked-accounts": "Linked Accounts",
   "link-more-accounts": "Link More Accounts",

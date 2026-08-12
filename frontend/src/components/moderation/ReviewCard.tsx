@@ -1,5 +1,5 @@
 import { useLocale, useTranslations } from "next-intl"
-import { FunctionComponent, ReactElement, useState } from "react"
+import { FunctionComponent, ReactElement, ReactNode, useState } from "react"
 import { getIntlLocale } from "src/localize"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
@@ -21,16 +21,22 @@ import { ExternalLink } from "lucide-react"
 
 interface Props {
   title: string
-  request: ModerationRequestResponse
-  children: ReactElement
+  requests: ModerationRequestResponse[]
+  children: ReactNode
 }
 
-const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
+const ReviewCard: FunctionComponent<Props> = ({
+  title,
+  requests,
+  children,
+}) => {
   const t = useTranslations()
   const router = useRouter()
   const locale = useLocale()
   const i18n = getIntlLocale(locale)
   const user = useUserContext()
+  const request =
+    requests.find((groupedRequest) => !groupedRequest.handled_at) ?? requests[0]
 
   const [modalState, setModalState] = useState<"approve" | "reject">("approve")
   const [modalVisible, setModalVisible] = useState(false)
@@ -229,13 +235,18 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
                   getIntlLocale(i18n.language),
                 )}
               </span>
-              <Link
-                id={`review-${request.id}`}
-                href={`#review-${request.id}`}
-                className="font-mono text-xs text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
-              >
-                #{request.id}
-              </Link>
+              <div className="flex flex-wrap justify-end gap-x-2">
+                {requests.map((groupedRequest) => (
+                  <Link
+                    id={`review-${groupedRequest.id}`}
+                    key={groupedRequest.id}
+                    href={`#review-${groupedRequest.id}`}
+                    className="font-mono text-xs text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
+                  >
+                    #{groupedRequest.id}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>

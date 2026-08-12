@@ -2990,3 +2990,58 @@ def test_observations_do_not_block_remaining_approval_count(monkeypatch):
     )
 
     assert review_dispatches == [(7, "Passed", None, 42)]
+
+
+def test_review_handles_all_requests_from_the_build(monkeypatch):
+    db = EndpointDb()
+    db.session.requests.append(
+        models.ModerationRequest(
+            id=3,
+            created_at=datetime.now(UTC),
+            appid="org.example.App",
+            request_type=ModerationRequestType.SUMMARY,
+            request_data=json.dumps({"keys": {}, "current_values": {}}),
+            is_new_submission=False,
+            is_observation=False,
+            is_outdated=False,
+            build_id=42,
+            job_id=7,
+        )
+    )
+    review_dispatches = []
+    emails = []
+
+    @contextmanager
+    def get_db(db_type="replica"):
+        yield db
+
+    monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(
+        moderation.worker.review_check,
+        "send",
+        lambda *args: review_dispatches.append(args),
+    )
+    monkeypatch.setattr(moderation.worker.send_email_new, "send", emails.append)
+    monkeypatch.setattr(
+        moderation.audit_log, "enqueue_audit_log", lambda *args, **kwargs: None
+    )
+    monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
+
+    moderation.submit_review(
+        1,
+        moderation.Review(approve=True, comment="Reviewed together"),
+        SimpleNamespace(user=SimpleNamespace(id=9)),
+        SimpleNamespace(),
+        object(),
+    )
+
+    reviewed = [
+        request for request in db.session.requests if not request.is_observation
+    ]
+    assert [request.is_approved for request in reviewed] == [True, True]
+    assert [request.comment for request in reviewed] == [
+        "Reviewed together",
+        "Reviewed together",
+    ]
+    assert review_dispatches == [(7, "Passed", None, 42)]
+    assert len(emails) == 1

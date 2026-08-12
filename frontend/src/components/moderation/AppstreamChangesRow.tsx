@@ -6,6 +6,7 @@ import diff from "fast-diff"
 
 interface Props {
   request: ModerationRequestResponse
+  grouped?: boolean
 }
 
 const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
@@ -247,7 +248,10 @@ const DiffRow = ({
   }
 }
 
-const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
+const AppstreamChangesRow: FunctionComponent<Props> = ({
+  request,
+  grouped = false,
+}) => {
   const t = useTranslations()
   const requestData = request.request_data
   if (!requestData || !("keys" in requestData)) {
@@ -272,19 +276,16 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
     new Set([...Object.keys(requestData.keys), ...currentValuesFiltered]),
   ).sort()
 
-  return (
-    <ReviewCard
-      title={
-        isRandomReview
-          ? t("moderation-random-review")
-          : request.request_type === "summary"
-            ? t("moderation-summary-changes")
-            : request.is_new_submission
-              ? t("moderation-appstream")
-              : t("moderation-appstream-changes")
-      }
-      request={request}
-    >
+  const title = isRandomReview
+    ? t("moderation-random-review")
+    : request.request_type === "summary"
+      ? t("moderation-summary-changes")
+      : request.is_new_submission
+        ? t("moderation-appstream")
+        : t("moderation-appstream-changes")
+
+  const content = (
+    <>
       {isRandomReview ? (
         <div className="rounded-lg border border-flathub-gainsborow p-4 dark:border-flathub-dark-gunmetal">
           <p className="text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
@@ -325,6 +326,21 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
           </table>
         </div>
       )}
+    </>
+  )
+
+  if (grouped) {
+    return (
+      <section className="space-y-4">
+        <h3 className="text-xl font-bold">{title}</h3>
+        {content}
+      </section>
+    )
+  }
+
+  return (
+    <ReviewCard title={title} requests={[request]}>
+      {content}
     </ReviewCard>
   )
 }

@@ -38,14 +38,16 @@ const generateMockRequest = (
   id: number,
   isHandled: boolean = false,
   isOutdated: boolean = false,
+  buildId: number = faker.number.int({ min: 100000, max: 200000 }),
+  requestType: "appdata" | "summary" = "appdata",
 ): ModerationRequestResponse => ({
   id,
   app_id: "org.gnome.TextEditor",
   created_at: faker.date.recent({ days: 7 }).toISOString(),
-  build_id: faker.number.int({ min: 100000, max: 200000 }),
-  job_id: faker.number.int({ min: 100000, max: 300000 }),
+  build_id: buildId,
+  job_id: buildId,
   is_outdated: isOutdated,
-  request_type: "appdata",
+  request_type: requestType,
   request_data: {
     keys: {
       name: "GNOME Text Editor",
@@ -84,8 +86,8 @@ export const WithPendingRequests = {
         http.get("*/moderation/apps/org.gnome.TextEditor", () => {
           return HttpResponse.json({
             requests: [
-              generateMockRequest(1, false, false),
-              generateMockRequest(2, false, false),
+              generateMockRequest(1, false, false, 150000),
+              generateMockRequest(2, false, false, 150000, "summary"),
               generateMockRequest(3, false, false),
             ],
             requests_count: 3,

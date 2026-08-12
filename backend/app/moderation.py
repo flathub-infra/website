@@ -2170,8 +2170,6 @@ def submit_review(
     http_request: Request,
     _moderator: ModeratorDep,
 ) -> ReviewResponse | None:
-    """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
-    marked as successful in flat-manager."""
 
     logger.info(
         f"Processing moderation review for request {id}, approval: {review.approve}"
@@ -2194,10 +2192,20 @@ def submit_review(
         if login.user is None:
             raise HTTPException(status_code=401, detail="not_logged_in")
 
-        request.is_approved = review.approve
-        request.handled_by = login.user.id
-        request.handled_at = func.now()
-        request.comment = review.comment
+        requests = (
+            db.session.query(models.ModerationRequest)
+            .filter_by(appid=request.appid, build_id=request.build_id)
+            .filter(models.ModerationRequest.handled_at.is_(None))
+            .filter(models.ModerationRequest.is_observation.is_(False))
+            .with_for_update()
+            .all()
+        )
+
+        for grouped_request in requests:
+            grouped_request.is_approved = review.approve
+            grouped_request.handled_by = login.user.id
+            grouped_request.handled_at = func.now()
+            grouped_request.comment = review.comment
 
         job_id = request.job_id
         build_id = request.build_id
@@ -2208,6 +2216,8 @@ def submit_review(
         request_data = request.request_data
         is_new_submission = request.is_new_submission
         comment = review.comment
+        request_ids = [grouped_request.id for grouped_request in requests]
+        request_types = [grouped_request.request_type for grouped_request in requests]
         worker_should_be_triggered = False
         if is_approved:
             remaining = (
@@ -2215,7 +2225,6 @@ def submit_review(
                 .filter_by(job_id=job_id)
                 .filter(models.ModerationRequest.is_approved.is_(None))
                 .filter(models.ModerationRequest.is_observation.is_(False))
-                .filter(models.ModerationRequest.id != id)
                 .count()
             )
             worker_should_be_triggered = remaining == 0
@@ -2224,7 +2233,7 @@ def submit_review(
             )
 
         db.session.commit()
-        logger.info(f"Moderation request {id} updated successfully")
+        logger.info(f"Moderation requests {request_ids} updated successfully")
 
         audit_log.enqueue_audit_log(
             http_request,
@@ -2235,8 +2244,8 @@ def submit_review(
             details={
                 "app_id": appid,
                 "build_id": build_id,
-                "request_id": id,
-                "request_type": request_type,
+                "request_ids": request_ids,
+                "request_types": request_types,
             },
         )
 
@@ -2264,7 +2273,7 @@ def submit_review(
             status_code=500, detail="Failed to trigger publication workflow"
         )
 
-    logger.info(f"Moderation review completed for request {id}, job {job_id}")
+    logger.info(f"Moderation review completed for requests {request_ids}, job {job_id}")
     inform_only_moderators = False
 
     issue = None

@@ -6,6 +6,7 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import ManifestSourceOriginChangesRow from "./ManifestSourceOriginChangesRow"
+import ReviewCard from "./ReviewCard"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../Breadcrumbs"
@@ -140,8 +141,8 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         {
           include_outdated: includeOutdatedQuery,
           include_handled: includeHandledQuery,
-          limit: PAGE_SIZE,
-          offset,
+          limit: 9999,
+          offset: 0,
         },
         {
           withCredentials: true,
@@ -162,8 +163,19 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     )
   }
 
+  const groupedRequests = Array.from(
+    query.data.data.requests
+      .reduce((groups, request) => {
+        const group = groups.get(request.build_id) ?? []
+        group.push(request)
+        groups.set(request.build_id, group)
+        return groups
+      }, new Map<number, ModerationRequestResponse[]>())
+      .values(),
+  )
+  const visibleGroups = groupedRequests.slice(offset, offset + PAGE_SIZE)
   const pages = Array.from(
-    { length: Math.ceil((query.data.data.requests_count ?? 1) / PAGE_SIZE) },
+    { length: Math.ceil(groupedRequests.length / PAGE_SIZE) },
     (_, i) => i + 1,
   )
 
@@ -268,14 +280,28 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         </div>
       </div>
 
-      {query.data.data.requests.length === 0 && (
+      {groupedRequests.length === 0 && (
         <div className="rounded-xl bg-flathub-white p-6 text-center text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic dark:text-flathub-spanish-gray">
           No reviews to show for this app.
         </div>
       )}
 
       <div className="flex flex-col space-y-6">
-        {query.data.data.requests.map(getReviewRow)}
+        {visibleGroups.map((requests) =>
+          requests.length === 1 ? (
+            getReviewRow(requests[0])
+          ) : (
+            <ReviewCard
+              key={requests[0].build_id}
+              title={t("moderation-build-changes")}
+              requests={requests}
+            >
+              <div className="space-y-8">
+                {requests.map((request) => getReviewRowContent(request, true))}
+              </div>
+            </ReviewCard>
+          ),
+        )}
       </div>
 
       <Pagination currentPage={currentPage} pages={pages} useQueryParams />
@@ -285,14 +311,30 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
 
 export default AppModeration
 
-export const getReviewRow = (request: ModerationRequestResponse) => {
+export const getReviewRow = (request: ModerationRequestResponse) =>
+  getReviewRowContent(request)
+
+const getReviewRowContent = (
+  request: ModerationRequestResponse,
+  grouped = false,
+) => {
   switch (request.request_type) {
     case "appdata":
     case "summary":
-      return <AppstreamChangesRow key={request.id} request={request} />
+      return (
+        <AppstreamChangesRow
+          key={request.id}
+          request={request}
+          grouped={grouped}
+        />
+      )
     case "manifest":
       return (
-        <ManifestSourceOriginChangesRow key={request.id} request={request} />
+        <ManifestSourceOriginChangesRow
+          key={request.id}
+          request={request}
+          grouped={grouped}
+        />
       )
   }
 }
