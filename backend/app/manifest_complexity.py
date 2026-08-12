@@ -12,12 +12,13 @@ from urllib.parse import quote, urlsplit, urlunsplit
 from .ostree_manifest import ManifestPair, PublishedManifestStatus
 from .url_origin import InvalidUrlOrigin, normalize_manifest_source_url
 
-MANIFEST_COMPLEXITY_ALGORITHM_VERSION = 3
+MANIFEST_COMPLEXITY_ALGORITHM_VERSION = 4
 MANIFEST_COMPLEXITY_UNITS_PER_POINT = 2
 MANIFEST_COMPLEXITY_MAX_SCORE_UNITS = 40
 type JSONValue = (
     str | int | float | bool | None | list["JSONValue"] | dict[str, "JSONValue"]
 )
+type _SourceLocator = str | tuple[str, ...] | None
 
 
 class ManifestChangeKind(StrEnum):
@@ -108,7 +109,7 @@ class CommandChangeSummary:
 class _SourceIdentity:
     source_type: str
     locator_kind: Literal["remote", "local", "generated"]
-    locator: str | None
+    locator: _SourceLocator
 
 
 @dataclass(frozen=True)
@@ -231,7 +232,7 @@ _SOURCE_OPTION_FIELDS = (
 )
 _REMOTE_TYPES = frozenset({"archive", "git", "bzr", "svn"})
 _VCS_TYPES = frozenset({"git", "bzr", "svn"})
-_LOCAL_TYPES = frozenset({"patch", "dir"})
+_LOCAL_TYPES = frozenset({"dir"})
 _GENERATED_TYPES = frozenset({"script", "shell", "inline"})
 _SPECIAL_SOURCE_TYPES = frozenset({"patch", "script", "shell"})
 _TOKEN_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*|\d+(?:\.\d+)?|[^\s]")
@@ -350,6 +351,26 @@ def _optional_string(mapping: Mapping[str, object], key: str) -> str | None:
     return value
 
 
+def _normalize_patch_paths(source: Mapping[str, object]) -> tuple[str, ...]:
+    paths: list[str] = []
+    if "path" in source:
+        path = source["path"]
+        if not isinstance(path, str):
+            raise _Unsupported
+        if path:
+            paths.append(path)
+    if "paths" in source:
+        raw_paths = source["paths"]
+        if not isinstance(raw_paths, list) or not all(
+            isinstance(item, str) for item in raw_paths
+        ):
+            raise _Unsupported
+        paths.extend(cast("list[str]", raw_paths))
+    if not paths:
+        raise _Unsupported
+    return tuple(paths)
+
+
 def _normalize_commands(value: object) -> tuple[str, ...]:
     if value is None:
         return ()
@@ -405,7 +426,7 @@ def _normalize_source(source: object) -> _NormalizedSource | None:
     options: dict[str, JSONValue] = {}
     primary_origin: str | None = None
     locator_kind: Literal["remote", "local", "generated"]
-    locator: str | None
+    locator: _SourceLocator
     if source_type in _REMOTE_TYPES:
         locator_kind = "remote"
         if "url" not in source:
@@ -417,6 +438,14 @@ def _normalize_source(source: object) -> _NormalizedSource | None:
             options["repository"] = vcs_locator or "invalid URL"
         elif url_summary == "invalid URL":
             options["url"] = url_summary
+    elif source_type == "patch":
+        locator_kind = "local"
+        patch_paths = _normalize_patch_paths(source)
+        if "paths" in source:
+            locator = patch_paths
+            options["paths"] = list(patch_paths)
+        else:
+            locator = patch_paths[0]
     elif source_type in _LOCAL_TYPES:
         locator_kind = "local"
         path = source.get("path")
@@ -448,6 +477,8 @@ def _normalize_source(source: object) -> _NormalizedSource | None:
         options["mirror-urls"] = cast("JSONValue", normalized_mirrors)
     for key in _SOURCE_OPTION_FIELDS:
         if key not in source or key == "mirror-urls":
+            continue
+        if key == "paths" and source_type == "patch":
             continue
         if key == "dest-filename" and source_type == "archive":
             continue
@@ -651,7 +682,11 @@ def _module_segment(
     buildsystem = module.buildsystem or "unknown"
     source_type = module.sources[0].source_type if module.sources else "no-source"
     locator = module.sources[0].identity.locator if module.sources else None
-    if locator and module.sources[0].identity.locator_kind == "remote":
+    if (
+        locator
+        and isinstance(locator, str)
+        and module.sources[0].identity.locator_kind == "remote"
+    ):
         try:
             host = urlsplit(locator).hostname or "remote"
         except ValueError:
@@ -667,7 +702,7 @@ def _module_segment(
         and re.sub(
             r"[^A-Za-z0-9._-]+",
             "-",
-            f"unnamed-{item.buildsystem or 'unknown'}-{item.sources[0].source_type if item.sources else 'no-source'}-{urlsplit(item.sources[0].identity.locator).hostname if item.sources and item.sources[0].identity.locator_kind == 'remote' and item.sources[0].identity.locator else 'local'}",
+            f"unnamed-{item.buildsystem or 'unknown'}-{item.sources[0].source_type if item.sources else 'no-source'}-{urlsplit(item.sources[0].identity.locator).hostname if item.sources[0].identity.locator_kind == 'remote' and isinstance(item.sources[0].identity.locator, str) and item.sources[0].identity.locator else 'local'}",
         )[:32].strip("-")
         == segment
     ]
@@ -825,7 +860,7 @@ def _direct_features(module: _NormalizedModule) -> tuple[object, ...]:
         source.identity.locator
         for source in module.sources
         if source.identity.locator_kind == "remote"
-        and source.identity.locator is not None
+        and isinstance(source.identity.locator, str)
     )
     return (
         tuple(source.source_type for source in module.sources),
@@ -1133,6 +1168,32 @@ def _compare_sources(
                 introduced,
             )
         )
+    plural_patch_old = [
+        index
+        for index in remaining_old
+        if old[index].source_type == "patch" and "paths" in old[index].options
+    ]
+    plural_patch_new = [
+        index
+        for index in remaining_new
+        if new[index].source_type == "patch" and "paths" in new[index].options
+    ]
+    if len(plural_patch_old) == len(plural_patch_new):
+        for old_index, new_index in zip(
+            plural_patch_old, plural_patch_new, strict=True
+        ):
+            remaining_old.remove(old_index)
+            remaining_new.remove(new_index)
+            events.extend(
+                _compare_source_options(
+                    old[old_index],
+                    new[new_index],
+                    _source_location(module_path, new, new_index),
+                    arches,
+                    module_path,
+                    introduced,
+                )
+            )
     for new_index in remaining_new:
         source = new[new_index]
         if source.source_type not in _SPECIAL_SOURCE_TYPES:

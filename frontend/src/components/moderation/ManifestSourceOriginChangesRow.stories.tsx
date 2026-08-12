@@ -80,7 +80,7 @@ export const Primary = () => {
 }
 
 const complexity: ManifestComplexityRequestData = {
-  algorithm_version: 3,
+  algorithm_version: 4,
   analysis_fingerprint:
     "sha256:6ec3f8e3df4e5c77cf90e5ec66081eb8918e52c27ec1d1de7cc3b4ca28998a7e",
   score_units: 15,
@@ -221,7 +221,7 @@ export const SourceSetChanged = {
         findings: [],
         complexity: {
           ...complexity,
-          algorithm_version: 3,
+          algorithm_version: 4,
           score_units: 3,
           raw_score_units: 3,
           display_score: 1.5,

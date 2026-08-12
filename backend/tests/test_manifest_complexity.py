@@ -8,6 +8,7 @@ from app.manifest_complexity import (
     ManifestComplexityNotScored,
     ManifestComplexityNotScoredReason,
     ManifestComplexityResult,
+    _normalize_source,
     analyze_manifest_complexity,
 )
 from app.ostree_manifest import ManifestPair, PublishedManifestStatus
@@ -44,6 +45,14 @@ def result(published: dict, candidate: dict) -> ManifestComplexityResult:
     return analysis
 
 
+def not_scored_result(
+    published: object, candidate: object
+) -> ManifestComplexityNotScored:
+    analysis = analyze_manifest_complexity(((manifest_pair(published, candidate),),))
+    assert isinstance(analysis, ManifestComplexityNotScored)
+    return analysis
+
+
 def kinds(analysis: ManifestComplexityResult) -> list[ManifestChangeKind]:
     return [event.kind for event in analysis.events]
 
@@ -56,6 +65,70 @@ def module_manifest(
     sources: list[dict[str, str]], name: str = "main"
 ) -> dict[str, object]:
     return {"modules": [{"name": name, "sources": sources}]}
+
+
+def patch_source(paths: list[str]) -> dict[str, object]:
+    return {"type": "patch", "paths": paths}
+
+
+def test_patch_source_with_singular_path_is_supported():
+    source = {"type": "patch", "path": "fix.patch"}
+
+    analysis = result(module_manifest([source]), module_manifest([source]))
+
+    assert analysis.score_units == 0
+    assert analysis.events == ()
+
+
+@pytest.mark.parametrize("paths", [["one.patch"], ["one.patch", "two.patch"]])
+def test_patch_source_with_plural_paths_is_supported(paths):
+    source = patch_source(paths)
+
+    analysis = result(module_manifest([source]), module_manifest([source]))
+
+    assert analysis.score_units == 0
+    assert analysis.events == ()
+
+
+def test_unchanged_plural_patch_paths_score_zero():
+    source = patch_source(["one.patch", "two.patch"])
+
+    analysis = result(module_manifest([source]), module_manifest([source]))
+
+    assert analysis.score_units == 0
+    assert analysis.events == ()
+
+
+def test_patch_path_and_paths_are_combined_in_builder_order():
+    source = _normalize_source(
+        {
+            "type": "patch",
+            "path": "first.patch",
+            "paths": ["second.patch", "third.patch"],
+        }
+    )
+
+    assert source is not None
+    assert source.identity.locator == (
+        "first.patch",
+        "second.patch",
+        "third.patch",
+    )
+    assert source.options["paths"] == [
+        "first.patch",
+        "second.patch",
+        "third.patch",
+    ]
+
+
+def test_plural_patch_paths_have_distinct_ordered_identities():
+    first = _normalize_source({"type": "patch", "paths": ["foo.patch", "bar.patch"]})
+    second = _normalize_source({"type": "patch", "paths": ["foo.patch", "baz.patch"]})
+
+    assert first is not None
+    assert second is not None
+    assert first.identity != second.identity
+    assert first.identity.locator != second.identity.locator
 
 
 @pytest.mark.parametrize(
@@ -443,6 +516,101 @@ def test_patch_script_shell_add_has_addon(source_type):
     assert kinds(analysis) == [ManifestChangeKind.PATCH_OR_SCRIPT_ADDED]
     assert analysis.events[0].new_summary == {"type": source_type}
     assert analysis.score_units == 2
+
+
+def test_changed_plural_patch_paths_are_source_options_changed():
+    analysis = result(
+        module_manifest([patch_source(["foo.patch", "bar.patch"])]),
+        module_manifest([patch_source(["foo.patch", "baz.patch"])]),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_OPTIONS_CHANGED]
+    assert analysis.events[0].old_summary == {
+        "changed_keys": ["paths"],
+        "values": {"paths": {"count": 2, "values": ["foo.patch", "bar.patch"]}},
+    }
+    assert analysis.events[0].new_summary == {
+        "changed_keys": ["paths"],
+        "values": {"paths": {"count": 2, "values": ["foo.patch", "baz.patch"]}},
+    }
+    assert analysis.score_units == 2
+
+
+def test_reordered_plural_patch_paths_are_detected_in_order():
+    analysis = result(
+        module_manifest([patch_source(["foo.patch", "bar.patch"])]),
+        module_manifest([patch_source(["bar.patch", "foo.patch"])]),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.SOURCE_OPTIONS_CHANGED]
+    assert analysis.score_units == 2
+
+
+def test_new_plural_patch_source_has_addon_without_source_set_event():
+    analysis = result(
+        module_manifest([]),
+        module_manifest([patch_source(["foo.patch", "bar.patch"])]),
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.PATCH_OR_SCRIPT_ADDED]
+    assert ManifestChangeKind.SOURCE_SET_CHANGED not in kinds(analysis)
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        {"type": "patch", "paths": ["valid.patch", 1]},
+        {"type": "patch", "paths": "valid.patch"},
+        {"type": "patch", "paths": None},
+    ],
+)
+def test_malformed_plural_patch_paths_are_unsupported(source):
+    analysis = not_scored_result({}, module_manifest([source]))
+
+    assert (
+        analysis.reason
+        is ManifestComplexityNotScoredReason.UNSUPPORTED_MANIFEST_STRUCTURE
+    )
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        {"type": "patch"},
+        {"type": "patch", "paths": []},
+    ],
+)
+def test_patch_source_without_paths_is_unsupported(source):
+    analysis = not_scored_result({}, module_manifest([source]))
+
+    assert (
+        analysis.reason
+        is ManifestComplexityNotScoredReason.UNSUPPORTED_MANIFEST_STRUCTURE
+    )
+
+
+@pytest.mark.parametrize(
+    ("app_id", "paths"),
+    [
+        (
+            "app.bluebubbles.BlueBubbles",
+            ["bluebubbles.patch", "bluebubbles-fix.patch"],
+        ),
+        ("org.gimp.GIMP", ["patches/gimp-extension-path.patch"]),
+        ("io.github._0_don.clippy", ["clippy.patch"]),
+    ],
+)
+def test_representative_plural_patch_structures_are_scored(app_id, paths):
+    manifest = {
+        "app-id": app_id,
+        "modules": [{"name": "main", "sources": [patch_source(paths)]}],
+    }
+
+    analysis = result(manifest, manifest)
+
+    assert analysis.algorithm_version == MANIFEST_COMPLEXITY_ALGORITHM_VERSION
+    assert analysis.score_units == 0
+    assert analysis.events == ()
 
 
 def test_source_reorder():
