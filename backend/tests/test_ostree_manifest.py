@@ -541,6 +541,14 @@ def source_findings(candidate, published, *, arch="x86_64"):
             ),
         ),
         (
+            source_manifest(
+                source(url="https://raw.githubusercontent.com/foo/bar/v2/archive.tar")
+            ),
+            source_manifest(
+                source(url="https://raw.githubusercontent.com/foo/bar/v1/archive.tar")
+            ),
+        ),
+        (
             source_manifest(source(url="https://github.com/settings")),
             source_manifest(source(url="https://github.com/login")),
         ),
@@ -642,6 +650,12 @@ def test_source_move_to_existing_identity_still_reports_removed_repository():
             "https://github.com/foo/bar/archive/v1.tar",
             ("https://github.com/fork/bar",),
             ("https://github.com/foo/bar",),
+        ),
+        (
+            "https://raw.githubusercontent.com/fork/bar/v2/archive.tar",
+            "https://raw.githubusercontent.com/foo/bar/v1/archive.tar",
+            ("https://raw.githubusercontent.com/fork/bar",),
+            ("https://raw.githubusercontent.com/foo/bar",),
         ),
         (
             "https://gitlab.com/group/subgroup/fork/-/archive/v2/archive.tar",

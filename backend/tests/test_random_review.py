@@ -2005,6 +2005,47 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     assert observation["source_would_gate"] is True
 
 
+def test_manifest_gate_records_raw_github_repository_origin(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    pair = _source_transition_manifest_pair(
+        ("https://raw.githubusercontent.com/foo/bar/v1/archive.tar",),
+        ("https://raw.githubusercontent.com/fork/bar/v2/archive.tar",),
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    request = next(
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    )
+    assert json.loads(request.request_data)["findings"][0] == {
+        "arches": ["x86_64"],
+        "locations_by_origin": {
+            "https://raw.githubusercontent.com/fork/bar": [
+                'modules["app"].sources[0].url'
+            ],
+            "https://raw.githubusercontent.com/foo/bar": [
+                'modules["app"].sources[0].url'
+            ],
+        },
+        "origins_added": ["https://raw.githubusercontent.com/fork/bar"],
+        "origins_removed": ["https://raw.githubusercontent.com/foo/bar"],
+    }
+
+
 def test_complexity_disabled_logs_without_request(monkeypatch, caplog):
     caplog.set_level(logging.INFO, logger=moderation.__name__)
     harness = CallbackHarness(
