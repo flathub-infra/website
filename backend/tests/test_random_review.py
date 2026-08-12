@@ -1187,6 +1187,36 @@ def _source_manifest_pair(arch="x86_64", *, app_id="org.example.App"):
     return pair
 
 
+def _source_transition_manifest_pair(
+    published_urls,
+    candidate_urls,
+    *,
+    arch="x86_64",
+    app_id="org.example.App",
+):
+    pair = _manifest_pair(arch, changed=True)
+    pair.app_id = app_id
+    pair.ref_name = f"app/{app_id}/{arch}/stable"
+
+    def manifest(urls):
+        return (
+            {
+                "modules": [
+                    {
+                        "name": "app",
+                        "sources": [{"type": "archive", "url": url} for url in urls],
+                    }
+                ]
+            }
+            if urls
+            else {"modules": []}
+        )
+
+    pair.published_manifest = manifest(published_urls)
+    pair.candidate_manifest = manifest(candidate_urls)
+    return pair
+
+
 def _complexity_pair():
     pair = _manifest_pair("x86_64", changed=True)
     pair.published_manifest = {
@@ -1720,6 +1750,179 @@ def test_skip_list_does_not_create_manifest_request(monkeypatch):
     assert observation["policy_context"] == "skip_list"
     assert observation["source_status"] == "findings"
     assert observation["source_would_gate"] is False
+
+
+@pytest.mark.parametrize(
+    ("published_urls", "candidate_urls", "expected_gate"),
+    [
+        ((), (), False),
+        (
+            ("https://example.com/old.tar",),
+            ("https://example.com/new.tar",),
+            False,
+        ),
+        ((), ("https://new.example/source",), True),
+        (
+            (),
+            ("https://one.example/source", "https://two.example/source"),
+            True,
+        ),
+        (("https://old.example/source",), (), False),
+        (
+            ("https://one.example/source", "https://two.example/source"),
+            (),
+            False,
+        ),
+        (
+            ("https://old.example/source",),
+            ("https://new.example/source",),
+            True,
+        ),
+        (
+            ("https://one.example/source", "https://two.example/source"),
+            ("https://new.example/source",),
+            True,
+        ),
+    ],
+)
+def test_manifest_source_gate_requires_added_origin(
+    monkeypatch, published_urls, candidate_urls, expected_gate
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    pair = _source_transition_manifest_pair(published_urls, candidate_urls)
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    manifest_requests = [
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    ]
+    observation = harness.observations[(42, "org.example.App")]
+    assert result.requires_review is expected_gate
+    assert bool(manifest_requests) is expected_gate
+    assert observation["source_would_gate"] is expected_gate
+    if not candidate_urls and published_urls:
+        assert observation["source_findings"][0]["origins_added"] == []
+        assert observation["source_findings"][0]["origins_removed"] == sorted(
+            {url.removesuffix("/source") for url in published_urls}
+        )
+    if expected_gate:
+        request_body = json.loads(manifest_requests[0].request_data)
+        assert request_body["findings"][0]["origins_added"] == sorted(
+            {url.removesuffix("/source") for url in candidate_urls}
+        )
+        assert request_body["findings"][0]["origins_removed"] == sorted(
+            {url.removesuffix("/source") for url in published_urls}
+        )
+
+
+def test_removal_only_source_observe_only_does_not_create_hypothetical_gate(
+    monkeypatch,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    pair = _source_transition_manifest_pair(
+        ("https://old.example/source",),
+        (),
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["source_status"] == "findings"
+    assert observation["source_would_gate"] is False
+    assert observation["source_findings"][0]["origins_added"] == []
+    assert observation["source_findings"][0]["origins_removed"] == [
+        "https://old.example"
+    ]
+
+
+def test_disabled_manifest_gate_logs_only_added_origins_as_actionable(
+    monkeypatch, caplog
+):
+    caplog.set_level(logging.INFO, logger=moderation.__name__)
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=False,
+    )
+    pair = _source_transition_manifest_pair(
+        ("https://old.example/source",),
+        (),
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    harness.call()
+
+    record = next(
+        record
+        for record in caplog.records
+        if record.getMessage() == "Evaluated manifest source gate for app"
+    )
+    assert record.would_require_review is False
+    assert record.introduced_sources == []
+    assert record.removed_sources == ["https://old.example"]
+
+
+def test_manifest_gate_request_retains_removed_origin_context(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    pair = _source_transition_manifest_pair(
+        ("https://old.example/source",),
+        ("https://new.example/source",),
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    request = next(
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    )
+    finding = json.loads(request.request_data)["findings"][0]
+    assert finding["origins_added"] == ["https://new.example"]
+    assert finding["origins_removed"] == ["https://old.example"]
 
 
 def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):

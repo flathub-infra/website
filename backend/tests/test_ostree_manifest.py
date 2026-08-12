@@ -552,7 +552,7 @@ def test_manifest_changes_without_source_identity_changes_do_not_gate(
     assert source_findings(candidate, published) == ()
 
 
-def test_manifest_source_removal_gates():
+def test_manifest_source_removal_is_reported_without_added_origin():
     finding = source_findings(
         source_manifest(),
         source_manifest(source(url="https://old.example/a")),
@@ -560,6 +560,38 @@ def test_manifest_source_removal_gates():
 
     assert finding.sources_added == ()
     assert finding.sources_removed == ("https://old.example",)
+
+
+def test_manifest_source_removal_preserves_multiple_removed_origins():
+    finding = source_findings(
+        source_manifest(),
+        source_manifest(
+            source(url="https://one.old.example/source"),
+            source(url="https://two.old.example/source"),
+        ),
+    )[0]
+
+    assert finding.sources_added == ()
+    assert finding.sources_removed == (
+        "https://one.old.example",
+        "https://two.old.example",
+    )
+
+
+def test_manifest_source_replacement_preserves_removed_origins():
+    finding = source_findings(
+        source_manifest(source(url="https://new.example/source")),
+        source_manifest(
+            source(url="https://one.old.example/source"),
+            source(url="https://two.old.example/source"),
+        ),
+    )[0]
+
+    assert finding.sources_added == ("https://new.example",)
+    assert finding.sources_removed == (
+        "https://one.old.example",
+        "https://two.old.example",
+    )
 
 
 def test_source_move_to_existing_identity_still_reports_removed_repository():
