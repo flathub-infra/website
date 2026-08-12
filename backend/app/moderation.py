@@ -722,6 +722,12 @@ def _manifest_source_findings_data(
     ]
 
 
+def _manifest_source_findings_would_gate(
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
+) -> bool:
+    return any(finding.sources_added for finding in findings)
+
+
 def _manifest_request_data(
     findings: Sequence[ostree_manifest.ManifestSourceFinding],
     complexity: ManifestComplexityRequestData | None,
@@ -916,7 +922,10 @@ def _manifest_analysis_observation_values(
         "collection_error_category": collection_error_category,
         "source_status": source_status,
         "source_findings": serialized_findings,
-        "source_would_gate": bool(serialized_findings) and policy_context == "normal",
+        "source_would_gate": (
+            _manifest_source_findings_would_gate(findings)
+            and policy_context == "normal"
+        ),
         "complexity_status": "not_scored",
         "complexity_algorithm_version": complexity.algorithm_version,
         "complexity_threshold_units": complexity_threshold_units,
@@ -1338,6 +1347,7 @@ def submit_review_request(
         summary_current_values: dict[str, Any] = {}
         # Check if the app data matches the current appstream
         app_manifest_findings = manifest_findings_by_app.get(app_id, ())
+        source_would_gate = _manifest_source_findings_would_gate(app_manifest_findings)
         if app := get_json_key(f"apps:{app_id}"):
             is_new_submission = False
 
@@ -1459,6 +1469,7 @@ def submit_review_request(
                 app_manifest_findings,
                 would_require_review=(
                     not is_new_submission
+                    and source_would_gate
                     and not config.settings.moderation_observe_only
                 ),
                 reason="initial-submission" if is_new_submission else None,
@@ -1466,13 +1477,11 @@ def submit_review_request(
 
         origin_should_observe = (
             not is_new_submission
-            and bool(app_manifest_findings)
+            and source_would_gate
             and config.settings.ostree_manifest_source_origin_observe_only
         )
         origin_should_gate = (
-            not is_new_submission
-            and bool(app_manifest_findings)
-            and source_origin_enforcing
+            not is_new_submission and source_would_gate and source_origin_enforcing
         )
         complexity_would_gate = (
             isinstance(

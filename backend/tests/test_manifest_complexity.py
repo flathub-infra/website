@@ -275,6 +275,19 @@ def test_module_removed():
     assert analysis.score_units == 4
 
 
+def test_module_removal_with_source_removal_is_scored():
+    analysis = result(
+        module_manifest(
+            [{"type": "archive", "url": "https://old.example/source"}],
+            name="removed",
+        ),
+        {"modules": []},
+    )
+
+    assert kinds(analysis) == [ManifestChangeKind.MODULE_REMOVED]
+    assert analysis.score_units == 4
+
+
 def test_nested_module_added_is_single_event():
     before = {"modules": [{"name": "main", "modules": []}]}
     after = {

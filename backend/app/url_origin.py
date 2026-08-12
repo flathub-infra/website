@@ -13,7 +13,16 @@ _DEFAULT_PORTS = {
     "svn+ssh": 22,
 }
 
-_FIXED_NAMESPACE_FORGES = frozenset({"github.com", "codeberg.org"})
+_FIXED_NAMESPACE_FORGES = frozenset(
+    {
+        "github.com",
+        "raw.githubusercontent.com",
+        "codeberg.org",
+        "git.sr.ht",
+        "hg.sr.ht",
+        "sr.ht",
+    }
+)
 _GITLAB_FORGES = frozenset({"gitlab.com", "gitlab.gnome.org", "invent.kde.org"})
 
 
