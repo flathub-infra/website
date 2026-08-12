@@ -2005,7 +2005,44 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     assert observation["source_would_gate"] is True
 
 
-def test_manifest_gate_records_raw_github_repository_origin(monkeypatch):
+@pytest.mark.parametrize(
+    ("published_url", "candidate_url", "published_origin", "candidate_origin"),
+    [
+        (
+            "https://raw.githubusercontent.com/foo/bar/v1/archive.tar",
+            "https://raw.githubusercontent.com/fork/bar/v2/archive.tar",
+            "https://raw.githubusercontent.com/foo/bar",
+            "https://raw.githubusercontent.com/fork/bar",
+        ),
+        (
+            "https://git.sr.ht/~foo/bar/blob/v1/archive.tar",
+            "https://git.sr.ht/~fork/bar/blob/v2/archive.tar",
+            "https://git.sr.ht/~foo/bar",
+            "https://git.sr.ht/~fork/bar",
+        ),
+        (
+            "https://hg.sr.ht/~foo/bar/blob/v1/archive.tar",
+            "https://hg.sr.ht/~fork/bar/blob/v2/archive.tar",
+            "https://hg.sr.ht/~foo/bar",
+            "https://hg.sr.ht/~fork/bar",
+        ),
+        (
+            "https://sr.ht/~foo/bar",
+            "https://sr.ht/~fork/bar",
+            "https://sr.ht/~foo/bar",
+            "https://sr.ht/~fork/bar",
+        ),
+        (
+            "https://codeberg.org/foo/bar/raw/branch/v1/archive.tar",
+            "https://codeberg.org/fork/bar/raw/branch/v2/archive.tar",
+            "https://codeberg.org/foo/bar",
+            "https://codeberg.org/fork/bar",
+        ),
+    ],
+)
+def test_manifest_gate_records_repository_origin(
+    monkeypatch, published_url, candidate_url, published_origin, candidate_origin
+):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
@@ -2014,8 +2051,8 @@ def test_manifest_gate_records_raw_github_repository_origin(monkeypatch):
         manifest_gating_enabled=True,
     )
     pair = _source_transition_manifest_pair(
-        ("https://raw.githubusercontent.com/foo/bar/v1/archive.tar",),
-        ("https://raw.githubusercontent.com/fork/bar/v2/archive.tar",),
+        (published_url,),
+        (candidate_url,),
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -2034,15 +2071,11 @@ def test_manifest_gate_records_raw_github_repository_origin(monkeypatch):
     assert json.loads(request.request_data)["findings"][0] == {
         "arches": ["x86_64"],
         "locations_by_origin": {
-            "https://raw.githubusercontent.com/fork/bar": [
-                'modules["app"].sources[0].url'
-            ],
-            "https://raw.githubusercontent.com/foo/bar": [
-                'modules["app"].sources[0].url'
-            ],
+            candidate_origin: ['modules["app"].sources[0].url'],
+            published_origin: ['modules["app"].sources[0].url'],
         },
-        "origins_added": ["https://raw.githubusercontent.com/fork/bar"],
-        "origins_removed": ["https://raw.githubusercontent.com/foo/bar"],
+        "origins_added": [candidate_origin],
+        "origins_removed": [published_origin],
     }
 
 
