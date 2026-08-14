@@ -1234,6 +1234,42 @@ def _complexity_pair():
     return pair
 
 
+def test_manifest_complexity_request_data_accepts_truncated_events():
+    events = [
+        moderation.ManifestComplexityEventData(
+            kind=moderation.manifest_complexity.ManifestChangeKind.MODULE_ADDED,
+            location=f"modules/{index:02d}",
+            arches=[],
+        )
+        for index in range(25)
+    ]
+
+    data = moderation.ManifestComplexityRequestData(
+        algorithm_version=1,
+        analysis_fingerprint="sha256:" + "0" * 64,
+        score_units=1,
+        raw_score_units=1,
+        display_score=0.5,
+        threshold_units=14,
+        score_band=moderation.manifest_complexity.ManifestComplexityScoreBand.SMALL,
+        score_breakdown={
+            "structural_units": 1,
+            "recipe_units": 0,
+            "breadth_units": 0,
+            "ambiguity_units": 0,
+        },
+        affected_arches=[],
+        touched_modules=[],
+        touched_modules_truncated=False,
+        total_touched_module_count=0,
+        events=events,
+        events_truncated=True,
+        total_event_count=26,
+    )
+
+    assert data.events_truncated is True
+
+
 @pytest.mark.parametrize(
     ("pair_factory", "expected_score", "expected_source_status"),
     [
@@ -2815,7 +2851,11 @@ class EndpointQuery:
             operator_name = getattr(
                 getattr(criterion, "operator", None), "__name__", ""
             )
-            current = getattr(request, key, None)
+            current = (
+                getattr(request, key, None)
+                if self.session.flushed or key != "is_approved"
+                else self.session.persisted_approvals.get(request.id)
+            )
             if operator_name in {"eq", "is_"} and current != value:
                 return False
             if operator_name in {"ne", "is_not"} and current == value:
@@ -2904,12 +2944,19 @@ class EndpointSession:
                 job_id=7,
             ),
         ]
+        self.persisted_approvals = {
+            request.id: request.is_approved for request in self.requests
+        }
+        self.flushed = False
 
     def query(self, *entities):
         return EndpointQuery(self, entities)
 
     def merge(self, value):
         return value
+
+    def flush(self):
+        self.flushed = True
 
     def commit(self):
         pass

@@ -274,7 +274,7 @@ class ManifestComplexityRequestData(BaseModel):
             self.total_touched_module_count > len(self.touched_modules)
         ):
             raise ValueError("invalid touched module truncation flag")
-        if self.events_truncated != self.total_event_count > len(self.events):
+        if self.events_truncated != (self.total_event_count > len(self.events)):
             raise ValueError("invalid event truncation flag")
         return self
 
@@ -2220,6 +2220,7 @@ def submit_review(
         request_types = [grouped_request.request_type for grouped_request in requests]
         worker_should_be_triggered = False
         if is_approved:
+            db.session.flush()
             remaining = (
                 db.session.query(models.ModerationRequest)
                 .filter_by(job_id=job_id)
