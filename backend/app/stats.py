@@ -459,6 +459,14 @@ def _build_or_update_aggregates() -> dict:
     return agg
 
 
+def _add_unknown_version_count(
+    versions: dict[str, int], total: int, reported: int
+) -> None:
+    unknown_count = total - reported
+    if unknown_count > 0:
+        versions["unknown"] = versions.get("unknown", 0) + unknown_count
+
+
 def _compute_recent_version_stats(
     days: int = 30,
 ) -> tuple[dict[str, int], dict[str, int], dict[str, dict[str, int]]]:
@@ -478,9 +486,21 @@ def _compute_recent_version_stats(
         if stats.get("os_versions"):
             for ver, count in stats["os_versions"].items():
                 os_versions[ver] = os_versions.get(ver, 0) + count
+        if stats.get("ostree_versions"):
+            _add_unknown_version_count(
+                os_versions,
+                sum(stats["ostree_versions"].values()),
+                sum(stats.get("os_versions", {}).values()),
+            )
         if stats.get("flatpak_versions"):
             for ver, count in stats["flatpak_versions"].items():
                 flatpak_versions[ver] = flatpak_versions.get(ver, 0) + count
+        if stats.get("ostree_versions"):
+            _add_unknown_version_count(
+                flatpak_versions,
+                sum(stats["ostree_versions"].values()),
+                sum(stats.get("flatpak_versions", {}).values()),
+            )
         if stats.get("os_flatpak_versions"):
             for os_ver, fp_versions in stats["os_flatpak_versions"].items():
                 os_entry = os_flatpak_versions.setdefault(os_ver, {})
