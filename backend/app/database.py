@@ -55,7 +55,7 @@ replica_engine = create_engine(
     },
 )
 
-WriterSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=writer_engine)
+WriterSessionLocal = sessionmaker(autocommit=False, autoflush=True, bind=writer_engine)
 ReplicaSessionLocal = sessionmaker(
     autocommit=False, autoflush=False, bind=replica_engine
 )
