@@ -5,9 +5,9 @@ import type {
   CuratedAppSelectionApp,
   GetAppstreamAppstreamAppIdGet200,
 } from "../codegen/model"
-import type { AppstreamListItem } from "../types/Appstream"
 import {
   HOMEPAGE_CURATED_APP_SELECTION_SLOTS,
+  type HomepageCuratedApp,
   type HomepageCuratedAppSelection,
   type HomepageCuratedAppSelectionSlot,
   type HomepageCuratedAppSelectionsBySlot,
@@ -25,7 +25,8 @@ function isHomepageCuratedAppSelectionSlot(
 
 function mapAppstreamToListItem(
   appstream: GetAppstreamAppstreamAppIdGet200,
-): AppstreamListItem | null {
+  includeScreenshots: boolean,
+): HomepageCuratedApp | null {
   if (!("summary" in appstream) || typeof appstream.summary !== "string") {
     return null
   }
@@ -38,33 +39,34 @@ function mapAppstreamToListItem(
     metadata: "metadata" in appstream ? appstream.metadata : undefined,
     bundle: "bundle" in appstream ? appstream.bundle : undefined,
     is_eol: "is_eol" in appstream ? appstream.is_eol : undefined,
+    screenshots:
+      includeScreenshots && "screenshots" in appstream
+        ? appstream.screenshots
+        : undefined,
   }
 }
 
 async function getSelectionApps(
   apps: CuratedAppSelectionApp[],
   locale: string,
-): Promise<AppstreamListItem[]> {
+  includeScreenshots: boolean,
+): Promise<HomepageCuratedApp[]> {
+  const sortedApps = apps.slice().sort((a, b) => a.position - b.position)
   const appstreamResults = await Promise.allSettled(
-    apps
-      .slice()
-      .sort((a, b) => a.position - b.position)
-      .map((app) =>
-        getAppstreamAppstreamAppIdGet(app.app_id, { locale }).then(
-          (response) => response.data,
-        ),
+    sortedApps.map((app) =>
+      getAppstreamAppstreamAppIdGet(app.app_id, { locale }).then(
+        (response) => response.data,
       ),
+    ),
   )
 
   return appstreamResults
-    .filter(
-      (
-        result,
-      ): result is PromiseFulfilledResult<GetAppstreamAppstreamAppIdGet200> =>
-        result.status === "fulfilled",
+    .map((result) =>
+      result.status === "fulfilled"
+        ? mapAppstreamToListItem(result.value, includeScreenshots)
+        : null,
     )
-    .map((result) => mapAppstreamToListItem(result.value))
-    .filter((app): app is AppstreamListItem => app !== null)
+    .filter((app): app is HomepageCuratedApp => app !== null)
 }
 
 export async function getHomepageCuratedAppSelections(
@@ -84,7 +86,11 @@ export async function getHomepageCuratedAppSelections(
             return null
           }
 
-          const apps = await getSelectionApps(selection.apps, locale)
+          const apps = await getSelectionApps(
+            selection.apps,
+            locale,
+            selection.layout === "featured",
+          )
           if (apps.length === 0) {
             return null
           }
@@ -93,6 +99,7 @@ export async function getHomepageCuratedAppSelections(
             id: selection.id,
             themeKey: selection.theme_key,
             slot: selection.slot,
+            layout: selection.layout,
             apps,
           }
         },

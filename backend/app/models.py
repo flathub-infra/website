@@ -3108,7 +3108,7 @@ class ScheduledSelection(Base):
             name="scheduledselection_slot",
         ),
         CheckConstraint(
-            "layout IN ('grid', 'carousel')",
+            "layout IN ('grid', 'featured')",
             name="scheduledselection_layout",
         ),
         ExcludeConstraint(

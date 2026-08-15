@@ -4,8 +4,9 @@ import sys
 from types import SimpleNamespace
 
 import pytest
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
+from pydantic import ValidationError
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -50,7 +51,7 @@ def curated_selection():
         enabled=True,
         theme=SimpleNamespace(key="creative-tools"),
         slot="after-hero",
-        layout="carousel",
+        layout="featured",
         starts_at=datetime.date(2026, 7, 5),
         ends_at=datetime.date(2026, 7, 10),
         apps=[
@@ -67,7 +68,7 @@ def test_curated_app_selections_smoke(
         id=2,
         theme=SimpleNamespace(key="creative-tools"),
         slot="after-hero",
-        layout="carousel",
+        layout="featured",
         starts_at=datetime.date(2026, 7, 5),
         ends_at=datetime.date(2026, 7, 10),
         apps=[SimpleNamespace(app_id="org.example.Other", position=0)],
@@ -214,3 +215,50 @@ def test_scheduled_selection_input_defaults_to_grid():
     )
 
     assert selection.layout == app_picks.CuratedAppSelectionLayout.GRID
+
+
+def test_featured_selections_reject_more_than_three_apps(monkeypatch):
+    monkeypatch.setattr(
+        app_picks.models.SelectionTheme,
+        "by_id",
+        lambda _db, _id: SimpleNamespace(enabled=True),
+    )
+    selection = app_picks.ScheduledSelectionInput(
+        theme_id=1,
+        slot="after-hero",
+        layout="featured",
+        starts_at=datetime.date(2026, 7, 5),
+        ends_at=datetime.date(2026, 7, 10),
+        apps=[{"app_id": f"org.example.App{i}", "position": i} for i in range(4)],
+    )
+
+    with pytest.raises(HTTPException) as error:
+        app_picks._validate_scheduled_selection(None, selection)
+
+    assert error.value.status_code == 400
+    assert error.value.detail == "Featured selections can contain at most three apps"
+
+
+@pytest.mark.parametrize("layout", ["grid", "featured"])
+def test_scheduled_selection_input_accepts_layout(layout):
+    selection = app_picks.ScheduledSelectionInput(
+        theme_id=1,
+        slot="after-hero",
+        layout=layout,
+        starts_at=datetime.date(2026, 7, 5),
+        ends_at=datetime.date(2026, 7, 10),
+        apps=[],
+    )
+    assert selection.layout == layout
+
+
+def test_scheduled_selection_input_rejects_carousel():
+    with pytest.raises(ValidationError):
+        app_picks.ScheduledSelectionInput(
+            theme_id=1,
+            slot="after-hero",
+            layout="carousel",
+            starts_at=datetime.date(2026, 7, 5),
+            ends_at=datetime.date(2026, 7, 10),
+            apps=[],
+        )
