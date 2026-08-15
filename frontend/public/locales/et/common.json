@@ -854,5 +854,19 @@
   "app-is-currently-verified-by-dns": "Sinu rakendus on hetkel kinnitatud seeläbi, et oleme tuvastanud sinu kontrolli <domain></domain> domeeni üle",
   "verified-dns-tooltip": "<appid></appid> rakenduse tunnuse omand on kinnitatud seeläbi, et oleme tuvastanud kontrolli <domain></domain> domeeni üle",
   "dns-verification": "Nimelahenduse-põhine verifitseerimine",
-  "moderation-random-review": "Juhuslikult valitud inimese poolt ülevaatamiseks"
+  "moderation-random-review": "Juhuslikult valitud inimese poolt ülevaatamiseks",
+  "moderation-manifest-added": "Lisatud",
+  "moderation-manifest-removed": "Eemaldatud",
+  "moderation-build-changes": "Muudatused kompileerimisel",
+  "moderation-build-log": "Kompileerimislogi",
+  "moderation-manifest-complexity-events-truncated": "Näitan kompileerimisjuhendi muudatusi: {shown} / {total}.",
+  "moderation-manifest-complexity-modules-truncated": "Kasutatud mooduleid: {shown} / {total}.",
+  "moderation-manifest-complexity-events": "Kompileerimisjuhendi muudatused",
+  "moderation-manifest-complexity-modules": "Kasutatud moodulid",
+  "moderation-summary-changes": "Muudatuste kokkuvõte",
+  "moderation-manifest-source-origin": "Lähtekoodi muudatused rakenduse kontrollfailis",
+  "moderation-manifest-complexity": "Pakendamise keerukus rakenduse kontrollfailis",
+  "moderation-manifest-source-and-complexity": "Lähtekood ja keerukus rakenduse kontrollfailis",
+  "moderation-manifest-complexity-explanation": "Need kompileerimisjuhendi muudatused käsitlevad pakendamise ulatust ja struktuuri, mitte turvariski ega pahatahtlikku käitumist.",
+  "moderation-manifest-complexity-ambiguity": "Mõnede moodulite vastavust polnud üheselt võimalik tuvastada; vaata asjaomased kompileerimisjuhendi muudatused hoolikalt üle."
 }

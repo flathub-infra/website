@@ -867,5 +867,6 @@
   "moderation-manifest-complexity-events-truncated": "Zobrazuje sa {shown} z {total} zmien receptu.",
   "moderation-manifest-added": "Pridané",
   "moderation-manifest-removed": "Odstránené",
-  "moderation-build-log": "Záznam zostavy"
+  "moderation-build-log": "Záznam zostavy",
+  "moderation-build-changes": "Zmeny zostavy"
 }

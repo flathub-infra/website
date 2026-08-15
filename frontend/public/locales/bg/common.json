@@ -867,5 +867,6 @@
   "moderation-manifest-complexity-modules-truncated": "Показване на {shown} от {total} засегнати модула.",
   "moderation-manifest-complexity-events-truncated": "Показване на {shown} от {total} промени в рецептата.",
   "moderation-manifest-added": "Добавени",
-  "moderation-manifest-removed": "Премахнати"
+  "moderation-manifest-removed": "Премахнати",
+  "moderation-build-changes": "Промени в компилацията"
 }

@@ -854,5 +854,19 @@
   "app-is-currently-verified-by-dns": "کاره‌تان از طریق واپایش ساناد <domain></domain> تأیید شده است",
   "verified-dns-tooltip": "مالکیت شناسهٔ کارهٔ <appid></appid> از طریق واپایش ساناد <domain></domain> تأیید شده است",
   "dns-verification": "تأییدیهٔ ساناد",
-  "dns-validation-instruction": "افزودن رکورد ساناد زیر بدون برداشتن رکوردهای TXT موجود. اعمال تغییرات ساناد می‌تواند زمان‌بر باشد."
+  "dns-validation-instruction": "افزودن رکورد ساناد زیر بدون برداشتن رکوردهای TXT موجود. اعمال تغییرات ساناد می‌تواند زمان‌بر باشد.",
+  "moderation-summary-changes": "تغییرات خلاصه",
+  "moderation-manifest-source-origin": "تغییرات منبع بیانیه",
+  "moderation-manifest-complexity": "پیچیدگی بسته‌بندی بیانیه",
+  "moderation-manifest-source-and-complexity": "بازبینی پیچیدگی و منبع بیانیه",
+  "moderation-manifest-complexity-explanation": "این تغییرات بیانیه ساختار و وسعت بسته‌بندی را شرح می‌دهد، نه خطرات امنیتی یا رفتارهای نامطلوب را.",
+  "moderation-manifest-complexity-ambiguity": "برخی پیمانه‌ها نتوانستند به طور واضحی مطابقت داده شوند. بررسی محتاطانهٔ تغییرات دستور ساخت.",
+  "moderation-manifest-complexity-modules": "پیمانه‌های دست زده شده",
+  "moderation-manifest-complexity-events": "تغییرات دستور ساخت",
+  "moderation-manifest-complexity-modules-truncated": "نمایش {shown} از {total} پیمانهٔ دست زده شده.",
+  "moderation-manifest-complexity-events-truncated": "نمایش {shown} از {total} دستور ساخت.",
+  "moderation-manifest-added": "افزوده",
+  "moderation-manifest-removed": "برداشته",
+  "moderation-build-changes": "تغییرات ساخت",
+  "moderation-build-log": "گزارش ساخت"
 }

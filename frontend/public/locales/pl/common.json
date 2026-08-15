@@ -867,5 +867,6 @@
   "moderation-manifest-complexity-events-truncated": "Wyświetlanie {shown} z {total} zmian w recepturach.",
   "moderation-manifest-added": "Dodane",
   "moderation-manifest-removed": "Usunięte",
-  "moderation-build-log": "Logi kompilacji"
+  "moderation-build-log": "Logi kompilacji",
+  "moderation-build-changes": "Zmiany kompilacji"
 }
