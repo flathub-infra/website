@@ -511,8 +511,6 @@ export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
   )
 }
 /**
- * Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
- * marked as successful in flat-manager.
  * @summary Submit Review
  */
 export const submitReviewModerationRequestsIdReviewPost = (

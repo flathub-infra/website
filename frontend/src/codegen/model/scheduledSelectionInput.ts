@@ -4,11 +4,13 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { CuratedAppSelectionLayout } from "./curatedAppSelectionLayout"
 import type { ScheduledSelectionAppInput } from "./scheduledSelectionAppInput"
 
 export interface ScheduledSelectionInput {
   theme_id: number
   slot: string
+  layout?: CuratedAppSelectionLayout
   starts_at: string
   ends_at: string
   enabled?: boolean

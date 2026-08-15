@@ -9,6 +9,7 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
+import { CuratedAppSelectionLayout } from "../model"
 import type {
   AppOfTheDay,
   AppsOfTheWeek,
@@ -51,6 +52,9 @@ export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetRespon
       id: faker.number.int(),
       theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
       slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      layout: faker.helpers.arrayElement(
+        Object.values(CuratedAppSelectionLayout),
+      ),
       starts_at: faker.date.past().toISOString().slice(0, 10),
       ends_at: faker.date.past().toISOString().slice(0, 10),
       apps: Array.from(
@@ -59,6 +63,7 @@ export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetRespon
       ).map(() => ({
         app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         position: faker.number.int(),
+        isFullscreen: faker.datatype.boolean(),
       })),
     })),
     ...overrideResponse,
@@ -100,6 +105,9 @@ export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
       id: faker.number.int(),
       theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
       slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      layout: faker.helpers.arrayElement(
+        Object.values(CuratedAppSelectionLayout),
+      ),
       starts_at: faker.date.past().toISOString().slice(0, 10),
       ends_at: faker.date.past().toISOString().slice(0, 10),
       apps: Array.from(
@@ -108,6 +116,7 @@ export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
       ).map(() => ({
         app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
         position: faker.number.int(),
+        isFullscreen: faker.datatype.boolean(),
       })),
       theme_id: faker.number.int(),
       enabled: faker.datatype.boolean(),
@@ -120,6 +129,9 @@ export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
     id: faker.number.int(),
     theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
     slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    layout: faker.helpers.arrayElement(
+      Object.values(CuratedAppSelectionLayout),
+    ),
     starts_at: faker.date.past().toISOString().slice(0, 10),
     ends_at: faker.date.past().toISOString().slice(0, 10),
     apps: Array.from(
@@ -128,6 +140,7 @@ export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
     ).map(() => ({
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       position: faker.number.int(),
+      isFullscreen: faker.datatype.boolean(),
     })),
     theme_id: faker.number.int(),
     enabled: faker.datatype.boolean(),
@@ -141,6 +154,9 @@ export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
     id: faker.number.int(),
     theme_key: faker.string.alpha({ length: { min: 10, max: 20 } }),
     slot: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    layout: faker.helpers.arrayElement(
+      Object.values(CuratedAppSelectionLayout),
+    ),
     starts_at: faker.date.past().toISOString().slice(0, 10),
     ends_at: faker.date.past().toISOString().slice(0, 10),
     apps: Array.from(
@@ -149,6 +165,7 @@ export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
     ).map(() => ({
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
       position: faker.number.int(),
+      isFullscreen: faker.datatype.boolean(),
     })),
     theme_id: faker.number.int(),
     enabled: faker.datatype.boolean(),

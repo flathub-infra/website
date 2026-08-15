@@ -5,11 +5,13 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { CuratedAppSelectionApp } from "./curatedAppSelectionApp"
+import type { CuratedAppSelectionLayout } from "./curatedAppSelectionLayout"
 
 export interface ScheduledSelectionAdmin {
   id: number
   theme_key: string
   slot: string
+  layout: CuratedAppSelectionLayout
   starts_at: string
   ends_at: string
   apps: CuratedAppSelectionApp[]

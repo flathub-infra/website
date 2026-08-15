@@ -8,4 +8,5 @@
 export interface CuratedAppSelectionApp {
   app_id: string
   position: number
+  isFullscreen: boolean
 }
