@@ -2915,6 +2915,7 @@ class ScheduledSelection(Base):
         Integer, ForeignKey(SelectionTheme.id), nullable=False, index=True
     )
     slot = mapped_column(String, nullable=False, index=True)
+    layout = mapped_column(String, nullable=False, server_default="grid")
     starts_at = mapped_column(Date, nullable=False, index=True)
     ends_at = mapped_column(Date, nullable=False, index=True)
     enabled = mapped_column(Boolean, nullable=False, server_default=false())
@@ -2938,6 +2939,10 @@ class ScheduledSelection(Base):
         CheckConstraint(
             "slot IN ('after-hero', 'after-top-apps', 'after-first-category-block')",
             name="scheduledselection_slot",
+        ),
+        CheckConstraint(
+            "layout IN ('grid', 'carousel')",
+            name="scheduledselection_layout",
         ),
         ExcludeConstraint(
             (slot, "="),
@@ -3262,6 +3267,18 @@ class App(Base):
         if app:
             return app.is_fullscreen_app
         return False
+
+    @classmethod
+    def fullscreen_app_ids(cls, db, app_ids: set[str]) -> set[str]:
+        if not app_ids:
+            return set()
+
+        return {
+            app_id
+            for (app_id,) in db.session.query(App.app_id)
+            .filter(App.app_id.in_(app_ids), App.is_fullscreen_app == true())
+            .all()
+        }
 
     @classmethod
     def set_fullscreen_app(cls, db, app_id: str, is_fullscreen_app: bool) -> None:

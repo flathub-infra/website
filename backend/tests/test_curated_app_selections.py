@@ -34,6 +34,15 @@ def moderator_override(client):
 
 
 @pytest.fixture
+def fullscreen_lookup(monkeypatch):
+    monkeypatch.setattr(
+        app_picks.models.App,
+        "fullscreen_app_ids",
+        lambda _db, app_ids: {"org.example.App"} & app_ids,
+    )
+
+
+@pytest.fixture
 def curated_selection():
     return SimpleNamespace(
         id=1,
@@ -41,6 +50,7 @@ def curated_selection():
         enabled=True,
         theme=SimpleNamespace(key="creative-tools"),
         slot="after-hero",
+        layout="carousel",
         starts_at=datetime.date(2026, 7, 5),
         ends_at=datetime.date(2026, 7, 10),
         apps=[
@@ -50,11 +60,14 @@ def curated_selection():
     )
 
 
-def test_curated_app_selections_smoke(client, snapshot, monkeypatch, curated_selection):
+def test_curated_app_selections_smoke(
+    client, snapshot, monkeypatch, curated_selection, fullscreen_lookup
+):
     duplicate_slot = SimpleNamespace(
         id=2,
         theme=SimpleNamespace(key="creative-tools"),
         slot="after-hero",
+        layout="carousel",
         starts_at=datetime.date(2026, 7, 5),
         ends_at=datetime.date(2026, 7, 10),
         apps=[SimpleNamespace(app_id="org.example.Other", position=0)],
@@ -172,7 +185,12 @@ def test_curated_app_selection_themes_admin_smoke(
 
 
 def test_curated_app_selections_admin_smoke(
-    client, snapshot, monkeypatch, moderator_override, curated_selection
+    client,
+    snapshot,
+    monkeypatch,
+    moderator_override,
+    curated_selection,
+    fullscreen_lookup,
 ):
     monkeypatch.setattr(
         app_picks.models.ScheduledSelection,
@@ -184,3 +202,15 @@ def test_curated_app_selections_admin_smoke(
 
     assert response.status_code == 200
     assert snapshot("test_curated_app_selections_admin.json") == response.json()
+
+
+def test_scheduled_selection_input_defaults_to_grid():
+    selection = app_picks.ScheduledSelectionInput(
+        theme_id=1,
+        slot="after-hero",
+        starts_at=datetime.date(2026, 7, 5),
+        ends_at=datetime.date(2026, 7, 10),
+        apps=[],
+    )
+
+    assert selection.layout == app_picks.CuratedAppSelectionLayout.GRID

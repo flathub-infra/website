@@ -1,4 +1,5 @@
 import datetime
+from enum import StrEnum
 from typing import Annotated
 
 from fastapi import APIRouter, FastAPI, HTTPException, Path
@@ -77,12 +78,19 @@ class AppsOfTheWeek(BaseModel):
 class CuratedAppSelectionApp(BaseModel):
     app_id: str
     position: int
+    isFullscreen: bool
+
+
+class CuratedAppSelectionLayout(StrEnum):
+    GRID = "grid"
+    CAROUSEL = "carousel"
 
 
 class CuratedAppSelection(BaseModel):
     id: int
     theme_key: str
     slot: str
+    layout: CuratedAppSelectionLayout
     starts_at: datetime.date
     ends_at: datetime.date
     apps: list[CuratedAppSelectionApp]
@@ -107,6 +115,7 @@ class ScheduledSelectionAppInput(BaseModel):
 class ScheduledSelectionInput(BaseModel):
     theme_id: int
     slot: str
+    layout: CuratedAppSelectionLayout = CuratedAppSelectionLayout.GRID
     starts_at: datetime.date
     ends_at: datetime.date
     enabled: bool = False
@@ -129,10 +138,15 @@ def _theme_to_response(theme: models.SelectionTheme) -> SelectionTheme:
 
 def _selection_to_response(
     selection: models.ScheduledSelection,
+    fullscreen_app_ids: set[str],
     allowed_app_ids: set[str] | None = None,
 ) -> CuratedAppSelection | None:
     apps = [
-        CuratedAppSelectionApp(app_id=app.app_id, position=app.position)
+        CuratedAppSelectionApp(
+            app_id=app.app_id,
+            position=app.position,
+            isFullscreen=app.app_id in fullscreen_app_ids,
+        )
         for app in selection.apps
         if allowed_app_ids is None or app.app_id in allowed_app_ids
     ]
@@ -143,6 +157,7 @@ def _selection_to_response(
         id=selection.id,
         theme_key=selection.theme.key,
         slot=selection.slot,
+        layout=selection.layout,
         starts_at=selection.starts_at,
         ends_at=selection.ends_at,
         apps=apps,
@@ -151,8 +166,9 @@ def _selection_to_response(
 
 def _selection_to_admin_response(
     selection: models.ScheduledSelection,
+    fullscreen_app_ids: set[str],
 ) -> ScheduledSelectionAdmin:
-    public_selection = _selection_to_response(selection)
+    public_selection = _selection_to_response(selection, fullscreen_app_ids)
     if public_selection is None:
         raise HTTPException(500, "Scheduled selection has no apps")
 
@@ -170,6 +186,12 @@ def _app_pick_recommendation_ids(db, recommendation_date: datetime.date) -> set[
             db, recommendation_date
         ).recommendations
     }
+
+
+def _selection_app_ids(
+    selections: list[models.ScheduledSelection],
+) -> set[str]:
+    return {app.app_id for selection in selections for app in selection.apps}
 
 
 def _validate_scheduled_selection(
@@ -269,13 +291,19 @@ async def get_curated_app_selections(
 ) -> CuratedAppSelections:
     with get_db("replica") as db:
         allowed_app_ids = _app_pick_recommendation_ids(db, date)
+        active_selections = models.ScheduledSelection.active_by_date(db, date)
+        fullscreen_app_ids = models.App.fullscreen_app_ids(
+            db, _selection_app_ids(active_selections)
+        )
         selections = []
         used_slots = set()
-        for selection in models.ScheduledSelection.active_by_date(db, date):
+        for selection in active_selections:
             if selection.slot in used_slots:
                 continue
 
-            response = _selection_to_response(selection, allowed_app_ids)
+            response = _selection_to_response(
+                selection, fullscreen_app_ids, allowed_app_ids
+            )
             if response is None:
                 continue
 
@@ -359,9 +387,13 @@ async def get_curated_app_selections_admin(
     _moderator: QualityModeratorDep,
 ) -> list[ScheduledSelectionAdmin]:
     with get_db("writer") as db:
+        selections = models.ScheduledSelection.all(db)
+        fullscreen_app_ids = models.App.fullscreen_app_ids(
+            db, _selection_app_ids(selections)
+        )
         return [
-            _selection_to_admin_response(selection)
-            for selection in models.ScheduledSelection.all(db)
+            _selection_to_admin_response(selection, fullscreen_app_ids)
+            for selection in selections
         ]
 
 
@@ -386,6 +418,7 @@ async def create_curated_app_selection_admin(
         selection = models.ScheduledSelection(
             theme_id=body.theme_id,
             slot=body.slot,
+            layout=body.layout,
             starts_at=body.starts_at,
             ends_at=body.ends_at,
             enabled=body.enabled,
@@ -402,7 +435,10 @@ async def create_curated_app_selection_admin(
             for app in sorted(body.apps, key=lambda app: app.position)
         ]
         db.session.flush()
-        result = _selection_to_admin_response(selection)
+        fullscreen_app_ids = models.App.fullscreen_app_ids(
+            db, {app.app_id for app in selection.apps}
+        )
+        result = _selection_to_admin_response(selection, fullscreen_app_ids)
 
     await cache.invalidate_cache_by_pattern(
         "cache:endpoint:get_curated_app_selections:*"
@@ -438,6 +474,7 @@ async def update_curated_app_selection_admin(
         selection.theme_id = body.theme_id
         selection.theme = theme
         selection.slot = body.slot
+        selection.layout = body.layout
         selection.starts_at = body.starts_at
         selection.ends_at = body.ends_at
         selection.enabled = body.enabled
@@ -454,7 +491,10 @@ async def update_curated_app_selection_admin(
             for app in sorted(body.apps, key=lambda app: app.position)
         ]
         db.session.flush()
-        result = _selection_to_admin_response(selection)
+        fullscreen_app_ids = models.App.fullscreen_app_ids(
+            db, {app.app_id for app in selection.apps}
+        )
+        result = _selection_to_admin_response(selection, fullscreen_app_ids)
 
     await cache.invalidate_cache_by_pattern(
         "cache:endpoint:get_curated_app_selections:*"
