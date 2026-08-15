@@ -83,7 +83,7 @@ class CuratedAppSelectionApp(BaseModel):
 
 class CuratedAppSelectionLayout(StrEnum):
     GRID = "grid"
-    CAROUSEL = "carousel"
+    FEATURED = "featured"
 
 
 class CuratedAppSelection(BaseModel):
@@ -211,6 +211,9 @@ def _validate_scheduled_selection(
 
     if not body.apps:
         raise HTTPException(400, "Scheduled selections must contain at least one app")
+
+    if body.layout == CuratedAppSelectionLayout.FEATURED and len(body.apps) > 3:
+        raise HTTPException(400, "Featured selections can contain at most three apps")
 
     app_ids = [app.app_id for app in body.apps]
     if len(app_ids) != len(set(app_ids)):

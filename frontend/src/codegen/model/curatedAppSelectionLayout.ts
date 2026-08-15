@@ -10,5 +10,5 @@ export type CuratedAppSelectionLayout =
 
 export const CuratedAppSelectionLayout = {
   grid: "grid",
-  carousel: "carousel",
+  featured: "featured",
 } as const
