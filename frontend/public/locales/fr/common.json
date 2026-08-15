@@ -854,5 +854,14 @@
   "app-is-currently-verified-by-dns": "Votre app est actuellement vérifiée via le contrôle DNS de <domain></domain>",
   "dns-verification": "Vérification DNS",
   "moderation-random-review": "Sélectionné au hasard pour examen par humain",
-  "verified-dns-tooltip": "La propriété de l’ID d’application <appid></appid> a été vérifié via le contrôle DNS de <domain></domain>"
+  "verified-dns-tooltip": "La propriété de l’ID d’application <appid></appid> a été vérifié via le contrôle DNS de <domain></domain>",
+  "moderation-summary-changes": "Résumé modifications",
+  "moderation-manifest-complexity-explanation": "Ces modifications de recette décrivent l’ampleur et la structure de l’empaquetage, pas le risque de sécurité ni un comportement malveillant.",
+  "moderation-manifest-complexity-ambiguity": "Certains modules n’ont pas pu être appariés sans ambiguïté ; examinez attentivement les modifications de recette concernées.",
+  "moderation-manifest-complexity-modules": "Modules touchés",
+  "moderation-manifest-complexity-events": "Changements de recette",
+  "moderation-manifest-complexity-modules-truncated": "Montrant {shown} de {total} des modules touchés.",
+  "moderation-manifest-complexity-events-truncated": "Montrant {shown} de {total} des changements de recette.",
+  "moderation-manifest-added": "Ajouté",
+  "moderation-manifest-removed": "Retiré"
 }

@@ -268,7 +268,7 @@
   "emulators": "模拟器",
   "midi": "MIDI",
   "action": "动作",
-  "moderation-appstream-changes": "应用流更改",
+  "moderation-appstream-changes": "应用流变更",
   "logic": "逻辑",
   "consultants-description": "向 Flathub 提交应用的咨询服务。",
   "moderation-appstream": "应用流",
@@ -854,5 +854,9 @@
   "app-is-currently-verified-by-dns": "您的应用已通过 <domain></domain> 的 DNS 控制来验证",
   "verified-dns-tooltip": "<appid></appid> 应用 ID 的所有权已通过 <domain></domain> 的 DNS 控制验证",
   "dns-verification": "DNS 验证",
-  "moderation-random-review": "随机选择进行人工审核"
+  "moderation-random-review": "随机选择进行人工审核",
+  "moderation-summary-changes": "变更摘要",
+  "moderation-manifest-source-origin": "Manifest 来变更",
+  "moderation-manifest-complexity": "Manifest 软件包复杂度",
+  "moderation-manifest-source-and-complexity": "Manifest 来源与复杂度审查"
 }

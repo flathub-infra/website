@@ -1,1 +1,16 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "installer Flatpak",
+      "text": "<text>For at installere Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere\n</strong>, åben Terminalen.\nprogrammet og kør: </text>\n<code>\n</code>"
+    },
+    "step-3": {
+      "name": "Tilføj Flathub repository"
+    },
+    "step-2": {
+      "name": "Installer GNOME Software Flatpak plugin",
+      "text": "<text>GNOME Software plugin gør det muligt at installere programmer uden brug af en kommando linje. for at installere, kør:</text>\n<code>\n</code>\n<text>\n<strong>Note:\n</strong> Ubuntu distributes GNOME Software som en Snap i versioner 20.04 to 23.04, og skiftede det ud med\nApp Center in 23.10 og nyere—ingen af hvilke understøtter installering af Flatpak programmer. Installering af Flatpak plugin vil også installere en deb version af GNOME Software, hvilket resultere i to \"Software\" programmer bliver installeret at på den samme tid paa Ubuntu 20.04 to 23.04, og en enkelt nu \"Software\" app i Ubuntu 23.10 and nyere.</text>"
+    }
+  }
+}

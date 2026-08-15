@@ -850,5 +850,19 @@
   "app-is-currently-verified-by-dns": "تحققَ من تطبيقك حاليًا من خلال التحكم في DNS الخاص بـ <domain></domain>",
   "verified-dns-tooltip": "تحققَ من ملكية معرِّف التطبيق <appid></appid> من خلال التحقق من DNS الخاص بـ <domain></domain>",
   "dns-verification": "تحقُق DNS",
-  "moderation-random-review": "حُدّد عشوائيًا للتحقق من قِبل إنسان"
+  "moderation-random-review": "حُدّد عشوائيًا للتحقق من قِبل إنسان",
+  "moderation-summary-changes": "مُلخص التغييرات",
+  "moderation-manifest-source-origin": "تغييرات في مصدر البيان",
+  "moderation-manifest-complexity": "التعقيد في تغليف البيان",
+  "moderation-manifest-source-and-complexity": "مراجعة مصدر البيان وتعقيداته",
+  "moderation-manifest-complexity-explanation": "تتناول هذه التغييرات في الوصفة نطاق التعبئة والتغليف وهيكلها، ولا تتعلق بالمخاطر الأمنية أو السلوك الضار.",
+  "moderation-manifest-complexity-ambiguity": "تعذّر مطابقة بعض الوحدات بشكل لا لبس فيه؛ يُرجى مراجعة التغييرات التي طرأت على الوصفة المعنية بعناية.",
+  "moderation-manifest-complexity-modules": "الوحدات الملموسة",
+  "moderation-manifest-complexity-events": "تغييرات الوصفة",
+  "moderation-manifest-complexity-modules-truncated": "يُعرض {shown} مِن {total} الوحدات الملموسة.",
+  "moderation-manifest-complexity-events-truncated": "يُعرض {shown} مِن {total} تغييرات الوصفة.",
+  "moderation-manifest-added": "أُضيف",
+  "moderation-manifest-removed": "أُزيل",
+  "moderation-build-changes": "تغييرات البنية",
+  "moderation-build-log": "سجلّ البنية"
 }
