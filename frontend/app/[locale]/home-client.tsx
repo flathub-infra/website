@@ -150,8 +150,8 @@ function CategorySection({
       {categorySections.map((sectionData, i) => (
         <Fragment key={`categorySection${sectionData.category}`}>
           <div>
-            {i === 3 && <div className="mb-10">{mobileSection}</div>}
-            {i === 5 && <div className="mb-10">{gameSection}</div>}
+            {i === 4 && <div className="mb-10">{mobileSection}</div>}
+            {i === 6 && <div className="mb-10">{gameSection}</div>}
             <ApplicationSection
               type="withCustomHeader"
               href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
