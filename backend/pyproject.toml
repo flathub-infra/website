@@ -32,7 +32,7 @@ dependencies = [
     "httpx<1.0.0,>=0.28.1",
     "apscheduler==3.11.3",
     "granian[reload,uvloop]>=2.7.9",
-    "memray>=1.19.1",
+    "memray>=1.20.0",
     "psycopg[binary]>=3.3.4",
     "authlib>=1.7.2,<2.0",
     "joserfc>=1.7.4",
