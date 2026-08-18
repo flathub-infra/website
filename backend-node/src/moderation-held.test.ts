@@ -190,6 +190,11 @@ test("accepts summary moderation request schema", () => {
   assert.equal(RequestSchema.safeParse(summaryRequest).success, true)
 })
 
+test("accepts manifest moderation request schema", () => {
+  assert.equal(RequestSchema.safeParse(manifestRequest).success, true)
+  assert.equal(RequestSchema.safeParse(complexityRequest).success, true)
+})
+
 test("does not render permission changes in held email", async () => {
   const html = await render(
     ModerationHeldEmail({
