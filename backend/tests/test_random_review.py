@@ -1318,6 +1318,33 @@ def test_scored_manifest_observations_include_zero_and_below_threshold(
     assert observation["source_status"] == expected_source_status
 
 
+def test_scored_manifest_observation_persists_command_telemetry_without_raw_text(
+    monkeypatch,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+    )
+    pair = _complexity_pair()
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    harness.call()
+
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["build_command_event_count"] == 1
+    assert observation["build_command_distinct_fingerprint_count"] == 1
+    assert observation["build_command_fingerprint_group_sizes"] == [1]
+    serialized = json.dumps(observation, sort_keys=True)
+    assert "echo old" not in serialized
+    assert "echo new" not in serialized
+
+
 @pytest.mark.parametrize(
     ("published_status", "expected_reason"),
     [

@@ -936,6 +936,9 @@ def _manifest_analysis_observation_values(
         "complexity_analysis_fingerprint": None,
         "complexity_would_gate": False,
         "complexity_data": None,
+        "build_command_event_count": 0,
+        "build_command_distinct_fingerprint_count": 0,
+        "build_command_fingerprint_group_sizes": [],
         "source_gating_enabled": source_gating_enabled,
         "source_observe_only": source_observe_only,
         "complexity_gating_enabled": complexity_gating_enabled,
@@ -964,6 +967,15 @@ def _manifest_analysis_observation_values(
                 ),
                 "complexity_data": complexity_data.model_dump(
                     mode="json", exclude_none=True
+                ),
+                "build_command_event_count": (
+                    complexity.command_change_telemetry.event_count
+                ),
+                "build_command_distinct_fingerprint_count": (
+                    complexity.command_change_telemetry.distinct_fingerprint_count
+                ),
+                "build_command_fingerprint_group_sizes": list(
+                    complexity.command_change_telemetry.fingerprint_group_sizes
                 ),
             }
         )

@@ -8,6 +8,8 @@ from app.manifest_complexity import (
     ManifestComplexityNotScored,
     ManifestComplexityNotScoredReason,
     ManifestComplexityResult,
+    _command_change_fingerprint,
+    _normalize_commands,
     _normalize_source,
     analyze_manifest_complexity,
 )
@@ -699,6 +701,107 @@ def test_command_whitespace_normalization():
     }
     after = {"modules": [{"name": "main", "build-commands": ["echo one\necho two"]}]}
     assert result(before, after).score_units == 0
+
+
+def command_analysis(
+    changes: list[tuple[str, str]], names: tuple[str, ...] | None = None
+) -> ManifestComplexityResult:
+    module_names = names or tuple(f"module-{index}" for index in range(len(changes)))
+    before = {
+        "modules": [
+            {"name": name, "build-commands": [old]}
+            for name, (old, _) in zip(module_names, changes, strict=True)
+        ]
+    }
+    after = {
+        "modules": [
+            {"name": name, "build-commands": [new]}
+            for name, (_, new) in zip(module_names, changes, strict=True)
+        ]
+    }
+    return result(before, after)
+
+
+def test_command_change_fingerprint_is_deterministic_for_normalized_sequences():
+    first = _command_change_fingerprint(
+        _normalize_commands(["\n  foo --prefix=/old  \r\n"]),
+        _normalize_commands(["\n foo --prefix=/new\n"]),
+    )
+    second = _command_change_fingerprint(
+        ("foo --prefix=/old",),
+        ("foo --prefix=/new",),
+    )
+    assert first == second
+
+
+def test_different_command_transformations_have_different_fingerprints():
+    first = _command_change_fingerprint(("foo --prefix=/old",), ("foo --prefix=/new",))
+    second = _command_change_fingerprint(("bar --prefix=/old",), ("bar --prefix=/new",))
+    assert first != second
+
+
+def test_command_fingerprint_does_not_depend_on_module_location():
+    first = command_analysis([("foo --prefix=/old", "foo --prefix=/new")], ("one",))
+    second = command_analysis([("foo --prefix=/old", "foo --prefix=/new")], ("two",))
+    assert first.command_change_telemetry == second.command_change_telemetry
+    assert first.score_units == second.score_units == 4
+
+
+def test_command_fingerprint_does_not_depend_on_architecture():
+    before = {"modules": [{"name": "main", "build-commands": ["foo old"]}]}
+    after = {"modules": [{"name": "main", "build-commands": ["foo new"]}]}
+    analysis = analyze_manifest_complexity(
+        tuple(
+            (manifest_pair(before, after, arch=arch),) for arch in ("x86_64", "aarch64")
+        )
+    )
+    assert isinstance(analysis, ManifestComplexityResult)
+    assert analysis.command_change_telemetry.event_count == 1
+    assert analysis.command_change_telemetry.distinct_fingerprint_count == 1
+    assert analysis.command_change_telemetry.fingerprint_group_sizes == (1,)
+    assert analysis.score_units == 4
+
+
+def test_identical_command_changes_report_one_distinct_fingerprint():
+    analysis = command_analysis([("foo --prefix=/old", "foo --prefix=/new")] * 10)
+    assert (
+        len(
+            [
+                event
+                for event in analysis.events
+                if event.kind is ManifestChangeKind.BUILD_COMMANDS_CHANGED
+            ]
+        )
+        == 10
+    )
+    assert analysis.command_change_telemetry.event_count == 10
+    assert analysis.command_change_telemetry.distinct_fingerprint_count == 1
+    assert analysis.command_change_telemetry.fingerprint_group_sizes == (10,)
+    assert analysis.score_units == 16
+
+
+def test_unrelated_command_changes_report_ten_distinct_fingerprints():
+    analysis = command_analysis(
+        [(f"foo --arg={index}", f"foo --arg={index + 10}") for index in range(10)]
+    )
+    assert analysis.command_change_telemetry.event_count == 10
+    assert analysis.command_change_telemetry.distinct_fingerprint_count == 10
+    assert analysis.command_change_telemetry.fingerprint_group_sizes == (1,) * 10
+    assert analysis.score_units == 16
+
+
+def test_mixed_command_fingerprint_groups_report_sizes_and_unchanged_score():
+    analysis = command_analysis(
+        [
+            *[("foo --mode=old", "foo --mode=new")] * 4,
+            *[("bar --mode=old", "bar --mode=new")] * 3,
+            *[("baz --mode=old", "baz --mode=new")] * 3,
+        ]
+    )
+    assert analysis.command_change_telemetry.event_count == 10
+    assert analysis.command_change_telemetry.distinct_fingerprint_count == 3
+    assert analysis.command_change_telemetry.fingerprint_group_sizes == (4, 3, 3)
+    assert analysis.score_units == 16
 
 
 @pytest.mark.parametrize(

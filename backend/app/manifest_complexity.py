@@ -4,7 +4,7 @@ import re
 import textwrap
 from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Literal, cast
 from urllib.parse import quote, urlsplit, urlunsplit
@@ -73,6 +73,13 @@ class ManifestChange:
 
 
 @dataclass(frozen=True)
+class BuildCommandChangeTelemetry:
+    event_count: int
+    distinct_fingerprint_count: int
+    fingerprint_group_sizes: tuple[int, ...]
+
+
+@dataclass(frozen=True)
 class ManifestComplexityResult:
     algorithm_version: int
     score_units: int
@@ -85,6 +92,9 @@ class ManifestComplexityResult:
     touched_modules: tuple[str, ...]
     affected_arches: tuple[str, ...]
     changed_categories: tuple[str, ...]
+    command_change_telemetry: BuildCommandChangeTelemetry = field(
+        default=BuildCommandChangeTelemetry(0, 0, ()), compare=False, repr=False
+    )
 
 
 @dataclass(frozen=True)
@@ -163,6 +173,7 @@ class _NormalizedManifest:
 class _EventEnvelope:
     event: ManifestChange
     touched_modules: tuple[str, ...]
+    command_change_fingerprint: str | None = None
 
 
 class _Unsupported(ValueError):
@@ -383,6 +394,11 @@ def _normalize_commands(value: object) -> tuple[str, ...]:
         text = textwrap.dedent(text)
         result.append(text.strip("\n"))
     return tuple(result)
+
+
+def _command_change_fingerprint(old: Sequence[str], new: Sequence[str]) -> str:
+    canonical = _canonical({"old": list(old), "new": list(new)})
+    return "sha256:" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def _invalid_locator(value: object) -> str:
@@ -735,9 +751,12 @@ def _event(
     new: JSONValue | None,
     magnitude: int | None = None,
     touched: Sequence[str] = (),
+    command_change_fingerprint: str | None = None,
 ) -> _EventEnvelope:
     return _EventEnvelope(
-        ManifestChange(kind, location, arches, old, new, magnitude), tuple(touched)
+        ManifestChange(kind, location, arches, old, new, magnitude),
+        tuple(touched),
+        command_change_fingerprint,
     )
 
 
@@ -1293,6 +1312,11 @@ def _compare_matched_module(
                     rendered,
                     _command_magnitude(summary),
                     (new_path,),
+                    (
+                        _command_change_fingerprint(old_commands, new_commands)
+                        if kind is ManifestChangeKind.BUILD_COMMANDS_CHANGED
+                        else None
+                    ),
                 )
             )
     for kind, old_values, new_values in (
@@ -1705,17 +1729,21 @@ def _event_key(event: ManifestChange, *, arches: bool = True) -> tuple[object, .
 
 def _merge_events(
     events: Sequence[_EventEnvelope],
-) -> tuple[tuple[ManifestChange, ...], tuple[str, ...]]:
+) -> tuple[tuple[ManifestChange, ...], tuple[str, ...], BuildCommandChangeTelemetry]:
     merged: dict[tuple[object, ...], set[str]] = defaultdict(set)
     prototypes: dict[tuple[object, ...], ManifestChange] = {}
     touches: dict[tuple[object, ...], set[str]] = defaultdict(set)
+    command_fingerprints: dict[tuple[object, ...], set[str]] = defaultdict(set)
     for envelope in events:
         key = _event_key(envelope.event, arches=False)
         prototypes[key] = envelope.event
         merged[key].update(envelope.event.arches)
         touches[key].update(envelope.touched_modules)
+        if envelope.command_change_fingerprint is not None:
+            command_fingerprints[key].add(envelope.command_change_fingerprint)
     result = []
     touched_modules: set[str] = set()
+    fingerprint_by_event: list[str] = []
     for key in sorted(prototypes):
         prototype = prototypes[key]
         result.append(
@@ -1729,7 +1757,23 @@ def _merge_events(
             )
         )
         touched_modules.update(touches[key])
-    return tuple(sorted(result, key=_event_key)), tuple(sorted(touched_modules))
+        if (
+            prototype.kind is ManifestChangeKind.BUILD_COMMANDS_CHANGED
+            and command_fingerprints[key]
+        ):
+            fingerprint_by_event.append(min(command_fingerprints[key]))
+    fingerprint_counts = Counter(fingerprint_by_event)
+    return (
+        tuple(sorted(result, key=_event_key)),
+        tuple(sorted(touched_modules)),
+        BuildCommandChangeTelemetry(
+            event_count=len(fingerprint_by_event),
+            distinct_fingerprint_count=len(fingerprint_counts),
+            fingerprint_group_sizes=tuple(
+                sorted(fingerprint_counts.values(), reverse=True)
+            ),
+        ),
+    )
 
 
 def _score(events: Sequence[ManifestChange]) -> tuple[int, int, int]:
@@ -1932,7 +1976,7 @@ def analyze_manifest_complexity(
                 context,
             )
         )
-    events, touched_modules = _merge_events(raw_events)
+    events, touched_modules, command_change_telemetry = _merge_events(raw_events)
     changed_categories = tuple(
         sorted({_CATEGORY_BY_KIND[event.kind] for event in events})
     )
@@ -1955,4 +1999,5 @@ def analyze_manifest_complexity(
             sorted({arch for event in events for arch in event.arches})
         ),
         changed_categories=changed_categories,
+        command_change_telemetry=command_change_telemetry,
     )

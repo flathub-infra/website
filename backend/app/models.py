@@ -2223,6 +2223,9 @@ class ManifestAnalysisObservation(Base):
     complexity_analysis_fingerprint = mapped_column(String)
     complexity_would_gate = mapped_column(Boolean, nullable=False)
     complexity_data = mapped_column(JSONB(none_as_null=True))
+    build_command_event_count = mapped_column(Integer, nullable=False)
+    build_command_distinct_fingerprint_count = mapped_column(Integer, nullable=False)
+    build_command_fingerprint_group_sizes = mapped_column(JSONB, nullable=False)
 
     source_gating_enabled = mapped_column(Boolean, nullable=False)
     source_observe_only = mapped_column(Boolean, nullable=False)
