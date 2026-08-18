@@ -88,6 +88,8 @@ class ManifestComplexityResult:
     recipe_units: int
     breadth_units: int
     ambiguity_units: int
+    score_by_kind: dict[ManifestChangeKind, int]
+    event_count_by_kind: dict[ManifestChangeKind, int]
     events: tuple[ManifestChange, ...]
     touched_modules: tuple[str, ...]
     affected_arches: tuple[str, ...]
@@ -174,6 +176,14 @@ class _EventEnvelope:
     event: ManifestChange
     touched_modules: tuple[str, ...]
     command_change_fingerprint: str | None = None
+
+
+@dataclass(frozen=True)
+class _ScoreBreakdown:
+    structural_units: int
+    recipe_units: int
+    ambiguity_units: int
+    score_by_kind: dict[ManifestChangeKind, int]
 
 
 class _Unsupported(ValueError):
@@ -1776,7 +1786,7 @@ def _merge_events(
     )
 
 
-def _score(events: Sequence[ManifestChange]) -> tuple[int, int, int]:
+def _score(events: Sequence[ManifestChange]) -> _ScoreBreakdown:
     totals: dict[ManifestChangeKind, int] = defaultdict(int)
     source_set_units_by_location: dict[str, int] = {}
     for event in events:
@@ -1799,18 +1809,29 @@ def _score(events: Sequence[ManifestChange]) -> tuple[int, int, int]:
         totals[ManifestChangeKind.SOURCE_SET_CHANGED] = sum(
             source_set_units_by_location.values()
         )
-    capped = {kind: min(total, _SCORE_TABLE[kind][1]) for kind, total in totals.items()}
+    score_by_kind = {
+        kind: min(total, _SCORE_TABLE[kind][1])
+        for kind, total in totals.items()
+        if total > 0
+    }
     structural = sum(
-        value for kind, value in capped.items() if kind in _STRUCTURAL_KINDS
+        value for kind, value in score_by_kind.items() if kind in _STRUCTURAL_KINDS
     )
-    ambiguity = capped.get(ManifestChangeKind.MODULE_MATCH_AMBIGUOUS, 0)
+    ambiguity = score_by_kind.get(ManifestChangeKind.MODULE_MATCH_AMBIGUOUS, 0)
     recipe = sum(
         value
-        for kind, value in capped.items()
+        for kind, value in score_by_kind.items()
         if kind not in _STRUCTURAL_KINDS
         and kind is not ManifestChangeKind.MODULE_MATCH_AMBIGUOUS
     )
-    return structural, recipe, ambiguity
+    return _ScoreBreakdown(
+        structural_units=structural,
+        recipe_units=recipe,
+        ambiguity_units=ambiguity,
+        score_by_kind=dict(
+            sorted(score_by_kind.items(), key=lambda item: item[0].value)
+        ),
+    )
 
 
 def manifest_complexity_score_band(score_units: int) -> ManifestComplexityScoreBand:
@@ -1980,19 +2001,32 @@ def analyze_manifest_complexity(
     changed_categories = tuple(
         sorted({_CATEGORY_BY_KIND[event.kind] for event in events})
     )
-    structural, recipe, ambiguity = _score(events)
+    score_breakdown = _score(events)
+    event_count_by_kind = dict(
+        sorted(
+            Counter(event.kind for event in events).items(),
+            key=lambda item: item[0].value,
+        )
+    )
     breadth = min(4, max(0, len(touched_modules) - 1)) + min(
         4, max(0, len(changed_categories) - 1)
     )
-    raw_score = structural + recipe + ambiguity + breadth
+    raw_score = (
+        score_breakdown.structural_units
+        + score_breakdown.recipe_units
+        + score_breakdown.ambiguity_units
+        + breadth
+    )
     return ManifestComplexityResult(
         algorithm_version=MANIFEST_COMPLEXITY_ALGORITHM_VERSION,
         score_units=min(raw_score, MANIFEST_COMPLEXITY_MAX_SCORE_UNITS),
         raw_score_units=raw_score,
-        structural_units=structural,
-        recipe_units=recipe,
+        structural_units=score_breakdown.structural_units,
+        recipe_units=score_breakdown.recipe_units,
         breadth_units=breadth,
-        ambiguity_units=ambiguity,
+        ambiguity_units=score_breakdown.ambiguity_units,
+        score_by_kind=score_breakdown.score_by_kind,
+        event_count_by_kind=event_count_by_kind,
         events=events,
         touched_modules=touched_modules,
         affected_arches=tuple(

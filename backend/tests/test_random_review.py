@@ -1306,6 +1306,7 @@ def test_scored_manifest_observations_include_zero_and_below_threshold(
         "org.example.App",
         analysis,
         14,
+        include_calibration_telemetry=True,
     ).model_dump(mode="json", exclude_none=True)
     assert result.requires_review is False
     assert harness.db.session.persisted == []
@@ -1340,9 +1341,68 @@ def test_scored_manifest_observation_persists_command_telemetry_without_raw_text
     assert observation["build_command_event_count"] == 1
     assert observation["build_command_distinct_fingerprint_count"] == 1
     assert observation["build_command_fingerprint_group_sizes"] == [1]
+    assert observation["complexity_data"]["score_by_kind"] == {
+        "build_commands_changed": 4,
+        "buildsystem_changed": 6,
+    }
+    assert observation["complexity_data"]["event_count_by_kind"] == {
+        "build_commands_changed": 1,
+        "buildsystem_changed": 1,
+    }
     serialized = json.dumps(observation, sort_keys=True)
     assert "echo old" not in serialized
     assert "echo new" not in serialized
+
+
+def test_scored_manifest_observation_persists_complete_event_telemetry_when_details_truncated(
+    monkeypatch,
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+    )
+    pair = _manifest_pair("x86_64", changed=True)
+    pair.published_manifest = {
+        "modules": [
+            {"name": f"module-{index}", "build-commands": [f"echo old {index}"]}
+            for index in range(30)
+        ]
+    }
+    pair.candidate_manifest = {
+        "modules": [
+            {"name": f"module-{index}", "build-commands": [f"echo new {index}"]}
+            for index in range(30)
+        ]
+    }
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    harness.call()
+
+    observation = harness.observations[(42, "org.example.App")]
+    complexity_data = observation["complexity_data"]
+    assert len(complexity_data["events"]) == 25
+    assert complexity_data["events_truncated"] is True
+    assert complexity_data["total_event_count"] == 30
+    assert complexity_data["event_count_by_kind"] == {
+        "build_commands_changed": 30,
+    }
+    assert complexity_data["score_by_kind"] == {
+        "build_commands_changed": 12,
+    }
+    assert complexity_data["score_breakdown"] == {
+        "structural_units": 0,
+        "recipe_units": 12,
+        "breadth_units": 4,
+        "ambiguity_units": 0,
+    }
+    assert complexity_data["raw_score_units"] == 16
+    assert complexity_data["score_units"] == 16
 
 
 @pytest.mark.parametrize(
@@ -2218,6 +2278,8 @@ def test_complexity_at_or_above_threshold_creates_one_manifest_request(
         "recipe_units": 10,
         "structural_units": 0,
     }
+    assert "score_by_kind" not in body["complexity"]
+    assert "event_count_by_kind" not in body["complexity"]
 
 
 def test_complexity_only_is_suppressed_by_appdata_request(monkeypatch):

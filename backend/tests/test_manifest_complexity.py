@@ -353,6 +353,8 @@ def test_source_additions_are_aggregated(count, magnitude):
     }
     assert event.magnitude == magnitude
     assert analysis.recipe_units == magnitude
+    assert analysis.score_by_kind == {ManifestChangeKind.SOURCE_SET_CHANGED: magnitude}
+    assert analysis.event_count_by_kind == {ManifestChangeKind.SOURCE_SET_CHANGED: 1}
     assert analysis.score_units == magnitude
     assert analysis.breadth_units == 0
     assert analysis.changed_categories == ("sources",)
@@ -373,6 +375,8 @@ def test_source_removal_is_aggregated():
         "changed": 1,
     }
     assert analysis.events[0].magnitude == 1
+    assert analysis.score_by_kind == {ManifestChangeKind.SOURCE_SET_CHANGED: 1}
+    assert analysis.event_count_by_kind == {ManifestChangeKind.SOURCE_SET_CHANGED: 1}
     assert analysis.recipe_units == 1
 
 
@@ -443,6 +447,8 @@ def test_source_set_is_capped_across_modules():
     assert kinds(analysis) == [ManifestChangeKind.SOURCE_SET_CHANGED] * 3
     assert {event.magnitude for event in analysis.events} == {3}
     assert analysis.recipe_units == 6
+    assert analysis.score_by_kind == {ManifestChangeKind.SOURCE_SET_CHANGED: 6}
+    assert analysis.event_count_by_kind == {ManifestChangeKind.SOURCE_SET_CHANGED: 3}
     assert analysis.breadth_units == 2
     assert analysis.changed_categories == ("sources",)
 
@@ -691,6 +697,54 @@ def test_module_recipe_events(before_module, after_module, kind, units):
     analysis = result(before, after)
     assert kinds(analysis) == [kind]
     assert analysis.score_units == units
+    assert analysis.score_by_kind == {kind: units}
+    assert analysis.event_count_by_kind == {kind: 1}
+
+
+def test_score_and_event_counts_keep_kinds_separate_at_one_module():
+    before = {
+        "modules": [
+            {
+                "name": "main",
+                "buildsystem": "simple",
+                "build-commands": ["echo old"],
+            }
+        ]
+    }
+    after = {
+        "modules": [
+            {
+                "name": "main",
+                "buildsystem": "meson",
+                "build-commands": ["echo new"],
+            }
+        ]
+    }
+
+    analysis = result(before, after)
+
+    assert analysis.score_by_kind == {
+        ManifestChangeKind.BUILDSYSTEM_CHANGED: 6,
+        ManifestChangeKind.BUILD_COMMANDS_CHANGED: 4,
+    }
+    assert analysis.event_count_by_kind == {
+        ManifestChangeKind.BUILDSYSTEM_CHANGED: 1,
+        ManifestChangeKind.BUILD_COMMANDS_CHANGED: 1,
+    }
+    assert analysis.structural_units == 0
+    assert analysis.recipe_units == 10
+    assert analysis.breadth_units == 1
+
+
+def test_command_magnitude_is_included_in_score_by_kind():
+    old = " ".join(["old"] * 64)
+    new = " ".join(["new"] * 64)
+
+    analysis = command_analysis([(old, new)])
+
+    assert analysis.events[0].magnitude == 2
+    assert analysis.score_by_kind == {ManifestChangeKind.BUILD_COMMANDS_CHANGED: 6}
+    assert analysis.recipe_units == 6
 
 
 def test_command_whitespace_normalization():
@@ -778,6 +832,10 @@ def test_identical_command_changes_report_one_distinct_fingerprint():
     assert analysis.command_change_telemetry.distinct_fingerprint_count == 1
     assert analysis.command_change_telemetry.fingerprint_group_sizes == (10,)
     assert analysis.score_units == 16
+    assert analysis.score_by_kind == {ManifestChangeKind.BUILD_COMMANDS_CHANGED: 12}
+    assert analysis.event_count_by_kind == {
+        ManifestChangeKind.BUILD_COMMANDS_CHANGED: 10
+    }
 
 
 def test_unrelated_command_changes_report_ten_distinct_fingerprints():
@@ -841,6 +899,8 @@ def test_architecture_merge_scores_once():
     analysis = analyze_manifest_complexity(groups)
     assert isinstance(analysis, ManifestComplexityResult)
     assert analysis.score_units == 6
+    assert analysis.score_by_kind == {ManifestChangeKind.BUILDSYSTEM_CHANGED: 6}
+    assert analysis.event_count_by_kind == {ManifestChangeKind.BUILDSYSTEM_CHANGED: 1}
     assert analysis.events[0].arches == ("aarch64", "x86_64")
     assert analysis.affected_arches == ("aarch64", "x86_64")
 
@@ -887,6 +947,14 @@ def test_broad_score_is_capped_with_raw_score():
     analysis = result(before, after)
     assert analysis.raw_score_units > 40
     assert analysis.score_units == 40
+    assert (
+        sum(analysis.score_by_kind.values()) + analysis.breadth_units
+        == analysis.raw_score_units
+    )
+    assert analysis.score_units == min(
+        analysis.raw_score_units,
+        40,
+    )
 
 
 def test_dictionary_order_is_deterministic():

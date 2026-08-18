@@ -229,6 +229,8 @@ class ManifestComplexityRequestData(BaseModel):
     threshold_units: int = Field(ge=1, le=40)
     score_band: manifest_complexity.ManifestComplexityScoreBand
     score_breakdown: ManifestComplexityBreakdownData
+    score_by_kind: dict[manifest_complexity.ManifestChangeKind, int] | None = None
+    event_count_by_kind: dict[manifest_complexity.ManifestChangeKind, int] | None = None
     affected_arches: list[str]
     touched_modules: list[str] = Field(max_length=50)
     touched_modules_truncated: bool
@@ -258,6 +260,42 @@ class ManifestComplexityRequestData(BaseModel):
         )
         if breakdown_total != self.raw_score_units:
             raise ValueError("score breakdown does not match raw_score_units")
+        if (self.score_by_kind is None) != (self.event_count_by_kind is None):
+            raise ValueError("score and event telemetry must be provided together")
+        if self.score_by_kind is not None and self.event_count_by_kind is not None:
+            if any(value < 0 for value in self.score_by_kind.values()):
+                raise ValueError("score telemetry values must be non-negative")
+            if any(value < 0 for value in self.event_count_by_kind.values()):
+                raise ValueError("event telemetry values must be non-negative")
+            structural_total = sum(
+                value
+                for kind, value in self.score_by_kind.items()
+                if kind in manifest_complexity._STRUCTURAL_KINDS
+            )
+            ambiguity_total = self.score_by_kind.get(
+                manifest_complexity.ManifestChangeKind.MODULE_MATCH_AMBIGUOUS,
+                0,
+            )
+            recipe_total = sum(
+                value
+                for kind, value in self.score_by_kind.items()
+                if kind not in manifest_complexity._STRUCTURAL_KINDS
+                and kind
+                is not manifest_complexity.ManifestChangeKind.MODULE_MATCH_AMBIGUOUS
+            )
+            if structural_total != self.score_breakdown.structural_units:
+                raise ValueError("structural score telemetry does not match")
+            if recipe_total != self.score_breakdown.recipe_units:
+                raise ValueError("recipe score telemetry does not match")
+            if ambiguity_total != self.score_breakdown.ambiguity_units:
+                raise ValueError("ambiguity score telemetry does not match")
+            if (
+                sum(self.score_by_kind.values()) + self.score_breakdown.breadth_units
+                != self.raw_score_units
+            ):
+                raise ValueError("score telemetry does not match raw_score_units")
+            if sum(self.event_count_by_kind.values()) != self.total_event_count:
+                raise ValueError("event telemetry does not match total_event_count")
         if self.affected_arches != sorted(set(self.affected_arches)):
             raise ValueError("affected_arches must be sorted and unique")
         if self.touched_modules != sorted(set(self.touched_modules)):
@@ -659,6 +697,7 @@ def _manifest_complexity_request_data(
     app_id: str,
     analysis: manifest_complexity.ManifestComplexityResult,
     threshold_units: int,
+    include_calibration_telemetry: bool = False,
 ) -> ManifestComplexityRequestData:
     stored_modules = sorted(
         {_bounded_manifest_text(module) for module in analysis.touched_modules[:50]}
@@ -694,6 +733,14 @@ def _manifest_complexity_request_data(
             recipe_units=analysis.recipe_units,
             breadth_units=analysis.breadth_units,
             ambiguity_units=analysis.ambiguity_units,
+        ),
+        score_by_kind=(
+            dict(analysis.score_by_kind) if include_calibration_telemetry else None
+        ),
+        event_count_by_kind=(
+            dict(analysis.event_count_by_kind)
+            if include_calibration_telemetry
+            else None
         ),
         affected_arches=list(analysis.affected_arches),
         touched_modules=stored_modules,
@@ -951,6 +998,7 @@ def _manifest_analysis_observation_values(
             app_id,
             complexity,
             complexity_threshold_units,
+            include_calibration_telemetry=True,
         )
         values.update(
             {
