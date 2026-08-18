@@ -19,7 +19,7 @@
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "hono": "^4.13.2",
-    "nodemailer": "9.0.4",
+    "nodemailer": "9.0.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-email": "6.9.2",
