@@ -121,7 +121,7 @@ function SelectItem({
         </SelectPrimitive.ItemIndicator>
       </span>
       {description ? (
-        <span className="flex min-w-0 flex-col">
+        <span className="flex min-w-0 flex-col items-start text-start">
           <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
           {description}
         </span>
