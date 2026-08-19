@@ -159,34 +159,41 @@ export const MappingChanges = () => (
             location: "manifest",
             arches: ["aarch64", "x86_64"],
             old_summary: {
-              changed_keys: ["sdk-extensions"],
+              changed_keys: ["add-extensions"],
               values: {
-                "sdk-extensions": {
-                  count: 1,
-                  values: ["org.freedesktop.Sdk.Extension.foo"],
+                "add-extensions": {
+                  key_count: 3,
+                  keys: [
+                    "eu.usdx.UltraStarDeluxe.Songs",
+                    "eu.usdx.UltraStarDeluxe.Themes",
+                    "org.freedesktop.Platform.ffmpeg-full",
+                  ],
                 },
               },
             },
             new_summary: {
-              changed_keys: ["sdk-extensions"],
+              changed_keys: ["add-extensions"],
               values: {
-                "sdk-extensions": {
-                  count: 1,
-                  values: ["org.freedesktop.Sdk.Extension.bar"],
+                "add-extensions": {
+                  key_count: 2,
+                  keys: [
+                    "eu.usdx.UltraStarDeluxe.Songs",
+                    "eu.usdx.UltraStarDeluxe.Themes",
+                  ],
                 },
               },
             },
           },
           {
             kind: "config_options_changed",
-            location: "modules/tuba",
+            location: "modules/portmidi",
             arches: ["aarch64", "x86_64"],
             old_summary: {
               changed_keys: ["config-opts"],
               values: {
                 "config-opts": {
                   count: 1,
-                  values: ["--enable-old"],
+                  values: ["-DCMAKE_BUILD_TYPE=Release"],
                 },
               },
             },
@@ -194,15 +201,19 @@ export const MappingChanges = () => (
               changed_keys: ["config-opts"],
               values: {
                 "config-opts": {
-                  count: 1,
-                  values: ["--enable-new"],
+                  count: 3,
+                  values: [
+                    "-DCMAKE_BUILD_TYPE=Release",
+                    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+                    "-DCMAKE_C_STANDARD=11",
+                  ],
                 },
               },
             },
           },
           {
             kind: "build_options_changed",
-            location: "modules/tuba",
+            location: "modules/portmidi",
             arches: ["aarch64", "x86_64"],
             old_summary: {
               changed_keys: ["cflags", "env"],

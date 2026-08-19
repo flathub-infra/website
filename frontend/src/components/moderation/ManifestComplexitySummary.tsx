@@ -29,6 +29,36 @@ const eventLabels: Record<string, string> = {
   arch_selection_changed: "Architecture selection changed",
 }
 
+interface MappingSummary {
+  keys: string[]
+  values: Record<string, unknown>
+}
+
+const hasOwn = (values: Record<string, unknown>, key: string) =>
+  Object.prototype.hasOwnProperty.call(values, key)
+
+const mappingSummary = (value: unknown): MappingSummary | null => {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return null
+  }
+  const summary = value as Record<string, unknown>
+  if (!Array.isArray(summary.changed_keys)) {
+    return null
+  }
+  const values =
+    typeof summary.values === "object" &&
+    summary.values !== null &&
+    !Array.isArray(summary.values)
+      ? (summary.values as Record<string, unknown>)
+      : {}
+  return {
+    keys: summary.changed_keys.filter(
+      (item): item is string => typeof item === "string",
+    ),
+    values,
+  }
+}
+
 const summaryText = (value: unknown, includeNull = false): string | null => {
   if (value === null) {
     return includeNull ? "null" : null
@@ -43,26 +73,20 @@ const summaryText = (value: unknown, includeNull = false): string | null => {
   if (typeof value !== "object" || Array.isArray(value)) {
     return null
   }
-  const summary = value as Record<string, unknown>
-  if (Array.isArray(summary.changed_keys)) {
-    const values =
-      typeof summary.values === "object" &&
-      summary.values !== null &&
-      !Array.isArray(summary.values)
-        ? (summary.values as Record<string, unknown>)
-        : {}
-    return summary.changed_keys
-      .filter((item): item is string => typeof item === "string")
+  const mapping = mappingSummary(value)
+  if (mapping) {
+    return mapping.keys
       .map((key) => {
-        if (!Object.prototype.hasOwnProperty.call(values, key)) {
+        if (!hasOwn(mapping.values, key)) {
           return null
         }
-        const detail = summaryText(values[key], true)
+        const detail = summaryText(mapping.values[key], true)
         return detail !== null ? `${key}: ${detail}` : key
       })
       .filter((item): item is string => item !== null)
       .join(", ")
   }
+  const summary = value as Record<string, unknown>
   if (typeof summary.count === "number") {
     const values = Array.isArray(summary.values)
       ? summary.values
@@ -91,6 +115,108 @@ const summaryText = (value: unknown, includeNull = false): string | null => {
   }
   return null
 }
+
+const MappingValue = ({
+  value,
+  present,
+  side,
+}: {
+  value: string | null
+  present: boolean
+  side: "old" | "new"
+}) => (
+  <td
+    className={
+      side === "old"
+        ? "align-top bg-flathub-status-red/5 px-4 py-3 text-flathub-status-red dark:bg-flathub-status-red-dark/10 dark:text-flathub-status-red-dark"
+        : "align-top bg-flathub-status-green/5 px-4 py-3 text-flathub-status-green dark:bg-flathub-status-green-dark/10 dark:text-flathub-status-green-dark"
+    }
+  >
+    {present ? (
+      <div className="flex items-start gap-2">
+        <span aria-hidden="true" className="font-mono font-semibold">
+          {side === "old" ? "−" : "+"}
+        </span>
+        <code className="break-all whitespace-pre-wrap text-sm">
+          {value ?? "—"}
+        </code>
+      </div>
+    ) : (
+      <span aria-hidden="true" className="text-flathub-sonic-silver">
+        —
+      </span>
+    )}
+  </td>
+)
+
+const MappingDiffTable = ({
+  oldSummary,
+  newSummary,
+}: {
+  oldSummary: MappingSummary | null
+  newSummary: MappingSummary | null
+}) => {
+  const t = useTranslations()
+  const keys = Array.from(
+    new Set([...(oldSummary?.keys ?? []), ...(newSummary?.keys ?? [])]),
+  )
+  if (keys.length === 0) {
+    return null
+  }
+  return (
+    <div className="overflow-x-auto rounded-lg border border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
+      <table className="w-full min-w-[36rem]">
+        <thead>
+          <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-left dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30 rtl:text-right">
+            <th className="w-1/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+              {t("moderation-key")}
+            </th>
+            <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+              {t("moderation-old-value")}
+            </th>
+            <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+              {t("moderation-new-value")}
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:bg-flathub-arsenic">
+          {keys.map((key) => {
+            const oldPresent =
+              oldSummary !== null && hasOwn(oldSummary.values, key)
+            const newPresent =
+              newSummary !== null && hasOwn(newSummary.values, key)
+            return (
+              <tr key={key}>
+                <td className="align-top px-4 py-3 font-mono text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  {key}
+                </td>
+                <MappingValue
+                  present={oldPresent}
+                  side="old"
+                  value={
+                    oldPresent
+                      ? summaryText(oldSummary?.values[key], true)
+                      : null
+                  }
+                />
+                <MappingValue
+                  present={newPresent}
+                  side="new"
+                  value={
+                    newPresent
+                      ? summaryText(newSummary?.values[key], true)
+                      : null
+                  }
+                />
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 const sourceSetSummaryText = (value: unknown): string | null => {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     return null
@@ -133,39 +259,51 @@ const ManifestComplexitySummary: FunctionComponent<Props> = ({
           {complexity.events.map((event, index) => {
             const eventKind = String(event.kind)
             const isSourceSetChanged = eventKind === "source_set_changed"
+            const oldMapping = mappingSummary(event.old_summary)
+            const newMapping = mappingSummary(event.new_summary)
+            const hasMapping = oldMapping !== null || newMapping !== null
             const aggregateText = isSourceSetChanged
               ? sourceSetSummaryText(event.new_summary)
               : null
-            const oldText = isSourceSetChanged
-              ? null
-              : summaryText(event.old_summary)
-            const newText = isSourceSetChanged
-              ? null
-              : summaryText(event.new_summary)
+            const oldText =
+              isSourceSetChanged || hasMapping
+                ? null
+                : summaryText(event.old_summary)
+            const newText =
+              isSourceSetChanged || hasMapping
+                ? null
+                : summaryText(event.new_summary)
             return (
               <div
-                className="space-y-1 px-4 py-3"
+                className="space-y-3 px-4 py-3"
                 key={`${eventKind}-${event.location}-${index}`}
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <span className="font-medium">
                     {eventLabels[eventKind] ?? eventKind}
                   </span>
-                  <code className="text-xs break-all">{event.location}</code>
+                  <code className="break-all text-xs">{event.location}</code>
                 </div>
-                {isSourceSetChanged
-                  ? aggregateText && (
-                      <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                        <span>{aggregateText}</span>
-                      </div>
-                    )
-                  : (oldText || newText) && (
-                      <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                        {oldText && <span>− {oldText}</span>}
-                        {oldText && newText && <span> · </span>}
-                        {newText && <span>+ {newText}</span>}
-                      </div>
-                    )}
+                {isSourceSetChanged ? (
+                  aggregateText && (
+                    <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                      <span>{aggregateText}</span>
+                    </div>
+                  )
+                ) : hasMapping ? (
+                  <MappingDiffTable
+                    oldSummary={oldMapping}
+                    newSummary={newMapping}
+                  />
+                ) : (
+                  (oldText || newText) && (
+                    <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                      {oldText && <span>− {oldText}</span>}
+                      {oldText && newText && <span> · </span>}
+                      {newText && <span>+ {newText}</span>}
+                    </div>
+                  )
+                )}
               </div>
             )
           })}
