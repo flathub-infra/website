@@ -89,19 +89,7 @@ const ManifestSourceOriginChangesRow: FunctionComponent<Props> = ({
                 className="space-y-3 px-4 py-4"
                 key={`${findingIndex}-${change.module}`}
               >
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <code className="font-semibold">{change.module}</code>
-                  <div className="flex flex-wrap gap-1">
-                    {unique(finding.arches).map((arch) => (
-                      <span
-                        className="inline-flex items-center rounded-md bg-flathub-gainsborow/50 px-2 py-0.5 font-mono text-xs font-medium text-flathub-dark-gunmetal dark:bg-flathub-granite-gray/50 dark:text-flathub-gainsborow"
-                        key={arch}
-                      >
-                        {arch}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <code className="font-semibold">{change.module}</code>
 
                 <div className="space-y-1">
                   {change.removed.map((origin) => (

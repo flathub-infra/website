@@ -81,52 +81,9 @@ const ManifestComplexitySummary: FunctionComponent<Props> = ({
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-        {t("moderation-manifest-complexity-explanation")}
-      </p>
-
       {hasAmbiguity && (
         <div className="rounded-lg border border-flathub-status-yellow bg-flathub-status-yellow/10 px-4 py-3 text-sm text-flathub-status-yellow-dark dark:text-flathub-status-yellow">
           {t("moderation-manifest-complexity-ambiguity")}
-        </div>
-      )}
-
-      {complexity.affected_arches.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {complexity.affected_arches.map((arch) => (
-            <span
-              className="inline-flex items-center rounded-md bg-flathub-gainsborow/50 px-2 py-0.5 font-mono text-xs font-medium text-flathub-dark-gunmetal dark:bg-flathub-granite-gray/50 dark:text-flathub-gainsborow"
-              key={arch}
-            >
-              {arch}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {complexity.touched_modules.length > 0 && (
-        <div>
-          <h3 className="mb-2 font-semibold">
-            {t("moderation-manifest-complexity-modules")}
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {complexity.touched_modules.map((module) => (
-              <code
-                className="rounded bg-flathub-gainsborow/50 px-2 py-1 text-xs break-all dark:bg-flathub-dark-gunmetal"
-                key={module}
-              >
-                {module}
-              </code>
-            ))}
-          </div>
-          {complexity.touched_modules_truncated && (
-            <p className="mt-2 text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-              {t("moderation-manifest-complexity-modules-truncated", {
-                shown: complexity.touched_modules.length,
-                total: complexity.total_touched_module_count,
-              })}
-            </p>
-          )}
         </div>
       )}
 
