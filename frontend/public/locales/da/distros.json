@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "installer Flatpak",
-      "text": "<text>For at installere Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere\n</strong>, åben Terminalen.\nprogrammet og kør: </text>\n<code>\n</code>"
+      "text": "<text>For at installer Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong> åben Terminalen.\nprogrammet og kør: </text>/ <code></code>"
     },
     "step-3": {
       "name": "Tilføj Flathub repository"

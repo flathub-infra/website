@@ -801,15 +801,15 @@
     },
     "winter-comforts": {
       "header": "Ole kotoisasti",
-      "description": "Loistavia sovelluksia lukemiseen, elokuvien katsomiseenja pelien pelaamiseen"
+      "description": "Loistavia sovelluksia lukemiseen, elokuvien katsomiseen ja pelien pelaamiseen"
     },
     "tools-for-developers": {
       "header": "Web-kehittäjän tärkeimmät",
       "description": "Sivustojen tekeminen on hauskempaa näillä sovelluksilla"
     },
     "take-better-notes": {
-      "header": "Ota parempia muistiinpanoja",
-      "description": "Löydä uusi suosikkisovellus muistiipanojen ottamiseen"
+      "header": "Tee parempia muistiinpanoja",
+      "description": "Löydä uusi suosikkisovellus muistiipanojen tekemiseen"
     },
     "get-focused": {
       "header": "Keskity",
@@ -820,7 +820,7 @@
       "description": "Sovellukset musiikin luomiseen ja tuottamiseen"
     },
     "get-to-work": {
-      "header": "Työskentele",
+      "header": "Töiden pariin",
       "description": "Tärkeimmät toimistosovellukset"
     }
   },

@@ -823,7 +823,7 @@
       "description": "Aplikasi hebat untuk membaca, menonton film, dan bermain game"
     },
     "tools-for-developers": {
-      "header": "Esensial Web Developer",
+      "header": "Esensial untuk Pengembang Web",
       "description": "Membuat website jadi lebih menyenangkan dengan aplikasi ini"
     },
     "take-better-notes": {
@@ -854,5 +854,19 @@
   "dns-lookup-failed": "Gagal mencari TXT records untuk {record}.",
   "app-is-currently-verified-by-dns": "App Anda saat ini telah diverifikasi melalui kontrol DNS atas <domain></domain>",
   "verified-dns-tooltip": "Kepemilikan app ID <appid></appid> telah diverifikasi melalui kontrol DNS atas <domain></domain>",
-  "dns-verification": "Verifikasi DNS"
+  "dns-verification": "Verifikasi DNS",
+  "moderation-summary-changes": "Perubahan Ringkasan",
+  "moderation-manifest-source-origin": "Perubahan Sumber Manifest",
+  "moderation-manifest-complexity": "Kompleksitas Pengemasan Manifest",
+  "moderation-manifest-source-and-complexity": "Tinjauan Sumber dan Kompleksitas Manifest",
+  "moderation-manifest-complexity-explanation": "Perubahan recipe ini menjelaskan cakupan dan struktur pengemasan, bukan risiko keamanan atau perilaku berbahaya.",
+  "moderation-manifest-complexity-ambiguity": "Beberapa modul tidak dapat dicocokkan secara tegas; tinjau perubahan recipe yang terdampak dengan saksama.",
+  "moderation-manifest-complexity-modules": "Modul yang Terpengaruh",
+  "moderation-manifest-complexity-events": "Perubahan Recipe",
+  "moderation-manifest-complexity-modules-truncated": "Menampilkan {shown} dari {total} modul yang terpengaruh.",
+  "moderation-manifest-complexity-events-truncated": "Menampilkan {shown} dari {total} perubahan recipe.",
+  "moderation-manifest-added": "Ditambahkan",
+  "moderation-manifest-removed": "Dihapus",
+  "moderation-build-changes": "Perubahan Build",
+  "moderation-build-log": "Log build"
 }

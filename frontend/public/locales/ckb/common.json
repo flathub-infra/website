@@ -239,5 +239,17 @@
   "invited-apps": "بانگهێشتکردنەکان",
   "accept": "پەسەند بکە",
   "accept-invite": "بانگهێشت پەسەند بکە",
-  "chat": "دەمەتەقێ"
+  "chat": "دەمەتەقێ",
+  "see-all-results": "گشت ئەنجامەکان ببینە",
+  "user-avatar": "ئاڤاتاری {user}",
+  "sub-header": {
+    "downloads-per-month": "داگرتنەکان/مانگ",
+    "desktop-only": "تەنها ڕوومێز",
+    "desktop-and-mobile": "ڕوومێز و مۆبایل",
+    "download": "داگرتن",
+    "free": "خۆڕایی",
+    "mobile-support": "پشتگیری مۆبایل",
+    "desktop-support": "پشتگیری ڕوومێز"
+  },
+  "app-information": "زانیاری بەرنامە"
 }

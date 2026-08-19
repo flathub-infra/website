@@ -823,7 +823,7 @@
       "description": "Ótimos aplicativos para leitura, assistir a filmes e jogar"
     },
     "tools-for-developers": {
-      "header": "Essenciais para Desenvolvedores Web",
+      "header": "Essenciais para desenvolvedores web",
       "description": "Criar sites é mais divertido com estes aplicativos"
     },
     "take-better-notes": {
@@ -842,5 +842,6 @@
       "header": "Vá Trabalhar",
       "description": "Aplicativos essenciais para escritório"
     }
-  }
+  },
+  "moderation-summary-changes": "Resumo das alterações"
 }
