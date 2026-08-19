@@ -858,5 +858,15 @@
   "moderation-summary-changes": "变更摘要",
   "moderation-manifest-source-origin": "Manifest 来变更",
   "moderation-manifest-complexity": "Manifest 软件包复杂度",
-  "moderation-manifest-source-and-complexity": "Manifest 来源与复杂度审查"
+  "moderation-manifest-source-and-complexity": "Manifest 来源与复杂度审查",
+  "moderation-manifest-complexity-explanation": "这些配方更改描述的是包装的广度和结构，而不是安全风险或恶意行为。",
+  "moderation-manifest-complexity-ambiguity": "某些模块无法明确匹配；请仔细检查受影响的配方更改。",
+  "moderation-manifest-complexity-modules": "已触及的模块",
+  "moderation-manifest-complexity-events": "食谱更改",
+  "moderation-manifest-complexity-modules-truncated": "显示 {shown} 个被触碰模块，共 {total} 个。",
+  "moderation-manifest-complexity-events-truncated": "显示 {shown} 条共有 {total} 条食谱更改。",
+  "moderation-manifest-added": "已添加",
+  "moderation-manifest-removed": "已移除",
+  "moderation-build-changes": "构建更改",
+  "moderation-build-log": "构建日志"
 }

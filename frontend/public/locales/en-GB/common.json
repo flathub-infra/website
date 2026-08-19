@@ -788,5 +788,10 @@
   "manual-verification": "Mark as manually verified",
   "user-id": "Flathub User ID",
   "health-fitness": "Health & Fitness",
-  "more-healthfitness": "More Health & Fitness"
+  "more-healthfitness": "More Health & Fitness",
+  "curated-app-selection-themes": {
+    "winter-comforts": {
+      "description": "Great apps for reading, watching films, and playing games"
+    }
+  }
 }

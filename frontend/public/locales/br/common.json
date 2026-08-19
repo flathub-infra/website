@@ -275,5 +275,6 @@
   "unverified-app-disclaimer-unknown-developer": "diorroer an arload",
   "manage": "Merañ",
   "dns-verification": "Gwiriadur DNS",
-  "dns-record-value": "Talvoud"
+  "dns-record-value": "Talvoud",
+  "moderation-manifest-added": "Ouzhpennet"
 }

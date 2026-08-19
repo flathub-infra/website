@@ -1,1 +1,62 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu ကို",
+    "step-1": {
+      "name": "Flatpak ကိုတပ်ဆင်ပါ",
+      "text": "<text>Flatpak ကို <strong>Ubuntu 18.10 (Cosmic Cuttlefish) သို့မဟုတ် နောက်ပိုင်းဗားရှင်း</strong>များတွင် ထည့်သွင်းရန် Terminal အက်ပ်ကိုဖွင့်ပြီး အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code>"
+    },
+    "step-2": {
+      "name": "GNOME Software Flatpak plugin ကို တပ်ဆင်ပါ",
+      "text": "<text>GNOME Software ၏ plugin သည် command line မလိုအပ်ဘဲ အက်ပ်များကို ထည့်သွင်းနိုင်စေသည်။ ထည့်သွင်းရန် အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code> <text><strong>မှတ်ချက်။</strong> Ubuntu သည် ဗားရှင်း 20.04 မှ 23.04 အထိ GNOME Software ကို Snap အဖြစ် ဖြန့်ဝေပြီး 23.10 နှင့် နောက်ပိုင်းဗားရှင်းများတွင် App Center ဖြင့် အစားထိုးခဲ့သည် — ၎င်းတို့နှစ်ခုစလုံးသည် Flatpak အက်ပ်များကို ပံ့ပိုးမပေးပါ။ Flatpak plugin ကို ထည့်သွင်းခြင်းသည် GNOME Software ၏ deb ဗားရှင်းကိုပါ ထည့်သွင်းပေးမည်ဖြစ်ရာ Ubuntu 20.04 မှ 23.04 တွင် \"Software\" အက်ပ် နှစ်ခု တစ်ပြိုင်နက် ထည့်သွင်းပြီးသွားမည်ဖြစ်ပြီး Ubuntu 23.10 နှင့် နောက်ပိုင်းများတွင် \"Software\" အက်ပ် အသစ်တစ်ခုသာ ရှိမည်ဖြစ်သည်။</text>"
+    },
+    "step-3": {
+      "name": "Flathub သိုလှောင်ရုံကို ထည့်သွင်းပါ",
+      "text": "<text>Flathub သည် Flatpak အက်ပ်များရယူရန် အကောင်းဆုံးနေရာဖြစ်သည်။ ၎င်းကို ဖွင့်ရန် <filelink>Flathub repository file</filelink> or run အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code>"
+    },
+    "step-4": {
+      "name": "ပြန်စတင်",
+      "text": "<text>စနစ်ထည့်သွင်းခြင်းကို အပြီးသတ်ရန် သင့်စနစ်ကို ပြန်လည်စတင်ပါ။ ယခု သင်လုပ်ရမည့်အရာမှာ <link>install apps</link>! ဖြစ်သည်။</text>"
+    }
+  },
+  "fedora": {
+    "distroName": "ဖီဒိုရာ",
+    "introduction": "<text>Flatpak ကို Fedora Workstation၊ Fedora Silverblue နှင့် Fedora Kinoite တို့တွင် ပုံမှန်အားဖြင့် ထည့်သွင်းပြီးသားဖြစ်သည်။ စတင်ရန်အတွက် သင်လုပ်ရမည့်အရာမှာ Flathub ကို ဖွင့်ရုံသာဖြစ်သည်။ ၎င်းသည် Flatpak အက်ပ်များရယူရန် အကောင်းဆုံးနည်းလမ်းဖြစ်သည်။ Flathub ကို <repolink>Third-Party Repositories</repolink> ၏ တစ်စိတ်တစ်ပိုင်းအဖြစ် ကြိုတင်သတ်မှတ်ထားပြီးဖြစ်သည်။ တစ်နည်းအားဖြင့် သင်သည် <filelink>Flathub repository file</filelink> ကို ဒေါင်းလုဒ်လုပ်ပြီး ထည့်သွင်းနိုင်သည်။</text> <text>ယခု သင်လုပ်ရမည့်အရာမှာ <applink>install apps</applink>! သာဖြစ်သည်။</text> <text>အထက်ပါ လင့်ခ်များသည် ပုံမှန် GNOME နှင့် KDE Fedora တပ်ဆင်မှုများတွင် အလုပ်လုပ်သင့်သော်လည်း တစ်စုံတစ်ရာ အကြောင်းကြောင့် အလုပ်မလုပ်ပါက အောက်ပါအတိုင်း ရိုက်ထည့်ခြင်းဖြင့် Flathub remote ကို ကိုယ်တိုင်ထည့်သွင်းနိုင်သည်။</text> <code></code>"
+  },
+  "manjaro": {
+    "distroName": "မန်ဂျာရို",
+    "step-1": {
+      "name": "Software Manager မှတစ်ဆင့် Flatpak ကိုခွင့်ပြုပါ",
+      "text": "<text>Flatpak ကို Manjaro 20 သို့မဟုတ် ထို့ထက် ပိုမြင့်သော မူရင်းအတိုင်း ထည့်သွင်းထားသည်။</text> <text> ၎င်း၏ပံ့ပိုးမှုကိုဖွင့်ရန်၊ <strong>Software Manager</strong> (Add/Remove Programs)</text> <text>Click on the triple line menu [သို့မဟုတ် Desktop Environment ပေါ်မူတည်၍ အစက်များ] ညာဘက်ရှိ drop down menu တွင် \"ရွေးချယ်ပါဦးစားပေးများ\"</text> <text>Navigate \"Flatpak\" တက်ဘ်သို့ သွားပြီး ခလုတ်ကို Enable Flatpak ပံ့ပိုးမှုသို့ ရွှေ့ပါ (အကြံပြုထားသည့် အပ်ဒိတ်များအတွက် စစ်ဆေးခြင်းကိုလည်း ဖွင့်နိုင်သည်)။</text>"
+    },
+    "step-2": {
+      "name": "ပြန်စတင်",
+      "text": "<text>ဆက်တင်ကို အပြီးသတ်ရန် သင့်စနစ်ကို ပြန်လည်စတင်ပါ။ ယခု သင်လုပ်ရန်မှာ <link>အက်ပ်များ ထည့်သွင်းရန်</link> ဖြစ်သည်!</text>"
+    }
+  },
+  "endless_os": {
+    "distroName": "အဆုံးမဲ့ OS ကို",
+    "introduction": "<text>Flatpak ပံ့ပိုးမှုကို Endless OS 3.0.0 နှင့် နောက်ပိုင်းဗားရှင်းများတွင် ထည့်သွင်းတည်ဆောက်ထားပြီးဖြစ်သည် — ပြင်ဆင်သတ်မှတ်မှု မလိုအပ်ပါ။</text>"
+  },
+  "alt_linux": {
+    "distroName": "ALT လီနပ်စ်",
+    "step-1": {
+      "name": "Flatpak ကိုတပ်ဆင်ပါ",
+      "text": "<text>Alt မိသားစု လည်ပတ်ရေးစနစ်များတွင် Flatpak ကို ထည့်သွင်းရန် Terminal အက်ပ်ကိုဖွင့်ပြီး အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub ရီပိုစီတိုရီကို ထည့်ပါ",
+      "text": "<text>Flathub သည် Flatpak အက်ပ်များရယူရန် နေရာကောင်းတစ်ခုဖြစ်သည်။ သင့် Alt စနစ်တွင် ၎င်းကိုဖွင့်ရန် အောက်ပါအတိုင်း လုပ်ဆောင်ပါ-</text> <code></code>"
+    },
+    "step-3": {
+      "name": "ပြန်စတင်",
+      "text": "<text>Flatpak တပ်ဆင်မှုပြီးစီးရန် သင့်စက်ကို ပြန်လည်စတင်ပါ။ ယခု သင်သည် <link>install apps</link>!</text>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "introduction": "<text>Flatpak အက်ပလီကေးရှင်းများကို Crostini Linux ကိုက်ညီမှုအလွှာနှင့်အတူ ChromeOS တွင်တပ်ဆင်နိုင်သည်။ ဤသည် ChromeOS ကိရိယာအားလုံးအတွက် မရရှိနိုင်ပါ၊ ထို့ကြောင့် ဆက်လက်မတိုင်မီ သင့်ကိရိယာသည် ကိုက်ညီနိုင်သည်က ကိုက်ညီသော ကိရိယာများ၏ စာရင်းကို <link>here</link> ထိန်းသိမ်းထားသည်။ </စာသား>",
+    "step-1": {
+      "name": "Linux ထောက်ပံ့မှုကို ဖွင့်ပါ"
+    }
+  }
+}
