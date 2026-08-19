@@ -147,6 +147,132 @@ export const ComplexityOnly = () => (
     request={requestWith({ findings: [], complexity })}
   />
 )
+export const MappingChanges = () => (
+  <ManifestSourceOriginChangesRow
+    request={requestWith({
+      findings: [],
+      complexity: {
+        ...complexity,
+        events: [
+          {
+            kind: "extensions_changed",
+            location: "manifest",
+            arches: ["aarch64", "x86_64"],
+            old_summary: {
+              changed_keys: ["sdk-extensions"],
+              values: {
+                "sdk-extensions": {
+                  count: 1,
+                  values: ["org.freedesktop.Sdk.Extension.foo"],
+                },
+              },
+            },
+            new_summary: {
+              changed_keys: ["sdk-extensions"],
+              values: {
+                "sdk-extensions": {
+                  count: 1,
+                  values: ["org.freedesktop.Sdk.Extension.bar"],
+                },
+              },
+            },
+          },
+          {
+            kind: "config_options_changed",
+            location: "modules/tuba",
+            arches: ["aarch64", "x86_64"],
+            old_summary: {
+              changed_keys: ["config-opts"],
+              values: {
+                "config-opts": {
+                  count: 1,
+                  values: ["--enable-old"],
+                },
+              },
+            },
+            new_summary: {
+              changed_keys: ["config-opts"],
+              values: {
+                "config-opts": {
+                  count: 1,
+                  values: ["--enable-new"],
+                },
+              },
+            },
+          },
+          {
+            kind: "build_options_changed",
+            location: "modules/tuba",
+            arches: ["aarch64", "x86_64"],
+            old_summary: {
+              changed_keys: ["cflags", "env"],
+              values: {
+                cflags: "-O2",
+                env: {
+                  key_count: 1,
+                  keys: ["CC"],
+                },
+              },
+            },
+            new_summary: {
+              changed_keys: ["cflags", "env"],
+              values: {
+                cflags: "-O3",
+                env: {
+                  key_count: 2,
+                  keys: ["CC", "CXX"],
+                },
+              },
+            },
+          },
+        ],
+      },
+    })}
+  />
+)
+export const MappingEdgeCases = () => (
+  <ManifestSourceOriginChangesRow
+    request={requestWith({
+      findings: [],
+      complexity: {
+        ...complexity,
+        events: [
+          {
+            kind: "build_options_changed",
+            location: "modules/tuba",
+            arches: ["aarch64", "x86_64"],
+            old_summary: {
+              changed_keys: [
+                "added-option",
+                "cflags",
+                "removed-option",
+                "toggle",
+              ],
+              values: {
+                cflags: "-O2",
+                "removed-option": "old",
+                toggle: true,
+              },
+            },
+            new_summary: {
+              changed_keys: [
+                "added-option",
+                "cflags",
+                "removed-option",
+                "toggle",
+              ],
+              values: {
+                "added-option": null,
+                cflags: "-O3",
+                toggle: false,
+              },
+            },
+          },
+        ],
+      },
+    })}
+  />
+)
 
 export const Combined = () => (
   <ManifestSourceOriginChangesRow

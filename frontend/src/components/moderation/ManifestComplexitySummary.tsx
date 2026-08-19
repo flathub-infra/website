@@ -29,24 +29,62 @@ const eventLabels: Record<string, string> = {
   arch_selection_changed: "Architecture selection changed",
 }
 
-const summaryText = (value: unknown): string | null => {
-  if (typeof value === "string" || typeof value === "number") {
+const summaryText = (value: unknown, includeNull = false): string | null => {
+  if (value === null) {
+    return includeNull ? "null" : null
+  }
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
     return String(value)
   }
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+  if (typeof value !== "object" || Array.isArray(value)) {
     return null
   }
   const summary = value as Record<string, unknown>
   if (Array.isArray(summary.changed_keys)) {
+    const values =
+      typeof summary.values === "object" &&
+      summary.values !== null &&
+      !Array.isArray(summary.values)
+        ? (summary.values as Record<string, unknown>)
+        : {}
     return summary.changed_keys
-      .filter((item) => typeof item === "string")
+      .filter((item): item is string => typeof item === "string")
+      .map((key) => {
+        if (!Object.prototype.hasOwnProperty.call(values, key)) {
+          return null
+        }
+        const detail = summaryText(values[key], true)
+        return detail !== null ? `${key}: ${detail}` : key
+      })
+      .filter((item): item is string => item !== null)
       .join(", ")
   }
   if (typeof summary.count === "number") {
-    return `${summary.count} items`
+    const values = Array.isArray(summary.values)
+      ? summary.values
+          .map((item) => summaryText(item, true))
+          .filter((item): item is string => item !== null)
+          .join(", ")
+      : ""
+    const label = summary.count === 1 ? "item" : "items"
+    return values
+      ? `${summary.count} ${label} (${values})`
+      : `${summary.count} ${label}`
   }
   if (typeof summary.key_count === "number") {
-    return `${summary.key_count} keys`
+    const keys = Array.isArray(summary.keys)
+      ? summary.keys
+          .filter((item): item is string => typeof item === "string")
+          .join(", ")
+      : ""
+    const label = summary.key_count === 1 ? "key" : "keys"
+    return keys
+      ? `${summary.key_count} ${label} (${keys})`
+      : `${summary.key_count} ${label}`
   }
   if (typeof summary.added_commands === "number") {
     return `${summary.added_commands} added, ${summary.removed_commands ?? 0} removed, ${summary.replaced_commands ?? 0} replaced`
