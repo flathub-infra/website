@@ -781,15 +781,15 @@ wheels = [
 
 [[package]]
 name = "meilisearch"
-version = "0.41.1"
+version = "0.43.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "camel-converter", extra = ["pydantic"] },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/67/20/1a0586f466a52bec20f8540b6c798be3f25dba1acdfd3ed3c4d04caf3cdb/meilisearch-0.41.1.tar.gz", hash = "sha256:40786fdbe43b5f8691155d620a5b701b78279d6af74bd022eed265a732d70a69", size = 32957, upload-time = "2026-06-16T03:32:22.44Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8a/98/0c0231e407683304374c26c41f225bc80424afd1944733df0d9e4bbe8e02/meilisearch-0.43.0.tar.gz", hash = "sha256:c3f578a54070e0b545f081261fe1ee47a73ae022b17d230b949d889f0d9a7e7e", size = 33980, upload-time = "2026-07-22T08:12:29.38Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a8/62/a19b0291232a064c716620a5b8c570c5c2e124425f044bc0d9f28c4075b9/meilisearch-0.41.1-py3-none-any.whl", hash = "sha256:457e3edc93a80b0ccad8bb85eb3758a57e83c5851ed9271aab66f0eb1b126d61", size = 33144, upload-time = "2026-06-16T03:32:21.376Z" },
+    { url = "https://files.pythonhosted.org/packages/1a/70/cd4e0773eb4bcb22cc1f4d6b43d487f4a20fc515dbf1078e76a67e514c75/meilisearch-0.43.0-py3-none-any.whl", hash = "sha256:4226734a510211f0183c2f16af7b6077d239f0c4ec310a58ef564ae704cabe26", size = 34638, upload-time = "2026-07-22T08:12:28.325Z" },
 ]
 
 [[package]]
