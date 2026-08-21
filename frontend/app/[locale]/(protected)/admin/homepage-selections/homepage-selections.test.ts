@@ -29,7 +29,7 @@ describe("resolveThemeLabel", () => {
     "curated-app-selection-themes.take-better-notes.header":
       "Take Better Notes",
     "curated-app-selection-themes.take-better-notes.description":
-      "Find your new favorite note taking tool",
+      "Apps for capturing ideas in the way that suits you",
   }
 
   it("resolves the translated title and subtitle from the current theme key", () => {
@@ -41,7 +41,7 @@ describe("resolveThemeLabel", () => {
 
     expect(label).toEqual({
       title: "Take Better Notes",
-      subtitle: "Find your new favorite note taking tool",
+      subtitle: "Apps for capturing ideas in the way that suits you",
     })
   })
 

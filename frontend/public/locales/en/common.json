@@ -100,7 +100,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "New Year, New Workflows",
-      "description": "Apps to take notes, track tasks, and make plans"
+      "description": "Apps for a fresh start, however you work"
     },
     "free-software-favorites": {
       "header": "Staff Picks",
@@ -108,7 +108,7 @@
     },
     "spring-creativity": {
       "header": "Get Creative",
-      "description": "Essential apps for drawing, editing photos, and digital design"
+      "description": "Apps for turning ideas into something new"
     },
     "fresh-desktop-releases": {
       "header": "Build Native Apps",
@@ -116,19 +116,19 @@
     },
     "staying-connected": {
       "header": "Stay in Touch",
-      "description": "Essential collaboration and communication apps"
+      "description": "Apps for sharing, talking, and spending time together"
     },
     "summer-travel": {
       "header": "Ready for Vacations",
-      "description": "Maps, transit, weather, and trip planning apps"
+      "description": "Apps for wherever your next trip takes you"
     },
     "back-to-learning": {
       "header": "Smarter Every Day",
-      "description": "Apps to help you study, research, and write"
+      "description": "Apps for discovering, learning, and creating knowledge"
     },
     "winter-comforts": {
       "header": "Get Cozy",
-      "description": "Great apps for reading, watching movies, and playing games"
+      "description": "Apps for relaxing and enjoying time your way"
     },
     "tools-for-developers": {
       "header": "Web Developer Essentials",
@@ -136,19 +136,19 @@
     },
     "take-better-notes": {
       "header": "Take Better Notes",
-      "description": "Find your new favorite note taking tool"
+      "description": "Apps for capturing ideas in the way that suits you"
     },
     "get-focused": {
       "header": "Get Focused",
-      "description": "Great apps for task management"
+      "description": "Everything you need to stay in the flow"
     },
     "make-some-noise": {
       "header": "Make Some Noise",
-      "description": "Apps for creating and producing music"
+      "description": "Apps for creating, playing, and exploring sound"
     },
     "get-to-work": {
       "header": "Get To Work",
-      "description": "Essential office apps"
+      "description": "Apps that help you get things done your way"
     }
   },
   "subscribe": "Subscribe",
