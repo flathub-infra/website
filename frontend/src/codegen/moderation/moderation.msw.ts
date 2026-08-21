@@ -135,6 +135,24 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
                   breadth_units: faker.number.int({ min: 0, max: 8 }),
                   ambiguity_units: faker.number.int({ min: 0 }),
                 },
+                score_by_kind: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    {
+                      [faker.string.alphanumeric(5)]: faker.number.int(),
+                    },
+                    null,
+                  ]),
+                  undefined,
+                ]),
+                event_count_by_kind: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    {
+                      [faker.string.alphanumeric(5)]: faker.number.int(),
+                    },
+                    null,
+                  ]),
+                  undefined,
+                ]),
                 affected_arches: Array.from(
                   { length: faker.number.int({ min: 1, max: 10 }) },
                   (_, i) => i + 1,

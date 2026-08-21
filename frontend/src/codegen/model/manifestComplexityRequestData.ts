@@ -6,6 +6,8 @@
  */
 import type { ManifestComplexityBreakdownData } from "./manifestComplexityBreakdownData"
 import type { ManifestComplexityEventData } from "./manifestComplexityEventData"
+import type { ManifestComplexityRequestDataEventCountByKind } from "./manifestComplexityRequestDataEventCountByKind"
+import type { ManifestComplexityRequestDataScoreByKind } from "./manifestComplexityRequestDataScoreByKind"
 import type { ManifestComplexityScoreBand } from "./manifestComplexityScoreBand"
 
 export interface ManifestComplexityRequestData {
@@ -32,6 +34,8 @@ export interface ManifestComplexityRequestData {
   threshold_units: number
   score_band: ManifestComplexityScoreBand
   score_breakdown: ManifestComplexityBreakdownData
+  score_by_kind?: ManifestComplexityRequestDataScoreByKind
+  event_count_by_kind?: ManifestComplexityRequestDataEventCountByKind
   affected_arches: string[]
   /** @maxItems 50 */
   touched_modules: string[]
