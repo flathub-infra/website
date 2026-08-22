@@ -103,6 +103,31 @@ def test_archive_rejects_canonical_runtime_app_id(monkeypatch):
     assert enqueued == [], "republish_app must NOT be enqueued for a runtime"
 
 
+def test_archive_direct_upload_requires_direct_upload_permission(monkeypatch):
+    user = SimpleNamespace(permissions=lambda: set())
+    login = SimpleNamespace(user=user)
+
+    monkeypatch.setattr(
+        verification.models.RuntimeScope, "by_app_id", lambda _db, _app_id: None
+    )
+    monkeypatch.setattr(
+        verification.models.DirectUploadApp,
+        "by_app_id",
+        lambda _db, _app_id: SimpleNamespace(),
+    )
+    monkeypatch.setattr(verification, "get_db", fake_get_db)
+
+    with pytest.raises(HTTPException) as exc_info:
+        verification.archive(
+            request=_make_archive_request(),
+            login=login,
+            app_id="org.example.App",
+        )
+
+    assert exc_info.value.status_code == 403
+    assert exc_info.value.detail == verification.ErrorDetail.NOT_UPLOADER
+
+
 def test_archive_rejects_provisioned_runtime(monkeypatch):
     """RuntimeScope.by_app_id returns non-None → 403 RUNTIME_CANNOT_BE_ARCHIVED."""
     enqueued = []

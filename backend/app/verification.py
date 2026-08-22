@@ -78,6 +78,7 @@ class ErrorDetail(StrEnum):
     IS_RUNTIME = "is_runtime"
     # Runtimes can never be archived or EOL-rebased
     RUNTIME_CANNOT_BE_ARCHIVED = "runtime_cannot_be_archived"
+    NOT_UPLOADER = "not_uploader"
 
 
 # Utility functions
@@ -939,7 +940,19 @@ def _check_login_provider_verification(
         raise HTTPException(status_code=500)
 
 
+def _require_direct_upload_permission(
+    user: models.FlathubUser,
+) -> models.FlathubUser:
+    with get_db("replica") as db:
+        user = db.session.merge(user)
+        if "direct-upload" not in user.permissions():
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
+    return user
+
+
 def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
+    user = _require_direct_upload_permission(user)
+
     direct_upload_app = models.DirectUploadApp(app_id=app_id)
     with get_db("writer") as db:
         db.session.add(direct_upload_app)
@@ -1439,6 +1452,10 @@ def archive(
                 status_code=403,
                 detail=ErrorDetail.RUNTIME_CANNOT_BE_ARCHIVED,
             )
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+
+    if direct_upload_app is not None:
+        _require_direct_upload_permission(login.user)
 
     if not config.settings.flat_manager_api:
         raise HTTPException(

@@ -284,3 +284,26 @@ def test_confirm_dns_verification_persists_expected_effects(monkeypatch, new_app
             ("republish", "org.example.App"),
             ("cache", "cache:endpoint:get_verification_status:*"),
         ]
+
+
+def test_direct_upload_creation_requires_direct_upload_permission(monkeypatch):
+    verification_module = _load_verification_module(monkeypatch)
+    user = SimpleNamespace(id=42, permissions=lambda: set())
+    db_types = []
+    database = SimpleNamespace(
+        session=SimpleNamespace(merge=lambda _user: user),
+    )
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        db_types.append(db_type)
+        yield database
+
+    monkeypatch.setattr(verification_module, "get_db", fake_get_db)
+
+    with pytest.raises(verification_module.HTTPException) as exc_info:
+        verification_module._create_direct_upload_app(user, "org.example.App")
+
+    assert exc_info.value.status_code == 403
+    assert exc_info.value.detail == verification_module.ErrorDetail.NOT_UPLOADER
+    assert db_types == ["replica"]

@@ -41,6 +41,7 @@ class ErrorDetail(StrEnum):
     CANNOT_ABANDON_APP = "cannot_abandon_app"
     # The developer could not be found.
     DEVELOPER_NOT_FOUND = "developer_not_found"
+    NOT_UPLOADER = "not_uploader"
 
 
 def _get_app(app_id: str) -> DirectUploadApp:
@@ -52,9 +53,13 @@ def _get_app(app_id: str) -> DirectUploadApp:
 
 
 def _check_permission(
-    app: DirectUploadApp, user: FlathubUser, require_primary: bool = False
+    app: DirectUploadApp,
+    user: FlathubUser,
+    require_primary: bool = False,
+    require_uploader: bool = False,
 ) -> DirectUploadAppDeveloper:
     with get_db("replica") as db_session:
+        user = db_session.session.merge(user)
         current_dev = DirectUploadAppDeveloper.by_developer_and_app(
             db_session, user, app
         )
@@ -64,6 +69,8 @@ def _check_permission(
             raise HTTPException(
                 status_code=403, detail=ErrorDetail.NOT_PRIMARY_APP_DEVELOPER
             )
+        if require_uploader and "direct-upload" not in user.permissions():
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
         return current_dev
 
 
@@ -137,7 +144,7 @@ def invite_developer(
     ),
 ):
     app = _get_app(app_id)
-    _check_permission(app, login.user, require_primary=True)
+    _check_permission(app, login.user, require_primary=True, require_uploader=True)
 
     payload = None
     with get_db("writer") as db_session:
@@ -513,7 +520,7 @@ def remove_developer(
     ),
 ):
     app = _get_app(app_id)
-    _check_permission(app, login.user, require_primary=True)
+    _check_permission(app, login.user, require_primary=True, require_uploader=True)
 
     with get_db("writer") as db_session:
         developer = DirectUploadAppDeveloper.by_id(db_session, developer_id)
@@ -560,7 +567,7 @@ def revoke_invite(
     ),
 ):
     app = _get_app(app_id)
-    _check_permission(app, login.user, require_primary=True)
+    _check_permission(app, login.user, require_primary=True, require_uploader=True)
 
     with get_db("writer") as db_session:
         invite = DirectUploadAppInvite.by_id(db_session, invite_id)
