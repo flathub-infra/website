@@ -76,6 +76,9 @@ describe("form snapshots", () => {
       true,
     )
     expect(
+      isSelectionFormDirty({ ...pristine, layout: "carousel" }, pristine),
+    ).toBe(true)
+    expect(
       isSelectionFormDirty(
         { ...pristine, apps: pristine.apps.slice().reverse() },
         pristine,
@@ -103,6 +106,7 @@ describe("form snapshots", () => {
     expect(form).toEqual({
       themeId: "",
       slot: "after-top-apps",
+      layout: "grid",
       startsAt: "2026-08-07",
       endsAt: "2026-08-14",
       enabled: false,

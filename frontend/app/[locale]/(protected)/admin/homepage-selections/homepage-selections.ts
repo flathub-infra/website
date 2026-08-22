@@ -1,5 +1,7 @@
 import {
+  HOMEPAGE_CURATED_APP_SELECTION_LAYOUTS,
   HOMEPAGE_CURATED_APP_SELECTION_SLOTS,
+  type HomepageCuratedAppSelectionLayout,
   type HomepageCuratedAppSelectionSlot,
 } from "../../../../../src/types/CuratedAppSelection"
 
@@ -20,6 +22,7 @@ export interface SelectionFormState {
   editingId?: number
   themeId: string
   slot: HomepageCuratedAppSelectionSlot
+  layout: HomepageCuratedAppSelectionLayout
   startsAt: string
   endsAt: string
   enabled: boolean
@@ -53,6 +56,7 @@ export function createInitialForm(today: string): SelectionFormState {
   return {
     themeId: "",
     slot: "after-top-apps",
+    layout: HOMEPAGE_CURATED_APP_SELECTION_LAYOUTS[0],
     startsAt: today,
     endsAt: endDate.toISOString().slice(0, 10),
     enabled: false,
@@ -84,6 +88,7 @@ export function isSelectionFormDirty(
     form.editingId !== pristine.editingId ||
     form.themeId !== pristine.themeId ||
     form.slot !== pristine.slot ||
+    form.layout !== pristine.layout ||
     form.startsAt !== pristine.startsAt ||
     form.endsAt !== pristine.endsAt ||
     form.enabled !== pristine.enabled ||

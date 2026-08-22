@@ -10,7 +10,7 @@ import { findBiggestScreenshotSize } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
@@ -28,6 +28,7 @@ export const HeroBanner = ({
   autoplay = true,
   aboveTheFold = false,
   forceTheme = undefined,
+  fixedHeader,
 }: {
   heroBannerData: {
     app: { isFullscreen: boolean }
@@ -40,6 +41,7 @@ export const HeroBanner = ({
   autoplay?: boolean
   aboveTheFold?: boolean
   forceTheme?: "light" | "dark"
+  fixedHeader?: ReactNode
 }) => {
   const locale = useLocale()
 
@@ -93,6 +95,17 @@ export const HeroBanner = ({
   }, [api, currentIndex])
 
   const direction = getLangDir(locale) ?? "ltr"
+  const activeApp = heroBannerData[Math.max(current - 1, 0)]
+  const activeBrandingColor = chooseBrandingColor(
+    activeApp?.appstream.branding,
+    forceTheme ?? (resolvedTheme as "light" | "dark"),
+  )
+  const fixedHeaderTextColor = mounted
+    ? activeBrandingColor &&
+      getContrastColor(activeBrandingColor.value) === "black"
+      ? "text-flathub-dark-gunmetal"
+      : "text-flathub-lotion"
+    : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
 
   return (
     <Carousel
@@ -110,7 +123,23 @@ export const HeroBanner = ({
       className="overflow-hidden shadow-md rounded-xl"
       setApi={setApi}
     >
-      <CarouselContent className="h-[288px] xl:h-[352px] ms-0">
+      {fixedHeader && (
+        <div
+          className={clsx(
+            "pointer-events-none absolute inset-x-0 top-0 z-10 p-6 md:p-8",
+            "transition-colors duration-500",
+            fixedHeaderTextColor,
+          )}
+        >
+          {fixedHeader}
+        </div>
+      )}
+      <CarouselContent
+        className={clsx(
+          "ms-0 h-[288px] xl:h-[352px]",
+          fixedHeader && "h-[400px] xl:h-[464px]",
+        )}
+      >
         {heroBannerData.map((data, i) => {
           const fallbackColor = chooseBrandingColor(
             data.appstream?.branding,
@@ -145,7 +174,12 @@ export const HeroBanner = ({
                   "h-full",
                 )}
               >
-                <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
+                <div
+                  className={clsx(
+                    "flex justify-center flex-row w-full h-full gap-6 px-16",
+                    fixedHeader && "pt-24 md:pt-28",
+                  )}
+                >
                   <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
                     <div className="relative flex shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
                       <LogoImage
