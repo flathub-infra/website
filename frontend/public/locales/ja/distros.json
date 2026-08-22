@@ -425,5 +425,18 @@
   "almalinux": {
     "distroName": "AlmaLinux",
     "introduction": "<text>AlmaLinux 8以降でGNOMEを使用している場合、Flatpakはデフォルトでインストールされています。利用を開始するには、Flatpakアプリを入手するのに最適なFlathubを有効にするだけです。<filelink>Flathubリポジトリファイル</filelink>をダウンロードしてインストールしてください。</text><text>これで、あとは<link>アプリをインストール</link>するだけです！</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-3": {
+      "name": "再起動"
+    },
+    "step-1": {
+      "name": "Flatpakをインストール"
+    },
+    "step-2": {
+      "name": "Flathubリポジトリを追加",
+      "text": "<text>Flathubは、Flatpakアプリを入手するのに最適な場所です。有効にするために次を実行してください。</text> <code></code>"
+    }
   }
 }

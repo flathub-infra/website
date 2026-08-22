@@ -726,6 +726,12 @@
     "description": "今年を彩った人気アプリやトレンドを振り返る"
   },
   "sub-header": {
-    "download": "ダウンロード"
+    "download": "ダウンロード",
+    "desktop-only": "デスクトップ専用",
+    "desktop-and-mobile": "デスクトップ・モバイル対応",
+    "downloads-per-month": "月間ダウンロード数",
+    "amount-to-download": "インターネットからのダウンロード容量",
+    "size-on-disk": "ディスク使用量",
+    "installed-runtime-size": "インストール済みランタイム使用量"
   }
 }
